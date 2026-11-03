@@ -848,12 +848,12 @@ extern "C" void __cdecl FUN_0065e3f0(int a, int b, int c);
 
 struct FUN_0065dc60Class
 {
-    void FUN_0065dc60(int a, int b);
+    void FUN_0065dc60(intptr_t a, intptr_t b);
 };
 
 // Calls FUN_0065e3f0 with the two arguments and a pointer to this object's offset 8.
 // @fnv 0x0065dc60
-void FUN_0065dc60Class::FUN_0065dc60(int aiArg1, int aiArg2)
+void FUN_0065dc60Class::FUN_0065dc60(intptr_t aiArg1, intptr_t aiArg2)
 {
     FUN_0065e3f0(aiArg1, aiArg2, (intptr_t)this + 8);
 }

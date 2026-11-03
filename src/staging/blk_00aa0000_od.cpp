@@ -964,18 +964,18 @@ extern unsigned int DAT_011f69f8;
 // @fnv 0x00aa4960
 void* FUN_00aa4960(unsigned int size)
 {
-    unsigned int result = 0;
+    uintptr_t result = 0;
 
     if (size < 0x12c)
     {
-        result = (size <= 0x3fc) ? (unsigned int)DAT_011f67b8[((size + 15) & 0xfffffff0) >> 2] : 0;
+        result = (size <= 0x3fc) ? (uintptr_t)DAT_011f67b8[((size + 15) & 0xfffffff0) >> 2] : 0;
     }
     else if (size < 0x200)
     {
-        result = (size <= 0x3fc) ? (unsigned int)DAT_011f67b8[((size + 15) & 0xfffffff0) >> 2] : 0;
+        result = (size <= 0x3fc) ? (uintptr_t)DAT_011f67b8[((size + 15) & 0xfffffff0) >> 2] : 0;
         if (result == 0)
         {
-            result = (size <= 0x3fc) ? (unsigned int)DAT_011f67b8[((size + 0x1f) & 0xffffffe0) >> 2] : 0;
+            result = (size <= 0x3fc) ? (uintptr_t)DAT_011f67b8[((size + 0x1f) & 0xffffffe0) >> 2] : 0;
         }
     }
     else if (size < 0x240)
@@ -1017,7 +1017,7 @@ void FUN_00aa4ae0_Class::ResetAndFree()
 
 struct FUN_00aa4bb0_Class
 {
-    int FUN_00aa4bb0(int arg);
+    intptr_t FUN_00aa4bb0(int arg);
     void FUN_00aa4a60();
 };
 
@@ -1576,13 +1576,13 @@ struct FlagBox
 };
 
 // @fnv 0x00aafa30
-void __cdecl FUN_00aafa30(int a0, int a1, int a2, int a3)
+void __cdecl FUN_00aafa30(int a0, int a1, intptr_t a2, int a3)
 {
     FlagBox b0 = {};
     unsigned char qq;
     unsigned char cc = qq;
-    int dd = a1;
-    int n6 = a0;
+    intptr_t dd = a1;
+    intptr_t n6 = a0;
     int n8;
     ::fnv_00aafa80::FUN_00aafa80((::fnv_00aafa80::FUN_00aaec10 *)(n6), (::fnv_00aafa80::FUN_00aaec10 *)(dd), (::fnv_00aafa80::FUN_00aaec10 *)(a2));
 }
@@ -1757,7 +1757,7 @@ void FUN_00abc0a0_cls::FUN_00abc0a0()
         FUN_00abc0a0_small s3;
         s3.unk03 = s3.unk02;
         unsigned int size = m_14 - m_0c;
-        unsigned int p2 = m_0c;
+        uintptr_t p2 = m_0c;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00abc0a0::FUN_00abc0a0_pool *>(&::g_memoryManager))))->FUN_00aa4060((void*)p2);
     }
     m_0c = 0;
@@ -2523,7 +2523,7 @@ struct ZeroTag
 
 // Zero-initializes tagB, copies an uninitialized bool into tagA, and calls FUN_00ab2580 with a, b, c, d, tagA and tagB.v.
 // @fnv 0x00ab2380
-void __cdecl FUN_00ab2380(int a, int b, int c, unsigned char d)
+void __cdecl FUN_00ab2380(intptr_t a, intptr_t b, intptr_t c, unsigned char d)
 {
     ZeroTag tagB = {};
     bool tagA;
@@ -2778,7 +2778,7 @@ void VirtualReservationSearch::FUN_00aa65b0()
     unsigned int i = 1;
     while (m_04 == 0)
     {
-        m_04 = VirtualAlloc((void*)(i << 24), m_50, 0x2000, 4);
+        m_04 = VirtualAlloc((void*)(uintptr_t)(i << 24), m_50, 0x2000, 4);
         if (i < 0xff)
         {
             i++;
@@ -3109,7 +3109,7 @@ struct Curve20
     int unk00;
     int unk04;
     int unk08;
-    int unk0c;
+    intptr_t unk0c;
     int unk10;
     int unk14;
     int unk18;
@@ -3122,7 +3122,7 @@ struct Out40
     int unk00;
     int unk04;
     int unk08;
-    int unk0c;
+    intptr_t unk0c;
     int unk10;
     int unk14;
     int unk18;
@@ -4560,7 +4560,7 @@ class FUN_00aa4a60 : public MapBase4A60
 
 // Calls FUN_00aa4a60, then deallocates this via DAT_011f6238 when bit 0 of arg is set, and returns this.
 // @fnv 0x00aa4bb0
-int FUN_00aa4bb0_Class::FUN_00aa4bb0(int aiFlags)
+intptr_t FUN_00aa4bb0_Class::FUN_00aa4bb0(int aiFlags)
 {
     FUN_00aa4bb0_Local local;
 
@@ -4571,7 +4571,7 @@ int FUN_00aa4bb0_Class::FUN_00aa4bb0(int aiFlags)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     }
 
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 // @fnv 0x00aa4a60
@@ -5273,7 +5273,7 @@ struct MatrixPool
 {
     unsigned int unk00, begin;
     unsigned int unk08;
-    unsigned int unk0c;
+    uintptr_t unk0c;
     unsigned int unk10;
     unsigned int unk14;
     unsigned int unk18;
@@ -5291,7 +5291,7 @@ struct MatrixPool
             return;
         lock.FUN_0040fbf0(DAT_010a27f4);
         FUN_00aa6e00(pointer);
-        unsigned int page = ((unsigned int)pointer - begin) >> 12;
+        uintptr_t page = ((uintptr_t)pointer - begin) >> 12;
         --pageCounts[page];
         MatrixPoolLock* heldLock = &lock;
         --heldLock->count;
@@ -5300,7 +5300,7 @@ struct MatrixPool
     }
     bool Contains(const void* pointer)
     {
-        return (unsigned int)pointer >= begin && (unsigned int)pointer < begin + size;
+        return (uintptr_t)pointer >= begin && (uintptr_t)pointer < begin + size;
     }
 };
 struct MatrixHeap
@@ -5411,7 +5411,7 @@ struct MM
             FreePointer(pointer, 0);
             return;
         }
-        MatrixPool* pool = DAT_011f63b8[(unsigned int)pointer >> 24];
+        MatrixPool* pool = DAT_011f63b8[(uintptr_t)pointer >> 24];
         if (pool && pool->Contains(pointer))
         {
             pool->FUN_00aa6c70(pointer);
@@ -5436,7 +5436,9 @@ struct AllocationTag
 struct AllocationStorage : AllocationTag
 {
     void* data;
-    unsigned int unk04, unk08, unk0c, unk10, unk14, rows, cols;
+    unsigned int unk04, unk08;
+    uintptr_t unk0c, unk10, unk14;
+    unsigned int rows, cols;
     __forceinline ~AllocationStorage()
     {
         ReleaseMatrixMemory(data);
@@ -5449,14 +5451,14 @@ struct MatrixStorage : AllocationStorage
 };
 struct MatrixCore : MatrixStorage
 {
-    void FUN_0065f2b0(unsigned int, unsigned int);
+    void FUN_0065f2b0(uintptr_t, uintptr_t);
     void deallocateVector(void*, unsigned int);
     void FUN_0065f240()
     {
         if (unk0c)
         {
             FUN_0065f2b0(unk0c, unk10);
-            deallocateVector((void*)unk0c, (unk14 - unk0c) / 4);
+            deallocateVector((void*)unk0c, (unsigned int)((unk14 - unk0c) / 4));
         }
         unk0c = 0;
         unk10 = 0;
@@ -6313,7 +6315,7 @@ struct Sub_00aabdb0
     unsigned int unkfc4;
     unsigned int unkfc8;
     TransformMatrix transforms[5][2];
-    float FUN_00aabdb0(int, int, int, int);
+    float FUN_00aabdb0(int, int, int, const void*);
     void FUN_00aac170(int group, int kind, const float* input, OutputMatrix* output);
 };
 // @fnv 0x00aac170
@@ -6339,7 +6341,7 @@ void Sub_00aabdb0::FUN_00aac170(int group, int kind, const float* input, OutputM
             value = transformed[i];
         if (value > lower[i])
             value = lower[i];
-        (&upper.x)[i] = value - FUN_00aabdb0(group, i, kind, (int)output);
+        (&upper.x)[i] = value - FUN_00aabdb0(group, i, kind, output);
     }
     PairVector delta = FUN_00aaf2b0(transforms[group][kind], upper);
     for (i = 0; i < 2; i++)
@@ -8101,7 +8103,7 @@ struct DeallocPool
             return;
         lock.Lock(poolLockName);
         PushFreeBlock(p);
-        unsigned int page = ((unsigned int)p - (unsigned int)begin) >> 12;
+        uintptr_t page = ((uintptr_t)p - (uintptr_t)begin) >> 12;
         --pageCounts[page];
         lock.Unlock();
     }
@@ -8215,7 +8217,7 @@ struct MMDealloc
             FreePointer(p, 0);
             return;
         }
-        DeallocPool* pool = DAT_011f63b8[(unsigned int)p >> 24];
+        DeallocPool* pool = DAT_011f63b8[(uintptr_t)p >> 24];
         if (pool && pool->contains(p))
         {
             pool->FUN_00aa6c70(p);
@@ -9608,7 +9610,7 @@ void ByteVector::FUN_00ab3370(ByteInsertIterator where, unsigned int count, cons
         copy(where.position, last, where.position + count);
         try
         {
-            reinterpret_cast<::fnv_00ad1740::FUN_00ad1740_cls *>(this)->CallAndSum((int)(last), count - (last - where.position), (int)&(_Tmp));
+            reinterpret_cast<::fnv_00ad1740::FUN_00ad1740_cls *>(this)->CallAndSum((intptr_t)(last), count - (last - where.position), (intptr_t)&(_Tmp));
         }
         catch (...)
         {
@@ -12723,7 +12725,7 @@ ItQ_abb280 VecQ_abb280::FUN_00abb280(CItQ_abb280 _First_arg, CItQ_abb280 _Last_a
     if (((bool)(reinterpret_cast<::FUN_00ac0460_cls *>((void *)&(_First))->FUN_00ac0460((::FUN_00ac0460_cls *)&(_Last)))))
     {
         ElQ_abb280* _Ptr = UCopy_abb280(_Last._Myptr, _Mylast, _First._Myptr);
-        reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Ptr), (int)(_Mylast));
+        reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((intptr_t)(_Ptr), (intptr_t)(_Mylast));
         _Mylast = _Ptr;
         Dead10_abb280();
     }
@@ -12847,7 +12849,7 @@ ItQ_abb5f0 VecQ_abb5f0::FUN_00abb5f0(CItQ_abb5f0 _First_arg, CItQ_abb5f0 _Last_a
     if (((bool)(reinterpret_cast<::FUN_00ac0460_cls *>((void *)&(_First))->FUN_00ac0460((::FUN_00ac0460_cls *)&(_Last)))))
     {
         ElQ_abb5f0* _Ptr = UCopy_abb5f0(_Last._Myptr, _Mylast, _First._Myptr);
-        reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Ptr), (int)(_Mylast));
+        reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((intptr_t)(_Ptr), (intptr_t)(_Mylast));
         _Mylast = _Ptr;
         Dead10_abb5f0();
     }

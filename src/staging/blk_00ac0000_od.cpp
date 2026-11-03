@@ -83,12 +83,12 @@
 
 struct FUN_00ac5340_class
 {
-    void FUN_00ac5340(int a, int b, int c);
+    void FUN_00ac5340(intptr_t a, int b, int c);
 };
 
 // Calls FUN_00ac5220 with the three arguments a, b and c.
 // @fnv 0x00ac5340
-void FUN_00ac5340_class::FUN_00ac5340(int a, int b, int c)
+void FUN_00ac5340_class::FUN_00ac5340(intptr_t a, int b, int c)
 {
     reinterpret_cast<::GvBinaryFile *>(this)->FUN_00ac5220((const void *)(a), b, c);
 }
@@ -219,7 +219,7 @@ struct BSAudioManager
 // @fnv 0x00ad84e0
 void BSAudioManager::FUN_00ad84e0(void* a, void* b)
 {
-    reinterpret_cast<::fnv_00adcd00::FUN_00adcd00_cls *>(&(GetRandomGenerator()))->FUN_00adcd00((int)(a), (int)(b));
+    reinterpret_cast<::fnv_00adcd00::FUN_00adcd00_cls *>(&(GetRandomGenerator()))->FUN_00adcd00((intptr_t)(a), (intptr_t)(b));
 }
 
 struct NiPoint3
@@ -326,17 +326,17 @@ struct FUN_00ace9c0_Class
     void* m_14;
     void* m_18;
     void* m_1c;
-    int* m_20;
+    intptr_t* m_20;
     void* m_24;
     void* m_28;
     void* m_2c;
     int* m_30;
-    int AdvanceCounter();
+    intptr_t AdvanceCounter();
 };
 
 // Decrements the counter at m_30, increments the counter at m_20, and returns the incremented value.
 // @fnv 0x00ace9c0
-int FUN_00ace9c0_Class::AdvanceCounter()
+intptr_t FUN_00ace9c0_Class::AdvanceCounter()
 {
     *m_30 = *m_30 - 1;
     *m_20 = *m_20 + 1;
@@ -398,10 +398,10 @@ struct FUN_00ad41c0_Class
 void FUN_00ad41c0_Class::FUN_00ad41c0()
 {
     if (((int*)this)[5] > 0)
-        free((void*)((int*)this)[4]);
+        free(*(void**)((char*)this + 0x10));
     else if (((int*)this)[5] < 0)
     {
-        void* p = (void*)((int*)this)[4];
+        void* p = *(void**)((char*)this + 0x10);
         ::FUN_00401030(p);
     }
 }
@@ -456,28 +456,28 @@ void FUN_00ad87d0_Class::FUN_00ad87d0()
     reinterpret_cast<::fnv_00adc160::FUN_00adc160_cls *>((this))->FUN_00adc160();
 }
 
-int __cdecl FUN_00ec34d4();
+char* __cdecl FUN_00ec34d4();
 
 struct FUN_00ad3a10_Class
 {
-    int GetEntryAt(int a);
+    intptr_t GetEntryAt(int a);
 };
 
 // Returns the entry at index a from the array, falling back to FUN_00ec34d4's array when the entry is zero and the flag at offset 0x14 is clear.
 // @fnv 0x00ad3a10
-int FUN_00ad3a10_Class::GetEntryAt(int aiIndex)
+intptr_t FUN_00ad3a10_Class::GetEntryAt(int aiIndex)
 {
-    unsigned int v;
-    int r;
+    uintptr_t v;
+    char* r;
     v = (aiIndex < *(unsigned int*)((char*)*(void**)((char*)this + 0) + 0xc))
-            ? (*(int**)((char*)*(void**)((char*)this + 0) + 8))[aiIndex]
+            ? (*(uintptr_t**)((char*)*(void**)((char*)this + 0) + 8))[aiIndex]
             : 0;
     if (v || !*(unsigned char*)((char*)*(void**)((char*)this + 0) + 0x14))
         return v;
     else
     {
         r = FUN_00ec34d4();
-        return (aiIndex < *(unsigned int*)((char*)r + 0xc)) ? (*(int**)((char*)r + 8))[aiIndex] : 0;
+        return (aiIndex < *(unsigned int*)((char*)r + 0xc)) ? (*(uintptr_t**)((char*)r + 8))[aiIndex] : 0;
     }
 }
 
@@ -537,10 +537,10 @@ NiPoint3* FUN_00ac1120_Class::ScaleToPoint3(NiPoint3* pDest, float scale)
 
 struct FUN_00ac52b0_class
 {
-    void FUN_00ac5370(int a, int b, int c);
+    void FUN_00ac5370(intptr_t a, int b, int c);
 };
 // @fnv 0x00ac5370
-void FUN_00ac52b0_class::FUN_00ac5370(int a, int b, int c)
+void FUN_00ac52b0_class::FUN_00ac5370(intptr_t a, int b, int c)
 {
     reinterpret_cast<::GvBinaryFile_SV *>(this)->FUN_00ac52b0((void *)(a), b, c);
 }
@@ -624,7 +624,7 @@ struct FUN_00ace330_class
 void FUN_00ace330_class::FUN_00ace330()
 {
     void** p = (void**)((char*)this + 8);
-    *(void**)((char*)p + *(int*)(*(int*)((char*)p - 8) + 4) - 8) = &DAT_010a30a8;
+    *(void**)((char*)p + *(int*)(*(uintptr_t*)((char*)p - 8) + 4) - 8) = &DAT_010a30a8;
     void** q = (void**)((char*)this + 8);
     *q = &DAT_010a2fa4;
     *q = &DAT_010a2f9c;
@@ -936,7 +936,7 @@ struct FUN_0044a580_cls
 struct FUN_00ac2ca0_cls
 {
     int unk00;
-    void FUN_00ac2ca0(int a);
+    void FUN_00ac2ca0(intptr_t a);
 };
 struct FUN_00ac2760_cls
 {
@@ -949,11 +949,11 @@ struct FUN_00ac2760_cls
     int unk18;
     int m_1c;
     FUN_00ac2ca0_cls m_20;
-    FUN_00ac2760_cls* CopyFrom(int a);
-    void AssignSubstring(int a, int b, int c);
+    FUN_00ac2760_cls* CopyFrom(intptr_t a);
+    void AssignSubstring(intptr_t a, int b, int c);
 };
 // @fnv 0x00ac2760
-FUN_00ac2760_cls* FUN_00ac2760_cls::CopyFrom(int pSource)
+FUN_00ac2760_cls* FUN_00ac2760_cls::CopyFrom(intptr_t pSource)
 {
     FUN_00ac2760_Frame frame;
     this->AssignSubstring(pSource, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
@@ -1025,13 +1025,13 @@ struct ByteBox
     unsigned char v;
 };
 // @fnv 0x00ac3580
-void __cdecl FUN_00ac3580(int a1, int a2, int a3, int a4)
+void __cdecl FUN_00ac3580(int a1, int a2, intptr_t a3, int a4)
 {
     ByteBox c7 = {};
     ByteBox c3;
     ByteBox c8 = c3;
-    int p2 = a2;
-    int m = a1;
+    intptr_t p2 = a2;
+    intptr_t m = a1;
     int unk10;
     ::FUN_00ac3370((::CopyElem12 *)(m), (::CopyElem12 *)(p2), (::CopyElem12 *)(a3));
 }
@@ -1082,7 +1082,7 @@ struct IterRange
 
 
 // @fnv 0x00ac3690
-void __cdecl FUN_00ac3690(IterPos a1, IterPos a2, int a3, int a4)
+void __cdecl FUN_00ac3690(IterPos a1, IterPos a2, intptr_t a3, int a4)
 {
     EmptyTag zeroTag = {};
     EmptyTag srcTag;
@@ -1117,7 +1117,7 @@ struct ED : E0
 
 // Constructs temporary tag and iterator objects and forwards them with c and d to FUN_00ac39e0.
 // @fnv 0x00ac36e0
-void CallWithIterators(Iter a, Iter b, int c, int d)
+void CallWithIterators(Iter a, Iter b, intptr_t c, int d)
 {
     ::FUN_00ac39e0((*(::E39_Element * *)&(const ::Iter &)((ED(), Iter(a)))), (*(::E39_Element * *)&(const ::Iter &)(Iter(b))), (::E39_Element *)(c));
 }
@@ -1472,12 +1472,12 @@ struct FUN_00ac6100_cls
     unsigned int m_14;
     unsigned int m_18;
 
-    int FUN_00ac6100(unsigned int a1, unsigned int a2, int a3, unsigned int a4);
+    int FUN_00ac6100(unsigned int a1, unsigned int a2, intptr_t a3, unsigned int a4);
 };
 
 
 // @fnv 0x00ac6100
-int FUN_00ac6100_cls::FUN_00ac6100(unsigned int a1, unsigned int uiAvailable, int a3, unsigned int a4)
+int FUN_00ac6100_cls::FUN_00ac6100(unsigned int a1, unsigned int uiAvailable, intptr_t a3, unsigned int a4)
 {
     if (m_14 < a1)
     {
@@ -1567,7 +1567,7 @@ struct Ac6510Frame
 
 // Calls FUN_00ec6130 on DAT_011f6c8c, passes the result to the target's FUN_0044a7f0, and returns DAT_011f6c88.
 // @fnv 0x00ac6510
-int __cdecl ApplyGlobalToTarget(int pTarget)
+int __cdecl ApplyGlobalToTarget(intptr_t pTarget)
 {
     Ac6510Frame frame;
     int tmp = std::strlen(&DAT_011f6c8c);
@@ -1718,7 +1718,7 @@ void S_00ac9da0_class::FUN_00ac9da0(S_00ac9da0_string* pString)
     int len = pString->unk14;
     unsigned int pad[2];
 
-    reinterpret_cast<::FUN_00ac6100_cls *>((this))->FUN_00ac6100(0, this->unk14, (int)((pString->unk18 >= 0x10) ? pString->unk04 : (void*)((char*)&pString->unk04)), len);
+    reinterpret_cast<::FUN_00ac6100_cls *>((this))->FUN_00ac6100(0, this->unk14, (intptr_t)((pString->unk18 >= 0x10) ? pString->unk04 : (void*)((char*)&pString->unk04)), len);
 }
 
 struct FUN_00aca4e0_frame
@@ -2114,8 +2114,8 @@ class FUN_00acd930_cls
   public:
     int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c, m_30, m_34, m_38, m_3c, m_40, m_44,
         m_48;
-    int m_4c;
-    FUN_00acd930_cls* FUN_00acd930(int a1, int a2);
+    intptr_t m_4c;
+    FUN_00acd930_cls* FUN_00acd930(intptr_t a1, int a2);
 };
 
 struct ResourceOwner
@@ -2235,7 +2235,7 @@ struct FUN_00acda10_cls
     int unk38;
     FUN_00acda10_Obj* m_3c;
 
-    void SetObject(int a1);
+    void SetObject(intptr_t a1);
 };
 
 
@@ -2379,13 +2379,13 @@ struct FUN_00ace970_Class
     void* m_14;
     void* m_18;
     void* m_1c;
-    int* m_20;
+    intptr_t* m_20;
     void* m_24;
     void* m_28;
     void* m_2c;
     int* m_30;
 
-    int DecrementAndPostIncrement();
+    intptr_t DecrementAndPostIncrement();
 };
 // @fnv 0x00ace860
 int FUN_00ace860_cls::FUN_00ace860()
@@ -2396,7 +2396,7 @@ int FUN_00ace860_cls::FUN_00ace860()
 
 // Decrements the counter pointed to by m_30 and returns the old value of the counter pointed to by m_20, incrementing it.
 // @fnv 0x00ace970
-int FUN_00ace970_Class::DecrementAndPostIncrement()
+intptr_t FUN_00ace970_Class::DecrementAndPostIncrement()
 {
     --*m_30;
     return (*m_20)++;
@@ -2413,13 +2413,13 @@ struct FUN_00acea00_class
     void* unk18;
     void* unk1c;
     void* unk20;
-    int* m_pCounter24;
+    intptr_t* m_pCounter24;
     void* unk28;
     void* unk2c;
     void* unk30;
     int* m_pCounter34;
 
-    int DecrementCounterAndPostIncrementOther();
+    intptr_t DecrementCounterAndPostIncrementOther();
 };
 // If the value at m_34 (or 0 when *m_24 is 0) is positive, writes b through the pointer from DecrementCounterAndPostIncrementOther and returns it; otherwise calls vfn1(b).
 // @fnv 0x00ace8c0
@@ -2433,7 +2433,7 @@ int AceHolder::FUN_00ace8c0(unsigned char ucValue)
 
 // Decrements the counter at m_pCounter34 and returns the old value of the counter at m_pCounter24, incrementing it.
 // @fnv 0x00acea00
-int FUN_00acea00_class::DecrementCounterAndPostIncrementOther()
+intptr_t FUN_00acea00_class::DecrementCounterAndPostIncrementOther()
 {
     --(*m_pCounter34);
     return (*m_pCounter24)++;
@@ -2537,18 +2537,18 @@ struct S_00acfb90_Class
     int unk30;
     int unk34;
     int unk38;
-    int unk3c;
+    intptr_t unk3c;
     int unk40;
     int unk44;
     int unk48;
     void* unk4c;
 
     bool FUN_00acfcd0();
-    void FUN_00acfc10(int param_1, int param_2);
+    void FUN_00acfc10(intptr_t param_1, int param_2);
     void* FUN_00acfb90();
 };
 // @fnv 0x00acd930
-FUN_00acd930_cls* FUN_00acd930_cls::FUN_00acd930(int a1, int a2)
+FUN_00acd930_cls* FUN_00acd930_cls::FUN_00acd930(intptr_t a1, int a2)
 {
     int unk04;
     int unk08;
@@ -2689,10 +2689,10 @@ struct FNV_ad0470_class
     int unk1c;
     int unk20;
     int unk24;
-    int unk28;
+    intptr_t unk28;
     int unk2c;
     unsigned char unk30;
-    void FUN_00ad0470(int n, bool flag);
+    void FUN_00ad0470(intptr_t n, bool flag);
 };
 
 void __cdecl FUN_00ec31b3(void* p);
@@ -2759,19 +2759,19 @@ class FUN_00ad06e0_cls
     int unk2c;
     int unk30;
     int unk34;
-    unsigned int* m_38;
+    uintptr_t* m_38;
 
-    unsigned int* FUN_00ad06e0(unsigned int* out);
+    uintptr_t* FUN_00ad06e0(uintptr_t* out);
 };
 
 // Copies the pointer stored at m_38 into out, calls IncrementCounter on it, and returns out.
 // @fnv 0x00ad06e0
-unsigned int* FUN_00ad06e0_cls::FUN_00ad06e0(unsigned int* out)
+uintptr_t* FUN_00ad06e0_cls::FUN_00ad06e0(uintptr_t* out)
 {
     unsigned int flag = 0;
     unsigned int spare;
     {
-        unsigned int* src = m_38;
+        uintptr_t* src = m_38;
         *out = *src;
     }
     reinterpret_cast<::FUN_00ace790_class *>((((SpawnedObject*)*out)))->IncrementCounter();
@@ -2802,20 +2802,20 @@ struct PadBlock
 class FUN_00ad1740_cls
 {
   public:
-    int CallAndSum(int a1, int a2, int a3);
+    intptr_t CallAndSum(intptr_t a1, int a2, intptr_t a3);
 };
 
 // Calls FUN_00ac3300 with a1, a2 and a3, then returns a1 + a2.
 // @fnv 0x00ad1740
-int FUN_00ad1740_cls::CallAndSum(int a1, int aiAddend, int a3)
+intptr_t FUN_00ad1740_cls::CallAndSum(intptr_t a1, int aiAddend, intptr_t a3)
 {
-    int b = a1;
+    intptr_t b = a1;
     ByteBox qq;
     ByteBox h = {};
     ByteBox a = qq;
     PadBlock nn;
     ByteBox ii = h;
-    int dd = b;
+    intptr_t dd = b;
     ::FUN_00ac3300((char *)(dd), aiAddend, (char *)(a3));
     return a1 + aiAddend;
 }
@@ -3043,14 +3043,14 @@ class FUN_00ad2f30_cls
 // @fnv 0x00ad2f30
 unsigned int FUN_00ad2f30_cls::GetPosition()
 {
-    if ((int)m_pHead != -4)
+    if ((intptr_t)m_pHead != -4)
     {
         if (!(unsigned char)((m_pHead != 0) ? 1 : 0))
         {
             std::abort();
         }
         FUN_00ad2f30_Head* h = m_pHead;
-        if (m_uiPos >= (h->m_capacity18 >= 0x10 ? h->m_dataPtr : (unsigned int)&h->m_dataPtr) + m_pHead->m_length14)
+        if (m_uiPos >= (h->m_capacity18 >= 0x10 ? h->m_dataPtr : (uintptr_t)&h->m_dataPtr) + m_pHead->m_length14)
         {
             std::abort();
         }
@@ -3268,13 +3268,13 @@ struct ByteBox
     unsigned char v;
 };
 // @fnv 0x00ad5dd0
-void FUN_00ad5dd0(int a1, int a2, int a3, int a4)
+void FUN_00ad5dd0(int a1, int a2, intptr_t a3, intptr_t a4)
 {
     ByteBox c7 = {};
     ByteBox c3;
     ByteBox c8 = c3;
-    int p2 = a2;
-    int m = a1;
+    intptr_t p2 = a2;
+    intptr_t m = a1;
     int unk10;
     ::FUN_00ad66e0((::wrac52::BxString *)(m), (::wrac52::BxString *)(p2), (::wrac52::BxString *)(a3), (*(::wrac52::GvAlloc< ::wrac52::BxString> *)(a4)));
 }
@@ -3375,12 +3375,12 @@ int FUN_00ad6ab0(void* pSource, void* pSourceEnd, void* pDest, int unused)
     FNV_Flag1 RunFourthVirtual = {};
     qT = rg;
     FNV_Flag4 v;
-    int yz2 = (int)pSourceEnd;
-    int va = (int)pSource;
+    intptr_t yz2 = (intptr_t)pSourceEnd;
+    intptr_t va = (intptr_t)pSource;
     unsigned char ah = RunFourthVirtual.m_kPointB;
     void* cf = pDest;
     unsigned int gM = (unsigned int)yz2 - (unsigned int)va;
-    unsigned int cF = (unsigned int)cf + gM;
+    uintptr_t cF = (uintptr_t)cf + gM;
     if (gM > 0)
     {
         fnv::crt::memmove_s(cf, gM, (void*)va, gM);
@@ -3423,15 +3423,15 @@ struct FlagBox
 
 // Initializes a FlagBox and forwards the four arguments plus two bytes to FUN_00ad6e20, returning its result.
 // @fnv 0x00ad6b60
-int __cdecl FUN_00ad6b60(int a0, int a1, int a2, int a3)
+intptr_t __cdecl FUN_00ad6b60(intptr_t a0, intptr_t a1, intptr_t a2, int a3)
 {
     FlagBox b0 = {};
     unsigned char qq;
     unsigned char cc = qq;
-    int dd = a1;
-    int n6 = a0;
+    intptr_t dd = a1;
+    intptr_t n6 = a0;
     int n8;
-    return ((int)(::fnv_00ad6e20::FUN_00ad6e20((::fnv_00ad6e20::ElemQ *)(n6), (::fnv_00ad6e20::ElemQ *)(dd), (::fnv_00ad6e20::ElemQ *)(a2))));
+    return ((intptr_t)(::fnv_00ad6e20::FUN_00ad6e20((::fnv_00ad6e20::ElemQ *)(n6), (::fnv_00ad6e20::ElemQ *)(dd), (::fnv_00ad6e20::ElemQ *)(a2))));
 }
 
 // Constructor: defaults, with the enabled flag taken from its INI setting (or false when the setting is missing).
@@ -4135,7 +4135,7 @@ int FUN_00acd060_cls::ReadByte()
 
     if ((q2 != 0) && ((q1 = m_pReferencedObject->m_cursor) < *m_pReadData + m_pReferencedObject->m_cursor))
     {
-        unsigned int RunFourthVirtual = m_pReferencedObject->m_cursor;
+        uintptr_t RunFourthVirtual = m_pReferencedObject->m_cursor;
         return *(unsigned char*)RunFourthVirtual;
     }
     else
@@ -4362,7 +4362,7 @@ struct Tag
 
 // Forwards a1-a4 to FUN_00ac3170 along with an uninitialized byte and a zeroed Tag byte.
 // @fnv 0x00ac1f60
-void FUN_00ac1f60(int a1, int a2, int a3, unsigned char a4)
+void FUN_00ac1f60(intptr_t a1, intptr_t a2, intptr_t a3, unsigned char a4)
 {
     Tag t_ = {};
     unsigned char c3;
@@ -4489,9 +4489,9 @@ struct Iter_ac3230
 };
 // Copies the 56-byte elements in [a, b) backward into the range ending at c, and returns the start address of the destination range.
 // @fnv 0x00ac3230
-extern "C" int __cdecl FUN_00ac3230(int aiSrcStart, int aiSrcEnd, int c)
+extern "C" intptr_t __cdecl FUN_00ac3230(intptr_t aiSrcStart, intptr_t aiSrcEnd, intptr_t c)
 {
-    int w = c - ((aiSrcEnd - aiSrcStart) / 56) * 56;
+    intptr_t w = c - ((aiSrcEnd - aiSrcStart) / 56) * 56;
     FlagBox f2 = {};
     FlagBox f1 = {};
     {
@@ -4500,13 +4500,13 @@ extern "C" int __cdecl FUN_00ac3230(int aiSrcStart, int aiSrcEnd, int c)
         it.x2 = f1;
         it.dst = (FUN_00ac2760_cls*)c;
         it.cur = (FUN_00ac2760_cls*)aiSrcEnd;
-        while (aiSrcStart != (int)it.cur)
+        while (aiSrcStart != (intptr_t)it.cur)
         {
             it.cur = (FUN_00ac2760_cls*)((char*)it.cur - 56);
             it.dst = (FUN_00ac2760_cls*)((char*)it.dst - 56);
-            it.dst->AssignSubstring((int)it.cur, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
+            it.dst->AssignSubstring((intptr_t)it.cur, 0, (*reinterpret_cast<int *>(&::g_010173f0)));
             it.dst->m_1c = it.cur->m_1c;
-            it.dst->m_20.FUN_00ac2ca0((int)&it.cur->m_20);
+            it.dst->m_20.FUN_00ac2ca0((intptr_t)&it.cur->m_20);
         }
     }
     return w;
@@ -5187,7 +5187,7 @@ void __cdecl FUN_00ad6b10(BAD6B10Iterator kFirst, BAD6B10Iterator kLast, int* pi
 
 int __cdecl FUN_00ad6e20(int a0, int a1, int a2, int a3, unsigned char f4, unsigned char f5);
 
-int __cdecl FUN_00ad6b60(int a0, int a1, int a2, int a3);
+intptr_t __cdecl FUN_00ad6b60(intptr_t a0, intptr_t a1, intptr_t a2, int a3);
 
 struct AllocElem48
 {
@@ -10415,7 +10415,7 @@ struct BxString : public BxStringVal
     }
     int compare(const char* _Ptr) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (int)(_Ptr), BxStrTraits::length(_Ptr));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (intptr_t)(_Ptr), BxStrTraits::length(_Ptr));
     }
     BxString& assign(const char* _Ptr)
     {
@@ -20064,7 +20064,7 @@ struct BxString : public BxStringVal
     }
     int compare(const char* _Ptr) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (int)(_Ptr), BxStrTraits::length(_Ptr));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (intptr_t)(_Ptr), BxStrTraits::length(_Ptr));
     }
     BxString& assign(const char* _Ptr)
     {
@@ -21840,7 +21840,7 @@ struct FnvString : FnvStringBase
     {
         unsigned int otherLength = other->size();
         const char* otherData = other->data();
-        return reinterpret_cast<::FUN_00ac6100_cls *>((const_cast<FnvString*>(this)))->FUN_00ac6100(0, m_fRestLength, (int)(otherData), otherLength);
+        return reinterpret_cast<::FUN_00ac6100_cls *>((const_cast<FnvString*>(this)))->FUN_00ac6100(0, m_fRestLength, (intptr_t)(otherData), otherLength);
     }
     inline int FUN_00ac6100(unsigned int pos, unsigned int length, const char* text, unsigned int numLines)
     {
@@ -21904,7 +21904,7 @@ struct FnvString : FnvStringBase
     }
     __forceinline int compare(const char* text)
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>(this)->FUN_00ac6100(0, m_fRestLength, (int)(text), length(text));
+        return reinterpret_cast<::FUN_00ac6100_cls *>(this)->FUN_00ac6100(0, m_fRestLength, (intptr_t)(text), length(text));
     }
     __forceinline bool equal(const char* text)
     {
@@ -24786,7 +24786,7 @@ class basic_istream_stub : public virtual basic_ios_stub
     virtual ~basic_istream_stub();
     explicit basic_istream_stub(streambuf_stub* sb, bool isstd = false) : m_chcount(0)
     {
-        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((int)(sb), isstd);
+        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((intptr_t)(sb), isstd);
     }
 
   private:
@@ -25089,8 +25089,8 @@ void SpawnedObject::InitSub()
     reinterpret_cast<::FUN_00acb610 *>(&(m_sub))->FUN_00acb610::~FUN_00acb610();
     {
         SpawnedBase* p = &m_sub;
-        *(int*)p = (int)&DAT_010a2fa4;
-        *(int*)p = (int)&DAT_010a2f9c;
+        *(uintptr_t*)p = (uintptr_t)&DAT_010a2fa4;
+        *(uintptr_t*)p = (uintptr_t)&DAT_010a2f9c;
         FUN_00ec3205(p);
     }
 }
@@ -27294,7 +27294,7 @@ struct S00ad0720_Obj
 };
 
 // @fnv 0x00acda10
-void FUN_00acda10_cls::SetObject(int a1)
+void FUN_00acda10_cls::SetObject(intptr_t a1)
 {
     FUN_00acda10_Big big2;
     big2.unk04 = 0;
@@ -27314,12 +27314,12 @@ void FUN_00acda10_cls::SetObject(int a1)
 
 // Initializes the file buffer state, sets closef based on whether param_2 is FileOpen, and wires up CStream pointers when param_1 is non-null.
 // @fnv 0x00acfc10
-void S_00acfb90_Class::FUN_00acfc10(int apStream, int aiInitKind)
+void S_00acfb90_Class::FUN_00acfc10(intptr_t apStream, int aiInitKind)
 {
-    int t3;
-    int t1;
-    int t0;
-    int t2;
+    intptr_t t3;
+    intptr_t t1;
+    intptr_t t0;
+    intptr_t t2;
 
     ((FileBufFields*)this)->closef = ((FileInitKind)aiInitKind == FileOpen);
     ((FileBufFields*)this)->wrotesome = false;
@@ -27328,10 +27328,10 @@ void S_00acfb90_Class::FUN_00acfc10(int apStream, int aiInitKind)
 
     if (apStream != 0 && sizeof(char) == 1)
     {
-        t3 = (int)&((CStream*)apStream)->base;
-        t1 = (int)&((CStream*)apStream)->ptr;
-        t0 = (int)&((CStream*)apStream)->cnt;
-        t2 = (int)&((CStream*)apStream)->cnt;
+        t3 = (intptr_t)&((CStream*)apStream)->base;
+        t1 = (intptr_t)&((CStream*)apStream)->ptr;
+        t0 = (intptr_t)&((CStream*)apStream)->cnt;
+        t2 = (intptr_t)&((CStream*)apStream)->cnt;
 
         ((FileBufFields*)this)->igfirst = t3;
         ((FileBufFields*)this)->ipfirst = t3;
@@ -27607,7 +27607,7 @@ struct ByteVector
 // @fnv 0x00ad10e0
 void ByteVector::FUN_00ad10e0(ByteInsertIterator where, unsigned int count, const char& value)
 {
-    unsigned int _Capacity = capacity();
+    uintptr_t _Capacity = capacity();
     if (count == 0)
     {
     }
@@ -27623,7 +27623,7 @@ void ByteVector::FUN_00ad10e0(ByteInsertIterator where, unsigned int count, cons
         try
         {
             _Ptr = copy(first, where.position, _Newvec);
-            reinterpret_cast<::fnv_00ad1740::FUN_00ad1740_cls *>(this)->CallAndSum((int)(_Ptr), count, (int)&(value));
+            reinterpret_cast<::fnv_00ad1740::FUN_00ad1740_cls *>(this)->CallAndSum((intptr_t)(_Ptr), count, (intptr_t)&(value));
             _Ptr += count;
             copy(where.position, last, _Ptr);
         }
@@ -27649,7 +27649,7 @@ void ByteVector::FUN_00ad10e0(ByteInsertIterator where, unsigned int count, cons
         move(where.position, last, where.position + count);
         try
         {
-            reinterpret_cast<::fnv_00ad1740::FUN_00ad1740_cls *>(this)->CallAndSum((int)(last), count - (last - where.position), (int)&(_Tmp));
+            reinterpret_cast<::fnv_00ad1740::FUN_00ad1740_cls *>(this)->CallAndSum((intptr_t)(last), count - (last - where.position), (intptr_t)&(_Tmp));
         }
         catch (...)
         {
@@ -29062,7 +29062,7 @@ struct GvIos
 };
 
 // @fnv 0x00ad0470
-void FNV_ad0470_class::FUN_00ad0470(int n, bool flag)
+void FNV_ad0470_class::FUN_00ad0470(intptr_t n, bool flag)
 {
     int p[18];
     unsigned int h;
@@ -31985,7 +31985,7 @@ struct S00ad5bd0_Blk
     int unk30;
     int unk34;
     int unk38;
-    int unk3c;
+    intptr_t unk3c;
     int unk40;
     int unk44;
 };
@@ -36976,7 +36976,7 @@ struct Str43B0
     }
     int compare(char* p)
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>(this)->FUN_00ac6100(0, m_Mysize, (int)(p), length(p));
+        return reinterpret_cast<::FUN_00ac6100_cls *>(this)->FUN_00ac6100(0, m_Mysize, (intptr_t)(p), length(p));
     }
 
     char& operator[](u32 _Off)
@@ -37865,8 +37865,9 @@ basic_filebuf* basic_filebuf::FUN_00acfab0(const char* _Filename, int _Mode, int
     File* _File;
     if (_Myfile != 0 || (_File = FUN_00ec33da(_Filename, _Mode, _Prot)) == 0)
         return (0);
-    reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(_File), (*(int *)&(const ::fnv_00acfab0::basic_filebuf::_Initfl &)(_Openfl)));
-    _Initcvt((codecvt*)&use_facet<codecvt>((*(::fnv_00acfab0::locale *)(reinterpret_cast<::fnv_00ad06e0::FUN_00ad06e0_cls *>((void *)this)->FUN_00ad06e0({})))));
+    reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((intptr_t)(_File), (*(int *)&(const ::fnv_00acfab0::basic_filebuf::_Initfl &)(_Openfl)));
+    uintptr_t loc = 0;
+    _Initcvt((codecvt*)&use_facet<codecvt>((*(::fnv_00acfab0::locale *)(reinterpret_cast<::fnv_00ad06e0::FUN_00ad06e0_cls *>((void *)this)->FUN_00ad06e0(&loc)))));
     return (this);
 }
 }
@@ -42415,8 +42416,8 @@ void __cdecl FUN_00ac74a0(const HexByteVector& s, HexByteVector& out)
             c += s[i] - 55;
         else if (s[i] >= 'a' && s[i] <= 'f')
             c += s[i] - 87;
-        else if (s[i] >= '0' && ((const char)(reinterpret_cast<::FUN_00acad30_class *>((void *)&(s))->GetElementAt(i))) <= '9')
-            c += ((const char)(reinterpret_cast<::FUN_00acad30_class *>((void *)&(s))->GetElementAt(i))) - 48;
+        else if (s[i] >= '0' && (*(const char *)(reinterpret_cast<::FUN_00acad30_class *>((void *)&(s))->GetElementAt(i))) <= '9')
+            c += (*(const char *)(reinterpret_cast<::FUN_00acad30_class *>((void *)&(s))->GetElementAt(i))) - 48;
         reinterpret_cast<::VecQ_acad60 *>(&(out))->FUN_00acad60(c);
     }
 }
@@ -42668,7 +42669,7 @@ int SBQ_acbb80::FUN_00acbb80(int _Meta)
     else
     {
         unsigned int _Oldptr = pptr() == 0 ? 0 : epptr() - eback();
-        unsigned int _Newsize = _Oldptr;
+        uintptr_t _Newsize = _Oldptr;
         unsigned int _Oldsize = _Newsize / 2 < 32 ? 32 : _Newsize / 2;
         char* _Inc = 0;
         char* _Ptr = eback();
@@ -43715,7 +43716,7 @@ struct BxString : public BxStringVal
     }
     int compare(const char* _Ptr) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (int)(_Ptr), BxStrTraits::length(_Ptr));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (intptr_t)(_Ptr), BxStrTraits::length(_Ptr));
     }
     BxString& assign(const char* _Ptr)
     {
@@ -44559,7 +44560,7 @@ struct S5540_String : S5540_StringVal
     }
     int compare(const char* ptr) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (int)(ptr), length(ptr));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, _Mysize, (intptr_t)(ptr), length(ptr));
     }
     char& operator[](unsigned int off)
     {
@@ -44781,7 +44782,7 @@ bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
     int archive = 1;
     if (flag)
         archive = 0x100;
-    S5540_FilePtr copy((*reinterpret_cast<::fnv_00ac5540::S5540_Loader * *>(&::g_modelLoader)) ? ((::fnv_00ac5540::S5540_File *)(reinterpret_cast<::FUN_004483a0_cls *>(((*reinterpret_cast<::fnv_00ac5540::S5540_Loader * *>(&::g_modelLoader))))->GetHolderValue((unsigned int)(name.c_str())))) : 0);
+    S5540_FilePtr copy((*reinterpret_cast<::fnv_00ac5540::S5540_Loader * *>(&::g_modelLoader)) ? ((::fnv_00ac5540::S5540_File *)(uintptr_t)(reinterpret_cast<::FUN_004483a0_cls *>(((*reinterpret_cast<::fnv_00ac5540::S5540_Loader * *>(&::g_modelLoader))))->GetHolderValue((unsigned int)(uintptr_t)(name.c_str())))) : 0);
     if (copy.m_p)
     {
         m_44 = copy.m_p;
@@ -45013,7 +45014,7 @@ template <class C, class T, class A> class Text : public TextVal<C, A>
     Text& assign(const C* text, unsigned int count);
     int compare(const C* text) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, lengthValue, (int)(text), T::length(text));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, lengthValue, (intptr_t)(text), T::length(text));
     }
     int compare(unsigned int, unsigned int, const C*, unsigned int) const;
     int compare(const Text& text) const;
@@ -45398,14 +45399,14 @@ class Stream87b0 : public Input87
 
 struct FUN_00ad1a50 : _Iterator_base_auxS
 {
-    int m_q;
-    FUN_00ad1a50(int node, const _Container_base_auxS* owner) : m_q(node)
+    intptr_t m_q;
+    FUN_00ad1a50(intptr_t node, const _Container_base_auxS* owner) : m_q(node)
     {
         if (owner == 0)
             std::abort();
         this->_Set_container(owner);
     }
-    __forceinline int& Node()
+    __forceinline intptr_t& Node()
     {
         return m_q;
     }
@@ -45419,7 +45420,7 @@ struct FUN_00ad1a50 : _Iterator_base_auxS
 
 struct It87b0 : FUN_00ad1a50
 {
-    It87b0(int node, const _Container_base_auxS* owner) : FUN_00ad1a50(node, owner)
+    It87b0(intptr_t node, const _Container_base_auxS* owner) : FUN_00ad1a50(node, owner)
     {}
 };
 
@@ -45511,11 +45512,11 @@ template <class T> class Table87 : public TreeData87<T>
     {
         return x.Compare(y) < 0;
     }
-    __forceinline static const QString& Key(int n)
+    __forceinline static const QString& Key(intptr_t n)
     {
         return KeyOf(Value(n));
     }
-    __forceinline static Pair87& Value(int n)
+    __forceinline static Pair87& Value(intptr_t n)
     {
         return ((Node87*)n)->pair;
     }
@@ -45530,7 +45531,7 @@ template <class T> class Table87 : public TreeData87<T>
     }
     It87b0 End()
     {
-        return It87b0((int)this->m_18, this);
+        return It87b0((intptr_t)this->m_18, this);
     }
 };
 
@@ -49504,7 +49505,7 @@ class Output : public virtual Ios
   public:
     explicit Output(FUN_00ad0630* buffer, bool standard = false)
     {
-        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((int)(buffer), standard);
+        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((intptr_t)(buffer), standard);
     }
     virtual ~Output();
 };
@@ -49519,7 +49520,7 @@ class FileBuffer : public FUN_00ad0630
     fnv_00acfab0::File* file;
     FileBuffer(fnv_00acfab0::File* opened = 0)
     {
-        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(opened), 0);
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((intptr_t)(opened), 0);
     }
     virtual ~FileBuffer();
     void FUN_00acfc10(fnv_00acfab0::File* opened, int which)
@@ -49545,9 +49546,10 @@ class FileBuffer : public FUN_00ad0630
         fnv_00acfab0::File* opened;
         if (file != 0 || (opened = fnv_00acfab0::FUN_00ec33da(name, mode, protection)) == 0)
             return 0;
-        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(opened), 1);
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((intptr_t)(opened), 1);
+        uintptr_t loc = 0;
         reinterpret_cast<fnv_00acfab0::basic_filebuf*>(this)->_Initcvt(
-            (fnv_00acfab0::codecvt*)&GetConversion((*(::fnv_00acfab0::locale *)(reinterpret_cast<::fnv_00ad06e0::FUN_00ad06e0_cls *>((void *)(reinterpret_cast<fnv_00acfab0::basic_filebuf*>(this)))->FUN_00ad06e0({})))));
+            (fnv_00acfab0::codecvt*)&GetConversion((*(::fnv_00acfab0::locale *)(reinterpret_cast<::fnv_00ad06e0::FUN_00ad06e0_cls *>((void *)(reinterpret_cast<fnv_00acfab0::basic_filebuf*>(this)))->FUN_00ad06e0(&loc)))));
         return this;
     }
 };

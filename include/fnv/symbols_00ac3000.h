@@ -30,7 +30,7 @@ void FUN_00ac30c0(int, int, int, ::TagB, ::TagB, ::TagB);
 // 0x00ac3170
 ::Elem3170 *FUN_00ac3170(::Elem3170 *, ::Elem3170 *, ::Elem3170 *);
 // 0x00ac3230
-extern "C" int FUN_00ac3230(int, int, int);
+extern "C" intptr_t FUN_00ac3230(intptr_t, intptr_t, intptr_t);
 // 0x00ac3300
 void FUN_00ac3300(char *, unsigned int, char *);
 // 0x00ac3370

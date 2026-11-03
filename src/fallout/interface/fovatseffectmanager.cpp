@@ -1,6 +1,8 @@
 // fallout/interface/fovatseffectmanager.cpp: ShadowLightData, EffectSetting (4 functions)
 
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -156,7 +158,7 @@ void ApplyPerkModifiers(int entryPoint, Actor* actor, ...)
         actor = (Actor*)::_g_thePlayer;
     }
     BSSimpleList<BGSPerkEntry*>* pList = actor->GetPerkEntriesForEntryPoint((unsigned char)entryPoint, bUsePlayer);
-    if (pList && ((::BGSPerkEntry *)(new ((void *)(pList)) ::Vec3())))
+    if (pList && ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(pList)->m_item)))
     {
         actor = pOriginalActor;
         void* pEntryPointArguments[10];
@@ -199,7 +201,7 @@ void ApplyPerkModifiers(int entryPoint, Actor* actor, ...)
         {
             while (pList)
             {
-                BGSPerkEntry* pPerkEntry = ((::BGSPerkEntry *)(new ((void *)(pList)) ::Vec3()));
+                BGSPerkEntry* pPerkEntry = ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(pList)->m_item));
                 if (pPerkEntry && pPerkEntry->IsInfoValidForDialogue(argumentValidation.parameterCount, pParameters))
                     BGSEntryPointFunction::ApplyFunction(
                         (BGSEntryPointFunction::ENTRY_POINT_FUNCTION)pPerkEntry->GetFunction(), actor,
@@ -833,7 +835,7 @@ void S801880::FUN_00801880()
         FaceNode* node5 = ((::FaceNode *)(::FUN_0045c670()));
         int unk5 = this->unk04;
         Obj* objTmp = ((::Obj *)(reinterpret_cast<::MiddleLowProcess *>((node5))->GetProcessInteger()));
-        reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(this->name));
+        reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(const char *)(this->name));
         AnimData* anim = ((::AnimData *)(reinterpret_cast<::BSFaceGenNiNode *>((node5))->GetAnimationData()));
         reinterpret_cast<::CameraState4E9 *>((((::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(anim)));
         reinterpret_cast<::FUN_0041fd00_shell *>((objTmp))->FUN_0041fd00((int)(anim));
@@ -851,7 +853,7 @@ void S801880::FUN_00801880()
             }
             ::FUN_00b6bee0(anim, (void *)(s4), (::BSShaderAccumulator *)(objTmp));
         }
-        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(this->name), 0);
+        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(const char *)(this->name), 0);
         reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(0));
         if (found6)
             ::fnv_00ba91a0::FUN_00ba91a0((::fnv_00ba91a0::Obj *)(sel3), 0x31, 0);
@@ -1285,7 +1287,7 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
     RenderDevice* restore = (RenderDevice*)((::VRenderer *)(::FUN_0043c4b0()));
     FUN_00414430 enabled(0.0f, 0.0f, 0.0f, 0.0f);
     restore->GetColor(&enabled);
-    restore->SetColor(&FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f));
+    restore->SetColor(&ResultSlot(FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f)));
     if (FUN_004e9510())
         ::FUN_00b6b8d0(view, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((texture))->GetGroup()))));
     DAT_01200bf6 = 1;
@@ -1667,7 +1669,7 @@ struct Inner9
     virtual void vtbl036();
     virtual void vtbl037();
     virtual void vtbl038();
-    virtual void* vt9c(int);
+    virtual void* vt9c(PtrObj9*);
 };
 struct Node9
 {
@@ -2244,7 +2246,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 void* res3cA;
                 if (rAX)
                 {
-                    res3cA = formA->vt1d0()->vt9c((int)&PtrObj9(((int)(reinterpret_cast<::StrOwner *>((rAX))->FUN_007fa950()))));
+                    res3cA = formA->vt1d0()->vt9c(&ResultSlot(PtrObj9(((int)(reinterpret_cast<::StrOwner *>((rAX))->FUN_007fa950())))));
                     if (res3cA)
                         ::FUN_00b6bee0(svcX, res3cA, (::BSShaderAccumulator *)(x102));
                 }
@@ -2257,7 +2259,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                         void* res4c_;
                         if (ares44C)
                         {
-                            res4c_ = formA->vt1d0()->vt9c((int)&PtrObj9(((int)(reinterpret_cast<::StrOwner *>((ares44C))->FUN_007fa950()))));
+                            res4c_ = formA->vt1d0()->vt9c(&ResultSlot(PtrObj9(((int)(reinterpret_cast<::StrOwner *>((ares44C))->FUN_007fa950())))));
                             if (res4c_)
                                 ::FUN_00b6bee0(svcX, res4c_, (::BSShaderAccumulator *)(x102));
                         }

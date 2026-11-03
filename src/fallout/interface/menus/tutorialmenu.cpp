@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/tutorialmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/tutorialmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00408da0_Class.h"
@@ -335,7 +336,7 @@ void HelpMenuShell::ShowPageByIndex(unsigned int auiPage)
         BSStringT kText;
         uiCurrentPage = auiPage;
         ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&kText), "%d/%d", auiPage + 1, uiPageCount);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pPageTile))->FUN_00a01350(0xfc4, (char *)(kText), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pPageTile))->FUN_00a01350(0xfc4, (char *)(const char *)(kText), true);
         HelpListNode* pPageNode = pPages;
         while (pPageNode && auiPage--)
         {
@@ -346,7 +347,7 @@ void HelpMenuShell::ShowPageByIndex(unsigned int auiPage)
             ::FUN_005b5e40();
             return;
         }
-        reinterpret_cast<::TutorialMenuView *>(this)->ApplyRecordToTiles((::MenuRecord *)(::BGSMessage *)(dynamic_cast<BGSMessage*>(*((::TESForm **)(new ((void *)(pPageNode)) ::Vec3())))));
+        reinterpret_cast<::TutorialMenuView *>(this)->ApplyRecordToTiles((::MenuRecord *)(::BGSMessage *)(dynamic_cast<BGSMessage*>(*((::TESForm **)(&reinterpret_cast<::SimpleListNodeView*>(pPageNode)->m_item)))));
         reinterpret_cast<::fnv_007e9010::FUN_007e9010_Owner *>(this)->FUN_007e9010();
     }
 }
@@ -458,7 +459,7 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
             {
                 ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages = pForm->FUN_00500940();
                 if (apMsg == 0)
-                    apMsg = dynamic_cast<BGSMessage*>(*((::TESForm **)(new ((void *)(((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages)) ::Vec3())));
+                    apMsg = dynamic_cast<BGSMessage*>(*((::TESForm **)(&reinterpret_cast<::SimpleListNodeView*>(((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages)->m_item)));
             }
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t2c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d34b0))))->GetMenuTitle()))), 1);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t30))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d4468))))->GetMenuTitle()))), 1);
@@ -479,9 +480,9 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
         HelpListNode* node5;
         bool found2 = false;
         node5 = ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->pPages;
-        while (node5 != 0 && *((::TESForm **)(new ((void *)(node5)) ::Vec3())) != 0)
+        while (node5 != 0 && *((::TESForm **)(&reinterpret_cast<::SimpleListNodeView*>(node5)->m_item)) != 0)
         {
-            if (!found2 && *((::TESForm **)(new ((void *)(node5)) ::Vec3())) == apMsg)
+            if (!found2 && *((::TESForm **)(&reinterpret_cast<::SimpleListNodeView*>(node5)->m_item)) == apMsg)
             {
                 ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u48 = ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c;
                 found2 = true;
@@ -494,7 +495,7 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
         {
             StrMem str;
             ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&str), "%d/%d", ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u48 + 1, ((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->u4c);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t3c))->FUN_00a01350(0xfc4, (char *)(str), 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HMenuX*)(*reinterpret_cast<::Menu * *>(&::DAT_011db088)))->t3c))->FUN_00a01350(0xfc4, (char *)(const char *)(str), 1);
         }
         else
         {

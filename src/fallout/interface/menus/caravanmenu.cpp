@@ -2,6 +2,8 @@
 // src/fallout/interface/menus/caravanmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/caravanmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_array_item.h"
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -869,9 +871,9 @@ bool FUN_0073ced0_shell::RebuildCardLists()
 
     i = 0;
 
-    while (inactivelist && *((::TESCaravanCard **)(new ((void *)(inactivelist)) ::Vec3())))
+    while (inactivelist && *((::TESCaravanCard **)(&reinterpret_cast<::SimpleListNodeView*>(inactivelist)->m_item)))
     {
-        pCard = *((::TESCaravanCard **)(new ((void *)(inactivelist)) ::Vec3()));
+        pCard = *((::TESCaravanCard **)(&reinterpret_cast<::SimpleListNodeView*>(inactivelist)->m_item));
         reinterpret_cast<FUN_006e2b50_shell*>(pCard)->SetCantOpenDoors(false);
         reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0xa6c)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<void*&>(pCard)));
         inactivelist = ((::BSSimpleListTESRaceSize *)(reinterpret_cast<::Callees *>((inactivelist))->FUN_00726070()));
@@ -880,9 +882,9 @@ bool FUN_0073ced0_shell::RebuildCardLists()
     {
         TESCaravanCard* pCard;
 
-        while (activelist && *((::TESCaravanCard **)(new ((void *)(activelist)) ::Vec3())))
+        while (activelist && *((::TESCaravanCard **)(&reinterpret_cast<::SimpleListNodeView*>(activelist)->m_item)))
         {
-            pCard = *((::TESCaravanCard **)(new ((void *)(activelist)) ::Vec3()));
+            pCard = *((::TESCaravanCard **)(&reinterpret_cast<::SimpleListNodeView*>(activelist)->m_item));
             reinterpret_cast<FUN_006e2b50_shell*>(pCard)->SetCantOpenDoors(true);
             reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0xa6c)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<void*&>(pCard)));
             activelist = ((::BSSimpleListTESRaceSize *)(reinterpret_cast<::Callees *>((activelist))->FUN_00726070()));
@@ -5095,15 +5097,15 @@ void CurrencyQuery::ComputePlayerAndTargetTotals()
     playerTotal = reinterpret_cast<::Inv4cb320 *>((list))->GetCountableItemCount();
     CurrencyLink* link5 = list->head;
     CurrencyForm* form = 0;
-    while (link5 && *((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))
+    while (link5 && *((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))
     {
         int count = 0;
-        form = ((::CurrencyForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))))->GetName()));
+        form = ((::CurrencyForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->GetName()));
         if (form && form->FUN_00401170() == 0x74)
         {
-            if (((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))))->FUN_00726070())) > 0)
+            if (((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->FUN_00726070())) > 0)
             {
-                count = ((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))))->FUN_00726070()));
+                count = ((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->FUN_00726070()));
                 playerTotal += ::FUN_0048e8a0((::TESForm *)(form)) * count;
             }
         }
@@ -5117,15 +5119,15 @@ void CurrencyQuery::ComputePlayerAndTargetTotals()
     targetTotal = reinterpret_cast<::Inv4cb320 *>((list))->GetCountableItemCount();
     link5 = list->head;
     form = 0;
-    while (link5 && *((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))
+    while (link5 && *((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))
     {
         int count = 0;
-        form = ((::CurrencyForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))))->GetName()));
+        form = ((::CurrencyForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->GetName()));
         if (form && form->FUN_00401170() == 0x74)
         {
-            if (((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))))->FUN_00726070())) > 0)
+            if (((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->FUN_00726070())) > 0)
             {
-                count = ((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(new ((void *)(link5)) ::Vec3())))))->FUN_00726070()));
+                count = ((int)(reinterpret_cast<::Callees *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->FUN_00726070()));
                 targetTotal += ::FUN_0048e8a0((::TESForm *)(form)) * count;
             }
         }
@@ -9592,7 +9594,7 @@ bool CaravanInput::HandleKey(int key)
         int c7 = 0x7fff;
         float x5 = 0.0f;
         float y3 = 0.0f;
-        switch (key)
+        switch ((unsigned int)key)
         {
         case 0x57:
         case 0x77:
@@ -11940,16 +11942,16 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
         List74* nodeA = ((::List74 *)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->FUN_00740960()));
         Form74* listA = 0;
         Node74* formA = nodeA->head;
-        while (formA && *((::Entry74 **)(new ((void *)(formA)) ::Vec3())))
+        while (formA && *((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))
         {
             int countA = 0;
-            listA = ((::Form74 *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry74 **)(new ((void *)(formA)) ::Vec3())))))->GetName()));
+            listA = ((::Form74 *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->GetName()));
             if (listA && listA->Type() == 0x74)
             {
-                if (((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(new ((void *)(formA)) ::Vec3())))))->FUN_00726070())) > 0)
+                if (((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->FUN_00726070())) > 0)
                 {
                     int valueA = ::FUN_0048e8a0((::TESForm *)(listA));
-                    countA = ((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(new ((void *)(formA)) ::Vec3())))))->FUN_00726070()));
+                    countA = ((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->FUN_00726070()));
                     if (valueA * countA > remaining)
                         countA = remaining / valueA;
                     if (countA > 0)
@@ -11957,7 +11959,7 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
                         Container74 transferA;
                         reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(transferA))->FUN_004818e0((::TESObject *)(listA), countA, (::ContainerItemExtra *)(0));
                         reinterpret_cast<::ContainerOperation *>(&(transferA))->FUN_004821a0((::TESObjectREFR *)(::Ref74 *)((Ref74*)(*reinterpret_cast<char * *>(&::_g_thePlayer))), 0);
-                        reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(*((::Entry74 **)(new ((void *)(formA)) ::Vec3()))), countA, (int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
+                        reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item))), countA, (int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
                         remaining -= countA * valueA;
                     }
                 }
@@ -11987,16 +11989,16 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
         List74* formB = ((::List74 *)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->FUN_00740960()));
         Form74* listB = 0;
         Node74* nodeB = formB->head;
-        while (nodeB && *((::Entry74 **)(new ((void *)(nodeB)) ::Vec3())))
+        while (nodeB && *((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))
         {
             int countB = 0;
-            listB = ((::Form74 *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry74 **)(new ((void *)(nodeB)) ::Vec3())))))->GetName()));
+            listB = ((::Form74 *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->GetName()));
             if (listB && listB->Type() == 0x74)
             {
-                if (((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_00726070())) > 0)
+                if (((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->FUN_00726070())) > 0)
                 {
                     int valueB = ::FUN_0048e8a0((::TESForm *)(listB));
-                    countB = ((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_00726070()));
+                    countB = ((int)(reinterpret_cast<::Callees *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->FUN_00726070()));
                     if (valueB * countB > remaining)
                         countB = remaining / valueB;
                     if (countB > 0)
@@ -12116,7 +12118,6 @@ struct ShaderProperty
 struct SceneObject
 {
 };
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct TextureLoader
 {
 };
@@ -13184,7 +13185,6 @@ struct Scene
 {
     void update(const UpdateInfo&);
 };
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct TextureManager
 {
 };
@@ -19026,7 +19026,6 @@ struct ModelLoader
 struct DataHandler
 {
 };
-int __cdecl strcpy_s(char* v5, unsigned int n, const char* m26);
 struct ShadowSceneNode
 {
     virtual void s00();
@@ -19369,17 +19368,17 @@ FUN_0073bba0::~FUN_0073bba0()
         reinterpret_cast<::FUN_0072ba80_shell *>(&(m_14c))->FUN_00753140();
         v28 = 0;
     }
-    while (m_15c != 0 && *((void **)(new ((void *)(m_15c)) ::Vec3())) != 0)
+    while (m_15c != 0 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(m_15c)->m_item)) != 0)
     {
-        v39 = *((void **)(new ((void *)(m_15c)) ::Vec3()));
+        v39 = *((void **)(&reinterpret_cast<::SimpleListNodeView*>(m_15c)->m_item));
         m_15c->FUN_0063f7b0();
         v39 = 0;
     }
     delete m_15c;
     m_15c = 0;
-    while (m_144 != 0 && *((void **)(new ((void *)(m_144)) ::Vec3())) != 0)
+    while (m_144 != 0 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(m_144)->m_item)) != 0)
     {
-        v45 = *((void **)(new ((void *)(m_144)) ::Vec3()));
+        v45 = *((void **)(&reinterpret_cast<::SimpleListNodeView*>(m_144)->m_item));
         m_144->FUN_0063f7b0();
         v45 = 0;
     }
@@ -21788,7 +21787,7 @@ void CaravanGame::FUN_00741500()
     int minIndex = 0x7fff;
     float mx = 0.0f;
     float my = 0.0f;
-    if (((::CMIntfMgr *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+    if (::FUN_004b71d0())
     {
         padX = reinterpret_cast<::FUN_00a23390_t *>((((::CMInput *)(reinterpret_cast<::FUN_00877720_shell *>((((CMOSGlobals*)::g_osGlobals)))->FUN_00877720()))))->GetAxisState(0, 7);
         padY = reinterpret_cast<::FUN_00a23390_t *>((((::CMInput *)(reinterpret_cast<::FUN_00877720_shell *>((((CMOSGlobals*)::g_osGlobals)))->FUN_00877720()))))->GetAxisState(0, 8);
@@ -22627,7 +22626,7 @@ void CaravanGame::FUN_00741500()
                         D_Array* next = &cardList[curLane][i + 1];
                         for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((next))->GetName())); j++)
                         {
-                            reinterpret_cast<::FUN_00438690 *>(&(cardList[curLane][i]))->FUN_007cb2e0((unsigned int *)&(((int)(reinterpret_cast<::S3e60 *>((next))->FUN_006a7ad0(j)))));
+                            reinterpret_cast<::FUN_00438690 *>(&(cardList[curLane][i]))->FUN_007cb2e0((unsigned int *)&SimpleArrayItem<void *>((void *)((next)), j));
                             reinterpret_cast<::CaravanCardMenu *>(this)->FUN_0074e220(curLane, i, j);
                         }
                     }
@@ -22645,7 +22644,7 @@ void CaravanGame::FUN_00741500()
                             D_Array* next = &cardList[curLane][i + 1];
                             for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((next))->GetName())); j++)
                             {
-                                reinterpret_cast<::FUN_00438690 *>(&(cardList[curLane][i]))->FUN_007cb2e0((unsigned int *)&(((int)(reinterpret_cast<::S3e60 *>((next))->FUN_006a7ad0(j)))));
+                                reinterpret_cast<::FUN_00438690 *>(&(cardList[curLane][i]))->FUN_007cb2e0((unsigned int *)&SimpleArrayItem<void *>((void *)((next)), j));
                                 reinterpret_cast<::CaravanCardMenu *>(this)->FUN_0074e220(curLane, i, j);
                             }
                         }
@@ -23571,7 +23570,7 @@ void CaravanMenuX::FUN_0073ea90()
         if (reinterpret_cast<::DoorAccessData *>((((::fnv_0073ea90::Card *)(reinterpret_cast<::S3e60 *>(&(m_hand))->FUN_006a7ad0(i)))))->ReadState98())
         {
             pPlayerList->FUN_005ae3d0(((::fnv_0073ea90::Card *)(reinterpret_cast<::S3e60 *>(&(m_hand))->FUN_006a7ad0(i))));
-            reinterpret_cast<::FUN_00438690 *>(&(m_deckA))->FUN_007cb2e0((unsigned int *)&(((::fnv_0073ea90::Card *)(reinterpret_cast<::S3e60 *>(&(m_hand))->FUN_006a7ad0(i)))));
+            reinterpret_cast<::FUN_00438690 *>(&(m_deckA))->FUN_007cb2e0((unsigned int *)&SimpleArrayItem<::fnv_0073ea90::Card *>((void *)(&(m_hand)), i));
         }
         else
         {
@@ -23579,19 +23578,19 @@ void CaravanMenuX::FUN_0073ea90()
         }
     }
 
-    while (m_pPending && *((::fnv_0073ea90::Card **)(new ((void *)(m_pPending)) ::Vec3())))
+    while (m_pPending && *((::fnv_0073ea90::Card **)(&reinterpret_cast<::SimpleListNodeView*>(m_pPending)->m_item)))
     {
-        reinterpret_cast<::FUN_00438690 *>(&(m_deckB))->FUN_007cb2e0((unsigned int *)&(*((::fnv_0073ea90::Card **)(new ((void *)(m_pPending)) ::Vec3()))));
+        reinterpret_cast<::FUN_00438690 *>(&(m_deckB))->FUN_007cb2e0((unsigned int *)&(*((::fnv_0073ea90::Card **)(&reinterpret_cast<::SimpleListNodeView*>(m_pPending)->m_item))));
         m_pPending = ((::fnv_0073ea90::CardNode *)(reinterpret_cast<::Callees *>((m_pPending))->FUN_00726070()));
     }
 
     for (int iDraw = 0; iDraw < 8; iDraw++)
     {
         int iPick = ((int)(::GetRandomNumberInRange(0, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_deckA))->GetName())))));
-        reinterpret_cast<::FUN_00438690 *>(&(m_drawA))->FUN_007cb2e0((unsigned int *)&(((::fnv_0073ea90::Card *)(reinterpret_cast<::S3e60 *>(&(m_deckA))->FUN_006a7ad0(iPick)))));
+        reinterpret_cast<::FUN_00438690 *>(&(m_drawA))->FUN_007cb2e0((unsigned int *)&SimpleArrayItem<::fnv_0073ea90::Card *>((void *)(&(m_deckA)), iPick));
         reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(m_deckA))->FUN_009a4320(iPick, 1);
         iPick = ((int)(::GetRandomNumberInRange(0, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_deckB))->GetName())))));
-        reinterpret_cast<::FUN_00438690 *>(&(m_drawB))->FUN_007cb2e0((unsigned int *)&(((::fnv_0073ea90::Card *)(reinterpret_cast<::S3e60 *>(&(m_deckB))->FUN_006a7ad0(iPick)))));
+        reinterpret_cast<::FUN_00438690 *>(&(m_drawB))->FUN_007cb2e0((unsigned int *)&SimpleArrayItem<::fnv_0073ea90::Card *>((void *)(&(m_deckB)), iPick));
         reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(m_deckB))->FUN_009a4320(iPick, 1);
     }
 
@@ -25157,10 +25156,10 @@ void R74Menu::SelectCard(int row, int column)
             reinterpret_cast<::FUN_004bc1f0_S *>((reinterpret_cast<R74Positioner*>(right)))->FUN_004bc1f0(0.0f, 0.0f, DAT_0104f7c4);
             reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(right)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             R74Matrix scale;
-            reinterpret_cast<::FUN_004a0c90_shell *>(&(scale))->FUN_004a0c90(DAT_0101ff38);
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(scale))->FUN_004a0c90(::fnv_00a10770::DAT_0101ff38);
             orientation = *((::R74Matrix *)(::FUN_006a9540((char *)(card4))));
             orientation = orientation.FUN_0043f8d0(scale);
-            pos3 = *((::R74Point *)(new ((void *)(((::R74Point *)(reinterpret_cast<::FUN_0043d450_Owner *>((card4))->FUN_0043d450())))) ::Vec3()));
+            pos3 = *((::R74Point *)(&reinterpret_cast<::SimpleListNodeView*>(((::R74Point *)(reinterpret_cast<::FUN_0043d450_Owner *>((card4))->FUN_0043d450())))->m_item));
             reinterpret_cast<::FUN_0043fa80_s *>((reinterpret_cast<R74Animator*>(sel)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&orientation)));
             reinterpret_cast<::FUN_00440460_S *>((reinterpret_cast<R74Animator*>(sel)))->FUN_00440460((const ::V3 *)(::R74Point *)(&pos3));
             reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(sel)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
@@ -25173,10 +25172,10 @@ void R74Menu::SelectCard(int row, int column)
             reinterpret_cast<::FUN_004bc1f0_S *>((reinterpret_cast<R74Positioner*>(left)))->FUN_004bc1f0(0.0f, 0.0f, DAT_0104f7c4);
             reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(left)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             R74Matrix scale;
-            reinterpret_cast<::FUN_004a0c90_shell *>(&(scale))->FUN_004a0c90(DAT_0101ff38);
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(scale))->FUN_004a0c90(::fnv_00a10770::DAT_0101ff38);
             orientation = *((::R74Matrix *)(::FUN_006a9540((char *)(card4))));
             orientation = orientation.FUN_0043f8d0(scale);
-            pos3 = *((::R74Point *)(new ((void *)(((::R74Point *)(reinterpret_cast<::FUN_0043d450_Owner *>((card4))->FUN_0043d450())))) ::Vec3()));
+            pos3 = *((::R74Point *)(&reinterpret_cast<::SimpleListNodeView*>(((::R74Point *)(reinterpret_cast<::FUN_0043d450_Owner *>((card4))->FUN_0043d450())))->m_item));
             reinterpret_cast<::FUN_0043fa80_s *>((reinterpret_cast<R74Animator*>(sel)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&orientation)));
             reinterpret_cast<::FUN_00440460_S *>((reinterpret_cast<R74Animator*>(sel)))->FUN_00440460((const ::V3 *)(::R74Point *)(&pos3));
             reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<R74TextureNode*>(sel)))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));

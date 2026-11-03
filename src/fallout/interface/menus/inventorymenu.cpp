@@ -1,5 +1,6 @@
 // fallout/interface/menus/inventorymenu.cpp: InventoryMenu, Interface, Menu, InventoryCheck and more (30 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorSoundStub.h"
 #include "fnv/decl/AmmoOwner.h"
@@ -918,8 +919,8 @@ void __cdecl DropInventoryItem(int aiAmountChosen)
 
     pextra = reinterpret_cast<GO*>(InventoryMenu::ms_pActionPointSource)->operator unsigned int()
                  ? *reinterpret_cast<ExtraDataList**>(
-                       ((void *)(new ((void *)(reinterpret_cast<Ref006815c0*>(
-                           reinterpret_cast<GO*>(InventoryMenu::ms_pActionPointSource)->operator unsigned int()))) ::Vec3())))
+                       ((void *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<Ref006815c0*>(
+                           reinterpret_cast<GO*>(InventoryMenu::ms_pActionPointSource)->operator unsigned int()))->m_item)))
                  : 0;
 
     if (aiAmountChosen == 0)
@@ -1083,7 +1084,7 @@ class FUN_0077ffd0_lbx
 {
   public:
     virtual void vfn_00();
-    virtual Tile* vfn_04(int);
+    virtual Tile* vfn_04();
 };
 
 int __cdecl FUN_00ec62c0();
@@ -1095,7 +1096,7 @@ void __cdecl UpdateCurrentValue()
     int idx;
     int res5;
     if (reinterpret_cast<::FUN_00a01230_shell *>((reinterpret_cast<FUN_0077ffd0_obj*>(
-            ((::Tile *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0077ffd0_menu*>(InventoryMenu::ms_pInventoryMenu)))->FUN_00726070())))))->IsTraitNonZero({}))
+            ((::Tile *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0077ffd0_menu*>(InventoryMenu::ms_pInventoryMenu)))->FUN_00726070())))))->IsTraitNonZero(DAT_011d9eb8))
     {
         tab = 5;
     }
@@ -1107,7 +1108,7 @@ void __cdecl UpdateCurrentValue()
     if (InventoryMenu::ms_pInventoryMenu->m_kItemList.vfn_04() != 0)
     {
         reinterpret_cast<::TileListBoxCalls *>((reinterpret_cast<FUN_0077ffd0_obj*>(
-            reinterpret_cast<FUN_0077ffd0_lbx*>(&InventoryMenu::ms_pInventoryMenu->m_kItemList)->vfn_04(0xfac))))->GetFloat({});
+            reinterpret_cast<FUN_0077ffd0_lbx*>(&InventoryMenu::ms_pInventoryMenu->m_kItemList)->vfn_04())))->GetFloat(0xfac);
         res5 = FUN_00ec62c0();
     }
     else
@@ -1116,7 +1117,7 @@ void __cdecl UpdateCurrentValue()
     }
     InventoryMenu::ms_pInventoryMenu->m_kPageStates[idx].m_iSelectedItemIndex = res5;
     reinterpret_cast<::TileListBoxCalls *>((reinterpret_cast<FUN_0077ffd0_obj*>(
-        ((void *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<FUN_0077ffd0_list*>(&InventoryMenu::ms_pInventoryMenu->m_kItemList)))->FUN_00825c00(::FUN_00a01860("_current_value")))))))->GetFloat({});
+        ((void *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<FUN_0077ffd0_list*>(&InventoryMenu::ms_pInventoryMenu->m_kItemList)))->FUN_00825c00())))))->GetFloat(::FUN_00a01860("_current_value"));
     InventoryMenu::ms_pInventoryMenu->m_kPageStates[idx].m_iScrollOffset = FUN_00ec62c0();
 }
 
@@ -1441,26 +1442,26 @@ bool InventoryCheck::FUN_00781860(Entry* entry)
         {
             EntryListNode list6;
             Changes* changes = ((::Changes *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))));
-            Extra* originalExtra = ((::ExtraNode *)(::FUN_00559450((int *)(entry)))) ? *((::Extra **)(new ((void *)(((::ExtraNode *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0;
+            Extra* originalExtra = ((::ExtraNode *)(::FUN_00559450((int *)(entry)))) ? *((::Extra **)(&reinterpret_cast<::SimpleListNodeView*>(((::ExtraNode *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0;
             EntryListNode* cleanup = &list6;
             reinterpret_cast<::fnv_004d4bd0::InventoryChangeFilterHost *>((changes))->FilterInventoryChanges(form4, (::fnv_004d4bd0::MatchedChanges *)(::EntryListNode *)(&list6));
-            for (EntryListNode* node9 = &list6; node9 && *((::Entry **)(new ((void *)(node9)) ::Vec3())); node9 = ((::EntryListNode *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070())))
+            for (EntryListNode* node9 = &list6; node9 && *((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)); node9 = ((::EntryListNode *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070())))
             {
-                Form* otherForm2 = ((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry **)(new ((void *)(node9)) ::Vec3())))))->GetName()));
-                Extra* otherExtra8 = ((::ExtraNode *)(::FUN_00559450((int *)((*((::Entry **)(new ((void *)(node9)) ::Vec3())))))))
-                                         ? *((::Extra **)(new ((void *)(((::ExtraNode *)(::FUN_00559450((int *)((*((::Entry **)(new ((void *)(node9)) ::Vec3()))))))))) ::Vec3()))
+                Form* otherForm2 = ((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)))))->GetName()));
+                Extra* otherExtra8 = ((::ExtraNode *)(::FUN_00559450((int *)((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)))))))
+                                         ? *((::Extra **)(&reinterpret_cast<::SimpleListNodeView*>(((::ExtraNode *)(::FUN_00559450((int *)((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item))))))))->m_item))
                                          : 0;
-                if (!reinterpret_cast<::FUN_004bddd0_shell *>(((*((::Entry **)(new ((void *)(node9)) ::Vec3())))))->FUN_004bddd0(false))
+                if (!reinterpret_cast<::FUN_004bddd0_shell *>(((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)))))->FUN_004bddd0(false))
                 {
                     if (otherForm2 != form4 ||
-                        (::InventoryStackRecord::GetConditionPercent(reinterpret_cast<::FUN_004bcdb0_shell *>(((*((::Entry **)(new ((void *)(node9)) ::Vec3())))))->FUN_004bcdb0(true)) < 100.0 &&
+                        (::InventoryStackRecord::GetConditionPercent(reinterpret_cast<::FUN_004bcdb0_shell *>(((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)))))->FUN_004bcdb0(true)) < 100.0 &&
                          otherExtra8 != originalExtra && otherExtra8 && !reinterpret_cast<::FUN_00418ba0_shell *>((otherExtra8))->FUN_00418ba0()))
                         result5 = true;
                 }
             }
-            while (cleanup && *((::Entry **)(new ((void *)(cleanup)) ::Vec3())))
+            while (cleanup && *((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(cleanup)->m_item)))
             {
-                delete *((::Entry **)(new ((void *)(cleanup)) ::Vec3()));
+                delete *((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(cleanup)->m_item));
                 cleanup->FUN_0063f7b0();
             }
         }
@@ -1597,7 +1598,7 @@ struct Menu75b
 void Menu75b::FUN_00780d60()
 {
     void* a = (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
-    void* b = ((void *)(::FUN_00559450((int *)((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource)))))) ? (void*)*((void **)(new ((void *)(((Sh006815c0*)((void *)(::FUN_00559450((int *)((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))))))) ::Vec3())) : 0;
+    void* b = ((void *)(::FUN_00559450((int *)((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource)))))) ? (void*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((Sh006815c0*)((void *)(::FUN_00559450((int *)((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))))))->m_item)) : 0;
 
     if (reinterpret_cast<::FUN_00a01230_shell *>((((Sh00a01230*)reinterpret_cast<::Callees *>((((Sh00726070*)this)))->FUN_00726070())))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc))
     {
@@ -2461,7 +2462,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         {
             ::s717280::FUN_00717280(0x24);
             UpdateCurrentValue();
-            if (((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))) && !*((::fnv_00780140::VTItemData **)(new ((void *)(((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))))) ::Vec3())))
+            if (((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))) && !*((::fnv_00780140::VTItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))))->m_item)))
             {
                 VTCombat* pkCombat = ((::fnv_00780140::VTCombat *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::fnv_00780140::VTPlayer *)((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))));
                 reinterpret_cast<::ChangesShell *>((pkCombat))->AddItemExtraData((::BoundShell *)(::fnv_00780140::VTForm *)(((::fnv_00780140::VTForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))), (int)(((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_00726070()))),
@@ -2552,7 +2553,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         {
             VTPoint3 kPos = (*reinterpret_cast<::fnv_00780140::VTPoint3 *>((void *)&::NiPoint3::ZERO));
             VTForm* pkRefOut = ((::fnv_00780140::VTForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
-            VTItemData* pkItem = ((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))) ? *((::fnv_00780140::VTItemData **)(new ((void *)(((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))))) ::Vec3())) : 0;
+            VTItemData* pkItem = ((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))) ? *((::fnv_00780140::VTItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))))->m_item)) : 0;
             if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_00780140::VTSoundHandle &)(((::fnv_00780140::VTAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIVATSInsufficientAP", 0x121)))->FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())
@@ -3093,7 +3094,7 @@ void FUN_00782a90()
             UpdateCurrentValue();
             ((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->lb.q0(0);
             for (pInventoryChangeNode = (ListNodeObj*)&((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->listHead;
-                 pInventoryChangeNode && *((void **)(new ((void *)(pInventoryChangeNode)) ::Vec3()));
+                 pInventoryChangeNode && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(pInventoryChangeNode)->m_item));
                  pInventoryChangeNode = ((::ListNodeObj *)(reinterpret_cast<::Callees *>((pInventoryChangeNode))->FUN_00726070())))
             {
                 {
@@ -3102,19 +3103,19 @@ void FUN_00782a90()
                     int as;
                     ListNodeObj* am;
                     FUN_0096a2d0 ah;
-                    reinterpret_cast<::Host_004d4b00 *>((ea))->FindEntriesByType((int)(*((void **)(new ((void *)(pInventoryChangeNode)) ::Vec3()))), (::Output_004d4b00 *)(void *)(&ah));
+                    reinterpret_cast<::Host_004d4b00 *>((ea))->FindEntriesByType((int)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pInventoryChangeNode)->m_item))), (::Output_004d4b00 *)(void *)(&ah));
                     reinterpret_cast<::FunctionOwner *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
-                        ->lb))->FUN_0071a200((int)(*((void **)(new ((void *)(pInventoryChangeNode)) ::Vec3()))));
-                    for (am = (ListNodeObj*)&ah; am && *((void **)(new ((void *)(am)) ::Vec3())); am = ((::ListNodeObj *)(reinterpret_cast<::Callees *>((am))->FUN_00726070())))
+                        ->lb))->FUN_0071a200((int)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pInventoryChangeNode)->m_item))));
+                    for (am = (ListNodeObj*)&ah; am && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)); am = ((::ListNodeObj *)(reinterpret_cast<::Callees *>((am))->FUN_00726070())))
                     {
                         bb = dynamic_cast<TESFullName*>(
-                            (TESBoundObject*)(void*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryStackRecord*)*((void **)(new ((void *)(am)) ::Vec3())))))->GetName())));
+                            (TESBoundObject*)(void*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryStackRecord*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)))))->GetName())));
                         as = (int)FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((SoundHolder*)bb)))->FUN_00408da0())));
                         ::TaskQueueInterface::CopyStringToBuffer(bo, 0x80, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((SoundHolder*)bb)))->FUN_00408da0())));
-                        if (reinterpret_cast<::FUN_004bd820_stand *>((((ItemObj*)*((void **)(new ((void *)(am)) ::Vec3())))))->FUN_004bd820())
+                        if (reinterpret_cast<::FUN_004bd820_stand *>((((ItemObj*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item)))))->FUN_004bd820())
                             FUN_00406d50(bo, 0x80, "+");
                         reinterpret_cast<::list71a::L71Menu *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))
-                            ->lb))->FUN_0071a320((int)(*((void **)(new ((void *)(am)) ::Vec3()))), bo, (int (*)(list71a::L71Item *, list71a::L71Item *))(void *)((void*)&((void (&)())::fnv_007824e0::FUN_007824e0)), (::list71a::L71Tile *)(0));
+                            ->lb))->FUN_0071a320((int)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(am)->m_item))), bo, (int (*)(list71a::L71Item *, list71a::L71Item *))(void *)((void*)&((void (&)())::fnv_007824e0::FUN_007824e0)), (::list71a::L71Tile *)(0));
                     }
                 }
             }

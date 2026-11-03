@@ -1,5 +1,6 @@
 // fallout/interface/menus/companionwheelmenu.cpp: CompanionWheelMenu, Foo, WheelHost, InteractionMenu and more (30 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>
@@ -787,7 +788,7 @@ struct DialogueItem
 {
     ~DialogueItem();
 public:
-    ::TESObjectREFR *SelectDefaultResponseList();
+    ::TESObjectREFR *FUN_005e3fa0();
 public:
     bool SelectDefaultResponseList();
 public:
@@ -1625,11 +1626,11 @@ void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
             else
             {
                 float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((int)(response2)))))))), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((response2))->GetName())),
-                                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((response2))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(new ((void *)(response2)) ::Vec3()))))->FUN_004048e0())),
+                                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((response2))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
                                                 reinterpret_cast<::FUN_009611e0_shell *>((response2))->FUN_009611e0(), ((int)(reinterpret_cast<::BGSTerrainManager *>((response2))->GetMinLevel())),
                                                 (CompActor*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 1, 1, 0, 0, 1);
             }
-            reinterpret_cast<::CWheelMenu_757690 *>(this)->SetItemTextAndValue((*(::CStringArg_757690 *)&(const ::BSStringT &)((*(::BSStringT *)(new ((void *)(response2)) ::Vec3())))), (*(::CValueArg_757690 *)&(const ::SoundPlaybackHandle &)(sound)));
+            reinterpret_cast<::CWheelMenu_757690 *>(this)->SetItemTextAndValue((*(::CStringArg_757690 *)&(const ::BSStringT &)((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item)))), (*(::CValueArg_757690 *)&(const ::SoundPlaybackHandle &)(sound)));
         }
     }
 }
@@ -2481,7 +2482,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             reinterpret_cast<::SoundPlaybackHandle *>(&(events7))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
             delete created;
         }
-        else if (source->GetNode() || (source->IsSpecial() && ((::ScriptAnimation::Reference *)(reinterpret_cast<::DialogueItem *>((source))->SelectDefaultResponseList()))->GetNode()))
+        else if (source->GetNode() || (source->IsSpecial() && ((::ScriptAnimation::Reference *)(reinterpret_cast<::DialogueItem *>((source))->FUN_005e3fa0()))->GetNode()))
         {
             reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
             Sequence* chosen3 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(source), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
@@ -2895,9 +2896,9 @@ void CompanionHealingMenu::HealCompanion()
                     if (healthX < ::g_01012070)
                         reinterpret_cast<::FUN_008c1f80_shell *>((companion))->EquipItemWithCaster(
                             (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))),
-                            (int)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(new ((void *)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0), 1);
+                            (int)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0), 1);
                     (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())),
-                                             ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(new ((void *)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0, 1, 0, 0,
+                                             ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0, 1, 0, 0,
                                              0, 0, 0, 1, 0);
                     reinterpret_cast<::Actor *>((companion))->ConfigureActorState(0, 1);
                     reinterpret_cast<::FUN_0088b740_shell *>((companion))->FUN_0088b740(31, DAT_01013974);

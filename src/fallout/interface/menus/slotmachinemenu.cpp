@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/slotmachinemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/slotmachinemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -1119,16 +1120,16 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     DAT_011da9ac = casino;
     DAT_011da9a8 = 0;
     RecordList* node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
-    while (node && *((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->owner || !((int)(::FUN_004839c0((unsigned int)((*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->owner)))))
+        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner || !((int)(::FUN_004839c0((unsigned int)((*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)))))
         {
             ::DispatchMessageToSink((int)(DAT_01076694), 0, (int)(::DAT_01049638), 0, ::DAT_010162c0, 0);
             return 0;
         }
-        if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0())) == (*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->owner)
+        if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0())) == (*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)
         {
-            DAT_011da9a8 = (int*)*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3()));
+            DAT_011da9a8 = (int*)*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             break;
         }
         if (!((::fnv_007c0a40::RecordList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
@@ -2109,11 +2110,10 @@ void MenuW7::InitPayoutMenu()
     ((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))->Vf55(m_108[2], 1);
     MatW7 xObjB;
     MatW7 objC7;
-    new ((void *)&(xObjB)) ::Vec3();
-    new ((void *)&(objC7)) ::Vec3();
     reinterpret_cast<::FUN_00524ac0_shell *>(&(xObjB))->FUN_00524ac0(1.5707963705062866f);
     reinterpret_cast<::FUN_004a0c90_shell *>(&(objC7))->FUN_004a0c90(1.5707963705062866f);
-    reinterpret_cast<::FUN_0043fa80_s *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)((const void*)&xObjB.FUN_0043f8d0(&objC7))));
+    MatW7 rotation = xObjB.FUN_0043f8d0(&objC7);
+    reinterpret_cast<::FUN_0043fa80_s *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)((const void*)&rotation)));
     reinterpret_cast<::FUN_004bc1f0_S *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
     NiUpdateData upd1(0.0f, false, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((std::intptr_t)&(upd1));

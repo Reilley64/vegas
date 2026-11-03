@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/chargenmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/chargenmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_00721150_cls.h"
@@ -96,12 +97,6 @@ struct Proxy_7533b0
 };
 extern int DAT_011d9220;
 extern int DAT_011d92a0;
-struct ActorValue
-{
-    enum Index
-    {
-    };
-};
 struct TGF
 {
 };
@@ -1962,7 +1957,7 @@ void SkillMenu::HandleSkillMenuCommand(int aiID, SkTile* apTile)
         void* pItemData = reinterpret_cast<::LBList *>(&(list))->FindItemData((::Tile *)(apTile));
         bool selected = reinterpret_cast<::FUN_00754950_shell *>(&(list))->FUN_00754950((::Tile *)(apTile));
         if ((!selected && m_iPointsUsed < m_iPointsRemaining) ||
-            (selected && (!bLimit || !reinterpret_cast<::TESClass *>((((::SkPerkList *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::SkMgr * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)(pItemData)))))
+            (selected && (!bLimit || !reinterpret_cast<::TESClass *>((((::SkPerkList *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::SkMgr * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)reinterpret_cast<std::intptr_t>(pItemData)))))
         {
             reinterpret_cast<::FUN_00754a00_cls *>(&(list))->FUN_00754930((int)(apTile));
             reinterpret_cast<::FUN_00a012d0_t *>((apTile))->FUN_00a012d0(DAT_011d9224, reinterpret_cast<::FUN_00754950_shell *>(&(list))->FUN_00754950((::Tile *)(apTile)) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkSetting *>(&::originalRuntimeFloatSetting327)))))) : 0.0f,

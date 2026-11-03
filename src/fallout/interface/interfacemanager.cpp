@@ -1,5 +1,6 @@
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -153,7 +154,6 @@
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/NiPick.h"
 #include "fnv/decl/NiPlane.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/Owner7164.h"
 #include "fnv/decl/OwnerLookupView.h"
 #include "fnv/decl/PatrolActorPackageData.h"
@@ -355,6 +355,14 @@
 #include "fnv/decl/fnv_00b5d300__OwnerD.h"
 #include "fnv/symbols_00b5d000.h"
 #include "fnv/symbols_011f4000.h"
+
+class NiPoint3
+{
+  public:
+    float x, y, z;
+    NiPoint3();
+};
+
 // @fnv 0x00714f70
 int InterfaceManager::GetMenuStackEntry(int index)
 {
@@ -388,7 +396,7 @@ template <> unsigned int BSSimpleList<EffectSetting*>::ItemsInList()
     state.node = (BSSimpleList<BGSPerkEntry*>*)this;
     while (state.node)
     {
-        if (((::BGSPerkEntry *)(new ((void *)(state.node)) ::Vec3())))
+        if (((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(state.node)->m_item)))
             ++state.count;
         state.node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((state.node))->FUN_00726070()));
     }
@@ -664,12 +672,11 @@ void* GetFieldAtOffsetDD4(void* pThis)
     return reinterpret_cast<char*>(pThis) + 0xdd4;
 }
 
-int g_011d8950;
 
 // @fnv 0x0070ec00
 bool FUN_0070ec00()
 {
-    return g_011d8950 != 0;
+    return (*reinterpret_cast<int *>(&::g_011d8950)) != 0;
 }
 
 // @fnv 0x0070ec50
@@ -1016,19 +1023,17 @@ template <> class NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*>
     Script* RemoveHead(void);
 };
 
-extern ActorTaskManager g_011d8c18;
-extern NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*> g_011d8b2c;
 
-// Queries the performance counter, deletes scripts from g_011d8b2c until the array check passes, then waits for tasks during rendering.
+// Queries the performance counter, deletes scripts from (*reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*> *>(&::g_011d8b2c)) until the array check passes, then waits for tasks during rendering.
 // @fnv 0x00713c00
 void WaitForTasksAndClearScripts()
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(g_011d8c18))->FUN_004538a0(0);
-    while (!reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)&g_011d8b2c)))->FUN_0076b610())
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<ActorTaskManager *>(&::g_011d8c18))))->FUN_004538a0(0);
+    while (!reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)&(*reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*> *>(&::g_011d8b2c)))))->FUN_0076b610())
     {
-        delete g_011d8b2c.RemoveHead();
+        delete (*reinterpret_cast<NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*> *>(&::g_011d8b2c)).RemoveHead();
     }
-    g_011d8c18.WaitForTasksDuringRendering();
+    (*reinterpret_cast<ActorTaskManager *>(&::g_011d8c18)).WaitForTasksDuringRendering();
 }
 
 class NavMesh;
@@ -1577,8 +1582,6 @@ class GlobalObject2_0040c150
   public:
 };
 
-extern GlobalObject2_0040c150 g_011d8bd8;
-extern GlobalObject2_0040c150 g_011d8bfc;
 
 struct Interface_shell : public Interface
 {
@@ -1589,7 +1592,7 @@ float __cdecl FUN_007177c0(void)
 {
     if (FUN_004de080())
         return FUN_004de0e0() * 0.4f;
-    return (float)(::Interface::IsInterfaceOpen() ? *((int *)&(::FUN_0043d4d0((int *)&(g_011d8bfc)))) : *((int *)&(::FUN_0043d4d0((int *)&(g_011d8bd8)))));
+    return (float)(::Interface::IsInterfaceOpen() ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<GlobalObject2_0040c150 *>(&::g_011d8bfc)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<GlobalObject2_0040c150 *>(&::g_011d8bd8)))))));
 }
 
 namespace fnv_00717820 {
@@ -1632,7 +1635,6 @@ class BSAudio
     unsigned int GetSynchTime();
 };
 
-extern char* DAT_011d8a80;
 
 namespace fnv_anon_interfacemanager {}
 using namespace fnv_anon_interfacemanager;
@@ -1652,7 +1654,7 @@ static NiNode* (Tile_Access::*const pTileFunc)() = &Tile_Access::FUN_0056c7f0;
 // @fnv 0x00717990
 bool __cdecl FUN_00717990()
 {
-    if (*(BSAudio**)(DAT_011d8a80 + 0x16c) == 0)
+    if (*(BSAudio**)((*reinterpret_cast<char* *>(&::DAT_011d8a80)) + 0x16c) == 0)
         return false;
 
     if (((bool(__cdecl*)())::FUN_007178a0)())
@@ -1665,7 +1667,7 @@ bool __cdecl FUN_00717990()
     Menu* menu = ((::Menu *)(::FUN_00a09030(top)));
     NiNode* node = menu ? ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile_Access*)menu)))->FUN_0056c7f0())) : 0;
 
-    if (node != 0 && (unsigned int)node == (*(BSAudio**)(DAT_011d8a80 + 0x16c))->GetSynchTime())
+    if (node != 0 && (unsigned int)node == (*(BSAudio**)((*reinterpret_cast<char* *>(&::DAT_011d8a80)) + 0x16c))->GetSynchTime())
         return true;
 
     return false;
@@ -1697,14 +1699,13 @@ struct DummyMenu
     virtual void v4(int, Tile*);
 };
 
-extern DummyNode g_011d8b54;
 
 // @fnv 0x00717e70
 void FUN_00717e70_shell::FUN_00717e70(Menu* apMenu, int aiID, Tile* apTarget)
 {
-    for (DummyNode* pnode = &g_011d8b54; pnode != 0 && *((::DummyItem **)(new ((void *)(pnode)) ::Vec3())) != 0; pnode = ((::DummyNode *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (DummyNode* pnode = &(*reinterpret_cast<DummyNode *>(&::g_011d8b54)); pnode != 0 && *((::DummyItem **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)) != 0; pnode = ((::DummyNode *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if ((*((::DummyItem **)(new ((void *)(pnode)) ::Vec3())))->v0(apTarget))
+        if ((*((::DummyItem **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->v0(apTarget))
             break;
     }
     reinterpret_cast<DummyMenu*>(apMenu)->v4(aiID, apTarget);
@@ -1743,9 +1744,9 @@ extern GlobalObject2_0096a2d0 g_011d8b54;
 // @fnv 0x00717ef0
 void FUN_00717ef0_shell::FUN_00717ef0(Menu* apMenu, int aiID, Tile* apTarget)
 {
-    for (GlobalObject2_0096a2d0* pnode = &g_011d8b54; pnode && *((::fnv_00717ef0::ListBoxBase_00717ef0 **)(new ((void *)(pnode)) ::Vec3())); pnode = ((::fnv_00717ef0::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (GlobalObject2_0096a2d0* pnode = &g_011d8b54; pnode && *((::fnv_00717ef0::ListBoxBase_00717ef0 **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::fnv_00717ef0::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if ((*((::fnv_00717ef0::ListBoxBase_00717ef0 **)(new ((void *)(pnode)) ::Vec3())))->vfn1() == apTarget && (*((::fnv_00717ef0::ListBoxBase_00717ef0 **)(new ((void *)(pnode)) ::Vec3())))->vfn0(0))
+        if ((*((::fnv_00717ef0::ListBoxBase_00717ef0 **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->vfn1() == apTarget && (*((::fnv_00717ef0::ListBoxBase_00717ef0 **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->vfn0(0))
             break;
     }
     reinterpret_cast<Menu_00717ef0*>(apMenu)->vfn5(aiID, apTarget);
@@ -3467,22 +3468,21 @@ struct UIRoot
     void InitInterface(bool);
     void FUN_0070b240();
 };
-extern UIRoot* DAT_011d8a80;
 extern bool DAT_011d8a84;
-// Checks FUN_009f996e into DAT_011d8a84, lazily creates DAT_011d8a80, runs stage 1 or 2 on it, then clears flagA and flagB.
+// Checks FUN_009f996e into DAT_011d8a84, lazily creates (*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80)), runs stage 1 or 2 on it, then clears flagA and flagB.
 // @fnv 0x00709fd0
 void __cdecl InitUIRoot(unsigned int uiStage, bool abInitialLoad)
 {
     Scratch buf;
     DAT_011d8a84 = ((int)(::FUN_009f996e(0, &buf))) == 0;
-    if (!DAT_011d8a80)
-        DAT_011d8a80 = new UIRoot;
+    if (!(*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80)))
+        (*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80)) = new UIRoot;
     if (uiStage == 1)
-        DAT_011d8a80->InitInterface(abInitialLoad);
+        (*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80))->InitInterface(abInitialLoad);
     else if (uiStage == 2)
-        DAT_011d8a80->FUN_0070b240();
-    DAT_011d8a80->flagA = false;
-    DAT_011d8a80->flagB = false;
+        (*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80))->FUN_0070b240();
+    (*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80))->flagA = false;
+    (*reinterpret_cast<UIRoot* *>(&::DAT_011d8a80))->flagB = false;
 }
 
 namespace fnv_0070a130 {
@@ -3954,7 +3954,6 @@ template <class T> class NiPointer
   public:
     NiPointer(T*);
     ~NiPointer();
-    operator T*() const;
     T* m_pObject;
 public:
     NiPointer& operator=(T* p)
@@ -4049,8 +4048,8 @@ void FUN_0070adb0_shell::InitInterface(bool abInitialLoad)
     if (abInitialLoad)
         ::TraitRegistration::FUN_009ff970();
 
-    *(FUN_00709840**)&this->unk9c = new FUN_00709840;
-    (*(FUN_00709840**)&this->unk9c)->Init(0, "MenuRoot", 0);
+    *(class FUN_00709840**)&this->unk9c = new class FUN_00709840;
+    (*(class FUN_00709840**)&this->unk9c)->Init(0, "MenuRoot", 0);
     reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk9c)))->Set(0xfa8, 1);
     reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk9c)))->Set(0x1771, 0x3eb);
     reinterpret_cast<::FUN_00a012d0_t *>(((*(TileH**)&this->unk9c)))->FUN_00a012d0(0xfa9, 0.0f, true);
@@ -6191,7 +6190,7 @@ void IMStandIn::FUN_00713f00()
     if (reinterpret_cast<FUN_007079f0_shell*>(this)->FUN_007079f0() && !::Interface::IsInterfaceActive())
         ::fnv_00702c80::FUN_00702c80(false, false);
     ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)(TaskThreadManager::GetSingleton()), reinterpret_cast<BSFaceGenNiNode*>(root)->GetAnimationData(), (::AccumTaskDetail::NiRefObject *)(0),
-                                                    (::AccumTaskDetail::TaskArg1 *)(root), (::AccumTaskDetail::NiRefObject *)(0), (void *)(0), (void *)(*reinterpret_cast<FltHelper*>(m_flt8c)), (::AccumTaskDetail::NiRefObject *)(1), 0x17, 0, {});
+                                                    (::AccumTaskDetail::TaskArg1 *)(root), (::AccumTaskDetail::NiRefObject *)(0), (void *)(0), (void *)(std::uintptr_t)(unsigned int)(*reinterpret_cast<FltHelper*>(m_flt8c)), (::AccumTaskDetail::NiRefObject *)(1), 0x17, 0, {});
     reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>((reinterpret_cast<MTRenderingSystem_Helper*>(TaskThreadManager::GetSingleton())))->FUN_00ba30f0(0, 0x17);
 }
 
@@ -6324,7 +6323,6 @@ struct MenuIDHelper
     static bool GetSelectedTargetIndex(int);
 };
 struct DummyNode;
-extern DummyNode g_011d8b54;
 // Handles gamepad input for the menu, then searches list boxes belonging to it for a tile at the given button and focuses it.
 // @fnv 0x00717f80
 bool FUN_00717f80_shell::HandleMenuGamepadInput(Menu* apMenu, int aiButton, float afValue)
@@ -6335,7 +6333,7 @@ bool FUN_00717f80_shell::HandleMenuGamepadInput(Menu* apMenu, int aiButton, floa
     if (((MenuV*)apMenu)->HandleGamepad(aiButton, afValue))
         return true;
     plbVal = 0;
-    for (node2 = (ListNode*)&g_011d8b54; node2 && (plbVal = *((::fnv_00717f80::ListBoxBase **)(new ((void *)(node2)) ::Vec3()))) != 0; node2 = ((::fnv_00717f80::ListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070())))
+    for (node2 = (ListNode*)&(*reinterpret_cast<DummyNode *>(&::g_011d8b54)); node2 && (plbVal = *((::fnv_00717f80::ListBoxBase **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item))) != 0; node2 = ((::fnv_00717f80::ListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070())))
     {
         if (plbVal->BelongsTo(apMenu) && MenuIDHelper::GetSelectedTargetIndex(((MenuV*)apMenu)->GetMenuID()) &&
             plbVal->GetHighlightedItem())
@@ -6722,10 +6720,14 @@ struct M788
 {
 };
 
+struct FUN_004ed900_shell
+{
+    void FUN_004ed900();
+};
 // @fnv 0x0070aca0
 void __cdecl FUN_0070aca0()
 {
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::M788 *>(&::DAT_011f3324))))->FUN_004ed900();
+    reinterpret_cast<FUN_004ed900_shell *>(&((*reinterpret_cast<::M788 *>(&::DAT_011f3324))))->FUN_004ed900();
 }
 
 namespace fnv_0070b5d0 {
@@ -6913,7 +6915,6 @@ unsigned char FUN_00713d90()
     return DAT_011dfa19;
 }
 
-extern "C" unsigned char* DAT_011f5b04;
 
 struct FUN_00714930
 {
@@ -7697,14 +7698,13 @@ struct GlobalObject_0048f200 : M788
 {
 };
 extern GlobalObject_0048f200 g_011d8b2c;
-extern ATM g_011d8c18;
 
 // @fnv 0x007182b0
 void FUN_007182b0(void* p)
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(g_011d8c18))->FUN_004538a0(0);
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<ATM *>(&::g_011d8c18))))->FUN_004538a0(0);
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(g_011d8b2c))->FUN_004ed8c0((int *)(void *)(&p));
-    reinterpret_cast<::ActorTaskManager *>(&(g_011d8c18))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<ATM *>(&::g_011d8c18))))->WaitForTasksDuringRendering();
 }
 }  // namespace fnv_007182b0
 
@@ -8233,20 +8233,19 @@ namespace fnv_0070a0b0 {
 struct FUN_0070a100_Class
 {
 };
-extern FUN_0070a100_Class* DAT_011d8a80;
 // @fnv 0x0070a0b0
 void FUN_0070a0b0()
 {
-    if (DAT_011d8a80)
+    if ((*reinterpret_cast<FUN_0070a100_Class* *>(&::DAT_011d8a80)))
     {
-        FUN_0070a100_Class* q = DAT_011d8a80;
+        FUN_0070a100_Class* q = (*reinterpret_cast<FUN_0070a100_Class* *>(&::DAT_011d8a80));
         FUN_0070a100_Class* p = q;
         void* r;
         if (p)
             r = reinterpret_cast<::FUN_0070a100_Class *>((p))->FUN_0070a100(1);
         else
             r = 0;
-        DAT_011d8a80 = 0;
+        (*reinterpret_cast<FUN_0070a100_Class* *>(&::DAT_011d8a80)) = 0;
     }
 }
 }  // namespace fnv_0070a0b0
@@ -9111,9 +9110,9 @@ void FUN_00710ad0_shell::DrawDebugInfo()
     found = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GObj *>(&::g_011debac))))));
     lineH = found + 30;
     idx3 = 0;
-    for (node = &m_kNode; node != 0 && *((void **)(new ((void *)(node)) ::Vec3())) != 0 && idx3 <= m_f78; node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+    for (node = &m_kNode; node != 0 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) != 0 && idx3 <= m_f78; node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        baseY = (int)*((void **)(new ((void *)(node)) ::Vec3()));
+        baseY = (int)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         idx3++;
     }
     if (baseY != 0)
@@ -9204,7 +9203,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                     dn = (int)reinterpret_cast<::FUN_005094b0_shell *>(&(co))->FUN_005094b0();
                     if (((unsigned char)(reinterpret_cast<::TESFurniture *>((cy))->IsMarkerEnabled(ce))))
                     {
-                        reinterpret_cast<::TESFurniture *>((cy))->GetMarkerOffset((unsigned int)(dr), reinterpret_cast<::FUN_005094b0_shell *>(&(co))->FUN_005094b0());
+                        *reinterpret_cast<::NiPoint3 *>(dr) = reinterpret_cast<::TESFurniture *>((cy))->GetMarkerOffset(reinterpret_cast<::FUN_005094b0_shell *>(&(co))->FUN_005094b0(), reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((*reinterpret_cast<void **>(&::_g_thePlayer)))->FUN_00567400());
                         ::FUN_00406f60((::FUN_00406f90_this *)(::StrObj *)(&aai), kStr8, ((unsigned char)(::TESFurniture::IsFurnitureSitMarker(dn))) ? kStr9 : kStr10, dn, (double)dr[0], (double)dr[1],
                                      (double)dr[2], (int)(reinterpret_cast<::FUN_005099c0_shell *>((cy))->GetFurnitureHeading(dn) * ::DAT_0102f248),
                                      ((unsigned char)(reinterpret_cast<::fnv_00567f80::Fn567f80 *>((m_pReference))->FUN_00567f80(ce, 1))) ? kStr11 : kStr12);
@@ -9530,7 +9529,7 @@ unsigned char FUN_00717230_cls::FUN_00717230(int arg)
         int u1;
         int u2;
     } p;
-    reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::FUN_00717230_bsobj *)(::FontManager::Instance()))))->FUN_00a1b020({}, {}, {}, {});
+    *reinterpret_cast<::NiPoint3 *>(&p) = reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::FUN_00717230_bsobj *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(m_18), arg, ::DAT_01016970, 0);
     return ((int)p.f <= m_14) ? 1 : 0;
 }
 
@@ -11081,11 +11080,6 @@ int FUN_00710060_cls::FUN_00710060(bool p1, bool p2, bool* p3)
 }
 }  // namespace fnv_00710060
 
-struct NiPoint3
-{
-    float x, y, z;
-    NiPoint3();
-};
 struct HitRecord
 {
     void* FUN_00458b50();
@@ -11157,7 +11151,7 @@ void PickOwner::UpdatePickObjects()
             if (!reinterpret_cast<::RefList *>(&(b))->FUN_005f65d0((void **)&(object)))
             {
                 reinterpret_cast<::Callees *>(&(b))->FUN_00905820(object);
-                if (existing && ((void *)(new ((void *)(existing)) ::Vec3())) != object)
+                if (existing && ((void *)(reinterpret_cast<::SimpleListNodeView*>(existing)->m_item)) != object)
                     a = false;
                 else if (a && existing)
                     existing = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((existing))->FUN_00726070()));
@@ -11168,15 +11162,12 @@ void PickOwner::UpdatePickObjects()
     objectCount = 0;
     if (!a)
     {
-        for (GlobalObject2_0096a2d0* node = &b; node && ((void *)(new ((void *)(node)) ::Vec3())); node = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
-            reinterpret_cast<::Callees *>(&(objects))->FUN_00905820(((void *)(new ((void *)(node)) ::Vec3())));
+        for (GlobalObject2_0096a2d0* node = &b; node && ((void *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+            reinterpret_cast<::Callees *>(&(objects))->FUN_00905820(((void *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)));
     }
     reinterpret_cast<::FileMatchList *>(&(b))->RemoveAll();
 }
 
-namespace std {
-float __cdecl abs(float);
-}
 struct AlphaTile
 {
 };
@@ -11325,7 +11316,7 @@ void FUN_007151b0_shell::UpdateTilePosition(float afX, float afY)
 {
     static FUN_006815c0 kLast;
 
-    kPos = (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::NiAVObject *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_0043c490()));
+    kPos = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::NiAVObject *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_0043c490()));
     kPos.x = ::InterfaceManager::UpdateInterfaceState() * afX - ::InterfaceManager::UpdateInterfaceState() / ::DAT_01011590;
     kPos.z = FUN_00715da0() * -afY + FUN_00715da0() / ::DAT_01011590;
     reinterpret_cast<::FUN_00440460_S *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_00440460((const ::V3 *)(const class ::FUN_006815c0 *)(&kPos));
@@ -12739,13 +12730,6 @@ class AutoMemContext
     ~AutoMemContext();
 };
 
-class NiPoint3
-{
-  public:
-    float x, y, z;
-    NiPoint3();
-};
-
 class FUN_00414430_Rect
 {
   public:
@@ -13381,18 +13365,18 @@ void Controller718080::FUN_00718080(Target718080* pkTarget, int iA, int iB)
     float fTime = m_fValue40 / ::fnv_0070ecb0::GetRatio();
     if (::InterfaceManager::IsInterfaceMenuActive())
         fTime = fTime / FUN_00717860() - g_dOffset718080;
-    for (Node718080* pkNode = &g_kSources718080; pkNode && ((::Source718080 *)(new ((void *)(pkNode)) ::Vec3())); pkNode = ((::Node718080 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
+    for (Node718080* pkNode = &g_kSources718080; pkNode && ((::Source718080 *)(reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)); pkNode = ((::Node718080 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
     {
-        if (((::Source718080 *)(new ((void *)(pkNode)) ::Vec3()))->IsActive())
+        if (((::Source718080 *)(reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item))->IsActive())
         {
             Entry718080* pkEntry = 0;
             int i = 0;
             do
             {
-                pkEntry = ((::Source718080 *)(new ((void *)(pkNode)) ::Vec3()))->GetEntry(i++, 0);
+                pkEntry = ((::Source718080 *)(reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item))->GetEntry(i++, 0);
             } while (pkEntry && (reinterpret_cast<::FUN_00a01440_shell *>((pkEntry))->GetAccumulatedFloat() > fTime ||
                                  reinterpret_cast<::FUN_00a01440_shell *>((pkEntry))->GetAccumulatedFloat() + ((double)(reinterpret_cast<::TileListBoxCalls *>((pkEntry))->GetFloat(0xfb0))) < fTime));
-            ((::Source718080 *)(new ((void *)(pkNode)) ::Vec3()))->Apply(pkEntry);
+            ((::Source718080 *)(reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item))->Apply(pkEntry);
         }
     }
     pkTarget->Update(iA, iB);
@@ -14139,7 +14123,7 @@ FUN_0070a920::~FUN_0070a920()
     FUN_0071e360();
     delete object28;
     rootac.FUN_0066b0d0(0);
-    DAT_011d8a80 = 0;
+    (*reinterpret_cast<FUN_0070a100_Class* *>(&::DAT_011d8a80)) = 0;
     ::fnv_00a00a30::FUN_00a00a30();
     FUN_0070aca0();
     delete object13c;
@@ -14181,7 +14165,6 @@ struct GameMode
     int m_iMode;
 };
 
-extern GameMode* DAT_011d8a80;
 
 bool FUN_00702450(int iMenuID);
 
@@ -14206,7 +14189,7 @@ void TutorialState::FUN_007182e0()
     while (bRepeat)
     {
         bRepeat = false;
-        if (!((bool)(::fnv_005d4a40::FUN_005d4a40())) || DAT_011d8a80->m_iMode != 2)
+        if (!((bool)(::fnv_005d4a40::FUN_005d4a40())) || (*reinterpret_cast<GameMode* *>(&::DAT_011d8a80))->m_iMode != 2)
         {
             m_uiDueTime = 0;
             m_iCurrent = 41;
@@ -14375,7 +14358,7 @@ bool TutorialMessageGate718::FUN_00718630(int aeID, unsigned int aiMenuID, unsig
 // @fnv 0x009f996e
 unsigned int FUN_009f996e(unsigned int dwUserIndex, void* pState)
 {
-    return XInputGetState(dwUserIndex, pState);
+    return XInputGetState(dwUserIndex, static_cast<XINPUT_STATE*>(pState));
 }
 
 void FUN_00b985f0(int);

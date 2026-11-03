@@ -156,6 +156,7 @@ class InventoryMenu : public Menu
     static InventoryMenu* ms_pInventoryMenu;
     static InventoryStackRecord* ms_pActionPointSource;
     void AssignTileByID(int id, Tile* tile);
+    bool FUN_00782190(int input, int unused);
 };
 
 
@@ -179,6 +180,7 @@ enum ENUM_FORM_ID;
 class TESForm
 {
   public:
+    virtual ~TESForm();
     static const int kArmor = 25;
     static const int kWeapon = 40;
     ENUM_FORM_ID GetFormType() const;

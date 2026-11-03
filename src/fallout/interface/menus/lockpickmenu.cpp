@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/lockpickmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/lockpickmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/result_slot.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -691,8 +692,9 @@ int __cdecl FUN_00790290()
     return ((((unsigned char)(::FUN_00709d40())) != 0 ? -1 : 0) & 8) + 0x14;
 }
 
-struct BSStringT
+template <> class BSStringT<char>
 {
+  public:
     char* m_data;
     unsigned short m_dataLen;
     unsigned short m_bufLen;
@@ -813,10 +815,10 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         float fT =
             FUN_00404010(FUN_0040ebd0((float)(unk74 - ::DAT_011da28c[unk70]) / (m_eRange * 2.0f), 1.0f), 0.0f);
         int iDelta = (aiCode != 5 ? 1 : -1) * iStep;
-        BSStringT kStr;
+        BSStringT<char> kStr;
         g_iPickAngle_011da208 += iDelta;
         unk88 += iDelta / 2;
-        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&kStr), s_szIntFormat, g_iPickAngle_011da208);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&kStr), s_szIntFormat, g_iPickAngle_011da208);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk3c))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(kStr))))), true);
         reinterpret_cast<::S0042fa20 *>((g_apLockNodes0_011a0328[unk70]))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((int *)(g_apLockNodes0_011a0328[unk70])))) +
                                                      (int)(iDelta * (1.0f - fT)));
@@ -836,10 +838,10 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         float fT2_2 =
             FUN_00404010(FUN_0040ebd0((float)(unk74 - ::DAT_011da28c[unk70]) / (iRange7 * 2.0f), 1.0f), 0.0f);
         int iDeltaX = (aiCode != 8 ? 1 : -1) * iStep;
-        BSStringT kStrTmp;
+        BSStringT<char> kStrTmp;
         g_iDriverAngle_011da20c += iDeltaX;
         unk88 += iDeltaX;
-        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&kStrTmp), s_szIntFormat, g_iDriverAngle_011da20c);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&kStrTmp), s_szIntFormat, g_iDriverAngle_011da20c);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk48))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(kStrTmp))))), true);
         reinterpret_cast<::S0042fa20 *>((g_apLockNodes2_011a0350[unk70]))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((int *)(g_apLockNodes2_011a0350[unk70])))) +
                                                      (int)(iDeltaX * (1.0f - fT2_2)));
@@ -1275,12 +1277,10 @@ void ThisCls::InitLockInterface()
     ((VObj*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))->m_dc(pin, 1);
     ((VObj*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))->m_dc(idx, 1);
     MatA ptr;
-    new ((void *)&(ptr)) ::Vec3();
     MatB z;
-    new ((void *)&(z)) ::Vec3();
     reinterpret_cast<::FUN_00524ac0_shell *>(&(ptr))->FUN_00524ac0(1.57079637f);
     reinterpret_cast<::FUN_004a0c90_shell *>(&(z))->FUN_004a0c90(1.57079637f);
-    reinterpret_cast<::FUN_0043fa80_s *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&((Comb*)&ptr)->FUN_0043f8d0(&z))));
+    reinterpret_cast<::FUN_0043fa80_s *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(((Comb*)&ptr)->FUN_0043f8d0(&z)))));
     reinterpret_cast<::FUN_004bc1f0_S *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_004bc1f0(125.0f, 0.0f, 0.0f);
     UpdData i;
     new ((void *)&(i)) ::NiUpdateData(0.0f, false, false);
@@ -2157,7 +2157,7 @@ void xLockPickMenu::FUN_0078eb50()
         reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_0078eb50::xTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, 255.0f, true);
     int qsSDDgz = 0;
     int qfTOqo = 0x7fff;
-    if (((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+    if (::FUN_004b71d0())
     {
         qsSDDgz = reinterpret_cast<::FUN_00a23390_t *>((((::fnv_0078eb50::xControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0078eb50::xOS * *>(&::g_osGlobals))))->FUN_00877720()))))->GetAxisState(0, 9);
         if (((float)(::FUN_00408820((float)qsSDDgz))) <= 8689.0)
@@ -2349,8 +2349,8 @@ void xLockPickMenu::FUN_0078eb50()
         }
         break;
     case 4:
-        if (!qpqRa || (((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && qrEZrs <= 0.0) ||
-            (!((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && !reinterpret_cast<::C1540Menu *>(this)->FUN_00791540(false)))
+        if (!qpqRa || (::FUN_004b71d0() && qrEZrs <= 0.0) ||
+            (!::FUN_004b71d0() && !reinterpret_cast<::C1540Menu *>(this)->FUN_00791540(false)))
         {
             reinterpret_cast<::SoundPlaybackHandle *>(&(s_kTension))->StopWithFade(500);
             reinterpret_cast<::FUN_00a25810_Class *>((((::fnv_0078eb50::xControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0078eb50::xOS * *>(&::g_osGlobals))))->FUN_00877720()))))->ResetTargetState();

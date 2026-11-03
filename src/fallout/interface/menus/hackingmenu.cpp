@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/hackingmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/hackingmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cctype>
 #include <cstdint>
@@ -1755,7 +1756,7 @@ void HackMenu::RemoveRandomWord()
         word = &words;
         while (iter--)
             word = ((::HackList *)(reinterpret_cast<::Callees *>((word))->FUN_00726070()));
-    } while (!FUN_00408b20(*((char **)(new ((void *)(word)) ::Vec3())), selected));
+    } while (!FUN_00408b20(*((char **)(&reinterpret_cast<::SimpleListNodeView*>(word)->m_item)), selected));
     aRow = 4;
     for (position3 = positions[index]; position3 > 12; position3 -= 12)
         ++aRow;
@@ -1783,9 +1784,9 @@ void HackMenu::RemoveRandomWord()
     for (; index < count - 1; ++index)
         positions[index] = positions[index + 1];
     positions[index] = 0x198;
-    char* deleted = *((char **)(new ((void *)(word)) ::Vec3()));
+    char* deleted = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(word)->m_item));
     ::FUN_00401030(deleted);
-    reinterpret_cast<::ItemChangeListNode *>(&(words))->FUN_00905330((*(::InventoryStackRecord *const *)(((char **)(new ((void *)(word)) ::Vec3())))));
+    reinterpret_cast<::ItemChangeListNode *>(&(words))->FUN_00905330((*(::InventoryStackRecord *const *)(((char **)(&reinterpret_cast<::SimpleListNodeView*>(word)->m_item)))));
     --count;
 }
 
@@ -2177,14 +2178,14 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
             *(unsigned int*)((char*)this + 0x1a8) = 0;
             ((FUN_007687b0_shell*)&available)->SortWeatherEntries();
             for (currentNode = (WordsView*)&available; *(unsigned int*)((char*)this + 0x1a8) < requestedCount &&
-                                                       currentNode && (chosen = *((char **)(new ((void *)(currentNode)) ::Vec3())));
+                                                       currentNode && (chosen = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item)));
                  currentNode = ((::WordsView *)(reinterpret_cast<::Callees *>((currentNode))->FUN_00726070())))
             {
                 bool accepted = true;
                 unsigned char similarities[8];
                 memset(similarities, 0, sizeof(similarities));
                 for (WordsView* selected = ((WordsView*)((char*)this + 0x180));
-                     accepted && selected && (aimed = *((char **)(new ((void *)(selected)) ::Vec3()))); selected = ((::WordsView *)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())))
+                     accepted && selected && (aimed = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(selected)->m_item))); selected = ((::WordsView *)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())))
                 {
                     unsigned int similarity = CountMatchingChars(chosen, aimed);
                     if (similarity == *(unsigned int*)((char*)this + 0x1ac))
@@ -2231,20 +2232,20 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
     currentNode = ((WordsView*)((char*)this + 0x180));
     for (int index = 0; (unsigned int)index < bracket; ++index)
         currentNode = ((::WordsView *)(reinterpret_cast<::Callees *>((currentNode))->FUN_00726070()));
-    *(char**)((char*)this + 0x19c) = *((char **)(new ((void *)(currentNode)) ::Vec3()));
+    *(char**)((char*)this + 0x19c) = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item));
     ::FUN_0040fbe0();
     MatrixWrapper bonus(*(unsigned int*)((char*)this + 0x1a8));
     row = 0;
-    for (currentNode = ((WordsView*)((char*)this + 0x180)); currentNode && *((char **)(new ((void *)(currentNode)) ::Vec3()));
+    for (currentNode = ((WordsView*)((char*)this + 0x180)); currentNode && *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item));
          currentNode = ((::WordsView *)(reinterpret_cast<::Callees *>((currentNode))->FUN_00726070())))
     {
         int columnIndex = 0;
-        for (WordsView* col = ((WordsView*)((char*)this + 0x180)); col && *((char **)(new ((void *)(col)) ::Vec3()));
+        for (WordsView* col = ((WordsView*)((char*)this + 0x180)); col && *((char **)(&reinterpret_cast<::SimpleListNodeView*>(col)->m_item));
              col = ((::WordsView *)(reinterpret_cast<::Callees *>((col))->FUN_00726070())))
         {
             ((unsigned char *)(::FUN_00559450((int *)(((EntryRow*)&((::Entry *)(::FUN_00559450((int *)&(bonus))))[row])))))[columnIndex] =
                 (currentNode == col) ? 0xFF
-                                     : this->CountMatchingChars(*((char **)(new ((void *)(currentNode)) ::Vec3())), *((char **)(new ((void *)(col)) ::Vec3())));
+                                     : this->CountMatchingChars(*((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item)), *((char **)(&reinterpret_cast<::SimpleListNodeView*>(col)->m_item)));
             ++columnIndex;
         }
         ++row;
@@ -2393,7 +2394,7 @@ void Hack83::BuildHackingPasswordFile()
         Node83* node15 = &words;
         int wordIndex4 = 0;
         unsigned int failures12 = 0;
-        while (node15 && *((char **)(new ((void *)(node15)) ::Vec3())) && failures12 < 100)
+        while (node15 && *((char **)(&reinterpret_cast<::SimpleListNodeView*>(node15)->m_item)) && failures12 < 100)
         {
             int position4 = ::FUN_005a00a0(409 - unk1ac - 2);
             bool free16 = true;
@@ -2401,7 +2402,7 @@ void Hack83::BuildHackingPasswordFile()
                 free16 = !(position4 + j >= 0 && bufferx3[position4 + j] >= 'A' && bufferx3[position4 + j] <= 'Z');
             if (free16)
             {
-                ::__memcpy(bufferx3 + position4, *((char **)(new ((void *)(node15)) ::Vec3())), unk1ac);
+                ::__memcpy(bufferx3 + position4, *((char **)(&reinterpret_cast<::SimpleListNodeView*>(node15)->m_item)), unk1ac);
                 positions[wordIndex4] = position4;
                 wordIndex4++;
                 node15 = ((::Node83 *)(reinterpret_cast<::Callees *>((node15))->FUN_00726070()));
@@ -2419,11 +2420,11 @@ void Hack83::BuildHackingPasswordFile()
             {
                 ::FUN_005b5e40(
                     );
-                while (*((char **)(new ((void *)(node15)) ::Vec3())))
+                while (*((char **)(&reinterpret_cast<::SimpleListNodeView*>(node15)->m_item)))
                 {
-                    if (password == *((char **)(new ((void *)(node15)) ::Vec3())))
-                        password = *((char **)(new ((void *)(node15)) ::Vec3()));
-                    delete[] *((char **)(new ((void *)(node15)) ::Vec3()));
+                    if (password == *((char **)(&reinterpret_cast<::SimpleListNodeView*>(node15)->m_item)))
+                        password = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(node15)->m_item));
+                    delete[] *((char **)(&reinterpret_cast<::SimpleListNodeView*>(node15)->m_item));
                     node15->FUN_0063f7b0();
                     unk1a8--;
                     positions[wordIndex4] = 408;
@@ -2680,7 +2681,7 @@ class HackingMenu
 // @fnv 0x00767610
 bool HackingMenu::HandleKey(int iKey, int iUnused)
 {
-    if (!((::s767610::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+    if (!::FUN_004b71d0())
         return false;
     if (FUN_00702450(0x41f))
     {
@@ -3607,6 +3608,12 @@ struct TileStatics
 };
 
 
+// 0x00984f60 is a folded field setter; on rendered menus it stores the menu tile.
+struct RenderedMenuTileView
+{
+    char pad[0x18];
+    void* pTile;
+};
 // Creates a computer menu tile, updates tile statics, and attaches it to a rendered terminal, creating a new FTerminalPX if none exists.
 // @fnv 0x0076a540
 void FUN_0076a510_shell::FUN_0076a540()
@@ -3624,7 +3631,7 @@ void FUN_0076a510_shell::FUN_0076a540()
             ::FUN_005b5e40();
             r = new FTerminalPX;
         }
-        reinterpret_cast<::TESPackage *>((((FTerminalPX*)r)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(pTile));
+        reinterpret_cast<RenderedMenuTileView*>(r)->pTile = pTile;
         reinterpret_cast<::NiPick *>((((FTerminalPX*)r)))->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0())));
     }
 }

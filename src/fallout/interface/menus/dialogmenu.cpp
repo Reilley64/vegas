@@ -1,5 +1,6 @@
 // fallout/interface/menus/dialogmenu.cpp: DialogMenu, TESTopicInfo, Interface, ListBoxProxy (19 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/B61F2B0Object.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -173,20 +174,20 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                 if (((bool)(reinterpret_cast<::FUN_00833c20_shell *>((pDialogueItem))->FUN_00833c20())))
                 {
                     if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                            &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))) ::Vec3()))))))))
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))))
                         ::FUN_00406d00(text, 512, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d27fc))))->GetMenuTitle())),
                                   ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                                      &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))) ::Vec3()))))))));
+                                      ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))));
                     else
                         ::FUN_00406d00(text, 512, "%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d27fc))))->GetMenuTitle())));
                 }
                 else
                 {
                     if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                            &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))) ::Vec3()))))))))
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))))
                         ::FUN_00406d00(text, 512, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3fe8))))->GetMenuTitle())),
                                   ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                                      &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))) ::Vec3()))))))));
+                                      ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))));
                     else
                         ::FUN_00406d00(text, 512, "%s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3fe8))))->GetMenuTitle())));
                 }
@@ -194,11 +195,11 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
             else
             {
                 if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                        &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))) ::Vec3()))))))))
+                        ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))))
                     TaskQueueInterface::CopyStringToBuffer(
                         text, 512,
                         ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                            &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))) ::Vec3()))))))));
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response))->m_item))))))));
                 else
                     TaskQueueInterface::CopyStringToBuffer(text, 512, " ");
             }
@@ -258,15 +259,15 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                         reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pNextTopic)))->FUN_009611e0())))))->GetConditions();
                     BSSimpleList<TESConditionItem*>* pConditionItem =
                         reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                            &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))) ::Vec3())));
-                    while (pConditionItem && ((::TESConditionItem *)(new ((void *)(pConditionItem)) ::Vec3())))
+                            ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
+                    while (pConditionItem && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))
                     {
                         DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
-                            reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(new ((void *)(pConditionItem)) ::Vec3())))->GetLinkToList());
+                            reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))->GetLinkToList());
                         if (function && function->function == 14)
                         {
                             ActorValue::Index value = function->actorValue;
-                            int required = (int)((::TESConditionItem *)(new ((void *)(pConditionItem)) ::Vec3()))->GetConditionValue();
+                            int required = (int)((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item))->GetConditionValue();
                             int current = ::_g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
                             if (current < required)
                                 TopicMenuController::IncrementMiscStat(31);
@@ -540,15 +541,15 @@ void DialogMenu::HandleSelection(int id, Tile* tile)
             PerkEntryConditionSet* pConditions =
                 reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))))->GetConditions();
             BSSimpleList<TESConditionItem*>* pConditionItem = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))) ::Vec3())));
-            while (pConditionItem && ((::TESConditionItem *)(new ((void *)(pConditionItem)) ::Vec3())))
+                ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
+            while (pConditionItem && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))
             {
                 DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
-                    reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(new ((void *)(pConditionItem)) ::Vec3())))->GetLinkToList());
+                    reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item)))->GetLinkToList());
                 if (function && function->function == 14)
                 {
                     ActorValue::Index value = function->actorValue;
-                    int required = (int)((::TESConditionItem *)(new ((void *)(pConditionItem)) ::Vec3()))->GetConditionValue();
+                    int required = (int)((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(pConditionItem)->m_item))->GetConditionValue();
                     int current = ::_g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
                     if (current < required)
                     {
@@ -763,7 +764,7 @@ void DialogMenu::LoadTopicsList()
                 else if (((bool)(::FUN_00574900((const unsigned char *)(m_pDialogueSpeaker)))))
                     actor = reinterpret_cast<MobileObject*>(
                         ((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((reinterpret_cast<BGSExplosion*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<DialogueItem*>(m_pDialogueSpeaker)
-                                                            ->SelectDefaultResponseList()))->FUN_007af430())))))->FUN_00516bf0())));
+                                                            ->FUN_005e3fa0()))->FUN_007af430())))))->FUN_00516bf0())));
                 ::FUN_00406d00(
                     text, 512, "%s, %i", text,
                     ComputeWeightedValue(
@@ -778,15 +779,15 @@ void DialogMenu::LoadTopicsList()
                 PerkEntryConditionSet* pConditions =
                     reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(pTopic)))->FUN_009611e0())))))->GetConditions();
                 BSSimpleList<TESConditionItem*>* cursor = reinterpret_cast<BSSimpleList<TESConditionItem*>*>(
-                    &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))) ::Vec3())));
-                while (cursor && ((::TESConditionItem *)(new ((void *)(cursor)) ::Vec3())))
+                    ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pConditions))->m_item)));
+                while (cursor && ((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item)))
                 {
                     DialogMenuConditionFunction* function = reinterpret_cast<DialogMenuConditionFunction*>(
-                        reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(new ((void *)(cursor)) ::Vec3())))->GetLinkToList());
+                        reinterpret_cast<TESTopicInfoData*>(((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item)))->GetLinkToList());
                     if (function && function->function == 14)
                     {
                         ActorValue::Index value = function->actorValue;
-                        int required = (int)((::TESConditionItem *)(new ((void *)(cursor)) ::Vec3()))->GetConditionValue();
+                        int required = (int)((::TESConditionItem *)(reinterpret_cast<::SimpleListNodeView*>(cursor)->m_item))->GetConditionValue();
                         int current = ::_g_thePlayer->actorValueOwner.GetActorValueAsInteger(value);
                         if (current < required)
                         {
@@ -803,15 +804,15 @@ void DialogMenu::LoadTopicsList()
             }
             ::FUN_00406d00(
                 text, 512, "%s]  %s", text,
-                ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(&((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))) ::Vec3()))))))));
+                ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))->m_item))))))));
         }
         else
         {
-            if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(&((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))) ::Vec3()))))))))
+            if (((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))->m_item))))))))
                 TaskQueueInterface::CopyStringToBuffer(
                     text, 512,
                     ((const char *)(::FUN_00559450((int *)(reinterpret_cast<BSStringT<char>*>(
-                        &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))) ::Vec3()))))))));
+                        ((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pTopic))->m_item))))))));
             else
             {
                 text[0] = 0;

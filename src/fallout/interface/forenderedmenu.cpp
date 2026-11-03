@@ -2255,7 +2255,7 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
     Camera82* camera23 = ((::Camera82 *)(reinterpret_cast<::BSFaceGenNiNode *>((scene3))->GetAnimationData()));
     Pointer82 target31(0);
     if (!pSuppliedTarget)
-        target31.FUN_0066b0d0(((::Target82 *)(reinterpret_cast<::Pool *>((((::TargetManager82 *)(::FUN_004a0ea0(::FUN_0043c4b0())))))->FUN_00b6e110(49, 0, 0, 0, {}))));
+        target31.FUN_0066b0d0(((::Target82 *)(reinterpret_cast<::Pool *>(::FUN_004a0ea0())->FUN_00b6e110(reinterpret_cast<std::uintptr_t>(::FUN_0043c4b0()), 49, 0, 0, 0))));
     else
         target31.FUN_0066b0d0(pSuppliedTarget);
     if (FUN_004e9510())
@@ -2307,7 +2307,7 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
     ::BSRenderedTexture::EndAllAndResetRendererState();
     Render(((::Target82 *)(::FUN_00559450((int *)&(target31)))), pRenderArg1, pRenderArg2);
     if (!pSuppliedTarget)
-        reinterpret_cast<::Manager *>((((::TargetManager82 *)(::FUN_004a0ea0()))))->FUN_00b6da10({});
+        reinterpret_cast<::Manager *>(::FUN_004a0ea0())->FUN_00b6da10((::Item *)(::FUN_00559450((int *)&(target31))));
     renderer5->SetRect(rect2);
     reinterpret_cast<::NiCamera *>((camera23))->UpdateViewFrustum((const ::NiFrustum &)(saved14));
     if (partial)

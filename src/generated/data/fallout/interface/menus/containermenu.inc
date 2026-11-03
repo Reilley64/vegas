@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_011d93fc@@3PEAUItem75@@EA=?DAT_011d93fc@@3HA")
+#pragma comment(linker, "/alternatename:?g_011d93fc@@3PEAUItem75@@EA=?DAT_011d93fc@@3PEAXEA")
 #pragma comment(linker, "/alternatename:?xContMenu@@3PEAUxMenu@@EA=?DAT_011d93f8@@3PEAVContainerMenu@@EA")
 #pragma comment(linker, "/alternatename:DAT_011D93F8=?DAT_011d93f8@@3PEAVContainerMenu@@EA")
 
@@ -15,4 +15,4 @@ char DAT_010722f4 = 82;
 double DAT_01072310 = 80.0;
 unsigned char DAT_011a002c = 1;
 char *DAT_011a2224 = (char *)("FO3SAVEGAME");
-int DAT_011d93fc;
+void* DAT_011d93fc;

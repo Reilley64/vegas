@@ -2,6 +2,8 @@
 // src/fallout/interface/menus/racesexmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/racesexmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -714,13 +716,13 @@ void FUN_007b1ca0_t::UpdateHairAndEyes()
     {
         TESHair* m_pHair = ((::fnv_007b1ca0::TESHair *)(reinterpret_cast<::FUN_00613870_Class *>((((FUN_004ac110_shell*)pNPC)->FUN_004ac110()))->FUN_00613870(((TESActorBase*)pNPC)->GetSex())));
         for (HairNode* pNode = ((::fnv_007b1ca0::HairNode *)(::FUN_0045bb80((int)(((FUN_004ac110_shell*)pNPC)->FUN_004ac110()))));
-             m_pHair == 0 && pNode && *((::fnv_007b1ca0::TESHair **)(new ((void *)(pNode)) ::Vec3())); pNode = ((::fnv_007b1ca0::HairNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
+             m_pHair == 0 && pNode && *((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)); pNode = ((::fnv_007b1ca0::HairNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
         {
-            if (reinterpret_cast<::FUN_005fdf40_shell *>((((FUN_005fdf40_shell*)*((::fnv_007b1ca0::TESHair **)(new ((void *)(pNode)) ::Vec3())))))->FUN_005fdf40())
+            if (reinterpret_cast<::FUN_005fdf40_shell *>((((FUN_005fdf40_shell*)*((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->FUN_005fdf40())
             {
-                if ((((TESActorBase*)pNPC)->GetSex() == 0 && reinterpret_cast<::FUN_005fdf60_shell *>(((*((::fnv_007b1ca0::TESHair **)(new ((void *)(pNode)) ::Vec3())))))->FUN_005fdf60()) ||
-                    (((TESActorBase*)pNPC)->GetSex() == 1 && reinterpret_cast<::FUN_005fdf80_shell *>(((*((::fnv_007b1ca0::TESHair **)(new ((void *)(pNode)) ::Vec3())))))->IsFlag4Clear()))
-                    m_pHair = *((::fnv_007b1ca0::TESHair **)(new ((void *)(pNode)) ::Vec3()));
+                if ((((TESActorBase*)pNPC)->GetSex() == 0 && reinterpret_cast<::FUN_005fdf60_shell *>(((*((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->FUN_005fdf60()) ||
+                    (((TESActorBase*)pNPC)->GetSex() == 1 && reinterpret_cast<::FUN_005fdf80_shell *>(((*((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->IsFlag4Clear()))
+                    m_pHair = *((::fnv_007b1ca0::TESHair **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
             }
         }
         reinterpret_cast<::FUN_006031e0_shell *>((pNPC))->SetHair((::TESHair *)(m_pHair));
@@ -883,7 +885,7 @@ struct FUN_007b1e50_shell
 // @fnv 0x007b1e50
 int FUN_007b1e50_shell::GetReferencedValue()
 {
-    return *((int *)(new ((void *)&(m_ref)) ::Vec3()));
+    return *((int *)(&reinterpret_cast<::SimpleListNodeView*>(&(m_ref))->m_item));
 }
 
 struct Menu
@@ -1051,6 +1053,12 @@ struct NiPick
 struct Im7181
 {
 };
+// 0x00984f60 is a folded field setter; on rendered menus it stores the menu tile.
+struct RenderedMenuTileView
+{
+    char pad[0x18];
+    void* pTile;
+};
 // @fnv 0x007ac730
 Tile* __cdecl GetOrCreateMenuTile(int param)
 {
@@ -1103,7 +1111,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             ::fnv_00a04200::FUN_00a04200(false);
             FUN_007ac9f0* pRenderData = new FUN_007ac9f0;
             reinterpret_cast<::MiddleHighProcess *>((pRenderData))->AssignEffectShader((::TESEffectShader *)(param));
-            reinterpret_cast<::TESPackage *>((((MagicHitEffect*)pRenderData)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((unsigned int)tile));
+            reinterpret_cast<RenderedMenuTileView*>(pRenderData)->pTile = tile;
             ((NiPick*)pRenderData)->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileNode*)tile)))->FUN_0056c7f0())));
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((Im7181*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)((int)pRenderData));
         }
@@ -1188,7 +1196,7 @@ char __cdecl IsArgValueInSubLookup(FUN_007ad9c0_Arg* a1)
     int result;
     if (a1 != 0 && DAT_011da634 != 0 && *(void**)((char*)DAT_011da634 + 0xd8) != 0 &&
         ((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170()))->Probe() == false &&
-        *((int *)(new ((void *)(((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170())))) ::Vec3())) == ((int)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))
+        *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170())))->m_item)) == ((int)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))
     {
         result = 1;
     }
@@ -2894,11 +2902,11 @@ struct FUN_007b45b0_shell
 void B7AF450RaceMenu::PopulateEyesList()
 {
     reinterpret_cast<::FUN_007b45b0_shell *>((m_pkListBox))->FUN_007b45b0();
-    for (B7AF450EyesNode* pkIter = ((::B7AF450EyesNode *)&(reinterpret_cast<::NiAVObject *>(((*reinterpret_cast<::B7AF450DataHandler * *>(&::g_dataHandler))))->FUN_0043c490())); pkIter && *((::B7AF450Eyes **)(new ((void *)(pkIter)) ::Vec3()));
+    for (B7AF450EyesNode* pkIter = ((::B7AF450EyesNode *)&(reinterpret_cast<::NiAVObject *>(((*reinterpret_cast<::B7AF450DataHandler * *>(&::g_dataHandler))))->FUN_0043c490())); pkIter && *((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item));
          pkIter = ((::B7AF450EyesNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
     {
-        if (reinterpret_cast<::FUN_005fc4d0_shell *>(((*((::B7AF450Eyes **)(new ((void *)(pkIter)) ::Vec3())))))->IsFlagSet() && reinterpret_cast<::FUN_005fc5f0_shell *>(((*((::B7AF450Eyes **)(new ((void *)(pkIter)) ::Vec3())))))->CanBeNPC((::TESNPC *)(m_pkNPC)))
-            reinterpret_cast<::TESRegionGrassObject *>((m_pkListBox->AddItem(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)&((*((::B7AF450Eyes **)(new ((void *)(pkIter)) ::Vec3())))->m_kTexture))->FUN_00408da0())), 0x21)))->AssignLandTexture((::TESLandTexture *)(*((::B7AF450Eyes **)(new ((void *)(pkIter)) ::Vec3()))));
+        if (reinterpret_cast<::FUN_005fc4d0_shell *>(((*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->IsFlagSet() && reinterpret_cast<::FUN_005fc5f0_shell *>(((*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->CanBeNPC((::TESNPC *)(m_pkNPC)))
+            reinterpret_cast<::TESRegionGrassObject *>((m_pkListBox->AddItem(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)&((*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))->m_kTexture))->FUN_00408da0())), 0x21)))->AssignLandTexture((::TESLandTexture *)(*((::B7AF450Eyes **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item))));
     }
     reinterpret_cast<::S_007b40d0_Owner *>((m_pkListBox))->ApplyToAllTiles();
     reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(1, false);
@@ -6018,11 +6026,11 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                         reinterpret_cast<::FUN_007b3b80_shell *>((((InitOptions*)options[0])))->FUN_007b3b80((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d37ec))))->IsDLCAvailable()))), 21);
                         reinterpret_cast<::FUN_007b3b80_shell *>((((InitOptions*)options[0])))->FUN_007b3b80((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2d3c))))->IsDLCAvailable()))), 22);
                         for (InitNode* pRaceNode = ((::InitNode *)(::FUN_004ea950((int)(((InitData*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
-                             pRaceNode && *((::InitForm **)(new ((void *)(pRaceNode)) ::Vec3())); pRaceNode = ((::InitNode *)(reinterpret_cast<::Callees *>((pRaceNode))->FUN_00726070())))
+                             pRaceNode && *((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item)); pRaceNode = ((::InitNode *)(reinterpret_cast<::Callees *>((pRaceNode))->FUN_00726070())))
                         {
-                            if (reinterpret_cast<::FUN_0059f610Class *>(((*((::InitForm **)(new ((void *)(pRaceNode)) ::Vec3())))))->FUN_0059f610())
+                            if (reinterpret_cast<::FUN_0059f610Class *>(((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item)))))->FUN_0059f610())
                                 reinterpret_cast<::TESRegionGrassObject *>((((InitOptions*)options[1])
-                                    ->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::InitForm **)(new ((void *)(pRaceNode)) ::Vec3())))->name))->FUN_00408da0())), 23)))->AssignLandTexture((::TESLandTexture *)(*((::InitForm **)(new ((void *)(pRaceNode)) ::Vec3()))));
+                                    ->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item)))->name))->FUN_00408da0())), 23)))->AssignLandTexture((::TESLandTexture *)(*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pRaceNode)->m_item))));
                         }
                         reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[2])))->FUN_007b3ca0((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d3ff4))))->IsDLCAvailable()))), 24, 1, 20, 0x80000001, 0.25f);
                         reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[2])))->AddFloatOption(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d36e4))))->IsDLCAvailable())), (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[4])));
@@ -6048,11 +6056,11 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                         reinterpret_cast<::B3CA0Menu *>((((InitOptions*)options[6])))->FUN_007b3ca0((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d2d48))))->IsDLCAvailable()))), 32, 0, 255,
                                            (unsigned char)((color >> 16) & 255), 0.125f);
                         for (InitNode* pBeardNode = ((::InitNode *)(reinterpret_cast<::FUN_00624700_shell *>((((InitData*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_00624700()));
-                             pBeardNode && *((::InitForm **)(new ((void *)(pBeardNode)) ::Vec3())); pBeardNode = ((::InitNode *)(reinterpret_cast<::Callees *>((pBeardNode))->FUN_00726070())))
+                             pBeardNode && *((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item)); pBeardNode = ((::InitNode *)(reinterpret_cast<::Callees *>((pBeardNode))->FUN_00726070())))
                         {
-                            if (((bool)(reinterpret_cast<::FUN_005e7a60_cls *>(((*((::InitForm **)(new ((void *)(pBeardNode)) ::Vec3())))))->FUN_005e7a60())))
+                            if (((bool)(reinterpret_cast<::FUN_005e7a60_cls *>(((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item)))))->FUN_005e7a60())))
                                 reinterpret_cast<::TESRegionGrassObject *>((((InitOptions*)options[7])
-                                    ->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::InitForm **)(new ((void *)(pBeardNode)) ::Vec3())))->name))->FUN_00408da0())), 28)))->AssignLandTexture((::TESLandTexture *)(*((::InitForm **)(new ((void *)(pBeardNode)) ::Vec3()))));
+                                    ->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item)))->name))->FUN_00408da0())), 28)))->AssignLandTexture((::TESLandTexture *)(*((::InitForm **)(&reinterpret_cast<::SimpleListNodeView*>(pBeardNode)->m_item))));
                         }
                         for (int j = 10; j < 19; j++)
                             reinterpret_cast<::Menu_007b3bb0 *>((((InitOptions*)options[9])))->AddFloatOption(names[j], (::SelectedOption_007b3bb0 *)(::InitOptions *)(((InitOptions*)options[j])));
@@ -6371,7 +6379,7 @@ void Menu511::FUN_007b25a0()
     Node511* matrix = node;
     NiAVObject511* object = ((::NiAVObject511 *)(reinterpret_cast<::NiNode *>((matrix))->GetAt(0)));
     Matrix node2 = (*reinterpret_cast<::Matrix *>(&::DAT_011a9448));
-    reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))->FUN_0056fac0(node2))));
+    reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot((*reinterpret_cast<::Player511 * *>(&::_g_thePlayer))->FUN_0056fac0(node2)))));
     reinterpret_cast<::FUN_00456520_Class *>((DAT_01202d98))->FUN_00456520();
     reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
     ((::Root511 *)(::fnv_00705990::FUN_00705990()))->Update();
@@ -6411,12 +6419,12 @@ void HairMenu::PopulateHairOptions()
 {
     reinterpret_cast<::FUN_007b45b0_shell *>((options))->FUN_007b45b0();
     HairOption* pChosenOption = 0;
-    for (HairNode* node = ((::HairNode *)(reinterpret_cast<::FUN_00613790_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_00613790())); node && *((::Hair **)(new ((void *)(node)) ::Vec3())); node = ((::HairNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+    for (HairNode* node = ((::HairNode *)(reinterpret_cast<::FUN_00613790_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_00613790())); node && *((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::HairNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        if (reinterpret_cast<::FUN_005fdf40_shell *>(((*((::Hair **)(new ((void *)(node)) ::Vec3())))))->FUN_005fdf40() && reinterpret_cast<::FUN_005fdfa0_shell *>(((*((::Hair **)(new ((void *)(node)) ::Vec3())))))->IsHairValidForNPC(npc))
+        if (reinterpret_cast<::FUN_005fdf40_shell *>(((*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_005fdf40() && reinterpret_cast<::FUN_005fdfa0_shell *>(((*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->IsHairValidForNPC(npc))
         {
-            HairOption* option = options->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::Hair **)(new ((void *)(node)) ::Vec3())))->fullName))->FUN_00408da0())), 27);
-            reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(*((::Hair **)(new ((void *)(node)) ::Vec3()))));
+            HairOption* option = options->FUN_007b3b80(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->fullName))->FUN_00408da0())), 27);
+            reinterpret_cast<::TESRegionGrassObject *>((option))->AssignLandTexture((::TESLandTexture *)(*((::Hair **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))));
             if (!pChosenOption && ((bool)(::FUN_007ad860((::Obj0 *)(option)))))
                 pChosenOption = option;
         }
@@ -6640,7 +6648,7 @@ int Menu_007b3bb0::AddFloatOption(const char* input, SelectedOption_007b3bb0* se
     TempString_007b3bb0 text;
     ::FUN_00406f60((::FUN_00406f90_this *)(::TempString_007b3bb0 *)(&text), DAT_01075b28, input, 0x3e);
     selected->value0c = (unsigned int)reinterpret_cast<::TileListBoxCalls *>((pTGF))->GetFloat(0x1004);
-    return ((int)(reinterpret_cast<::List4650 *>(this)->CreateEntry(((const char *)(::FUN_00559450((int *)&(text)::str_01075b10, (unsigned int)selected->pTGF))->GetFloat(0x1004)))), (const char *)(0), {}, {})));
+    return ((int)(reinterpret_cast<::List4650 *>(this)->CreateEntry((const char *)(::FUN_00559450((int *)&(text))), ::str_01075b10, (unsigned int)reinterpret_cast<::TileListBoxCalls *>((selected->pTGF))->GetFloat(0x1004), 0)));
 }
 // @fnv 0x007b3ca0
 B3CA0SliderOption* B3CA0Menu::FUN_007b3ca0(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float afFraction)

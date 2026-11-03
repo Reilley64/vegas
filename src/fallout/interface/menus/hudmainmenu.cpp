@@ -1,5 +1,6 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -313,7 +314,6 @@
 #include "fnv/decl/ActorValueUtility.h"
 #include "fnv/decl/FUN_00464e10_shell.h"
 #include "fnv/decl/NiNodeBooleanState.h"
-#include "fnv/decl/SoundPlaybackHandle.h"
 #include "fnv/symbols_005c7000.h"
 #include <cstring>
 #include "fnv/decl/FUN_00438690.h"
@@ -604,6 +604,305 @@ void FUN_00771540_shell::UpdateActorValueMeter(int aeActorValue)
 }
 
 struct ActiveEffect;
+class TESForm
+{
+
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+
+    virtual bool IsActor();
+
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+
+    virtual struct ModelListX* GetModelList();
+
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+
+    virtual struct PointX* GetPos();
+
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+
+    virtual bool IsCreature();
+
+    virtual void v228();
+
+    virtual bool IsDead(bool abArg);
+
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+
+    virtual void v270();
+
+    virtual bool IsInCombat(bool abArg);
+
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+
+    virtual void v2b8();
+
+    virtual float GetDistanceScale(int aiArg);
+
+    int GetFormType();
+
+
+
+
+
+
+
+public:
+    bool GetDisabled() const;
+public:
+    virtual ~TESForm();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void ve4();
+    virtual void ve8();
+    virtual void vec();
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+};
+class BSExtraData;
+class ExtraRadioData;
+class TESActorBase;
+class BSPackedTask;
+class CompassStub;
+class TESObjectREFR : public TESForm
+{
+public:
+    ::BSExtraData *GetExtraData(unsigned char) const;
+    ::ExtraRadioData *GetExtraRadioData();
+};
 class Actor : public TESObjectREFR
 {
   public:
@@ -734,12 +1033,6 @@ struct TESObjectBOOK;
 struct TESObjectCLOT;
 struct TESObjectDOOR;
 struct TESObjectLIGH;
-class TESObjectREFR : public TESForm
-{
-public:
-    ::BSExtraData *GetExtraData(unsigned char) const;
-    ::ExtraRadioData *GetExtraRadioData();
-};
 struct TESObjectREFR;
 struct TESObjectWEAP;
 struct TESPackage;
@@ -881,8 +1174,8 @@ void __cdecl FUN_007736d0(Script* script)
         Node* pNode = ((::Node *)(reinterpret_cast<::FUN_005d43e0_shell *>((script))->FUN_005d43e0()));
         while (pNode && !pNode->_ref_008256d0())
         {
-            if ((*((::BGSQuestObjective **)(new ((void *)(pNode)) ::Vec3())))->HasFlag() && !(*((::BGSQuestObjective **)(new ((void *)(pNode)) ::Vec3())))->HasFlag())
-                ::FUN_0077a5b0(reinterpret_cast<::FUN_005ec330_shell *>(((*((::BGSQuestObjective **)(new ((void *)(pNode)) ::Vec3())))))->GetPromptText(), 0, 1);
+            if ((*((::BGSQuestObjective **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->HasFlag() && !(*((::BGSQuestObjective **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->HasFlag())
+                ::FUN_0077a5b0(reinterpret_cast<::FUN_005ec330_shell *>(((*((::BGSQuestObjective **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->GetPromptText(), 0, 1);
             pNode = ((::Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
     }
@@ -1321,7 +1614,6 @@ public:
     void SetTaskFlag_008d6f10(bool);
 };
 
-extern ActorTaskManager g_011d9730;
 
 struct HUDMainMenu_pme_access : public HUDMainMenu
 {
@@ -1348,7 +1640,7 @@ void __cdecl FUN_0077a5b0(const char* apObjectiveName, bool abCompleted, bool ab
         pObjective->m_bDisplayed = abReminder;
         ((BSSimpleList<const char*>*)HUDMainMenu_pme_access::g_pHudMainMenuInstance->m_kQuestObjectives)
             ->AddHead((const char*&)pObjective);
-        g_011d9730.WaitForTasksDuringRendering();
+        reinterpret_cast<ActorTaskManager*>(&g_011d9730)->WaitForTasksDuringRendering();
     }
 }
 
@@ -1369,12 +1661,11 @@ struct FUN_0077b2a0_shell : public QuestUpdateManager
     void* GetQuestNamesHead();
 };
 
-extern int g_011d970c;
 
 // @fnv 0x0077b2a0
 void* FUN_0077b2a0_shell::GetQuestNamesHead()
 {
-    return *((void **)(new ((void *)(&g_011d970c)) ::Vec3()));
+    return *((void **)(&reinterpret_cast<::SimpleListNodeView*>(&g_011d970c)->m_item));
 }
 
 namespace fnv_0077b2c0 {
@@ -1395,7 +1686,6 @@ struct FUN_0077b2c0_shell : public QuestUpdateManager
     bool FUN_0077b2c0();
 };
 
-extern int g_011d970c;
 bool _ref_008256d0(void* pThis);
 
 // @fnv 0x0077b2c0
@@ -1642,6 +1932,13 @@ class SoundPlaybackHandle
     bool StopWithFade(unsigned int uiMilliseconds);
 public:
     bool IsValid() const;
+    bool SetPositionFromArray(float *);
+    bool FUN_00877700();
+    bool SchedulePlayback(unsigned int, int);
+    bool IsPlaying() const;
+    bool SetPlaybackFrequency(float);
+    bool Release();
+    void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 class BSAudio
 {
@@ -1762,7 +2059,6 @@ struct FUN_00775210_cls
 // @fnv 0x00775210
 FUN_00775210_cls* FUN_00775210_cls::FUN_00775210()
 {
-    new ((void *)((void*)((char*)this + 0x10c))) ::Vec3();
     return this;
 }
 
@@ -1922,7 +2218,7 @@ void FUN_0077f5e0_shell::ResetWaitTiles()
         void* pCurrentElementNext = &g_pHudMainMenuInstance->m_kQuestObjectives;
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
         {
-            delete (TileReference*)*((void **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            delete (TileReference*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item));
             pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
         }
         reinterpret_cast<::FileMatchList *>((&g_pHudMainMenuInstance->m_kQuestObjectives))->RemoveAll();
@@ -2080,7 +2376,6 @@ bool FUN_007737a0_Class::HasFlag(unsigned int mask)
     return (m_20 & mask) ? true : false;
 }
 
-extern int g_011d970c;
 
 struct FUN_009ca410_shell_base
 {
@@ -2102,7 +2397,6 @@ struct List_009e03e0
 {
     void RemoveAll();
 };
-extern int g_011d970c;
 
 struct FUN_0077f5c0_Class
 {
@@ -2566,294 +2860,6 @@ struct StringX
 
 };
 
-class TESForm
-{
-
-  public:
-    virtual void v000();
-    virtual void v004();
-    virtual void v008();
-    virtual void v00c();
-    virtual void v010();
-    virtual void v014();
-    virtual void v018();
-    virtual void v01c();
-
-    virtual void v020();
-    virtual void v024();
-    virtual void v028();
-    virtual void v02c();
-    virtual void v030();
-    virtual void v034();
-    virtual void v038();
-    virtual void v03c();
-
-    virtual void v040();
-    virtual void v044();
-    virtual void v048();
-    virtual void v04c();
-    virtual void v050();
-    virtual void v054();
-    virtual void v058();
-    virtual void v05c();
-
-    virtual void v060();
-    virtual void v064();
-    virtual void v068();
-    virtual void v06c();
-    virtual void v070();
-    virtual void v074();
-    virtual void v078();
-    virtual void v07c();
-
-    virtual void v080();
-    virtual void v084();
-    virtual void v088();
-    virtual void v08c();
-    virtual void v090();
-    virtual void v094();
-    virtual void v098();
-    virtual void v09c();
-
-    virtual void v0a0();
-    virtual void v0a4();
-    virtual void v0a8();
-    virtual void v0ac();
-    virtual void v0b0();
-    virtual void v0b4();
-    virtual void v0b8();
-    virtual void v0bc();
-
-    virtual void v0c0();
-    virtual void v0c4();
-    virtual void v0c8();
-    virtual void v0cc();
-    virtual void v0d0();
-    virtual void v0d4();
-    virtual void v0d8();
-    virtual void v0dc();
-
-    virtual void v0e0();
-    virtual void v0e4();
-    virtual void v0e8();
-    virtual void v0ec();
-    virtual void v0f0();
-    virtual void v0f4();
-    virtual void v0f8();
-    virtual void v0fc();
-
-    virtual bool IsActor();
-
-    virtual void v104();
-    virtual void v108();
-    virtual void v10c();
-    virtual void v110();
-    virtual void v114();
-    virtual void v118();
-    virtual void v11c();
-    virtual void v120();
-
-    virtual void v124();
-    virtual void v128();
-    virtual void v12c();
-    virtual void v130();
-    virtual void v134();
-    virtual void v138();
-    virtual void v13c();
-
-    virtual struct ModelListX* GetModelList();
-
-    virtual void v144();
-    virtual void v148();
-    virtual void v14c();
-    virtual void v150();
-    virtual void v154();
-    virtual void v158();
-    virtual void v15c();
-    virtual void v160();
-
-    virtual void v164();
-    virtual void v168();
-    virtual void v16c();
-    virtual void v170();
-    virtual void v174();
-    virtual void v178();
-    virtual void v17c();
-    virtual void v180();
-
-    virtual void v184();
-    virtual void v188();
-    virtual void v18c();
-    virtual void v190();
-    virtual void v194();
-    virtual void v198();
-    virtual void v19c();
-    virtual void v1a0();
-
-    virtual void v1a4();
-    virtual void v1a8();
-    virtual void v1ac();
-    virtual void v1b0();
-    virtual void v1b4();
-    virtual void v1b8();
-    virtual void v1bc();
-    virtual void v1c0();
-
-    virtual void v1c4();
-    virtual void v1c8();
-    virtual void v1cc();
-    virtual void v1d0();
-    virtual void v1d4();
-    virtual void v1d8();
-    virtual void v1dc();
-    virtual void v1e0();
-
-    virtual void v1e4();
-    virtual void v1e8();
-    virtual void v1ec();
-    virtual void v1f0();
-
-    virtual struct PointX* GetPos();
-
-    virtual void v1f8();
-    virtual void v1fc();
-    virtual void v200();
-    virtual void v204();
-    virtual void v208();
-    virtual void v20c();
-    virtual void v210();
-    virtual void v214();
-
-    virtual void v218();
-    virtual void v21c();
-    virtual void v220();
-
-    virtual bool IsCreature();
-
-    virtual void v228();
-
-    virtual bool IsDead(bool abArg);
-
-    virtual void v230();
-    virtual void v234();
-    virtual void v238();
-    virtual void v23c();
-    virtual void v240();
-    virtual void v244();
-    virtual void v248();
-    virtual void v24c();
-
-    virtual void v250();
-    virtual void v254();
-    virtual void v258();
-    virtual void v25c();
-    virtual void v260();
-    virtual void v264();
-    virtual void v268();
-    virtual void v26c();
-
-    virtual void v270();
-
-    virtual bool IsInCombat(bool abArg);
-
-    virtual void v278();
-    virtual void v27c();
-    virtual void v280();
-    virtual void v284();
-    virtual void v288();
-    virtual void v28c();
-    virtual void v290();
-    virtual void v294();
-
-    virtual void v298();
-    virtual void v29c();
-    virtual void v2a0();
-    virtual void v2a4();
-    virtual void v2a8();
-    virtual void v2ac();
-    virtual void v2b0();
-    virtual void v2b4();
-
-    virtual void v2b8();
-
-    virtual float GetDistanceScale(int aiArg);
-
-    int GetFormType();
-
-
-
-
-
-
-
-public:
-    bool GetDisabled() const;
-public:
-    virtual ~TESForm();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9c();
-    virtual void va0();
-    virtual void va4();
-    virtual void va8();
-    virtual void vac();
-    virtual void vb0();
-    virtual void vb4();
-    virtual void vb8();
-    virtual void vbc();
-    virtual void vc0();
-    virtual void vc4();
-    virtual void vc8();
-    virtual void vcc();
-    virtual void vd0();
-    virtual void vd4();
-    virtual void vd8();
-    virtual void vdc();
-    virtual void ve0();
-    virtual void ve4();
-    virtual void ve8();
-    virtual void vec();
-    virtual void vf0();
-    virtual void vf4();
-    virtual void vf8();
-    virtual void vfc();
-};
 
 class TESBoundObject : public TESForm
 {
@@ -3581,7 +3587,7 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         PerceivedListX* pNode = ((::PerceivedListX *)(reinterpret_cast<::FUN_00595d10_shell *>(((*reinterpret_cast<::RefX * *>(&::_g_thePlayer))))->FUN_00595d10()));
         while (pNode && !pNode->IsEmpty())
         {
-            PerceivedX* pData = ((::PerceivedX *)(new ((void *)(pNode)) ::Vec3()));
+            PerceivedX* pData = ((::PerceivedX *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
             if (pData->pActor == qydrGv && pData->bVisible)
             {
                 qxDeKK = true;
@@ -4531,7 +4537,7 @@ struct FUN_0076be30 : public HudMenuBase
 // @fnv 0x0076be00
 void* FUN_0076be00_Class::DestroyIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0076be30 *>(this)->FUN_0076be30::~FUN_0076be30();
+    reinterpret_cast<struct ::FUN_0076be30 *>(this)->::FUN_0076be30::~FUN_0076be30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4546,9 +4552,9 @@ FUN_0076be30::~FUN_0076be30()
     g_011d9770 = 0;
     g_011d975c = 0;
     g_011d96bc = 0;
-    while (((::MsgItem *)(new ((void *)&(m_kMessageList)) ::Vec3())))
+    while (((::MsgItem *)(reinterpret_cast<::SimpleListNodeView*>(&(m_kMessageList))->m_item)))
     {
-        MsgItem* pItem = ((::MsgItem *)(new ((void *)&(m_kMessageList)) ::Vec3()));
+        MsgItem* pItem = ((::MsgItem *)(reinterpret_cast<::SimpleListNodeView*>(&(m_kMessageList))->m_item));
         delete pItem;
         m_kMessageList.RemoveHead();
     }
@@ -5144,7 +5150,6 @@ struct Setting772
 {
     float* FUN_00403e20(float, bool);
 };
-extern Setting772 g_011d9774;
 struct Tile772
 {
 };
@@ -6157,8 +6162,8 @@ bool MessageHUD::AddMessage(const char* text, unsigned int kind, const char* ico
         if (messages.Empty())
         {
             reinterpret_cast<::Callees *>(&(messages))->FUN_00905820((void *)&(entry));
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->text))->FUN_00a01350(0xfc4, (char *)(((::MessageEntry *)(new ((void *)&(messages)) ::Vec3()))->text), true);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->icon))->FUN_00a01350(0xfcc, (char *)(((::MessageEntry *)(new ((void *)&(messages)) ::Vec3()))->icon), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->text))->FUN_00a01350(0xfc4, (char *)(((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(messages))->m_item))->text), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->icon))->FUN_00a01350(0xfcc, (char *)(((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(messages))->m_item))->icon), true);
             if (sound)
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundHandleMsg &)(((::AudioMsg *)(::FUN_00453a70()))->Get(sound, 0x121)))->FUN_00ad8830(false);
         }
@@ -6167,11 +6172,11 @@ bool MessageHUD::AddMessage(const char* text, unsigned int kind, const char* ico
             MessageList* tail = &messages;
             while (((::MessageList *)(reinterpret_cast<::Callees *>((tail))->FUN_00726070())))
                 tail = ((::MessageList *)(reinterpret_cast<::Callees *>((tail))->FUN_00726070()));
-            if (::FUN_00408b20(((::MessageEntry *)(new ((void *)(tail)) ::Vec3()))->text, entry->text))
+            if (::FUN_00408b20(((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(tail)->m_item))->text, entry->text))
             {
                 if (immediate)
                 {
-                    ((::MessageEntry *)(new ((void *)&(messages)) ::Vec3()))->duration = 0.0f;
+                    ((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(messages))->m_item))->duration = 0.0f;
                     messages.Head(entry);
                 }
                 else
@@ -6230,7 +6235,7 @@ void HUDMainMenuMessages::FUN_007756e0()
     MessageList* pIter = (MessageList*)m_kMessageList;
     while (pIter)
     {
-        HUDMainMenu__MessageData* pMsg = ((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(pIter)) ::Vec3()));
+        HUDMainMenu__MessageData* pMsg = ((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item));
         if (pMsg && !::FUN_00408b20(pMsg->cMessage, reinterpret_cast<::FUN_00a011f0_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[26])))->FUN_00a011f0(0xfc4)))
         {
             HUDMainMenu__MessageData* pOld = pMsg;
@@ -6238,12 +6243,12 @@ void HUDMainMenuMessages::FUN_007756e0()
             delete pOld;
             if (!((MessageList*)m_kMessageList)->IsEmpty())
             {
-                if (((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cSoundPath[0])
+                if (((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cSoundPath[0])
                 {
-                    reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::fnv_007756e0::PlayerCharacter * *>(&::_g_thePlayer))))->PlaySoundByEditorName(((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cSoundPath, 0, 0x121, 0);
+                    reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::fnv_007756e0::PlayerCharacter * *>(&::_g_thePlayer))))->PlaySoundByEditorName(((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cSoundPath, 0, 0x121, 0);
                 }
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[26])))->FUN_00a01350(0xfc4, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cMessage), true);
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[25])))->FUN_00a01350(0xfcc, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cIconPath), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[26])))->FUN_00a01350(0xfc4, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cMessage), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[25])))->FUN_00a01350(0xfcc, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cIconPath), true);
                 m_uiMessageCount = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTimerStub*)m_cBuffer)))->FUN_00825c00();
             }
             else
@@ -7488,9 +7493,9 @@ void MenuC::UpdateStatsMenu()
         float d;
         int t;
         float state;
-        for (mag = (*reinterpret_cast<::fnv_0077eaf0::PlayerC * *>(&::_g_thePlayer))->m_94.GetFirst(); mag && *((void **)(new ((void *)(mag)) ::Vec3())); mag = ((::fnv_0077eaf0::Node77 *)(reinterpret_cast<::Callees *>((mag))->FUN_00726070())))
+        for (mag = (*reinterpret_cast<::fnv_0077eaf0::PlayerC * *>(&::_g_thePlayer))->m_94.GetFirst(); mag && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(mag)->m_item)); mag = ((::fnv_0077eaf0::Node77 *)(reinterpret_cast<::Callees *>((mag))->FUN_00726070())))
         {
-            if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptObj*)*((void **)(new ((void *)(mag)) ::Vec3())))))->GetIconFormID())) == 10)
+            if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptObj*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(mag)->m_item)))))->GetIconFormID())) == 10)
                 result = 10;
         }
         if (result == 0)
@@ -7833,7 +7838,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             bool qxWmVch =
                 qHVMR ? false
                       : reinterpret_cast<::FUN_00a01230_shell *>((((::xTile *)(reinterpret_cast<::FUN_0073ac90_shell *>(&(xg_pme_11d96c0->m_5c->m_iWordAt04))->FUN_0073ac90()))))->IsTraitNonZero(::FUN_00a01860(s_szIsReminder));
-            bool qJDuOZ = (*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_105;
+            bool qJDuOZ = (*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_105;
             if (!qHVMR && qxWmVch && !qJDuOZ)
             {
                 qArxcFu = ((::xQNode *)(reinterpret_cast<::Callees *>((qArxcFu))->FUN_00726070()));
@@ -7848,11 +7853,11 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             qfTOqo = true;
             xTile* qQMZREG = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00683520(qAhbO);
             xTile* qDdzMIp = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00683520(qxQHW);
-            if ((*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_104)
+            if ((*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_104)
             {
                 char LINE[0x104];
                 ::TaskQueueInterface::CopyStringToBuffer(LINE, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::xStrSetting *>(&::g_011d1d60))))->GetMenuTitle())));
-                xStrcat(LINE, 0x104, (*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_pText);
+                xStrcat(LINE, 0x104, (*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_pText);
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qQMZREG))->FUN_00a01350(0xfc4, (char *)(LINE), true);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(::FUN_00a01860(s_szIsReminder), qJDuOZ);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(0x1007, 1);
@@ -7860,7 +7865,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             }
             else
             {
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qQMZREG))->FUN_00a01350(0xfc4, (char *)((*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_pText), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qQMZREG))->FUN_00a01350(0xfc4, (char *)((*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_pText), true);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(0x1007, 0);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(::FUN_00a01860(s_szIsReminder), qJDuOZ);
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qDdzMIp))->FUN_00a01350(0xfcc, (char *)(s_szSquare), true);
@@ -7877,7 +7882,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             reinterpret_cast<::Tile *>((qQMZREG))->SetName(NAME);
             ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(qQMZREG), 0);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::xSound &)(((::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szQuestUpdate, 0x121)))->FUN_00ad8830(false);
-            reinterpret_cast<::ItemChangeListNode *>((qArxcFu))->FUN_00905330((*(::InventoryStackRecord *const *)(((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))));
+            reinterpret_cast<::ItemChangeListNode *>((qArxcFu))->FUN_00905330((*(::InventoryStackRecord *const *)(((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))));
         }
     }
     if (qfTOqo)
@@ -8766,9 +8771,9 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     bool bCompassReferenceDead = ((CompassRef*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))->IsDead(false);
     int iFarDst = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::g_011d12cc))))));
     iFarDst = iFarDst * iFarDst;
-    while (pLandmarkIterator && *((void **)(new ((void *)(pLandmarkIterator)) ::Vec3())))
+    while (pLandmarkIterator && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(pLandmarkIterator)->m_item)))
     {
-        CompassMarker* pCompassMarker = (CompassMarker*)*((void **)(new ((void *)(pLandmarkIterator)) ::Vec3()));
+        CompassMarker* pCompassMarker = (CompassMarker*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pLandmarkIterator)->m_item));
         pLandmarkIterator = ((::fnv_00779070::CompassList *)(reinterpret_cast<::Callees *>((pLandmarkIterator))->FUN_00726070()));
         if (reinterpret_cast<::TESForm *>((pCompassMarker->pRef))->GetDisabled())
             continue;
@@ -8864,10 +8869,10 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     CompassList* pQuestIt = (CompassList*)HUDMainMenu_pme->m_pRegionObjectListObj;
     float fObjRad = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::g_011d0bd8))))));
     fObjRad = fObjRad * fObjRad;
-    while (pQuestIt && *((void **)(new ((void *)(pQuestIt)) ::Vec3())))
+    while (pQuestIt && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(pQuestIt)->m_item)))
     {
         bool bSpecial = false;
-        CompassQuestTarget* pTarget = (CompassQuestTarget*)*((void **)(new ((void *)(pQuestIt)) ::Vec3()));
+        CompassQuestTarget* pTarget = (CompassQuestTarget*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pQuestIt)->m_item));
         pQuestIt = ((::fnv_00779070::CompassList *)(reinterpret_cast<::Callees *>((pQuestIt))->FUN_00726070()));
         CompassRef* pRef = ((::fnv_00779070::CompassRef *)(reinterpret_cast<::FUN_005cbb70_shell *>((pTarget))->FUN_005cbb70()));
         if (pRef && pRef->GetFormType() == 28)
@@ -8963,7 +8968,7 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     while (pActors && !pActors->IsEmpty() && uiShown)
     {
         uiShown = uiShown - 1;
-        CompassActor* pActor = (CompassActor*)*((void **)(new ((void *)(pActors)) ::Vec3()));
+        CompassActor* pActor = (CompassActor*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pActors)->m_item));
         if (!pActor || pActor->bHidden || !pActor->pActor->Get3D() || !((::fnv_00779070::CompassProcess *)(reinterpret_cast<::LowProcess *>((pActor->pActor))->GetTarget())) ||
             !::FUN_00450ff0((void *)(((::fnv_00779070::CompassProcess *)(reinterpret_cast<::LowProcess *>((pActor->pActor))->GetTarget())))))
         {
@@ -10842,12 +10847,12 @@ bool FUN_007e9200()
         while (qxQHW && !qxQHW->IsEmpty())
         {
             VATSCreateFormX* qArxcFu = 0;
-            if (((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsActor())
+            if (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsActor())
             {
-                qArxcFu = ((::VATSCreateFormX *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef))->FUN_007af430()));
+                qArxcFu = ((::VATSCreateFormX *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef))->FUN_007af430()));
             }
-            VATSCreateRefX* qGfbX = ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsActor() ? ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef : 0;
-            VATSCreateRefX* qJDuOZ = ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsMobile() ? ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef : 0;
+            VATSCreateRefX* qGfbX = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsActor() ? ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef : 0;
+            VATSCreateRefX* qJDuOZ = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsMobile() ? ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef : 0;
             bool qAhbO = false;
             if (qJDuOZ && qJDuOZ->GetMobileType() == 4)
             {
@@ -10857,15 +10862,15 @@ bool FUN_007e9200()
                     qAhbO = true;
                 }
             }
-            if ((((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsActor() && ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsDead(0)) ||
+            if ((((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsActor() && ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsDead(0)) ||
                 (qsSDDgz && qArxcFu && reinterpret_cast<::RefList *>((((::VATSCreateFormListHeadX *)(reinterpret_cast<::BGSCameraPath *>((qsSDDgz))->GetConditions()))))->FUN_005f65d0((void **)&(qArxcFu))) || (qGfbX && reinterpret_cast<::FUN_005a2030_shell *>((void *)(qGfbX))->FUN_005a2030()) ||
                 qAhbO)
             {
-                if ((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) == ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef)
+                if ((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) == ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef)
                 {
                     (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = 0;
                 }
-                reinterpret_cast<::ItemChangeListNode *>((qxQHW))->FUN_00905330((::InventoryStackRecord *const &)(((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((qxQHW))->FUN_00905330(reinterpret_cast<::InventoryStackRecord *const &>(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item));
             }
             qxQHW = ((::VATSCreateListX< ::VATSCreateVATSTargetX *> *)(reinterpret_cast<::Callees *>((qxQHW))->FUN_00726070()));
         }
@@ -10896,7 +10901,7 @@ bool FUN_007e9200()
     }
     if (!(*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)))
     {
-        (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(new ((void *)&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150)))) ::Vec3()))->pRef;
+        (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->m_item))->pRef;
     }
     qpTd = ((::VATSCreateInterfaceMgrX *)(::fnv_004b7210::FUN_004b7210()));
     qfTOqo = ::Tile::GetInterfaceScale();
@@ -11021,30 +11026,30 @@ bool FUN_007e9200()
         qkPflib = (*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))->GetPos();
         if (qOHwfb && !qOHwfb->IsEmpty())
         {
-            (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef;
+            (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef;
         }
         while (qOHwfb && !qOHwfb->IsEmpty())
         {
             float qhQRuW;
             float qRZyE;
             float qQUDQ;
-            if (!((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef || !((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef->Get3D())
+            if (!((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef || !((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef->Get3D())
             {
                 VATSCreateListX<VATSCreateVATSTargetX*>* qOFvKuu = ((::VATSCreateListX< ::VATSCreateVATSTargetX *> *)(reinterpret_cast<::Callees *>((qOHwfb))->FUN_00726070()));
-                reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->FUN_00905330((::InventoryStackRecord *const &)(((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->FUN_00905330(reinterpret_cast<::InventoryStackRecord *const &>(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item));
                 qOHwfb = qOFvKuu;
                 continue;
             }
             {
-                qRZyE = ::GetAngleBetweenPoints((const ::NiPoint3 &)(qkPflib), (const ::NiPoint3 &)(((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef->GetPos()));
+                qRZyE = ::GetAngleBetweenPoints((const ::NiPoint3 &)(qkPflib), (const ::NiPoint3 &)(((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef->GetPos()));
                 qhQRuW = VATSCreateFUN_00408840(qYePyBl - qRZyE);
-                qQUDQ = ::FastSqrt((const float *)&(const ::VATSCreatePointX &)(qkPflib - ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef->GetPos()));
-                ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->m_fTargetAngle =
+                qQUDQ = ::FastSqrt((const float *)&(const ::VATSCreatePointX &)(qkPflib - ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef->GetPos()));
+                ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->m_fTargetAngle =
                     (float)(VATSCreateDAT_01035810 / (qQUDQ > 0 ? qQUDQ : 0.001) +
                             (180.0 - (qhQRuW > 180.0 ? ::DAT_0103c348 - qhQRuW : qhQRuW)) / 180.0);
                 qhQRuW = VATSCreateFUN_00408840((float)(qhQRuW > 180.0 ? ::DAT_0103c348 - qhQRuW : qhQRuW));
-                ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fAngleDifference = qhQRuW;
-                ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fDistance = qQUDQ;
+                ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fAngleDifference = qhQRuW;
+                ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fDistance = qQUDQ;
                 qOHwfb = ((::VATSCreateListX< ::VATSCreateVATSTargetX *> *)(reinterpret_cast<::Callees *>((qOHwfb))->FUN_00726070()));
             }
         }
@@ -11054,24 +11059,24 @@ bool FUN_007e9200()
         qtOMjSX = false;
         while (qOHwfb && !qOHwfb->IsEmpty())
         {
-            if ((((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->m_fTargetAngle > qyFp && !qtOMjSX) ||
-                (((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))) && ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->bVisible &&
-                 (!qGTHx || ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fDistance < ((::VATSCreateVATSTargetX *)(new ((void *)(qGTHx)) ::Vec3()))->fDistance)))
+            if ((((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->m_fTargetAngle > qyFp && !qtOMjSX) ||
+                (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))) && ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->bVisible &&
+                 (!qGTHx || ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fDistance < ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qGTHx)->m_item))->fDistance)))
             {
-                if (((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))))
+                if (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))))
                 {
                     qtOMjSX = true;
                 }
-                qyFp = ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->m_fTargetAngle;
+                qyFp = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->m_fTargetAngle;
                 qGTHx = qOHwfb;
-                (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef;
-                VATSCreateListX<VATSCreateLimbX*>* qZNIZJV = &((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->kLimbs;
-                (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(new ((void *)(qZNIZJV)) ::Vec3()));
+                (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef;
+                VATSCreateListX<VATSCreateLimbX*>* qZNIZJV = &((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->kLimbs;
+                (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(reinterpret_cast<::SimpleListNodeView*>(qZNIZJV)->m_item));
                 while (qZNIZJV && !qZNIZJV->IsEmpty())
                 {
-                    if (((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->iType == 1 && ((::VATSCreateLimbX *)(new ((void *)(qZNIZJV)) ::Vec3()))->m_iLimbIndex == 1)
+                    if (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->iType == 1 && ((::VATSCreateLimbX *)(reinterpret_cast<::SimpleListNodeView*>(qZNIZJV)->m_item))->m_iLimbIndex == 1)
                     {
-                        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(new ((void *)(qZNIZJV)) ::Vec3()));
+                        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(reinterpret_cast<::SimpleListNodeView*>(qZNIZJV)->m_item));
                     }
                     qZNIZJV = ((::VATSCreateListX< ::VATSCreateLimbX *> *)(reinterpret_cast<::Callees *>((qZNIZJV))->FUN_00726070()));
                 }
@@ -11326,7 +11331,7 @@ bool FUN_007e9200()
         VATSCreatePtrX<VATSCreateTexX> qxWmVch(0);
         qxWmVch = ((::VATSCreateTexX *)(::NiSourceTexture::Create(
             (const ::NiFixedString &)((const ::VATSCreateFixedStringX &)(VATSCreateFixedStringX("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"))), (::NiTexture__FormatPrefs &)((*reinterpret_cast<::VATSCreateFormatPrefsX *>(&::DAT_011a9598))), 1, 0)));
-        ::FUN_007700b0((char *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[22]->GetNode()), (::NodeArg)(qxWmVch));
+        ::FUN_007700b0((char *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[22]->GetNode()), ::NodeArg{(::NiNode *)(void *)(::VATSCreateTexX *)(qxWmVch)});
         reinterpret_cast<::FUN_007700d0_cls *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[22]->GetNode()))->set(1);
         if (!reinterpret_cast<::FUN_007eb8d0_Class *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->HasAllSlotsSet((int *)(void *)(&qidnYUK)))
         {
@@ -11425,14 +11430,11 @@ __if_not_exists(GlobalObject_0040c150::GlobalObject_0040c150)
         const char* FUN_00403df0();
     };
 }
-__if_not_exists(GlobalObject_004de370::GlobalObject_004de370)
+class GlobalObject_004de370
 {
-    class GlobalObject_004de370
-    {
-      public:
-        float* FUN_00403e20();
-    };
-}
+  public:
+    float* FUN_00403e20();
+};
 __if_not_exists(g_011d4804)
 {
     extern GlobalObject_0040c150 g_011d4804;
@@ -11465,14 +11467,11 @@ struct SneakProcess
 {
     int GetHighestDetectionValue(PlayerCharacter*, int);
 };
-__if_not_exists(ProcessLists::ProcessLists)
+class ProcessLists
 {
-    class ProcessLists
-    {
-      public:
-        int GetHighestDetectionValue(PlayerCharacter*, int);
-    };
-}
+  public:
+    int GetHighestDetectionValue(PlayerCharacter*, int);
+};
 __if_not_exists(DAT_011e0e80)
 {
     extern ProcessLists DAT_011e0e80;
@@ -11568,7 +11567,7 @@ void HUDUpdate::FUN_00770430()
         HUDDetectionList* list = ((::HUDDetectionList *)(reinterpret_cast<::FUN_00595d10_shell *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->FUN_00595d10()));
         while (list && !list->FUN_008256d0())
         {
-            HUDDetection* detection = *((::HUDDetection **)(new ((void *)(list)) ::Vec3()));
+            HUDDetection* detection = *((::HUDDetection **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
             if ((void*)detection->value == m_pTargetActor && detection->detected && !detection->ignored)
             {
                 DAT_011d96c5 = true;
@@ -11693,7 +11692,7 @@ void HUDUpdate::FUN_00770430()
             }
             if (reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[27])))->FUN_00a07fc0(4009))
             {
-                l = *((::HUDMessage **)(new ((void *)(((HUDMessageList*)m_kMessageList))) ::Vec3()));
+                l = *((::HUDMessage **)(&reinterpret_cast<::SimpleListNodeView*>(((HUDMessageList*)m_kMessageList))->m_item));
                 if (!m_uiMessageCount)
                     m_uiMessageCount = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00();
                 if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00() - m_uiMessageCount >= l->duration * ::DAT_01017b70)
@@ -11779,7 +11778,7 @@ void HUDClearMessages::FUN_00775920()
     ClearMessagesList* list = (ClearMessagesList*)m_kMessageList;
     while (list && !list->FUN_008256d0())
     {
-        void* message = *((void **)(new ((void *)(list)) ::Vec3()));
+        void* message = *((void **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
         FUN_00401030(message);
         list = ((::ClearMessagesList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
@@ -11818,7 +11817,7 @@ void __cdecl FUN_00719580(VisibilityTile* pTile)
     }
     if (!FUN_00408b20(pTile->FUN_00700300(), "xbox_button") || !FUN_00408b20(pTile->FUN_00700300(), "PCShortcutLabel"))
     {
-        reinterpret_cast<::Tile *>((pTile))->Set(FUN_00a01860("_360Controller"), ((::VisibilityController *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0());
+        reinterpret_cast<::Tile *>((pTile))->Set(FUN_00a01860("_360Controller"), ::FUN_004b71d0());
         reinterpret_cast<::FUN_00a074d0_shell *>((pTile))->FUN_00a074d0(4);
     }
 }
@@ -11951,12 +11950,12 @@ void XPMenu::FUN_0077c4e0()
                 int total = 0;
                 while (node && !node->IsEmpty())
                 {
-                    total += ((::AmountEntry *)(new ((void *)(node)) ::Vec3()))->amount;
+                    total += ((::AmountEntry *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->amount;
                     node = ((::BSSimpleList< ::AmountEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                 }
-                while (((::AmountEntry *)(new ((void *)(((BSSimpleList<AmountEntry*>*)m_kXPUpdates))) ::Vec3())))
+                while (((::AmountEntry *)(reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<AmountEntry*>*)m_kXPUpdates))->m_item)))
                 {
-                    AmountEntry* update = ((::AmountEntry *)(new ((void *)(((BSSimpleList<AmountEntry*>*)m_kXPUpdates))) ::Vec3()));
+                    AmountEntry* update = ((::AmountEntry *)(reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<AmountEntry*>*)m_kXPUpdates))->m_item));
                     delete update;
                     ((BSSimpleList<AmountEntry*>*)m_kXPUpdates)->RemoveHead();
                 }
@@ -12858,10 +12857,11 @@ Tile* FUN_0076bfe0()
         pMenuTileN->Set(4003, 1);
         reinterpret_cast<::Callees *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00726070();
         ::fnv_00a04200::FUN_00a04200(false);
-        NiPointer<NiSourceTexture> spCompassAlphaB(0);
-        spCompassAlphaB = ::NiSourceTexture::Create(NiFixedString("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"),
+        // The texture is held through the NiRefObject reference count that NiNode exposes here.
+        NiPointer<NiNode> spCompassAlphaB(0);
+        spCompassAlphaB = (NiNode*)(void*)::NiSourceTexture::Create(NiFixedString("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"),
                                        (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTextureFormatPrefs *>(&::DAT_011a9598))), true, false);
-        ::g_pHudMainMenuInstance->m_pTiles[6]->vf20()->FUN_007700b0(spCompassAlphaB);
+        ::g_pHudMainMenuInstance->m_pTiles[6]->vf20()->FUN_007700b0((NiSourceTexture*)(void*)(NiNode*)spCompassAlphaB);
         reinterpret_cast<::FUN_007700d0_cls *>((::g_pHudMainMenuInstance->m_pTiles[6]->vf20()))->set(true);
         (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)) = new NiNode(0);
         ThreeByThreeMatrix kRotZXB;

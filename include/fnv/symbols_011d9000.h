@@ -57,7 +57,7 @@ extern int DAT_011d934c;
 // 0x011d93f8
 extern ::ContainerMenu *DAT_011d93f8;
 // 0x011d93fc
-extern int DAT_011d93fc;
+extern void* DAT_011d93fc;
 // 0x011d9474
 extern int DAT_011d9474;
 // 0x011d94e4

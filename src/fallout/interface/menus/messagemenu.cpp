@@ -1,5 +1,7 @@
 // fallout/interface/menus/messagemenu.cpp: DelStandIn, MessageMenu, MessageMenuHandler, KeyMenu and more (28 functions)
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cctype>
 #include <cstdlib>
@@ -662,7 +664,7 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
         unsigned int hotkeySlot0 = text.FUN_007aafe0('&', 0);
         if (hotkeySlot0 != ::g_010173f0)
         {
-            info->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text.Substr(hotkeySlot0 + 1, 1))));
+            info->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(text.Substr(hotkeySlot0 + 1, 1))));
             reinterpret_cast<::MessageMenuHandler *>(&(text))->FUN_007aaf80((void *)(hotkeySlot0), (void *)(1), (void *)(::DAT_01011584));
         }
         if (::FUN_00408b20(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text)), ::DAT_01020770))
@@ -929,17 +931,17 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
     char label58[260];
     while (list && !list->FUN_008256d0())
     {
-        ::TaskQueueInterface::CopyStringToBuffer(label58, 260, ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->FUN_00726070())));
-        if ((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))->GetKind() == 4)
+        ::TaskQueueInterface::CopyStringToBuffer(label58, 260, ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())));
+        if ((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))->GetKind() == 4)
         {
-            if (!((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->FUN_00726070())) || !((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->GetLinkToList())))
+            if (!((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())) || !((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->GetLinkToList())))
             {
                 list = ((::ActionMenuList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 continue;
             }
             ActionMenuEntry* entry29 = new ActionMenuEntry;
-            entry29->label = ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->FUN_00726070()));
-            entry29->action = ((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->GetLinkToList()));
+            entry29->label = ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070()));
+            entry29->action = ((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->GetLinkToList()));
             entry29->reference = reference;
             reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::ActionMenuQueue< ::ActionMenuEntry *> *>(&::g_011da524))))->FUN_007cb2e0((unsigned int *)&(entry29));
             if (FUN_0044a670(label58) > 0)
@@ -948,7 +950,7 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
                 unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
                 if (hotkey5 != ::g_010173f0)
                 {
-                    menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6.Substr(hotkey5 + 1, 1))));
+                    menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(text6.Substr(hotkey5 + 1, 1))));
                     reinterpret_cast<::MessageMenuHandler *>(&(text6))->FUN_007aaf80((void *)(hotkey5), (void *)(1), (void *)(DAT_01011584));
                 }
                 if (FUN_00408b20(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6)), DAT_01020770))
@@ -999,7 +1001,7 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
         unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
         if (hotkey5 != ::g_010173f0)
         {
-            menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6.Substr(hotkey5 + 1, 1))));
+            menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(text6.Substr(hotkey5 + 1, 1))));
             reinterpret_cast<::MessageMenuHandler *>(&(text6))->FUN_007aaf80((void *)(hotkey5), (void *)(1), (void *)(DAT_01011584));
         }
         if (FUN_00408b20(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6)), DAT_01020770))
@@ -1179,7 +1181,7 @@ void MsgMenu::PopulateFromMessageData()
                 MsgTile* pText = 0;
                 pItemNew = ((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->kButtons))->FUN_00764430(
                     pMessagePtr->cButtonBase + iIndex,
-                    ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(::DAT_01063d7c, uiPosNum) - uiPosNum))),
+                    ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(::DAT_01063d7c, uiPosNum) - uiPosNum))),
                     (int (*)(BoxItem *, BoxItem *))(0), (const char *)(0))));
                 pText = ((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((pItemNew))->FUN_00a03da0((char *)(s_szListItemText))));
                 reinterpret_cast<::Tile *>((pItemNew))->Set(0xfaa, 7);

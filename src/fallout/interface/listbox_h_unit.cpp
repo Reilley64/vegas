@@ -1,5 +1,6 @@
 // fallout/interface/listbox_h_unit.cpp: Helper, xEntryMenu, SomeClass (11 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -145,21 +146,21 @@ void* Helper::FUN_00731580(unsigned int flags)
 // @fnv 0x00730950
 void FUN_007308e0::FUN_00730950()
 {
-    while (items.m_pkNext && ((::ListBoxItem< ::ListItemData *> *)(new ((void *)(items.m_pkNext)) ::Vec3())))
+    while (items.m_pkNext && ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item)))
     {
         BSSimpleList<ListBoxItem<ListItemData*>*>* next = ((::BSSimpleList< ::ListBoxItem< ::ListItemData *> *> *)(reinterpret_cast<::Callees *>((items.m_pkNext))->FUN_00726070()));
-        if (!s_bAllowDetach)
-            delete ((::ListBoxItem< ::ListItemData *> *)(new ((void *)(items.m_pkNext)) ::Vec3()))->tile;
+        if (!::fnv_007a2070::s_bAllowDetach)
+            delete ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item))->tile;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete ((::ListBoxItem< ::ListItemData *> *)(new ((void *)(items.m_pkNext)) ::Vec3()))->data;
-        delete ((::ListBoxItem< ::ListItemData *> *)(new ((void *)(items.m_pkNext)) ::Vec3()));
+            delete ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item))->data;
+        delete ((::ListBoxItem< ::ListItemData *> *)(reinterpret_cast<::SimpleListNodeView*>(items.m_pkNext)->m_item));
         reinterpret_cast<::CombatProcedure *>((((ListNodeCalls*)items.m_pkNext)))->Initialize((::CombatController *)(0));
         delete items.m_pkNext;
         items.m_pkNext = next;
     }
     if (items.m_item)
     {
-        if (!s_bAllowDetach)
+        if (!::fnv_007a2070::s_bAllowDetach)
             delete items.m_item->tile;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
             delete items.m_item->data;
@@ -263,10 +264,10 @@ Tile* LB_00730f40::FUN_00730f40(int event)
         while (true)
         {
             BSSimpleList<ListBoxItem<unsigned int>*>* entry = this;
-            for (; !selected && entry && ((::ListBoxItem<unsigned int> *)(new ((void *)(entry)) ::Vec3())); entry = ((::BSSimpleList< ::ListBoxItem<unsigned int> *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
+            for (; !selected && entry && ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)); entry = ((::BSSimpleList< ::ListBoxItem<unsigned int> *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
             {
-                if (((TileListBoxCalls*)((::ListBoxItem<unsigned int> *)(new ((void *)(entry)) ::Vec3()))->pTile)->GetFloat(0xfac) == last)
-                    selected = ((::ListBoxItem<unsigned int> *)(new ((void *)(entry)) ::Vec3()))->pTile;
+                if (((TileListBoxCalls*)((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item))->pTile)->GetFloat(0xfac) == last)
+                    selected = ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item))->pTile;
             }
             if (selected && !reinterpret_cast<::FUN_00a01230_shell *>((selected))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))
             {
@@ -335,14 +336,14 @@ class xEntryMenu
 // @fnv 0x007a2bd0
 void xEntryMenu::ClearEntries()
 {
-    while (m_pEntries && *((::xEntryItem **)(new ((void *)(m_pEntries)) ::Vec3())))
+    while (m_pEntries && *((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item)))
     {
         List_009e03e0* pNext = ((::List_009e03e0 *)(reinterpret_cast<::Callees *>((m_pEntries))->FUN_00726070()));
         if (!::fnv_007a2070::s_bAllowDetach)
-            delete (*((::xEntryItem **)(new ((void *)(m_pEntries)) ::Vec3())))->m_pEntryObject;
+            delete (*((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item)))->m_pEntryObject;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete (*((::xEntryItem **)(new ((void *)(m_pEntries)) ::Vec3())))->m_pChange;
-        delete *((::xEntryItem **)(new ((void *)(m_pEntries)) ::Vec3()));
+            delete (*((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item)))->m_pChange;
+        delete *((::xEntryItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pEntries)->m_item));
         reinterpret_cast<::CombatProcedure *>((m_pEntries))->Initialize((::CombatController *)(0));
         delete m_pEntries;
         m_pEntries = pNext;
@@ -401,14 +402,14 @@ struct Target007a4780
 // @fnv 0x007a4780
 void Target007a4780::FUN_007a4780()
 {
-    while (unk08 && ((::ClearTilePayloadPair *)(new ((void *)(unk08)) ::Vec3())))
+    while (unk08 && ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item)))
     {
         ClearNode* next = ((::ClearNode *)(reinterpret_cast<::Callees *>((unk08))->FUN_00726070()));
         if (!(*reinterpret_cast<unsigned char *>(&::fnv_007a2070::s_bAllowDetach)))
-            delete ((::ClearTilePayloadPair *)(new ((void *)(unk08)) ::Vec3()))->unk00;
+            delete ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item))->unk00;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete ((::ClearTilePayloadPair *)(new ((void *)(unk08)) ::Vec3()))->unk04;
-        delete ((::ClearTilePayloadPair *)(new ((void *)(unk08)) ::Vec3()));
+            delete ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item))->unk04;
+        delete ((::ClearTilePayloadPair *)(reinterpret_cast<::SimpleListNodeView*>(unk08)->m_item));
         reinterpret_cast<::CombatProcedure *>((unk08))->Initialize((::CombatController *)(::ClearTilePayloadPair *)(0));
         delete unk08;
         unk08 = next;
@@ -501,12 +502,12 @@ Tile* LB_007a4d50::FUN_007a4d50(int event)
         }
         while (true)
         {
-            for (BSSimpleList<ListBoxItem<unsigned int>*>* node = this; !pNewTile && node && ((::ListBoxItem<unsigned int> *)(new ((void *)(node)) ::Vec3()));
+            for (BSSimpleList<ListBoxItem<unsigned int>*>* node = this; !pNewTile && node && ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
                  node = ((::BSSimpleList< ::ListBoxItem<unsigned int> *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                if (((TileListBoxCalls*)((::ListBoxItem<unsigned int> *)(new ((void *)(node)) ::Vec3()))->pTile)->GetFloat(0xfac) == iTargetIndex)
+                if (((TileListBoxCalls*)((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->pTile)->GetFloat(0xfac) == iTargetIndex)
                 {
-                    pNewTile = ((::ListBoxItem<unsigned int> *)(new ((void *)(node)) ::Vec3()))->pTile;
+                    pNewTile = ((::ListBoxItem<unsigned int> *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->pTile;
                 }
             }
             if (pNewTile && !reinterpret_cast<::FUN_00a01230_shell *>((pNewTile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))
@@ -615,11 +616,11 @@ Tile* SomeClass::FUN_007a31e0(int param)
         while (true)
         {
             for (BSSimpleList<ListBoxItem<BGSNote*>*>* iter = this ? &items : NULL;
-                 !pResultTile && iter && ((::ListBoxItem< ::BGSNote *> *)(new ((void *)(iter)) ::Vec3())); iter = ((::BSSimpleList< ::ListBoxItem< ::BGSNote *> *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070())))
+                 !pResultTile && iter && ((::ListBoxItem< ::BGSNote *> *)(reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)); iter = ((::BSSimpleList< ::ListBoxItem< ::BGSNote *> *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070())))
             {
-                if (((TileListBoxCalls*)((::ListBoxItem< ::BGSNote *> *)(new ((void *)(iter)) ::Vec3()))->tile)->GetFloat(4012) == (float)targetIndex)
+                if (((TileListBoxCalls*)((::ListBoxItem< ::BGSNote *> *)(reinterpret_cast<::SimpleListNodeView*>(iter)->m_item))->tile)->GetFloat(4012) == (float)targetIndex)
                 {
-                    pResultTile = (Tile*)((::ListBoxItem< ::BGSNote *> *)(new ((void *)(iter)) ::Vec3()))->tile;
+                    pResultTile = (Tile*)((::ListBoxItem< ::BGSNote *> *)(reinterpret_cast<::SimpleListNodeView*>(iter)->m_item))->tile;
                 }
             }
 

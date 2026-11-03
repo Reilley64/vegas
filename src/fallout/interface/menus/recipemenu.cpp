@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/recipemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/recipemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/AGOwner.h"
@@ -1254,7 +1255,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
     iCount8 = 0;
     while (pIter6 && !pIter6->IsEmpty())
     {
-        pChallenge6 = *((::CMChallenge **)(new ((void *)(pIter6)) ::Vec3()));
+        pChallenge6 = *((::CMChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter6)->m_item));
         pIter6 = ((::CMChallengeList *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
         iChallengeType2 = ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((pChallenge6))->GetField54()));
         if (iType8 && iType8 != iChallengeType2)
@@ -1267,9 +1268,9 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
                 reinterpret_cast<::FUN_00438690 *>((((::CMFormArray *)(::FUN_00726f10()))))->FUN_007cb2e0((unsigned int *)&(pForm4));
                 iCount8++;
             }
-            if (*((::CMCounter **)(new ((void *)(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))) ::Vec3())) && ((unsigned int)(::FUN_00559450((int *)((*((::CMCounter **)(new ((void *)(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))) ::Vec3()))))))) > 1)
+            if (*((::CMCounter **)(&reinterpret_cast<::SimpleListNodeView*>(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))->m_item)) && ((unsigned int)(::FUN_00559450((int *)((*((::CMCounter **)(&reinterpret_cast<::SimpleListNodeView*>(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))->m_item))))))) > 1)
                 ::FUN_00406d00(cBuffer, 256, "%s (%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pChallenge6->kFullName))->FUN_00408da0())),
-                          ((unsigned int)(::FUN_00559450((int *)((*((::CMCounter **)(new ((void *)(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))) ::Vec3()))))))));
+                          ((unsigned int)(::FUN_00559450((int *)((*((::CMCounter **)(&reinterpret_cast<::SimpleListNodeView*>(((::CMCounterList *)(reinterpret_cast<::FUN_005d43c0_ *>((pChallenge6))->FUN_005d43c0())))->m_item))))))));
             else
                 ::FUN_00406d00(cBuffer, 256, "%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pChallenge6->kFullName))->FUN_00408da0())));
             pItem = ((::CMItem *)(reinterpret_cast<::RecipePanel *>(&(kList))->FUN_00729ae0((int)(pChallenge6), (int)(cBuffer), 0, 0)));
@@ -1462,10 +1463,10 @@ TileX* ListBoxX::GetNextEnabledTile(int aiKey)
         while (1)
         {
             ListNodeX* node;
-            for (node = this; !result2 && node && ((::ListItemX *)(new ((void *)(node)) ::Vec3())); node = ((::ListNodeX *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+            for (node = this; !result2 && node && ((::ListItemX *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::ListNodeX *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                if (reinterpret_cast<::TileListBoxCalls *>((((::ListItemX *)(new ((void *)(node)) ::Vec3()))->tile))->GetFloat(0xfac) == idxTmp)
-                    result2 = ((::ListItemX *)(new ((void *)(node)) ::Vec3()))->tile;
+                if (reinterpret_cast<::TileListBoxCalls *>((((::ListItemX *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->tile))->GetFloat(0xfac) == idxTmp)
+                    result2 = ((::ListItemX *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->tile;
             }
             if (result2 && !reinterpret_cast<::FUN_00a01230_shell *>((result2))->IsTraitNonZero(::FUN_00a00940("_enabled", -1)))
             {
@@ -1641,7 +1642,6 @@ struct ListItemNode
     ListItemNode* next;
     ~ListItemNode();
 };
-extern bool _s_bAllowDetach;
 struct ListPanel
 {
     void* vtable;
@@ -1731,11 +1731,11 @@ NavigationItem* NavigationList::GetNextItem(int action)
         }
         while (true)
         {
-            for (NavigationNode* node = this ? &entries : 0; !selected && node && *((::NavigationEntry **)(new ((void *)(node)) ::Vec3()));
+            for (NavigationNode* node = this ? &entries : 0; !selected && node && *((::NavigationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
                  node = ((::NavigationNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                if (reinterpret_cast<::TileListBoxCalls *>(((*((::NavigationEntry **)(new ((void *)(node)) ::Vec3())))->item))->GetFloat(0xfac) == last)
-                    selected = (*((::NavigationEntry **)(new ((void *)(node)) ::Vec3())))->item;
+                if (reinterpret_cast<::TileListBoxCalls *>(((*((::NavigationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->item))->GetFloat(0xfac) == last)
+                    selected = (*((::NavigationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->item;
             }
             if (selected && !reinterpret_cast<::FUN_00a01230_shell *>((selected))->IsTraitNonZero(::FUN_00a00940((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::kListBoxEnabled))), -1)))
             {
@@ -1785,7 +1785,6 @@ struct OwnedEntryNode
     OwnedEntryNode* next;
     ~OwnedEntryNode();
 };
-extern unsigned char s_bAllowDetach;
 struct MenuValueTile
 {
 };
@@ -1807,21 +1806,21 @@ struct RecipeListOwner
 // @fnv 0x0072b350
 void RecipeListOwner::ClearEntries()
 {
-    while (remaining && *((::OwnedMenuEntry **)(new ((void *)(remaining)) ::Vec3())))
+    while (remaining && *((::OwnedMenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(remaining)->m_item)))
     {
         OwnedEntryNode* next = ((::OwnedEntryNode *)(reinterpret_cast<::Callees *>((remaining))->FUN_00726070()));
-        if (!s_bAllowDetach)
-            delete (*((::OwnedMenuEntry **)(new ((void *)(remaining)) ::Vec3())))->object;
+        if (!::fnv_007a2070::s_bAllowDetach)
+            delete (*((::OwnedMenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(remaining)->m_item)))->object;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete (*((::OwnedMenuEntry **)(new ((void *)(remaining)) ::Vec3())))->tile;
-        delete *((::OwnedMenuEntry **)(new ((void *)(remaining)) ::Vec3()));
+            delete (*((::OwnedMenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(remaining)->m_item)))->tile;
+        delete *((::OwnedMenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(remaining)->m_item));
         reinterpret_cast<::CombatProcedure *>((remaining))->Initialize((::CombatController *)(0));
         delete remaining;
         remaining = next;
     }
     if (first)
     {
-        if (!s_bAllowDetach)
+        if (!::fnv_007a2070::s_bAllowDetach)
             delete first->object;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
             delete first->tile;
@@ -1919,11 +1918,11 @@ NavTile* Navigation::FUN_0072b620(int action)
             index = maximum;
         while (true)
         {
-            for (NavNode* node = (NavNode*)static_cast<NavList*>(this); !foundVal && node && *((::NavEntry **)(new ((void *)(node)) ::Vec3()));
+            for (NavNode* node = (NavNode*)static_cast<NavList*>(this); !foundVal && node && *((::NavEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
                  node = ((::NavNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                if (reinterpret_cast<::TileListBoxCalls *>(((*((::NavEntry **)(new ((void *)(node)) ::Vec3())))->tile))->GetFloat(0xfac) == index)
-                    foundVal = (*((::NavEntry **)(new ((void *)(node)) ::Vec3())))->tile;
+                if (reinterpret_cast<::TileListBoxCalls *>(((*((::NavEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile))->GetFloat(0xfac) == index)
+                    foundVal = (*((::NavEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile;
             }
             if (foundVal && !reinterpret_cast<::FUN_00a01230_shell *>((foundVal))->IsTraitNonZero((int)(((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1))))))
             {
@@ -2598,12 +2597,12 @@ void FUN_0072c130_cls::ProcessSlots()
 {
     m_1c = 0;
     m_20 = 0.0f;
-    for (Node_b9223* cur = this ? (Node_b9223*)&unk04 : 0; cur != 0 && *((::Inner_b9223 **)(new ((void *)(cur)) ::Vec3())) != 0; cur = ((::Node_b9223 *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
+    for (Node_b9223* cur = this ? (Node_b9223*)&unk04 : 0; cur != 0 && *((::Inner_b9223 **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)) != 0; cur = ((::Node_b9223 *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
-        if ((*((::Inner_b9223 **)(new ((void *)(cur)) ::Vec3())))->m_08 == 0)
+        if ((*((::Inner_b9223 **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->m_08 == 0)
         {
-            reinterpret_cast<::Tile *>((((Target_b9223*)(*((::Inner_b9223 **)(new ((void *)(cur)) ::Vec3())))->m_00)))->Set(0xfac, m_1c++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::Inner_b9223 **)(new ((void *)(cur)) ::Vec3())))->m_00));
+            reinterpret_cast<::Tile *>((((Target_b9223*)(*((::Inner_b9223 **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->m_00)))->Set(0xfac, m_1c++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::Inner_b9223 **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->m_00));
         }
     }
     reinterpret_cast<::ScrollBarHelper *>(this)->FUN_0072c5d0();
@@ -2619,21 +2618,21 @@ FUN_0072a890_cls::~FUN_0072a890_cls()
 // @fnv 0x0072aba0
 void ListPanel::ClearItems()
 {
-    while (next && *((::ListItem **)(new ((void *)(next)) ::Vec3())))
+    while (next && *((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(next)->m_item)))
     {
         ListItemNode* following = ((::ListItemNode *)(reinterpret_cast<::Callees *>((next))->FUN_00726070()));
-        if (!_s_bAllowDetach)
-            delete (*((::ListItem **)(new ((void *)(next)) ::Vec3())))->value;
+        if (!::fnv_007a2070::s_bAllowDetach)
+            delete (*((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(next)->m_item)))->value;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete (*((::ListItem **)(new ((void *)(next)) ::Vec3())))->tile;
-        delete *((::ListItem **)(new ((void *)(next)) ::Vec3()));
+            delete (*((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(next)->m_item)))->tile;
+        delete *((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(next)->m_item));
         reinterpret_cast<::CombatProcedure *>((next))->Initialize((::CombatController *)(::ListItem *)(0));
         delete next;
         next = following;
     }
     if (head)
     {
-        if (!_s_bAllowDetach)
+        if (!::fnv_007a2070::s_bAllowDetach)
             delete head->value;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
             delete head->tile;
@@ -2856,7 +2855,7 @@ class FUN_0072b2e0
 // @fnv 0x0072ba20
 void* FUN_0072ba20_shell::FUN_0072ba20(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0072b2e0 *>(this)->FUN_0072b2e0::~FUN_0072b2e0();
+    reinterpret_cast<class ::FUN_0072b2e0 *>(this)->::FUN_0072b2e0::~FUN_0072b2e0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -3379,13 +3378,13 @@ void FUN_00729fb0_shell::BuildMenuEntries()
 {
     ((MenuBody*)this)->m_uiItemCount = 0;
     ((MenuBody*)this)->m_uiFilterValue = 0.0f;
-    for (EntryNode* pNode = this != 0 ? &((MenuBody*)this)->m_entries : 0; pNode != 0 && *((::MenuEntry **)(new ((void *)(pNode)) ::Vec3())) != 0;
+    for (EntryNode* pNode = this != 0 ? &((MenuBody*)this)->m_entries : 0; pNode != 0 && *((::MenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)) != 0;
          pNode = ((::EntryNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        if ((*((::MenuEntry **)(new ((void *)(pNode)) ::Vec3())))->m_disabled == 0)
+        if ((*((::MenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->m_disabled == 0)
         {
-            reinterpret_cast<::Tile *>(((*((::MenuEntry **)(new ((void *)(pNode)) ::Vec3())))->m_item))->Set(0xfac, ((MenuBody*)this)->m_uiItemCount++);
-            reinterpret_cast<::VLList *>((((MenuBody*)this)))->AccumulateTileHeight((::VLTile *)((*((::MenuEntry **)(new ((void *)(pNode)) ::Vec3())))->m_item));
+            reinterpret_cast<::Tile *>(((*((::MenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->m_item))->Set(0xfac, ((MenuBody*)this)->m_uiItemCount++);
+            reinterpret_cast<::VLList *>((((MenuBody*)this)))->AccumulateTileHeight((::VLTile *)((*((::MenuEntry **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->m_item));
         }
     }
     reinterpret_cast<::RecipeScrollMetrics *>((((MenuBody*)this)))->FUN_0072c000();
@@ -3400,14 +3399,14 @@ FUN_00729a70::~FUN_00729a70()
 // @fnv 0x00729d80
 void List49::ClearList()
 {
-    while (nodes && *((::Pair49 **)(new ((void *)(nodes)) ::Vec3())))
+    while (nodes && *((::Pair49 **)(&reinterpret_cast<::SimpleListNodeView*>(nodes)->m_item)))
     {
         FUN_004702f0* next = ((::FUN_004702f0 *)(reinterpret_cast<::Callees *>((nodes))->FUN_00726070()));
         if (!DAT_011d8909)
-            delete (*((::Pair49 **)(new ((void *)(nodes)) ::Vec3())))->item;
+            delete (*((::Pair49 **)(&reinterpret_cast<::SimpleListNodeView*>(nodes)->m_item)))->item;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete (*((::Pair49 **)(new ((void *)(nodes)) ::Vec3())))->extra;
-        delete *((::Pair49 **)(new ((void *)(nodes)) ::Vec3()));
+            delete (*((::Pair49 **)(&reinterpret_cast<::SimpleListNodeView*>(nodes)->m_item)))->extra;
+        delete *((::Pair49 **)(&reinterpret_cast<::SimpleListNodeView*>(nodes)->m_item));
         reinterpret_cast<::CombatProcedure *>((nodes))->Initialize((::CombatController *)(0));
         delete nodes;
         nodes = next;
@@ -3439,25 +3438,25 @@ void LBListBox::ApplyFilter(bool(__cdecl* apFilter)(void*))
 
     usItemCount = 0;
     fScroll = 0.0f;
-    for (LBList* pIter = this; pIter && ((::LBItem *)(new ((void *)(pIter)) ::Vec3())); pIter = ((::LBList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070())))
+    for (LBList* pIter = this; pIter && ((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)); pIter = ((::LBList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070())))
     {
-        ((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->m_bFiltered = apFilter && apFilter(((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pObject);
-        if (((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->m_bFiltered)
+        ((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->m_bFiltered = apFilter && apFilter(((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pObject);
+        if (((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->m_bFiltered)
         {
-            if (((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pTile == pSelected)
+            if (((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pTile == pSelected)
             {
-                iSelectedIndex = reinterpret_cast<::TileListBoxCalls *>((((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pTile))->GetFloat(0xfac);
+                iSelectedIndex = reinterpret_cast<::TileListBoxCalls *>((((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pTile))->GetFloat(0xfac);
                 pSelected = 0;
             }
-            reinterpret_cast<::Tile *>((((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pTile))->Set(0xfac, -1);
+            reinterpret_cast<::Tile *>((((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pTile))->Set(0xfac, -1);
             iNumFiltered++;
         }
         else
         {
             if (iSelectedIndex >= 0 && usItemCount == iSelectedIndex)
-                pSelected = ((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pTile;
-            reinterpret_cast<::Tile *>((((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pTile))->Set(0xfac, usItemCount++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(((::LBItem *)(new ((void *)(pIter)) ::Vec3()))->pTile));
+                pSelected = ((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pTile;
+            reinterpret_cast<::Tile *>((((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pTile))->Set(0xfac, usItemCount++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(((::LBItem *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))->pTile));
         }
     }
 
@@ -3653,8 +3652,8 @@ int __cdecl FUN_00727920(void* apChallenge)
         ReqNode* pNode = ((::ReqNode *)(reinterpret_cast<struct ::FUN_005a8080 *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetField()));
         while (pNode && !pNode->FUN_008256d0())
         {
-            ReqData* pReq = *((::ReqData **)(new ((void *)(pNode)) ::Vec3()));
-            TESBoundObject* pObject = dynamic_cast<TESBoundObject*>(((::TESForm *)(reinterpret_cast<::Callees *>(((*((::ReqData **)(new ((void *)(pNode)) ::Vec3())))))->FUN_00726070())));
+            ReqData* pReq = *((::ReqData **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
+            TESBoundObject* pObject = dynamic_cast<TESBoundObject*>(((::TESForm *)(reinterpret_cast<::Callees *>(((*((::ReqData **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->FUN_00726070())));
             if (pObject)
             {
                 ItemEntry* pEntry = ((::ItemEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((pOwner))->FUN_00576260((::fnv_00576260::TESBoundObject *)(pObject), 0)));
@@ -3986,7 +3985,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                     reinterpret_cast<::Tile *>((((RecipeEnterMenu*)DAT_011d8e90)->tiles[4]))->Set(0xfa9, 127);
                 EntryListNode* list = ((::EntryListNode *)(reinterpret_cast<struct ::FUN_005a8080 *>((DAT_011d8e94))->GetField()));
                 second.Clear();
-                selected = ((::Entry *)(new ((void *)(((::EntryListNode *)(reinterpret_cast<::FUN_005d43c0_ *>((DAT_011d8e94))->FUN_005d43c0())))) ::Vec3()));
+                selected = ((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(((::EntryListNode *)(reinterpret_cast<::FUN_005d43c0_ *>((DAT_011d8e94))->FUN_005d43c0())))->m_item));
                 if (((::EntryListNode *)(reinterpret_cast<::FUN_005d43c0_ *>((DAT_011d8e94))->FUN_005d43c0()))->FUN_005ae380() > 1 &&
                     ((::EntryListNode *)(reinterpret_cast<struct ::FUN_005a8080 *>((DAT_011d8e94))->GetField()))->FUN_005ae380() == 1)
                 {
@@ -4000,10 +3999,10 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                 while (list && !list->FUN_008256d0())
                 {
                     char label[256];
-                    TESFullName* name = dynamic_cast<TESFullName*>(((::TESForm *)(reinterpret_cast<::Callees *>((((::Entry *)(new ((void *)(list)) ::Vec3()))))->FUN_00726070())));
+                    TESFullName* name = dynamic_cast<TESFullName*>(((::TESForm *)(reinterpret_cast<::Callees *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))))->FUN_00726070())));
                     if (name && owner)
                     {
-                        TESBoundObject* bound = dynamic_cast<TESBoundObject*>(((::TESForm *)(reinterpret_cast<::Callees *>((((::Entry *)(new ((void *)(list)) ::Vec3()))))->FUN_00726070())));
+                        TESBoundObject* bound = dynamic_cast<TESBoundObject*>(((::TESForm *)(reinterpret_cast<::Callees *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))))->FUN_00726070())));
                         if (bound)
                         {
                             FUN_004459e0* have = ((::FUN_004459e0 *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((owner))->FUN_00576260((::fnv_00576260::TESBoundObject *)(bound), 0)));
@@ -4011,19 +4010,19 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                             delete have;
                             if (alternate)
                                 FUN_00406d00(label, 256, "%s (%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)name)))->FUN_00408da0())),
-                                             ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(new ((void *)(list)) ::Vec3())))))));
+                                             ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))));
                             else
                                 FUN_00406d00(label, 256, "%s (%d/%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)name)))->FUN_00408da0())), inventory,
-                                             ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(new ((void *)(list)) ::Vec3())))))));
-                            RecipeAddedItem* added = ((::RecipeAddedItem *)(reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(new ((void *)(list)) ::Vec3()))), (int)(label), 0, 0)));
-                            if (inventory < ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(new ((void *)(list)) ::Vec3())))))) && !alternate)
+                                             ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))));
+                            RecipeAddedItem* added = ((::RecipeAddedItem *)(reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(label), 0, 0)));
+                            if (inventory < ((unsigned int)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))) && !alternate)
                                 reinterpret_cast<::Tile *>((((::RecipeTiles *)(reinterpret_cast<::InventoryStackRecord *>(&(added->tile))->GetPayloadAddress()))))->Set(0xfa9, 127);
                             else
                                 reinterpret_cast<::Tile *>((((::RecipeTiles *)(reinterpret_cast<::InventoryStackRecord *>(&(added->tile))->GetPayloadAddress()))))->Set(0xfa9, 255);
                         }
                     }
                     else
-                        reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(new ((void *)(list)) ::Vec3()))), (int)(((const char *)(::FUN_00464f30((int)("ERROR WITH CAST"))))), 0, 0);
+                        reinterpret_cast<::Panel515 *>(&(second))->FUN_0072a900((int)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(list)->m_item))), (int)(((const char *)(::FUN_00464f30((int)("ERROR WITH CAST"))))), 0, 0);
                     list = ((::EntryListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 }
                 second.Sort(FUN_00728cd0);
@@ -4242,7 +4241,7 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
                     }
                 }
 
-                if (qnuVZg && *((int *)(new ((void *)&(((NamedList*)qnuVZg)->entries)) ::Vec3())))
+                if (qnuVZg && *((int *)(&reinterpret_cast<::SimpleListNodeView*>(&(((NamedList*)qnuVZg)->entries))->m_item)))
                 {
                     char nameBuf[256];
                     reinterpret_cast<::Description *>((((ListHead*)qnuVZg)))->BuildDescription(nameBuf, 0x100);

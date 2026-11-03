@@ -2,6 +2,8 @@
 // src/fallout/interface/menus/roulettemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/roulettemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -10180,11 +10182,11 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
     InterfaceRoulette* list = (InterfaceRoulette*)((::Proc_S *)(::fnv_004b7210::FUN_004b7210()));
     (*reinterpret_cast<::RoulettePlayerStandIn * *>(&::RouletteCleanup::DAT_011da880)) = casino;
     BetList* tile = ((::BetList *)(::FUN_005a6260((char *)((*reinterpret_cast<::PlayerForRoulette * *>(&::_g_thePlayer))))));
-    while (tile && *((::RouletteBetStandIn **)(new ((void *)(tile)) ::Vec3())))
+    while (tile && *((::RouletteBetStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(tile)->m_item)))
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((CasinoForRoulette*)(*reinterpret_cast<::RoulettePlayerStandIn * *>(&::RouletteCleanup::DAT_011da880)))))->FUN_0084e3a0() == (*((::RouletteBetStandIn **)(new ((void *)(tile)) ::Vec3())))->unk00)
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((CasinoForRoulette*)(*reinterpret_cast<::RoulettePlayerStandIn * *>(&::RouletteCleanup::DAT_011da880)))))->FUN_0084e3a0() == (*((::RouletteBetStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(tile)->m_item)))->unk00)
         {
-            DAT_011da87c = *((::RouletteBetStandIn **)(new ((void *)(tile)) ::Vec3()));
+            DAT_011da87c = *((::RouletteBetStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(tile)->m_item));
             break;
         }
         if (!((::BetList *)(reinterpret_cast<::Callees *>((tile))->FUN_00726070())))
@@ -10327,16 +10329,16 @@ bool RouletteState::RemoveEntryById(int id)
     if (id >= 159 || id < 0)
         return false;
     RouletteEntryNode* node = reinterpret_cast<RouletteEntryNode*>(unk3e78);
-    while (node && *((::RouletteEntry **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::RouletteEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        int entryId = (*((::RouletteEntry **)(new ((void *)(node)) ::Vec3())))->id;
+        int entryId = (*((::RouletteEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->id;
         if (entryId == id)
         {
-            unk3fec -= (*((::RouletteEntry **)(new ((void *)(node)) ::Vec3())))->amount;
-            reinterpret_cast<RouletteRemoveHelper*>(this)->ResetSlotTransform((*((::RouletteEntry **)(new ((void *)(node)) ::Vec3())))->objectIndex);
+            unk3fec -= (*((::RouletteEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->amount;
+            reinterpret_cast<RouletteRemoveHelper*>(this)->ResetSlotTransform((*((::RouletteEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->objectIndex);
             if (unk3fe4 == 10)
             {
-                unk3fe0 = (*((::RouletteEntry **)(new ((void *)(node)) ::Vec3())))->objectIndex;
+                unk3fe0 = (*((::RouletteEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->objectIndex;
                 reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
                 reinterpret_cast<::FUN_004bc1f0_S *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0)))))->FUN_004bc1f0(reinterpret_cast<float&>(unk3fd4), reinterpret_cast<float&>(unk3fd8),
                                    reinterpret_cast<::NiAVObject *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0)))))->FUN_0043c490()
@@ -10346,7 +10348,7 @@ bool RouletteState::RemoveEntryById(int id)
                 reinterpret_cast<::FUN_00a59c60_cls *>((((::RouletteObject *)(reinterpret_cast<::NiNode *>((reinterpret_cast<RouletteScene*>(((::S_007bf7a0_Inner *)(::FUN_00559450((int *)&((*reinterpret_cast<::S_007bf7a0_Holder *>(&::g_011da8a0)))))))))->GetAt(unk3fe0 + 10)))))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData(0.0f, false, false)));
             }
             --unk3fe4;
-            RouletteEntry* entry = *((::RouletteEntry **)(new ((void *)(node)) ::Vec3()));
+            RouletteEntry* entry = *((::RouletteEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             node->FUN_0063f7b0();
             delete entry;
             entry = 0;
@@ -14537,7 +14539,7 @@ int Roulette::FUN_007bf390()
     int i;
     for (i = 0; i < 0x90; i++)
     {
-        NiPoint3Ex v = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((const NiPoint3Ex*)FUN_0045bb80(m_iNode))))->FUN_00439ef0-((::NiPoint3 *)&(m_akSlots[i].m_kPos), *(const ::NiPoint3 *)nullptr)));
+        NiPoint3Ex v = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((const NiPoint3Ex*)FUN_0045bb80(m_iNode))))->FUN_00439ef0((::NiPoint3 *)&ResultSlot(::NiPoint3Ex()), *(const ::NiPoint3 *)&(m_akSlots[i].m_kPos))));
         float f = reinterpret_cast<::NiPoint3 *>((void *)&(v))->ComputeMagnitude();
         if (f <= m_afRadius[0])
             break;
@@ -14546,7 +14548,7 @@ int Roulette::FUN_007bf390()
     {
         for (; i < 0x9f; i++)
         {
-            NiPoint3Ex v2 = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((const NiPoint3Ex*)FUN_0045bb80(m_iNode))))->FUN_00439ef0-((::NiPoint3 *)&(m_akSlots[i].m_kPos), *(const ::NiPoint3 *)nullptr)));
+            NiPoint3Ex v2 = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((const NiPoint3Ex*)FUN_0045bb80(m_iNode))))->FUN_00439ef0((::NiPoint3 *)&ResultSlot(::NiPoint3Ex()), *(const ::NiPoint3 *)&(m_akSlots[i].m_kPos))));
             float f2 = reinterpret_cast<::NiPoint3 *>((void *)&(v2))->ComputeMagnitude();
             if (f2 <= m_afRadius[i - 0x8f])
                 break;
@@ -15009,14 +15011,14 @@ void Big::InitRouletteWheel()
         local3 = ::FUN_004aae30((NiAVObject*)pObj3f18, (::NiFixedString *)(buf42));
         if (local3 == 0)
         {
-            local3 = pObj3f18->Lookup(&NiFixedString(buf42));
+            local3 = pObj3f18->Lookup(&ResultSlot(NiFixedString(buf42)));
         }
         reinterpret_cast<::TaskQueueInterface *>((((AVCalls*)local3)))->QueueActorDisarm(1);
-        entries[local23].p = *((::NiPoint3 *)(new ((void *)(((::BoundRes *)(reinterpret_cast<::FUN_0043d450_Owner *>((((AVCalls*)local3)))->FUN_0043d450())))) ::Vec3()));
+        entries[local23].p = *((::NiPoint3 *)(&reinterpret_cast<::SimpleListNodeView*>(((::BoundRes *)(reinterpret_cast<::FUN_0043d450_Owner *>((((AVCalls*)local3)))->FUN_0043d450())))->m_item));
         ::TaskQueueInterface::CopyStringToBuffer(entries[local23].code, 8, buf42);
     }
 
-    NiPoint3Ex diffA = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((NiPoint3Ex&)entries[0].p)))->FUN_00439ef0-((::NiPoint3 *)&(entries[1].p), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3Ex diffA = (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((NiPoint3Ex&)entries[0].p)))->FUN_00439ef0((::NiPoint3 *)&ResultSlot(::NiPoint3Ex()), *(const ::NiPoint3 *)&(entries[1].p))));
     f3f90 = reinterpret_cast<::NiPoint3 *>((void *)&(diffA))->ComputeMagnitude();
     f3f94 = (float)(f3f90 * DAT_0106b168);
 
@@ -15703,17 +15705,17 @@ void RouletteMenuX::FUN_007bd2a0()
             reinterpret_cast<::FUN_007bf710_cls *>((((RouletteMenuX*)DAT_011da878)))->ApplyValueToChain(7, 255.0f);
         }
         reinterpret_cast<::FUN_007bf710_cls *>((((RouletteMenuX*)DAT_011da878)))->ApplyValueToChain(8, 255.0f);
-        while (m_pBets && *((int *)(new ((void *)(m_pBets)) ::Vec3())))
+        while (m_pBets && *((int *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))
         {
             bool bWon = false;
-            int iSlotC = ((RouletteBetEntry*)*((int *)(new ((void *)(m_pBets)) ::Vec3())))->iSlotC;
+            int iSlotC = ((RouletteBetEntry*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))->iSlotC;
             BetSlot* pSlot1 = &m_aSlots[iSlotC];
             if (iSlotC < 0x93)
             {
                 ListNode* pNode = &pSlot1->kNumbers;
                 while (pNode != 0)
                 {
-                    if (m_iResult == *((int *)(new ((void *)(pNode)) ::Vec3())))
+                    if (m_iResult == *((int *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))
                     {
                         bWon = true;
                         break;
@@ -15818,7 +15820,7 @@ void RouletteMenuX::FUN_007bd2a0()
             }
             if ((bWon || iStickZ4 != 0 || m_iForceWin > 0) && m_iForceWin >= 0)
             {
-                iWinnings += (pSlot1->iOdds + 1) * ((RouletteBetEntry*)*((int *)(new ((void *)(m_pBets)) ::Vec3())))->iAmount;
+                iWinnings += (pSlot1->iOdds + 1) * ((RouletteBetEntry*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(m_pBets)->m_item)))->iAmount;
             }
             m_pBets->FUN_0063f7b0();
         }
@@ -16006,9 +16008,9 @@ bool RouletteState::FUN_007bed70(int number)
     if (unk3fe4 >= 10 || number >= 159 || number < 0 || !unk3fe8)
         return false;
     BetList* k = reinterpret_cast<BetList*>(unk3e78);
-    while (k && *((::RouletteBetEntry **)(new ((void *)(k)) ::Vec3())))
+    while (k && *((::RouletteBetEntry **)(&reinterpret_cast<::SimpleListNodeView*>(k)->m_item)))
     {
-        if ((*((::RouletteBetEntry **)(new ((void *)(k)) ::Vec3())))->number == number)
+        if ((*((::RouletteBetEntry **)(&reinterpret_cast<::SimpleListNodeView*>(k)->m_item)))->number == number)
             return false;
         k = ((::BetList *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
     }
@@ -16021,9 +16023,9 @@ bool RouletteState::FUN_007bed70(int number)
     ba->number = number;
     ba->strip = unk3fe0;
     if (!unk3e78 || reinterpret_cast<BetList*>(unk3e78)->FUN_008256d0())
-        reinterpret_cast<BetList*>(unk3e78)->FUN_00726c60(ba);
+        reinterpret_cast<BetList*>(unk3e78)->FUN_00726c60(reinterpret_cast<FUN_00733f50*&>(ba));
     else
-        reinterpret_cast<BetList*>(unk3e78)->FUN_005ae3d0(ba);
+        reinterpret_cast<BetList*>(unk3e78)->FUN_005ae3d0(reinterpret_cast<FUN_00733f50*&>(ba));
     reinterpret_cast<::FUN_007bf840_shell *>(this)->FUN_007bf840();
     ++unk3fe4;
     ++unk3fe0;

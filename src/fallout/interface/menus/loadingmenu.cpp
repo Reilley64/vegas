@@ -1,5 +1,6 @@
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include <cctype>
@@ -264,9 +265,9 @@ void LoadingMenu::UpdateLoadingScreenTip()
 bool LoadingMenu::IsLoadScreenValid(TESLoadScreen* screen)
 {
     bool valid = screen && screen->GetFormType() == FormLoadScreen;
-    for (BSSimpleList<BGSPerkEntry*>* entry = &candidates; valid && entry && ((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())); entry = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
+    for (BSSimpleList<BGSPerkEntry*>* entry = &candidates; valid && entry && ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)); entry = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
     {
-        valid = FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(screen->fullName))->FUN_00408da0())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3()))->fullName))->FUN_00408da0()))) != 0;
+        valid = FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(screen->fullName))->FUN_00408da0())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item))->fullName))->FUN_00408da0()))) != 0;
     }
     return valid;
 }
@@ -343,9 +344,9 @@ void LoadingMenu::UpdateLoadScreen(TESLoadScreen* screen, float alpha, int mode)
     if (!screen)
     {
         if (currentCandidate)
-            screen = reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(new ((void *)(currentCandidate)) ::Vec3())));
+            screen = reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item)));
         else
-            screen = reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(new ((void *)&(candidates)) ::Vec3())));
+            screen = reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(candidates))->m_item)));
         if (!screen)
             return;
     }
@@ -543,11 +544,11 @@ class TESForm_Ex
 // @fnv 0x0078a940
 void FUN_0078a940(char* this_ptr)
 {
-    for (void* pIter = this_ptr + 0x1d0; pIter && *((::TESForm_Ex **)(new ((void *)(pIter)) ::Vec3())); pIter = reinterpret_cast<::Callees *>((pIter))->FUN_00726070())
+    for (void* pIter = this_ptr + 0x1d0; pIter && *((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)); pIter = reinterpret_cast<::Callees *>((pIter))->FUN_00726070())
     {
-        if (reinterpret_cast<::FUN_004077c0_shell *>((void *)(*((::TESForm_Ex **)(new ((void *)(pIter)) ::Vec3()))))->FUN_004077c0())
+        if (reinterpret_cast<::FUN_004077c0_shell *>((void *)(*((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))))->FUN_004077c0())
         {
-            delete *((::TESForm_Ex **)(new ((void *)(pIter)) ::Vec3()));
+            delete *((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item));
         }
     }
     reinterpret_cast<::FileMatchList *>((this_ptr + 0x1d0))->RemoveAll();
@@ -564,16 +565,16 @@ void LoadingMenu::CollectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadS
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray<unsigned short, 1024>*>(&aLoadScreens)))->Clear(false);
     for (BSSimpleList<BGSPerkEntry*>* entry =
              reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::BSSimpleList< ::TESLoadScreen *> *)(reinterpret_cast<::FUN_00461070_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->GetSomethingAtOffset128())));
-         entry && ((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())); entry = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
+         entry && ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)); entry = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())))
     {
-        if ((GetFloat(5) && reinterpret_cast<::FUN_0078ada0_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())))))->IsRefFlag400Set()) ||
+        if ((GetFloat(5) && reinterpret_cast<::FUN_0078ada0_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->IsRefFlag400Set()) ||
             (!GetFloat(5) &&
-             ((extraCandidates && reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())))
+             ((extraCandidates && reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))
                                       ->MatchesFormLocation(reinterpret_cast<TESForm*>(extraCandidates))) ||
-              (!extraCandidates && reinterpret_cast<::FUN_005a7110_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())))))->FUN_005a7110()))))
+              (!extraCandidates && reinterpret_cast<::FUN_005a7110_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7110()))))
         {
-            unsigned int index = reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&aLoadScreens)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<NavMeshInfo*&>(((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())))));
-            int type = reinterpret_cast<::FUN_005a7130_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(new ((void *)(entry)) ::Vec3())))))->FUN_005a7130();
+            unsigned int index = reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&aLoadScreens)))->FUN_007cb2e0((unsigned int *)&(reinterpret_cast<NavMeshInfo*&>(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)));
+            int type = reinterpret_cast<::FUN_005a7130_shell *>((reinterpret_cast<TESLoadScreen*>(((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))))->FUN_005a7130();
             if ((DAT_011d8907 || (unsigned char)reinterpret_cast<::FUN_00678ce0_shell *>((reinterpret_cast<DurationData*>(g_osGlobals)))->FUN_00678ce0()) &&
                 type != 3 && type != 0)
                 reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(aLoadScreens))->FUN_009a4320(index, 1);
@@ -929,11 +930,13 @@ void FUN_0078d670()
 
 namespace fnv_0078d880 {
 class NavMeshInfo;
-template <> class BSSimpleArray<NavMeshInfo*, 1024>
+}
+template <> class BSSimpleArray<fnv_0078d880::NavMeshInfo*, 1024>
 {
   public:
     void FUN_006b3eb0(unsigned int, bool);
 };
+namespace fnv_0078d880 {
 
 // @fnv 0x0078d880
 void* FUN_0078d880(void* pThis)
@@ -2087,7 +2090,7 @@ class TESDescription : public BaseFormComponent
 void FUN_0078a280_shell::UpdateLoadingScreenText(bool abRefreshCurrent)
 {
     unsigned int iplateno = 0;
-    const char* pName = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::TESLoadScreen **)(new ((void *)(((LoadScreenNode_r8a280*)currentCandidate))) ::Vec3())))->fullName))->FUN_00408da0()));
+    const char* pName = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::TESLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadScreenNode_r8a280*)currentCandidate))->m_item)))->fullName))->FUN_00408da0()));
     while (*pName)
         iplateno = (iplateno << 5) + iplateno + tolower(*pName++);
     iplateno %= 100000;
@@ -2096,7 +2099,7 @@ void FUN_0078a280_shell::UpdateLoadingScreenText(bool abRefreshCurrent)
         m_iStateFlags |= 1;
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[34]))->FUN_00a01350(
             0xfc4,
-            (char *)(((TESDescription*)((char*)*((::TESLoadScreen **)(new ((void *)(((LoadScreenNode_r8a280*)currentCandidate))) ::Vec3())) + 0x24))
+            (char *)(((TESDescription*)((char*)*((::TESLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadScreenNode_r8a280*)currentCandidate))->m_item)) + 0x24))
                 ->GetDescription(0, 0x43534544)),
             true);
     }
@@ -2105,7 +2108,7 @@ void FUN_0078a280_shell::UpdateLoadingScreenText(bool abRefreshCurrent)
         m_iStateFlags |= 2;
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[35]))->FUN_00a01350(
             0xfc4,
-            (char *)(((TESDescription*)((char*)*((::TESLoadScreen **)(new ((void *)(((LoadScreenNode_r8a280*)currentCandidate))) ::Vec3())) + 0x24))
+            (char *)(((TESDescription*)((char*)*((::TESLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadScreenNode_r8a280*)currentCandidate))->m_item)) + 0x24))
                 ->GetDescription(0, 0x43534544)),
             true);
     }
@@ -2591,7 +2594,7 @@ void FUN_00789820_shell::FUN_00789820()
             ((LoadingMenu*)this)->m_pTiles[33]->Set(0xfa9, (int)(fSlide02Alpha * 255.0));
         ((LoadingMenu*)this)->UpdateLoadScreen(*(TESLoadScreen**)((LoadingMenu*)this)->_padToTime, fSlide01Alpha, 1);
         ((LoadingMenu*)this)
-            ->UpdateLoadScreen((TESLoadScreen*)*((::TESForm_Ex **)(new ((void *)(((LoadingMenu*)this)->currentCandidate)) ::Vec3())), fSlide02Alpha,
+            ->UpdateLoadScreen((TESLoadScreen*)*((::TESForm_Ex **)(&reinterpret_cast<::SimpleListNodeView*>(((LoadingMenu*)this)->currentCandidate)->m_item)), fSlide02Alpha,
                                2);
         DAT_011a0295 = true;
     }
@@ -2709,7 +2712,7 @@ void LoadingMenuX::ApplyLoadingScreenTexture(TileShaderProperty* apProperty)
     AutoMemContext memContext(MEM_CONTEXT_0D, true,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\Menus\\LoadingMenu.cpp",
                               0x423);
-    ::FUN_00406f60((::FUN_00406f90_this *)&(m_kLoadingScreenTip), "%s\\%s", "Textures", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::LMLoadScreen **)(new ((void *)(currentCandidate)) ::Vec3())))->fullName))->FUN_00408da0())));
+    ::FUN_00406f60((::FUN_00406f90_this *)&(m_kLoadingScreenTip), "%s\\%s", "Textures", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::LMLoadScreen **)(&reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item)))->fullName))->FUN_00408da0())));
     NiPointer<NiSourceTexture> spTexture(0);
     reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_004568c0(m_kLoadingScreenTip, (::TexPtr< ::NiSourceTexture> &)(spTexture), false, false);
     NiPointer<NiSourceTexture>* pSlot = &m_kLoadScreenTextures[m_uiLoadingScreenNumber];
@@ -3358,9 +3361,9 @@ void LoadingMenuX::FUN_0078bb60(BGSPerkEntry* entry)
     if (entry == 0)
     {
         if (currentCandidate)
-            entry = ((::BGSPerkEntry *)(new ((void *)(currentCandidate)) ::Vec3()));
+            entry = ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item));
         else
-            entry = ((::BGSPerkEntry *)(new ((void *)&(candidates)) ::Vec3()));
+            entry = ((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(candidates))->m_item));
         if (entry == 0)
             return;
     }
@@ -3891,7 +3894,7 @@ void FUN_0078a5a0_cls::UpdateLoadingScreens()
         reinterpret_cast<::LoadingMenu *>(this)->UpdateLoadingScreenTip();
     }
     reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(7, true);
-    unk1dc = (int)*((::ScreenEntry **)(new ((void *)(((ScreenList*)&unk1d0))) ::Vec3()));
+    unk1dc = (int)*((::ScreenEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((ScreenList*)&unk1d0))->m_item));
     reinterpret_cast<::LMStandIn *>(this)->FUN_0078bb40();
     reinterpret_cast<::LoadVisibilityMenu *>(this)->FUN_0078b3f0((::TESLoadScreen *)(::ScreenEntry *)((ScreenEntry*)unk1dc), true);
 }
@@ -3908,11 +3911,11 @@ void LoadVisibilityMenu::FUN_0078b3f0(TESLoadScreen* pLoadScreen, bool bShow)
     {
         if (currentCandidate)
         {
-            pLoadScreen = (TESLoadScreen*)((::BGSPerkEntry *)(new ((void *)(currentCandidate)) ::Vec3()));
+            pLoadScreen = (TESLoadScreen*)((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(currentCandidate)->m_item));
         }
         else
         {
-            pLoadScreen = (TESLoadScreen*)((::BGSPerkEntry *)(new ((void *)&(candidates)) ::Vec3()));
+            pLoadScreen = (TESLoadScreen*)((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(candidates))->m_item));
         }
         if (!pLoadScreen)
         {

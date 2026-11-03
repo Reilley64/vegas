@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/computersmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/computersmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
@@ -1621,7 +1622,7 @@ struct CHMenu
 void FUN_00758a80_shell::FUN_00758a80()
 {
     ((Helper98*)((char*)this + 0x98))->_ref_0063f7b0();
-    *(int*)((char*)this + 0xA8) = *(((int *)(new ((void *)(((Helper98*)((char*)this + 0x98)))) ::Vec3())));
+    *(int*)((char*)this + 0xA8) = *(((int *)(&reinterpret_cast<::SimpleListNodeView*>(((Helper98*)((char*)this + 0x98)))->m_item)));
     if (*(int*)((char*)this + 0xA8) != 0)
         reinterpret_cast<::CHMenu *>((((DispHelper*)this)))->FUN_007586e0(0);
     else
@@ -1687,10 +1688,11 @@ struct TextString
 public:
     bool FUN_004037f0(const char *, unsigned int);
 };
-struct TextLayout
+namespace TextLayout {
+struct Layout
 {
-    TextLayout(int, int, int, int, int);
-    ~TextLayout();
+    Layout(int, int, int, int, int);
+    ~Layout();
     operator const char*() const;
     int unk00;
     int unk04;
@@ -1703,6 +1705,7 @@ struct TextLayout
     int unk20;
     int unk24;
 };
+}
 struct TextFont
 {
 };
@@ -1806,8 +1809,8 @@ void TextMenu::SetTextSource(TextSource* source)
     int lines = (int)(((double)(reinterpret_cast<::TileListBoxCalls *>((field60))->GetFloat(0xfbc))) -
                       ((double)(reinterpret_cast<::TileListBoxCalls *>((field44))->GetFloat(0xfb0))) / reinterpret_cast<::FUN_00759450_shell *>((((::TextFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::TextFonts *)(::FontManager::Instance()))))->FUN_005bd5c0((int)((double)(reinterpret_cast<::TileListBoxCalls *>((field44))->GetFloat(0xfb9))) - 1)))))->FUN_00759450()) +
                 1;
-    TextLayout textLayout((int)((double)(reinterpret_cast<::TileListBoxCalls *>((field60))->GetFloat(0xfba))), 0, 0, lines, 10);
-    reinterpret_cast<::TextLayout::Font *>((((::TextFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::TextFonts *)(::FontManager::Instance()))))->FUN_005bd5c0((int)((double)(reinterpret_cast<::TileListBoxCalls *>((field60))->GetFloat(0xfb9))) - 1)))))->FUN_00a12fb0(fieldbc, (::TextLayout::Layout *)(::TextLayout *)(&textLayout));
+    TextLayout::Layout textLayout((int)((double)(reinterpret_cast<::TileListBoxCalls *>((field60))->GetFloat(0xfba))), 0, 0, lines, 10);
+    reinterpret_cast<::TextLayout::Font *>((((::TextFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::TextFonts *)(::FontManager::Instance()))))->FUN_005bd5c0((int)((double)(reinterpret_cast<::TileListBoxCalls *>((field60))->GetFloat(0xfb9))) - 1)))))->FUN_00a12fb0(fieldbc, &textLayout);
     reinterpret_cast<::FUN_00759da0_shell *>((fielde8))->InsertAtPosition(textLayout, (int)(reinterpret_cast<::FUN_00a00f30_shell *>((field60))->FUN_00a00f30(0xfc4)), (int)(reinterpret_cast<::FUN_00a00e90_shell *>((field60))->FindTraitValue(0xfa3)), -1);
     fieldbc += FUN_0042f5a0(textLayout.consumed, ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(buffer))->FUN_004048e0())));
     if (!*fieldbc)
@@ -2064,17 +2067,17 @@ void CHMenu::FUN_007586e0(bool abAddRecent)
         reinterpret_cast<::FUN_00759da0_shell *>((pDisplay))->InsertAtPosition(pDescription, (int)(pTextValue), (int)(((::CHValue *)(reinterpret_cast<::FUN_00a00e90_shell *>((pTile44))->FindTraitValue(0xfa3)))), -1);
     }
 
-    for (CHListNode* pIter = ((::CHListNode *)(reinterpret_cast<::FUN_00461150_shell *>((pChallenge))->FUN_00461150())); pIter && *((::CHChallenge **)(new ((void *)(pIter)) ::Vec3())); pIter = ((::CHListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070())))
+    for (CHListNode* pIter = ((::CHListNode *)(reinterpret_cast<::FUN_00461150_shell *>((pChallenge))->FUN_00461150())); pIter && *((::CHChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)); pIter = ((::CHListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070())))
     {
-        if (reinterpret_cast<::PerkEntryConditionSet *>(&((*((::CHChallenge **)(new ((void *)(pIter)) ::Vec3())))->kCondition))->ContainsTrait((::TESObjectREFR *)(pSubject), (::TESObjectREFR *)(0)))
+        if (reinterpret_cast<::PerkEntryConditionSet *>(&((*((::CHChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)))->kCondition))->ContainsTrait((::TESObjectREFR *)(pSubject), (::TESObjectREFR *)(0)))
         {
-            CHTile* pItemTile = ((::CHTile *)(reinterpret_cast<::LBListBox *>(&(kListBox))->AddItem((int)(*((::CHChallenge **)(new ((void *)(pIter)) ::Vec3()))), (const char *)(0), (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
+            CHTile* pItemTile = ((::CHTile *)(reinterpret_cast<::LBListBox *>(&(kListBox))->AddItem((int)(*((::CHChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))), (const char *)(0), (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
             reinterpret_cast<::Tile *>((pItemTile))->Set(::FUN_00a00940("_enabled", -1), 0);
-            reinterpret_cast<::Tile *>((pItemTile))->Set(0xfd6, reinterpret_cast<::FUN_00758a60_shell *>(((*((::CHChallenge **)(new ((void *)(pIter)) ::Vec3())))))->FUN_00758a60() ? 2 : 1);
-            ::FUN_00406f60((::FUN_00406f90_this *)(::CHString *)(&kText), "%s%s", "> ", ((const char *)(::FUN_00559450((int *)((*((::CHChallenge **)(new ((void *)(pIter)) ::Vec3()))))))));
+            reinterpret_cast<::Tile *>((pItemTile))->Set(0xfd6, reinterpret_cast<::FUN_00758a60_shell *>(((*((::CHChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)))))->FUN_00758a60() ? 2 : 1);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::CHString *)(&kText), "%s%s", "> ", ((const char *)(::FUN_00559450((int *)((*((::CHChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))))))));
             reinterpret_cast<::FUN_00759da0_shell *>((pDisplay))->InsertAtPosition(((const char *)(::FUN_00559450((int *)&(kText)))), (int)(((::CHValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((pItemTile))->FUN_00a00f30(0x1004)))), (int)(((::CHValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((pItemTile))->FUN_00a00f30(0xfa3)))), -1);
         }
-        reinterpret_cast<::FUN_007583b0_shell *>(((*((::CHChallenge **)(new ((void *)(pIter)) ::Vec3())))))->SetFlag4(false);
+        reinterpret_cast<::FUN_007583b0_shell *>(((*((::CHChallenge **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)))))->SetFlag4(false);
     }
 
     if (((::CHListNode *)(reinterpret_cast<::Callees *>(&(kRecent))->FUN_00726070())))
@@ -2257,12 +2260,12 @@ MyTile* MyListBox::GetScrollTargetTile(int aiScrollCode)
 
         while (1)
         {
-            for (MyNode* pNodeA = this ? &m_kNode : 0; !pFound_ && pNodeA && ((::MyRef *)(new ((void *)(pNodeA)) ::Vec3()))->p;
+            for (MyNode* pNodeA = this ? &m_kNode : 0; !pFound_ && pNodeA && ((::MyRef *)(reinterpret_cast<::SimpleListNodeView*>(pNodeA)->m_item))->p;
                  pNodeA = ((::MyNode *)(reinterpret_cast<::Callees *>((pNodeA))->FUN_00726070())))
             {
-                if (reinterpret_cast<::TileListBoxCalls *>((((::MyRef *)(new ((void *)(pNodeA)) ::Vec3()))->p->m_00))->GetFloat(0xfac) == (float)curIdx)
+                if (reinterpret_cast<::TileListBoxCalls *>((((::MyRef *)(reinterpret_cast<::SimpleListNodeView*>(pNodeA)->m_item))->p->m_00))->GetFloat(0xfac) == (float)curIdx)
                 {
-                    pFound_ = ((::MyRef *)(new ((void *)(pNodeA)) ::Vec3()))->p->m_00;
+                    pFound_ = ((::MyRef *)(reinterpret_cast<::SimpleListNodeView*>(pNodeA)->m_item))->p->m_00;
                 }
             }
 
@@ -2869,12 +2872,12 @@ void FUN_0075aa50_cls::ResetAndProcessNodes()
 {
     m_1c = 0;
     m_20 = 0.0f;
-    for (b9165Node* cur = this != 0 ? &m_04 : 0; cur != 0 && ((::b9165Ref *)(new ((void *)(cur)) ::Vec3()))->p != 0; cur = ((::b9165Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
+    for (b9165Node* cur = this != 0 ? &m_04 : 0; cur != 0 && ((::b9165Ref *)(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item))->p != 0; cur = ((::b9165Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
-        if (((::b9165Ref *)(new ((void *)(cur)) ::Vec3()))->p->m_08 == 0)
+        if (((::b9165Ref *)(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item))->p->m_08 == 0)
         {
-            reinterpret_cast<::Tile *>((((::b9165Ref *)(new ((void *)(cur)) ::Vec3()))->p->m_00))->Set(0xfac, m_1c++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(((::b9165Ref *)(new ((void *)(cur)) ::Vec3()))->p->m_00));
+            reinterpret_cast<::Tile *>((((::b9165Ref *)(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item))->p->m_00))->Set(0xfac, m_1c++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(((::b9165Ref *)(reinterpret_cast<::SimpleListNodeView*>(cur)->m_item))->p->m_00));
         }
     }
     UpdateScrollItems();
@@ -2891,14 +2894,14 @@ FUN_0075a060::~FUN_0075a060()
 // @fnv 0x0075a3b0
 void AnimationList::ClearEntries()
 {
-    while (node && *((::AnimationEntry **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::AnimationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
         AnimationNode* next = ((::AnimationNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (!::fnv_007a2070::s_bAllowDetach)
-            delete (*((::AnimationEntry **)(new ((void *)(node)) ::Vec3())))->object;
+            delete (*((::AnimationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->object;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(1))
-            delete (*((::AnimationEntry **)(new ((void *)(node)) ::Vec3())))->text;
-        delete *((::AnimationEntry **)(new ((void *)(node)) ::Vec3()));
+            delete (*((::AnimationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->text;
+        delete *((::AnimationEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         reinterpret_cast<::CombatProcedure *>((node))->Initialize((::CombatController *)(0));
         delete node;
         node = next;

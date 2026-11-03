@@ -1,5 +1,6 @@
 // fallout/interface/menus/startmenu.cpp: StartMenu, BGSSaveLoadUI, StartMenu_Wrap, ListBox_Option and more (184 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -95,7 +96,6 @@
 #include "fnv/decl/ItemChangeList.h"
 #include "fnv/decl/LBList.h"
 #include "fnv/decl/LBList_7314c0.h"
-#include "fnv/decl/ListBox.h"
 #include "fnv/decl/ListBoxExt.h"
 #include "fnv/decl/ListBoxScroll.h"
 #include "fnv/decl/ListBoxX.h"
@@ -106,7 +106,6 @@
 #include "fnv/decl/NavMeshSearchLOSArray.h"
 #include "fnv/decl/NetworkSystemUtility.h"
 #include "fnv/decl/NiPoint3Interpolator.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/NonActorMagicTarget.h"
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/P03Value.h"
@@ -1082,8 +1081,8 @@ void S7d::FUN_007d4b40()
     if (::BSSystemUtility::s_iUpdateEnabled)
         ::BSSystemUtility::GetRandomGenerator();
     (*reinterpret_cast<::fnv_007d4b40::SM7d * *>(&::DAT_011de134))->FUN_00851330();
-    for (N7d* n = ((::fnv_007d4b40::N7d *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_007d4b40::SM7d * *>(&::DAT_011de134)))))); n && *((int *)(new ((void *)(n)) ::Vec3())); n = ((::fnv_007d4b40::N7d *)(reinterpret_cast<::Callees *>((n))->FUN_00726070())))
-        reinterpret_cast<::fnv_007d7da0::ItemBox *>(&(l))->FUN_007d7da0(*((int *)(new ((void *)(n)) ::Vec3())), (const char *)(0), (int (*)(fnv_007d7da0::BoxEntry *, fnv_007d7da0::BoxEntry *))(0), (const char *)(0));
+    for (N7d* n = ((::fnv_007d4b40::N7d *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_007d4b40::SM7d * *>(&::DAT_011de134)))))); n && *((int *)(&reinterpret_cast<::SimpleListNodeView*>(n)->m_item)); n = ((::fnv_007d4b40::N7d *)(reinterpret_cast<::Callees *>((n))->FUN_00726070())))
+        reinterpret_cast<::fnv_007d7da0::ItemBox *>(&(l))->FUN_007d7da0(*((int *)(&reinterpret_cast<::SimpleListNodeView*>(n)->m_item)), (const char *)(0), (int (*)(fnv_007d7da0::BoxEntry *, fnv_007d7da0::BoxEntry *))(0), (const char *)(0));
 }
 }  // namespace fnv_007d4b40
 
@@ -1730,6 +1729,10 @@ struct FUN_007cb5b0 : Menu_007a8b10
     StartMenu::UserOption* m_pSelectedUserOption;
     GO m_kObject;
 };
+struct FUN_004ed900_shell
+{
+    void FUN_004ed900();
+};
 // @fnv 0x007cb5b0
 FUN_007cb5b0::~FUN_007cb5b0()
 {
@@ -1743,7 +1746,7 @@ FUN_007cb5b0::~FUN_007cb5b0()
     }
     reinterpret_cast<::RecordList *>(((*reinterpret_cast<::fnv_007cb5b0::BGSSaveLoadManager * *>(&::DAT_011de134))))->FUN_00851540();
     (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) = 0;
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_007cb5b0::M788 *>(&::g_011dabd8))))->FUN_004ed900();
+    reinterpret_cast<FUN_004ed900_shell *>(&((*reinterpret_cast<::fnv_007cb5b0::M788 *>(&::g_011dabd8))))->FUN_004ed900();
     ::FUN_007cb7a0();
 }
 }  // namespace fnv_007cb5b0
@@ -1895,7 +1898,7 @@ void PopulateFileList()
         reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList))->FUN_00764430(-1, ((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3ad4))->GetMenuTitle())), (int (*)(BoxItem *, BoxItem *))(int (*)(ListBoxItem<int> *, ListBoxItem<int> *))(0), 0);
         while (pnode)
         {
-            TESFile* pfile = ((::TESFile *)(new ((void *)(pnode)) ::Vec3()));
+            TESFile* pfile = ((::TESFile *)(reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item));
             if (pfile && ((bool)(reinterpret_cast<::FUN_00464db0_shell *>((pfile))->GetByteAt428())))
                 reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList))->FUN_00764430(0, pfile->GetField418(), (int (*)(BoxItem *, BoxItem *))(int (*)(ListBoxItem<int> *, ListBoxItem<int> *))(0), 0);
             pnode = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070()));
@@ -2204,12 +2207,11 @@ void FUN_007d2790(StartMenu::UserOption* apOption)
 {
     if (!apOption)
     {
-        ::SetMasterVolume((float)(((::fnv_007d2790::BSAudio *)(::FUN_00453a70()))), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e14))))->FUN_00450410());
+        ::SetMasterVolume(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e14))))->FUN_00450410(), 0);
     }
     else if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        ::SetMasterVolume((float)(((::fnv_007d2790::BSAudio *)(::FUN_00453a70()))), 
-            reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e14)))))->FUN_004ed780((float)apOption->iVal / (apOption->m_uiValueCount - 1))))))->FUN_00450410());
+        ::SetMasterVolume(reinterpret_cast<::FUN_00450410_Class *>((((::GlobalObject_0044f440 *)(reinterpret_cast<::S_004ed780 *>((((Setting_007d28b0*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011f6e14)))))->FUN_004ed780((float)apOption->iVal / (apOption->m_uiValueCount - 1))))))->FUN_00450410(), 0);
     }
     else
     {
@@ -2368,11 +2370,11 @@ void HandleBackAction();
 // @fnv 0x007d3190
 void HandleSaveLoadMenuAction()
 {
-    if (!(SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) || !*((::SaveEntryStandIn **)(new ((void *)(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))) ::Vec3())))
+    if (!(SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) || !*((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))
         (*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))->FUN_00851330();
-    if ((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) && *((::SaveEntryStandIn **)(new ((void *)(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))) ::Vec3())))
+    if ((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134)) && *((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))
     {
-        if (reinterpret_cast<::BGSSaveLoadFileEntry *>(((*((::SaveEntryStandIn **)(new ((void *)(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))) ::Vec3())))))->IsSaveEntryValid())
+        if (reinterpret_cast<::BGSSaveLoadFileEntry *>(((*((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))))->IsSaveEntryValid())
         {
             ::fnv_00703e80::FUN_00703e80(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1f14))))->GetMenuTitle())), 0, 0, 0, 0, 5, 0.0f, 0.0f, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d38b8))))->GetMenuTitle())),
                                         0);
@@ -2380,7 +2382,7 @@ void HandleSaveLoadMenuAction()
         else
         {
             FUN_00af59e0();
-            (*((::SaveEntryStandIn **)(new ((void *)(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))) ::Vec3())))->LoadSaveEntry();
+            (*((::SaveEntryStandIn **)(&reinterpret_cast<::SimpleListNodeView*>(((SaveEntryNode*)*(*reinterpret_cast<::SaveLoadManagerStandIn * *>(&::DAT_011de134))))->m_item)))->LoadSaveEntry();
         }
     }
     else
@@ -2704,7 +2706,7 @@ bool ListBoxSaveLoad::FUN_007d80f0(unsigned int aiIndex, bool abLiteral)
     }
     else
     {
-        while (pnode && reinterpret_cast<::TileListBoxCalls *>(((*((::fnv_007d80f0::ListBoxItemStandIn **)(new ((void *)(pnode)) ::Vec3())))->pTile))->GetFloat(0xfac) != aiIndex)
+        while (pnode && reinterpret_cast<::TileListBoxCalls *>(((*((::fnv_007d80f0::ListBoxItemStandIn **)(&reinterpret_cast<const ::SimpleListNodeView*>(pnode)->m_item)))->pTile))->GetFloat(0xfac) != aiIndex)
         {
             plast = pnode;
             pnode = ((const ::fnv_007d80f0::ListBoxItemList *)(reinterpret_cast<::Callees *>((void *)(pnode))->FUN_00726070()));
@@ -2753,12 +2755,12 @@ void ListBox_Option::UpdateItemTiles()
     m_usSelectedIndex = 0;
     m_fFirstListValue = 0.0f;
     ListBoxNode_Option* pnode;
-    for (pnode = this; pnode && *((::fnv_007d8f10::ListBoxItem_Option **)(new ((void *)(pnode)) ::Vec3())); pnode = ((::fnv_007d8f10::ListBoxNode_Option *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (pnode = this; pnode && *((::fnv_007d8f10::ListBoxItem_Option **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::fnv_007d8f10::ListBoxNode_Option *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if (!(*((::fnv_007d8f10::ListBoxItem_Option **)(new ((void *)(pnode)) ::Vec3())))->m_bFiltered)
+        if (!(*((::fnv_007d8f10::ListBoxItem_Option **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->m_bFiltered)
         {
-            reinterpret_cast<::Tile *>(((*((::fnv_007d8f10::ListBoxItem_Option **)(new ((void *)(pnode)) ::Vec3())))->pTile))->Set(0xfac, m_usSelectedIndex++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::fnv_007d8f10::ListBoxItem_Option **)(new ((void *)(pnode)) ::Vec3())))->pTile));
+            reinterpret_cast<::Tile *>(((*((::fnv_007d8f10::ListBoxItem_Option **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->pTile))->Set(0xfac, m_usSelectedIndex++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::fnv_007d8f10::ListBoxItem_Option **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->pTile));
         }
     }
     reinterpret_cast<::HeightList *>(this)->FUN_007d9460();
@@ -2806,12 +2808,12 @@ void ListBox_SaveLoad::UpdateSaveLoadList()
     m_usSelectedIndex = 0;
     m_fFirstListValue = 0.0f;
     ListBoxNode_SaveLoad* pnode;
-    for (pnode = this; pnode && *((::fnv_007d9590::ListBoxItem_SaveLoad **)(new ((void *)(pnode)) ::Vec3())); pnode = ((::fnv_007d9590::ListBoxNode_SaveLoad *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (pnode = this; pnode && *((::fnv_007d9590::ListBoxItem_SaveLoad **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::fnv_007d9590::ListBoxNode_SaveLoad *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if (!(*((::fnv_007d9590::ListBoxItem_SaveLoad **)(new ((void *)(pnode)) ::Vec3())))->m_bFiltered)
+        if (!(*((::fnv_007d9590::ListBoxItem_SaveLoad **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->m_bFiltered)
         {
-            reinterpret_cast<::Tile *>(((*((::fnv_007d9590::ListBoxItem_SaveLoad **)(new ((void *)(pnode)) ::Vec3())))->pTile))->Set(0xfac, m_usSelectedIndex++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::fnv_007d9590::ListBoxItem_SaveLoad **)(new ((void *)(pnode)) ::Vec3())))->pTile));
+            reinterpret_cast<::Tile *>(((*((::fnv_007d9590::ListBoxItem_SaveLoad **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->pTile))->Set(0xfac, m_usSelectedIndex++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::fnv_007d9590::ListBoxItem_SaveLoad **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->pTile));
         }
     }
     reinterpret_cast<::ListBoxScroll *>(this)->FUN_007d9d50();
@@ -3668,6 +3670,8 @@ class Interface_r7d32b0
 {
   public:
 };
+class BGSMusicType;
+enum MEDIATYPE;
 struct FalloutAudioMedia
 {
     static void __cdecl BeginMediaUpdate();
@@ -3813,7 +3817,7 @@ void __cdecl InitSaveLoadTile(Tile* apTile, BGSSaveLoadFileEntry* apSaveGame)
         {
             BSStringT<char> strName;
             ::FUN_00406f60((::FUN_00406f90_this *)&(strName), "#%04d", ::FUN_007d6950((::BGSSaveLoadFileEntry *)(((SaveLoadEntryHelper*)apSaveGame))));
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((apTile))->FUN_00a01350(0x1004, (char *)(*(BSStringHelper*)&strName), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((apTile))->FUN_00a01350(0x1004, (char *)(const char *)(*(BSStringHelper*)&strName), true);
         }
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((apTile))->FUN_00a01350(0x1005,
                     (char *)(reinterpret_cast<::BGSSaveLoadFileEntry *>((((SaveLoadEntryHelper*)apSaveGame)))->IsSaveEntryValid()
@@ -6410,9 +6414,9 @@ void ShowSelectedMenuMessage()
                     {
                         bool found5 = false;
                         BSSimpleList<TESForm*>* node = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::BGSCameraPath *>((list2))->GetConditions()));
-                        while (node && ((::TESForm *)(new ((void *)(node)) ::Vec3())))
+                        while (node && ((::TESForm *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
                         {
-                            if (((::TESForm *)(new ((void *)(node)) ::Vec3())) == message)
+                            if (((::TESForm *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) == message)
                             {
                                 found5 = true;
                                 break;
@@ -7422,7 +7426,7 @@ void FUN_007d6730_shell::ProcessSaveLoadList()
 void FUN_007d62e0_shell::EnableAndRemoveHighlightedItem()
 {
     reinterpret_cast<::FUN_007d8810_shell *>(&(this->m_kOptionHelper))->FUN_007d8810(true);
-    reinterpret_cast<::ListBox *>(&(this->m_kOptionHelper))->FUN_007d8d80(this->m_kOptionHelper.GetHighlightedItem());
+    this->m_kOptionHelper.FUN_007d8d80(this->m_kOptionHelper.GetHighlightedItem());
     this->m_pTiles[6]->Set(0x1004, 1);
     if (!FUN_004b71d0())
     {
@@ -7787,10 +7791,10 @@ struct FUN_007d7b50_shell
 void FUN_007d7b50_shell::ForEachEntry(unsigned char arg)
 {
     Iter* it = this ? (Iter*)((char*)this + 4) : 0;
-    for (; it != 0 && ((::fnv_007d7b50::Ctx *)(new ((void *)(it)) ::Vec3()))->f0 != 0; it = ((::fnv_007d7b50::Iter *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
+    for (; it != 0 && ((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0 != 0; it = ((::fnv_007d7b50::Iter *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
     {
-        if (arg == 0 || ((X*)((::fnv_007d7b50::Ctx *)(new ((void *)(it)) ::Vec3()))->f0)->b8 == 0)
-            reinterpret_cast<::FUN_007d8fe0_shell *>((((FUN_007d8fe0_shell*)this)))->FUN_007d8fe0((int)((X*)((::fnv_007d7b50::Ctx *)(new ((void *)(it)) ::Vec3()))->f0)->f0);
+        if (arg == 0 || ((X*)((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0)->b8 == 0)
+            reinterpret_cast<::FUN_007d8fe0_shell *>((((FUN_007d8fe0_shell*)this)))->FUN_007d8fe0((int)((X*)((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0)->f0);
     }
 }
 }  // namespace fnv_007d7b50
@@ -7990,7 +7994,7 @@ void __cdecl FUN_007d69f0()
     Node_007d69f0* pNode = ((::fnv_007d69f0::Node_007d69f0 *)(::GetOffsetC((int)(kPDLC))));
     while (pNode != 0)
     {
-        pItem2 = *((::fnv_007d69f0::Item_007d69f0 **)(new ((void *)(pNode)) ::Vec3()));
+        pItem2 = *((::fnv_007d69f0::Item_007d69f0 **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
         if (pItem2 != 0)
         {
             void* e = reinterpret_cast<::FUN_00b008d0_StandIn *>((pItem2))->FUN_00b008d0();
@@ -8814,7 +8818,7 @@ void FileEnumerator::FUN_00851330()
 
     reinterpret_cast<::ItemChangeList *>((entries))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(((int (&)(FileEntry *, FileEntry *))::CompareU64Values)));
 
-    FileEntry* first = ((::FileEntry *)(new ((void *)(entries)) ::Vec3()));
+    FileEntry* first = ((::FileEntry *)(reinterpret_cast<::SimpleListNodeView*>(entries)->m_item));
 
     if (first && currentIndex <= 1)
     {

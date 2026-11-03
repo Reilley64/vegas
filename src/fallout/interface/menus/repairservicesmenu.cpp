@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/repairservicesmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/repairservicesmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorGoldQuery.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -777,7 +778,6 @@ struct StatValue
 struct StatSetting
 {
 };
-int __cdecl strcat_s(char*, unsigned int, const char*);
 struct StatMenu
 {
     int field00;
@@ -1027,7 +1027,7 @@ void RepairMenuData::ApplyRepair(RepairEntry* apEntry)
     else
         fHealthPercent *= ::TESHealthForm::GetBaseHealth((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apEntry))->GetName()))));
     pPlayerEntry = ((::RepairEntry *)(reinterpret_cast<::FUN_004bfba0_shell *>((((::RepairInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::RepairPlayer * *>(&::_g_thePlayer))))))))->FUN_004bfba0(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apEntry))->GetName())), 1, 0)));
-    pOldListOut = ((::ExtraListNode *)(::FUN_00559450((int *)(apEntry)))) ? *((::ExtraDataList **)(new ((void *)(((::ExtraListNode *)(::FUN_00559450((int *)(apEntry)))))) ::Vec3())) : 0;
+    pOldListOut = ((::ExtraListNode *)(::FUN_00559450((int *)(apEntry)))) ? *((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(((::ExtraListNode *)(::FUN_00559450((int *)(apEntry)))))->m_item)) : 0;
     pNewList4 = new ExtraDataList;
     iCount8 = -1;
     bMergedTmp = false;
@@ -1037,14 +1037,14 @@ void RepairMenuData::ApplyRepair(RepairEntry* apEntry)
     pNewList4->SetExtraHealth(fHealthPercent);
     if (iCount8 > 1)
         reinterpret_cast<::FUN_00419ad0_shell *>((pOldListOut))->FUN_00419ad0(iCount8 - 1);
-    for (pNodeOut = ((::ExtraListNode *)(::FUN_00559450((int *)(pPlayerEntry)))); pNodeOut && *((::ExtraDataList **)(new ((void *)(pNodeOut)) ::Vec3())); pNodeOut = ((::ExtraListNode *)(reinterpret_cast<::Callees *>((pNodeOut))->FUN_00726070())))
+    for (pNodeOut = ((::ExtraListNode *)(::FUN_00559450((int *)(pPlayerEntry)))); pNodeOut && *((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeOut)->m_item)); pNodeOut = ((::ExtraListNode *)(reinterpret_cast<::Callees *>((pNodeOut))->FUN_00726070())))
     {
         if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apEntry))->GetName()))->FNV_FUN_0044ddc0Type() == 0x18 && ((void *)(reinterpret_cast<::FUN_004bde40_shell *>((apEntry))->FUN_004bde40())))
             break;
-        if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::ExtraDataList **)(new ((void *)(pNodeOut)) ::Vec3())))))->FUN_004126c0(pNewList4, 1, 0) &&
-            !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((pNewList4))->FUN_004126c0(*((::ExtraDataList **)(new ((void *)(pNodeOut)) ::Vec3())), 1, 0))
+        if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeOut)->m_item)))))->FUN_004126c0(pNewList4, 1, 0) &&
+            !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((pNewList4))->FUN_004126c0(*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeOut)->m_item)), 1, 0))
         {
-            reinterpret_cast<::FUN_00419ad0_shell *>(((*((::ExtraDataList **)(new ((void *)(pNodeOut)) ::Vec3())))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::ExtraDataList **)(new ((void *)(pNodeOut)) ::Vec3())))))->FUN_00418770() + 1);
+            reinterpret_cast<::FUN_00419ad0_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeOut)->m_item)))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeOut)->m_item)))))->FUN_00418770() + 1);
             bMergedTmp = true;
         }
     }

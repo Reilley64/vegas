@@ -147,8 +147,9 @@ void Menu::UpdateClockText()
                 hour = 12;
             else if (time >= 13.0)
                 hour -= 12;
-            ::FUN_00406d00(szClockText, 260, "%s, %s, %d:%02d %s", reinterpret_cast<::CalendarProxy *>(&((*reinterpret_cast<::Time *>(&::g_011de7b8))))->GetDayName(),
-                      ((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::Time *>(&::g_011de7b8)).FormatDate())))), hour, minute,
+            BSStringTChar date = (*reinterpret_cast<::Time *>(&::g_011de7b8)).FormatDate();
+        ::FUN_00406d00(szClockText, 260, "%s, %s, %d:%02d %s", reinterpret_cast<::CalendarProxy *>(&((*reinterpret_cast<::Time *>(&::g_011de7b8))))->GetDayName(),
+                      ((const char *)(::FUN_00559450((int *)&(date)))), hour, minute,
                       time < 12.0 ? ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d24fc))))->GetMenuTitle())) : ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d27f0))))->GetMenuTitle())));
         }
     }

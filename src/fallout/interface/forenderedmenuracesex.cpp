@@ -1329,7 +1329,7 @@ void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
     bool bOverrideTmp = false;
     bOverrideTmp = true;
     RtRenderer* pkRendererY = ((::fnv_007fe1f0::RtRenderer *)(::FUN_0043c4b0()));
-    RtPtr<RtTexture> spTarget5(((::fnv_007fe1f0::RtTexture *)(reinterpret_cast<::Pool *>((((::fnv_007fe1f0::RtTarget *)(::FUN_004a0ea0(::FUN_0043c4b0())))))->FUN_00b6e110(0x30, 0, 0, 0, {}))));
+    RtPtr<RtTexture> spTarget5(((::fnv_007fe1f0::RtTexture *)(reinterpret_cast<::Pool *>(::FUN_004a0ea0())->FUN_00b6e110(reinterpret_cast<std::uintptr_t>(::FUN_0043c4b0()), 0x30, 0, 0, 0))));
     RtColor kKBorder(0.0f, 0.0f, 0.0f, 0.0f);
     RtColor kBackgroundVal2(0.0f, 0.0f, 0.0f, 0.0f);
     kBackgroundVal2 = (*(const ::fnv_007fe1f0::RtColor *)(reinterpret_cast<::FUN_00503650_shell *>(this)->FUN_00503650()));

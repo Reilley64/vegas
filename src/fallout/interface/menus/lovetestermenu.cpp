@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/result_slot.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AnimationSequence.h"
@@ -405,7 +406,7 @@ struct FUN_007927a0_shell
 // @fnv 0x007927a0
 bool FUN_007927a0_shell::HandleKeyInput(int aiKey)
 {
-    switch (aiKey)
+    switch ((unsigned int)aiKey)
     {
     case '+':
     case '=':
@@ -1078,7 +1079,7 @@ void FUN_007958e0()
         if (value > 1)
         {
             GlobalObject_0041a250 sound;
-            reinterpret_cast<::SoundPlaybackHandle *>((((SH_00418890*)&sound)))->operator=((*(const ::SoundPlaybackHandle *)(&((Audio*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumberDown", 0x121))));
+            reinterpret_cast<::SoundPlaybackHandle *>((((SH_00418890*)&sound)))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(((Audio*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumberDown", 0x121)))));
             reinterpret_cast<::FUN_00ad8830_shell *>((((FUN_00ad8830_shell*)&sound)))->FUN_00ad8830(false);
         }
         reinterpret_cast<::FUN_0093a7c0_Owner *>((((PlayerOps*)(*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(index), ::FUN_00647b70(value - 1, 1));
@@ -1814,7 +1815,7 @@ bool Menu170::StepPosition(bool increase)
             position++;
             changed = true;
             GlobalObject_0041a250 sound;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121))));
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121)))));
             reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         else
@@ -1839,7 +1840,7 @@ bool Menu170::StepPosition(bool increase)
             position--;
             changed = true;
             GlobalObject_0041a250 sound;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121))));
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(((::AudioView *)(::FUN_00453a70()))->GetSoundHandleByEditorID("OBJBookSpecialPageTurn", 0x121)))));
             reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
         }
         else
@@ -2007,9 +2008,9 @@ void __cdecl FUN_007c9ca0()
         unsigned int scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
         ::UpdateCameraFrustum((::NiCamera *)(scene), 0.15f);
         NP node(((int)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::InterfaceHelper *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
-        reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)(node));
+        reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)((int)node));
         ::FUN_00b6bee0((void *)(scene), ((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))), (::BSShaderAccumulator *)(cam));
-        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(scene), (::BSShaderAccumulator *)(node), 0);
+        ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(scene), (::BSShaderAccumulator *)((int)node), 0);
         reinterpret_cast<::FUN_004a0fd0_shell *>((cam))->FUN_004a0fd0((::NiNode *)(0));
         reinterpret_cast<::FUN_00c4f2d0_class *>((cam))->FUN_00c4f2d0();
     }
@@ -3027,7 +3028,10 @@ FUN_00794ff0::FUN_00794ff0(int aiParam1, int aiParam2, const char* pName, int iP
     va_list kArgs;
     va_start(kArgs, aiAnimCount);
     for (int i = 0; i < aiAnimCount; i++)
-        ((BSScrapArray<Animation*, 0x400>*)&m_kAnims)->Add(va_arg(kArgs, Animation*));
+    {
+        Animation* pAnim = va_arg(kArgs, Animation*);
+        ((BSScrapArray<Animation*, 0x400>*)&m_kAnims)->Add(pAnim);
+    }
     va_end(kArgs);
 }
 

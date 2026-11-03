@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/blackjackmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/blackjackmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -702,15 +703,15 @@ bool FUN_007395a0_shell::FUN_007395a0()
     numCards = 0;
     bCanSplit = false;
 
-    while (clist && *((::fnv_007395a0::Padding16ByteBlock **)(new ((void *)(clist)) ::Vec3())))
+    while (clist && *((::fnv_007395a0::Padding16ByteBlock **)(&reinterpret_cast<::SimpleListNodeView*>(clist)->m_item)))
     {
         if (numCards == 0)
         {
-            cd = *((::fnv_007395a0::Padding16ByteBlock **)(new ((void *)(clist)) ::Vec3()));
+            cd = *((::fnv_007395a0::Padding16ByteBlock **)(&reinterpret_cast<::SimpleListNodeView*>(clist)->m_item));
         }
         else if (numCards == 1)
         {
-            if (cd->m_uiFilterValue == (*((::fnv_007395a0::Padding16ByteBlock **)(new ((void *)(clist)) ::Vec3())))->m_uiFilterValue)
+            if (cd->m_uiFilterValue == (*((::fnv_007395a0::Padding16ByteBlock **)(&reinterpret_cast<::SimpleListNodeView*>(clist)->m_item)))->m_uiFilterValue)
             {
                 if (m_iValueAtOffset74 >= m_iValueAtOffset6C * 2)
                     bCanSplit = true;
@@ -3100,11 +3101,11 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     DAT_0119fe3c = maximum;
     DAT_011d9054 = 0;
     Node129* node = ((::Node129 *)(::FUN_005a6260((char *)(((Player129*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))));
-    while (node && *((::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino129*)DAT_011d9058)))->FUN_0084e3a0() == (*((::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->id)
+        if (reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino129*)DAT_011d9058)))->FUN_0084e3a0() == (*((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->id)
         {
-            DAT_011d9054 = *((::FUN_00733f50 **)(new ((void *)(node)) ::Vec3()));
+            DAT_011d9054 = *((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             break;
         }
         if (!((::Node129 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
@@ -4332,6 +4333,15 @@ template <class C> class BSStringT
   public:
     operator const C*() const;
 };
+template <> class BSStringT<char>
+{
+  public:
+    char* data;
+    unsigned short length, capacity;
+    BSStringT();
+    ~BSStringT();
+    operator const char*() const;
+};
 template <class T> class NiTPointerList
 {
   public:
@@ -4557,9 +4567,9 @@ int OwnQ::FUN_00738ff0(Node129* pList)
     iTotal = 0;
     iAces = 0;
     pIter_lcjr = pList;
-    while (pIter_lcjr && *((::FUN_00733f50 **)(new ((void *)(pIter_lcjr)) ::Vec3())))
+    while (pIter_lcjr && *((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(pIter_lcjr)->m_item)))
     {
-        pCard_biq = (int*)*((::FUN_00733f50 **)(new ((void *)(pIter_lcjr)) ::Vec3()));
+        pCard_biq = (int*)*((::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(pIter_lcjr)->m_item));
         iTotal += ((FUN_00738fb0_shell*)this)->GetAdjustedValue(*pCard_biq);
         if (*pCard_biq == 12)
             iAces++;
@@ -4672,7 +4682,7 @@ void InputMenu::HandleAction(int action, void* tile)
                     reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x100, false);
                     CardHand* splitWalk5 = split;
                     int splitCount = 0;
-                    while (splitWalk5 && *((::CardInfo **)(new ((void *)(splitWalk5)) ::Vec3())))
+                    while (splitWalk5 && *((::CardInfo **)(&reinterpret_cast<::SimpleListNodeView*>(splitWalk5)->m_item)))
                     {
                         splitCount++;
                         splitWalk5 = ((::CardHand *)(reinterpret_cast<::Callees *>((splitWalk5))->FUN_00726070()));
@@ -4697,7 +4707,7 @@ void InputMenu::HandleAction(int action, void* tile)
                     reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x40, false);
                     CardHand* handWalk6 = hand;
                     int handCountA = 0;
-                    while (handWalk6 && *((::CardInfo **)(new ((void *)(handWalk6)) ::Vec3())))
+                    while (handWalk6 && *((::CardInfo **)(&reinterpret_cast<::SimpleListNodeView*>(handWalk6)->m_item)))
                     {
                         handCountA++;
                         handWalk6 = ((::CardHand *)(reinterpret_cast<::Callees *>((handWalk6))->FUN_00726070()));
@@ -4789,7 +4799,7 @@ void InputMenu::HandleAction(int action, void* tile)
                     state = 3;
                     reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(1, true);
                     CardHand* secondNode3 = ((::CardHand *)(reinterpret_cast<::Callees *>((hand))->FUN_00726070()));
-                    CardInfo* splitCard7 = *((::CardInfo **)(new ((void *)(secondNode3)) ::Vec3()));
+                    CardInfo* splitCard7 = *((::CardInfo **)(&reinterpret_cast<::SimpleListNodeView*>(secondNode3)->m_item));
                     int splitIndex = 0;
                     splitBet = bet;
                     if (!split || split->FUN_008256d0())
@@ -4889,24 +4899,7 @@ void InputMenu::HandleAction(int action, void* tile)
 
 int __cdecl FUN_00733f80();
 void FUN_00731d30();
-struct FUN_00733f50_shell
-{
-    int m0;
-    int m1;
-    short m2;
-    FUN_00733f50_shell* FUN_00733f50();
-};
-struct FUN_00734d50_holder_ctx
-{
-    unsigned char _pad[0xDB0];
-    int _flags;
-    void SetFlag(int flag, bool value);
-};
 void __cdecl FUN_00733500();
-struct FUN_00739650_shell : FUN_00734d50_holder_ctx
-{
-    bool FUN_00739650(bool bFlag);
-};
 void __cdecl UpdateBetTiles(bool bBetTiles);
 int __cdecl FUN_00ec7d40(int);
 
@@ -4921,15 +4914,6 @@ struct GlobalObject_0041a250
     int id, flags, state;
     GlobalObject_0041a250();
     ~GlobalObject_0041a250();
-};
-template <> class BSStringT<char>
-{
-  public:
-    char* data;
-    unsigned short length, capacity;
-    BSStringT();
-    ~BSStringT();
-    operator const char*() const;
 };
 class TESContainer
 {
@@ -5211,7 +5195,7 @@ void BlackjackUpdate::FUN_00734db0()
                 ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msg), DAT_0101c178, -difference,
                              ::FUN_00482720((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())))), (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0(),
                              (*reinterpret_cast<::Settings129 *>(&::g_011d3db4)).FUN_00403df0());
-                ::DispatchMessageToSink((int)(msg), 0, (int)(::g_011cba18_arg1),
+                ::DispatchMessageToSink(reinterpret_cast<std::intptr_t>((const char *)(msg)), 0, (int)(::g_011cba18_arg1),
                                       (int)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
                                       ::DAT_010162c0, 0);
             }
@@ -5228,7 +5212,7 @@ void BlackjackUpdate::FUN_00734db0()
                     ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msg2), DAT_01070d8c, difference,
                                  ::FUN_00482720((::TESForm *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0())))),
                                  (*reinterpret_cast<::Settings129 *>(&::g_011d3114)).FUN_00403df0(), (*reinterpret_cast<::Settings129 *>(&::g_011d4e7c)).FUN_00403df0(), (*reinterpret_cast<::Settings129 *>(&::g_011d3abc)).FUN_00403df0());
-                    ::DispatchMessageToSink((int)(msg2), 0, (int)(::g_011cba00_arg1),
+                    ::DispatchMessageToSink(reinterpret_cast<std::intptr_t>((const char *)(msg2)), 0, (int)(::g_011cba00_arg1),
                                           (int)reinterpret_cast<::PickupSoundActorView *>((((PlayerUpdate*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_008adcf0((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::FUN_007316d0_Class *>((((CasinoUpdate*)DAT_011d9058)))->FUN_007316d0()))), 1, false),
                                           ::DAT_010162c0, 0);
                 }
@@ -5259,12 +5243,12 @@ void BlackjackUpdate::FUN_00734db0()
                 sounded = true;
                 FUN_0096a2d0* p = player;
                 FUN_0096a2d0* dealerNode = dealer;
-                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 1, (::CardInfo *)(*((::BJCard **)(new ((void *)(p)) ::Vec3()))));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 1, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item))));
                 p = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
-                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 2, (::CardInfo *)(*((::BJCard **)(new ((void *)(p)) ::Vec3()))));
-                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 1, (::CardInfo *)(*((::BJCard **)(new ((void *)(dealerNode)) ::Vec3()))));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(0, 2, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item))));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 1, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(dealerNode)->m_item))));
                 dealerNode = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((dealerNode))->FUN_00726070()));
-                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 2, (::CardInfo *)(*((::BJCard **)(new ((void *)(dealerNode)) ::Vec3()))));
+                reinterpret_cast<::BlackjackMenuShell *>(this)->FUN_007396e0(2, 2, (::CardInfo *)(*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(dealerNode)->m_item))));
                 reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[1]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(dealerSeq[1]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 endTime = reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100();
@@ -5332,11 +5316,11 @@ void BlackjackUpdate::FUN_00734db0()
                     if (value == 21)
                     {
                         playerResult = 5;
-                        reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x20, true);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x20, true);
                     }
                     if (reinterpret_cast<::OwnQ *>(this)->FUN_00738ff0((::Node129 *)(dealer)) == 21)
                     {
-                        reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x20, true);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x20, true);
                         if (playerResult == 5)
                             playerResult = 2;
                         else
@@ -5347,15 +5331,15 @@ void BlackjackUpdate::FUN_00734db0()
                     if (balance >= bet * 2)
                     {
                         if (value == 11)
-                            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x40, true);
+                            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x40, true);
                         else
                             reinterpret_cast<::fnv_007395a0::FUN_007395a0_shell *>(this)->FUN_007395a0();
                     }
                     else
                     {
-                        reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x40, false);
-                        reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x100, false);
-                        reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(4, false);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x40, false);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x100, false);
+                        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(4, false);
                     }
                     reinterpret_cast<::BlackjackButtonMenu *>(this)->UpdateButtonState(10);
                     endTime = 0.0f;
@@ -5398,9 +5382,9 @@ void BlackjackUpdate::FUN_00734db0()
                 handId = 1;
                 reinterpret_cast<::NiControllerManager *>((splitAnim))->ActivateControllerSequence((::NiControllerSequence *)(splitSeq[counts[1]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 curr = split;
-                while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())) && drawn != counts[1])
+                while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)) && drawn != counts[1])
                 {
-                    last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                    last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
                     curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                     drawn++;
                 }
@@ -5409,16 +5393,16 @@ void BlackjackUpdate::FUN_00734db0()
             {
                 reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[counts[0]]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 curr = player;
-                while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())) && drawn != counts[0])
+                while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)) && drawn != counts[0])
                 {
-                    last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                    last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
                     curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                     drawn++;
                 }
             }
-            while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())) && drawn)
+            while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)) && drawn)
             {
-                last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
                 curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                 drawn++;
             }
@@ -5460,31 +5444,31 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         if (counts[1] == 1)
         {
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x4000, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x4000, true);
             reinterpret_cast<::S00739970 *>(this)->FUN_00739970(true);
             reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[2]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
             Update90 pu(0.0f, true, false);
             Update90 du(0.0f, true, false);
             reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(du));
             reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(pu));
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x10, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, true);
             counts[0]--;
             state = 2;
         }
         else if (counts[0] == 2)
         {
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x10, false);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, false);
             state = 2;
         }
         else if (counts[1] == 2)
         {
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x10, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, true);
             state = 2;
         }
         else
         {
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x4000, false);
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x10, false);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x4000, false);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, false);
             if (playerResult == 5 && splitResult == 5)
                 state = 12;
             else
@@ -5584,8 +5568,8 @@ void BlackjackUpdate::FUN_00734db0()
         reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(su));
         if (DAT_011d90e0 == 0.0)
         {
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x400, true);
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x800, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x400, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x800, true);
             reinterpret_cast<::FUN_00739ad0_Holder *>(this)->HideArrowNodes();
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d5c, 0x121)))->FUN_00ad8830(false);
             reinterpret_cast<::NiControllerManager *>((dealerAnim))->ActivateControllerSequence((::NiControllerSequence *)(revealSeq), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
@@ -5622,9 +5606,9 @@ void BlackjackUpdate::FUN_00734db0()
             FUN_0096a2d0* curr = dealer;
             BJCard* last = 0;
             int drawn = 0;
-            while (curr && *((::BJCard **)(new ((void *)(curr)) ::Vec3())))
+            while (curr && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item)))
             {
-                last = *((::BJCard **)(new ((void *)(curr)) ::Vec3()));
+                last = *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(curr)->m_item));
                 curr = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((curr))->FUN_00726070()));
                 drawn++;
             }
@@ -5671,19 +5655,19 @@ void BlackjackUpdate::FUN_00734db0()
         }
         break;
     case 11: {
-        reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x1000, true);
+        reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x1000, true);
         if (((bool)(reinterpret_cast<::FUN_00734d30_shell *>(this)->HasFlag(8))))
         {
             if (playerResult == 4 && splitResult == 4)
             {
-                reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x2000, true);
+                reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x2000, true);
                 state = 12;
                 break;
             }
         }
         else if (playerResult == 4 || playerResult == 6)
         {
-            reinterpret_cast<::FUN_00734d50_holder_ctx *>(this)->SetFlag(0x2000, true);
+            reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x2000, true);
             state = 12;
             break;
         }
@@ -5697,10 +5681,10 @@ void BlackjackUpdate::FUN_00734db0()
         int count = 0;
         FUN_0096a2d0* node = dealer;
         bool soft = false;
-        while (node && *((::BJCard **)(new ((void *)(node)) ::Vec3())))
+        while (node && *((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
         {
             count++;
-            if ((*((::BJCard **)(new ((void *)(node)) ::Vec3())))->rank == 12)
+            if ((*((::BJCard **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->rank == 12)
                 soft = true;
             node = ((::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }

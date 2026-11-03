@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/bartermenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/bartermenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdint>
 #include <cstdlib>
@@ -868,16 +869,16 @@ FUN_0072d0a0::~FUN_0072d0a0()
     S_Node* cur2;
     if (DAT_011d8fa4 != 0)
     {
-        for (cur = &((S_Holder*)DAT_011d8fa4)->list1; cur != 0 && *((::S_Item **)(new ((void *)(cur)) ::Vec3())) != 0; cur = ((::S_Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
+        for (cur = &((S_Holder*)DAT_011d8fa4)->list1; cur != 0 && *((::S_Item **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)) != 0; cur = ((::S_Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
         {
-            S_Item* item = *((::S_Item **)(new ((void *)(cur)) ::Vec3()));
+            S_Item* item = *((::S_Item **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item));
             S_Item* obj = item;
             obj != 0 ? obj->FUN_004459e0(1) : 0;
         }
-        for (cur2 = &((S_Holder*)DAT_011d8fa4)->list2; cur2 != 0 && *((::S_Item **)(new ((void *)(cur2)) ::Vec3())) != 0;
+        for (cur2 = &((S_Holder*)DAT_011d8fa4)->list2; cur2 != 0 && *((::S_Item **)(&reinterpret_cast<::SimpleListNodeView*>(cur2)->m_item)) != 0;
              cur2 = ((::S_Node *)(reinterpret_cast<::Callees *>((cur2))->FUN_00726070())))
         {
-            S_Item* item2 = *((::S_Item **)(new ((void *)(cur2)) ::Vec3()));
+            S_Item* item2 = *((::S_Item **)(&reinterpret_cast<::SimpleListNodeView*>(cur2)->m_item));
             S_Item* obj2 = item2;
             obj2 != 0 ? obj2->FUN_004459e0(1) : 0;
         }
@@ -1556,9 +1557,9 @@ void __cdecl FUN_0072eac0(int iUnused, OwnItem* pkItem)
                                 ? (*reinterpret_cast<::OwnBarterMenu * *>(&::DAT_011d8fa4))->m_pkMerchant
                                 : 0;
     OwnList kRemoveY;
-    for (OwnNode* pkNode = ((::OwnNode *)(::FUN_00559450((int *)(pkItem)))); pkNode && *((::OwnExtraList **)(new ((void *)(pkNode)) ::Vec3())); pkNode = ((::OwnNode *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
+    for (OwnNode* pkNode = ((::OwnNode *)(::FUN_00559450((int *)(pkItem)))); pkNode && *((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)); pkNode = ((::OwnNode *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
     {
-        OwnExtraList* pkExtra = *((::OwnExtraList **)(new ((void *)(pkNode)) ::Vec3()));
+        OwnExtraList* pkExtra = *((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
         if (pkMerchant_ && ((void *)(reinterpret_cast<::FUN_00418660_shell *>((pkExtra))->FUN_00418660())))
         {
             OwnCheck kCheck;
@@ -1570,10 +1571,10 @@ void __cdecl FUN_0072eac0(int iUnused, OwnItem* pkItem)
                 kRemoveY.FUN_005ae3d0(pkExtra);
         }
     }
-    for (OwnNode* pkIter = &kRemoveY; pkIter && *((::OwnExtraList **)(new ((void *)(pkIter)) ::Vec3())); pkIter = ((::OwnNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
+    for (OwnNode* pkIter = &kRemoveY; pkIter && *((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)); pkIter = ((::OwnNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
     {
-        reinterpret_cast<::CombatProcedure *>((pkItem))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>(((*((::OwnExtraList **)(new ((void *)(pkIter)) ::Vec3())))))->FUN_00418770()));
-        reinterpret_cast<::ItemChangeListNode *>((((OwnExtraContainer*)((::OwnNode *)(::FUN_00559450((int *)(pkItem)))))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::OwnExtraList **)(new ((void *)(pkIter)) ::Vec3())))));
+        reinterpret_cast<::CombatProcedure *>((pkItem))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>(((*((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->FUN_00418770()));
+        reinterpret_cast<::ItemChangeListNode *>((((OwnExtraContainer*)((::OwnNode *)(::FUN_00559450((int *)(pkItem)))))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))));
     }
     reinterpret_cast<::FileMatchList *>(&(kRemoveY))->RemoveAll();
 }
@@ -1722,13 +1723,13 @@ struct TargetClass
 InventoryEntry* TargetClass::FindMatchingEntry(ListNode* head, EntryEx* target)
 {
     InventoryEntry* result2 = 0;
-    for (ListNode* node2 = head; !result2 && node2 && *((::EntryEx **)(new ((void *)(node2)) ::Vec3())); node2 = ((::ListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070())))
+    for (ListNode* node2 = head; !result2 && node2 && *((::EntryEx **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)); node2 = ((::ListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070())))
     {
-        EntryEx* item5 = *((::EntryEx **)(new ((void *)(node2)) ::Vec3()));
+        EntryEx* item5 = *((::EntryEx **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item));
         if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName())) == ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item5))->GetName())))
         {
-            void* local7 = ((::SubNode *)(::FUN_00559450((int *)(target)))) ? *((void **)(new ((void *)(((::SubNode *)(::FUN_00559450((int *)(target)))))) ::Vec3())) : 0;
-            void* local_14 = ((::SubNode *)(::FUN_00559450((int *)(item5)))) ? *((void **)(new ((void *)(((::SubNode *)(::FUN_00559450((int *)(item5)))))) ::Vec3())) : 0;
+            void* local7 = ((::SubNode *)(::FUN_00559450((int *)(target)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::SubNode *)(::FUN_00559450((int *)(target)))))->m_item)) : 0;
+            void* local_14 = ((::SubNode *)(::FUN_00559450((int *)(item5)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::SubNode *)(::FUN_00559450((int *)(item5)))))->m_item)) : 0;
             if (local7 == local_14)
             {
                 result2 = item5;
@@ -2102,7 +2103,7 @@ void FC30Container::DecrementEntryCount(int iCount)
     int iValue;
     FC30List* pkListA = (m_pkState == &m_kState) ? &m_kListA : &m_kListB;
     FC30Entry* pkEntry = ((::FC30Entry *)(reinterpret_cast<::TargetClass *>(this)->FindMatchingEntry((::ListNode *)(pkListA), (::EntryEx *)((*reinterpret_cast<void * *>(&::DAT_011d8fa8))))));
-    iValue = ((::FC30Data *)(::FUN_00559450((int *)(pkEntry)))) ? *((int *)(new ((void *)(((::FC30Data *)(::FUN_00559450((int *)(pkEntry)))))) ::Vec3())) : 0;
+    iValue = ((::FC30Data *)(::FUN_00559450((int *)(pkEntry)))) ? *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FC30Data *)(::FUN_00559450((int *)(pkEntry)))))->m_item)) : 0;
     if (((int)(reinterpret_cast<::Callees *>((pkEntry))->FUN_00726070())) - iCount <= 0)
     {
         reinterpret_cast<::ItemChangeListNode *>((pkListA))->FUN_00905330((::InventoryStackRecord *const &)(pkEntry));
@@ -2169,25 +2170,25 @@ void ListBoxImpl::ApplyFilter(bool(__cdecl* pfnFilter)(void* pkObject))
     static int s_iNumFilteredID = FUN_00a00940(s_szNumFiltered, -1);
     m_usElementCount = 0;
     m_fScroll = 0.0f;
-    for (LbNode* pkNode = this; pkNode && *((::LbItem **)(new ((void *)(pkNode)) ::Vec3())); pkNode = ((::LbNode *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
+    for (LbNode* pkNode = this; pkNode && *((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)); pkNode = ((::LbNode *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
     {
-        (*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_bFiltered = pfnFilter && pfnFilter((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pPointer) ? 1 : 0;
-        if ((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_bFiltered)
+        (*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_bFiltered = pfnFilter && pfnFilter((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pPointer) ? 1 : 0;
+        if ((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_bFiltered)
         {
-            if ((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pkTile == m_pkSelected)
+            if ((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pkTile == m_pkSelected)
             {
-                iSelectedIndex = (int)reinterpret_cast<::TileListBoxCalls *>(((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pkTile))->GetFloat(0xfac);
+                iSelectedIndex = (int)reinterpret_cast<::TileListBoxCalls *>(((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pkTile))->GetFloat(0xfac);
                 m_pkSelected = 0;
             }
-            reinterpret_cast<::Tile *>(((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pkTile))->Set(0xfac, -1);
+            reinterpret_cast<::Tile *>(((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pkTile))->Set(0xfac, -1);
             iFilteredCount++;
         }
         else
         {
             if (iSelectedIndex >= 0 && m_usElementCount == iSelectedIndex)
-                m_pkSelected = (*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pkTile;
-            reinterpret_cast<::Tile *>(((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pkTile))->Set(0xfac, m_usElementCount++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::LbItem **)(new ((void *)(pkNode)) ::Vec3())))->m_pkTile));
+                m_pkSelected = (*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pkTile;
+            reinterpret_cast<::Tile *>(((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pkTile))->Set(0xfac, m_usElementCount++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::LbItem **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_pkTile));
         }
     }
     reinterpret_cast<::Tile *>((m_pkParentTile))->Set(s_iNumFilteredID, iFilteredCount);
@@ -2463,8 +2464,8 @@ void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
             if (::fnv_00703d50::FUN_00703d50())
             {
                 BmRef* pkOrig = ((::BmExtraNode *)(::FUN_00559450((int *)((*reinterpret_cast<::BmItem * *>(&::DAT_011d8fa8)))))) &&
-                                        *((::BmExtraList **)(new ((void *)(((::BmExtraNode *)(::FUN_00559450((int *)((*reinterpret_cast<::BmItem * *>(&::DAT_011d8fa8)))))))) ::Vec3()))
-                                    ? ((::BmRef *)(reinterpret_cast<::FUN_00418630_Class *>(((*((::BmExtraList **)(new ((void *)(((::BmExtraNode *)(::FUN_00559450((int *)((*reinterpret_cast<::BmItem * *>(&::DAT_011d8fa8)))))))) ::Vec3())))))->FUN_00418630()))
+                                        *((::BmExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(((::BmExtraNode *)(::FUN_00559450((int *)((*reinterpret_cast<::BmItem * *>(&::DAT_011d8fa8)))))))->m_item))
+                                    ? ((::BmRef *)(reinterpret_cast<::FUN_00418630_Class *>(((*((::BmExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(((::BmExtraNode *)(::FUN_00559450((int *)((*reinterpret_cast<::BmItem * *>(&::DAT_011d8fa8)))))))->m_item)))))->FUN_00418630()))
                                     : 0;
                 if (pkOrig)
                     ::FUN_00703c00(s_szOrigRef, pkOrig->GetEditorID());
@@ -2848,20 +2849,20 @@ void BarterMenuImpl::CompleteBarterTransaction()
         ((::fnv_0072fd10::TESObjectREFR *)(reinterpret_cast<::fnv_00421400::FUN_00421400 *>((((::fnv_0072fd10::TESQuestStageList *)(reinterpret_cast<::FUN_005d43c0_ *>((m_merchant))->FUN_005d43c0()))))->GetMerchantContainer())) ? ((::fnv_0072fd10::TESObjectREFR *)(reinterpret_cast<::fnv_00421400::FUN_00421400 *>((((::fnv_0072fd10::TESQuestStageList *)(reinterpret_cast<::FUN_005d43c0_ *>((m_merchant))->FUN_005d43c0()))))->GetMerchantContainer())) : m_merchant;
     InventoryStackRecord* pWeapon3 = ((::fnv_0072fd10::ProcessStandIn *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetActiveWeapon();
 
-    for (ItemChangeNode* pNode6 = &m_merchantItems; pNode6 && *((::fnv_0072fd10::InventoryStackRecord **)(new ((void *)(pNode6)) ::Vec3())); pNode6 = ((::fnv_0072fd10::ItemChangeNode *)(reinterpret_cast<::Callees *>((pNode6))->FUN_00726070())))
+    for (ItemChangeNode* pNode6 = &m_merchantItems; pNode6 && *((::fnv_0072fd10::InventoryStackRecord **)(&reinterpret_cast<::SimpleListNodeView*>(pNode6)->m_item)); pNode6 = ((::fnv_0072fd10::ItemChangeNode *)(reinterpret_cast<::Callees *>((pNode6))->FUN_00726070())))
     {
-        InventoryStackRecord* pItem = *((::fnv_0072fd10::InventoryStackRecord **)(new ((void *)(pNode6)) ::Vec3()));
-        ExtraDataList* pExtraList = ((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem)))) ? *((::fnv_0072fd10::ExtraDataList **)(new ((void *)(((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem)))))) ::Vec3())) : 0;
+        InventoryStackRecord* pItem = *((::fnv_0072fd10::InventoryStackRecord **)(&reinterpret_cast<::SimpleListNodeView*>(pNode6)->m_item));
+        ExtraDataList* pExtraList = ((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem)))) ? *((::fnv_0072fd10::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem)))))->m_item)) : 0;
         if (pExtraList)
             ::FUN_005ac750((::TESForm *)(m_merchant), (::ExtraDataList *)(pExtraList), 0x4000);
         reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::fnv_0072fd10::ItemTransferManager * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(pItem), ((int)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())), (int)(m_merchant));
         delete pItem;
     }
 
-    for (ItemChangeNode* pNode3 = &m_playerItems; pNode3 && *((::fnv_0072fd10::InventoryStackRecord **)(new ((void *)(pNode3)) ::Vec3())); pNode3 = ((::fnv_0072fd10::ItemChangeNode *)(reinterpret_cast<::Callees *>((pNode3))->FUN_00726070())))
+    for (ItemChangeNode* pNode3 = &m_playerItems; pNode3 && *((::fnv_0072fd10::InventoryStackRecord **)(&reinterpret_cast<::SimpleListNodeView*>(pNode3)->m_item)); pNode3 = ((::fnv_0072fd10::ItemChangeNode *)(reinterpret_cast<::Callees *>((pNode3))->FUN_00726070())))
     {
-        InventoryStackRecord* pItem3 = *((::fnv_0072fd10::InventoryStackRecord **)(new ((void *)(pNode3)) ::Vec3()));
-        ExtraDataList* pExtraList5 = ((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem3)))) ? *((::fnv_0072fd10::ExtraDataList **)(new ((void *)(((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem3)))))) ::Vec3())) : 0;
+        InventoryStackRecord* pItem3 = *((::fnv_0072fd10::InventoryStackRecord **)(&reinterpret_cast<::SimpleListNodeView*>(pNode3)->m_item));
+        ExtraDataList* pExtraList5 = ((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem3)))) ? *((::fnv_0072fd10::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_0072fd10::ExtraDataListNode *)(::FUN_00559450((int *)(pItem3)))))->m_item)) : 0;
         if (pExtraList5)
             ::FUN_005ac750((::TESForm *)(::fnv_0072fd10::TESObjectREFR *)((TESObjectREFR*)(*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))), (::ExtraDataList *)(pExtraList5), 0x4000);
         (*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))->AddItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((pItem3))->GetName())), pExtraList5, ((int)(reinterpret_cast<::Callees *>((pItem3))->FUN_00726070())), 0, 0, pTarget3, 0, 0, 1,
@@ -3094,15 +3095,15 @@ void Self72::RebuildInventoryLists(int arg)
             reinterpret_cast<::Host_004d4b00 *>((((DataSource*)n)))->FindEntriesByType(arg, (::Output_004d4b00 *)(::LocalList *)(&b));
             reinterpret_cast<::FunctionOwner *>(&(m_a8))->FUN_0071a200(arg);
             NodeS* kZero = (NodeS*)&b;
-            for (; kZero != 0 && *((::EntryObj **)(new ((void *)(kZero)) ::Vec3())) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
+            for (; kZero != 0 && *((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
             {
-                if (!(bool)FUN_0072e570((InventoryEntry*)*((::EntryObj **)(new ((void *)(kZero)) ::Vec3()))))
+                if (!(bool)FUN_0072e570((InventoryEntry*)*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))))
                 {
-                    reinterpret_cast<::list71a::L71Menu *>(&(m_a8))->FUN_0071a320((int)(*((::EntryObj **)(new ((void *)(kZero)) ::Vec3()))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
+                    reinterpret_cast<::list71a::L71Menu *>(&(m_a8))->FUN_0071a320((int)(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
                 }
                 else
                 {
-                    delete *((::EntryObj **)(new ((void *)(kZero)) ::Vec3()));
+                    delete *((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item));
                 }
             }
             reinterpret_cast<::FileMatchList *>(&(b))->RemoveAll();
@@ -3113,15 +3114,15 @@ void Self72::RebuildInventoryLists(int arg)
             reinterpret_cast<::FunctionOwner *>(&(m_d8))->FUN_0071a200(arg);
             NodeS* kZero;
             kZero = (NodeS*)&b;
-            for (; kZero != 0 && *((::EntryObj **)(new ((void *)(kZero)) ::Vec3())) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
+            for (; kZero != 0 && *((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
             {
-                if (!(bool)IsFilteredFromBarter(*((::EntryObj **)(new ((void *)(kZero)) ::Vec3()))))
+                if (!(bool)IsFilteredFromBarter(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))))
                 {
-                    reinterpret_cast<::list71a::L71Menu *>(&(m_d8))->FUN_0071a320((int)(*((::EntryObj **)(new ((void *)(kZero)) ::Vec3()))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
+                    reinterpret_cast<::list71a::L71Menu *>(&(m_d8))->FUN_0071a320((int)(*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
                 }
                 else
                 {
-                    delete *((::EntryObj **)(new ((void *)(kZero)) ::Vec3()));
+                    delete *((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item));
                 }
             }
             reinterpret_cast<::FileMatchList *>(&(b))->RemoveAll();
@@ -3136,16 +3137,16 @@ void Self72::RebuildInventoryLists(int arg)
     {
         NodeS* kZero;
         kZero = &m_10c;
-        for (; kZero != 0 && *((::EntryObj **)(new ((void *)(kZero)) ::Vec3())) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
+        for (; kZero != 0 && *((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
         {
-            if (arg == 0 || ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->GetName())) == (void*)arg)
+            if (arg == 0 || ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetName())) == (void*)arg)
             {
                 int tmp;
                 NewObj* r =
-                    new NewObj(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->GetName())), (int)reinterpret_cast<::Callees *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->FUN_00726070());
+                    new NewObj(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetName())), (int)reinterpret_cast<::Callees *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->FUN_00726070());
                 void* _tempExtra;
-                _tempExtra = ((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))))
-                                 ? *(void**)((void **)(new ((void *)(((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3()))))))))) ::Vec3()))
+                _tempExtra = ((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))))
+                                 ? *(void**)((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))))))))->m_item))
                                  : 0;
                 tmp = 0;
                 if (0 != _tempExtra)
@@ -3160,16 +3161,16 @@ void Self72::RebuildInventoryLists(int arg)
     {
         NodeS* kZero;
         kZero = &m_114;
-        for (; kZero != 0 && *((::EntryObj **)(new ((void *)(kZero)) ::Vec3())) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
+        for (; kZero != 0 && *((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)) != 0; kZero = ((::NodeS *)(reinterpret_cast<::Callees *>((kZero))->FUN_00726070())))
         {
-            if (arg == 0 || ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->GetName())) == (void*)arg)
+            if (arg == 0 || ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetName())) == (void*)arg)
             {
                 long tmp;
                 NewObj* r;
                 void* _tempExtra;
-                r = new NewObj(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->GetName())), (int)reinterpret_cast<::Callees *>(((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))->FUN_00726070());
-                _tempExtra = ((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3())))))))
-                                 ? *(void**)((void **)(new ((void *)(((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(new ((void *)(kZero)) ::Vec3()))))))))) ::Vec3()))
+                r = new NewObj(((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->GetName())), (int)reinterpret_cast<::Callees *>(((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))->FUN_00726070());
+                _tempExtra = ((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item)))))))
+                                 ? *(void**)((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::PtrObj *)(::FUN_00559450((int *)((*((::EntryObj **)(&reinterpret_cast<::SimpleListNodeView*>(kZero)->m_item))))))))->m_item))
                                  : 0;
                 tmp = 0;
                 if (_tempExtra != 0)

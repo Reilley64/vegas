@@ -53,7 +53,6 @@
 #include "ScriptHeaderData.h"
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-int __cdecl strcat_s(char*, unsigned int, const char*);
 int __cdecl _mbsicmp(const unsigned char*, const unsigned char*);
 int __cdecl _mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);

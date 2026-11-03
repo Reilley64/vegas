@@ -57,4 +57,4 @@ class StatsMenu : public Menu
 };
 #endif
 
-extern "C" void* __cdecl memset(void*, int, unsigned int) throw(...);
+#include <cstring>

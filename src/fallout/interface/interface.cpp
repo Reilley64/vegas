@@ -1,5 +1,7 @@
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -2076,9 +2078,6 @@ struct MapMenuH
 struct StatsMenuH
 {
 };
-struct fnv_007aa480
-{
-};
 struct FocusH
 {
     void FocusOnActor(MobileObject*, float, bool);
@@ -3842,6 +3841,12 @@ class B706130Setting
 
 
 
+// 0x00984f60 is a folded field setter; on rendered menus it stores the menu tile.
+struct RenderedMenuTileView
+{
+    char pad[0x18];
+    void* pTile;
+};
 // @fnv 0x00706130
 bool __cdecl FUN_00706130(int m_uiSoundID)
 {
@@ -3852,7 +3857,7 @@ bool __cdecl FUN_00706130(int m_uiSoundID)
         if (*(*reinterpret_cast<::B706130Setting *>(&::g_011db620)).Bool())
         {
             B706130Pick* pkPick = new B706130Pick;
-            reinterpret_cast<::TESPackage *>((pkPick))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(pkTile));
+            reinterpret_cast<RenderedMenuTileView*>(pkPick)->pTile = pkTile;
             reinterpret_cast<::NiPick *>((pkPick))->FUN_00705fc0(((::B706130Node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTile))->FUN_0056c7f0())));
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::B706130Manager *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(pkPick));
         }
@@ -4795,18 +4800,6 @@ bool __cdecl FUN_00703f10(int a1, int a2, int a3, int a4, int a5, int a6, int a7
 
 #include <stdarg.h>
 struct HWND__;
-struct WinPoint
-{
-    long x, y;
-};
-struct WinMessage
-{
-    HWND__* hwnd;
-    unsigned int message, wParam;
-    long lParam;
-    unsigned int time;
-    WinPoint pt;
-};
 
 struct InterfaceControl
 {
@@ -4837,7 +4830,7 @@ char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, 
     {
         while (DAT_0119f349 == -1)
         {
-            WinMessage message;
+            MSG message;
             FUN_00403d30(&message, 0, sizeof(message));
             while (PeekMessageA(&message, 0, 0, 0, 1))
             {
@@ -6775,8 +6768,8 @@ void __cdecl FUN_0079ffb0(char param_1)
             insideTileX1 = ex62 + cellX17 - (gridSize13 >> 1);
             int insideTileY1 = ey21 + cellY10 - (gridSize13 >> 1);
             base9c33 =
-                reinterpret_cast<const Position&>(NiPt3(static_cast<float>((insideTileX1 << 0xc) + 0x800),
-                                                        static_cast<float>((insideTileY1 << 0xc) + 0x800), 0.0f));
+                reinterpret_cast<const Position&>(ResultSlot(NiPt3(static_cast<float>((insideTileX1 << 0xc) + 0x800),
+                                                        static_cast<float>((insideTileY1 << 0xc) + 0x800), 0.0f)));
             reinterpret_cast<::Target556ef0 *>((static_cast<ChainObj*>(pSub10)))->FUN_00556ef0(insideTileX1, insideTileY1, 0);
             ::FUN_004a0370((char *)(static_cast<ChainObj*>(static_cast<void*>(FUN_0043c4b0()))));
             reinterpret_cast<::fnv_0054e750::FUN_0054e750Class *>((static_cast<ChainObj*>(pSub10)))->FUN_0054e750((void *)(insideTileX1), insideTileY1, (::fnv_0054e750::Helper62d0 *)(::Local12 *)(&local1415));
@@ -6798,7 +6791,7 @@ void __cdecl FUN_0079ffb0(char param_1)
         outsideTileX2 = wx5 + cellX17 - (gridSize13 >> 1);
         outsideTileY1 = wy1 + cellY10 - (gridSize13 >> 1);
         base9c33 = reinterpret_cast<const Position&>(
-            NiPt3(static_cast<float>(outsideTileX2 << 0xc), static_cast<float>(outsideTileY1 << 0xc), 0.0f));
+            ResultSlot(NiPt3(static_cast<float>(outsideTileX2 << 0xc), static_cast<float>(outsideTileY1 << 0xc), 0.0f)));
         if (pReg8 != 0)
             pSub10 = ((void *)(reinterpret_cast<::TESWorldSpace *>((static_cast<ChainObj*>(pReg8)))->GetCellAtGridPosition(outsideTileX2, outsideTileY1)));
         if (pSub10 != 0)
@@ -7084,9 +7077,9 @@ bool FUN_00705ec0(void* arg)
         {
             ::fnv_00a04200::FUN_00a04200(0);
             SpawnedObject* obj = new SpawnedObject();
-            reinterpret_cast<::TESPackage *>((obj))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(v));
+            reinterpret_cast<RenderedMenuTileView*>(obj)->pTile = v;
             reinterpret_cast<::NiPick *>((obj))->FUN_00705fc0(((void *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((v))->FUN_0056c7f0())));
-            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::fnv_00705ec0::IMHelper *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu({});
+            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::fnv_00705ec0::IMHelper *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(obj));
         }
         return true;
     }
@@ -8259,7 +8252,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                         name2 = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))->name))->FUN_00408da0()));
 
                     if (currentWeapon && ((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))) && ((::DisplayList *)(::FUN_00559450((int *)(item)))) &&
-                        *((void **)(new ((void *)(((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))))) ::Vec3())) == *((void **)(new ((void *)(((::DisplayList *)(::FUN_00559450((int *)(item)))))) ::Vec3())))
+                        *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))))->m_item)) == *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(item)))))->m_item)))
                         loaded = currentAmmo2 ? ((int)(reinterpret_cast<::Callees *>((currentAmmo2))->FUN_00726070())) : 0;
 
                     else
@@ -8359,7 +8352,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     effects5 = enchant;
             }
 
-            if (effects5 && *((void **)(new ((void *)&(effects5->effects)) ::Vec3())))
+            if (effects5 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(&(effects5->effects))->m_item)))
             {
                 char effectBuf[256];
                 reinterpret_cast<::Description *>((effects5))->BuildDescription(effectBuf, 256);
@@ -8603,14 +8596,6 @@ bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
 }
 
 
-__if_not_exists(::StatsMenu::IsMenuVisible)
-{
-    class StatsMenu : public ::Menu
-    {
-    public:
-    void UpdateActorValueTiles();
-};
-}
 struct StatsMenuCalls704e10
 {
 };

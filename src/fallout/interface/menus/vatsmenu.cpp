@@ -1,5 +1,7 @@
 // fallout/interface/menus/vatsmenu.cpp: VATSMenuX, VATSMenu, Vec2Tmp, StandIn and more (58 functions)
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>
@@ -394,14 +396,14 @@ struct TESObjectREFR
 public:
     float GetBoundingRadius();
 };
-struct BSSimpleList
+template <> struct BSSimpleList<ItemListContainer*>
 {
     bool FUN_008256d0();
     ItemListContainer** FUN_006815c0();
 };
 struct StandIn
 {
-    BSSimpleList* FindListEntryForTarget(TESObjectREFR* apTarget);
+    BSSimpleList<ItemListContainer*>* FindListEntryForTarget(TESObjectREFR* apTarget);
 };
 struct Tile;
 struct Menu
@@ -683,7 +685,7 @@ struct FUN_007f3cf0_This : StandIn
 {
     char pad[0x100 - sizeof(Menu)];
     TESObjectREFR* m_pTargetChance;
-    BSSimpleList* FindEntryForRef();
+    BSSimpleList<ItemListContainer*>* FindEntryForRef();
 };
 struct StartMenu
 {
@@ -717,6 +719,7 @@ struct NiAVObject
     NiPoint3 GetWorldTranslation();
 };
 
+class BSFaceGenAnimationData;
 struct BSFaceGenNiNode : public NiAVObject
 {
     NiAVObject* GetAnimationData();
@@ -1913,7 +1916,7 @@ void __cdecl FUN_007f3b40(int a1)
         return;
     }
     {
-        BSSimpleList* cur = (BSSimpleList*)((char*)*((StandIn*)DAT_011db0d4)
+        BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)((char*)*((StandIn*)DAT_011db0d4)
                                                 ->FindListEntryForTarget((TESObjectREFR*)::DAT_011f21cc)
                                                 ->FUN_006815c0() +
                                             8);
@@ -1927,7 +1930,7 @@ void __cdecl FUN_007f3b40(int a1)
                     break;
                 }
             }
-            cur = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
         }
     }
 done:
@@ -3704,9 +3707,6 @@ struct VatsX
 bool FUN_007f4bb0();
 void FUN_007f3bd0(int);
 void FUN_00705780();
-namespace std {
-float abs(float);
-}
 
 struct SortRef
 {
@@ -4115,7 +4115,7 @@ struct Owner7
     unsigned char bF9;
     char padFA[0x100 - 0xfa];
     LimbX* m_pTargetChance;
-    BSSimpleList* FindListEntryForTarget(void*);
+    BSSimpleList<ItemListContainer*>* FindListEntryForTarget(void*);
     void* FUN_007f3bf0(int);
     void UpdateLimbHighlight();
 };
@@ -4130,10 +4130,10 @@ void Owner7::UpdateLimbHighlight()
     static int sLimbName = ::FUN_00a00940(str_01077de8, -1);
     static int sLimbNameVisible = ::FUN_00a00940(str_01077dd4, -1);
     static int sBrightness = ::FUN_00a00940(str_010734b8, -1);
-    BSSimpleList* node7;
-    BSSimpleList* list6;
+    BSSimpleList<ItemListContainer*>* node7;
+    BSSimpleList<ItemListContainer*>* list6;
     list6 = FindListEntryForTarget(::DAT_011f21cc);
-    node7 = (BSSimpleList*)((char*)(*list6->FUN_006815c0()) + 8);
+    node7 = (BSSimpleList<ItemListContainer*>*)((char*)(*list6->FUN_006815c0()) + 8);
     if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 1 || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3 ||
         (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && !bF8))
     {
@@ -4144,14 +4144,14 @@ void Owner7::UpdateLimbHighlight()
                 reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>((((ChanceX*)*node7->FUN_006815c0())->tile))->RemoveFadeItemsForTile(0xfa9);
                 reinterpret_cast<::FUN_00a012d0_t *>((((ChanceX*)*node7->FUN_006815c0())->tile))->FUN_00a012d0(0xfa9, 0.0f, true);
             }
-            node7 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+            node7 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
         }
         bF9 = 0;
         return;
     }
     else if (bF9 == 1)
     {
-        BSSimpleList* savedNodeA;
+        BSSimpleList<ItemListContainer*>* savedNodeA;
         FormX* formTmp;
         formTmp = ((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt148();
         unsigned int typeC5;
@@ -4181,9 +4181,9 @@ void Owner7::UpdateLimbHighlight()
             }
             if (((ChanceX*)*node7->FUN_006815c0())->f20 == 1)
                 savedNodeA = node7;
-            node7 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+            node7 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
         }
-        node7 = (BSSimpleList*)((char*)(*list6->FUN_006815c0()) + 8);
+        node7 = (BSSimpleList<ItemListContainer*>*)((char*)(*list6->FUN_006815c0()) + 8);
         while (node7 != 0 && !node7->FUN_008256d0())
         {
             float fVal8;
@@ -4197,7 +4197,7 @@ void Owner7::UpdateLimbHighlight()
                 typeC4 = formC3 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((formC3))->GetName())) : 0;
                 if (((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt1a8() || typeC4 == 0 || ::FUN_006450c0((::TESObjectWEAP *)(((FormX*)typeC4))))
                 {
-                    if ((savedNodeA != 0 && node7 == savedNodeA) || (savedNodeA == 0 && ((::BSSimpleList *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070())) == 0))
+                    if ((savedNodeA != 0 && node7 == savedNodeA) || (savedNodeA == 0 && ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070())) == 0))
                     {
                         if (reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((((ChanceX*)*node7->FUN_006815c0())->tile))->FUN_00a07fc0(0xfa9))
                         {
@@ -4244,7 +4244,7 @@ void Owner7::UpdateLimbHighlight()
                             (int)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20)
                         ? 1
                         : 0);
-            node7 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+            node7 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
         }
         return;
     }
@@ -4509,10 +4509,10 @@ struct Actor
 struct FUN_007f3d60_cls : StandIn
 {
     unsigned int FUN_007f3bf0(int a);
-    BSSimpleList* FindListEntryByValue(int a1);
+    BSSimpleList<ItemListContainer*>* FindListEntryByValue(int a1);
 };
 // @fnv 0x007f3d60
-BSSimpleList* FUN_007f3d60_cls::FindListEntryByValue(int aiValue)
+BSSimpleList<ItemListContainer*>* FUN_007f3d60_cls::FindListEntryByValue(int aiValue)
 {
     if (!((Actor*)::DAT_011f21cc)->v64())
     {
@@ -4521,14 +4521,14 @@ BSSimpleList* FUN_007f3d60_cls::FindListEntryByValue(int aiValue)
     int head = (int)*this->FindListEntryForTarget(reinterpret_cast<TESObjectREFR*>(::DAT_011f21cc))->FUN_006815c0();
     if (head != 0)
     {
-        BSSimpleList* cur = (BSSimpleList*)(head + 8);
+        BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)(head + 8);
         while (cur != 0 && !cur->FUN_008256d0())
         {
             if ((int)this->FUN_007f3bf0(*(int*)((int)*cur->FUN_006815c0() + 0x20)) == aiValue)
             {
                 return cur;
             }
-            cur = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
         }
     }
     return 0;
@@ -6875,30 +6875,30 @@ public:
 };
 // Scans the g_011db150 list for the entry whose stored TESObjectREFR matches apTarget and returns it, or null if none matches.
 // @fnv 0x007f3c90
-BSSimpleList* StandIn::FindListEntryForTarget(TESObjectREFR* apTarget)
+BSSimpleList<ItemListContainer*>* StandIn::FindListEntryForTarget(TESObjectREFR* apTarget)
 {
-    BSSimpleList* piter;
+    BSSimpleList<ItemListContainer*>* piter;
     if (!apTarget)
         return 0;
-    piter = (BSSimpleList*)&::g_011db150;
+    piter = (BSSimpleList<ItemListContainer*>*)&::g_011db150;
     while (piter && !piter->FUN_008256d0())
     {
-        if (*(TESObjectREFR**)(*((::ItemListContainer **)(new ((void *)(piter)) ::Vec3()))) == apTarget)
+        if (*(TESObjectREFR**)(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(piter)->m_item))) == apTarget)
             return piter;
-        piter = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((piter))->FUN_00726070()));
+        piter = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((piter))->FUN_00726070()));
     }
     return 0;
 }
 // @fnv 0x007f3cf0
-BSSimpleList* FUN_007f3cf0_This::FindEntryForRef()
+BSSimpleList<ItemListContainer*>* FUN_007f3cf0_This::FindEntryForRef()
 {
-    BSSimpleList* ptarget = FindListEntryForTarget((TESObjectREFR*)::DAT_011f21cc);
-    BSSimpleList* piter = (BSSimpleList*)(void*)*(char**)(char*)((::ItemListContainer **)(new ((void *)(ptarget)) ::Vec3())) + 8;
+    BSSimpleList<ItemListContainer*>* ptarget = FindListEntryForTarget((TESObjectREFR*)::DAT_011f21cc);
+    BSSimpleList<ItemListContainer*>* piter = (BSSimpleList<ItemListContainer*>*)(void*)*(char**)(char*)((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(ptarget)->m_item)) + 8;
     while (piter && !piter->FUN_008256d0())
     {
-        if ((TESObjectREFR*)((::ItemListContainer **)(new ((void *)(piter)) ::Vec3()))[0] == m_pTargetChance)
+        if ((TESObjectREFR*)((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(piter)->m_item))[0] == m_pTargetChance)
             return piter;
-        piter = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((piter))->FUN_00726070()));
+        piter = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((piter))->FUN_00726070()));
     }
     return 0;
 }
@@ -6908,7 +6908,6 @@ void FUN_007f51b0_shell::FUN_007f51b0(FUN_005df510_shell* a1)
     NiPoint3 direction = ((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData()->GetWorldTranslation();
 
     NiPoint3 result;
-    new ((void *)&(result)) ::Vec3();
 
     result.x = direction.y * direction.y + direction.z * direction.z;
     result.y = -direction.x * direction.y;
@@ -6946,7 +6945,7 @@ bool VATSLookup::FUN_007f7280(unsigned int index, bool byPosition)
     }
     else
     {
-        while (current && reinterpret_cast<::TileListBoxCalls *>(((**((::ItemListElement ***)(new ((void *)(current)) ::Vec3())))))->GetFloat({}) != index)
+        while (current && reinterpret_cast<::TileListBoxCalls *>(((**((::ItemListElement ***)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)))))->GetFloat({}) != index)
         {
             previous = current;
             current = ((::VATSLookupList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
@@ -7000,11 +6999,11 @@ void MenuX::HandleInput(int key, int held)
         target4 = reinterpret_cast<TargetsX*>(&::g_011db150);
         while (target4 && !target4->FUN_008256d0())
         {
-            weapon = &(*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->items;
-            while (weapon && !weapon->FUN_008256d0() && (*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->tile)
+            weapon = &(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->items;
+            while (weapon && !weapon->FUN_008256d0() && (*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->tile)
             {
-                reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>(((*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->tile))->RemoveFadeItemsForTile(0xfa9);
-                reinterpret_cast<::Tile *>(((*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->tile))->Set(0xfa9, 0);
+                reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>(((*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->tile))->RemoveFadeItemsForTile(0xfa9);
+                reinterpret_cast<::Tile *>(((*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->tile))->Set(0xfa9, 0);
                 weapon = ((::ItemsX *)(reinterpret_cast<::Callees *>((weapon))->FUN_00726070()));
             }
             target4 = ((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070()));
@@ -7012,41 +7011,41 @@ void MenuX::HandleInput(int key, int held)
         target4 = reinterpret_cast<TargetsX*>(&::g_011db150);
         while (target4)
         {
-            if ((*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->ref && (*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->ref->v116() && ((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())) &&
-                (*((::InputTargetX **)(new ((void *)(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))) ::Vec3())))->ref == (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)))
+            if ((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->ref && (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->ref->v116() && ((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())) &&
+                (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))->m_item)))->ref == (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)))
             {
-                (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->ref;
-                ItemsX* items = &(*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->items;
+                (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->ref;
+                ItemsX* items = &(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->items;
                 ItemsX* found = FindListEntryByValue(0x1a);
-                if ((*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->type == 1 && found)
-                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)(found)) ::Vec3()));
+                if ((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->type == 1 && found)
+                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(found)->m_item));
                 else
-                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)(items)) ::Vec3()));
+                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(items)->m_item));
                 break;
             }
             else if (!((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))
             {
-                (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->ref;
+                (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->ref;
                 ItemsX* found = FindListEntryByValue(0x1a);
-                if ((*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->type == 1 && found)
-                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)(found)) ::Vec3()));
+                if ((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->type == 1 && found)
+                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(found)->m_item));
                 else
-                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)&((*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->items)) ::Vec3()));
+                    reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(&((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->items))->m_item));
             }
             target4 = ((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070()));
         }
         FUN_007f3bd0(0);
-        if (!(*((::InputTargetX **)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))) ::Vec3())))->special)
+        if (!(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))->m_item)))->special)
         {
-            ItemsX* weapon = &(*((::InputTargetX **)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))) ::Vec3())))->items;
+            ItemsX* weapon = &(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))->m_item)))->items;
             while (weapon && !weapon->FUN_008256d0())
             {
-                (*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->selected = false;
-                (*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->queued = false;
+                (*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->selected = false;
+                (*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->queued = false;
                 weapon = ((::ItemsX *)(reinterpret_cast<::Callees *>((weapon))->FUN_00726070()));
             }
         }
-        if (!(*((::ItemX **)(new ((void *)&((*((::InputTargetX **)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))) ::Vec3())))->items)) ::Vec3())))->tile)
+        if (!(*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(&((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))->m_item)))->items))->m_item)))->tile)
             reinterpret_cast<::FUN_007f6e50_This *>(this)->AssignActionTiles((::TargetList *)(::TargetsX *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)))));
         break;
     case 3:
@@ -7061,11 +7060,11 @@ void MenuX::HandleInput(int key, int held)
         target4 = reinterpret_cast<TargetsX*>(&::g_011db150);
         while (target4 && !target4->FUN_008256d0())
         {
-            weapon = &(*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->items;
-            while (weapon && !weapon->FUN_008256d0() && (*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->tile)
+            weapon = &(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->items;
+            while (weapon && !weapon->FUN_008256d0() && (*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->tile)
             {
-                reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>(((*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->tile))->RemoveFadeItemsForTile(0xfa9);
-                reinterpret_cast<::Tile *>(((*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->tile))->Set(0xfa9, 0);
+                reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>(((*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->tile))->RemoveFadeItemsForTile(0xfa9);
+                reinterpret_cast<::Tile *>(((*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->tile))->Set(0xfa9, 0);
                 weapon = ((::ItemsX *)(reinterpret_cast<::Callees *>((weapon))->FUN_00726070()));
             }
             target4 = ((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070()));
@@ -7073,45 +7072,45 @@ void MenuX::HandleInput(int key, int held)
         target4 = reinterpret_cast<TargetsX*>(&::g_011db150);
         while (target4)
         {
-            if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) == (*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->ref)
+            if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) == (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->ref)
             {
-                if (((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())) && (*((::InputTargetX **)(new ((void *)(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))) ::Vec3())))->ref &&
-                    (*((::InputTargetX **)(new ((void *)(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))) ::Vec3())))->ref->v116())
+                if (((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())) && (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))->m_item)))->ref &&
+                    (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))->m_item)))->ref->v116())
                 {
-                    (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(new ((void *)(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))) ::Vec3())))->ref;
-                    ItemsX* items = &(*((::InputTargetX **)(new ((void *)(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))) ::Vec3())))->items;
+                    (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))->m_item)))->ref;
+                    ItemsX* items = &(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070())))->m_item)))->items;
                     ItemsX* found = FindListEntryByValue(0x1a);
-                    if ((*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->type == 1 && found)
-                        reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)(found)) ::Vec3()));
+                    if ((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->type == 1 && found)
+                        reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(found)->m_item));
                     else
-                        reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)(items)) ::Vec3()));
+                        reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(items)->m_item));
                     break;
                 }
                 else
                 {
-                    (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(new ((void *)(reinterpret_cast<TargetsX*>(&::g_011db150))) ::Vec3())))->ref;
+                    (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) = (*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<TargetsX*>(&::g_011db150))->m_item)))->ref;
                     ItemsX* found = FindListEntryByValue(0x1a);
-                    if ((*((::InputTargetX **)(new ((void *)(target4)) ::Vec3())))->type == 1 && found)
-                        reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(new ((void *)(found)) ::Vec3()));
+                    if ((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(target4)->m_item)))->type == 1 && found)
+                        reinterpret_cast<MenuX*>(DAT_011db0d4)->current = *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(found)->m_item));
                     else
                         reinterpret_cast<MenuX*>(DAT_011db0d4)->current =
-                            *((::ItemX **)(new ((void *)&((*((::InputTargetX **)(new ((void *)(reinterpret_cast<TargetsX*>(&::g_011db150))) ::Vec3())))->items)) ::Vec3()));
+                            *((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(&((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<TargetsX*>(&::g_011db150))->m_item)))->items))->m_item));
                 }
             }
             target4 = ((::TargetsX *)(reinterpret_cast<::Callees *>((target4))->FUN_00726070()));
         }
         FUN_007f3bd0(0);
-        if (!(*((::InputTargetX **)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))) ::Vec3())))->special)
+        if (!(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))->m_item)))->special)
         {
-            ItemsX* weapon = &(*((::InputTargetX **)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))) ::Vec3())))->items;
+            ItemsX* weapon = &(*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))->m_item)))->items;
             while (weapon && !weapon->FUN_008256d0())
             {
-                (*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->selected = false;
-                (*((::ItemX **)(new ((void *)(weapon)) ::Vec3())))->queued = false;
+                (*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->selected = false;
+                (*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(weapon)->m_item)))->queued = false;
                 weapon = ((::ItemsX *)(reinterpret_cast<::Callees *>((weapon))->FUN_00726070()));
             }
         }
-        if (!(*((::ItemX **)(new ((void *)&((*((::InputTargetX **)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))) ::Vec3())))->items)) ::Vec3())))->tile)
+        if (!(*((::ItemX **)(&reinterpret_cast<::SimpleListNodeView*>(&((*((::InputTargetX **)(&reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))))->m_item)))->items))->m_item)))->tile)
             reinterpret_cast<::FUN_007f6e50_This *>(this)->AssignActionTiles((::TargetList *)(::TargetsX *)(FindListEntryForTarget((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)))));
         break;
     case 4:
@@ -7149,12 +7148,12 @@ bool FUN_007f05b0_Menu::HasVisibleMarkerOnScreen()
     VisNode* pNode5;
 
     pList = FindListEntryForTarget((*reinterpret_cast<int *>(&::DAT_011f21cc)));
-    pNode5 = (VisNode*)&((::VisMarkerHolder *)(new ((void *)(pList)) ::Vec3()))->pFirst;
+    pNode5 = (VisNode*)&((::VisMarkerHolder *)(reinterpret_cast<::SimpleListNodeView*>(pList)->m_item))->pFirst;
     while (pNode5 && !pNode5->FUN_008256d0())
     {
-        if (!((::VisMarker *)(new ((void *)(pNode5)) ::Vec3()))->bHidden)
+        if (!((::VisMarker *)(reinterpret_cast<::SimpleListNodeView*>(pNode5)->m_item))->bHidden)
         {
-            VisPoint3 kPos2 = ((::VisMarker *)(new ((void *)(pNode5)) ::Vec3()))->kPos;
+            VisPoint3 kPos2 = ((::VisMarker *)(reinterpret_cast<::SimpleListNodeView*>(pNode5)->m_item))->kPos;
             float fX2 = 0.0f;
             float fY3 = 0.0f;
             reinterpret_cast<::ScreenCamera *>((((::VisCameraNode *)(::FUN_0045c670()))->FUN_006629f0()))->ProjectToScreen((const ::NiPoint3 &)(kPos2), fX2, fY3, 1e-05f);
@@ -7175,7 +7174,7 @@ void B9C88A0List::PopLastItem(int* piOutValue, bool* pbOutFlag)
     {
         if (!((::B9C88A0List *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
         {
-            B9C88A0Item* pkItem = *((::B9C88A0Item **)(new ((void *)(pkNode)) ::Vec3()));
+            B9C88A0Item* pkItem = *((::B9C88A0Item **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
             *piOutValue = pkItem->m_iValue;
             *pbOutFlag = pkItem->m_bFlag;
             delete pkItem;
@@ -7193,7 +7192,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
     reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(soundHandle2))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIVATSSelectTarget", 0x121))));
     reinterpret_cast<::FUN_00ad8830_shell *>(&(soundHandle2))->FUN_00ad8830(false);
 
-    BSSimpleList* iter = reinterpret_cast<BSSimpleList*>(&::g_011db150);
+    BSSimpleList<ItemListContainer*>* iter = reinterpret_cast<BSSimpleList<ItemListContainer*>*>(&::g_011db150);
     float playerAngleDeg3 = reinterpret_cast<PlayerCharacter*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->GetAngleZ(0) * 57.2957763671875;
     P3 playerPos7 = *reinterpret_cast<PlayerCharacter*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))->FUN_007f4f30_position();
     float bestAngle2 = (float)(abReverse ? -360 : 360);
@@ -7204,31 +7203,31 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
     while (iter && !iter->FUN_008256d0())
     {
         float targetAngle2 = ::GetAngleBetweenPoints(
-            (const ::NiPoint3 &)(playerPos7), (const ::NiPoint3 &)(*(*reinterpret_cast<Actor**>(*((::ItemListContainer **)(new ((void *)(iter)) ::Vec3()))))->FUN_007f4f30_position()));
+            (const ::NiPoint3 &)(playerPos7), (const ::NiPoint3 &)(*(*reinterpret_cast<Actor**>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item))))->FUN_007f4f30_position()));
         float diff2 = playerAngleDeg3 - targetAngle2;
         diff2 = (diff2 > 180.0 ? diff2 - 360.0 : diff2);
 
         if ((diff2 < bestAngle2 && diff2 > 0.0 && !abReverse) || (diff2 > bestAngle2 && diff2 < 0.0 && abReverse))
         {
             bestAngle2 = diff2;
-            ::DAT_011f21cc = *reinterpret_cast<Actor**>(*((::ItemListContainer **)(new ((void *)(iter)) ::Vec3())));
+            ::DAT_011f21cc = *reinterpret_cast<Actor**>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)));
             ::FUN_007eb920((::WeaponPrompt *)(flags));
 
-            BSSimpleList* itemIter2 = reinterpret_cast<BSSimpleList*>(&(*((::ItemListContainer **)(new ((void *)(iter)) ::Vec3())))->items);
-            reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(new ((void *)(itemIter2)) ::Vec3()));
+            BSSimpleList<ItemListContainer*>* itemIter2 = reinterpret_cast<BSSimpleList<ItemListContainer*>*>(&(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))->items);
+            reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item));
 
             while (itemIter2 && !itemIter2->FUN_008256d0())
             {
-                if (reinterpret_cast<int*>(*((::ItemListContainer **)(new ((void *)(iter)) ::Vec3())))[1] == 1 &&
-                    reinterpret_cast<int*>(*((::ItemListContainer **)(new ((void *)(itemIter2)) ::Vec3())))[8] == 1)
+                if (reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))[1] == 1 &&
+                    reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item)))[8] == 1)
                 {
-                    reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(new ((void *)(itemIter2)) ::Vec3()));
+                    reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item));
                 }
-                itemIter2 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((itemIter2))->FUN_00726070()));
+                itemIter2 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((itemIter2))->FUN_00726070()));
             }
         }
 
-        iter = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+        iter = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
 }
 // For each entry in apTargets, creates a tile via FUN_00a1ddb0 and sets it to a value chosen by the action's type.
@@ -7236,23 +7235,23 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
 void FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
 {
     void* pTileBuffer = ((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(((void *)(::FUN_00a09030(0x420)))), (const char *)(void *)(&UNK_01077eac))));
-    BSSimpleList* pEntry = (BSSimpleList*)((char*)*((::ItemListContainer **)(new ((void *)(apTargets)) ::Vec3())) + 8);
+    BSSimpleList<ItemListContainer*>* pEntry = (BSSimpleList<ItemListContainer*>*)((char*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(apTargets)->m_item)) + 8);
     while (pEntry != 0 && !pEntry->FUN_008256d0())
     {
-        ((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->tile =
+        ((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile =
             (Tile*)((void *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((GlobalManager*)DAT_011db0d4)))->FUN_00a1ddb0((::Tile *)(pTileBuffer), (char *)(void *)(&UNK_01077e98), (::Tile *)(0))));
-        if (((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->tile != 0)
+        if (((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile != 0)
         {
-            switch (((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->type)
+            switch (((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->type)
             {
             case 0:
-                ((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->tile->Set(0xfb7, 6);
+                ((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile->Set(0xfb7, 6);
                 break;
             case -1:
             case 1:
             case 2:
             case 13:
-                ((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->tile->Set(0xfb7, 5);
+                ((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile->Set(0xfb7, 5);
                 break;
             case 3:
             case 4:
@@ -7260,18 +7259,18 @@ void FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
             case 8:
             case 9:
             case 14:
-                ((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->tile->Set(0xfb7, 1);
+                ((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile->Set(0xfb7, 1);
                 break;
             case 5:
             case 6:
             case 10:
             case 11:
             case 12:
-                ((ActionData*)*((::ItemListContainer **)(new ((void *)(pEntry)) ::Vec3())))->tile->Set(0xfb7, 4);
+                ((ActionData*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pEntry)->m_item)))->tile->Set(0xfb7, 4);
                 break;
             }
         }
-        pEntry = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070()));
+        pEntry = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070()));
     }
 }
 // Walks a linked list of ItemQ pairs and returns the count of consecutive nodes where iA and iB match the next node.
@@ -7279,12 +7278,12 @@ void FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
 int OwnQ::GetConsecutiveMatchCount()
 {
     int iCount = 0;
-    NodeQ* pNode = ((::NodeQ *)(new ((void *)(((ListQ*)&(*reinterpret_cast<int *>(&::g_011f2250))))) ::Vec3()));
+    NodeQ* pNode = ((::NodeQ *)(reinterpret_cast<::SimpleListNodeView*>(((ListQ*)&(*reinterpret_cast<int *>(&::g_011f2250))))->m_item));
     while (pNode && !pNode->FUN_008256d0())
     {
         bool bNext_pz = ((::NodeQ *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())) != 0;
-        ItemQ* pNext_vvak = bNext_pz ? *((::ItemQ **)(new ((void *)(((::NodeQ *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))) ::Vec3())) : 0;
-        ItemQ* pCur = *((::ItemQ **)(new ((void *)(pNode)) ::Vec3()));
+        ItemQ* pNext_vvak = bNext_pz ? *((::ItemQ **)(&reinterpret_cast<::SimpleListNodeView*>(((::NodeQ *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))->m_item)) : 0;
+        ItemQ* pCur = *((::ItemQ **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
         if (bNext_pz)
         {
             if (pCur->iA == pNext_vvak->iA && pCur->iB == pNext_vvak->iB)
@@ -7358,10 +7357,10 @@ bool VATSMenuX::FUN_007f28d0()
         m_fValue4 = clip3;
         m_fValue3 = reserve2;
         m_fValue5 = reserve2;
-        AmmoCommandNode* node2 = ((::AmmoCommandNode *)(new ((void *)(reinterpret_cast<AmmoQueue*>(&(*reinterpret_cast<::VATSX *>(&::g_011f2250))))) ::Vec3()));
+        AmmoCommandNode* node2 = ((::AmmoCommandNode *)(reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<AmmoQueue*>(&(*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item));
         while (node2 && !node2->FUN_008256d0())
         {
-            switch ((*((::AmmoCommand **)(new ((void *)(node2)) ::Vec3())))->action)
+            switch ((*((::AmmoCommand **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)))->action)
             {
             case 9:
                 m_fValue4 = FUN_0040ebd0(
@@ -7377,7 +7376,7 @@ bool VATSMenuX::FUN_007f28d0()
             case 4:
             case 5:
             case 6:
-                m_fValue4 = FUN_00404010(0.0f, (float)(m_fValue4 - (*((::AmmoCommand **)(new ((void *)(node2)) ::Vec3())))->shots));
+                m_fValue4 = FUN_00404010(0.0f, (float)(m_fValue4 - (*((::AmmoCommand **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)))->shots));
                 if (m_fValue4 == 0.0)
                 {
                     m_fValue4 =
@@ -7857,34 +7856,34 @@ typedef NiPoint2 ScreenPoint;
 // @fnv 0x007f52c0
 bool FUN_007f52c0()
 {
-    if (!((BSSimpleList*)&::g_011db150)->FUN_008256d0())
+    if (!((BSSimpleList<ItemListContainer*>*)&::g_011db150)->FUN_008256d0())
         return true;
     bool result = false;
     reinterpret_cast<::S00a70ba0_Cam *>((((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->UpdateWorldToCamera();
-    BSSimpleList* cur = ((::BSSimpleList *)(reinterpret_cast<::FUN_00595d10_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->FUN_00595d10()));
+    BSSimpleList<ItemListContainer*>* cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::FUN_00595d10_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->FUN_00595d10()));
     float fBestProb = 0.0f;
     bool flag21 = reinterpret_cast<::TESObjectCELL *>((((::GlobD *)(reinterpret_cast<::LowProcess *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->GetTarget()))))->IsCellInterior();
     reinterpret_cast<::FileMatchList *>((reinterpret_cast<TargetListResetCalls*>(&::g_011db124)))->RemoveAll();
     while (cur && !cur->FUN_008256d0())
     {
-        TargetEntry* target = (TargetEntry*)*((::ItemListContainer **)(new ((void *)(cur)) ::Vec3()));
+        TargetEntry* target = (TargetEntry*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item));
         bool flag29 = true;
         if (target)
-            flag29 = (((::BSSimpleList *)(reinterpret_cast<::Callees *>((FUN_00475400((void*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target->reference))->FUN_007af430())))))->FUN_00726070())) &&
+            flag29 = (((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((FUN_00475400((void*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target->reference))->FUN_007af430())))))->FUN_00726070())) &&
                       !reinterpret_cast<::FUN_00576070_shell *>((target->reference))->FUN_00576070())
                          ? 1
                          : 0;
         if (!target || (target && target->reference->V22c(0)) || !target->reference->V1d0() ||
             target->reference->FUN_00931850() || target->reference->V1a0(0) || flag29)
         {
-            cur = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
             continue;
         }
         float prob = reinterpret_cast<::RefS *>((target->reference))->FUN_005723b0((::RefS *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), 0, 0);
         if (prob < DAT_01011590 || prob > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting1261)))))) ||
             !reinterpret_cast<::SightActor *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->FUN_0088b880(1, (::SightActor *)(target->reference), 1, (int *)(0), 1))
         {
-            cur = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
             continue;
         }
         if (prob > fBestProb)
@@ -7907,7 +7906,7 @@ bool FUN_007f52c0()
                 if (arr[i])
                 {
                     ScreenPoint vScreen;
-                    Refr* actor = ((TargetEntry*)*((::ItemListContainer **)(new ((void *)(cur)) ::Vec3())))->reference;
+                    Refr* actor = ((TargetEntry*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->reference;
                     Obj6c* pObj6c = ((::Obj6c *)(::FUN_004aae30((::NiAVObject *)((int)actor->V1d0()), (::NiFixedString *)(((int)(::fnv_0043b230::FUN_0043b230((const char *)(((::Chain43 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pObj54))->GetValueByIndex(i)))))))))));
                     if (pObj6c)
                     {
@@ -7931,7 +7930,7 @@ bool FUN_007f52c0()
              (!flag21 && prob > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))))) &&
             !bVisible)
         {
-            cur = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
             continue;
         }
         if (target->reference->V1d0())
@@ -7940,7 +7939,7 @@ bool FUN_007f52c0()
             obj->f4 = 1;
             obj->f0 = (int)target->reference;
             obj->f10 = false;
-            obj->f20 = ((TargetEntry*)*((::ItemListContainer **)(new ((void *)(cur)) ::Vec3())))->selected;
+            obj->f20 = ((TargetEntry*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->selected;
             Refr* base2 = ((::Refr *)(reinterpret_cast<::Actor *>((((Refr*)obj->f0)))->GetActorBase()));
             Obj54* pObj54b = base2->V180();
             int** ppArrb = ((int **)(::FUN_006a9540((char *)(pObj54b))));
@@ -7991,7 +7990,7 @@ bool FUN_007f52c0()
             }
             ((ListHead*)&::g_011db150)->FUN_005ae3d0(&obj);
         }
-        cur = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+        cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
     }
     if (fBestProb != ::_DAT_01012060)
         fBestProb = fBestProb + DAT_0102e430;
@@ -8011,43 +8010,43 @@ bool FUN_007f52c0()
                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) *
                     *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))), {}, {});
     }
-    BSSimpleList* pCurNode2 = (BSSimpleList*)&::g_011db124;
+    BSSimpleList<ItemListContainer*>* pCurNode2 = (BSSimpleList<ItemListContainer*>*)&::g_011db124;
     while (pCurNode2 && !pCurNode2->FUN_008256d0())
     {
-        float prob2 = reinterpret_cast<::RefS *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->FUN_005723b0((::RefS *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), 0, 0);
-        Refr* refr2 = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+        float prob2 = reinterpret_cast<::RefS *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_005723b0((::RefS *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), 0, 0);
+        Refr* refr2 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
         {
-            if (refr2->V100() || ((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))->V220() ||
+            if (refr2->V100() || ((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))->V220() ||
                 (fBestProb > ::_DAT_01012060 &&
-                 fBestProb < reinterpret_cast<::RefS *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->FUN_005723b0((::RefS *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), 0, 0)) ||
-                reinterpret_cast<::FUN_00477ba0_shell *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->FUN_00477ba0() ||
-                reinterpret_cast<::TESForm *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->GetDisabled() ||
-                reinterpret_cast<::FUN_00440d80_shell *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->FUN_00440d80() ||
+                 fBestProb < reinterpret_cast<::RefS *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_005723b0((::RefS *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), 0, 0)) ||
+                reinterpret_cast<::FUN_00477ba0_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00477ba0() ||
+                reinterpret_cast<::TESForm *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->GetDisabled() ||
+                reinterpret_cast<::FUN_00440d80_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00440d80() ||
                 (flag21 && prob2 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
                 (!flag21 && prob2 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
-                !reinterpret_cast<::FUN_00576070_shell *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->FUN_00576070())
+                !reinterpret_cast<::FUN_00576070_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00576070())
             {
-                pCurNode2 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
+                pCurNode2 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
                 continue;
             }
         }
         {
-            Refr* refr4 = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+            Refr* refr4 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
             if (refr4->V224())
             {
-                Refr* refr5 = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+                Refr* refr5 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
                 if (((void *)(::FUN_00874480((char *)(refr5)))) == (void*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))
                 {
-                    pCurNode2 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
+                    pCurNode2 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
                     continue;
                 }
             }
         }
-        if (!reinterpret_cast<::FUN_00477ba0_shell *>((((Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3())))))->FUN_00477ba0())
+        if (!reinterpret_cast<::FUN_00477ba0_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00477ba0())
         {
             FUN_007f6900_Record* obj2 = new FUN_007f6900_Record;
             obj2->f4 = 2;
-            obj2->f0 = (int)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+            obj2->f0 = (int)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
             obj2->f10 = false;
             obj2->f20 = 0;
             Obj60* child4 = (Obj60*)new FUN_007f6820_cls;
@@ -8060,7 +8059,7 @@ bool FUN_007f52c0()
             obj2->sub.FUN_005ae3d0(&child4);
             if (!result)
             {
-                Refr* refr6 = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+                Refr* refr6 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
                 Vec3 vPos2 = *((::Vec3 *)(::FUN_0045bb80((int)(refr6->V1d0()))));
                 float fScreenX2 = 0.0f;
                 float fScreenY2 = 0.0f;
@@ -8075,8 +8074,6 @@ bool FUN_007f52c0()
                     new ((void *)&(oBigList)) ::FUN_004a3c20();
                     Vec3 vOrigin;
                     Vec3 vUnused;
-                    new ((void *)&(vOrigin)) ::Vec3();
-                    new ((void *)&(vUnused)) ::Vec3();
                     vOrigin = *((::Vec3 *)(::FUN_0045bb80((int)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))));
                     Obj20c oFilter;
                     new ((void *)&(oFilter)) ::GlobalObject_008c71b0(0);
@@ -8087,12 +8084,12 @@ bool FUN_007f52c0()
                     hkpAllRayHitCollector oCollector;
                     reinterpret_cast<::FUN_004a3fb0_shell *>(&(oBigList))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&oCollector));
                     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(oBigList))->FUN_004a3da0(&vOrigin);
-                    Refr* rayTarget = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
-                    reinterpret_cast<::FUN_004a3eb0_shell *>(&(oBigList))->FUN_004a3eb0(((::StepObj *)(new ((void *)(((::StepObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((rayTarget->V1d0()))->FUN_0043d450())))) ::Vec3())));
-                    Refr* rayTarget2 = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+                    Refr* rayTarget = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
+                    reinterpret_cast<::FUN_004a3eb0_shell *>(&(oBigList))->FUN_004a3eb0(((::StepObj *)(reinterpret_cast<::SimpleListNodeView*>(((::StepObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((rayTarget->V1d0()))->FUN_0043d450())))->m_item)));
+                    Refr* rayTarget2 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
                     Vec3 direction;
                     reinterpret_cast<::Class_007f68a0 *>(&(oBigList))->FUN_007f68a0(
-                        (*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::FUN_00439ef0_class *>((((::StepObj *)(new ((void *)(((::StepObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((rayTarget2->V1d0()))->FUN_0043d450())))) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)(::Vec3 *)(&direction), (*(const ::NiPoint3 *)(&vOrigin))))))));
+                        (*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::FUN_00439ef0_class *>((((::StepObj *)(reinterpret_cast<::SimpleListNodeView*>(((::StepObj *)(reinterpret_cast<::FUN_0043d450_Owner *>((rayTarget2->V1d0()))->FUN_0043d450())))->m_item))))->FUN_00439ef0((::NiPoint3 *)(::Vec3 *)(&direction), (*(const ::NiPoint3 *)(&vOrigin))))))));
                     Obj548* physics = ((::Obj548 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GlobD *)(reinterpret_cast<::LowProcess *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->GetTarget()))))->FUN_004543c0()));
                     bool hit = physics->V0c8(&oBigList);
                     if (hit && ((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList))->FUN_008cdd90())))
@@ -8105,7 +8102,7 @@ bool FUN_007f52c0()
                             int id = ((int)(::FUN_004b5820((::FormLike *)(oContact.f50))));
                             if (id)
                             {
-                                Refr* rayTarget3 = (Refr*)*((::ItemListContainer **)(new ((void *)(pCurNode2)) ::Vec3()));
+                                Refr* rayTarget3 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
                                 if (id == (int)rayTarget3->V1d0())
                                     result = true;
                             }
@@ -8115,7 +8112,7 @@ bool FUN_007f52c0()
             }
             ((ListHead*)&::g_011db150)->FUN_005ae3d0(&obj2);
         }
-        pCurNode2 = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
+        pCurNode2 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
     }
     if (!result)
     {
@@ -8123,8 +8120,6 @@ bool FUN_007f52c0()
         new ((void *)&(oBigList2)) ::FUN_004a3c20();
         Vec3 vStart;
         Vec3 vUnused2;
-        new ((void *)&(vStart)) ::Vec3();
-        new ((void *)&(vUnused2)) ::Vec3();
         vStart = *((::Vec3 *)(::FUN_0045bb80((int)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))));
         Obj20c oFilter2;
         new ((void *)&(oFilter2)) ::GlobalObject_008c71b0(0);
@@ -8367,7 +8362,7 @@ void VATSMenuX::Update()
         reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>((m_pTiles[10]))->RemoveFadeItemsForTile(0x80000000);
         return;
     }
-    if (((::ChanceX *)(new ((void *)&(((::TargetX *)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))) ::Vec3()))->kLimbs)) ::Vec3()))->iHitCount == 0)
+    if (((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(&(((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))->m_item))->kLimbs))->m_item))->iHitCount == 0)
     {
         reinterpret_cast<::FUN_007f6e50_This *>(this)->AssignActionTiles((::TargetList *)(::ListX< ::TargetX *> *)(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)))));
     }
@@ -8382,7 +8377,7 @@ void VATSMenuX::Update()
     }
     UpdateLimbHighlight();
     InputX* pInputA = ((::InputX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OSGlobalsX * *>(&::g_osGlobals))))->FUN_00877720()));
-    if (((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+    if (::FUN_004b71d0())
     {
         int iDeadZoneCur = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 ? 0x1ea9 : 0x21f1;
         int iLeftXTwo54 = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 7);
@@ -8523,8 +8518,8 @@ void VATSMenuX::Update()
     if ((::FUN_00709d40() && (::fnv_00717a40::FUN_00717a40(10, 1) == 1 || ::fnv_00717a40::FUN_00717a40(6, 1) == 1)) ||
         (reinterpret_cast<::ButtonDevice *>((pInputA))->FUN_00a23a50(1, 1) && iMidRes != 1))
     {
-        if ((!((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && !m_bAdditionalStateFlag) ||
-            (((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(10, 1) == 1))
+        if ((!::FUN_004b71d0() && !m_bAdditionalStateFlag) ||
+            (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(10, 1) == 1))
         {
             if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
             {
@@ -8561,8 +8556,8 @@ void VATSMenuX::Update()
         static int s_iSafeWidth = ::FUN_007177c0();
         static int s_iSafeHeight = ::fnv_00717820::FUN_00717820();
         if ((reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x12, 0) && iKeyTwo != 0x12) ||
-            (((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(9, 1) == 2 &&
-             ((::QueueX *)(new ((void *)&((*reinterpret_cast<::VATSX *>(&::g_011f2250)))) ::Vec3()))->GetSize() > 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2))
+            (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(9, 1) == 2 &&
+             ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize() > 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2))
         {
             xFUN_00705780();
             return;
@@ -8666,8 +8661,8 @@ void VATSMenuX::Update()
                 bool bBusy = !::FUN_004b71d0() && ::FUN_007f6af0((::Owner007f6af0 *)this);
                 if (!bBusy && m_pTargetChance->fHitChance > 0)
                 {
-                    if ((((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2) ||
-                        (!((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 &&
+                    if ((::FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2) ||
+                        (!::FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 &&
                          (!m_bAdditionalStateFlag || iModeNum76 != 1)))
                     {
                         int iActionZ = ::FUN_0066dba0(pWeaponOld ? pWeaponOld->GetWeaponType() : 0);
@@ -8682,7 +8677,7 @@ void VATSMenuX::Update()
                             !pWeaponOld ? false
                                         : ((pWeaponOld->GetWeaponType() != 10 && pWeaponOld->GetWeaponType() != 13) ||
                                            (pAmmoListOne && (unsigned int)((int)(reinterpret_cast<::Callees *>((pAmmoListOne))->FUN_00726070())) >
-                                                                ((::QueueX *)(new ((void *)&((*reinterpret_cast<::VATSX *>(&::g_011f2250)))) ::Vec3()))->GetSize()));
+                                                                ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize()));
                         if ((!pWeaponOld || (pWeaponOld->GetWeaponType() != 10 && pWeaponOld->GetWeaponType() != 13) ||
                              bCanFireZ95) &&
                             (!bHasModsM || m_fValue5 + m_fValue4 > 0) && iActionZ != 0x16 &&
@@ -8690,7 +8685,7 @@ void VATSMenuX::Update()
                             (!pWeaponOld || !((void *)(reinterpret_cast<::AmmoOwner *>((pWeaponOld))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))))) || m_fValue5 + m_fValue4 > 0) &&
                             (!pWeaponOld || !((void *)(reinterpret_cast<::AmmoOwner *>((pWeaponOld))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))))) ||
                              (pAmmoListOne && ((int)(reinterpret_cast<::Callees *>((pAmmoListOne))->FUN_00726070())) > 0)) &&
-                            (!FindEntryForRef() || (int)(((::ChanceX *)(new ((void *)(FindEntryForRef())) ::Vec3()))->fHitChance * 100.0) > 0))
+                            (!FindEntryForRef() || (int)(((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item))->fHitChance * 100.0) > 0))
                         {
                             CommandX* pCommandA55 = new CommandX;
                             void* pRaceItemNum =
@@ -8702,7 +8697,7 @@ void VATSMenuX::Update()
                             WeaponX* pTargetWeaponX4 = pTargetEquippedQ96 ? ((::WeaponX *)(reinterpret_cast<::Twin_0044ddc0 *>((pTargetEquippedQ96))->GetName())) : 0;
                             if (FindEntryForRef())
                             {
-                                m_pSelectedChance = ((::ChanceX *)(new ((void *)(FindEntryForRef())) ::Vec3()));
+                                m_pSelectedChance = ((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item));
                             }
                             bool bLimbSetNum = false;
                             if (!pWeaponOld || ::FUN_006450c0((::TESObjectWEAP *)(pWeaponOld)))
@@ -8710,14 +8705,14 @@ void VATSMenuX::Update()
                                 float fRandIn = ::RandomFloat(0.0f, 100.0f);
                                 int iCountB = 0;
                                 int iLimbOld = -1;
-                                ListX<ChanceX*>* pNodeIn = &((::TargetX *)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))) ::Vec3()))->kLimbs;
+                                ListX<ChanceX*>* pNodeIn = &((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))->m_item))->kLimbs;
                                 while (pNodeIn && !pNodeIn->IsEmpty())
                                 {
-                                    switch (((::ChanceX *)(new ((void *)(pNodeIn)) ::Vec3()))->m_iActionValue)
+                                    switch (((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(pNodeIn)->m_item))->m_iActionValue)
                                     {
                                     case 1:
                                     case 2:
-                                        iLimbOld = ((::ChanceX *)(new ((void *)(pNodeIn)) ::Vec3()))->m_iActionValue;
+                                        iLimbOld = ((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(pNodeIn)->m_item))->m_iActionValue;
                                         iCountB++;
                                         break;
                                     case 0:
@@ -8740,10 +8735,10 @@ void VATSMenuX::Update()
                                     float fStepX = 100.0 / iCountB;
                                     int iPickM99 = ::FUN_00404010(fRandIn, 1.0f) / fStepX;
                                     iCountB = 0;
-                                    pNodeIn = &((::TargetX *)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))) ::Vec3()))->kLimbs;
+                                    pNodeIn = &((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))->m_item))->kLimbs;
                                     while (pNodeIn && !pNodeIn->IsEmpty())
                                     {
-                                        switch (((::ChanceX *)(new ((void *)(pNodeIn)) ::Vec3()))->m_iActionValue)
+                                        switch (((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(pNodeIn)->m_item))->m_iActionValue)
                                         {
                                         case 0:
                                         case 1:
@@ -8755,7 +8750,7 @@ void VATSMenuX::Update()
                                             if (iCountB == iPickM99)
                                             {
                                                 pCommandA55->m_iActionValue =
-                                                    reinterpret_cast<::FUN_007f3bf0_cls *>(this)->FUN_007f3bf0(((::ChanceX *)(new ((void *)(pNodeIn)) ::Vec3()))->m_iActionValue);
+                                                    reinterpret_cast<::FUN_007f3bf0_cls *>(this)->FUN_007f3bf0(((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(pNodeIn)->m_item))->m_iActionValue);
                                                 bLimbSetNum = true;
                                             }
                                             iCountB++;
@@ -8834,7 +8829,7 @@ void VATSMenuX::Update()
                             }
                             reinterpret_cast<::SoundListView *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->AddCommand((::SoundListEntry *)(pCommandA55));
                             ListX<ChanceX*>* pLimbNodeRes38 = FindEntryForRef();
-                            float fLimbChanceZ = pLimbNodeRes38 ? ((::ChanceX *)(new ((void *)(FindEntryForRef())) ::Vec3()))->fHitChance : 0.0f;
+                            float fLimbChanceZ = pLimbNodeRes38 ? ((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item))->fHitChance : 0.0f;
                             if (m_bStateFlag4)
                             {
                                 int iShotsAtLimb = reinterpret_cast<::OwnQ *>(this)->GetConsecutiveMatchCount();
@@ -8860,7 +8855,7 @@ void VATSMenuX::Update()
                             }
                             UpdateHitChanceDisplay();
                         }
-                        else if (FindEntryForRef() && (int)(((::ChanceX *)(new ((void *)(FindEntryForRef())) ::Vec3()))->fHitChance * 100.0) <= 0 &&
+                        else if (FindEntryForRef() && (int)(((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item))->fHitChance * 100.0) <= 0 &&
                                  ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
                         {
                             BSSoundHandleX kSoundIn;
@@ -8885,7 +8880,7 @@ void VATSMenuX::Update()
                         }
                         (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->m_fHitChance = (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->FUN_007f48e0();
                     }
-                    else if (!((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 &&
+                    else if (!::FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 &&
                              !m_bAdditionalStateFlag)
                     {
                         ::FUN_007f6af0((::Owner007f6af0 *)this);
@@ -8903,12 +8898,12 @@ void VATSMenuX::Update()
                     }
                 }
             }
-            else if (!((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x1e, 1) &&
+            else if (!::FUN_004b71d0() && reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x1e, 1) &&
                      reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x1e, 3) && iKeyTwo != 0x1e)
             {
                 HandleClick(2, 0);
             }
-            else if (!((::InterfaceManagerX *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x20, 1) &&
+            else if (!::FUN_004b71d0() && reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x20, 1) &&
                      reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x20, 3) && iKeyTwo != 0x20)
             {
                 HandleClick(3, 0);
@@ -8929,11 +8924,11 @@ void VATSMenuX::UpdateHitChanceDisplay()
     ChanceX* pOtherItem;
 
     targets_2 = this->FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)));
-    target4 = ((::TargetX *)(new ((void *)(targets_2)) ::Vec3()));
+    target4 = ((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(targets_2)->m_item));
     node_ = &target4->kLimbs;
     while (node_ && !node_->IsEmpty())
     {
-        pItem = ((::ChanceX *)(new ((void *)(node_)) ::Vec3()));
+        pItem = ((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(node_)->m_item));
         nextNodeTmp = ((::ListX< ::ChanceX *> *)(reinterpret_cast<::Callees *>((node_))->FUN_00726070()));
         switch (pItem->m_iActionValue)
         {
@@ -8951,7 +8946,7 @@ void VATSMenuX::UpdateHitChanceDisplay()
         case 12:
             while (nextNodeTmp && !nextNodeTmp->IsEmpty())
             {
-                pOtherItem = ((::ChanceX *)(new ((void *)(nextNodeTmp)) ::Vec3()));
+                pOtherItem = ((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(nextNodeTmp)->m_item));
                 if (reinterpret_cast<::FUN_007f3bf0_cls *>((this))->FUN_007f3bf0(pItem->m_iActionValue) == reinterpret_cast<::FUN_007f3bf0_cls *>((this))->FUN_007f3bf0(pOtherItem->m_iActionValue))
                 {
                     if (((TileX2*)pOtherItem->iHitCount) == 0)
@@ -8991,7 +8986,7 @@ void VATSMenuX::UpdateHitChanceDisplay()
         }
 
         count7 =
-            (!((QueueX2*)((::QueueX *)(new ((void *)&((*reinterpret_cast<::VATSX *>(&::g_011f2250)))) ::Vec3())))->IsEmpty() &&
+            (!((QueueX2*)((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item)))->IsEmpty() &&
              ((::CommandX *)(reinterpret_cast<::MyList *>((((VATSX2*)&(*reinterpret_cast<::VATSX *>(&::g_011f2250)))))->FUN_009c71f0()))->m_iActionValue == reinterpret_cast<::FUN_007f3bf0_cls *>((this))->FUN_007f3bf0(pItem->m_iActionValue))
                 ? reinterpret_cast<::OwnQ *>((this))->GetConsecutiveMatchCount() + 1
                 : 0;
@@ -9064,7 +9059,7 @@ bool MenuM::UpdateVatsTargeting()
             a9 = &(*reinterpret_cast<::TargetListM *>(&::g_011db150));
             while (a9 && !a9->FUN_008256d0())
             {
-                reinterpret_cast<::FUN_00800e50_Class *>((FUN_00705910()))->FUN_00800d50((int)(((::TargetM *)(new ((void *)(a9)) ::Vec3()))->actor));
+                reinterpret_cast<::FUN_00800e50_Class *>((FUN_00705910()))->FUN_00800d50((int)(((::TargetM *)(reinterpret_cast<::SimpleListNodeView*>(a9)->m_item))->actor));
                 a9 = ((::TargetListM *)(reinterpret_cast<::Callees *>((a9))->FUN_00726070()));
             }
             lit = true;
@@ -9082,7 +9077,7 @@ bool MenuM::UpdateVatsTargeting()
         ::fnv_007ec3a0::UpdateVatsTargetHighlight(1);
         return false;
     }
-    target22 = ((::TargetM *)(new ((void *)(FindListEntryForTarget((*reinterpret_cast<::ActorM * *>(&::DAT_011f21cc))))) ::Vec3()));
+    target22 = ((::TargetM *)(reinterpret_cast<::SimpleListNodeView*>(FindListEntryForTarget((*reinterpret_cast<::ActorM * *>(&::DAT_011f21cc))))->m_item));
     if (target22)
     {
         itemExtra8 = ((::ProcessM *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))))->GetBaseTexture()))->current();
@@ -9112,10 +9107,10 @@ bool MenuM::UpdateVatsTargeting()
                     aArrow = 0;
                     while (scan8 && !scan8->FUN_008256d0())
                     {
-                        if (((::LimbM *)(new ((void *)(scan8)) ::Vec3()))->done)
+                        if (((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(scan8)->m_item))->done)
                         {
                             ++count1;
-                            aArrow += ((::LimbM *)(new ((void *)(scan8)) ::Vec3()))->chance;
+                            aArrow += ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(scan8)->m_item))->chance;
                         }
                         scan8 = ((::LimbListM *)(reinterpret_cast<::Callees *>((scan8))->FUN_00726070()));
                     }
@@ -9123,13 +9118,13 @@ bool MenuM::UpdateVatsTargeting()
                     fill6 = &target22->limbs;
                     while (fill6 && !fill6->FUN_008256d0())
                     {
-                        if (!((::LimbM *)(new ((void *)(fill6)) ::Vec3()))->done)
+                        if (!((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(fill6)->m_item))->done)
                         {
-                            if (((::LimbM *)(new ((void *)(fill6)) ::Vec3()))->chance <= 0.0)
-                                ((::LimbM *)(new ((void *)(fill6)) ::Vec3()))->chance = aArrow / count1;
-                            ((::LimbM *)(new ((void *)(fill6)) ::Vec3()))->done = true;
-                            ((::LimbM *)(new ((void *)(fill6)) ::Vec3()))->started = true;
-                            ((::LimbM *)(new ((void *)(fill6)) ::Vec3()))->failed = false;
+                            if (((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(fill6)->m_item))->chance <= 0.0)
+                                ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(fill6)->m_item))->chance = aArrow / count1;
+                            ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(fill6)->m_item))->done = true;
+                            ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(fill6)->m_item))->started = true;
+                            ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(fill6)->m_item))->failed = false;
                         }
                         fill6 = ((::LimbListM *)(reinterpret_cast<::Callees *>((fill6))->FUN_00726070()));
                     }
@@ -9140,15 +9135,15 @@ bool MenuM::UpdateVatsTargeting()
                 torsoVal = 0;
                 while (next4 && !next4->FUN_008256d0())
                 {
-                    if (((::LimbM *)(new ((void *)(next4)) ::Vec3()))->limb == 0)
-                        torsoVal = ((::LimbM *)(new ((void *)(next4)) ::Vec3()));
+                    if (((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item))->limb == 0)
+                        torsoVal = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item));
                     next4 = ((::LimbListM *)(reinterpret_cast<::Callees *>((next4))->FUN_00726070()));
                 }
                 next4 = &target22->limbs;
                 while (next4 && !next4->FUN_008256d0())
                 {
-                    if (!((::LimbM *)(new ((void *)(next4)) ::Vec3()))->done && !((::LimbM *)(new ((void *)(next4)) ::Vec3()))->started &&
-                        (!heading || ((::LimbM *)(new ((void *)(next4)) ::Vec3()))->active))
+                    if (!((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item))->done && !((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item))->started &&
+                        (!heading || ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item))->active))
                         break;
                     next4 = ((::LimbListM *)(reinterpret_cast<::Callees *>((next4))->FUN_00726070()));
                 }
@@ -9158,7 +9153,7 @@ bool MenuM::UpdateVatsTargeting()
                     iter14 = &target22->limbs;
                     while (iter14 && !iter14->FUN_008256d0())
                     {
-                        if (!((::LimbM *)(new ((void *)(iter14)) ::Vec3()))->done && ((::LimbM *)(new ((void *)(iter14)) ::Vec3()))->active)
+                        if (!((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(iter14)->m_item))->done && ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(iter14)->m_item))->active)
                         {
                             all5 = false;
                             break;
@@ -9171,13 +9166,13 @@ bool MenuM::UpdateVatsTargeting()
                         reinterpret_cast<::FUN_00800a90 *>((FUN_00705910()))->SetOcclusionDisabled();
                         header9 = FindListEntryByValue(25);
                         if (header9 &&
-                            reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(new ((void *)(header9)) ::Vec3()))->pos - *((::PointM *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() < 300.0 &&
+                            reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(header9)->m_item))->pos - *((::PointM *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() < 300.0 &&
                             target22 != mLast)
-                            current = ((::LimbM *)(new ((void *)(header9)) ::Vec3()));
+                            current = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(header9)->m_item));
                         else if (target22 == mLast)
                         {
                             prior2 = FindListEntryByValue(::DAT_011a59f0);
-                            current = prior2 ? ((::LimbM *)(new ((void *)(prior2)) ::Vec3())) : ((::LimbM *)(new ((void *)&(target22->limbs)) ::Vec3()));
+                            current = prior2 ? ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(prior2)->m_item)) : ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(&(target22->limbs))->m_item));
                         }
                         else if (torsoVal)
                         {
@@ -9201,20 +9196,20 @@ bool MenuM::UpdateVatsTargeting()
                         return true;
                     }
                 }
-                if (next4 && ((::LimbM *)(new ((void *)(next4)) ::Vec3())))
+                if (next4 && ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item)))
                 {
-                    current = ((::LimbM *)(new ((void *)(next4)) ::Vec3()));
-                    if (!((::LimbM *)(new ((void *)(next4)) ::Vec3()))->started)
+                    current = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item));
+                    if (!((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item))->started)
                     {
                         ::fnv_007ec3a0::UpdateVatsTargetHighlight(1);
-                        ((::LimbM *)(new ((void *)(next4)) ::Vec3()))->started = true;
+                        ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(next4)->m_item))->started = true;
                     }
                 }
                 aActorPos6 = true;
                 iter14 = &target22->limbs;
                 while (iter14 && !iter14->FUN_008256d0())
                 {
-                    limb7 = ((::LimbM *)(new ((void *)(iter14)) ::Vec3()));
+                    limb7 = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(iter14)->m_item));
                     valueB2 = 0;
                     if (limb7->started && reinterpret_cast<::FUN_00800a00_cls *>((FUN_00705910()))->GetRatioByIndex(limb7->limb, &valueB2))
                     {
@@ -9237,14 +9232,14 @@ bool MenuM::UpdateVatsTargeting()
                             reinterpret_cast<::FUN_00800a90 *>((FUN_00705910()))->SetOcclusionDisabled();
                             aBBusy1 = FindListEntryByValue(25);
                             if (aBBusy1 &&
-                                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(new ((void *)(aBBusy1)) ::Vec3()))->pos - *((::PointM *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() <
+                                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::PointM &)((((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(aBBusy1)->m_item))->pos - *((::PointM *)(::FUN_0045bb80((int)((*reinterpret_cast<::ActorM * *>(&::_g_thePlayer))->position())))))))->ComputeMagnitude() <
                                     300.0 &&
                                 target22 != mLast)
-                                current = ((::LimbM *)(new ((void *)(aBBusy1)) ::Vec3()));
+                                current = ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(aBBusy1)->m_item));
                             else if (target22 == mLast)
                             {
                                 aBFoundB = FindListEntryByValue(::DAT_011a59f0);
-                                current = aBFoundB ? ((::LimbM *)(new ((void *)(aBFoundB)) ::Vec3())) : ((::LimbM *)(new ((void *)&(target22->limbs)) ::Vec3()));
+                                current = aBFoundB ? ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(aBFoundB)->m_item)) : ((::LimbM *)(reinterpret_cast<::SimpleListNodeView*>(&(target22->limbs))->m_item));
                             }
                             else if (torsoVal)
                             {
@@ -9288,12 +9283,12 @@ float VATSMenuX::FUN_007f48e0()
     if (!(*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)) || !(*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))->IsActor())
         return 0.0f;
     float current = 0.0f;
-    AttackQueueNode* nodeA = (AttackQueueNode*)((::QueueX *)(new ((void *)&((*reinterpret_cast<::VATSX *>(&::g_011f2250)))) ::Vec3()));
+    AttackQueueNode* nodeA = (AttackQueueNode*)((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item));
     while (nodeA && !nodeA->FUN_008256d0())
     {
-        if ((*((::CommandX **)(new ((void *)(nodeA)) ::Vec3())))->pTarget == (*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)))
+        if ((*((::CommandX **)(&reinterpret_cast<::SimpleListNodeView*>(nodeA)->m_item)))->pTarget == (*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)))
         {
-            float queuedDamage = ::FUN_009b4fe0((::SpawnObj *)(*((::CommandX **)(new ((void *)(nodeA)) ::Vec3()))));
+            float queuedDamage = ::FUN_009b4fe0((::SpawnObj *)(*((::CommandX **)(&reinterpret_cast<::SimpleListNodeView*>(nodeA)->m_item))));
             current -= reinterpret_cast<::fnv_008808a0::ActorProxy *>((((DamageActor*)(*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)))))->FUN_008808a0(-queuedDamage, (::Actor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))));
         }
         nodeA = ((::AttackQueueNode *)(reinterpret_cast<::Callees *>((nodeA))->FUN_00726070()));
@@ -9326,7 +9321,7 @@ float VATSMenuX::FUN_007f48e0()
 void VATSMenuX::UpdateLimbTiles()
 {
     ListX<TargetX*>* node_2 = FindListEntryForTarget((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc)));
-    Target392* target = reinterpret_cast<Target392*>(((::TargetX *)(new ((void *)(node_2)) ::Vec3())));
+    Target392* target = reinterpret_cast<Target392*>(((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(node_2)->m_item)));
     ListX<Limb392*>* entry = &target->limbs;
     float scaleB = 0.0f;
     Scene392* object4 = 0;
@@ -9348,7 +9343,7 @@ void VATSMenuX::UpdateLimbTiles()
     {
         Race392* form2 = 0;
         Part392* parts3 = 0;
-        Limb392* item2 = ((::Limb392 *)(new ((void *)(entry)) ::Vec3()));
+        Limb392* item2 = ((::Limb392 *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item));
         if (target->kind == 2)
             object4 = target->actor->GetRoot();
         else if (item2->limb == 14)
@@ -9424,10 +9419,10 @@ void VATSMenuX::UpdateLimbTiles()
             item2->visible = true;
         entry = ((::ListX< ::Limb392 *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
     }
-    entry = &reinterpret_cast<Target392*>(((::TargetX *)(new ((void *)(node_2)) ::Vec3())))->limbs;
+    entry = &reinterpret_cast<Target392*>(((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(node_2)->m_item)))->limbs;
     while (entry && !entry->IsEmpty())
     {
-        Limb392* item2 = ((::Limb392 *)(new ((void *)(entry)) ::Vec3()));
+        Limb392* item2 = ((::Limb392 *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item));
         if (item2->visible)
         {
             switch (item2->limb)
@@ -9494,14 +9489,14 @@ void VATSMenuX::UpdateLimbTiles()
     {
         stateA = false;
         j++;
-        entry = &reinterpret_cast<Target392*>(((::TargetX *)(new ((void *)(node_2)) ::Vec3())))->limbs;
+        entry = &reinterpret_cast<Target392*>(((::TargetX *)(reinterpret_cast<::SimpleListNodeView*>(node_2)->m_item)))->limbs;
         while (entry && !entry->IsEmpty())
         {
-            Limb392* a = ((::Limb392 *)(new ((void *)(entry)) ::Vec3()));
+            Limb392* a = ((::Limb392 *)(reinterpret_cast<::SimpleListNodeView*>(entry)->m_item));
             ListX<Limb392*>* next = ((::ListX< ::Limb392 *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
             while (next && !next->IsEmpty())
             {
-                Limb392* b = ((::Limb392 *)(new ((void *)(next)) ::Vec3()));
+                Limb392* b = ((::Limb392 *)(reinterpret_cast<::SimpleListNodeView*>(next)->m_item));
                 v.x = reinterpret_cast<::TileListBoxCalls *>((a->tile))->GetFloat(0xfa1);
                 v.y = reinterpret_cast<::TileListBoxCalls *>((a->tile))->GetFloat(0xfa2);
                 secondVal.x = reinterpret_cast<::TileListBoxCalls *>((b->tile))->GetFloat(0xfa1);
@@ -9513,9 +9508,9 @@ void VATSMenuX::UpdateLimbTiles()
                     point.x = FUN_00408840(v.x - secondVal.x) / 2.0 + (v.x > secondVal.x ? secondVal.x : v.x);
                     point.y = FUN_00408840(v.y - secondVal.y) / 2.0 + (v.y > secondVal.y ? secondVal.y : v.y);
                     v = (v - point).DivideBy(reinterpret_cast<::FUN_004e7560_shell *>((void *)(void *)&(const ::Vec392 &)((v - point)))->NormalizeXY());
-                    v = point + reinterpret_cast<::NiPoint2 *>((void *)&(const ::Vec392 &)(v))->operator*((float)(reinterpret_cast<::FUN_00589850_Class *>((void *)&(size_2))->FUN_00589850() / 2.0));
+                    v = point + reinterpret_cast<const ::Vec392 &>(ResultSlot(reinterpret_cast<::NiPoint2 *>((void *)&(const ::Vec392 &)(v))->operator*((float)(reinterpret_cast<::FUN_00589850_Class *>((void *)&(size_2))->FUN_00589850() / 2.0))));
                     secondVal = (secondVal - point).DivideBy(reinterpret_cast<::FUN_004e7560_shell *>((void *)(void *)&(const ::Vec392 &)((secondVal - point)))->NormalizeXY());
-                    secondVal = point + reinterpret_cast<::NiPoint2 *>((void *)&(const ::Vec392 &)(secondVal))->operator*((float)(reinterpret_cast<::FUN_00589850_Class *>((void *)&(size_2))->FUN_00589850() / 2.0));
+                    secondVal = point + reinterpret_cast<const ::Vec392 &>(ResultSlot(reinterpret_cast<::NiPoint2 *>((void *)&(const ::Vec392 &)(secondVal))->operator*((float)(reinterpret_cast<::FUN_00589850_Class *>((void *)&(size_2))->FUN_00589850() / 2.0))));
                     v.x = FUN_00404010(minX, FUN_0040ebd0(maxX, v.x));
                     v.y = FUN_00404010(minY, FUN_0040ebd0(maxY, v.y));
                     secondVal.x = FUN_00404010(minX, FUN_0040ebd0(maxX, secondVal.x));
@@ -9725,8 +9720,8 @@ bool FUN_007f6af0(Owner007f6af0* self)
         TESObjectREFR* ref = ::FUN_0056f930((::NiAVObject *)(object));
         if (object)
         {
-            BSSimpleList* entry = ((StandIn*)self)->FindListEntryForTarget(ref);
-            if (entry && *(ItemListContainer**)*((::ItemListContainer **)(new ((void *)(entry)) ::Vec3())) == (*reinterpret_cast<::ItemListContainer * *>(&::DAT_011f21cc)))
+            BSSimpleList<ItemListContainer*>* entry = ((StandIn*)self)->FindListEntryForTarget(ref);
+            if (entry && *(ItemListContainer**)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)) == (*reinterpret_cast<::ItemListContainer * *>(&::DAT_011f21cc)))
             {
                 return false;
             }
@@ -9734,7 +9729,7 @@ bool FUN_007f6af0(Owner007f6af0* self)
             {
                 FUN_007f3bd0(0);
                 reinterpret_cast<::fnv_007f07a0::Owner7 *>((self))->UpdateLimbHighlight();
-                (*reinterpret_cast<::ItemListContainer * *>(&::DAT_011f21cc)) = *(ItemListContainer**)*((::ItemListContainer **)(new ((void *)(entry)) ::Vec3()));
+                (*reinterpret_cast<::ItemListContainer * *>(&::DAT_011f21cc)) = *(ItemListContainer**)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(entry)->m_item));
                 return true;
             }
             ref = 0;

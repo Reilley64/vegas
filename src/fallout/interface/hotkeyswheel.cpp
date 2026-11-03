@@ -1,5 +1,6 @@
 // fallout/interface/hotkeyswheel.cpp: Wheel, HotkeyWheelUpdate, HWShell (9 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSDefaultObjectManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -851,7 +852,7 @@ void Wheel::FUN_00701e80()
 {
     Inventory* inv3 = ((::Inventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))));
     Entry* entry5 = inv3 ? ((::Entry *)(reinterpret_cast<::InventoryChangesIter *>((inv3))->FindEntryWithExtraListType(*(int*)((char*)this + 0x28)))) : 0;
-    void* extra = entry5 && ((::Data *)(::FUN_00559450((int *)(entry5)))) ? *((void **)(new ((void *)(((::Data *)(::FUN_00559450((int *)(entry5)))))) ::Vec3())) : 0;
+    void* extra = entry5 && ((::Data *)(::FUN_00559450((int *)(entry5)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data *)(::FUN_00559450((int *)(entry5)))))->m_item)) : 0;
     bool ammo4 =
         (entry5 && ((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((entry5))->GetName()))->FUN_00401170() == 0x28 && ::FUN_004c0bf0((::TESObjectWEAP *)(((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((entry5))->GetName()))))) ? 1 : 0;
     if (!*((unsigned char*)this + 0x24) || !inv3 || !entry5)

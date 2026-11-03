@@ -1,5 +1,6 @@
 // fallout/interface/menus/itemmodmenu.cpp: ItemModMenu, RepairMenu, ModMenuStub, ItemModMenuHack and more (19 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectCollection.h"
 #include "fnv/decl/Callees.h"
@@ -487,7 +488,7 @@ bool EqMenu::FUN_00783af0(EqEntry* apTarget)
 {
     EqEntry* pPlayerEntry =
         ((::EqEntry *)(reinterpret_cast<::FUN_004bfba0_shell *>((((::EqInventoryChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))))))->FUN_004bfba0((::TESBoundObject *)(::EqForm *)(((::EqForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->GetName()))), 1, 0)));
-    EqExtraList* pExtra = (((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))))) ? *((::EqExtraList **)(new ((void *)(((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))))) ::Vec3())) : 0;
+    EqExtraList* pExtra = (((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))))) ? *((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item)) : 0;
     EqExtraList* pNewExtra2 = new EqExtraList;
     int _iCount = -1;
     bool bMerged4 = false;
@@ -524,13 +525,13 @@ bool EqMenu::FUN_00783af0(EqEntry* apTarget)
         bEquipped = true;
     }
 
-    for (EqExtraListNode* pNode4 = ((::EqExtraListNode *)(::FUN_00559450((int *)(pPlayerEntry)))); pNode4 && *((::EqExtraList **)(new ((void *)(pNode4)) ::Vec3()));
+    for (EqExtraListNode* pNode4 = ((::EqExtraListNode *)(::FUN_00559450((int *)(pPlayerEntry)))); pNode4 && *((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pNode4)->m_item));
          pNode4 = ((::EqExtraListNode *)(reinterpret_cast<::Callees *>((pNode4))->FUN_00726070())))
     {
-        if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::EqExtraList **)(new ((void *)(pNode4)) ::Vec3())))))->FUN_004126c0((::ExtraDataList *)(pNewExtra2), 1, 0) && !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((pNewExtra2))->FUN_004126c0((::ExtraDataList *)(*((::EqExtraList **)(new ((void *)(pNode4)) ::Vec3()))), 1, 0))
+        if (!reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>(((*((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pNode4)->m_item)))))->FUN_004126c0((::ExtraDataList *)(pNewExtra2), 1, 0) && !reinterpret_cast<::fnv_004126c0::FUN_004126c0_shell *>((pNewExtra2))->FUN_004126c0((::ExtraDataList *)(*((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pNode4)->m_item))), 1, 0))
         {
-            reinterpret_cast<::FUN_00419ad0_shell *>(((*((::EqExtraList **)(new ((void *)(pNode4)) ::Vec3())))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::EqExtraList **)(new ((void *)(pNode4)) ::Vec3())))))->FUN_00418770() + 1);
-            ((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))))->AddHead(*((::EqExtraList **)(new ((void *)(pNode4)) ::Vec3())));
+            reinterpret_cast<::FUN_00419ad0_shell *>(((*((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pNode4)->m_item)))))->FUN_00419ad0(reinterpret_cast<::FUN_00418770_shell *>(((*((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pNode4)->m_item)))))->FUN_00418770() + 1);
+            ((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))))->AddHead(*((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pNode4)->m_item)));
             bMerged4 = true;
         }
     }
@@ -619,7 +620,7 @@ void ModListOwner::FUN_007b4410()
             ModStr savedTraitString(reinterpret_cast<::FUN_00a011f0_shell *>((pEntry->pTile))->FUN_00a011f0(0xfe8));
             reinterpret_cast<::Tile *>((pEntry->pTile))->Set(0xfe8, -1);
             FUN_00706ff0((int)pEntry->pTile);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pEntry->pTile))->FUN_00a01350(0xfe8, (char *)(savedTraitString), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pEntry->pTile))->FUN_00a01350(0xfe8, (char *)(const char *)(savedTraitString), true);
             while (true)
             {
                 int count = reinterpret_cast<::S007b39b0 *>((pEntry))->GetPosition();
@@ -956,7 +957,7 @@ void ItemModMenuW::HandleItemModMenuClick(int tileID, Tile* clickedTile)
             {
                 ItemEntry* pEntry = ((ItemModListW*)&m_kItemList)->FUN_007a1910();
                 TESForm* pForm =
-                    (const char*)*pEntry ? *(TESForm**)&new ((void *)(((B006815c0*)(const char*)*pEntry))) ::Vec3() : 0;
+                    (const char*)*pEntry ? *(TESForm**)&reinterpret_cast<::SimpleListNodeView*>(((B006815c0*)(const char*)*pEntry))->m_item : 0;
                 if (reinterpret_cast<::EqMenu *>(this)->FUN_00783af0((::EqEntry *)(pEntry)))
                 {
                     (*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))->SendItemModEvent(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)pEntry)))->GetName())), pForm,
@@ -979,7 +980,7 @@ void ItemModMenuW::HandleItemModMenuClick(int tileID, Tile* clickedTile)
         {
             reinterpret_cast<::FUN_0088c650_shell *>(((*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_0088c650(
                 (::TESBoundObject *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))->GetName()))), (int)(((::fnv_007838a0::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_00726070()))),
-                (::ExtraDataList *)(*(TESForm**)&new ((void *)(((B006815c0*)(const char*)*(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))) ::Vec3()), true, false, true);
+                (::ExtraDataList *)(*(TESForm**)&reinterpret_cast<::SimpleListNodeView*>(((B006815c0*)(const char*)*(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_item), true, false, true);
             reinterpret_cast<::Holder_70 *>(((*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdc70();
             DAT_011d9f40 = 0;
         }
@@ -1386,7 +1387,7 @@ void FUN_00784710(Entry78* pEntry, bool b)
         {
             reinterpret_cast<::InvEntry_bdb40 *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdb40();
             reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player78 * *>(&::_g_thePlayer))))->FUN_0088c790((int)(((::Form78 *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->GetName()))), ((int)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_00726070())),
-                                       (int)(*((void **)(new ((void *)(((::Data78 *)(::FUN_00559450((int *)((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)))))))) ::Vec3()))), 0, 0, 1);
+                                       (int)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data78 *)(::FUN_00559450((int *)((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item))), 0, 0, 1);
             DAT_011d9f40 = 1;
         }
         float condition = reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bcdb0(1) / 100.0;
@@ -1637,13 +1638,13 @@ void __cdecl PopulateModListScreen()
     EntryNode listVal;
     Inventory* inv3 = ((::Inventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::ModObject * *>(&::_g_thePlayer))))));
     reinterpret_cast<::FUN_004d4ca0_shell *>((inv3))->CollectTopicEntries((::TESForm *)(::ModEntry *)(((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->GetName()))), (::TopicList4d4 *)(::EntryNode *)(&listVal));
-    for (EntryNode* node6 = &listVal; node6 && ((::Entry *)(new ((void *)(node6)) ::Vec3())); node6 = ((::EntryNode *)(reinterpret_cast<::Callees *>((node6))->FUN_00726070())))
+    for (EntryNode* node6 = &listVal; node6 && ((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item)); node6 = ((::EntryNode *)(reinterpret_cast<::Callees *>((node6))->FUN_00726070())))
     {
         Row* row = 0;
         Entry* entry = 0;
-        for (int index7 = 0; index7 < ((int)(reinterpret_cast<::Callees *>((((::Entry *)(new ((void *)(node6)) ::Vec3()))))->FUN_00726070())); ++index7)
+        for (int index7 = 0; index7 < ((int)(reinterpret_cast<::Callees *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))))->FUN_00726070())); ++index7)
         {
-            entry = ((::Entry *)(new ((void *)(node6)) ::Vec3()));
+            entry = ((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item));
             if (index7 == 0)
             {
                 if (((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod4 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != kMod2_2 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod5)
@@ -1654,11 +1655,11 @@ void __cdecl PopulateModListScreen()
             }
             else if (((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod4 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != kMod2_2 && ((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) != mod5)
             {
-                entry = new Entry(((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Entry *)(new ((void *)(node6)) ::Vec3()))))->GetName())), 1);
-                for (ExtraNode* extra6 = (ExtraNode*)((::Extras *)(::FUN_00559450((int *)(((::Entry *)(new ((void *)(node6)) ::Vec3())))))); extra6 && ((::Extras *)(new ((void *)(extra6)) ::Vec3()));
+                entry = new Entry(((::ModEntry *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))))->GetName())), 1);
+                for (ExtraNode* extra6 = (ExtraNode*)((::Extras *)(::FUN_00559450((int *)(((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item)))))); extra6 && ((::Extras *)(reinterpret_cast<::SimpleListNodeView*>(extra6)->m_item));
                      extra6 = ((::ExtraNode *)(reinterpret_cast<::Callees *>((extra6))->FUN_00726070())))
                 {
-                    ((::Extras *)(::FUN_00559450((int *)(entry))))->Add(((::Extras *)(new ((void *)(extra6)) ::Vec3())));
+                    ((::Extras *)(::FUN_00559450((int *)(entry))))->Add(((::Extras *)(reinterpret_cast<::SimpleListNodeView*>(extra6)->m_item)));
                 }
                 row = ((::Row *)(reinterpret_cast<::list71a::L71Menu *>(&(((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->rows))->FUN_0071a320((int)(entry), reinterpret_cast<::FUN_004be2d0_shell *>((entry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                 reinterpret_cast<::Tile *>((row))->Set(DAT_011d9f4c, 1);

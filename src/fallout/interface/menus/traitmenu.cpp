@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/traitmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/traitmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Counter_007878d0.h"
@@ -877,20 +878,20 @@ void FUN_007e7030_shell::PopulatePerkList()
     int itotalSkillPoints = 0;
     int inumSkills = 0;
     ((LBH*)((char*)this + 0x54))->Initialize(*(Tile**)((char*)this + 0x2c), "LUM_PerkTemplate");
-    for (BSSimpleList* pcurrentPerk = (BSSimpleList*)((char*)this + 0x84); pcurrentPerk && *((::BGSPerk **)(new ((void *)(pcurrentPerk)) ::Vec3()));
+    for (BSSimpleList* pcurrentPerk = (BSSimpleList*)((char*)this + 0x84); pcurrentPerk && *((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item));
          pcurrentPerk = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pcurrentPerk))->FUN_00726070())))
     {
         Tile* pnew;
         int icurrRank;
         char strtemp[64];
-        icurrRank = ::_g_thePlayer->GetPerkRank(*((::BGSPerk **)(new ((void *)(pcurrentPerk)) ::Vec3())), false);
+        icurrRank = ::_g_thePlayer->GetPerkRank(*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item)), false);
         pnew = 0;
-        ::TaskQueueInterface::CopyStringToBuffer(strtemp, 64, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::BGSPerk **)(new ((void *)(pcurrentPerk)) ::Vec3())))->fullName))->FUN_00408da0())));
+        ::TaskQueueInterface::CopyStringToBuffer(strtemp, 64, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&((*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item)))->fullName))->FUN_00408da0())));
         if (!::FUN_0044a670(strtemp))
             ::TaskQueueInterface::CopyStringToBuffer(strtemp, 64, (*reinterpret_cast<::StartMenu *>(&::g_011d35b8)).GetMenuTitle());
-        if (((unsigned char)(reinterpret_cast<::FUN_005d4ee0Class *>(((*((::BGSPerk **)(new ((void *)(pcurrentPerk)) ::Vec3())))))->FUN_005d4ee0())) > 1 && icurrRank > 0)
+        if (((unsigned char)(reinterpret_cast<::FUN_005d4ee0Class *>(((*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item)))))->FUN_005d4ee0())) > 1 && icurrRank > 0)
             ::FUN_00406d00(strtemp, 64, "%s (%d)", strtemp, icurrRank + 1);
-        pnew = ((::Tile *)(reinterpret_cast<::LBItemListBox *>((((LBH*)((char*)this + 0x54))))->AddItemTile((int)(*((::BGSPerk **)(new ((void *)(pcurrentPerk)) ::Vec3()))), strtemp, (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
+        pnew = ((::Tile *)(reinterpret_cast<::LBItemListBox *>((((LBH*)((char*)this + 0x54))))->AddItemTile((int)(*((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item))), strtemp, (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
         pnew->Set(0xfaa, 10);
         pnew->Set(DAT_011daf78, icurrRank + 1);
     }
@@ -1357,23 +1358,23 @@ void PerkMenuX::UpdateEffectChanges(ValueTile* tile)
         EffectList* curEffects = ((::EffectList *)(reinterpret_cast<::Twin_0044ddc0 *>((cur))->GetName()));
         EffectList* prevEffects = prev6 ? ((::EffectList *)(reinterpret_cast<::Twin_0044ddc0 *>((prev6))->GetName())) : 0;
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&((*reinterpret_cast<::EffectChangeList *>(&::g_011daff0))))->Clear(true);
-        for (EffectNode* node3 = curEffects ? &curEffects->list : 0; node3 && *((::EffectItem **)(new ((void *)(node3)) ::Vec3()));
+        for (EffectNode* node3 = curEffects ? &curEffects->list : 0; node3 && *((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(node3)->m_item));
              node3 = ((::EffectNode *)(reinterpret_cast<::Callees *>((node3))->FUN_00726070())))
         {
             EffectChange changeVal;
-            int id9 = (*((::EffectItem **)(new ((void *)(node3)) ::Vec3())))->GetAffectedActorValue();
-            changeVal.magnitude = reinterpret_cast<::FUN_00404390_shell *>(((*((::EffectItem **)(new ((void *)(node3)) ::Vec3())))))->FUN_00404390();
+            int id9 = (*((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(node3)->m_item)))->GetAffectedActorValue();
+            changeVal.magnitude = reinterpret_cast<::FUN_00404390_shell *>(((*((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(node3)->m_item)))))->FUN_00404390();
             if (id9 == -1)
                 continue;
-            for (EffectNode* prevNodeTmp = prevEffects ? &prevEffects->list : 0; prevNodeTmp && *((::EffectItem **)(new ((void *)(prevNodeTmp)) ::Vec3()));
+            for (EffectNode* prevNodeTmp = prevEffects ? &prevEffects->list : 0; prevNodeTmp && *((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(prevNodeTmp)->m_item));
                  prevNodeTmp = ((::EffectNode *)(reinterpret_cast<::Callees *>((prevNodeTmp))->FUN_00726070())))
             {
-                if ((*((::EffectItem **)(new ((void *)(prevNodeTmp)) ::Vec3())))->GetAffectedActorValue() == id9)
-                    changeVal.magnitude -= reinterpret_cast<::FUN_00404390_shell *>(((*((::EffectItem **)(new ((void *)(prevNodeTmp)) ::Vec3())))))->FUN_00404390();
+                if ((*((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(prevNodeTmp)->m_item)))->GetAffectedActorValue() == id9)
+                    changeVal.magnitude -= reinterpret_cast<::FUN_00404390_shell *>(((*((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(prevNodeTmp)->m_item)))))->FUN_00404390();
             }
             if (!reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(DAT_011daf5c))
                 changeVal.magnitude *= -1;
-            if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*((::EffectItem **)(new ((void *)(node3)) ::Vec3())))))->FUN_00825c00()))->IsDetrimentalToActorValue(id9))
+            if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(node3)->m_item)))))->FUN_00825c00()))->IsDetrimentalToActorValue(id9))
                 changeVal.magnitude *= -1;
             reinterpret_cast<::FUN_00787950_shell *>(&((*reinterpret_cast<::EffectChangeList *>(&::g_011daff0))))->AppendMember((::CombatMember_1024 *)(::EffectChange *)(&changeVal));
         }
@@ -1480,9 +1481,9 @@ TileView* __cdecl FUN_007e6990()
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TraitView*)DAT_011daf74)->tile28))->FUN_00a01350(4036, (char *)(text), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TraitView*)DAT_011daf74)->tile3c))->FUN_00a01350(4036, (char *)((*reinterpret_cast<::SettingView *>(&::g_011d33d8)).String()), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TraitView*)DAT_011daf74)->tile40))->FUN_00a01350(FUN_00a01860("_Title"), (char *)((*reinterpret_cast<::SettingView *>(&::g_011d35c4)).String()), true);
-        for (PerkNode* node = ((::PerkNode *)(reinterpret_cast<::FUN_00460fb0_class *>(((*reinterpret_cast<::DataHandlerView * *>(&::g_dataHandler))))->FUN_00460fb0())); node && *((::PerkView **)(new ((void *)(node)) ::Vec3())); node = ((::PerkNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+        for (PerkNode* node = ((::PerkNode *)(reinterpret_cast<::FUN_00460fb0_class *>(((*reinterpret_cast<::DataHandlerView * *>(&::g_dataHandler))))->FUN_00460fb0())); node && *((::PerkView **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::PerkNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
         {
-            PerkView* perk = *((::PerkView **)(new ((void *)(node)) ::Vec3()));
+            PerkView* perk = *((::PerkView **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             if (perk->Level() > 0 && ::_g_thePlayer->GetPerkRank(perk, false) < ((unsigned char)(reinterpret_cast<::FUN_005d4ee0Class *>((perk))->FUN_005d4ee0())) &&
                 ((bool)(::GetByteAtOffset56((char *)(perk)))) && reinterpret_cast<::FUN_005eba00_shell *>((perk))->FUN_005eba00((::TESObjectREFR *)(::_g_thePlayer)) && reinterpret_cast<::FUN_005eb5e0_t *>((perk))->CheckPlayerConditions())
             {

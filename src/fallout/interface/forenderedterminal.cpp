@@ -443,7 +443,6 @@ bool RenderedTerminalStandIn::HandleClick(bool abDown, int aiX, int aiY)
 struct FloatSetting
 {
 };
-extern unsigned char DAT_011f9426;
 extern int DAT_011f9434;
 struct Name
 {

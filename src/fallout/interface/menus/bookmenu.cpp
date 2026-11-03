@@ -47,6 +47,7 @@ struct Menu
     unsigned int m_g;
     unsigned int m_h;
     unsigned int m_i;
+    void SetMenuVisibility(bool);
 };
 
 extern unsigned int DAT_01070ecc;
@@ -1152,55 +1153,6 @@ void LoadBook::LoadBookFile()
     reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, 0);
 }
 
-struct Menu_rtti2
-{
-    virtual ~Menu_rtti2();  // the original class is polymorphic (rtti_variants.py)
-    Menu_rtti2();
-    unsigned int m_kPointA;
-    unsigned int m_kPointB;
-    unsigned int m_iThirdValue;
-    unsigned int m_iFourthElementInteger;
-    unsigned int m_usTrailingValue;
-    unsigned int m_f;
-    unsigned int m_g;
-    unsigned int m_h;
-    unsigned int m_i;
-public:
-    void SetMenuVisibility(bool);
-};
-struct FUN_0073acb0 : Menu_rtti2
-{
-    void* m_pHighlightedTile;
-    void* m_pObject;
-    FUN_0073acb0();
-};
-struct Menu_rtti2;
-class Tile;
-struct FUN_007e7a80 : Menu_rtti2
-{
-    char _pad[0x50];
-    int m_78;
-    int m_7c;
-    FUN_007e7a80();
-};
-struct FUN_0073b050_shell : Menu_rtti2
-{
-    Tile* m_pHighlightedTile;
-    Tile* m_pObject;
-    unsigned int m_0x30;
-    unsigned int m_0x34;
-    float m_fValue;
-
-    void FUN_0073b050(int, Tile*);
-};
-struct BookTarget : Menu_rtti2
-{
-    void* unk28;
-    void* unk2c;
-    int unk30;
-    void UpdateBookMenu(BookInput*, int);
-};
-
 struct TESObjectBOOK
 {
 };
@@ -1213,7 +1165,7 @@ struct TileMenu : Tile
 struct IMH
 {
 };
-struct BookMenuData : Menu_rtti2
+struct BookMenuData : Menu
 {
     void* m_pHighlightedTile;
     void* m_pObject;
@@ -1243,12 +1195,12 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
 {
     BookMenu* g_pHudMainMenuInstance;
     InterfaceManager* pin;
-    Menu_rtti2* pmenu;
+    Menu* pmenu;
     TESObjectBOOK* pbook;
     float ftop_depth;
     Tile_00a01b00* ptile;
     Tile* pold_menu_tile;
-    pold_menu_tile = (Tile*)((::Menu_rtti2 *)(::FUN_00a09030(0x402)));
+    pold_menu_tile = (Tile*)((::Menu *)(::FUN_00a09030(0x402)));
     if (pold_menu_tile)
         delete pold_menu_tile;
     pbook = apBook;
@@ -1264,7 +1216,7 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
     if (pmenu && ((MenuH*)pmenu)->GetID() == 0x402)
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((((MenuH*)pmenu)))->FUN_00a1dc70(dynamic_cast<TileMenu*>((Tile*)ptile), false);
-        BookMenu* g_pHudMainMenuInstance = dynamic_cast<BookMenu*>(pmenu);
+        BookMenu* g_pHudMainMenuInstance = dynamic_cast<BookMenu*>((MenuH*)pmenu);
         if (!((FUN_0073af60_shell*)g_pHudMainMenuInstance)->FUN_0073af60())
         {
             ::FUN_005b5e40();
@@ -1277,7 +1229,7 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
             ::s717280::FUN_00717280(0x18);
         else
             ::s717280::FUN_00717280(0x1a);
-        reinterpret_cast<::Menu_rtti2 *>((((MenuH*)pmenu)))->SetMenuVisibility(false);
+        reinterpret_cast<::Menu *>((((MenuH*)pmenu)))->SetMenuVisibility(false);
         return ptile;
     }
     else if (pmenu && reinterpret_cast<::Callees *>((pmenu))->FUN_00726070())

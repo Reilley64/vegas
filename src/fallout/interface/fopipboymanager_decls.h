@@ -18,7 +18,6 @@
 #include "fnv/decl/FUN_00a59d30_C.h"
 #include "fnv/decl/FUN_00a5a040_Class.h"
 #include "fnv/decl/FUN_00ba8ab0_shell.h"
-#include "fnv/decl/NiPick.h"
 #include "fnv/decl/S_FUN_0045bc00.h"
 #include "fnv/decl/StrOwner.h"
 #include "fnv/decl/TaskQueueInterface.h"
@@ -72,6 +71,7 @@ class NiPoint3
 {
   public:
     float x, y, z;
+    NiPoint3();
     NiPoint3(float, float, float);
 };
 class NiDirectionalLight
@@ -319,6 +319,7 @@ class FOPipboyManager : public FORenderedMenu
     void SetPipBoyObjectVisibility(bool, bool, bool);
     void UpdateScrollKnob();
     void UpdatePipBoyButton();
+    bool FUN_007f8720(bool press, bool release, float& x, float& y, int& button);
     float m_fFirstPersonLightIntensity;
     float m_fThirdPersonLightIntensity;
     bool m_bPipBoyLightEnabled;

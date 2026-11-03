@@ -1,5 +1,6 @@
 // fallout/interface/menus/levelupmenu.cpp: Holder, LBItemListBox, LevelUpMenu, EffectSetting and more (53 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/Actor.h"
@@ -118,9 +119,6 @@ void LevelUpMenu::RefreshNetworkState()
     NetworkSystemUtility::GetRandomGenerator();
 }
 
-struct ActorValue
-{
-};
 struct EffectSetting
 {
     bool IsDetrimentalToActorValue(int av);
@@ -165,10 +163,10 @@ void* LBList::FindItemData(Tile* apTile)
     if (!apTile)
         return 0;
     LBNode* pnode = this ? &first : 0;
-    for (; pnode && *((::ListBoxItemX **)(new ((void *)(pnode)) ::Vec3())); pnode = ((::LBNode *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (; pnode && *((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::LBNode *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if ((*((::ListBoxItemX **)(new ((void *)(pnode)) ::Vec3())))->tile == apTile)
-            return (*((::ListBoxItemX **)(new ((void *)(pnode)) ::Vec3())))->data;
+        if ((*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->tile == apTile)
+            return (*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->data;
     }
     return 0;
 }
@@ -1357,19 +1355,19 @@ void SkillsMenu::UpdateSkillsAndPerks()
     skills.Sort(((void (&)())::CompareActorValueNames));
     points = ::FUN_00647b70(::MinInt(points, count * 100 - iTotalSkillValue), 0);
     perks.FUN_0075a0d0(perkRoot, str_01073db8);
-    for (LBNode* node = &availablePerks; node && *((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())); node = ((::LBNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+    for (LBNode* node = &availablePerks; node && *((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::LBNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         char acPerkLabel[64];
         {
-            int iPerkRank = (*reinterpret_cast<::fnv_00785540::PlayerSkills * *>(&::_g_thePlayer))->GetPerkRank(*((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())), 0);
+            int iPerkRank = (*reinterpret_cast<::fnv_00785540::PlayerSkills * *>(&::_g_thePlayer))->GetPerkRank(*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)), 0);
             {
                 SkillTile* perkTile = 0;
-                ::TaskQueueInterface::CopyStringToBuffer(acPerkLabel, 64, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((Perk*)*((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())))->name))->FUN_00408da0())));
+                ::TaskQueueInterface::CopyStringToBuffer(acPerkLabel, 64, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((Perk*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->name))->FUN_00408da0())));
                 if (!::FUN_0044a670(acPerkLabel))
                     ::TaskQueueInterface::CopyStringToBuffer(acPerkLabel, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00785540::FallbackSetting *>(&::g_011d35b8))))->GetMenuTitle())));
-                if (((unsigned char)(reinterpret_cast<::FUN_005d4ee0Class *>((((Perk*)*((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())))))->FUN_005d4ee0())) > 1 && iPerkRank > 0)
+                if (((unsigned char)(reinterpret_cast<::FUN_005d4ee0Class *>((((Perk*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_005d4ee0())) > 1 && iPerkRank > 0)
                     ::FUN_00406d00(acPerkLabel, 64, str_0106eb00, acPerkLabel, iPerkRank + 1);
-                perkTile = perks.AddItemTile(*((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())), acPerkLabel, 0, 0);
+                perkTile = perks.AddItemTile(*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)), acPerkLabel, 0, 0);
                 reinterpret_cast<::Tile *>((perkTile))->Set(0xfaa, 12);
                 reinterpret_cast<::Tile *>((perkTile))->Set(::DAT_011d9ff8, iPerkRank + 1);
             }
@@ -1853,31 +1851,31 @@ void Holder::UpdateTileEffects(Tile* tile)
         ContObj* contX = second ? ((::ContObj *)(reinterpret_cast<::Twin_0044ddc0 *>((second))->GetName())) : (ContObj*)0;
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&((*reinterpret_cast<::GlobalObj *>(&::g_011da050))))->Clear(true);
         LBNode* curVal;
-        for (curVal = cont1 ? &cont1->node : (LBNode*)0; curVal != 0 && *((::ListBoxItemX **)(new ((void *)(curVal)) ::Vec3())) != 0;
+        for (curVal = cont1 ? &cont1->node : (LBNode*)0; curVal != 0 && *((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)) != 0;
              curVal = ((::LBNode *)(reinterpret_cast<::Callees *>((curVal))->FUN_00726070())))
         {
             EffRec recVal;
             ::FUN_00403ba0((int *)&(recVal));
-            int av7 = ((EffectItem*)*((::ListBoxItemX **)(new ((void *)(curVal)) ::Vec3())))->GetAffectedActorValue();
-            recVal.mag = reinterpret_cast<::FUN_00404390_shell *>((((EffectItem*)*((::ListBoxItemX **)(new ((void *)(curVal)) ::Vec3())))))->FUN_00404390();
+            int av7 = ((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))->GetAffectedActorValue();
+            recVal.mag = reinterpret_cast<::FUN_00404390_shell *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))))->FUN_00404390();
             if (av7 == -1)
             {
                 continue;
             }
             LBNode* cur4;
-            for (cur4 = contX ? &contX->node : (LBNode*)0; cur4 != 0 && *((::ListBoxItemX **)(new ((void *)(cur4)) ::Vec3())) != 0;
+            for (cur4 = contX ? &contX->node : (LBNode*)0; cur4 != 0 && *((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(cur4)->m_item)) != 0;
                  cur4 = ((::LBNode *)(reinterpret_cast<::Callees *>((cur4))->FUN_00726070())))
             {
-                if (((EffectItem*)*((::ListBoxItemX **)(new ((void *)(cur4)) ::Vec3())))->GetAffectedActorValue() == av7)
+                if (((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(cur4)->m_item)))->GetAffectedActorValue() == av7)
                 {
-                    recVal.mag -= reinterpret_cast<::FUN_00404390_shell *>((((EffectItem*)*((::ListBoxItemX **)(new ((void *)(cur4)) ::Vec3())))))->FUN_00404390();
+                    recVal.mag -= reinterpret_cast<::FUN_00404390_shell *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(cur4)->m_item)))))->FUN_00404390();
                 }
             }
             if (!reinterpret_cast<::FUN_00a01230_shell *>((((LevelOption*)tile)))->IsTraitNonZero((int)((void*)DAT_011d9fe0)))
             {
                 recVal.mag = recVal.mag * -1;
             }
-            if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)*((::ListBoxItemX **)(new ((void *)(curVal)) ::Vec3())))))->FUN_00825c00()))->IsDetrimentalToActorValue(av7))
+            if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(curVal)->m_item)))))->FUN_00825c00()))->IsDetrimentalToActorValue(av7))
             {
                 recVal.mag = recVal.mag * -1;
             }
@@ -2009,14 +2007,14 @@ struct LBListBox
 // @fnv 0x00786f90
 void LBListBox::ClearItems()
 {
-    while (pHeadNext && *((::fnv_00786f90::LBItem **)(new ((void *)(pHeadNext)) ::Vec3())))
+    while (pHeadNext && *((::fnv_00786f90::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(pHeadNext)->m_item)))
     {
         LBListNode* pNext = ((::fnv_00786f90::LBListNode *)(reinterpret_cast<::Callees *>((pHeadNext))->FUN_00726070()));
         if (!::fnv_007a2070::s_bAllowDetach)
-            delete (*((::fnv_00786f90::LBItem **)(new ((void *)(pHeadNext)) ::Vec3())))->pTile;
+            delete (*((::fnv_00786f90::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(pHeadNext)->m_item)))->pTile;
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(true))
-            delete (*((::fnv_00786f90::LBItem **)(new ((void *)(pHeadNext)) ::Vec3())))->pObject;
-        delete *((::fnv_00786f90::LBItem **)(new ((void *)(pHeadNext)) ::Vec3()));
+            delete (*((::fnv_00786f90::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(pHeadNext)->m_item)))->pObject;
+        delete *((::fnv_00786f90::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(pHeadNext)->m_item));
         reinterpret_cast<::CombatProcedure *>((pHeadNext))->Initialize((::CombatController *)(0));
         delete pHeadNext;
         pHeadNext = pNext;
@@ -2180,11 +2178,11 @@ class FUN_00787850_cls
 // @fnv 0x00787850
 void FUN_00787850_cls::FUN_00787850(unsigned char abSkipFlagged)
 {
-    for (LBNode* node = this ? &this->first : 0; node != 0 && *((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())) != 0; node = ((::LBNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+    for (LBNode* node = this ? &this->first : 0; node != 0 && *((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) != 0; node = ((::LBNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        if (abSkipFlagged == 0 || ((FUN_00787850_item*)*((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())))->flag8 == 0)
+        if (abSkipFlagged == 0 || ((FUN_00787850_item*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->flag8 == 0)
         {
-            reinterpret_cast<FUN_00787c20_shell*>(this)->FUN_00787c20((unsigned int)(*((::ListBoxItemX **)(new ((void *)(node)) ::Vec3())))->tile);
+            reinterpret_cast<FUN_00787c20_shell*>(this)->FUN_00787c20((unsigned int)(*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile);
         }
     }
 }
@@ -2984,10 +2982,10 @@ LBTile* LBItemListBox::FUN_00787260(int key)
         }
         while (true)
         {
-            for (node = this; !found7 && node && *((::fnv_00787260::LBItem **)(new ((void *)(node)) ::Vec3())); node = ((::fnv_00787260::LBItemList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+            for (node = this; !found7 && node && *((::fnv_00787260::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::fnv_00787260::LBItemList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                if (((double)(reinterpret_cast<::TileListBoxCalls *>(((*((::fnv_00787260::LBItem **)(new ((void *)(node)) ::Vec3())))->tile))->GetFloat(0xfac))) == index)
-                    found7 = (*((::fnv_00787260::LBItem **)(new ((void *)(node)) ::Vec3())))->tile;
+                if (((double)(reinterpret_cast<::TileListBoxCalls *>(((*((::fnv_00787260::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile))->GetFloat(0xfac))) == index)
+                    found7 = (*((::fnv_00787260::LBItem **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->tile;
             }
             if (found7 && !reinterpret_cast<::FUN_00a01230_shell *>((found7))->IsTraitNonZero(::FUN_00a00940("_enabled", -1)))
             {
@@ -3118,9 +3116,9 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
 int Counter_007878d0::FUN_007878d0()
 {
     int iCount = 0;
-    for (ListNode_007878d0* pkNode = this; pkNode && ((::ListItem_007878d0 *)(new ((void *)(pkNode)) ::Vec3())); pkNode = ((::ListNode_007878d0 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
+    for (ListNode_007878d0* pkNode = this; pkNode && ((::ListItem_007878d0 *)(reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)); pkNode = ((::ListNode_007878d0 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070())))
     {
-        if (reinterpret_cast<::FUN_007877a0_Object *>(this)->FUN_007877a0((::LevelOption *)(((::ListItem_007878d0 *)(new ((void *)(pkNode)) ::Vec3()))->iKey)))
+        if (reinterpret_cast<::FUN_007877a0_Object *>(this)->FUN_007877a0((::LevelOption *)(((::ListItem_007878d0 *)(reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item))->iKey)))
             iCount++;
     }
     return iCount;
@@ -3162,13 +3160,13 @@ void FUN_00787aa0_cls::ResetAndProcessTiles()
 {
     m_1c = 0;
     m_20 = 0.0f;
-    for (LBNode* pNode = (this != 0) ? &first : 0; pNode != 0 && *((::ListBoxItemX **)(new ((void *)(pNode)) ::Vec3())) != 0;
+    for (LBNode* pNode = (this != 0) ? &first : 0; pNode != 0 && *((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)) != 0;
          pNode = ((::LBNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
-        if (((ListItem787aa0*)*((::ListBoxItemX **)(new ((void *)(pNode)) ::Vec3())))->unk08 == 0)
+        if (((ListItem787aa0*)*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->unk08 == 0)
         {
-            reinterpret_cast<::Tile *>((((TileCallees787aa0*)(*((::ListBoxItemX **)(new ((void *)(pNode)) ::Vec3())))->tile)))->Set(0xfac, m_1c++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::ListBoxItemX **)(new ((void *)(pNode)) ::Vec3())))->tile));
+            reinterpret_cast<::Tile *>((((TileCallees787aa0*)(*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->tile)))->Set(0xfac, m_1c++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::ListBoxItemX **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->tile));
         }
     }
     reinterpret_cast<::LevelMenuView *>(this)->FUN_007880a0();
@@ -3719,9 +3717,9 @@ int FUN_00784c80()
         {
             ContNode* node;
             for (node = (ContNode*)reinterpret_cast<::FUN_00460fb0_class *>((((FUN_00460fb0_class*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00460fb0();
-                 node && *((::fnv_00784c80::TESConditionItem *const *)(new ((void *)(((ConditionList_t*)node))) ::Vec3())); node = ((::fnv_00784c80::ContNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+                 node && *((::fnv_00784c80::TESConditionItem *const *)(&reinterpret_cast<::SimpleListNodeView*>(((ConditionList_t*)node))->m_item)); node = ((::fnv_00784c80::ContNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                TESConditionItem* item = *((::fnv_00784c80::TESConditionItem *const *)(new ((void *)(((ConditionList_t*)node))) ::Vec3()));
+                TESConditionItem* item = *((::fnv_00784c80::TESConditionItem *const *)(&reinterpret_cast<::SimpleListNodeView*>(((ConditionList_t*)node))->m_item));
                 if ((char)reinterpret_cast<::FUN_006aabf0_shell *>((((FUN_006aabf0_shell*)item)))->GetByteAt39() > 0)
                 {
                     if (((ActorV*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::_g_thePlayer)))->FUN_v4a0(item, 0) <

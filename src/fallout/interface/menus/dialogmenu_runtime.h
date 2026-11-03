@@ -78,11 +78,10 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
 class DialogueItem
 {
   public:
-    TESObjectREFR* SelectDefaultResponseList();
+    TESObjectREFR* FUN_005e3fa0();
 };
 class SettingT_GameSettingCollection_
 {

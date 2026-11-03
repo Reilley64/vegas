@@ -632,7 +632,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         void* node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(reference->GetNiNode_v()))));
                         if (!node)
                             node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reference->GetNiNode_v()))->FUN_009611e0()))))));
-                        ::FUN_00a10c00((::NiObject *)(node), (int)(((const char *)(::FUN_00559450((int *)&(label))))), 0, -1.0f);
+                        ::FUN_00a10c00((::NiObject *)(node), ((const char *)(::FUN_00559450((int *)&(label)))), 0, -1.0f);
                     }
                 }
                 else if (!FUN_0071cff0(text, "reload strings", 14))

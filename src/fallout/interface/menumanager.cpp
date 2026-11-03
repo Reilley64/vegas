@@ -1,5 +1,6 @@
 // fallout/interface/menumanager.cpp: MenuSystem, TutorialMenu, QuantityMenu, StatsMenu and more (50 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
@@ -692,12 +693,12 @@ void FUN_007254d0_t::FUN_007254d0()
     usItemCount = 0;
     fTotalHeight = 0.0f;
     FUN_004ee7d0_node* pnode;
-    for (pnode = this; pnode && *((::ListBoxItem_t **)(new ((void *)(pnode)) ::Vec3())); pnode = ((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
+    for (pnode = this; pnode && *((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)); pnode = ((::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070())))
     {
-        if (!(*((::ListBoxItem_t **)(new ((void *)(pnode)) ::Vec3())))->m_bFiltered)
+        if (!(*((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->m_bFiltered)
         {
-            (*((::ListBoxItem_t **)(new ((void *)(pnode)) ::Vec3())))->pTile->Set(0xfac, usItemCount++);
-            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::ListBoxItem_t **)(new ((void *)(pnode)) ::Vec3())))->pTile));
+            (*((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->pTile->Set(0xfac, usItemCount++);
+            reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)((*((::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pnode)->m_item)))->pTile));
         }
     }
     reinterpret_cast<::S725970 *>(this)->FUN_00725970();
@@ -1290,7 +1291,7 @@ struct FUN_0071fef0
 // @fnv 0x0071fec0
 void* FUN_0071fef0::FUN_0071fec0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0071fef0 *>((this))->FUN_0071fef0::~FUN_0071fef0();
+    reinterpret_cast<::FUN_0071fef0 *>((this))->::FUN_0071fef0::~FUN_0071fef0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

@@ -1,5 +1,6 @@
 // fallout/interface/menus/levelupmenu.cpp: Holder, LBItemListBox, LevelUpMenu, EffectSetting and more (53 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
@@ -865,8 +866,8 @@ void LevelView::FUN_00785280(int id, ViewTile* tile)
     switch (id)
     {
     case 11:
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile38))->FUN_00a01350(0xfcc, (char *)(::FUN_0066e9f0((::ActorValue::Index)(((unsigned int)(reinterpret_cast<::LBList *>(&(skills))->FindItemData((::Tile *)(tile))))))), true);
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile3c))->FUN_00a01350(0xfc4, (char *)(::GetActorValueDescription((::ActorValue::Index)(((unsigned int)(reinterpret_cast<::LBList *>(&(skills))->FindItemData((::Tile *)(tile))))))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile38))->FUN_00a01350(0xfcc, (char *)(::FUN_0066e9f0((::ActorValue::Index)(((std::uintptr_t)(reinterpret_cast<::LBList *>(&(skills))->FindItemData((::Tile *)(tile))))))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile3c))->FUN_00a01350(0xfc4, (char *)(::GetActorValueDescription((::ActorValue::Index)(((std::uintptr_t)(reinterpret_cast<::LBList *>(&(skills))->FindItemData((::Tile *)(tile))))))), true);
         reinterpret_cast<::Tile *>((tile38))->Set(0xfa3, 1);
         reinterpret_cast<::Tile *>((tile3c))->Set(0xfa3, 1);
         if (((unsigned int)(::GetWeaponSkillIconPath(((unsigned int)(reinterpret_cast<::LBList *>(&(skills))->FindItemData((::Tile *)(tile))))))) > 0)
@@ -879,8 +880,8 @@ void LevelView::FUN_00785280(int id, ViewTile* tile)
         ::FUN_00706f30(4);
         break;
     case 12:
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile38))->FUN_00a01350(0xfcc, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((MenuItem*)((unsigned int)(reinterpret_cast<::LBList *>(&(perks))->FindItemData((::Tile *)(tile)))))->name))->FUN_00408da0()))), true);
-        reinterpret_cast<::PerkPrinter *>((((MenuItem*)((unsigned int)(reinterpret_cast<::LBList *>(&(perks))->FindItemData((::Tile *)(tile)))))))->BuildDescription(description, 512);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile38))->FUN_00a01350(0xfcc, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((MenuItem*)((std::uintptr_t)(reinterpret_cast<::LBList *>(&(perks))->FindItemData((::Tile *)(tile)))))->name))->FUN_00408da0()))), true);
+        reinterpret_cast<::PerkPrinter *>((((MenuItem*)((std::uintptr_t)(reinterpret_cast<::LBList *>(&(perks))->FindItemData((::Tile *)(tile)))))))->BuildDescription(description, 512);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile3c))->FUN_00a01350(0xfc4, (char *)(description), true);
         if (::FUN_0044a670(reinterpret_cast<::FUN_00a011f0_shell *>((tile38))->FUN_00a011f0(0xfcc)) > 1)
             reinterpret_cast<::Tile *>((tile38))->Set(0xfa3, 1);
@@ -2146,7 +2147,7 @@ void FUN_00787600_shell::UpdateScrollTile(bool abFlag)
         pScrollTile->FUN_00a012d0(::FUN_00a01860("_current_value"), fValue, false);
         ((FUN_00a01290_shell*)pScrollTile)->SetTraitAndReset(::FUN_00a01860("_SetInCode"), 1.0f);
         pTile = Unk_05((unsigned int)FUN_0040ebd0(fScrollPos, (float)((unsigned int)(reinterpret_cast<::FUN_007879f0 *>(this)->GetIntegerResult())) - 1.0));
-        reinterpret_cast<::FocusManager *>((((IMStandIn*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((int)pTile), 0xfc3, abFlag);
+        reinterpret_cast<::FocusManager *>((((IMStandIn*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((std::intptr_t)pTile), 0xfc3, abFlag);
         Unk_00(pTile);
         if (!FUN_004b71d0())
         {
@@ -3700,9 +3701,9 @@ int FUN_00784c80()
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
             ->f44))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d33d8)))))->GetMenuTitle()))), 1);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
-            ->f48))->FUN_00a01350(::FUN_00a01860(s_title0), (char *)((int)((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d3564)))))->GetMenuTitle()))), 1);
+            ->f48))->FUN_00a01350(::FUN_00a01860(s_title0), (char *)((std::intptr_t)((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d3564)))))->GetMenuTitle()))), 1);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
-            ->f48))->FUN_00a01350(::FUN_00a01860(s_title1), (char *)((int)((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d35c4)))))->GetMenuTitle()))), 1);
+            ->f48))->FUN_00a01350(::FUN_00a01860(s_title1), (char *)((std::intptr_t)((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d35c4)))))->GetMenuTitle()))), 1);
         reinterpret_cast<::FUN_00a01290_shell *>((((FUN_00a01290_shell*)menu)))->SetTraitAndReset(::FUN_00a01860(s_curpage), 1.0f);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
             ->f4c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&(*reinterpret_cast<int *>(&::g_011d1fec)))))->GetMenuTitle()))), 1);
@@ -3837,7 +3838,7 @@ class GlobalObject_00788300
 // @fnv 0x00786240
 void __cdecl FUN_00786240(LevelValue* apTile, int aiMatchValue)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011da050))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011da050))->GetName())); ++i)
     {
         if (((::LUM_Item *)(reinterpret_cast<::FUN_006b3160_shell *>(&(g_011da050))->FUN_006b3160(i)))->unk10 == aiMatchValue)
         {

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/recipemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/recipemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdlib>
@@ -553,7 +554,7 @@ FUN_0072b210::FUN_0072b210()
     m_24 = 0.0f;
     m_20 = 0.0f;
 
-    reinterpret_cast<::FlagS *>((reinterpret_cast<ListBox<TESQuest*>*>(this)))->FUN_007a1950((unsigned int)((Tile*)0), true);
+    reinterpret_cast<::FlagS *>((reinterpret_cast<ListBox<TESQuest*>*>(this)))->FUN_007a1950((std::uintptr_t)((Tile*)0), true);
     ::AddToHeadList((int *)(void *)(this));
 }
 
@@ -1263,7 +1264,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
         if (reinterpret_cast<::PerkEntryConditionSet *>((((::CMConditions *)(::FUN_006a9540((char *)(pChallenge6))))))->ContainsTrait((::TESObjectREFR *)(g_pCMPlayer->iRef60), (::TESObjectREFR *)(0)))
         {
             pForm4 = ((::CMForm *)(reinterpret_cast<::LowProcess *>((pChallenge6))->GetPackageObjectType()));
-            if (pForm4 && ((::CMFormArray *)(::FUN_00726f10()))->Find(pForm4, 0, ((bool (&)(CMForm *const &, CMForm *const &))::FUN_009a3830)) >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::CMFormArray *)(::FUN_00726f10()))))->GetName())))
+            if (pForm4 && ((::CMFormArray *)(::FUN_00726f10()))->Find(pForm4, 0, ((bool (&)(CMForm *const &, CMForm *const &))::FUN_009a3830)) >= ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::CMFormArray *)(::FUN_00726f10()))))->GetName())))
             {
                 reinterpret_cast<::FUN_00438690 *>((((::CMFormArray *)(::FUN_00726f10()))))->FUN_007cb2e0((unsigned int *)&(pForm4));
                 iCount8++;
@@ -1589,7 +1590,7 @@ RecipeEntry* Panel515::FUN_0072a900(int selection, int choice, int aiRecipeIndex
     if (parent && (defaultItem || parentId))
     {
         RecipeEntry* entry = ((::RecipeEntry *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::MenuNode *)(reinterpret_cast<::FUN_00a03c90_shell *>((parent))->FUN_00a03c90()))))->FUN_00a1ddb0({}, {}, {})));
-        if (!((int)(reinterpret_cast<::FUN_00a00f30_shell *>((entry))->FUN_00a00f30(0xfaa))))
+        if (!((std::intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>((entry))->FUN_00a00f30(0xfaa))))
             reinterpret_cast<::Tile *>((entry))->Set(0xfaa, -1);
         if (choice)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((entry))->FUN_00a01350(0xfc4, (char *)(choice), 1);
@@ -2454,7 +2455,7 @@ RcTile* CreateRecipeMenu(int vendor, int type)
         reinterpret_cast<::CMMenu *>((((RcMenu*)DAT_011d8e90)))->PopulateChallengeList(0, type);
         return tile2;
     }
-    else if (DAT_011d8e90 && ((int)(reinterpret_cast<::Callees *>((((RcMenu*)DAT_011d8e90)))->FUN_00726070())))
+    else if (DAT_011d8e90 && ((std::intptr_t)(reinterpret_cast<::Callees *>((((RcMenu*)DAT_011d8e90)))->FUN_00726070())))
     {
         delete (RcMenu*)DAT_011d8e90;
     }
@@ -2947,7 +2948,7 @@ void CategoryMenu::OnAction(int action, RcTile* tile)
         DAT_0119fbf4 += action ? 1 : -1;
         if (DAT_0119fbf4 < -1)
             DAT_0119fbf4 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CategoryArray*)FUN_00726f10())))->GetName())) - 1;
-        else if ((unsigned int)DAT_0119fbf4 >= ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((CategoryArray*)FUN_00726f10())))->GetName())))
+        else if ((unsigned int)DAT_0119fbf4 >= ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((CategoryArray*)FUN_00726f10())))->GetName())))
             DAT_0119fbf4 = -1;
         if (DAT_0119fbf4 != -1)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles[1]))->FUN_00a01350(
@@ -3332,7 +3333,7 @@ RecipeEntry* RecipePanel::FUN_00729ae0(int selection, int updateChoice, int aiRe
     {
         RecipeEntry* current =
             ((::RecipeEntry *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::MenuNode *)(reinterpret_cast<::FUN_00a03c90_shell *>((m_parent))->FUN_00a03c90()))))->FUN_00a1ddb0({}, {}, {})));
-        if (!((int)(reinterpret_cast<::FUN_00a00f30_shell *>((current))->FUN_00a00f30(0xfaa))))
+        if (!((std::intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>((current))->FUN_00a00f30(0xfaa))))
             reinterpret_cast<::Tile *>((current))->Set(0xfaa, -1);
         if (updateChoice != 0)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((current))->FUN_00a01350(0xfc4, (char *)(updateChoice), 1);
@@ -3638,16 +3639,16 @@ int __cdecl FUN_00727920(void* apChallenge)
             ? ((ChallengeOwner*)((RcMenu*)DAT_011d8e90)->unk60)
             : 0;
     reinterpret_cast<int&>(DAT_011d8ea8) = 100;
-    if (!((int)(reinterpret_cast<::FUN_006a1b60_Class *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetField54())) ||
+    if (!((std::intptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetField54())) ||
         !reinterpret_cast<::LowProcess *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetPackageObjectType())
         return 0;
     if (pOwner)
     {
         if (((int)(reinterpret_cast<::ActorMover *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetCurrentMoveModeType())) > -1 &&
             reinterpret_cast<::ActorValueOwner *>(&(pOwner->kItems))->GetActorValueAsInteger((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetCurrentMoveModeType())))) <
-                ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((static_cast<RecipeCanMakeView*>(apChallenge)))->FUN_0045cd60())))
+                ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((static_cast<RecipeCanMakeView*>(apChallenge)))->FUN_0045cd60())))
             return 0;
-        if (((RcMenu*)DAT_011d8e90)->unk64 != ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetField54())))
+        if (((RcMenu*)DAT_011d8e90)->unk64 != ((std::intptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetField54())))
             return 0;
         ReqNode* pNode = ((::ReqNode *)(reinterpret_cast<struct ::FUN_005a8080 *>((static_cast<RecipeCanMakeView*>(apChallenge)))->GetField()));
         while (pNode && !pNode->FUN_008256d0())
@@ -4033,10 +4034,10 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                     if (((int)(reinterpret_cast<::ActorMover *>((DAT_011d8e94))->GetCurrentMoveModeType())) > -1)
                         FUN_00406d00(skill, 256, "%s (%d/%d)", ::ActorValue::GetActorValueName((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((DAT_011d8e94))->GetCurrentMoveModeType())))),
                                      reinterpret_cast<::ActorValueOwner *>(&(owner->stats))->GetActorValueAsInteger((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((DAT_011d8e94))->GetCurrentMoveModeType())))),
-                                     ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((DAT_011d8e94))->FUN_0045cd60())));
+                                     ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((DAT_011d8e94))->FUN_0045cd60())));
                     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((RecipeEnterMenu*)DAT_011d8e90)->tiles[5]))->FUN_00a01350(0xfc4, (char *)(skill), true);
                     if (((int)(reinterpret_cast<::ActorMover *>((DAT_011d8e94))->GetCurrentMoveModeType())) > -1 &&
-                        reinterpret_cast<::ActorValueOwner *>(&(owner->stats))->GetActorValueAsInteger((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((DAT_011d8e94))->GetCurrentMoveModeType())))) < ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((DAT_011d8e94))->FUN_0045cd60())))
+                        reinterpret_cast<::ActorValueOwner *>(&(owner->stats))->GetActorValueAsInteger((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((DAT_011d8e94))->GetCurrentMoveModeType())))) < ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((DAT_011d8e94))->FUN_0045cd60())))
                         reinterpret_cast<::Tile *>((((RecipeEnterMenu*)DAT_011d8e90)->tiles[5]))->Set(0xfa9, 127);
                     else
                         reinterpret_cast<::Tile *>((((RecipeEnterMenu*)DAT_011d8e90)->tiles[5]))->Set(0xfa9, 255);
@@ -4060,7 +4061,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
             else
             {
                 TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESForm *)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())));
-                if (armor && ((int)(::FUN_00480f80((::TESForm *)(armor), (::TESObjectREFR *)((*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer)))))))
+                if (armor && ((std::intptr_t)(::FUN_00480f80((::TESForm *)(armor), (::TESObjectREFR *)((*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer)))))))
                 {
                     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles[9]))->FUN_00a01350(0xfcc, (char *)(armor->names.FUN_00481280(((SexData*)(*reinterpret_cast<::FNVAuxController * *>(&::_g_thePlayer)))->FUN_0087f4c0())),
                                            true);

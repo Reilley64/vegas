@@ -444,8 +444,8 @@ void MenuX::HandleTileClick(int id, TileX* tile)
     case 9:
         if (reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfac) != unk50)
         {
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk34))->FUN_00a01350(0xfcc, (char *)(FUN_0066e9f0((ActorValue::Index)(int)reinterpret_cast<::LBList *>(&(list))->FindItemData((::Tile *)(tile)))), true);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk38))->FUN_00a01350(0xfc4, (char *)(GetActorValueDescription((ActorValue::Index)(int)reinterpret_cast<::LBList *>(&(list))->FindItemData((::Tile *)(tile)))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk34))->FUN_00a01350(0xfcc, (char *)(FUN_0066e9f0((ActorValue::Index)(std::intptr_t)reinterpret_cast<::LBList *>(&(list))->FindItemData((::Tile *)(tile)))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk38))->FUN_00a01350(0xfc4, (char *)(GetActorValueDescription((ActorValue::Index)(std::intptr_t)reinterpret_cast<::LBList *>(&(list))->FindItemData((::Tile *)(tile)))), true);
             reinterpret_cast<::Tile *>((unk34))->Set(0xfa3, 1);
             reinterpret_cast<::Tile *>((unk38))->Set(0xfa3, 1);
             FUN_00706f30(4);

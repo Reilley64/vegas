@@ -636,7 +636,7 @@ void C7687d0::FUN_007687d0()
         T7021b0* a = *reinterpret_cast<T7021b0**>(this);
         q = a;
     }
-    q ? ((int)(reinterpret_cast<::FUN_007021b0_cls *>((q))->DestroyOrFree(3))) : 0;
+    q ? ((std::intptr_t)(reinterpret_cast<::FUN_007021b0_cls *>((q))->DestroyOrFree(3))) : 0;
 }
 
 extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
@@ -1199,7 +1199,7 @@ void FUN_0076ad50_cls::BuildHackingGuessTemplate()
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m174))->FUN_004ed8c0((int *)(::FUN_00a1ddb0_res **)(&p));
     {
         FUN_004037b0_tmp nameBuf;
-        ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&nameBuf), "%s_%d", p->FUN_00700300(), ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m174))->GetName())));
+        ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&nameBuf), "%s_%d", p->FUN_00700300(), ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m174))->GetName())));
         reinterpret_cast<::Tile *>((p))->SetName((const char *)(::FUN_00559450((int *)&(nameBuf))));
     }
 }
@@ -1215,7 +1215,7 @@ struct FUN_0076ae90_cls
 unsigned int Context::FUN_00769520(FUN_007687d0* input)
 {
     unsigned char minimum = 255;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
     {
         unsigned char current = ((int)(reinterpret_cast<::FUN_0076ae90_cls *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[i]))->FUN_0076ae90()));
         if (current < minimum)
@@ -1232,12 +1232,12 @@ unsigned int Context::FUN_00769520(FUN_007687d0* input)
     else
     {
         unsigned int best = ((unsigned int)(reinterpret_cast<::Callees *>((input))->FUN_00726070()));
-        for (unsigned int outer = 0; outer < ((unsigned int)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++outer)
+        for (unsigned int outer = 0; outer < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++outer)
         {
             if (((int)(reinterpret_cast<::FUN_0076ae90_cls *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[outer]))->FUN_0076ae90())) == minimum)
             {
                 unsigned int worst = 0;
-                for (unsigned int inner = 0; inner < ((unsigned int)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++inner)
+                for (unsigned int inner = 0; inner < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++inner)
                 {
                     unsigned char results[32];
                     if (reinterpret_cast<::Struct0076ae30 *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[outer]))->FindByteIndices(inner, results) == minimum)
@@ -4726,7 +4726,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                     attempts = maxAttempts;
                     special = true;
                     reinterpret_cast<::ScriptList *>(&(used))->FUN_0076b660((unsigned int *)&(const unsigned int &)(12 * (unsigned int)(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1004) * 17.0 + reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfac)) + ((unsigned int)(reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue())) - 7));
-                    while (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) < maxAttempts)
+                    while (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(list))->GetName())) < maxAttempts)
                         reinterpret_cast<::FUN_0076ad50_cls *>(this)->BuildHackingGuessTemplate();
                     j = 3;
                 }

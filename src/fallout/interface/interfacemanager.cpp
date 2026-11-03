@@ -1667,7 +1667,7 @@ bool __cdecl FUN_00717990()
     Menu* menu = ((::Menu *)(::FUN_00a09030(top)));
     NiNode* node = menu ? ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile_Access*)menu)))->FUN_0056c7f0())) : 0;
 
-    if (node != 0 && (unsigned int)node == (*(BSAudio**)((*reinterpret_cast<char* *>(&::DAT_011d8a80)) + 0x16c))->GetSynchTime())
+    if (node != 0 && (std::uintptr_t)node == (*(BSAudio**)((*reinterpret_cast<char* *>(&::DAT_011d8a80)) + 0x16c))->GetSynchTime())
         return true;
 
     return false;
@@ -2729,11 +2729,11 @@ void FUN_0070c4a0_shell::UpdateInterface()
                 {
                     ::fnv_00771700::FUN_00771700(0x14);
                 }
-                else if (reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::fnv_0070c4a0::PCH * *>(&::_g_thePlayer))))->FUN_008bbc10() && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070c4a0::ArrSIH *>(&::g_011f2250))))->GetName())))
+                else if (reinterpret_cast<::FUN_008bbc10_shell *>(((*reinterpret_cast<::fnv_0070c4a0::PCH * *>(&::_g_thePlayer))))->FUN_008bbc10() && !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070c4a0::ArrSIH *>(&::g_011f2250))))->GetName())))
                 {
                     ::fnv_00771700::FUN_00771700(0x16);
                 }
-                else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070c4a0::ArrSIH *>(&::g_011f2250))))->GetName())) != 4)
+                else if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070c4a0::ArrSIH *>(&::g_011f2250))))->GetName())) != 4)
                 {
                     ::fnv_00771700::FUN_00771700(2);
                 }
@@ -3106,9 +3106,9 @@ void FUN_0070c4a0_shell::UpdateInterface()
             }
             if (((IMX*)this)->t4c)
             {
-                reinterpret_cast<::FUN_00a012d0_t *>((((IMX*)this)->t4c))->FUN_00a012d0(0xfee, (float)((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((((IMX*)this)))->FUN_005f5f80())) - ((IMX*)this)->f54, true);
+                reinterpret_cast<::FUN_00a012d0_t *>((((IMX*)this)->t4c))->FUN_00a012d0(0xfee, (float)((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((((IMX*)this)))->FUN_005f5f80())) - ((IMX*)this)->f54, true);
                 reinterpret_cast<::FUN_00a012d0_t *>((((IMX*)this)->t4c))->FUN_00a012d0(0xfef, (float)((int)(::FUN_0070ec90((char *)(((IMX*)this))))) - ((IMX*)this)->f58, true);
-                ((IMX*)this)->f54 = (float)((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((((IMX*)this)))->FUN_005f5f80()));
+                ((IMX*)this)->f54 = (float)((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((((IMX*)this)))->FUN_005f5f80()));
                 ((IMX*)this)->f58 = (float)((int)(::FUN_0070ec90((char *)(((IMX*)this)))));
             }
         }
@@ -3286,11 +3286,11 @@ void FUN_0070c4a0_shell::UpdateInterface()
         }
         if (pcontrols->SetHotkeyItem(0x19, 1) && !::FUN_0070edf0())
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d4cb4))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d4cb4))))->GetMenuTitle()))), 0, (std::intptr_t)(::g_011cba18_arg1), (int)(0), 2.0f, false);
         }
         if (pcontrols->SetHotkeyItem(0x1a, 1) && !::FUN_0070edf0())
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d3fd0))))->GetMenuTitle()))), 0, (int)(::g_011cba18_arg1), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070c4a0::GSet *>(&::g_011d3fd0))))->GetMenuTitle()))), 0, (std::intptr_t)(::g_011cba18_arg1), (int)(0), 2.0f, false);
         }
     }
     bool tempMemContext = false;
@@ -3385,7 +3385,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
     {
         ((IMX*)this)->QueueHudCallback(0, 0);
     }
-    else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070c4a0::ArrSIH *>(&::g_011f2250))))->GetName())) || (*reinterpret_cast<::fnv_0070c4a0::PCH * *>(&::_g_thePlayer))->vf22c(false) || ikeyMenu)
+    else if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070c4a0::ArrSIH *>(&::g_011f2250))))->GetName())) || (*reinterpret_cast<::fnv_0070c4a0::PCH * *>(&::_g_thePlayer))->vf22c(false) || ikeyMenu)
     {
         if (!FUN_004b71d0() || !((IMX*)this)->b7d)
         {
@@ -4068,7 +4068,7 @@ void FUN_0070adb0_shell::InitInterface(bool abInitialLoad)
     reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unka0)))->Set(::FUN_00a01860("_Has360Controller"), FUN_004b71d0());
 
     *(NiNode**)&this->unka4 = new NiNode(0);
-    ::AssignFixedString((char *)((*(NiNode**)&this->unka4)), (int)&(const ::NiFixedString &)(NiFixedString("InterfaceManager: DebugText Root")), {});
+    ::AssignFixedString((char *)((*(NiNode**)&this->unka4)), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("InterfaceManager: DebugText Root")), {});
     reinterpret_cast<::TaskQueueInterface *>(((*(NiNode**)&this->unka4)))->QueueActorDisarm(false);
     (*(NiNode**)&this->unk80)->AttachChildInAvailableSlot(*(NiNode**)&this->unka4, true);
 
@@ -4607,7 +4607,7 @@ void FUN_0070bc20_shell::UpdateActivatePick()
             if (phud && reinterpret_cast<::FUN_004571c0_cls *>(((*reinterpret_cast<::fnv_0070bc20::TES * *>(&::g_TES))))->ApplyToObject((::FUN_004571c0_obj *)&(activatePick), (int)&(origin), (int)&(dir), fpickLength, 0x1f))
             {
                 NiPickRecord* ppickRecord = 0;
-                for (unsigned int a = 0; a < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_0070bc20::NiPickResults *)(reinterpret_cast<::BGSCameraPath *>(&(activatePick))->GetConditions()))))->FUN_0044edb0())); a++)
+                for (unsigned int a = 0; a < ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_0070bc20::NiPickResults *)(reinterpret_cast<::BGSCameraPath *>(&(activatePick))->GetConditions()))))->FUN_0044edb0())); a++)
                 {
                     ppickRecord = ((::fnv_0070bc20::NiPickRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_0070bc20::NiPickResults *)(reinterpret_cast<::BGSCameraPath *>(&(activatePick))->GetConditions()))))->FUN_00968670(a)));
                     ppick_ref = ((::fnv_0070bc20::TESObjectREFR *)(::FUN_0056f930((::NiAVObject *)(::fnv_0070bc20::NiAVObject *)(ppickRecord->FUN_00458b50()))));
@@ -4643,7 +4643,7 @@ void FUN_0070bc20_shell::UpdateActivatePick()
 
                 DAT_011d8a90 = 0x22;
                 unsigned int igroup = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::fnv_0070bc20::CollisionFilter &)((*reinterpret_cast<::fnv_0070bc20::PlayerCharacter * *>(&::_g_thePlayer))->GetVectorElement()))->FUN_004a3a20();
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*(ActivatePickHelper**)((char*)this + 0x13c))))->GetName())) != igroup)
+                if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*(ActivatePickHelper**)((char*)this + 0x13c))))->GetName())) != igroup)
                     reinterpret_cast<::C1C50WorldObject *>(((*(ActivatePickHelper**)((char*)this + 0x13c))))->FUN_00631c50(igroup);
 
                 DAT_011d8a90 = 0x23;
@@ -6036,13 +6036,13 @@ SceneGraph* FUN_00712e90_shell::FUN_00712e90(SceneGraph* apGraph, char* apName, 
         reinterpret_cast<::FaderManager *>((DAT_011d8804))->AddRoot((::NiNode *)(pscene_graph), this->unka8, true);
 
         *(NiNode**)&this->unk80 = new NiNode(0);
-        ::AssignFixedString((char *)((*(NiNode**)&this->unk80)), (int)&(const ::fnv_00712e90::NiFixedString &)(NiFixedString("InterfaceManager: Main Root")), {});
+        ::AssignFixedString((char *)((*(NiNode**)&this->unk80)), (std::intptr_t)&(const ::fnv_00712e90::NiFixedString &)(NiFixedString("InterfaceManager: Main Root")), {});
         pscene_graph->AttachChildInAvailableSlot(*(NiNode**)&this->unk80, true);
         NiPoint3 kPosition = (*(::fnv_00712e90::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>(((*(NiNode**)&this->unk80)))->FUN_0043c490()));
         reinterpret_cast<::FUN_00440460_S *>(((*(NiNode**)&this->unk80)))->FUN_00440460((const ::V3 *)&(const ::fnv_00712e90::NiPoint3 &)(NiPoint3(0.0f, this->unka8, 0.0f)));
 
         *(NiNode**)&this->unk84 = new NiNode(0);
-        ::AssignFixedString((char *)((*(NiNode**)&this->unk84)), (int)&(const ::fnv_00712e90::NiFixedString &)(NiFixedString("InterfaceManager: Cursor Root")), {});
+        ::AssignFixedString((char *)((*(NiNode**)&this->unk84)), (std::intptr_t)&(const ::fnv_00712e90::NiFixedString &)(NiFixedString("InterfaceManager: Cursor Root")), {});
         pscene_graph->AttachChildInAvailableSlot(*(NiNode**)&this->unk84, true);
         kPosition = (*(::fnv_00712e90::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>(((*(NiNode**)&this->unk84)))->FUN_0043c490()));
         reinterpret_cast<::FUN_00440460_S *>(((*(NiNode**)&this->unk84)))->FUN_00440460((const ::V3 *)&(const ::fnv_00712e90::NiPoint3 &)(NiPoint3(0.0f, this->unka8, 0.0f)));
@@ -7094,7 +7094,7 @@ void FUN_00716320_shell::UpdateNodeTimers()
     FUN_00716320_Node* pNode = (*(FUN_00716320_List**)((char*)this + 0x164))->pTail;
     while (pNode)
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_00716320::ArrSIH *>(&::g_011f2250)))))->GetName())) == 4)
+        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_00716320::ArrSIH *>(&::g_011f2250)))))->GetName())) == 4)
             pNode->fTimeOffset +=
                 reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&(*reinterpret_cast<::fnv_00716320::TimeGlobal *>(&::g_timeGlobal)))))->GetStoredFloatValue() / ::FUN_00716440();
         else
@@ -7404,12 +7404,12 @@ struct FUN_0071d380_t
 void FUN_0071d380_t::ClampIndexByDelta(int aiDelta)
 {
     int iIndex = *(int*)((char*)this + 0x24) + aiDelta;
-    if (iIndex > (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())))
+    if (iIndex > (int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())))
         iIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName()));
     int iTop = iIndex - *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
     if (iTop <= 0)
         iIndex = *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
-    if (iIndex > (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())))
+    if (iIndex > (int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())))
         iIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName()));
     *(int*)((char*)this + 0x24) = iIndex;
 }
@@ -10855,7 +10855,7 @@ void IMStub::QueueHudCallback(void (*cb)(), int value)
         ::FUN_005737e0((::TempShell_005737e0 *)(::fnv_0070f4e0::PlayerStub *)((PlayerStub*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))) == reinterpret_cast<::FUN_004eaf60_shell *>((((PlayerStub*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_004eaf60() &&
         !::FUN_0093a740((::FUN_0093a740_s *)(((PlayerStub*)(*reinterpret_cast<void * *>(&::_g_thePlayer))))) && !::FUN_005721e0((const bool *)(((PlayerStub*)(*reinterpret_cast<void * *>(&::_g_thePlayer))))) &&
         (!(*reinterpret_cast<::fnv_0070f4e0::HUDStub * *>(&::g_pHudMainMenuInstance)) || !reinterpret_cast<::FUN_0070f670 *>(((*reinterpret_cast<::fnv_0070f4e0::HUDStub * *>(&::g_pHudMainMenuInstance))))->GetVisible()) && reinterpret_cast<::fnv_00716910::FUN_00716910_shell *>(this)->FUN_00716910((::fnv_00716910::Tile_shell *)(0)) &&
-        !((PlayerStub*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))->v230() && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070f4e0::VATSStub *>(&::g_011f2250))))->GetName())) && !(*reinterpret_cast<bool *>(&::DAT_011e0780)) &&
+        !((PlayerStub*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))->v230() && !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0070f4e0::VATSStub *>(&::g_011f2250))))->GetName())) && !(*reinterpret_cast<bool *>(&::DAT_011e0780)) &&
         ((double)(::FUN_008d1cf0())) == ::_DAT_01012060 && !reinterpret_cast<::FaderManager *>((DAT_011d8804))->HasFader((::FADER_ENUM)(1)))
     {
         if (value)
@@ -11145,7 +11145,7 @@ void PickOwner::UpdatePickObjects()
     if (reinterpret_cast<::NiPick *>(&(c))->PerformPick(d, e, 0))
     {
         GlobalObject2_0096a2d0* existing = &objects;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((::HitResults *)(reinterpret_cast<::BGSCameraPath *>(&(c))->GetConditions()))))->FUN_0044edb0())); ++i)
+        for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::HitResults *)(reinterpret_cast<::BGSCameraPath *>(&(c))->GetConditions()))))->FUN_0044edb0())); ++i)
         {
             void* object = ((void *)(::FUN_0056f930((::NiAVObject *)(void *)(((::HitRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::HitResults *)(reinterpret_cast<::BGSCameraPath *>(&(c))->GetConditions()))))->FUN_00968670(i)))->FUN_00458b50()))));
             if (!reinterpret_cast<::RefList *>(&(b))->FUN_005f65d0((void **)&(object)))
@@ -11971,7 +11971,7 @@ void __cdecl UpdateAnimationTileFade(AnimationTile* apFirstTile, AnimationTile* 
     {
         AnimationItem* item = reference ? ((::AnimationItem *)(reinterpret_cast<::Twin_0044ddc0 *>((reference))->GetName())) : 0;
         float value = ((AnimationPlayer*)(*reinterpret_cast<::PlayerObj * *>(&::_g_thePlayer)))->values.GetCurrentValue(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((item))->GetUnk15C())));
-        if (item && item->FUN_00401170() == 40 && value < ((int)(reinterpret_cast<::FUN_008d8160_Class *>((item))->GetField1BC())))
+        if (item && item->FUN_00401170() == 40 && value < ((std::intptr_t)(reinterpret_cast<::FUN_008d8160_Class *>((item))->GetField1BC())))
             reinterpret_cast<::FUN_00a012d0_t *>((apStatusTile))->FUN_00a012d0(4009, inverse > 128.0 ? inverse : maximum, true);
         else
             reinterpret_cast<::FUN_00a012d0_t *>((apStatusTile))->FUN_00a012d0(4009, 255.0f, true);
@@ -12600,7 +12600,7 @@ void MenuMgr::RenderMenu(int a, int b)
 
     ObjF0 kF0f6(((void *)(reinterpret_cast<::TESRegionDataMap *>((pkRenderer))->GetRegionMapName())));
 
-    if (((int)(::FUN_00683a60())))
+    if (((std::intptr_t)(::FUN_00683a60())))
     {
 
         if (::FUN_00714a00())
@@ -12710,7 +12710,7 @@ void MenuMgr::RenderMenu(int a, int b)
         pShadowf5->s088(pShadowf5->s080());
     }
 
-    if (((int)(::FUN_00683a60())))
+    if (((std::intptr_t)(::FUN_00683a60())))
 
         ::FUN_00714900();
 }
@@ -13222,7 +13222,7 @@ PickTile* IMView::FUN_007126c0(bool bAny)
     {
         PickRecord* pkRecordVal;
         int i = 0;
-        while (i < ((int)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_007126c0::PickResults *)(reinterpret_cast<::BGSCameraPath *>(&(kPickOut))->GetConditions()))))->FUN_0044edb0())))
+        while (i < ((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_007126c0::PickResults *)(reinterpret_cast<::BGSCameraPath *>(&(kPickOut))->GetConditions()))))->FUN_0044edb0())))
         {
             pkRecordVal = ((::fnv_007126c0::PickRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_007126c0::PickResults *)(reinterpret_cast<::BGSCameraPath *>(&(kPickOut))->GetConditions()))))->FUN_00968670(i++)));
             PickObject* pkObject = pkRecordVal->FUN_00458b50() ? pkRecordVal->FUN_00458b50()->GetObject() : 0;
@@ -14262,7 +14262,7 @@ struct TileModelsUpdateEntry
 void TileModelsUpdateEntry::FUN_00713e20()
 {
     unsigned int iTileIndex;
-    for (iTileIndex = 0; iTileIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TileModelsUpdateDetail::UpdateList*)&g_011d8b44)))->GetName())); iTileIndex++)
+    for (iTileIndex = 0; iTileIndex < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TileModelsUpdateDetail::UpdateList*)&g_011d8b44)))->GetName())); iTileIndex++)
     {
         TileModelsUpdateDetail::TileView* ptile =
             *((TileModelsUpdateDetail::UpdateList*)&g_011d8b44)->FUN_00877a30(iTileIndex);
@@ -14275,7 +14275,7 @@ void TileModelsUpdateEntry::FUN_00713e20()
         }
         reinterpret_cast<::FUN_00713ee0_shell *>((ptile))->ClearFlag();
     }
-    if (FUN_0040fc90() == ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((((TileModelsUpdateDetail::ThreadOwner*)g_osGlobals)))->FUN_0044edb0())))
+    if (FUN_0040fc90() == ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((TileModelsUpdateDetail::ThreadOwner*)g_osGlobals)))->FUN_0044edb0())))
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((TileModelsUpdateDetail::UpdateList*)&g_011d8b44)))->Clear(true);
 }
 

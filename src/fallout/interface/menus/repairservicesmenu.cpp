@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/repairservicesmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/repairservicesmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorGoldQuery.h"
@@ -131,9 +132,9 @@ void RepairServicesMenu::UpdateRepairServiceTiles(int aiID, Tile* apTarget)
 {
     if (aiID == 0x11)
     {
-        reinterpret_cast<Tile*>(*(int*)((int)this + 0x5C))->Set(0xFAF, 1);
-        reinterpret_cast<Tile*>(*(int*)((int)this + 0x34))->Set(0xFA3, 0);
-        reinterpret_cast<Tile*>(*(int*)((int)this + 0x38))->Set(0xFA3, 0);
+        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x5C))->Set(0xFAF, 1);
+        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x34))->Set(0xFA3, 0);
+        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x38))->Set(0xFA3, 0);
     }
 }
 }  // namespace fnv_007b8ae0
@@ -393,7 +394,7 @@ bool __cdecl FUN_007b7b40(Holder* pHolder)
     else
     {
         result2 =
-            ((int)(::GetHealthForm((::TESForm *)(a7)))) == 0 || ((double)(reinterpret_cast<::FUN_004bcdb0_shell *>((pHolder))->FUN_004bcdb0(1))) >= (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))) * ::DAT_01020758 ||
+            ((std::intptr_t)(::GetHealthForm((::TESForm *)(a7)))) == 0 || ((double)(reinterpret_cast<::FUN_004bcdb0_shell *>((pHolder))->FUN_004bcdb0(1))) >= (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))) * ::DAT_01020758 ||
             (a7->FUN_00401170() == 0x18 && ((double)(::FUN_004be060((void *)(a7)))) <= ::_DAT_01012060 && ((double)(::FUN_004be180((char *)(a7)))) <= ::_DAT_01012060);
     }
     return result2;
@@ -594,7 +595,7 @@ RSMTile* __cdecl CreateRepairServicesMenu(RSMActor* apVendor)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0))))->SetMenuVisibility(0);
         return pTile;
     }
-    else if ((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0)) && ((int)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0)) && ((std::intptr_t)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0))))->FUN_00726070())))
     {
         delete (*reinterpret_cast<::RSMMenu * *>(&::fnv_007b82c0::DAT_011da7f0));
     }

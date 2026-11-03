@@ -2800,7 +2800,7 @@ TargetMarker* HUDTargetSelector::FindTargetMarker()
     TargetMarker* selected3 = 0;
     float best3 = DAT_01016970;
     MarkerVector player = (*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer))->GetPosition();
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<MarkerArray*>(m_kSubtitleArray)))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<MarkerArray*>(m_kSubtitleArray)))->GetName())); ++index)
     {
         float distance =
             reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::MarkerVector &)((reinterpret_cast<MarkerArray*>(m_kSubtitleArray)->GetAt(index)->position - player)))->UpdateCombatStyle();
@@ -5538,7 +5538,7 @@ void FUN_00773190(EnemyRefV* pkRef)
         return;
     if (!HUDMainMenu_pme)
         return;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((EnemyListCount*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 4)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((EnemyListCount*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 4)
         HUDMainMenu_pme->m_pTargetActor =
             (::DAT_011f21cc && ((EnemyActorV*)::DAT_011f21cc)->IsHostile()) ? ::DAT_011f21cc : 0;
     else
@@ -6441,7 +6441,7 @@ void QHud::UpdateQuestNotification()
     if (!::fnv_007735d0::FUN_007735d0((unsigned char *)this) && !reinterpret_cast<::fnv_0077b2c0::FUN_0077b2c0_shell *>((DAT_011d96bc))->FUN_0077b2c0() &&
         !(::fnv_00773650::FUN_00773650((unsigned char *)this) &&
           reinterpret_cast<::TileListBoxCalls *>((((::fnv_0077a650::QTile **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(((QTile*)HUDMainMenu_pme->m_pTiles[13])->children))->FUN_0073ac90()))[0]))->GetFloat(4009) != 0.0) &&
-        (!reinterpret_cast<::FUN_007023a0_shell *>((((::fnv_0077a650::QInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0() || FUN_00702680(1009, 0) || ::fnv_00703d50::FUN_00703d50()) && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0077a650::QFlags *>(&::g_011f2250))))->GetName())))
+        (!reinterpret_cast<::FUN_007023a0_shell *>((((::fnv_0077a650::QInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0() || FUN_00702680(1009, 0) || ::fnv_00703d50::FUN_00703d50()) && !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0077a650::QFlags *>(&::g_011f2250))))->GetName())))
     {
         m_bQuestObjectiveUpdatePending = true;
         QEntry* aShared;
@@ -8246,7 +8246,7 @@ void AmmoHUD::UpdateAmmoHUD()
                 }
                 if (((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))) && data3)
                 {
-                    current4 = ((int)(reinterpret_cast<::Callees *>((data3))->FUN_00726070()));
+                    current4 = ((std::intptr_t)(reinterpret_cast<::Callees *>((data3))->FUN_00726070()));
                     if (useInventory5)
                         total2 =
                             reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))))) - current4;
@@ -8763,7 +8763,7 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     TileX* pTileElem = 0;
     float fFadeStart = HUDMainMenu_pme->m_iHudValueSecondAfterUpdateList * 0.800000011920929 * 2.0;
     float m_fGlyphWidthInPixels = HUDMainMenu_pme->m_iHudValueSecondAfterUpdateList * 2.0;
-    float fAlpha = (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00779070::CompassFlags *>(&::g_011f2250))))->GetName())) ? *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774)))) : 1.0f) * 255.0;
+    float fAlpha = (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00779070::CompassFlags *>(&::g_011f2250))))->GetName())) ? *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774)))) : 1.0f) * 255.0;
     int iFlag = 1;
     CompassNode* pWalk = ((::fnv_00779070::CompassNode *)(::FUN_00559450((int *)&(apMapTiles->kTiles))));
     CompassList* pLandmarkIterator = pEntryList;
@@ -9242,7 +9242,7 @@ void __cdecl FUN_00771700(int aiMenuMode)
                 state = 11;
             else if ((*reinterpret_cast<::fnv_00771700::VisibilityPlayer * *>(&::_g_thePlayer))->GetMode())
                 state = 10;
-            else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00771700::VisibilityMode *>(&::g_011f2250))))->GetName())) == 4)
+            else if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00771700::VisibilityMode *>(&::g_011f2250))))->GetName())) == 4)
                 state = 8;
             else if (reinterpret_cast<::FUN_005a03f0_obj *>(((*reinterpret_cast<::fnv_00771700::VisibilityPlayer * *>(&::_g_thePlayer))))->FUN_005a03f0(1))
                 FUN_00771700(12);
@@ -9659,9 +9659,9 @@ void HUDHotkeys::FUN_0077da60()
                             pIcon = reinterpret_cast<::ItemChange_004be200 *>((pFinalItem))->GetIconFilename((::TESObjectREFR *)(0));
                             if (pIcon)
                                 bHasIcon = true;
-                            if (((int)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())) > 1)
+                            if (((std::intptr_t)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())) > 1)
                                 ::FUN_00406d00(acNameVal, 260, s_szNameCount, reinterpret_cast<::FUN_004be2d0_shell *>((pFinalItem))->GetTargetFullName(),
-                                             ((int)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())));
+                                             ((std::intptr_t)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())));
                             else
                                 ::TaskQueueInterface::CopyStringToBuffer(acNameVal, 260, reinterpret_cast<::FUN_004be2d0_shell *>((pFinalItem))->GetTargetFullName());
                             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HotkeyTile*)m_pTiles[41])))->FUN_00a01350(0xfc4, (char *)(acNameVal), true);
@@ -9719,8 +9719,8 @@ void HUDHotkeys::FUN_0077da60()
                         pIconPathOld = reinterpret_cast<::ItemChange_004be200 *>((pEntry))->GetIconFilename((::TESObjectREFR *)(0));
                         if (pIconPathOld)
                             bIconTmp = true;
-                        if (((int)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())) > 1)
-                            ::FUN_00406d00(acLabel, 260, s_szNameCount, reinterpret_cast<::FUN_004be2d0_shell *>((pEntry))->GetTargetFullName(), ((int)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())));
+                        if (((std::intptr_t)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())) > 1)
+                            ::FUN_00406d00(acLabel, 260, s_szNameCount, reinterpret_cast<::FUN_004be2d0_shell *>((pEntry))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())));
                         else
                             ::TaskQueueInterface::CopyStringToBuffer(acLabel, 260, reinterpret_cast<::FUN_004be2d0_shell *>((pEntry))->GetTargetFullName());
                         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HotkeyTile*)m_pTiles[41])))->FUN_00a01350(0xfc4, (char *)(acLabel), true);
@@ -10971,7 +10971,7 @@ bool FUN_007e9200()
                 reinterpret_cast<::MyPoint439180 *>((void *)&(const ::VATSCreatePointX &)(qmgeiw))->FUN_00439180(::g_011d97a8_arg1);
                 reinterpret_cast<::NiPoint3 *>((void *)&(const ::VATSCreatePointX &)(qCTa))->Subtract((const ::NiPoint3 &)(qmgeiw));
                 (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8)) = ((::VATSCreateRefX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::VATSCreateDataHandlerX * *>(&::g_dataHandler))))->PlaceObjectReference(
-                    (::TESBoundObject *)(VATSCreateDAT_011db0ac), (::NiPoint3 *)&(qCTa), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
+                    (::TESBoundObject *)(VATSCreateDAT_011db0ac), (::NiPoint3 *)&(qCTa), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
                     (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetHitSound()))), (::TESObjectREFR *)(0), (const char *)(0), (::TESForm *)(0))));
                 reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8))))->FUN_008a6840(1);
                 reinterpret_cast<::Sf030 *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8))))->GetBaseTexture()))))->FUN_008ff030((::Actor *)((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8))));
@@ -11000,7 +11000,7 @@ bool FUN_007e9200()
                 reinterpret_cast<::MyPoint439180 *>((void *)&(const ::VATSCreatePointX &)(qISe))->FUN_00439180(::g_011d97a8_arg1);
                 reinterpret_cast<::NiPoint3 *>((void *)&(const ::VATSCreatePointX &)(qXUDve))->Subtract((const ::NiPoint3 &)(qISe));
                 (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec)) = ((::VATSCreateRefX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::VATSCreateDataHandlerX * *>(&::g_dataHandler))))->PlaceObjectReference(
-                    (::TESBoundObject *)(VATSCreateDAT_011db0b4), (::NiPoint3 *)&(qXUDve), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
+                    (::TESBoundObject *)(VATSCreateDAT_011db0b4), (::NiPoint3 *)&(qXUDve), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
                     (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetHitSound()))), (::TESObjectREFR *)(0), (const char *)(0), (::TESForm *)(0))));
                 reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec))))->FUN_008a6840(1);
                 reinterpret_cast<::Sf030 *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec))))->GetBaseTexture()))))->FUN_008ff030((::Actor *)((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec))));
@@ -11490,7 +11490,7 @@ struct XPMenu : HUDMainMenu
 // @fnv 0x00770430
 void HUDUpdate::FUN_00770430()
 {
-    if (!(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)) || !((int)(reinterpret_cast<::LowProcess *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->GetTarget())))
+    if (!(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)) || !((std::intptr_t)(reinterpret_cast<::LowProcess *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->GetTarget())))
         return;
     reinterpret_cast<::GameTimerRecord *>((((HUDTime*)m_cBuffer)))->Update();
     ::fnv_00779070::FUN_00779070((::fnv_00779070::CompassMovie *)(m_pTiles[6]), (::fnv_00779070::CompassTileList *)(m_pTiles[3]), (::fnv_00779070::CompassTileList *)(m_pTiles[4]), (::fnv_00779070::CompassTileList *)(m_pTiles[5]));
@@ -11587,7 +11587,7 @@ void HUDUpdate::FUN_00770430()
               !(FUN_00408840(eb - s) < DAT_010357e8))
                  ? 0
                  : 1;
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4)
+    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4)
     {
         if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) && (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))->IsActor() && !(*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))->IsDead(false))
         {
@@ -11626,7 +11626,7 @@ void HUDUpdate::FUN_00770430()
         reinterpret_cast<::FUN_00a07530_shell *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[23])))->FUN_00a07530(8);
         reinterpret_cast<::FUN_00a07530_shell *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[23])))->FUN_00a07530(8);
     }
-    if (m_pTargetActor && (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((HUDActor*)m_pTargetActor)))->FUN_00493bb0())) || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4))
+    if (m_pTargetActor && (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((HUDActor*)m_pTargetActor)))->FUN_00493bb0())) || ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4))
         reinterpret_cast<::FUN_007701e0_shell *>(this)->UpdateTargetInfo((::HMTarget *)(m_pTargetActor));
     if (m_pCrosshairReference && DAT_011d97c0 != reinterpret_cast<::xRefr *>((((HUDActor*)m_pCrosshairReference)))->FUN_00579690())
     {
@@ -11657,7 +11657,7 @@ void HUDUpdate::FUN_00770430()
         }
         else if (!reinterpret_cast<::FUN_0076b610_Class *>((((HUDSubtitleList*)m_kSubtitleArray)))->FUN_0076b610())
         {
-            for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((HUDSubtitleList*)m_kSubtitleArray)))->GetName())); ++k)
+            for (k = 0; k < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((HUDSubtitleList*)m_kSubtitleArray)))->GetName())); ++k)
             {
                 if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00() -
                         (*((HUDSubtitleList*)m_kSubtitleArray)->FUN_00877a30(k))->time >=
@@ -11920,7 +11920,7 @@ void XPMenu::FUN_0077c4e0()
     bool canLevelUp13 = reinterpret_cast<::NiNodeBooleanState *>((((::XPState *)(reinterpret_cast<::FUN_00464e10_shell *>(((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))))->FUN_00464e10()))))->GetBooleanValue();
     if ((FUN_00702360() && ::fnv_007023c0::FUN_007023c0() != 1008 && ::fnv_007023c0::FUN_007023c0() != 1055 && ::fnv_007023c0::FUN_007023c0() != 1057 &&
          ::fnv_007023c0::FUN_007023c0() != 1009) ||
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::XPVats *>(&::g_011f2250))))->GetName())) == 4 || reinterpret_cast<::HotkeyWheelDisplay *>((((XPGate*)m_kMenuData)))->GetVisible())
+        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::XPVats *>(&::g_011f2250))))->GetName())) == 4 || reinterpret_cast<::HotkeyWheelDisplay *>((((XPGate*)m_kMenuData)))->GetVisible())
     {
         ::g_pHudMainMenuInstance->m_pTiles[44]->Set(4003, 0);
         ::g_pHudMainMenuInstance->m_pTiles[45]->Set(4003, 0);
@@ -12899,7 +12899,7 @@ Tile* FUN_0076bfe0()
     }
     else
     {
-        if (pMenuXB && ((int)(reinterpret_cast<::Callees *>((pMenuXB))->FUN_00726070())))
+        if (pMenuXB && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenuXB))->FUN_00726070())))
             delete pMenuXB;
     }
     reinterpret_cast<::ActorTaskManager *>((((::ATMStub *)(::FUN_00713d70()))))->WaitForTasksDuringRendering();

@@ -3,6 +3,7 @@
 #define FNV_LISTBOX_MATCH_UNIT_H
 
 
+#include <cstdint>
 #include "fnv/decl/Cls_764e40.h"
 #include "fnv/decl/Cls_764ef0.h"
 #include "fnv/decl/FUN_00730e20_cls.h"
@@ -108,7 +109,7 @@ template <>
 // @fnv 0x007cc5d0
 unsigned int ListBox<StartMenu::Option*>::AddItem(unsigned int mask)
 {
-    return ((unsigned int)m_pListTile & mask) != 0;
+    return ((std::uintptr_t)m_pListTile & mask) != 0;
 }
 
 // @fnv 0x00418900

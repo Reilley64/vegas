@@ -1280,7 +1280,7 @@ intptr_t FUN_00705910()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
     {
-        return ((int)(reinterpret_cast<::FUN_00602170_shell *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00602170()));
+        return ((std::intptr_t)(reinterpret_cast<::FUN_00602170_shell *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00602170()));
     }
     else
     {
@@ -4312,7 +4312,7 @@ void Player::OpenDialogMenu()
     DialogObject* dialog = FUN_00ec43fb(menuContext, 0, &DAT_011846a0, &DAT_011a32e0, 0);
     if (dialog)
     {
-        reinterpret_cast<::fnv_009ed0d0::SelfQ *>((dialog))->FUN_009ed0d0((::fnv_009ed0d0::FormQ *)(::Player *)(this), (::fnv_009ed0d0::FormQ *)(((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), {});
+        reinterpret_cast<::fnv_009ed0d0::SelfQ *>((dialog))->FUN_009ed0d0((::fnv_009ed0d0::FormQ *)(::Player *)(this), (::fnv_009ed0d0::FormQ *)(((std::intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), {});
     }
     reinterpret_cast<::TESPackage *>((menuContext))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(48));
     ((::InterfaceObject *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Release();
@@ -5461,7 +5461,7 @@ NiNode* FUN_00707660(const char* path, bool* flag)
     else if (FileFinder::Exist(path, 0, 0, -1))
     {
         BSStream stream;
-        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(path), false))
+        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(path), false))
         {
             S_004431f0* previous = DAT_011d890c;
             S_004431f0* old = previous;
@@ -5620,7 +5620,7 @@ void LoadWeaponWobbleModels()
             unsigned int length = ::FUN_0044a670((*(::fnv_008d66b0::WobbleName *)(reinterpret_cast<::TESTopicInfoData *>(((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]))->GetLinkToList()))) + 1;
             (*reinterpret_cast<char * (*)[]>(&::DAT_011e00e0))[i] = new char[length];
             ::TaskQueueInterface::CopyStringToBuffer((*reinterpret_cast<char * (*)[]>(&::DAT_011e00e0))[i], length, (*(::fnv_008d66b0::WobbleName *)(reinterpret_cast<::TESTopicInfoData *>(((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]))->GetLinkToList())));
-            ::AssignFixedString((char *)((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]), (int)&(const ::fnv_008d66b0::WobbleName &)(WobbleName(path)), {});
+            ::AssignFixedString((char *)((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]), (std::intptr_t)&(const ::fnv_008d66b0::WobbleName &)(WobbleName(path)), {});
         }
     }
     DAT_01185520 = true;
@@ -6834,7 +6834,7 @@ void __cdecl FUN_0079ffb0(char param_1)
                          static_cast<C76a*>(((void *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<PathSrc*>((*reinterpret_cast<::FUN_00707870_Owner * *>(&::g_TES)))))->GetHitSound())))->v076(),
                          (::FUN_00406d90(pos15.x) >> 0xc) + cellX17, (::FUN_00406d90(pos15.y) >> 0xc) + cellY10);
         }
-        p3925 = static_cast<C39*>(((void *)(::FUN_00653270((const ::NiRTTI *)(reinterpret_cast<unsigned int>(&(*reinterpret_cast<unsigned int *>(&::g_011f4418)))),
+        p3925 = static_cast<C39*>(((void *)(::FUN_00653270((const ::NiRTTI *)(reinterpret_cast<std::uintptr_t>(&(*reinterpret_cast<unsigned int *>(&::g_011f4418)))),
                                                (::NiObject *)(reinterpret_cast<::ActorMover *>((reinterpret_cast<ChainObj*>(((unsigned int)(::FUN_00559450((int *)&(local1415)))))))->GetCurrentMoveModeType())))));
         ::FUN_00ee6dc2();
         reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 =
@@ -6982,7 +6982,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     if (::FUN_007a1750() == 0)
     {
         if (reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_84 ==
-            reinterpret_cast<unsigned int>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30))
+            reinterpret_cast<std::uintptr_t>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30))
             reinterpret_cast<::MapView *>((reinterpret_cast<MapMenuR6*>(DAT_011da368)))->UpdateLocalMap();
     }
 }
@@ -7536,10 +7536,10 @@ void FUN_007094f0()
             break;
         case 4:
             if (!reinterpret_cast<::FUN_007023a0_shell *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
-                bPickResultFound = ((int)(::fnv_00705070::FUN_00705070((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)), (void *)(::DAT_011d8958), (void *)(::DAT_011d895c)))) ? 1 : 0;
+                bPickResultFound = ((std::intptr_t)(::fnv_00705070::FUN_00705070((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)), (void *)(::DAT_011d8958), (void *)(::DAT_011d895c)))) ? 1 : 0;
             break;
         case 5:
-            bPickResultFound = ((int)(::GetOrCreateMenuTile(::DAT_011d8960))) ? 1 : 0;
+            bPickResultFound = ((std::intptr_t)(::GetOrCreateMenuTile(::DAT_011d8960))) ? 1 : 0;
             break;
         case 6:
             bPickResultFound = ::InitStartMenu(1, 0);
@@ -7555,7 +7555,7 @@ void FUN_007094f0()
         case 9: {
             NameMenu* pkNameMenu = new NameMenu(0, 0);
             NameTile* pkTile = new NameTile;
-            reinterpret_cast<::FUN_00a087d0_shell *>((pkNameMenu))->FUN_00a087d0((::Tile *)(((int)(reinterpret_cast<::InterfaceManager *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))), {});
+            reinterpret_cast<::FUN_00a087d0_shell *>((pkNameMenu))->FUN_00a087d0((::Tile *)(((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))), {});
             reinterpret_cast<::Tile *>((pkNameMenu))->SetName(s_szPlayerNameEntryMenu);
             reinterpret_cast<::FUN_00a1dc70_shell *>((pkTile))->FUN_00a1dc70((::TileMenu *)(pkNameMenu), 1);
             reinterpret_cast<::FUN_00409480_shell *>((pkNameMenu))->FUN_00409480((::TESActorBase *)(pkTile));
@@ -8439,9 +8439,9 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             if (_worth > 0.0)
             {
                 if (_worth >= 1.0)
-                    ::FUN_00406d00(worthBufTmp, 16, DAT_0106ecc8, _worth * ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                    ::FUN_00406d00(worthBufTmp, 16, DAT_0106ecc8, _worth * ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
                 else
-                    ::FUN_00406d00(worthBufTmp, 16, DAT_01020768, _worth * ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                    ::FUN_00406d00(worthBufTmp, 16, DAT_01020768, _worth * ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
             }
             else
                 ::TaskQueueInterface::CopyStringToBuffer(worthBufTmp, 16, DAT_01047008);
@@ -8454,7 +8454,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                 weight *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting32))))));
 
             if (weight > 0.0)
-                ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
             else
                 ::TaskQueueInterface::CopyStringToBuffer(weightBuf, 32, DAT_01047008);
 
@@ -8535,7 +8535,7 @@ void FUN_00b60040()
         if (*p)
             reinterpret_cast<::Owner *>((*p))->FUN_00b5fd60();
         p += 1;
-    } while ((int)p < (int)&(*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)));
+    } while ((std::intptr_t)p < (std::intptr_t)&(*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)));
 }
 
 struct Inner060

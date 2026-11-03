@@ -1,5 +1,6 @@
 // fallout/interface/menus/dialogmenu.cpp: DialogMenu, TESTopicInfo, Interface, ListBoxProxy (19 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/B61F2B0Object.h"
@@ -333,7 +334,7 @@ void DialogMenu::UpdateDialog()
         }
     }
     if (((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())) &&
-        ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<HighProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())))))->FUN_0045cd60())) &&
+        ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<HighProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(m_pDialogueSpeaker)))->GetBaseTexture())))))->FUN_0045cd60())) &&
         m_eDialogState != eCameraZoomOut)
     {
         Close();

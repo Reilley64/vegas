@@ -387,8 +387,8 @@ public:
 char __cdecl IsAnimationMatch(ArrSI* pArrSI)
 {
     int result;
-    if (pArrSI && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pArrSI))->GetName())) && DAT_011da634 && *(int*)((char*)DAT_011da634 + 0xd8) &&
-        ((MiddleHighProcess*)*(int*)((char*)DAT_011da634 + 0xd8))->GetAnimation() == ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pArrSI))->GetName())))
+    if (pArrSI && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pArrSI))->GetName())) && DAT_011da634 && *(int*)((char*)DAT_011da634 + 0xd8) &&
+        ((MiddleHighProcess*)*(int*)((char*)DAT_011da634 + 0xd8))->GetAnimation() == ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pArrSI))->GetName())))
         result = 1;
     else
         result = 0;
@@ -806,7 +806,7 @@ bool InputFocusController::SetFocus(bool abFocus)
     {
         if (m_20 && *(void**)m_20)
         {
-            reinterpret_cast<::FocusManager *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((int)*(void**)m_20), 0xfc3, 1);
+            reinterpret_cast<::FocusManager *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((std::intptr_t)*(void**)m_20), 0xfc3, 1);
             bret = true;
         }
     }
@@ -1101,7 +1101,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             case 15:
                 DAT_011da638[i] = inventory->FUN_004c8c10(i, 0);
                 if (DAT_011da638[i])
-                    reinterpret_cast<::FUN_0088d7d0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0088d7d0((::TESBoundObject *)(void *)((void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011da638[i]))->GetName()))), 1, (::ExtraDataList *)(void *)(0), 0, 0, 1);
+                    reinterpret_cast<::FUN_0088d7d0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0088d7d0((::TESBoundObject *)(void *)((void*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011da638[i]))->GetName()))), 1, (::ExtraDataList *)(void *)(0), 0, 0, 1);
                 break;
             }
         }
@@ -1113,7 +1113,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             reinterpret_cast<::MiddleHighProcess *>((pRenderData))->AssignEffectShader((::TESEffectShader *)(param));
             reinterpret_cast<RenderedMenuTileView*>(pRenderData)->pTile = tile;
             ((NiPick*)pRenderData)->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileNode*)tile)))->FUN_0056c7f0())));
-            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((Im7181*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)((int)pRenderData));
+            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((Im7181*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)((std::intptr_t)pRenderData));
         }
     }
     return tile;
@@ -1139,8 +1139,8 @@ struct Holder
 unsigned char __cdecl FUN_007ad860(Obj0* pObject)
 {
     int r;
-    if (pObject != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((pObject))->GetName())) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
-        ((Holder*)DAT_011da634)->m_d8->FUN_00603b50() == ((int)(reinterpret_cast<::Twin_0044ddc0 *>((pObject))->GetName())))
+    if (pObject != 0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pObject))->GetName())) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
+        ((Holder*)DAT_011da634)->m_d8->FUN_00603b50() == ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pObject))->GetName())))
     {
         r = 1;
     }
@@ -1164,8 +1164,8 @@ unsigned char __cdecl FUN_007ad940(int aiValue)
 {
     int result;
     if (aiValue != 0 && DAT_011da634 != 0 && ((FUN_007ad940_Holder*)DAT_011da634)->m_d8 != 0 &&
-        ((FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 0 && ((int)(reinterpret_cast<::Callees *>((aiValue))->FUN_00726070())) == 0x15) ||
-         (FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 1 && ((int)(reinterpret_cast<::Callees *>((aiValue))->FUN_00726070())) == 0x16)))
+        ((FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 0 && ((std::intptr_t)(reinterpret_cast<::Callees *>((aiValue))->FUN_00726070())) == 0x15) ||
+         (FUN_005f0cc0(((FUN_007ad940_Holder*)DAT_011da634)->m_d8) == 1 && ((std::intptr_t)(reinterpret_cast<::Callees *>((aiValue))->FUN_00726070())) == 0x16)))
     {
         result = 1;
     }
@@ -1196,7 +1196,7 @@ char __cdecl IsArgValueInSubLookup(FUN_007ad9c0_Arg* a1)
     int result;
     if (a1 != 0 && DAT_011da634 != 0 && *(void**)((char*)DAT_011da634 + 0xd8) != 0 &&
         ((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170()))->Probe() == false &&
-        *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170())))->m_item)) == ((int)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))
+        *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FUN_007ad9c0_Sub *)(reinterpret_cast<::FUN_00602170_shell *>((((FUN_007ad9c0_Owner*)*(void**)((char*)DAT_011da634 + 0xd8))))->FUN_00602170())))->m_item)) == ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))
     {
         result = 1;
     }
@@ -1307,7 +1307,7 @@ void __cdecl UpdateRaceSexMenu()
             (*reinterpret_cast<::RSMenu * *>(&::DAT_011da634)) = 0;
             if (::FUN_00705100())
             {
-                ::StartDialogueForTopic((::TESTopic *)(((int)(::fnv_0061a2d0::GetTopicSubTypeName(5, 4)))));
+                ::StartDialogueForTopic((::TESTopic *)(((std::intptr_t)(::fnv_0061a2d0::GetTopicSubTypeName(5, 4)))));
             }
             for (int i = 0; i < 20; i++)
             {
@@ -1697,7 +1697,7 @@ void HairMenu::ApplyHairOption(HairOption* option)
 {
     if (!option)
         return;
-    if (((int)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 29)
+    if (((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 29)
     {
         SettingT_GameSettingCollection_* setting = 0;
         SettingT_GameSettingCollection_* valueSetting = 0;
@@ -2566,7 +2566,7 @@ void FUN_007afa40_cls::FUN_007afa40(unsigned int uiPackedValue)
     while (cur != 0)
     {
         void* item = *((void **)(reinterpret_cast<::ListStandIn *>((m_40))->FUN_0057cbe0((int **)(void **)(&cur))));
-        switch (((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)item)))->FUN_00726070())))
+        switch (((std::intptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)item)))->FUN_00726070())))
         {
         case 0x1e:
             reinterpret_cast<::MenuOptionFor3760 *>((((TileValueAccessor*)item)))->FUN_007b3760((unsigned char)(uiPackedValue & 0xff));
@@ -2800,7 +2800,7 @@ void OptionList::RemoveOptionById(int id)
     while (pos)
     {
         Date* option = ((::Date *)(reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(pos))));
-        if (((int)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == id)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == id)
         {
             if (selected == option)
             {
@@ -3639,7 +3639,7 @@ void Menu::UpdateZoomAndScroll()
     if (FUN_00702450(Id()))
     {
         for (unsigned int i = 0; i < 4; i++)
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(sounds[i]))->GetName())) == 3)
+            if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(sounds[i]))->GetName())) == 3)
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(sounds[i]))->FUN_00ad8830(0);
         static unsigned int previous = ((unsigned int)(::FUN_00457fe0()));
         unsigned int time = ((unsigned int)(::FUN_00457fe0()));
@@ -3740,7 +3740,7 @@ void Menu::UpdateZoomAndScroll()
     else
     {
         for (unsigned int j = 0; j < 4; j++)
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(sounds[j]))->GetName())) == 1)
+            if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(sounds[j]))->GetName())) == 1)
                 reinterpret_cast<::FUN_00ad88b0_h *>(&(sounds[j]))->FUN_00ad88b0();
     }
 }
@@ -3905,7 +3905,7 @@ bool FUN_007af180_shell::FUN_007af180(int aeList)
         if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu() && aeList < 4)
             reinterpret_cast<::MenuDriver *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu()))->UpdateSlotSelection(aeList);
         reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk88)))->Set(0xfa3, reinterpret_cast<::FUN_0084e3a0_Class *>((((OptList**)&this->unk28)[aeList]))->FUN_0084e3a0() < 20);
-        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk8c)))->Set(0xfa3, ((int)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio**)&this->unk28)[aeList]))->FUN_0044edb0())) < 20 ||
+        reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk8c)))->Set(0xfa3, ((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio**)&this->unk28)[aeList]))->FUN_0044edb0())) < 20 ||
                              aeList == *(int*)((char*)this + 0x120));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(TileHelper**)&this->unk8c)))->FUN_00a01350(0xfc4, (char *)((const char*)(unsigned int)(aeList == *(int*)((char*)this + 0x120) ? (*reinterpret_cast<::Flt *>(&::g_011da70c)) : (*reinterpret_cast<::Flt *>(&::g_011da700)))),
                   true);
@@ -4131,9 +4131,9 @@ void FUN_007af770_cls::ApplyParam(B10355_Param* apParam)
     float F = reinterpret_cast<::FUN_007b3740_shell *>((apParam))->GetFloat1005() / 10.0;
     ::FUN_00652320((::FG652_Mat *)(arr), ((int)(reinterpret_cast<::Callees *>((apParam))->FUN_00726070())) != 0x22, 0, ((int)(reinterpret_cast<::Twin_0044ddc0 *>((apParam))->GetName())), F);
     m_d8->U1((void*)&unk124);
-    ::FUN_00652e00((MatrixProxy (*)[2])(((int)(reinterpret_cast<::S9fb0 *>((((::B10355_Obj2 *)(reinterpret_cast<::Callees *>(&(m_d8->m10c))->FUN_00726070()))))->FUN_005d9fb0({})))), (MatrixProxy (*)[2])(m_d8->U3()), (MatrixProxy (*)[2])(arr), ((int)(reinterpret_cast<::FUN_00601800_shell *>((m_d8))->FUN_00601800())));
+    ::FUN_00652e00((MatrixProxy (*)[2])(((std::intptr_t)(reinterpret_cast<::S9fb0 *>((((::B10355_Obj2 *)(reinterpret_cast<::Callees *>(&(m_d8->m10c))->FUN_00726070()))))->FUN_005d9fb0({})))), (MatrixProxy (*)[2])(m_d8->U3()), (MatrixProxy (*)[2])(arr), ((std::intptr_t)(reinterpret_cast<::FUN_00601800_shell *>((m_d8))->FUN_00601800())));
     reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(8, true);
-    if (((int)(reinterpret_cast<::Callees *>((apParam))->FUN_00726070())) == 0x23)
+    if (((std::intptr_t)(reinterpret_cast<::Callees *>((apParam))->FUN_00726070())) == 0x23)
     {
         reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(9, true);
     }
@@ -4324,7 +4324,7 @@ bool SliderMenu::ClampSliderOptions(int iStartIndex, int iEndIndex, int bForward
         while (position)
         {
             SliderOption* option = (SliderOption*)*((void **)(reinterpret_cast<::ListStandIn *>((optionLists[i]))->FUN_0057cbe0((int **)(void **)(&position))));
-            if (option && (((int)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 0x22 || ((int)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 0x23))
+            if (option && (((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 0x22 || ((std::intptr_t)(reinterpret_cast<::Callees *>((option))->FUN_00726070())) == 0x23))
             {
                 FUN_00449610 values[4];
                 ::FUN_00652af0((CoordArray (*)[2])(reinterpret_cast<::S9fb0 *>((((::SliderName *)(reinterpret_cast<::Callees *>(&(actor->name))->FUN_00726070()))))->FUN_005d9fb0(actor->FUN_005f0cc0())), (CoordArray (*)[2])(void *)(reinterpret_cast<::FUN_00601800_shell *>((actor))->FUN_00601800()),
@@ -6774,7 +6774,7 @@ void PendingMenu::HandlePendingTileAction()
     {
         int action = (int)((double)(reinterpret_cast<::TileListBoxCalls *>((pendingTile))->GetFloat(0xfaa)));
         bool changed = false;
-        if (((int)(reinterpret_cast<::Callees *>((pendingOption))->FUN_00726070())) == 29 && (action == 100 || action == 104) &&
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>((pendingOption))->FUN_00726070())) == 29 && (action == 100 || action == 104) &&
             ::FUN_00469880((void *)(((const unsigned char *)(reinterpret_cast<::FUN_00a011f0_shell *>((static_cast<PendingTile*>(((::LocalTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((pendingTile))->FUN_0045cd60())))))->FUN_00a011f0(0x1009)))),
                     (void *)(reinterpret_cast<const unsigned char*>(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrTable *>(&::g_011d3528))))->GetMenuTitle()))))) == 0)
         {
@@ -6977,20 +6977,20 @@ void Menu7::HandleOptionSelection()
     {
         reinterpret_cast<::fnv_007af900::HairMenu *>(this)->ApplyHairOption((::fnv_007af900::HairOption *)(selected));
     }
-    else if (((int)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 34 || ((int)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 35)
+    else if (((std::intptr_t)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 34 || ((std::intptr_t)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 35)
     {
         reinterpret_cast<::FUN_007af770_cls *>(this)->ApplyParam((::B10355_Param *)(selected));
         reinterpret_cast<::B7B18F0Menu *>(this)->HandleMenuKey(((int)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())));
         if (reinterpret_cast<::FUN_007adc30_shell *>(this)->FUN_007adc30(8))
         {
-            if (((int)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 34)
+            if (((std::intptr_t)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 34)
                 reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(0, 1, 0);
             else
                 reinterpret_cast<::AppearanceMenu *>(this)->UpdateFaceGen(0, 0, 1);
             reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(8, false);
         }
     }
-    else if (((int)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 24)
+    else if (((std::intptr_t)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 24)
     {
         reinterpret_cast<::TESNPC *>((npc))->CopyActorBaseData((::TESNPC *)(forms.FUN_00877a30(reinterpret_cast<::FUN_007b3740_shell *>((selected))->GetFloat1005() - 1)));
         for (int indexB = 0; indexB < 20; indexB++)
@@ -7014,7 +7014,7 @@ void Menu7::HandleOptionSelection()
         }
         reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(0, true);
     }
-    else if (((int)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 26)
+    else if (((std::intptr_t)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())) == 26)
     {
         int amount7 = reinterpret_cast<::FUN_007b3740_shell *>((selected))->GetFloat1005();
         amount7 = (int)(amount7 * 5.550000190734863 + 9.449999809265137);
@@ -7053,8 +7053,8 @@ HairResult* FUN_004ac110(void* self);
 char __cdecl IsHairMatching(Obj0* p)
 {
     int result;
-    if (p != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName())) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
-        (int)FUN_004ac110(((Holder*)DAT_011da634)->m_d8) == ((int)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName())))
+    if (p != 0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName())) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
+        (std::intptr_t)FUN_004ac110(((Holder*)DAT_011da634)->m_d8) == ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName())))
         result = 1;
     else
         result = 0;
@@ -7229,7 +7229,7 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
     {
         bool bChangedTmp = false;
         bool bUpdatePlayer = false;
-        switch (((unsigned int)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())))
+        switch (((std::uintptr_t)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())))
         {
         case 0x16:
             reinterpret_cast<::FileMatchList *>((((::HCHairList *)(reinterpret_cast<::FUN_00602170_shell *>((m_pkNPC))->FUN_00602170()))))->RemoveAll();
@@ -7237,18 +7237,18 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
         case 0x17:
             if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                if (((unsigned int)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())) == 0x17)
+                if (((std::uintptr_t)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())) == 0x17)
                 {
                     reinterpret_cast<::TESRace *>((m_pkNPC->FUN_004ac110()))->ClearFaceGenUndo();
                     reinterpret_cast<::FUN_0095e5f0_cls *>((((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))))->FUN_0095e5f0();
                     reinterpret_cast<::MagicTargetDispel *>(&(((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))->m_kSub94))->FUN_008249d0(0);
                     reinterpret_cast<::FUN_008c2b60_shell *>((((HCPlayer*)(*reinterpret_cast<::InitPlayer * *>(&::_g_thePlayer)))))->ApplyActorSpells();
-                    reinterpret_cast<::FUN_0060b240_shell *>((m_pkNPC))->SetRace((::TESRace *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((pkOption))->GetName()))), (::FUN_008b78c0_shell *)(0));
+                    reinterpret_cast<::FUN_0060b240_shell *>((m_pkNPC))->SetRace((::TESRace *)(((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkOption))->GetName()))), (::FUN_008b78c0_shell *)(0));
                 }
                 else
                 {
                     reinterpret_cast<::TESRace *>((m_pkNPC->FUN_004ac110()))->ClearFaceGenUndo();
-                    reinterpret_cast<::FlagSet *>(&(m_pkNPC->m_kFlags))->FUN_0047dd50(1, ((unsigned int)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())) == 0x16, 1);
+                    reinterpret_cast<::FlagSet *>(&(m_pkNPC->m_kFlags))->FUN_0047dd50(1, ((std::uintptr_t)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())) == 0x16, 1);
                     bUpdatePlayer = true;
                 }
                 reinterpret_cast<::FUN_007b5180_shell *>(this)->CreateMenuOption();
@@ -7269,7 +7269,7 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
         case 0x1b:
             if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                reinterpret_cast<::FUN_006031e0_shell *>((m_pkNPC))->SetHair((::TESHair *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((pkOption))->GetName()))));
+                reinterpret_cast<::FUN_006031e0_shell *>((m_pkNPC))->SetHair((::TESHair *)(((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkOption))->GetName()))));
                 reinterpret_cast<::fnv_007b2b50::HostB50 *>(this)->RebuildFaceGen(1);
                 bChangedTmp = true;
             }
@@ -7277,7 +7277,7 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
         case 0x21:
             if (!reinterpret_cast<::FUN_007ae160_Obj *>((pkOption))->IsSelected())
             {
-                reinterpret_cast<::FUN_00603200_shell *>((m_pkNPC))->SetEyes((::TESEyes *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((pkOption))->GetName()))));
+                reinterpret_cast<::FUN_00603200_shell *>((m_pkNPC))->SetEyes((::TESEyes *)(((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkOption))->GetName()))));
                 UpdateEyeTextures();
                 bChangedTmp = true;
             }
@@ -7293,7 +7293,7 @@ void HCMenuView::FUN_007adce0(int aiIndex, HCTile* pkTile)
             bChangedTmp = true;
             break;
         default:
-            if (((unsigned int)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())) < 0x14)
+            if (((std::uintptr_t)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())) < 0x14)
                 reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180(((unsigned int)(reinterpret_cast<::Callees *>((pkOption))->FUN_00726070())));
         }
         if (bChangedTmp)
@@ -7838,7 +7838,7 @@ void FUN_007b3660_shell::FUN_007b3660()
     while (iter != 0)
     {
         int u1 = *(reinterpret_cast<::ListStandIn *>((m40))->FUN_0057cbe0((int **)(int *)(&iter)));
-        switch (((int)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)u1)))->FUN_00726070())))
+        switch (((std::intptr_t)(reinterpret_cast<::Callees *>((((FUN_00726070_shell*)u1)))->FUN_00726070())))
         {
         case 0x1e:
             f0 = ((FUN_007b3740_shell*)u1)->GetFloat1005();
@@ -8072,7 +8072,7 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                     (char *)(::GetModelEgtFilename((::BSStr *)(::BSStringTChar *)(&kEgtPath), ((const char *)(::FUN_00559450((int *)&(kPathLast)))))), 1, -1, 0))));
                 if (!reinterpret_cast<::FUN_0065a910_shell *>(((m_pRenderedNodeEntry).operator->()))->FUN_0065a910(akCoordsLocal, &spFaceTmp) || !spFaceTmp)
                     return;
-                ::AssignFixedString((char *)((spFaceTmp).operator->()), (int)&(const ::FGFixedString &)(FGFixedString("FaceGenFace")), {});
+                ::AssignFixedString((char *)((spFaceTmp).operator->()), (std::intptr_t)&(const ::FGFixedString &)(FGFixedString("FaceGenFace")), {});
                 pkFaceInfo = spFaceTmp;
                 reinterpret_cast<::FUN_00440460_S *>((pkFaceInfo))->FUN_00440460((const ::V3 *)(const void *)(((const void *)&(reinterpret_cast<::NiAVObject *>((pkChild))->FUN_0043c490()))));
                 reinterpret_cast<::FUN_0043fa80_s *>((pkFaceInfo))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(pkChild)))));
@@ -8092,7 +8092,7 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                     FGLink kLink;
                     reinterpret_cast<::S00a67410 *>((((::FGSkin *)(::fnv_005495f0::FUN_005495f0((const char *)(pkFaceInfo))))))->FUN_00a67410((::BSFaceGenMorphData *)(::FGLink *)(&kLink));
                     if (((void *)(::FUN_00559450((int *)&(kLink)))))
-                        ::ComputeBoundingSphere((::BoundingSphere *)(void *)(((void *)(::FUN_00460140((int)(((::FGSkin *)(::fnv_005495f0::FUN_005495f0((const char *)(pkFaceInfo))))))))), (::PointIterator *)(::FGLink *)(&kLink), usFlags);
+                        ::ComputeBoundingSphere((::BoundingSphere *)(void *)(((void *)(::FUN_00460140((std::intptr_t)(((::FGSkin *)(::fnv_005495f0::FUN_005495f0((const char *)(pkFaceInfo))))))))), (::PointIterator *)(::FGLink *)(&kLink), usFlags);
                 }
                 FGProperty* pkAlphaData = ((::FGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pkFaceInfo))->FUN_00a59d30(2)));
                 if (pkAlphaData && reinterpret_cast<::BGSImpactData *>((pkAlphaData))->FUN_009a9350() < 1.0)
@@ -8131,7 +8131,7 @@ class StringList7B3D
 
     ListNode7B3D* GetHeadPos()
     {
-        return (ListNode7B3D*)((int)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_00726070_shell*>(this)))->FUN_00726070()));
+        return (ListNode7B3D*)((std::intptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_00726070_shell*>(this)))->FUN_00726070()));
     }
     int FUN_007b3d50(int iIndex, const char* pcText, int iA, int iB);
 };

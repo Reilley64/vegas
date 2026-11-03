@@ -3,6 +3,7 @@
 //
 // Recovered quantity-menu translation unit. Every menu derives from Menu and
 // overrides the shared AssignTileByID slot with its own tile table.
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -64,7 +65,7 @@ void FUN_007abdf0()
     if ((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618)))
     {
         ((::fnv_007abdf0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00726070()))->Set(0x1772, 1);
-        if (((int)(::FUN_00707ad0())))
+        if (((std::intptr_t)(::FUN_00707ad0())))
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1d9e0();
         else
             reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1d910();

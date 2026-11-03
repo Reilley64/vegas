@@ -1124,7 +1124,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     {
         if (!(*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner || !((int)(::FUN_004839c0((unsigned int)((*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)))))
         {
-            ::DispatchMessageToSink((int)(DAT_01076694), 0, (int)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+            ::DispatchMessageToSink((std::intptr_t)(DAT_01076694), 0, (std::intptr_t)(::DAT_01049638), 0, ::DAT_010162c0, 0);
             return 0;
         }
         if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0())) == (*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)
@@ -1152,7 +1152,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     {
         char message[260];
         ::FUN_00406d00(message, 260, ::DAT_01070c58, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d2ac0))))->GetMenuTitle())), ((int)(reinterpret_cast<::TimeCounter *>(((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))->FUN_00969b40())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(::DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -1160,7 +1160,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     {
         char message[260];
         ::FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3abc))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(::DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -1168,7 +1168,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     {
         char message[260];
         ::FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d2424))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(::DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -1176,7 +1176,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     {
         char message[260];
         ::FUN_00406d00(message, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c0a40::Setting *>(&::g_011d3594))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(::DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(::DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c0a40::BSSoundHandleEx &)(((::fnv_007c0a40::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID(::DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -1648,19 +1648,19 @@ void SlotMenu::Update()
             reinterpret_cast<::Tile *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
             reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int diff;
-            if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)
+            if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)
             {
                 (*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))->AddItem(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
                 BSStr msg;
-                ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg), "%i %s%s %s", -diff, ::FUN_00482720((::TESForm *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
+                ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg), "%i %s%s %s", -diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
                              ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3db4))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)((const char*)((void *)(::FUN_00559450((int *)&(msg))))), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                            (int)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)((const char*)((void *)(::FUN_00559450((int *)&(msg))))), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                            (std::intptr_t)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
             }
             else if (diff > 0)
             {
                 CapsChange change;
-                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(change))->FUN_004818e0((::TESObject *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), diff, (::ContainerItemExtra *)(0));
+                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(change))->FUN_004818e0((::TESObject *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), diff, (::ContainerItemExtra *)(0));
                 if (DAT_011da9a8[1] < ((int)(reinterpret_cast<::FUN_00737e30_shell *>((((Player*)DAT_011da9ac)))->GetFieldAt210())))
                 {
                     reinterpret_cast<::ContainerOperation *>(&(change))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))), 0);
@@ -1669,11 +1669,11 @@ void SlotMenu::Update()
                 {
                     reinterpret_cast<::ContainerOperation *>(&(change))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))), 1);
                     BSStr msg2;
-                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg2), "%i %s%s %s\n%s", diff, ::FUN_00482720((::TESForm *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg2), "%i %s%s %s\n%s", diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
                                  ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d4e7c))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3abc))))->GetMenuTitle())));
-                    ::DispatchMessageToSink((int)((const char*)((void *)(::FUN_00559450((int *)&(msg2))))), 0,
-                                (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"),
-                                (int)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
+                    ::DispatchMessageToSink((std::intptr_t)((const char*)((void *)(::FUN_00559450((int *)&(msg2))))), 0,
+                                (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"),
+                                (std::intptr_t)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
                 }
             }
             if (m_100)
@@ -1952,7 +1952,7 @@ void SlotMenu::Update()
         {
             char text3[0x104];
             ::FUN_00406d00(text3, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d2424))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(text3), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f, 0);
+            ::DispatchMessageToSink((std::intptr_t)(text3), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f, 0);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("UIPopUpMessageGeneral", 0x121, 0)))->FUN_00ad8830({});
             ::FUN_007c2420();
         }
@@ -2679,7 +2679,7 @@ bool Reels::InitReels()
             ::FUN_00406d00(
                 message, 260,
                 "Casino Form is not setup properly. # of stops for the slot reels must sum to 14. Exiting out of Slot machine menu.");
-            ::DispatchMessageToSink((int)(message), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f,
+            ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f,
                            false);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
             FUN_007c2420();

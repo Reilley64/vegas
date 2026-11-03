@@ -1,5 +1,6 @@
 // fallout/interface/menus/containermenu.cpp: ContainerMenu, MenuStateTarget, MenuLogic, ContainerValue and more (40 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstring>
@@ -216,7 +217,7 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
         parentTexture = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&parentTexture), 4);
         ((TESRegionGrassObject*)pHeader)->AssignLandTexture((TESLandTexture*)parentTexture);
-        reinterpret_cast<::FUN_0041fd00_shell *>((((TESEnchantableForm*)pHeader)))->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)((MagicSystem__CastingType)(unsigned)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0))));
+        reinterpret_cast<::FUN_0041fd00_shell *>((((TESEnchantableForm*)pHeader)))->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)((MagicSystem__CastingType)(std::uintptr_t)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0))));
         ((BGSQuestObjective*)pHeader)->SetOwner((TESQuest*)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0));
         if (saveVersion > 47)
         {
@@ -225,7 +226,7 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
             ((BGSDehydrationStage*)pHeader)->FUN_0050f9a0((SpellItem*)spell);
         }
         reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)pHeader)))->FUN_00600ab0((int)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0));
-        reinterpret_cast<::TESPackage *>((((InterfaceManager*)pHeader)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((unsigned)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0)));
+        reinterpret_cast<::TESPackage *>((((InterfaceManager*)pHeader)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((std::uintptr_t)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0)));
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((TESResponse*)pHeader)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::TESIdleForm *)((TESIdleForm*)saveTime));
         ((TESRecipe*)pHeader)->SetRequiredSkill((::ActorValue::Index)(skill));
         reinterpret_cast<::FUN_0061cc40_shell *>((((TESRecipe*)pHeader)))->FUN_0061cc40(((SaveLoadFile*)pFile)->GetFilePosition());
@@ -578,10 +579,10 @@ void __cdecl FUN_0075d160(void* param1, void* param2)
         reinterpret_cast<::Tile *>(((*(ContainerLikeObj**)reinterpret_cast<::FUN_0073ac90_shell *>((((ContainerLikeObj*)((char*)param1 + 4))))->FUN_0073ac90())))->Set({}, {});
     }
 
-    if (((int)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())) > 1)
+    if (((std::intptr_t)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())) > 1)
     {
         ::FUN_00406d00(buf, 0x80, "%s (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((((ContainerLikeObj*)param2)))->GetTargetFullName(),
-                     ((int)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())));
+                     ((std::intptr_t)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((ContainerLikeObj*)param1)))->FUN_00a01350(0xfc4, buf, 1);
     }
 
@@ -2504,7 +2505,7 @@ bool FUN_0075e0b0_shell::FUN_0075e0b0(Actor_75e0b0* actor, int amount)
         else
         {
             reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))))->FUN_008c00e0((::TESObjectREFR *)(actor), 0, 0);
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::g_011d3f94))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::g_011d3f94))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
             success = false;
             failed = true;
         }
@@ -2897,13 +2898,13 @@ void Menu75::UpdateProcessTile(int iTileIndex, HighProcess* pProcess)
         if (pProcess)
         {
             DAT_011a002c = 1;
-            if (state != &a98 && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i38)
+            if (state != &a98 && ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i38)
             {
                 v10(0x15, 0);
             }
             else
             {
-                if (state != &b0 && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i48)
+                if (state != &b0 && ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i48)
                 {
                     v10(0x16, 0);
                 }
@@ -3102,12 +3103,12 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
                 *(void**)&DAT_011d93f8->otherData[0x70] == (void*)&DAT_011d93f8->otherData[0x10] && refObj != 0)
             {
                 if (((double)(reinterpret_cast<::fnv_00577250::FUN_00577250_shell *>((((Sound75*)refObj)))->FUN_00577250(0))) +
-                        ::TESWeightForm::GetWeightForForm((::TESForm *)((int)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))), ::FUN_004d1360((char *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))) * aiCount >=
+                        ::TESWeightForm::GetWeightForForm((::TESForm *)((std::intptr_t)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))), ::FUN_004d1360((char *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))) * aiCount >=
                     ((double)(reinterpret_cast<::FUN_008a0c20_shell *>((((FloatThis75*)refObj)))->FUN_008a0c20())))
                 {
                     ::FUN_00406d00(msgtext, 260, DAT_01012058, (char*)reinterpret_cast<::FUN_0055d520_shell *>((((Name75*)refObj)))->FUN_0055d520(),
-                                 (int)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrThis75 *>(&::g_011d2628))))->GetMenuTitle())));
-                    ::DispatchMessageToSink((int)(msgtext), 2, (int)(0), (int)(0), 2.0f, false);
+                                 (std::intptr_t)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrThis75 *>(&::g_011d2628))))->GetMenuTitle())));
+                    ::DispatchMessageToSink((std::intptr_t)(msgtext), 2, (int)(0), (int)(0), 2.0f, false);
                     flag = true;
                     int id = (int)dynamic_cast<TESTopic*>(::TESForm::LookupFormByEditorID((const char *)(void *)(&DAT_010722dc)));
                     ((MenuEc75*)DAT_011d93f8)->PlaySelectedTopicInfo(id);
@@ -3631,7 +3632,7 @@ void PlaybackMenu::PlaySelectedTopicInfo(PlaybackTopic* topic)
             else
             {
                 float duration = reinterpret_cast<PlaybackActor*>(_actor)->PlayVoice(
-                    ((const char *)(::FUN_00559450((int *)(((::PlaybackString *)(::FUN_00460140((int)(_entry)))))))), reinterpret_cast<PlaybackHandle*>(&m_kFadeSequence),
+                    ((const char *)(::FUN_00559450((int *)(((::PlaybackString *)(::FUN_00460140((std::intptr_t)(_entry)))))))), reinterpret_cast<PlaybackHandle*>(&m_kFadeSequence),
                     ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((_entry))->GetName())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((_entry))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(((::PlaybackString *)(reinterpret_cast<::SimpleListNodeView*>(_entry)->m_item))))->FUN_004048e0())), ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((_entry))->FUN_009611e0())),
                     reinterpret_cast<::BGSTerrainManager *>((_entry))->GetMinLevel(), (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)), true, true, 0, 0, true);
             }
@@ -4156,14 +4157,14 @@ void MenuX::FUN_0075bc80()
     case 2:
         if (m74)
         {
-            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((int)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
+            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((std::intptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
             reinterpret_cast<::ContainerMenuEx *>(this)->FUN_0075baf0((::TESObjectREFR *)(m74), true);
         }
         break;
     case 3:
         if (m74)
         {
-            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((int)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
+            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((std::intptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("DRSTraderOpen", 0x121)))->FUN_00ad8830(false);
             FUN_00763ff0();
             TESTopic* pkForm = dynamic_cast<TESTopic*>(::TESForm::LookupFormByEditorID("FollowersTrade"));
@@ -4172,9 +4173,9 @@ void MenuX::FUN_0075bc80()
         reinterpret_cast<::Tile *>((m50))->Set(0xfa3, 0);
         break;
     case 4:
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m2c))->FUN_00a01350(0xfc4, (char *)(((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::GlobX *>(&::g_011d3c40))))->GetMenuTitle()))), {});
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m2c))->FUN_00a01350(0xfc4, (char *)(((std::intptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::GlobX *>(&::g_011d3c40))))->GetMenuTitle()))), {});
         if (((::PlayerX *)(reinterpret_cast<::FUN_008a1710_shell *>((((HudX*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_008a1710())))
-            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((int)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::PlayerX *)(reinterpret_cast<::FUN_008a1710_shell *>((((HudX*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_008a1710()))->kSub))->FUN_00408da0()))));
+            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((std::intptr_t)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::PlayerX *)(reinterpret_cast<::FUN_008a1710_shell *>((((HudX*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_008a1710()))->kSub))->FUN_00408da0()))));
         reinterpret_cast<::Tile *>((m50))->Set(0xfa3, 0);
         reinterpret_cast<::Tile *>((m28))->Set(0xfa3, 0);
         reinterpret_cast<::Tile *>((m30))->Set(0xfa3, 0);
@@ -4347,7 +4348,7 @@ void Menu_0075be80::FUN_0075be80(int aiActionId, void* tile)
             bool take = (::FUN_00481f10((::TESObject *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((g_011d93fc))->GetName())))) ||
                          ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((g_011d93fc))->GetName()))), ::FUN_004d1360((char *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))))))) <= 0.0) &&
                         (unk80 == 1 || unk80 == 2) && unkf8 == &unkc8;
-            if (((int)(reinterpret_cast<::Callees *>((g_011d93fc))->FUN_00726070())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting75 *>(&::g_011d2418)))))) && !reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(g_011d93fc), (::ExpectedReference *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))), (::ActorView *)(unk74)) &&
+            if (((std::intptr_t)(reinterpret_cast<::Callees *>((g_011d93fc))->FUN_00726070())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting75 *>(&::g_011d2418)))))) && !reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(g_011d93fc), (::ExpectedReference *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))), (::ActorView *)(unk74)) &&
                 !take)
             {
                 reinterpret_cast<::FUN_007312e0_shell *>((unkf8))->FUN_007312e0();
@@ -4777,7 +4778,7 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
     {
         MenuInventory* _inventory = ((::fnv_0075c280::MenuInventory *)(reinterpret_cast<::FUN_0075cc70_shell *>(((*reinterpret_cast<::fnv_0075c280::MenuReference * *>(&::_g_thePlayer))))->FUN_0075cc70()));
         otherList.Clear();
-        for (unsigned int iA = 0; iA < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((_inventory))->GetName())); iA++)
+        for (unsigned int iA = 0; iA < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((_inventory))->GetName())); iA++)
             reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((int)(*((::fnv_0075c280::FUN_004bc550 **)(reinterpret_cast<::S3e60 *>((_inventory))->FUN_006a7ad0(iA)))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::fnv_0075c280::FUN_004bc550 **)(reinterpret_cast<::S3e60 *>((_inventory))->FUN_006a7ad0(iA))))))->GetTargetFullName(),
                                    (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
         if (filter)

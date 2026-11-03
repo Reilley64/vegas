@@ -1,5 +1,6 @@
 // fallout/interface/hotkeyswheel.cpp: Wheel, HotkeyWheelUpdate, HWShell (9 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSDefaultObjectManager.h"
@@ -864,7 +865,7 @@ void Wheel::FUN_00701e80()
     if (((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((entry5))->GetName())) == ((::Form *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) && ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v08(0x10) ==
                                                          ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v1c(0x10))
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
         return;
     }
     else
@@ -932,9 +933,9 @@ void HotkeyWheelUpdate::FUN_007017b0()
                     ::fnv_00479540::GetMenuIconName(BGSEquipType::GetEquipType(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item3))->GetName())))));
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_ppHotkeySlotTiles[i]))->FUN_00a01350(FUN_00a01860(str_HotKeyIcon), (char *)(((const char *)(::FUN_00559450((int *)&(str3))))), true);
                 this->m_ppHotkeySlotTiles[i]->Set(FUN_00a01860(str_HotKeyAssigned), 1);
-                if (((int)(reinterpret_cast<::Callees *>((item3))->FUN_00726070())) > 1)
+                if (((std::intptr_t)(reinterpret_cast<::Callees *>((item3))->FUN_00726070())) > 1)
                 {
-                    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str3), str_FormatCount, reinterpret_cast<::FUN_004be2d0_shell *>((item3))->GetTargetFullName(), ((int)(reinterpret_cast<::Callees *>((item3))->FUN_00726070())));
+                    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str3), str_FormatCount, reinterpret_cast<::FUN_004be2d0_shell *>((item3))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((item3))->FUN_00726070())));
                 }
                 else
                 {

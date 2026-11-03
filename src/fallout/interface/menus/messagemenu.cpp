@@ -1,5 +1,6 @@
 // fallout/interface/menus/messagemenu.cpp: DelStandIn, MessageMenu, MessageMenuHandler, KeyMenu and more (28 functions)
 
+#include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -167,7 +168,7 @@ void __cdecl FUN_007a8df0()
     if ((*reinterpret_cast<void * *>(&::DAT_011da4f0)))
     {
         ((::fnv_007a8df0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00726070()))->Set(0x1772, 1);
-        if (((int)(::FUN_00707ad0())))
+        if (((std::intptr_t)(::FUN_00707ad0())))
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00a1d9e0();
         else
             reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00a1d910();
@@ -201,7 +202,7 @@ template <> class BSSimpleArray<unsigned int, 1024>
 unsigned int __cdecl GetCurrentArrayElement()
 {
     unsigned int uiResult = 0;
-    if (DAT_011da4f4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(&(*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011da53c)))))->GetName())))
+    if (DAT_011da4f4 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(&(*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011da53c)))))->GetName())))
     {
         uiResult = (*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011da53c)).GetAt(DAT_011da4f4);
     }
@@ -239,7 +240,7 @@ void FUN_007aa070_shell::HandleTileSelection(int aiID, Tile* apTarget)
     if (aiID == 7 && apTarget)
     {
         *(unsigned char*)((char*)((void *)(::fnv_004b7210::FUN_004b7210())) + 0xe4) =
-            (unsigned char)(int)((::fnv_007aa070::PerkForm *)(reinterpret_cast<::LBList *>((((ListBox<PerkForm*>*)((char*)this + 0x40))))->FindItemData((::Tile *)(apTarget))));
+            (unsigned char)(std::intptr_t)((::fnv_007aa070::PerkForm *)(reinterpret_cast<::LBList *>((((ListBox<PerkForm*>*)((char*)this + 0x40))))->FindItemData((::Tile *)(apTarget))));
         ::DAT_011da4ed = true;
         if (((void *)(::GetCurrentArrayElement())) && *(void(__cdecl**)())((char*)((void *)(::GetCurrentArrayElement())) + 0x28))
         {
@@ -272,7 +273,7 @@ struct GlobalObject_007ab590
 // @fnv 0x007aa480
 void ClearAllElements()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->GetName())); i++)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->GetName())); i++)
     {
         Elem_007aa480* p;
         unsigned int v = ((unsigned int)(reinterpret_cast<::S3e60 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->FUN_006a7ad0(i)));
@@ -672,9 +673,9 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
         info->buttons.FUN_00404820(::DAT_01063d7c);
         buttonSlot11.FUN_00438390((*arguments += 1)[-1]);
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())))
     {
-        for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())); index++)
+        for (unsigned int index = 0; index < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())); index++)
         {
             if (!((bool)(::GetByteAtOffset56((char *)((*(*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c)).FUN_00877a30(index)))))) && ((bool)(::GetByteAtOffset56((char *)(info)))))
             {
@@ -934,7 +935,7 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
         ::TaskQueueInterface::CopyStringToBuffer(label58, 260, ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())));
         if ((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))->GetKind() == 4)
         {
-            if (!((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())) || !((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->GetLinkToList())))
+            if (!((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())) || !((std::intptr_t)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->GetLinkToList())))
             {
                 list = ((::ActionMenuList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 continue;
@@ -1411,7 +1412,7 @@ void FUN_007aa5c0()
         unsigned int uiID = ((MessageQueueEntryView*)::GetCurrentArrayElement())->m_uiMessageFlags;
         reinterpret_cast<::FUN_00aa4c40_class *>((MessageHandler::pHandler))->FUN_00aa4c40(uiID);
         ::FUN_007aa6a0(true);
-        for (unsigned int i = DAT_011da4f4; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&::g_011da53c)))->GetName())); i++)
+        for (unsigned int i = DAT_011da4f4; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&::g_011da53c)))->GetName())); i++)
         {
             if ((*((MessageQueueComparisonArray*)&::g_011da53c)->FUN_00877a30(i))->m_uiMessageFlags == uiID)
             {
@@ -1458,7 +1459,7 @@ void FUN_007aae70()
     unsigned int ibuttonClicked;
     int icount;
     ibuttonClicked = ::ConsumeByteAtE4();
-    if (ibuttonClicked != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->GetName())) - 1)
+    if (ibuttonClicked != ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->GetName())) - 1)
     {
         reinterpret_cast<::FUN_005ac1e0_shell *>((((PerkActivationEntry*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->FUN_006a7ad0(ibuttonClicked))))
             ->pScript))->FUN_005ac1e0(

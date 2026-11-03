@@ -1,5 +1,6 @@
 // fallout/interface/menus/startmenu.cpp: StartMenu, BGSSaveLoadUI, StartMenu_Wrap, ListBox_Option and more (184 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <windows.h>
 #include <new>
@@ -1780,12 +1781,12 @@ struct StartMenuEntryStandIn
 // @fnv 0x007ce6b0
 void ClearStartMenuEntries()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab88))))->GetName())); i++)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab88))))->GetName())); i++)
     {
         delete (StartMenuEntryStandIn*)*((Arr*)&(*reinterpret_cast<::ArrSI *>(&::g_011dab88)))->GetAt(i);
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&(*reinterpret_cast<::ArrSI *>(&::g_011dab88)))))->Clear(true);
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab50))))->GetName())); j++)
+    for (unsigned int j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab50))))->GetName())); j++)
     {
         delete (StartMenuEntryStandIn*)*((Arr*)&(*reinterpret_cast<::ArrSI *>(&::g_011dab50)))->GetAt(j);
     }
@@ -2409,7 +2410,7 @@ struct StartMenu_Wrap : StartMenu
 void StartMenu_Wrap::ApplyUserOptions()
 {
     reinterpret_cast<::FUN_0075f6f0_shell *>(this)->FUN_0075f6f0((*(int *)&(const ::StartMenu::Flag &)(FLAG_SAVE_OPTIONS)), false);
-    for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50))))->GetName())); i++)
+    for (int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50))))->GetName())); i++)
     {
         if ((*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i))->m_pChangeCallback)
             ((*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i))->m_pChangeCallback)(*(*reinterpret_cast<::fnv_007d3aa0::UserOptionArray *>(&::g_011dab50)).FUN_00877a30(i));
@@ -5403,7 +5404,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
     {
         SMTile* pChild5 = ((::SMTile *)(reinterpret_cast<::ListStandIn *>(&(pRootX->kChildren))->FUN_0057cbe0((int **)&(pPos))));
         SMMenu* pOpenMenu = pChild5 ? ((::SMMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((pChild5))->FUN_00a03c90())) : 0;
-        if (pOpenMenu && ((int)(reinterpret_cast<::Callees *>((pOpenMenu))->FUN_00726070())))
+        if (pOpenMenu && ((std::intptr_t)(reinterpret_cast<::Callees *>((pOpenMenu))->FUN_00726070())))
         {
             int iMode = ((int)(reinterpret_cast<::ActorMover *>((pOpenMenu))->GetCurrentMoveModeType()));
             if ((iMode == 8 || iMode == 2) && reinterpret_cast<::TileListBoxCalls *>((pChild5))->GetFloat(0xfa7) != 6008.0)
@@ -5430,7 +5431,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
         ::fnv_00a04500::FUN_00a04500();
         return true;
     }
-    else if (pMenu2 && ((int)(reinterpret_cast<::Callees *>((pMenu2))->FUN_00726070())))
+    else if (pMenu2 && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenu2))->FUN_00726070())))
     {
         delete pMenu2;
     }
@@ -7011,12 +7012,12 @@ void ThisT::PopulateList(int flags)
             reinterpret_cast<::fnv_007d61e0::FUN_007d61e0_shell *>(this)->FadeTile(2, 1, 0x80000000, -1.0f);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m38))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SetObj *>(&::g_011d42f4))))->GetMenuTitle()))), true);
 
-            for (p = 0; (unsigned int)p < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrT *>(&::g_011dab50))))->GetName())); p++)
+            for (p = 0; (unsigned int)p < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrT *>(&::g_011dab50))))->GetName())); p++)
             {
                 if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->FUN_007cc5d0(flags))
                 {
-                    if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (int)((void (&)())::fnv_007d2fc0::UpdateSaveOption) ||
-                        (*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (int)FUN_007d30e0)
+                    if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (std::intptr_t)((void (&)())::fnv_007d2fc0::UpdateSaveOption) ||
+                        (*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (std::intptr_t)FUN_007d30e0)
                     {
                         if (((int)(::FUN_009f996e(0, &v30))))
                         {
@@ -7025,14 +7026,14 @@ void ThisT::PopulateList(int flags)
                         }
                     }
                     res = ((::TileX *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(lb))->CreateListItem((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p)),
-                                            (const char *)((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->GetValueText), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0),
-                                            (const char *)((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->pTemplate))));
-                    if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (int)FUN_007d30e0)
+                                            (const char *)((std::intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->GetValueText), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0),
+                                            (const char *)((std::intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->pTemplate))));
+                    if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (std::intptr_t)FUN_007d30e0)
                     {
                         m1cc = (int)res;
                         reinterpret_cast<::Tile *>((res))->Set(((SMGlob*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->f1d0, FUN_004b71d0());
                     }
-                    if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (int)((void (&)())::fnv_007d13a0::FUN_007d13a0))
+                    if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (std::intptr_t)((void (&)())::fnv_007d13a0::FUN_007d13a0))
                     {
                         node = !FUN_0070edf0() && 0 != (*reinterpret_cast<::PlayerT * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_005a03f0_obj *>(((*reinterpret_cast<::PlayerT * *>(&::_g_thePlayer))))->FUN_005a03f0(4);
                         reinterpret_cast<::Tile *>((res))->Set(0xfaf, node);
@@ -7058,13 +7059,13 @@ void ThisT::PopulateList(int flags)
                 }
             }
 
-            for (kIter = 0; (unsigned int)kIter < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrT *>(&::g_011dab88))))->GetName())); kIter++)
+            for (kIter = 0; (unsigned int)kIter < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrT *>(&::g_011dab88))))->GetName())); kIter++)
             {
                 if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->FUN_007cc5d0(flags))
                 {
                     j = ((::TileX *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(lb))->CreateListItem((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter)),
-                                          (const char *)((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->GetValueText), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0),
-                                          (const char *)((int)"lb_meter_template"))));
+                                          (const char *)((std::intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->GetValueText), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0),
+                                          (const char *)((std::intptr_t)"lb_meter_template"))));
                     reinterpret_cast<::Tile *>((j))->SetName((*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->GetValueText);
                     reinterpret_cast<::Tile *>((j))->Set(0x1007, 0x10);
                     pM = ((::TV38 *)(reinterpret_cast<::TileFloatList *>((j))->FUN_00a03eb0(0x64)));
@@ -8608,7 +8609,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
     HANDLE q = FindFirstFileA(s, &cf);
     bool eb = q != INVALID_HANDLE_VALUE;
     FindClose(q);
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88))))->GetName())); ++i)
     {
         Tile* tile = 0;
         bool disabled = (((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)->m_pActionCallback == ::FUN_007d06c0 &&

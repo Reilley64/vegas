@@ -1,5 +1,6 @@
 // fallout/interface/menus/repairmenu.cpp: RepairMenu, RepairAction, PreviewMenu (18 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
@@ -541,7 +542,7 @@ void __cdecl FUN_007b7020(int target)
 
         if (target != 0)
         {
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[3])))->FUN_00a01350(0xfcc, (char *)(((int)(reinterpret_cast<::ItemChange_004be200 *>(((*reinterpret_cast<::fnv_007b7020::RepairInventory * *>(&::fnv_007b6fb0::DAT_011da760))))->GetIconFilename((::TESObjectREFR *)(0))))), {});
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<RepairTile*>(DAT_011da75c->m_pTiles[3])))->FUN_00a01350(0xfcc, (char *)(((std::intptr_t)(reinterpret_cast<::ItemChange_004be200 *>(((*reinterpret_cast<::fnv_007b7020::RepairInventory * *>(&::fnv_007b6fb0::DAT_011da760))))->GetIconFilename((::TESObjectREFR *)(0))))), {});
             ::fnv_007b6aa0::PopulateRepairMenu();
         }
         reinterpret_cast<::LBList_7314c0 *>((reinterpret_cast<RepairList*>(&DAT_011da75c->m_kRepairList)))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void (*)())(&((void (&)())::UpdateRepairTile)), 0, 0x7fffffff);
@@ -1332,7 +1333,7 @@ void __cdecl PopulateRepairMenu()
         n = 0;
         Item* item;
         item = 0;
-        for (int index = 0; index < ((int)(reinterpret_cast<::Callees *>((((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))))->FUN_00726070())); ++index)
+        for (int index = 0; index < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))))->FUN_00726070())); ++index)
         {
             float rawHealth;
             float extra;

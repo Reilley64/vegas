@@ -1,5 +1,6 @@
 // fallout/interface/menus/vatsmenu.cpp: VATSMenuX, VATSMenu, Vec2Tmp, StandIn and more (58 functions)
 
+#include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -346,7 +347,7 @@ bool FUN_007ef710_This::HandleKey(int aiKey)
 {
     if (aiKey == 0x42 || aiKey == 0x62)
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && m_bFirstFlag)
+        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && m_bFirstFlag)
             ((Caller007efa10*)this)->UpdateQueueEntry(0, 0, 0);
         return true;
     }
@@ -973,7 +974,7 @@ bool __cdecl FUN_007f4f30(FUN_00452370_shell* apTarget)
                 return false;
             }
 
-            if (FUN_00874480(reinterpret_cast<char*>(target)) != reinterpret_cast<int>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))
+            if (FUN_00874480(reinterpret_cast<char*>(target)) != reinterpret_cast<std::intptr_t>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))
             {
                 reinterpret_cast<G2*>(&::g_011db124)->AddHead(reinterpret_cast<int*>(&apTarget));
             }
@@ -1124,7 +1125,7 @@ unsigned char __cdecl GetBurstShotCount(ActionPoints::Action aeAction, bool abAl
     unsigned char cshots;
 
     pweaponItem = static_cast<LogDateOwner*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f5050::TES * *>(&::_g_thePlayer))))->GetBaseTexture())))->v82();
-    pweapon = reinterpret_cast<TESObjectWEAP*>(pweaponItem ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pweaponItem))->GetName())) : 0);
+    pweapon = reinterpret_cast<TESObjectWEAP*>(pweaponItem ? ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pweaponItem))->GetName())) : 0);
     iNumAmmoPerShot = pweapon ? reinterpret_cast<::FUN_00524b60_shell *>((pweapon))->GetByteAt102() : 0;
 
     cshots = 1;
@@ -3291,7 +3292,7 @@ void UpdateVatsTargetHighlight(bool force)
     if (((Menu85*)DAT_011db0d4))
     {
         TargetList85* target13 = ((Menu85*)DAT_011db0d4)->FindListEntryForTarget(((Actor85*)::DAT_011f21cc));
-        if (force || (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 &&
+        if (force || (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 &&
                       (((Menu85*)DAT_011db0d4)->FUN_007f3bf0(::VATSCreateDAT_011a0b70) !=
                            ((Menu85*)DAT_011db0d4)->FUN_007f3bf0(((Menu85*)DAT_011db0d4)->current->part) ||
                        DAT_011db0d0 != ((Actor85*)::DAT_011f21cc))))
@@ -3312,9 +3313,9 @@ void UpdateVatsTargetHighlight(bool force)
                              !weapon6 || ::FUN_006450c0((::TESObjectWEAP *)(weapon6))))
             {
                 if (force ||
-                    (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && DAT_011db0d0 != ((Actor85*)::DAT_011f21cc)))
+                    (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && DAT_011db0d0 != ((Actor85*)::DAT_011f21cc)))
                 {
-                    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3)
+                    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3)
                         reinterpret_cast<::Target *>((FUN_00705910()))->FUN_00800ac0((::TargetActor *)((*target13->FUN_006815c0())->actor),
                                                      ((Menu85*)DAT_011db0d4)->current->part, 1);
                     else
@@ -3325,7 +3326,7 @@ void UpdateVatsTargetHighlight(bool force)
             }
             else if (actor4 && ((::fnv_007ec3a0::Process85 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor4))->GetBaseTexture())))
             {
-                if (!((Menu85*)DAT_011db0d4)->current->flag && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3)
+                if (!((Menu85*)DAT_011db0d4)->current->flag && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((Mode85*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3)
                     reinterpret_cast<::Target *>((FUN_00705910()))->FUN_00800ac0((::TargetActor *)(::fnv_007ec3a0::Actor85 *)(((Actor85*)::DAT_011f21cc)), ((Menu85*)DAT_011db0d4)->current->part, 1);
                 else
                     reinterpret_cast<::Target *>((FUN_00705910()))->FUN_00800ac0((::TargetActor *)(::fnv_007ec3a0::Actor85 *)(((Actor85*)::DAT_011f21cc)), ((Menu85*)DAT_011db0d4)->current->part, 0);
@@ -4134,8 +4135,8 @@ void Owner7::UpdateLimbHighlight()
     BSSimpleList<ItemListContainer*>* list6;
     list6 = FindListEntryForTarget(::DAT_011f21cc);
     node7 = (BSSimpleList<ItemListContainer*>*)((char*)(*list6->FUN_006815c0()) + 8);
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 1 || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3 ||
-        (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && !bF8))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 1 || ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 3 ||
+        (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && !bF8))
     {
         while (node7 != 0 && !node7->FUN_008256d0())
         {
@@ -4172,7 +4173,7 @@ void Owner7::UpdateLimbHighlight()
             {
                 (*reinterpret_cast<unsigned char *>(&::fnv_00709d10::g_flag)) = 1;
                 ((VTarget*)*list6->FUN_006815c0())->b10 = 0;
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) != 3)
+                if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FormX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) != 3)
                 {
                     reinterpret_cast<::NiPoint3Interpolator *>((((InterpX*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->CreateObject(3, false);
                     DAT_011db0dc = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_007f07a0::TimeG *>(&::g_timeGlobal))))->FUN_00825c00();
@@ -4208,8 +4209,8 @@ void Owner7::UpdateLimbHighlight()
                 else
                 {
                     if (m_pTargetChance != (LimbX*)((ChanceX*)*node7->FUN_006815c0()) &&
-                        (int)FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20) !=
-                            (int)FUN_007f3bf0(m_pTargetChance->f20))
+                        (std::intptr_t)FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20) !=
+                            (std::intptr_t)FUN_007f3bf0(m_pTargetChance->f20))
                     {
                         if ((fVal8 == reinterpret_cast<::fnv_00a07f30::FUN_00a07f30_shell *>((((ChanceX*)*node7->FUN_006815c0())->tile))->GetTraitFloat(0xfa9) &&
                              fVal8 != 255.0) ||
@@ -4240,8 +4241,8 @@ void Owner7::UpdateLimbHighlight()
             ((ChanceX*)*node7->FUN_006815c0())
                 ->tile->FUN_00700320(
                     sLimbNameVisible,
-                    (int)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((Owner7*)DAT_011db0d4)->m_pTargetChance->f20) ==
-                            (int)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20)
+                    (std::intptr_t)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((Owner7*)DAT_011db0d4)->m_pTargetChance->f20) ==
+                            (std::intptr_t)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20)
                         ? 1
                         : 0);
             node7 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
@@ -4524,7 +4525,7 @@ BSSimpleList<ItemListContainer*>* FUN_007f3d60_cls::FindListEntryByValue(int aiV
         BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)(head + 8);
         while (cur != 0 && !cur->FUN_008256d0())
         {
-            if ((int)this->FUN_007f3bf0(*(int*)((int)*cur->FUN_006815c0() + 0x20)) == aiValue)
+            if ((int)this->FUN_007f3bf0(*(int*)((std::intptr_t)*cur->FUN_006815c0() + 0x20)) == aiValue)
             {
                 return cur;
             }
@@ -6185,7 +6186,7 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
         bool bFlag = false;
         reinterpret_cast<::B9C88A0List *>(&((*reinterpret_cast<::VatsQueueText::VATSQueue *>(&::g_011f2250))))->PopLastItem(&iType, &bFlag);
         reinterpret_cast<::VATSMenuX *>(this)->UpdateLimbTiles();
-        if (iType == 0x16 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VatsQueueText::VATSQueue *>(&::g_011f2250))))->GetName())) == 2)
+        if (iType == 0x16 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VatsQueueText::VATSQueue *>(&::g_011f2250))))->GetName())) == 2)
             FUN_00705780();
         if (!((bool)(::fnv_009526b0::FUN_009526b0())))
         {
@@ -6711,7 +6712,7 @@ void AimMenu::FUN_007f3070()
     AimEntry* entry1 = ((::fnv_007f3070::AimProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f3070::AimActor * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetLoadedForm();
     AimWeapon* weapon1 = entry1 ? ((::fnv_007f3070::AimWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((entry1))->GetName())) : 0;
     AimTargets* target20 = FindListEntryForTarget(::DAT_011f21cc);
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((AimMode*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) != 3 &&
+    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((AimMode*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) != 3 &&
         (((::fnv_007f3070::AimProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f3070::AimActor * *>(&::_g_thePlayer))))->GetBaseTexture()))->IsMelee() || (*target20->FUN_006815c0())->type == 2 || !weapon1 ||
          ::FUN_006450c0((::TESObjectWEAP *)(weapon1))))
     {
@@ -7126,7 +7127,7 @@ void MenuX::HandleInput(int key, int held)
             DAT_011db0b3 = true;
         break;
     case 5:
-        if (!closing && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<VatsX*>(&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && heading)
+        if (!closing && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<VatsX*>(&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 2 && heading)
         {
             UpdateQueueEntry(0, 0, 0);
             reinterpret_cast<MenuX*>(DAT_011db0d4)->damage = reinterpret_cast<::VATSMenuX *>((reinterpret_cast<MenuX*>(DAT_011db0d4)))->FUN_007f48e0();
@@ -7343,7 +7344,7 @@ bool VATSMenuX::FUN_007f28d0()
                 }
                 clip3 =
                     (float)(ammoList2
-                                ? ((int)(reinterpret_cast<::Callees *>((ammoList2))->FUN_00726070()))
+                                ? ((std::intptr_t)(reinterpret_cast<::Callees *>((ammoList2))->FUN_00726070()))
                                 : (count9 > reinterpret_cast<::FUN_004fe160_cls *>((weapon3))->GetFlaggedValue(
                                                 ((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((reinterpret_cast<AmmoEntry*>(equipped5)))->HasEffect(2))))
                                        ? reinterpret_cast<::FUN_004fe160_cls *>((weapon3))->GetFlaggedValue(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((reinterpret_cast<AmmoEntry*>(equipped5)))->HasEffect(2))))
@@ -7869,7 +7870,7 @@ bool FUN_007f52c0()
         TargetEntry* target = (TargetEntry*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item));
         bool flag29 = true;
         if (target)
-            flag29 = (((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((FUN_00475400((void*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target->reference))->FUN_007af430())))))->FUN_00726070())) &&
+            flag29 = (((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((FUN_00475400((void*)((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target->reference))->FUN_007af430())))))->FUN_00726070())) &&
                       !reinterpret_cast<::FUN_00576070_shell *>((target->reference))->FUN_00576070())
                          ? 1
                          : 0;
@@ -7907,7 +7908,7 @@ bool FUN_007f52c0()
                 {
                     ScreenPoint vScreen;
                     Refr* actor = ((TargetEntry*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item)))->reference;
-                    Obj6c* pObj6c = ((::Obj6c *)(::FUN_004aae30((::NiAVObject *)((int)actor->V1d0()), (::NiFixedString *)(((int)(::fnv_0043b230::FUN_0043b230((const char *)(((::Chain43 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pObj54))->GetValueByIndex(i)))))))))));
+                    Obj6c* pObj6c = ((::Obj6c *)(::FUN_004aae30((::NiAVObject *)((std::intptr_t)actor->V1d0()), (::NiFixedString *)(((std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(((::Chain43 *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pObj54))->GetValueByIndex(i)))))))))));
                     if (pObj6c)
                     {
                         reinterpret_cast<::ScreenCamera *>((((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())))->ProjectToScreen((*(const ::NiPoint3 *)(((::Vec3 *)(::FUN_0045bb80((int)(pObj6c)))))), (*(float *)(&vScreen.x)), (*(float *)(&vScreen.y)), ::DAT_010718c0);
@@ -8094,16 +8095,16 @@ bool FUN_007f52c0()
                     bool hit = physics->V0c8(&oBigList);
                     if (hit && ((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList))->FUN_008cdd90())))
                     {
-                        for (int count = 0; !result && count < ((int)(reinterpret_cast<::Callees *>((((::CountMid *)(::FUN_00460140((int)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList))->FUN_008cdd90()))))))))->FUN_00726070()));
+                        for (int count = 0; !result && count < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::CountMid *)(::FUN_00460140((std::intptr_t)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList))->FUN_008cdd90()))))))))->FUN_00726070()));
                              ++count)
                         {
                             Obj5b0 oContact;
-                            reinterpret_cast<::S50 *>(&(oContact))->FUN_00696c30((::S50 *)(void *)(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::CountMid *)(::FUN_00460140((int)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList))->FUN_008cdd90()))))))))->GetEntryAt(count)))));
+                            reinterpret_cast<::S50 *>(&(oContact))->FUN_00696c30((::S50 *)(void *)(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::CountMid *)(::FUN_00460140((std::intptr_t)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList))->FUN_008cdd90()))))))))->GetEntryAt(count)))));
                             int id = ((int)(::FUN_004b5820((::FormLike *)(oContact.f50))));
                             if (id)
                             {
                                 Refr* rayTarget3 = (Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item));
-                                if (id == (int)rayTarget3->V1d0())
+                                if (id == (std::intptr_t)rayTarget3->V1d0())
                                     result = true;
                             }
                         }
@@ -8140,15 +8141,15 @@ bool FUN_007f52c0()
         bool hit2 = physics2->V0c8(&oBigList2);
         if (hit2 && ((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90())))
         {
-            for (int count2 = 0; !result && count2 < ((int)(reinterpret_cast<::Callees *>((((::CountMid *)(::FUN_00460140((int)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90()))))))))->FUN_00726070())); ++count2)
+            for (int count2 = 0; !result && count2 < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::CountMid *)(::FUN_00460140((std::intptr_t)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90()))))))))->FUN_00726070())); ++count2)
             {
                 Obj5b0 oContact2;
-                reinterpret_cast<::S50 *>(&(oContact2))->FUN_00696c30((::S50 *)(void *)(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::CountMid *)(::FUN_00460140((int)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90()))))))))->GetEntryAt(count2)))));
+                reinterpret_cast<::S50 *>(&(oContact2))->FUN_00696c30((::S50 *)(void *)(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::CountMid *)(::FUN_00460140((std::intptr_t)(((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90()))))))))->GetEntryAt(count2)))));
                 int id2 = ((int)(::FUN_004b5820((::FormLike *)(oContact2.f50))));
                 if (id2)
                 {
                     Refr* found = ((::Refr *)(::FUN_0056f930((::NiAVObject *)(id2))));
-                    if (found && ::fnv_004753d0::FUN_004753d0((void*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((found))->FUN_007af430()))) && found->V224())
+                    if (found && ::fnv_004753d0::FUN_004753d0((void*)((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((found))->FUN_007af430()))) && found->V224())
                         result = true;
                 }
             }
@@ -8350,7 +8351,7 @@ void VATSMenuX::Update()
         ::ShutdownVats();
         return;
     }
-    if (!(*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4)) || !((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 4 || !xFUN_00702450(0x420))
+    if (!(*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4)) || !((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) || ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 4 || !xFUN_00702450(0x420))
     {
         if (!xFUN_00702450(0x420) && xDAT_011a0b68)
         {
@@ -8379,7 +8380,7 @@ void VATSMenuX::Update()
     InputX* pInputA = ((::InputX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OSGlobalsX * *>(&::g_osGlobals))))->FUN_00877720()));
     if (::FUN_004b71d0())
     {
-        int iDeadZoneCur = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 ? 0x1ea9 : 0x21f1;
+        int iDeadZoneCur = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 ? 0x1ea9 : 0x21f1;
         int iLeftXTwo54 = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 7);
         int iLeftYZ = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 8);
         int iRightXNum = reinterpret_cast<::FUN_00a23390_t *>((pInputA))->GetAxisState(0, 9);
@@ -8498,9 +8499,9 @@ void VATSMenuX::Update()
     int iKeyTwo = iRawB >> 16;
     int iMidRes = (iRawB & 0xff00) >> 8;
     int iLowTwo = iRawB & 0xff;
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 4)
+    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 4)
     {
-        if (reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 1) && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 1)
+        if (reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 1) && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 1)
         {
             if (!::FUN_004b71d0() || (iLowTwo != 10 && iLowTwo != 11 && iLowTwo != 0x11))
             {
@@ -8508,7 +8509,7 @@ void VATSMenuX::Update()
                 m_bStateFlag2 = 0;
             }
         }
-        else if (!reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 0) && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1)
+        else if (!reinterpret_cast<::HotkeyWheelDisplay *>((pInputA))->SetHotkeyItem(0x10, 0) && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1)
         {
             reinterpret_cast<::NiPoint3Interpolator *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->CreateObject(2, 0);
             m_bStateFlag2 = 1;
@@ -8521,7 +8522,7 @@ void VATSMenuX::Update()
         if ((!::FUN_004b71d0() && !m_bAdditionalStateFlag) ||
             (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(10, 1) == 1))
         {
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
+            if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
             {
                 UpdateQueueEntry(0, 0, 0);
                 (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->m_fHitChance = (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->FUN_007f48e0();
@@ -8537,7 +8538,7 @@ void VATSMenuX::Update()
     WeaponX* pWeaponOld = pEquippedNew ? ((::WeaponX *)(reinterpret_cast<::Twin_0044ddc0 *>((pEquippedNew))->GetName())) : 0;
     bool bHasModsM = pWeaponOld ? reinterpret_cast<::FUN_00474a80_Class *>(&(pWeaponOld->kMods))->FUN_00474a80() : 0;
     FUN_007f3070();
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 4)
+    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) != 4)
     {
         ::DAT_011dea34 = 0;
         reinterpret_cast<::fnv_00964260::SelActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_00964260();
@@ -8557,7 +8558,7 @@ void VATSMenuX::Update()
         static int s_iSafeHeight = ::fnv_00717820::FUN_00717820();
         if ((reinterpret_cast<::FUN_00a24180_shell *>((pInputA))->FUN_00a24180(0x12, 0) && iKeyTwo != 0x12) ||
             (::FUN_004b71d0() && ::fnv_00717a40::FUN_00717a40(9, 1) == 2 &&
-             ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize() > 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2))
+             ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize() > 0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2))
         {
             xFUN_00705780();
             return;
@@ -8661,8 +8662,8 @@ void VATSMenuX::Update()
                 bool bBusy = !::FUN_004b71d0() && ::FUN_007f6af0((::Owner007f6af0 *)this);
                 if (!bBusy && m_pTargetChance->fHitChance > 0)
                 {
-                    if ((::FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2) ||
-                        (!::FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 &&
+                    if ((::FUN_004b71d0() && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2) ||
+                        (!::FUN_004b71d0() && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 &&
                          (!m_bAdditionalStateFlag || iModeNum76 != 1)))
                     {
                         int iActionZ = ::FUN_0066dba0(pWeaponOld ? pWeaponOld->GetWeaponType() : 0);
@@ -8676,7 +8677,7 @@ void VATSMenuX::Update()
                         bool bCanFireZ95 =
                             !pWeaponOld ? false
                                         : ((pWeaponOld->GetWeaponType() != 10 && pWeaponOld->GetWeaponType() != 13) ||
-                                           (pAmmoListOne && (unsigned int)((int)(reinterpret_cast<::Callees *>((pAmmoListOne))->FUN_00726070())) >
+                                           (pAmmoListOne && (unsigned int)((std::intptr_t)(reinterpret_cast<::Callees *>((pAmmoListOne))->FUN_00726070())) >
                                                                 ((::QueueX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->m_item))->GetSize()));
                         if ((!pWeaponOld || (pWeaponOld->GetWeaponType() != 10 && pWeaponOld->GetWeaponType() != 13) ||
                              bCanFireZ95) &&
@@ -8684,7 +8685,7 @@ void VATSMenuX::Update()
                             m_fOverrideActionPoints >= fCostX &&
                             (!pWeaponOld || !((void *)(reinterpret_cast<::AmmoOwner *>((pWeaponOld))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))))) || m_fValue5 + m_fValue4 > 0) &&
                             (!pWeaponOld || !((void *)(reinterpret_cast<::AmmoOwner *>((pWeaponOld))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))))) ||
-                             (pAmmoListOne && ((int)(reinterpret_cast<::Callees *>((pAmmoListOne))->FUN_00726070())) > 0)) &&
+                             (pAmmoListOne && ((std::intptr_t)(reinterpret_cast<::Callees *>((pAmmoListOne))->FUN_00726070())) > 0)) &&
                             (!FindEntryForRef() || (int)(((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item))->fHitChance * 100.0) > 0))
                         {
                             CommandX* pCommandA55 = new CommandX;
@@ -8856,7 +8857,7 @@ void VATSMenuX::Update()
                             UpdateHitChanceDisplay();
                         }
                         else if (FindEntryForRef() && (int)(((::ChanceX *)(reinterpret_cast<::SimpleListNodeView*>(FindEntryForRef())->m_item))->fHitChance * 100.0) <= 0 &&
-                                 ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
+                                 ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
                         {
                             BSSoundHandleX kSoundIn;
                             reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleX &)(kSoundIn))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleX &)(((::AudioX *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIVATSEnterFail", 0x121))));
@@ -8880,13 +8881,13 @@ void VATSMenuX::Update()
                         }
                         (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->m_fHitChance = (*reinterpret_cast<::VATSMenuX * *>(&::DAT_011db0d4))->FUN_007f48e0();
                     }
-                    else if (!::FUN_004b71d0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 &&
+                    else if (!::FUN_004b71d0() && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 1 &&
                              !m_bAdditionalStateFlag)
                     {
                         ::FUN_007f6af0((::Owner007f6af0 *)this);
                     }
                 }
-                else if (!bBusy && m_pTargetChance->bCrippled && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
+                else if (!bBusy && m_pTargetChance->bCrippled && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VATSX *>(&::g_011f2250))))->GetName())) == 2 && m_bFirstFlag)
                 {
                     AudioMgrX* pAudioMgrK = ((::AudioMgrX *)(::FUN_00ad9060()));
                     BSSoundHandleX kSoundIn;
@@ -9050,7 +9051,7 @@ bool MenuM::UpdateVatsTargeting()
 
     if (!(*reinterpret_cast<::ActorM * *>(&::DAT_011f21cc)) || closing)
         return false;
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) == 1)
+    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) == 1)
     {
         if (!lit)
         {
@@ -9095,7 +9096,7 @@ bool MenuM::UpdateVatsTargeting()
             }
             if (true)
             {
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) != 3)
+                if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) != 3)
                 {
                     reinterpret_cast<::NiPoint3Interpolator *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->CreateObject(3, false);
                     (*reinterpret_cast<unsigned int *>(&::fnv_007f07a0::DAT_011db0dc)) = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimerM *>(&::g_timeGlobal))))->FUN_00825c00();
@@ -9270,7 +9271,7 @@ bool MenuM::UpdateVatsTargeting()
                 return true;
             }
         }
-        else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) == 3)
+        else if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->GetName())) == 3)
             reinterpret_cast<::NiPoint3Interpolator *>(&((*reinterpret_cast<::StateM *>(&::g_011f2250))))->CreateObject(2, false);
     }
     else
@@ -9712,10 +9713,10 @@ bool FUN_007f6af0(Owner007f6af0* self)
     World007f6af0* world = ((::World007f6af0 *)(reinterpret_cast<::FUN_004543c0_cls *>((((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::Player007f6af0 * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
     world->v50(&ray);
     int unused = 0;
-    for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::Hits007f6af0 *)(::FUN_00460140((int)(((::Response007f6af0 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070())); ++i)
+    for (int i = 0; i < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::Hits007f6af0 *)(::FUN_00460140((std::intptr_t)(((::Response007f6af0 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070())); ++i)
     {
         Hit007f6af0 hit;
-        reinterpret_cast<::S50 *>(&(hit))->FUN_00696c30((::S50 *)(::Hit007f6af0 *)(((::Hit007f6af0 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::Hits007f6af0 *)(::FUN_00460140((int)(((::Response007f6af0 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(i)))));
+        reinterpret_cast<::S50 *>(&(hit))->FUN_00696c30((::S50 *)(::Hit007f6af0 *)(((::Hit007f6af0 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::Hits007f6af0 *)(::FUN_00460140((std::intptr_t)(((::Response007f6af0 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(i)))));
         void* object = ((void *)(::FUN_004b5820((::FormLike *)(hit.field_50))));
         TESObjectREFR* ref = ::FUN_0056f930((::NiAVObject *)(object));
         if (object)

@@ -413,7 +413,7 @@ void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
         ::DAT_011ae608 = 0.0f;
         ::DAT_01200828 = -1.0f;
     }
-    reinterpret_cast<::BB97550Shader *>((::ImageSpaceManager::FUN_004e3270()))->FUN_00b97550(30, (std::intptr_t)(::FUN_0043c4b0()), (int)(apArg1), (int)(apArg2), 0, 1);
+    reinterpret_cast<::BB97550Shader *>((::ImageSpaceManager::FUN_004e3270()))->FUN_00b97550(30, (std::intptr_t)(::FUN_0043c4b0()), (std::intptr_t)(apArg1), (std::intptr_t)(apArg2), 0, 1);
 }
 
 struct S_007fb5a0_Point3

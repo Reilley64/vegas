@@ -297,7 +297,7 @@ void LoadingMenu::SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadSc
     else if (extraCandidates && !((bool)(::FUN_0078a930())))
         count = FUN_0042f5a0(count, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)))))->u);
     unsigned int maximum = reinterpret_cast<BSSimpleList<BGSMusicType::MusicTrack*>*>(&candidates)->ItemsInList();
-    while (maximum < count && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)))->GetName())))
+    while (maximum < count && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)))->GetName())))
     {
         unsigned int index =
             FUN_005a00a0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)))->GetName())));
@@ -495,7 +495,7 @@ struct FUN_0078a1f0_this
 // @fnv 0x0078a1f0
 bool FUN_0078a1f0(FUN_0078a1f0_this* pThis)
 {
-    return pThis->pSequence && ((int)(reinterpret_cast<::LowProcess *>((pThis->pSequence))->GetActiveCombatTarget())) == 1;
+    return pThis->pSequence && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((pThis->pSequence))->GetActiveCombatTarget())) == 1;
 }
 
 struct FUN_0078a230_shell : public LoadingMenu
@@ -590,7 +590,7 @@ class TESObjectREFR
 // @fnv 0x0078ada0
 bool FUN_0078ada0_shell::IsRefFlag400Set()
 {
-    return (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)this)))->GetName())) & 0x400) != 0;
+    return (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)this)))->GetName())) & 0x400) != 0;
 }
 
 struct FUN_0078afa0_shell : public LoadingMenu
@@ -1842,7 +1842,7 @@ void SaveLoadScreenData(BGSSaveFormBuffer* apSaveGameBuffer)
     void* pquest;
     bool bLocationSpecificOnly;
     FUN_0078d670();
-    pquest = *(void**)&g_011da168 ? (void*)((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((*(void**)&g_011da168))->FUN_0044edb0())) : 0;
+    pquest = *(void**)&g_011da168 ? (void*)((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((*(void**)&g_011da168))->FUN_0044edb0())) : 0;
     iElementIndex = *(void**)&g_011da168 ? (unsigned int)reinterpret_cast<::Callees *>((*(void**)&g_011da168))->FUN_00726070() : 0;
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pquest), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&iElementIndex, 4, 0);

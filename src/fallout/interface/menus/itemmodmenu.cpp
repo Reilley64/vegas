@@ -1,5 +1,6 @@
 // fallout/interface/menus/itemmodmenu.cpp: ItemModMenu, RepairMenu, ModMenuStub, ItemModMenuHack and more (19 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectCollection.h"
@@ -565,7 +566,7 @@ bool EqMenu::FUN_00783af0(EqEntry* apTarget)
             pResult4 = 0;
     }
 
-    if (((int)(reinterpret_cast<::FUN_004bd880_stand *>((pType3))->GetSlotPointer(ucHand7))) == 10 && pResult4)
+    if (((std::intptr_t)(reinterpret_cast<::FUN_004bd880_stand *>((pType3))->GetSlotPointer(ucHand7))) == 10 && pResult4)
         reinterpret_cast<::ExtraDataList *>((pResult4))->SetExtraHealth(reinterpret_cast<::FUN_004186f0_shell *>((pResult4))->FUN_004186f0() + reinterpret_cast<::FUN_004bcf60_shell *>((pType3))->GetEffectValue(10, 0));
 
     if (bEquipped)
@@ -1642,7 +1643,7 @@ void __cdecl PopulateModListScreen()
     {
         Row* row = 0;
         Entry* entry = 0;
-        for (int index7 = 0; index7 < ((int)(reinterpret_cast<::Callees *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))))->FUN_00726070())); ++index7)
+        for (int index7 = 0; index7 < ((std::intptr_t)(reinterpret_cast<::Callees *>((((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item))))->FUN_00726070())); ++index7)
         {
             entry = ((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item));
             if (index7 == 0)

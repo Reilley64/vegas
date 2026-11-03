@@ -2,6 +2,7 @@
 // src/fallout/interface/listbox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/listbox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSS.h"
@@ -6656,7 +6657,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
                                                      : ((p2 && p2 != pNodeToRemove) ? (*((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(p2)->m_item)))->f0 : 0);
             if (selected)
             {
-                reinterpret_cast<::FocusManager *>((((IMObjX*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((int)selected), 0xfc3, 1);
+                reinterpret_cast<::FocusManager *>((((IMObjX*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)((std::intptr_t)selected), 0xfc3, 1);
             }
         }
         if (container && (*((::fnv_007d9ac0::ListBoxItem_t **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeToRemove)->m_item)))->f8)
@@ -6685,7 +6686,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
                 reinterpret_cast<::CombatProcedure *>((p2))->Initialize((::CombatController *)(0));
                 FUN_004ee7d0_node* node2 = p2;
                 FUN_004ee7d0_node* nodeA = node2;
-                (void)(nodeA ? ((int)(reinterpret_cast<::W004702f0 *>((nodeA))->FUN_004702f0(1))) : 0);
+                (void)(nodeA ? ((std::intptr_t)(reinterpret_cast<::W004702f0 *>((nodeA))->FUN_004702f0(1))) : 0);
             }
             else
             {
@@ -6694,11 +6695,11 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
         }
         else
         {
-            reinterpret_cast<::CombatProcedure *>((p2))->Initialize((::CombatController *)((unsigned int)((::fnv_007d9ac0::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pNodeToRemove))->FUN_00726070()))));
+            reinterpret_cast<::CombatProcedure *>((p2))->Initialize((::CombatController *)((std::uintptr_t)((::fnv_007d9ac0::FUN_004ee7d0_node *)(reinterpret_cast<::Callees *>((pNodeToRemove))->FUN_00726070()))));
             reinterpret_cast<::CombatProcedure *>((pNodeToRemove))->Initialize((::CombatController *)(0));
             FUN_004ee7d0_node* nodeBTmp = pNodeToRemove;
             FUN_004ee7d0_node* nodeB = nodeBTmp;
-            (void)(nodeB ? ((int)(reinterpret_cast<::W004702f0 *>((nodeB))->FUN_004702f0(1))) : 0);
+            (void)(nodeB ? ((std::intptr_t)(reinterpret_cast<::W004702f0 *>((nodeB))->FUN_004702f0(1))) : 0);
         }
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(0))
         {
@@ -6810,7 +6811,7 @@ void FunctionOwner::FUN_0071a200(int entryType)
         {
             if ((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)))->property)
             {
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)))->property))->GetName())) == entryType)
+                if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)))->property))->GetName())) == entryType)
                 {
                     selected.FUN_005ae3d0(((::Entry **)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)));
                 }
@@ -7276,7 +7277,7 @@ L71Tile* L71Menu::FUN_0071a320(int data, const char* apLabel, int (*compare)(L71
     if (pRoot && (pTemplate || apTemplate))
     {
         pTile = ((::list71a::L71Tile *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::list71a::L71Created *)(reinterpret_cast<::FUN_00a03c90_shell *>((pRoot))->FUN_00a03c90()))))->FUN_00a1ddb0({}, {}, {})));
-        if (!((int)(reinterpret_cast<::FUN_00a00f30_shell *>((pTile))->FUN_00a00f30(0xfaa))))
+        if (!((std::intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>((pTile))->FUN_00a00f30(0xfaa))))
         {
             reinterpret_cast<::Tile *>((pTile))->Set(0xfaa, -1);
         }

@@ -109,7 +109,7 @@ void FaderManager::AddFader(FADER_ENUM eFader, float fDuration, bool bFadeOut)
     pTriangles[4] = 1;
     pTriangles[5] = 3;
     s_faders[eFader].pFadeNode = (BSFadeNode*)new NiSortAdjustNode(0);
-    ::AssignFixedString((char *)(s_faders[eFader].pFadeNode), (int)&(const ::NiFixedString &)(NiFixedString(s_faders[eFader].pTextureName)), {});
+    ::AssignFixedString((char *)(s_faders[eFader].pFadeNode), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(s_faders[eFader].pTextureName)), {});
     NiAlphaProperty* pBlendingProperty = new NiAlphaProperty;
     reinterpret_cast<::FUN_0049ed90_shell *>((pBlendingProperty))->FUN_0049ed90(true);
     reinterpret_cast<::FUN_00439410_cls *>((s_faders[eFader].pFadeNode))->FUN_00439410((::ArgObject *)(pBlendingProperty));
@@ -117,7 +117,7 @@ void FaderManager::AddFader(FADER_ENUM eFader, float fDuration, bool bFadeOut)
     s_faders[eFader].pFadeNode->AddObject(faderShape, true);
     BSStringT<char> textureName;
     ::FUN_00406f60((::FUN_00406f90_this *)&(textureName), "Data\\Textures\\Interface\\Faders\\%s", s_faders[eFader].pTextureName);
-    ::AssignFixedString((char *)(faderShape), (int)&(const ::NiFixedString &)(NiFixedString(((const char *)(::FUN_00559450((int *)&(textureName)))))), {});
+    ::AssignFixedString((char *)(faderShape), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(((const char *)(::FUN_00559450((int *)&(textureName)))))), {});
     NiPointer<NiTexture> spTextureImage(
         ::NiSourceTexture::Create(NiFixedString(((const char *)(::FUN_00559450((int *)&(textureName))))), (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false));
     surface.fInitialAlpha = 0.0f;
@@ -155,16 +155,16 @@ void FaderManager::AddRoot(NiNode* pParent, float m_fProjectionDepth, bool abBel
     if (abBelowMenus)
     {
         m_pRootBelowMenus = pSortAdjustNode;
-        ::AssignFixedString((char *)(pSortAdjustNode), (int)&(const ::NiFixedString &)(NiFixedString("FaderNode Below Menus")), {});
+        ::AssignFixedString((char *)(pSortAdjustNode), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("FaderNode Below Menus")), {});
     }
     else
     {
         m_pRootAboveMenus = pSortAdjustNode;
-        ::AssignFixedString((char *)(pSortAdjustNode), (int)&(const ::NiFixedString &)(NiFixedString("FaderNode Above Menus")), {});
+        ::AssignFixedString((char *)(pSortAdjustNode), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("FaderNode Above Menus")), {});
         m_fProjectionDepth -= 20.0;
     }
     NiDirectionalLight* apTargetLight = new NiDirectionalLight;
-    ::AssignFixedString((char *)(apTargetLight), (int)&(const ::NiFixedString &)(NiFixedString("FaderNodeLight")), {});
+    ::AssignFixedString((char *)(apTargetLight), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("FaderNodeLight")), {});
     reinterpret_cast<::FUN_004bc280_S *>((apTargetLight))->FUN_004bc280((const ::C3 *)&(const ::NiPoint3 &)(NiPoint3(1.0f, 1.0f, 1.0f)));
     // This helper's canonical binding is a folded NiObject::LinkObject alias.
     ::FUN_00a89af0((std::intptr_t)(apTargetLight));

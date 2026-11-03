@@ -1,5 +1,6 @@
 // fallout/interface/menus/companionwheelmenu.cpp: CompanionWheelMenu, Foo, WheelHost, InteractionMenu and more (30 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdio>
@@ -542,7 +543,7 @@ bool __cdecl DestroyCompanionWheelMenu(int value)
     CompanionWheelMenu* menu = factory ? dynamic_cast<CompanionWheelMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((factory))->FUN_00a03c90()) : 0;
     if (menu)
         delete menu;
-    if (((int)(::fnv_00754de0::OpenCompanionMenu((::fnv_00754de0::ActorOps *)(value)))))
+    if (((std::intptr_t)(::fnv_00754de0::OpenCompanionMenu((::fnv_00754de0::ActorOps *)(value)))))
         return true;
     return false;
 }
@@ -666,7 +667,7 @@ TileOps* OpenCompanionMenu(ActorOps* actor)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->SetMenuVisibility(false);
         return h;
     }
-    else if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755)) && ((int)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755)) && ((std::intptr_t)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->FUN_00726070())))
         delete (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755));
     return 0;
 }
@@ -2445,7 +2446,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                     reinterpret_cast<::SoundPlaybackHandle *>(&(events))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
                     return true;
                 }
-                if (reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ScriptAnimation::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting() || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) != 0 ||
+                if (reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ScriptAnimation::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting() || ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) != 0 ||
                     (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0() && reinterpret_cast<::FUN_004f8960_shell *>((actor))->FUN_004f8960() == 6))
                 {
                     Sequence* selected = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(actor), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 1)));
@@ -2455,7 +2456,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                         int unused = ((int)(reinterpret_cast<::DialogueItem *>((selected))->GetActiveResponse()));
                         reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(0);
                         reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(1);
-                        ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((unsigned int)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
+                        ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((std::uintptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
                         delete selected;
                     }
                 }
@@ -2464,7 +2465,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             }
             else if (((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
             {
-                ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((unsigned int)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
+                ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((std::uintptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
                 ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Clear(0);
             }
         }
@@ -3542,7 +3543,7 @@ void InteractionMenu::UpdateCompanionInteraction()
         {
             char message[200];
             std::sprintf(message, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((aTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MessageSetting *>(&::g_011cf594))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(message), 0, 0, 0, ::DAT_010162c0, 0);
+            ::DispatchMessageToSink((std::intptr_t)(message), 0, 0, 0, ::DAT_010162c0, 0);
         }
     }
 }

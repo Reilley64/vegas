@@ -455,7 +455,7 @@ void __cdecl FUN_0078e7c0()
         v24 = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((reinterpret_cast<ObjB*>(v6)))->GetAnimationData()));
     }
     v14 = v24;
-    ::FUN_00b6bee0(v14, (void *)(((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), (::BSShaderAccumulator *)(v1c3));
+    ::FUN_00b6bee0(v14, (void *)(((std::intptr_t)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), (::BSShaderAccumulator *)(v1c3));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(v14), (::BSShaderAccumulator *)(void *)(((void *)(::FUN_00559450((int *)&(g))))), 0);
     reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<ObjC*>(v1c3)))->FUN_004a0fd0((::NiNode *)(void *)(0));
     g.FUN_0066b0d0(0);
@@ -804,7 +804,7 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         {
             ((::PathingActorState *)(reinterpret_cast<::FUN_00569160_shell *>((unk6c))->FUN_00569160()))->iBreakCount++;
             reinterpret_cast<::fnv_005789b0::FUN_005789b0_shell *>((unk6c))->FUN_005789b0();
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d3e98))))->GetMenuTitle()))), 0, (int)(s_szForceFailIcon), (int)(s_szForceFailSound), 2.0f, 0);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d3e98))))->GetMenuTitle()))), 0, (std::intptr_t)(s_szForceFailIcon), (std::intptr_t)(s_szForceFailSound), 2.0f, 0);
             FUN_0078e0d0();
         }
         break;
@@ -1324,10 +1324,10 @@ void ThisCls::InitLockInterface()
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(idx));
     }
     ((Glob*)&(*reinterpret_cast<char *>(&::g_011da224)))->FUN_0066b0d0(((void *)(reinterpret_cast<::fnv_0078e900::FUN_0078e900_shell *>(this)->FUN_0078e900())));
-    ((VObj*)((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->m_dc(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))), 1);
+    ((VObj*)((std::intptr_t)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->m_dc(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))), 1);
     float val;
     val = (float)(reinterpret_cast<::Twin_0084d030 *>((((TimeObj*)((::NiPoint3 *)(reinterpret_cast<::FUN_0043d450_Owner *>((((AVObj*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_0043d450())))))->GetStoredFloatValue() * 3.0);
-    reinterpret_cast<::SSN_b5 *>((((SceneNode*)((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5ca70((::Node_b5 *)(void *)(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c)))))))), val);
+    reinterpret_cast<::SSN_b5 *>((((SceneNode*)((std::intptr_t)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5ca70((::Node_b5 *)(void *)(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c)))))))), val);
 }
 
 struct ImageSpaceEffectParam
@@ -1519,7 +1519,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     if (pkLockRef && reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))->kAVOwner))->GetActorValueAsInteger((::ActorValue::Index)(0x24)) < ::DAT_011da28c[iLockLevelNum])
     {
         ::FUN_00406d00(acMessageVal, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d1efc))))->GetMenuTitle())), ::DAT_011da28c[iLockLevelNum]);
-        ::DispatchMessageToSink((int)(acMessageVal), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), (int)(0), 2.0f, 0);
+        ::DispatchMessageToSink((std::intptr_t)(acMessageVal), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), (int)(0), 2.0f, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::LKSoundHandle &)(((::LKAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -2177,7 +2177,7 @@ void xLockPickMenu::FUN_0078eb50()
             if (xg_fElapsed_11da2ac == 0.0 && m_6c)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) <= 0.0)
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (int)(s_szIcon), (int)(0), 2.0f, 0);
+                    ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (std::intptr_t)(s_szIcon), (int)(0), 2.0f, 0);
                 else
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0078eb50::xSound &)(((::fnv_0078eb50::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szEnter, 0x121)))->FUN_00ad8830(false);
             }
@@ -2420,7 +2420,7 @@ void xLockPickMenu::FUN_0078eb50()
             }
             if (m_6c && reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) == 0.0)
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (int)(s_szIcon), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (std::intptr_t)(s_szIcon), (int)(0), 2.0f, 0);
                 reinterpret_cast<::Tile *>((m_58))->Set(0xfa3, 0);
                 xUpdateData UPD6(0.0f, true, false);
                 reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPD6));

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/computersmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/computersmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
@@ -366,7 +367,7 @@ void Holder::FUN_00759850()
     {
         ScriptObj* pB = ((ListBase*)this)->RemoveHead();
         ScriptObj* pA = pB;
-        pA ? ((int)(reinterpret_cast<::FUN_007598a0_shell *>((pA))->FUN_007598a0(1))) : 0;
+        pA ? ((std::intptr_t)(reinterpret_cast<::FUN_007598a0_shell *>((pA))->FUN_007598a0(1))) : 0;
     }
 }
 // Calls FUN_00726cf0, then deallocates this when flags has bit 0 set, and returns this.

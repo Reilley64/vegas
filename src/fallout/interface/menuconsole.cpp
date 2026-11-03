@@ -1,5 +1,6 @@
 // fallout/interface/menuconsole.cpp: ConsoleManager, ListHead, ConsoleDisplay, DumpConsole (13 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ActorMover.h"
@@ -968,7 +969,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     else if (state.key == (int)0x80000003)
                     {
-                        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+                        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                         {
                             m_iCommandHistoryPosition++;
                             m_iCommandHistoryPosition = MinInt(
@@ -986,7 +987,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     else if (state.key == (int)0x80000004)
                     {
-                        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+                        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                         {
                             m_iCommandHistoryPosition--;
                             m_iCommandHistoryPosition = FUN_00647b70(m_iCommandHistoryPosition, 0);
@@ -1075,7 +1076,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
             }
             BSStringT<char> line(text);
-            if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+            if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                 reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
             else
             {
@@ -1143,7 +1144,7 @@ void DumpConsole::DumpLoadedTextures()
                 buffer, 1024,
                 "Texture dump for cell: %s grid: (%d, %d) worldspace: %s \n---------------------------------------\n",
                 ((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))->name))->FUN_00408da0())) : "{unknown}", ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->GetCurrentMoveModeType())),
-                ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_0045cd60())),
+                ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_0045cd60())),
                 ((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070())) ? (((::DumpWorld *)(reinterpret_cast<::TESObjectCELL *>((((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))))->GetParentWorldSpace()))
                                              ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DumpWorld *)(reinterpret_cast<::TESObjectCELL *>((((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))))->GetParentWorldSpace()))->name))->FUN_00408da0()))
                                              : "{unknown}")

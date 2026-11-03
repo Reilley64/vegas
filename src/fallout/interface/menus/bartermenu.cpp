@@ -1097,7 +1097,7 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
         ((BigObj*)DAT_011d8fa4)->RebuildInventoryLists(0);
         return (int)bb;
     }
-    else if (DAT_011d8fa4 != 0 && ((int)(reinterpret_cast<::Callees *>((((BigObj*)DAT_011d8fa4)))->FUN_00726070())) != 0)
+    else if (DAT_011d8fa4 != 0 && ((std::intptr_t)(reinterpret_cast<::Callees *>((((BigObj*)DAT_011d8fa4)))->FUN_00726070())) != 0)
     {
         cb8 = (BigObj*)DAT_011d8fa4;
         kCb2 = cb8;
@@ -1573,7 +1573,7 @@ void __cdecl FUN_0072eac0(int iUnused, OwnItem* pkItem)
     }
     for (OwnNode* pkIter = &kRemoveY; pkIter && *((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)); pkIter = ((::OwnNode *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
     {
-        reinterpret_cast<::CombatProcedure *>((pkItem))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>(((*((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->FUN_00418770()));
+        reinterpret_cast<::CombatProcedure *>((pkItem))->Initialize((::CombatController *)(((std::intptr_t)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::FUN_00418770_shell *>(((*((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))))->FUN_00418770()));
         reinterpret_cast<::ItemChangeListNode *>((((OwnExtraContainer*)((::OwnNode *)(::FUN_00559450((int *)(pkItem)))))))->FUN_00905330((*(::InventoryStackRecord *const *)(((::OwnExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(pkIter)->m_item)))));
     }
     reinterpret_cast<::FileMatchList *>(&(kRemoveY))->RemoveAll();
@@ -2104,14 +2104,14 @@ void FC30Container::DecrementEntryCount(int iCount)
     FC30List* pkListA = (m_pkState == &m_kState) ? &m_kListA : &m_kListB;
     FC30Entry* pkEntry = ((::FC30Entry *)(reinterpret_cast<::TargetClass *>(this)->FindMatchingEntry((::ListNode *)(pkListA), (::EntryEx *)((*reinterpret_cast<void * *>(&::DAT_011d8fa8))))));
     iValue = ((::FC30Data *)(::FUN_00559450((int *)(pkEntry)))) ? *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FC30Data *)(::FUN_00559450((int *)(pkEntry)))))->m_item)) : 0;
-    if (((int)(reinterpret_cast<::Callees *>((pkEntry))->FUN_00726070())) - iCount <= 0)
+    if (((std::intptr_t)(reinterpret_cast<::Callees *>((pkEntry))->FUN_00726070())) - iCount <= 0)
     {
         reinterpret_cast<::ItemChangeListNode *>((pkListA))->FUN_00905330((::InventoryStackRecord *const &)(pkEntry));
         delete pkEntry;
     }
     else
     {
-        reinterpret_cast<::CombatProcedure *>((pkEntry))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((pkEntry))->FUN_00726070())) - iCount));
+        reinterpret_cast<::CombatProcedure *>((pkEntry))->Initialize((::CombatController *)(((std::intptr_t)(reinterpret_cast<::Callees *>((pkEntry))->FUN_00726070())) - iCount));
     }
 }
 
@@ -2507,7 +2507,7 @@ void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
                 m_iMerchantFilter = 5;
             else if (m_iMerchantFilter > 5)
                 m_iMerchantFilter = 0;
-            reinterpret_cast<::Menu_007301f0 *>(this)->UpdateTileText((::P09TileS *)((int)m_apTiles[3]));
+            reinterpret_cast<::Menu_007301f0 *>(this)->UpdateTileText((::P09TileS *)((std::intptr_t)m_apTiles[3]));
             reinterpret_cast<::ListBoxImpl *>(&(m_kMerchantList))->ApplyFilter((bool (*)(void *))(((int (&)(void *))::FUN_007304b0)));
         } while (!((int)(reinterpret_cast<::FUN_0071ae60_shell *>(&(m_kMerchantList))->FUN_0071ae60())) && m_iMerchantFilter != 0);
         break;
@@ -2522,7 +2522,7 @@ void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
                 m_iPlayerFilter = 5;
             else if (m_iPlayerFilter > 5)
                 m_iPlayerFilter = 0;
-            reinterpret_cast<::Menu_007301f0 *>(this)->UpdateTileText((::P09TileS *)((int)m_apTiles[8]));
+            reinterpret_cast<::Menu_007301f0 *>(this)->UpdateTileText((::P09TileS *)((std::intptr_t)m_apTiles[8]));
             reinterpret_cast<::ListBoxImpl *>(&(m_kPlayerList))->ApplyFilter((bool (*)(void *))(((int (&)(void *))::FUN_007304b0)));
         } while (!((int)(reinterpret_cast<::FUN_0071ae60_shell *>(&(m_kPlayerList))->FUN_0071ae60())) && m_iPlayerFilter != 0);
         break;
@@ -3485,7 +3485,7 @@ bool __cdecl FUN_007304b0(Fr7304Entry* pkItem)
     if (pkTile)
     {
         bResult =
-            bResult || (double)((int)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::TileListBoxCalls *>((pkTile))->GetFloat(FUN_00a01860(s_szNumBartered)) <= 0.0;
+            bResult || (double)((std::intptr_t)(reinterpret_cast<::Callees *>((pkItem))->FUN_00726070())) - reinterpret_cast<::TileListBoxCalls *>((pkTile))->GetFloat(FUN_00a01860(s_szNumBartered)) <= 0.0;
     }
     return bResult;
 }

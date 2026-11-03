@@ -273,7 +273,7 @@ bool FORenderedMenu::CreateMenuLight(const char* nodeName, ShadowSceneNode* shad
             NiUpdateData kData(0.0f, false, false);
             reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
             reinterpret_cast<::TaskQueueInterface *>(((m_pMenuLight).operator->()))->QueueActorDisarm(true);
-            ::AssignFixedString((char *)((m_pMenuLight).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("RenderedMenuLight")), {});
+            ::AssignFixedString((char *)((m_pMenuLight).operator->()), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("RenderedMenuLight")), {});
             bSuccess = true;
         }
         else
@@ -377,7 +377,7 @@ void FUN_007fc6f0_shell::FUN_007fc6f0()
             reinterpret_cast<LightNodeV*>(((::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>((reinterpret_cast<FORenderedMenu*>(this)))->GetRegionMapName()))->GetAsNiNode())
                 ->AttachLight(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x1c));
         }
-        reinterpret_cast<::B5Owner *>(((*reinterpret_cast<ExtraDataList**>(&this->m_pSecondaryMenuObject))))->FUN_00b5eed0((unsigned int)(reinterpret_cast<NiAVObject*>(
+        reinterpret_cast<::B5Owner *>(((*reinterpret_cast<ExtraDataList**>(&this->m_pSecondaryMenuObject))))->FUN_00b5eed0((std::uintptr_t)(reinterpret_cast<NiAVObject*>(
                 (unsigned int)*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x1c))));
         *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x1c) = 0;
     }
@@ -2761,7 +2761,7 @@ void Menu::FUN_007fbee0(Arg* a, void* pData, int iValue)
     if (active)
         reinterpret_cast<::FUN_007fbeb0_shell *>((((::recon7fbee0::Manager *)(::ImageSpaceManager::FUN_004e3270()))))->SetValueAndAssign(1, ((void *)(::FUN_00559450((int *)&(node)))));
     *(int*)&(*reinterpret_cast<char *>(&::DAT_012007ec)) = iValue;
-    reinterpret_cast<::BB97550Shader *>((((::recon7fbee0::Manager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550(10, (std::intptr_t)(((void *)(::FUN_0043c4b0()))), (int)(a), (int)(pData), 0, 1);
+    reinterpret_cast<::BB97550Shader *>((((::recon7fbee0::Manager *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550(10, (std::intptr_t)(((void *)(::FUN_0043c4b0()))), (std::intptr_t)(a), (std::intptr_t)(pData), 0, 1);
     ((Ptr*)&DAT_01200818)->FUN_0066b0d0(0);
 }
 }

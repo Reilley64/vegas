@@ -543,10 +543,10 @@ void CreditsMenuX::FUN_0075f910()
         CheckSaveNameConflict();
     if (!m_pController)
         return;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kLines))->GetName())))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kLines))->GetName())))
     {
         m_fPackageValue -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
-        if (m_fPackageValue < 0.0 && uiLineIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kLines))->GetName())))
+        if (m_fPackageValue < 0.0 && uiLineIndex < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kLines))->GetName())))
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(const char *)(kLines.GetAt(uiLineIndex++)), true);
             m_fPackageValue = fLineDelay;
@@ -700,7 +700,7 @@ void __cdecl CheckSaveNameConflict()
                 DAT_011d9474 = (int)*((::n75f750::ValueReferencePair **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
                 if (reinterpret_cast<::BGSSaveLoadFileEntry *>((((ValueReferencePair*)DAT_011d9474)))->IsAutoSave() &&
                     reinterpret_cast<::FUN_0075f8c0_shell *>((((ValueReferencePair*)DAT_011d9474)))->FUN_0075f8c0() &&
-                    ((int)(::FUN_004b75a0(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))->kName)))),
+                    ((std::intptr_t)(::FUN_004b75a0(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))->kName)))),
                                  ((const char *)(::FUN_00559450((int *)(((ValueReferencePair*)DAT_011d9474)))))))))
                 {
                     ::fnv_00703e80::FUN_00703e80(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::n75f750::SettingStr *>(&::g_011d39b4))))->IsDLCAvailable())), (const char *)(0), (const char *)(0), FUN_00761410, 0, 0x12, 0.0f, 0.0f,
@@ -895,7 +895,7 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
     CreditFixedString kNameNew;
     char acPathCur[260];
     ::FUN_00406d00(acPathCur, 260, "Textures\\Interface\\Credits\\%s", ((const char *)(::FUN_00559450((int *)(apSource)))));
-    ::AssignFixedString((char *)(pShapeCur), (int)&(const ::CreditFixedString &)(CreditFixedString(acPathCur)), {});
+    ::AssignFixedString((char *)(pShapeCur), (std::intptr_t)&(const ::CreditFixedString &)(CreditFixedString(acPathCur)), {});
     CreditTexture* pTextureOld = ((::CreditTexture *)(::NiSourceTexture::Create((const ::NiFixedString &)((const ::CreditFixedString &)(CreditFixedString(acPathCur))), (*(::NiTexture__FormatPrefs *)(&(*reinterpret_cast<char *>(&::DAT_011a9598)))), true, 0)));
 
     CreditTextureEffect* pEffectInfo = new CreditTextureEffect(0);
@@ -1802,15 +1802,15 @@ bool __cdecl FUN_0075f2a0()
         }
         reinterpret_cast<::Tile *>((pTileX))->Set(0x1004, reinterpret_cast<::FUN_007023a0_shell *>((pIM))->FUN_007023a0());
         reinterpret_cast<::CreditMenu *>((pCreditsMenu))->FUN_0075fb90();
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName())))
+        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName())))
         {
             pCreditsMenu->fLineDelay =
                 ((double)pCreditsMenu->m_uiPlaybackFlags - reinterpret_cast<::NiAVObject *>(((pCreditsMenu->m_pController).operator->()))->FUN_0043c490().z) /
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) / (double)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName()));
+                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) / (double)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName()));
             pCreditsMenu->m_fPackageValue = pCreditsMenu->fLineDelay;
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pCreditsMenu->m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(const char *)(pCreditsMenu->kLines.GetAt(pCreditsMenu->uiLineIndex++)), true);
         }
-        else if ((DAT_011d947c || !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName()))) && pCreditsMenu->m_pCurrentLineTile)
+        else if ((DAT_011d947c || !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName()))) && pCreditsMenu->m_pCurrentLineTile)
         {
             reinterpret_cast<::Tile *>((pCreditsMenu->m_pCurrentLineTile))->Set(0xfa9, 0);
         }
@@ -1825,7 +1825,7 @@ bool __cdecl FUN_0075f2a0()
         }
         return true;
     }
-    else if (pMenu6 && ((int)(reinterpret_cast<::Callees *>((pMenu6))->FUN_00726070())))
+    else if (pMenu6 && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenu6))->FUN_00726070())))
     {
         delete pMenu6;
     }

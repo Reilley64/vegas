@@ -1,5 +1,6 @@
 // fallout/interface/menus/inventorymenu.cpp: InventoryMenu, Interface, Menu, InventoryCheck and more (30 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorSoundStub.h"
@@ -190,17 +191,17 @@ void InventoryMenu::UpdateDialog()
             {
                 if (ms_pActionPointSource && reinterpret_cast<::FUN_004bcdb0_shell *>((ms_pActionPointSource))->FUN_004bcdb0(true) == 0.0)
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810))))->GetMenuTitle()))), 0,
-                                           (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                           (int)("UIVATSInsufficientAP"), 2.0f, false);
+                    ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810))))->GetMenuTitle()))), 0,
+                                           (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                           (std::intptr_t)("UIVATSInsufficientAP"), 2.0f, false);
                 }
                 else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
                          (ms_pActionPointSource &&
                           ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((ms_pActionPointSource))->GetName()))->GetFormType() == TESForm::kArmor))
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18))))->GetMenuTitle()))), 0,
-                                           (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                           (int)("UIVATSInsufficientAP"), 2.0f, false);
+                    ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18))))->GetMenuTitle()))), 0,
+                                           (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                           (std::intptr_t)("UIVATSInsufficientAP"), 2.0f, false);
                 }
                 else
                 {
@@ -470,7 +471,7 @@ unsigned char __cdecl IsNotFormType2E(void* a1)
 {
     int v;
     if (a1)
-        v = ((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))->GetFormType() != 0x2E;
+        v = ((TESForm*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((a1))->GetName())))->GetFormType() != 0x2E;
     else
         v = 1;
     return v;
@@ -1295,7 +1296,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
                 ammo = ((::InventorySelection::Form *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ammoLabel))->FUN_00a01350(0xfcc, (char *)(::GetWeaponSkillIconPath((int)(((void *)(reinterpret_cast<::FUN_008d85e0_Class *>((ammo))->GetUnk15C()))))), 1);
                 char countText[128];
-                ::FUN_00406d00(countText, 128, DAT_01020764, ((int)(reinterpret_cast<::FUN_008d8160_Class *>((ammo))->GetField1BC())));
+                ::FUN_00406d00(countText, 128, DAT_01020764, ((std::intptr_t)(reinterpret_cast<::FUN_008d8160_Class *>((ammo))->GetField1BC())));
                 if (ammoCount)
                     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ammoCount))->FUN_00a01350(0xfc4, (char *)(countText), 1);
             }
@@ -1436,7 +1437,7 @@ bool InventoryCheck::FUN_00781860(Entry* entry)
     if (entry && form4 && (form4->FUN_00401170() == 40 || form4->FUN_00401170() == 24) &&
         reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(true) < 100.0)
     {
-        if (((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())) > 1)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())) > 1)
             result5 = true;
         else
         {
@@ -1495,12 +1496,12 @@ void __cdecl UpdateItemLabel(ItemLabelTile* tile, ItemLabelSource* item)
     char label[128];
     if (item)
     {
-        if (((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) > 1)
+        if (((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) > 1)
         {
             if (reinterpret_cast<::FUN_004bd820_stand *>((item))->FUN_004bd820())
-                ::FUN_00406d00(label, 128, "%s+ (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                ::FUN_00406d00(label, 128, "%s+ (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
             else
-                ::FUN_00406d00(label, 128, "%s (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                ::FUN_00406d00(label, 128, "%s (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(label), true);
         }
         tile->Set(0xfaa, 29);
@@ -1597,7 +1598,7 @@ struct Menu75b
 // @fnv 0x00780d60
 void Menu75b::FUN_00780d60()
 {
-    void* a = (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
+    void* a = (void*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
     void* b = ((void *)(::FUN_00559450((int *)((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource)))))) ? (void*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((Sh006815c0*)((void *)(::FUN_00559450((int *)((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))))))->m_item)) : 0;
 
     if (reinterpret_cast<::FUN_00a01230_shell *>((((Sh00a01230*)reinterpret_cast<::Callees *>((((Sh00726070*)this)))->FUN_00726070())))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc))
@@ -1605,17 +1606,17 @@ void Menu75b::FUN_00780d60()
         reinterpret_cast<::LBList_7314c0 *>(&(lb))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(FUN_007832a0), 0, 0x7fffffff);
     }
 
-    void* c = (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
+    void* c = (void*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()));
     list.FUN_005ae3d0(&c);
 
-    if ((((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((unsigned int)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((unsigned int)(::FUN_004839c0(0xccef2)))) &&
+    if ((((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((std::uintptr_t)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) || ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((std::uintptr_t)(::FUN_004839c0(0xccef2)))) &&
         ((Gp75*)::_g_thePlayer)->emb.v2(0x10) == ((Gp75*)::_g_thePlayer)->emb.v7(0x10))
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
     }
-    else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((unsigned int)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x15)))) && !FUN_00780f70())
+    else if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((std::uintptr_t)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x15)))) && !FUN_00780f70())
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
     }
     else if (!reinterpret_cast<::FUN_004bddd0_shell *>((((Sh004bddd0*)(*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource)))))->FUN_004bddd0(false))
     {
@@ -2481,11 +2482,11 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                 if (!::FUN_004b71d0())
                 {
                     if ((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)) && reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_004bcdb0(1) == 0.0)
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810)))))->GetMenuTitle()))), 2, (int)(0), (int)("UIVATSInsufficientAP"),
+                        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810)))))->GetMenuTitle()))), 2, (int)(0), (std::intptr_t)("UIVATSInsufficientAP"),
                                               2.0f, 0);
                     else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
                              ((::fnv_00780140::VTForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))->FUN_00401170() == 0x19)
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 2, (int)(0), (int)("UIVATSInsufficientAP"),
+                        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 2, (int)(0), (std::intptr_t)("UIVATSInsufficientAP"),
                                               2.0f, 0);
                     else
                     {
@@ -2537,9 +2538,9 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             ::FUN_007800c0();
         }
         else
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 0,
-                                  (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                  (int)("UIVATSInsufficientAP"), 2.0f, 0);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 0,
+                                  (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                  (std::intptr_t)("UIVATSInsufficientAP"), 2.0f, 0);
         break;
     case 10:
         UpdateCurrentValue();
@@ -2557,18 +2558,18 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_00780140::VTSoundHandle &)(((::fnv_00780140::VTAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIVATSInsufficientAP", 0x121)))->FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d47a4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d47a4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else if (reinterpret_cast<::FUN_008a7570_shell *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_008a7570() != -1 && reinterpret_cast<::FUN_004bddd0_shell *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_004bddd0(0))
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d22c8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d22c8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else if (reinterpret_cast<::OwnerObject *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_009337b0())
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d43e4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d43e4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else if (pkItem && reinterpret_cast<::FUN_00418b10_shell *>((pkItem))->FUN_00418b10() && reinterpret_cast<::FUN_00418ab0_shell *>((pkItem))->FUN_00418ab0(0))
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d31f8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d31f8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else if (!reinterpret_cast<::fnv_009614b0::Player *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_009614b0((::fnv_009614b0::Bound *)(pkRefOut), (::fnv_009614b0::V3 *)(::fnv_00780140::VTPoint3 *)(&kPos), 1, 1))
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d3d30))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d3d30))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else
             {
-                if ((int)((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_00726070())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))
+                if ((std::intptr_t)((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_00726070())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))
                     ::CreateQuantityMenu((int)(((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_00726070()))), DropInventoryItem, 0x7fffffff);
                 else
                     DropInventoryItem(1);
@@ -3047,7 +3048,7 @@ void FUN_00782a90()
         cn = ((::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerShell*)::_g_thePlayer)))->GetBaseTexture()))->q82();
         ck = 0;
         if (cn)
-            ck = (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((void*)cn))->GetName()));
+            ck = (int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((void*)cn))->GetName()));
         else
             ck = ((int)(::FUN_004839c0(0x1f4)));
         bn = 0.0f;
@@ -3130,7 +3131,7 @@ void FUN_00782a90()
                 ->lb))->PopulateInventoryList((::InventoryOwner *)(::_g_thePlayer), (bool (*)(InventoryEntry *))(0), 0, (void (*)(Tile *, InventoryEntry *))(void *)((void*)&UpdateItemLabel), 0, 0);
             if (ea)
             {
-                if (((int)(reinterpret_cast<::Inv4c6ba0 *>((ea))->FindFirstItemOfType(0x2e, &df))))
+                if (((std::intptr_t)(reinterpret_cast<::Inv4c6ba0 *>((ea))->FindFirstItemOfType(0x2e, &df))))
                 {
                     TileS* tt;
                     tt = ((::TileS *)(reinterpret_cast<::list71a::L71Menu *>(&(((InvObj*)(void*)(unsigned int)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))

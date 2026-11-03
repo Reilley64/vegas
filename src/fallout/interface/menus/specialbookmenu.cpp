@@ -1699,11 +1699,11 @@ void SpecialBookMenuX::InitMenu()
     reinterpret_cast<::FUN_007cadd0_self *>(this)->FUN_007cadd0();
     for (int iGroup = 0; iGroup < 9; iGroup++)
     {
-        for (unsigned int iItem = 0; iItem < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_groups[iGroup].displays))->GetName())); iItem++)
+        for (unsigned int iItem = 0; iItem < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_groups[iGroup].displays))->GetName())); iItem++)
         {
             ((::BkDisplay *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].displays))->FUN_006a7ad0(iItem)))->m_cb(((::BkDisplay *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].displays))->FUN_006a7ad0(iItem))));
         }
-        for (unsigned int iButton = 0; iButton < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_groups[iGroup].buttons))->GetName())); iButton++)
+        for (unsigned int iButton = 0; iButton < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_groups[iGroup].buttons))->GetName())); iButton++)
         {
             ((::BkButton *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].buttons))->FUN_006a7ad0(iButton)))->m_cb4(((::BkButton *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].buttons))->FUN_006a7ad0(iButton))));
         }
@@ -1989,7 +1989,7 @@ void BookMenu::HandleKey(unsigned int key, int unused)
             if (DAT_011f9426)
                 mouseY = (int)(mouseY * (DAT_011ad848 - DAT_011ad84c) +
                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::BookRenderer *)(::FUN_0043c4b0()))->GetBuffer()))->FUN_0084e3a0())) * DAT_011ad84c);
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[pageIndex].buttons))->GetName())); i++)
+            for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[pageIndex].buttons))->GetName())); i++)
             {
                 FUN_006815c0 origin20;
                 FUN_006815c0 direction1;

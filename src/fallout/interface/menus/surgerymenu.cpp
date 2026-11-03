@@ -3506,7 +3506,7 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
             for (unsigned j = 0; j < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sequence5))->FUN_0084e3a0())); j++)
             {
                 BoneBlock* block = ((::BoneBlock *)(reinterpret_cast<::FUN_007e4fc0_shell *>((sequence5))->FUN_007e4fc0(j)));
-                if (((int)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((sequence5))->FUN_004937a0(j))))
+                if (((std::intptr_t)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((sequence5))->FUN_004937a0(j))))
                 {
                     if (fnv::crt::strnicmp(nameSize5, (*(::BoneText *)(&reinterpret_cast<::SimpleListNodeView*>(block)->m_item)).FUN_0043b1b0(), 6))
                         reinterpret_cast<::Holder *>((sequence5))->FUN_00a32b80(j);
@@ -3879,7 +3879,7 @@ void EventMenu::OnButtonClick(int button, int arg)
                             break;
                         case 4:
                             if (((EventMenu*)DAT_011dada4)->entry &&
-                                ((int)(reinterpret_cast<::Callees *>((((EventMenu*)DAT_011dada4)->entry))->FUN_00726070())) > 0)
+                                ((std::intptr_t)(reinterpret_cast<::Callees *>((((EventMenu*)DAT_011dada4)->entry))->FUN_00726070())) > 0)
                             {
                                 reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(stimpak, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(stimpak) - 1.0,
                                                              true);

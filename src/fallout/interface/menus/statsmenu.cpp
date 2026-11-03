@@ -1,5 +1,6 @@
 // fallout/interface/menus/statsmenu.cpp: StatsMenu, BodyPartDisplay, ClickMenu, BGSPerk and more (87 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
@@ -350,7 +351,7 @@ void MenuSI::PopulateListBoxTiles(void* apListBox, int aiValueA, int aiValueB, i
     reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->t44)))->FUN_00a012d0(0xfa2, (float)(aiValueB - reinterpret_cast<::FUN_00a01440_shell *>((((ParSI*)((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(this->t44))->FUN_0045cd60())))))->GetAccumulatedFloat()), true);
     reinterpret_cast<::Tile *>((((TileF*)this->t44)))->Set(0xfb1, (unsigned int)auiValueC);
     this->t78->Set(0xfa3, (int)abFlag);
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab88))))->GetName())); i++)
+    for (i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ArrSI *>(&::g_011dab88))))->GetName())); i++)
     {
         if (((ListBoxSI*)(*reinterpret_cast<::ArrSI *>(&::g_011dab88)).GetAt(i))->AddItem(apListBox))
         {
@@ -1238,7 +1239,7 @@ Tile* FUN_007da2c0()
     }
     else
     {
-        if (StatsMenu::ms_pInventoryMenu && ((int)(reinterpret_cast<::Callees *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070())))
+        if (StatsMenu::ms_pInventoryMenu && ((std::intptr_t)(reinterpret_cast<::Callees *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070())))
             delete (VDtor*)StatsMenu::ms_pInventoryMenu;
     }
     return 0;
@@ -4278,7 +4279,7 @@ void HealMenu::UpdateOption(int aiOptionIndex)
             reinterpret_cast<::Tile *>((options[indexB].tile))->Set(0xfaf, options[indexB].condition(&options[indexB]));
             if (options[indexB].inventory)
             {
-                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((int)(reinterpret_cast<::Callees *>((options[indexB].inventory))->FUN_00726070())),
+                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((std::intptr_t)(reinterpret_cast<::Callees *>((options[indexB].inventory))->FUN_00726070())),
                            reinterpret_cast<::FUN_00a011f0_shell *>((options[indexB].tile))->FUN_00a011f0(0x1004));
                 if ((indexB == 0 && !::FUN_004d1360((char *)((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))) || indexB == 3)
                     reinterpret_cast<::Tile *>((button))->Set(0xfaf, 1);
@@ -4630,7 +4631,7 @@ void FUN_007e09d0_cls::FUN_007e09d0(FUN_007e09d0_arg* arg)
     int value = ((int)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()));
     if (!reinterpret_cast<::RefList *>(&(unk04))->FUN_005f65d0((void **)(int *)(&value)))
     {
-        reinterpret_cast<::FUN_00470440 *>(&(unk04))->FUN_007a7eb0((::BGSPerkEntry *)(((int)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()))), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(CompareEffectNames));
+        reinterpret_cast<::FUN_00470440 *>(&(unk04))->FUN_007a7eb0((::BGSPerkEntry *)(((std::intptr_t)(reinterpret_cast<::ActiveEffect *>((arg))->GetEffectSetting()))), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(CompareEffectNames));
     }
 }
 
@@ -5120,7 +5121,7 @@ void StatsMenuActiveEffects::FUN_007ddf00()
     {
         ptile = reinterpret_cast<::ItemBox *>((((StatusEffectListBox*)&m_kStatusEffectList)))->FUN_007e1430((::ActorValue::Index)reinterpret_cast<std::intptr_t>(((::StatsMenu__StatusEffect *)(reinterpret_cast<::SimpleListNodeView*>(peffectlistnode)->m_item))), (const char *)(0), (int (*)(FUN_007a62e0 *, FUN_007a62e0 *))(0), (const char *)(0));
         AlchemyItem* ppotion = dynamic_cast<AlchemyItem*>(((::StatsMenu__StatusEffect *)(reinterpret_cast<::SimpleListNodeView*>(peffectlistnode)->m_item))->pForm);
-        if (ppotion && ((int)(reinterpret_cast<::Callees *>((((EquipTypeComponent*)((char*)ppotion + 0x9c))))->FUN_00726070())) == 13)
+        if (ppotion && ((std::intptr_t)(reinterpret_cast<::Callees *>((((EquipTypeComponent*)((char*)ppotion + 0x9c))))->FUN_00726070())) == 13)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((ptile))->FUN_00a01350(0x1004, (char *)((*reinterpret_cast<::GameSettingString *>(&::g_011d1ef0)).GetString()), true);
         }

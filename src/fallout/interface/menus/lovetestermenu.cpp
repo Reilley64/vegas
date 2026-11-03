@@ -1247,13 +1247,13 @@ void __cdecl FUN_007917a0()
     ((ResetString*)&(*reinterpret_cast<::Flt *>(&::g_011da2f4)))->FUN_0066b0d0(0);
     for (menu = 0; menu < 9; menu++)
     {
-        for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->GetName())); k++)
+        for (k = 0; k < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->GetName())); k++)
         {
             FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->FUN_006a7ad0(k)));
             FUN_00791a80_shell* doomed = object;
             doomed ? doomed->FUN_00791a80(1) : 0;
         }
-        for (l = 0; l < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->GetName())); l++)
+        for (l = 0; l < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->GetName())); l++)
         {
             FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->FUN_006a7ad0(l)));
             ::FUN_00401030(allocation);
@@ -1261,13 +1261,13 @@ void __cdecl FUN_007917a0()
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->Clear(1);
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->Clear(1);
     }
-    for (j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->GetName())); j++)
+    for (j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->GetName())); j++)
     {
         FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->FUN_006a7ad0(j)));
         FUN_00791a80_shell* doomed = object;
         doomed ? doomed->FUN_00791a80(1) : 0;
     }
-    for (m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->GetName())); m++)
+    for (m = 0; m < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->GetName())); m++)
     {
         FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->FUN_006a7ad0(m)));
         ::FUN_00401030(allocation);
@@ -1763,7 +1763,7 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
     reinterpret_cast<::FUN_00a59c60_cls *>((k))->FUN_00a59c60((std::intptr_t)&(b));
     reinterpret_cast<::CamLook *>((k))->SetLookAt((const ::CamPoint &)((const ::fnv_007945f0::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f))), (const ::CamPoint &)((const ::fnv_007945f0::NiPoint3 &)(NiPoint3(0.0f, 1.0f, 0.0f))));
     reinterpret_cast<::FUN_00733fd0_shell *>((k))->FUN_00733fd0(1.0f);
-    ::AssignFixedString((char *)(k), (int)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")), {});
+    ::AssignFixedString((char *)(k), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")), {});
     return k;
 }
 }  // namespace fnv_007945f0
@@ -2638,7 +2638,7 @@ void FUN_00795e20_cls::FUN_00795e20()
             iLevel = 0;
             if (a != -1)
                 iLevel = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(reinterpret_cast<::FUN_00794d30_shell *>((((G_WM*)DAT_011da2c8)))->FUN_00794d30());
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr64))->GetName())); i++)
+            for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr64))->GetName())); i++)
             {
                 int x = ((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr64))->FUN_006a7ad0(i)))->u18;
                 reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr64))->FUN_006a7ad0(i);
@@ -2646,20 +2646,20 @@ void FUN_00795e20_cls::FUN_00795e20()
             if (0)
             {
             }
-            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr74))->GetName())); j++)
+            for (unsigned int j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr74))->GetName())); j++)
             {
                 int iRequiredLevel = ((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->level;
                 if (((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->obj)
                     reinterpret_cast<::TaskQueueInterface *>((((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->obj))->QueueActorDisarm(iLevel < iRequiredLevel);
             }
         }
-        for (unsigned int iIndex = 0; iIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].b))->GetName())); iIndex++)
+        for (unsigned int iIndex = 0; iIndex < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].b))->GetName())); iIndex++)
             ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].b))->FUN_006a7ad0(iIndex)))->pfn0(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].b))->FUN_006a7ad0(iIndex))));
-        for (unsigned int k1 = 0; k1 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].a))->GetName())); k1++)
+        for (unsigned int k1 = 0; k1 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].a))->GetName())); k1++)
             ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].a))->FUN_006a7ad0(k1)))->pfn4(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].a))->FUN_006a7ad0(k1))));
-        for (unsigned int k2 = 0; k2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1b4))->GetName())); k2++)
+        for (unsigned int k2 = 0; k2 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1b4))->GetName())); k2++)
             ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1b4))->FUN_006a7ad0(k2)))->pfn0(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1b4))->FUN_006a7ad0(k2))));
-        for (unsigned int k3 = 0; k3 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); k3++)
+        for (unsigned int k3 = 0; k3 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); k3++)
             ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(k3)))->pfn4(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(k3))));
     }
 }
@@ -2928,7 +2928,7 @@ void InputMenu::HandleButton(int button, int unused)
             if (DAT_011f9426)
                 local866269 = (int)(local866269 * (DAT_011ad848 - DAT_011ad84c) +
                                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Render*)((::RendererHelper *)(::FUN_0043c4b0())))->GetBuffer()))->FUN_0084e3a0())) * (double)DAT_011ad84c);
-            for (unsigned int local610845 = 0; local610845 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[mode].objects))->GetName())); local610845++)
+            for (unsigned int local610845 = 0; local610845 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(groups[mode].objects))->GetName())); local610845++)
             {
                 Vec3 local960365;
                 Vec3 local282417;
@@ -2951,7 +2951,7 @@ void InputMenu::HandleButton(int button, int unused)
                     }
                 }
             }
-            for (unsigned int local966572 = 0; local966572 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); local966572++)
+            for (unsigned int local966572 = 0; local966572 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); local966572++)
             {
                 Vec3 local960365;
                 Vec3 local282417;

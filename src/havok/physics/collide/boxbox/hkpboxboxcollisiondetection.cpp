@@ -284,10 +284,6 @@ static __forceinline void productValue(hkVector4& out, const SimdValue& f, __m12
     out.m_vComponents = _mm_mul_ps(f.broadcast(), row);
 }
 extern "C" void _ReadWriteBarrier();
-static __forceinline float sqrtf(float x)
-{
-    return (float)sqrt(x);
-}
 extern float DAT_010d5360;
 extern float DAT_010d5364;
   // abs mask
@@ -335,7 +331,9 @@ struct ThisCls
 };
 static __forceinline float recipEps(float s)
 {
-    return 1.0f / sqrtf((float)((double)s + DAT_010c9300));
+    const float radicand = static_cast<float>(static_cast<double>(s) + DAT_010c9300);
+    const float root = static_cast<float>(std::sqrt(static_cast<double>(radicand)));
+    return 1.0f / root;
 }
 
 struct MathVector : hkVector4

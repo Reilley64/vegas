@@ -467,7 +467,7 @@ void FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apString, int 
 {
     if (*(unsigned char*)((char*)this + 0x10))
     {
-        unsigned int uiLen = std::strlen(apString) + 1;
+        unsigned int uiLen = (unsigned int)std::strlen(apString) + 1;
         *(void**)((char*)apTarget + 4) = ::FUN_00aa1070(uiLen);
         void* dest = *(void**)((char*)apTarget + 4);
         fnv::crt::strcpy_s((char*)dest, uiLen, apString);
@@ -2287,7 +2287,7 @@ struct FUN_00ec2f00_item
 {
     FUN_00ec2f00_item* next;
     void* m04;
-    unsigned int m08;
+    uintptr_t m08;
 };
 
 struct FUN_00ec2f00_cls
@@ -3205,7 +3205,7 @@ void MoviePlayerA::FUN_00ec2760(const char* list)
     ScopedAllocTag tag(tidTmp3);
     Lock();
     unsigned int size;
-    size = std::strlen(list) + 1;
+    size = (unsigned int)std::strlen(list) + 1;
     char* buf2 = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     std::strcpy(buf2, list);
     char* tok_2 = std::strtok(buf2, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));

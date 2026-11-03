@@ -175,7 +175,7 @@ void FUN_00dfd0f0(void* pObject, int b)
 
 struct FUN_00cb0a70_class
 {
-    void FUN_00cb0a70(int);
+    void FUN_00cb0a70(intptr_t);
 };
 
 // @fnv 0x00dfd770
@@ -1813,7 +1813,7 @@ class BDE43E0ReferencedObject
     static void* operator new(std::size_t uiSize)
     {
         BDE43E0ReferencedObject* pkObject =
-            static_cast<BDE43E0ReferencedObject*>(static_cast<BDE43E0Memory*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize));
+            static_cast<BDE43E0ReferencedObject*>(static_cast<BDE43E0Memory*>(::FUN_00c85750())->heap().AllocateMemoryBlock((int)uiSize));
         pkObject->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return pkObject;
     }

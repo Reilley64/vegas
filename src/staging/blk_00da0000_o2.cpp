@@ -989,7 +989,7 @@ class RefObj
 
     static void* operator new(std::size_t nbytes)
     {
-        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(nbytes);
+        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock((int)nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -2102,7 +2102,7 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     if (count > 0)
     {
         const unsigned char* key = reinterpret_cast<const unsigned char*>(records) + 2;
-        int diff = reinterpret_cast<const char*>(scratch) - reinterpret_cast<const char*>(records);
+        ptrdiff_t diff = reinterpret_cast<const char*>(scratch) - reinterpret_cast<const char*>(records);
         unsigned int blocks = (static_cast<unsigned int>(count - 1) >> 2) + 1;
         do
         {
@@ -2342,7 +2342,7 @@ __declspec(noinline) int Holder::FindOrAddCallTrace(int* buffer, int count)
 int Holder::FUN_00da2d20(ArgObj* param)
 {
     int buffer[0x40];
-    int count = ::FUN_00da2b20((intptr_t)(param), (intptr_t)(buffer));
+    int count = (int)::FUN_00da2b20((intptr_t)(param), (intptr_t)(buffer));
     if (count > 0)
         return reinterpret_cast<::S_00da2bd0_CallTree *>(this)->FindOrAddCallTrace((const unsigned int *)(int *)(buffer + 1), count - 1);
     return 0;
@@ -2696,7 +2696,7 @@ struct S_00db7c70_class
 // @fnv 0x00db7c90
 void SpawnedOuter::ForwardToInner(__int64 v)
 {
-    reinterpret_cast<::S_00db7c70_class *>((m_08))->FUN_00db7c70(v, {});
+    reinterpret_cast<::S_00db7c70_class *>((m_08))->FUN_00db7c70((int)v, (int)(v >> 32));
 }
 
 // @fnv 0x00db7c70
@@ -2899,7 +2899,7 @@ inline void S00da6eb0_TimerMark(const char* pName)
     {
         pCur->m_pName = pName;
         _ReadWriteBarrier();
-        volatile unsigned int t = __rdtsc();
+        volatile unsigned int t = (unsigned int)__rdtsc();
         pCur->m_uiEventId = t;
         ++pCur;
         pBuf->m_pCur = pCur;

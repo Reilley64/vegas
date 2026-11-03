@@ -7385,7 +7385,7 @@ void ParserE030::FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut)
         const char* iStart = ::ReadPaddedString((char *)(pcData), &iPos);
         RangeE030& kRange = kOut.AllocatePair();
         kRange.m_iStart = iStart;
-        kRange.m_iFirstValue = iOff + iOffset;
+        kRange.m_iFirstValue = (int)(iOff + iOffset);
     }
 }
 
@@ -7776,12 +7776,12 @@ struct Triangle;
 struct TriangleTopologyEntry : ListItem<Triangle>
 {
     Vertex* m_kVertices[3];
-    unsigned int m_ppLinks[3];
+    uintptr_t m_ppLinks[3];
     __forceinline Vertex*& vertex(int i)
     {
         return m_kVertices[i];
     }
-    __forceinline unsigned int& link(int i)
+    __forceinline uintptr_t& link(int i)
     {
         return m_ppLinks[i];
     }
@@ -7802,21 +7802,21 @@ struct Triangle : TriangleTopologyEntry
 
 struct Topology
 {
-    static __forceinline unsigned int uid2ulong(void* t, unsigned int i)
+    static __forceinline uintptr_t uid2ulong(void* t, unsigned int i)
     {
-        return (*(const unsigned int*)&t) + (unsigned int)i;
+        return (uintptr_t)t + (uintptr_t)i;
     }
-    template <class T> static __forceinline void ulong2uid(unsigned int uid, T*& t, unsigned int& i)
+    template <class T> static __forceinline void ulong2uid(uintptr_t uid, T*& t, unsigned int& i)
     {
         i = (unsigned int)(uid & 3);
-        uid &= ~3;
-        t = *(T**)&uid;
+        uid &= ~(uintptr_t)3;
+        t = (T*)uid;
     }
-    static __forceinline unsigned int packUid(void* t, unsigned int i)
+    static __forceinline uintptr_t packUid(void* t, unsigned int i)
     {
         return uid2ulong(t, i);
     }
-    template <class T> static __forceinline void unpackUid(unsigned int uid, T*& t, unsigned int& i)
+    template <class T> static __forceinline void unpackUid(uintptr_t uid, T*& t, unsigned int& i)
     {
         ulong2uid(uid, t, i);
     }
@@ -7829,7 +7829,7 @@ struct Edge
 
     __forceinline Edge(Triangle* t, unsigned int i) : m_pkTriangle(t), m_uiEdgeIndex(i)
     {}
-    __forceinline Edge(const unsigned int& id)
+    __forceinline Edge(const uintptr_t& id)
     {
         Topology::unpackUid(id, m_pkTriangle, m_uiEdgeIndex);
     }
@@ -7849,7 +7849,7 @@ struct Edge
     {
         return !link().isValid();
     }
-    __forceinline unsigned int uid() const
+    __forceinline uintptr_t uid() const
     {
         return Topology::packUid(m_pkTriangle, m_uiEdgeIndex);
     }

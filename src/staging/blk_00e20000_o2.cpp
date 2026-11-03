@@ -329,7 +329,7 @@ struct E2baaDst
     int unk48;
     int unk4C;
     int unk50;
-    int unk54;
+    intptr_t unk54;
 };
 
 // Initializes an output record from a source record: sets a float, copies several source fields, and derives unk54 from src->unk20 and flag.
@@ -345,7 +345,7 @@ E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, intptr_t flag)
     int iSrc24 = src->unk24;
     *(E2baaSrc* volatile*)&out->unk1C = src;
     out->unk50 = iSrc24;
-    int v = ((src->unk20 != 0) ? -1 : 0) & flag;
+    intptr_t v = ((src->unk20 != 0) ? -1 : 0) & flag;
     out->unk54 = (v != 0) ? v + 0x10 : 0;
     return out;
 }

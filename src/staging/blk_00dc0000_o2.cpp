@@ -1175,7 +1175,7 @@ struct SpawnedObject
     int m_8c;
     int m_90;
     int m_94;
-    int m_98;
+    intptr_t m_98;
     int m_9c;
     int m_a0;
     int* m_a4;
@@ -1395,7 +1395,7 @@ class DD91A0ReferencedObject
     static void* operator new(std::size_t nbytes)
     {
         DD91A0ReferencedObject* b =
-            static_cast<DD91A0ReferencedObject*>((*static_cast<DD91A0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+            static_cast<DD91A0ReferencedObject*>((*static_cast<DD91A0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock((int)nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1467,7 +1467,7 @@ class DDC160ReferencedObject
     static void* operator new(std::size_t nbytes)
     {
         DDC160ReferencedObject* b =
-            static_cast<DDC160ReferencedObject*>((*static_cast<DDC160MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+            static_cast<DDC160ReferencedObject*>((*static_cast<DDC160MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock((int)nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }

@@ -289,7 +289,7 @@ void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
             {
                 void* pkVal;
                 if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((m_pTaskMap))->FUN_00853130((unsigned int)(pkKey), (*(::fnv_00853130::CombatThreatRecord * *)(&pkVal))))
-                    reinterpret_cast<::FUN_00ec2f00_cls *>((m_pTaskMap))->AddOrUpdate(pkKey, (unsigned int)(pkObj));
+                    reinterpret_cast<::FUN_00ec2f00_cls *>((m_pTaskMap))->AddOrUpdate(pkKey, (uintptr_t)(pkObj));
             }
             else
             {

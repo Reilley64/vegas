@@ -15669,6 +15669,13 @@ struct S00c859e0_holder
 
 typedef S00c859e0_holder*(* S00c859e0_slot45)(void*, void**);
 
+struct S00c859e0_found
+{
+    void* vtable;
+    unsigned int m_uiRefCount;
+    void* m_08;
+};
+
 struct S00c859e0_cls
 {
     void FUN_00c859e0(void* value);
@@ -15685,7 +15692,7 @@ void S00c859e0_cls::FUN_00c859e0(void* value)
     S00c859e0_holder* holder = reinterpret_cast<S00c859e0_slot45>(table[45])(this, &value);
     if (found != 0)
     {
-        holder->m_04 = reinterpret_cast<void**>(found)[2];
+        holder->m_04 = static_cast<S00c859e0_found*>(found)->m_08;
         if (((intptr_t)(reinterpret_cast<::NiObject *>((reinterpret_cast<FUN_00653290_class*>(this)))->DynamicCast((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012681c0)))))) != 0)
         {
             if (((intptr_t)(reinterpret_cast<::NiObject *>((reinterpret_cast<FUN_00653290_class*>(found)))->DynamicCast((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012682e8)))))) != 0 ||

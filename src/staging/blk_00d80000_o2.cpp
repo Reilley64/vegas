@@ -1460,7 +1460,7 @@ int __cdecl GetTypeCode(const char* typeName) {
         return 0x14;
 
     StringBuf buf;
-    reinterpret_cast<::FUN_00d61a50_cls *>(&(buf))->FUN_00d61a50((int)(typeName));
+    reinterpret_cast<::FUN_00d61a50_cls *>(&(buf))->FUN_00d61a50((intptr_t)(typeName));
 
     const char* bracket = FUN_00cb1140(typeName, '[');
     if (bracket != 0) {
@@ -1501,7 +1501,7 @@ struct FUN_00d871c0_class {
 // @fnv 0x00d871c0
 FUN_00d871c0_class* FUN_00d871c0_class::Append(FUN_00d871c0_class* apData, int b, const void* p)
 {
-    reinterpret_cast<::FUN_00d87150_class *>((((D871A0Buffer*)this)))->InitBitOffset((int)(apData), (::FUN_00d46fe0_class *)(b), (const char *)((int)p));
+    reinterpret_cast<::FUN_00d87150_class *>((((D871A0Buffer*)this)))->InitBitOffset((intptr_t)(apData), (::FUN_00d46fe0_class *)(b), (const char *)((int)p));
     return this;
 }
 

@@ -1298,12 +1298,12 @@ void Frame172::FUN_00d53060(int first, int second, const Vector172* direction)
     __m128 left = _mm_mul_ps(_mm_shuffle_ps(d, d, 0xc9), _mm_shuffle_ps(p, p, 0xd2));
     __m128 right = _mm_mul_ps(_mm_shuffle_ps(d, d, 0xd2), _mm_shuffle_ps(p, p, 0xc9));
     cross.quad = _mm_sub_ps(left, right);
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row20))->FUN_004b4ab0(first, (int)(direction));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row30))->FUN_004b4ab0(first, (int)(&perpendicular));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row40))->FUN_004b4ab0(first, (int)(&cross));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row50))->FUN_004b4ab0(second, (int)(direction));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row60))->FUN_004b4ab0(second, (int)(&perpendicular));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row70))->FUN_004b4ab0(second, (int)(&cross));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row20))->FUN_004b4ab0(first, (intptr_t)(direction));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row30))->FUN_004b4ab0(first, (intptr_t)(&perpendicular));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row40))->FUN_004b4ab0(first, (intptr_t)(&cross));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row50))->FUN_004b4ab0(second, (intptr_t)(direction));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row60))->FUN_004b4ab0(second, (intptr_t)(&perpendicular));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(row70))->FUN_004b4ab0(second, (intptr_t)(&cross));
 }
 
 __forceinline __m128 normalize3(const __m128& v)

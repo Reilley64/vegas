@@ -242,7 +242,7 @@ void __cdecl FUN_00d6aef0(const MotionInput* input, void* outputBits)
         } workspace;
         buildBasis(input, normal, workspace.basis);
         workspace.position.value = _mm_sub_ps(input->position, input->translation);
-        workspace.position.FUN_004b4ab0((int)&workspace.basis, (int)&workspace.position);
+        workspace.position.FUN_004b4ab0((intptr_t)&workspace.basis, (intptr_t)&workspace.position);
         workspace.delta = _mm_sub_ps(input->target, workspace.position.value);
         float distanceSquared;
         _mm_store_ss(&distanceSquared, dot3(workspace.delta));

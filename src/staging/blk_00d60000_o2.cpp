@@ -89,7 +89,7 @@ struct Registry_00dd9380
 void RegisterContactPointsInactive()
 {
     Registry_00dd9380* reg = (Registry_00dd9380*)(*reinterpret_cast<int *>(&::DAT_01269cd0));
-    DAT_01269008 = ((void *)(reinterpret_cast<::S_00dd9380 *>((reg))->FUN_00dd9380("Contact Points (Inactive)", (int)(((void (&)())::FUN_00d687c0)))));
+    DAT_01269008 = ((void *)(reinterpret_cast<::S_00dd9380 *>((reg))->FUN_00dd9380("Contact Points (Inactive)", (intptr_t)(((void (&)())::FUN_00d687c0)))));
 }
 
 namespace fnv_00d688d0 {
@@ -99,7 +99,7 @@ struct Registry_00dd9380_StandIn
 // @fnv 0x00d688d0
 void* RegisterContactPointsActive()
 {
-    ::DAT_0126900c = (int)((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00d688d0::Registry_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380("Contact Points (Active)", (int)(((void (&)())::fnv_00d68890::FUN_00d68890)))));
+    ::DAT_0126900c = (int)((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00d688d0::Registry_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380("Contact Points (Active)", (intptr_t)(((void (&)())::fnv_00d68890::FUN_00d68890)))));
     return (void*)::DAT_0126900c;
 }
 }  // namespace fnv_00d688d0
@@ -1748,7 +1748,7 @@ class FUN_00dd9380_class
 void __cdecl InitWorldMemory()
 {
     (*reinterpret_cast<void * *>(&::DAT_01268fc8)) =
-        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("World Memory", (int)((void*)((void (&)())::FUN_00d632c0)))));
+        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("World Memory", (intptr_t)((void*)((void (&)())::FUN_00d632c0)))));
 }
 }  // namespace fnv_00d63400
 
@@ -1923,7 +1923,7 @@ class FUN_00dd9380_class
 void __cdecl RegisterSweptTransformsTask()
 {
     (*reinterpret_cast<void * *>(&::g_ptr_0x1268fd0)) =
-        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Swept Transforms", (int)((void*)((void (&)())::FUN_00d645f0)))));
+        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Swept Transforms", (intptr_t)((void*)((void (&)())::FUN_00d645f0)))));
 }
 }  // namespace fnv_00d64630
 
@@ -2486,7 +2486,7 @@ int* FUN_00d61a50_cls::FUN_00d61a50(intptr_t value)
 
         m_iElementCount = count;
         *(char*)(source + (int)m_data) = 0;
-        ::FUN_00cb1260(m_data, (const void *)(value), (unsigned int)(source));
+        ::FUN_00cb1260(m_data, (const void *)(value), (intptr_t)(source));
     }
     else
     {
@@ -5044,7 +5044,7 @@ void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
         rotation.y = y;
         rotation.z = z;
         QuaternionD72 quaternion;
-        reinterpret_cast<::FUN_00827200_class *>(&(quaternion))->FUN_00cb26e0((int)&(rotation));
+        reinterpret_cast<::FUN_00827200_class *>(&(quaternion))->FUN_00cb26e0((intptr_t)&(rotation));
         result->rotation.value = quaternion.value;
     }
     reinterpret_cast<::FUN_005611c0_t *>(&(result->rotation))->FUN_005611c0();

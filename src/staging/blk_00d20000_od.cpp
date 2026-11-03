@@ -1935,7 +1935,7 @@ void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, in
 
     a->shape->Eval(&ls.relative, c->tolerance, &ls.bounds);
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(ls.direction))->FUN_004b4ab0((int)(b->transform), (int)(&c->direction));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(ls.direction))->FUN_004b4ab0((intptr_t)(b->transform), (intptr_t)(&c->direction));
 
     float tolerance = c->tolerance;
     __m128 scalarHalf = _mm_load_ss(&::fnv_00c88020::DAT_01016248);

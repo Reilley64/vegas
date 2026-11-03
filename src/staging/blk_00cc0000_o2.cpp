@@ -2207,7 +2207,7 @@ struct FUN_00cc1d80_object {
 FUN_00cc1d80_object* __cdecl CreateObjectWithGlobal()
 {
     FUN_00cc1d80_object* value = new FUN_00cc1d80_object;
-    ::AssignFixedString((char *)(value), (int)(&(*reinterpret_cast<char *>(&::DAT_011f49e0))), {});
+    ::AssignFixedString((char *)(value), (intptr_t)(&(*reinterpret_cast<char *>(&::DAT_011f49e0))), {});
     return value;
 }
 
@@ -7961,7 +7961,7 @@ void CC9F10Object::FUN_00cc9f10(int iFlags, CC9F10Scale* pkScale)
     pkData->m_fBoundRadius = pkScale->m_fScale * pkData->m_fBoundRadius;
     if (pkData->m_pkShape)
         reinterpret_cast<::FUN_00c90510_class *>((pkData->m_pkShape))->FUN_00c90510();
-    reinterpret_cast<::This *>(this)->FUN_00ca4e50(iFlags, (int)(pkScale));
+    reinterpret_cast<::This *>(this)->FUN_00ca4e50(iFlags, (intptr_t)(pkScale));
 }
 
 struct Owner_Target {
@@ -28046,7 +28046,7 @@ void CE6Owner::FUN_00cce600(void* first,void* second) {
  for(int i=0;i<n;++i) vertices.data[i].v=input[i].v;
  CE6View view(vertices);
  CE6Hull hull;
- ::InitAndSetB((void *)(&view),(int)(&hull));
+ ::InitAndSetB((void *)(&view),(intptr_t)(&hull));
  Output(first,&hull,second,"bhkConvexVerticesShape");
 }
 

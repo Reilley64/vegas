@@ -791,7 +791,7 @@ struct FUN_00cf4eb0_cls
 FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010cc2fc;
-    ::FUN_00cb0c00((int)&(m_sub));
+    ::FUN_00cb0c00((intptr_t)&(m_sub));
     m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {

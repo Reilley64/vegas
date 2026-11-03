@@ -3635,8 +3635,8 @@ void __cdecl FUN_00d47fa0(void* obj)
     if (*ref)
         reinterpret_cast<::hkReferencedObjectC905 *>((((Sh00c905b0*)*ref)))->FUN_00c905b0();
     *ref = 0;
-    ::FUN_00cb0c00((int)(((Sh00cb0c00*)((char*)obj + 4))));
-    ::FUN_00cb0c00((int)(((Sh00cb0c00*)obj)));
+    ::FUN_00cb0c00((intptr_t)(((Sh00cb0c00*)((char*)obj + 4))));
+    ::FUN_00cb0c00((intptr_t)(((Sh00cb0c00*)obj)));
 }
 
 struct FUN_00d47fe0_cls
@@ -6145,7 +6145,7 @@ void LoadIntoArray(const InputBuffer* src, unsigned int flags, ArrayData* dst)
     input.size = src->size;
     input.flags = 0x10;
     LoadResult result;
-    ::FUN_00d5a630(&input, (int)(&result), flags);
+    ::FUN_00d5a630(&input, (intptr_t)(&result), flags);
     unsigned int old = dst->data;
     dst->data = result.primary.data;
     result.primary.data = old;
@@ -6186,7 +6186,7 @@ class hkStringPtrD47F
     const char* m_pcText;
     ~hkStringPtrD47F()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 
@@ -6527,25 +6527,25 @@ void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* 
             void* pResult = ((void *)(::FUN_00dc32c0(reinterpret_cast<::FUN_00dc72a0_class *>(&(kData))->ForwardToReceiver((::Receiver *)(::Hk48fc0_Contents *)(&kContents)), pAllocator, pLoader)));
             reinterpret_cast<::DBA7F0Ref *>(&(kContents))->FUN_00dba7f0();
             reinterpret_cast<::fnv_00dc8080::FUN_00dc8080_class *>(&(kData))->FUN_00dc8080();
-            ::FUN_00cb0c00((int)&(kFormat.m_strVersion));
+            ::FUN_00cb0c00((intptr_t)&(kFormat.m_strVersion));
             return pResult;
         }
         reinterpret_cast<::fnv_00dc8080::FUN_00dc8080_class *>(&(kData))->FUN_00dc8080();
-        ::FUN_00cb0c00((int)&(kFormat.m_strVersion));
+        ::FUN_00cb0c00((intptr_t)&(kFormat.m_strVersion));
         return 0;
     }
     case 2: {
         if ((*(::Hk48fc0_Bool *)(reinterpret_cast<::FUN_00d493a0_cls *>(&(kFormat.m_kMagic))->MatchesTag((bool *)((*reinterpret_cast<const unsigned char (*)[]>(&::DAT_011b7b88))), {}))) && reinterpret_cast<::S_00d49350 *>(&(kFormat.m_strVersion))->Equals(::str_010cf830))
         {
             void* pResult = Hk48fc0_LoadPackfile(pAllocator, pStream, &kFormat, pError, pLoader);
-            ::FUN_00cb0c00((int)&(kFormat.m_strVersion));
+            ::FUN_00cb0c00((intptr_t)&(kFormat.m_strVersion));
             return pResult;
         }
     }
     // fall through
     case 3: {
         void* pResult = (*reinterpret_cast<::Hk48fc0_Loader * *>(&::DAT_01269b74))->load(pStream, &kFormat, pError);
-        ::FUN_00cb0c00((int)&(kFormat.m_strVersion));
+        ::FUN_00cb0c00((intptr_t)&(kFormat.m_strVersion));
         return pResult;
     }
     default:
@@ -6554,7 +6554,7 @@ void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* 
             reinterpret_cast<Hk48fc0_Error*>(pError)->m_nCode = 2;
             reinterpret_cast<::SStringPtr *>(&(reinterpret_cast<Hk48fc0_Error*>(pError)->m_strMsg))->FUN_00cb0c10(str_010cfa94);
         }
-        ::FUN_00cb0c00((int)&(kFormat.m_strVersion));
+        ::FUN_00cb0c00((intptr_t)&(kFormat.m_strVersion));
         return 0;
     }
 }

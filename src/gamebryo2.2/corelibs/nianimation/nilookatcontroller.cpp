@@ -61,13 +61,13 @@ struct StrArr
 struct BaseStub
 {
 };
-struct Holder : NiLookAtController
+struct Holder_00a4cef0 : NiLookAtController
 {
     void AppendString(StrArr*);
 };
 // Appends the string returned by _FUN_00a7d330(g_011f3f98) to pkStrings, growing its size first if it is full.
 // @fnv 0x00a4cef0
-void Holder::AppendString(StrArr* pkStrings)
+void Holder_00a4cef0::AppendString(StrArr* pkStrings)
 {
     reinterpret_cast<::TCController *>((((BaseStub*)this)))->FUN_00a6d830((::NiViewerStringsArray *)(pkStrings));
     char* s = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3f98)));

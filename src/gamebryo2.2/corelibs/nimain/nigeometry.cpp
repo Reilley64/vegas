@@ -1575,7 +1575,7 @@ inline S00a7ff70_P3 operator*(const S00a7ff70_P3& p, const ThreeByThreeMatrix& m
                         m.m_afEntries[0][1] * p.x + m.m_afEntries[1][1] * p.y + m.m_afEntries[2][1] * p.z,
                         m.m_afEntries[0][2] * p.x + m.m_afEntries[1][2] * p.y + m.m_afEntries[2][2] * p.z);
 }
-__declspec(noinline) ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& o) const
+__declspec(noinline) inline ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& o) const
 {
     ThreeByThreeMatrix result;
     result.m_afEntries[0][0] = m_afEntries[0][0] * o.m_afEntries[0][0] + m_afEntries[0][1] * o.m_afEntries[1][0] +

@@ -2080,14 +2080,14 @@ unsigned int unk154;
 unsigned int unk158;
 unsigned int unk15c;
 unsigned int unk160;
-int* items;
+void** items;
 int count;
-void ClearValue(int value);
-int find(int value) const { for(int i=0;i<count;++i){if(items[i]==value)return i;}return -1;}
+void ClearValue(void* value);
+int find(void* value) const { for(int i=0;i<count;++i){if(items[i]==value)return i;}return -1;}
 };
 // Finds value in items and sets the matching entry to 0.
 // @fnv 0x00c918e0
-void SearchArray::ClearValue(int value){items[find(value)]=0;}
+void SearchArray::ClearValue(void* value){items[find(value)]=0;}
 
 struct EntryListNode {
     int* volatile entries;

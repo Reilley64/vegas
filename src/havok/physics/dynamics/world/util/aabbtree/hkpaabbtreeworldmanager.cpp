@@ -1461,7 +1461,7 @@ void Tgt_d08e80::Destructor()
     reinterpret_cast<::hkWorldC917 *>((((Cls_00c917a0*)unk28)))->FUN_00c917a0(&vtbl14);
     reinterpret_cast<::hkWorldC91F *>((((Cls_00c917f0*)unk28)))->FUN_00c917f0(&vtbl18);
     reinterpret_cast<::ObjectTable *>((((Cls_00c91840*)unk28)))->RemovePointer(&vtbl1C);
-    reinterpret_cast<::SearchArray *>((((Cls_00c918e0*)unk28)))->ClearValue((int)(&vtbl20));
+    reinterpret_cast<::SearchArray *>((((Cls_00c918e0*)unk28)))->ClearValue((&vtbl20));
 
     if (unk0C) {
         delete unk0C;

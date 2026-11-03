@@ -79,7 +79,7 @@ struct S_00d9e280_D : S_00d9e280_B0, S_00d9e280_B2
 // @fnv 0x00d9e280
 void S_00d9e280_D::FUN_00d9e280(S_00d9e280_World* apWorld)
 {
-    reinterpret_cast<::SearchArray *>((apWorld))->ClearValue((int)(this));
+    reinterpret_cast<::SearchArray *>((apWorld))->ClearValue((this));
 }
 
 struct S_00d9e2b0_Bool

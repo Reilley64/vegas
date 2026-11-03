@@ -25,79 +25,39 @@
 #include "fnv/symbols_010c6000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpEntity.h"
+#include "havok/hkpWorld.h"
+#include "havok/hkpConstraintInstance.h"
 
 // @fnv 0x00c9c380
 int FUN_00c9c380(void* self, int)
 {
-    return *(int*)((char*)self + 0xb8) + *(unsigned short*)((char*)self + 0xb0);
+    const hkpEntity* entity = static_cast<const hkpEntity*>(self);
+    return entity->m_kSlaveConstraints.m_iElementCount + entity->m_eSmallArraySerializeOverrideType.m_iElementCount;
 }
 
-struct FUN_00c9c3c0_Class
+// The first fields of Havok's hkConstraintInternal (0x30 bytes in the 32-bit build).
+struct hkConstraintInternalC9C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    int m_98;
-    int m_9c;
-    int m_a0;
-    int m_a4;
-    int m_a8;
-    int m_ac;
-    int m_b0;
-    int m_b4;
-    int GetEntryAt(int index);
+    hkpConstraintInstance* m_constraint;
+    hkpEntity* m_entities[2];
+    void* m_atoms;
+    unsigned char m_pad10[0x12];
+    unsigned short m_slaveIndex;
+    unsigned char m_pad24[0xc];
 };
 
-// Returns the entry at index from the first array if index is below the count at offset 0xb0, otherwise from the second array.
-// @fnv 0x00c9c3c0
-int FUN_00c9c3c0_Class::GetEntryAt(int index)
+struct FUN_00c9c3c0_Class : hkpEntity
 {
-    if (index < *(unsigned short*)&this->m_b0)
-    {
-        int offset = index * 3;
-        offset <<= 4;
-        return *(int*)(this->m_ac + offset);
-    }
-    else
-    {
-        int offset = index - *(unsigned short*)&this->m_b0;
-        return *(int*)(this->m_b4 + offset * 4);
-    }
+    hkpConstraintInstance* GetEntryAt(int index);
+};
+
+// Returns the constraint at index from the master constraints if index is below their count, otherwise from the slave constraints.
+// @fnv 0x00c9c3c0
+hkpConstraintInstance* FUN_00c9c3c0_Class::GetEntryAt(int index)
+{
+    if (index < m_eSmallArraySerializeOverrideType.m_iElementCount)
+        return static_cast<hkConstraintInternalC9C*>(m_eSmallArraySerializeOverrideType.m_data)[index].m_constraint;
+    return m_kSlaveConstraints.m_data[index - m_eSmallArraySerializeOverrideType.m_iElementCount];
 }
 
 struct FUN_00c9c1a0_Value
@@ -212,60 +172,21 @@ char* CpuObject::FUN_00c9c3f0()
 }
 }  // namespace fnv_00c9c3f0
 
-struct FUN_00c9bfa0_Inner
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    int m_78;
-};
 
-struct FUN_00c9bfa0_Class
+struct FUN_00c9bfa0_Class : hkpEntity
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    FUN_00c9bfa0_Inner* m_08;
-    unsigned int unk0C;
-    int m_10;
     void FUN_00c9bfa0();
 };
 
 
-// If m_08 and m_10 are set, calls FUN_00d1a330 with m_08->m_78, a pointer to this, and 1.
+// If the entity is in a world and has a shape, calls FUN_00d1a330 with the world's collision input, a pointer to this, and 1.
 // @fnv 0x00c9bfa0
 void FUN_00c9bfa0_Class::FUN_00c9bfa0()
 {
-    if (m_08 && m_10)
+    if (m_pOwningWorld && m_kCollidable.m_pCollisionShape)
     {
-        FUN_00c9bfa0_Class* self = this;
-        ::FUN_00d1a330((const ::CollisionContext *)(m_08->m_78), (::EntityNode *const *)(int *)((int*)&self), 1);
+        hkpEntity* self = this;
+        ::FUN_00d1a330((const ::CollisionContext *)(static_cast<hkpWorld*>(m_pOwningWorld)->m_pCollisionInput), (::EntityNode *const *)&self, 1);
     }
 }
 
@@ -350,7 +271,7 @@ struct WorldOp
     void* m_pEntity;
 };
 
-struct World_Class : public FUN_00c9c3c0_Class
+struct World_Class : public hkpWorld
 {
 };
 
@@ -364,7 +285,7 @@ struct FUN_00c9c240_holder : public hkpEntity
 void FUN_00c9c240_holder::FUN_00c9c340()
 {
     World_Class* world = (World_Class*)m_pOwningWorld;
-    if (world && world->m_94)
+    if (world && world->m_iCriticalOperationsLockCount)
     {
         WorldOp op;
         op.m_pEntity = this;
@@ -375,21 +296,17 @@ void FUN_00c9c240_holder::FUN_00c9c340()
     FUN_00c9c240();
 }
 
-struct FUN_00c9c390_Class
+struct FUN_00c9c390_Class : hkpEntity
 {
-    char m_auiShapeKeys[0xac];
-    int m_ac;
-    unsigned short m_b0;
-    int* m_b4;
-    int GetEntry(int index);
+    hkpConstraintInstance* GetEntry(int index);
 };
-// Returns the entry at index from the inline array when index is below m_b0, otherwise from the m_b4 array offset by m_b0.
+// Returns the constraint at index from the master constraints if index is below their count, otherwise from the slave constraints.
 // @fnv 0x00c9c390
-int FUN_00c9c390_Class::GetEntry(int index)
+hkpConstraintInstance* FUN_00c9c390_Class::GetEntry(int index)
 {
-    if (index < m_b0)
-        return ((int*)m_ac)[(index + index * 2) * 4];
-    return m_b4[index - m_b0];
+    if (index < m_eSmallArraySerializeOverrideType.m_iElementCount)
+        return static_cast<hkConstraintInternalC9C*>(m_eSmallArraySerializeOverrideType.m_data)[index].m_constraint;
+    return m_kSlaveConstraints.m_data[index - m_eSmallArraySerializeOverrideType.m_iElementCount];
 }
 
 class GlobalObjectO2_00d472a0;
@@ -505,116 +422,67 @@ void hkOwnerC9C5::AddSlot(void* apSlot)
         m_slots.AddBack(apSlot);
 }
 
-struct FUN_00c9c860_Node
+struct hkpLinkedCollidableD250 : hkpEntity
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
 };
-struct FUN_00c9c860_Slot
+
+struct hkpAgentEntryD250 : hkpConstraintInstance
 {
-    FUN_00c9c860_Node* m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    unsigned short m_20;
-    unsigned short m_22;
-    int m_24;
-    int m_28;
-    int m_2c;
 };
-struct FUN_00c9c860_Shell
+
+struct hkEntryLessD250
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
-    int m_98;
-    int m_9c;
-    int m_a0;
-    int m_a4;
-    int m_a8;
-    FUN_00c9c860_Slot* m_ac;
-    unsigned short m_b0;
-    FUN_00c9c860_Node** m_b4;
-    int m_b8;
-    int m_bc;
-    int m_c0;
-    int m_c4;
-    int m_c8;
-    int m_cc;
-    int m_d0;
-    int m_d4;
-    int m_d8;
-    int m_dc;
-    int m_e0;
-    int m_e4;
-    unsigned char m_e8;
+    const hkpEntity* m_key;
+
+    const hkpLinkedCollidableD250* getPartner(const hkpAgentEntryD250* pkEntry) const
+    {
+        return reinterpret_cast<const hkpLinkedCollidableD250*>(reinterpret_cast<uintptr_t>(pkEntry->m_kActorEntries[1]) ^
+                                                                reinterpret_cast<uintptr_t>(pkEntry->m_kActorEntries[0]) ^
+                                                                reinterpret_cast<uintptr_t>(m_key));
+    }
+
+    bool operator()(const hkpAgentEntryD250* pkA, const hkpAgentEntryD250* pkB) const
+    {
+        if (pkA->m_uiUniqueId < pkB->m_uiUniqueId)
+        {
+            return true;
+        }
+        if (pkA->m_uiUniqueId > pkB->m_uiUniqueId)
+        {
+            return false;
+        }
+        return getPartner(pkA)->m_uiUniqueId < getPartner(pkB)->m_uiUniqueId;
+    }
+};
+
+struct FUN_00c9c860_Shell : hkpEntity
+{
     void UpdateNodeSlotIndices();
 };
 // @fnv 0x00c9c860
 void FUN_00c9c860_Shell::UpdateNodeSlotIndices()
 {
-    if (m_e8 != 5)
+    if (m_pMotionState.m_type != 5)
     {
         return;
     }
-    if (m_b8 > 1)
+    if (m_kSlaveConstraints.m_iElementCount > 1)
     {
-        ::FUN_00c9d250((::hkpAgentEntryD250 **)(m_b4), 0, m_b8 - 1, (::hkEntryLessD250)(this));
+        ::FUN_00c9d250(reinterpret_cast<::hkpAgentEntryD250 **>(m_kSlaveConstraints.m_data), 0, m_kSlaveConstraints.m_iElementCount - 1,
+                       ::hkEntryLessD250{this});
     }
-    for (int i = 0; i < m_b8; ++i)
+    for (int i = 0; i < m_kSlaveConstraints.m_iElementCount; ++i)
     {
-        FUN_00c9c860_Node* node = m_b4[i];
-        FUN_00c9c860_Shell* owner =
-            reinterpret_cast<FUN_00c9c860_Shell*>(node->m_18 ^ node->m_14 ^ reinterpret_cast<unsigned int>(this));
-        for (int k = 0; k < owner->m_b0; ++k)
+        hkpConstraintInstance* node = m_kSlaveConstraints.m_data[i];
+        FUN_00c9c860_Shell* owner = reinterpret_cast<FUN_00c9c860_Shell*>(reinterpret_cast<uintptr_t>(node->m_kActorEntries[1]) ^
+                                                                          reinterpret_cast<uintptr_t>(node->m_kActorEntries[0]) ^
+                                                                          reinterpret_cast<uintptr_t>(this));
+        hkConstraintInternalC9C* internals = static_cast<hkConstraintInternalC9C*>(owner->m_eSmallArraySerializeOverrideType.m_data);
+        for (int k = 0; k < owner->m_eSmallArraySerializeOverrideType.m_iElementCount; ++k)
         {
-            if (owner->m_ac[k].m_00 == node)
+            if (internals[k].m_constraint == node)
             {
-                owner->m_ac[k].m_22 = (unsigned short)i;
+                internals[k].m_slaveIndex = (unsigned short)i;
                 break;
             }
         }
@@ -1900,7 +1768,7 @@ struct ListenersC9C6
 {
     static void* operator new(size_t nbytes)
     {
-        return (*static_cast<hkMemoryRouterC9C7*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
+        return (*static_cast<hkMemoryRouterC9C6*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
     }
 
     hkSmallArrayC9C6<void*> m_pHeadNode;
@@ -2226,44 +2094,6 @@ struct FUN_00c9d220 : public MotionCtorBase
 FUN_00c9d220::FUN_00c9d220(int flag) : MotionCtorBase(flag)
 {}
 }  // namespace fnv_00c9d220
-
-struct hkpLinkedCollidableD250
-{
-    unsigned int unk00[53];
-    unsigned int m_uiUniqueId;
-};
-
-struct hkpAgentEntryD250
-{
-    unsigned int unk00, unk04, unk08, unk0C, unk10;
-    unsigned int m_kCollidable[2];
-    unsigned int unk1C, unk20, unk24, unk28, unk2C, unk30;
-    unsigned int m_priority;
-};
-
-struct hkEntryLessD250
-{
-    unsigned int m_key;
-
-    hkpLinkedCollidableD250* getPartner(const hkpAgentEntryD250* pkEntry) const
-    {
-        return reinterpret_cast<hkpLinkedCollidableD250*>(pkEntry->m_kCollidable[1] ^ pkEntry->m_kCollidable[0] ^
-                                                          m_key);
-    }
-
-    bool operator()(const hkpAgentEntryD250* pkA, const hkpAgentEntryD250* pkB) const
-    {
-        if (pkA->m_priority < pkB->m_priority)
-        {
-            return true;
-        }
-        if (pkA->m_priority > pkB->m_priority)
-        {
-            return false;
-        }
-        return getPartner(pkA)->m_uiUniqueId < getPartner(pkB)->m_uiUniqueId;
-    }
-};
 
 // Recursively sorts the hkpAgentEntryD250 array in place using the quicksort algorithm with the hkEntryLessD250 comparator.
 // @fnv 0x00c9d250
@@ -2596,14 +2426,14 @@ void FUN_00c9c240_holder::FUN_00c9c240()
         {
             if (island->m_bSplitCheckRequested || island->m_bSparseEnabled)
             {
-                FUN_00c9c3c0_Class* world = (FUN_00c9c3c0_Class*)m_pOwningWorld;
-                int minIslandSize = world->m_b4;
-                world->m_b4 = 0;
+                hkpWorld* world = (hkpWorld*)m_pOwningWorld;
+                hkUint32 minIslandSize = world->m_uiMinDesiredIslandSize;
+                world->m_uiMinDesiredIslandSize = 0;
                 ((hkpSimulationIslandQ*)m_pSimulationIsland)->m_bSparseEnabled = 0;
                 ((hkpSimulationIslandQ*)m_pSimulationIsland)->m_bSplitCheckRequested = 1;
-                ::PropagateStateToChildren((::Object *)(::FUN_00c9c3c0_Class *)((FUN_00c9c3c0_Class*)m_pOwningWorld),
+                ::PropagateStateToChildren((::Object *)(m_pOwningWorld),
                                          (int *)(::hkpSimulationIslandQ *)((hkpSimulationIslandQ*)m_pSimulationIsland));
-                ((FUN_00c9c3c0_Class*)m_pOwningWorld)->m_b4 = minIslandSize;
+                ((hkpWorld*)m_pOwningWorld)->m_uiMinDesiredIslandSize = minIslandSize;
             }
             island = (hkpSimulationIslandQ*)m_pSimulationIsland;
             int i = 0;
@@ -2617,7 +2447,7 @@ void FUN_00c9c240_holder::FUN_00c9c240()
                     entity->m_pMotionState.m_akDeactivationReferencePositions[1].w = 3.40282e+38f;
                 } while (++i < island->m_kActorEntries.GetLogicalSize());
             }
-            ::fnv_00cb5420::AddItemToContainer((::fnv_00cb5420::S_00cb5420_Container *)(::FUN_00c9c3c0_Class *)((FUN_00c9c3c0_Class*)m_pOwningWorld), (::fnv_00cb5420::S_00cb5420_Item *)(island));
+            ::fnv_00cb5420::AddItemToContainer((::fnv_00cb5420::S_00cb5420_Container *)(m_pOwningWorld), (::fnv_00cb5420::S_00cb5420_Item *)(island));
         }
     }
 }

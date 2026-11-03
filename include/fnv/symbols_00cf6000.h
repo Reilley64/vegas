@@ -1,4 +1,5 @@
 #pragma once
+#include "havok/hkBase.h"
 
 namespace fnv_00cf6080 { struct S_00cf6080_Listener; }
 struct CF63C0Class;
@@ -16,7 +17,6 @@ struct Node;
 struct SceneNode;
 struct Thing;
 struct Writer64;
-struct hkBool;
 
 // 0x00cf6030
 void WriteToDestination(void *, unsigned int, struct ::Format *, ::Destination *);

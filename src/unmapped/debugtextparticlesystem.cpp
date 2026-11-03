@@ -373,7 +373,7 @@ struct Transform
         ShapeVector translated;
         translated.setRotated(a.rotation, b.translation, false);
         translation.setAdd(a.translation, translated);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)(&a.rotation), (const ::fnv_00c66320::__m128 *)(const ::Rotation *)(&b.rotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), nullptr, (const ::fnv_00c66320::__m128 *)(&a.rotation), (const ::fnv_00c66320::__m128 *)(&b.rotation));
         scale.value = _mm_mul_ps(b.scale.value, a.scale.value);
     }
 };
@@ -1604,12 +1604,12 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
         if (reused)
             continue;
         Builder temp;
-        ::CollectMixedTypeNodes((::CA1080_NodeList *)this, (::CA1080_PtrArray *)(::TempArray<void *> *)(&left));
+        ::CollectMixedTypeNodes((::CA1080_NodeList *)(::TempArray<void *> *)(&left), (::CA1080_PtrArray *)(&temp));
         Item* entry = new Item;
         if (FUN_00cea030(&left, &right) != PreparationFailed)
         {
             entry->source = original.data[outer];
-            entry->scene = ((void *)(::BuildRigFromNodes((::NodeList *)this, (::NodeList *)(::TempArray<void *> *)(&left), (::AttachmentList *)(::TempArray<void *> *)(&right))));
+            entry->scene = ((void *)(::BuildRigFromNodes((::NodeList *)(::TempArray<void *> *)(&left), (::NodeList *)(::TempArray<void *> *)(&right), (::AttachmentList *)(&temp))));
             if (entry->scene)
                 entry->collection = FUN_00cea810(entry->scene, &left, &right);
             if (entry->collection)

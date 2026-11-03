@@ -575,7 +575,8 @@ struct FUN_006e9410_shell
 };
 struct FUN_006e9530_shell
 {
-    void FUN_006e9530();
+    char data[0x30];
+    FUN_006e9530_shell& FUN_006e9530(const FUN_006e9530_shell& aOther);
 };
 struct FUN_006e9410_class
 {
@@ -1304,7 +1305,7 @@ void FUN_006e9410_class::FUN_006e9410(void* arg)
     reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e9410_shell*)arg)))->FUN_006e90a0(iSize, 1);
     for (unsigned int i = 0; i < iSize; ++i)
         ((FUN_006e9530_shell*)((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((FUN_006e9410_shell*)arg)))->FUN_006e8f40(i))))
-            ->FUN_006e9530();
+            ->FUN_006e9530(static_cast<const FUN_006e9530_shell*>(pBuffer)[i]);
 }
 
 struct FUN_006e9080
@@ -1828,14 +1829,14 @@ struct FUN_006cf8a0_cls
     void ProcessItems(ParamHost* p);
 };
 
-// Calls Prepare with iCount and 1, then for each item calls ProcessItem and invokes FUN_006cf900 on the result.
+// Resizes pHost to iCount, then copies each item into the slot FUN_006cee10 returns for it.
 // @fnv 0x006cf8a0
 void FUN_006cf8a0_cls::ProcessItems(ParamHost* pHost)
 {
     reinterpret_cast<::FUN_006d01d0_Class *>((pHost))->FUN_006d01d0(iCount, 1);
     for (unsigned int i = 0; i < iCount; i++)
     {
-        reinterpret_cast<::FUN_006cf900_Class *>((((ItemFinish*)((void *)(reinterpret_cast<::FUN_006cee10_shell *>((pHost))->FUN_006cee10(i))))))->FUN_006cf900({});
+        reinterpret_cast<::FUN_006cf900_Class *>((((ItemFinish*)((void *)(reinterpret_cast<::FUN_006cee10_shell *>((pHost))->FUN_006cee10(i))))))->FUN_006cf900((const ::FUN_006cf900_Class *)&pItems[i]);
     }
 }
 
@@ -2289,7 +2290,7 @@ void FUN_006e9470_cls::FUN_006e9470(FUN_006e9470_Helper* pHelper)
     reinterpret_cast<::FUN_006e9280_shell *>((pHelper))->FUN_006e9280(m_08, 1);
     for (unsigned int i = 0; i < m_08; i++)
     {
-        reinterpret_cast<::FUN_006e9570_cls *>((((FUN_006e9470_Obj*)((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>((pHelper))->FUN_006e8f80(i))))))->operator=(*(const ::FUN_006e9570_cls *)nullptr);
+        reinterpret_cast<::FUN_006e9570_cls *>((((FUN_006e9470_Obj*)((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>((pHelper))->FUN_006e8f80(i))))))->operator=(*(const ::FUN_006e9570_cls *)(m_04 + i * 60));
     }
 }
 

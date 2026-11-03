@@ -113,7 +113,7 @@ struct FUN_0044bd60_Class
     void* s;
     void* t;
     RecursiveSpinLock lock;
-    void* FUN_00449f80(int* a, void* b);
+    void* FUN_00449f80();
     bool FUN_0044bd60(void* a, void* b);
 };
 struct AutoMemHelper
@@ -339,9 +339,9 @@ struct FUN_0044b8d0_Class
     unsigned int m_uiBuckets;
     int unk0c, unk10, unk14, unk18, unk1c;
     RecursiveSpinLock lock;
-    Item* FUN_00449f80(unsigned int, unsigned int*, unsigned int);
+    Item* FUN_00449f80();
     Item* FUN_00449f80(unsigned int);
-    bool ProcessIteration(Iteration*, unsigned int*, unsigned int, bool);
+    bool ProcessIteration(Iteration*, unsigned int*, std::intptr_t, bool);
 };
 struct FUN_0044c000_Target
 {
@@ -354,21 +354,21 @@ struct FUN_0044c000_Target
     virtual void v06() = 0;
     virtual void v07() = 0;
     virtual void v08() = 0;
-    virtual int v09(unsigned int a, unsigned int b, unsigned int c, unsigned int d) = 0;
+    virtual int v09(unsigned int uiKey) = 0;
 };
 
 struct FUN_0044c000_cls
 {
     FUN_0044c000_Target* m_00;
 
-    void FUN_0044c000(unsigned int a, unsigned int b, unsigned char c);
+    void FUN_0044c000(unsigned int uiKey, const QHeadPtr& rValue, unsigned char ucReplace);
 };
 
-// Calls v09 on m_00 with a, a, b, c and passes the result to InsertOrReplace.
+// Hashes uiKey with m_00's virtual 9 and inserts rValue under it, replacing an existing value when ucReplace is set.
 // @fnv 0x0044c000
-void FUN_0044c000_cls::FUN_0044c000(unsigned int uiValue, unsigned int b, unsigned char c)
+void FUN_0044c000_cls::FUN_0044c000(unsigned int uiKey, const QHeadPtr& rValue, unsigned char ucReplace)
 {
-    reinterpret_cast<::TSMap *>(this)->InsertOrReplace(m_00->v09(uiValue, uiValue, b, c), {}, *(const ::QHeadPtr *)nullptr, {});
+    reinterpret_cast<::TSMap *>(this)->InsertOrReplace(uiKey, m_00->v09(uiKey), rValue, ucReplace);
 }
 
 struct FUN_0044c270 : InterfacedClass
@@ -481,8 +481,8 @@ struct Queue44c640
     void* unk18;
     void* unk1C;
     RecursiveSpinLock lock;
-    QueueEntry44c640* GetEntry(unsigned int idx, void** item, int param);
-    bool TryGetNextEntry(QueueIter44c640* iter, void** out, int param, bool repeat);
+    QueueEntry44c640* GetEntry();
+    bool TryGetNextEntry(QueueIter44c640* iter, void** out, std::intptr_t param, bool repeat);
 };
 
 class C44C8E0Hasher
@@ -497,7 +497,7 @@ class C44C8E0Hasher
     virtual void vfunc06();
     virtual void vfunc07();
     virtual void vfunc08();
-    virtual unsigned int Hash(int iKey, int iKeyAgain, int iSize);
+    virtual unsigned int Hash(int iKey);
 };
 
 class C44C8E0Map
@@ -505,23 +505,23 @@ class C44C8E0Map
   public:
     C44C8E0Hasher* m_pkHasher;
 
-    int LookupBucket(int iKey, int iSize);
+    int LookupBucket(int iKey, C44D510Pointer& spResult);
 };
-// Locks the object's lock, calls FUN_00449f80 with a and b, passes the result to LookupBucket, unlocks, and returns that bool.
+// Locks the object's lock, looks up key a in the map FUN_00449f80 returns (the value goes to b), unlocks, and returns whether it was found.
 // @fnv 0x0044bd60
 bool FUN_0044bd60_Class::FUN_0044bd60(void* a, void* b)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
-    bool r = ((bool)(reinterpret_cast<::C44C8E0Map *>((FUN_00449f80((int*)a, b)))->LookupBucket({}, {})));
+    bool r = ((bool)(reinterpret_cast<::C44C8E0Map *>((FUN_00449f80()))->LookupBucket(static_cast<int>(reinterpret_cast<std::intptr_t>(a)), *static_cast<::C44D510Pointer *>(b))));
     reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
     return r;
 }
 
-// Computes the hash of iKey with the map's hasher and returns the bucket index for that hash.
+// Hashes iKey with the map's hasher and looks it up, copying the value into spResult; returns whether it was found.
 // @fnv 0x0044c8e0
-int C44C8E0Map::LookupBucket(int iKey, int iSize)
+int C44C8E0Map::LookupBucket(int iKey, C44D510Pointer& spResult)
 {
-    return ((int)(reinterpret_cast<::C44D510Cache *>(this)->LookupAndUnlock(m_pkHasher->Hash(iKey, iKey, iSize), {}, *(::C44D510Pointer *)nullptr)));
+    return ((int)(reinterpret_cast<::C44D510Cache *>(this)->LookupAndUnlock(iKey, m_pkHasher->Hash(iKey), spResult)));
 }
 
 
@@ -611,7 +611,7 @@ struct FUN_0044de20_cls
 };
 // Locks, walks the iteration to find a matching item via FUN_00449f80, stores its value in result, and returns whether the item passes FUN_00528bb0.
 // @fnv 0x0044b8d0
-bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* puiResult, unsigned int extra,
+bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* puiResult, std::intptr_t extra,
                                           bool retry)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
@@ -626,12 +626,12 @@ bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* p
         {
             if (!reinterpret_cast<::FUN_0044de20_cls *>((pIteration))->IsFlagSet())
             {
-                success = reinterpret_cast<::Owner_44e550 *>((FUN_00449f80(pIteration->index, &pIteration->value, extra)))->FUN_0044e550({}, {}, {});
+                success = reinterpret_cast<::Owner_44e550 *>((FUN_00449f80()))->FUN_0044e550(pIteration->index, (int *)&pIteration->value, reinterpret_cast<::QHeadPtrDest_44e550 *>(extra));
                 reinterpret_cast<::MapMarkerData *>((pIteration))->SetVisible(true);
             }
             else
             {
-                success = reinterpret_cast<::Queue_44e680 *>((FUN_00449f80(pIteration->index, &pIteration->value, extra)))->FindEntry({}, {}, {});
+                success = reinterpret_cast<::Queue_44e680 *>((FUN_00449f80()))->FindEntry(pIteration->index, (int *)&pIteration->value, reinterpret_cast<::Ptr_44e680 *>(extra));
             }
             if (!success)
             {
@@ -661,7 +661,7 @@ bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* p
     return success;
 }
 // @fnv 0x0044c640
-bool Queue44c640::TryGetNextEntry(QueueIter44c640* iter, void** out, int param, bool repeat)
+bool Queue44c640::TryGetNextEntry(QueueIter44c640* iter, void** out, std::intptr_t param, bool repeat)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
     bool result = false;
@@ -675,12 +675,12 @@ bool Queue44c640::TryGetNextEntry(QueueIter44c640* iter, void** out, int param, 
         {
             if (!reinterpret_cast<::FUN_0044de20_cls *>((iter))->IsFlagSet())
             {
-                result = reinterpret_cast<::Walker_44ea60 *>((GetEntry(iter->uiIndex, &iter->pItem, param)))->FindAndProcessNode({}, {}, {});
+                result = reinterpret_cast<::Walker_44ea60 *>((GetEntry()))->FindAndProcessNode(iter->uiIndex, (int *)&iter->pItem, reinterpret_cast<int *>(param));
                 reinterpret_cast<::MapMarkerData *>((iter))->SetVisible(true);
             }
             else
             {
-                result = reinterpret_cast<::FUN_006ec9b0_Class *>((GetEntry(iter->uiIndex, &iter->pItem, param)))->FUN_0044eb80({}, {}, {});
+                result = reinterpret_cast<::FUN_006ec9b0_Class *>((GetEntry()))->FUN_0044eb80(iter->uiIndex, (int *)&iter->pItem, reinterpret_cast<int *>(param));
             }
             if (!result)
             {

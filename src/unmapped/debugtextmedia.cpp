@@ -287,7 +287,8 @@ void ThisCls::FUN_00852080(int unused)
                         pair2a.low = 0;
                         pair2a.high = 0;
                         reinterpret_cast<::FUN_008526d0_shell *>(&(handle20))->SetFromCall(
-                            ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((InfoLike*)info8)))->GetUnk15C())), {}, {}, {});
+                            reinterpret_cast<::FUN_008d85e0_Class *>((((InfoLike*)info8)))->GetUnk15C(), kPair1a12.low, kPair1a12.high,
+                            reinterpret_cast<std::intptr_t>(&pair2a.low));
                         if (::FUN_00559450((int *)&(handle20)) == 0)
                         {
                             ::FUN_00406d00(buf313, 0x104, "Copying the save game file to the target...\n\n");

@@ -133,6 +133,11 @@ struct A87A0Element
     void* m_pMatrix;
     unsigned int m_uiPosition;
 
+    // m_pMatrix points at the matrix; 0x00629ab0 indexes the float array in its first word.
+    __forceinline float& Ref()
+    {
+        return reinterpret_cast<::FUN_00629ab0_shell*>(m_pMatrix)->FUN_00629ab0(m_uiPosition);
+    }
 };
 
 class A87A0Matrix
@@ -164,7 +169,7 @@ A87A0Matrix A87A0Matrix::Transpose()
     for (unsigned int i = 0; i < m_uiRows; i++)
     {
         for (unsigned int j = 0; j < m_uiCols; j++)
-            reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::A87A0Element &)(kResult.At(j, i)))->FUN_00629ab0({}) = reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::A87A0Element &)(At(i, j)))->FUN_00629ab0({});
+            kResult.At(j, i).Ref() = At(i, j).Ref();
     }
     return kResult;
 }

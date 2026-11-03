@@ -30,8 +30,10 @@ void FUN_00ee6dc2();
 void *FUN_00ee6dce(void *, const void *);
 // 0x00ee6dd4
 void FUN_00ee6dd4();
+void *FUN_00ee6dd4(void *, const void *);
 // 0x00ee6dda
 void FUN_00ee6dda();
+void *FUN_00ee6dda(void *, float *, const void *);
 // 0x00ee6de0
 void *FUN_00ee6de0(void *, const void *, const void *);
 // 0x00ee6de6

@@ -4114,7 +4114,7 @@ struct KFQuaternion
     {
         KFQuaternion inv;
         inv.SetConjugate(q1);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)this, (void *)&(q0), (const ::fnv_00c66320::__m128 *)&(inv), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)this, nullptr, (const ::fnv_00c66320::__m128 *)&(q0), (const ::fnv_00c66320::__m128 *)&(inv));
     }
 };
 

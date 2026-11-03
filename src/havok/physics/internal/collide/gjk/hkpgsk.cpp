@@ -2541,7 +2541,6 @@ struct CollisionPlanes
     __m128 reference160;
     int unk170;
     int lastSegment174;
-    __declspec(noinline) int FUN_00da8500(const AlignedPoint* point, AlignedPoint* triangle, int mode);
     int FUN_00da9340(AlignedPoint* segment, AlignedPoint* polygon, int* volatile segmentCount,
                                 int* polygonCount, char recomputeNormal, int segmentIndex);
 };
@@ -2550,41 +2549,6 @@ static __forceinline __m128 crossThree(__m128 a, __m128 b)
 {
     return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2)),
                       _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9)));
-}
-int CollisionPlanes::FUN_00da8500(const AlignedPoint* point, AlignedPoint* triangle, int mode)
-{
-    __m128 bc = _mm_sub_ps(triangle[2].quad, triangle[1].quad);
-    __m128 ca = _mm_sub_ps(triangle[0].quad, triangle[2].quad);
-    __m128 ab = _mm_sub_ps(triangle[1].quad, triangle[0].quad);
-    __m128 normal = crossThree(bc, ca);
-    __m128 d0 = _mm_mul_ps(crossThree(_mm_sub_ps(point->quad, triangle[1].quad), bc), normal);
-    __m128 d1 = _mm_mul_ps(crossThree(_mm_sub_ps(point->quad, triangle[2].quad), ca), normal);
-    __m128 d2 = _mm_mul_ps(crossThree(_mm_sub_ps(point->quad, triangle[0].quad), ab), normal);
-    __m128 lo = _mm_unpacklo_ps(d0, d1), hi = _mm_unpackhi_ps(d0, d1);
-    __m128 x = _mm_movelh_ps(lo, d2);
-    __m128 y = _mm_shuffle_ps(_mm_movehl_ps(x, lo), d2, 0xd4);
-    __m128 z = _mm_shuffle_ps(hi, d2, 0xe4);
-    reference160 = _mm_add_ps(z, _mm_add_ps(y, x));
-    int mask = _mm_movemask_ps(_mm_cmplt_ps(reference160, _mm_setzero_ps())) & 7;
-    if (mode)
-    {
-        faceNormal120 = normal;
-        if (mask == 7 && (_mm_movemask_ps(dotThree(_mm_sub_ps(unk020, unk0a0), normal)) & 1))
-        {
-            faceNormal120 = _mm_sub_ps(_mm_setzero_ps(), normal);
-            AlignedPoint tmp = copyAlignedPoint(reinterpret_cast<const PlainVector&>(triangle[0].quad));
-            triangle[0] = triangle[1];
-            triangle[1] = tmp;
-            tmp = copyAlignedPoint(reinterpret_cast<const PlainVector&>(triangle[4].quad));
-            triangle[4] = triangle[5];
-            triangle[5] = tmp;
-            float old = reference160[0];
-            reference160[0] = reference160[1];
-            reference160[1] = old;
-            unk010[1] = 1;
-        }
-    }
-    return mask;
 }
 // Tests a segment against a polygon plane, clipping or collapsing the polygon and updating counts based on the intersection mask.
 // @fnv 0x00da9340

@@ -169,11 +169,17 @@ struct List_00b5ac20
     }
 };
 
-// Returns the item at the given index from the list at pThis+0xb4, or null if the index is out of range.
+struct SceneNodeLights_00b5ac20
+{
+    char pad[0xb4];
+    List_00b5ac20 kLights;
+};
+
+// Returns the item at the given index from the node's light list, or null if the index is out of range.
 // @fnv 0x00b5ac20
 void* GetListItemAt(char* pThis, int, unsigned int index)
 {
-    List_00b5ac20* list = (List_00b5ac20*)(pThis + 0xb4);
+    List_00b5ac20* list = &reinterpret_cast<SceneNodeLights_00b5ac20*>(pThis)->kLights;
     if (index >= list->ItemUpdateArray)
         return 0;
 
@@ -188,11 +194,17 @@ void* GetListItemAt(char* pThis, int, unsigned int index)
     return item;
 }
 
-// Assigns pObj to the reference-counted pointer at pThis+0x10c, releasing the old object and retaining the new one.
+struct RefField10c_00b5aee0
+{
+    char pad[0x10c];
+    NiRefObject* pRef;
+};
+
+// Assigns pObj to the reference-counted pointer pRef (offset 0x10c), releasing the old object and retaining the new one.
 // @fnv 0x00b5aee0
 void AssignRefObject(char* pThis, int, NiRefObject* pObj)
 {
-    NiRefObject*& spField = *(NiRefObject**)(pThis + 0x10c);
+    NiRefObject*& spField = reinterpret_cast<RefField10c_00b5aee0*>(pThis)->pRef;
     if (spField != pObj)
     {
         if (spField)
@@ -205,11 +217,17 @@ void AssignRefObject(char* pThis, int, NiRefObject* pObj)
     }
 }
 
-// Assigns pObj to the reference-counted pointer at pThis+0x128, releasing the old object and retaining the new one.
+struct RefField128_00b5af30
+{
+    char pad[0x128];
+    NiRefObject* pRef;
+};
+
+// Assigns pObj to the reference-counted pointer pRef (offset 0x128), releasing the old object and retaining the new one.
 // @fnv 0x00b5af30
 void FUN_00b5af30(char* pThis, int, NiRefObject* pObj)
 {
-    NiRefObject*& pRef = *(NiRefObject**)(pThis + 0x128);
+    NiRefObject*& pRef = reinterpret_cast<RefField128_00b5af30*>(pThis)->pRef;
     if (pRef != pObj)
     {
         if (pRef)
@@ -237,24 +255,43 @@ static inline char*& GetNextLight(ShadowLightNode*& pkIter)
     return rVal;
 }
 
+struct ShadowLights_00b5b060
+{
+    char pad[0xc0];
+    ShadowLightNode* pkHead;
+};
+struct LightFlags_00b5b060
+{
+    char pad[0x30];
+    unsigned int uiFlags;
+};
+struct ShadowLight_00b5b060
+{
+    char pad[0xf8];
+    LightFlags_00b5b060* pkFlags;
+    char padFC[0x10c - 0xfc];
+    BSRenderedTexture* pkTexture;
+};
+
 // @fnv 0x00b5b060
 void FUN_00b5b060(char* pThis, int)
 {
-    ShadowLightNode* pkIter = *(ShadowLightNode**)(pThis + 0xC0);
+    ShadowLightNode* pkIter = reinterpret_cast<ShadowLights_00b5b060*>(pThis)->pkHead;
     while (pkIter)
     {
         char* pkLight = GetNextLight(pkIter);
-        if (pkLight && *(void**)(pkLight + 0xF8))
+        ShadowLight_00b5b060* pkView = reinterpret_cast<ShadowLight_00b5b060*>(pkLight);
+        if (pkLight && pkView->pkFlags)
         {
-            reinterpret_cast<::MultiBoundOwner *>((DAT_011f91a8))->FUN_00b6d4c0((::BSMultiBound *)(*(BSRenderedTexture**)(pkLight + 0x10C)));
-            BSRenderedTexture* pkTex = *(BSRenderedTexture**)(pkLight + 0x10C);
+            reinterpret_cast<::MultiBoundOwner *>((DAT_011f91a8))->FUN_00b6d4c0((::BSMultiBound *)(pkView->pkTexture));
+            BSRenderedTexture* pkTex = pkView->pkTexture;
             if (pkTex)
             {
                 if (InterlockedDecrement(&pkTex->refs) == 0)
                     pkTex->DeleteThis();
-                *(BSRenderedTexture**)(pkLight + 0x10C) = 0;
+                pkView->pkTexture = 0;
             }
-            *(unsigned int*)(*(char**)(pkLight + 0xF8) + 0x30) |= 1;
+            pkView->pkFlags->uiFlags |= 1;
             ::ClearShaderPropRefs((char *)(pkLight));
         }
     }
@@ -274,13 +311,22 @@ struct VTableStub_00b5b150
 
 void __cdecl FUN_00b5b0e0(void* pObj);
 
+struct NodeChildren_00b5b150
+{
+    char pad[0xa0];
+    void** ppChildren;
+    unsigned short usMaxSize;
+    unsigned short usSize;
+};
+
 // Iterates the children of pNode, calling FUN_00b5b0e0 on geometry children and recursing into node children.
 // @fnv 0x00b5b150
 void ProcessNodeChildren(void* pThis, int, void* pNode)
 {
-    for (unsigned int i = 0; i < *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pNode) + 0xa6); ++i)
+    NodeChildren_00b5b150* pkChildren = reinterpret_cast<NodeChildren_00b5b150*>(pNode);
+    for (unsigned int i = 0; i < pkChildren->usSize; ++i)
     {
-        void* pChild = (*reinterpret_cast<void***>(reinterpret_cast<char*>(pNode) + 0xa0))[i];
+        void* pChild = pkChildren->ppChildren[i];
         if (pChild)
         {
             if ((*reinterpret_cast<VTableStub_00b5b150**>(pChild))->GetAsGeometry(pChild))
@@ -1040,9 +1086,13 @@ struct LightNode
 
 struct ShadowSceneNodeS : FUN_00c51570_Class
 {
+    char pad[0xb4];
+    LightNode* m_pkLightHead;
+    LightNode* m_pkLightTail;
+    unsigned int m_uiLightCount;
     unsigned int InitializeTESResources() const
     {
-        return *(unsigned int*)((char*)this + 0xbc);
+        return m_uiLightCount;
     }
     static char* const& Next(LightNode*& pos)
     {
@@ -1052,9 +1102,9 @@ struct ShadowSceneNodeS : FUN_00c51570_Class
     }
     char* GetLightAt(unsigned short usIndex) const
     {
-        if (usIndex >= *(unsigned int*)((char*)this + 0xbc))
+        if (usIndex >= m_uiLightCount)
             return 0;
-        LightNode* pos = *(LightNode**)((char*)this + 0xb4);
+        LightNode* pos = m_pkLightHead;
         char* light = Next(pos);
         for (unsigned int i = 0; i < usIndex; i++)
             light = Next(pos);
@@ -1641,25 +1691,94 @@ struct SearchObject
 {
     unsigned char CheckProcStateAndPlane(ProcessArgs args, char* target, char* item);
 };
+struct SearchTest_00b5bbe0
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual unsigned char Slot27(char* pTarget);
+    int m_04;
+    unsigned int m_uiState;
+};
+struct SearchSub_00b5bbe0
+{
+    char pad[0xc];
+    SearchTest_00b5bbe0* pkTest;
+};
+struct SearchSource_00b5bbe0
+{
+    char pad[0xa8];
+    unsigned short usCount;
+    SearchSub_00b5bbe0* pkSub;
+};
+struct SearchTarget_00b5bbe0
+{
+    char pad[0x2c];
+    char kTestData[0x90 - 0x2c];
+    unsigned int uiType;
+};
+struct SearchItem_00b5bbe0
+{
+    char pad[0x40];
+    unsigned int uiKind;
+};
 struct ShadowProcessor
 {
+    char pad[0x1e0];
+    SearchList* m_pkSearchList;
     void ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target);
 };
-typedef unsigned char(* TestCallback)(void*, char*);
 // @fnv 0x00b5bbe0
 void ShadowProcessor::ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target)
 {
-    char* subobject = *(char**)((char*)source + 0xac);
-    void* object = *(void**)(subobject + 0xc);
-    unsigned int type = *(unsigned int*)(target + 0x90);
-    unsigned int state = *(unsigned int*)((char*)object + 8);
-    if (type != 1 && type != 3 && state == 0 && *(unsigned short*)((char*)source + 0xa8) > (unsigned short)state)
+    SearchSource_00b5bbe0* pkSource = reinterpret_cast<SearchSource_00b5bbe0*>(source);
+    SearchTarget_00b5bbe0* pkTarget = reinterpret_cast<SearchTarget_00b5bbe0*>(target);
+    SearchTest_00b5bbe0* object = pkSource->pkSub->pkTest;
+    unsigned int type = pkTarget->uiType;
+    unsigned int state = object->m_uiState;
+    if (type != 1 && type != 3 && state == 0 && pkSource->usCount > (unsigned short)state)
     {
-        unsigned char accepted = (*(TestCallback*)((char*)*(void**)object + 0x9c))(object, target + 0x2c);
-        *(unsigned int*)(*(char**)(*(char**)((char*)source + 0xac) + 0xc) + 8) = (accepted == 0) + 1;
+        unsigned char accepted = object->Slot27(pkTarget->kTestData);
+        pkSource->pkSub->pkTest->m_uiState = (accepted == 0) + 1;
         if (accepted)
         {
-            SearchList* list = *(SearchList**)((char*)this + 0x1e0);
+            SearchList* list = m_pkSearchList;
             if (list)
             {
                 SearchNode* position = list->first;
@@ -1668,7 +1787,7 @@ void ShadowProcessor::ProcessTargetIfEligible(SearchObject* source, ProcessArgs 
                     char** ppItem = &position->item;
                     position = position->next;
                     char* item = *ppItem;
-                    if (item && *(unsigned int*)(item + 0x40) == 1)
+                    if (item && reinterpret_cast<SearchItem_00b5bbe0*>(item)->uiKind == 1)
                     {
                         if (!source->CheckProcStateAndPlane(args, target, item))
                             break;
@@ -7184,7 +7303,11 @@ struct LightEx;
 
 struct LightEx : public NiRefObject
 {
-    char body[0x250 - 8];
+    char body08[0xf8 - 8];
+    ShadowLightFlags* m_pkFlags;
+    char bodyFC[0x128 - 0xfc];
+    void* m_pKey;
+    char body12C[0x250 - 0x12c];
     LightEx();
 };
 
@@ -7224,9 +7347,9 @@ LightEx* ShadowSceneNode_Self::FUN_00b5cbd0(void* key)
         ShadowSceneLight* const& ref = pos->light;
         pos = pos->next;
         LightEx* light = (LightEx*)ref;
-        if (light && *(void**)((char*)light + 0x128) == key)
+        if (light && light->m_pKey == key)
         {
-            ShadowLightFlags* flags = *(ShadowLightFlags**)((char*)light + 0xf8);
+            ShadowLightFlags* flags = light->m_pkFlags;
             flags->flags &= 0xfffffffe;
             reinterpret_cast<::B9BB10Effect *>((light))->FUN_00b9bb10(1.0f, 0);
             return light;
@@ -7323,7 +7446,10 @@ class S00b5cd00_Param
     virtual void DeleteThis();
 
     long m_iObjectReferenceCount;
-
+    char pad08[0xed - 0x8];
+    unsigned char m_ucFlagED;
+    char padEE[0xfc - 0xee];
+    unsigned char m_ucFlagFC;
 };
 
 // Reference-taking argument wrapper: the constructor adds a reference; the caller drops it after the call.
@@ -7405,12 +7531,12 @@ class S00b5cd00_Owner
 // @fnv 0x00b5cd00
 S00b5cd00_Param* S00b5cd00_Owner::FUN_00b5cd00(S00b5cd00_Param* param)
 {
-    reinterpret_cast<unsigned char*>(param)[0xFC] = 1;
+    param->m_ucFlagFC = 1;
     S00b5cd00_Light* light = new S00b5cd00_Light;
     light->m_flags &= ~1u;
     reinterpret_cast<::fnv_00b9dda0::FUN_00b9dda0_Class *>((param))->FUN_00b9dda0((::fnv_00b9dda0::NiLight *)(light));
     reinterpret_cast<::FUN_00b9dcb0_Class *>((param))->SetShadowEnabled(true);
-    reinterpret_cast<unsigned char*>(param)[0xED] = 0;
+    param->m_ucFlagED = 0;
     m_kNode.FUN_00a5a310(param);
     if (InterlockedDecrement(&param->m_iObjectReferenceCount) == 0)
         param->DeleteThis();
@@ -11651,10 +11777,16 @@ FUN_00b5e5a0::~FUN_00b5e5a0()
 
 
 
+struct Items_00c5b5a0
+{
+    char pad[0x40];
+    void** ppItems;
+};
+
 // @fnv 0x00c5b5a0
 void* FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
 {
-    void** p = *(void***)((char*)this + 0x40) + idx;
+    void** p = reinterpret_cast<Items_00c5b5a0*>(this)->ppItems + idx;
     void* result = *p;
     return result;
 }

@@ -376,7 +376,7 @@ struct EntryEnumerator
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual bool v14(int data);
+    virtual bool v14(Setting* setting);
     bool FUN_00404d30();
     DataListEntry* FUN_0044fac0(DataListEntry* current);
     bool FUN_0044f9c0();
@@ -391,9 +391,10 @@ bool EntryEnumerator::FUN_0044f9c0()
         DataListEntry* current = ((::DataListEntry *)(::FUN_0044faa0((char *)this)));
         while (current != 0)
         {
-            if (*((int *)(new ((void *)(current)) ::Vec3())) != 0)
+            Setting* item = reinterpret_cast<BSSimpleList<Setting*>*>(current)->m_item;
+            if (item != 0)
             {
-                succeeded = succeeded & v14(*((int *)(new ((void *)(current)) ::Vec3())));
+                succeeded = succeeded & v14(item);
             }
             current = FUN_0044fac0(current);
         }

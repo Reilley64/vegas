@@ -320,19 +320,27 @@ float FUN_00df6af0_cls::GetHelperResultForOffset(const DF6AF0Handle* aiBase, int
     return reinterpret_cast<::DF6A60CastCollector *>((this))->LinearCastAgainst(reinterpret_cast<const ::DF6A60Collidable *>(v));
 }
 
-struct SiblingCls_df6a60
-{
-};
-
 struct FUN_00df6b30_cls
 {
+    void* m_vtable;
     unsigned char* FUN_00df6b30(unsigned char* out, const void* a);
+};
+
+struct SiblingHead_df6a60
+{
+    void* m_vtable;
+    void* m_04;
+};
+
+// The collector: FUN_00df6b30_cls is its interface at +8.
+struct SiblingCls_df6a60 : SiblingHead_df6a60, FUN_00df6b30_cls
+{
 };
 
 // @fnv 0x00df6b30
 unsigned char* FUN_00df6b30_cls::FUN_00df6b30(unsigned char* out, const void* a)
 {
-    reinterpret_cast<::DF6A60CastCollector *>((((SiblingCls_df6a60*)((char*)this - 8))))->LinearCastAgainst(static_cast<const ::DF6A60Collidable *>(a));
+    reinterpret_cast<::DF6A60CastCollector *>(static_cast<SiblingCls_df6a60*>(this))->LinearCastAgainst(static_cast<const ::DF6A60Collidable *>(a));
     *out = 0;
     return out;
 }

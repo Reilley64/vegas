@@ -1466,7 +1466,7 @@ struct FUN_004363c0
 // @fnv 0x004363c0
 FUN_004363c0::~FUN_004363c0()
 {
-    ((TESForm*)((char*)this + 12))->TESForm::ClearData();
+    ((TESForm*)&this->_c)->TESForm::ClearData();
 }
 }  // namespace fnv_004363c0
 

@@ -931,13 +931,13 @@ struct FUN_00d107d0_t
         void* volatile p8a;
         void* p8b;
     };
-    int c;
-    FUN_00d107d0_t* FUN_00d107d0(int v);
+    void* c;
+    FUN_00d107d0_t* FUN_00d107d0(void* v);
 };
 
 // Sets b to 1, points p8a/p0/p8b at DAT_010c63bc/DAT_010cd598/DAT_010cd588, stores v in c, and returns this.
 // @fnv 0x00d107d0
-FUN_00d107d0_t* FUN_00d107d0_t::FUN_00d107d0(int v)
+FUN_00d107d0_t* FUN_00d107d0_t::FUN_00d107d0(void* v)
 {
     b = 1;
     p8a = &DAT_010c63bc;

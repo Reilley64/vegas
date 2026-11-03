@@ -326,15 +326,15 @@ struct S_00cf75c0_Array
 struct FUN_00cf75c0
 {
     S_00cf75c0_Array m_kPointA;
-    int unk0c;
+    void* unk0c;
     S_00cf75c0_Array m_kPointB;
     S_00cf75c0_Array m_iThirdValue;
-    FUN_00cf75c0(int v);
+    FUN_00cf75c0(void* v);
 };
 
-// Constructor that stores the given int into unk0c and default-initialises the three array members.
+// Constructor that stores the given world pointer into unk0c and default-initialises the three array members.
 // @fnv 0x00cf75c0
-FUN_00cf75c0::FUN_00cf75c0(int aiValue)
+FUN_00cf75c0::FUN_00cf75c0(void* aiValue)
 {
     unk0c = aiValue;
 }

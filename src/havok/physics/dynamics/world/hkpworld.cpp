@@ -1152,7 +1152,7 @@ struct Target
     virtual void v00();
     virtual void v01();
     virtual void v02();
-    virtual void Forward(int a);
+    virtual void Forward(void* a);
 };
 
 struct FUN_00c91270_cls
@@ -1181,11 +1181,11 @@ struct FUN_00c91270_cls
     int unk54;
     int unk58;
     Target* m_5C;
-    void FUN_00c91270(int a);
+    void FUN_00c91270(void* a);
 };
 
 // @fnv 0x00c91270
-void FUN_00c91270_cls::FUN_00c91270(int a)
+void FUN_00c91270_cls::FUN_00c91270(void* a)
 {
     m_5C->Forward(a);
 }
@@ -1311,8 +1311,8 @@ struct Class_012677d0 {
     int unk08;
     int unk0C;
     int unk10;
-    int unk14;
-    int unk18;
+    void* unk14;
+    void* unk18;
 };
 
 extern float DAT_012677c4;
@@ -4448,7 +4448,7 @@ struct Listener00c98720 {
     virtual void s1c();
     virtual void s20();
     virtual void s24();
-    virtual void s28(int, int, int, int, int, int);
+    virtual void s28(const void*, const void*, const void*, int, int, int);
 };
 
 struct C00c98720 {
@@ -4458,12 +4458,12 @@ struct C00c98720 {
     char pad10[0x4];
     CRITICAL_SECTION* pCS14;
 
-    void FUN_00c98720(int a, int b, int c, int d, int e, int f);
+    void FUN_00c98720(const void* a, const void* b, const void* c, int d, int e, int f);
 };
 
 // Locks the critical section, calls s28 with the six arguments on each listener in arr08, then unlocks it.
 // @fnv 0x00c98720
-void C00c98720::FUN_00c98720(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5) {
+void C00c98720::FUN_00c98720(const void* aiArg0, const void* aiArg1, const void* aiArg2, int aiArg3, int aiArg4, int aiArg5) {
     EnterCriticalSection(pCS14);
     for (int i = 0; i < count0c; ++i) {
         arr08[i]->s28(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
@@ -11275,7 +11275,7 @@ void RayWorld::FUN_00c91f70(const void* input,void* output) {
         ((RayManager*)m_pKdTreeManager)->CastRay(input,m_pCollisionFilter,output);
     } else {
         __declspec(align(16)) RayCaster caster;
-        reinterpret_cast<::CbfOwner *>(&(caster))->FUN_00cbf860((::CbfTarget *)(m_pJobSemaphore),(::CbfSrc *)(input),(int *)(m_pCollisionFilter),0,(int)(output));
+        reinterpret_cast<::CbfOwner *>(&(caster))->FUN_00cbf860((::CbfTarget *)(m_pJobSemaphore),(::CbfSrc *)(input),(int *)(m_pCollisionFilter),0,output);
     }
     RecordRayTimer(::DAT_010c41f8);
 }
@@ -11306,7 +11306,7 @@ struct S00c92040_Ifc {
     virtual bool v4();
     virtual void v5(int, int, int);
     virtual void v6();
-    virtual void v7(int, int, int);
+    virtual void v7(const void*, void*, void*);
 };
 
 struct __declspec(align(16)) S00c92040_Arg {
@@ -11361,13 +11361,13 @@ struct S00c92040_Obj {
     void* unk70;
     void* unk74;
     void* unk78;
-    int p7C;
+    void* p7C;
 
-    void FUN_00c92040(int a, int b);
+    void FUN_00c92040(const void* a, void* b);
 };
 
 // @fnv 0x00c92040
-void S00c92040_Obj::FUN_00c92040(int a, int b)
+void S00c92040_Obj::FUN_00c92040(const void* a, void* b)
 {
     extern void* DAT_00fdf044;
     extern const char str_010c64a8[];
@@ -11396,7 +11396,7 @@ void S00c92040_Obj::FUN_00c92040(int a, int b)
         arg.p00 = DAT_010c647c;
         arg.f30 = 0;
         arg.f34 = 0;
-        reinterpret_cast<::S_00cfab30_this *>(&(arg))->RecordAndDispatch((::S_00cfab30_object *)(p58), (::S_00cfab30_arg *)(a), (void *)(p7C), (void *)(0), (void *)(b));
+        reinterpret_cast<::S_00cfab30_this *>(&(arg))->RecordAndDispatch((::S_00cfab30_object *)(p58), (::S_00cfab30_arg *)(a), p7C, nullptr, b);
     }
 
     pool = alloc(DAT_0126835c);
@@ -13089,12 +13089,12 @@ __forceinline void transformLocalPoseToModelPoseDAD(int numTransforms, const sho
 
 class PoseUserDAD {
 public:
-    void FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, int a4, int a5, int a6, int a7, float a8, int a9);
+    void FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, int a5, int a6, int a7, float a8, int a9);
 };
 
 // Converts local bone poses to model space on the stack and forwards them to FUN_00c998b0.
 // @fnv 0x00c99d40
-void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, int a4, int a5, int a6, int a7, float a8, int a9)
+void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, int a5, int a6, int a7, float a8, int a9)
 {
     hkStackDAD* stack = static_cast<hkStackDAD*>(::FUN_00c85750());
     hkQsTransformDAD* poseModel = (hkQsTransformDAD*)stack->m_cur;
@@ -13366,7 +13366,7 @@ struct caa4a0_TblFirst { unsigned int* m_00; };
 class caa4a0_RefObj {
 public:
     virtual void slot00();
-    virtual void slot04(int a, unsigned int b);
+    virtual void slot04(int a, void* b);
 };
 
 class caa4a0_Target {
@@ -13420,12 +13420,12 @@ public:
     unsigned int unk04;
     caa4a0_TblHost* unk08;
     caa4a0_TblFirst* unk0c;
-    bhkRefObject* FUN_00caa4a0(unsigned int param);
+    bhkRefObject* FUN_00caa4a0(void* param);
 };
 
 // Allocates a bhkRefObject, calls FUN_00c89730, and if a table entry is set, invokes slot04 on the object from slotb4.
 // @fnv 0x00caa4a0
-bhkRefObject* caa4a0_Target::FUN_00caa4a0(unsigned int param) {
+bhkRefObject* caa4a0_Target::FUN_00caa4a0(void* param) {
     TlsGuard_caa4a0 guard;
     FUN_00c876f0();
     bhkRefObject* obj = new bhkRefObject();
@@ -14681,7 +14681,7 @@ bool bhkWorld::StepSimulation() {
             if (!isMultithreaded) {
                 reinterpret_cast<::C91World *>((world))->FUN_00c91b10(DAT_012677ac);
             } else {
-                reinterpret_cast<::FUN_00c93ae0_class *>((world))->FUN_00c93ae0((void *)(DAT_012677d0->unk14), (void *)(DAT_012677d0->unk18), DAT_012677ac);
+                reinterpret_cast<::FUN_00c93ae0_class *>((world))->FUN_00c93ae0(DAT_012677d0->unk14, DAT_012677d0->unk18, DAT_012677ac);
             }
         }
 
@@ -14843,7 +14843,7 @@ int WorldFinishEntryC91C::FUN_00c91c00(void* queue, void* pool)
     if (m_pKdTreeManager == 0)
         return 0;
     if (m_bUseKdTree != 0) {
-        reinterpret_cast<::FUN_00c91270_cls *>((reinterpret_cast<TreeUpdateEntryC91C*>(this)))->FUN_00c91270((int)(queue));
+        reinterpret_cast<::FUN_00c91270_cls *>((reinterpret_cast<TreeUpdateEntryC91C*>(this)))->FUN_00c91270(queue);
         return 0;
     }
     reinterpret_cast<FUN_00c91250_Class*>(this)->FUN_00c91250();
@@ -15483,7 +15483,7 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
     if(object) object->vtable=0; else object=0;
     violated=object;
     object=(ObjectCtor*)worldAlloc(0x28);
-    pending=object ? ((::ObjectCtor *)(new ((void *)(object)) ::FUN_00cf75c0((int)(this)))) : 0;
+    pending=object ? ((::ObjectCtor *)(new ((void *)(object)) ::FUN_00cf75c0(this))) : 0;
     pendingQueues=0; pendingCount=0; bodyCount=0; criticalCount=0; phantomCount=0;
     blockOperations=0; allowOperations=1;
     modifyLock=0; propertyLock=0; dirtyLock=0;
@@ -15568,7 +15568,7 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
     object->unk08.raw=&DAT_010c63e0;
     phantomListener=object;
     object=allocObject<ObjectCtor>(0x10);
-    entityListener=((::ObjectCtor *)(reinterpret_cast<::FUN_00d107d0_t *>((object))->FUN_00d107d0((int)(this))));
+    entityListener=((::ObjectCtor *)(reinterpret_cast<::FUN_00d107d0_t *>((object))->FUN_00d107d0(this)));
     object=allocObject<ObjectCtor>(0xc);
     object->references=1;
     object->vtable=(ObjectVtableCtor*)&DAT_010c6410;
@@ -15584,7 +15584,7 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
     broadphaseDispatcher->unk68.raw=borderListener ? &borderListener->unk08 : 0;
     broadphaseDispatcher->unk6c.raw=borderListener ? &borderListener->unk08 : 0;
     ObjectCtor* agent=((::ObjectCtor *)(::new ((void *)(allocObject<ObjectCtor>(0xc))) ::FUN_00cfd450((::hkWorldCFD4 *)(::WorldCtor *)(this))));
-    dispatcher=((::ObjectCtor *)(reinterpret_cast<::FUN_00cfc030_cls *>((allocObject<ObjectCtor>(0x1e50)))->FUN_00cfc030((unsigned int)((void*)&((void (&)())::FUN_00d10790)),(unsigned int)(agent))));
+    dispatcher=((::ObjectCtor *)(reinterpret_cast<::FUN_00cfc030_cls *>((allocObject<ObjectCtor>(0x1e50)))->FUN_00cfc030((void*)&((void (&)())::FUN_00d10790),(agent))));
     release(agent);
     if(!info->filter) {
         object=allocObject<ObjectCtor>(0x30);
@@ -15930,7 +15930,7 @@ void FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, co
     res.m_vComponents = _mm_min_ps(_mm_max_ps(res.m_vComponents, (*reinterpret_cast<const ::Vec_c99210 *>(&::DAT_01267e30)).m_vComponents), _mm_set_ps1(1.0f));
     float alpha = (int)(color >> 24) * (double(1.0f / 255.0f));
     unsigned int argb = PackColorBigEndian(res.m_vComponents[0], res.m_vComponents[1], res.m_vComponents[2], alpha);
-    (*reinterpret_cast<::C00c98720 * *>(&::DAT_012681e0))->FUN_00c98720(reinterpret_cast<int>(&vertexA), reinterpret_cast<int>(&vertexB), reinterpret_cast<int>(&vertexC), argb, 0, 0);
+    (*reinterpret_cast<::C00c98720 * *>(&::DAT_012681e0))->FUN_00c98720(&vertexA, &vertexB, &vertexC, argb, 0, 0);
 }
 #include "generated/data/havok/physics/dynamics/world/hkpworld.inc"
 #include "generated/data/havok/physics/dynamics/world/hkpworld_rtm_variant.inc"

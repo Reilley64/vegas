@@ -6,5 +6,5 @@ struct CbfSrc;
 struct CbfOwner {
 public:
     // 0x00cbf860
-    void FUN_00cbf860(::CbfTarget *, ::CbfSrc *, int *, int, int);
+    void FUN_00cbf860(::CbfTarget *, ::CbfSrc *, int *, int, void *);
 };

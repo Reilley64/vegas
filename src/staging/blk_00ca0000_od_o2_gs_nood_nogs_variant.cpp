@@ -101,7 +101,7 @@ struct CbfOwner
     int unk00;
     CbfSrc* m_04;
     int m_08;
-    int m_0C;
+    void* m_0C;
     int m_10;
     int unk14;
     int unk18;
@@ -116,11 +116,11 @@ struct CbfOwner
     int unk3C;
     int unk40;
     int m_44;
-    void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5);
+    void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, void* p5);
 };
 
 // @fnv 0x00cbf860
-void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5)
+void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, void* p5)
 {
     cbfTimer(DAT_010c9268);
     m_04 = src;

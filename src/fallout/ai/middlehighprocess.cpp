@@ -560,6 +560,15 @@
 #include "fnv/symbols_00458000.h"
 #include "fnv/symbols_004ae000.h"
 #include <xmmintrin.h>
+class TESClass;
+template <> class BSSimpleList<TESClass*>
+{
+  public:
+    TESClass* m_item;
+    BSSimpleList* m_pkNext;
+    void SetItem(TESClass*& item);
+    int GetSize();
+};
 
 // @fnv 0x00460ff0
 FurnitureMark* MiddleHighProcess::GetFurnitureMarkerData()
@@ -3325,6 +3334,7 @@ struct FUN_00915ae0_shell : public MiddleHighProcess
 
 struct Flt
 {
+    void* m_pObject;
     operator unsigned int() const;
 };
 struct PaddedFloatRecord
@@ -3351,7 +3361,7 @@ void FUN_00915ae0_shell::ClearQueuedItems()
         if (pitem)
         {
             if (pitem->flt)
-                reinterpret_cast<::FUN_00528870_shell *>(((*reinterpret_cast<::fnv_00915ae0::IOManager * *>(&::DAT_01202d98))))->RunQueuedTask((::QueuedTask *)(pitem->flt), (void *)(0));
+                reinterpret_cast<::FUN_00528870_shell *>(((*reinterpret_cast<::fnv_00915ae0::IOManager * *>(&::DAT_01202d98))))->RunQueuedTask((::QueuedTask *)(pitem->flt.m_pObject), (void *)(0));
             delete pitem;
         }
         pCurrentElementNext->_ref_0063f7b0();
@@ -3911,8 +3921,8 @@ void FUN_0092c120_shell::UpdateHideLimbNodes(Actor* apActor, float afDeltaTime)
         plimb->m_fPackageValue += afDeltaTime;
         if (!bremove && plimb->m_fPackageValue > fUpdatePeriod)
         {
-            reinterpret_cast<::B6FF0Actor *>((((ActorLimbs*)apActor)))->CollectLimbBones((::B6FF0Node *)(plimb->spLimbNode), 0);
-            reinterpret_cast<::fnv_008b6290::Cls *>((((ActorLimbs*)apActor)))->ProcessObjects((void *)(plimb->m_iLimbIndex), (void *)(plimb->spLimbNode), (::fnv_008b6290::Src *)(plimb->spParentNode), plimb->bExplode);
+            reinterpret_cast<::B6FF0Actor *>((((ActorLimbs*)apActor)))->CollectLimbBones((::B6FF0Node *)(plimb->spLimbNode.m_pObject), 0);
+            reinterpret_cast<::fnv_008b6290::Cls *>((((ActorLimbs*)apActor)))->ProcessObjects((void *)(plimb->m_iLimbIndex), plimb->spLimbNode.m_pObject, (::fnv_008b6290::Src *)(plimb->spParentNode.m_pObject), plimb->bExplode);
             bremove = true;
         }
         if (bremove)
@@ -11411,7 +11421,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
             {
                 if (previous)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(&((::fnv_009278d0::RefStub *)(((::Vec3 *)(void *)(current)))))));
+                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(void *)(current)));
                     current = ((::fnv_009278d0::RefList *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                 }
                 else
@@ -11475,7 +11485,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
             {
                 if (previous)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(&((::fnv_009278d0::FUN_00915790 *)(((::Vec3 *)(void *)(current)))))));
+                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(void *)(current)));
                     current = ((::fnv_009278d0::EntryListNode *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                 }
                 else
@@ -15021,7 +15031,6 @@ struct QueueAnimation
 struct QueueModelLoader
 {
 };
-extern QueueModelLoader* g_modelLoader;
 struct QueueProcess : MiddleHighProcess
 {
     void ProcessQueuedItems(QueueActor* actor);
@@ -15356,7 +15365,6 @@ struct P114Clock
 struct P114Global
 {
 };
-extern P114Clock DAT_011de7b8;
 struct P114Process : MiddleHighProcess
 {
     virtual void slot493();
@@ -18946,7 +18954,6 @@ struct PackageProcess
 struct PackageGameState
 {
 };
-extern PackageGameState DAT_011de7b8;
 
 // Runs the actor's current package state machine, advancing states and clearing the package when it finishes.
 // @fnv 0x0091bc60
@@ -20211,8 +20218,9 @@ void CrimeProcess::FUN_0091ded0(CrimeActor* actor)
                 if (kRef && ((RefQuery*)kRef)->IsActor())
                     criminal4 = dynamic_cast<Actor*>(kRef);
                 if (!((bool)(reinterpret_cast<::FUN_00833c20_shell *>((entry5))->FUN_00833c20())))
-                    reinterpret_cast<::TESDataHandler *>((crimeHandler))->GetReferencesInArea((::TESObjectCELL *)(void *)(actor->Extra()), (*(const ::NiPoint3 *)(actor->Value((float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))))),
-                                          actor->Value((float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))), (*(const ::NiPoint3 *)(((void (&)())::CheckAndQueueRadioRef))), (float)(entry5), {}, {});
+                    reinterpret_cast<::TESDataHandler *>((crimeHandler))->GetReferencesInArea((::TESObjectCELL *)(void *)(actor->Extra()), *(const ::NiPoint3 *)(std::intptr_t)actor->Value((float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))),
+                                          (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec)))))), *(const ::NiPoint3 *)(std::intptr_t)actor->Value((float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))), 0.0f,
+                                          (bool (*)(TESObjectREFR *, long))::CheckAndQueueRadioRef, (long)(std::intptr_t)entry5);
                 if (!accepted9)
                 {
                     int result = 0;
@@ -21529,9 +21537,7 @@ struct GlobalSettings
 {
     float FUN_00867da0();
 };
-extern GlobalSettings DAT_011de7b8;
 extern int DAT_01183028;
-extern int DAT_01183a1c;
 
 extern "C" int __cdecl FUN_00ec43fb(int, int, void*, void*, int);
 
@@ -22184,7 +22190,6 @@ struct Clock
 {
     float FUN_00867da0();
 };
-extern Clock DAT_011de7b8;
 struct Timer
 {
 };
@@ -28865,7 +28870,6 @@ struct Time
     float FUN_00867da0();
 };
 
-extern Time DAT_011de7b8;
 
 struct ActionTimer
 {
@@ -31148,7 +31152,6 @@ struct ActCalendar
 {
     float FUN_00867da0();
 };
-extern ActCalendar DAT_011de7b8;
 
 struct ActGlobal
 {
@@ -32175,7 +32178,6 @@ struct V1f4
     virtual Pt* v1f4();
 };
 
-extern "C" HourObj DAT_011de7b8;
 
 struct MidProc
 {
@@ -35595,9 +35597,9 @@ void xProcess::FUN_00927000(xBuf* buf)
         m_0c8.AddHead(&m_uiSoundID);
     }
     reinterpret_cast<::ActorPackageContext *>(&(m_0e4))->LoadGame((::BGSLoadFormBuffer *)(buf));
-    if (qsSDDgz && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::xChangeFlags &)(buf->GetChangeFlags(0x10000000)))->FUN_004280f0())
+    if (qsSDDgz && reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::xChangeFlags &)(buf->GetChangeFlags(0x10000000)))->FUN_004280f0(0x10000000))
         reinterpret_cast<::fnv_0084a810::FUN_0084a810_shell *>(((*reinterpret_cast<::xSaveLoad * *>(&::g_BGSSaveLoadGame))))->FUN_0084a810(0, (::fnv_0084a810::BGSLoadFormBuffer *)(buf), (::TESForm *)(0));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::xChangeFlags &)(buf->GetChangeFlags(0x8000020)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::xChangeFlags &)(buf->GetChangeFlags(0x8000020)))->FUN_004280f0(0x8000020))
     {
         xExtraData* pkData = ((::xExtraData *)(reinterpret_cast<::ExtraDataList *>((((::xExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((qsSDDgz))->FUN_005d43c0()))))->GetContainerChangeData()));
         if (pkData)
@@ -35710,14 +35712,11 @@ struct RefListClear
 };
 
 
-__if_not_exists(TargetDoorController::~TargetDoorController)
+class TargetDoorController
 {
-    class TargetDoorController
-    {
-      public:
-        ~TargetDoorController();
-    };
-}
+  public:
+    ~TargetDoorController();
+};
 
 enum ProcedurePackageType
 {
@@ -35780,7 +35779,6 @@ struct ProcedureManager
 };
 
 
-extern ProcedureManager DAT_011de7b8;
 
 
 
@@ -37849,7 +37847,7 @@ void FinishInitLoadProcessView::FUN_00925700(unsigned int a1, unsigned int a2, M
                     ThreeByThreeMatrix p;
                     reinterpret_cast<::FUN_004a0c90_shell *>(&(p))->FUN_004a0c90(reinterpret_cast<::FUN_00568650_shell *>((((LocalMarker*)&this->FurnitureMarker)))->FUN_00568650());
                     eb = p.FUN_004b4500(&eb);
-                    actor->Unk_AA(*(NiPoint3*)((void *)(((::Vec3 *)(void *)(((LocalMarker*)&this->FurnitureMarker))))) + eb);
+                    actor->Unk_AA(ResultSlot(*(NiPoint3*)((void *)(((::Vec3 *)(void *)(((LocalMarker*)&this->FurnitureMarker))))) + eb));
 
                     char i = this->m_ucFurnitureInteractionState;
                     this->m_ucFurnitureInteractionState = 0;
@@ -40876,7 +40874,6 @@ class PackageClockView
     float FUN_00867da0();
 };
 
-extern "C" PackageClockView DAT_011de7b8;
 
 class PackageLowProcessView : public LowProcess
 {
@@ -40930,7 +40927,7 @@ bool PackageProcessView::FUN_00917df0(Actor* pActor, bool bArg2)
         StopRunOncePackage();
     }
 
-    float fGameHour = DAT_011de7b8.FUN_00867da0();
+    float fGameHour = reinterpret_cast<PackageClockView&>(::g_011de7b8).FUN_00867da0();
 
     bool bResultTmp = false;
 
@@ -42227,7 +42224,7 @@ void MiddleHighProcess::FUN_0091db40(Actor* actor)
     bool worked = false;
     if (!found || found->GetDisabled())
     {
-        actor->Unk_10D(found);
+        (actor->*reinterpret_cast<void (Actor::*)(Actor*)>(&Actor::Unk_10D))(found);
         return;
     }
     if (found &&
@@ -42376,7 +42373,6 @@ struct EquipRegistry0091
 
 };
 
-extern int DAT_01183a1c;
 
 
 unsigned int __cdecl FUN_00ec43fb(int, int, int*, int*, int);
@@ -45778,7 +45774,7 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
     FurnitureList* cf = &(*reinterpret_cast<::FurnitureSearchDetail::FurnitureList *>(&::g_011e0424));
     while (cf && ((::TESObjectREFR *)(((::Vec3 *)(void *)(cf)))))
     {
-        reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)->FUN_005ae3d0(((::TESObjectREFR *)(((::Vec3 *)(void *)(cf)))));
+        reinterpret_cast<FurnitureList*>(&m_kSecondaryReferenceList)->FUN_005ae3d0(*(::TESObjectREFR **)(void *)(cf));
         cf = ((::FurnitureSearchDetail::FurnitureList *)(reinterpret_cast<::Callees *>((cf))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureList *>(&::g_011e0424))))->RemoveAll();
@@ -45814,12 +45810,6 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
 }
 
 
-template <> class BSSimpleList<TESClass*>
-{
-  public:
-    void SetItem(TESClass*& item);
-    int GetSize();
-};
 
 
 // @fnv 0x0091b580

@@ -37550,7 +37550,7 @@ void PlayerX::FUN_009590f0(BufferX* apBuffer)
     }
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&i4ac, 4, 0);
     reinterpret_cast<::FUN_008d33a0_shell *>(this)->SaveFormData((::BGSSaveFormBuffer *)(apBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FlagsX &)(apBuffer->GetChangeFlags(0x10000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FlagsX &)(apBuffer->GetChangeFlags(0x10000000)))->FUN_004280f0(0x10000000))
     {
         unsigned int uiStartQ = reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20();
         int iBeginNew = reinterpret_cast<::FUN_0084e3a0_Class *>((apBuffer))->FUN_0084e3a0();

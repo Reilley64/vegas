@@ -41476,7 +41476,7 @@ struct MyActor
 void MyActor::FUN_008aaee0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::fnv_00562140::FUN_00562140_cls *>(this)->FUN_00562140((::fnv_00562140::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008aaee0::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x10000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008aaee0::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x10000000)))->FUN_004280f0(0x10000000))
     {
         if (!v121())
         {

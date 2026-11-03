@@ -68,7 +68,7 @@ char GetByteAtOffset48(void* this_ptr)
     return static_cast<char*>(this_ptr)[0x30];
 }
 
-struct FUN_00589f50_shell
+struct FUN_00589f50_shell : ::BGSAcousticSpace
 {
     void SetSound(void* apSound);
 };
@@ -142,7 +142,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
 // @fnv 0x00589f50
 void FUN_00589f50_shell::SetSound(void* apSound)
 {
-    *(std::intptr_t*)((char*)this + 0x4c) = (std::intptr_t)apSound;
+    *(std::intptr_t*)&this->m_eCellEnvironmentType = (std::intptr_t)apSound;
 }
 
 struct Standin00589930
@@ -325,7 +325,7 @@ struct P09AS
 };
 
 
-struct FUN_00589f70_shell
+struct FUN_00589f70_shell : ::BGSAcousticSpace
 {
     void FUN_00589f70();
 };
@@ -375,7 +375,7 @@ void FUN_00589f70_shell::FUN_00589f70()
     }
     ::FUN_00485910(0x4d414e53, questFormID);
 
-    ::FUN_00485910(0x4d414e57, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x50));
+    ::FUN_00485910(0x4d414e57, *reinterpret_cast<unsigned int*>(&this->m_iFlags));
 
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest() != 0)
     {
@@ -385,7 +385,7 @@ void FUN_00589f70_shell::FUN_00589f70()
 
     ::FUN_00485910(0x4d414e41, reinterpret_cast<::FUN_0068a810_class *>((reinterpret_cast<P09AS*>(this)))->GetField4C());
 
-    if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x30) != 0)
+    if (*reinterpret_cast<unsigned char*>(&this->m_bIsInterior) != 0)
     {
         ::FUN_00485910(0x4d414e49, 1);
     }

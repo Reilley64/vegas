@@ -553,7 +553,7 @@ struct FUN_00485e00_shell
     void FUN_00485e00();
 };
 
-struct FUN_005991b0_shell
+struct FUN_005991b0_shell : MediaSet
 {
     void FUN_005991b0();
 };
@@ -563,88 +563,88 @@ struct FUN_005991b0_shell
 void FUN_005991b0_shell::FUN_005991b0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00487010();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<DoorPart30*>(static_cast<TESFullName *>(this))))->FUN_00487010();
 
-    ::FUN_00485910(0x314d414e, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44));
+    ::FUN_00485910(0x314d414e, *reinterpret_cast<unsigned int*>(&this->Type));
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x48)))->FUN_004048e0())) > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry1)))->FUN_004048e0())) > 0)
     {
         ::FUN_004856f0((void *)(0x324d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
-                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x48)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x48)))->FUN_004048e0())) + 1));
+                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry1)))),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry1)))->FUN_004048e0())) + 1));
     }
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_004048e0())) > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))->FUN_004048e0())) > 0)
     {
         ::FUN_004856f0((void *)(0x334d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
-                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x58)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_004048e0())) + 1));
+                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry2)))->FUN_004048e0())) + 1));
     }
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_004048e0())) > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))->FUN_004048e0())) > 0)
     {
         ::FUN_004856f0((void *)(0x344d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
-                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x68)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_004048e0())) + 1));
+                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry3)))->FUN_004048e0())) + 1));
     }
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x78)))->FUN_004048e0())) > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))->FUN_004048e0())) > 0)
     {
         ::FUN_004856f0((void *)(0x354d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
-                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x78)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x78)))->FUN_004048e0())) + 1));
+                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry4)))->FUN_004048e0())) + 1));
     }
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_004048e0())) > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))->FUN_004048e0())) > 0)
     {
         ::FUN_004856f0((void *)(0x364d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
-                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x88)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x88)))->FUN_004048e0())) + 1));
+                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry5)))->FUN_004048e0())) + 1));
     }
 
-    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x98)))->FUN_004048e0())) > 0)
+    if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))->FUN_004048e0())) > 0)
     {
         ::FUN_004856f0((void *)(0x374d414e),
                      reinterpret_cast<void*>(static_cast<unsigned int>(
-                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x98)))),
-                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(reinterpret_cast<char*>(this) + 0x98)))->FUN_004048e0())) + 1));
+                         *reinterpret_cast<GO*>(reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))),
+                     (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((reinterpret_cast<S7010*>(&this->m_kMediaSetEntry6)))->FUN_004048e0())) + 1));
     }
 
-    ::FUN_00485910(0x384d414e, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x50));
-    ::FUN_00485910(0x394d414e, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x60));
-    ::FUN_00485910(0x304d414e, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x70));
-    ::FUN_00485910(0x4d414e41, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x80));
-    ::FUN_00485910(0x4d414e42, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x90));
-    ::FUN_00485910(0x4d414e43, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xa0));
-    ::FUN_00485910(0x4d414e4a, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x54));
-    ::FUN_00485910(0x4d414e4b, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x64));
-    ::FUN_00485910(0x4d414e4c, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x74));
-    ::FUN_00485910(0x4d414e4d, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x84));
-    ::FUN_00485910(0x4d414e4e, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x94));
-    ::FUN_00485910(0x4d414e4f, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xa4));
+    ::FUN_00485910(0x384d414e, this->m_kMediaSetEntry1.Attenuation);
+    ::FUN_00485910(0x394d414e, this->m_kMediaSetEntry2.Attenuation);
+    ::FUN_00485910(0x304d414e, this->m_kMediaSetEntry3.Attenuation);
+    ::FUN_00485910(0x4d414e41, this->m_kMediaSetEntry4.Attenuation);
+    ::FUN_00485910(0x4d414e42, this->m_kMediaSetEntry5.Attenuation);
+    ::FUN_00485910(0x4d414e43, this->m_kMediaSetEntry6.Attenuation);
+    ::FUN_00485910(0x4d414e4a, this->m_kMediaSetEntry1.Percent);
+    ::FUN_00485910(0x4d414e4b, this->m_kMediaSetEntry2.Percent);
+    ::FUN_00485910(0x4d414e4c, this->m_kMediaSetEntry3.Percent);
+    ::FUN_00485910(0x4d414e4d, this->m_kMediaSetEntry4.Percent);
+    ::FUN_00485910(0x4d414e4e, this->m_kMediaSetEntry5.Percent);
+    ::FUN_00485910(0x4d414e4f, this->m_kMediaSetEntry6.Percent);
 
-    FUN_004858f0(0x4d414e50, *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xa8));
+    FUN_004858f0(0x4d414e50, *reinterpret_cast<unsigned char*>(&this->m_cMediaFlag));
 
-    ::FUN_00485910(0x4d414e44, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xac));
-    ::FUN_00485910(0x4d414e45, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xb0));
-    ::FUN_00485910(0x4d414e46, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xb4));
-    ::FUN_00485910(0x4d414e47, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xb8));
+    ::FUN_00485910(0x4d414e44, this->m_fMediaParameter1);
+    ::FUN_00485910(0x4d414e45, this->fSkillValueBonus);
+    ::FUN_00485910(0x4d414e46, this->m_fMediaParameter3);
+    ::FUN_00485910(0x4d414e47, this->m_fMediaValue);
 
-    if (*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0xbc))
+    if (this->m_pSound1)
     {
         ::FUN_00485910(0x4d414e48,
-                      ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0xbc))))->FUN_0084e3a0())));
+                      ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(this->m_pSound1)))->FUN_0084e3a0())));
     }
 
-    if (*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0xc0))
+    if (this->m_pSound2)
     {
         ::FUN_00485910(0x4d414e49,
-                      ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(*reinterpret_cast<TESSound**>(reinterpret_cast<char*>(this) + 0xc0))))->FUN_0084e3a0())));
+                      ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(this->m_pSound2)))->FUN_0084e3a0())));
     }
 
     reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e00();

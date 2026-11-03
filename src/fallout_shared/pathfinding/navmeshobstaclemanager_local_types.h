@@ -4,6 +4,10 @@
 template <class T, unsigned int N> class BSSimpleArray
 {
   public:
+    void** m_ppVirtualMethodTable;
+    T* pBuffer;
+    unsigned int uiSize;
+    unsigned int uiAllocSize;
     unsigned int Add(T&);
     unsigned int GetSize();
     void Clear(bool);
@@ -18,6 +22,10 @@ template <class T, class A> class NiTArray
 template <class K, class V> class NiTPointerMap
 {
   public:
+    void** m_ppVirtualMethodTable;
+    unsigned int m_uiHashSize;
+    void** m_ppHashTable;
+    unsigned int m_uiCount;
     void RemoveAll();
 };
 template <class T> class NiPointer

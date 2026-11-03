@@ -100,7 +100,7 @@ void FUN_004870f0_shell::CopyFullNameFrom(BaseFormComponent* apCopyFC)
     TESFullName* pCopy = dynamic_cast<TESFullName*>(apCopyFC);
     if (!pCopy)
         return;
-    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 4))))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pCopy)))->FUN_00408da0())), 0);
+    reinterpret_cast<::TextString *>((((BSStr*)&this->m_kName)))->FUN_004037f0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)pCopy)))->FUN_00408da0())), 0);
 }
 
 struct TESForm

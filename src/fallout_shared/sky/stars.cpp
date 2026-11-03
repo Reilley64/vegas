@@ -287,14 +287,14 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
     if (!((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)apSky)))->FUN_0044edb0())))
         return;
     float fhour = ::GetFieldEC((const char *)(apSky));
-    *(float*)((char*)this + 0xc) = 0.0f;
+    this->m_fAlpha = 0.0f;
     static NiPoint3Ex lastColor(0.0f, 0.0f, 0.0f);
     reinterpret_cast<::FUN_008d0600_s *>((((SkyObjectS*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
     if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
-        if (!reinterpret_cast<::FUN_006366b0_shell *>(((*(FUN_006366b0_shell**)((char*)this + 4))))->FUN_006366b0())
+        if (!reinterpret_cast<::FUN_006366b0_shell *>(((*(FUN_006366b0_shell**)&this->m_pRoot)))->FUN_006366b0())
         {
-            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)((char*)this + 4))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRoot)))->QueueActorDisarm(true);
             return;
         }
         float fSunsetBegin = ::fnv_00595fc0::FUN_00595fc0((char *)(((FUN_00595fc0_shell*)apSky)));
@@ -304,25 +304,25 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
         float fBeginFadeIn = fSunsetEnd - (fSunsetEnd - fSunsetBegin) * 0.5f;
         float fEndFadeOut = fSunriseEnd - (fSunriseEnd - fSunriseBegin) * 0.5f;
         if (fSunriseBegin < fhour && fhour < fEndFadeOut)
-            *(float*)((char*)this + 0xc) = (fEndFadeOut - fhour) / (fEndFadeOut - fSunriseBegin);
+            this->m_fAlpha = (fEndFadeOut - fhour) / (fEndFadeOut - fSunriseBegin);
         else if (fEndFadeOut <= fhour && fhour <= fBeginFadeIn)
-            *(float*)((char*)this + 0xc) = 0.0f;
+            this->m_fAlpha = 0.0f;
         else if (fBeginFadeIn < fhour && fhour < fSunsetEnd)
-            *(float*)((char*)this + 0xc) = (fhour - fBeginFadeIn) / (fSunsetEnd - fBeginFadeIn);
+            this->m_fAlpha = (fhour - fBeginFadeIn) / (fSunsetEnd - fBeginFadeIn);
         else
-            *(float*)((char*)this + 0xc) = 1.0f;
-        if (*(float*)((char*)this + 0xc) > 0.0)
+            this->m_fAlpha = 1.0f;
+        if (this->m_fAlpha > 0.0)
         {
-            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)((char*)this + 4))))->QueueActorDisarm(false);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRoot)))->QueueActorDisarm(false);
             NiPoint3Ex colorThisFrame = *(NiPoint3Ex*)((::fnv_00640020::WaterShaderSettings *)(reinterpret_cast<::FUN_0057eef0_shell *>((((TESWaterForm*)apSky)))->FUN_0057eef0()));
             NiGeometry* pstarsgeo = 0;
             NiAVObject* pchild = 0;
             unsigned int icount = (unsigned int)*(const Flt*)((char*)this + 8)
-                                      ? reinterpret_cast<::FUN_00453470_shell *>(((*(NiNode**)((char*)this + 8))))->FUN_00453470()
+                                      ? reinterpret_cast<::FUN_00453470_shell *>(((*(NiNode**)&this->m_pStarsNode)))->FUN_00453470()
                                       : 0;
             for (unsigned int i = 0; i < icount; i++)
             {
-                pchild = (*(NiNode**)((char*)this + 8))->GetAt(i);
+                pchild = (*(NiNode**)&this->m_pStarsNode)->GetAt(i);
                 if (pchild)
                 {
                     pstarsgeo = pchild->IsGeometry();
@@ -342,7 +342,7 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
                                 pStarsProp->g = colorThisFrame.y;
                                 pStarsProp->b = colorThisFrame.z;
                             }
-                            pStarsProp->fAlpha = *(float*)((char*)this + 0xc);
+                            pStarsProp->fAlpha = this->m_fAlpha;
                         }
                     }
                 }
@@ -354,11 +354,11 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
             NiPoint3Ex axis(((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccdc4))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011cce30))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccddc))))))->f);
             reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
             if ((unsigned int)*(const Flt*)((char*)this + 8))
-                reinterpret_cast<::NiAVObject *>(((*(NiNode**)((char*)this + 8))))->SetLocalRotation(fangle, axis.x, axis.y, axis.z);
+                reinterpret_cast<::NiAVObject *>(((*(NiNode**)&this->m_pStarsNode)))->SetLocalRotation(fangle, axis.x, axis.y, axis.z);
         }
         else
         {
-            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)((char*)this + 4))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRoot)))->QueueActorDisarm(true);
         }
     }
 }

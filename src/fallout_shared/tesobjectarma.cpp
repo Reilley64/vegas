@@ -151,11 +151,28 @@ class BGSDestructibleObjectForm
 class TESObjectARMA : public TESForm
 {
   public:
-    unsigned char padToBiped[0x6c];
+    unsigned char padToBiped[0x2c];
+    void* unk30;
+    unsigned char pad34[0x8];
+    void* unk3c;
+    unsigned char pad40[0x8];
+    void* unk48;
+    unsigned char pad4c[0xc];
+    void* unk58;
+    unsigned char pad5c[0x4];
+    void* unk60;
+    unsigned char pad64[0x4];
+    void* unk68;
+    unsigned char pad6c[0x4];
     TESBipedModelForm biped;
     BGSDestructibleObjectForm destructible;
     BGSEquipType equipType;
-    unsigned char padToData[0x1c];
+    void* unk15c;
+    unsigned char pad160[0x4];
+    void* unk164;
+    unsigned char pad168[0x4];
+    void* unk16c;
+    unsigned char pad170[0x8];
     ArmorData data;
     bool Load(TESFile* file);
     void ResetFormData();
@@ -234,7 +251,7 @@ struct FUN_0048ea40_holder
 {
 };
 
-struct FUN_005144c0_shell
+struct FUN_005144c0_shell : ::TESObjectARMA
 {
     void FUN_005144c0(std::uintptr_t flags);
 };
@@ -243,7 +260,7 @@ struct FUN_005144c0_shell
 void FUN_005144c0_shell::FUN_005144c0(std::uintptr_t flags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(flags));
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(&this->unk58)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(flags));
 }
 
 struct BGSLoadFormBuffer;
@@ -273,7 +290,7 @@ struct FUN_00511f30_holder
 {
     void* DestroyIfFlagged(unsigned int);
 };
-struct FUN_00511f60_shell : TESObjectARMO
+struct FUN_00511f60_shell : ::TESObjectARMA
 {
     void FUN_00511f60();
 };
@@ -290,18 +307,18 @@ void* FUN_00511f30_holder::DestroyIfFlagged(unsigned int flags)
 void FUN_00511f60_shell::FUN_00511f60()
 {
     *(void**)this = (void*)&DAT_0102a31c;
-    *(void**)((char*)this + 0x30) = (void*)&DAT_0102a304;
-    *(void**)((char*)this + 0x3c) = (void*)&DAT_0102a2f0;
-    *(void**)((char*)this + 0x48) = (void*)&DAT_0102a2d8;
-    *(void**)((char*)this + 0x58) = (void*)&DAT_0102a2b8;
-    *(void**)((char*)this + 0x60) = (void*)&DAT_0102a2a4;
-    *(void**)((char*)this + 0x68) = (void*)" rH";
+    this->unk30 = (void*)&DAT_0102a304;
+    this->unk3c = (void*)&DAT_0102a2f0;
+    this->unk48 = (void*)&DAT_0102a2d8;
+    this->unk58 = (void*)&DAT_0102a2b8;
+    this->unk60 = (void*)&DAT_0102a2a4;
+    this->unk68 = (void*)" rH";
     *(void**)((char*)this + 0x70) = (void*)&DAT_0102a278;
     *(void**)((char*)this + 0x14c) = (void*)&DAT_0102a264;
     *(void**)((char*)this + 0x154) = (void*)&DAT_0102a250;
-    *(void**)((char*)this + 0x15c) = (void*)&DAT_0102a23c;
-    *(void**)((char*)this + 0x164) = (void*)&DAT_0102a228;
-    *(void**)((char*)this + 0x16c) = (void*)&DAT_0102a214;
+    this->unk15c = (void*)&DAT_0102a23c;
+    this->unk164 = (void*)&DAT_0102a228;
+    this->unk16c = (void*)&DAT_0102a214;
     reinterpret_cast<::FUN_00512bd0 *>(this)->FUN_00512bd0::~FUN_00512bd0();
 }
 
@@ -334,7 +351,7 @@ bool TESObjectARMA::Load(TESFile* file)
             readOBNDSubRecord(file);
             break;
         case 'LLUF':
-            ::ReadFullName(this ? (TESFullName*)((char*)this + 0x30) : 0, file);
+            ::ReadFullName(this ? (TESFullName*)&this->unk30 : 0, file);
             break;
         case 'TDMB':
             if (reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((((TESFileFormVersion*)file)))->FUN_00403570() < 11)
@@ -474,7 +491,7 @@ void FUN_00512810_holder::FUN_00512810()
 struct FUN_005e78f0_t
 {
 };
-struct FUN_005128e0_obj
+struct FUN_005128e0_obj : ::TESObjectARMA
 {
     void FUN_005128e0(TESForm* apCopy);
 };
@@ -485,7 +502,7 @@ void FUN_005128e0_obj::FUN_005128e0(TESForm* apCopy)
     TESObjectARMO* parmo = dynamic_cast<TESObjectARMO*>(apCopy);
     if (parmo == 0)
         return;
-    __memcpy((char*)this + 0x178, (char*)apCopy + 0x178, 0xc);
+    __memcpy((char*)&this->data, (char*)apCopy + 0x178, 0xc);
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
@@ -510,7 +527,7 @@ struct FUN_00485e00_shell
 struct FUN_00485680_shell
 {
 };
-struct FUN_00512840_shell
+struct FUN_00512840_shell : ::TESObjectARMA
 {
     void FUN_00512840();
 };
@@ -518,15 +535,15 @@ struct FUN_00512840_shell
 void FUN_00512840_shell::FUN_00512840()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
-    ((FUN_00480610_shell*)((char*)this + 0x70))->InitBipedModel();
-    ((FUN_00479350_shell*)((char*)this + 0x154))->FUN_00479350();
+    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)&this->unk30)))->FUN_00487010();
+    ((FUN_00480610_shell*)&this->biped.prefix[0])->InitBipedModel();
+    ((FUN_00479350_shell*)&this->equipType.storage[0])->FUN_00479350();
     ((FUN_00485e00_shell*)this)->FUN_00485e00();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00535aa0_Class *>((((ArmorData*)((char*)this + 0x178))))->FUN_00535aa0();
-    ::AppendChunk(0x4d414e44, (char*)this + 0x178, 0xc);
+        reinterpret_cast<::FUN_00535aa0_Class *>(((&this->data)))->FUN_00535aa0();
+    ::AppendChunk(0x4d414e44, (char*)&this->data, 0xc);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_00535aa0_Class *>((((ArmorData*)((char*)this + 0x178))))->FUN_00535aa0();
+        reinterpret_cast<::FUN_00535aa0_Class *>(((&this->data)))->FUN_00535aa0();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 

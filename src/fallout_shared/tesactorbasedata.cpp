@@ -1053,7 +1053,7 @@ bool FUN_0047d7e0_Class::FUN_0047d7e0() const
     return (m_34 & 4) ? true : false;
 }
 
-struct FUN_0047e360_Cls
+struct FUN_0047e360_Cls : ::TESActorBaseData
 {
     void ClearFlags(unsigned int mask);
 };
@@ -1061,7 +1061,7 @@ struct FUN_0047e360_Cls
 // @fnv 0x0047e360
 void FUN_0047e360_Cls::ClearFlags(unsigned int mask)
 {
-    ((int*)this)[0x28 / 4] &= ~mask;
+    this->m_pDeathItem &= ~mask;
 }
 
 struct ABD_0047c790
@@ -1138,7 +1138,7 @@ struct SoundH
 struct FUN_0047cb90_t
 {
 };
-struct FUN_0047cac0_t
+struct FUN_0047cac0_t : ::TESActorBaseData
 {
     void DestroySoundHandles();
 };
@@ -1316,7 +1316,7 @@ struct Interface
 {
 };
 
-struct TESActorBaseData_0047e380
+struct TESActorBaseData_0047e380 : ::TESActorBaseData
 {
     unsigned short FUN_0047e380(unsigned int aiFlags);
 };
@@ -1402,10 +1402,10 @@ struct Header47cb90
 void FUN_0047cac0_t::DestroySoundHandles()
 {
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
-    ::AppendChunk(0x53424341, (char*)this + 4, 0x18);
+        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)&this->actorData.m_uiActorFlags)))->SwapEndianness();
+    ::AppendChunk(0x53424341, (char*)&this->actorData, 0x18);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
+        reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)&this->actorData.m_uiActorFlags)))->SwapEndianness();
     if (*(unsigned int*)((char*)this + 0x1c))
     {
         std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x1c))))->FUN_0084e3a0()));

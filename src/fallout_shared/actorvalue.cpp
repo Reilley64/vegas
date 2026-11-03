@@ -603,7 +603,7 @@ const char* __cdecl FUN_0066eb00(ActorValue::Index aiIndex)
     const char* presult = 0;
     ActorValueInfo* pinfo = ((::ActorValueInfo *)(::FUN_0066e920((*(int *)&(aiIndex)))));
     if (pinfo)
-        presult = (const char*)(reinterpret_cast<Flt*>((char*)pinfo + 0x3c))->operator unsigned int();
+        presult = (const char*)(reinterpret_cast<Flt*>(&pinfo->m_cAbbreviation))->operator unsigned int();
     return presult;
 }
 

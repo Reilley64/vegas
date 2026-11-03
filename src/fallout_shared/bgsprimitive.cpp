@@ -345,7 +345,7 @@ int FUN_00c4fec0_shell::FUN_00c4fec0()
     return 3;
 }
 
-struct FUN_004a6d90_shell
+struct FUN_004a6d90_shell : ::BGSPrimitive
 {
     bool IsPointInsideBox(NiPoint3& aPoint);
 };
@@ -354,9 +354,9 @@ struct FUN_004a6d90_shell
 // @fnv 0x004a6d90
 bool FUN_004a6d90_shell::IsPointInsideBox(NiPoint3& aPoint)
 {
-    if (-((NiPoint3*)((char*)this + 0x18))->x > aPoint.x || -((NiPoint3*)((char*)this + 0x18))->y > aPoint.y ||
-        -((NiPoint3*)((char*)this + 0x18))->z > aPoint.z || aPoint.x > ((NiPoint3*)((char*)this + 0x18))->x ||
-        aPoint.y > ((NiPoint3*)((char*)this + 0x18))->y || aPoint.z > ((NiPoint3*)((char*)this + 0x18))->z)
+    if (-this->m_kRadii.x > aPoint.x || -this->m_kRadii.y > aPoint.y ||
+        -this->m_kRadii.z > aPoint.z || aPoint.x > this->m_kRadii.x ||
+        aPoint.y > this->m_kRadii.y || aPoint.z > this->m_kRadii.z)
         return false;
     return true;
 }

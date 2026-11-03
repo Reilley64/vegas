@@ -639,17 +639,24 @@ struct GlobalObject_0052b8f0
 };
 
 
+// NiFloatData: the key count, key array, key type and key size behind a float interpolator.
 struct FUN_00533060_shell
 {
+    const void* m_pVtable;
+    unsigned int m_uiRefCount;
+    unsigned int m_uiNumKeys;
+    void* m_pKeys;
+    unsigned int m_eType;
+    unsigned char m_ucKeySize;
     void* FUN_00533060(void** a, void** b, char* c);
 };
 // @fnv 0x00533060
 void* FUN_00533060_shell::FUN_00533060(void** apFirst, void** apSecond, char* c)
 {
-    *apFirst = *(void**)((char*)this + 8);
-    *apSecond = *(void**)((char*)this + 0x10);
-    *c = *(char*)((char*)this + 0x14);
-    return *(void**)((char*)this + 0xc);
+    *apFirst = (void*)(std::uintptr_t)m_uiNumKeys;
+    *apSecond = (void*)(std::uintptr_t)m_eType;
+    *c = (char)m_ucKeySize;
+    return m_pKeys;
 }
 
 namespace fnv_00533000 {
@@ -660,18 +667,16 @@ struct Flt
 struct FUN_00533060_shell
 {
 };
-struct FUN_00533000_shell
+struct FUN_00533000_shell : NiFloatInterpolator
 {
-    char _pad[16];
-    Flt m_kHandle;
     void* FUN_00533000(void**, void**, char*);
 };
 // If the stored pointer is non-null, forwards to FUN_00533060; otherwise zeroes the three output pointers and returns null.
 // @fnv 0x00533000
 void* FUN_00533000_shell::FUN_00533000(void** a, void** b, char* c)
 {
-    if ((unsigned int)m_kHandle)
-        return reinterpret_cast<::FUN_00533060_shell *>((((FUN_00533060_shell*)(unsigned int)m_kHandle)))->FUN_00533060(a, b, c);
+    if (m_spFloatData)
+        return reinterpret_cast<::FUN_00533060_shell *>(m_spFloatData)->FUN_00533060(a, b, c);
     *a = 0;
     *b = 0;
     *c = 0;
@@ -771,14 +776,14 @@ struct FUN_005e79a0_t
 {
 };
 
-struct FUN_005310b0_shell
+struct FUN_005310b0_shell : TESImageSpaceModifier
 {
     bool FUN_005310b0(TESForm* form);
 };
 
 void* __cdecl FUN_00ec43fb(void* object, unsigned int type, void* data, const void* typeInfo, unsigned char option);
 
-struct FUN_00531490_shell
+struct FUN_00531490_shell : TESImageSpaceModifier::ImageSpaceModifierEffectData
 {
     void SwapEndian();
 };
@@ -1026,31 +1031,31 @@ void FUN_00531490_shell::SwapEndian()
     int j;
     int i;
 
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 4)));
+    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->fDuration)));
 
     for (j = 0; j < 21; ++j)
     {
         for (i = 0; i < 2; ++i)
         {
-            ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 8 + j * 8 + i * 4)));
+            ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(&this->m_auiKeyframeCountsByTypeAndChannel) + j * 8 + i * 4)));
         }
     }
 
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xb4)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xb8)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xb0)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xec)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xbc)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xc0)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xc4)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xe4)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xe8)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xcc)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xd0)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xd4)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xd8)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xdc)));
-    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0xf0)));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountSecond));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountThird));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountFirst));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountTwelfth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountFourth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountFifth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountSixth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountTenth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountEleventh));
+    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_kRadialBlurCenter.x)));
+    ::FUN_00401080((int *)(unsigned int *)(reinterpret_cast<unsigned int*>(&this->m_kRadialBlurCenter.y)));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountSeventh));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountEighth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountNinth));
+    ::FUN_00401080((int *)(unsigned int *)(&this->m_uiEffectEntryCountThirteenth));
 }
 
 struct FUN_0045cec0
@@ -1303,81 +1308,81 @@ bool FUN_005310b0_shell::FUN_005310b0(TESForm* form)
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(reinterpret_cast<TESForm*>(imageSpaceModifier)))
         return true;
 
-    if (std::memcmp(reinterpret_cast<char*>(this) + 0x20, reinterpret_cast<char*>(imageSpaceModifier) + 0x20, 0xf4))
+    if (std::memcmp(reinterpret_cast<char*>(&this->Data), reinterpret_cast<char*>(&imageSpaceModifier->Data), 0xf4))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x6fc),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x6fc),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd4) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pSecondEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pSecondEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountSecond) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x700),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x700),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd8) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pThirdEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pThirdEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountThird) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x704),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x704),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) * 0x14))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pFirstEffectRecordArray),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pFirstEffectRecordArray),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountFirst) * 0x14))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x708),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x708),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10c) * 0x14))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pSecondEffectRecordArray),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pSecondEffectRecordArray),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountTwelfth) * 0x14))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x70c),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x70c),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xdc) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pTenthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pTenthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountFourth) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x710),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x710),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xe0) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pEleventhEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pEleventhEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountFifth) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x714),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x714),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xe4) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pTwelfthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pTwelfthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountSixth) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x718),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x718),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x104) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pFourthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pFourthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountTenth) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x71c),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x71c),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x108) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pFifthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pFifthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountEleventh) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x720),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x720),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xf4) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pSeventhEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pSeventhEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountSeventh) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x724),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x724),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xf8) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pEighthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pEighthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountEighth) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x728),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x728),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xfc) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pNinthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pNinthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountNinth) * 8))
         return true;
 
-    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x72c),
-                *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x72c),
-                *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x110) * 8))
+    if (std::memcmp(*reinterpret_cast<void**>(&this->pSixthEffectEntries),
+                *reinterpret_cast<void**>(&imageSpaceModifier->pSixthEffectEntries),
+                *reinterpret_cast<int*>(&this->Data.m_uiEffectEntryCountThirteenth) * 8))
         return true;
 
     for (i = 0; i < 0x15; ++i)
     {
         for (j = 0; j < 2; ++j)
         {
-            if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x654 + i * 8 + j * 4),
-                        *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x654 + i * 8 + j * 4),
-                        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28 + i * 8 + j * 4) * 8))
+            if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(&this->pEffectEntryTable) + i * 8 + j * 4),
+                        *reinterpret_cast<void**>(reinterpret_cast<char*>(&imageSpaceModifier->pEffectEntryTable) + i * 8 + j * 4),
+                        *reinterpret_cast<int*>(reinterpret_cast<char*>(&this->Data.m_auiKeyframeCountsByTypeAndChannel) + i * 8 + j * 4) * 8))
                 return true;
         }
     }

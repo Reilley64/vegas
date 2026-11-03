@@ -478,19 +478,19 @@ bool TESNPC::Load(TESFile* file)
             case 'MANI': {
                 unsigned int deathItem = 0;
                 file->GetChunkData(&deathItem);
-                m_pBaseTemplateForm = reinterpret_cast<TESForm*>(deathItem);
+                pDeathItem = reinterpret_cast<TESForm*>(deathItem);
                 break;
             }
             case 'KCTV': {
                 unsigned int voice;
                 file->GetChunkData(&voice);
-                m_kFactionList = reinterpret_cast<TESForm*>(voice);
+                pVoiceType = reinterpret_cast<TESForm*>(voice);
                 break;
             }
             case 'TLPT': {
                 unsigned int templateID;
                 file->GetChunkData(&templateID);
-                m_ppTemplateForms = reinterpret_cast<TESForm*>(templateID);
+                pTemplateForm = reinterpret_cast<TESForm*>(templateID);
                 break;
             }
             case 'SBCA':
@@ -1061,7 +1061,7 @@ void FUN_004a0c90_shell::FUN_004a0c90(float afAngle)
     float fSin, fCos;
     FUN_004169a0(afAngle, fSin, fCos);
 
-    *(float*)((char*)this + 0x00) = fCos;
+    this->m[0][0] = fCos;
     this->m[0][1] = fSin;
     this->m[0][2] = 0.0f;
 
@@ -1239,7 +1239,7 @@ float TESNPC::GetDefaultHeight()
 // @fnv 0x00604210
 float FUN_00604210_shell::FUN_00604210(int aeSex)
 {
-    return (aeSex >= 0 && aeSex < 2) ? reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + 0x60)[aeSex]
+    return (aeSex >= 0 && aeSex < 2) ? m_fGlyphExtent[aeSex]
                                      : 0.0f;
 }
 
@@ -1262,7 +1262,7 @@ struct FUN_006047a0_shell : public PlayerCharacter
 // @fnv 0x006047a0
 bool FUN_006047a0_shell::FUN_006047a0()
 {
-    return *((bool*)((char*)this + 0x7c5));
+    return unk7c5;
 }
 
 struct VR_00605d70
@@ -1700,7 +1700,7 @@ void TESNPC::GetFaceGenNodes(BSFaceGenNiNode*& headBiped, BSFaceGenNiNode*& head
 // @fnv 0x00607350
 unsigned short FUN_00607350_shell::FUN_00607350()
 {
-    return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x4f8);
+    return m_usRaceAttribute;
 }
 
 struct Dummy_00607810
@@ -1805,16 +1805,13 @@ void S_0060af60::FUN_0060af60(unsigned short ausValue)
     reinterpret_cast<::FUN_004f32e0_class *>(this)->SetMaskedBits(ausValue, 0xf00, 8);
 }
 
-struct FR2MatrixVTCData
+struct FR2MatrixVTCData : public FaceGenMatrix<float>
 {
     void SetDimensions(int nr, int nc);
 };
 
-struct H_0060b3b0
+struct H_0060b3b0 : public FaceGenMatrix<float>
 {
-    char pad[0x18];
-    unsigned int a;
-    unsigned int b;
     void FUN_0060b3b0();
 };
 // @fnv 0x00601570
@@ -1893,11 +1890,11 @@ void FUN_00601570_shell::ResetCharacterData()
     reinterpret_cast<::FUN_005f7b50_Class *>(this)->SetFlag200(1, false);
     reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(50));
 }
-// Zeroes the buffer returned by FUN_006578b0(0), clearing a*b*4 bytes.
+// Zeroes the buffer returned by FUN_006578b0(0), clearing rows*columns floats.
 // @fnv 0x0060b3b0
 void H_0060b3b0::FUN_0060b3b0()
 {
-    memset(((float *)(reinterpret_cast<::V_006578b0 *>((void *)this)->FUN_006578b0(0))), 0, a * b * 4);
+    memset(((float *)(reinterpret_cast<::V_006578b0 *>((void *)this)->FUN_006578b0(0))), 0, m_uiRowCount * m_uiColumnCount * 4);
 }
 
 struct S_0060b3f0
@@ -1955,11 +1952,16 @@ struct NP
     int* p;
 };
 extern BSFaceGenManager* DAT_011d59e8;
-// Returns FUN_00559450() of the NP at offset 0x119c of DAT_011d59e8, or of a default NP(0) when DAT_011d59e8 is null.
+struct FaceGenManagerPointerView
+{
+    char pad[0x119c];
+    NP unk119c;
+};
+// Returns FUN_00559450() of the face gen manager's unk119c pointer, or of a default NP(0) when DAT_011d59e8 is null.
 // @fnv 0x006045f0
 intptr_t __cdecl GetFaceGenManagerValue()
 {
-    NP kPointer = DAT_011d59e8 ? *(NP*)((char*)DAT_011d59e8 + 0x119c) : NP(0);
+    NP kPointer = DAT_011d59e8 ? reinterpret_cast<FaceGenManagerPointerView*>(DAT_011d59e8)->unk119c : NP(0);
     return ::FUN_00559450((int *)&kPointer);
 }
 
@@ -1988,7 +1990,7 @@ BipedAnim* FUN_006055f0_shell::GetOrCreateBipedAnim(TESObjectREFR* apRef)
     return pExistingBipedAnim;
 }
 
-struct FUN_005d9f70_shell
+struct FUN_005d9f70_shell : public TESNPC
 {
     void SetField1B4(std::intptr_t value);
 };
@@ -1996,7 +1998,7 @@ struct FUN_005d9f70_shell
 // @fnv 0x005d9f70
 void FUN_005d9f70_shell::SetField1B4(std::intptr_t value)
 {
-    *(int*)((char*)this + 0x1b4) = value;
+    m_pOffsetFaceCoordinates = reinterpret_cast<FaceGenMatrix<float> (*)[2]>(value);
 }
 
 struct FUN_005f1230_shell : TESAttributes
@@ -2010,17 +2012,17 @@ unsigned char FUN_005f1230_shell::GetAttributeValue7()
     return reinterpret_cast<::FUN_00480160_shell *>(this)->FUN_00480160(7);
 }
 
-struct FUN_00601c70_shell
+struct FUN_00601c70_shell : public TESNPC
 {
     void FUN_00601c70(std::intptr_t param);
 };
 
-// Stores param at offset 0x130 of this and calls the virtual function at vtable offset 0x48 with 0x400.
+// Stores the class and calls the virtual function in vtable slot 0x48 / 4 with 0x400.
 // @fnv 0x00601c70
 void FUN_00601c70_shell::FUN_00601c70(std::intptr_t aiValue)
 {
-    *(int*)((char*)this + 0x130) = aiValue;
-    ((void(*)(void*, int)) * (int**)(*(int*)this + 0x48))(this, 0x400);
+    m_pClass = reinterpret_cast<TESClass*>(aiValue);
+    (*reinterpret_cast<void (***)(void*, int)>(this))[0x48 / 4](this, 0x400);
 }
 
 struct FUN_00603f90_shell : TESRaceForm
@@ -2046,15 +2048,15 @@ NiFixedString* __cdecl FUN_006041c0()
     return DAT_011c6210;
 }
 
-struct FUN_00604780_shell
+struct FUN_00604780_shell : public TESRace
 {
-    int FUN_00604780(int index);
+    std::intptr_t FUN_00604780(int index);
 };
 
 // @fnv 0x00604780
-int FUN_00604780_shell::FUN_00604780(int index)
+std::intptr_t FUN_00604780_shell::FUN_00604780(int index)
 {
-    return *(int*)((char*)this + 0x4FC + index * 4);
+    return reinterpret_cast<std::intptr_t>(m_apDefaultVoiceTypes[index]);
 }
 
 namespace fnv_00607340 {
@@ -2184,15 +2186,15 @@ struct FUN_006013a0_shell
     void FUN_006013a0();
 };
 
-struct Struct00601c30
+struct Struct00601c30 : public TESModel
 {
     const char* GetSexBasedString();
 };
-// Returns the string from one of two game setting collections depending on whether the actor base at this-0xDC has sex 1.
+// Returns the string from one of two game setting collections depending on whether the NPC that owns this model has sex 1.
 // @fnv 0x00601c30
 const char* Struct00601c30::GetSexBasedString()
 {
-    if (((TESActorBase*)((char*)this - 0xDC))->GetSex() == 1)
+    if (static_cast<TESActorBase*>(static_cast<TESModel*>(this))->GetSex() == 1)
         return ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d2718))))->GetMenuTitle()));
     return ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3e44))))->GetMenuTitle()));
 }
@@ -2281,16 +2283,19 @@ struct S8
     int v1;
     S8* FUN_0060b820(S8*, int);
 };
-void __cdecl FillRange(int, int, int, void*);
+void __cdecl FillRange(float*, int, const float*, void*);
 struct Unk060b8a0
 {
-    std::intptr_t FUN_0060b8a0(std::intptr_t, int, int);
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int allocator;
+    std::intptr_t FUN_0060b8a0(std::intptr_t, int, std::intptr_t);
 };
-// Calls FillRange with the three arguments and this+8, then returns a + b*4.
+// Fills aiSecond floats at aiFirst with the value at aiThird using the vector's allocator, then returns the end of the filled range.
 // @fnv 0x0060b8a0
-std::intptr_t Unk060b8a0::FUN_0060b8a0(std::intptr_t aiFirst, int aiSecond, int aiThird)
+std::intptr_t Unk060b8a0::FUN_0060b8a0(std::intptr_t aiFirst, int aiSecond, std::intptr_t aiThird)
 {
-    FillRange(aiFirst, aiSecond, aiThird, (char*)this + 8);
+    FillRange(reinterpret_cast<float*>(aiFirst), aiSecond, reinterpret_cast<const float*>(aiThird), &allocator);
     return aiFirst + aiSecond * 4;
 }
 
@@ -2498,8 +2503,8 @@ int FUN_00603220(char** apFirst, char** apSecond)
     char** localB = apSecond;
     if (!localA || !*localA || !localB || !*localB)
         return 0;
-    return FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(*localA) + 0xd0)))->FUN_00408da0())),
-                        ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(reinterpret_cast<char*>(*localB) + 0xd0)))->FUN_00408da0())));
+    return FUN_00408b20(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(static_cast<TESFullName*>(reinterpret_cast<TESNPC*>(*localA)))->FUN_00408da0())),
+                        ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(static_cast<TESFullName*>(reinterpret_cast<TESNPC*>(*localB)))->FUN_00408da0())));
 }
 
 struct PC7d
@@ -2510,7 +2515,7 @@ struct FUN_00484d20_Class
 public:
     void ForwardToSaveLoadGame(std::intptr_t, int);
 };
-struct FUN_00608e00_shell
+struct FUN_00608e00_shell : public TESNPC
 {
     void FUN_00608e00(unsigned int aiFlags);
 };
@@ -2521,13 +2526,13 @@ void FUN_00608e00_shell::FUN_00608e00(unsigned int aiFlags)
     reinterpret_cast<::fnv_005f18c0::SaveActorBase *>(this)->FUN_005f18c0(aiFlags);
     if (aiFlags & 0x200)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<char*>(this) + 0x114)), 0xe);
+            (void *)(&data), 0xe);
     if (aiFlags & 0)
     {
         int icombatstyleID = 0;
-        if (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x1d4))
+        if (m_pCombatStyle)
             icombatstyleID =
-                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x1d4))))->FUN_0084e3a0()));
+                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(m_pCombatStyle)->FUN_0084e3a0()));
         reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame((std::intptr_t)(&icombatstyleID), 4);
     }
 }
@@ -2541,7 +2546,7 @@ struct FUN_00484d40_Host
 {
     void FUN_00484d40(unsigned int*, int);
 };
-struct FUN_00608e80_shell
+struct FUN_00608e80_shell : public TESNPC
 {
     void FUN_00608e80(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
@@ -2550,13 +2555,13 @@ void FUN_00608e80_shell::FUN_00608e80(unsigned int aiFlags, unsigned int aiCurre
 {
     reinterpret_cast<::fnv_005f1b30::ActorBaseLoad *>(this)->FUN_005f1b30(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x200)
-        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0x114, 0xe);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)&data, 0xe);
     if (aiFlags & 0)
     {
         unsigned int icombatstyleID;
         ((FUN_00484d40_Host*)this)->FUN_00484d40(&icombatstyleID, 4);
-        *(TESCombatStyle**)((char*)this + 0x1d4) =
-            (TESCombatStyle*)dynamic_cast<TESCombatStyle*>(::FUN_004839c0(icombatstyleID));
+        m_pCombatStyle =
+            (::TESCombatStyle*)dynamic_cast<::TESCombatStyle*>(::FUN_004839c0(icombatstyleID));
     }
 }
 
@@ -2569,55 +2574,46 @@ struct FUN_006047a0_shell : public TESObject
 {
 };
 
-struct FUN_00604780_shell
-{
-};
-
 struct BGSDefaultObjectManager
 {
 };
 
-struct FUN_006046a0_shell
+struct FUN_006046a0_shell : public ::TESActorBaseData
 {
     TESForm* GetHeadPartForm();
 };
 
 
-// For the player actor, picks a default head part form by sex and FUN_006047a0 state, then returns the stored form or resolves one from the list at +0xdc.
+// For the player's base NPC, picks a default voice type by sex and FUN_006047a0 state; then returns the stored voice type or the race's default for the NPC's sex.
 // @fnv 0x006046a0
 TESForm* FUN_006046a0_shell::GetHeadPartForm()
 {
-    if (reinterpret_cast<unsigned int>(reinterpret_cast<char*>(this) - 0x30) == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_006046a0::FUN_006047a0_shell * *>(&::_g_thePlayer))))->FUN_007af430())))
+    ::TESNPC* pnpc = static_cast<::TESNPC*>(static_cast<::TESActorBaseData*>(this));
+    if (static_cast<void*>(pnpc) == static_cast<void*>(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_006046a0::FUN_006047a0_shell * *>(&::_g_thePlayer))))->FUN_007af430()))
     {
-        if (reinterpret_cast<TESActorBase*>(reinterpret_cast<char*>(this) - 0x30)->GetSex() == 0)
+        if (pnpc->GetSex() == 0)
         {
             if (!reinterpret_cast<::FUN_006047a0_shell *>(((*reinterpret_cast<::fnv_006046a0::FUN_006047a0_shell * *>(&::_g_thePlayer))))->FUN_006047a0())
-                *reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x20) =
-                    ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x0e));
+                pVoiceType = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x0e));
             else
-                *reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x20) =
-                    ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x0f));
+                pVoiceType = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x0f));
         }
         else
         {
             if (!reinterpret_cast<::FUN_006047a0_shell *>(((*reinterpret_cast<::fnv_006046a0::FUN_006047a0_shell * *>(&::_g_thePlayer))))->FUN_006047a0())
-                *reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x20) =
-                    ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x10));
+                pVoiceType = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x10));
             else
-                *reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x20) =
-                    ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x11));
+                pVoiceType = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x11));
         }
     }
 
-    if (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x20))
-        return *reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x20);
+    if (pVoiceType)
+        return pVoiceType;
 
-    BSSimpleList<BGSHeadPart*>* list =
-        ((::BSSimpleList< ::BGSHeadPart *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(reinterpret_cast<char*>(this) + 0xdc)))->FUN_00726070()));
+    ::TESRace* prace = ((::TESRace *)(reinterpret_cast<::Callees *>(static_cast<::TESRaceForm*>(pnpc))->FUN_00726070()));
 
-    if (list)
-        return reinterpret_cast<TESForm*>(reinterpret_cast<::FUN_00604780_shell *>((reinterpret_cast<FUN_00604780_shell*>(list)))->FUN_00604780(
-            reinterpret_cast<TESActorBase*>(reinterpret_cast<char*>(this) - 0x30)->GetSex()));
+    if (prace)
+        return prace->m_apDefaultVoiceTypes[pnpc->GetSex()];
 
     return 0;
 }
@@ -2650,7 +2646,7 @@ struct HeadPartNode
     bool FUN_008256d0();
 };
 
-struct NPCSerializer
+struct NPCSerializer : public TESNPC
 {
     void WriteToStream();
 };
@@ -2661,25 +2657,25 @@ void NPCSerializer::WriteToStream()
 {
     unsigned int count;
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((SaveField*)((char*)this + 0xd0))))->FUN_00487010();
-    reinterpret_cast<::FUN_004891d0_cls *>((((SaveField*)((char*)this + 0xdc))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
-    reinterpret_cast<::FUN_0047cac0_t *>((((SaveField*)((char*)this + 0x30))))->DestroySoundHandles();
-    reinterpret_cast<::FUN_0048b830_Class *>((((SaveField*)((char*)this + 0x10c))))->ReleaseSound();
-    reinterpret_cast<::TESSpellListShell *>((((SaveField*)((char*)this + 0x7c))))->FUN_0048d330();
-    reinterpret_cast<::FUN_0047bd70_shell *>((((SaveField*)((char*)this + 0x70))))->FUN_0047bd70();
-    reinterpret_cast<::FUN_00477f20_shell *>((((SaveField*)((char*)this + 0x104))))->FUN_00477f20();
+    reinterpret_cast<::FUN_00487010_shell *>(static_cast<TESFullName*>(this))->FUN_00487010();
+    reinterpret_cast<::FUN_004891d0_cls *>(static_cast<TESModel*>(this))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_0047cac0_t *>(static_cast<TESActorBaseData*>(this))->DestroySoundHandles();
+    reinterpret_cast<::FUN_0048b830_Class *>(static_cast<TESRaceForm*>(this))->ReleaseSound();
+    reinterpret_cast<::TESSpellListShell *>(static_cast<TESSpellList*>(this))->FUN_0048d330();
+    reinterpret_cast<::FUN_0047bd70_shell *>(static_cast<BGSTouchSpellForm*>(this))->FUN_0047bd70();
+    reinterpret_cast<::FUN_00477f20_shell *>(static_cast<BGSDestructibleObjectForm*>(this))->FUN_00477f20();
 
-    if (*(GameForm**)((char*)this + 0x130))
+    if (m_pClass)
     {
-        count = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(GameForm**)((char*)this + 0x130))))->FUN_0084e3a0()));
+        count = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pClass))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e43, count);
     }
     reinterpret_cast<::FUN_00485e00_shell *>(this)->FUN_00485e00();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((SaveField*)((char*)this + 0x114))))->ClearData();
-    ::AppendChunk(0x4d414e44, (char*)this + 0x114, 0x1c);
+        reinterpret_cast<::TESForm *>((&data))->ClearData();
+    ::AppendChunk(0x4d414e44, (char*)&data, 0x1c);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((SaveField*)((char*)this + 0x114))))->ClearData();
+        reinterpret_cast<::TESForm *>((&data))->ClearData();
 
     HeadPartNode* head = ((::HeadPartNode *)(reinterpret_cast<::FUN_00602170_shell *>(this)->FUN_00602170()));
     while (head && !head->FUN_008256d0())
@@ -2698,16 +2694,16 @@ void NPCSerializer::WriteToStream()
     {
         ::FUN_00485910(0x4d414e45, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::GameForm *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetAnimation()))))->FUN_0084e3a0())));
     }
-    ::FUN_00485910(0x524c4348, *(unsigned int*)((char*)this + 0x1d8));
+    ::FUN_00485910(0x524c4348, iHairColor);
 
     typedef GameForm*(* GetExtraFace)(NPCSerializer*);
     if (((GetExtraFace)((*(void***)this)[0x188 / 4]))(this))
     {
         ::FUN_00485910(0x4d414e5a, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((GetExtraFace)((*(void***)this)[0x188 / 4]))(this)))->FUN_0084e3a0())));
     }
-    ::FUN_00485910(0x344d414e, *(unsigned int*)((char*)this + 0x1e4));
+    ::FUN_00485910(0x344d414e, (unsigned int)m_eImpactMaterial);
 
-    std::uintptr_t formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FaceMatrix*)((char*)this + 0x134))))->FUN_009611e0()));
+    std::uintptr_t formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((&m_kFaceGenCoordinates[0][0]))->FUN_009611e0()));
     if (formID != 0)
     {
         unsigned int values = formID * 4;
@@ -2715,13 +2711,13 @@ void NPCSerializer::WriteToStream()
         FUN_00403d30(bytes, 0, values);
         for (unsigned int index = 0; index < formID; ++index)
         {
-            bytes[index] = *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue &)(((FaceMatrix*)((char*)this + 0x134))->FUN_0060b370(index, 0)))->FUN_00629ab0({})));
+            bytes[index] = *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue &)(reinterpret_cast<FaceMatrix*>(&m_kFaceGenCoordinates[0][0])->FUN_0060b370(index, 0)))->FUN_00629ab0({})));
         }
         ::FUN_00485710((void *)(0x53474746), (void *)(bytes), (void *)(formID));
         FUN_00401030(bytes);
         bytes = 0;
     }
-    formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FaceMatrix*)((char*)this + 0x154))))->FUN_009611e0()));
+    formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((&m_kFaceGenCoordinates[0][1]))->FUN_009611e0()));
     if (formID != 0)
     {
         unsigned int bytesSecond = formID * 4;
@@ -2730,13 +2726,13 @@ void NPCSerializer::WriteToStream()
         for (unsigned int indexSecond = 0; indexSecond < formID; ++indexSecond)
         {
             valuesSecond[indexSecond] =
-                *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue &)(((FaceMatrix*)((char*)this + 0x154))->FUN_0060b370(indexSecond, 0)))->FUN_00629ab0({})));
+                *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue &)(reinterpret_cast<FaceMatrix*>(&m_kFaceGenCoordinates[0][1])->FUN_0060b370(indexSecond, 0)))->FUN_00629ab0({})));
         }
         ::FUN_00485710((void *)(0x41474746), (void *)(valuesSecond), (void *)(formID));
         FUN_00401030(valuesSecond);
         valuesSecond = 0;
     }
-    formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FaceMatrix*)((char*)this + 0x174))))->FUN_009611e0()));
+    formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((&m_kFaceGenCoordinates[1][0]))->FUN_009611e0()));
     if (formID != 0)
     {
         unsigned int bytesThird = formID * 4;
@@ -2744,16 +2740,16 @@ void NPCSerializer::WriteToStream()
         FUN_00403d30(valuesThird, 0, bytesThird);
         for (unsigned int indexThird = 0; indexThird < formID; ++indexThird)
         {
-            valuesThird[indexThird] = *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue &)(((FaceMatrix*)((char*)this + 0x174))->FUN_0060b370(indexThird, 0)))->FUN_00629ab0({})));
+            valuesThird[indexThird] = *((const float *)&(reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::FaceValue &)(reinterpret_cast<FaceMatrix*>(&m_kFaceGenCoordinates[1][0])->FUN_0060b370(indexThird, 0)))->FUN_00629ab0({})));
         }
         ::FUN_00485710((void *)(0x53544746), (void *)(valuesThird), (void *)(formID));
         FUN_00401030(valuesThird);
         valuesThird = 0;
     }
 
-    ::FUN_00485950((void *)(0x354d414e), *(unsigned short*)((char*)this + 0x1d0));
-    ::FUN_00485910(0x364d414e, *(float*)((char*)this + 0x1f4));
-    ::FUN_00485910(0x374d414e, *(float*)((char*)this + 0x1f8));
+    ::FUN_00485950((void *)(0x354d414e), m_usLastRace);
+    ::FUN_00485910(0x364d414e, m_fGlyphExtent);
+    ::FUN_00485910(0x374d414e, fWeight);
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
@@ -2925,19 +2921,19 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x4D414E49 /* INAM */: {
             unsigned int uiDeathItem = 0;
             apFile->GetChunkData(&uiDeathItem);
-            m_pBaseTemplateForm = (TESForm*)(std::uintptr_t)uiDeathItem;
+            pDeathItem = (TESForm*)(std::uintptr_t)uiDeathItem;
             break;
         }
         case 0x4B435456 /* VTCK */: {
             unsigned int uiVoice;
             apFile->GetChunkData(&uiVoice);
-            m_kFactionList = (TESForm*)(std::uintptr_t)uiVoice;
+            pVoiceType = (TESForm*)(std::uintptr_t)uiVoice;
             break;
         }
         case 0x544C5054 /* TPLT */: {
             unsigned int uiTemplate;
             apFile->GetChunkData(&uiTemplate);
-            m_ppTemplateForms = (TESForm*)(std::uintptr_t)uiTemplate;
+            pTemplateForm = (TESForm*)(std::uintptr_t)uiTemplate;
             break;
         }
         case 0x53424341 /* ACBS */:
@@ -3134,20 +3130,20 @@ void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
     bool flag = true;
     while (1)
     {
-        std::intptr_t pEntry = ((std::intptr_t)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)((reinterpret_cast<::Callees *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00726070())))))->FUN_00726070()));
+        std::intptr_t pEntry = ((std::intptr_t)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)((reinterpret_cast<::Callees *>((((FUN_00603280_Api*)(*reinterpret_cast<std::intptr_t *>(&::g_dataHandler)))))->FUN_00726070())))))->FUN_00726070()));
         while (pEntry != 0)
         {
             if (((FUN_00603280_Api*)pEntry)->FUN_00401170() == 0x2a)
             {
-                int item = pEntry;
+                std::intptr_t item = pEntry;
                 if (((int)(std::intptr_t)(reinterpret_cast<::FUN_004ac110_shell *>((((FUN_00603280_Api*)item)))->FUN_004ac110())) == aiFirstValue &&
                     ((FUN_00603280_Api*)item)->FUN_005f0cc0() == aiSecondValue)
                 {
-                    if (!flag || reinterpret_cast<::TESActorBaseData *>((((FUN_00603280_Api*)(item + 0x30))))->GetFlag(4))
+                    if (!flag || static_cast<::TESActorBaseData *>(reinterpret_cast<::TESNPC *>(item))->GetFlag(4))
                     {
-                        if (item != ((int)(std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_007af430())))
+                        if (item != ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00603280_Api*)(*reinterpret_cast<std::intptr_t *>(&::_g_thePlayer)))))->FUN_007af430())))
                         {
-                            reinterpret_cast<::FUN_00438690 *>((((FUN_00603280_Api*)pCollector)))->FUN_007cb2e0((unsigned int *)(int *)(&item));
+                            reinterpret_cast<::FUN_00438690 *>((((FUN_00603280_Api*)pCollector)))->FUN_007cb2e0((unsigned int *)(&item));
                         }
                     }
                 }
@@ -5197,9 +5193,9 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 source9 = reinterpret_cast<CopyNpc*>(&fallback);
 
-                reinterpret_cast<::CombatProcedure *>(&(source9->race))->Initialize((::CombatController *)(*((int *)((void *)(((::DefaultNpcValue *)(::FUN_004ea950((std::intptr_t)((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler)))))))))));
+                reinterpret_cast<::CombatProcedure *>(&(source9->race))->Initialize((::CombatController *)(*((std::intptr_t *)((void *)(((::DefaultNpcValue *)(::FUN_004ea950((std::intptr_t)((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler)))))))))));
 
-                reinterpret_cast<::FUN_00601c70_shell *>((source9))->FUN_00601c70(*((int *)((void *)(((::DefaultNpcValue *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler))))->GetTESClassList()))))));
+                reinterpret_cast<::FUN_00601c70_shell *>((source9))->FUN_00601c70(*((std::intptr_t *)((void *)(((::DefaultNpcValue *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler))))->GetTESClassList()))))));
             }
             else if (((::CopyNpc *)(reinterpret_cast<::ActorMover *>((source9))->GetCurrentMoveModeType())) && !reinterpret_cast<::TABStub *>((source9))->FUN_0047cca0())
                 source9->Reset(0);
@@ -5229,12 +5225,12 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 reinterpret_cast<::FUN_0047fb50_shell *>(&(animation))->FUN_0047fb50((::BaseFormComponent *)(::BaseFormRecord *)(source9 ? &source9->animation : 0));
 
-                reinterpret_cast<::FUN_0050eaa0_shell *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_0050eaa0((::TESBoundObject *)(source9));
+                reinterpret_cast<::FUN_0050eaa0_shell *>((static_cast<CopyNpc*>(this)))->FUN_0050eaa0((::TESBoundObject *)(source9));
 
-                reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))
+                static_cast<CopyNpc*>(this)
                     ->SetValue(source9->GetValue());
 
-                reinterpret_cast<::TESNPC *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->CopyActorBaseData((::TESNPC *)(source9));
+                reinterpret_cast<::TESNPC *>((static_cast<CopyNpc*>(this)))->CopyActorBaseData((::TESNPC *)(source9));
 
                 reinterpret_cast<::BGSDestructibleObjectForm *>(&(destructible))->FUN_004786e0((::BaseFormComponent *)(::BaseFormRecord *)(source9 ? &source9->destructible : 0));
             }
@@ -5250,17 +5246,17 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 reinterpret_cast<::CombatProcedure *>(&(race))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>(&(source9->race))->FUN_00726070()))));
 
-                reinterpret_cast<::FUN_009442e0_class *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_009442e0(reinterpret_cast<::FUN_00944300_class *>((source9))->FUN_00944300());
+                reinterpret_cast<::FUN_009442e0_class *>((static_cast<CopyNpc*>(this)))->FUN_009442e0(reinterpret_cast<::FUN_00944300_class *>((source9))->FUN_00944300());
 
-                reinterpret_cast<::FUN_006053f0_class *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_006053f0(reinterpret_cast<::FUN_00604250_shell *>((source9))->GetWeight());
+                reinterpret_cast<::FUN_006053f0_class *>((static_cast<CopyNpc*>(this)))->FUN_006053f0(reinterpret_cast<::FUN_00604250_shell *>((source9))->GetWeight());
 
-                reinterpret_cast<::FUN_00601c70_shell *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->FUN_00601c70(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>((source9))->GetSceneRoot())));
+                reinterpret_cast<::FUN_00601c70_shell *>((static_cast<CopyNpc*>(this)))->FUN_00601c70(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>((source9))->GetSceneRoot())));
 
                 reinterpret_cast<::fnv_0047e1c0::S47b *>(this)->SetClampedValue(source9->GetFactor());
 
                 reinterpret_cast<::S47 *>(this)->FUN_0047dea0(reinterpret_cast<::FUN_0047d3d0_shell *>(this)->FUN_0047d3d0());
 
-                reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))
+                static_cast<CopyNpc*>(this)
                     ->SetStyle(source9->GetStyle());
             }
 
@@ -5288,10 +5284,10 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
                 ::__memcpy(skillOffsets, source9->skillOffsets, 14);
 
                 if (reinterpret_cast<::FUN_00461560_shell *>(this)->FUN_00461560())
-                    reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))->SetFemale(true);
+                    static_cast<CopyNpc*>(this)->SetFemale(true);
 
                 else
-                    reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))
+                    static_cast<CopyNpc*>(this)
                         ->SetFemale(source9->GetFemale());
             }
 
@@ -5312,13 +5308,13 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
             if (reinterpret_cast<::FUN_0047cd40_shell *>(this)->FUN_0047cd40(5))
                 reinterpret_cast<::TESAIForm *>(&(ai))->CopyAIPackageList((const ::TESAIForm *)(::BaseFormRecord *)(source9 ? &source9->ai : 0));
 
-            if (reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))->GetFemale())
-                reinterpret_cast<::TESNPC *>((reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))))->UpdateActorBaseData(0);
+            if (static_cast<CopyNpc*>(this)->GetFemale())
+                reinterpret_cast<::TESNPC *>((static_cast<CopyNpc*>(this)))->UpdateActorBaseData(0);
 
             flags = 0;
 
             templateForm = ((::CopyNpc *)(::FindFirstNonActorBaseTemplate(
-                (::DummyVtable *)(::CopyNpc *)(reinterpret_cast<CopyNpc*>(reinterpret_cast<char*>(this) - sizeof(CopyPrefix))), &flags)));
+                (::DummyVtable *)(::CopyNpc *)(static_cast<CopyNpc*>(this)), &flags)));
 
             if (templateForm)
             {
@@ -6692,8 +6688,8 @@ struct Vec410
 // @fnv 0x0060b340
 void FR2MatrixVTCData::SetDimensions(int aiRows, int aiCols)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = aiRows;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c) = aiCols;
+    m_uiRowCount = aiRows;
+    m_uiColumnCount = aiCols;
     reinterpret_cast<::S_0060b3f0 *>(this)->FUN_0060b3f0(aiRows * aiCols);
 }
 // @fnv 0x0060b3f0
@@ -6710,7 +6706,7 @@ struct H3370
     void FUN_005ae3d0(void*);
 };
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
-struct C3370
+struct C3370Calls
 {
     virtual void v0();
     virtual void v1();
@@ -6812,12 +6808,9 @@ struct C3370
     virtual void v97();
     virtual void* v98();
     virtual void v99(void*);
-    char pad[0x12c];
-    void* field130;
-    char pad134[0xa0];
-    void* field1d4;
-    char pad1d8[0x1c];
-    float field1f4;
+};
+struct C3370 : public TESNPC
+{
     void FUN_00603370();
 };
 // @fnv 0x00603370
@@ -6828,44 +6821,44 @@ void C3370::FUN_00603370()
     void* b;
     if (reinterpret_cast<::TESForm *>((((H3370*)this)))->GetInitialized())
         return;
-    if (reinterpret_cast<::TESActorBaseData *>((((H3370*)((char*)this + 0x30))))->GetFlag(4))
+    if (reinterpret_cast<::TESActorBaseData *>(static_cast<TESActorBaseData*>(this))->GetFlag(4))
     {
         c = this;
         ((H3370*)&(*reinterpret_cast<char *>(&::g_011cb764)))->FUN_005ae3d0(&c);
     }
-    reinterpret_cast<::TESScriptableForm *>((((H3370*)((char*)this + 0xf4))))->InitItem((::TESForm *)(void *)(this));
-    reinterpret_cast<::TESContainer *>((((H3370*)((char*)this + 0x64))))->InitItem((::TESForm *)(void *)(this));
-    reinterpret_cast<::FUN_0047f4c0_shell *>((((H3370*)((char*)this + 0x90))))->FUN_0047f4c0((::TESForm *)(void *)(this));
-    reinterpret_cast<::TESRaceForm *>((((H3370*)((char*)this + 0x10c))))->InitItem((::TESForm *)(void *)(this));
-    reinterpret_cast<::ActorBaseInitItemView *>((((H3370*)((char*)this + 0x30))))->FUN_0047d8b0((::TESForm *)(void *)(this));
-    reinterpret_cast<::TESSpellList *>((((H3370*)((char*)this + 0x7c))))->InitItem((::TESForm *)(void *)(this));
-    reinterpret_cast<::BGSTouchSpellForm *>((((H3370*)((char*)this + 0x70))))->InitItem((::TESForm *)(void *)(this));
-    reinterpret_cast<::BGSDestructibleObjectForm *>((((H3370*)((char*)this + 0x104))))->InitItem((::TESForm *)(void *)(this));
-    if (field130)
+    reinterpret_cast<::TESScriptableForm *>(static_cast<TESScriptableForm*>(this))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESContainer *>(static_cast<TESContainer*>(this))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::FUN_0047f4c0_shell *>(static_cast<TESAIForm*>(this))->FUN_0047f4c0((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESRaceForm *>(static_cast<TESRaceForm*>(this))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::ActorBaseInitItemView *>(static_cast<TESActorBaseData*>(this))->FUN_0047d8b0((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESSpellList *>(static_cast<TESSpellList*>(this))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::BGSTouchSpellForm *>(static_cast<BGSTouchSpellForm*>(this))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::BGSDestructibleObjectForm *>(static_cast<BGSDestructibleObjectForm*>(this))->InitItem((::TESForm *)(void *)(this));
+    if (m_pClass)
     {
-        a = field130;
+        a = m_pClass;
         ::ResolveFormID((unsigned int *)(void *)(&a), (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>((((H3370*)this)))->GetFile(-1)))));
-        field130 = dynamic_cast<TESClass*>(::FUN_004839c0((unsigned int)(a)));
+        m_pClass = dynamic_cast<TESClass*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(a)));
     }
-    if (v81())
+    if (reinterpret_cast<C3370Calls*>(this)->v81())
         reinterpret_cast<::TESNPC *>((((H3370*)this)))->UpdateActorBaseData(false);
-    if (field1d4)
+    if (m_pCombatStyle)
     {
-        b = v98();
+        b = reinterpret_cast<C3370Calls*>(this)->v98();
         if (b)
         {
             ::ResolveFormID((unsigned int *)(void *)(&b), (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>((((H3370*)this)))->GetFile(-1)))));
-            field1d4 = dynamic_cast<TESCombatStyle*>(::FUN_004839c0((unsigned int)(b)));
-            if (!field1d4)
+            m_pCombatStyle = dynamic_cast<TESCombatStyle*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(b)));
+            if (!m_pCombatStyle)
                 ::FUN_005b5e40();
         }
     }
-    if (!v98())
-        v99(((::TESCombatStyle *)(::FUN_00505000())));
-    if (((std::uintptr_t)(reinterpret_cast<::Callees *>((((H3370*)((char*)this + 0xb0))))->FUN_00726070())) <= 0)
+    if (!reinterpret_cast<C3370Calls*>(this)->v98())
+        reinterpret_cast<C3370Calls*>(this)->v99(((::TESCombatStyle *)(::FUN_00505000())));
+    if (((std::uintptr_t)(reinterpret_cast<::Callees *>(static_cast<TESHealthForm*>(this))->FUN_00726070())) <= 0)
         reinterpret_cast<::FUN_00565210_shell *>((((H3370*)this)))->FUN_00565210(true);
-    if (field1f4 == 0.0)
-        field1f4 = reinterpret_cast<::TESNPC *>((((H3370*)this)))->GetDefaultHeight();
+    if (m_fGlyphExtent == 0.0)
+        m_fGlyphExtent = reinterpret_cast<::TESNPC *>((((H3370*)this)))->GetDefaultHeight();
     reinterpret_cast<::TESForm *>((((H3370*)this)))->SetInitializationState(true);
 }
 
@@ -7296,7 +7289,7 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         try
         {
             pWritePos = FUN_0060bb40(first, where.current, ptr);
-            pWritePos = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(pWritePos), count, (int)&(value))));
+            pWritePos = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(pWritePos), count, (std::intptr_t)&(value))));
             reinterpret_cast<::FUN_0060bb40_class *>(this)->FUN_0060bb40(where.current, last, pWritePos);
         }
         catch (...)

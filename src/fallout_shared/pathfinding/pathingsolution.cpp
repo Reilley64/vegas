@@ -501,7 +501,7 @@ struct FUN_006e8f40_shell
 // @fnv 0x006e78b0
 void* FUN_006e78b0_shell::FUN_006e78b0(unsigned int aiIndex)
 {
-    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40(aiIndex)));
+    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)&this->member1)))->FUN_006e8f40(aiIndex)));
 }
 
 // @fnv 0x006e8f40
@@ -733,7 +733,7 @@ struct BSSimpleArray_PathingNode_1024
 // @fnv 0x006e7970
 void* FUN_006e7970_shell::FUN_006e7970(unsigned int aiIndex)
 {
-    return ((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>((((Dummy_006e8f80*)((char*)this + 0x20))))->FUN_006e8f80(aiIndex)));
+    return ((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>((((Dummy_006e8f80*)&this->member2)))->FUN_006e8f80(aiIndex)));
 }
 // @fnv 0x006e8fa0
 bool S3e60::FUN_006e8fa0(unsigned int auiFlag)
@@ -1125,10 +1125,10 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->member1.secondValue), 4);
     {
         unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
-        reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e90a0(isaveGameCount, true);
+        reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e90a0_shell*)&this->member1)))->FUN_006e90a0(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
-            FUN_006f5100_shell* virtualNode = ((::FUN_006f5100_shell *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>((((FUN_006e90a0_shell*)((char*)this + 8))))->FUN_006e8f60(i)));
+            FUN_006f5100_shell* virtualNode = ((::FUN_006f5100_shell *)(reinterpret_cast<::fnv_006e8f60::PathBuilder *>((((FUN_006e90a0_shell*)&this->member1)))->FUN_006e8f60(i)));
             reinterpret_cast<::LoadHolder6F51 *>((virtualNode))->FUN_006f5100(apLoadGameBuffer);
         }
     }
@@ -1137,7 +1137,7 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
         ((FUN_006e9280_shell*)((char*)this + 0x20))->FUN_006e9280(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
-            FUN_006e23b0_shell* pathingNode = ((::FUN_006e23b0_shell *)(reinterpret_cast<::S3e60 *>((((FUN_006e9280_shell*)((char*)this + 0x20))))->FUN_006e8fa0(i)));
+            FUN_006e23b0_shell* pathingNode = ((::FUN_006e23b0_shell *)(reinterpret_cast<::S3e60 *>((((FUN_006e9280_shell*)&this->member2)))->FUN_006e8fa0(i)));
             reinterpret_cast<::LoadedRefHolder *>((pathingNode))->FUN_006e23b0(apLoadGameBuffer);
         }
     }
@@ -1154,7 +1154,7 @@ void FUN_006e8d50_shell::FUN_006e8d50(BGSLoadFormBuffer* apLoadGameBuffer)
     if (apLoadGameBuffer->GetVersion() >= 0x12)
     {
         unsigned int isaveGameCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apLoadGameBuffer))->FUN_00864a60();
-        reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)((char*)this + 0x30))))->FUN_006f2290(isaveGameCount, true);
+        reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)&this->member3)))->FUN_006f2290(isaveGameCount, true);
         for (unsigned int i = 0; i < isaveGameCount; i++)
         {
             unsigned int* puiDoorID = &((FUN_006a7ad0_shell*)((char*)this + 0x30))->pBuffer[i];

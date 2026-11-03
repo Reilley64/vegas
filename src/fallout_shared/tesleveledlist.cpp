@@ -617,7 +617,7 @@ float FUN_00526ac0_shell::FUN_00526ac0()
     return *(float*)((char*)this + 0x24);
 }
 
-struct FUN_00487800_shell
+struct FUN_00487800_shell : ::TESLeveledList
 {
     void SetFlag(bool bFlag);
 };
@@ -627,9 +627,9 @@ struct FUN_00487800_shell
 void FUN_00487800_shell::SetFlag(bool bFlag)
 {
     if (bFlag)
-        ((unsigned char*)this)[0xd] |= 1;
+        this->m_ucChanceNone |= 1;
     else
-        ((unsigned char*)this)[0xd] &= 0xfffffffe;
+        this->m_ucChanceNone &= 0xfffffffe;
 }
 
 struct FUN_00487860_shell
@@ -751,7 +751,7 @@ void* NiRefObject::FUN_00c61280(NiRefObject* obj, unsigned int flags)
     return obj;
 }
 
-struct FUN_004878c0_shell
+struct FUN_004878c0_shell : ::TESLeveledList
 {
     void SetFlag4(bool bFlag);
 };
@@ -760,9 +760,9 @@ struct FUN_004878c0_shell
 void FUN_004878c0_shell::SetFlag4(bool abSet)
 {
     if (abSet)
-        reinterpret_cast<unsigned char*>(this)[0xd] |= 4;
+        this->m_ucChanceNone |= 4;
     else
-        reinterpret_cast<unsigned char*>(this)[0xd] &= ~4;
+        this->m_ucChanceNone &= ~4;
 }
 
 extern int DAT_010c34ac;

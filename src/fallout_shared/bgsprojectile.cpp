@@ -173,26 +173,26 @@ void BGSProjectile::ResetFormData()
 void FUN_004fcc20_shell::InitializeDefaults()
 {
     *(int*)((char*)this + 0x00) = 0x10000;
-    *(float*)((char*)this + 0x04) = 0.0f;
-    *(float*)((char*)this + 0x08) = 1000.0f;
-    *(float*)((char*)this + 0x0c) = DAT_01022958;
-    *(float*)((char*)this + 0x18) = 0.0f;
-    *(float*)((char*)this + 0x1c) = 0.0f;
-    *(float*)((char*)this + 0x20) = 0.0f;
+    this->m_fGravity = 0.0f;
+    this->m_fSpeed = 1000.0f;
+    this->m_fRange = DAT_01022958;
+    this->m_fTracerChance = 0.0f;
+    this->m_fExplosionProximity = 0.0f;
+    this->m_fExplosionTimer = 0.0f;
     *(int*)((char*)this + 0x10) = 0;
     *(int*)((char*)this + 0x14) = 0;
     *(int*)((char*)this + 0x24) = 0;
     *(int*)((char*)this + 0x28) = 0;
-    *(float*)((char*)this + 0x2c) = 0.0f;
-    *(float*)((char*)this + 0x30) = 0.5f;
-    *(float*)((char*)this + 0x34) = 0.0f;
+    this->m_fMuzzleFlashDuration = 0.0f;
+    this->m_fFadeDuration = 0.5f;
+    this->m_fImpactForce = 0.0f;
     *(int*)((char*)this + 0x38) = 0;
     *(int*)((char*)this + 0x3c) = 0;
     *(int*)((char*)this + 0x40) = 0;
-    *(float*)((char*)this + 0x44) = 0.0f;
-    *(float*)((char*)this + 0x48) = 0.0f;
-    *(float*)((char*)this + 0x4c) = 0.0f;
-    *(float*)((char*)this + 0x50) = 1.0f;
+    this->m_fRotationX = 0.0f;
+    this->m_fRotationY = 0.0f;
+    this->m_fRotationZ = 0.0f;
+    this->m_fBouncyMult = 1.0f;
 }
 
 struct BGSProjectile_GetFlag_Helper : public BGSProjectile
@@ -282,7 +282,7 @@ template <int N> struct EndianSizeTag
 };
 
 
-struct FUN_004fccf0_shell
+struct FUN_004fccf0_shell : ::ProjectileProperties
 {
     void SwapEndianFields();
 };
@@ -365,19 +365,19 @@ bool BGSProjectile::Load(TESFile* file)
 void FUN_004fccf0_shell::SwapEndianFields()
 {
     ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this)));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 4));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 8));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 12));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 24));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 28));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 32));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 44));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 48));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 52));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 68));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 72));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 76));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 80));
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fGravity);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fSpeed);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fRange);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fTracerChance);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fExplosionProximity);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fExplosionTimer);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fMuzzleFlashDuration);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fFadeDuration);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fImpactForce);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fRotationX);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fRotationY);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fRotationZ);
+    ::FUN_00401080((int *)(unsigned char *)&this->m_fBouncyMult);
 }
 
 
@@ -454,7 +454,7 @@ bool FUN_004fdd80_shell::IsNotEqual(TESForm* apCompare)
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pcomp))
         return true;
 
-    if (std::memcmp(reinterpret_cast<const void*>(reinterpret_cast<char*>(this) + 0x60),
+    if (std::memcmp(reinterpret_cast<const void*>(reinterpret_cast<char*>(&this->Data)),
                 ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)(reinterpret_cast<TESDataHandler*>(pcomp))))), 0x54) != 0)
         return true;
 
@@ -866,7 +866,7 @@ struct FUN_004fe160_sub
     int FUN_00401170();
 };
 
-struct FUN_004fe160_cls
+struct FUN_004fe160_cls : ::BGSProjectile
 {
     int GetFlaggedValue(unsigned char flag);
 };
@@ -878,11 +878,11 @@ int FUN_004fe160_cls::GetFlaggedValue(unsigned char abAddExtra)
     if (abAddExtra)
     {
         return (unsigned char)reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue(2, 0) +
-               reinterpret_cast<FUN_004fe160_sub*>(reinterpret_cast<char*>(this) + 0xac)->FUN_00401170();
+               reinterpret_cast<FUN_004fe160_sub*>(&this->Data.m_fRotationZ)->FUN_00401170();
     }
     else
     {
-        return reinterpret_cast<FUN_004fe160_sub*>(reinterpret_cast<char*>(this) + 0xac)->FUN_00401170();
+        return reinterpret_cast<FUN_004fe160_sub*>(&this->Data.m_fRotationZ)->FUN_00401170();
     }
 }
 

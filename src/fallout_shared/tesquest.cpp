@@ -646,7 +646,7 @@ bool FUN_0060d8d0_shell::HasFlag0x10()
     return (*reinterpret_cast<unsigned char*>(((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>((this))->GetField()))) & 0x10) != 0;
 }
 
-struct FUN_0060e680_shell
+struct FUN_0060e680_shell : ::TESQuest
 {
     void SetFlags(unsigned int arg);
 };
@@ -674,7 +674,7 @@ struct BSStringT_char
 struct BSStr
 {
 };
-struct FUN_0060dab0_shell
+struct FUN_0060dab0_shell : ::TESQuest
 {
     bool FUN_0060dab0(const char* arg);
 };
@@ -684,9 +684,9 @@ bool FUN_0060dab0_shell::FUN_0060dab0(const char* pcString)
     unsigned int size = ::FUN_0044a670(pcString) + 1;
     char* buffer = static_cast<char*>(_alloca(size));
     TaskQueueInterface::CopyStringToBuffer(buffer, size, pcString);
-    if (!((char *)(reinterpret_cast<::B408A80String *>((void *)(reinterpret_cast<BSStringT_char*>(reinterpret_cast<char*>(this) + 0x64)))->FUN_00408a80(buffer, true))))
+    if (!((char *)(reinterpret_cast<::B408A80String *>((void *)(reinterpret_cast<BSStringT_char*>(&this->strEditorID)))->FUN_00408a80(buffer, true))))
         return false;
-    reinterpret_cast<::TextString *>((reinterpret_cast<BSStr*>(reinterpret_cast<char*>(this) + 0x64)))->FUN_004037f0(buffer, 0);
+    reinterpret_cast<::TextString *>((reinterpret_cast<BSStr*>(&this->strEditorID)))->FUN_004037f0(buffer, 0);
     return true;
 }
 

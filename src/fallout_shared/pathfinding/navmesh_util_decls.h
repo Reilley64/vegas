@@ -138,14 +138,29 @@ template <class T> class NiPointer
     ~NiPointer();
 };
 class NiPoint3;
+class NavMeshVertex;
+class EdgeExtraInfo;
+class NavMeshTriangleDoorPortal;
+class NavMeshStaticAvoidNode;
+class NavMeshInfo;
 class NavMesh
 {
   public:
-    unsigned char prefix[0x68];
-    BSSimpleArray<NavMeshClosedDoorInfo> m_kClosedDoorInfo;
-    BSSimpleArray<unsigned short> m_kIndexList;
-    NiTPointerMap<unsigned int, unsigned int> POVPointerArray;
-    BSSimpleArray<unsigned short> m_kAdditionalIndexList;
+    unsigned char prefix[0x28];
+    BSSimpleArray<NavMeshVertex> Vertices;                         // +0x28
+    BSSimpleArray<NavMeshTriangle> Triangles;                      // +0x38
+    BSSimpleArray<EdgeExtraInfo> m_kEdgeExtraInfo;                 // +0x48
+    BSSimpleArray<NavMeshTriangleDoorPortal> m_kDoorPortals;       // +0x58
+    BSSimpleArray<NavMeshClosedDoorInfo> m_kClosedDoorInfo;        // +0x68
+    BSSimpleArray<unsigned short> m_kIndexList;                    // +0x78
+    NiTPointerMap<unsigned int, unsigned int> POVPointerArray;     // +0x88
+    BSSimpleArray<unsigned short> m_kAdditionalIndexList;          // +0x98
+    unsigned char m_kGrid[0x28];                                   // +0xA8
+    BSSimpleArray<void*> m_kObstacleUndoData;                      // +0xD0
+    void* pTriangleToObstacleMap;                                  // +0xE0
+    BSSimpleArray<unsigned short> m_kAdditionalData;               // +0xE4
+    BSSimpleArray<NavMeshStaticAvoidNode> m_kStaticAvoidNodes;     // +0xF4
+    NavMeshInfo* m_pNavigationMesh;                                // +0x104
     NavMeshTriangle* GetTriangle(unsigned short);
     NavMeshEdgeVertexPair FUN_0068f040(unsigned short, int);
     NiPoint3 FUN_00697290(unsigned short);

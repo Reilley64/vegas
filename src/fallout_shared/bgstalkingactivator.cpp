@@ -466,7 +466,7 @@ struct BGSLoadFormBuffer
 {
     FormChangeMask GetOldChangeFlags(unsigned int);
 };
-struct FUN_004ff930_shell : TESForm
+struct FUN_004ff930_shell : ::BGSTalkingActivator
 {
     void RevertAndClearField(BGSLoadFormBuffer*);
 };
@@ -498,7 +498,7 @@ struct S_0048cca0
 {
     void FUN_0048cca0();
 };
-struct FUN_004fec10_shell
+struct FUN_004fec10_shell : ::BGSTalkingActivator
 {
     void FUN_004fec10();
 };
@@ -506,10 +506,10 @@ struct FUN_004fec10_shell
 void FUN_004fec10_shell::FUN_004fec10()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)))->FUN_00487010();
-    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x3c)))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048cca0();
-    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)))->FUN_00477f20();
+    reinterpret_cast<::FUN_00487010_shell *>((reinterpret_cast<S_00487010*>(static_cast<TESFullName *>(this))))->FUN_00487010();
+    reinterpret_cast<::FUN_0048a520_shell *>((reinterpret_cast<S_0048a520*>(static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<S_0048cca0*>(static_cast<TESScriptableForm *>(this))->FUN_0048cca0();
+    reinterpret_cast<::FUN_00477f20_shell *>((reinterpret_cast<S_00477f20*>(static_cast<BGSDestructibleObjectForm *>(this))))->FUN_00477f20();
     if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x74))
     {
         unsigned int id =

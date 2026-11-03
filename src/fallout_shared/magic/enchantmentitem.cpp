@@ -91,7 +91,7 @@ struct BGSAcousticSpace
 struct TES
 {
 };
-struct FUN_00409400_shell
+struct FUN_00409400_shell : ::EnchantmentItem
 {
     void CopySoundAndSpeakerData(MagicItem*);
 };
@@ -105,7 +105,7 @@ void FUN_00409400_shell::CopySoundAndSpeakerData(MagicItem* apItem)
     reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)((char*)this - 0x18))))->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)info)))))));
     reinterpret_cast<::FUN_00409480_shell *>((((TESTopicInfo*)((char*)this - 0x18))))->FUN_00409480((::TESActorBase *)(::MagicItem *)(((::MagicItem *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)info)))->GetEntryPoint()))));
     reinterpret_cast<::LowProcess *>((((TES*)((char*)this - 0x18))))->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)info)))->GetPrevPath()))));
-    ((char*)this)[0x28] = (*(char*)&info->flags);
+    this->effects.unk04 = (*(char*)&info->flags);
 }
 
 namespace fnv_004094a0 {

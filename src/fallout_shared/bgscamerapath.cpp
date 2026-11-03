@@ -402,14 +402,14 @@ void FUN_00464f40_shell::FUN_0058b450()
     reinterpret_cast<::FUN_00464f40_class *>(this)->FUN_00464f40();
 }
 
-struct FUN_0058b4f0_shell
+struct FUN_0058b4f0_shell : ::BGSCameraPath
 {
     bool IsFlag2Set();
 };
 // @fnv 0x0058b4f0
 bool FUN_0058b4f0_shell::IsFlag2Set()
 {
-    if (((const unsigned char*)this)[0x28] & 2)
+    if (this->data.cFlags & 2)
         return true;
     return false;
 }

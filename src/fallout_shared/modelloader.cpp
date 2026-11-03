@@ -17179,11 +17179,11 @@ class B44F890Collection
 {
   public:
     B44F890Node* GetNextNode(B44F890Node* pkNode);
-    int FUN_0044f890(int iArg);
+    int FUN_0044f890(intptr_t iArg);
 };
 
 // @fnv 0x0044f890
-int B44F890Collection::FUN_0044f890(int iArg)
+int B44F890Collection::FUN_0044f890(intptr_t iArg)
 {
     AutoMemHelper kMemHelper(9, true, "d:\\_fallout3\\platforms\\common\\code\\bsmain\\Setting.h", 0x326);
     B44F890Node* pkNode = ((::B44F890Node *)(::FUN_0044faa0((char *)this)));

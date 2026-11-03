@@ -1702,7 +1702,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         {
             TaskQueueParallelWork kWork;
             reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(((void (&)(unsigned int, void *))::FUN_0087cfb0), &(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)), (void *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->GetName()))));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kWork));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kWork));
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))))->Clear(false);
         }
         if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))))->GetName())) > 0)
@@ -1712,7 +1712,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
             TaskQueueParallelWork kWork;
             reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(UpdateAnimObjFromTask, &nodeList,
                             (void *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&nodeList)))->GetName()))));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kWork));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kWork));
         }
         if (!(*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011df1b8)).Bool()->b)
             reinterpret_cast<::FUN_00453900_Class *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00453900();

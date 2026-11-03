@@ -27,6 +27,42 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpSimpleConstraintContactMgr.h"
 
+struct hkpSimpleContactConstraintAtomCFD2 {
+    hkUint16 m_type;
+    hkUint16 m_usSizeOfAllAtoms;
+    hkUint16 m_usNumContactPoints;
+    hkUint16 m_usMaxNumContactPointProperties;
+    hkUint8 m_acUnk08[2];
+    hkUint8 m_ucContactPointPropertiesStriding;
+    hkUint8 m_acUnk0B[1];
+    hkUint16 m_usMaxNumContactPoints;  // +0xc
+    hkUint8 m_acUnk0E[2];
+    hkUint16 m_flags;
+    hkUint8 m_acUnk12[0x1e];
+
+    hkUint8* getContactPointPropertiesStream(hkInt16 i)
+    {
+        return getContactPoints() + m_usMaxNumContactPointProperties * kContactPointBytes + i * m_ucContactPointPropertiesStriding;
+    }
+    // The contact points follow the 0x30-byte atom header.
+    hkUint8* getContactPoints() { return reinterpret_cast<hkUint8*>(this + 1); }
+    static const int kContactPointBytes = 0x20;
+};
+// hkpSimpleConstraintContactMgr members (Havok 7.1 layout of the x86 build).
+struct SimpleConstraintContactMgrFields {
+    char pad00[0x44];
+    char m_constraint[0x38];  // +0x44, hkpConstraintInstance
+};
+// hkpEntity members read by the contact callbacks.
+struct ContactEntityFields {
+    char pad00[0x8];
+    void* m_world;                    // +0x8, hkpWorldObject::m_world
+    char pad0c[0xdc];
+    unsigned char m_motionType;       // +0xe8, m_motion.m_type
+    char pade9[0x117];
+    void* m_contactListenersData;     // +0x200
+    unsigned short m_contactListenersSize;  // +0x204
+};
 struct FUN_00cfd3f0_class {
     void* m_00;
     void* m_04;
@@ -50,15 +86,11 @@ struct FUN_00cfd3f0_class {
 // @fnv 0x00cfd3f0
 char* FUN_00cfd3f0_class::FUN_00cfd3f0(unsigned short index)
 {
-    return (char*)m_3c + 0x30 + (unsigned char)*(unsigned char*)((char*)m_20 + index) * 32;
+    hkpSimpleContactConstraintAtomCFD2* atom = static_cast<hkpSimpleContactConstraintAtomCFD2*>(m_3c);
+    unsigned char slot = static_cast<unsigned char*>(m_20)[index];
+    return (char*)atom->getContactPoints() + slot * hkpSimpleContactConstraintAtomCFD2::kContactPointBytes;
 }
 
-struct FUN_00cfcc70_data {
-    unsigned int m_00;
-    unsigned short m_04;
-    unsigned short m_08;
-    unsigned short m_0c;
-};
 
 struct FUN_00cfcc70_class {
     void* m_00;
@@ -74,10 +106,9 @@ struct FUN_00cfcc70_class {
 
 // @fnv 0x00cfcc70
 int FUN_00cfcc70_class::FUN_00cfcc70(int value) {
-    FUN_00cfcc70_data* data = static_cast<FUN_00cfcc70_data*>(m_3c);
-    int field4 = data->m_04;
-    int limit = *reinterpret_cast<unsigned short*>(
-        reinterpret_cast<unsigned char*>(data) + 0x0c);
+    hkpSimpleContactConstraintAtomCFD2* data = static_cast<hkpSimpleContactConstraintAtomCFD2*>(m_3c);
+    int field4 = data->m_usNumContactPoints;
+    int limit = data->m_usMaxNumContactPoints;
     int current = m_10;
 
     field4 += value;
@@ -95,19 +126,27 @@ int FUN_00cfcc70_class::FUN_00cfcc70(int value) {
 }
 
 
+// The event FUN_00cfce30 receives: two entities and a flag byte.
+struct CFCE30_Event {
+    char pad00[0xc];
+    ContactEntityFields* m_entityA;  // +0xc
+    ContactEntityFields* m_entityB;  // +0x10
+    char pad14[0x13];
+    unsigned char m_flags27;         // +0x27
+};
 // @fnv 0x00cfce30
 void FUN_00cfce30(void* a1, float a2, void* a3)
 {
-    unsigned char* p = (unsigned char*)a1;
-    void* eax = *(void**)(p + 0xc);
-    void* esi = *(void**)((unsigned char*)eax + 8);
-    if ((p[0x27] & 8) == 0)
+    CFCE30_Event* p = static_cast<CFCE30_Event*>(a1);
+    ContactEntityFields* eax = p->m_entityA;
+    void* esi = eax->m_world;
+    if ((p->m_flags27 & 8) == 0)
     {
-        unsigned char al = *(unsigned char*)((unsigned char*)eax + 0xe8);
-        void* edx = *(void**)(p + 0x10);
+        unsigned char al = eax->m_motionType;
+        ContactEntityFields* edx = p->m_entityB;
         if (al == 5 || al == 4)
         {
-            unsigned char bl = *(unsigned char*)((unsigned char*)edx + 0xe8);
+            unsigned char bl = edx->m_motionType;
             if (bl == 5 || bl == 4)
                 return;
         }
@@ -292,7 +331,7 @@ struct FnvCpu_FUN_00cfcc60_CpuObject { char* FUN_00cfcc60(); };
 // @fnv 0x00cfcc60
 char* FnvCpu_FUN_00cfcc60_CpuObject::FUN_00cfcc60()
 {
-    return reinterpret_cast<char*>(this) + 68;
+    return reinterpret_cast<SimpleConstraintContactMgrFields*>(this)->m_constraint;
 }
 
 struct FUN_00cfccc0_target {
@@ -421,22 +460,6 @@ public:
     }
 };
 
-struct hkpSimpleContactConstraintAtomCFD2 {
-    hkUint16 m_type;
-    hkUint16 m_usSizeOfAllAtoms;
-    hkUint16 m_usNumContactPoints;
-    hkUint16 m_usMaxNumContactPointProperties;
-    hkUint8 m_acUnk08[2];
-    hkUint8 m_ucContactPointPropertiesStriding;
-    hkUint8 m_acUnk0B[5];
-    hkUint16 m_flags;
-    hkUint8 m_acUnk12[0x1e];
-
-    hkUint8* getContactPointPropertiesStream(hkInt16 i)
-    {
-        return (hkUint8*)(this + 1) + m_usMaxNumContactPointProperties * 0x20 + i * m_ucContactPointPropertiesStriding;
-    }
-};
 
 
 class hkSimpleContactConstraintDataCFD2 {
@@ -926,13 +949,14 @@ void ContactContext::FUN_00cfcd70(ContactSource* source, void* other)
     info.sourceProperties = &source->member2c;
     info.statusA = 0;
     info.statusB = 0;
-    void* first = source->firstManager;
-    ::FUN_00d00ca0((::D00CA0World *)(*(void**)((char*)first + 8)), &info);
+    ContactEntityFields* first = static_cast<ContactEntityFields*>(source->firstManager);
+    ContactEntityFields* second = static_cast<ContactEntityFields*>(source->secondManager);
+    ::FUN_00d00ca0((::D00CA0World *)(first->m_world), &info);
     info.kind = 0;
-    if (*(unsigned short*)((char*)source->firstManager + 0x204) != 0)
+    if (first->m_contactListenersSize != 0)
         ::FUN_00cfff00((::World833 *)(source->firstManager), (::ContactPointEvent *)(int *)(&info.kind));
     info.kind = 1;
-    if (*(unsigned short*)((char*)source->secondManager + 0x204) != 0)
+    if (second->m_contactListenersSize != 0)
         ::FUN_00cfff00((::World833 *)(source->secondManager), (::ContactPointEvent *)(int *)(&info.kind));
 }
 
@@ -1061,14 +1085,14 @@ public:
 // @fnv 0x00cfd720
 FUN_00cfd720::~FUN_00cfd720() {
     *(void**)this = (void*)&DAT_010cc984;
-    if (*(unsigned short*)(*(char**)&this->m_3c + 4) != 0) {
+    if (static_cast<hkpSimpleContactConstraintAtomCFD2*>(this->m_3c)->m_usNumContactPoints != 0) {
         ::FUN_00cb3dd0((::CB3DD0World *)(this->m_0c), (::CB3DD0Entity *)(void *)((char*)&this->m_44), 1);
     }
     this->m_58 = 0;
     this->m_5c = 0;
     this->m_50 = 0;
-    reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>((((FUN_00cf40b0_class*)((char*)this + 0x44))))->FUN_00cf40b0();
-    reinterpret_cast<::FUN_00cfda50 *>((((FUN_00cfda50_class*)((char*)this + 0x14))))->FUN_00cfda50::~FUN_00cfda50();
+    reinterpret_cast<::fnv_00cf40b0::FUN_00cf40b0_class *>(&this->m_44)->FUN_00cf40b0();
+    reinterpret_cast<::FUN_00cfda50 *>(&this->m_14)->FUN_00cfda50::~FUN_00cfda50();
     *(void**)this = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 // @fnv 0x00cfdae0

@@ -1452,21 +1452,19 @@ struct SlotObject
 };
 
 
-typedef long(* FNV_INTERLOCKED_DECREMENT)(volatile long*);
-
 // Iterates g_pendingTable, decrements each object's reference count and calls its virtual slot 1 when the count reaches zero, then clears the entry.
 // @fnv 0x00a62280
 void ReleasePendingTable()
 {
-    FNV_INTERLOCKED_DECREMENT pDecrement = &InterlockedDecrement;
-    for (unsigned int offset = 0; offset < 40; offset += 4)
+    SlotObject** apObjects = *reinterpret_cast<SlotObject * (*)[10]>(&::g_aspObjects_11f4514);
+    for (unsigned int i = 0; i < 10; ++i)
     {
-        SlotObject* pObject = *(SlotObject**)((char*)(*reinterpret_cast<SlotObject * (*)[10]>(&::g_aspObjects_11f4514)) + offset);
+        SlotObject* pObject = apObjects[i];
         if (pObject)
         {
-            if (pDecrement((volatile long*)&pObject->m_iObjectReferenceCount) == 0)
+            if (InterlockedDecrement((volatile long*)&pObject->m_iObjectReferenceCount) == 0)
                 pObject->SlotVirtual1();
-            *(SlotObject**)((char*)(*reinterpret_cast<SlotObject * (*)[10]>(&::g_aspObjects_11f4514)) + offset) = 0;
+            apObjects[i] = 0;
         }
     }
 }
@@ -1557,7 +1555,6 @@ struct FUN_00a66960_cls
     int m_28;
     int m_2C;
     intptr_t FUN_00a66960(int a1);
-    int FUN_00a66960(int a1);
 };
 
 // @fnv 0x00a66960
@@ -3538,7 +3535,6 @@ class NiTMapBaseA6F
     unsigned int m_uiHashSize;
     NiTMapItemA6F** m_ppkHashTable;
     unsigned int m_uiCount;
-    __forceinline NiTMapBaseA6F(unsigned int uiHashSize = 37) throw() { m_uiHashSize = uiHashSize; m_uiCount = 0; unsigned int uiSize = sizeof(NiTMapItemA6F*) * m_uiHashSize; m_ppkHashTable = (NiTMapItemA6F**)::FUN_00aa1070(uiSize); MemSetA6F(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemA6F*)); }
 };
 
 class NiTPointerMapA6F : public NiTMapBaseA6F
@@ -4875,7 +4871,6 @@ void Thing::WriteData()
 }
 
 #include <math.h>
-#include "fnv/decl/FrustumPlanes__Planes.h"
 #include "fnv/symbols_00a60000.h"
 #include "fnv/symbols_00a64000.h"
 #include "fnv/symbols_00a69000.h"

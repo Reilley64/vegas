@@ -12,7 +12,6 @@
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_005e0860_cls.h"
-#include "fnv/decl/FUN_00a26240.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/TextString.h"
 #include "fnv/symbols_00450000.h"
@@ -31,7 +30,6 @@
 #include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 #include <cstddef>
-#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
 #include "fnv/symbols_00ee7000.h"
 #include "fnv/symbols_01100000.h"
 #include "fnv/symbols_00a27000.h"
@@ -101,9 +99,9 @@ unsigned int FUN_00a25d50_Class::GetField14278()
 
 
 // @fnv 0x00a25e00
-char* __cdecl FUN_00a25e00(char* dst, char* src)
+long __cdecl FUN_00a25e00(char* dst, char* src)
 {
-    return CompareFileTime(dst + 4, src + 4);
+    return CompareFileTime(reinterpret_cast<const FILETIME*>(dst + 4), reinterpret_cast<const FILETIME*>(src + 4));
 }
 
 struct FUN_00a24f10_Class
@@ -594,14 +592,6 @@ struct FUN_00a26220_Class
     unsigned int FUN_00a26220();
     unsigned int FUN_00a26240();
 };
-// @fnv 0x00a26220
-unsigned int FUN_00a26220_Class::FUN_00a26220()
-{
-    int a;
-    int b;
-    int c;
-    return reinterpret_cast<::FUN_00a26240 *>(this)->FUN_00a26240::~FUN_00a26240();
-}
 
 struct FUN_00a262d0_Class
 {
@@ -7678,7 +7668,7 @@ void InputManager::FUN_00a25410(int offset)
     DAT_011f35ac = 0;
 }
 
-char* __cdecl FUN_00a25e00(char* dst, char* src);
+long __cdecl FUN_00a25e00(char* dst, char* src);
 
 void* _memmove(void* dst, const void* src, unsigned int count);
 
@@ -7688,9 +7678,7 @@ void* _memmove(void* dst, const void* src, unsigned int count);
 
 void* _memmove(void* dst, const void* src, unsigned int n);
 
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 
-extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 
 unsigned char FUN_00a25870();
 
@@ -7899,11 +7887,11 @@ Mgr* Mgr::FUN_00a22660(int arg)
     this->m30 = 0;
     this->m1b50 = 6;
 
-    void* hKeyStep = 0;
+    HKEY hKeyStep = 0;
     char acValueResult[10];
-    unsigned int typeIn;
-    unsigned int cb;
-    if (RegOpenKeyExA((void*)0x80000001, "Control Panel\\Mouse", 0, 0xf003f, &hKeyStep) == 0)
+    DWORD typeIn;
+    DWORD cb;
+    if (RegOpenKeyExA(HKEY_CURRENT_USER, "Control Panel\\Mouse", 0, KEY_ALL_ACCESS, &hKeyStep) == 0)
     {
         cb = 0xa;
         if (RegQueryValueExA(hKeyStep, "MouseSensitivity", 0, &typeIn, (unsigned char*)acValueResult, &cb) == 0)
@@ -7942,13 +7930,13 @@ Mgr* Mgr::FUN_00a22660(int arg)
         }
         switch (hr)
         {
-        case 0x80070057:
+        case (long)0x80070057:
             hr = 1;
             break;
-        case 0x80070015:
+        case (long)0x80070015:
             hr = 1;
             break;
-        case 0x80070006:
+        case (long)0x80070006:
             hr = 1;
             break;
         }
@@ -8163,6 +8151,16 @@ float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
         }
     }
     return fScaledValue;
+}
+
+// @fnv 0x00a26220
+unsigned int FUN_00a26220_Class::FUN_00a26220()
+{
+    int a;
+    int b;
+    int c;
+    reinterpret_cast<::FUN_00a26240 *>(this)->FUN_00a26240::~FUN_00a26240();
+    return 0;
 }
 
 #include "generated/data/staging/blk_00a20000_od.inc"

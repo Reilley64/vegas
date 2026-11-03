@@ -436,9 +436,6 @@ struct FUN_00a27430_T : Base_00a26eb0 {
     NiColor m_kDiffuseColor;
     void FUN_00a27430(NiStream& stream);
 };
-void BezKeyEqual();
-void EvaluateCubicKey();
-void FUN_00a27d60();
 void FUN_00a27e40();
 
 
@@ -923,8 +920,6 @@ void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, unsigned int type, Vec3S* 
 }
 
 namespace fnv_00a27e40 {
-extern "C" const double DAT_01034208;
-extern "C" const double DAT_01011590;
 struct Vec3Output { float x,y,z; };
 // @fnv 0x00a27e40
 extern "C" void __cdecl FUN_00a27e40(float radians, const float* transform, unsigned int mode, Vec3Output* output) {
@@ -1144,7 +1139,7 @@ struct SpawnTarget
 // @fnv 0x00a28d90
 void __cdecl CallSpawnTarget(float afValue, char* pBufferX, char* pBufferY, SpawnTarget* pTarget)
 {
-    ::FUN_00a6e430((::NiQuaternion *)(pTarget), afValue, (float)(pBufferX + 4), (*(const ::NiQuaternion *)(pBufferX + 0x14)), (*(const ::NiQuaternion *)(pBufferY + 0x14)), (*(const ::NiQuaternion *)(pBufferY + 4)), *(const ::NiQuaternion *)nullptr);
+    ::FUN_00a6e430((::NiQuaternion *)(pTarget), 0, afValue, (*(const ::NiQuaternion *)(pBufferX + 4)), (*(const ::NiQuaternion *)(pBufferX + 0x14)), (*(const ::NiQuaternion *)(pBufferY + 0x14)), (*(const ::NiQuaternion *)(pBufferY + 4)));
 }
 
 // Reconstruction of FUN_00a28dc0.
@@ -1257,11 +1252,9 @@ void __cdecl FUN_00a28ed0(void* base, char* elems, unsigned int count)
 
 typedef void (__cdecl *A291F0Func)();
 
-void __cdecl FUN_00a291e0();
 void __cdecl A291F0CurveA();
 void __cdecl A291F0CurveB();
 void __cdecl A291F0CurveC();
-void __cdecl FUN_00a291a0();
 void __cdecl FUN_00a29680();
 
 
@@ -1269,13 +1262,13 @@ void __cdecl FUN_00a29680();
 // @fnv 0x00a291f0
 void __cdecl RegisterCurveOps(int eContent, int eType)
 {
-    (*reinterpret_cast<void (**[6][6])()>(&::DAT_011f3d20))[eContent][eType] = FUN_00a291e0;
-    (*reinterpret_cast<void (**[6][6])()>(&::DAT_011f3c90))[eContent][eType] = A291F0CurveA;
-    (*reinterpret_cast<void (**[6][6])()>(&::DAT_011f3c00))[eContent][eType] = A291F0CurveB;
-    (*reinterpret_cast<void (**[6][6])()>(&::DAT_011f3b70))[eContent][eType] = A291F0CurveC;
-    (*reinterpret_cast<void (**[6][6])()>(&::DAT_011f3ae0))[eContent][eType] = FUN_00a291a0;
-    (*reinterpret_cast<void (**[6][6])()>(&::DAT_011f3780))[eContent][eType] = FUN_00a29680;
-    (*reinterpret_cast<void (**[6][6])()>(&::g_fnv_cb_011f3810))[eContent][eType] = 0;
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3d20))[eContent][eType] = reinterpret_cast<void (*)()>(FUN_00a291e0);
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3c90))[eContent][eType] = A291F0CurveA;
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3c00))[eContent][eType] = A291F0CurveB;
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3b70))[eContent][eType] = A291F0CurveC;
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3ae0))[eContent][eType] = reinterpret_cast<void (*)()>(FUN_00a291a0);
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3780))[eContent][eType] = FUN_00a29680;
+    (*reinterpret_cast<void (*(*)[6][6])()>(&::g_fnv_cb_011f3810))[eContent][eType] = 0;
 }
 
 struct FUN_00a29550_stream;
@@ -1552,7 +1545,6 @@ public:
         m_uiStreamFlags += uiBytesRead;
         return uiBytesRead;
     }
-    unsigned int(__cdecl* m_pfnRead)(A29F00BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
 };
 
 class A29F00Stream {
@@ -2249,8 +2241,6 @@ S_00a2b050_V3* __cdecl ComputeInterpolatedPosition(float t, S_00a2b050_Obj* pObj
     return out;
 }
 
-extern "C" double DAT_01034208;
-extern "C" double DAT_01011590;
 struct Vector3 {
     float x, y, z;
     Vector3 operator*(double multiplier) const {
@@ -2303,7 +2293,6 @@ struct NiBinaryStreamStandIn {
         unsigned int uiSize = sizeof(T);
         return BinaryRead(pValue, sizeof(T), &uiSize, 1);
     }
-    unsigned int(__cdecl* m_pfnRead)(NiBinaryStreamStandIn* pkThis, void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 };
 
 struct NiStreamImpl {
@@ -2355,8 +2344,6 @@ public:
         m_uiStreamFlags += uiBytesRead;
         return uiBytesRead;
     }
-    unsigned int(__cdecl* m_pfnRead)(BA2BA10BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int(__cdecl* m_pfnWrite)(BA2BA10BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 };
 
 class BA2BA10Stream {
@@ -2552,7 +2539,7 @@ struct SpawnHeap {
     void* FUN_00aa3e40(unsigned int auiSize);
 };
 
-extern "C" SpawnHeap DAT_011f6238;
+inline SpawnHeap& DAT_011f6238 = reinterpret_cast<SpawnHeap&>(::DAT_011f6238);
 
 struct Element76 {
     int unk00;
@@ -2631,7 +2618,7 @@ struct SpawnTarget
 // @fnv 0x00a2bc60
 void __cdecl InvokeSpawnTarget(float afValue, char* pFirst, char* pSecond, SpawnTarget* pTarget)
 {
-    ::FUN_00a6e430((::NiQuaternion *)(pTarget), afValue, (float)(pFirst + 4), (*(const ::NiQuaternion *)(pFirst + 0x20)), (*(const ::NiQuaternion *)(pSecond + 0x30)), (*(const ::NiQuaternion *)(pSecond + 4)), *(const ::NiQuaternion *)nullptr);
+    ::FUN_00a6e430((::NiQuaternion *)(pTarget), 0, afValue, (*(const ::NiQuaternion *)(pFirst + 4)), (*(const ::NiQuaternion *)(pFirst + 0x20)), (*(const ::NiQuaternion *)(pSecond + 0x30)), (*(const ::NiQuaternion *)(pSecond + 4)));
 }
 }  // namespace fnv_00a2bc60
 
@@ -2764,7 +2751,6 @@ struct S_a2c300_Istr {
     int unk0;
     int unk4;
     unsigned (__cdecl *unk8)(S_a2c300_Istr*, void*, unsigned, unsigned*, unsigned);
-    unsigned(__cdecl* unk8)(S_a2c300_Istr*, void*, unsigned, unsigned*, unsigned);
 };
 struct S_a2c300_Stream {
     int unk0;
@@ -2948,7 +2934,6 @@ struct S_a2c390_Istr {
     int unk4;
     int unk8;
     unsigned (__cdecl *unkc)(S_a2c390_Istr*, void*, unsigned, unsigned*, unsigned);
-    unsigned(__cdecl* unkc)(S_a2c390_Istr*, void*, unsigned, unsigned*, unsigned);
 };
 struct S_a2c390_Stream {
     int unk0;
@@ -3182,7 +3167,7 @@ struct DynamicMemoryAllocator {
     void Free(void* apPtr);
 };
 
-extern "C" DynamicMemoryAllocator DAT_011f6238;
+inline DynamicMemoryAllocator& DAT_011f6238 = reinterpret_cast<DynamicMemoryAllocator&>(::DAT_011f6238);
 
 struct Elem28 {
     int unk00;
@@ -3436,7 +3421,6 @@ struct NiBinaryStreamW {
         unsigned int uiSize = sizeof(T);
         return BinaryWrite(pValue, sizeof(T), &uiSize, 1);
     }
-    unsigned int(__cdecl* m_pfnWrite)(NiBinaryStreamW* pkThis, const void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 };
 
 struct NiStreamStandInW {
@@ -3600,7 +3584,7 @@ struct DynamicMemoryAllocator {
     void* FUN_00aa3e40(unsigned int auiSize);
 };
 
-extern "C" unsigned int DAT_011f6238;
+inline unsigned int& DAT_011f6238 = reinterpret_cast<unsigned int&>(::DAT_011f6238);
 
 struct TCBKeyS;
 
@@ -3899,11 +3883,10 @@ bool FUN_00a305e0_cls::Equals(const char* other)
 }
 
 namespace fnv_00a363b0 {
-extern "C" float DAT_01096b8c;
 struct ArrayManager {
   void* FUN_00aa3e40(unsigned int size);
 };
-extern "C" ArrayManager DAT_011f6238;
+inline ArrayManager& DAT_011f6238 = reinterpret_cast<ArrayManager&>(::DAT_011f6238);
 struct FUN_00a362f0 {
   unsigned int unk00;
   unsigned int unk04;
@@ -4124,7 +4107,6 @@ struct AnimSink {
     int m_00;
     int m_04;
     int (__cdecl *m_08)(AnimSink* self, void* ctx, int count, int* out, int flag);
-    int(__cdecl* m_08)(AnimSink* self, void* ctx, int count, int* out, int flag);
 };
 
 class FUN_00a3da20_cls {
@@ -4154,7 +4136,6 @@ struct FUN_00a3da50_Anim {
     int m_iArrayLength;
     int m_unk08;
     int (__cdecl *m_pfn)(FUN_00a3da50_Anim *pAnim, int iIndex, int iMode, int *pOut, int iFlag);
-    int(__cdecl* m_pfn)(FUN_00a3da50_Anim* pAnim, int iIndex, int iMode, int* pOut, int iFlag);
 };
 
 struct FUN_00a3da50_Owner {
@@ -4396,7 +4377,7 @@ void __cdecl DispatchEntryCallbacks(void* pData)
             unsigned char flag = *(base + 0x2C + index);
             int value = entry[-7];
             int slot = entry[-4];
-            FUN_00a29e00_Callback callback = (*reinterpret_cast<void (**[])(int, int, unsigned char)>(&::DAT_011f3780))[slot];
+            FUN_00a29e00_Callback callback = (*reinterpret_cast<void (*(*)[])(int, int, unsigned char)>(&::DAT_011f3780))[slot];
 
             callback(target, value, flag);
         }
@@ -4564,8 +4545,6 @@ bool NiAnimationKeyA3D::FindKeyIndex(float fTime, NiAnimationKeyA3D* pkKeys, uns
     return bResult;
 }
 
-extern "C" double DAT_01011590;
-extern "C" double DAT_01021928;
 
 // For each key after the first, computes two Vec3S tangent values from neighbouring positions scaled by DAT_01011590 and DAT_01021928 and stores them in the key.
 // @fnv 0x00a27ee0
@@ -4791,7 +4770,6 @@ struct FUN_00a31240_T {
     FUN_00a31240_T& FUN_00a31240();
 };
 
-extern "C" unsigned char DAT_01096968;
 
 // @fnv 0x00a31240
 FUN_00a31240_T& FUN_00a31240_T::FUN_00a31240() {
@@ -4817,7 +4795,7 @@ void __cdecl FUN_00a27aa0(int eContent, int eType)
     (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3c90))[eContent][eType] = (void*)&NiKeyA::FUN_00a27470;
     (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3c00))[eContent][eType] = (void*)&NiKeyB::FUN_00a27470;
     (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3b70))[eContent][eType] = (void*)&NiKeyC::FUN_00a27470;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3ae0))[eContent][eType] = (void*)&AreDataEqual;
+    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3ae0))[eContent][eType] = (void*)static_cast<bool (*)(const ::A27760Data *, const ::A27760Data *)>(&AreDataEqual);
     (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3780))[eContent][eType] = (void*)&FUN_00a29680;
     (*reinterpret_cast<void * (*)[][6]>(&::g_fnv_cb_011f3810))[eContent][eType] = 0;
 }
@@ -4836,6 +4814,7 @@ public:
 };
 class TimedRotationKey {
 public:
+    TimedRotationKey();
     void Fix(TimedRotationKey& prev) { if(NiQuaternion::Dot(m_kRotationValue,prev.m_kRotationValue)<0.0f) m_kRotationValue=m_kRotationValue.Negate(); }
     float m_fTime;
     NiQuaternion m_kRotationValue;
@@ -4978,7 +4957,7 @@ bool FUN_00a29c20(const void* left, const CompareBlock* apRight)
             return false;
         }
         if (a->m_cnt[i] > 0) {
-            CompareFn fn = (*reinterpret_cast<bool (**[])(unsigned int, unsigned int)>(&::DAT_011f3ae0))[a->m_idx[i]];
+            CompareFn fn = (*reinterpret_cast<bool (*(*)[])(unsigned int, unsigned int)>(&::DAT_011f3ae0))[a->m_idx[i]];
             for (unsigned int j = 0; j < a->m_cnt[i]; j++) {
                 unsigned int uiRightValue = apRight->m_kPointB[i] * j + apRight->m_v[i];
                 unsigned int uiLeftValue = a->m_kPointB[i] * j + a->m_v[i];
@@ -5206,10 +5185,7 @@ ControllerBase* FUN_00a359d0()
 }
 
 #include <math.h>
-#include "fnv/decl/NiPoint3.h"
-#include "fnv/decl/NiQuaternion.h"
 #include "fnv/decl/QQ.h"
-#include "fnv/decl/fnv_00a29640__FUN_00a29640_T.h"
 #include "fnv/symbols_00a2e000.h"
 #include "fnv/symbols_00a31000.h"
 #include "fnv/symbols_00a3c000.h"
@@ -5228,12 +5204,11 @@ float TexelSampler::SampleLength(unsigned int x,unsigned int y,float value) {
   if(pCodec) {type=pCodec->converterIndex;base=pCodec->bytesPerElement;rgb=pCodec->offset0c;}
   else {type=0;base=0;}
   float afComponents[3];
-  (*reinterpret_cast<void (**[])(float, unsigned int, unsigned int, float *)>(&::DAT_011f3c18))[type](value,base*x+rgb,base*y+rgb,afComponents);
+  (*reinterpret_cast<void (*(*)[])(float, unsigned int, unsigned int, float *)>(&::DAT_011f3c18))[type](value,base*x+rgb,base*y+rgb,afComponents);
   float stride=afComponents[0]*afComponents[0]+afComponents[1]*afComponents[1]+afComponents[2]*afComponents[2];
   return sqrtf(stride);
 }
 
-extern "C" double DAT_01011590;
 
 // Float TCB (Kochanek-Bartels) key.
 struct FUN_00a2c6a0_Key {
@@ -5366,169 +5341,12 @@ void FUN_00a2a890(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A
 // MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
 void* _memmove(void* d, const void* s, unsigned int n);
 
-template <class T> inline void S_a2c390_Load(S_a2c390_Stream* s, T& v)
-{
-    S_a2c390_BinLoad(s->unk250, &v, sizeof(T));
-}
 
 typedef int(__cdecl* S_00a2c9d0_ReadFn)(void* stream, void* buffer, unsigned int size, unsigned int* pCount,
                                         unsigned int count);
 
 int __cdecl FUN_00ec658f(void(__cdecl* pfn)(void));
 
-// VEGAS17-CONFLICT: FUN_00a3da50_Owner (variant definition below differs from the one above)
-struct FUN_00a3da50_Owner
-{
-    int m_unk00;
-    int m_unk04;
-    int m_unk08;
-    int m_unk0C;
-    int m_unk10;
-    int m_unk14;
-    int m_unk18;
-    int m_unk1C;
-    int m_unk20;
-    int m_unk24;
-    int m_unk28;
-    int m_unk2C;
-    int m_unk30;
-    int m_unk34;
-    int m_unk38;
-    int m_unk3C;
-    int m_unk40;
-    int m_unk44;
-    int m_unk48;
-    int m_unk4C;
-    int m_unk50;
-    int m_unk54;
-    int m_unk58;
-    int m_unk5C;
-    int m_unk60;
-    int m_unk64;
-    int m_unk68;
-    int m_unk6C;
-    int m_unk70;
-    int m_unk74;
-    int m_unk78;
-    int m_unk7C;
-    int m_unk80;
-    int m_unk84;
-    int m_unk88;
-    int m_unk8C;
-    int m_unk90;
-    int m_unk94;
-    int m_unk98;
-    int m_unk9C;
-    int m_unkA0;
-    int m_unkA4;
-    int m_unkA8;
-    int m_unkAC;
-    int m_unkB0;
-    int m_unkB4;
-    int m_unkB8;
-    int m_unkBC;
-    int m_unkC0;
-    int m_unkC4;
-    int m_unkC8;
-    int m_unkCC;
-    int m_unkD0;
-    int m_unkD4;
-    int m_unkD8;
-    int m_unkDC;
-    int m_unkE0;
-    int m_unkE4;
-    int m_unkE8;
-    int m_unkEC;
-    int m_unkF0;
-    int m_unkF4;
-    int m_unkF8;
-    int m_unkFC;
-    int m_unk100;
-    int m_unk104;
-    int m_unk108;
-    int m_unk10C;
-    int m_unk110;
-    int m_unk114;
-    int m_unk118;
-    int m_unk11C;
-    int m_unk120;
-    int m_unk124;
-    int m_unk128;
-    int m_unk12C;
-    int m_unk130;
-    int m_unk134;
-    int m_unk138;
-    int m_unk13C;
-    int m_unk140;
-    int m_unk144;
-    int m_unk148;
-    int m_unk14C;
-    int m_unk150;
-    int m_unk154;
-    int m_unk158;
-    int m_unk15C;
-    int m_unk160;
-    int m_unk164;
-    int m_unk168;
-    int m_unk16C;
-    int m_unk170;
-    int m_unk174;
-    int m_unk178;
-    int m_unk17C;
-    int m_unk180;
-    int m_unk184;
-    int m_unk188;
-    int m_unk18C;
-    int m_unk190;
-    int m_unk194;
-    int m_unk198;
-    int m_unk19C;
-    int m_unk1A0;
-    int m_unk1A4;
-    int m_unk1A8;
-    int m_unk1AC;
-    int m_unk1B0;
-    int m_unk1B4;
-    int m_unk1B8;
-    int m_unk1BC;
-    int m_unk1C0;
-    int m_unk1C4;
-    int m_unk1C8;
-    int m_unk1CC;
-    int m_unk1D0;
-    int m_unk1D4;
-    int m_unk1D8;
-    int m_unk1DC;
-    int m_unk1E0;
-    int m_unk1E4;
-    int m_unk1E8;
-    int m_unk1EC;
-    int m_unk1F0;
-    int m_unk1F4;
-    int m_unk1F8;
-    int m_unk1FC;
-    int m_unk200;
-    int m_unk204;
-    int m_unk208;
-    int m_unk20C;
-    int m_unk210;
-    int m_unk214;
-    int m_unk218;
-    int m_unk21C;
-    int m_unk220;
-    int m_unk224;
-    int m_unk228;
-    int m_unk22C;
-    int m_unk230;
-    int m_unk234;
-    int m_unk238;
-    int m_unk23C;
-    int m_unk240;
-    int m_unk244;
-    int m_unk248;
-    int m_unk24C;
-    FUN_00a3da50_Anim* m_pAnim;
-};
 
 void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 
@@ -5879,12 +5697,6 @@ struct RotKeyQuat
     float z;
 };
 
-// VEGAS17-CONFLICT: TimedRotationKey (variant definition below differs from the one above)
-struct TimedRotationKey : AnimKeyBase
-{
-    RotKeyQuat m_kRotationValue;
-    TimedRotationKey();
-};
 
 void FUN_00a298f0(RotKeyQuat* pkResult, float fTime, TimedRotationKey* pkKeys, int eType, unsigned int uiNumKeys,
                   unsigned int uiKeySize);
@@ -5904,8 +5716,8 @@ bool FUN_00a2a390(float fTime, TimedRotationKey*& pkKeys, unsigned int& uiNumKey
         RotKeyQuat kQuat;
         FUN_00a298f0(&kQuat, fTime, pkOld, 1, uiNumKeys, sizeof(TimedRotationKey));
         TimedRotationKey* pkKey = &pkNew[uiIndex];
-        pkKey->time = fTime;
-        pkKey->m_kRotationValue = kQuat;
+        pkKey->m_fTime = fTime;
+        *reinterpret_cast<RotKeyQuat*>(&pkKey->m_kRotationValue) = kQuat;
         uiNumKeys++;
 
         delete[] pkOld;

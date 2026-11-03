@@ -725,10 +725,7 @@ extern int DAT_011f4500;
 extern int DAT_011f4504;
 extern char DAT_011f4580;
 
-struct CRITICAL_SECTION_STUB
-{
-    int a;
-};
+typedef CRITICAL_SECTION CRITICAL_SECTION_STUB;
 
 // @fnv 0x00a5f7b0
 void FUN_00a5f7b0(intptr_t pNode)
@@ -1220,7 +1217,6 @@ struct RawArray
             --size;
         return p;
     }
-    virtual ~RawArray() throw() { ::FUN_00aa10f0(data); }
 };
 struct RefArray
 {
@@ -1666,9 +1662,8 @@ inline char* GetStr(Ent* e)
     return e->m_str;
 }
 
-struct CSImpl
+struct CSImpl : CRITICAL_SECTION
 {
-    void* m_iFourthElementInteger[6];
 };
 
 struct FUN_00a5b470_cls
@@ -1717,14 +1712,8 @@ struct A5B530Entry
     }
 };
 
-struct A5B530CriticalSection
+struct A5B530CriticalSection : CRITICAL_SECTION
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
 };
 
 class FUN_00a5b530
@@ -2103,7 +2092,6 @@ class A1450Array
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    virtual ~A1450Array() { ::FUN_00aa10f0(m_pBase); }
 };
 
 class A1450OwnedArray : public A1450Array
@@ -3087,7 +3075,6 @@ class NiTMapBaseA4D
     unsigned int m_uiHashSize;
     NiTMapItemA4D** m_ppkHashTable;
     unsigned int m_uiCount;
-    virtual ~NiTMapBaseA4D() throw() { reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0(); ::FUN_00aa10f0(m_ppkHashTable); }
 };
 
 class NiTMapA4D : public NiTMapBaseA4D
@@ -5803,13 +5790,13 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
     if (!p)
         return false;
     InterlockedIncrement(&p->m_iObjectReferenceCount);
-    EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+    EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION *>(&::DAT_011f4380));
     if (m_pRayCursor < 1)
     {
         m_uiItemCount = m_pRayCursor = 1;
         m_data = (NiTexture**)FUN_00aa1070(4);
         m_data[0] = p;
-        LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+        LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION *>(&::DAT_011f4380));
         return true;
     }
     if (m_uiItemCount == m_pRayCursor)
@@ -5832,7 +5819,7 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
         if (diff == 0)
         {
             DeleteExtraData(j);
-            LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+            LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION *>(&::DAT_011f4380));
             return false;
         }
         if (diff <= 0)
@@ -5841,15 +5828,12 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
         m_data[j - 1] = m_data[j];
         m_data[j] = tmp;
     }
-    LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+    LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION *>(&::DAT_011f4380));
     return true;
 }
 
 #include <windows.h>
-#include "fnv/decl/FUN_00a473d0_class.h"
-#include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/PointerList.h"
-#include "fnv/decl/fnv_00a47420__FUN_00a47420_cls.h"
 #include "fnv/symbols_00a40000.h"
 #include "fnv/symbols_00a41000.h"
 #include "fnv/symbols_00a50000.h"
@@ -6006,98 +5990,7 @@ void __cdecl FUN_00a5b460();
 void __cdecl FUN_00a420e0(float a0, float a1, float* p2, float a3, float a4, float* p5, float a6, float a7, float* p8,
                           float* p9);
 
-namespace a47 {
-struct Obj
-{
-    virtual void v00() throw();
-    virtual void DeleteThis() throw();
-    volatile long m_lRef;
-    void IncRefCount() throw()
-    {
-        InterlockedIncrement(&m_lRef);
-    }
-    void DecRefCount() throw()
-    {
-        if (!InterlockedDecrement(&m_lRef))
-            DeleteThis();
-    }
-};
-struct Ptr
-{
-    Obj* m_p;
-    Ptr(Obj* p = 0) throw() : m_p(p)
-    {
-        if (m_p)
-            m_p->IncRefCount();
-    }
-    Ptr(const Ptr& o) throw() : m_p(o.m_p)
-    {
-        if (m_p)
-            m_p->IncRefCount();
-    }
-    ~Ptr() throw()
-    {
-        if (m_p)
-            m_p->DecRefCount();
-    }
-    Ptr& operator=(Obj* p) throw()
-    {
-        if (m_p != p)
-        {
-            if (m_p)
-                m_p->DecRefCount();
-            m_p = p;
-            if (m_p)
-                m_p->IncRefCount();
-        }
-        return *this;
-    }
-    operator Obj*() const throw()
-    {
-        return m_p;
-    }
-    bool operator!=(const Ptr& o) const throw()
-    {
-        return m_p != o.m_p;
-    }
-    bool operator!=(Obj* p) const throw()
-    {
-        return m_p != p;
-    }
-    Ptr& operator=(const Ptr& o) throw()
-    {
-        if (m_p != o.m_p)
-        {
-            if (m_p)
-                m_p->DecRefCount();
-            m_p = o.m_p;
-            if (m_p)
-                m_p->IncRefCount();
-        }
-        return *this;
-    }
-};
-struct Arr
-{
-    virtual ~Arr() throw();
-    Ptr* m_pBase;
-    unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
-    Ptr FUN_00a47540(unsigned int i) throw();
-};
-// @fnv 0x00a47540
-Ptr Arr::FUN_00a47540(unsigned int i) throw()
-{
-    if (i >= m_usSize)
-        return Ptr(0);
-    Ptr sp = m_pBase[i];
-    m_pBase[i] = Ptr(0);
-    if (sp != Ptr(0))
-        m_usESize--;
-    if (i == (unsigned short)(m_usSize - 1))
-        m_usSize--;
-    return sp;
-}
-}
+
 
 class NiObjectD510
 {

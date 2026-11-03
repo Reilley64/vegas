@@ -13,12 +13,9 @@
 #include "fnv/decl/FUN_0044a8d0_Class.h"
 #include "fnv/decl/FUN_0045cee0_shell.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
-#include "fnv/decl/FUN_00a1e900.h"
-#include "fnv/decl/FUN_00a1ec70.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/Node185.h"
 #include "fnv/decl/RequestQueue.h"
-#include "fnv/decl/StrB.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_01017000.h"
@@ -183,35 +180,6 @@ struct StrA
     bool _Inside(const char*);
     StrA& FUN_00a0c430(const char* _Ptr, unsigned int _Count);
 };
-// Appends _Count characters from _Ptr to the string, growing the buffer if needed and handling self-referential input.
-// @fnv 0x00a0c430
-StrA& StrA::FUN_00a0c430(const char* apChars, unsigned int auiCount)
-{
-    if (_Inside(apChars))
-        return (*(::StrA *)&(reinterpret_cast<::StrB *>(this)->FUN_00a0c570((const ::StrB &)(*this), apChars - (16 <= _Myres ? _Bx._Ptr : _Bx._Buf), auiCount)));
-    if (::g_010173f0 - _Mysize <= auiCount || _Mysize + auiCount < _Mysize)
-        throw std::length_error("string too long");
-    unsigned int uiNewSize;
-    char acReserved[44];
-    if (0 < auiCount && reinterpret_cast<::FUN_0044a8d0_Class *>(this)->FUN_0044a8d0(uiNewSize = _Mysize + auiCount, false))
-    {
-        _Secure_char_traits_tag _Tag;
-        _Secure_char_traits_tag _Tag2;
-        {
-            char* pDest;
-            {
-                unsigned int uiTailSize;
-                pDest = (16 <= _Myres ? _Bx._Ptr : _Bx._Buf) + (uiTailSize = _Myres - _Mysize, _Mysize);
-                _Tag2 = _Tag;
-                fnv::crt::memcpy_s(pDest, uiTailSize, apChars, auiCount);
-                char cNul = 0;
-                _Mysize = uiNewSize;
-                (16 <= _Myres ? _Bx._Ptr : _Bx._Buf)[uiNewSize] = cNul;
-            }
-        }
-    }
-    return *this;
-}
 
 extern int DAT_01094e1c;
 struct FUN_00a0d5f0_class
@@ -697,16 +665,6 @@ struct FUN_00a1ea70_Class
 {
     void* FUN_00a1ea70(unsigned int a2);
 };
-// @fnv 0x00a1ea70
-void* FUN_00a1ea70_Class::FUN_00a1ea70(unsigned int auiFlags)
-{
-    Q7 q;
-    (void)q;
-    reinterpret_cast<::FUN_00a1e900 *>((((FUN_00a1e900_Class*)this)))->FUN_00a1e900::~FUN_00a1e900();
-    if ((auiFlags & 1) != 0)
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((void*)this);
-    return this;
-}
 
 namespace fnv_00a1ebf0 {
 
@@ -884,16 +842,6 @@ struct FUN_00a1ec40_Class
     FUN_00a1ec40_Class* FUN_00a1ec40(unsigned int flags);
 };
 
-// Calls FUN_00a1ec70, then if bit 0 of flags is set calls DAT_011f6238.FUN_00aa4060 on this, and returns this.
-// @fnv 0x00a1ec40
-FUN_00a1ec40_Class* FUN_00a1ec40_Class::FUN_00a1ec40(unsigned int flags)
-{
-    int l0, l1, l2, l3, l4, l5, l6;
-    reinterpret_cast<::FUN_00a1ec70 *>(this)->FUN_00a1ec70::~FUN_00a1ec70();
-    if (flags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
-    return this;
-}
 
 struct S00a0ca70_Node
 {
@@ -2079,4 +2027,56 @@ Owner_a1be10::Owner_a1be10(int p1, TNode_a1be10* p2, int p3, int p4)
     p2->unk2c = this;
     for (int i = 0; i < 8; ++i)
         m_20[i] = 0;
+}
+
+// Appends _Count characters from _Ptr to the string, growing the buffer if needed and handling self-referential input.
+// @fnv 0x00a0c430
+StrA& StrA::FUN_00a0c430(const char* apChars, unsigned int auiCount)
+{
+    if (_Inside(apChars))
+        return (*(::StrA *)&(reinterpret_cast<::StrB *>(this)->FUN_00a0c570((const ::StrB &)(*this), apChars - (16 <= _Myres ? _Bx._Ptr : _Bx._Buf), auiCount)));
+    if (::g_010173f0 - _Mysize <= auiCount || _Mysize + auiCount < _Mysize)
+        throw std::length_error("string too long");
+    unsigned int uiNewSize;
+    char acReserved[44];
+    if (0 < auiCount && reinterpret_cast<::FUN_0044a8d0_Class *>(this)->FUN_0044a8d0(uiNewSize = _Mysize + auiCount, false))
+    {
+        _Secure_char_traits_tag _Tag;
+        _Secure_char_traits_tag _Tag2;
+        {
+            char* pDest;
+            {
+                unsigned int uiTailSize;
+                pDest = (16 <= _Myres ? _Bx._Ptr : _Bx._Buf) + (uiTailSize = _Myres - _Mysize, _Mysize);
+                _Tag2 = _Tag;
+                fnv::crt::memcpy_s(pDest, uiTailSize, apChars, auiCount);
+                char cNul = 0;
+                _Mysize = uiNewSize;
+                (16 <= _Myres ? _Bx._Ptr : _Bx._Buf)[uiNewSize] = cNul;
+            }
+        }
+    }
+    return *this;
+}
+
+// @fnv 0x00a1ea70
+void* FUN_00a1ea70_Class::FUN_00a1ea70(unsigned int auiFlags)
+{
+    Q7 q;
+    (void)q;
+    reinterpret_cast<::FUN_00a1e900 *>((((FUN_00a1e900_Class*)this)))->FUN_00a1e900::~FUN_00a1e900();
+    if ((auiFlags & 1) != 0)
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((void*)this);
+    return this;
+}
+
+// Calls FUN_00a1ec70, then if bit 0 of flags is set calls DAT_011f6238.FUN_00aa4060 on this, and returns this.
+// @fnv 0x00a1ec40
+FUN_00a1ec40_Class* FUN_00a1ec40_Class::FUN_00a1ec40(unsigned int flags)
+{
+    int l0, l1, l2, l3, l4, l5, l6;
+    reinterpret_cast<::FUN_00a1ec70 *>(this)->FUN_00a1ec70::~FUN_00a1ec70();
+    if (flags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
+    return this;
 }

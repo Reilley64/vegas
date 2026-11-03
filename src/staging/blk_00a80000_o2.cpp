@@ -59,6 +59,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f5000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_00aa1000.h"
 #include "../../include/layout_support.h"
 
 extern "C" void __cdecl _Call_a5d3a0();
@@ -77,7 +78,7 @@ NiCollisionObject::NiCollisionObject()
 // @fnv 0x00a80fa0
 NiCollisionObject* NiCollisionObject::Construct()
 {
-    NiCollisionObject::NiCollisionObject();
+    new (this) NiCollisionObject();
     vft = (void*)&::DAT_0109e174;
     m_kPointB = 0;
     return this;
@@ -1006,7 +1007,6 @@ float __cdecl FUN_00a811f0(float y, float x)
     return r;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_0109e32c;
 
 struct FUN_00a81760_obj
@@ -1245,7 +1245,6 @@ void CloneObject::CopyRefCountedPointers(CloneObject* destination, void* process
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
 extern int DAT_01069b14;
 
 struct SpawnedObject
@@ -1426,7 +1425,6 @@ FUN_00a89760_cls::~FUN_00a89760_cls()
 struct BaseCls {
 };
 
-extern "C" void* __cdecl FUN_00aa1070(int);
 
 extern int DAT_0109f23c;
 
@@ -1915,7 +1913,6 @@ struct NiParticleObject : NiParticleBase {
     NiParticleSubobject firstMember;
     NiParticleSubobject secondMember;
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int);
 // @fnv 0x00a9aea0
 NiParticleObject* __cdecl CreateNiParticleObject() {
     NiParticleObject* object =
@@ -3905,33 +3902,7 @@ float __cdecl FUN_00a811f0(float y, float x);
 void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange,
                   float* pfValues, unsigned int ItemUpdateArray);
 
-// VEGAS17-CONFLICT: DecodePair (variant definition below differs from the one above)
-struct DecodePair
-{
-    unsigned char first, second;
-};
-
-// VEGAS17-CONFLICT: Decoder (variant definition below differs from the one above)
-struct Decoder
-{
-    unsigned int unk00, unk04;
-    unsigned char* input;
-    unsigned int unk0c;
-    DecodePair table[256];
-    void DecodeToOutput(unsigned int* output);
-};
-
 extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
-
-// VEGAS17-CONFLICT: FUN_00a8bdf0_cls (variant definition below differs from the one above)
-struct FUN_00a8bdf0_cls
-{
-    void(* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
-    void(* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
-    int m_08;
-    int m_0c;
-    void FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count);
-};
 
 struct MemMgr : MemoryManager
 {
@@ -3996,38 +3967,15 @@ struct SkinBone
     unsigned short unk4A;
 };
 
-// VEGAS17-CONFLICT: SkinData (variant definition below differs from the one above)
-struct SkinData
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    SkinBone* bones;
-    unsigned int boneCount;
-};
-
 // @fnv 0x00a84810
 WeightArray* FUN_00a84810(unsigned int vertexCount, SkinData* skin)
 {
     WeightArray* arrays = new WeightArray[vertexCount];
-    unsigned int boneCount = skin->boneCount;
+    unsigned int boneCount = skin->count;
     for (unsigned int i = 0; i < boneCount; i++)
     {
-        SkinBone* bone = &skin->bones[i];
-        for (unsigned int j = 0; j < bone->weightCount; j++)
+        const SkinData::Bone* bone = &skin->bones[i];
+        for (unsigned int j = 0; j < bone->count; j++)
         {
             WeightEntry entry;
             entry.index = i;

@@ -847,7 +847,7 @@ struct AudioObject_00cfdb10 {
 
 
 struct ContactManager_00cfdb10 {
-    virtual int FUN_00cfdb10(unsigned char flags);
+    virtual void* FUN_00cfdb10(unsigned char flags);
     unsigned short m_04;
 
     void FUN_00cfd720();
@@ -868,7 +868,7 @@ void AudioVtable_00cfdb10::vf08(void* object, unsigned short value) {
 
 // Calls FUN_00cfd720, and if bit 0 of flags is set, fetches an audio object and invokes its vtable vf08 with this and m_04.
 // @fnv 0x00cfdb10
-int ContactManager_00cfdb10::FUN_00cfdb10(unsigned char flags) {
+void* ContactManager_00cfdb10::FUN_00cfdb10(unsigned char flags) {
     reinterpret_cast<::FUN_00cfd720 *>(this)->FUN_00cfd720::~FUN_00cfd720();
 
     if ((flags & 1) != 0) {
@@ -876,7 +876,7 @@ int ContactManager_00cfdb10::FUN_00cfdb10(unsigned char flags) {
         audio->m_10->vf08(this, m_04);
     }
 
-    return (int)this;
+    return this;
 }
 }  // namespace fnv_00cfdb10
 
@@ -1486,21 +1486,21 @@ void __cdecl FUN_00cfd950(hkpSimpleContactConstraintAtomCFD2* pkAtom, int iIndex
 }  // namespace fnv_00cfd950
 
 struct Obj { unsigned unk000; unsigned unk004; unsigned unk008; unsigned unk00c; unsigned unk010; unsigned unk014; unsigned unk018; unsigned unk01c; unsigned unk020; unsigned unk024; unsigned unk028; unsigned unk02c; unsigned unk030; unsigned unk034; unsigned unk038; unsigned unk03c; unsigned unk040; unsigned unk044; unsigned unk048; unsigned unk04c; unsigned unk050; unsigned unk054; unsigned unk058; unsigned unk05c; unsigned unk060; unsigned unk064; unsigned unk068; unsigned unk06c; unsigned unk070; unsigned unk074; unsigned unk078; unsigned unk07c; unsigned unk080; unsigned unk084; unsigned unk088; unsigned unk08c; unsigned unk090; unsigned unk094; unsigned unk098; unsigned unk09c; unsigned unk0a0; unsigned unk0a4; unsigned unk0a8; unsigned unk0ac; unsigned unk0b0; unsigned unk0b4; unsigned unk0b8; unsigned unk0bc; unsigned unk0c0; unsigned unk0c4; unsigned unk0c8; unsigned unk0cc; unsigned unk0d0; unsigned unk0d4; unsigned unk0d8; unsigned unk0dc; unsigned unk0e0; unsigned unk0e4; unsigned unk0e8; unsigned unk0ec; unsigned unk0f0; unsigned unk0f4; unsigned unk0f8; unsigned unk0fc; unsigned unk100; unsigned unk104; unsigned unk108; unsigned unk10c; unsigned unk110; unsigned unk114; unsigned unk118; unsigned unk11c; unsigned unk120; unsigned unk124; unsigned unk128; unsigned unk12c; unsigned unk130; unsigned unk134; unsigned unk138; unsigned unk13c; unsigned unk140; unsigned unk144; unsigned unk148; unsigned unk14c; unsigned unk150; unsigned unk154; unsigned unk158; unsigned unk15c; unsigned unk160; unsigned unk164; unsigned unk168; unsigned unk16c; unsigned unk170; unsigned unk174; unsigned unk178; unsigned unk17c; unsigned unk180; unsigned unk184; unsigned unk188; unsigned unk18c; unsigned unk190; unsigned unk194; unsigned unk198; unsigned unk19c; unsigned unk1a0; unsigned unk1a4; unsigned unk1a8; unsigned unk1ac; unsigned unk1b0; unsigned unk1b4; unsigned unk1b8; unsigned unk1bc; unsigned unk1c0; unsigned unk1c4; unsigned unk1c8; unsigned unk1cc; unsigned unk1d0; unsigned unk1d4; unsigned unk1d8; unsigned unk1dc; unsigned unk1e0; unsigned unk1e4; unsigned unk1e8; unsigned unk1ec; unsigned unk1f0; unsigned unk1f4; unsigned unk1f8; unsigned unk1fc; unsigned unk200; unsigned short m204; };
-struct EventBase { int a1; int a2; int z18; int u1c; int a6; int a7; int a7b; float f; int result; void* self; EventBase(int a1, int a2, int a3, int* a4, float a5, int a6, int a7, float* a8, int a9, void* owner) : a1(a1), a2(a2), z18(0), a6(a6), a7(a7), a7b(a9), f(*a8), self(owner) {} };
-struct Ctx : EventBase { int a3; int* a4; float a5; Ctx(int a1, int a2, int a3, int* a4, float a5, int a6, int a7, float* a8, int a9, void* owner) : EventBase(a1,a2,a3,a4,a5,a6,a7,a8,a9,owner) , a3(a3), a4(a4), a5(a5) {} };
+struct EventBase { const void* a1; const void* a2; int z18; int u1c; void* a6; const void* a7; void* a7b; float f; int result; void* self; EventBase(const void* a1, const void* a2, const void* a3, void** a4, float a5, void* a6, const void* a7, float* a8, void* a9, void* owner) : a1(a1), a2(a2), z18(0), a6(a6), a7(a7), a7b(a9), f(*a8), self(owner) {} };
+struct Ctx : EventBase { const void* a3; void** a4; float a5; Ctx(const void* a1, const void* a2, const void* a3, void** a4, float a5, void* a6, const void* a7, float* a8, void* a9, void* owner) : EventBase(a1,a2,a3,a4,a5,a6,a7,a8,a9,owner) , a3(a3), a4(a4), a5(a5) {} };
 struct Cls;
 struct Cls {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(int, int);
-    unsigned unk04, unk08; void* m0c; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1c; unsigned unk20; unsigned unk24; unsigned unk28; unsigned unk2c; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3c; unsigned unk40; unsigned unk44; unsigned unk48; unsigned unk4c; unsigned unk50; unsigned unk54; unsigned m58; unsigned m5c;
-    int FUN_00cfce80(int a1, int a2, int a3, int* a4, float a5, int a6, int a7, float* a8, int a9);
+    virtual void v8(void*, void*);
+    unsigned unk04, unk08; void* m0c; unsigned unk10; unsigned unk14; unsigned unk18; unsigned unk1c; unsigned unk20; unsigned unk24; unsigned unk28; unsigned unk2c; unsigned unk30; unsigned unk34; unsigned unk38; unsigned unk3c; unsigned unk40; unsigned unk44; unsigned unk48; unsigned unk4c; unsigned unk50; unsigned unk54; void* m58; void* m5c;
+    int FUN_00cfce80(const void* a1, const void* a2, const void* a3, void** a4, float a5, void* a6, const void* a7, float* a8, void* a9);
 };
 // Dispatches an event context to m0c and to two objects with m204 set; result 1 calls v8(a4[1], a9), otherwise *a8 receives the context float; returns the result.
 // @fnv 0x00cfce80
-int Cls::FUN_00cfce80(int a1, int a2, int a3, int* a4, float a5, int a6, int a7, float* a8, int a9) {
+int Cls::FUN_00cfce80(const void* a1, const void* a2, const void* a3, void** a4, float a5, void* a6, const void* a7, float* a8, void* a9) {
     Obj* o = ((::Obj *)(reinterpret_cast<::FUN_00cfd800_mgr *>(this)->FUN_00cfd800((*(const ::CdBodyQ *)(a1)), (*(const ::CdBodyQ *)(a2)), 7, (::ContactPropsQ *)(a9))));
-    Obj* p = (Obj*)((unsigned)o ^ m58 ^ m5c);
+    Obj* p = (Obj*)((uintptr_t)o ^ (uintptr_t)m58 ^ (uintptr_t)m5c);
     Ctx c(a1,a2,a3,a4,a5,a6,a7,a8,a9,this);
     c.result = 0;
     ::FUN_00d01850((::S00d01850_Owner *)(m0c), (::S00d01850_Out *)(::Ctx *)(&c));

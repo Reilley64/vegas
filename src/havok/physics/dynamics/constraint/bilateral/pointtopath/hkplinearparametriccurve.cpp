@@ -5,7 +5,8 @@
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <new>
-#include "fnv/decl/S00e47e80_hkpLinearParametricCurveE47E.h"
+#include "fnv/symbols_simd.h"
+#include "fnv/symbols_01011000.h"
 #include "fnv/symbols_00cbf000.h"
 #include "havok/hkpLinearParametricCurve.h"
 
@@ -93,7 +94,6 @@ float CurveSmoothingGetter::FUN_00e47420() const
 
 
 
-extern const __m128 DAT_010ec7f0;
 
 
 struct hkSimdRealE474
@@ -117,16 +117,6 @@ struct hkVector4E474
     void setInterpolate4(const hkVector4E474& a, const hkVector4E474& b, const hkSimdRealE474& t)
     {
         const __m128 kOneMinusT = _mm_sub_ps(DAT_010ec7f0, t.m_vValue);
-        m_vComponents = _mm_add_ps(_mm_mul_ps(kOneMinusT, a.m_vComponents), _mm_mul_ps(b.m_vComponents, t.m_vValue));
-    }
-public:
-    void operator=(const hkVector4E474& v)
-    {
-        m_vComponents = v.m_vComponents;
-    }
-    void setInterpolate4(const hkVector4E474& a, const hkVector4E474& b, const hkSimdRealE474& t)
-    {
-        const __m128 kOneMinusT = _mm_sub_ps(::DAT_010ec7f0, t.m_vValue);
         m_vComponents = _mm_add_ps(_mm_mul_ps(kOneMinusT, a.m_vComponents), _mm_mul_ps(b.m_vComponents, t.m_vValue));
     }
 };
@@ -608,7 +598,6 @@ FUN_00e48030::FUN_00e48030() throw() : m_fSmoothingValue(0.01f), m_bClosedLoop(f
 
 
 extern "C" void _ReadWriteBarrier();
-extern float DAT_01011d78;
 struct Allocator
 {
     virtual void dummy0();
@@ -704,26 +693,6 @@ static __forceinline void copyFromArray_e48090(hkArray<T>& self, Allocator* allo
     self.m_iElementCount = a.m_iElementCount;
     arrCopy_e48090(self.m_data, 0, a.m_data, self.m_iElementCount);
 }
-// @fnv 0x00e48090
-LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
-{
-    LinearParametricCurve* clone = createCurve();
-    int numPoints = this->m_kPoints.m_iElementCount;
-    if (0 < numPoints)
-    {
-        for (int i = 0; i < numPoints; ++i)
-        {
-            reinterpret_cast<::S00e47e80_hkpLinearParametricCurveE47E *>((clone))->FUN_00e47e80((*(const ::hkVector4E47E *)(&this->m_kPoints.m_data[i])));
-        }
-    }
-    clone->m_bClosedLoop = this->m_bClosedLoop;
-    clone->m_kVector4.set(m_kVector4.lane(0), m_kVector4.lane(1), m_kVector4.lane(2), 0.0f);
-    copyFromArray_e48090(clone->m_fClosestPointDistanceSquared,
-                         ((CurveThreadMemory*)::FUN_00c85750())->m_pThreadAllocator,
-                         this->m_fClosestPointDistanceSquared);
-    clone->m_fSmoothingValue = this->m_fSmoothingValue;
-    return clone;
-}
 
 #include <math.h>
 
@@ -742,7 +711,6 @@ union hkVector4q
     }
 };
 
-extern hkVector4q DAT_01268380;
 
 static __forceinline hkReal hkFabs(hkReal r)
 {
@@ -827,7 +795,7 @@ void LinearCurve::FUN_00e47cb0(hkReal t, hkVector4& up) const
     GetTangentAt(t, tangent.m_vec);
 
     hkVector4q& out = reinterpret_cast<hkVector4q&>(up);
-    if (hkDot3(DAT_01268380, tangent) < (double)0.98f)
+    if (hkDot3(*reinterpret_cast<const hkVector4q*>(&::DAT_01268380), tangent) < (double)0.98f)
     {
         hkSetCross(out, tangent, reinterpret_cast<const hkVector4q&>(m_kVector4));
     }
@@ -839,7 +807,6 @@ void LinearCurve::FUN_00e47cb0(hkReal t, hkVector4& up) const
 }
 
 // Moved from hkplinearparametriccurve_rtm_variant.cpp (VEGAS-15).
-#include "fnv/decl/fnv_00e48030__FUN_00e48030.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_01011000.h"
 float __cdecl GetZeroFloat();
@@ -944,5 +911,25 @@ float* S00e47e80_hkpLinearParametricCurveE47E::FUN_00e47e80(const hkVector4E47E&
     float fDist;
     _mm_store_ss(&fDist, kLen);
     return m_fClosestPointDistanceSquared.AddBack(fDist);
+}
+// @fnv 0x00e48090
+LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
+{
+    LinearParametricCurve* clone = createCurve();
+    int numPoints = this->m_kPoints.m_iElementCount;
+    if (0 < numPoints)
+    {
+        for (int i = 0; i < numPoints; ++i)
+        {
+            reinterpret_cast<::S00e47e80_hkpLinearParametricCurveE47E *>((clone))->FUN_00e47e80((*(const ::hkVector4E47E *)(&this->m_kPoints.m_data[i])));
+        }
+    }
+    clone->m_bClosedLoop = this->m_bClosedLoop;
+    clone->m_kVector4.set(m_kVector4.lane(0), m_kVector4.lane(1), m_kVector4.lane(2), 0.0f);
+    copyFromArray_e48090(clone->m_fClosestPointDistanceSquared,
+                         ((CurveThreadMemory*)::FUN_00c85750())->m_pThreadAllocator,
+                         this->m_fClosestPointDistanceSquared);
+    clone->m_fSmoothingValue = this->m_fSmoothingValue;
+    return clone;
 }
 #include "generated/data/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.inc"

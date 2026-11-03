@@ -132,6 +132,8 @@ struct Vector
     __m128 quad;
     Vector()
     {}
+    Vector(__m128 q) : quad(q)
+    {}
     Vector& operator=(const Vector& v)
     {
         quad = v.quad;
@@ -419,7 +421,7 @@ struct __declspec(align(16)) FUN_00da9880_cls
 // @fnv 0x00da9880
 void FUN_00da9880_cls::FUN_00da9880(const SpawnedSrc* apSrc, SpawnedDst* apDst)
 {
-    apDst->m_f20 = *(const volatile float*)((const char*)apSrc + 0xc);
+    apDst->m_f20 = reinterpret_cast<const volatile float*>(&apSrc->m_v)[3];
     apDst->m_v00 = apSrc->m_v;
     if (m_i00 == 1)
     {
@@ -740,9 +742,6 @@ struct Collision_vcls
     {
         return m_10;
     }
-public:
-    virtual void v0e();
-    virtual void v0f(void* a, int b, void* out);
 };
 struct Collision_mat
 {
@@ -2929,13 +2928,13 @@ class S00daac40_RayCastTarget
 class S00daac40_FUN_00daac40_cls
 {
   public:
-    bool* FUN_00daac40(S00daac40_RayArgument<bool*> out, int p2, int p3,
+    bool* FUN_00daac40(S00daac40_RayArgument<bool*> out, ::Collision_vcls* p2, ::Collision_hit* p3,
                        S00daac40_RayArgument<S00daac40_RayParams*> p4);
 };
 
 // Records a GJK ray-cast profile tick, runs FUN_00da9b30 with an identity matrix, and sets out true when hit and local.m_v08.z is non-zero.
 // @fnv 0x00daac40
-bool* S00daac40_FUN_00daac40_cls::FUN_00daac40(S00daac40_RayArgument<bool*> out, int p2, int p3,
+bool* S00daac40_FUN_00daac40_cls::FUN_00daac40(S00daac40_RayArgument<bool*> out, ::Collision_vcls* p2, ::Collision_hit* p3,
                                                S00daac40_RayArgument<S00daac40_RayParams*> apRayParams)
 {
     volatile unsigned long ticks;
@@ -2963,7 +2962,7 @@ bool* S00daac40_FUN_00daac40_cls::FUN_00daac40(S00daac40_RayArgument<bool*> out,
     _mm_store_ps((float*)&m.r2, _mm_setzero_ps());
     m.r2.z = one;
 
-    reinterpret_cast<::Collision_workspace *>((this))->FUN_00da9b30((::Collision_vcls *)(bool *)(&hit), (::Collision_vcls *)(p2), (::Collision_mat *)(0), (::Collision_vector *)(::S00daac40_Mat3 *)(&m), (::Collision_hit *)(p3));
+    reinterpret_cast<::Collision_workspace *>((this))->FUN_00da9b30((::Collision_vcls *)(bool *)(&hit), p2, nullptr, (::Collision_vector *)(::S00daac40_Mat3 *)(&m), p3);
 
     pProfBuf = (S00daac40_ProfBuf*)TlsGetValue(DAT_0126835c);
     if (pProfBuf->m_pCur < pProfBuf->m_pRecordEnd)
@@ -3070,43 +3069,46 @@ void Simplex::FUN_00daa7e0(void* arg1, void* arg2, const Transform* transform)
     for (int i = 0; i < count; ++i)
         differences[i].quad = _mm_sub_ps(a[i].quad, verticesB[i].quad);
 
-    if (::TestPenetration((int)(arg1), (int)(arg2), (*(const ::S_00dfaac0_Transform *)(transform)), ::DAT_010141cc, (int)(a), (int)(verticesB + 4), (int)(differences), count,
-                        (int)(&output)) == 1)
+    if (::TestPenetration(static_cast<const ::S2db70_Shape *>(arg1), static_cast<const ::S2db70_Shape *>(arg2),
+                          reinterpret_cast<const ::S_00dfaac0_Transform &>(*transform), ::DAT_010141cc,
+                          reinterpret_cast<::S2db70_Vector4 *>(a), reinterpret_cast<::S2db70_Vector4 *>(verticesB + 4),
+                          reinterpret_cast<::S2db70_Vector4 *>(differences), count,
+                          reinterpret_cast<::S2db70_Out *>(&output)) == 1)
     {
 
         countA = 1;
         countB = 1;
         status = 1;
-        result = output.normal;
+        result.quad = output.normal.quad;
         return;
     }
 
-    unsigned tag2 = *(unsigned*)&a[2].quad[3] & 0xc0ffffff;
+    unsigned tag2 = reinterpret_cast<const unsigned*>(&a[2].quad)[3] & 0xc0ffffff;
 
-    unsigned tag1 = *(unsigned*)&a[1].quad[3] & 0xc0ffffff;
+    unsigned tag1 = reinterpret_cast<const unsigned*>(&a[1].quad)[3] & 0xc0ffffff;
 
     countA = 3;
     countB = 3;
 
-    if (tag1 == tag2 || ((*(unsigned*)&a[0].quad[3] & 0xc0ffffff) == tag2))
+    if (tag1 == tag2 || ((reinterpret_cast<const unsigned*>(&a[0].quad)[3] & 0xc0ffffff) == tag2))
         countA = 2;
 
-    if ((*(unsigned*)&a[0].quad[3] & 0xc0ffffff) == tag1)
+    if ((reinterpret_cast<const unsigned*>(&a[0].quad)[3] & 0xc0ffffff) == tag1)
     {
         --countA;
         a[0] = a[countA];
     }
 
-    tag2 = *(unsigned*)&verticesB[4 + 2].quad[3] & 0xc0ffffff;
+    tag2 = reinterpret_cast<const unsigned*>(&verticesB[4 + 2].quad)[3] & 0xc0ffffff;
 
-    tag1 = *(unsigned*)&verticesB[4 + 1].quad[3] & 0xc0ffffff;
+    tag1 = reinterpret_cast<const unsigned*>(&verticesB[4 + 1].quad)[3] & 0xc0ffffff;
 
     if (tag1 == tag2)
         --countB;
-    else if ((*(unsigned*)&verticesB[4 + 0].quad[3] & 0xc0ffffff) == tag2)
+    else if ((reinterpret_cast<const unsigned*>(&verticesB[4 + 0].quad)[3] & 0xc0ffffff) == tag2)
         --countB;
 
-    if (countB >= 2 && ((*(unsigned*)&verticesB[4 + 0].quad[3] & 0xc0ffffff) == tag1))
+    if (countB >= 2 && ((reinterpret_cast<const unsigned*>(&verticesB[4 + 0].quad)[3] & 0xc0ffffff) == tag1))
     {
         --countB;
         verticesB[4 + 0] = verticesB[4 + countB];
@@ -3151,7 +3153,7 @@ void Simplex::FUN_00daa7e0(void* arg1, void* arg2, const Transform* transform)
 
     else
         status = 1;
-    result = output.normal;
+    result.quad = output.normal.quad;
 }
 
 // Moved from hkpgsk_gs_nogs_variant.cpp (VEGAS-15).
@@ -3174,9 +3176,9 @@ void Simplex::FUN_00da98f0()
     {
         for (int i = 0; i < countA; ++i)
         {
-            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500(&verticesA[i], (::Vector *)(verticesB), 0) == 7)
+            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500(&a[i], (::Vector *)(verticesB), 0) == 7)
             {
-                verticesA[0] = verticesA[i];
+                a[0] = a[i];
                 countA = 1;
                 return;
             }
@@ -3186,9 +3188,9 @@ void Simplex::FUN_00da98f0()
     {
         for (int j = 0; j < countB; ++j)
         {
-            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500(&verticesB[j], (::Vector *)(verticesA), 0) == 7)
+            if (reinterpret_cast<::Simplex *>(this)->FUN_00da8500(&verticesB[j], (::Vector *)(a), 0) == 7)
             {
-                supportB[0] = supportB[j];
+                verticesB[4 + 0] = verticesB[4 + j];
                 verticesB[0] = verticesB[j];
                 countB = 1;
                 return;
@@ -3202,10 +3204,10 @@ void Simplex::FUN_00da98f0()
     {
         for (int j = 0; j < edgesB; ++j)
         {
-            Vector directionA = _mm_sub_ps(verticesA[DAT_010cb440[i + 2]].quad, verticesA[i].quad);
+            Vector directionA = _mm_sub_ps(a[DAT_010cb440[i + 2]].quad, a[i].quad);
             Vector directionB = _mm_sub_ps(verticesB[DAT_010cb440[j + 2]].quad, verticesB[j].quad);
             SegmentClosestResult result;
-            ::FUN_00d22e40((*(const ::hkVector4 *)(&verticesA[i])), (*(const ::hkVector4 *)(&directionA)), (*(const ::hkVector4 *)(&verticesB[j])), (*(const ::hkVector4 *)(&directionB)), (*(::VectorPairResult *)(&result)));
+            ::FUN_00d22e40((*(const ::hkVector4 *)(&a[i])), (*(const ::hkVector4 *)(&directionA)), (*(const ::hkVector4 *)(&verticesB[j])), (*(const ::hkVector4 *)(&directionB)), (*(::VectorPairResult *)(&result)));
             if (result.distanceSquared < bestDistance)
             {
                 bestDistance = result.distanceSquared;
@@ -3217,21 +3219,20 @@ void Simplex::FUN_00da98f0()
     if (edgesA == 3)
     {
         --countA;
-        verticesA[DAT_010cb440[bestA]] = verticesA[countA];
+        a[DAT_010cb440[bestA]] = a[countA];
     }
     if (edgesB == 3)
     {
         --countB;
         int destination = DAT_010cb440[bestB];
-        supportB[destination] = supportB[countB];
+        verticesB[4 + destination] = verticesB[4 + countB];
         verticesB[destination] = verticesB[countB];
     }
 }
 
 struct Collision_in
 {
-    unsigned int unk00;
-    unsigned int unk04;
+    unsigned short m_vertexIds[4];
     unsigned char m_08;
     unsigned char m_09;
     unsigned char m_0a;
@@ -3265,8 +3266,8 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
     scratch.high = in->m_0a >> 4;
     scratch.changed = 0;
 
-    shapeA->v0f((void*)in, (int)scratch.countA, &scratch.vector20);
-    shapeB->v0f((void*)((char*)in + scratch.countA * 2), (int)scratch.countB, &scratch.vectore0);
+    shapeA->vertices(in->m_vertexIds, (int)scratch.countA, scratch.a);
+    shapeB->vertices(in->m_vertexIds + scratch.countA, (int)scratch.countB, scratch.sourceB);
 
     reinterpret_cast<::GapSolver *>(&(scratch))->FUN_00daad40((const ::GapShape *)(self->m_08), (const ::GapShape *)(self->m_0c), (*(const ::GapTransform *)((void*)self->m_vptr)), (*(::GapVector *)(&normal)));
     if (scratch.changed != 0)
@@ -3275,14 +3276,14 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
     }
 
     Collision_mat* M = self->m_04;
-    w = normal.component[3];
+    w = normal.w;
     d = (w - self->m_08->m_10) - self->m_0c->m_10;
 
-    __m128 v = _mm_mul_ps(_mm_shuffle_ps(normal.value, normal.value, 0x55), M->m_10);
-    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(normal.value, normal.value, 0), M->m_00));
-    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(normal.value, normal.value, 0xaa), M->m_20));
-    out->value = v;
-    out->component[3] = d;
+    __m128 v = _mm_mul_ps(_mm_shuffle_ps(normal.simd(), normal.simd(), 0x55), M->m_10);
+    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(normal.simd(), normal.simd(), 0), M->m_00));
+    v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(normal.simd(), normal.simd(), 0xaa), M->m_20));
+    out->simd() = v;
+    out->w = d;
 
     if (self->m_10 > d)
     {
@@ -3290,17 +3291,17 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
         if (scratch.countA == 1)
         {
             bb = self->m_0c->m_10 - w;
-            finalVector = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(bb), normal.value), scratch.vector20);
+            finalVector = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(bb), normal.simd()), scratch.a[0].simd());
         }
         else if (scratch.countB == 1)
         {
             bb = self->m_0c->m_10;
-            finalVector = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(bb), normal.value), scratch.vectora0);
+            finalVector = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(bb), normal.simd()), scratch.b[0].simd());
         }
         else
         {
             bb = self->m_0c->m_10 - w;
-            finalVector = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(bb), normal.value), scratch.vector130);
+            finalVector = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(bb), normal.simd()), scratch.witnesses[0].simd());
         }
 
         M = self->m_04;
@@ -3310,7 +3311,7 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
         __m128 z = _mm_mul_ps(_mm_shuffle_ps(s, s, 0xaa), M->m_20);
         z = _mm_add_ps(z, M->m_30);
         o = _mm_add_ps(o, z);
-        out2->value = o;
+        out2->simd() = o;
 
         return 0;
     }

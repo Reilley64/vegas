@@ -1254,7 +1254,7 @@ bool FUN_00469760_shell::FUN_00469760(unsigned int aiFormID)
 {
     if (::FUN_004839c0(aiFormID))
         return true;
-    if (((SaveLoadChangeHistory*)::g_BGSSaveLoadGame)->MatchesHistory((SaveLoadChangeHistory*)aiFormID))
+    if (((SaveLoadChangeHistory*)::g_BGSSaveLoadGame)->MatchesHistory((SaveLoadChangeHistory*)(std::uintptr_t)aiFormID))
         return true;
     return false;
 }
@@ -1619,7 +1619,7 @@ struct FUN_00464d90_shell
 };
 struct FUN_00464e30_shell
 {
-    int GetSelfOffset6A8();
+    char* GetSelfOffset6A8();
 };
 struct FUN_008d50e0_shell
 {
@@ -2157,7 +2157,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     pfileList = reinterpret_cast<::FUN_00658930_class *>(&(((LC3_DH*)this)->arr1dc))->GetShortAtOffsetA();
     for (int j = 0; j < pfileList; j++)
     {
-        TESForm* pnavinfo = (TESForm*)*((LC3_DH*)this)->arr1dc.GetAt(j);
+        TESForm* pnavinfo = (TESForm*)(std::uintptr_t)*((LC3_DH*)this)->arr1dc.GetAt(j);
         if (pnavinfo)
             pnavinfo->InitItem();
     }
@@ -2325,7 +2325,7 @@ void FUN_00462fb0_shell::FUN_00462fb0()
     count2 = reinterpret_cast<::FUN_00658930_class *>((((ArrHelper*)&this->interiorCells)))->GetShortAtOffsetA();
     for (int iIndex = 0; iIndex < count2; ++iIndex)
     {
-        pObj8 = (BGSCameraPath*)*((ArrHelper*)&this->interiorCells)->GetAt(iIndex);
+        pObj8 = (BGSCameraPath*)(std::uintptr_t)*((ArrHelper*)&this->interiorCells)->GetAt(iIndex);
         if (pObj8)
             reinterpret_cast<::fnv_0054c740::FUN_0054c740_shell *>((((FUN_0054c740_shell*)pObj8)))->FUN_0054c740(1, 1);
     }
@@ -4294,7 +4294,7 @@ void TESDataHandler::RegisterAddonNode(BGSAddonNode* node)
         node->SetIndex(index);
     }
     else
-        addonNodes.SetAt(((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass())), node);
+        addonNodes.SetAt(((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass())), node);
 }
 
 // Returns -1 for a null element, otherwise fills the first null slot in m_pBase and returns its index, or appends via SetAt when full.
@@ -4734,7 +4734,7 @@ void DeletionDataHandler::DeleteObject(DeletionObject* object)
     reinterpret_cast<::fnv_00546970::FUN_00546970Class *>((object))->FUN_00546970();
     reinterpret_cast<::FUN_00961f30_Class *>((object))->SetByteAt54(false);
     if (!reinterpret_cast<::TESObjectCELL *>((object))->IsCellInterior())
-        reinterpret_cast<::fnv_00585e00::FUN_00585e00_cls *>((((::ReferenceManager *)(reinterpret_cast<::TESObjectCELL *>((object))->GetParentWorldSpace()))))->FUN_00585e00((int)(object));
+        reinterpret_cast<::fnv_00585e00::FUN_00585e00_cls *>((((::ReferenceManager *)(reinterpret_cast<::TESObjectCELL *>((object))->GetParentWorldSpace()))))->FUN_00585e00((std::intptr_t)(object));
     if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::DeletionSaveState * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
         reinterpret_cast<::FUN_004623f0_shell *>(((*reinterpret_cast<::DeletionSaveState * *>(&::g_BGSSaveLoadGame))))->FUN_004623f0(bPreviousSaveState);
     ::FUN_0044ada0(false);
@@ -5120,7 +5120,7 @@ bool DataHandlerX::FUN_0045dfe0()
     }
     reinterpret_cast<::FUN_004f6640_cls *>((p1d8))->FUN_004f6640();
     reinterpret_cast<::fnv_006c09f0::ManagerView *>((((::SubX *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c09f0();
-    if (((int)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::SubX * *>(&::g_TES))))->FUN_0045af00())))
+    if (((std::intptr_t)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::SubX * *>(&::g_TES))))->FUN_0045af00())))
     {
         reinterpret_cast<::FUN_0045afb0_cls *>(((*reinterpret_cast<::SubX * *>(&::g_TES))))->SetNavMeshMaps((::NavMeshHolder *)(0));
     }
@@ -5749,11 +5749,11 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
         {
             NiPointer<NavMesh> mesh = MakeNavMeshPointer(new NavMesh);
             LoadForm(((::NavMesh *)(::FUN_00559450((int *)&(mesh)))), file);
-            if (((::TESObjectCELL *)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType())))
+            if (((::TESObjectCELL *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType())))
             {
-                if (!((::NavMeshCollection *)(::FUN_0070ec90((char *)(((::TESObjectCELL *)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType())))))))
-                    reinterpret_cast<::FUN_00557760_cls *>((((::TESObjectCELL *)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType()))))->SetHelper((::Helper_cls *)(::NavMeshCollection *)(new NavMeshCollection));
-                ((::NavMeshCollection *)(::FUN_0070ec90((char *)(((::TESObjectCELL *)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType()))))))->AppendNavMesh(mesh);
+                if (!((::NavMeshCollection *)(std::uintptr_t)(::FUN_0070ec90((char *)(((::TESObjectCELL *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType())))))))
+                    reinterpret_cast<::FUN_00557760_cls *>((((::TESObjectCELL *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType()))))->SetHelper((::Helper_cls *)(::NavMeshCollection *)(new NavMeshCollection));
+                ((::NavMeshCollection *)(std::uintptr_t)(::FUN_0070ec90((char *)(((::TESObjectCELL *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::NavMesh *)(::FUN_00559450((int *)&(mesh))))))->GetCurrentMoveModeType()))))))->AppendNavMesh(mesh);
             }
         }
         else
@@ -6925,7 +6925,7 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
                     }
                     count = ((::ExtraNode *)(reinterpret_cast<::Callees *>((count))->FUN_00726070()));
                 }
-                reinterpret_cast<::CombatProcedure *>((actor))->Initialize((::CombatController *)(((int)(std::intptr_t)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) - iExtraCount));
+                reinterpret_cast<::CombatProcedure *>((actor))->Initialize((::CombatController *)(std::uintptr_t)(((int)(std::intptr_t)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) - iExtraCount));
                 if (((std::intptr_t)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) <= 0 || !((::ExtraNode *)(::FUN_00559450((int *)(actor)))) || ((::ExtraNode *)(::FUN_00559450((int *)(actor))))->FUN_008256d0() ||
                     reinterpret_cast<::FUN_004bddd0_shell *>((actor))->FUN_004bddd0(false))
                     reinterpret_cast<::ItemChangeListNode *>((inventory->entries))->FUN_00905330((::InventoryStackRecord *const &)(actor));
@@ -7604,7 +7604,7 @@ void ModelTest::FUN_0046ddb0(bool force)
                                 }
                                 }
                                 if (ref->Get3D())
-                                    reinterpret_cast<::TGGatherer *>(this)->FUN_0046e910((::TGAVObject *)(::fnv_0046ddb0::NodeView *)(ref->Get3D()), (int)(model->GetModelFilePath()));
+                                    reinterpret_cast<::TGGatherer *>(this)->FUN_0046e910((::TGAVObject *)(::fnv_0046ddb0::NodeView *)(ref->Get3D()), (std::intptr_t)(model->GetModelFilePath()));
                                 if (*(*reinterpret_cast<::fnv_0046ddb0::TestSetting *>(&::g_011c4080)).Bool() && bound->GetFormType() != 42 && bound->GetFormType() != 43)
                                 {
                                     int nConvex = 0;
@@ -7690,12 +7690,12 @@ struct FNVRecordManager
 
 struct FUN_0046f640_shell : public TESDataHandler
 {
-    void ProcessInventoryRecords(FNVFile*, int, int);
+    void ProcessInventoryRecords(FNVFile*, int, std::intptr_t);
 };
 
 // Iterates FNV inventory records from a file group, dispatches each to a virtual handler, and removes or updates entries based on reference counts and uniqueness.
 // @fnv 0x0046f640
-void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, int source)
+void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, std::intptr_t source)
 {
     FNVObject* current = 0;
     bool retrying;
@@ -7738,7 +7738,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
             }
             if (processed)
             {
-                if (((int)(reinterpret_cast<::s55d310::Owner *>((reinterpret_cast<FNVObject*>(processed)))->FUN_0055d310())))
+                if (((std::intptr_t)(reinterpret_cast<::s55d310::Owner *>((reinterpret_cast<FNVObject*>(processed)))->FUN_0055d310())))
                 {
                     FNVObject* input = 0;
                     if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20())

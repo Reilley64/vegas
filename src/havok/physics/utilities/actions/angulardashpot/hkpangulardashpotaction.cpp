@@ -337,10 +337,10 @@ void S00d4dcb0_DashpotAct_shell::FUN_00d4dcb0(const S00d4dcb0_DashpotInputRec& i
         DashpotQuadD4DCB0 tmp;
     } v;
     S00d4dcb0_FUN_00c66320_shell* __restrict quat = &v.qprod;
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(quat), (void *)(&bEnt->unk160), (const ::fnv_00c66320::__m128 *)(&m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(quat), nullptr, (const ::fnv_00c66320::__m128 *)(&bEnt->unk160), (const ::fnv_00c66320::__m128 *)(&m_rotation));
 
     v.tmp = _mm_xor_ps(v.qprod.m_vec, DashpotNegXY);
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(quat), (void *)(&aEnt->unk160), (const ::fnv_00c66320::__m128 *)(&v.tmp), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(quat), nullptr, (const ::fnv_00c66320::__m128 *)(&aEnt->unk160), (const ::fnv_00c66320::__m128 *)(&v.tmp));
     v.tmp = _mm_sub_ps(aEnt->unk1C0, bEnt->unk1C0);
 
     float t = reinterpret_cast<::C74C20Quat *>((quat))->GetAngle();

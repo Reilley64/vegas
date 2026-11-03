@@ -509,10 +509,16 @@ void __cdecl ProcessPropertyTree(PropHelper* pProp, int param2)
     }
 }
 
+struct FogOwner_b55520
+{
+    char pad[0x134];
+    BSFogProperty* m_pFogProperty;
+};
+
 // @fnv 0x00b55520
 BSFogProperty* __cdecl FUN_00b55520(int aiShadowSceneNode)
 {
-    return *(BSFogProperty**)((char*)DAT_011f91c8[aiShadowSceneNode] + 0x134);
+    return reinterpret_cast<FogOwner_b55520*>(DAT_011f91c8[aiShadowSceneNode])->m_pFogProperty;
 }
 
 
@@ -3204,7 +3210,7 @@ bool FUN_00b7fe40_cls::LoadFromReader(std::intptr_t param)
                     for (unsigned int i = 0; i < buf.count; ++i)
                     {
                         m_08.FUN_00a642a0(pRecord, pRecord);
-                        pRecord = (Rec*)((char*)pRecord + pRecord->m_100 + 0x104);
+                        pRecord = (Rec*)((char*)(pRecord + 1) + pRecord->m_100);
                     }
                 }
                 else
@@ -4175,19 +4181,19 @@ void InitRenderSystem()
             DAT_011f91c6 = true;
         }
         ClearCallbackTables();
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[0] = ((void (&)())::ProcessCommands);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[10] = ((void (&)())::InsertNodeAtHead);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[11] = ((void (&)())::FUN_00b606e0);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[13] = ((void (&)())::AccumulateRenderPasses);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[9] = ((void (&)())::FUN_00b64440);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[14] = ((void (&)())::AddEntriesToAccumulator);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[8] = ((void (&)())::FUN_00b64490);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[0] = ((void (&)())::FUN_00b665a0);
+        DAT_011f9f80[0] = ((void (&)())::ProcessCommands);
+        DAT_011f9f80[10] = ((void (&)())::InsertNodeAtHead);
+        DAT_011f9f80[11] = ((void (&)())::FUN_00b606e0);
+        DAT_011f9f80[13] = ((void (&)())::AccumulateRenderPasses);
+        DAT_011f9f80[9] = ((void (&)())::FUN_00b64440);
+        DAT_011f9f80[14] = ((void (&)())::AddEntriesToAccumulator);
+        DAT_011f9f80[8] = ((void (&)())::FUN_00b64490);
+        DAT_011f9f40[0] = ((void (&)())::FUN_00b665a0);
         DAT_011f9f3c = ((void (&)())::ProcessCommands);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[12] = ((void (&)())::RenderAccumulationPasses);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[10] = ((void (&)())::FUN_00b65e80);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[13] = FUN_00a29680;
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[14] = ((void (&)())::FUN_00b64530);
+        DAT_011f9f40[12] = ((void (&)())::RenderAccumulationPasses);
+        DAT_011f9f40[10] = ((void (&)())::FUN_00b65e80);
+        DAT_011f9f40[13] = FUN_00a29680;
+        DAT_011f9f40[14] = ((void (&)())::FUN_00b64530);
         DAT_011f9f38 = ((void (&)())::FUN_00b665a0);
         (*reinterpret_cast<void * *>(&::fnv_00b988e0::DAT_011ffe2c)) = 0;
         DAT_011ffe30 = 0;

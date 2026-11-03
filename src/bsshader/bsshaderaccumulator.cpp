@@ -169,7 +169,12 @@ struct FUN_00b63500_shell : public BSShaderAccumulator
     void RenderBound(void*, bool);
 };
 
-__declspec(thread) char tls_data[0x2c0];
+struct AccumulatorTls
+{
+    char pad[0x2bc];
+    unsigned int uiRendererIndex;
+};
+__declspec(thread) AccumulatorTls tls_data;
 
 struct BatchRendererDummy
 {
@@ -182,9 +187,9 @@ struct BatchRendererDummy
 // @fnv 0x00b63500
 void FUN_00b63500_shell::RenderBound(void* aBound, bool abZPrePass)
 {
-    unsigned int uiIndex = *(unsigned int*)&tls_data[0x2bc] % this->m_uiRendererCount;
-    BatchRendererDummy* m_pGroupRenderer = *(BatchRendererDummy**)((char*)this + uiIndex * 4 + 0x174);
-    m_pGroupRenderer->AddBoundToRenderGroup(aBound, abZPrePass, *(void**)&this->m_pkAccumulationCamera,
+    unsigned int uiIndex = tls_data.uiRendererIndex % this->m_uiRendererCount;
+    BatchRendererDummy* pRenderer = reinterpret_cast<BatchRendererDummy*>(this->m_pGroupRenderer[uiIndex]);
+    pRenderer->AddBoundToRenderGroup(aBound, abZPrePass, *(void**)&this->m_pkAccumulationCamera,
                                             this->m_bSkipObjectsWithFlag14);
 }
 
@@ -370,29 +375,44 @@ struct NodePoolView
     void* AddHead();
 };
 
-// If bFlag is set, allocates a node via AddHead, links it before the current head at p+0x10, updates the count and returns true.
+struct InsertListNode
+{
+    InsertListNode* m_pkNext;
+    InsertListNode* m_pkPrev;
+    void* m_element;
+};
+
+struct InsertList
+{
+    char pad[0xc];
+    InsertListNode* m_pkHead;
+    InsertListNode* m_pkTail;
+    NodePoolView m_kPool;
+};
+
+// If bInsert is set, allocates a node from the list's pool, appends it after the tail, updates the count and returns true.
 // @fnv 0x00b65a90
 bool __cdecl InsertNodeAtHead(void* pList, void* data, void* arg3, void* arg4, int bInsert)
 {
     if (!bInsert)
         return true;
-    char* p = (char*)pList;
-    NodePoolView* pHead = (NodePoolView*)(p + 0x14);
-    void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((pHead))->FUN_0043a010()));
-    *(void**)((char*)node + 8) = data;
-    *(void**)((char*)node) = 0;
-    *(void**)((char*)node + 4) = *(void**)(p + 0x10);
-    void* oldHead = *(void**)(p + 0x10);
-    if (oldHead)
+    InsertList* list = (InsertList*)pList;
+    NodePoolView* pHead = &list->m_kPool;
+    InsertListNode* node = ((InsertListNode *)(reinterpret_cast<::FUN_0043a010_shell *>((pHead))->FUN_0043a010()));
+    node->m_element = data;
+    node->m_pkNext = 0;
+    node->m_pkPrev = list->m_pkTail;
+    InsertListNode* oldTail = list->m_pkTail;
+    if (oldTail)
     {
-        *(void**)oldHead = node;
+        oldTail->m_pkNext = node;
         ++pHead->m_uiCount;
-        *(void**)(p + 0x10) = node;
+        list->m_pkTail = node;
         return true;
     }
     ++pHead->m_uiCount;
-    *(void**)(p + 0x0C) = node;
-    *(void**)(p + 0x10) = node;
+    list->m_pkHead = node;
+    list->m_pkTail = node;
     return true;
 }
 
@@ -482,6 +502,12 @@ struct V42
     {}
     virtual void f40()
     {}
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
 };
 
 extern void FUN_00b64f90(void*);
@@ -498,10 +524,11 @@ public:
 // @fnv 0x00b65e80
 void __cdecl FUN_00b65e80(void* pObject)
 {
-    if (*(int*)((unsigned char*)pObject + 8))
+    V42* object = reinterpret_cast<V42*>(pObject);
+    if (object->m_08)
     {
-        *(int*)((unsigned char*)pObject + 0x18) = 0;
-        reinterpret_cast<V42*>(pObject)->f40();
+        object->m_18 = 0;
+        object->f40();
         FUN_00b64f90(pObject);
         ::BSRenderStateManager::SetDepthBufferEnabled(0, (::BSRENDERSTATE_LOCK)(0));
     }
@@ -723,25 +750,15 @@ bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQue
 }
 
 namespace fnv_00b63a50 {
-struct BatchStub
+struct AccumStub : public ::BSShaderAccumulator
 {
 };
-struct AccumStub
-{
-    char pad[8];
-    void* m_i8;
-    char pad2[0x25];
-    unsigned char m_c31;
-    char pad3[0x142];
-    BatchStub* m_pBatchRenderer[6];
-    unsigned int m_uiCount;
-};
-// Calls FUN_00b99a10 on each of the m_uiCount batch renderers, passing m_i8 and m_c31.
+// Calls FUN_00b99a10 on each of the m_uiRendererCount batch renderers, passing the accumulation camera and m_bSkipObjectsWithFlag14.
 // @fnv 0x00b63a50
 void FUN_00b63a50(AccumStub* pAccum)
 {
-    for (unsigned int i = 0; i < pAccum->m_uiCount; ++i)
-        ::FUN_00b99a10((char *)(pAccum->m_pBatchRenderer[i]), 0, (std::intptr_t)(pAccum->m_i8), pAccum->m_c31);
+    for (unsigned int i = 0; i < pAccum->m_uiRendererCount; ++i)
+        ::FUN_00b99a10((char *)(pAccum->m_pGroupRenderer[i]), 0, (std::intptr_t)(pAccum->m_pkAccumulationCamera), pAccum->m_bSkipObjectsWithFlag14);
 }
 }  // namespace fnv_00b63a50
 
@@ -750,9 +767,14 @@ struct BSShaderLightingProperty
 {
 };
 // @fnv 0x00b65570
+struct Owner
+{
+    char pad[0xc];
+    ::BSShaderLightingProperty m_kLightingProperty;
+};
 void FUN_00b65570(char* self, int unused)
 {
-    reinterpret_cast<::BSShaderLightingProperty *>((reinterpret_cast<BSShaderLightingProperty*>(self + 0xc)))->ClearLights();
+    reinterpret_cast<Owner*>(self)->m_kLightingProperty.ClearLights();
 }
 }  // namespace fnv_00b65570
 
@@ -1021,15 +1043,17 @@ struct OMCS
         DeleteCriticalSection(&m_kCS);
     }
 };
-struct FUN_00a9b4a0
-{
-    virtual ~FUN_00a9b4a0();
-    char pad[0x88];
-};
 struct OMSlot48
 {
     OMObjC4* m_p;
     char pad[0x10];
+};
+struct FUN_00a9b4a0
+{
+    virtual ~FUN_00a9b4a0();
+    char pad04[0x44];
+    OMSlot48 m_aSlots48[3];
+    char pad84[0x8];
 };
 struct FUN_00b656e0 : public FUN_00a9b4a0
 {
@@ -1081,7 +1105,7 @@ FUN_00b656e0::~FUN_00b656e0()
         m_kList140.RemoveHead();
     }
     m_sp13c = 0;
-    OMSlot48* pkSlots = (OMSlot48*)((char*)this + 0x48);
+    OMSlot48* pkSlots = m_aSlots48;
     for (int iSlotIndex = 0; iSlotIndex < 3; iSlotIndex++)
     {
         if (pkSlots[iSlotIndex].m_p)
@@ -1183,8 +1207,7 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
 {
     if (pAccum->m_pkAccumulationCamera)
     {
-        unsigned char* raw = (unsigned char*)pAccum;
-        int mode = *(int*)(raw + 0x19c);
+        int mode = (int)pAccum->m_eRenderMode;
         if (mode == 8)
         {
             pAccum->RenderPassGroup(6, mode, false, -1);
@@ -1200,12 +1223,12 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
             return;
         }
         pAccum->SetShaderPassEnabled(10, false);
-        if (::DAT_011f9fc1 && *(int*)(raw + 0x19c) != 7)
+        if (::DAT_011f9fc1 && (int)pAccum->m_eRenderMode != 7)
         {
             (*reinterpret_cast<::fnv_00b65ae0::GO *>(&::DAT_011fa008)) = ((void *)(::CreateRenderPassesNode()));
             ::DAT_011f9fc1 = false;
         }
-        if (*(bool*)(raw + 0x164))
+        if (pAccum->m_bFirstSpecialPassFlag)
         {
             pAccum->RenderPassGroup(1, 0x237, false, -1);
             ::UpdateSpawnedObjectFlags(0, 0, 0, 0, 0, 0, 0);
@@ -1223,7 +1246,7 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
         ::FUN_00b64e30((::AccumWIP *)(((AccumView*)pAccum)));
         pAccum->RenderPassGroup(0x25c, 0x287, false, -1);
         ::fnv_00b63a50::FUN_00b63a50((::fnv_00b63a50::AccumStub *)(((AccumView*)pAccum)));
-        if (*(bool*)(raw + 0x167))
+        if (pAccum->m_bFourthBooleanFlagBeforeInteger)
             ((AccumView*)pAccum)->UpdatePasses(false);
         else
             ((AccumView*)pAccum)->UpdatePasses(true);
@@ -3001,7 +3024,7 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
         DAT_011f9fc1 = false;
     }
 
-    *(int*)((char*)apAccumWIP + 0x18) = 0;
+    apAccumWIP->m_pkGeometryList = 0;
     ((VtblSlot41*)apAccumWIP)->slot41();
 
     reinterpret_cast<::RenderAccumulator *>((apAccumWIP))->FUN_00b63770(1, 0x287, false, -1);

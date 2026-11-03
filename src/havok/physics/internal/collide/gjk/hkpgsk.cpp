@@ -150,12 +150,8 @@ struct Simplex
     Vector result, axis, unk140, unk150, weights;
     int FUN_00da8500(const Vector* point, Vector* vertices, int orient);
 public:
-    void FUN_00daa7e0(void *, void *, const struct ::Transform *);
-public:
     void FUN_00da98f0();
     void FUN_00daa7e0(void*, void*, const Transform*);
-public:
-    int FUN_00da8500(const ::Vector *, ::Vector *, int);
 };
 
 static __forceinline __m128 cross(__m128 a, __m128 b)
@@ -224,7 +220,7 @@ int Simplex::FUN_00da8500(const Vector* point, Vector* vertices, int orient)
                 tmp = copyVector(reinterpret_cast<const PlainVector&>(vertices[4].quad));
                 vertices[4] = vertices[5];
                 vertices[5] = tmp;
-                swapFloat(weights.quad[0], weights.quad[1]);
+                swapFloat(reinterpret_cast<float*>(&weights.quad)[0], reinterpret_cast<float*>(&weights.quad)[1]);
                 status = 1;
             }
         }
@@ -757,7 +753,7 @@ struct Collision_hit
     Collision_vector normal;
     float fraction;
 };
-extern const float DAT_01016248, DAT_01011d78;
+extern const float DAT_01011d78;
 extern const double DAT_010d51a8;
 extern const __m128 DAT_010c44d0;
 extern const signed char DAT_010cb438[], DAT_010cb440[], DAT_010cb442[];
@@ -1155,7 +1151,7 @@ SmallBool Collision_workspace::FUN_00da9b30(Collision_vcls* shapeA, Collision_vc
         axis.simd() = _mm_sub_ps(w.simd(), initialPoint.simd());
     }
     Collision_vector direction = axis;
-    __m128 half = _mm_set_ss(DAT_01016248);
+    __m128 half = _mm_set_ss(::fnv_00c88020::DAT_01016248);
     __m128 magnitude = _mm_set_ss(3.0f);
     __m128 q = _mm_set_ss(DAT_01011d78);
     direction.normalize3(q, magnitude, half);
@@ -1270,7 +1266,6 @@ finish:
         return SmallBool(false);
 }
 
-extern const __m128 DAT_010c7160;
 
 class ContactScalar
 {
@@ -1319,7 +1314,7 @@ class ContactVector
     }
     __forceinline float& operator()(int index)
     {
-        return value[index];
+        return reinterpret_cast<float*>(&value)[index];
     }
     __forceinline void setSub4(const ContactVector& lhs, const ContactVector& rhs)
     {

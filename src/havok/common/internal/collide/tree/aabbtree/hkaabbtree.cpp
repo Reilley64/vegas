@@ -107,7 +107,7 @@ struct ElemPool {
     int m_unk08;
     IntArray m_freeArr;
 
-    void Grow(int newCapacity, int a, int b);
+    void Grow(int newCapacity, intptr_t a, intptr_t b);
     int AllocElem(intptr_t a, intptr_t b, const Elem& e);
 };
 
@@ -129,7 +129,7 @@ struct FUN_00d9ce00_Class
     int unk08;
     int* items;
     int count;
-    int FUN_00d9c450(int start, int first, int second);
+    int FUN_00d9c450(int start, intptr_t first, intptr_t second);
     int* PopItem(intptr_t first, intptr_t second, int* output);
 };
 
@@ -1383,7 +1383,7 @@ struct Aabb {
 struct Rec {
     Vec4 lo;
     Vec4 hi;
-    int f20;
+    intptr_t f20;
     int f24;
     int f28;
     int f2c;
@@ -1899,9 +1899,9 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
     indices.capacity=0x80000000;
 }
 void __cdecl ResizeAudioStream(void* memory, UnsignedShortArray* buffer, unsigned int count);
-void __cdecl FUN_00c908c0(Allocator* allocator, void** data, unsigned int capacity, unsigned int elemSize);
-void __cdecl FUN_00c908c0(S_00d9d650_Heap& alloc, void* array, int reqCapacity, int sizeElem);
-void __cdecl FUN_00c908c0(TreeHeap& alloc, void* array, int reqCapacity, int sizeElem) throw();
+void __cdecl FUN_00c908c0(Allocator* allocator, void** data, uintptr_t capacity, unsigned int elemSize);
+void __cdecl FUN_00c908c0(S_00d9d650_Heap& alloc, void* array, intptr_t reqCapacity, int sizeElem);
+void __cdecl FUN_00c908c0(TreeHeap& alloc, void* array, intptr_t reqCapacity, int sizeElem) throw();
 
 
 class Sd9_SimdReal

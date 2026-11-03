@@ -7,7 +7,7 @@
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_01268000.h"
-char* __cdecl AllocateWithHeader(void* alloc, int size);
+char* __cdecl AllocateWithHeader(void* alloc, intptr_t size);
 
 // @fnv 0x00cb1160
 char* __cdecl FUN_00cb1160(const char* aString, void* apAllocator)
@@ -30,9 +30,9 @@ FUN_00cb0a60::FUN_00cb0a60()
     unk00 = (*reinterpret_cast<void * *>(&::DAT_01268358));
 }
 
-int __cdecl FUN_00c856c0(int, int);
+int __cdecl FUN_00c856c0(int, intptr_t);
 // @fnv 0x00cb1190
-int __cdecl CallSwappedArgs(unsigned int arg0, unsigned int arg1)
+int __cdecl CallSwappedArgs(uintptr_t arg0, unsigned int arg1)
 {
     unsigned int callResult0 = (unsigned int)FUN_00c856c0((int)arg1, (int)arg0);
     return (int)callResult0;
@@ -45,7 +45,7 @@ struct WriterCC0
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual void Write(const char* s, int len);
+    virtual void Write(const char* s, intptr_t len);
 };
 
 // Writes the string s to w, or the literal "(null)" when s is null.
@@ -88,7 +88,7 @@ namespace fnv_00cb11b0 {
 
 extern "C"
 {
-    void* __cdecl AllocateWithHeader(void* p, int n);
+    void* __cdecl AllocateWithHeader(void* p, intptr_t n);
 }
 
 // Copies up to n2 characters from p1 into a new null-terminated buffer allocated from p3 and returns it.

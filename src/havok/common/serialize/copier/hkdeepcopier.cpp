@@ -36,7 +36,7 @@ struct hkMemRouter
 
 void* FUN_00c85750();
 void ResizeAudioStream(void* alloc, void* arr, int elemSize);
-void* AllocateWithHeader(hkMemAlloc& alloc, int numBytes);
+void* AllocateWithHeader(hkMemAlloc& alloc, intptr_t numBytes);
 
 __forceinline hkMemRouter* GetRouter()
 {
@@ -149,7 +149,7 @@ struct PtrMapBase
     __forceinline PtrMapBase() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {}
     ~PtrMapBase();
-    __forceinline bool isValid(int it) const
+    __forceinline bool isValid(intptr_t it) const
     {
         return it <= m_iPairCount;
     }
@@ -170,7 +170,7 @@ struct PtrMap
     {
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetRouter()->heap()), (uintptr_t)(key), val);
     }
-    __forceinline int FindValueForKey(const void* key, int def)
+    __forceinline intptr_t FindValueForKey(const void* key, int def)
     {
         return reinterpret_cast<::FUN_00cb1930_t *>(&(m_map))->LookupHashEntry((intptr_t)(key), def);
     }
@@ -342,7 +342,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
         for (int i = 0; i < reloc.m_pGlobal.GetLogicalSize(); ++i)
         {
             void* ptr = reloc.m_pGlobal.m_data[i].m_pData;
-            int offset = doneObjects.FindValueForKey(ptr, -1);
+            intptr_t offset = doneObjects.FindValueForKey(ptr, -1);
             if (offset != -1)
                 ptr = versioned + offset;
             *(void**)(versioned + reloc.m_pGlobal.m_data[i].m_iSourceOffset) = ptr;

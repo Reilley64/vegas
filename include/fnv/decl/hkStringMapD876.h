@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 class hkStringMapD876 {
 public:
     // 0x00d87600
-    int GetOrSetInt(const char *, int);
+    intptr_t GetOrSetInt(const char *, int);
 };

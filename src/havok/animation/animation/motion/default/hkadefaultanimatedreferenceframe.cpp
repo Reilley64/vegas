@@ -28,6 +28,7 @@ float FUN_00e41080_Obj::GetUnk30()
     return unk30;
 }
 
+#include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/symbols_simd.h"
 #include "fnv/symbols_00e41000.h"
@@ -593,7 +594,7 @@ struct hkMemoryAllocator
 {
     int unk00;
 };
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, int newCap, int elemSize) throw();
+extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, intptr_t newCap, int elemSize) throw();
 template <typename T> struct hkArray
 {
     T* m_data;
@@ -683,7 +684,7 @@ struct MemoryRouter
     }
 };
 extern "C" MemoryRouter* __cdecl FUN_00c85750() throw();
-extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, int newCap, int elemSize) throw();
+extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, intptr_t newCap, int elemSize) throw();
 struct QuatHelper
 {
     hkVector4 m_vTranslation;

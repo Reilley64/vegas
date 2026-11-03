@@ -274,7 +274,7 @@ struct Buffer
 
 // Serializes a1-a4, data pairs/triples, and payload into sink via buffer, returning total bytes written or -1 on failure.
 // @fnv 0x00e0b850
-static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
+static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, uintptr_t a3, unsigned int a4,
                                              const void* payload, unsigned int payloadBytes, ByteSwap byteSwap,
                                              Data* data, Sink* sink)
 {
@@ -355,7 +355,7 @@ struct C68E30Allocator
     virtual void ReleaseBlock(void* p, int numBytes) throw();
 };
 
-void* __cdecl AllocateWithHeader(void* alloc, int size);
+void* __cdecl AllocateWithHeader(void* alloc, intptr_t size);
 void __cdecl FUN_00c856c0(void* alloc, void* p);
 
 struct hkBool
@@ -538,8 +538,8 @@ struct ObjectWriteFlag
         return value != 0;
     }
 };
-static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
-                                             unsigned int classLow, unsigned int classHigh, const void* payload,
+static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, uintptr_t idLow, unsigned int idHigh,
+                                             uintptr_t classLow, unsigned int classHigh, const void* payload,
                                              unsigned int payloadSize, ObjectWriteFlag swap)
 {
     bool ok;

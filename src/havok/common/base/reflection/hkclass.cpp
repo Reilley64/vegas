@@ -172,7 +172,7 @@ struct FUN_00d46fe0_class
 
 struct FUN_00d87150_class
 {
-    int m_offset;
+    intptr_t m_offset;
     FUN_00d46fe0_result* m_kMemberDescriptor;
 
     void InitBitOffset(intptr_t baseOffset, FUN_00d46fe0_class* cls, const char* name);
@@ -620,7 +620,7 @@ struct HkClassNode
     HkMem* m_members;
     int m_uiCount;
     int FUN_00d46f00();
-    HkMem* FUN_00d46f20(int i);
+    HkMem* FUN_00d46f20(intptr_t i);
 };
 // Scans entries by index and returns the first whose first field matches name via FUN_00cb0fa0, or 0 if none match.
 // @fnv 0x00d46fe0
@@ -657,10 +657,10 @@ __declspec(noinline) int HkClassNode::FUN_00d46f00()
 
 // Resolves a global member index i by walking up the HkClassNode parent chain and returning the matching HkMem entry from m_members.
 // @fnv 0x00d46f20
-HkMem* HkClassNode::FUN_00d46f20(int aiIndex)
+HkMem* HkClassNode::FUN_00d46f20(intptr_t aiIndex)
 {
     HkClassNode* pNode = this;
-    int iOffset = aiIndex - ((int)(reinterpret_cast<::FUN_00d46f00_s *>(this)->FUN_00d46f00()));
+    intptr_t iOffset = aiIndex - ((int)(reinterpret_cast<::FUN_00d46f00_s *>(this)->FUN_00d46f00()));
     if (this != 0)
     {
         do

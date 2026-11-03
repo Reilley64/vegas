@@ -786,7 +786,7 @@ struct THREADNAME_INFO
 {
     unsigned long dwType;
     const char* szName;
-    unsigned long dwThreadID;
+    uintptr_t dwThreadID;
     unsigned long dwFlags;
 };
 
@@ -794,7 +794,7 @@ struct Thr_00d87940
 {
     uintptr_t m0;
     unsigned int m4;
-    unsigned int m8;
+    uintptr_t m8;
     unsigned int mC;
     int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
 };

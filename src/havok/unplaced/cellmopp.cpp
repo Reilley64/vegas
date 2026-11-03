@@ -639,7 +639,7 @@ struct Child
     virtual void v15();
     virtual void v16();
     virtual void v17();
-    virtual Resolved* Resolve(int value);
+    virtual Resolved* Resolve(intptr_t value);
     virtual void v19();
     virtual void v20();
     virtual void v21();
@@ -673,7 +673,7 @@ struct Child
     virtual void v49();
     virtual void v50();
     virtual void v51();
-    virtual bool IsRejected(int value);
+    virtual bool IsRejected(intptr_t value);
 };
 
 // @fnv 0x00ca4e50
@@ -2271,7 +2271,7 @@ struct __declspec(align(16)) xPhantomCinfo
 {
     xPhantomCinfo();
     ~xPhantomCinfo();
-    void FUN_0056f0f0(unsigned int);
+    void FUN_0056f0f0(uintptr_t);
     int m_q[0x38];
 };
 struct xRef

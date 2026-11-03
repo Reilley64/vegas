@@ -298,7 +298,7 @@ struct SelfCls
 {
     virtual void vslot0();
     virtual void* vslot1(void* p);
-    virtual void vslot2(int a, int b);
+    virtual void vslot2(intptr_t a, int b);
 
     void* FUN_00d2c6d0(intptr_t a1, int a2, FUN_00d2c3a0_class* a3);
 };

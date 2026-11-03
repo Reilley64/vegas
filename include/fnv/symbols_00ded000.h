@@ -13,7 +13,7 @@ struct VertexArray;
 template <class, class> struct Sdedf10_Array;
 
 // 0x00dedbb0
-bool FUN_00dedbb0(::Owner *, int, ::Vec4Array *, ::Obj *);
+bool FUN_00dedbb0(::Owner *, intptr_t, ::Vec4Array *, ::Obj *);
 // 0x00dedcf0
 void FUN_00dedcf0(const ::VertexArray &, ::FourPointArray &);
 // 0x00dedf10

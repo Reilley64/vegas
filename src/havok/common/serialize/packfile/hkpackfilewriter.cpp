@@ -179,7 +179,7 @@ struct FUN_00dbda80_s
 // @fnv 0x00dbda80
 void FUN_00dbda80_s::FUN_00dbda80(void* key, int value)
 {
-    int index = reinterpret_cast<::FUN_00cb1930_t *>(&(entryIndex))->LookupHashEntry((intptr_t)(key), -1);
+    intptr_t index = reinterpret_cast<::FUN_00cb1930_t *>(&(entryIndex))->LookupHashEntry((intptr_t)(key), -1);
     if (index >= 0)
         entries[index].state = -2;
 
@@ -256,7 +256,7 @@ struct DbSecond
     virtual void vf04();
     virtual void vf08();
     virtual void vf0C();
-    virtual unsigned int vf10(unsigned int value);
+    virtual unsigned int vf10(uintptr_t value);
 };
 
 // Calls first->GetLastNodeFlag; if its first character is nonzero, returns second->vf10(arg) or 0; otherwise returns the first pointer.
@@ -278,7 +278,7 @@ static __declspec(noinline) uintptr_t FUN_00dbd9f0(DbFirst* first, DbSecond* sec
 DbFirst* volatile g_dbd_first;
 DbSecond* volatile g_dbd_second;
 unsigned int volatile g_dbd_arg;
-unsigned int volatile g_dbd_sink;
+uintptr_t volatile g_dbd_sink;
 
 void dbd9f0_probe_caller(void)
 {
@@ -382,7 +382,7 @@ int hkPackfileWriterDB7::RegisterObject(void* pvObject, const hkClassDB7* pkClas
                                           178))
                     __debugbreak();
             }
-            int iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((intptr_t)(pkOldClass), -1);
+            intptr_t iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((intptr_t)(pkOldClass), -1);
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewClass), iIndex);
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewClass), (intptr_t)pkOldClass);
             return 0;
@@ -397,7 +397,7 @@ int hkPackfileWriterDB7::RegisterObject(void* pvObject, const hkClassDB7* pkClas
         const hkClassEnumDB7* pkOldEnum = (const hkClassEnumDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kClassLookupMap))->GetValue((intptr_t)(pcName), (int)(0))));
         if (pkOldEnum)
         {
-            int iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((intptr_t)(pkOldEnum), -1);
+            intptr_t iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((intptr_t)(pkOldEnum), -1);
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewEnum), iIndex);
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewEnum), (intptr_t)pkOldEnum);
             return 0;
@@ -496,11 +496,11 @@ struct S00dbde40_Base
 
 struct S00dbde40_Entry
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
+    intptr_t unk00;
+    intptr_t unk04;
+    intptr_t unk08;
+    intptr_t unk0C;
+    intptr_t unk10;
     int unk14;
 };
 
@@ -876,13 +876,13 @@ struct S00dbddc0_cls : public S00dbddc0_Base
     S00dbddc0_Sub9C m_sub9c;
     S00dbddc0_SubA8 m_suba8;
 
-    int FUN_00dbddc0(int a1, S00dbddc0_Node* a2, intptr_t a3);
+    intptr_t FUN_00dbddc0(intptr_t a1, S00dbddc0_Node* a2, intptr_t a3);
 };
 // Calls FUN_00dbddc0, builds an S00dbde40_Entry, appends it to arr, and increments unk98 or unk94 depending on b.
 // @fnv 0x00dbde40
 void S00dbde40_Obj::FUN_00dbde40(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e)
 {
-    int result = reinterpret_cast<::S00dbddc0_cls *>((this))->FUN_00dbddc0(c, (::S00dbddc0_Node *)(d), e);
+    intptr_t result = reinterpret_cast<::S00dbddc0_cls *>((this))->FUN_00dbddc0(c, (::S00dbddc0_Node *)(d), e);
     S00dbde40_Entry tmp;
     tmp.unk00 = a;
     tmp.unk04 = b;
@@ -913,9 +913,9 @@ void S00dbde40_Obj::FUN_00dbde40(intptr_t a, intptr_t b, intptr_t c, intptr_t d,
 
 // Looks up a hash entry for a1, then walks the node chain a2 calling GetValue on each key, returning the first hit or calling GetOrAddString(a3).
 // @fnv 0x00dbddc0
-int S00dbddc0_cls::FUN_00dbddc0(int a1, S00dbddc0_Node* apStartNode, intptr_t a3)
+intptr_t S00dbddc0_cls::FUN_00dbddc0(intptr_t a1, S00dbddc0_Node* apStartNode, intptr_t a3)
 {
-    int r = reinterpret_cast<::FUN_00cb1930_t *>(&(m_sub9c))->LookupHashEntry(a1, -1);
+    intptr_t r = reinterpret_cast<::FUN_00cb1930_t *>(&(m_sub9c))->LookupHashEntry(a1, -1);
     if (r != -1)
     {
         return r;
@@ -979,8 +979,8 @@ extern void* DAT_011b7ae8;
 
 struct Class_00dbe680
 {
-    int unk00;
-    int unk04;
+    intptr_t unk00;
+    intptr_t unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1014,8 +1014,8 @@ struct Class_00dbe680
     int unk80;
     int unk84;
     int unk88;
-    int m_8c;
-    int m_90;
+    intptr_t m_8c;
+    intptr_t m_90;
 
     void FUN_00dbe150(intptr_t a1, void* a2, S00dbe680_A3* a3, intptr_t a4, void* a5);
     void FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4);
@@ -1369,14 +1369,14 @@ void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5
                             if (map9cp->FindSlot((intptr_t)k1) > map9cp->unk08)
                             {
                                 int code = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)((intptr_t)a5));
-                                int iValue = reinterpret_cast<::FUN_00cb1930_t *>((map9cp))->LookupHashEntry((intptr_t)pResolvedKey, code);
+                                intptr_t iValue = reinterpret_cast<::FUN_00cb1930_t *>((map9cp))->LookupHashEntry((intptr_t)pResolvedKey, code);
                                 map9cp->insert(k1, iValue);
                             }
                         }
                         reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((intptr_t)(k1), k2, (::fnv_00dbe680::S00dbe680_A3 *)(a3), (intptr_t)(a4), a5);
                         if (pResolvedKey != k1)
                         {
-                            int tmp = reinterpret_cast<::FUN_00cb1930_t *>((pMap))->LookupHashEntry((intptr_t)k1, -1);
+                            intptr_t tmp = reinterpret_cast<::FUN_00cb1930_t *>((pMap))->LookupHashEntry((intptr_t)k1, -1);
                             if (tmp != -1)
                             {
                                 reinterpret_cast<::OwnerDC9E *>(&(mapb8))->FUN_00dc9ec0((uintptr_t)(pResolvedKey), (const ::KeyDC9E *)(int *)(&tmp));

@@ -1697,7 +1697,7 @@ struct S00df8570_Result
 struct S00df8570_Enc
 {
     int FUN_00d04400(S00df8570_Result* result);
-    void FUN_00d04420(int output);
+    void FUN_00d04420(intptr_t output);
 };
 // Writes trace markers, copies input fields into records, calls InitSplitChunks, encodes and inserts items, then calls ProcessCallback and returns its result.
 // @fnv 0x00df8570

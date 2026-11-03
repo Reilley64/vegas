@@ -228,7 +228,7 @@ inline int S_00dd9380_strCmp(const char* a, const char* b)
 struct S_00dd9380_Entry
 {
     S_00dd9380_StringPtr m_name;
-    int m_uiFilterValue;
+    intptr_t m_uiFilterValue;
     int m_iOwnerObjectOffset;
 };
 

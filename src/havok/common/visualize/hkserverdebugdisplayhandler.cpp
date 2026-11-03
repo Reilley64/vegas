@@ -371,8 +371,8 @@ int FUN_00dda0e0_cls::FUN_00dda0e0(volatile unsigned int auiValue, unsigned int 
     if (config != 0)
     {
         uintptr_t v = auiValue;
-        int len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(v));
-        int n = (len < 0xffff) ? len : 0xffff;
+        intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(v));
+        intptr_t n = (len < 0xffff) ? len : 0xffff;
         ::FUN_00d60960((const float *)(config));
         reinterpret_cast<::FUN_00d605d0_class *>((config))->FUN_00d605d0(9);
         reinterpret_cast<::hkOArchiveStandIn *>((reinterpret_cast<FUN_00d605d0_ext*>(config)))->WriteUInt16(n);
@@ -407,8 +407,8 @@ bool FUN_00dda1a0_cls::WriteConfigEntry(const char* name, const float* vec, unsi
     EnterCriticalSection(criticalSection);
     if (config != 0)
     {
-        int n = ::fnv_00cb10d0::FUN_00cb10d0(name);
-        int length = (n < 0xffff) ? n : 0xffff;
+        intptr_t n = ::fnv_00cb10d0::FUN_00cb10d0(name);
+        intptr_t length = (n < 0xffff) ? n : 0xffff;
         ::FUN_00d60960((const float *)(config));
         reinterpret_cast<::FUN_00d605d0_class *>((config))->FUN_00d605d0(0x11);
         reinterpret_cast<::hkOArchiveStandIn *>((reinterpret_cast<FUN_00d605d0_ext_cls*>(config)))->WriteUInt16(length);
@@ -461,8 +461,8 @@ int FUN_00dda290_cls::WriteConfigValue(volatile unsigned int a, int aiValue, uns
     if (config != 0)
     {
         uintptr_t v = a;
-        int len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(v));
-        int n = (len < 0xffff) ? len : 0xffff;
+        intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(v));
+        intptr_t n = (len < 0xffff) ? len : 0xffff;
         ::FUN_00d60960((const float *)(config));
         reinterpret_cast<::FUN_00d605d0_class *>((config))->FUN_00d605d0(0x14);
         reinterpret_cast<::hkOArchiveStandIn *>((reinterpret_cast<FUN_00dda290_ext*>(config)))->WriteUInt16(n);
@@ -728,7 +728,7 @@ int DD99D0DisplayHandler::WriteDisplayCommand(const void* apVector1, const void*
     m_pSynchronizationLock->enter();
     if (m_pDisplayStream)
     {
-        int length = ::fnv_00cb10d0::FUN_00cb10d0(text);
+        intptr_t length = ::fnv_00cb10d0::FUN_00cb10d0(text);
         ::FUN_00d60960((const float *)(m_pDisplayStream));
         reinterpret_cast<::FUN_00d605d0_class *>((m_pDisplayStream))->FUN_00d605d0(0xd);
         ::FUN_00dda730((uintptr_t)(m_pDisplayStream));
@@ -906,7 +906,7 @@ class Array_dda340
         }
     }
 
-    void AddBack(int val)
+    void AddBack(intptr_t val)
     {
         ThreadMemory_dda340* mem = FUN_00c85750();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
@@ -952,7 +952,7 @@ bool Writer_dda340::Write(const ArrayRef_dda340<unsigned int>& a1, const ArrayRe
             if (a5.m_data[i] != 0)
             {
                 totalSize += 2;
-                int len = ::fnv_00cb10d0::FUN_00cb10d0(a5.m_data[i]);
+                intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(a5.m_data[i]);
                 stringLengths.AddBack(len);
                 totalSize += len;
             }

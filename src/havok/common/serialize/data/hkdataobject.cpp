@@ -463,7 +463,7 @@ struct AudioInterface
     virtual void Reserved14();
     virtual void Reserved15();
     virtual void Reserved16();
-    virtual void Apply(void*, unsigned int, unsigned int);
+    virtual void Apply(void*, uintptr_t, unsigned int);
 };
 struct AudioHandle
 {
@@ -499,7 +499,7 @@ struct S_00dbab30_Target
     virtual void unk44();
     virtual void unk48();
     virtual void unk4C();
-    virtual int unk50(int a, int b);
+    virtual int unk50(int a, intptr_t b);
 };
 struct S_00dbab30_Ref
 {
@@ -851,7 +851,7 @@ struct dbad60_Target
     virtual void v6();
     virtual void v7();
     virtual void v8();
-    virtual void v9(int a, int b);
+    virtual void v9(int a, intptr_t b);
 };
 struct FUN_00dbad60_cls
 {
@@ -965,7 +965,7 @@ struct Inner
     virtual void v74();
     virtual void v78();
     virtual void v7c();
-    virtual int v80(int a);
+    virtual int v80(intptr_t a);
 };
 
 struct Outer
@@ -1085,7 +1085,7 @@ DBAFB0Result DBAFB0Handle::GetResult()
 
 struct FUN_00dba650_cls
 {
-    unsigned int m_00;
+    uintptr_t m_00;
     FUN_00dba650_cls* FUN_00dba650(uintptr_t value);
 };
 

@@ -125,7 +125,7 @@ void FUN_00e34b50_s::FUN_00e34b50(e34b50_reader* reader) {
 }
 
 struct CompressedBlockRange {
-    unsigned int alignedStart;
+    uintptr_t alignedStart;
     unsigned int alignedSize;
     unsigned char prefixBytes;
 };

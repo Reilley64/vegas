@@ -104,7 +104,7 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
 namespace fnv_00d2caa0 {
 
 // @fnv 0x00d2caa0
-void __cdecl FUN_00d2caa0(void* dst, void* src, unsigned int size)
+void __cdecl FUN_00d2caa0(void* dst, void* src, uintptr_t size)
 {
     std::memmove(dst, src, size);
 }

@@ -86,21 +86,21 @@ struct SpawnedObject
     virtual void v02();
     virtual int v03(int* out);
     virtual void v04();
-    virtual int v05(int a, int b, int* out);
+    virtual int v05(intptr_t a, int b, int* out);
 };
 
 struct SpawnedArray
 {
     intptr_t m_00;
     int m_04;
-    unsigned int m_08;
+    uintptr_t m_08;
 };
 
 
 // @fnv 0x00c908c0
-void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, int aiSize, int stride)
+void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, intptr_t aiSize, int stride)
 {
-    int iNewSize = aiSize * stride;
+    intptr_t iNewSize = aiSize * stride;
     if ((apArray->m_08 & 0x80000000u) == 0)
     {
         int n = (int)(apArray->m_08 & 0x3fffffffu) * stride;
@@ -219,7 +219,7 @@ int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, intptr_t depth
         _setSize(m_pThreadAllocator, 1);
     }
     int curNode = 0;
-    for (int i = depth - 1; i >= 0; --i)
+    for (intptr_t i = depth - 1; i >= 0; --i)
     {
         hkUlong ulAddress = trace[i];
         int nextNode = -1;

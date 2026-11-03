@@ -380,7 +380,7 @@ struct Triangle
 struct Edge
 {
     Triangle* m_pkTriangle;
-    unsigned int m_uiEdgeIndex;
+    uintptr_t m_uiEdgeIndex;
 
     Edge(Triangle* t, unsigned int i) : m_pkTriangle(t), m_uiEdgeIndex(i)
     {}
@@ -1479,8 +1479,8 @@ bool __cdecl FUN_00dedf10(const Sdedf10_Geometry& geometry, intptr_t numPoints, 
         reinterpret_cast<::S_00d9d650_Tree *>(&(tree))->BuildTree((const ::S_00d9d650_Aabb *)(::Sdedf10_Aabb *)(aabbs.begin()), (const int *)(void **)(datas.begin()), aabbs.GetLogicalSize(), (::S_00d9d650_Array<int> &)(leaves));
 
         Sdedf10_Array<Sdedf10_Vector4> samples;
-        const int doubled = numPoints * 2;
-        const int numSamples = doubled < 0x100 ? 0x100 : (doubled > 0x2000 ? 0x2000 : doubled);
+        const intptr_t doubled = numPoints * 2;
+        const intptr_t numSamples = doubled < 0x100 ? 0x100 : (doubled > 0x2000 ? 0x2000 : doubled);
         samples.reserveExactly(numSamples);
 
         for (int iter = 0; iter < maxIterations; ++iter)
@@ -2200,14 +2200,14 @@ struct Obj
 
 
 // @fnv 0x00dedbb0
-bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj)
+bool __cdecl FUN_00dedbb0(Owner* self, intptr_t count, Vec4Array* out, Obj* obj)
 {
     Vec4Pair pair;
     Vec4 scratch;
     Vec4 delta;
     Vec4 base;
     Vec4 cur;
-    int limit;
+    intptr_t limit;
     unsigned char flag;
     int tries;
 

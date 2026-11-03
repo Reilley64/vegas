@@ -133,7 +133,7 @@ int __cdecl FUN_00d1d500(void* arg0, intptr_t arg1, intptr_t arg2)
 
 // If p is non-null, forwards it to FUN_00d1ce50 with zeroed middle arguments and returns the result; otherwise returns 0.
 // @fnv 0x00d1d540
-extern "C" void* __cdecl FUN_00d1d540(void* p, intptr_t aiArg1, intptr_t aiArg4, int aiArg5)
+extern "C" void* __cdecl FUN_00d1d540(void* p, intptr_t aiArg1, intptr_t aiArg4, intptr_t aiArg5)
 {
     if (!p)
         return 0;
@@ -592,7 +592,7 @@ class Target
 {
   public:
 };
-int FUN_00d1b930(int a, Inner* b, int* c, int d);
+int FUN_00d1b930(int a, Inner* b, int* c, intptr_t d);
 // Records CPU profile ticks, iterates Inner nodes calling FUN_00d1d540, FUN_00d1d4d0, FUN_00d1b930, then calls ProcessCallback.
 // @fnv 0x00df6850
 void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
@@ -2400,11 +2400,11 @@ struct TreeD1C
     FUN_00d1bb40_Class m_kNodeCollection;
 
     __forceinline int queryAll(const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits, int** ppiOut,
-                               int iMaxOut);
+                               intptr_t iMaxOut);
 };
 
 __forceinline int TreeD1C::queryAll(const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits,
-                                    int** ppiOut, int iMaxOut)
+                                    int** ppiOut, intptr_t iMaxOut)
 {
     TreeNodeD1C* pkNode = m_pTreeNode;
     int iCount = 0;
@@ -2489,7 +2489,7 @@ __forceinline int TreeD1C::queryAll(const hkAabbD1C& kAabb, CollectorD1C* pkColl
 
 // @fnv 0x00d1ce50
 intptr_t __cdecl FUN_00d1ce50(TreeD1C* pkTree, const hkAabbD1C& kAabb, CollectorD1C* pkCollector, hkArrayIntD1C* pkHits,
-                         int** ppiOut, int iMaxOut)
+                         int** ppiOut, intptr_t iMaxOut)
 {
     if (!pkTree->m_pTreeNode)
         return 0;

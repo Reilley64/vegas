@@ -198,7 +198,7 @@ template <class T> class hkArrayDC5D
     }
 };
 
-char* __cdecl AllocateWithHeader(hkMemoryAllocatorDC5D* pkAlloc, int iNumBytes) throw();
+char* __cdecl AllocateWithHeader(hkMemoryAllocatorDC5D* pkAlloc, intptr_t iNumBytes) throw();
 
 class hkBinaryReaderDC5D
 {
@@ -569,13 +569,13 @@ struct FUN_00dc5d50_Local
     void* unk34;
     void* unk38;
 
-    void FUN_00dc5f30(unsigned int, unsigned int);
-    void FUN_00dc6e50(unsigned int);
+    void FUN_00dc5f30(uintptr_t, unsigned int);
+    void FUN_00dc6e50(uintptr_t);
     void FreeAllBlocks();
 };
 
 // @fnv 0x00dc5d50
-unsigned int FUN_00dc5d50(uintptr_t a, uintptr_t b, unsigned int c)
+uintptr_t FUN_00dc5d50(uintptr_t a, uintptr_t b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
     local.FUN_00dc5f30(b, c);
@@ -1089,7 +1089,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, intptr_t count)
         reinterpret_cast<::fnv_00dc5e10::hkBinaryTagfileReaderDC5E *>(this)->ReadBits(membersCount, (::fnv_00dc5e10::hkArrayDC5E<char> &)(presentBits));
         TagLocalArray<TagMember> members;
         members.allocateLocal(membersCount);
-        int toConstruct = membersCount - members.size;
+        intptr_t toConstruct = membersCount - members.size;
         TagMember* first = members.data + members.size;
         for (int k = 0; k < toConstruct; ++k)
             new (first + k) TagMember;
@@ -1174,7 +1174,7 @@ struct ValueReader : TagFileReader
 // @fnv 0x00dc6970
 hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(intptr_t aiAllocationTag)
 {
-    int iTagType = aiAllocationTag;
+    intptr_t iTagType = aiAllocationTag;
     if (iTagType == -1)
         iTagType = ReadTag();
     if (iTagType == 5)

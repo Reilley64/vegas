@@ -221,7 +221,7 @@ struct FUN_00d2bbd0_cls
     void* m_00;
     int m_04;
     int m_08;
-    int m_0c;
+    intptr_t m_0c;
     int m_10;
     int m_14;
     FUN_00d2bbd0_cls* Init(intptr_t p);

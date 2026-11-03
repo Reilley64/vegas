@@ -595,10 +595,10 @@ struct S00e306d0_Args {
     unsigned char b09;
     unsigned char b0a;
     unsigned char b0b;
-    unsigned int f0c;
-    unsigned int f10;
-    unsigned int f14;
-    unsigned int f18;
+    uintptr_t f0c;
+    uintptr_t f10;
+    uintptr_t f14;
+    uintptr_t f18;
 };
 
 static volatile unsigned int s00e306d0_sink;
@@ -892,15 +892,15 @@ public:
 
 struct InfoE2FB {
     InfoE2FB() : m_iFirstValue(0), m_uiLogicalSize(0), m_bFlag(false) {}
-    int m_iFirstValue;
-    int m_uiLogicalSize;
+    intptr_t m_iFirstValue;
+    intptr_t m_uiLogicalSize;
     unsigned char m_bFlag;
 };
 
 class HostE2FB : public hkaWaveletCompressedAnimation {
 public:
     void FUN_00e2fa60(unsigned int uiIndex, InfoE2FB* pkInfo);
-    int FUN_00e2fb30();
+    intptr_t FUN_00e2fb30();
 };
 // Populates a job descriptor with queue, data, and slot references, optionally including the next slot when mode is 4.
 // @fnv 0x00e2fac0
@@ -939,9 +939,9 @@ __declspec(noinline) void HostE2FB::FUN_00e2fa60(unsigned int uiIndex, InfoE2FB*
 
 // Iterates over m_uiNumIndices, calling FUN_00e2fa60 to compute per-index sizes and returns the largest iSize found.
 // @fnv 0x00e2fb30
-int HostE2FB::FUN_00e2fb30()
+intptr_t HostE2FB::FUN_00e2fb30()
 {
-    int iMax = 0;
+    intptr_t iMax = 0;
     unsigned int i = 0;
     unsigned int uiLastIndex = m_uiNumIndices;
     if (i < uiLastIndex) {
@@ -950,7 +950,7 @@ int HostE2FB::FUN_00e2fb30()
         do {
             InfoE2FB kInfo;
             FUN_00e2fa60(i, &kInfo);
-            int iSize = uiBaseOffset + kInfo.m_uiLogicalSize + 0x70;
+            intptr_t iSize = uiBaseOffset + kInfo.m_uiLogicalSize + 0x70;
             if (i < uiLastIndex) {
                 FUN_00e2fa60(i + 1, &kInfo);
                 iSize += kInfo.m_uiLogicalSize;

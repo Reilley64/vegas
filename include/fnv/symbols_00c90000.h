@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00c909d0 { struct hkMemoryAllocator; }
 struct AudioAllocator;
@@ -17,7 +18,7 @@ void FUN_00c90670(const void *, int, int);
 // 0x00c90740
 void FUN_00c90740(void *, int, int);
 // 0x00c908c0
-void FUN_00c908c0(::SpawnedObject *, ::SpawnedArray *, int, int);
+void FUN_00c908c0(::SpawnedObject *, ::SpawnedArray *, intptr_t, int);
 // 0x00c90940
 void ResizeAudioStream(::AudioAllocator *, ::AudioStream *, int);
 // 0x00c909d0

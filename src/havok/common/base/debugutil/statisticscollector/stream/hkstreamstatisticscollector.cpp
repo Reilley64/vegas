@@ -70,19 +70,19 @@ inline AudioMgr* audio()
 struct hkArrayChar
 {
     char* m_data;
-    int m_iElementCount;
+    intptr_t m_iElementCount;
     int m_iCapacityState;
 
     intptr_t getCapacity() const
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void setData(const void* src, int n)
+    void setData(const void* src, intptr_t n)
     {
         hkMemoryAllocator& alloc = audio()->heap();
         if (getCapacity() < n)
         {
-            int cap = 2 * getCapacity();
+            intptr_t cap = 2 * getCapacity();
             ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, 1);
         }
         m_iElementCount = n;
@@ -184,7 +184,7 @@ void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
 
 
 // @fnv 0x00ddf370
-static __declspec(noinline) int* FUN_00ddf370(hkArrayChar* apArray, int n)
+static __declspec(noinline) int* FUN_00ddf370(hkArrayChar* apArray, intptr_t n)
 {
     int* pSlot;
     if (apArray->m_iElementCount > 0)
@@ -521,8 +521,8 @@ void StrPacker::FUN_00ddf5a0(const char* str)
 {
     if (m14.getCapacity() > m14.m_iElementCount + 0x46)
     {
-        int count = 0;
-        int pad = 0;
+        intptr_t count = 0;
+        intptr_t pad = 0;
         if (str != 0)
         {
             count = ::fnv_00cb10d0::FUN_00cb10d0(str) + 1;
@@ -713,7 +713,7 @@ struct FUN_00ddfa10_cls
     unsigned int m_1c;
     Sub20_cls m_20;
 
-    void DDF420(int a, int b, int c);
+    void DDF420(int a, intptr_t b, int c);
     void FUN_00ddfa10(int a1, intptr_t a2, unsigned char flag);
 };
 
@@ -780,7 +780,7 @@ struct FUN_00ddfab0_cls
     unsigned int m_1c;
     Sub20 m_20;
 
-    void FUN_00ddf420(int a, int b, int c);
+    void FUN_00ddf420(int a, intptr_t b, int c);
     void FUN_00ddfab0(Param1* a1, int a2, intptr_t a3, int a4);
 };
 
@@ -851,8 +851,8 @@ void MonitorStream::FUN_00ddf4d0(int unused, const char* name, int size, int id,
         return;
     if (id == 0 && tag == 0)
         return;
-    int len = 0;
-    int odd = 0;
+    intptr_t len = 0;
+    intptr_t odd = 0;
     if (name)
     {
         len = ::fnv_00cb10d0::FUN_00cb10d0(name) + 1;
@@ -884,8 +884,8 @@ struct Pkt : Obj
 // @fnv 0x00ddf420
 void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
 {
-    int len = 0;
-    int pad = 0;
+    intptr_t len = 0;
+    intptr_t pad = 0;
     if (str != 0)
     {
         len = ::fnv_00cb10d0::FUN_00cb10d0(str) + 1;

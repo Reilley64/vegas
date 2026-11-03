@@ -317,9 +317,9 @@ template <typename T> struct hkArray
 };
 struct Triangle
 {
-    int m_kPointA;
-    int m_kPointB;
-    int m_iThirdValue;
+    intptr_t m_kPointA;
+    intptr_t m_kPointB;
+    intptr_t m_iThirdValue;
     int m_iMaterialIndex;
     __forceinline void set(int a, int b, int c) throw()
     {
@@ -338,13 +338,13 @@ struct hkGeometry
         return getThreadMemory()->m_pMemoryAllocator->allocate(size);
     }
 };
-static __forceinline void appendCapsuleEnd(hkGeometry* geom, int numSides, int startVertex, Triangle& tri)
+static __forceinline void appendCapsuleEnd(hkGeometry* geom, intptr_t numSides, int startVertex, Triangle& tri)
 {
     if (numSides > 0)
     {
         hkArray<Triangle>& triangles = geom->m_uiTriangleCount;
         int i = 1;
-        int remaining = numSides;
+        intptr_t remaining = numSides;
         do
         {
             tri.m_kPointB = startVertex + i - 1;
@@ -359,7 +359,7 @@ static __forceinline void appendCapsuleEnd(hkGeometry* geom, int numSides, int s
 void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float radius, intptr_t numHeightSegments,
                           intptr_t numSides, const hkTransform& transform, hkGeometry*& outGeom) throw()
 {
-    const int halfSides = numSides >> 1;
+    const intptr_t halfSides = numSides >> 1;
     hkArray<hkVector4> localVertices;
     hkVector4 axis;
     axis.setSub4(bottom, top);
@@ -394,7 +394,7 @@ void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float r
     center.mul4(0.5f);
     localTransform.m_vTranslation = center;
     double halfLen;
-    int numVerts = (numHeightSegments + halfSides * 2 - 1) * numSides + 2;
+    intptr_t numVerts = (numHeightSegments + halfSides * 2 - 1) * numSides + 2;
     hkVector4 topCenter;
     {
         float scalar = (float)(-len * 0.5);
@@ -424,7 +424,7 @@ void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float r
         pt.SetTransformedPoint(localTransform, pt);
         localVertices.AddBack(pt);
     }
-    int i, j;
+    intptr_t i, j;
     // Top hemisphere rings
     for (i = halfSides - 1; i >= 0; --i)
     {
@@ -519,7 +519,7 @@ void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float r
     {
         hkArray<Triangle>& triangles = geom->m_uiTriangleCount;
         int i = 1;
-        int remaining = numSides;
+        intptr_t remaining = numSides;
         do
         {
             tri.m_kPointA = 0;
@@ -536,7 +536,7 @@ void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float r
             {
                 hkArray<Triangle>& triangles = geom->m_uiTriangleCount;
                 int i = 1;
-                int remaining = numSides;
+                intptr_t remaining = numSides;
                 do
                 {
                     tri.m_kPointA = startVertex + i - 1;

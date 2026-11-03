@@ -4,4 +4,4 @@
 struct TreeChunk;
 
 // 0x00dd8310
-unsigned int GetMaxChunkSize(::TreeChunk *, uintptr_t);
+uintptr_t GetMaxChunkSize(::TreeChunk *, uintptr_t);

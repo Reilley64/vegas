@@ -81,7 +81,7 @@ int FnvAnimation::FUN_00e32ee0(float time, int parameterA, int parameterB, int p
 
 typedef void(__cdecl* SplineDecodeFn)(int, void*);
 // @fnv 0x00e33030
-void __cdecl DecodeSplineFrames(int* cursor, int type, int lastFrame, int firstFrame, int endFrame, void* output)
+void __cdecl DecodeSplineFrames(int* cursor, intptr_t type, int lastFrame, int firstFrame, int endFrame, void* output)
 {
     int alignment = DAT_010eb3b8[type];
     *cursor = (*cursor + alignment - 1) & ~(alignment - 1);

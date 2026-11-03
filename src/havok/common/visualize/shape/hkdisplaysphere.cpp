@@ -297,7 +297,7 @@ struct SphereBuildFace
 {
     int m_00;
     int m_04;
-    int m_08;
+    intptr_t m_08;
     int m_0c;
 };
 

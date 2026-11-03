@@ -121,7 +121,7 @@ int WriteCompilerInfo(const char* name)
     reinterpret_cast<::FUN_00d605d0_class *>(&(outStream))->FUN_00d605d0(0x90);
     reinterpret_cast<::hkOArchive_2 *>(&(outStream))->WriteInt(DAT_011b5dc0);
     reinterpret_cast<::hkOArchive_2 *>(&(outStream))->WriteInt(DAT_011b5dbc);
-    int n = ::fnv_00cb10d0::FUN_00cb10d0("PC_32");
+    intptr_t n = ::fnv_00cb10d0::FUN_00cb10d0("PC_32");
     if (n > 0xffff)
         n = 0xffff;
     reinterpret_cast<::hkOArchiveStandIn *>(&(outStream))->WriteUInt16(n);

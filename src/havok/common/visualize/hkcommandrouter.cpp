@@ -19,7 +19,7 @@ struct FUN_00cb18f0_t
 {
     int unk00;
     int unk04;
-    int FUN_00cb1fb0(int value);
+    int FUN_00cb1fb0(intptr_t value);
 };
 struct FUN_00dd95b0_Outer
 {

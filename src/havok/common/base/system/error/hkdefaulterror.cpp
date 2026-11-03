@@ -54,7 +54,7 @@ void D2B3D0Owner::FUN_00d2b3d0()
 
 struct FUN_00cb18f0_t
 {
-    int FUN_00cb1fb0(int value);
+    int FUN_00cb1fb0(intptr_t value);
 };
 struct FUN_00c85750_return
 {
@@ -336,7 +336,7 @@ void S_00d2b3e0::FUN_00d2b3e0(const char* kind, int code, const char* msg, const
             DAT_01269a84 = pCurMgr;
         }
         void* frames[20];
-        int n = ::FUN_00da2b20((intptr_t)(DAT_01269a84), (intptr_t)(frames));
+        intptr_t n = ::FUN_00da2b20((intptr_t)(DAT_01269a84), (intptr_t)(frames));
         if (n > 2)
         {
             m_callback("Stack trace is:\n", m_user);

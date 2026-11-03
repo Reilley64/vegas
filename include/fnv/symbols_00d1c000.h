@@ -28,4 +28,4 @@ void FUN_00d1ca00(::RayTree *, ::Node *, ::Node *, const ::RayQuerySet *, ::RayC
 // 0x00d1cc50
 int FUN_00d1cc50(::NTreeQ *, void *, const ::RayInput *, ::RayCollector *, float, unsigned int *, int);
 // 0x00d1ce50
-intptr_t FUN_00d1ce50(::TreeD1C *, const ::hkAabbD1C &, ::CollectorD1C *, ::hkArrayIntD1C *, int **, int);
+intptr_t FUN_00d1ce50(::TreeD1C *, const ::hkAabbD1C &, ::CollectorD1C *, ::hkArrayIntD1C *, int **, intptr_t);

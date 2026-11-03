@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class MemHeap;
 struct FNV_Dispatch;
@@ -15,7 +16,7 @@ void *FUN_00c85620(::FUN_00c85620_heap *, unsigned int, unsigned int);
 // 0x00c85660
 void FUN_00c85660(::MemHeap *, char *);
 // 0x00c85690
-void *AllocateWithHeader(::FUN_00c85690_Allocator *, unsigned int);
+void *AllocateWithHeader(::FUN_00c85690_Allocator *, uintptr_t);
 // 0x00c856c0
 void FUN_00c856c0(::FNV_Dispatch *, char *);
 // 0x00c85730

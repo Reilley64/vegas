@@ -69,10 +69,10 @@ struct HashEntryTable
 };
 struct hkVtableClassRegistry
 {
-    unsigned long LookupClassByVtable(const unsigned long* p);
+    uintptr_t LookupClassByVtable(const unsigned long* p);
 };
 // @fnv 0x00d47c40
-unsigned long hkVtableClassRegistry::LookupClassByVtable(const unsigned long* pVtable)
+uintptr_t hkVtableClassRegistry::LookupClassByVtable(const unsigned long* pVtable)
 {
     unsigned long v = *pVtable;
     return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)this + 8))))->LookupHashEntry(v, 0)));
@@ -101,7 +101,7 @@ void FUN_00d47aa0_s::FUN_00d47aa0(intptr_t a, const char* name)
 
 struct FUN_00d87440_Class
 {
-    intptr_t FUN_00d87440(int);
+    intptr_t FUN_00d87440(intptr_t);
 };
 struct SlotBitmap
 {
@@ -109,7 +109,7 @@ struct SlotBitmap
 };
 struct FUN_00d874b0_class
 {
-    char* SetBoolFromThreshold(char*, int);
+    char* SetBoolFromThreshold(char*, intptr_t);
 };
 struct FUN_00d87410_Class
 {
@@ -128,7 +128,7 @@ void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
     reg->SetBoolFromThreshold(&flag, key);
     while (flag)
     {
-        int val = ((FUN_00d87440_Class*)reg)->FUN_00d87440(key);
+        intptr_t val = ((FUN_00d87440_Class*)reg)->FUN_00d87440(key);
         (*(void(**)(void*, int, int))(*(int*)this + 0x1c))(this, val, 0);
         key = ((SlotBitmap*)reg)->FindNextUsedSlot(key);
         reg->SetBoolFromThreshold(&flag, key);
@@ -167,7 +167,7 @@ void FUN_00d47c60_class::FUN_00d47c60(void* key, int aiDefault)
 extern intptr_t DAT_01269b18;
 
 // @fnv 0x00d47a00
-int __cdecl FUN_00d47a00()
+intptr_t __cdecl FUN_00d47a00()
 {
     return DAT_01269b18;
 }
@@ -175,14 +175,14 @@ int __cdecl FUN_00d47a00()
 extern intptr_t DAT_01269b14;
 
 // @fnv 0x00d47a10
-int __cdecl FUN_00d47a10()
+intptr_t __cdecl FUN_00d47a10()
 {
     return DAT_01269b14;
 }
 
 
 // @fnv 0x00d47a20
-int FUN_00d47a20()
+intptr_t FUN_00d47a20()
 {
     return DAT_01269b10;
 }
@@ -348,7 +348,7 @@ void FUN_00d47970_Class::FUN_00d47970(void* iterator)
         FUN_00d874d0_s* destination = &m_map08;
         do
         {
-            int key = ((FUN_00d87440_Class*)registry)->FUN_00d87440(index);
+            intptr_t key = ((FUN_00d87440_Class*)registry)->FUN_00d87440(index);
             intptr_t value = reinterpret_cast<::FUN_00d87430_class *>((((FUN_00d87430_Class*)registry)))->GetEntry(index);
             reinterpret_cast<::hkStringMapD874 *>((destination))->FUN_00d874d0((const char*)value, key);
             index = ((SlotBitmap*)registry)->FindNextUsedSlot(index);
@@ -463,7 +463,7 @@ void D47Owner::AppendEntryValues(D47Array* values)
     reinterpret_cast<::FUN_00d874b0_class *>(&(entries))->SetBoolFromThreshold((char *)(unsigned char *)(&hasItem), iterator);
     while (hasItem)
     {
-        int value = reinterpret_cast<::FUN_00d87440_Class *>(&(entries))->FUN_00d87440(iterator);
+        intptr_t value = reinterpret_cast<::FUN_00d87440_Class *>(&(entries))->FUN_00d87440(iterator);
         D47Router* router = FUN_00c85750();
         if (values->count == (values->capacityAndFlags & 0x3fffffff))
         {

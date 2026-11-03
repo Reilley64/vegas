@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplayaabb.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayaabb.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/symbols_01011000.h"
 struct VertexBuffer
@@ -10,7 +11,7 @@ struct VertexBuffer
     unsigned int count;
     unsigned int capacityFlags;
 };
-extern "C" void __cdecl FUN_00c908c0(unsigned int allocator, VertexBuffer* output, unsigned int capacity,
+extern "C" void __cdecl FUN_00c908c0(unsigned int allocator, VertexBuffer* output, uintptr_t capacity,
                                      unsigned int alignment);
 struct BoundsWriter
 {

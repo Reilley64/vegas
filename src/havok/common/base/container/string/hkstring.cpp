@@ -12,7 +12,7 @@
 #include "fnv/symbols_00cb1000.h"
 
 // @fnv 0x00cb10b0
-void __cdecl CopyIfNonEmpty(char* dest, const char* src, int count)
+void __cdecl CopyIfNonEmpty(char* dest, const char* src, intptr_t count)
 {
     if (count)
         std::strncpy(dest, src, count);
@@ -77,14 +77,14 @@ hkBool StartsWith(const char* acString, const char* prefix)
 // @fnv 0x00cb1340
 bool* __cdecl EndsWith(bool* result, const char* text, const char* suffix)
 {
-    int textLength = ::fnv_00cb10d0::FUN_00cb10d0(text);
-    int suffixLength = ::fnv_00cb10d0::FUN_00cb10d0(suffix);
+    intptr_t textLength = ::fnv_00cb10d0::FUN_00cb10d0(text);
+    intptr_t suffixLength = ::fnv_00cb10d0::FUN_00cb10d0(suffix);
     if (textLength < suffixLength)
     {
         *result = false;
         return result;
     }
-    int offset = textLength - suffixLength;
+    intptr_t offset = textLength - suffixLength;
     for (int i = 0; i < suffixLength; ++i)
     {
         if (text[offset + i] != suffix[i])
@@ -246,7 +246,7 @@ int __cdecl call_it(const char* a, const char* b, Sink* s)
     return ParseQuotedValue(a, b, s);
 }
 
-void __cdecl FUN_00ecddf1(int a, int b, int c, int d);
+void __cdecl FUN_00ecddf1(intptr_t a, int b, intptr_t c, intptr_t d);
 
 // @fnv 0x00cb0f50
 void __cdecl FUN_00cb0f50(intptr_t a, int b, intptr_t c, intptr_t d)
@@ -274,7 +274,7 @@ const char* __cdecl FUN_00cb1150(const char* str, int c)
 
 
 // @fnv 0x00cb1260
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int count)
+void* __cdecl FUN_00cb1260(void* dst, const void* src, uintptr_t count)
 {
     return std::memmove(dst, src, count);
 }
@@ -287,7 +287,7 @@ void* __cdecl FUN_00cb1270(char* a, const char* b, int c)
 
 
 // @fnv 0x00cb1280
-void __cdecl FUN_00cb1280(void* dest, int value, unsigned int count)
+void __cdecl FUN_00cb1280(void* dest, int value, uintptr_t count)
 {
     std::memset(dest, value, count);
 }
@@ -327,7 +327,7 @@ struct Cls;
 struct BoolGuard
 {
     bool flag;
-    intptr_t Get(Cls* owner, int value);
+    intptr_t Get(Cls* owner, intptr_t value);
 };
 
 struct Cls

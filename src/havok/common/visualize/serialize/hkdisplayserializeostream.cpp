@@ -87,7 +87,7 @@ struct RefObj
 struct FUN_00d27460 : RefObj
 {
     int pad[(0x1c - 8) / 4];
-    __declspec(nothrow) FUN_00d27460(int a, int b);
+    __declspec(nothrow) FUN_00d27460(intptr_t a, int b);
 };
 
 inline void* hkAlloc(int n)
@@ -227,11 +227,11 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 struct hkOArchiveStandIn
 {
       // declared, never defined
-    void WriteUInt16(unsigned int value);
+    void WriteUInt16(uintptr_t value);
 };
 
 // @fnv 0x00d60920
-void hkOArchiveStandIn::WriteUInt16(unsigned int value)
+void hkOArchiveStandIn::WriteUInt16(uintptr_t value)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped(&value, 2, 1);
 }

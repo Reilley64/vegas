@@ -25,7 +25,7 @@ int FUN_00d1d500(void *, intptr_t, intptr_t);
 // 0x00d1d530
 extern "C" void FUN_00d1d530();
 // 0x00d1d540
-extern "C" void *FUN_00d1d540(void *, intptr_t, intptr_t, int);
+extern "C" void *FUN_00d1d540(void *, intptr_t, intptr_t, intptr_t);
 // 0x00d1d570
 extern "C" void *FUN_00d1d570(void *, intptr_t, intptr_t);
 // 0x00d1d5a0

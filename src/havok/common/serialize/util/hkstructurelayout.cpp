@@ -300,7 +300,7 @@ class FUN_00dc1bb0_Class
 void FUN_00dc1bb0_Class::FUN_00dc1bb0(uintptr_t uiValue, uintptr_t pObject, int param3)
 {
     FUN_00cb18f0_Obj* object = reinterpret_cast<FUN_00cb18f0_Obj*>(pObject);
-    int result = reinterpret_cast<::FUN_00cb18f0_t *>((object))->FindSlot(uiValue);
+    intptr_t result = reinterpret_cast<::FUN_00cb18f0_t *>((object))->FindSlot(uiValue);
 
     if (result > object->unk08)
     {
@@ -401,7 +401,7 @@ struct Arg2
     int unk00;
     int unk04;
     int unk08;
-    ByteBool Valid(int i) const
+    ByteBool Valid(intptr_t i) const
     {
         return i <= unk08;
     }

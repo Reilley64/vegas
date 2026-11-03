@@ -65,7 +65,7 @@ struct FUN_00d60ca0_s
 // @fnv 0x00d60ca0
 int FUN_00d60ca0_s::FUN_00d60ca0(intptr_t a, int b)
 {
-    int iClamped = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(a));
+    intptr_t iClamped = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(a));
     if (iClamped > 0xffff)
         iClamped = 0xffff;
     reinterpret_cast<::hkOArchive_2 *>((((FUN_00d60940_s*)*(void**)((char*)this + 0x10))))->WriteInt(iClamped + 7);

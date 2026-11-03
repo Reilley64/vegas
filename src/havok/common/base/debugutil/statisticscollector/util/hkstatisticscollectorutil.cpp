@@ -34,7 +34,7 @@ class Hasher
     virtual void v20();
     virtual void v24();
     virtual void v28();
-    virtual int Hash(const char* s, int len);
+    virtual int Hash(const char* s, intptr_t len);
 };
 
 struct Audio
@@ -57,7 +57,7 @@ class Handler
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void Emit(int kind, int a, const char* s, int len, int hash);
+    virtual void Emit(int kind, intptr_t a, const char* s, intptr_t len, int hash);
 public:
     void EmitString(intptr_t, unsigned int *);
 };
@@ -68,7 +68,7 @@ extern "C" void __cdecl EmitStringWithHash(int* pValue, const char* pString, Han
 {
     if (pString)
     {
-        int len = ::fnv_00cb10d0::FUN_00cb10d0(pString) + 1;
+        intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(pString) + 1;
         int hash = FUN_00c85750()->GetHasher().Hash(pString, len);
         pHandler->Emit(1, *pValue, pString, len, hash);
     }
@@ -281,7 +281,7 @@ struct SpawnedObject
 {
 };
 
-void __cdecl CalleeB_00cf60d0(int aiA, int aiB, int aiC, int aiD);
+void __cdecl CalleeB_00cf60d0(int aiA, intptr_t aiB, intptr_t aiC, intptr_t aiD);
 
 // Calls CalleeA on the object at aiSecond with aiFirst; if it returns nonzero, passes 0, aiFirst, the result and aiSecond to CalleeB_00cf60d0.
 // @fnv 0x00cf6140

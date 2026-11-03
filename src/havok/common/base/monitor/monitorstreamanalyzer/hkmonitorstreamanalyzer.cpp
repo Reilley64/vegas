@@ -246,14 +246,14 @@ struct E0C860Node
 };
 
 // @fnv 0x00e0c860
-int __cdecl GetTreeWidth(E0C860Node* node, int depth, int indent, bool onlyExpanded)
+intptr_t __cdecl GetTreeWidth(E0C860Node* node, intptr_t depth, int indent, bool onlyExpanded)
 {
-    int width = ::fnv_00cb10d0::FUN_00cb10d0(node->m_name) + depth * indent + 8;
+    intptr_t width = ::fnv_00cb10d0::FUN_00cb10d0(node->m_name) + depth * indent + 8;
     if (!onlyExpanded || (node->m_flags & 1))
     {
         for (int i = 0; i < node->m_children.GetLogicalSize(); i++)
         {
-            int childWidth = GetTreeWidth(node->m_children[i], depth + 1, indent, onlyExpanded);
+            intptr_t childWidth = GetTreeWidth(node->m_children[i], depth + 1, indent, onlyExpanded);
             if (childWidth > width)
                 width = childWidth;
         }
@@ -1286,7 +1286,7 @@ static __declspec(noinline) intptr_t __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owne
     return 0;
 }
 
-int __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
+intptr_t __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
 {
     return FUN_00e0cbe0(owner, key, value);
 }
@@ -3465,12 +3465,12 @@ struct FUN_00e0d640_buf
     int unk04;
     int unk08;
     char* m_pData;
-    int m_iLen;
+    intptr_t m_iLen;
     int m_uiObjectFlags;
 };
 struct FUN_00e0d640_cfg
 {
-    int m_iBase;
+    intptr_t m_iBase;
     int m_iStep;
     int m_iVal;
     int unk0C;
@@ -3517,10 +3517,10 @@ void __cdecl FUN_00e0d640(intptr_t a1, int aiThreadCount, int aiSpuCount, FUN_00
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = apConfig->m_iStep * i - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = apConfig->m_iStep * i - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3536,10 +3536,10 @@ void __cdecl FUN_00e0d640(intptr_t a1, int aiThreadCount, int aiSpuCount, FUN_00
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = (i + aiThreadCount) * apConfig->m_iStep - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = (i + aiThreadCount) * apConfig->m_iStep - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3556,10 +3556,10 @@ void __cdecl FUN_00e0d640(intptr_t a1, int aiThreadCount, int aiSpuCount, FUN_00
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3576,10 +3576,10 @@ void __cdecl FUN_00e0d640(intptr_t a1, int aiThreadCount, int aiSpuCount, FUN_00
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3622,7 +3622,7 @@ struct StatsAllocator
 
 struct NodeInitializer
 {
-    FUN_00e0d000* FUN_00e0d000(int parent, const char* name, StatsValue value);
+    FUN_00e0d000* FUN_00e0d000(intptr_t parent, const char* name, StatsValue value);
 };
 
 static __declspec(noinline) FUN_00e0d000* FUN_00e0cb80(FUN_00e0d000* owner, const char* key, S_Flag fallback)
@@ -3653,7 +3653,7 @@ void __cdecl FUN_00e0d880(intptr_t aiParent, FUN_00e0d000* source)
 
         if (!dst)
         {
-            int parent = aiParent;
+            intptr_t parent = aiParent;
             S_e0ce00_Router* holder = FUN_00c85750();
             void* mem = ((StatsAllocator*)holder->m_pStreamAllocator)->allocate(sizeof(FUN_00e0d000));
 
@@ -3847,7 +3847,7 @@ static __declspec(noinline) intptr_t FUN_00e0da00(int row, int col, const S00e0e
 
 // Resolves a slot id at pixel coordinates by mapping to a level and row, then querying the node tree via FUN_00e0da00.
 // @fnv 0x00e0e4e0
-int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list)
+intptr_t __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list)
 {
     int numLevels = img.GetLogicalSize();
     int numPages = lay->m_numPages;
@@ -3873,7 +3873,7 @@ int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout*
     ::FUN_00e0dd30((const ::MonNodeList &)(img), (*(const ::AnimationTimingInfo *)(lay)), (*(const ::FrameInfoArrays *)(list)), (*(float *)(&range)), (*(::FloatArray *)(&arr)));
     S00e0e4e0_Node** slot = &img.m_data[lvl];
     S00e0e4e0_Info* info = list->m_data[lvl].m_info;
-    int res = FUN_00e0da00(row, x - border, (*slot)->m_children, h, range, arr.m_data[row], info);
+    intptr_t res = FUN_00e0da00(row, x - border, (*slot)->m_children, h, range, arr.m_data[row], info);
     S_e0ce00_Alloc& a = FUN_00c85750()->heap();
     arr.m_iElementCount = 0;
     if ((arr.m_iCapacityState & 0x80000000) == 0)
@@ -4649,7 +4649,7 @@ struct Se0e0c0_Allocator
     virtual void v0c();
     virtual void ReturnMemory(void* p, int numBytes);
 };
-void* __cdecl AllocateWithHeader(Se0e0c0_Allocator* alloc, int numBytes);
+void* __cdecl AllocateWithHeader(Se0e0c0_Allocator* alloc, intptr_t numBytes);
 
 struct Se0e0c0_Heap
 {

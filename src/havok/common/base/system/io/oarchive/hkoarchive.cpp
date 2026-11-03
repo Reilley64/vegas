@@ -152,7 +152,7 @@ struct FUN_00d607e0_object
     virtual void FUN_00d607e0_virtual0();
     virtual void FUN_00d607e0_virtual1();
     virtual void FUN_00d607e0_virtual2();
-    virtual void FUN_00d607e0_virtual3(int value);
+    virtual void FUN_00d607e0_virtual3(intptr_t value);
 };
 
 struct FUN_00d607e0_class
@@ -227,7 +227,7 @@ struct hkStub
     virtual void vf04();
     virtual void vf08();
     virtual void vf0c();
-    virtual void vf10(int a);
+    virtual void vf10(intptr_t a);
 };
 struct FUN_00d607b0_class
 {

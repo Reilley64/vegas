@@ -246,7 +246,7 @@ struct Ctx
 
 struct ListEntry
 {
-    int m_key;
+    intptr_t m_key;
     void* m_uiFilterValue;
 };
 
@@ -272,7 +272,7 @@ __declspec(noinline) static void FUN_00e03360(VObj* p, int n)
 }
 
 // @fnv 0x00e03e20
-static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, int b)
+static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, intptr_t b)
 {
     VObj* value = ((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((ctx))->FUN_00d60800()));
     FUN_00e03360(value, 2);
@@ -310,7 +310,7 @@ struct FUN_00e04920_cls {
     unsigned int unk0C;
     unsigned int unk10;
     unsigned char m_flag14;
-    unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
+    unsigned int FUN_00e036b0(uintptr_t a, uintptr_t b, Scratch16* scratch, uintptr_t c);
     int FUN_00e04920(uintptr_t a1, uintptr_t a2, uintptr_t a3,
                      uintptr_t a4, uintptr_t a5);
 };
@@ -823,7 +823,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 state0.flagh2 = ((void *)(reinterpret_cast<::FUN_00d86930_StandIn *>((pItem))->FUN_00d86930()));
                 int v = reinterpret_cast<::ClassMember_d869 *>((nb))->FUN_00d86980();
                 state1.flagq = v / denominator;
-                int cur = iSourceOffset;
+                intptr_t cur = iSourceOffset;
                 if (iCount <= 0) break;
                 int remaining = iCount;
                 do {
@@ -890,7 +890,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
 
 static int FUN_00e03100(Obj* apObj);
 static void WriteUIntArray(const unsigned int* data, int count, Writer* pWriter, int elemSize);
-static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, int b);
+static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, intptr_t b);
 static void __cdecl FUN_00e03360(Reader* obj, int n);
 static void FUN_00e03170(unsigned int a, unsigned int b, unsigned int type, Target* obj, void* p);
 
@@ -937,7 +937,7 @@ struct S00e03ea0_Pair {
 struct RootPair {
     int offset;
     const char* name;
-    RootPair(int where, const char* what) : offset(where), name(what) {}
+    RootPair(intptr_t where, const char* what) : offset(where), name(what) {}
 };
 struct S00e03ea0_PairArray {
     RootPair* m_data;
@@ -966,7 +966,7 @@ struct S00e03ea0_Out {
     int unk14;
     S00e03ea0_PairArray m_pairs;
 
-    void AppendPair(int at, intptr_t data);
+    void AppendPair(intptr_t at, intptr_t data);
 };
 
 struct S00e03ea0_Array {
@@ -1208,7 +1208,7 @@ void S00e03ea0_Ser::FUN_00e03ea0(char* src, S00e03ea0_Schema* srcClass, S00e03ea
             S00e03ea0_Schema* dc = ((::S00e03ea0_Schema *)(reinterpret_cast<::Struct_d86920 *>((member))->FUN_00d86920()));
             if (!sc || !dc)
                 break;
-            int d = dst + member->getOffset();
+            intptr_t d = dst + member->getOffset();
             int n = FUN_00e03100((Obj*)type);
             int count = FUN_00e049c0(n, FUN_00e03100((Obj*)member));
             for (int j = 0; j < count; j++) {

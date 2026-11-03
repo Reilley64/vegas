@@ -151,10 +151,10 @@ struct GlobalDispatch
     virtual int V0();
     virtual int V1();
     virtual int V2();
-    virtual int Dispatch(int, int, int, int, int);
+    virtual int Dispatch(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t);
 };
 // @fnv 0x00d484a0
-int __cdecl FUN_00d484a0(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t a4, int useLocal, intptr_t a6)
+intptr_t __cdecl FUN_00d484a0(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t a4, int useLocal, intptr_t a6)
 {
     if (a3)
     {
@@ -226,7 +226,7 @@ struct Object180
     void* unk00;
     int unk04;
     void* unk08;
-    Object180* FUN_00dcc6a0(void* input, int arg2);
+    Object180* FUN_00dcc6a0(void* input, intptr_t arg2);
 };
 // @fnv 0x00d48f00
 intptr_t __cdecl FUN_00d48f00(Header180* pHeader, intptr_t arg2, intptr_t arg3, int arg4)
@@ -238,7 +238,7 @@ intptr_t __cdecl FUN_00d48f00(Header180* pHeader, intptr_t arg2, intptr_t arg3, 
     Object180 wrapper;
     Object180* result = wrapper.FUN_00dcc6a0(pHeader, arg2);
     void* payload = result->unk08;
-    int value = ::FUN_00d48d30((::S00d48d30_Stream *)(payload), (::S00d48d30_Result *)(arg3), arg4);
+    intptr_t value = ::FUN_00d48d30((::S00d48d30_Stream *)(payload), (::S00d48d30_Result *)(arg3), arg4);
     reinterpret_cast<::FUN_00dcc160_cls *>(&(wrapper))->FUN_00dcc160();
     return value;
 }
@@ -333,7 +333,7 @@ struct D493E0Ref
 
 struct D493E0Registry
 {
-    D493E0Object* find(const void* key, int flags) const;
+    D493E0Object* find(const void* key, intptr_t flags) const;
 };
 
 struct D493E0Loader
@@ -455,7 +455,7 @@ Obj1* FUN_00d49420_cls::ProcessPair(Obj1* apArg1, Obj2* apArg2)
 
 extern volatile intptr_t DAT_01269b70;
 
-static __declspec(noinline) int FUN_00d48950(int d, int a, int b, int c)
+static __declspec(noinline) int FUN_00d48950(int d, int a, intptr_t b, int c)
 {
     int* pb = &b;
     if (d)
@@ -581,7 +581,7 @@ extern const char str_010cfacc[];
 extern const char str_010cfab8[];
 extern const char str_010cfa94[];
 
-int S00d48d30_Finish(int opts);
+int S00d48d30_Finish(intptr_t opts);
 
 static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
@@ -1452,7 +1452,7 @@ inline const char* stringText(const hkStringPtr& s)
 {
     return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(s.m_pcText) & ~1u);
 }
-void __cdecl FUN_00cb1280(void*, int, int);
+void __cdecl FUN_00cb1280(void*, int, intptr_t);
 struct PackHeader
 {
     PackHeader()
@@ -1487,7 +1487,7 @@ struct SmallBool
         return value != 0;
     }
 };
-void __cdecl FUN_00cb1280(void*, int, int);
+void __cdecl FUN_00cb1280(void*, int, intptr_t);
 inline unsigned int reverseWord(unsigned int word)
 {
     union WordBytes

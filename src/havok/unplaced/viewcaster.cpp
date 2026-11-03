@@ -261,7 +261,7 @@ class Filter631
 {
   public:
     Filter631();
-    Filter631(unsigned int uiFilterInfo);
+    Filter631(uintptr_t uiFilterInfo);
     unsigned int m_uiBits;
 };
 
@@ -271,7 +271,7 @@ class RayInput631
     RayInput631();
     hkVector4_631 m_kFrom;
     hkVector4_631 m_kTo;
-    unsigned int m_uiFilter;
+    uintptr_t m_uiFilter;
     int unk24;
     int unk28;
     int unk2c;

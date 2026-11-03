@@ -180,7 +180,7 @@ void FUN_00e4ae20_Object::ClearArrays()
 class hkObjectE4AE
 {
   public:
-    int InsertElements(int a, int b, int c, int d, int e);
+    int InsertElements(intptr_t a, int b, int c, intptr_t d, int e);
     int FUN_00e4ae00(intptr_t a, int b, intptr_t d, int e);
 };
 

@@ -1740,7 +1740,7 @@ struct FUN_00dcb320_Class
     int m_04;
     int m_08;
     char* m_0c;
-    int CallWithArgs(intptr_t a, int b);
+    intptr_t CallWithArgs(intptr_t a, int b);
 };
 
 struct FUN_00dcb3a0_Entry
@@ -2584,7 +2584,7 @@ struct FUN_00dc73a0_Holder
 
 struct FUN_00dc92d0_StandIn
 {
-    int CollectShapes(int, int, int, int);
+    int CollectShapes(intptr_t, int, int, intptr_t);
 };
 
 struct FUN_00dc73c0_class
@@ -3019,7 +3019,7 @@ struct hkAllocatorDC88
 {
     virtual void V0();
     virtual void V1();
-    virtual void ReleaseBlock(void* p, int iNumBytes);
+    virtual void ReleaseBlock(void* p, intptr_t iNumBytes);
 };
 
 struct hkMemoryRouterDC88
@@ -3715,7 +3715,7 @@ struct hkMemoryRouterDC9D
 namespace hkRouterDC9D {
 extern "C" hkMemoryRouterDC9D& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDC9D& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorDC9D& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
 inline void memCpy4DC9D(void* pvDst, const void* pvSrc, unsigned int iNumWords)
 {
@@ -4192,7 +4192,7 @@ struct hkMemoryRouterDCA3
 namespace hkRouterDCA3 {
 extern "C" hkMemoryRouterDCA3& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA3& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA3& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
 template <class T> class hkArrayDCA3
 {
@@ -4410,7 +4410,7 @@ struct hkMemoryRouterDCA4
 namespace hkRouterDCA4 {
 extern "C" hkMemoryRouterDCA4& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA4& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA4& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
 template <class T> class hkArrayDCA4
 {
@@ -6190,12 +6190,12 @@ class Owner7320
 };
 
 // @fnv 0x00dc73e0
-static __declspec(noinline) unsigned int FUN_00dc73e0(uintptr_t value)
+static __declspec(noinline) uintptr_t FUN_00dc73e0(uintptr_t value)
 {
     return (value >> 2) + 3;
 }
 
-unsigned int AllocationBlockCount(unsigned int value)
+uintptr_t AllocationBlockCount(unsigned int value)
 {
     return FUN_00dc73e0(value);
 }
@@ -6252,7 +6252,7 @@ struct Container7DE0
 };
 struct Wrapper7DE0 : public Shape7DE0
 {
-    __forceinline Wrapper7DE0(Shape7DE0* pkChild, int iData) throw() : m_pkChild(pkChild)
+    __forceinline Wrapper7DE0(Shape7DE0* pkChild, intptr_t iData) throw() : m_pkChild(pkChild)
     {
         int one = 1;
         m_iData = iData;
@@ -6263,7 +6263,7 @@ struct Wrapper7DE0 : public Shape7DE0
     Container7DE0 m_kContainer;
     int unk1C;
     Shape7DE0* m_pkChild;
-    volatile int m_iData;
+    volatile intptr_t m_iData;
 };
 struct ShapeA7DE0 : public Shape7DE0
 {
@@ -6296,7 +6296,7 @@ struct ShapeD7DE0 : public Shape7DE0
 };
 struct ShapeE7DE0 : public Shape7DE0
 {
-    ShapeE7DE0(int iArg) throw();
+    ShapeE7DE0(intptr_t iArg) throw();
     int unk0C;
     int unk10;
     int unk14;
@@ -6304,7 +6304,7 @@ struct ShapeE7DE0 : public Shape7DE0
 };
 struct ShapeF7DE0 : public Shape7DE0
 {
-    ShapeF7DE0(int iArg) throw();
+    ShapeF7DE0(intptr_t iArg) throw();
     int unk0C;
     int unk10;
     int unk14;
@@ -6996,14 +6996,14 @@ void ShapeRegistryDC9::CollectShapes(KeyDC9* pkKey, int bRecurse, int bGroups, h
     OwnerDC9* pkOwner = ((::OwnerDC9 *)(reinterpret_cast<::hkObjectD878 *>((pkKey))->GetValue(0, {})));
     if (!pkOwner)
         return;
-    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kShapes), (intptr_t)(pkOwner), {}))); i != -1; i = m_kShapes.m_pkEntryArray[i].m_iNext)
+    for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kShapes), (intptr_t)(pkOwner), {}))); i != -1; i = m_kShapes.m_pkEntryArray[i].m_iNext)
     {
         ShapeDC9* pkShape = m_kShapes.m_pkEntryArray[i].m_kValue;
         PushBackDC9(*pkShapesOut, pkShape);
     }
     if (bGroups)
     {
-        for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kObjectGroups), (intptr_t)(pkOwner), {}))); i != -1; i = m_kObjectGroups.m_pkEntryArray[i].m_iNext)
+        for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kObjectGroups), (intptr_t)(pkOwner), {}))); i != -1; i = m_kObjectGroups.m_pkEntryArray[i].m_iNext)
         {
             ShapeGroupDC9* pkGroup = m_kObjectGroups.m_pkEntryArray[i].m_kValue;
             for (int j = 0; j < pkGroup->GetNumShapes(); j++)
@@ -7015,7 +7015,7 @@ void ShapeRegistryDC9::CollectShapes(KeyDC9* pkKey, int bRecurse, int bGroups, h
     }
     if (bRecurse)
     {
-        for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kLinks), (intptr_t)(pkOwner), {}))); i != -1; i = m_kLinks.m_pkEntryArray[i].m_iNext)
+        for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kLinks), (intptr_t)(pkOwner), {}))); i != -1; i = m_kLinks.m_pkEntryArray[i].m_iNext)
         {
             LinkDC9* pkLink = m_kLinks.m_pkEntryArray[i].m_kValue;
             CollectShapes(pkLink->GetKey(), bRecurse, bGroups, pkShapesOut);
@@ -7095,7 +7095,7 @@ class Owner9570
     RegistryHolder9570* m_pkHolder;
 };
 // @fnv 0x00dcb320
-int FUN_00dcb320_Class::CallWithArgs(intptr_t aiArg1, int aiArg2)
+intptr_t FUN_00dcb320_Class::CallWithArgs(intptr_t aiArg1, int aiArg2)
 {
     FUN_00dc9570_StandIn* p = *(FUN_00dc9570_StandIn**)(m_0c + 0x18);
     reinterpret_cast<::Owner9570 *>((p))->FUN_00dc9570((const char *)(aiArg1));
@@ -7146,7 +7146,7 @@ struct KeyDC9E
 struct EntryDC9E
 {
     unsigned long m_iOwnerObjectOffset;
-    unsigned long m_next;
+    uintptr_t m_next;
 };
 
 class OwnerDC9E
@@ -7163,7 +7163,7 @@ class OwnerDC9E
 // @fnv 0x00dc9ec0
 void OwnerDC9E::FUN_00dc9ec0(uintptr_t key, const KeyDC9E* pkVal)
 {
-    unsigned long uiOldIndex = ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>(&(m_kFormatEntries))->LookupHashEntry(key, (unsigned long)-1)));
+    uintptr_t uiOldIndex = ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>(&(m_kFormatEntries))->LookupHashEntry(key, (unsigned long)-1)));
     int iNewIndex = reinterpret_cast<::fnv_00dbe710::S_00dbe710 *>(this)->AllocateSlot();
     EntryDC9E& kEntry = m_pEntries[iNewIndex];
     kEntry.m_iOwnerObjectOffset = pkVal->m_iOwnerObjectOffset;
@@ -7223,7 +7223,7 @@ struct hkMemoryRouterDCA5
 namespace fnvc_adapt {
 extern "C" hkMemoryRouterDCA5& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA5& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorDCA5& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
 template <class T> class hkArrayDCA5
 {
@@ -7304,7 +7304,7 @@ void Registry::RegisterObject(Obj* volatile apObject)
     Obj* const current = apObject;
     void* key = current->GetIteratorKey();
     const char* name = current->getName();
-    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(name));
+    intptr_t it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(name));
     char valid;
     reinterpret_cast<::FUN_00d874b0_class *>((reinterpret_cast<Find*>(this)))->SetBoolFromThreshold(&valid, it);
     if (!valid)
@@ -8518,7 +8518,7 @@ tail:
     return ((::MemberInfoDC *)(reinterpret_cast<::FUN_00dc8e50_Class *>(this)->FindEntry((intptr_t)(name)))) != 0;
 }
 
-void __cdecl FUN_00cb1260(void*, void const*, int);
+void __cdecl FUN_00cb1260(void*, void const*, intptr_t);
 static __declspec(noinline) void* FUN_00dc73e0(intptr_t c)
 {
     return (void*)(c + 1);
@@ -8687,7 +8687,7 @@ struct Router_dca4
 {
     static Holder_dca4& __cdecl FUN_00c85750() throw();
 };
-void __cdecl FUN_00c908c0(Mem_dca4* mem, void* array, int numElements, int sizeOfElement);
+void __cdecl FUN_00c908c0(Mem_dca4* mem, void* array, intptr_t numElements, int sizeOfElement);
 
 template <class T> struct hkArray_dca4
 {
@@ -9012,7 +9012,7 @@ struct hkSerializeMultiMapDC90 : hkMultiMapDC90
 // @fnv 0x00dc8fe0
 void FUN_00dc8fe0_class::FUN_00dc8fe0(void* key, int* piValue)
 {
-    int index = ((int)(::LookupWithDefault((::HashEntryTable *)(key), {}, {})));
+    intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)(key), {}, {})));
 
     if (index == -1)
         return;
@@ -9063,7 +9063,7 @@ void DCAAOwner::FUN_00dcaaf0(void* volatile key, DCAAObject* object)
     void* pKey = key;
     if (pKey)
     {
-        int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(table), (intptr_t)(pKey), {})));
+        intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)&(table), (intptr_t)(pKey), {})));
         while (index != -1)
         {
             if (table.entries[index].value == pObject)
@@ -9108,10 +9108,10 @@ void DCAB_Owner::FUN_00dcab50(DCAB_Object* object, const char* newName)
 
 // Removes the entry at index from its hash chain, adds it to the free list, and returns the next chain index.
 // @fnv 0x00dcb4b0
-int hkSerializeMultiMapDC90::FUN_00dcb4b0(intptr_t key, int index)
+intptr_t hkSerializeMultiMapDC90::FUN_00dcb4b0(intptr_t key, intptr_t index)
 {
-    int next = m_ppLinks[index].m_next;
-    int freed = next;
+    intptr_t next = m_ppLinks[index].m_next;
+    intptr_t freed = next;
     if (next != -1)
     {
         m_ppLinks[index] = m_ppLinks[next];
@@ -9356,10 +9356,10 @@ struct Multimap
     int unk44;
     int unk48;
 
-    void FUN_00dcb4b0(void* key, int index) throw();
+    void FUN_00dcb4b0(void* key, intptr_t index) throw();
     void FUN_00dc8fe0(void* key, Node* const& node) throw()
     {
-        for (int it = ((int)(::LookupWithDefault((::HashEntryTable *)this, (intptr_t)(key), {}))); it != -1; it = m_entries[it].next)
+        for (intptr_t it = ((int)(::LookupWithDefault((::HashEntryTable *)this, (intptr_t)(key), {}))); it != -1; it = m_entries[it].next)
         {
             if (m_entries[it].val == node)
             {
@@ -9753,7 +9753,7 @@ void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 
     {
         StackAllocatedArray<Node*> stackNodes(64);
-        int it = ((int)(::LookupWithDefault((::HashEntryTable *)&(this->m_multimap), (intptr_t)(apNode), {})));
+        intptr_t it = ((int)(::LookupWithDefault((::HashEntryTable *)&(this->m_multimap), (intptr_t)(apNode), {})));
         bool hasKey = (it != -1);
         if (hasKey)
         {
@@ -9788,14 +9788,14 @@ void ManagerClass::FUN_00dcbdd0(Node* apNode) throw()
 void hkDataWorldDictTrackerDCA::FUN_00dca890(hkDataObjectImplDCA* pkObject) throw()
 {
     hkDataClassImplDCA* pkClass = pkObject->GetVariantValue();
-    int iClassKey = pkClass ? reinterpret_cast<::hkObjectD878 *>((void *)this)->GetValue((intptr_t)(pkClass), 0) : 0;
+    intptr_t iClassKey = pkClass ? reinterpret_cast<::hkObjectD878 *>((void *)this)->GetValue((intptr_t)(pkClass), 0) : 0;
 
-    for (int i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(pkObject), {}))); i != -1; i = m_children.GetNextChainIndex(i))
+    for (intptr_t i = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_children), (intptr_t)(pkObject), {}))); i != -1; i = m_children.GetNextChainIndex(i))
     {
         FUN_00dca890(m_children.getValue(i));
     }
 
-    int iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kChildrenByIndex), iClassKey, {})));
+    intptr_t iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)&(m_kChildrenByIndex), iClassKey, {})));
     if (iIndex != -1)
     {
         hkLocalArrayDCA<hkDataObjectImplDCA*> kObjects(0x200);
@@ -10168,7 +10168,7 @@ void FUN_00dcb890_cls::FUN_00dcb890()
     intptr_t base = unk18->Lookup()->unk08;
     int key = ((int(*)(FUN_00dcb890_cls*))((void**)unk00)[6])(this);
     FUN_00dcb890_Table* tbl = reinterpret_cast<FUN_00dcb890_Table*>(base + 0x6c);
-    int idx = ((int)(::LookupWithDefault((::HashEntryTable *)(tbl), key, {})));
+    intptr_t idx = ((int)(::LookupWithDefault((::HashEntryTable *)(tbl), key, {})));
     if (idx != -1)
     {
         FUN_00dcb890_Node* nodes = tbl->m_kNodeCollection;
@@ -10358,7 +10358,7 @@ void WorldData::FUN_00dc7750()
         {
             p = ((::ReferencedObject *)(reinterpret_cast<::FUN_00d87440_Class *>(&(objects))->FUN_00d87440(iterator)));
             retainedObjects.push(p);
-            int index = ((int)(::LookupWithDefault((::HashEntryTable *)&(chains), (intptr_t)(p), {})));
+            intptr_t index = ((int)(::LookupWithDefault((::HashEntryTable *)&(chains), (intptr_t)(p), {})));
             if (index != -1)
             {
                 do
@@ -10989,7 +10989,7 @@ class S00dc7d20_Class
     virtual void v18();
     virtual void v1c();
     virtual int FindMemberIndexByName(const char* pcName);
-    void FUN_00dc9f20(const char* pcName, int iType, const S00dc7d20_Ptr& kType, int iCount) throw();
+    void FUN_00dc9f20(const char* pcName, intptr_t iType, const S00dc7d20_Ptr& kType, int iCount) throw();
 };
 
 class S00dc7d20_Cls
@@ -10999,11 +10999,11 @@ class S00dc7d20_Cls
     int unk04;
     S00dc7d20_World* m_pOwningWorld;
 
-    void FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, int iType, const char* pcTypeName, int iCount);
+    void FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, intptr_t iType, const char* pcTypeName, int iCount);
 };
 
 // @fnv 0x00dc7d20
-void S00dc7d20_Cls::FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, int iType, const char* pcTypeName,
+void S00dc7d20_Cls::FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, intptr_t iType, const char* pcTypeName,
                                  int iCount)
 {
     S00dc7d20_Class* pkClass = *ppClass;
@@ -11056,7 +11056,7 @@ static __forceinline hkRouterX& getRouterX()
     return *reinterpret_cast<hkRouterX*>(FUN_00c85750());
 }
 
-void __cdecl FUN_00c908c0(hkAllocX& alloc, void* array, int numElem, int sizeElem) throw();
+void __cdecl FUN_00c908c0(hkAllocX& alloc, void* array, intptr_t numElem, int sizeElem) throw();
 
 template <typename T> struct hkHeapArrX
 {

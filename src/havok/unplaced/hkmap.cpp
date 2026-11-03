@@ -10,7 +10,7 @@ struct FUN_00cb18f0_t
     int m_iValueAfterStandIn;
     int m_iPairCount;
     intptr_t FindSlot(intptr_t);
-    int FUN_00cb1fb0(int key);
+    int FUN_00cb1fb0(intptr_t key);
 };
 
 // @fnv 0x00cb1810
@@ -78,7 +78,7 @@ struct DepthLimit
 // @fnv 0x00cb1980
 int LookupBucketValue(DepthLimit* self, intptr_t edx, intptr_t key, int* paiOut)
 {
-    int iHash = reinterpret_cast<::FUN_00cb18f0_t *>((self))->FindSlot(key);
+    intptr_t iHash = reinterpret_cast<::FUN_00cb18f0_t *>((self))->FindSlot(key);
     if (iHash <= *(int*)((char*)self + 8))
     {
         *paiOut = self->m_buckets[iHash * 2 + 1];
@@ -199,7 +199,7 @@ struct HashEntryTable
 {
 };
 // @fnv 0x00dc8e30
-unsigned long LookupWithDefault(HashEntryTable* self, intptr_t edx, unsigned long key)
+uintptr_t LookupWithDefault(HashEntryTable* self, intptr_t edx, unsigned long key)
 {
     return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)self + 0xc))))->LookupHashEntry(key, -1)));
 }
@@ -250,7 +250,7 @@ class hkMapBaseCB19
     void RemoveEntry(void* it) throw();
 };
 // @fnv 0x00cb1fb0
-int FUN_00cb18f0_t::FUN_00cb1fb0(int key)
+int FUN_00cb18f0_t::FUN_00cb1fb0(intptr_t key)
 {
     intptr_t found = FindSlot(key);
     if (found <= m_iPairCount)
@@ -429,8 +429,8 @@ class hkMemoryAllocatorCB18;
 
 struct hkMapPairCB18
 {
-    unsigned int key;
-    unsigned int val;
+    uintptr_t key;
+    uintptr_t val;
 };
 
 class hkMapBaseCB18
@@ -449,7 +449,7 @@ int hkMapBaseCB18::FUN_00cb1870(hkMemoryAllocatorCB18& alloc, uintptr_t key, uin
 {
     if ((m_iCapacityFlags & 0x7fffffff) * 2 > m_iPairCount)
         reinterpret_cast<::fnv_00cb1ac0::DepthLimit *>(this)->ResizeAndRehash((::fnv_00cb1ac0::Allocator *)&(alloc), m_iPairCount + m_iPairCount + 2);
-    unsigned int i;
+    uintptr_t i;
     int isNewKey = 1;
     for (i = ((key >> 4) * 2654435761U) & m_iPairCount; m_kPrimitiveElement[i].key != (unsigned int)-1;
          i = (i + 1) & m_iPairCount)
@@ -541,7 +541,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
                 key = (static_cast<unsigned int>(iCurrVertex) << 16) | iPrevVertex;
             int iOrientation = 1 + (iPrevVertex < iCurrVertex);
             int keyPlus = key + 1;
-            int index = reinterpret_cast<::FUN_00cb18f0_t *>(&(edgeMap))->FindSlot(keyPlus);
+            intptr_t index = reinterpret_cast<::FUN_00cb18f0_t *>(&(edgeMap))->FindSlot(keyPlus);
             if (index <= edgeMap.unk08)
             {
                 int value = edgeMap.unk00[index].value;
@@ -779,15 +779,15 @@ struct hkMemoryAllocatorCB1F;
 
 struct hkMapOperationsCB1F
 {
-    static unsigned hash(unsigned int key, unsigned mod)
+    static unsigned hash(uintptr_t key, unsigned mod)
     {
         return (unsigned(key) >> 4) * 2654435761U & mod;
     }
-    static bool equal(unsigned int keyCur, unsigned int keyValue)
+    static bool equal(uintptr_t keyCur, uintptr_t keyValue)
     {
         return keyCur == keyValue;
     }
-    static bool isValid(unsigned int key)
+    static bool isValid(uintptr_t key)
     {
         return key != unsigned(-1);
     }
@@ -795,7 +795,7 @@ struct hkMapOperationsCB1F
 
 struct hkMapPairCB1F
 {
-    unsigned int key;
+    uintptr_t key;
     unsigned int val;
 };
 

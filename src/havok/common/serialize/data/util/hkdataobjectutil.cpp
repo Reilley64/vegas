@@ -174,7 +174,7 @@ struct S_00dc3ce0_Entry
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    S_00dc3ce0_Entry(int a, int b, int c) : m_kPointA(a), m_kPointB(b), m_iThirdValue(c)
+    S_00dc3ce0_Entry(intptr_t a, int b, int c) : m_kPointA(a), m_kPointB(b), m_iThirdValue(c)
     {}
 };
 
@@ -259,7 +259,7 @@ struct GlobalObj_cls
 
 // Calls v0c on DAT_01268b08, then passes a1, obj->v10() and that result to FUN_00dc32c0 and returns its result.
 // @fnv 0x00dc3500
-int __cdecl FUN_00dc3500(intptr_t a1)
+intptr_t __cdecl FUN_00dc3500(intptr_t a1)
 {
     GlobalObj_cls* obj = (*reinterpret_cast<::GlobalObj_cls * *>(&::DAT_01268b08));
     intptr_t r1 = (*reinterpret_cast<::GlobalObj_cls * *>(&::DAT_01268b08))->v0c();
@@ -375,7 +375,7 @@ struct DC3600MapOperations
 struct DC3600Pair
 {
     DC3600Key key;
-    int val;
+    intptr_t val;
 };
 
 struct DC3600Map
@@ -1294,7 +1294,7 @@ struct DMemory
 };
 
 __declspec(restrict) void* __cdecl FUN_00c85750() throw();
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, int n) throw();
+extern "C" void __cdecl FUN_00cb1280(void* p, int v, intptr_t n) throw();
 
 struct DOutArray
 {

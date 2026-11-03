@@ -1129,7 +1129,7 @@ class HkStack
   public:
     __forceinline void* allocateStack(int numBytes, const char* what);
     __forceinline void deallocateStack(void* p);
-    __forceinline int getFreeStackSize()
+    __forceinline intptr_t getFreeStackSize()
     {
         return int(hkByteOffset(m_next, m_kRayEnd));
     }

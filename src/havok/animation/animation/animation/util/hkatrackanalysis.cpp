@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0104e000.h"
@@ -664,7 +665,7 @@ void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, Statis
         result->rate = 0.0f;
 }
 
-void FUN_00c908c0(hkMemoryAllocator_e50650& kAllocator, void* pkArray, int iNewCapacity, int iElementSize);
+void FUN_00c908c0(hkMemoryAllocator_e50650& kAllocator, void* pkArray, intptr_t iNewCapacity, int iElementSize);
 
 extern unsigned char DAT_011be718[16];
 

@@ -761,10 +761,10 @@ void DBED30Writer::WriteString(const char* pcString)
 {
     if (pcString)
     {
-        int index = reinterpret_cast<::hkObjectD878 *>((void *)&(m_pStringFunctions))->GetValue((intptr_t)(pcString), -1);
+        intptr_t index = reinterpret_cast<::hkObjectD878 *>((void *)&(m_pStringFunctions))->GetValue((intptr_t)(pcString), -1);
         if (index == -1)
         {
-            int len = ::fnv_00cb10d0::FUN_00cb10d0(pcString);
+            intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(pcString);
             reinterpret_cast<::Obj *>(this)->WriteVarint(len);
             reinterpret_cast<::FUN_00d607b0_class *>(this)->FUN_00d607b0((intptr_t)(pcString));
             reinterpret_cast<::hkStringMapD874 *>(&(m_pStringFunctions))->FUN_00d874d0(pcString, m_pStringFunctions.m_iCapacityFlags + 1);
@@ -1135,11 +1135,11 @@ struct S_dbf1a0_Writer
     int unk1c;
     S_dbf1a0_Map m_map;
 
-    int WriteHandle(const S_dbf1a0_Handle& h) throw();
+    intptr_t WriteHandle(const S_dbf1a0_Handle& h) throw();
 };
 
 // @fnv 0x00dbf1a0
-int S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
+intptr_t S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
 {
     if (!ahHandle.m_ptr)
     {
@@ -1147,13 +1147,13 @@ int S_dbf1a0_Writer::WriteHandle(const S_dbf1a0_Handle& ahHandle) throw()
     }
 
     const char* name = ahHandle.FUN_00dba680();
-    int id = reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(name), -1);
+    intptr_t id = reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(name), -1);
     if (id >= 0)
     {
         return id;
     }
 
-    int parentId = WriteHandle((*(::S_dbf1a0_Handle *)(reinterpret_cast<::FUN_00dba6a0_cls *>((void *)&(ahHandle))->SetShiftedValue({}))));
+    intptr_t parentId = WriteHandle((*(::S_dbf1a0_Handle *)(reinterpret_cast<::FUN_00dba6a0_cls *>((void *)&(ahHandle))->SetShiftedValue({}))));
 
     name = ahHandle.FUN_00dba680();
     id = reinterpret_cast<::hkObjectD878 *>(&(m_map))->GetValue((intptr_t)(name), -1);
@@ -1861,7 +1861,7 @@ void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
         {
             a.FUN_00dbac20(&b);
             int v = b.FUN_00dba680();
-            int r = reinterpret_cast<::hkObjectD878 *>(&(m_sub))->GetValue(v, 0);
+            intptr_t r = reinterpret_cast<::hkObjectD878 *>(&(m_sub))->GetValue(v, 0);
             reinterpret_cast<::Obj *>(this)->WriteVarint(r);
             ::FUN_00dba660();
         }
@@ -1921,7 +1921,7 @@ void ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
     }
 
     FUN_00dba650 k = desc.GetObjectValue();
-    int reqBytes = reinterpret_cast<::S_dbf1a0_Writer *>(this)->WriteHandle((*(const ::S_dbf1a0_Handle *)(&k)));
+    intptr_t reqBytes = reinterpret_cast<::S_dbf1a0_Writer *>(this)->WriteHandle((*(const ::S_dbf1a0_Handle *)(&k)));
     if (1 < kIter->unk0c)
     {
         reinterpret_cast<::Obj *>(this)->WriteVarint(4);
@@ -1982,9 +1982,9 @@ struct ScanObject
     __declspec(nothrow) ScanKey GetSourcePair() const;
     __declspec(nothrow) ScanClass GetObjectValue() const;
     __declspec(nothrow) int FUN_00dba8b0() const;
-    __declspec(nothrow) int FUN_00dba8c0(int iterator) const;
-    __declspec(nothrow) int FUN_00dba8d0(int iterator) const;
-    __declspec(nothrow) int FUN_00dba8e0(int iterator) const;
+    __declspec(nothrow) int FUN_00dba8c0(intptr_t iterator) const;
+    __declspec(nothrow) int FUN_00dba8d0(intptr_t iterator) const;
+    __declspec(nothrow) int FUN_00dba8e0(intptr_t iterator) const;
     __declspec(nothrow) void FUN_00dba7f0();
     ~ScanObject()
     {

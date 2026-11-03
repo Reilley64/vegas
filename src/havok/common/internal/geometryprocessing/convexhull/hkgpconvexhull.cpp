@@ -3412,7 +3412,7 @@ struct D7Node {
 };
 struct D7Pair {
     D7Node* node;
-    int idx;
+    intptr_t idx;
 
     __forceinline D7Pair() {}
     __forceinline D7Pair(D7Node* n,int i):node(n),idx(i) {}
@@ -6869,7 +6869,7 @@ int FUN_00d752c0(int* arr, int idx);
 int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 extern float DAT_0104da4c;
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, intptr_t numElements, int sizeElem);
 
 
 extern float DAT_0104da48;
@@ -7015,7 +7015,7 @@ void S_00d75cb0::FUN_00d75cb0(int mode, const hkVector4& point, hkVector4& close
 extern const char str_010c1a98[];
 
 struct Cc0080Stream {
-    virtual void Write(const char* s, int n);
+    virtual void Write(const char* s, intptr_t n);
 };
 
 // Private-convention callee: str arrives in esi (entry null-check), out in edi
@@ -7479,7 +7479,7 @@ struct S_00d76410_Router {
     S_00d76410_Alloc* m_pStreamAllocator;
     S_00d76410_Alloc& heap() { return *m_pStreamAllocator; }
 };
-void __cdecl FUN_00c908c0(S_00d76410_Alloc* alloc, void* array, int numElements, int elemSize);
+void __cdecl FUN_00c908c0(S_00d76410_Alloc* alloc, void* array, intptr_t numElements, int elemSize);
 static __forceinline S_00d76410_Router& getRouter() { return *reinterpret_cast<S_00d76410_Router*>(FUN_00c85750()); }
 template <typename T>
 struct S_00d76410_Array {
@@ -7767,7 +7767,7 @@ struct S_00d77380_Router {
     S_00d77380_Allocator& heap() { return *m_pStreamAllocator; }
 };
 namespace fnvc_adapt2 { extern "C" S_00d77380_Router& __cdecl FUN_00c85750(); }
-void __cdecl FUN_00c908c0(S_00d77380_Allocator* alloc, void* array, int numElements, int sizeElem);
+void __cdecl FUN_00c908c0(S_00d77380_Allocator* alloc, void* array, intptr_t numElements, int sizeElem);
 
 struct S_00d77380_Vec4 {
     __m128 m_vComponents;
@@ -7805,7 +7805,7 @@ struct S_00d77380_Array {
 };
 
 struct S_00d77380 {
-    int CopyAndDispatch(const S_00d77380_Vec4* verts, int count, int a, int b);
+    int CopyAndDispatch(const S_00d77380_Vec4* verts, int count, intptr_t a, intptr_t b);
     int FUN_00d77380(S_00d77380_Strided* s, intptr_t a, intptr_t b);
 };
 // @fnv 0x00d77380
@@ -7824,7 +7824,7 @@ int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, intptr_t a, intptr_t b)
     return CopyAndDispatch(arr.begin(), arr.GetLogicalSize(), a, b);
 }
 
-void __cdecl FUN_00c908c0(void*,void*,int,int);
+void __cdecl FUN_00c908c0(void*,void*,intptr_t,int);
 
 
 struct OffsetVector { int x,y,z,w; };
@@ -8382,7 +8382,7 @@ struct ExportEdge {
     int corner;
     ExportFace* face;
     __forceinline ExportEdge():face(0),corner(0) {}
-    __forceinline ExportEdge(ExportFace* f,int c):face(f),corner(c) {}
+    __forceinline ExportEdge(ExportFace* f,intptr_t c):face(f),corner(c) {}
     __forceinline ExportVertex* vertex() const { return face->vertices[corner]; }
     __forceinline ExportEdge next() const { return ExportEdge(face,(9>>(corner*2))&3); }
     __forceinline ExportEdge adjacent() const {
@@ -8729,7 +8729,7 @@ struct PolygonTriangle {
     unsigned int links[3];
     int unk20, unk24, unk28, unk2c, unk30, unk34;
     int component;
-    __forceinline PolygonTriangle* neighbor(int edge) const {
+    __forceinline PolygonTriangle* neighbor(intptr_t edge) const {
         return (PolygonTriangle*)(links[edge] & ~3);
     }
 };
@@ -8739,10 +8739,10 @@ struct PolygonLess {
 };
 struct PolygonEdge {
     PolygonTriangle* triangle;
-    int edge;
+    intptr_t edge;
     __forceinline PolygonEdge() : triangle(0), edge(0) {}
     __forceinline PolygonEdge(PolygonTriangle* t, int e) : triangle(t), edge(e) {}
-    __forceinline static int nextIndex(int e) { return (9 >> (e + e)) & 3; }
+    __forceinline static int nextIndex(intptr_t e) { return (9 >> (e + e)) & 3; }
     __forceinline PolygonEdge getNext() const { return PolygonEdge(triangle, nextIndex(edge)); }
     __forceinline PolygonEdge getTwin() const {
         uintptr_t link = triangle->links[edge];
@@ -10081,7 +10081,7 @@ struct S00d82ad0_Edge {
 struct S00d82ad0_Less {
 };
 
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int elemSize);
+void __cdecl FUN_00c908c0(void* alloc, void* arr, intptr_t n, int elemSize);
 
 struct S00d82ad0_Alloc {
     virtual void v00();
@@ -10386,7 +10386,7 @@ struct HullMemory {
     int unk0c;
     HullAllocator* m_pAllocator;
 };
-void __cdecl FUN_00c908c0(HullAllocator* pAlloc, void* pArray, int iNewCap, int iElemSize) throw();
+void __cdecl FUN_00c908c0(HullAllocator* pAlloc, void* pArray, intptr_t iNewCap, int iElemSize) throw();
 void __cdecl ResizeAudioStream(HullAllocator* pAlloc, void* pArray, int iElemSize) throw();
 struct ErrReporter {
     virtual void v00();
@@ -10842,7 +10842,7 @@ struct PlanePointArray: D76250VectorArray {
     }
 };
 struct PlaneHull: ::PlaneHull {
-    int FUN_00d771c0(const PlaneVector*,int,int);
+    int FUN_00d771c0(const PlaneVector*,int,intptr_t);
     int FUN_00d774a0(const PlaneVector*,int,intptr_t);
 };
 // @fnv 0x00d774a0
@@ -10931,7 +10931,7 @@ struct HullFace {
 struct IndexEdge;
 template<class E> struct IndexEdgeBase {
     HullFace* m_face;
-    unsigned int m_ucOperationType;
+    uintptr_t m_ucOperationType;
     IndexEdgeBase() {}
     IndexEdgeBase(HullFace* f,int t):m_face(f),m_ucOperationType(t) {}
     IndexEdgeBase(uintptr_t packed) { m_ucOperationType=packed&3; m_face=(HullFace*)(packed&~3u); }
@@ -11252,7 +11252,7 @@ void HullBuilder::FUN_00d7d2a0()
             if (f->m_planeIndex != -1) {
                 continue;
             }
-            int pi = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((intptr_t)(f), -1);
+            intptr_t pi = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((intptr_t)(f), -1);
             __m128* ref = &facePlanes.m_data[pi];
             f->m_planeIndex = m_kPlaneArray.m_iElementCount;
             PushPlane(&m_kPlaneArray, *ref);
@@ -11267,7 +11267,7 @@ void HullBuilder::FUN_00d7d2a0()
                 if (nf->m_planeIndex != -1) {
                     continue;
                 }
-                int ni = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((intptr_t)(nf), -1);
+                intptr_t ni = reinterpret_cast<::FUN_00cb1930_t *>(&(map))->LookupHashEntry((intptr_t)(nf), -1);
                 HullVec4* other = (HullVec4*)&facePlanes.m_data[ni];
                 HullBool res;
                 if (other->FUN_00c7f520(&res, 1e-4f)->m_cBooleanValue != 0) {
@@ -12373,7 +12373,7 @@ struct S00d81510_Router {
     S00d81510_Allocator* m_pStreamAllocator;
     __forceinline S00d81510_Allocator& heap() { return *m_pStreamAllocator; }
 };
-extern "C" void __cdecl FUN_00c908c0(S00d81510_Allocator* alloc, void* array, int numElements, int sizeElem);
+extern "C" void __cdecl FUN_00c908c0(S00d81510_Allocator* alloc, void* array, intptr_t numElements, int sizeElem);
 
 template <typename T> __forceinline void S00d81510_construct(T* t, int n, S00d81510_TypeIsPod) {}
 template <typename T> __forceinline void S00d81510_destruct(T* t, int n, S00d81510_TypeIsPod) {}
@@ -13121,7 +13121,7 @@ struct S83_ElementOps {
 struct S83_HeapAccess {
     __forceinline S83_Alloc& get(const void*) { return S83_heap(); }
 };
-extern void __cdecl FUN_00c908c0(S83_Alloc&,void*,int,int);
+extern void __cdecl FUN_00c908c0(S83_Alloc&,void*,intptr_t,int);
 extern void __cdecl ResizeAudioStream(S83_Alloc&,void*,int);
 template <class T> struct S83_ArrayBase {
     T* m_data;
@@ -14337,7 +14337,7 @@ struct ExpandShape {
     const ExpandVector& FUN_00d752d0() const;
     __declspec(noinline) void GetValueBlock(ExpandVector*) const;
     __declspec(noinline) int FUN_00d75120(int) const;
-    void FUN_00d75b80(ExpandVector*,int) const;
+    void FUN_00d75b80(ExpandVector*,intptr_t) const;
     __declspec(noinline) int FUN_00d771c0(const ExpandVector*,int,const ExpandHeader&);
     __declspec(noinline) int FUN_00d77200(const ExpandView&,const ExpandHeader&);
     bool FUN_00d77be0(float radius);
@@ -14423,7 +14423,7 @@ seed.bits.w=source->first->point.bits.w;
         reinterpret_cast<::FUN_00d74e50_cls *>((void *)this)->GetValueBlock();
         points.reserve(3*reinterpret_cast<::FUN_00d75050_cls *>((void *)this)->FUN_00d75050());
         reinterpret_cast<::S00d76120_cls *>((void *)this)->FUN_00d76120(0,(::S00d76120_Arr &)(points));
-        for (int v=reinterpret_cast<::D75060Outer *>((void *)this)->FUN_00d75060();v;v=::FUN_00d75120((int *)this)) {
+        for (intptr_t v=reinterpret_cast<::D75060Outer *>((void *)this)->FUN_00d75060();v;v=::FUN_00d75120((int *)this)) {
             const ExpandVector* position=&(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)this)));
             const ExpandVector& pos=*position;
             points.AllocatePair().setAddMul(pos,normal,ExpandScalar(radius));

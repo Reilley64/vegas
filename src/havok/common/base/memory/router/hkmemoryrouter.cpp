@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/router/hkmemoryrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/router/hkmemoryrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00c85690_Allocator
@@ -13,14 +14,14 @@ struct FUN_00c85690_Allocator
 struct FUN_00c85690_Header
 {
     FUN_00c85690_Allocator* allocator;
-    unsigned int size;
+    uintptr_t size;
     int unk08;
     int unk0C;
 };
 
 // Allocates size plus a header from allocator, stores size and allocator in the header, and returns the pointer past the header.
 // @fnv 0x00c85690
-void* __cdecl AllocateWithHeader(FUN_00c85690_Allocator* allocator, unsigned int size)
+void* __cdecl AllocateWithHeader(FUN_00c85690_Allocator* allocator, uintptr_t size)
 {
     FUN_00c85690_Header* header = (FUN_00c85690_Header*)allocator->Allocate(size + sizeof(FUN_00c85690_Header));
     header->size = size;

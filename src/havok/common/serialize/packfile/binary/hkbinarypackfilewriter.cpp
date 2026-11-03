@@ -49,7 +49,7 @@ struct GlobalObjectO2_00d472a0
     int x;
 };
 extern int DAT_011b7a7c;
-extern int DAT_011b7aec;
+extern intptr_t DAT_011b7aec;
 extern void* DAT_010d65bc;
 struct FUN_00dbdf30_s
 {
@@ -284,7 +284,7 @@ void WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apS
     key.m_byTag = 9;
     apOwner->m_pCallee->Write(&key, 5);
     void* pNode = ((void *)(reinterpret_cast<::FnvClassNameNode *>((apSource))->FUN_00d46d40()));
-    int iDiff = apOwner->m_pCallee->Count() - aiDiff;
+    intptr_t iDiff = apOwner->m_pCallee->Count() - aiDiff;
     reinterpret_cast<::hkStringMapD874 *>(&(apOwner->m_store))->FUN_00d874d0((const char *)(pNode), iDiff);
     void** pVtable = *(void***)apOwner->m_pCallee;
     ((S_WriteFn)pVtable[4])(apOwner->m_pCallee, pNode, FUN_00cb10d0(pNode) + 1);
@@ -939,11 +939,11 @@ struct S_00db8670_MultiMapUlong
 
     int AllocateSlot() throw();
     void FUN_00dc9ec0(S_00db8670_Ulong key, const int& value) throw();
-    int GetNextChainIndex(int i) const throw()
+    int GetNextChainIndex(intptr_t i) const throw()
     {
         return m_kChainValues[i].next;
     }
-    int getValue(int i) const throw()
+    int getValue(intptr_t i) const throw()
     {
         return m_kChainValues[i].value;
     }
@@ -1096,9 +1096,9 @@ struct Dbc860Sink
     virtual void Call(int value, void* a, void* b, void* c);
 };
 
-extern "C" void __cdecl FUN_00cb1280(void* dst, int a, int b);
-extern "C" void __cdecl FUN_00cb1260(void* dst, void* src, int n);
-extern "C" void __cdecl CopyIfNonEmpty(void* dst, void* src, int n);
+extern "C" void __cdecl FUN_00cb1280(void* dst, int a, intptr_t b);
+extern "C" void __cdecl FUN_00cb1260(void* dst, void* src, intptr_t n);
+extern "C" void __cdecl CopyIfNonEmpty(void* dst, void* src, intptr_t n);
 
 // Builds a Dbc860Header and initializes a Dbc860Frame, then calls sink->Call with the value, header, DAT_0126c6c8, and frame.
 // @fnv 0x00dbc860
@@ -1584,7 +1584,7 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
 
                         do
                         {
-                            int q;
+                            intptr_t q;
                             int key = pGlobals->data[j].key;
                             q = reinterpret_cast<::FUN_00cb1930_t *>((pHash))->LookupHashEntry(key, -3);
                             if (0 <= q && source->pointers.data[q].first >= 0)
@@ -1614,7 +1614,7 @@ void WriterOwner::FUN_00dbc960(SourceData* source, int position)
                     out.data[offset] = b->data[k].location - kIter->base;
                     out.data[offset + 1] = 0;
                     int localKey = b->data[k].key;
-                    int mapped = reinterpret_cast<::hkObjectD878 *>(&(source->keys))->GetValue(localKey, -1);
+                    intptr_t mapped = reinterpret_cast<::hkObjectD878 *>(&(source->keys))->GetValue(localKey, -1);
                     out.data[2 + offset] = mapped;
                 }
                 source->stream->seek(kIter->localOffset + kIter->base, 0);
@@ -1670,7 +1670,7 @@ struct FUN_00d46d40_s
 
 struct FUN_00d874b0_class
 {
-    char* SetBoolFromThreshold(char* buf, int v);
+    char* SetBoolFromThreshold(char* buf, intptr_t v);
 };
 struct FUN_00dbdd40_s
 {
@@ -1801,7 +1801,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
         {
             if (((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name, {}))) != -1)
             {
-                int k = ((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name, {})));
+                intptr_t k = ((int)(::LookupWithDefault((::HashEntryTable *)&(patchesFromName), (S_00db8670_Ulong)name, {})));
                 if (k != -1)
                 {
                     int lastIndex = reinterpret_cast<::Cls_t *>(this)->FindEntry(uid, 0, {});
@@ -1837,7 +1837,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
          it = renames.m_pHashFunction.getNext(it))
     {
         S_00db8670_Ulong key = renames.m_pHashFunction.GetIteratorKey(it);
-        for (int k = ((int)(::LookupWithDefault((::HashEntryTable *)&(renames), key, {}))); k != -1; k = renames.GetNextChainIndex(k))
+        for (intptr_t k = ((int)(::LookupWithDefault((::HashEntryTable *)&(renames), key, {}))); k != -1; k = renames.GetNextChainIndex(k))
         {
             S_00db8670_MapUlong visited;
             int value = renames.getValue(k);
@@ -2000,7 +2000,7 @@ struct Sub20Obj
     virtual void c00();
     virtual void c04();
     virtual void c08();
-    virtual void write(ClockObj* c, int a, int b, Arr8* arr);
+    virtual void write(ClockObj* c, int a, intptr_t b, Arr8* arr);
     int unk04;
     int unk08;
     int unk0c;
@@ -2280,7 +2280,7 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
                 if (pEntry->t10 == counter)
                 {
                     int saved0 = pEntry->t00;
-                    int saved4 = pEntry->t04;
+                    intptr_t saved4 = pEntry->t04;
                     int ai = idx;
                     apSrc->arr10.m_data[ai].p0 = counter;
                     Pair8* pair = &apSrc->arr10.m_data[ai];
@@ -2326,7 +2326,7 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
                 objectBytes = jfix * 16;
                 for (; jfix >= 0; jfix--, objectBytes -= 16)
                 {
-                    int found = reinterpret_cast<::FUN_00cb1930_t *>((imports))->LookupHashEntry(
+                    intptr_t found = reinterpret_cast<::FUN_00cb1930_t *>((imports))->LookupHashEntry(
                         (unsigned long)((Record16*)((char*)work.a2.m_data + objectBytes))->GetIteratorKey(), 0);
                     if (found != 0)
                     {
@@ -2362,14 +2362,14 @@ void ThisCls::FUN_00dbcea0(Src* apSrc)
                 {
                     Pair8* pr = map2c.data + (intptr_t)idx;
                     int v = pr->p0;
-                    int foundIdx = reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&sub14)))->LookupHashEntry((unsigned long)v, (unsigned long)-1);
+                    intptr_t foundIdx = reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)&sub14)))->LookupHashEntry((unsigned long)v, (unsigned long)-1);
                     if (foundIdx >= 0)
                     {
                         ThisEntry* pEntry = &entries[foundIdx];
                         if (pEntry->t10 == counter)
                         {
                             intptr_t second = (map2c.data + (intptr_t)idx)->p1;
-                            int av = apSrc->arr10.m_data[foundIdx].p1;
+                            intptr_t av = apSrc->arr10.m_data[foundIdx].p1;
                             flag = true;
                             reinterpret_cast<::hkOArchive_2 *>((((FUN_00d60940_Class*)&ctx)))->WriteInt((unsigned int)av);
                             int r = FUN_00cb10d0((void*)second);
@@ -2477,7 +2477,7 @@ void Writer::FUN_00dbc7a0(Context* context)
     }
     ConstructHeaders(headers->data + headers->size, count - headers->size);
     headers->size = count;
-    unsigned int bytes = (::FUN_00dbd720)((uintptr_t)(headers));
+    uintptr_t bytes = (::FUN_00dbd720)((uintptr_t)(headers));
     FUN_00cb1280(headers->data, -1, (int)bytes);
     for (int i = 0; i < tagCount; ++i)
         (CopyIfNonEmpty)(headers->data[i].tag, tags[i], 19);

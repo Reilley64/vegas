@@ -142,7 +142,7 @@ int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, Dept
         void* pAllocator = pHolder->m_pAllocator;
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((apDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pAllocator)), (uintptr_t)(apItem), 0);
 
-        int iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)(apTable), (intptr_t)(apItem), {})));
+        intptr_t iIndex = ((int)(::LookupWithDefault((::HashEntryTable *)(apTable), (intptr_t)(apItem), {})));
         while (iIndex != -1)
         {
             void* pKey = apTable->m_pEntries[iIndex].m_pKey;
@@ -408,7 +408,7 @@ struct Owner_t
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    int FUN_00db7d60(uintptr_t a, unsigned int b);
+    intptr_t FUN_00db7d60(uintptr_t a, unsigned int b);
 };
 // @fnv 0x00db7dd0
 void DB7DD0Outer::FUN_00db7dd0()
@@ -416,7 +416,7 @@ void DB7DD0Outer::FUN_00db7dd0()
     reinterpret_cast<::Owner_t *>((m_inner))->FUN_00db7d60({}, {});
 }
 
-__declspec(noinline) int Owner_t::FUN_00db7d60(uintptr_t a, unsigned int b)
+__declspec(noinline) intptr_t Owner_t::FUN_00db7d60(uintptr_t a, unsigned int b)
 {
     return (int)a;
 }
@@ -455,8 +455,8 @@ int Cls_t::FindEntry(int a, int b, int aiFlag)
                 return idx;
             }
         }
-        unsigned int key = e->unk04;
-        unsigned int r = (unsigned int)m08->FUN_00db7d60(key, e->unk0C);
+        uintptr_t key = e->unk04;
+        uintptr_t r = (unsigned int)m08->FUN_00db7d60(key, e->unk0C);
         idx = ((int)(reinterpret_cast<::MapCB1C *>((pIndex))->FUN_00cb1cb0((int)r, (int)key)));
     }
     return -1;
@@ -748,7 +748,7 @@ int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter,
     {
         state->m_data[node] = -2;
         stack->AddBack(node);
-        for (int e = ((int)(::LookupWithDefault((::HashEntryTable *)(graph), node, {}))); e != -1; e = graph->m_kEdges[e].next)
+        for (intptr_t e = ((int)(::LookupWithDefault((::HashEntryTable *)(graph), node, {}))); e != -1; e = graph->m_kEdges[e].next)
         {
             int other = graph->m_kEdges[e].target;
             switch (state->m_data[other])
@@ -1072,8 +1072,8 @@ struct IndexedMemberArray
 };
 struct ClassCinfo
 {
-    int name;
-    int version;
+    intptr_t name;
+    intptr_t version;
     int parent;
     IndexedMemberArray members;
 };
@@ -1173,7 +1173,7 @@ struct ArgA
     virtual void v1() throw();
     virtual void v2() throw();
     virtual void v3() throw();
-    virtual VerObj* FUN_v4(int a) throw();
+    virtual VerObj* FUN_v4(intptr_t a) throw();
     virtual void v5() throw();
     virtual void v6() throw();
     virtual void v7() throw();
@@ -1257,7 +1257,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
     for (i = 0; i < pSource.m_iArrayLength; i++)
     {
         VObj* e = (VObj*)pSource.m_pData[i];
-        int lo = ((VObj*)pSource.m_pData[i])->FUN_v2();
+        intptr_t lo = ((VObj*)pSource.m_pData[i])->FUN_v2();
         int hi = ((VObj*)pSource.m_pData[i])->FUN_v3();
         int* dest = pairs.m_pData + pairs.m_iArrayLength * 2;
         if (dest)
@@ -1477,10 +1477,10 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         for (j5 = 0; j5 < pSource.m_iArrayLength; j5++)
         {
             VObj* e = (VObj*)pSource.m_pData[j5];
-            int r = e->FUN_v2();
+            intptr_t r = e->FUN_v2();
             if (((void *)(reinterpret_cast<::hkObjectD878 *>(&(mga))->GetValue(r, 0))))
             {
-                int r2 = ((VObj*)pSource.m_pData[j5])->FUN_v2();
+                intptr_t r2 = ((VObj*)pSource.m_pData[j5])->FUN_v2();
                 reinterpret_cast<::FUN_00d87820_Class *>(&(mga))->FUN_00d87820(r2);
             }
         }
@@ -1956,7 +1956,7 @@ unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
 {
     uintptr_t item = reinterpret_cast<uintptr_t>(reinterpret_cast<::FUN_00db7d00_class *>((reinterpret_cast<DB7D00_Shell*>(this)))->FUN_00db7d00(a1));
     unsigned int uiSize = m_vec.m_uiItemCount;
-    unsigned int r = ((unsigned int)(reinterpret_cast<::hkStringMapD876 *>(this)->GetOrSetInt((const char *)(item), uiSize)));
+    uintptr_t r = ((unsigned int)(reinterpret_cast<::hkStringMapD876 *>(this)->GetOrSetInt((const char *)(item), uiSize)));
     if (r == m_vec.m_uiItemCount)
     {
         ItemVec* v = &m_vec;

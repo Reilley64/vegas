@@ -169,7 +169,7 @@ int FUN_00dbbc60_Class::FUN_00dbbc60(int aiIndex)
 
 struct FUN_00d873b0_t
 {
-    int a;
+    intptr_t a;
     int b;
     FUN_00d873b0_t(intptr_t x, int y);
 };
@@ -472,7 +472,7 @@ struct hkDataClassNative
     int m_08;
     FUN_00d46f20_Class* m_0c;
 
-    void SetInvocationResult(int result);
+    void SetInvocationResult(intptr_t result);
     void InvokeMemberFunction(int a, int b);
 };
 
@@ -1083,7 +1083,7 @@ class FUN_00dbbb90
         return b;
     }
 
-    FUN_00dbbb90(int iWorld, void* pvData, int iSize, int iStride, int iType, intptr_t m_iMenuId, int iTupleCount) throw();
+    FUN_00dbbb90(int iWorld, void* pvData, int iSize, int iStride, intptr_t iType, intptr_t m_iMenuId, int iTupleCount) throw();
 
     int unk08;
     int unk0C;
@@ -1797,7 +1797,7 @@ float VertexDataDBC5C0::GetFloat(int iIndex)
 extern const char str_010a5824[];
 struct WriterC12
 {
-    virtual void write(const char* s, int len) throw();
+    virtual void write(const char* s, intptr_t len) throw();
 };
 static __declspec(noinline) void FUN_00cc0080(WriterC12* pkWriter, const char* pcString)
 {
@@ -2322,7 +2322,7 @@ struct S00dbbb90_Obj
     int m_14;
     int m_18;
     int m_1c;
-    int m_20;
+    intptr_t m_20;
     int m_24;
     int m_28;
     S00dbbb90_Obj* FUN_00dbbb90(int a1, int a2, int a3, int a4, int a5, intptr_t a6, int a7);
@@ -2422,7 +2422,7 @@ struct WorldC4D0
     virtual FoundClassC4D0* GetClassFromName(const char* name);
 };
 extern NativeC4D0* allocateNativeC4D0();
-extern void warnNativeC4D0(int, int);
+extern void warnNativeC4D0(int, intptr_t);
 static __declspec(noinline) intptr_t FUN_00dbb260(PairC4D0* r, int* blk)
 {
     if (r->hi)
@@ -2454,11 +2454,11 @@ struct FUN_00dbc4d0_Class
     int m_10;
     int* m_14;
 
-    int FUN_00dbc4d0(int name);
+    intptr_t FUN_00dbc4d0(int name);
 };
 // Looks up a member by name, extracts its value based on type, and returns a native object via FUN_00dbb260.
 // @fnv 0x00dbc4d0
-int FUN_00dbc4d0_Class::FUN_00dbc4d0(int name)
+intptr_t FUN_00dbc4d0_Class::FUN_00dbc4d0(int name)
 {
     MemberC4D0* member;
     VariantC4D0 v;

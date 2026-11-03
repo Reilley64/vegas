@@ -192,7 +192,7 @@ struct TreeChunk
 };
 
 // @fnv 0x00dd8310
-unsigned int GetMaxChunkSize(TreeChunk* apTreeChunk, uintptr_t maxSize)
+uintptr_t GetMaxChunkSize(TreeChunk* apTreeChunk, uintptr_t maxSize)
 {
     while (apTreeChunk)
     {
@@ -215,11 +215,11 @@ struct FUN_00dd8350_Alloc
     unsigned int unk14;
     void* m_treeBins[32];
 
-    unsigned int FUN_00dd8350();
+    uintptr_t FUN_00dd8350();
 };
 
 // @fnv 0x00dd8350
-unsigned int FUN_00dd8350_Alloc::FUN_00dd8350()
+uintptr_t FUN_00dd8350_Alloc::FUN_00dd8350()
 {
     unsigned int size = unk14;
     int idx = ((int)(::fnv_00dd7e00::FUN_00dd7e00(size)));
@@ -843,12 +843,12 @@ struct hkBlockAllocator
     int unkB8;
     int unkBC;
     int unkC0;
-    void* AllocateBlock(int a);
+    void* AllocateBlock(intptr_t a);
 };
 
 // Advances the allocator's counters and next pointer by a, writes size and flags into the new block header, and returns the previous block's payload.
 // @fnv 0x00dd83c0
-void* hkBlockAllocator::AllocateBlock(int aiSize)
+void* hkBlockAllocator::AllocateBlock(intptr_t aiSize)
 {
     unkBC += aiSize;
     unkC0 += aiSize - 0x10;

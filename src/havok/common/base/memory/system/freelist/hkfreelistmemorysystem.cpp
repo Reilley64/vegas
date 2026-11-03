@@ -386,7 +386,7 @@ Sub0b0c* Owner::FUN_00cd0740(const Pair* apPair, Flags flags)
     return &sub0b0c;
 }
 
-extern "C" unsigned int DAT_012686cc;
+extern "C" uintptr_t DAT_012686cc;
 
 struct S_00cd0a60_sub8
 {
@@ -1137,7 +1137,7 @@ struct S_00cd0a60_sub0b00
 {
     int unk00;
     int unk04;
-    int unk08;
+    intptr_t unk08;
     __forceinline S_00cd0a60_sub0b00()
     {
         new ((void *)this) ::FUN_00cbbfa0_class();

@@ -45,7 +45,7 @@ void __cdecl VisitTypeMembers(TypeNode* node, VisitMap* visited, unsigned int ma
 {
     for (;;)
     {
-        unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(node), 0)));
+        uintptr_t flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(node), 0)));
         if (mask & flags)
             return;
         BSAudio* audio = FUN_00c85750();
@@ -99,7 +99,7 @@ extern char DAT_010ea4cc[], DAT_010e5210[];
 // @fnv 0x00e04bb0
 void VisitTypeNode(TypeNode* node, VisitMap* visited)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(node), 0)));
+    uintptr_t flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(node), 0)));
     if (!(flags & 1))
     {
         BSAudio* audio = FUN_00c85750();
@@ -176,7 +176,7 @@ struct TypeRegistry
 // @fnv 0x00e04cc0
 static __declspec(noinline) void __cdecl FUN_00e04cc0(TraverseNode* node, VisitMap* visited)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(reinterpret_cast<TypeNode*>(node)), 0)));
+    uintptr_t flags = ((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((visited))->LookupHashEntry((intptr_t)(reinterpret_cast<TypeNode*>(node)), 0)));
     if ((flags & 4) == 0)
     {
         BSAudio* audio = FUN_00c85750();

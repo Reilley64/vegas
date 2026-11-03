@@ -355,7 +355,7 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
     int pos = 0;
     InlineStorageString name;
     InlineStorageString value;
-    const int length = ::fnv_00cb10d0::FUN_00cb10d0(str);
+    const intptr_t length = ::fnv_00cb10d0::FUN_00cb10d0(str);
 
     do
     {

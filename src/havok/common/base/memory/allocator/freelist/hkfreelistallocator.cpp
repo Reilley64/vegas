@@ -418,7 +418,7 @@ class FUN_00d60270_cls : public HeapBase60270
     int unk018;
     int m_1c;
     int m_20;
-    int m_24;
+    intptr_t m_24;
     int unk028;
     int unk02C;
     int unk030;

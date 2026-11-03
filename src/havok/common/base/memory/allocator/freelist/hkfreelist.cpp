@@ -699,7 +699,7 @@ struct B60Large
 
 struct B60State
 {
-    int current;
+    intptr_t current;
     intptr_t link;
     int limit;
 };
@@ -1262,14 +1262,14 @@ struct S00dd74b0_cls
     int unk24;
     int unk28;
     int unk2C;
-    int unk30;
+    intptr_t unk30;
 
-    void FUN_00dd74b0(int a2, int a3, int a4, int a5);
+    void FUN_00dd74b0(int a2, int a3, int a4, intptr_t a5);
 };
 
 // Initializes fields, stores a4 and a5, computes a rounded-up size from a2 and a3, and sets unk1C to a pointer offset by a3.
 // @fnv 0x00dd74b0
-void S00dd74b0_cls::FUN_00dd74b0(int a2, int aiAlignment, int a4, int a5)
+void S00dd74b0_cls::FUN_00dd74b0(int a2, int aiAlignment, int a4, intptr_t a5)
 {
     unk00 = 0;
     unk0C = 0;

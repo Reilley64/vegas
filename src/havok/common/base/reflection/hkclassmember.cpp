@@ -44,7 +44,7 @@ int __cdecl FUN_00d86980();
 
 // Stores v into p as a char, short or int depending on the size returned by FUN_00d86980.
 // @fnv 0x00d86bc0
-void FUN_00d86bc0(intptr_t apTarget, int aiValue)
+void FUN_00d86bc0(intptr_t apTarget, intptr_t aiValue)
 {
     switch (FUN_00d86980())
     {

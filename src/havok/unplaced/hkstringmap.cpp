@@ -15,11 +15,11 @@ struct FUN_00d87430_class
     int* m_p;
     int m_kPointB;
     int m_iThirdValue;
-    intptr_t GetEntry(int idx);
+    intptr_t GetEntry(intptr_t idx);
 };
 
 // @fnv 0x00d87430
-intptr_t FUN_00d87430_class::GetEntry(int idx)
+intptr_t FUN_00d87430_class::GetEntry(intptr_t idx)
 {
     return m_p[m_iThirdValue + idx + 1];
 }
@@ -29,10 +29,10 @@ struct FUN_00d87440_Class
     void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    intptr_t FUN_00d87440(int a);
+    intptr_t FUN_00d87440(intptr_t a);
 };
 // @fnv 0x00d87440
-intptr_t FUN_00d87440_Class::FUN_00d87440(int aiIndex)
+intptr_t FUN_00d87440_Class::FUN_00d87440(intptr_t aiIndex)
 {
     return *(int*)((char*)m_iWordAt00 + aiIndex * 4 + m_8 * 8 + 8);
 }
@@ -69,11 +69,11 @@ struct FUN_00d874b0_class
     int m_cByteAtOffset1;
     int m_cByteAtOffset2;
     int m_cByteAtOffset3;
-    char* SetBoolFromThreshold(char* p, int value);
+    char* SetBoolFromThreshold(char* p, intptr_t value);
 };
 
 // @fnv 0x00d874b0
-char* FUN_00d874b0_class::SetBoolFromThreshold(char* pbOut, int value)
+char* FUN_00d874b0_class::SetBoolFromThreshold(char* pbOut, intptr_t value)
 {
     *pbOut = value <= m_cByteAtOffset2;
     return pbOut;
@@ -84,11 +84,11 @@ struct FUN_00d87460_class
     intptr_t m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void SetElement(int idx, int val);
+    void SetElement(intptr_t idx, int val);
 };
 
 // @fnv 0x00d87460
-void FUN_00d87460_class::SetElement(int aiIndex, int aiValue)
+void FUN_00d87460_class::SetElement(intptr_t aiIndex, int aiValue)
 {
     *(int*)((int*)m_iWordAt00 + m_8 * 2 + 2 + aiIndex) = aiValue;
 }
@@ -297,7 +297,7 @@ class hkStringMapD876
     int unk04;
     int unk08;
 
-    int GetOrSetInt(const char* key, int def);
+    intptr_t GetOrSetInt(const char* key, int def);
 };
 
 struct hkBoolD8765
@@ -381,12 +381,12 @@ struct S00d876a0_Map
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00d876a0(int it);
+    void FUN_00d876a0(intptr_t it);
 };
 // @fnv 0x00d87820
 int FUN_00d87820_Class::FUN_00d87820(intptr_t a)
 {
-    int v = FindStringKey(a);
+    intptr_t v = FindStringKey(a);
     char r;
     if (*reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold(&r, v))
     {
@@ -398,16 +398,16 @@ int FUN_00d87820_Class::FUN_00d87820(intptr_t a)
 
 // Removes the element at index it from the open-addressing hash table, compacting remaining entries to fill the gap.
 // @fnv 0x00d876a0
-void S00d876a0_Map::FUN_00d876a0(int aiIndex)
+void S00d876a0_Map::FUN_00d876a0(intptr_t aiIndex)
 {
-    unsigned i = aiIndex;
+    uintptr_t i = aiIndex;
 
     // remove it
     --m_iCapacityFlags;
     m_kPrimitiveElement[i] = unsigned(-1);
 
     // find lowest element of this unbroken run
-    unsigned lo = (i + m_iPairCount) & m_iPairCount;
+    uintptr_t lo = (i + m_iPairCount) & m_iPairCount;
     while (m_kPrimitiveElement[lo] != unsigned(-1))
     {
         lo = (lo + m_iPairCount) & m_iPairCount;
@@ -415,7 +415,7 @@ void S00d876a0_Map::FUN_00d876a0(int aiIndex)
     lo = (lo + 1) & m_iPairCount;
 
     // the slot which has become empty
-    unsigned empty = i;
+    uintptr_t empty = i;
 
     // shift up, closing any gaps we find
     for (i = (i + 1) & m_iPairCount; m_kPrimitiveElement[i] != unsigned(-1); i = (i + 1) & m_iPairCount)
@@ -462,7 +462,7 @@ class hkStringMapD874
 };
 // Looks up key; if found returns its value, otherwise stores def under key and returns def.
 // @fnv 0x00d87600
-int hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
+intptr_t hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
 {
     intptr_t it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(key));
     if ((*(::hkBoolD876 *)(reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(it), {}))))
@@ -570,7 +570,7 @@ class FUN_00d87790
     static void operator delete(void* p);
 
 
-    bool isValid(int iIt)
+    bool isValid(intptr_t iIt)
     {
         char cValid;
         reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold(&cValid, iIt);
@@ -639,7 +639,7 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
     if (!m_pkPool)
         m_pkPool = new StringMapE028();
     StringMapE028* pkPool = m_pkPool;
-    int iIt = reinterpret_cast<::FUN_00d87820_Class *>((pkPool))->FindStringKey((intptr_t)(pcName));
+    intptr_t iIt = reinterpret_cast<::FUN_00d87820_Class *>((pkPool))->FindStringKey((intptr_t)(pcName));
     const char* pcPooled;
     if (!pkPool->isValid(iIt))
     {

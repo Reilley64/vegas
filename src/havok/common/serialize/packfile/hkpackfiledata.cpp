@@ -42,10 +42,10 @@ struct FUN_00e05140_Class
     void* m_kPointA;
     void* m_kPointB;
     void* m_iThirdValue;
-    unsigned long FUN_00e05140();
+    uintptr_t FUN_00e05140();
 };
 // @fnv 0x00e05140
-unsigned long FUN_00e05140_Class::FUN_00e05140()
+uintptr_t FUN_00e05140_Class::FUN_00e05140()
 {
     if (m_iThirdValue)
         return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00cb1930_Class*)((char*)this + 0x10))))->LookupHashEntry((intptr_t)(m_iThirdValue), 0)));

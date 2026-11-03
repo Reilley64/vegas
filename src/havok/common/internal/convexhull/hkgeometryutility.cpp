@@ -303,7 +303,7 @@ struct __declspec(align(16)) S00d5c060_Result
     unsigned int unk0C;
 };
 
-char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, int size);
+char* __cdecl AllocateWithHeader(D5C110Allocator* alloc, intptr_t size);
 char* __cdecl FUN_00c856c0(D5C110Allocator* owner, char* data);
 
 // Allocates a buffer, copies vertex coordinates from src->m_pData into it, and passes it to FUN_00d5beb0 to produce a result.
@@ -336,7 +336,7 @@ namespace fnv_00d5d270 {
 
 extern float DAT_01011d78;
 extern float DAT_01012068;
-extern "C" int ae60_mix(int);
+extern "C" int ae60_mix(intptr_t);
 extern "C" void _ReadWriteBarrier(void);
 
 struct S4

@@ -48,7 +48,7 @@ void FUN_00d06fb0_cls::DispatchWithMode(void* apFirst, void* apSecond, int aiCou
     Dispatch(1, apFirst, apSecond, aiCount, iMode);
 }
 
-extern "C" int __cdecl FUN_00d06f80(const char* s, int len);
+extern "C" int __cdecl FUN_00d06f80(const char* s, intptr_t len);
 
 class Handler
 {
@@ -58,7 +58,7 @@ class Handler
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void Emit(int kind, int a, const char* s, int len, int hash);
+    virtual void Emit(int kind, intptr_t a, const char* s, intptr_t len, int hash);
     void EmitString(intptr_t a, unsigned int* str);
 };
 
@@ -69,7 +69,7 @@ void Handler::EmitString(intptr_t a, unsigned int* str)
     const char* s = (const char*)(*str & ~1u);
     if (s)
     {
-        int len = ::fnv_00cb10d0::FUN_00cb10d0(s);
+        intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(s);
         Emit(3, a, s, len, FUN_00d06f80(s, len));
     }
 }
@@ -236,7 +236,7 @@ struct S_00d06dd0_Heap
     virtual void v8();
     virtual void v9();
     virtual void v10();
-    virtual int vfn2c(int a, int b);
+    virtual int vfn2c(intptr_t a, int b);
 };
 
 struct S_00d06dd0_Router
@@ -261,7 +261,7 @@ struct S_00d06dd0_Obj
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual void slot14(int a, int b, int c, int d, int e);
+    virtual void slot14(int a, int b, intptr_t c, int d, int e);
     void DispatchIfNotFlagged(intptr_t a, unsigned int flags);
 };
 
@@ -296,7 +296,7 @@ struct FUN_00d06e10_obj
     virtual void v20();
     virtual void v24();
     virtual void v28();
-    virtual int v2c(int a, int b);
+    virtual int v2c(intptr_t a, int b);
 };
 
 struct FUN_00d06e10_holder
@@ -413,7 +413,7 @@ struct FUN_00d06ff0_cls
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void V14(int aiZero, int aiA, int aiB, int aiC, int aiR);
+    virtual void V14(int aiZero, int aiA, intptr_t aiB, int aiC, int aiR);
 
     void FUN_00d06ff0(int aiA, intptr_t aiB, int aiC, int aiD);
 };

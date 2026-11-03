@@ -2,6 +2,7 @@
 // src/havok/common/serialize/serialize/hkrelocationinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/hkrelocationinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00d87430_class.h"
@@ -131,7 +132,7 @@ unsigned int FUN_00e029d0_cls::FUN_00e029d0()
         {
             do
             {
-                unsigned int item = ((unsigned int)(reinterpret_cast<::FUN_00d87430_class *>(this)->GetEntry(handle)));
+                uintptr_t item = ((unsigned int)(reinterpret_cast<::FUN_00d87430_class *>(this)->GetEntry(handle)));
                 AllocHolder* pAllocHolder = FUN_00c85750();
                 ::CallSwappedArgs(item, pAllocHolder->m_10);
                 handle = ((unsigned int)(reinterpret_cast<::SlotBitmap *>(this)->FindNextUsedSlot(handle)));

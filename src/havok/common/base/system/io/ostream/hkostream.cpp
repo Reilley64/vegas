@@ -804,7 +804,7 @@ class hkWriter0080
     virtual void slot04();
     virtual void slot08();
     virtual void slot0C();
-    virtual void write(const char* data, int len);
+    virtual void write(const char* data, intptr_t len);
 };
 
 static __declspec(noinline) void FUN_00cc0080(hkWriter0080* out, const char* str)

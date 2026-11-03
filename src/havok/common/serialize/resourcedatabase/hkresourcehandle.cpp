@@ -1644,7 +1644,7 @@ struct S00e2e0b0_Entry
     uintptr_t unk00;
     uintptr_t unk04;
 };
-void FUN_00c908c0(void*, S00e2e0b0_Array*, int, int);
+void FUN_00c908c0(void*, S00e2e0b0_Array*, intptr_t, int);
 struct S00e2e0b0_Stream
 {
     int unk00;

@@ -1460,7 +1460,7 @@ struct E25FB0Node {
 
 struct E25FB0Edge {
     E25FB0Node* m_node;
-    unsigned int m_uiEdgeIndex;
+    uintptr_t m_uiEdgeIndex;
 };
 
 inline E25FB0Edge E25FB0MakeEdge(uintptr_t packed)
@@ -1660,7 +1660,7 @@ struct ListNode {
     int unk28;
     int unk2c;
     int unk30;
-    int m_i34;
+    intptr_t m_i34;
 };
 
 struct FUN_00e12230_cls {
@@ -1677,12 +1677,12 @@ struct FUN_00e12230_cls {
     int unk28;
     ListNode* m_pHead;
 
-    void ReplaceValueInList(int oldValue, int newValue);
+    void ReplaceValueInList(int oldValue, intptr_t newValue);
 };
 
 // Walks the linked list from m_pHead and replaces every node's m_i34 equal to oldValue with newValue.
 // @fnv 0x00e12230
-void FUN_00e12230_cls::ReplaceValueInList(int oldValue, int newValue)
+void FUN_00e12230_cls::ReplaceValueInList(int oldValue, intptr_t newValue)
 {
     ListNode* node = m_pHead;
     while (node != 0) {
@@ -1728,10 +1728,10 @@ struct S_00e13910_Triangle {
 
 struct S_00e13910_Edge {
     S_00e13910_Triangle* m_pkTriangle;
-    hkUint32 m_uiEdgeIndex;
+    uintptr_t m_uiEdgeIndex;
 
     S_00e13910_Edge() : m_pkTriangle(0), m_uiEdgeIndex(0) {}
-    S_00e13910_Edge(S_00e13910_Triangle* t, hkUint32 i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
+    S_00e13910_Edge(S_00e13910_Triangle* t, uintptr_t i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
     S_00e13910_Edge(uintptr_t l) {
         m_uiEdgeIndex = l & 3u;
         m_pkTriangle = (S_00e13910_Triangle*)(l & ~3u);
@@ -5269,7 +5269,7 @@ struct MeshFaceList {
         reinterpret_cast<::FUN_00e22f90_cls *>(this)->FUN_00e22f90((::PoolItemAB *)(face));
     }
 };
-struct FanAnchor474 { S_00e13910_Triangle* triangle; void* vertex; unsigned int index; };
+struct FanAnchor474 { S_00e13910_Triangle* triangle; void* vertex; uintptr_t index; };
 struct EdgeMesh {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     MeshFaceList faces;
@@ -5386,7 +5386,7 @@ struct T27Node {
 
 struct T27Edge {
     T27Node* m_node;
-    unsigned int m_uiEdgeIndex;
+    uintptr_t m_uiEdgeIndex;
 };
 
 inline T27Edge T27MakeEdge(uintptr_t packed) {
@@ -5441,7 +5441,7 @@ unsigned __int64 T27Cls::FUN_00e27ae0(T27Edge edge, T27Item* items) {
         }
 
         T27Node* node = ((volatile T27Edge*)&edge)->m_node;
-        unsigned int index = edge.m_uiEdgeIndex;
+        uintptr_t index = edge.m_uiEdgeIndex;
         unsigned int packed = node->m_ppLinks[index];
         result.parts.previous = node;
         result.parts.last = packed;
@@ -5599,7 +5599,7 @@ struct HullFloodTriangle {
 
 struct HullFloodEdge {
     HullFloodTriangle* m_node;
-    int m_k;
+    intptr_t m_k;
     HullFloodEdge(HullFloodTriangle* node,int k):m_node(node),m_k(k) {}
 };
 struct HullFloodStack {
@@ -5650,7 +5650,7 @@ int HullConnectivity::FUN_00e12960() {
             stack.m_iElementCount--;
             if (!e.m_node) continue;
             if (e.m_node->m_vis != -1) continue;
-            int tt = e.m_k + e.m_k;
+            intptr_t tt = e.m_k + e.m_k;
             int a = (9 >> tt) & 3;
             e.m_node->m_vis = counter - 1;
             stack.AddBack(HullFloodEdge(e.m_node, a));
@@ -6932,9 +6932,9 @@ struct hkArray {
 };
 
 struct hkGeometryTriangle {
-    int m_kPointA;
-    int m_kPointB;
-    int m_iThirdValue;
+    intptr_t m_kPointA;
+    intptr_t m_kPointB;
+    intptr_t m_iThirdValue;
     int m_iMaterialIndex;
 };
 
@@ -6986,7 +6986,7 @@ struct PointerKeyIntegerMap {
 
     void reserve(int n) { reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((intptr_t)&(FUN_00c85750().getHeap()), n); }
     void insert(const void* key, int val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(FUN_00c85750().getHeap()), (uintptr_t)(key), val); }
-    int FindValueForKey(const void* key, int def) const { return reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_map))->LookupHashEntry((intptr_t)(key), def); }
+    intptr_t FindValueForKey(const void* key, int def) const { return reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_map))->LookupHashEntry((intptr_t)(key), def); }
     int GetLogicalSize() const { return m_map.GetLogicalSize(); }
     ~PointerKeyIntegerMap() { reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().getHeap())); }
 };
@@ -7071,7 +7071,7 @@ struct __declspec(align(16)) Mat3Diffs {
 float __cdecl FUN_00e13870(char* self, unsigned int idx)
 {
     uintptr_t tagged = *(unsigned int*)(self + 0x14 + idx * 4);
-    unsigned int tag = tagged & 3;
+    uintptr_t tag = tagged & 3;
     char* ptr = (char*)(tagged & 0xfffffffcu);
     if (ptr == 0) {
         return 0.0f;
@@ -7402,12 +7402,12 @@ struct LocTriangle
 struct LocEdge
 {
     LocTriangle* m_pkTriangle;
-    int m_uiEdgeIndex;
+    intptr_t m_uiEdgeIndex;
     LocEdge() {}
     LocEdge(const LocEdge& o) { m_pkTriangle = o.m_pkTriangle; m_uiEdgeIndex = o.m_uiEdgeIndex; }
-    LocEdge(LocTriangle* t, int i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
-    static int next(int i) { return (9 >> (i << 1)) & 3; }
-    static int prev(int i) { return (18 >> (i << 1)) & 3; }
+    LocEdge(LocTriangle* t, intptr_t i) : m_pkTriangle(t), m_uiEdgeIndex(i) {}
+    static int next(intptr_t i) { return (9 >> (i << 1)) & 3; }
+    static int prev(intptr_t i) { return (18 >> (i << 1)) & 3; }
     LocEdge nextEdge() const { return LocEdge(m_pkTriangle, next(m_uiEdgeIndex)); }
     LocEdge prevEdge() const { return LocEdge(m_pkTriangle, prev(m_uiEdgeIndex)); }
     LocEdge link() const
@@ -9172,11 +9172,11 @@ struct S_00e248b0_Tri {
     unsigned int link[3];
 };
 
-static __forceinline int S_00e248b0_next(int e) { return (9 >> (e * 2)) & 3; }
+static __forceinline int S_00e248b0_next(intptr_t e) { return (9 >> (e * 2)) & 3; }
 
 struct S_00e248b0_Edge {
     S_00e248b0_Tri* tri;
-    int e;
+    intptr_t e;
     S_00e248b0_Edge() {}
     S_00e248b0_Edge(S_00e248b0_Tri* t, int i) : tri(t), e(i) {}
     bool isNaked() const { return (tri->link[e] & ~3u) == 0; }
@@ -9189,7 +9189,7 @@ struct S_00e248b0_Edge {
 
 struct S_00e248b0_Elem {
     S_00e248b0_Tri* tri;
-    int e;
+    intptr_t e;
     int unk08;
     int unk0C;
     int unk10;
@@ -9262,7 +9262,7 @@ static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248
                 S_00e248b0_Tri* t1 = d[1].tri;
                 if (t1 == 0)
                     goto done;
-                int e1 = d[1].e;
+                intptr_t e1 = d[1].e;
                 int n1 = S_00e248b0_next(e1);
                 if (d[0].tri->v[d[0].e] == t1->v[n1])
                 {
@@ -11536,12 +11536,12 @@ struct Mesh {
     int m_254;
     int unk258;
     TriE275* grid[256];
-static __forceinline int gridCell(int horizontal,int vertical) {
+static __forceinline intptr_t gridCell(intptr_t horizontal,intptr_t vertical) {
  horizontal >>= 11; vertical >>= 11; return (vertical<<4)+horizontal;
 }
 __forceinline void indexFace(TriE275* face) {
- const int horizontal=(face->vertex(0)->x+face->vertex(1)->x+face->vertex(2)->x)/3;
- const int vertical=(face->vertex(0)->y+face->vertex(1)->y+face->vertex(2)->y)/3;
+ const intptr_t horizontal=(face->vertex(0)->x+face->vertex(1)->x+face->vertex(2)->x)/3;
+ const intptr_t vertical=(face->vertex(0)->y+face->vertex(1)->y+face->vertex(2)->y)/3;
  grid[gridCell(horizontal,vertical)]=face;
  face->root=1;
 }
@@ -12226,7 +12226,7 @@ struct S_00e15830_Node {
 struct S_00e15830_Edge {
     S_00e15830_Node* m_node;
     int m_uiEdgeIndex;
-    S_00e15830_Edge(S_00e15830_Node* n, int i) throw() : m_node(n), m_uiEdgeIndex(i) {}
+    S_00e15830_Edge(S_00e15830_Node* n, intptr_t i) throw() : m_node(n), m_uiEdgeIndex(i) {}
     uintptr_t link() const throw() { return m_node->m_ppLinks[m_uiEdgeIndex]; }
     S_00e15830_Edge linked() const throw() { return S_00e15830_Edge((S_00e15830_Node*)(link() & ~3u), link() & 3); }
     bool sameMaterial() const throw()
@@ -13056,7 +13056,7 @@ struct S_00e1a7a0_Triangle {
 
 struct S_00e1a7a0_Edge {
     S_00e1a7a0_Triangle* m_pkTriangle;
-    int m_uiEdgeIndex;
+    intptr_t m_uiEdgeIndex;
     S_00e1a7a0_Edge() throw() {}
     S_00e1a7a0_Edge(S_00e1a7a0_Triangle* t, int i) throw() : m_pkTriangle(t), m_uiEdgeIndex(i) {}
     uintptr_t uid() const throw() { return (uintptr_t)m_pkTriangle + m_uiEdgeIndex; }
@@ -13483,14 +13483,14 @@ struct S_e1ce10_Edge {
     int m_uiItemCount;
     S_e1ce10_Edge() : m_kPointA(0), m_kPointB(0), m_kEdge(0, 0), m_uiItemCount(0) {}
     S_e1ce10_Edge(S_e1ce10_Vertex* a, S_e1ce10_Vertex* b) : m_kPointA(a), m_kPointB(b), m_kEdge(0, 0) { m_uiItemCount = 0; }
-    static __forceinline int hashOf(const S_e1ce10_Edge& e)
+    static __forceinline intptr_t hashOf(const S_e1ce10_Edge& e)
     {
         intptr_t a = (intptr_t)e.m_kPointA;
         intptr_t b = (intptr_t)e.m_kPointB;
         if (a > b) S_e1ce10_swap(a, b);
         return ((a * 45564901) ^ (b * 95564881)) % 5564887;
     }
-    __forceinline int hash() const
+    __forceinline intptr_t hash() const
     {
         return hashOf(*this);
     }
@@ -13512,12 +13512,12 @@ struct S_e1ce10_EdgeHash {
         for (int i = 0; i < size; ++i)
             m_buckets[i].clear();
     }
-    __forceinline S_e1ce10_Array<S_e1ce10_Edge>& lookupBucket(int hash) throw()
+    __forceinline S_e1ce10_Array<S_e1ce10_Edge>& lookupBucket(intptr_t hash) throw()
     {
         const unsigned idx = ((unsigned)hash) % m_buckets.GetLogicalSize();
         return m_buckets[idx];
     }
-    __forceinline S_e1ce10_Edge* find(int hash, const S_e1ce10_Edge& value) throw()
+    __forceinline S_e1ce10_Edge* find(intptr_t hash, const S_e1ce10_Edge& value) throw()
     {
         S_e1ce10_Array<S_e1ce10_Edge>& values = lookupBucket(hash);
         const int index = values.indexOf(value);
@@ -13526,7 +13526,7 @@ struct S_e1ce10_EdgeHash {
         else
             return &values[index];
     }
-    __forceinline S_e1ce10_Edge* insert(int hash, const S_e1ce10_Edge& value) throw()
+    __forceinline S_e1ce10_Edge* insert(intptr_t hash, const S_e1ce10_Edge& value) throw()
     {
         ++m_numItems;
         S_e1ce10_Array<S_e1ce10_Edge>& values = lookupBucket(hash);
@@ -14047,10 +14047,10 @@ struct BigObj {
 
 return vb;
 }
-    Int3 LocatePoint(int a, int b);
-    Int2 FUN_00e24aa0(int a, int b, int c, int d);
+    Int3 LocatePoint(intptr_t a, intptr_t b);
+    Int2 FUN_00e24aa0(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
     void FUN_00e27b50(const LocalVec4& a,const LocalVec4& b,float f,bool n);
-    Int3 FUN_00e27ea0(int a, int b, int flag, void *tmp, int z);
+    Int3 FUN_00e27ea0(intptr_t a, intptr_t b, int flag, void *tmp, int z);
 };
 
 __forceinline void InitBigObj(BigObj *obj)
@@ -14116,7 +14116,7 @@ struct TriNode {
 
 
 struct BoundaryEdge {
-    TriNode *face; int index;
+    TriNode *face; intptr_t index;
     BoundaryEdge() {}
     BoundaryEdge(TriNode *f, int e) : face(f), index(e) {}
     BoundaryEdge(intptr_t packed) { index=packed & 3; face=(TriNode*)(packed & ~3); }
@@ -15806,7 +15806,7 @@ struct ConstraintVertex {
 
     ConstraintPoint pos;
 
-    __forceinline int isEqual(int x,int y) const {return pos.x==x && pos.y==y;}
+    __forceinline int isEqual(intptr_t x,int y) const {return pos.x==x && pos.y==y;}
 
 };
 
@@ -15822,7 +15822,7 @@ struct ConstraintFace : ConstraintTriangle {
 
 };
 
-__forceinline int orient(const ConstraintVertex*,const ConstraintVertex*,const ConstraintVertex*);
+__forceinline intptr_t orient(const ConstraintVertex*,const ConstraintVertex*,const ConstraintVertex*);
 
 struct ConstraintEdge;
 template<class E> struct ConstraintEdgeCore {
@@ -15833,7 +15833,7 @@ __forceinline ConstraintEdgeCore(const unsigned long& word) {unpack(word,m_pkTri
 static __forceinline void unpack(unsigned long word,ConstraintTriangle*& t,unsigned& index) {index=word&3;word&=~3ul;t=*(ConstraintTriangle**)&word;}
 
 ConstraintTriangle* m_pkTriangle;
-unsigned m_uiEdgeIndex;
+uintptr_t m_uiEdgeIndex;
 __forceinline ConstraintVertex* const& end() const {return (ConstraintVertex* const&)m_pkTriangle->m_kVertices[(9>>(m_uiEdgeIndex<<1))&3];}
 __forceinline ConstraintVertex* const& apex() const {return (ConstraintVertex* const&)m_pkTriangle->m_kVertices[(18>>(m_uiEdgeIndex<<1))&3];}
 __forceinline void turnLeft() {uintptr_t link=m_pkTriangle->m_ppLinks[m_uiEdgeIndex];m_uiEdgeIndex=(9>>((link&3)<<1))&3;m_pkTriangle=(ConstraintTriangle*)(link&~3u);}
@@ -15847,7 +15847,7 @@ __forceinline ConstraintVertex* const& vertex() const { return (ConstraintVertex
 __forceinline unsigned rawLink() const {return m_pkTriangle->m_ppLinks[m_uiEdgeIndex];}
 __forceinline void bindPacked(uintptr_t packed) const {
 
-        unsigned index=packed&3u;
+        uintptr_t index=packed&3u;
 
         ConstraintTriangle* other=(ConstraintTriangle*)(packed&~3u);
 
@@ -15962,7 +15962,7 @@ __forceinline const ConstraintEdge& nullConstraintEdge() {
 
 }
 
-__forceinline int orientRaw(int ax,int ay,int bx,int by,int cx,int cy) {
+__forceinline intptr_t orientRaw(int ax,int ay,intptr_t bx,intptr_t by,intptr_t cx,int cy) {
 
     bx-=ax; by-=ay; cx-=ax; cy-=ay;
 
@@ -15970,25 +15970,25 @@ __forceinline int orientRaw(int ax,int ay,int bx,int by,int cx,int cy) {
 
 }
 
-__forceinline int orient(const ConstraintVertex* a,const ConstraintVertex* b,int x,int y) {
+__forceinline intptr_t orient(const ConstraintVertex* a,const ConstraintVertex* b,intptr_t x,int y) {
 
     return orientRaw(a->pos.x,a->pos.y,b->pos.x,b->pos.y,x,y);
 
 }
 
-__forceinline int orient(const ConstraintVertex* a,const ConstraintVertex* b,const ConstraintVertex* c) {
+__forceinline intptr_t orient(const ConstraintVertex* a,const ConstraintVertex* b,const ConstraintVertex* c) {
 
     return orientRaw(a->pos.x,a->pos.y,b->pos.x,b->pos.y,c->pos.x,c->pos.y);
 
 }
 
-__forceinline int orientInput(const ConstraintVertex* a,int bx,int by,int cx,int cy) {
+__forceinline intptr_t orientInput(const ConstraintVertex* a,intptr_t bx,intptr_t by,intptr_t cx,int cy) {
 
     return orientRaw(a->pos.x,a->pos.y,bx,by,cx,cy);
 
 }
 
-__forceinline int allowed(int ax,int ay,int bx,int by) {
+__forceinline int allowed(intptr_t ax,int ay,intptr_t bx,intptr_t by) {
 
     if(ax==bx) {if(ax==0 && ay<by) return 0;else if(ax==32767 && ay>by) return 0;}
 
@@ -16214,7 +16214,7 @@ struct ConstraintMesh {
 
     ConstraintTriangle* cells[256];
 
-    ConstraintResult LocatePoint(int,int);
+    ConstraintResult LocatePoint(intptr_t,intptr_t);
 
     void FUN_00e25cd0(ConstraintEdge*,const int*);
 
@@ -16283,7 +16283,7 @@ struct ConstraintMesh {
 
     }
 
-    ConstraintResult* FUN_00e26010(ConstraintResult* out,int x0,int y0,int x1,int y1,bool optimizeEdge,const int* data);
+    ConstraintResult* FUN_00e26010(ConstraintResult* out,intptr_t x0,intptr_t y0,intptr_t x1,int y1,bool optimizeEdge,const int* data);
 
 };
 // Builds a boundary mesh from TriNode faces by projecting vertices, detecting overlaps, and linking edges into a PooledRec pool.
@@ -16590,8 +16590,8 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                     for (int inner51_3 = 0; inner51_3 < insertRing->m_iArrayLength; inner51_3++)
                     {
                         Rec *obj = &((Rec*)insertRing->m_pData)[inner51_3];
-                        long iY = obj->point.y;
-                        int ptr = obj->point.x;
+                        intptr_t iY = obj->point.y;
+                        intptr_t ptr = obj->point.x;
                         Int3 rlow = slotPtr.LocatePoint(ptr, iY);
                         long v;
                         Int3 point = slotPtr.FUN_00e27ea0(ptr, iY, 1, &rlow, 0);
@@ -16607,7 +16607,7 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                             TeardownBigObj(&slotPtr);
                             goto ptr;
                         }
-                        unsigned long created;
+                        uintptr_t created;
                         created = obj->m_04 + obj->m_00;
                         intptr_t tmp = (intptr_t)((TriNode*)point.m_04)->m_aiIndexedValues[point.m_08];
                         AllocSvc *val = capMemory();
@@ -16718,10 +16718,10 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                         for (int mn = 0; mn < 3; mn++)
                         {
                             BoundaryEdge sourceEdge((intptr_t)scratchB.face->m_aiIndexedValues[3 + mn]);
-                            long ptr;
+                            intptr_t ptr;
                             ptr = sourceEdge.packed();
                             BoundaryEdge targetEdge(((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)&(edgeRecords))->LookupHashEntry(ptr, 0))));
-                            unsigned long sum;
+                            uintptr_t sum;
                             TriNode *p = targetEdge.face;
                             sum = targetEdge.index;
                             if (targetEdge.valid())
@@ -16821,7 +16821,7 @@ cap:
 
 // Inserts a constraint edge between two points in the mesh, locating the inner edge, walking to the target, and flipping edges to maintain validity.
 // @fnv 0x00e26010
-ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,int x0,int y0,int x1,int y1,bool optimizeEdge,const int* data) {
+ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,intptr_t x0,intptr_t y0,intptr_t x1,int y1,bool optimizeEdge,const int* data) {
 
     if(x0==x1 && y0==y1) return apResult->assign(9,nullConstraintEdge());
 
@@ -16899,7 +16899,7 @@ ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,int x0
 
         side=side.link();
 
-        int sign=orient(source,side.apex(),x1,y1);
+        intptr_t sign=orient(source,side.apex(),x1,y1);
 
         if(sign<0) side=side.next();
 
@@ -17095,7 +17095,7 @@ struct S_00e27c90_T {
 
 struct __declspec(align(16)) S_00e27c90_Q {
     float x, y, z, w;
-    void FUN_00cd9d10(int angle, const S_00e27c90_V* axis);
+    void FUN_00cd9d10(intptr_t angle, const S_00e27c90_V* axis);
 };
 
 struct S_00e27c90_U {
@@ -17292,7 +17292,7 @@ struct View {
     int stride;
 };
 struct Pair {
-    intptr_t a; int b;
+    intptr_t a; intptr_t b;
     Pair() {}
     Pair(intptr_t aa,int bb) : a(aa),b(bb) {}
     static void *operator new(std::size_t,void *p) throw() {return p;}
@@ -17415,8 +17415,8 @@ struct __declspec(align(16)) BigSolver : SolverRef {
     int field_680; int field_684; int field_688; int field_68c;
     int field_690; int field_694; int field_698; int field_69c;
     OptVec4 col0; OptVec4 col1; OptVec4 col2; OptVec4 col3;
-    __declspec(nothrow) HoleQuery FUN_00e27ea0(int cx, int cy, int one, HoleQuery *input, int zero) throw();
-    __declspec(nothrow) HoleQuery LocatePoint(int cx, int cy) throw();
+    __declspec(nothrow) HoleQuery FUN_00e27ea0(intptr_t cx, int cy, int one, HoleQuery *input, int zero) throw();
+    __declspec(nothrow) HoleQuery LocatePoint(intptr_t cx, int cy) throw();
     __declspec(nothrow) __declspec(noinline) int CheckLinks() throw();
     __declspec(nothrow) __declspec(noinline) void *LookupPairResult(void *pair) throw();
     __forceinline OptVec4 projectWorld(const OptVec4&) const;
@@ -17498,7 +17498,7 @@ struct ObjA {
     __declspec(nothrow) void RemoveTriangle(void *item) throw();
 };
 
-struct TEnt {__forceinline int compareClear(const TEnt& v)const{const int bx=v.m_08;const int ax=m_08;if(ax<bx)return -1;if(ax>bx)return 1;const int by=v.m_0c;const int ay=m_0c;if(ay<by)return -1;if(ay>by)return 1;return 0;}__forceinline int compare(const TEnt& v)const{if(m_08<v.m_08)return -1;if(m_08>v.m_08)return 1;if(m_0c<v.m_0c)return -1;if(m_0c>v.m_0c)return 1;return 0;}static __forceinline bool ordered(const TEnt* a,const TEnt* b){int c=a->compare(*b);if(c<0)return true;if(c>0)return false;return true;}
+struct TEnt {__forceinline int compareClear(const TEnt& v)const{const intptr_t bx=v.m_08;const intptr_t ax=m_08;if(ax<bx)return -1;if(ax>bx)return 1;const int by=v.m_0c;const int ay=m_0c;if(ay<by)return -1;if(ay>by)return 1;return 0;}__forceinline int compare(const TEnt& v)const{if(m_08<v.m_08)return -1;if(m_08>v.m_08)return 1;if(m_0c<v.m_0c)return -1;if(m_0c>v.m_0c)return 1;return 0;}static __forceinline bool ordered(const TEnt* a,const TEnt* b){int c=a->compare(*b);if(c<0)return true;if(c>0)return false;return true;}
     int m_00;
     int m_04;
     intptr_t m_08;
@@ -17586,22 +17586,22 @@ static __forceinline int CompareVerts(const TEnt *a, const TEnt *b)
     if (a->m_0c > b->m_0c) return 1;
     return 0;
 }
-static __forceinline int AreaParts(int x0,int y0,int x1,int y1,int x2,int y2) {
-    int dx=x1-x0, dy=y1-y0, ex=x2-x0, ey=y2-y0;
+static __forceinline intptr_t AreaParts(intptr_t x0,int y0,intptr_t x1,int y1,intptr_t x2,int y2) {
+    intptr_t dx=x1-x0, dy=y1-y0, ex=x2-x0, ey=y2-y0;
     return dx*ey-dy*ex;
 }
-static __forceinline int Orient(const TEnt *b, const TEnt *a, const TEnt *c)
+static __forceinline intptr_t Orient(const TEnt *b, const TEnt *a, const TEnt *c)
 {
     return AreaParts(a->m_08,a->m_0c,b->m_08,b->m_0c,c->m_08,c->m_0c);
 }
 struct HBool { char m_cBooleanValue; __forceinline HBool(bool b) { m_cBooleanValue = (char)b; } __forceinline operator bool() const { return m_cBooleanValue != 0; } };
 
 struct SavedFlag56 {unsigned int state; __forceinline SavedFlag56(const FlagValue56& x):state((char)x.value!=0) {} __forceinline operator int() const {return state;}};
-static __forceinline unsigned long packEdgeUid(void* triangle,unsigned int index) {return *(const unsigned long*)&triangle+(unsigned long)index;}
+static __forceinline uintptr_t packEdgeUid(void* triangle,uintptr_t index) {return *(const unsigned long*)&triangle+(unsigned long)index;}
 template<class T,class I> static __forceinline void unpackEdgeUid(const unsigned long& value,T*& triangle,I& index) {unsigned long packed=value;index=I(packed&3);packed&=~3;triangle=*(T**)&packed;}
 static __forceinline bool clearOrdered(const TEnt* a,const TEnt* b){return a->compareClear(*b)<=0;}
 struct TEdge {
-    BoundingVolumeNode *t; int i;
+    BoundingVolumeNode *t; intptr_t i;
     __forceinline TEdge() {}
     __forceinline TEdge(BoundingVolumeNode *tt, int ii) : t(tt), i(ii) {}
     __forceinline TEnt *&start() const { return t->m_08[i]; }
@@ -17662,7 +17662,7 @@ void *BigSolver::LookupPairResult(void *pair) throw()
         return 0;
     TEnt *a = t->m_08[e->b];
     TEnt *b = t->m_08[(9 >> (e->b << 1)) & 3];
-    unsigned int hash = (unsigned int)(a->m_0c * 0x3442a5 + a->m_08 * 0x21528000) ^
+    uintptr_t hash = (unsigned int)(a->m_0c * 0x3442a5 + a->m_08 * 0x21528000) ^
                         (unsigned int)(b->m_0c * 0x1958e9 - b->m_08 * 0x538b8000);
     EdgeMapBucket &bucket = edgeMap->buckets[hash % edgeMap->numBuckets];
     int found = -1;
@@ -17889,8 +17889,8 @@ state=DAT_0126ebf0;selection.first=nextBlank(state);selection.second=nextBlank(s
             if (selection.first.a) {
                 BoundingVolumeNode *bn = (BoundingVolumeNode *)selection.first.a;
                 BoundingVolumeNode *other = (BoundingVolumeNode *)selection.second.a;
-                int bi = selection.first.b;
-                int bs = selection.second.b;
+                intptr_t bi = selection.first.b;
+                intptr_t bs = selection.second.b;
                 intptr_t vA = (intptr_t)bn->m_08[(9 >> (bi << 1)) & 3];
                 int closingVertices[2]={(intptr_t)bn->m_08[bi],(intptr_t)other->m_08[(9 >> (bs << 1)) & 3]};
                 BNode *nb = owner.m_uiTriangleCount.FUN_00e241a0(&nodeStorage);
@@ -18094,7 +18094,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                         }
                         Pair edge = res->m_00[iConstraint].edge;
                         BNode *pEdgeNode=(BNode*)edge.a;
-                        int ecnt=edge.b;
+                        intptr_t ecnt=edge.b;
                         int idxA = (9 >> (ecnt << 1)) & 3;
                         const TEnt endPoint=solver.transformWorld(((VertexRecord*)pEdgeNode->vertices[idxA])->position);
                         const TEnt startPoint=solver.transformWorld(((VertexRecord*)pEdgeNode->vertices[ecnt])->position);
@@ -18307,11 +18307,11 @@ struct WalkTriangle {
     int unk04;
     Point2I* vertices[3];
     unsigned links[3];
-    __forceinline Point2I*& vertex(int i) { return vertices[i]; }
+    __forceinline Point2I*& vertex(intptr_t i) { return vertices[i]; }
 };
 template<class T> struct WalkEdgeBase {
     T* m_pkTriangle;
-    unsigned m_uiEdgeIndex;
+    uintptr_t m_uiEdgeIndex;
     WalkEdgeBase() {}
     WalkEdgeBase(T* t,unsigned i):m_pkTriangle(t),m_uiEdgeIndex(i) {}
 };
@@ -18570,7 +18570,7 @@ int E13B00This::FUN_00e13b00(float afMinDot, float afMaxWDiff, bool a3)
                     while (arrB.size != 0) {
                         PEdge ed = arrB.data[arrB.size - 1];
                         uintptr_t V = ed.tri->m_ppLinks[ed.index];
-                        int tmp = (int)(V & 3);
+                        intptr_t tmp = (int)(V & 3);
                         PTri* pNextTri = (PTri*)(V & ~3u);
                         arrB.size--;
                         if (!pNextTri)
@@ -18632,7 +18632,7 @@ struct CollapseTriangle {
     CollapseVertex* m_kVertices[3];
     unsigned int m_ppLinks[3];
 };
-struct CollapseEdgeFields { CollapseTriangle* m_pkTriangle; unsigned int m_uiEdgeIndex; };
+struct CollapseEdgeFields { CollapseTriangle* m_pkTriangle; uintptr_t m_uiEdgeIndex; };
 struct CollapseEdge : CollapseEdgeFields {
     CollapseEdge() {}
     CollapseEdge(CollapseTriangle* t,unsigned int i) {m_pkTriangle=t; m_uiEdgeIndex=i;}

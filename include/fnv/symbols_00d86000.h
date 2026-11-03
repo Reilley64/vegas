@@ -20,4 +20,4 @@ char *FUN_00d868a0(intptr_t);
 // 0x00d86b80
 int ReadSignedValueBySize(const void *);
 // 0x00d86bc0
-void FUN_00d86bc0(intptr_t, int);
+void FUN_00d86bc0(intptr_t, intptr_t);

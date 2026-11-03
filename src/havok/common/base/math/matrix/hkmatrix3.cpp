@@ -147,7 +147,7 @@ struct CdPairOut_cls
 {
     unsigned int m_00;
     unsigned int m_04;
-    void FUN_00cd5610(CdOwner_cls* owner, unsigned int a1);
+    void FUN_00cd5610(CdOwner_cls* owner, uintptr_t a1);
 };
 
 __declspec(align(16)) struct CdBlob_cls
@@ -170,7 +170,7 @@ struct FUN_00cd5880_cls
 {
     unsigned int unk00;
     unsigned int unk04;
-    void FUN_00cd55b0(unsigned int a1, CdPairOut_cls* out);
+    void FUN_00cd55b0(uintptr_t a1, CdPairOut_cls* out);
     void FUN_00cd5880(uintptr_t a1);
 };
 

@@ -6,7 +6,7 @@ struct DepthLimit;
 // 0x00cb1090
 void FUN_00cb1090(char *, const char *);
 // 0x00cb10b0
-void CopyIfNonEmpty(char *, const char *, int);
+void CopyIfNonEmpty(char *, const char *, intptr_t);
 // 0x00cb10d0
 namespace fnv_00cb10d0 { intptr_t FUN_00cb10d0(const char *); }
 // 0x00cb10f0
@@ -20,15 +20,15 @@ namespace fnv_00cb1150 { const char *FUN_00cb1150(const char *, int); }
 // 0x00cb1160
 char *FUN_00cb1160(const char *, void *);
 // 0x00cb1190
-int CallSwappedArgs(unsigned int, unsigned int);
+int CallSwappedArgs(uintptr_t, unsigned int);
 // 0x00cb11b0
 namespace fnv_00cb11b0 { void *FUN_00cb11b0(void *, int, void *); }
 // 0x00cb1260
-void *FUN_00cb1260(void *, const void *, unsigned int);
+void *FUN_00cb1260(void *, const void *, uintptr_t);
 // 0x00cb1270
 void *FUN_00cb1270(char *, const char *, int);
 // 0x00cb1280
-void FUN_00cb1280(void *, int, unsigned int);
+void FUN_00cb1280(void *, int, uintptr_t);
 // 0x00cb1290
 int FUN_00cb1290(const unsigned char *, const unsigned char *, unsigned int);
 // 0x00cb13c0

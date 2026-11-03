@@ -393,7 +393,7 @@ FnvCpu_FUN_00d46cc0_CpuObject* FnvCpu_FUN_00d46cc0_CpuObject::Destroy(unsigned i
 }
 }  // namespace fnv_00d46cc0
 
-void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+void __cdecl FUN_00cb1260(void* dst, const void* src, intptr_t nbytes);
 
 class hkBlockStreamD466
 {
@@ -573,7 +573,7 @@ struct hkMemoryRouterD46B
 namespace fnvc_adapt {
 extern "C" hkMemoryRouterD46B& __cdecl FUN_00c85750() throw();
 }
-void __cdecl FUN_00c908c0(hkMemoryAllocatorD46B& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
+void __cdecl FUN_00c908c0(hkMemoryAllocatorD46B& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
 class hkArrayD46B
 {
@@ -704,7 +704,7 @@ unsigned int FUN_00d468a0_obj::WriteToStream(uintptr_t apData, unsigned int auiS
 }
 
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl FUN_00cb1260(void* dst, const void* src, int count);
+void __cdecl FUN_00cb1260(void* dst, const void* src, intptr_t count);
 
 // Copies iSize bytes from pcData into the stream's block array, allocating new blocks from the heap when the current block is full.
 // @fnv 0x00d467c0
@@ -759,8 +759,8 @@ void Stream_d467::FUN_00d467c0(const char* pcData, int iSize)
     }
 }
 
-void __cdecl FUN_00c908c0(hkMemoryAllocatorD469* heap, void* array, int numElements, int sizeOfElement);
-void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+void __cdecl FUN_00c908c0(hkMemoryAllocatorD469* heap, void* array, intptr_t numElements, int sizeOfElement);
+void __cdecl FUN_00cb1260(void* dst, const void* src, intptr_t nbytes);
 
 template <class T> struct hkArray_d469
 {

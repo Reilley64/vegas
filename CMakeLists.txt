@@ -13,6 +13,7 @@ add_subdirectory(third_party)
 
 add_library(game STATIC
   src/fileformat/plugin_header.cpp
+  src/runtime/crt.cpp
 )
 target_include_directories(game PUBLIC src)
 

@@ -6279,7 +6279,7 @@ void WorldQuery::FUN_00c92430(void* a,void* b,void* c,void* d) {
         caster.unk80 = ::DAT_0104da4c;
         caster.unk00 = &DAT_010c6488;
         caster.unk24 = 0;
-        reinterpret_cast<::S_00cfaed0_This *>(&(caster))->FUN_00cfaed0((::S_00cfaed0_Iface *)(m_pJobSemaphore),(::S_00cfaed0_P2 *)(a),(::S_00cfaed0_P3 *)(b),(int)(m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : 0),(::S_00cfaed0_P5 *)(m_pCollisionInput),((CollisionInput*)m_pCollisionInput)->unk70,0,(int)(c),(int)(d));
+        reinterpret_cast<::S_00cfaed0_This *>(&(caster))->FUN_00cfaed0((::S_00cfaed0_Iface *)(m_pJobSemaphore),(::S_00cfaed0_P2 *)(a),(::S_00cfaed0_P3 *)(b),(m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : nullptr),(::S_00cfaed0_P5 *)(m_pCollisionInput),((CollisionInput*)m_pCollisionInput)->unk70,0,c,d);
     }
     timer = (TimerBuffer*)TlsGetValue(DAT_0126835c);
     entry = timer->current;

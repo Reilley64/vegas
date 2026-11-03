@@ -266,7 +266,7 @@ struct FUN_00c93580_Class
 void FUN_00c93580_Class::FUN_00c93580()
 {
     while (this->m_114 > 0)
-        reinterpret_cast<::WorldC92C *>((this))->FUN_00c92c70((::ActionC92C *)(*(int*)this->m_110));
+        reinterpret_cast<::WorldC92C *>((this))->FUN_00c92c70((*(::ActionC92C **)this->m_110));
 
     while (this->m_2c > 0)
     {
@@ -274,27 +274,27 @@ void FUN_00c93580_Class::FUN_00c93580()
         if (node->m_4c == 0)
             break;
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)node->m_48));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (*(::FUN_00c91620_Target **)node->m_48));
     }
 
     while (this->m_38 > 0)
     {
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)this->m_34[0]->m_48));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (*(::FUN_00c91620_Target **)this->m_34[0]->m_48));
     }
 
     reinterpret_cast<::FUN_00c90510_class *>((this->m_24))->FUN_00c90510();
 
     {
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)((int)this->m_24));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(this->m_24));
     }
 
     Node* node = this->m_20;
     while (node->m_4c > 0)
     {
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)node->m_48));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (*(::FUN_00c91620_Target **)node->m_48));
         node = this->m_20;
     }
 
@@ -1778,7 +1778,7 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
             else
             {
                 char tmp;
-                reinterpret_cast<::FUN_00c91620_Class *>((mgr))->ProcessTarget((unsigned char *)(char *)(&tmp), (::FUN_00c91620_Target *)((int)it));
+                reinterpret_cast<::FUN_00c91620_Class *>((mgr))->ProcessTarget((unsigned char *)(char *)(&tmp), (::FUN_00c91620_Target *)(it));
             }
             if (!bShapeUpdated)
             {

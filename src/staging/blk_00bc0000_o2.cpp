@@ -2,6 +2,8 @@
 // src/staging/blk_00bc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00bc3000.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -101,7 +103,6 @@
 #include "fnv/symbols_00b70000.h"
 #include "fnv/symbols_00b7c000.h"
 #include "fnv/symbols_00b8b000.h"
-#include "fnv/symbols_00ba8000.h"
 #include "fnv/symbols_00bc0000.h"
 #include "fnv/symbols_00bd9000.h"
 #include "fnv/symbols_00be0000.h"
@@ -15279,17 +15280,21 @@ void* GetOrCreateTable()
     return DAT_01201f4c;
 }
 
-void __cdecl FUN_00ba8a80();
 // @fnv 0x00bc3770
-void __cdecl FUN_00bc3770()
+bool FUN_00bc3770_shell::FUN_00bc3770(::NiStream& kStream)
 {
-    FUN_00ba8a80();
+    return reinterpret_cast<::FUN_00ba8a80_shell *>(this)->FUN_00ba8a80(kStream);
 }
 
-// @fnv 0x00bc4600
-void __cdecl FUN_00bc4600()
+struct FUN_00bc4600_shell
 {
-    static_cast<::BSShader *>(nullptr)->Initialize();
+    bool FUN_00bc4600();
+};
+
+// @fnv 0x00bc4600
+bool FUN_00bc4600_shell::FUN_00bc4600()
+{
+    return reinterpret_cast<::BSShader *>(this)->Initialize();
 }
 
 struct FUN_00bcd380_class

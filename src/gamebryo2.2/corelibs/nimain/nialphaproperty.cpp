@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nialphaproperty.cpp: NiAlphaProperty (12 functions)
 
+#include "fnv/symbols_00a99000.h"
 #include <windows.h>
 #include "fnv/symbols_00aa1000.h"
 #include <new>
@@ -474,9 +475,9 @@ void A5D080Property::AppendPropertyStrings(StrArr* pkStrings)
 
 
 // @fnv 0x00a99e40
-void __cdecl FUN_00a99e40()
+bool FUN_00a99e40_shell::FUN_00a99e40(::NiStream& kStream)
 {
-    ::FUN_00a62130({}, {}, {});
+    return ::FUN_00a62130((void *)this, 0, &kStream);
 }
 
 

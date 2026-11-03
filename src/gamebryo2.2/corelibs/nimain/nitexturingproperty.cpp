@@ -706,7 +706,7 @@ struct FUN_00a6a560_cls : public NiTexturingProperty
 // @fnv 0x00a6a560
 bool FUN_00a6a560_cls::ApplyTextures(unsigned int uiArg)
 {
-    if (!::FUN_00a62130((void *)this, uiArg, {}))
+    if (!::FUN_00a62130((void *)this, 0, (::NiStream *)(std::uintptr_t)uiArg))
     {
         return false;
     }
@@ -1922,7 +1922,7 @@ struct LinkProperty
 // @fnv 0x00a6a240
 void LinkProperty::LoadFromStream(LinkStream& stream)
 {
-    ::FUN_00a47360();
+    reinterpret_cast<::FUN_00a47360_shell *>(this)->FUN_00a47360((::NiStream &)stream);
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460();
     unsigned int i;
     flags &= 0xf00f;

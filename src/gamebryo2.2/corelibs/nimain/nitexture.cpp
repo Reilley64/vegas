@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitexture.cpp: NiObjectNET, NiTexture, Elements (13 functions)
 
+#include "fnv/symbols_00a47000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -293,9 +294,9 @@ int GetTextureForType(int unused, int type)
 }
 
 // @fnv 0x00a47360
-extern "C" void __cdecl FUN_00a47360()
+void FUN_00a47360_shell::FUN_00a47360(::NiStream& kStream)
 {
-    static_cast<::NiObjectNET *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
+    reinterpret_cast<::NiObjectNET *>(this)->LinkObject(kStream);
 }
 
 struct FUN_00a62660_cls

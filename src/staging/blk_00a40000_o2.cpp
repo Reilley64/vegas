@@ -5058,7 +5058,7 @@ struct Controller
 // @fnv 0x00a5f9a0
 void Controller::Load(Stream* pkStream)
 {
-    ::FUN_00a47360();
+    reinterpret_cast<::FUN_00a47360_shell *>(this)->FUN_00a47360(*(::NiStream *)pkStream);
     if (reinterpret_cast<::FUN_00a63460_shell *>((pkStream))->FUN_00a63460())
     {
         if (pkStream->m_uiFileVersion >= 0x14020004 && m_bUsePrimary)

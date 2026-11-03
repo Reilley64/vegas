@@ -1,5 +1,9 @@
 // staging/blk_00ba0000_o2.cpp: GeomList_S, Owner, BSFogProperty, FnvOdbObject and more (245 functions)
 
+#include "fnv/symbols_00bb3000.h"
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00a99000.h"
+#include "fnv/symbols_00a95000.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <cstddef>
@@ -104,9 +108,7 @@
 #include "fnv/symbols_00b79000.h"
 #include "fnv/symbols_00ba1000.h"
 #include "fnv/symbols_00ba3000.h"
-#include "fnv/symbols_00ba8000.h"
 #include "fnv/symbols_00bb1000.h"
-#include "fnv/symbols_00bb3000.h"
 #include "fnv/symbols_00bb6000.h"
 #include "fnv/symbols_00be0000.h"
 #include "fnv/symbols_00c4b000.h"
@@ -12256,19 +12258,17 @@ bool FUN_00ba87d0_Class::FUN_00ba87d0(NiObj_s* a)
     return reinterpret_cast<::A5d470Class *>((((NiObj_s*)this)))->IsSameAs((::A5d470Object *)(a));
 }
 
-void __cdecl FUN_00a950c0();
 // @fnv 0x00ba8a70
-void __cdecl FUN_00ba8a70()
+void FUN_00ba8a70_shell::FUN_00ba8a70(::NiStream& kStream)
 {
-    FUN_00a950c0();
+    reinterpret_cast<::FUN_00a950c0_shell *>(this)->FUN_00a950c0(kStream);
 }
 
-void __cdecl FUN_00a99e40();
 
 // @fnv 0x00ba8a80
-void __cdecl FUN_00ba8a80()
+bool FUN_00ba8a80_shell::FUN_00ba8a80(::NiStream& kStream)
 {
-    FUN_00a99e40();
+    return reinterpret_cast<::FUN_00a99e40_shell *>(this)->FUN_00a99e40(kStream);
 }
 
 // @fnv 0x00ba8a90
@@ -12315,10 +12315,15 @@ FUN_00baa180::~FUN_00baa180()
     }
 }
 
-// @fnv 0x00bae710
-void __cdecl FUN_00bae710()
+struct FUN_00bae710_shell
 {
-    ::FUN_00c9a420({});
+    bool FUN_00bae710();
+};
+
+// @fnv 0x00bae710
+bool FUN_00bae710_shell::FUN_00bae710()
+{
+    return ::FUN_00c9a420(this);
 }
 
 
@@ -12607,13 +12612,6 @@ void FUN_00bb1b50(int unused)
     }
 }
 
-void __cdecl FUN_00bb3380();
-// @fnv 0x00bb30a0
-void __cdecl FUN_00bb30a0()
-{
-    FUN_00bb3380();
-}
-
 struct StrArray;
 struct ShaderBase_00b690d0
 {
@@ -12628,11 +12626,26 @@ void FUN_00bb3380_Class::FUN_00bb3380(StrArray* a)
     reinterpret_cast<::Target *>(this)->FUN_00b690d0((::StrArr *)(a));
 }
 
-void __cdecl FUN_00b71450();
-// @fnv 0x00bb3390
-void __cdecl FUN_00bb3390()
+struct FUN_00bb30a0_shell
 {
-    FUN_00b71450();
+    void FUN_00bb30a0(StrArray* a);
+};
+
+// @fnv 0x00bb30a0
+void FUN_00bb30a0_shell::FUN_00bb30a0(StrArray* a)
+{
+    reinterpret_cast<::FUN_00bb3380_Class *>(this)->FUN_00bb3380(a);
+}
+
+class LightingProperty
+{
+  public:
+    void FUN_00b71450(::ViewerStrings* pkStrings);
+};
+// @fnv 0x00bb3390
+void FUN_00bb3390_shell::FUN_00bb3390(::ViewerStrings* pkStrings)
+{
+    reinterpret_cast<::LightingProperty *>(this)->FUN_00b71450(pkStrings);
 }
 
 struct FnvCpu_FUN_00bb3730_CpuObject
@@ -12679,10 +12692,15 @@ int FnvCpu_FUN_00bb3730_CpuObject::FUN_00bb3730()
 
 namespace fnv_00bb3940 {
 
-// @fnv 0x00bb3940
-void FUN_00bb3940()
+struct FUN_00bb3940_shell
 {
-    ::FUN_00bb3390();
+    void FUN_00bb3940(::ViewerStrings* pkStrings);
+};
+
+// @fnv 0x00bb3940
+void FUN_00bb3940_shell::FUN_00bb3940(::ViewerStrings* pkStrings)
+{
+    reinterpret_cast<::FUN_00bb3390_shell *>(this)->FUN_00bb3390(pkStrings);
 }
 }  // namespace fnv_00bb3940
 
@@ -12701,16 +12719,26 @@ void FUN_00bb44f0_class::FUN_00bb44f0(NiStream& a)
     LoadFromStream(a);
 }
 
-// @fnv 0x00bb4500
-void __cdecl FUN_00bb4500()
+struct FUN_00bb4500_shell
 {
-    static_cast<::DecompOwner *>(nullptr)->CheckAndNotify({});
+    bool FUN_00bb4500(::NiStream& kStream);
+};
+
+// @fnv 0x00bb4500
+bool FUN_00bb4500_shell::FUN_00bb4500(::NiStream& kStream)
+{
+    return reinterpret_cast<::DecompOwner *>(this)->CheckAndNotify(kStream);
 }
 
-// @fnv 0x00bb4510
-void __cdecl FUN_00bb4510()
+struct FUN_00bb4510_shell
 {
-    return static_cast<::ShaderProp_b68 *>(nullptr)->FUN_00b68fe0({});
+    void FUN_00bb4510(::ShaderProp_b68* apOther);
+};
+
+// @fnv 0x00bb4510
+void FUN_00bb4510_shell::FUN_00bb4510(::ShaderProp_b68* apOther)
+{
+    reinterpret_cast<::ShaderProp_b68 *>(this)->FUN_00b68fe0(apOther);
 }
 
 struct FUN_00e7de90_Class

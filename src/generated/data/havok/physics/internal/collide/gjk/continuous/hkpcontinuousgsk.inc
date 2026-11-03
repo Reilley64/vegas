@@ -2,4 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-double DAT_0104e138 = 3.402820018375656e+38;
+namespace gsk_ehsc_rtm { const float DAT_010d5384 = 321.0f; }

@@ -2731,4 +2731,3 @@ __declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const
 
 }
 #include "generated/data/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.inc"
-#include "generated/data/havok/physics/collide/boxbox/hkpboxboxcollisiondetection_rtm_variant.inc"

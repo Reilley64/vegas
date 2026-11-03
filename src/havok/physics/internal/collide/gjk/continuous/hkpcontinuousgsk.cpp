@@ -4308,4 +4308,5 @@ __declspec(noinline) void __cdecl FUN_00db60c0(const AgentSubtypeMarker& in3, co
     }
 }
 
-#include "generated/data/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"
+
+#include "generated/data/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.inc"

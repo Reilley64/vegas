@@ -506,3 +506,5 @@ void SoftContactVelocityBlend::FUN_00d21d10(const void* a1, float a2, void* a3, 
     pkB[0] = Blend_d21d10(pkB[0], DAT_012689c0, t);
     pkB[1] = Blend_d21d10(pkB[1], DAT_012689d0, t);
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/atom/hkpconstraintatom.inc"

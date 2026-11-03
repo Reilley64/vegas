@@ -2,8 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_00fdf044@@3HA=?DAT_00fdf044@@3PEAXEA")
-
 namespace fnv_00d085e0 { char str_010ccff4[15] = "StInactiveTree"; }
 namespace fnv_00d085e0 { char str_010cd004[13] = "StActiveTree"; }
 namespace fnv_00d085e0 { char str_010cd014[16] = {76, 116, 67, 97, 115, 116, 82, 97, 121}; }

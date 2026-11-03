@@ -1538,5 +1538,5 @@ leafNode: {
     }
 
 }
-#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_ehsc_nogs_noehsc_variant.inc"
-#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_nogs_variant_rtm_variant.inc"
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.inc"

@@ -243,3 +243,5 @@ float __cdecl FUN_00df5f80(ContactConstraint* c, ContactParams* p, void* bodyA, 
 
     return contactSolve(c, p, bodyA, bodyB, relVel);
 }
+
+#include "generated/data/havok/physics/constraintsolver/simpleconstraints/hkpsimpleconstraintutil.inc"

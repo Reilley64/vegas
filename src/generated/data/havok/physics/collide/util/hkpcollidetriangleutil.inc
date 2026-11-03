@@ -2,4 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-float DAT_011b3770[4] = {65536.0f, 65536.0f, 65536.0f, 65536.0f};
+const signed char DAT_010cb438[8] = {-1, 0, 1, -6, 2, -7, -8, -1};

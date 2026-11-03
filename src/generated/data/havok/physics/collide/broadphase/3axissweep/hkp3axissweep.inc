@@ -2,10 +2,9 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#include <cstdint>
-
 float DAT_010cd5b0 = 65532.0f;
+const float DAT_010cd5b4 = 1.525972e-05f;
+float DAT_011b3770[4] = {65536.0f, 65536.0f, 65536.0f, 65536.0f};
 float DAT_011b3790[4] = {65532.0f, 65532.0f, 65532.0f, 65532.0f};
 int DAT_011b37a4[2] = {8, 10};
-char *g_D1A0E0Tables[2] = {nullptr, reinterpret_cast< char *>(static_cast<std::uintptr_t>(4))};
 int DAT_011b37b4[2] = {2, 6};

@@ -4084,4 +4084,3 @@ void KdQuantizer::FUN_00e07880(const QuantNode* node, const KdRegion* region, in
     *hiOut = ihi;
 }
 #include "generated/data/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.inc"
-#include "generated/data/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler_rtm_variant.inc"

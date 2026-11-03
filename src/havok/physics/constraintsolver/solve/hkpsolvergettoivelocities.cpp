@@ -188,3 +188,5 @@ int __cdecl FUN_00d9f6f0(void* unused, const Header* header, const State* states
         }
     }
 }
+
+#include "generated/data/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities.inc"

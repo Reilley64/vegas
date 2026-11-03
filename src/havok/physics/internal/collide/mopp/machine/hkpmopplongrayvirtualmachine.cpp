@@ -867,4 +867,5 @@ LongRayBool LongRayVm::FUN_00dd2df0(const void* collection, const LongRayCode* c
         return m_bRayCastEnabled;
     }
 }
-#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine.inc"

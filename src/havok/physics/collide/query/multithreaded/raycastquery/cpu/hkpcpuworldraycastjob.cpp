@@ -1206,4 +1206,5 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
     reinterpret_cast<::LunaOwner *>((((Finalizer*)result)))->ProcessCallback((intptr_t)(request), (intptr_t)(request), 0);
 }
 }  // namespace fnv_00df8df0
-#include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.inc"
+
+#include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.inc"

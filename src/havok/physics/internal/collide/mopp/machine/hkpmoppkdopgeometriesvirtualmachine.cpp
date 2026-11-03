@@ -1436,5 +1436,3 @@ void S_00e65140_VM::FUN_00e65140(const S_00e65140_Query* query, const unsigned c
         }
     }
 }
-
-#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.inc"

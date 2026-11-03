@@ -1074,4 +1074,5 @@ commonExit:
     return;
 }
 }  // namespace fnv_00de3520
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.inc"

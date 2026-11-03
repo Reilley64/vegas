@@ -3625,4 +3625,3 @@ void BvTreeAgentD3::FUN_00d302d0( const CdBodyD3& bodyA, const CdBodyD3& bodyB, 
 	}
 }
 #include "generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc"
-#include "generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant.inc"

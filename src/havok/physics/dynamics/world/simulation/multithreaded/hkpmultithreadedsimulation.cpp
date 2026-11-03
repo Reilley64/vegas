@@ -7053,4 +7053,5 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
 }
 
 }
-#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation_rtm_variant.inc"
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.inc"

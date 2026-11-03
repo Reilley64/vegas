@@ -522,4 +522,5 @@ END: {
     }
 }
 }
-#include "generated/data/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent_rtm_variant.inc"
+
+#include "generated/data/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.inc"

@@ -2,5 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-char DAT_010d7f50 = 46;
-char DAT_010d7f80 = 104;
+float DAT_01064f60 = 0.7853982f;
+namespace ArrowDraw { double DAT_010c4ab0 = 0.3330000042915344; }
+namespace fnv_00e11180 { const double DAT_010eacc0 = 0.7071099877357483; }

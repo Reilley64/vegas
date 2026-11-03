@@ -2,4 +2,5 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-const float DAT_010cd5b4 = 1.525972e-05f;
+hkReal DAT_011b6924 = 1.0f;
+hkReal DAT_011b6928 = 0.05f;

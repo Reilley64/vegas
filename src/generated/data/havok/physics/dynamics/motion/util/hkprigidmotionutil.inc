@@ -2,8 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_01017d10@ApplyAccumulatorsPrivate@@3QBIB=?DAT_01017d10@@3T__m128@@B")
-
 namespace ApplyForcesStepPrivate { ::ApplyForcesStepPrivate::Vec DAT_010cbf80 = {{1.0e+06f, 1.0e+06f, 1.0e+06f, 1.0e+06f}}; }
 namespace ApplyAccumulatorsPrivate { const hkUint32 DAT_010cbf90[4][4] = {{0u, 0xffffffffu, 0xffffffffu, 0xffffffffu}, {0xffffffffu, 0u, 0xffffffffu, 0xffffffffu}, {0xffffffffu, 0xffffffffu, 0u, 0xffffffffu}, {0xffffffffu, 0xffffffffu, 0xffffffffu}}; }
 namespace ApplyAccumulatorsPrivate { const double DAT_010ce4a8 = 0.8229479789733887; }
+namespace ApplyAccumulatorsPrivate { const double DAT_010ce4b0 = 0.40528471201320165; }

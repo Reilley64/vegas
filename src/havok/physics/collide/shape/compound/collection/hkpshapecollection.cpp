@@ -652,4 +652,3 @@ void CollectionAabb::FUN_00d215d0(const hkTransform& transform, float tolerance,
     }
 }
 #include "generated/data/havok/physics/collide/shape/compound/collection/hkpshapecollection.inc"
-#include "generated/data/havok/physics/collide/shape/compound/collection/hkpshapecollection_gs_ehsc_nogs_noehsc_variant.inc"

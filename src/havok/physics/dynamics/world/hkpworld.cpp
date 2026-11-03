@@ -15537,4 +15537,3 @@ void FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, co
     (*reinterpret_cast<::C00c98720 * *>(&::DAT_012681e0))->FUN_00c98720(&vertexA, &vertexB, &vertexC, argb, 0, 0);
 }
 #include "generated/data/havok/physics/dynamics/world/hkpworld.inc"
-#include "generated/data/havok/physics/dynamics/world/hkpworld_rtm_variant.inc"

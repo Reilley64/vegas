@@ -841,3 +841,5 @@ void BoxMotionCandidate::FUN_00d1e920(float amount, const hkVector4* direction)
     r = _mm_add_ps(r, v);
     *(__m128*)&m_kTranslationalVelocity = r;
 }
+
+#include "generated/data/havok/physics/dynamics/motion/rigid/hkpboxmotion.inc"

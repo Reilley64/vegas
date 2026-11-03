@@ -1207,4 +1207,5 @@ extern "C" void __cdecl FUN_00df5950(const BodyInput* bodyA, const BodyInput* bo
 }
 
 }
-#include "generated/data/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse_rtm_variant.inc"
+
+#include "generated/data/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse.inc"

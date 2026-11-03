@@ -892,4 +892,3 @@ LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
     clone->m_fSmoothingValue = this->m_fSmoothingValue;
     return clone;
 }
-#include "generated/data/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.inc"

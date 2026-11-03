@@ -266,3 +266,5 @@ int FUN_00cd7850(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, cons
         return 1;
     }
 }
+
+#include "generated/data/havok/physics/collide/util/hkpcollidetriangleutil.inc"

@@ -7,3 +7,5 @@ char str_010ce9a4[6] = "Agent";
 char str_010ce9ac[16] = {65, 103, 101, 110, 116, 80, 116, 114, 115};
 char str_010ce9f4[14] = "StNarrowPhase";
 char str_010cea04[16] = {76, 116, 66, 118, 84, 114, 101, 101};
+unsigned char DAT_011b4284 = 1;
+char DAT_01268ad4;

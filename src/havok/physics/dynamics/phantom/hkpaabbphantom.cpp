@@ -1974,4 +1974,5 @@ void Phantom_00cf2510::FUN_00cf2510(const WorldRayCastInput& input, PhRayHitColl
         }
     }
 }
-#include "generated/data/havok/physics/dynamics/phantom/hkpaabbphantom_gs_ehsc_nogs_noehsc_variant.inc"
+
+#include "generated/data/havok/physics/dynamics/phantom/hkpaabbphantom.inc"

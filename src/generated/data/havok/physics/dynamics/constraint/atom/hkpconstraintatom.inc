@@ -2,4 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?DAT_010c71e0@VehicleStepD63680@@3T__m128@1@B=?DAT_010c71e0@@3T__m128@@B")
+__m128 DAT_012689a0;
+__m128 DAT_012689b0;
+__m128 DAT_012689c0;
+__m128 DAT_012689d0;

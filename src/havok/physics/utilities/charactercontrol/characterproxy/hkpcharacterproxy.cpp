@@ -3997,4 +3997,3 @@ void S00cafbf0_Obj::FUN_00cafbf0(const void* a, const void* b, void* c, int d) t
 }
 
 #include "generated/data/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.inc"
-#include "generated/data/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_ehsc_noehsc_variant.inc"

@@ -2069,4 +2069,3 @@ if(wheelsFoundOnThisAxle==totalWheelsOnThisAxle)break;
 }
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.inc"
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer_ehsc_noehsc_variant_rtm_variant.inc"

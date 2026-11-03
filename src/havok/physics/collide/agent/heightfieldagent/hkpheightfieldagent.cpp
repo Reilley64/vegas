@@ -990,5 +990,3 @@ void S_00d32270_cls::FUN_00d32270(S_00d32270_Q* q, S_00d32270_P* p)
     m_04 = S_min(m_04, o);
 }
 #include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.inc"
-#include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.inc"
-#include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_rtm_variant.inc"

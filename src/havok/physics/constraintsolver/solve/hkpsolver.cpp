@@ -3869,5 +3869,3 @@ extern "C" __declspec(noinline) int __cdecl FUN_00d89f80(
  return 1;
 }
 #include "generated/data/havok/physics/constraintsolver/solve/hkpsolver.inc"
-#include "generated/data/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_ctx_variant.inc"
-#include "generated/data/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_variant.inc"

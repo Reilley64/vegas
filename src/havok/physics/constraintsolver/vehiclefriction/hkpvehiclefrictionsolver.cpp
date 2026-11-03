@@ -132,4 +132,5 @@ void FUN_00e593f0(CurveInput* a, CurveOutput* b)
         b->blocks[ebx].samples[cnt] = 1.0f;
     }
 }
-#include "generated/data/havok/physics/constraintsolver/vehiclefriction/hkpvehiclefrictionsolver_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"
+
+#include "generated/data/havok/physics/constraintsolver/vehiclefriction/hkpvehiclefrictionsolver.inc"

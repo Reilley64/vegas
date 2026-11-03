@@ -2186,4 +2186,3 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
         al.bufFree(vec.data, (vec.cap & 0x3fffffff) * (int)sizeof(vec.data[0]));
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.inc"
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.inc"

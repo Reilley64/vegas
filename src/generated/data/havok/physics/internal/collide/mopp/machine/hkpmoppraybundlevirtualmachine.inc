@@ -5,5 +5,6 @@
 #include <bit>
 
 ::__m128 DAT_010ce1c0 = {std::bit_cast<float>(0xffffffffu), std::bit_cast<float>(0xffffffffu), std::bit_cast<float>(0xffffffffu), std::bit_cast<float>(0xffffffffu)};
+const double DAT_010d5198 = 1.52587890625e-05;
 const char str_010d7b64[58] = ".\\Collide\\Mopp\\Machine\\hkpMoppRayBundleVirtualMachine.cpp";
 unsigned char DAT_01269cbe;

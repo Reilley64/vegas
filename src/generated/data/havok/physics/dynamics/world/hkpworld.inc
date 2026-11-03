@@ -3,13 +3,11 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 #pragma comment(linker, "/alternatename:?DAT_00fdf100@fnv_00c99ce0@@3P6AXPEAH@ZEA=?DAT_00fdf100@@3P6AXPEAX@ZEA")
-#pragma comment(linker, "/alternatename:?OptMonitorStream__DAT_0126835c@@3V?$TTLD@PEAVTMS@@@@A=?DAT_0126835c@@3KA")
 #pragma comment(linker, "/alternatename:?g_memoryManager@@3VMemoryManager@@A=?g_memoryManager@@3UMemoryManager@@A")
-#pragma comment(linker, "/alternatename:?g_monitorTls@fnv_00c91f70@@3KA=?DAT_0126835c@@3KA")
-#pragma comment(linker, "/alternatename:?g_tlsMemContext@@3HA=?currentAllocationContext@@3IA")
 #pragma comment(linker, "/alternatename:?t_uiMemContextCAA@@3IA=?currentAllocationContext@@3IA")
-#pragma comment(linker, "/alternatename:?threadContext9@@3EA=?g_tls676@@3UTls676@@A")
-#pragma comment(linker, "/alternatename:?threadMemoryContext@fnv_00caa3f0@@3UThreadMemoryContext@1@A=?g_tls676@@3UTls676@@A")
+#pragma comment(linker, "/alternatename:?threadMemoryContext@fnv_00caa3f0@@3UThreadMemoryContext@1@A=?g_tlsBlock@@3UTlsBlock@@A")
+
+extern "C" void fnv_fn_00d182a0() __asm__("?FUN_00d182a0@@YAPEAUSpawnedObject@@PEBX0H@Z");
 
 char str_0109c938 = 65;
 char str_010c41a4 = 80;
@@ -56,6 +54,11 @@ const char str_010c6720[19] = "StcollectionFilter";
 const char str_010c6734[17] = "StUpdateOverlaps";
 const char str_010c6748[13] = "Stbroadphase";
 const char str_010c6758[24] = "LtUpdateFilterOnPhantom";
+float DAT_010c6840 = 4.656897e-10f;
+float DAT_010c6844 = 2.1473526e+09f;
+float DAT_010c6848 = 2.1267625e+37f;
+float DAT_010c6850 = 0.08f;
+float DAT_010c6860 = 9.81f;
 const char str_010c68c8[19] = "TtBroadphase Shift";
 namespace fnv_00c96df0 { const char str_010c68dc[14] = "Stnarrowphase"; }
 namespace fnv_00c96df0 { const char str_010c68ec[28] = "LthkpWorld::getPenetrations"; }
@@ -72,9 +75,11 @@ float DAT_011afe64 = 0.016f;
 float DAT_011afe68 = 0.016f;
 unsigned int DAT_011afe7c = 100u;
 unsigned int DAT_011afe80 = 100u;
+ObjectCtor *(*DAT_011b37a0)(::hkQuadReal *, ::hkQuadReal *, int) = reinterpret_cast< ObjectCtor *(*)(__m128 *, __m128 *, int)>(&fnv_fn_00d182a0);
 char DAT_012677a0;
 float DAT_012677ac;
 int DAT_012677c8;
 char DAT_012677cd;
 unsigned char DAT_01267b2c;
+unsigned char DAT_012681dc;
 int DAT_01268318;

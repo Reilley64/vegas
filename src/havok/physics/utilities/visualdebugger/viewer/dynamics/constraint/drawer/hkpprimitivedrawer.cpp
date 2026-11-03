@@ -532,5 +532,5 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
         cur.m_vComponents = next.m_vComponents;
     }
 }
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_rtm_variant.inc"
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.inc"

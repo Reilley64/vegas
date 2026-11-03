@@ -1188,3 +1188,5 @@ extern "C" void __cdecl FUN_00d72190(Node* atomNode, Buffer* queryIn, int writeH
     reinterpret_cast<QueryResultSchema*>(queryOut)->m_pQueryResultSchema = com;
     QuantizedBoundsBuilder::exitBuilder();
 }
+
+#include "generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc"

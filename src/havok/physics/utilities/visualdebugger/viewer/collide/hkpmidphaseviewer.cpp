@@ -809,4 +809,3 @@ void Self::FUN_00d6a2f0(Param* apParam)
     return;
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.inc"
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer_gs_ehsc_nogs_noehsc_variant.inc"

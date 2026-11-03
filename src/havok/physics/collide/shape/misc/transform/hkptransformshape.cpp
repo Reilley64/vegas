@@ -610,4 +610,5 @@ void hkpTransformShapeRay::FUN_00cf5cc0(const hkpShapeRayCastInputSse& input, co
 
     timerCommand("Et");
 }
-#include "generated/data/havok/physics/collide/shape/misc/transform/hkptransformshape_gs_ehsc_nogs_noehsc_variant.inc"
+
+#include "generated/data/havok/physics/collide/shape/misc/transform/hkptransformshape.inc"

@@ -2,4 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-char DAT_01268ad4;
+::__m128 DAT_010c7200 = {1.1920929e-07f, 1.1920929e-07f, 1.1920929e-07f, 1.1920929e-07f};

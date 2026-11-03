@@ -2,4 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-::HkBool DAT_01269204;
+#include <bit>
+
+__m128 DAT_010cbfc0 = {std::bit_cast<float>(0xffffffffu), std::bit_cast<float>(0xffffffffu), std::bit_cast<float>(0xffffffffu), 0.0f};

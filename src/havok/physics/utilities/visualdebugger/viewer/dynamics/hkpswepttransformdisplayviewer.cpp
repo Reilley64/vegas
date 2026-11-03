@@ -1175,4 +1175,5 @@ void S_00d63e40_S::FUN_00d63e40(S_00d63e40_WorldPad world)
     }
     S_00d63e40_Timer("Et");
 }
-#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer_gs_ehsc_nogs_noehsc_variant.inc"
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.inc"

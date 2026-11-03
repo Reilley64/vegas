@@ -4051,4 +4051,3 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
     }
 }
 #include "generated/data/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.inc"
-#include "generated/data/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

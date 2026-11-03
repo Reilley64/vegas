@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatprocedureattackmelee.cpp: CombatProcedureAttackMelee, This, MeleeProc, CombatAttackHelper and more (57 functions)
 
+#include "fnv/result_slot.h"
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/ActorValueOwner.h"
@@ -453,7 +454,7 @@ struct FUN_009cff10_shell
     bool g;
     bool h;
     NiPoint3 v;
-    FUN_00906f60 m;
+    struct FUN_00906f60 m;
     FUN_009cff10_shell* Reset();
 };
 // Resets all flags, clears c and d, sets v to _NiPoint3_ZERO, constructs m, and returns this.
@@ -5209,7 +5210,7 @@ void CombatProcedure_shell::UpdateCombatMovement()
         else if (actor->FUN_008b3840(&pt9))
         {
             float f38 = FUN_009a6770(actor, target8);
-            float f5 = ((NiPoint3_ext&)(pt9 - (const NiPoint3&)target8->Position())).Length() - f38;
+            float f5 = ((NiPoint3_ext&)ResultSlot(pt9 - (const NiPoint3&)target8->Position())).Length() - f38;
             b_ = ((unsigned char)(reinterpret_cast<::FUN_009cefd0_shell *>((this))->IsWithinThreshold(f5, fX, 0)));
         }
         if (!b_)

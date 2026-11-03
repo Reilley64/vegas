@@ -131,7 +131,6 @@ char FUN_009a97b0(char a1, char a2)
     return a1;
 }
 
-extern "C" int DAT_011a558c;
 
 // Converts arg to int, multiplies by DAT_0103c348, divides by DAT_011a558c, and returns the result as float.
 // @fnv 0x009a99f0
@@ -2348,7 +2347,7 @@ struct S_009a7670_Setting
 S_009a7670_P3 FUN_009a8f00(S_009a7670_P3 a, S_009a7670_P3 b, S_009a7670_P3 c, float r, float v, unsigned char flag);
 
 // @fnv 0x009a7670
-bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
+bool FUN_009a7670(void* a, void* b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
                   unsigned char* flag, S_009a7670_P3* out, float maxDist)
 {
     if (!a || !b)
@@ -2356,12 +2355,12 @@ bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009
     if (maxDist == ::DAT_0101a6b0)
         maxDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a7670_Setting *>(&::originalRuntimeFloatSetting392))))));
     float dist8 = 0.0f;
-    int found = 0;
+    void* found = 0;
     float v = reinterpret_cast<::FUN_00966980_shell *>((obj))->FUN_00966980() * DAT_011f1c00;
     if (v == ::_DAT_01012060)
     {
         S_009a7670_P3 hit = FUN_009a8f00(p1, p2, p3, ::GetFloatAtOffset68((const char *)(obj)), v, *flag);
-        bool ok = ::FUN_009a6e90(a, obj, 0, (*(float *)&(const ::S_009a7670_P3 &)(p1)), (*(float *)&(const ::S_009a7670_P3 &)(hit)), 0, (float)(&found), (float)(&dist8), {}, {}, {}, {});
+        bool ok = ::FUN_009a6e90(a, obj, 0, *(const ::NiPoint3 *)&(p1), *(const ::NiPoint3 *)&(hit), 0, (void **)&found, &dist8);
         if (ok && found != b && dist8 < maxDist)
             return false;
         *out = hit;
@@ -2380,7 +2379,7 @@ bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009
         float r2 = ::GetFloatAtOffset68((const char *)(obj)) * k;
         bool ok;
         S_009a7670_P3 point = FUN_009a8f00(p1, p2, p3, r2, v, *flag);
-        ok = ::FUN_009a6e90(a, obj, r2, (*(float *)&(const ::S_009a7670_P3 &)(p1)), (*(float *)&(const ::S_009a7670_P3 &)(point)), 0, (float)(&found), (float)(&dist8), {}, {}, {}, {});
+        ok = ::FUN_009a6e90(a, obj, r2, *(const ::NiPoint3 *)&(p1), *(const ::NiPoint3 *)&(point), 0, (void **)&found, &dist8);
         if (!ok || found == b || dist8 > maxDist)
         {
             *out = point;
@@ -4862,8 +4861,8 @@ struct __declspec(align(16)) FUN_004a3c20_shell
 
 
 // @fnv 0x009a6e90
-bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, float s2, float e0, float e1, float e2,
-                          NiPoint3* outPt, int* outInt, float* outFrac)
+bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, NiPoint3 start, NiPoint3 end, NiPoint3* outPt, void** outRef,
+                          float* outFrac)
 {
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
     GlobalObject_008c71b0 obj18(0);
@@ -4891,9 +4890,9 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
     ((FUN_004a3fb0_shell*)&obj410)->FUN_004a3fb0((hkpAllRayHitCollector*)&obj360);
 
     NiPoint3 vecStart;
-    vecStart = *(NiPoint3*)&s0;
+    vecStart = start;
     NiPoint3 pos;
-    pos = *(NiPoint3*)&e0;
+    pos = end;
     float frac = 0.0f;
     unsigned int v430 = 1;
     unsigned int cnt = 1;
@@ -4912,7 +4911,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
     }
     else
     {
-        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&e0)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(*(NiPoint3*)&s0))));
+        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&end)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(start))));
         float v448 = FUN_004b54c0(diff.z / reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude());
         diff.z = 0.0f;
         float v44c = reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude();
@@ -4932,7 +4931,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
         for (i = 0; i < cnt; i++)
         {
             v430 = i + 1;
-            pos = *(NiPoint3*)&s0;
+            pos = start;
             float t = (float)(v430 * v464);
             float v488 = t * v470 - v2c * t * t / (v454 * v454 * v474 * v474 * ::DAT_01011590);
             pos.x += v430 * v468;
@@ -4955,13 +4954,13 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, float s0, float s1, floa
 
     if (v34)
     {
-        if (outInt)
+        if (outRef)
         {
-            *outInt = ((int)(::FUN_0056f930((::NiAVObject *)(v34))));
+            *outRef = (void *)(::FUN_0056f930((::NiAVObject *)(v34)));
         }
         if (outPt)
         {
-            *outPt = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ex*)&((NiPoint3_helper*)&(*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&pos)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(vecStart)))))->operator*(frac))))->ProjectileLaunched(&ResultSlot(::NiPoint3()), (::NiPoint3 *)&(vecStart))));
+            *outPt = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ex*)&ResultSlot(((NiPoint3_helper*)&(*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&pos)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(vecStart)))))->operator*(frac)))))->ProjectileLaunched(&ResultSlot(::NiPoint3()), (::NiPoint3 *)&(vecStart))));
         }
         if (outFrac)
         {

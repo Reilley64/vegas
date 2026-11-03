@@ -1,5 +1,6 @@
 // fallout/ai/movement/virtualactorpathhandler.cpp: VirtualActorPathHandler, VirtualActorPathHandlerS, DoorPathHandler (16 functions)
 
+#include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorStandIn008a.h"
@@ -1426,7 +1427,7 @@ int DoorPathHandler::UpdateDoorPath(NiPoint3& position)
     {
         NiPoint3 actorPosition = *pActor->GetPos();
         float distance =
-            ((PointMagnitude&)(actorPosition - ((PathingSolutionS*)(PathingSolution*)pCurrentPathingSolution)
+            ((PointMagnitude&)ResultSlot(actorPosition - ((PathingSolutionS*)(PathingSolution*)pCurrentPathingSolution)
                                                    ->GetVirtualNode(m_uiPathPointIndex)
                                                    ->GetLocation()
                                                    .GetPosition()))

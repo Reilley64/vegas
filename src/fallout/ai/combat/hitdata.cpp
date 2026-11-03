@@ -232,7 +232,7 @@ FUN_009b7940_shell* FUN_009b7940_shell::Initialize()
     return this;
 }
 
-template <typename T, int N> struct BSSimpleArray
+template <typename T, unsigned int N> struct BSSimpleArray
 {
     void* pData;
     unsigned int uiSize;

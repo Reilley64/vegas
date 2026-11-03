@@ -30,4 +30,4 @@ bool IsTargetInCone(::ConeRef *, ::ConeRef *, float *);
 // 0x009a6d70
 bool IsWithinAimLimits(::S_009a6d70_Actor *, ::NiPoint3 *, float, float);
 // 0x009a6e90
-bool FUN_009a6e90(void *, void *, float, float, float, float, float, float, float, ::NiPoint3 *, int *, float *);
+bool FUN_009a6e90(void *, void *, float, ::NiPoint3, ::NiPoint3, ::NiPoint3 *, void **, float *);

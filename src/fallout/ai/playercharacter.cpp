@@ -48260,7 +48260,7 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
                                                      ::FUN_00966a40(), finalShot6);
                         AimObject* hitObject5 = 0;
                         bool hit =
-                            ::FUN_009a6e90((*reinterpret_cast<void * *>(&::_g_thePlayer)), ((::fnv_00965620::AimObject *)(reinterpret_cast<::Actor *>((actor))->GetActorBase())), speed, (*(float *)&(const ::fnv_00965620::NiPoint3_ext &)(point15)), (*(float *)&(const ::fnv_00965620::NiPoint3_ext &)(end)), 0, (float)(&hitObject5), 0, {}, {}, {}, {});
+                            ::FUN_009a6e90((*reinterpret_cast<void * *>(&::_g_thePlayer)), ((::fnv_00965620::AimObject *)(reinterpret_cast<::Actor *>((actor))->GetActorBase())), speed, *(const ::NiPoint3 *)&(point15), *(const ::NiPoint3 *)&(end), 0, (void **)&hitObject5, 0);
                         if (!hit || hitObject5 == camera3->target)
                             travelTime = speed / reinterpret_cast<::FUN_009669c0_Class *>((actor))->FUN_009669c0();
                     }

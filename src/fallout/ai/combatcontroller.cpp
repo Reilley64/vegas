@@ -6264,7 +6264,7 @@ struct State
     int unk3c;
     int unk40;
     int unk44;
-    int unk48;
+    void* m_pRegion;  // +0x48
     int unk4c;
     int unk50;
     int unk54;
@@ -6316,7 +6316,7 @@ void State::SetupPackageTarget(Package* package)
         reinterpret_cast<::Cls_0097f3f0 *>(this)->UpdatePointer();
         return;
     }
-    reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(package->GetRegion()));
+    m_pRegion = package->GetRegion();
     unsigned flags = reinterpret_cast<::BGSTerrainManager *>((package))->GetMinLevel();
     if (flags & 0x6000000)
     {

@@ -51,7 +51,8 @@ class LowProcess : public BaseProcess
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
 public:
-    ::PatrolActorPackageData *GetCurrentPackageData();
+    ::ActorPackageData *GetCurrentPackageData();
+    void FUN_0092cab0(::Actor* source);
 public:
     int GetActorValue(::TESActorBase *, ::ActorValue::Index, ::Actor *);
 public:

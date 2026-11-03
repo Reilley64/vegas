@@ -432,7 +432,7 @@ struct VtblStandIn
     virtual void AttachChildInAvailableSlot(NiAVObject*, bool);  // slot 55 (+0xDC)
     virtual void v056();
     virtual void v057();
-    virtual void InsertChild(unsigned int);  // slot 58 (+0xE8)
+    virtual void InsertChild(void*);  // slot 58 (+0xE8)
     virtual void v059();
     virtual void v060();
     virtual void v061();
@@ -672,15 +672,14 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
             }
         }
     }
-    if (*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38) &&
-        ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_009611e0())))
+    if (m_spDebugRootNode.m_pObject &&
+        ((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(
+            m_spDebugRootNode.m_pObject)))->FUN_009611e0())))
     {
-        reinterpret_cast<VtblStandIn*>(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(static_cast<unsigned int>(*reinterpret_cast<Flt*>(
-                                                                       reinterpret_cast<char*>(this) + 0x38)))))->FUN_009611e0())))
-            ->InsertChild(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38));
+        reinterpret_cast<VtblStandIn*>(((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(m_spDebugRootNode.m_pObject)))->FUN_009611e0())))
+            ->InsertChild(m_spDebugRootNode.m_pObject);
     }
-    *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x38) = 0;
+    *reinterpret_cast<NP_0081c630*>(&m_spDebugRootNode) = 0;
     if (!((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<TESObjectREFR*>(::_g_thePlayer)))->GetTarget())) ||
         !((::fnv_00991770::NiAVObject *)(::FUN_00524cf0(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<TESObjectREFR*>(::_g_thePlayer)))->GetTarget()))))))
     {
@@ -688,9 +687,9 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
     }
     if (*(*reinterpret_cast<::fnv_00991770::ProcessLists *>(&::g_011f197c)).GetLifeStateControlFlag())
     {
-        if (!*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))
+        if (!m_spDebugRootNode.m_pObject)
         {
-            *reinterpret_cast<NP_0081c630*>(reinterpret_cast<char*>(this) + 0x38) = new NiNode(0);
+            *reinterpret_cast<NP_0081c630*>(&m_spDebugRootNode) = new NiNode(0);
         }
         unsigned int iHighActorCount =
             reinterpret_cast<::FUN_005be5c0_shell *>((reinterpret_cast<TopicInfoArray*>(const_cast<NiPoint3*>(&(*reinterpret_cast<::fnv_00991770::TeleportableReference *>(&::g_011e0e80)).GetPosition()))))->FUN_005be5c0(0);
@@ -715,37 +714,35 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
                     NiAVObject* psphere = ((::fnv_00991770::NiAVObject *)(::FUN_00c56680(fradius, 10, 10, (const ::Color4 *)&(sphereColor))));
                     reinterpret_cast<::FUN_00440460_S *>((psphere))->FUN_00440460((const ::V3 *)&(pdetectionEvent->pos));
                     reinterpret_cast<VtblStandIn*>(
-                        static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
+                        m_spDebugRootNode.m_pObject)
                         ->AttachChildInAvailableSlot(psphere, true);
                     NiPoint3 actorPos = *reinterpret_cast<TESObjectREFR*>(pactor)->GetPos();
                     NiAVObject* parrow = ((::fnv_00991770::NiAVObject *)(::fnv_00c5a0f0::FUN_00c5a0f0((const ::fnv_00c5a0f0::Vec3 &)(actorPos), (const ::fnv_00c5a0f0::Vec3 &)(pdetectionEvent->pos), ::DAT_010162c0, ::DAT_010162c0,
                                                       (const ::fnv_00c5a0f0::Color4 *)&(arrowColor), (const ::fnv_00c5a0f0::Color4 *)&(sphereColor))));
                     reinterpret_cast<VtblStandIn*>(
-                        static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))
+                        m_spDebugRootNode.m_pObject)
                         ->AttachChildInAvailableSlot(parrow, true);
                 }
             }
         }
     }
-    if (*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))
+    if (m_spDebugRootNode.m_pObject)
     {
         NiAlphaProperty* pAlphaProperty = new NiAlphaProperty();
         reinterpret_cast<::FUN_0049ed90_shell *>((pAlphaProperty))->FUN_0049ed90(true);
         reinterpret_cast<::FUN_00439410_cls *>((reinterpret_cast<NiAVObject*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_00439410((::ArgObject *)(::fnv_00991770::NiObject *)(reinterpret_cast<NiObject*>(pAlphaProperty)));
-        ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)));
-        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::fnv_00991770::NiAVObject *)(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(
-                                                     *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))),
+            m_spDebugRootNode.m_pObject)))->FUN_00439410((::ArgObject *)(::fnv_00991770::NiObject *)(reinterpret_cast<NiObject*>(pAlphaProperty)));
+        ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(m_spDebugRootNode.m_pObject));
+        ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::fnv_00991770::NiAVObject *)(reinterpret_cast<NiAVObject*>(m_spDebugRootNode.m_pObject)),
                                                  false, false);
         reinterpret_cast<VtblStandIn*>(((::fnv_00991770::NiAVObject *)(::FUN_00524cf0(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<TESObjectREFR*>(::_g_thePlayer)))->GetTarget()))))))
-            ->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(
-                                             *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38))),
+            ->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(m_spDebugRootNode.m_pObject),
                                          true);
         reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_00a5a040();
+            m_spDebugRootNode.m_pObject)))->FUN_00a5a040();
         NiUpdateData UpdateData(0.0f, false, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_00a59c60((std::intptr_t)&(UpdateData));
+            m_spDebugRootNode.m_pObject)))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
 }
 }  // namespace fnv_00991770

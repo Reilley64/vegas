@@ -2172,7 +2172,7 @@ void RAttack::UpdateAttack()
     float fraction41 = 0.0f;
     RPoint muzzle23;
     MuzzlePosition(&muzzle23, actor);
-    bool collision25 = ::FUN_009a6e90(actor, info1, 0.0f, (*(float *)&(const ::RPoint &)(muzzle23)), (*(float *)&(const ::RPoint &)(destination)), (float)(&hitPoint2), (float)(&hit16), (float)(&fraction41), {}, {}, {}, {});
+    bool collision25 = ::FUN_009a6e90(actor, info1, 0.0f, *(const ::NiPoint3 *)&(muzzle23), *(const ::NiPoint3 *)&(destination), (::NiPoint3 *)&hitPoint2, (void **)&hit16, &fraction41);
     if (collision25)
     {
         bool blockedShot = false;

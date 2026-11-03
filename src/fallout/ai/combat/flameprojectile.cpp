@@ -1270,7 +1270,7 @@ bool ProjectileEffect::FUN_009b36f0()
     GenerateSpherePoints(points, 3, position, GetProjectileSpread(0), reinterpret_cast<::MobileObject *>(this)->GetLooking(), reinterpret_cast<::FUN_00645ce0_class *>(this)->GetField154(),
                          reinterpret_cast<::PathingRequest *>((((EmitterProperties*)((::GameObject *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))))->GetActorRadius(), ((float)(::FUN_004a4240())));
     points[3] = position + direction * (float)(((double)(reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter())) - ((double)(reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070())));
-    ::FUN_004a3f70((char *)&(visual), (::Flt)(objectHandle.id));
+    ::FUN_004a3f70((char *)&(visual), *reinterpret_cast<const ::Flt *>(&objectHandle.id));
     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(visual))->FUN_004a3da0(&position);
     for (int i = 0; i < 4; ++i)
     {

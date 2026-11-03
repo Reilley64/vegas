@@ -232,7 +232,7 @@ bool FUN_009f2ba0_shell::InitPatrolPackage(Actor* apActor, TESPackage* apPackage
     *(int*)((char*)this + 0x34) = 0;
     *(bool*)((char*)this + 0x0c) = true;
     *(int*)((char*)this + 0x30) = 0;
-    bool bvalid = (((ArchiveManager*)this)->*(bool(ArchiveManager::*)()) & ((void (&)(char *, unsigned int))::BuildLinkedRefChain))();
+    bool bvalid = ::BuildLinkedRefChain((char *)this);
     if (bvalid)
     {
         if ((*(PatrolActorPackageData**)((char*)this + 0x18))->IsPatrolling())

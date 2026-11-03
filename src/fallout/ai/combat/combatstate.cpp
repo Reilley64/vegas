@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
+#include "fnv/result_slot.h"
 #include "fnv/simple_array_item.h"
 #include <new>
 #include "fnv/decl/ActionOwner.h"
@@ -7365,7 +7366,7 @@ bool __cdecl FUN_0099cc60(void* pNodeA, ParentSpaceNode* pNodeB, int c)
     ParentSpaceNode s2;
     if ((unsigned char)c == 0)
     {
-        reinterpret_cast<::FUN_00439ef0_class *>((((FUN_00439ef0_cls*)pNodeB)))->FUN_00439ef0((::NiPoint3 *)(::ParentSpaceNode *)(&s2), (*(const ::NiPoint3 *)(((int)(reinterpret_cast<::TaskQueueInterface *>((((FUN_005c3420_cls*)pNodeA)))->QueueActorAnimationTask((*(::NiPoint3 *)(&s1))))))));
+        reinterpret_cast<::FUN_00439ef0_class *>((((FUN_00439ef0_cls*)pNodeB)))->FUN_00439ef0((::NiPoint3 *)(::ParentSpaceNode *)(&s2), (*(const ::NiPoint3 *)&ResultSlot(reinterpret_cast<::TaskQueueInterface *>((((FUN_005c3420_cls*)pNodeA)))->QueueActorAnimationTask((*(::NiPoint3 *)(&s1))))));
         if (((double)(reinterpret_cast<::TESCombatStyle *>((((FUN_004a7290_cls*)&s2)))->UpdateCombatStyle())) > DAT_0108d658)
         {
             return false;
@@ -7382,9 +7383,6 @@ struct NiPoint3Ex : NiPoint3
 {
     NiPoint3Ex operator-(const NiPoint3& kPt) const;
 };
-namespace std {
-float abs(float);
-}
 struct FUN_0099ccd0_Actor
 {
     virtual void Unk_00();

@@ -1511,7 +1511,7 @@ struct NodeX
     virtual void w55();
     virtual void w56();
     virtual void w57();
-    virtual void Release3D(unsigned int);
+    virtual void Release3D(void*);
 };
 
 struct FUN_009badc0
@@ -1543,13 +1543,13 @@ FUN_009badc0::~FUN_009badc0()
     TESModel* m_kModelObjectsItem = (TESModel*)((FUN_009baee0_owner*)this)->FUN_009baee0();
     if (m_kModelObjectsItem->GetModelLength())
         reinterpret_cast<::FUN_0045a5e0_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_0045a5e0((char *)(m_kModelObjectsItem->GetModelFilePath()));
-    if (*(Flt*)&m_pController && ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(unsigned int)*(Flt*)&m_pController)))->FUN_009611e0())))
+    if (m_pController.p && ((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)m_pController.p)))->FUN_009611e0())))
     {
         if (!::FUN_008c7aa0())
-            ((NodeX*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(unsigned int)*(Flt*)&m_pController)))->FUN_009611e0())))
-                ->Release3D(*(Flt*)&m_pController);
+            ((NodeX*)((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)m_pController.p)))->FUN_009611e0())))
+                ->Release3D(m_pController.p);
         else
-            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((::TaskQueueInterface::GetSingleton()))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(*(Flt*)&m_pController));
+            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((::TaskQueueInterface::GetSingleton()))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(m_pController.p));
     }
     m_pController = 0;
     reinterpret_cast<::ShadowNode *>(this)->FUN_009bb850();

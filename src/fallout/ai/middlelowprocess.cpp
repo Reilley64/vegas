@@ -499,7 +499,7 @@ struct ModifierList_helper
 void FUN_0092eb00_shell::FUN_0092eb00(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::LowProcess *>((reinterpret_cast<LowProcess_helper*>(this)))->Revert((::BGSLoadFormBuffer *)(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0092eb00::BGSChangeFlags_helper &)(reinterpret_cast<BGSLoadFormBuffer_helper*>(apLoadGameBuffer)->GetOldChangeFlags(0x100000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0092eb00::BGSChangeFlags_helper &)(reinterpret_cast<BGSLoadFormBuffer_helper*>(apLoadGameBuffer)->GetOldChangeFlags(0x100000)))->FUN_004280f0(0x100000))
         reinterpret_cast<::ActorValueModifierList *>((reinterpret_cast<ModifierList_helper*>(reinterpret_cast<char*>(this) + 0xb8)))->FUN_00937d50((int)(apLoadGameBuffer));
 }
 }  // namespace fnv_0092eb00
@@ -2610,15 +2610,17 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                         {
                             if (reinterpret_cast<::TESPackage *>((GetAssignedPackage()))->FUN_00670f40())
                             {
-                                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_0092d050::Queue * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_0092d050::Owner *)(pActor->GetOwner()), (*(const ::NiPoint3 *)(pActor->GetNear(::runtimeFloatSettingDefault247))),
-                                                  pActor->GetNear(::runtimeFloatSettingDefault247), (*(const ::NiPoint3 *)(((void (&)())::LowProcess::HandlePackageLocationLoaded))), (float)(pActor), {}, {});
+                                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_0092d050::Queue * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_0092d050::Owner *)(pActor->GetOwner()), *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247),
+                                                  ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247), 0.0f,
+                                                  (bool (*)(TESObjectREFR *, long))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)pActor);
                             }
                             Set1c0(1);
                         }
                         if (reinterpret_cast<::TESPackage *>((GetAssignedPackage()))->FUN_00670f60())
                         {
-                            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_0092d050::Queue * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_0092d050::Owner *)(pActor->GetOwner()), (*(const ::NiPoint3 *)(pActor->GetNear(::runtimeFloatSettingDefault247))),
-                                              pActor->GetNear(::runtimeFloatSettingDefault247), (*(const ::NiPoint3 *)(((void (&)())::LowProcess::HandlePackageTargetLoaded))), (float)(pActor), {}, {});
+                            reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_0092d050::Queue * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_0092d050::Owner *)(pActor->GetOwner()), *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247),
+                                                  ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)pActor->GetNear(::runtimeFloatSettingDefault247), 0.0f,
+                                                  (bool (*)(TESObjectREFR *, long))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)pActor);
                         }
                         if ((pExt != 0 && ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pExt))->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca248))) ||
                             (((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::BGSMessageInitAccess *>((GetAssignedPackage()))->GetIconFormID())) != 0 && reinterpret_cast<::DurationData *>((((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::BGSMessageInitAccess *>((GetAssignedPackage()))->GetIconFormID()))))->FUN_00678ca0() == 3))
@@ -2888,7 +2890,7 @@ void LowProcess::FUN_0092cab0(Actor* source)
     bool bUpdated = false;
     if (!pTarget || actor->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((void *)(actor))->FUN_00440d80() || actor->Unk_8B(false))
     {
-        source->Unk_10D(0);
+        (source->*reinterpret_cast<void (Actor::*)(Actor*)>(&Actor::Unk_10D))(0);
         reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((source))->FUN_00881680(false);
     }
     else if (actor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && (*(::PROCESS_TYPE *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 2)

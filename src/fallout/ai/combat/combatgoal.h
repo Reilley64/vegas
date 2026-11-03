@@ -54,6 +54,7 @@ class CombatGoal
     unsigned int m_uiGoalFlags;                            // +0x18, 4 bytes
 
     static CombatGoal* CreateGoal(COMBAT_GOAL eType);
+    bool FUN_009843b0(class CombatStateValues* values);
 };
 
 class CombatGoalActivateCombatItem : public CombatGoal

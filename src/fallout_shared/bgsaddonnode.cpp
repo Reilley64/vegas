@@ -190,7 +190,7 @@ void FUN_004f9360()
     {
         BSFadeNode* inner = (*reinterpret_cast<::fnv_004f9360::BSFadeNode * *>(&::DAT_011c8058));
         pFadeNode = inner;
-        pFadeNode ? ((int)(reinterpret_cast<::NiFixedString *>((pFadeNode))->FUN_004b9900(1))) : 0;
+        pFadeNode ? ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((pFadeNode))->FUN_004b9900(1))) : 0;
     }
     (*reinterpret_cast<::fnv_004f9360::BSFadeNode * *>(&::DAT_011c8058)) = 0;
 }

@@ -130,7 +130,7 @@ float FUN_004094a0_Class::FUN_004094a0(int apActor)
 {
     if (((bool)(reinterpret_cast<::FlaggedData *>((((FlaggedData*)((char*)this - 0x24))))->ContainsAnyFlag(1))))
     {
-        return (float)(long)((void *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)((char*)this - 0x24))))->GetEntryPoint()));
+        return (float)(std::intptr_t)((void *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)((char*)this - 0x24))))->GetEntryPoint()));
     }
     else
     {

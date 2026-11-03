@@ -292,7 +292,7 @@ UnkArg* UnkThis::FUN_0043a390(UnkArg* apArg)
 // @fnv 0x0043a3f0
 int Caller_43a3f0::FUN_0043a3f0()
 {
-    return p ? ((int)(reinterpret_cast<::s575ca0::Owner *>((p))->FUN_00575ca0())) : 0;
+    return p ? ((std::intptr_t)(reinterpret_cast<::s575ca0::Owner *>((p))->FUN_00575ca0())) : 0;
 }
 
 

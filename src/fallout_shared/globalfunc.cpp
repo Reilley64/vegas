@@ -2509,16 +2509,16 @@ void FUN_004b68a0(ArrSI* object, FUN_004b68a0_data* data)
         return;
 
     if ((data->field_18 & 2) &&
-        FUN_0043b300(reinterpret_cast<const NiRTTI*>(&(*reinterpret_cast<const void *const *>(&::g_011f9140))), reinterpret_cast<NiAVObject*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))))
+        FUN_0043b300(reinterpret_cast<const NiRTTI*>(&(*reinterpret_cast<const void *const *>(&::g_011f9140))), reinterpret_cast<NiAVObject*>(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))))
         return;
 
     if ((data->field_18 & 2) && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())) &&
-        reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
+        reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
             ->FUN_0043b1b0())
     {
         if (!::FUN_00408b20(reinterpret_cast<char const*>(
                               reinterpret_cast<BSFadeNode*>(
-                                  reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
+                                  reinterpret_cast<TESTopicInfoData*>(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
                                   ->FUN_0043b1b0()),
                           "Arrow"))
             return;
@@ -2561,7 +2561,7 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
 
     if (data->field_18 & 2)
     {
-        if (FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f9140)), reinterpret_cast<NiAVObject*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))))
+        if (FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f9140)), reinterpret_cast<NiAVObject*>(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))))
             return;
     }
 
@@ -2570,13 +2570,13 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
         if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
         {
             if (reinterpret_cast<BSFadeNode*>(
-                    reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
+                    reinterpret_cast<TESTopicInfoData*>(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
                         ->GetLinkToList())
                     ->FUN_0043b1b0())
             {
                 if (!FUN_00408b20(static_cast<char const*>(
                                       reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(
-                                                                        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
+                                                                        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
                                                                         ->GetLinkToList())
                                           ->FUN_0043b1b0()),
                                   $SG20273))
@@ -2800,7 +2800,7 @@ int FUN_004b6b60(NiAVObject* pkRoot, void* pvUserData)
     kContext.pUserData = pvUserData;
     kContext.pAuxiliaryData = reinterpret_cast<void*>(-1);
     ::FUN_00c68900((::S_00c68900_Node *)(pkRoot), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::fnv_004b6bc0::FUN_004b6bc0)));
-    return (int)(std::uintptr_t)(kContext.pAuxiliaryData) != -1 ? reinterpret_cast<int>(kContext.pAuxiliaryData) : -1;
+    return (int)(std::uintptr_t)(kContext.pAuxiliaryData) != -1 ? reinterpret_cast<std::intptr_t>(kContext.pAuxiliaryData) : -1;
 }
 
 class FUN_004b6ce0_cls

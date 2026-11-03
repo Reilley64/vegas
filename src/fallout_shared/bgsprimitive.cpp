@@ -3713,7 +3713,7 @@ void C_00c36580::FUN_00c36580(Obj_0096a610* value)
     reinterpret_cast<::fnv_00c38220::FUN_00c38220_shell *>(this)->AddPropertyNames((::fnv_00c38220::NiTPrimitiveArray_unsigned_int_ *)((std::intptr_t)value));
 
     std::intptr_t src = (*reinterpret_cast<int *>(&::g_01202818));
-    unsigned int first = (unsigned int)((int)(::FUN_00a7d330((const char *)(src))));
+    unsigned int first = (unsigned int)((std::intptr_t)(::FUN_00a7d330((const char *)(src))));
     reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((std::intptr_t)&(first));
 
     std::uintptr_t second = ((std::uintptr_t)(reinterpret_cast<::FloatMatrix3 *>(&(unk24))->ToString("Axis")));

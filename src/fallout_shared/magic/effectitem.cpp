@@ -873,7 +873,7 @@ void FUN_00403be0_cls::FUN_00403be0(InterfaceManager* manager)
     unk04 = 0;
     unk08 = 0;
     unk00 = 0;
-    m_iResult = reinterpret_cast<::S3c60 *>((reinterpret_cast<FUN_00403be0_target*>(m_pManager)))->HasFlag2() ? (int)m_pManager->FUN_00586150() : -1;
+    m_iResult = reinterpret_cast<::S3c60 *>((reinterpret_cast<FUN_00403be0_target*>(m_pManager)))->HasFlag2() ? (std::intptr_t)m_pManager->FUN_00586150() : -1;
     m_fValue = ::DAT_01012054;
 }
 

@@ -459,7 +459,7 @@ class TESObjectREFR
 // @fnv 0x004a3a40
 unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
 {
-    return apRef ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
+    return apRef ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
 }
 
 void FUN_004a3b70(void*);

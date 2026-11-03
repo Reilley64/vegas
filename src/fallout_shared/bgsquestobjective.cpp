@@ -579,7 +579,7 @@ struct FUN_005ec5d0_shell : BGSQuestObjective
 // @fnv 0x005ec5d0
 void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
 {
-    TESQuest* powner = reinterpret_cast<TESQuest*>(((int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<BSAudio*>(this)))->FUN_0044edb0())));
+    TESQuest* powner = reinterpret_cast<TESQuest*>(((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<BSAudio*>(this)))->FUN_0044edb0())));
 
     powner->FUN_005ec000(0x20000000);
 

@@ -370,7 +370,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                     int progress;
                 } values;
                 values.progress = challenge->progress.iProgress;
-                values.interval = ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) ? ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) : 100;
+                values.interval = ((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) ? ((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) : 100;
                 for (int value = values.progress; value >= 0; value -= values.interval)
                 {
                     if (value == 0)

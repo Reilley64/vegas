@@ -151,9 +151,9 @@ struct Holder004f8800 : Base00404fd0
 unsigned int Holder004f8800::AddGameSettingsStrings(NiTPrimitiveArray_unsigned_int_* apStrings)
 {
     unsigned int I;
-    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(const unsigned int &)((unsigned int)::FUN_00a7d330("GameSettings")));
+    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(const unsigned int &)((std::uintptr_t)::FUN_00a7d330("GameSettings")));
     I = FUN_00404fd0(apStrings);
-    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(const unsigned int &)((unsigned int)FUN_00a7d510("Total GameSettings", I)));
+    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(const unsigned int &)((std::uintptr_t)FUN_00a7d510("Total GameSettings", I)));
     return I;
 }
 

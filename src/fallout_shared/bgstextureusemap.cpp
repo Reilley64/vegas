@@ -748,7 +748,7 @@ void TextureWalker::FUN_004aa3d0(NiAVObject* obj, bool b)
                 {
                     WalkCtx ctx;
                     ctx.owner = this;
-                    ctx.value = g_walkCurrentRef ? (int)g_walkCurrentRef : m0;
+                    ctx.value = g_walkCurrentRef ? (std::intptr_t)g_walkCurrentRef : m0;
                     tex->ForEachTexture(::InvokeIfPresent, &ctx);
                 }
             }

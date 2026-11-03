@@ -906,7 +906,7 @@ void FUN_00501050_cls::FUN_00501050()
         sub.FUN_0063f7b0();
         FUN_00501050_ref* tmp = a;
         FUN_00501050_ref* b2 = tmp;
-        (b2 != 0 ? ((int)(reinterpret_cast<::FUN_005010c0_class *>((b2))->FUN_005010c0(1))) : 0);
+        (b2 != 0 ? ((std::intptr_t)(reinterpret_cast<::FUN_005010c0_class *>((b2))->FUN_005010c0(1))) : 0);
     }
 }
 

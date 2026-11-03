@@ -29,19 +29,19 @@ BGSEquipType::EQUIP_TYPE BGSEquipType::GetEquipType(TESForm* form)
         switch (form->GetFormType())
         {
         case 40:
-            result = (EQUIP_TYPE)(int)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0xc4))))->FUN_00726070()));
+            result = (EQUIP_TYPE)(std::intptr_t)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0xc4))))->FUN_00726070()));
             break;
         case 24:
-            result = (EQUIP_TYPE)(int)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x154))))->FUN_00726070()));
+            result = (EQUIP_TYPE)(std::intptr_t)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x154))))->FUN_00726070()));
             break;
         case 26:
-            result = (EQUIP_TYPE)(int)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x14c))))->FUN_00726070()));
+            result = (EQUIP_TYPE)(std::intptr_t)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x14c))))->FUN_00726070()));
             break;
         case 47:
-            result = (EQUIP_TYPE)(int)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x9c))))->FUN_00726070()));
+            result = (EQUIP_TYPE)(std::intptr_t)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x9c))))->FUN_00726070()));
             break;
         case 29:
-            result = (EQUIP_TYPE)(int)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x8c))))->FUN_00726070()));
+            result = (EQUIP_TYPE)(std::intptr_t)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)((char*)form + 0x8c))))->FUN_00726070()));
             break;
         }
     }

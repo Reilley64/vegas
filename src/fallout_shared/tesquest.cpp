@@ -1418,7 +1418,7 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             void* entry = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))));
             if (entry)
             {
-                void* view = ((void *)(::FUN_004839c0((unsigned int)(*(void**)entry))));
+                void* view = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)entry))));
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015718)), UNK_0104ad80, 0xfaf, *(void**)entry, ((TagMethod*)*(void**)view)[76](view),
                              *(unsigned char*)((char*)entry + 9), *(unsigned int*)((char*)entry + 5));
             }
@@ -1527,7 +1527,7 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             entry = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))));
             if (entry)
             {
-                void* view = ((void *)(::FUN_004839c0((unsigned int)(*(void**)entry))));
+                void* view = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)entry))));
                 if (actual > start + sizeRead)
                     ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015588)), actual - (start + sizeRead), UNK_0104ad80, 0x1010, *(void**)entry,
                                  ((TagMethod*)*(void**)view)[76](view), *(unsigned char*)((char*)entry + 9),

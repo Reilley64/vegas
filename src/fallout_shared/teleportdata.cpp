@@ -441,7 +441,7 @@ struct RefHandle
 // @fnv 0x00835fe0
 void RefHandle::ResolveRef(void* pvUnused)
 {
-    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)m_pkRef)) : 0;
+    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)m_pkRef)) : 0;
 }
 
 }

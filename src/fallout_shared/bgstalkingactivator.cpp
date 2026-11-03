@@ -669,7 +669,7 @@ void FUN_004ff8a0_shell::FUN_004ff8a0(void* arg)
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((((FUN_00428110_shell*)arg)->FUN_00428110(&local, 0x800000)))->FUN_004280f0({}))
     {
         m_pTempRef =
-            (TESObjectREFR*)(m_pTempRef != 0 ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)m_pTempRef)) : 0);
+            (TESObjectREFR*)(m_pTempRef != 0 ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)(std::uintptr_t)m_pTempRef)) : 0);
     }
 }
 

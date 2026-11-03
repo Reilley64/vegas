@@ -2681,7 +2681,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
                 ResolveFormID((unsigned int*)&faction, file4);
 
                 link5->pFaction =
-                    (FactionRec*)dynamic_cast< ::TESFaction*>((TESForm*)FUN_004839c0((unsigned int)faction));
+                    (FactionRec*)dynamic_cast< ::TESFaction*>((TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)faction));
             }
 
             if (link5->pFaction != 0)
@@ -2709,7 +2709,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_kFactionList = (::BGSVoiceType*)dynamic_cast<BGSVoiceType*>((TESForm*)FUN_004839c0((unsigned int)form4));
+        m_kFactionList = (::BGSVoiceType*)dynamic_cast<BGSVoiceType*>((TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)form4));
     }
 
     form4 = (TESForm*)m_pBaseTemplateForm;
@@ -2719,7 +2719,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_pBaseTemplateForm = (::TESLevItem*)dynamic_cast<TESLevItem*>((TESForm*)FUN_004839c0((unsigned int)form4));
+        m_pBaseTemplateForm = (::TESLevItem*)dynamic_cast<TESLevItem*>((TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)form4));
 
         if (m_pBaseTemplateForm == 0)
         {
@@ -2735,7 +2735,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
         ResolveFormID((unsigned int*)&form4, file4);
 
-        m_ppTemplateForms = (TESForm*)FUN_004839c0((unsigned int)form4);
+        m_ppTemplateForms = (TESForm*)FUN_004839c0((unsigned int)(std::uintptr_t)form4);
 
         if (m_ppTemplateForms == 0)
         {

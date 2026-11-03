@@ -492,7 +492,7 @@ unsigned short ParticleEffect::FUN_00689b20()
         void* entry = ((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (entry)
         {
-            LoggingObject* writer = ((::LoggingObject *)(::FUN_004839c0((unsigned int)(*(void**)entry))));
+            LoggingObject* writer = ((::LoggingObject *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)entry))));
             ::FUN_0040fbe0(::DAT_01012cb0, previous - total, *(void**)entry, ((LogMethod*)writer->vtable)[76](writer),
                          *(void**)((char*)entry + 5), 0x174, DAT_01069d20);
         }

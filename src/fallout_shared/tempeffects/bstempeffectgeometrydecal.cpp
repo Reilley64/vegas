@@ -798,7 +798,7 @@ unsigned short RuntimeController::GetRuntimeFlags()
         char* current = ((char *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (current)
         {
-            void* related = ((void *)(::FUN_004839c0((unsigned int)(*reinterpret_cast<void**>(current)))));
+            void* related = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*reinterpret_cast<void**>(current)))));
             ::FUN_0040fbe0();
         }
         else
@@ -2734,7 +2734,7 @@ void Decal688::FUN_00688b00()
         char* pcRecord = ((char *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pcRecord)
         {
-            SaveForm688* pForm = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(*(void**)pcRecord))));
+            SaveForm688* pForm = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(*(void**)pcRecord))));
             ::FUN_0040fbe0(
                 );
         }
@@ -2885,7 +2885,7 @@ bool DecalLoad688::FUN_00688c90()
             DecalLoad688Header* form7 = ((::DecalLoad688Header *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((DecalLoad688Runtime*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))));
             if (form7)
             {
-                SaveForm688* obj_2 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)((void*)(form7->formID)))));
+                SaveForm688* obj_2 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)((void*)(form7->formID)))));
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015718)), &str_01069ba0, 1932, form7->formID, obj_2->GetName(), form7->version,
                              *(int*)&form7->dataSize);
             }
@@ -2903,7 +2903,7 @@ bool DecalLoad688::FUN_00688c90()
         DecalLoad688Header* form2 = ((::DecalLoad688Header *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((DecalLoad688Runtime*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))));
         if (form2)
         {
-            SaveForm688* obj3 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)((void*)(form2->formID)))));
+            SaveForm688* obj3 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)((void*)(form2->formID)))));
             if (cur4 > count + base)
             {
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015588)), cur4 - (count + base), &str_01069ba0, 2104, form2->formID, obj3->GetName(),

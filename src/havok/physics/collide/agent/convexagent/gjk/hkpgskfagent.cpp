@@ -64,28 +64,40 @@ void FUN_00dacaf0::cleanup(void* arg)
 
 struct hkpGskfAgent
 {
+    struct ContactPoint
+    {
+        unsigned short m_unk0;
+        unsigned short m_id;
+        unsigned int m_unk4;
+    };
+    // The manifold that FUN_00dae340 and ReleaseAllEntries take as an S_00dad640_Set.
+    struct Manifold
+    {
+        unsigned char m_unk0;
+        unsigned char m_unk1;
+        unsigned char m_numContactPoints;
+        unsigned char m_unk3;
+        ContactPoint m_contactPoints[1];
+    };
+
+    unsigned char m_pad00[0x30];
+    Manifold m_manifold;  // +0x30
+
     void FUN_00dacb20(unsigned short id);
 };
 
-// Scans up to count entries at this+0x36 for a matching id and, if found, calls FUN_00dae340 with this+0x30 and the entry index.
+// Looks for the contact point with a matching id and, if found, calls FUN_00dae340 with the manifold and its index.
 // @fnv 0x00dacb20
 void hkpGskfAgent::FUN_00dacb20(unsigned short id)
 {
-    int count = *(unsigned char*)((char*)this + 0x32);
-    int i = 0;
-    if (count > 0)
+    int count = m_manifold.m_numContactPoints;
+    for (int i = 0; i < count; ++i)
     {
-        char* p = (char*)this + 0x36;
-        do
+        if (m_manifold.m_contactPoints[i].m_id == id)
         {
-            if (*(unsigned short*)p == id)
-            {
-                ::FUN_00dae340((::S_00dad640_Set *)(void *)((char*)this + 0x30), i);
-                return;
-            }
-            ++i;
-            p += 8;
-        } while (i < count);
+            ::FUN_00dae340((::S_00dad640_Set *)(void *)&m_manifold, i);
+            return;
+        }
     }
 }
 

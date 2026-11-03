@@ -2,6 +2,7 @@
 
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -1925,7 +1926,7 @@ struct FUN_00e69a60_obj20 {
 };
 struct FUN_00e69a60_obj14 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererListNode
 {
     void* m_pListObject;
@@ -3839,7 +3840,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -20442,7 +20443,7 @@ struct NewObj {
 };
 struct Map610 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct C_00e8f010;
 struct TwoComponentVector;
 struct VBEntry;
@@ -26749,7 +26750,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
     return buffer;
 }
 
-void* __cdecl FUN_00aa1420(unsigned int size);
+
 void __cdecl FUN_00e78bd0(void* element);
 void FUN_00401050(void* buffer, unsigned int elementSize, unsigned int count, void (__cdecl* ctor)(void*));
 struct OuterSlot { OuterSlot() throw();

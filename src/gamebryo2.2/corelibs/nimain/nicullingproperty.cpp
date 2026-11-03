@@ -121,7 +121,7 @@ void NiCullingProperty::FUN_00a8f650(NiStream& stream)
 }
 }  // namespace fnv_00a8f650
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int DAT_0109f68c;
 
 struct NiPropertyMem;

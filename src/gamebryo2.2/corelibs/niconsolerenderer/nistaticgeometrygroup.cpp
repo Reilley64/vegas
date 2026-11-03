@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -673,7 +674,7 @@ VbNode* FUN_00e94c20_cls::GetOrCreateNode(VbDesc* apDesc, unsigned int uiStrideI
     return r;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int n);
+
 void __cdecl FUN_00e941a0(void* object);
 struct S00e94b80_Unknown
 {

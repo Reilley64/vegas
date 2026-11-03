@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecompfloatinterpolator.cpp: NiBSplineCompFloatInterpolator, FObj (10 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a50c70_cls.h"
 #include "fnv/decl/FUN_00a50d30_shell.h"
 #include "fnv/decl/FUN_00a57f20_cls.h"
@@ -189,7 +190,7 @@ bool FUN_00a51530_cls::EvaluateAtTime(float afTime, unsigned int unused, float* 
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 inline void* operator new(size_t, void* q)
 {
     return q;

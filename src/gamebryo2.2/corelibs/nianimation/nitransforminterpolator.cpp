@@ -1119,7 +1119,7 @@ void NiTransformInterpolatorCopy::FUN_00a40360(NiTransformInterpolator* pkDest, 
 }
 
 namespace fnv_00a403f0 {
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 inline void* __cdecl operator new(size_t, void* address)
 {
     return address;

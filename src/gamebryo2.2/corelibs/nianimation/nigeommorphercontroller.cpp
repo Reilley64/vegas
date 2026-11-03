@@ -1830,7 +1830,7 @@ void FUN_00a3b080_cls::ApplySetterArg(SetterArg* a1)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 extern int DAT_01096cec;
 

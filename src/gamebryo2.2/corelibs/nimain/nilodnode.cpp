@@ -5,6 +5,7 @@
 
 // @fnv 0x00a994c0
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -71,7 +72,7 @@ bool NiLODNode::FUN_00a992e0(NiStream* stream)
         return false;
     NiStream* node = *(NiStream**)((char*)this + 0xcc);
     if (node)
-        ((void(*)(NiStream*, NiStream*))(*(int**)node)[21])(node, stream);
+        ((void(*)(NiStream*, NiStream*))(*(void***)node)[21])(node, stream);
     return true;
 }
 
@@ -944,7 +945,7 @@ bool Cls::FUN_00a99400(Holder* other)
     return true;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned);
+
 
 struct LODBinStream
 {

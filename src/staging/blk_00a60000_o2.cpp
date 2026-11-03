@@ -1928,7 +1928,7 @@ struct FUN_00a75dc0_cls
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a71c40_cls
 {
@@ -3731,7 +3731,7 @@ struct A5FC10Stub
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // @fnv 0x00a60070
 A5FC10Stub* __cdecl CreateA5FC10Stub()

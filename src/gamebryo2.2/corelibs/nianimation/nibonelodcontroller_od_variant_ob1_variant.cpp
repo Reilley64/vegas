@@ -905,7 +905,7 @@ NiControllerManager* CloneOwner_c53360::FUN_00c53360(CloningProcess* process)
 }  // namespace fnv_00c53360
 
 namespace fnv_00c537f0 {
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct FUN_00c53d70
 {
     int unk00;

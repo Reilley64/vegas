@@ -531,7 +531,7 @@ struct NiObject
 
 extern "C"
 {
-    void* __cdecl FUN_00aa13e0(unsigned int size);
+
     void __cdecl FUN_00a76960(char** pp, unsigned int* p);
 }
 
@@ -643,7 +643,7 @@ SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner
 }
 
 namespace fnv_00a61040 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern "C" void __cdecl FUN_00a76960(char** ppName, void* pExtra);
 
 
@@ -1257,7 +1257,6 @@ struct S00a60cc0_Loader
     virtual bool v02(char* buf, int size);
 };
 
-void* __cdecl FUN_00aa1070(unsigned int size);
 bool __cdecl FUN_00aa1a30(const char* p, int a);
 
 static __forceinline void S00a60cc0_ReleaseAll(S00a60cc0_Ref** res)
@@ -1321,7 +1320,6 @@ void CubeMapLoader::FUN_00a612a0(NiStream& kStream)
 }
 
 extern "C" void* DAT_0109babc;
-extern "C" void __cdecl FUN_00aa1460(void*, unsigned int);
 extern "C" void _ReadWriteBarrier();
 
 struct CubePixels
@@ -1362,7 +1360,7 @@ void* CubeCleanup::FUN_00a61250(unsigned int flags)
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct PixelFormat
 {
     unsigned int unk00;

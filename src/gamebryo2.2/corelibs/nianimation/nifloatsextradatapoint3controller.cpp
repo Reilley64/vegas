@@ -201,7 +201,7 @@ struct GlobalObjectO2_00a7b610;
 
 
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct Vec12Sink {
     int FUN_00a49650(Vec12 v);

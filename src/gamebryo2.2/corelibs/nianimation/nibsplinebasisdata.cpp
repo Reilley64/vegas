@@ -127,7 +127,7 @@ FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(intptr_t a1, int a2, intptr_t a
     return this;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 class SplineBase
 {
@@ -184,7 +184,7 @@ SplineObj* SplineOwner::CreateSplineObj(unsigned char flags)
     return pResult;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 class NiSplineBase
 {

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
@@ -624,7 +625,7 @@ void NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
     target->unk64 = fClamped;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct Host2f440
 {
     FUN_00c32d80* CreateAndInit(intptr_t arg);

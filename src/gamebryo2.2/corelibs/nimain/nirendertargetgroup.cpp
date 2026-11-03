@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -573,7 +574,7 @@ struct SpawnedObject
     int m_1c;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // @fnv 0x00ee8760
 SpawnedObject* __cdecl FUN_00ee8760(void* a1, SourceObject* apSource, void* a3)

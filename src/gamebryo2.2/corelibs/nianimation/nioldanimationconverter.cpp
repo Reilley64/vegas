@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/ControllerOwner.h"
@@ -20,7 +21,7 @@
 #include "fnv/symbols_01097000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct FUN_00a5d3a0_cls
 {
@@ -94,7 +95,7 @@ void FUN_00a42460_cls::FUN_00a42460(uintptr_t auiArg1, unsigned int auiArg2, uns
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 struct LcRTTI
 {

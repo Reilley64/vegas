@@ -5,6 +5,7 @@
 
 // @fnv 0x00c29f90
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -39,7 +40,7 @@ void NiPSysInitialRotSpeedCtlr::AppendString(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(nCount, p);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct CtorBase_cls
 {

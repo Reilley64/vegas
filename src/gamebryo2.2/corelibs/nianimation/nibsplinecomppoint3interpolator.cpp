@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecomppoint3interpolator.cpp: NiBSplineCompPoint3Interpolator, SplineEvaluationState (8 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/A50880Light.h"
 #include "fnv/decl/FUN_00a50960_shell.h"
 #include "fnv/decl/NiBSplineData.h"
@@ -236,7 +237,7 @@ void* __cdecl FUN_00a51270();
 
 void FUN_00a51480(StrArr* pkStrings);
 
-extern void* FUN_00aa13e0(unsigned int bytes) throw();
+
 
 struct Base506
 {

@@ -321,7 +321,7 @@ TreadEntry* FUN_00a35900_cls::FUN_00a35900(unsigned short usIndex, int aParam1, 
     return &m_pEntries[usIndex];
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 
 struct FUN_00a2f8c0
 {

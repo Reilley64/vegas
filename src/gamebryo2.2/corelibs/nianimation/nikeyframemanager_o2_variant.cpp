@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/AHSeqOwner.h"
@@ -55,7 +56,7 @@ void* Holder_00a4da90::FUN_00a4da90(unsigned int flags)
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int byteCount);
+
 struct AllocatedAnimationController
 {
 };

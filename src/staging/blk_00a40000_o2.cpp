@@ -1905,7 +1905,7 @@ class FUN_00a5d3d0
 
 };
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int DAT_0109b5ac;
 struct NiObjectBase
 {
@@ -3856,7 +3856,7 @@ CloneSourceA5d6* CloneSourceA5d6::FUN_00a5d680()
     return pkClone;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern void(* DAT_00fdf1c0)(void*);
 extern void(* DAT_00fdf1c4)(void*);
 
@@ -3972,7 +3972,7 @@ FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* 
 }
 
 namespace fnv_00a5ff10 {
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 typedef long(* RefCounter)(volatile long*);
 extern RefCounter DAT_00fdf1c0;
 extern RefCounter DAT_00fdf1c4;

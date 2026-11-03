@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/B1D0Node3D.h"
 #include "fnv/decl/BSMultiBoundNode.h"
@@ -65,7 +66,7 @@ void BSStripParticleSystem::AppendString(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(n, s);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct ParticleSystem
 {
     unsigned int* vtable;

@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.cpp: NiDynamicGeometryGroup, SomeClass, UnsharedGroupStub, Group and more (17 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -476,7 +477,7 @@ NiGeometryGroup* __cdecl GetNiGeometryGroup() throw()
     return DAT_0126fa38;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct VertexBufferRef
 {

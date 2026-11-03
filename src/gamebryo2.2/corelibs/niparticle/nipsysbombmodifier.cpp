@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -687,7 +688,7 @@ void NiPSysEmitterC2E::FUN_00c2ec40(NiStreamC2E& kStream)
     C2EC40SaveBinary(kStream, m_fD);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010c01ec;
 struct C2E570_Base
 {

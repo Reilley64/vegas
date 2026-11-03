@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -201,7 +202,7 @@ bool FUN_00a7bee0_cls::FUN_00a7bee0(unsigned int flags)
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedPixelData : NiObject
 {

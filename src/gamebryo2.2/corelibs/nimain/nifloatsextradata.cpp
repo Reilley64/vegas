@@ -5,6 +5,7 @@
 
 // @fnv 0x00a89120
 #include "generated/data/vtables.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -685,7 +686,7 @@ void FUN_00a99a90_IntsExtraData::LoadBinary(BA99A90Stream& kStream)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 struct A89130Layout
 {
     void* m_ppVirtualMethodTable;

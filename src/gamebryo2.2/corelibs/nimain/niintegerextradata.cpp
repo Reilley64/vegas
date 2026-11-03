@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niintegerextradata.cpp: NiIntegerExtraData, ExtraDataOwner (7 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b300_shell.h"
@@ -123,7 +124,7 @@ void FUN_00a99d70_shell::FUN_00a99d70(A89C70StringArray* apViewerStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(index, pString);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct ExtraDataOwner
 {
     int unk00;

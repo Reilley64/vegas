@@ -321,8 +321,7 @@ void __cdecl FUN_00a6e8e0(S_00a6e8e0_Object* object, S_00a6e8e0_Palette* palette
         FUN_00a6e8e0((S_00a6e8e0_Object*)children->m_children[i], palette);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-extern "C" void* __cdecl FUN_00aa1070(unsigned int size);
+
 struct PaletteBase
 {
     void* vtable;
@@ -820,7 +819,6 @@ extern int DAT_0109ca08;
 extern int DAT_0109ca18;
 
 void* __cdecl NiMalloc(unsigned int);
-void __cdecl FUN_00aa10f0(void*);
 struct Key
 {
     const char* text;

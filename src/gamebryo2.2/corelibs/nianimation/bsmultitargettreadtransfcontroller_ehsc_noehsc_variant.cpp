@@ -208,7 +208,7 @@ struct FUN_00a35900_cls
     TreadEntry* m_pEntries;
     TreadEntry* FUN_00a35900(unsigned short usIndex, int aParam1, int aParam2, int aParam3, int aParam4);
 };
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 struct FUN_00a2f8c0
 {
     void* vtable;
@@ -517,7 +517,7 @@ __forceinline void* __cdecl operator new(size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
-void* __cdecl FUN_00aa1420(unsigned int);
+
 struct SNAEntry
 {
     static void* operator new(size_t n)

@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshader.cpp: NiD3DShader, NiDX9AdditionalDepthStencilBufferData, ShaderStandIn, ShaderPrepQ (31 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BoneHost.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -1770,7 +1771,7 @@ void __cdecl FUN_00e80a50(const ModelMatrix3* pkRot, const ModelPoint3* pkTrans,
     M._14 = M._24 = M._34 = M._44 = 0.0f;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct ConstantEntry
 {
     unsigned int unk00, unk04, unk08;
@@ -1857,7 +1858,7 @@ struct PassConstants
     unsigned int unk38, unk3c, unk40, unk44;
     NiD3DShaderConstantMap* vertexMap;
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 // @fnv 0x00e81510
 extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geometry)
 {

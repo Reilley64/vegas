@@ -5,6 +5,7 @@
 
 // @fnv 0x00a9b1b0
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00a80580_cls.h"
 #include "fnv/decl/FUN_00a80610_shell.h"
@@ -107,7 +108,7 @@ void FUN_00a9b2e0(StrArr* apStrArr)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrArr))->SetAt(uiSize, psz);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a9b250_obj
 {

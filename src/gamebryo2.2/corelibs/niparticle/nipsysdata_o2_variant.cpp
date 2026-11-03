@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
@@ -271,7 +272,7 @@ void FnvPSysData::FUN_00c24d20()
     m_usNumParticles = m_usActive;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class FUN_00c24da0_cls
 {

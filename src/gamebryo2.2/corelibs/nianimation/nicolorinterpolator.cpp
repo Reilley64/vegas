@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp: NiColorInterpolator (17 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -555,7 +556,7 @@ void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(uiIndex, (*(char * *)(&pValue)));
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 inline void* __cdecl operator new(size_t, void* p) throw()
 {
     return p;

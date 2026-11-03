@@ -159,7 +159,6 @@ void* FUN_00a2ee00(HashObj* pThis, int, const unsigned int* pKey)
 extern int DAT_0109607c;
 
 void __cdecl _NiFreeAlias(void*);
-void __cdecl FUN_00aa1460(void*, unsigned int);
 
 class NiTFixedStringMap_NiAVObject___
 {
@@ -190,7 +189,6 @@ void* FUN_00a2ee70(int* pThis, int, unsigned int flags)
     return pThis;
 }
 
-void __cdecl FUN_00aa1460(void* p, size_t size);
 
 // @fnv 0x00a2ef80
 void* FUN_00a2ef80(void* pThis, int, unsigned int flags)
@@ -925,7 +923,6 @@ void FUN_00a2f6e0_shell::FUN_00a2f6e0(NiStream* kStream)
 
 extern int DAT_01096164;
 
-void __cdecl FUN_00aa10f0(void* p);
 
 struct FUN_00a2e460_node
 {
@@ -1243,7 +1240,7 @@ struct FnvStandInB
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a2f610_cls : public NiControllerManager
 {
@@ -2227,7 +2224,6 @@ void FUN_00a2eb80::operator delete(void* p)
 }  // namespace fnv_00a2eb80
 
 extern "C" void _ReadWriteBarrier(void);
-void* __cdecl FUN_00aa1070(unsigned int size) throw();
 
 struct MgrPoolStub
 {

@@ -12000,7 +12000,7 @@ FUN_00e9ec90::~FUN_00e9ec90() {
 
 static const void* kNull = 0;
 extern "C" void _ReadWriteBarrier();
-void* FUN_00aa13e0(unsigned int size);
+
 
 struct S00e8fa80_Node {
     volatile unsigned int key;
@@ -12022,7 +12022,7 @@ struct S00e8fa80_Obj {
     S00e8fa80_Node* GetOrCreateNode(int a, unsigned int b, int c);
 };
 
-void* FUN_00aa13e0(unsigned int size);
+
 
 // Packs a and b into a key, looks up the selected map by c, and creates a new node if the key is not found.
 // @fnv 0x00e8fa80
@@ -13935,7 +13935,7 @@ struct CreationContext {
         f = adapterFormat;
     }
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int __cdecl FUN_00e7bd20(TextureDescription*);
 extern char DAT_010efd88;
 extern unsigned int DAT_0126f9bc, DAT_0126f9c0;

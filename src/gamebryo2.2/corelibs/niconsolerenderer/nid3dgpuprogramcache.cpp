@@ -788,7 +788,7 @@ bool WriteTextToFile(const char* pcFileName, const char* pcText)
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00aa10f0(void* p);
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RefCountedBase
 {

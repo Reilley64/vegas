@@ -2,6 +2,7 @@
 // NiFloatInterpolator constructor and binary loading for
 // gamebryo2.2/corelibs/nianimation/nifloatinterpolator.cpp.
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FORenderedMenu.h"
 #include "fnv/decl/FUN_00a3ce20_shell.h"
@@ -625,7 +626,7 @@ void FUN_00a3c420_cls::CollapseConstantKeys()
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 class FUN_00a3ca10
 {
   public:

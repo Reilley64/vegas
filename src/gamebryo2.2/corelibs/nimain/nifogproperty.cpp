@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/FUN_00a5d450_class.h"
@@ -132,7 +133,7 @@ struct CalleeA5d7a0
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 void* __cdecl operator new(size_t, void* p)
 {
@@ -168,7 +169,7 @@ void* MyClass::FUN_00a99f60(int arg)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 
 struct NiFogProperty : NiProperty
 {

@@ -1,5 +1,6 @@
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -407,7 +408,7 @@ struct Vec3f
 };
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class SpawnedObject
 {
@@ -471,7 +472,7 @@ struct CollisionHelper
     int FUN_00c29900(float, unsigned int, unsigned int, unsigned int, unsigned int, float, float, Vector3f,
                                 Vector3f);
 };
-extern CollisionHelper* __cdecl FUN_00aa13e0(unsigned int);
+
 
 // @fnv 0x00c29af0
 int __cdecl FUN_00c29af0()

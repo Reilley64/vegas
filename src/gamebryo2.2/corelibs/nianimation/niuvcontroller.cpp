@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -516,7 +517,7 @@ FUN_00a45b60::~FUN_00a45b60() throw()
     owner.Reset();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 extern int DAT_01098064;
 
 struct SpawnedObject

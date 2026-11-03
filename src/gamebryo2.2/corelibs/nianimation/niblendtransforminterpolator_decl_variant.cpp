@@ -3,6 +3,7 @@
 // that unit declares it this way.
 
 #include "fnv/decl/BlendCopy.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/BlendSerializer.h"
 #include "fnv/decl/BlendTransformInterpolator.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -43,7 +44,7 @@ class FUN_00a40980 : public FUN_00a40980_base
     FUN_00a40980(int a, float b, int c);
     virtual ~FUN_00a40980();
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct NiBlendObject_b9169
 {
     virtual void Update();

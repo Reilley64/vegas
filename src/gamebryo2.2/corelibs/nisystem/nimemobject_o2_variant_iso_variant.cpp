@@ -32,30 +32,22 @@ FUN_00a5c200::FUN_00a5c200()
 struct S_00aa1420_Object
 {
     virtual void S_00aa1420_v0();
-    virtual void S_00aa1420_v1(int* arg1, int* arg2, int arg3, int arg4, int arg5, int arg6, int arg7);
+    virtual void* S_00aa1420_v1(int* size, int* alignment, int eventType, int accurateSize, int file, int line, int function);
 };
-
-inline void S_00aa1420_Object::S_00aa1420_v0()
-{}
-
-inline void S_00aa1420_Object::S_00aa1420_v1(int* arg1, int* arg2, int arg3, int arg4, int arg5, int arg6, int arg7)
-{}
 
 struct S_00aa1420_Holder
 {
     S_00aa1420_Object* m_00;
 };
 
+// Defaults the size to 1 if zero, then allocates through the memory manager's allocator (size, alignment 4, array new) and returns the block.
 // @fnv 0x00aa1420
-void __cdecl FUN_00aa1420(int arg)
+void* __cdecl FUN_00aa1420(size_t arg)
 {
-    int value;
-    S_00aa1420_Object* obj;
-
-    obj->S_00aa1420_v1(
-        (*(volatile int*)& arg = 4, &value), &arg, 2, 0,
-        (*(volatile int*)& value = arg ? arg : 1, obj = reinterpret_cast<S_00aa1420_Holder*>((*reinterpret_cast<void * *>(&::DAT_011f6080)))->m_00, 0),
-        -1, 0);
+    int value = arg ? static_cast<int>(arg) : 1;
+    int alignment = 4;
+    S_00aa1420_Object* obj = reinterpret_cast<S_00aa1420_Holder*>((*reinterpret_cast<void * *>(&::DAT_011f6080)))->m_00;
+    return obj->S_00aa1420_v1(&value, &alignment, 2, 0, 0, -1, 0);
 }
 
 namespace SizedDeleteDetail {

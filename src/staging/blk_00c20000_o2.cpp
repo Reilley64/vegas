@@ -761,7 +761,7 @@ FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010be124;
 
 struct FUN_00c23b20_cls
@@ -890,7 +890,7 @@ ParticleObjectFactoryType* CreateParticleObjectFactory()
     return 0;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00c31720_This
 {

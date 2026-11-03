@@ -4,6 +4,7 @@
 
 // @fnv 0x00c2b360
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -75,7 +76,7 @@ void FUN_00c2b3d0(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, psz);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct CtorBase_cls
 {

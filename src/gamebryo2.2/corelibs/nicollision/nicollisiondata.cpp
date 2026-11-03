@@ -1612,7 +1612,7 @@ void EAD7B0Object::FUN_00ead7b0(EAD7B0Stream& kStream)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct FUN_00eacd60_shell
 {

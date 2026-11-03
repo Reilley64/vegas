@@ -218,7 +218,7 @@ struct FUN_00c1f5f0_shell : NiPSysMeshEmitter
     void FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SkinData_c1d170
 {
@@ -2596,7 +2596,7 @@ struct NiSkinSlot790
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00c1f790_cls : NiPSysMeshEmitter
 {

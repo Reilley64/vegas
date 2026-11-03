@@ -490,7 +490,7 @@ void ScreenCopy::CopyTo(ScreenCopy* dest, void* cloning)
 }
 
 extern int DAT_010a048c;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {

@@ -5,6 +5,7 @@
 
 // @fnv 0x00a943f0
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/ChildNode.h"
@@ -1047,7 +1048,7 @@ void Node_a94440::FUN_00a94440(void* a1, int a2)
     m_kArrBC.Add(0);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SwitchNode_a94550
 {

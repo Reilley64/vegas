@@ -104,7 +104,7 @@ void FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkString
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uIdx, pszStr);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FloatInterpOwner
 {

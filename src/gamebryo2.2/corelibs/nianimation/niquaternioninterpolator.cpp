@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A48280Obj.h"
@@ -726,7 +727,7 @@ struct A48E20_Color
     float r, g, b, a;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct A48E20_Base
 {
 };

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/NiGPUProgramOwner.h"
@@ -49,7 +50,7 @@ void* S00c27140::DestroyIfFlagged(unsigned int auiFlags)
     return this;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct CtorBase_cls
 {

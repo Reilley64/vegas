@@ -297,7 +297,7 @@ FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
     return this;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize) throw();
+
 
 class BSFixedString
 {

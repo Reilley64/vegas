@@ -1107,7 +1107,7 @@ void FUN_00c26410_cls::FUN_00c26410(S_00c26410_Stream* pkStream)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct StripBaseConstructorC263
 {

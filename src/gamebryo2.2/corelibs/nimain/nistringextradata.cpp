@@ -184,7 +184,7 @@ FUN_00a742c0_cls* FUN_00a742c0_cls::Destroy(unsigned int acFlags)
 }
 
 namespace fnv_00a74300 {
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern "C" char* DAT_0109b220;
 extern "C" void* DAT_0109d39c;
 extern "C" void(* DAT_00fdf1c0)(void*);

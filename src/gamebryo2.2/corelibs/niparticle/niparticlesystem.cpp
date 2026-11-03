@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -506,7 +507,7 @@ void S_00c1b120::FUN_00c1b120()
 struct Object
 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 // @fnv 0x00c1b7f0
 Object* __cdecl FUN_00c1b7f0()
 {

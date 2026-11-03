@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/BlockAllocator.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
@@ -152,7 +153,7 @@ void FUN_00e94220_cls::InsertSortedNode(FUN_00e94220_node* node)
 
 extern unsigned int DAT_011c0cdc;
 extern int DAT_010f0f8c;
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct LinkedVBBlock
 {
     NiVBBlock block;
@@ -422,7 +423,6 @@ VBBlk* VBSetX::FUN_00e94580(unsigned int uiSize)
     return p;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
 struct VBReleaseInterface
 {
     virtual long QueryInterface(const void*, void**) = 0;

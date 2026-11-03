@@ -5,6 +5,7 @@
 
 // @fnv 0x00a31730
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -2539,7 +2540,7 @@ void A33950Object::LoadFromStream(A33950Stream* stream)
         stream->Input()->Read(&flag0d, 1);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a344f0_cls
 {
@@ -2964,7 +2965,7 @@ extern const char DAT_01096564;
 extern void* DAT_01096444;
 void __cdecl FUN_00fdad60();
 void __cdecl FUN_00fdad80();
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct NiMultiTargetTransformController : Controller31910
 {
     virtual void V00();
@@ -4597,7 +4598,7 @@ bool FUN_00a34480_cls::AssignControllers(void* apObjectName, FUN_00a34480_obj* a
 
 
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 
 struct SeqFixedString

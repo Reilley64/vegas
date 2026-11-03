@@ -1421,7 +1421,7 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, 
     return 1;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 void __cdecl FUN_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
 

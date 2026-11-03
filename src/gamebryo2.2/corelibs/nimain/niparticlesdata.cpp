@@ -224,7 +224,7 @@ struct ParticleViewData : NiParticlesData
 {
     void FUN_00a96910(ParticleViewFrame*);
 };
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 inline void* __cdecl operator new(size_t, void* pv) throw()
 {
     return pv;

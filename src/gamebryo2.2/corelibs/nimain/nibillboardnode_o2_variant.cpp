@@ -1018,7 +1018,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 
 struct BillboardCloneBaseCall
 {

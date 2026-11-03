@@ -5,6 +5,7 @@
 
 // @fnv 0x00c2a080
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -19,7 +20,7 @@ void* __cdecl FUN_00c2a080()
     return &(*reinterpret_cast<void * *>(&::g_012026e8));
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 struct Item
 {

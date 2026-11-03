@@ -156,7 +156,7 @@ struct NiGlobalConstantEntryStub
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 // @fnv 0x00aa0400
 bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned int a2, unsigned int a3, uintptr_t a4)

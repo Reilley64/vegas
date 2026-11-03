@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendfloatinterpolator.cpp: NiBlendFloatInterpolator, NiBlendInterpolator, BlendFloatSource (12 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendCopy.h"
@@ -260,7 +261,7 @@ void AppendFloatValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 }
 }  // namespace fnv_00a408f0
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct CopyMembersArguments
 {
     NiBlendFloatInterpolator* destination;

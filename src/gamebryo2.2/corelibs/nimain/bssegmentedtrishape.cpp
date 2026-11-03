@@ -5,6 +5,7 @@
 
 // @fnv 0x00a86fe0
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a744a0.h"
@@ -311,7 +312,7 @@ void FUN_00a871a0_cls::CopyEntries(Target* apDst, unsigned int aFlag)
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a744a0_shell
 {

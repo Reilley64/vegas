@@ -275,7 +275,7 @@ void StringsExtraDataViewer::FUN_00a94ae0(ViewerStringArray* pViewerStrings)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010a0134;
 
 struct CloneObject

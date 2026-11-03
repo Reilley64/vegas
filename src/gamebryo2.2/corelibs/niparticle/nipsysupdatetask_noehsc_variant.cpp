@@ -6,6 +6,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -193,7 +194,7 @@ struct Elem_c25 : FUN_00a5d3d0
     void* DestroyElements(unsigned int uiFlags);
 };
 
-extern "C" void* __cdecl FUN_00aa1420(unsigned int size);
+
 struct C25990Elem
 {
     void* m_vf;

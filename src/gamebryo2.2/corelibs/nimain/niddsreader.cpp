@@ -326,7 +326,7 @@ struct ClsImage
     int i60;
     int m_64;
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern void __cdecl FUN_00aa10f0(void* p);
 extern void* __cdecl FUN_00aa1070(unsigned int size);
 extern void(* DAT_00fdf05c)(void*);

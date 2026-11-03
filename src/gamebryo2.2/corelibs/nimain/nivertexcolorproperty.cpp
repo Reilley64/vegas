@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -123,7 +124,7 @@ void FUN_00a5f3a0_shell::AppendVertexColorProperties(StrArr* strings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct NodeBase_b9855
 {

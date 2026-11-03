@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp: NiPSysAirFieldAirFrictionCtlr, StandIn, NiPSysModifierActiveCtlr (13 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/CtlrStandin.h"
 #include "fnv/decl/FUN_00a52f00.h"
@@ -304,7 +305,7 @@ void FUN_00c29d30()
 }
 
 #include <windows.h>
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RefCountedStandIn
 {

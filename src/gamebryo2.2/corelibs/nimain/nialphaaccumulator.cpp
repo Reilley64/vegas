@@ -194,7 +194,7 @@ void* FUN_00a9b530_shell::FUN_00a9b530()
     return (void*)&(*reinterpret_cast<const char *const *>(&::g_011f5f74));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct Base0_a43370
 {

@@ -5,6 +5,7 @@
 
 // @fnv 0x00c307c0
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -159,7 +160,7 @@ void WorkerAirFriction::FUN_00c307e0(float value)
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class SpawnedObject
 {

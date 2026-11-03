@@ -3,6 +3,7 @@
 // that unit declares it this way.
 
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
@@ -1902,7 +1903,7 @@ struct FUN_00e69a60_obj20 {
 };
 struct FUN_00e69a60_obj14 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererListNode
 {
     void* m_pListObject;
@@ -3817,7 +3818,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -15548,7 +15549,7 @@ struct FnvSlotRaw {
 };
 
 extern unsigned int DAT_0126f508[17];
-void* FUN_00aa13e0(unsigned int size);
+
 void FUN_00e78560(unsigned int a, unsigned int b);
 
 // @fnv 0x00e7a760

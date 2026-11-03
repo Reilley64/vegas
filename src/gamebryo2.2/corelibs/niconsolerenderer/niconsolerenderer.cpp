@@ -3258,7 +3258,7 @@ struct FUN_00e69a60_obj14 {
 };
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // Returns the cached global pointer, creating it via a factory call and helper object when unset and InitD3D9CreateFunctions succeeds.
 // @fnv 0x00e69a60
@@ -5428,7 +5428,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -27100,7 +27100,7 @@ struct NewObj {
 };
 struct Map610 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct C_00e8f010;
 struct TwoComponentVector;

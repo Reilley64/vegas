@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -554,7 +555,7 @@ FUN_00a734c0::FUN_00a734c0()
     m_18 = 0;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct Obj_a73e20
 {

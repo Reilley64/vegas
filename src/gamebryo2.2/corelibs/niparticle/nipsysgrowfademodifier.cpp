@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsysgrowfademodifier.cpp: NiPSysGrowFadeModifier (8 functions)
 
 #include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/MyIsEqual.h"
 #include "fnv/decl/ParticleModifierBinary.h"
 #include "fnv/decl/PositionState.h"
@@ -219,7 +220,7 @@ inline void* operator new(size_t, void* p)
 {
     return p;
 }
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct A4b0Clone;
 class FUN_00c31720
 {

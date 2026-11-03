@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.cpp: NiBlendTransformInterpolator, BlendTransformInterpolator (9 functions)
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/BlendCopy.h"
 #include "fnv/decl/BlendSerializer.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -66,7 +67,7 @@ class FUN_00a40980 : public FUN_00a40980_base
 FUN_00a40980::FUN_00a40980(int a, float b, int c) : FUN_00a40980_base(a, b, c)
 {}
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct NiBlendObject_b9169
 {

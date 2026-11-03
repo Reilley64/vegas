@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b330_shell.h"
@@ -135,7 +136,7 @@ void A89C70Object::FUN_00a89c70(A89C70StringArray* pkStrings)
     pkStrings->Add(pcString);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct FUN_00a89b30_cls
 {

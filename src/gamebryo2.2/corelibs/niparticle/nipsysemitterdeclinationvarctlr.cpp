@@ -4,6 +4,7 @@
 
 // @fnv 0x00c2b8b0
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -81,7 +82,7 @@ void FUN_00c2b920(StrArr* pStringArray)
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {

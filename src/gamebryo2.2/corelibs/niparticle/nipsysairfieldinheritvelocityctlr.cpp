@@ -5,6 +5,7 @@
 
 // @fnv 0x00c30630
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -97,7 +98,7 @@ void S_00c30650::SetModValue(float fValue)
     m_pkTargetModifier->Set(fValue);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedCtlr
 {

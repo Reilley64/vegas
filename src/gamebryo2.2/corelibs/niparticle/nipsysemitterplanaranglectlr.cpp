@@ -5,6 +5,7 @@
 
 // @fnv 0x00c2b550
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a7d000.h"
@@ -90,7 +91,7 @@ void FUN_00c2b570_class::FUN_00c2b570(float fValue)
     unk3C->unk28 = fValue;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct S_00c2b580_Base
 {

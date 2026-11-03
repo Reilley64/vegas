@@ -318,19 +318,19 @@ unsigned char FUN_00aa0ff0_cls::FUN_00aa0ff0()
 struct DeviceInterface
 {
     virtual void Unknown();
-    virtual void Dispatch(int* value, int* command, int a, int b, int c, int d, int e);
+    virtual void* Dispatch(int* value, int* command, int a, int b, int c, int d, int e);
 };
 
-// Defaults value to 1 if zero, then dispatches command 4 with the adjusted value through the device interface.
+// Defaults value to 1 if zero, then allocates through the memory manager's allocator (size, alignment 4, operator new) and returns the block.
 // @fnv 0x00aa13e0
-void __cdecl FUN_00aa13e0(int value)
+void* __cdecl FUN_00aa13e0(size_t value)
 {
     if (!value)
         value = 1;
-    int adjusted = value;
+    int adjusted = static_cast<int>(value);
     DeviceInterface* device = *(*reinterpret_cast<::DeviceInterface ** *>(&::DAT_011f6080));
     int command = 4;
-    device->Dispatch(&adjusted, &command, 1, 1, 0, -1, 0);
+    return device->Dispatch(&adjusted, &command, 1, 1, 0, -1, 0);
 }
 
 struct FUN_00aff950_shell

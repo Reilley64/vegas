@@ -1694,7 +1694,7 @@ struct CacheRing
     unsigned char cursor;
     CacheEntry* entries[5];
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct ResourceCache
 {
     int unk00, unk04;
@@ -2031,7 +2031,7 @@ struct TexRecord
 };
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // Rejects tiled owners, allocates and constructs a TexRecord, checks it against the device flag, and on failure destroys it and returns 0.
 // @fnv 0x00e904c0
@@ -6567,7 +6567,7 @@ struct FnvD3dDevice
 };
 extern "C" unsigned char DAT_010ed37c;
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SourcePixelFormat
 {

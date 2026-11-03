@@ -1,5 +1,6 @@
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -227,7 +228,7 @@ void FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010be124;
 
 struct FUN_00c23d10_cls

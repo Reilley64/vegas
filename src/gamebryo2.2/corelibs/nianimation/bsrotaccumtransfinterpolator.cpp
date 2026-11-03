@@ -81,7 +81,7 @@ BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 
 extern int DAT_011a9ea4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a3fa30_cls
 {

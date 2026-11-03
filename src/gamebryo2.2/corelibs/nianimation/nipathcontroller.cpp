@@ -311,7 +311,7 @@ void S_00a4aeb0_Controller::LoadFromStream(S_00a4aeb0_Stream& kStream)
     kStream.FUN_00a4aeb0_v12(*reinterpret_cast<int*>(controller + 0x44));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 extern int DAT_0109893c;
 
 struct SpawnedObject

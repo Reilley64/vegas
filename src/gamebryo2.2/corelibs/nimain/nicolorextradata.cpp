@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a698a0_class.h"
@@ -273,7 +274,7 @@ struct NiExtraData_StandIn
     virtual ~NiExtraData_StandIn();
 };
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_0109eccc;
 
 // Obtains a 0x1c byte block, calls a method on it, writes a global pointer and four global values, and returns it.

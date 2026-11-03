@@ -603,7 +603,7 @@ void* __cdecl FUN_00a90b20()
     return 0;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct BaseA8F260
 {
@@ -960,7 +960,7 @@ bool ScrGeomData::IsEqual(const ScrGeomData* pkOther)
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct GlobalAlloc_a905c0
 {

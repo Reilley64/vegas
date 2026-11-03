@@ -64,11 +64,11 @@ void __cdecl CallHandlerByIndex(int iHandlerIndex, int b, int c)
 
 struct FUN_00e39e60_class
 {
-    int ComputeIndex(int param);
+    intptr_t ComputeIndex(int param);
 };
 
 // @fnv 0x00e39e60
-int FUN_00e39e60_class::ComputeIndex(int aiOffset)
+intptr_t FUN_00e39e60_class::ComputeIndex(int aiOffset)
 {
     return (((*reinterpret_cast<const int*>(this + 8)) + aiOffset) % *reinterpret_cast<const int*>(this + 12)) * 32 +
            *reinterpret_cast<const int*>(this + 16);

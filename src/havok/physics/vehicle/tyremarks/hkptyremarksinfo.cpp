@@ -53,15 +53,6 @@ class hkStatisticsCollectorE39E
         }
     }
 public:
-    template <class T> void addArray(const char* pcName, const hkArrayE39E<T>& kArray)
-    {
-        if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
-        {
-            const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
-            AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
-        }
-    }
 };
 
 struct hkVector4E39E
@@ -240,7 +231,6 @@ void S00e39e90_Info::FUN_00e39e90(int arg1, int wheelIndex, hkpTyremark* out)
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/decl/FUN_00e39e50_cls.h"
-#include "fnv/decl/hkSampleRingE39F.h"
 
 struct Scalar4
 {

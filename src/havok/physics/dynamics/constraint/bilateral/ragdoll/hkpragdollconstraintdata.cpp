@@ -11,7 +11,7 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_0104d000.h"
-#include "havok/hkpRagdollConstraintData.h"
+#include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
 
 // @fnv 0x00cde9d0
 void FUN_00cde9d0(int* apUnused, int* apiOut)

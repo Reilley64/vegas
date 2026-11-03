@@ -315,24 +315,6 @@ struct FUN_00e04920_cls {
                      uintptr_t a4, uintptr_t a5);
 };
 
-// Calls FUN_00e036b0 and FUN_00e03ea0 with a scratch object, then returns whether the byte from ForwardValueToObject is zero.
-// @fnv 0x00e04920
-int FUN_00e04920_cls::FUN_00e04920(uintptr_t a1, uintptr_t a2,
-                                   uintptr_t a3, uintptr_t a4, uintptr_t a5)
-{
-    Scratch16 scratch;
-    VObj* original = reinterpret_cast<VObj*>(a3);
-    new ((void *)&(scratch)) ::FUN_00d60830((::hkReferencedObject *)(a3), static_cast<unsigned int>(m_flag14));
-    unsigned int uiIntermediate = FUN_00e036b0(a1, a2, &scratch, a4);
-    FUN_00e03360(original, 16);
-    reinterpret_cast<::S00e03ea0_Ser *>(this)->FUN_00e03ea0((char *)(a1), (::S00e03ea0_Schema *)(a2), (::S00e03ea0_Writer *)(::Scratch16 *)(&scratch), (::S00e03ea0_Schema *)(a4), uiIntermediate, (::S00e03ea0_Out *)(a5), 0);
-    FUN_00e03360(original, 16);
-    unsigned char* status = ((unsigned char *)(reinterpret_cast<::FUN_00d607e0_class *>(&(scratch))->ForwardValueToObject((intptr_t)(&a1))));
-    unsigned int success = (*status == 0);
-    reinterpret_cast<::D60590Object *>(&(scratch))->FUN_00d60590();
-    return success;
-}
-
 // FUN_00e03360: module-local helper (custom convention: n in EAX, obj in EDI).
 // lets the object fill it, then frees it.
 
@@ -1340,6 +1322,26 @@ void ZeroCopier::FUN_00e03460(ZeroArchive& archive, const ZeroMember& member)
     zero.SetSizeAndGrow(bytes);
     reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((intptr_t)(zero.m_data));
     zero.destroyLocal();
+}
+
+
+
+// Calls FUN_00e036b0 and FUN_00e03ea0 with a scratch object, then returns whether the byte from ForwardValueToObject is zero.
+// @fnv 0x00e04920
+int FUN_00e04920_cls::FUN_00e04920(uintptr_t a1, uintptr_t a2,
+                                   uintptr_t a3, uintptr_t a4, uintptr_t a5)
+{
+    Scratch16 scratch;
+    VObj* original = reinterpret_cast<VObj*>(a3);
+    new ((void *)&(scratch)) ::FUN_00d60830((::hkReferencedObject *)(a3), static_cast<unsigned int>(m_flag14));
+    unsigned int uiIntermediate = FUN_00e036b0(a1, a2, &scratch, a4);
+    FUN_00e03360(original, 16);
+    reinterpret_cast<::S00e03ea0_Ser *>(this)->FUN_00e03ea0((char *)(a1), (::S00e03ea0_Schema *)(a2), (::S00e03ea0_Writer *)(::Scratch16 *)(&scratch), (::S00e03ea0_Schema *)(a4), uiIntermediate, (::S00e03ea0_Out *)(a5), 0);
+    FUN_00e03360(original, 16);
+    unsigned char* status = ((unsigned char *)(reinterpret_cast<::FUN_00d607e0_class *>(&(scratch))->ForwardValueToObject((intptr_t)(&a1))));
+    unsigned int success = (*status == 0);
+    reinterpret_cast<::D60590Object *>(&(scratch))->FUN_00d60590();
+    return success;
 }
 
 #include "generated/data/havok/common/serialize/copier/hkobjectcopier.inc"

@@ -323,14 +323,6 @@ class FUN_00622310 : public B622310Base
     virtual ~FUN_00622310();
 };
 
-// Calls FUN_00cb0820 with pvArg, then increments g_i622310Count.
-// @fnv 0x00622310
-FUN_00622310::FUN_00622310(void* pvArg)
-{
-    reinterpret_cast<::S00cb0820_World *>(this)->FUN_00cb0820((::S00cb0820_Outer *)(pvArg));
-    ::DAT_0126834c++;
-}
-
 struct CellMoppBaseView_006815c0
 {
     int unk00;
@@ -2354,6 +2346,16 @@ bool xMgr::FUN_00621f60(xRef** apList, unsigned int auiCount, float afVal)
         RESULT = true;
     }
     return RESULT;
+}
+
+
+
+// Calls FUN_00cb0820 with pvArg, then increments g_i622310Count.
+// @fnv 0x00622310
+FUN_00622310::FUN_00622310(void* pvArg)
+{
+    reinterpret_cast<::S00cb0820_World *>(this)->FUN_00cb0820((::S00cb0820_Outer *)(pvArg));
+    ::DAT_0126834c++;
 }
 
 #include "generated/data/havok/unplaced/cellmopp.inc"

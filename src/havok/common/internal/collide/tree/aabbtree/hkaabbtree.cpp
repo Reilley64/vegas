@@ -737,42 +737,6 @@ struct S_00d9d650_Tree
     void BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw();
 };
 
-// @fnv 0x00d9d650
-void S_00d9d650_Tree::BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw()
-{
-    m_iNodeCount = n;
-    if (n)
-    {
-        out.SetSizeAndGrow(n);
-        m_kNodePool.FUN_00d9c450(2 * n - 1, &m_pTreeNode, &m_14);
-        m_pTreeNode = ((::S_00d9d650_Node *)(reinterpret_cast<::FUN_00d9ce00_Class *>(&(m_kNodePool))->PopItem((intptr_t)(&m_pTreeNode), (intptr_t)(&m_14), &m_14)));
-        m_pTreeNode->m_28 |= 0x7fffffff;
-
-        S_00d9d650_Array<S_00d9d650_Aabb> tmp;
-        tmp.SetSizeAndGrow(n);
-        for (int i = 0; i < n; i++)
-        {
-            S_00d9d650_Aabb& d = tmp[i];
-            d.m_kMaximumCorner = aabbs[i].m_kMaximumCorner;
-            d.m_kMinimumCorner = aabbs[i].m_kMinimumCorner;
-        }
-
-        if (n == 1)
-        {
-            m_pTreeNode->setLeaf(keys[0]);
-            m_pTreeNode->m_2c = 0x7fffffff;
-            m_pTreeNode->m_kBounds = tmp[0];
-            out[0] = m_14;
-        }
-        else
-        {
-            reinterpret_cast<::BuildTree *>(this)->FUN_00d9d1c0((const ::BuildAabb *)(tmp.m_data), keys, n, (::BuildTreeNode *)(m_pTreeNode), (::BuildArray<int> &)(out), 0);
-        }
-        MergeNode(m_pTreeNode, m_14, 0x7fffffff);
-        reinterpret_cast<::fnv_00d9c360::D9C360Tree *>(this)->TraverseTree((::fnv_00d9c360::D9C360Node *)(m_pTreeNode), (void *)(0));
-    }
-}
-
 struct Node_d9c520
 {
     int unk00;
@@ -1062,25 +1026,6 @@ struct MapD9 {
     S00d9a4c0_Cls m1c;
     void FUN_00d9be50(intptr_t key, const Block32* src);
 };
-
-// Stores a Block32 value for key, replacing an existing entry or inserting a new one via FUN_00d9afe0.
-// @fnv 0x00d9be50
-void MapD9::FUN_00d9be50(intptr_t key, const Block32* src) {
-    if (m14 == key) {
-        Block32* out = ((::Block32 *)(reinterpret_cast<::IdxStand_ *>(&(m1c))->FUN_00d9a4c0(key)));
-        out->m10 = src->m10;
-        out->m00 = src->m00;
-        return;
-    }
-    unsigned int tmp;
-    reinterpret_cast<::S00d9b240_Tree *>((key))->FUN_00d9b240((intptr_t)(&tmp), {});
-    Block32* out = ((::Block32 *)(reinterpret_cast<::IdxStand_ *>(&(m1c))->FUN_00d9a4c0(key)));
-    __m128 hi = src->m10;
-    __m128 lo = src->m00;
-    out->m00 = lo;
-    out->m10 = hi;
-    reinterpret_cast<::AabbTree *>(this)->FUN_00d9afe0(m14, key, tmp);
-}
 
 
 struct __declspec(align(16)) S_00d9c180_Vec { float x, y, z, w; };
@@ -2565,4 +2510,60 @@ unsigned short S00d9c610_AabbTree::FUN_00d9c610(const S00d9c610_Aabb& aabb, void
     }
     m_iNodeCount++;
     return leafIdx;
+}
+
+
+// @fnv 0x00d9d650
+void S_00d9d650_Tree::BuildTree(const S_00d9d650_Aabb* aabbs, const int* keys, int n, S_00d9d650_Array<int>& out) throw()
+{
+    m_iNodeCount = n;
+    if (n)
+    {
+        out.SetSizeAndGrow(n);
+        m_kNodePool.FUN_00d9c450(2 * n - 1, &m_pTreeNode, &m_14);
+        m_pTreeNode = ((::S_00d9d650_Node *)(reinterpret_cast<::FUN_00d9ce00_Class *>(&(m_kNodePool))->PopItem((intptr_t)(&m_pTreeNode), (intptr_t)(&m_14), &m_14)));
+        m_pTreeNode->m_28 |= 0x7fffffff;
+
+        S_00d9d650_Array<S_00d9d650_Aabb> tmp;
+        tmp.SetSizeAndGrow(n);
+        for (int i = 0; i < n; i++)
+        {
+            S_00d9d650_Aabb& d = tmp[i];
+            d.m_kMaximumCorner = aabbs[i].m_kMaximumCorner;
+            d.m_kMinimumCorner = aabbs[i].m_kMinimumCorner;
+        }
+
+        if (n == 1)
+        {
+            m_pTreeNode->setLeaf(keys[0]);
+            m_pTreeNode->m_2c = 0x7fffffff;
+            m_pTreeNode->m_kBounds = tmp[0];
+            out[0] = m_14;
+        }
+        else
+        {
+            reinterpret_cast<::BuildTree *>(this)->FUN_00d9d1c0((const ::BuildAabb *)(tmp.m_data), keys, n, (::BuildTreeNode *)(m_pTreeNode), (::BuildArray<int> &)(out), 0);
+        }
+        MergeNode(m_pTreeNode, m_14, 0x7fffffff);
+        reinterpret_cast<::fnv_00d9c360::D9C360Tree *>(this)->TraverseTree((::fnv_00d9c360::D9C360Node *)(m_pTreeNode), (void *)(0));
+    }
+}
+
+// Stores a Block32 value for key, replacing an existing entry or inserting a new one via FUN_00d9afe0.
+// @fnv 0x00d9be50
+void MapD9::FUN_00d9be50(intptr_t key, const Block32* src) {
+    if (m14 == key) {
+        Block32* out = ((::Block32 *)(reinterpret_cast<::IdxStand_ *>(&(m1c))->FUN_00d9a4c0(key)));
+        out->m10 = src->m10;
+        out->m00 = src->m00;
+        return;
+    }
+    unsigned int tmp;
+    reinterpret_cast<::S00d9b240_Tree *>((key))->FUN_00d9b240((intptr_t)(&tmp), {});
+    Block32* out = ((::Block32 *)(reinterpret_cast<::IdxStand_ *>(&(m1c))->FUN_00d9a4c0(key)));
+    __m128 hi = src->m10;
+    __m128 lo = src->m00;
+    out->m00 = lo;
+    out->m10 = hi;
+    reinterpret_cast<::AabbTree *>(this)->FUN_00d9afe0(m14, key, tmp);
 }

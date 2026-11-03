@@ -35,11 +35,8 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkaRagdollInstance.h"
 
-// @fnv 0x00ce18d0
-void FUN_00ce18d0(intptr_t a)
-{
-    reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760((::hkQsTransformC17 *)((int)&DAT_01268700), (*(const ::hkQsTransformC17 *)(0)), {});
-}
+void FUN_00ce18d0(intptr_t a);
+
 
 struct FUN_00ce2430_Transform
 {
@@ -59,19 +56,6 @@ struct FUN_00ce2430_Class
 
     void ApplyValueToTransforms(float, FUN_00ce2430_Transform*);
 };
-
-// Iterates over data->count entries, calling FUN_00ce2150 with each index, value and successive transform.
-// @fnv 0x00ce2430
-void FUN_00ce2430_Class::ApplyValueToTransforms(float value, FUN_00ce2430_Transform* transforms)
-{
-    int count = this->data->count;
-
-    for (int i = 0; i < count; ++i)
-    {
-        reinterpret_cast<::FUN_00ce2150Owner *>((this))->FUN_00ce2150(i, value, (*(::hkQsTransformC21 *)(transforms)));
-        ++transforms;
-    }
-}
 
 struct MemoryManager
 {
@@ -3221,6 +3205,26 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
     }
 }
 
+}
+
+
+// @fnv 0x00ce18d0
+void FUN_00ce18d0(intptr_t a)
+{
+    reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760((::hkQsTransformC17 *)((int)&DAT_01268700), (*(const ::hkQsTransformC17 *)(0)), {});
+}
+
+// Iterates over data->count entries, calling FUN_00ce2150 with each index, value and successive transform.
+// @fnv 0x00ce2430
+void FUN_00ce2430_Class::ApplyValueToTransforms(float value, FUN_00ce2430_Transform* transforms)
+{
+    int count = this->data->count;
+
+    for (int i = 0; i < count; ++i)
+    {
+        reinterpret_cast<::FUN_00ce2150Owner *>((this))->FUN_00ce2150(i, value, (*(::hkQsTransformC21 *)(transforms)));
+        ++transforms;
+    }
 }
 
 #include "generated/data/havok/animation/ragdoll/instance/hkaragdollinstance.inc"

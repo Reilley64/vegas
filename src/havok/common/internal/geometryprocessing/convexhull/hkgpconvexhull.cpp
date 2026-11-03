@@ -345,12 +345,6 @@ struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
     void ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 
-// Forwards the five arguments to the callee stored at m_08 via FUN_00d7a5a0.
-// @fnv 0x00d74ee0
-void FUN_00d74ee0_Class::ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5) {
-    reinterpret_cast<::ClipHull *>((((TargetCallee*)m_08)))->FUN_00d7a5a0((*(const ::ClipVector *)(p1)), (*(const ::ClipVector *)(p2)), (*(float *)(p3)), (*(float *)(p4)), p5);
-}
-
 struct D75060Inner {
     int unk00;
     int unk04;
@@ -543,20 +537,6 @@ struct Owner {
     int unk34;
     int FUN_00d75070(Request* request);
 };
-
-// @fnv 0x00d75070
-int Owner::FUN_00d75070(Request* request) {
-    TextBuffer text;
-    ChildData* child = unk08;
-    if (child->flag1b5 == 0) {
-        new ((void *)&(text)) ::FUN_00cb1600((char*)text.storage, 512);
-        reinterpret_cast<::SinkOwner *>((((::TextBuffer *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuffer *)(reinterpret_cast<::SinkOwner *>(&(text))->FUN_00cc01c0("No index available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
-        if (DAT_01268360->message(3, 0x79f9d886, (char*)text.storage, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x148))
-            __debugbreak();
-        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(text))->FUN_00cc00e0::~FUN_00cc00e0();
-    }
-    return request->unk34;
-}
 
 // @fnv 0x00d75120
 intptr_t FUN_00d75120(int* p)
@@ -779,22 +759,6 @@ struct S_00d75210_Self {
     int FUN_00d75210(const S_00d75210_Data* v) const throw();
 };
 
-// @fnv 0x00d75210
-int S_00d75210_Self::FUN_00d75210(const S_00d75210_Data* v) const throw()
-{
-    S_00d75210_Config* cfg = m_pConfiguration;
-    if (!cfg->m_hasIndex)
-    {
-        // Havok builds this with /GS-; a non-char buffer keeps /GS from adding a cookie.
-        unsigned int buf[128];
-        S_00d75210_ErrStream ostr(buf, sizeof(buf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(cfg->m_1b0)))->FUN_00cc01c0(")");
-        if ((*reinterpret_cast<::S_00d75210_Error * *>(&::DAT_01268360))->message(3, 0x79f9d886, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
-            __debugbreak();
-    }
-    return v->m_uiEdgeIndex;
-}
-
 struct D762F0Target {
 };
 
@@ -813,11 +777,6 @@ struct D76910Owner {
     D76910Inner* inner;
     void FUN_00d76910();
 };
-// @fnv 0x00d76910
-void D76910Owner::FUN_00d76910()
-{
-    reinterpret_cast<::S00d7cf00_Hull *>((inner))->FUN_00d7cf00();
-}
 
 struct FUN_00d76990_State {
     int unk00;
@@ -831,15 +790,6 @@ struct FUN_00d76990_Class {
     void SetValue(float value, bool clearFlag);
 };
 
-// Optionally clears a byte at offset 0x1b5 of unk08, stores value into unk08->unk04, then calls unk08->FUN_00d7d2a0().
-// @fnv 0x00d76990
-void FUN_00d76990_Class::SetValue(float value, bool clearFlag) {
-    if (clearFlag)
-        *(reinterpret_cast<unsigned char*>(unk08) + 0x1b5) = 0;
-    unk08->unk04 = value;
-    reinterpret_cast<::HullBuilder *>((unk08))->FUN_00d7d2a0();
-}
-
 
 struct Vec3 { float x, y, z; };
 
@@ -852,15 +802,6 @@ struct Shape {
     float FUN_00d769c0(const Vec3& p);
 };
 
-// Builds a 4-component vector from p and returns the difference of FUN_00d768b0 and FUN_00d76840 evaluated on it.
-// @fnv 0x00d769c0
-float Shape::FUN_00d769c0(const Vec3& p)
-{
-    hkVec4 v;
-    *(__m128*)&v.x = _mm_setr_ps(p.x, p.y, p.z, 0.0f);
-    return reinterpret_cast<::SupportShape *>(this)->FUN_00d768b0((const ::SupportVector &)(v)) - FUN_00d76840(v);
-}
-
 struct AudioSink {
 };
 
@@ -871,14 +812,6 @@ struct FUN_00d76c50_cls {
 
     void DispatchToSink(void* apKey, void* apFirst, void* apSecond, void* apThird);
 };
-
-// Forwards apFirst, apSecond, apThird and whether apKey is null to the sink's FUN_00d7df60.
-// @fnv 0x00d76c50
-void FUN_00d76c50_cls::DispatchToSink(void* apKey, void* apFirst, void* apSecond,
-                                    void* apThird)
-{
-    reinterpret_cast<::PolygonMesh *>((m_pSink))->FUN_00d7df60((*(::PolygonArray<int> *)(apFirst)), (*(::PolygonArray<int> *)(apSecond)), apKey == 0, (bool)(apThird));
-}
 
 namespace fnv_00d76c80 {
 struct Target { float Call(int a, int b, int c); };
@@ -918,11 +851,6 @@ struct FUN_00d790a0_class {
     FUN_00d83430_class* unk08;
     void FUN_00d790a0(int a, int b, int c, float d);
 };
-// Calls FUN_00d83430 on the object stored at unk08, passing the four arguments through unchanged.
-// @fnv 0x00d790a0
-void FUN_00d790a0_class::FUN_00d790a0(int aiArg1, int aiArg2, int aiArg3, float afArg4) {
-    reinterpret_cast<::HullImpl *>((unk08))->FUN_00d83430((*(const ::HullVec *)(aiArg1)), (::FUN_00d76ca0 **)(aiArg2), (::FUN_00d76ca0 **)(aiArg3), afArg4);
-}
 
 struct S_00d79f90_Opts
 {
@@ -1568,11 +1496,6 @@ struct FUN_00d752d0_cls {
     void FUN_00d752d0();
 };
 
-// @fnv 0x00d752d0
-void FUN_00d752d0_cls::FUN_00d752d0() {
-    reinterpret_cast<::Centroid352 *>((m_08))->FUN_00d7a180();
-}
-
 struct DiagStream {
     unsigned int m_00;
     unsigned int m_04;
@@ -1710,23 +1633,6 @@ struct FUN_00d75390_cls {
     float GetMass();
 };
 
-// @fnv 0x00d75390
-float FUN_00d75390_cls::GetMass() {
-    DiagState* st = m_08;
-    if (st->m_1b4 != 0) {
-    } else {
-        DiagStream s;
-        new ((void *)&(s)) ::FUN_00cb1600(s.m_buf, 0x200);
-        DiagStream* y = ((::DiagStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::DiagStream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("No mass properties available (")))))->FUN_00cc02d0({})));
-        reinterpret_cast<::SinkOwner *>((y))->FUN_00cc01c0({});
-        if ((*reinterpret_cast<::DiagLogger * *>(&::DAT_01268360))->Report(3, 0x79f9d887, (char*)s.m_buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e) != 0) {
-            __debugbreak();
-        }
-        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
-    }
-    return m_08->m_1a4;
-}
-
 extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 
@@ -1750,14 +1656,6 @@ struct FUN_00d75820_cls {
     void CallTargetWithTemp(intptr_t a1, float a2, intptr_t a3);
 };
 
-// Builds a temporary FUN_00d75820_Tmp8 and forwards a1, a2, its address and a3 to m08's FUN_00d7a200.
-// @fnv 0x00d75820
-void FUN_00d75820_cls::CallTargetWithTemp(intptr_t a1, float a2, intptr_t a3)
-{
-    FUN_00d75820_Tmp8 tmpArg;
-    reinterpret_cast<::S_00d7a200_Owner *>((this->m08))->FUN_00d7a200((*(const ::S_00d7a200_V4 *)(a1)), a2, (int *)(::FUN_00d75820_Tmp8 *)(&tmpArg), (float *)(a3));
-}
-
 struct FUN_00d7b330_cls {
 };
 
@@ -1768,11 +1666,6 @@ struct FUN_00d76100_cls {
     void FUN_00d76100(int a1, int a2, float a3);
 };
 
-// @fnv 0x00d76100
-void FUN_00d76100_cls::FUN_00d76100(int a1, int a2, float a3) {
-    reinterpret_cast<::QuantizedHull *>((m_08))->FUN_00d7b330((*(const ::QuantVector *)(a1)), a2, a3);
-}
-
 struct FUN_00d7caa0_class {
 };
 
@@ -1782,11 +1675,6 @@ struct FUN_00d76920_class {
     FUN_00d7caa0_class* m_08;
     void FUN_00d76920(float, int);
 };
-
-// @fnv 0x00d76920
-void FUN_00d76920_class::FUN_00d76920(float f, int i) {
-    reinterpret_cast<::BevelHull *>((m_08))->FUN_00d7caa0(f, (*(::BevelArray *)(i)));
-}
 
 struct SpawnedObject {
     void* m_00;
@@ -1801,13 +1689,6 @@ class FUN_00d77bc0_cls {
 public:
     void FUN_00d77bc0();
 };
-
-// @fnv 0x00d77bc0
-void FUN_00d77bc0_cls::FUN_00d77bc0() {
-    SpawnedObject* self = reinterpret_cast<SpawnedObject*>(this);
-    TailCallee* next = reinterpret_cast<TailCallee*>(self->m_08);
-    reinterpret_cast<::S_00d827b0_Owner *>((next))->FUN_00d827b0({});
-}
 
 namespace fnv_00d77bd0 {
 struct Inner
@@ -1857,12 +1738,6 @@ struct D79090Owner {
 
     void FUN_00d79090();
 };
-
-// @fnv 0x00d79090
-void D79090Owner::FUN_00d79090()
-{
-    reinterpret_cast<::S83_Mesh *>((m_target))->FUN_00d83f30({});
-}
 
 // FUN_00d79510 (0x00d79510, 102 bytes)
 //
@@ -2311,33 +2186,6 @@ public:
 	void GetMassProperties(RetBlock64 *pOut64, RetBlock16 *pOut16);
 };
 
-// Asserts when the owner has no mass properties, then copies four vectors from the owner into pOut64 and one vector into pOut16.
-// @fnv 0x00d75490
-void FUN_00d75490_cls::GetMassProperties(RetBlock64 *pOut64, RetBlock16 *pOut16)
-{
-	SharedOwner *pOwner = m_pSharedOwner;
-	if (pOwner->m_b1B4 == 0)
-	{
-		unsigned int buf[0x80];
-		DbgStr_cls dbgStr;
-
-		new ((void *)&(dbgStr)) ::FUN_00cb1600((char *)buf, 0x200);
-		reinterpret_cast<::SinkOwner *>((((::DbgStr_cls *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::DbgStr_cls *)(reinterpret_cast<::SinkOwner *>(&(dbgStr))->FUN_00cc01c0("No mass properties available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
-		AssertMgr_cls *pAssertMgr = (AssertMgr_cls *)DAT_01268360;
-		if (pAssertMgr->vtbl0C(3, 0x79f9d887, (char *)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e))
-		{
-			__debugbreak();
-		}
-		reinterpret_cast<struct ::FUN_00cc00e0 *>(&(dbgStr))->FUN_00cc00e0::~FUN_00cc00e0();
-	}
-	__m128 *pSrcVec = &m_pSharedOwner->m_v120;
-	pOut64->m_v0 = *pSrcVec;
-	pOut64->m_v1 = pSrcVec[1];
-	pOut64->m_v2 = pSrcVec[2];
-	pOut64->m_v3 = pSrcVec[3];
-	pOut16->m_v0 = m_pSharedOwner->m_v160;
-}
-
 struct D76250Allocator;
 
 struct D76250MemoryRouter {
@@ -2711,35 +2559,6 @@ struct S_00cb1600_Class {
 
     S_00cc01c0_Class* FUN_00cc01c0(const char*, int, char*);
 };
-
-// If the entity's unk1b4 is zero, builds a message via a local helper and asserts on failure, then returns the entity's unk1a0.
-// @fnv 0x00d752e0
-float S_00d752e0_Class::FUN_00d752e0() {
-    S_00d752e0_Entity* entity = this->unk08;
-    if (entity->unk1b4 == 0) {
-        S_00cb1600_Class localBuilder;
-        new ((void *)&(localBuilder)) ::FUN_00cb1600(&localBuilder.unk00c, 0x200);
-
-        S_00cc01c0_Class* value = ((::S_00cc01c0_Class *)(reinterpret_cast<::SinkOwner *>(&(localBuilder))->FUN_00cc01c0(
-            str_010d358c
-        )));
-
-        value = ((::S_00cc01c0_Class *)(reinterpret_cast<::FUN_00cc02d0_cls *>((value))->FUN_00cc02d0({})));
-        reinterpret_cast<::SinkOwner *>((value))->FUN_00cc01c0({});
-
-        if (DAT_01268360->message(
-                3,
-                0x79f9d887,
-                reinterpret_cast<char*>(&localBuilder.unk00c),
-                str_010d3540,
-                0x14e)) {
-            __debugbreak();
-        }
-
-        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(localBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
-    }
-    return this->unk08->unk1a0;
-}
 
 // Recursive quicksort partition over 12-byte records keyed by a float at +8;
 // the key delta is scaled by the double literal -1.0 before testing against 0.0.
@@ -3519,36 +3338,6 @@ static __forceinline void UnlinkNode(D7Head* head, D7ListNode* nxt, D7ListNode* 
     else head->h0c = nxt;
     --head->h10;
 }
-// Recursively visits adjacent pairs when Dist(arg1) is non-negative, unlinks and removes their nodes and elements, or copies the pair to out.
-// @fnv 0x00d7c3e0
-void D7Owner::FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* apOutPair)
-{
-    if (!pair->node) return;
-    if (pair->node->stamp40 == stamp1ac) return;
-    pair->node->stamp40 = stamp1ac;
-    if (pair->node->Dist(arg1) >= 0) {
-        { D7Pair n=pair->Adjacent(); FUN_00d7c3e0(arg1,&n,apOutPair); }
-        { D7Pair n=pair->Next().Adjacent(); FUN_00d7c3e0(arg1,&n,apOutPair); }
-        { D7Pair n=pair->Prev().Adjacent(); FUN_00d7c3e0(arg1,&n,apOutPair); }
-        pair->Unlink();
-        pair->Next().Unlink();
-        pair->Prev().Unlink();
-        D7Node* pNode = pair->node;
-        for (int i = 0; i < 3; i++) {
-            D7ListNode* o = pNode->elems[i];
-            pNode->elems[i]->ref30--;
-            if (o->ref30 == 0) {
-                D7ListNode* e = pNode->elems[i];
-                headA.Remove(e);
-                reinterpret_cast<::PoolAllocator40 *>(&(headA))->FUN_00d7adb0((::PoolItem40 *)(e));
-            }
-        }
-        headB.Remove((D7ListNode*)pNode);
-        reinterpret_cast<::fnv_00d7aea0::PoolAllocator48 *>(&(headB))->FUN_00d7aea0((::fnv_00d7aea0::PoolItem48 *)(pNode));
-    } else {
-        *apOutPair = *pair;
-    }
-}
 
 struct hkgpVertex {
     hkgpVertex* m_next;
@@ -3933,17 +3722,8 @@ struct PairPredicate {
 };
 SplitObject* CallWithPair(int,SplitObject*,SplitObject*);
 union SplitWorkspace { ExportStream stream; SplitObject* pair[2]; };
+static __forceinline void CheckSplitIndex(SplitObject* source,ExportStream& stream);
 
-static __forceinline void CheckSplitIndex(SplitObject* source,ExportStream& stream) {
-    ChildData* data=source->data;
-    if(!data->flag1b5) {
-        unsigned int buffer[128];
-        new ((void *)&(stream)) ::FUN_00cb1600((char*)buffer,512);
-        reinterpret_cast<::SinkOwner *>((((::ExportStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::ExportStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
-        if(DAT_01268360->message(3,0x79f9d886,(char*)buffer,str_010d3540,0x148)) __debugbreak();
-        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
-    }
-}
 // Iterates source planes, splits with splitter, keeps the pair with the highest score that passes predicate, returning the best score.
 // @fnv 0x00d79850
 float FUN_00d79850(SplitObject* source,PlaneSplitter* splitter,PairPredicate* predicate,SplitObject*& outFirst,SplitObject*& outSecond)
@@ -5767,125 +5547,6 @@ void D762F0Owner::FUN_00d762f0()
 {
     reinterpret_cast<::hkgpConvexHullImpl *>((m_target))->FUN_00d7b600();
 }
-
-// Updates center, area, volume, and inertia-related state based on vertex dimensionality.
-// @fnv 0x00d7b600
-hkResult hkgpConvexHullImpl::FUN_00d7b600()
-{
-if (!m_bFirstImplementationFlag)
-{
-if (m_eVertexFloatDimensions == 3)
-{
-const hkVector4 base = (*(const ::hkVector4 *)(reinterpret_cast<::CentroidHull *>((void *)this)->FUN_00d7aa30()));
-hkVector4 com = hkVector4::getZero();
-hkVector4 diag = hkVector4::getZero();
-hkVector4 offd = hkVector4::getZero();
-hkReal vol = 0;
-hkReal area = 0;
-for (const Triangle* pt = m_pMesh.m_uiTriangleCount.getFirst(); pt; pt = pt->next())
-{
-hkMatrix3 m;
-m.setCols(ConvexHullVertexTransform::get(this, pt->vertex(0)), ConvexHullVertexTransform::get(this, pt->vertex(1)), ConvexHullVertexTransform::get(this, pt->vertex(2)));
-m.getColumn(0).sub4(base);
-m.getColumn(1).sub4(base);
-m.getColumn(2).sub4(base);
-const hkVector4 org = m.getColumn(0);
-const hkReal det = m.GetDeterminant();
-hkVector4 ab; ab.setSub4(m.getColumn(1), org);
-hkVector4 ac; ac.setSub4(m.getColumn(2), org);
-ab.setCross(ab, ac);
-area += ab.length3();
-hkVector4 s = org;
-s.add4(m.getColumn(1));
-s.add4(m.getColumn(2));
-com.addMul4(det, s);
-vol += det;
-accumulateMass(m, 0, 1, 2, det, diag, offd);
-accumulateMass(m, 1, 2, 0, det, diag, offd);
-accumulateMass(m, 2, 0, 1, det, diag, offd);
-}
-com.mul4(1.0 / (vol * 4.0));
-com.add4(base);
-m_kLocalTransform.setTranslation(com);
-m_fVertexStride = area / 2.0;
-m_iBufferSize = vol / 6.0;
-if (m_iBufferSize > 1.1920928955078125e-07)
-{
-diag.mul4(1.0 / (vol * 10.0));
-offd.mul4(1.0 / (vol * 20.0));
-hkMatrix3 inertiaM;
-hkVector4 c0; c0.set(diag(1) + diag(2), -offd(2), -offd(1), 0.0f);
-hkVector4 c1; c1.set(-offd(2), diag(0) + diag(2), -offd(0), 0.0f);
-hkVector4 c2; c2.set(-offd(1), -offd(0), diag(0) + diag(1), 0.0f);
-inertiaM.setCols(c0, c1, c2);
-com.sub4(base);
-translateInertia(1.0f, com, hkVector4::getZero(), inertiaM);
-hkRotation eigenVectors;
-hkVector4 eigenValues;
-if (inertiaM.DiagonalizeSymmetric(eigenVectors, eigenValues, 128, 1e-4f) == HK_FAILURE)
-{
-
-if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
-}
-reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
-reinterpret_cast<::CB2FC0Object *>(&(eigenVectors))->FUN_00cb2fc0();
-m_kTransformMatrix = inertiaM;
-reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaM))->FUN_00cd5880((uintptr_t)&(eigenVectors));
-m_vOffset.set(inertiaM(0, 0), inertiaM(1, 1), inertiaM(2, 2), 0.0f);
-reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
-m_kLocalTransform.SetBodyOrientation(eigenVectors);
-}
-else
-{
-
-;
-m_kLocalTransform.SetBodyOrientation(hkQuaternion::GetIdentityTransform());
-m_iBufferSize = 0;
-m_kTransformMatrix.getColumn(0) = hkVector4::getZero();
-m_kTransformMatrix.getColumn(1) = hkVector4::getZero();
-m_kTransformMatrix.getColumn(2) = hkVector4::getZero();
-m_vOffset = hkVector4::getZero();
-}
-m_bFirstImplementationFlag = true;
-}
-else if (m_eVertexFloatDimensions == 2)
-{
-S00d7b600_Array<hkVector4> vertices;
-const hkReal oneThird = 1.0f / 3.0f;
-hkVector4 com = hkVector4::getZero();
-hkReal total_area2 = 0;
-fetchWorldPositions<ConvexHullVertexTransform>(vertices);
-for (int i = 1; i < vertices.GetLogicalSize() - 1; ++i)
-{
-const hkVector4* o = &vertices[0];
-hkVector4 a; a.setSub4(vertices[i], *o);
-hkVector4 b; b.setSub4(vertices[i + 1], *o);
-hkVector4 plane; plane.setCross(a, b);
-const hkReal area2 = MathUtilities::fabs(plane.dot3(m_kVectorAtOffsetE0));
-total_area2 += area2;
-hkVector4 center; center.setAdd4(a, b);
-center.mul4(oneThird * area2);
-com.add4(center);
-}
-m_bFirstImplementationFlag = true;
-m_fVertexStride = total_area2 / 2.0;
-m_kTransformMatrix(0, 0) = 1.0f;
-m_vOffset.set(1.0f, 0.0f, 0.0f, 0.0f);
-com.mul4(1.0f / total_area2);
-com.add4(vertices[0]);
-m_kLocalTransform.setTranslation(com);
-}
-else
-{
-m_bFirstImplementationFlag = true;
-m_fVertexStride = 0;
-m_iBufferSize = 0;
-m_kTransformMatrix = hkMatrix3::GetIdentityTransform();
-m_vOffset = hkVector4::getZero();
-m_kLocalTransform = hkTransform::GetIdentityTransform();
-}
-}
-return m_bFirstImplementationFlag ? HK_SUCCESS : HK_FAILURE;}
 
 void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count);
 
@@ -14567,5 +14228,348 @@ int H77ConvexHull::FUN_00d77200(const H77StridedVertices& points, intptr_t confi
     }
     return FUN_00d771c0(vertices.begin(), vertices.GetLogicalSize(), config);
 }
+
+
+
+// Forwards the five arguments to the callee stored at m_08 via FUN_00d7a5a0.
+// @fnv 0x00d74ee0
+void FUN_00d74ee0_Class::ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5) {
+    reinterpret_cast<::ClipHull *>((((TargetCallee*)m_08)))->FUN_00d7a5a0((*(const ::ClipVector *)(p1)), (*(const ::ClipVector *)(p2)), (*(float *)(p3)), (*(float *)(p4)), p5);
+}
+
+// @fnv 0x00d75070
+int Owner::FUN_00d75070(Request* request) {
+    TextBuffer text;
+    ChildData* child = unk08;
+    if (child->flag1b5 == 0) {
+        new ((void *)&(text)) ::FUN_00cb1600((char*)text.storage, 512);
+        reinterpret_cast<::SinkOwner *>((((::TextBuffer *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::TextBuffer *)(reinterpret_cast<::SinkOwner *>(&(text))->FUN_00cc01c0("No index available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
+        if (DAT_01268360->message(3, 0x79f9d886, (char*)text.storage, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x148))
+            __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(text))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    return request->unk34;
+}
+
+// @fnv 0x00d75210
+int S_00d75210_Self::FUN_00d75210(const S_00d75210_Data* v) const throw()
+{
+    S_00d75210_Config* cfg = m_pConfiguration;
+    if (!cfg->m_hasIndex)
+    {
+        // Havok builds this with /GS-; a non-char buffer keeps /GS from adding a cookie.
+        unsigned int buf[128];
+        S_00d75210_ErrStream ostr(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(cfg->m_1b0)))->FUN_00cc01c0(")");
+        if ((*reinterpret_cast<::S_00d75210_Error * *>(&::DAT_01268360))->message(3, 0x79f9d886, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
+            __debugbreak();
+    }
+    return v->m_uiEdgeIndex;
+}
+// @fnv 0x00d76910
+void D76910Owner::FUN_00d76910()
+{
+    reinterpret_cast<::S00d7cf00_Hull *>((inner))->FUN_00d7cf00();
+}
+
+// Optionally clears a byte at offset 0x1b5 of unk08, stores value into unk08->unk04, then calls unk08->FUN_00d7d2a0().
+// @fnv 0x00d76990
+void FUN_00d76990_Class::SetValue(float value, bool clearFlag) {
+    if (clearFlag)
+        *(reinterpret_cast<unsigned char*>(unk08) + 0x1b5) = 0;
+    unk08->unk04 = value;
+    reinterpret_cast<::HullBuilder *>((unk08))->FUN_00d7d2a0();
+}
+
+// Builds a 4-component vector from p and returns the difference of FUN_00d768b0 and FUN_00d76840 evaluated on it.
+// @fnv 0x00d769c0
+float Shape::FUN_00d769c0(const Vec3& p)
+{
+    hkVec4 v;
+    *(__m128*)&v.x = _mm_setr_ps(p.x, p.y, p.z, 0.0f);
+    return reinterpret_cast<::SupportShape *>(this)->FUN_00d768b0((const ::SupportVector &)(v)) - FUN_00d76840(v);
+}
+
+// Forwards apFirst, apSecond, apThird and whether apKey is null to the sink's FUN_00d7df60.
+// @fnv 0x00d76c50
+void FUN_00d76c50_cls::DispatchToSink(void* apKey, void* apFirst, void* apSecond,
+                                    void* apThird)
+{
+    reinterpret_cast<::PolygonMesh *>((m_pSink))->FUN_00d7df60((*(::PolygonArray<int> *)(apFirst)), (*(::PolygonArray<int> *)(apSecond)), apKey == 0, (bool)(apThird));
+}
+// Calls FUN_00d83430 on the object stored at unk08, passing the four arguments through unchanged.
+// @fnv 0x00d790a0
+void FUN_00d790a0_class::FUN_00d790a0(int aiArg1, int aiArg2, int aiArg3, float afArg4) {
+    reinterpret_cast<::HullImpl *>((unk08))->FUN_00d83430((*(const ::HullVec *)(aiArg1)), (::FUN_00d76ca0 **)(aiArg2), (::FUN_00d76ca0 **)(aiArg3), afArg4);
+}
+
+// @fnv 0x00d752d0
+void FUN_00d752d0_cls::FUN_00d752d0() {
+    reinterpret_cast<::Centroid352 *>((m_08))->FUN_00d7a180();
+}
+
+// @fnv 0x00d75390
+float FUN_00d75390_cls::GetMass() {
+    DiagState* st = m_08;
+    if (st->m_1b4 != 0) {
+    } else {
+        DiagStream s;
+        new ((void *)&(s)) ::FUN_00cb1600(s.m_buf, 0x200);
+        DiagStream* y = ((::DiagStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::DiagStream *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("No mass properties available (")))))->FUN_00cc02d0({})));
+        reinterpret_cast<::SinkOwner *>((y))->FUN_00cc01c0({});
+        if ((*reinterpret_cast<::DiagLogger * *>(&::DAT_01268360))->Report(3, 0x79f9d887, (char*)s.m_buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e) != 0) {
+            __debugbreak();
+        }
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    return m_08->m_1a4;
+}
+
+// Builds a temporary FUN_00d75820_Tmp8 and forwards a1, a2, its address and a3 to m08's FUN_00d7a200.
+// @fnv 0x00d75820
+void FUN_00d75820_cls::CallTargetWithTemp(intptr_t a1, float a2, intptr_t a3)
+{
+    FUN_00d75820_Tmp8 tmpArg;
+    reinterpret_cast<::S_00d7a200_Owner *>((this->m08))->FUN_00d7a200((*(const ::S_00d7a200_V4 *)(a1)), a2, (int *)(::FUN_00d75820_Tmp8 *)(&tmpArg), (float *)(a3));
+}
+
+// @fnv 0x00d76100
+void FUN_00d76100_cls::FUN_00d76100(int a1, int a2, float a3) {
+    reinterpret_cast<::QuantizedHull *>((m_08))->FUN_00d7b330((*(const ::QuantVector *)(a1)), a2, a3);
+}
+
+// @fnv 0x00d76920
+void FUN_00d76920_class::FUN_00d76920(float f, int i) {
+    reinterpret_cast<::BevelHull *>((m_08))->FUN_00d7caa0(f, (*(::BevelArray *)(i)));
+}
+
+// @fnv 0x00d77bc0
+void FUN_00d77bc0_cls::FUN_00d77bc0() {
+    SpawnedObject* self = reinterpret_cast<SpawnedObject*>(this);
+    TailCallee* next = reinterpret_cast<TailCallee*>(self->m_08);
+    reinterpret_cast<::S_00d827b0_Owner *>((next))->FUN_00d827b0({});
+}
+
+// @fnv 0x00d79090
+void D79090Owner::FUN_00d79090()
+{
+    reinterpret_cast<::S83_Mesh *>((m_target))->FUN_00d83f30({});
+}
+
+// Asserts when the owner has no mass properties, then copies four vectors from the owner into pOut64 and one vector into pOut16.
+// @fnv 0x00d75490
+void FUN_00d75490_cls::GetMassProperties(RetBlock64 *pOut64, RetBlock16 *pOut16)
+{
+	SharedOwner *pOwner = m_pSharedOwner;
+	if (pOwner->m_b1B4 == 0)
+	{
+		unsigned int buf[0x80];
+		DbgStr_cls dbgStr;
+
+		new ((void *)&(dbgStr)) ::FUN_00cb1600((char *)buf, 0x200);
+		reinterpret_cast<::SinkOwner *>((((::DbgStr_cls *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::DbgStr_cls *)(reinterpret_cast<::SinkOwner *>(&(dbgStr))->FUN_00cc01c0("No mass properties available (")))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
+		AssertMgr_cls *pAssertMgr = (AssertMgr_cls *)DAT_01268360;
+		if (pAssertMgr->vtbl0C(3, 0x79f9d887, (char *)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14e))
+		{
+			__debugbreak();
+		}
+		reinterpret_cast<struct ::FUN_00cc00e0 *>(&(dbgStr))->FUN_00cc00e0::~FUN_00cc00e0();
+	}
+	__m128 *pSrcVec = &m_pSharedOwner->m_v120;
+	pOut64->m_v0 = *pSrcVec;
+	pOut64->m_v1 = pSrcVec[1];
+	pOut64->m_v2 = pSrcVec[2];
+	pOut64->m_v3 = pSrcVec[3];
+	pOut16->m_v0 = m_pSharedOwner->m_v160;
+}
+
+// If the entity's unk1b4 is zero, builds a message via a local helper and asserts on failure, then returns the entity's unk1a0.
+// @fnv 0x00d752e0
+float S_00d752e0_Class::FUN_00d752e0() {
+    S_00d752e0_Entity* entity = this->unk08;
+    if (entity->unk1b4 == 0) {
+        S_00cb1600_Class localBuilder;
+        new ((void *)&(localBuilder)) ::FUN_00cb1600(&localBuilder.unk00c, 0x200);
+
+        S_00cc01c0_Class* value = ((::S_00cc01c0_Class *)(reinterpret_cast<::SinkOwner *>(&(localBuilder))->FUN_00cc01c0(
+            str_010d358c
+        )));
+
+        value = ((::S_00cc01c0_Class *)(reinterpret_cast<::FUN_00cc02d0_cls *>((value))->FUN_00cc02d0({})));
+        reinterpret_cast<::SinkOwner *>((value))->FUN_00cc01c0({});
+
+        if (DAT_01268360->message(
+                3,
+                0x79f9d887,
+                reinterpret_cast<char*>(&localBuilder.unk00c),
+                str_010d3540,
+                0x14e)) {
+            __debugbreak();
+        }
+
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(localBuilder))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    return this->unk08->unk1a0;
+}
+// Recursively visits adjacent pairs when Dist(arg1) is non-negative, unlinks and removes their nodes and elements, or copies the pair to out.
+// @fnv 0x00d7c3e0
+void D7Owner::FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* apOutPair)
+{
+    if (!pair->node) return;
+    if (pair->node->stamp40 == stamp1ac) return;
+    pair->node->stamp40 = stamp1ac;
+    if (pair->node->Dist(arg1) >= 0) {
+        { D7Pair n=pair->Adjacent(); FUN_00d7c3e0(arg1,&n,apOutPair); }
+        { D7Pair n=pair->Next().Adjacent(); FUN_00d7c3e0(arg1,&n,apOutPair); }
+        { D7Pair n=pair->Prev().Adjacent(); FUN_00d7c3e0(arg1,&n,apOutPair); }
+        pair->Unlink();
+        pair->Next().Unlink();
+        pair->Prev().Unlink();
+        D7Node* pNode = pair->node;
+        for (int i = 0; i < 3; i++) {
+            D7ListNode* o = pNode->elems[i];
+            pNode->elems[i]->ref30--;
+            if (o->ref30 == 0) {
+                D7ListNode* e = pNode->elems[i];
+                headA.Remove(e);
+                reinterpret_cast<::PoolAllocator40 *>(&(headA))->FUN_00d7adb0((::PoolItem40 *)(e));
+            }
+        }
+        headB.Remove((D7ListNode*)pNode);
+        reinterpret_cast<::fnv_00d7aea0::PoolAllocator48 *>(&(headB))->FUN_00d7aea0((::fnv_00d7aea0::PoolItem48 *)(pNode));
+    } else {
+        *apOutPair = *pair;
+    }
+}
+
+static __forceinline void CheckSplitIndex(SplitObject* source,ExportStream& stream) {
+    ChildData* data=source->data;
+    if(!data->flag1b5) {
+        unsigned int buffer[128];
+        new ((void *)&(stream)) ::FUN_00cb1600((char*)buffer,512);
+        reinterpret_cast<::SinkOwner *>((((::ExportStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>((((::ExportStream *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d3574)))))->FUN_00cc02d0({})))))->FUN_00cc01c0({});
+        if(DAT_01268360->message(3,0x79f9d886,(char*)buffer,str_010d3540,0x148)) __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+}
+
+// Updates center, area, volume, and inertia-related state based on vertex dimensionality.
+// @fnv 0x00d7b600
+hkResult hkgpConvexHullImpl::FUN_00d7b600()
+{
+if (!m_bFirstImplementationFlag)
+{
+if (m_eVertexFloatDimensions == 3)
+{
+const hkVector4 base = (*(const ::hkVector4 *)(reinterpret_cast<::CentroidHull *>((void *)this)->FUN_00d7aa30()));
+hkVector4 com = hkVector4::getZero();
+hkVector4 diag = hkVector4::getZero();
+hkVector4 offd = hkVector4::getZero();
+hkReal vol = 0;
+hkReal area = 0;
+for (const Triangle* pt = m_pMesh.m_uiTriangleCount.getFirst(); pt; pt = pt->next())
+{
+hkMatrix3 m;
+m.setCols(ConvexHullVertexTransform::get(this, pt->vertex(0)), ConvexHullVertexTransform::get(this, pt->vertex(1)), ConvexHullVertexTransform::get(this, pt->vertex(2)));
+m.getColumn(0).sub4(base);
+m.getColumn(1).sub4(base);
+m.getColumn(2).sub4(base);
+const hkVector4 org = m.getColumn(0);
+const hkReal det = m.GetDeterminant();
+hkVector4 ab; ab.setSub4(m.getColumn(1), org);
+hkVector4 ac; ac.setSub4(m.getColumn(2), org);
+ab.setCross(ab, ac);
+area += ab.length3();
+hkVector4 s = org;
+s.add4(m.getColumn(1));
+s.add4(m.getColumn(2));
+com.addMul4(det, s);
+vol += det;
+accumulateMass(m, 0, 1, 2, det, diag, offd);
+accumulateMass(m, 1, 2, 0, det, diag, offd);
+accumulateMass(m, 2, 0, 1, det, diag, offd);
+}
+com.mul4(1.0 / (vol * 4.0));
+com.add4(base);
+m_kLocalTransform.setTranslation(com);
+m_fVertexStride = area / 2.0;
+m_iBufferSize = vol / 6.0;
+if (m_iBufferSize > 1.1920928955078125e-07)
+{
+diag.mul4(1.0 / (vol * 10.0));
+offd.mul4(1.0 / (vol * 20.0));
+hkMatrix3 inertiaM;
+hkVector4 c0; c0.set(diag(1) + diag(2), -offd(2), -offd(1), 0.0f);
+hkVector4 c1; c1.set(-offd(2), diag(0) + diag(2), -offd(0), 0.0f);
+hkVector4 c2; c2.set(-offd(1), -offd(0), diag(0) + diag(1), 0.0f);
+inertiaM.setCols(c0, c1, c2);
+com.sub4(base);
+translateInertia(1.0f, com, hkVector4::getZero(), inertiaM);
+hkRotation eigenVectors;
+hkVector4 eigenValues;
+if (inertiaM.DiagonalizeSymmetric(eigenVectors, eigenValues, 128, 1e-4f) == HK_FAILURE)
+{
+
+if(1) { hkUint32 assertBuf[128]; S00d7b600_ErrStore ostrStore; new(&ostrStore) hkErrStream(assertBuf,sizeof(assertBuf)); hkErrStream& ostr = *reinterpret_cast<hkErrStream*>(&ostrStore); reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(str_010d36a0)))->FUN_00cc02d0(m_uiUniqueId)))->FUN_00cc01c0((*reinterpret_cast<const char (*)[]>(&::DAT_0103d078))); if ( hkError::GetMonitorStream().message(hkError::MESSAGE_ERROR, 0x45465, (const char*)assertBuf, str_010d3540, 1753) ) { fnv_Breakpoint(); } reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0(); } else;
+}
+reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
+reinterpret_cast<::CB2FC0Object *>(&(eigenVectors))->FUN_00cb2fc0();
+m_kTransformMatrix = inertiaM;
+reinterpret_cast<::FUN_00cd5880_cls *>(&(inertiaM))->FUN_00cd5880((uintptr_t)&(eigenVectors));
+m_vOffset.set(inertiaM(0, 0), inertiaM(1, 1), inertiaM(2, 2), 0.0f);
+reinterpret_cast<::S_00cd4b60 *>(&(eigenVectors))->FUN_00cd4b60();
+m_kLocalTransform.SetBodyOrientation(eigenVectors);
+}
+else
+{
+
+;
+m_kLocalTransform.SetBodyOrientation(hkQuaternion::GetIdentityTransform());
+m_iBufferSize = 0;
+m_kTransformMatrix.getColumn(0) = hkVector4::getZero();
+m_kTransformMatrix.getColumn(1) = hkVector4::getZero();
+m_kTransformMatrix.getColumn(2) = hkVector4::getZero();
+m_vOffset = hkVector4::getZero();
+}
+m_bFirstImplementationFlag = true;
+}
+else if (m_eVertexFloatDimensions == 2)
+{
+S00d7b600_Array<hkVector4> vertices;
+const hkReal oneThird = 1.0f / 3.0f;
+hkVector4 com = hkVector4::getZero();
+hkReal total_area2 = 0;
+fetchWorldPositions<ConvexHullVertexTransform>(vertices);
+for (int i = 1; i < vertices.GetLogicalSize() - 1; ++i)
+{
+const hkVector4* o = &vertices[0];
+hkVector4 a; a.setSub4(vertices[i], *o);
+hkVector4 b; b.setSub4(vertices[i + 1], *o);
+hkVector4 plane; plane.setCross(a, b);
+const hkReal area2 = MathUtilities::fabs(plane.dot3(m_kVectorAtOffsetE0));
+total_area2 += area2;
+hkVector4 center; center.setAdd4(a, b);
+center.mul4(oneThird * area2);
+com.add4(center);
+}
+m_bFirstImplementationFlag = true;
+m_fVertexStride = total_area2 / 2.0;
+m_kTransformMatrix(0, 0) = 1.0f;
+m_vOffset.set(1.0f, 0.0f, 0.0f, 0.0f);
+com.mul4(1.0f / total_area2);
+com.add4(vertices[0]);
+m_kLocalTransform.setTranslation(com);
+}
+else
+{
+m_bFirstImplementationFlag = true;
+m_fVertexStride = 0;
+m_iBufferSize = 0;
+m_kTransformMatrix = hkMatrix3::GetIdentityTransform();
+m_vOffset = hkVector4::getZero();
+m_kLocalTransform = hkTransform::GetIdentityTransform();
+}
+}
+return m_bFirstImplementationFlag ? HK_SUCCESS : HK_FAILURE;}
 
 #include "generated/data/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.inc"

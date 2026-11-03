@@ -1383,13 +1383,6 @@ struct FUN_00cd0c70_cls
     FUN_00cd0c70_cls* FUN_00cd0c70(int aiUnused);
 };
 
-// @fnv 0x00cd0c70
-FUN_00cd0c70_cls* FUN_00cd0c70_cls::FUN_00cd0c70(int aiUnused)
-{
-    reinterpret_cast<::Pool_cd09d0 *>((((Helper*)this)))->Pool_cd09d0::~Pool_cd09d0();
-    return this;
-}
-
 struct CD07B0_Allocator
 {
     virtual void v00();
@@ -1888,6 +1881,15 @@ Pool_cd09d0::~Pool_cd09d0()
     m_vptr = (void*)&DAT_010cad74;
     *(volatile int*)&DAT_012686cc = 0;
     DeleteCriticalSection(&m_kLock);
+}
+
+
+
+// @fnv 0x00cd0c70
+FUN_00cd0c70_cls* FUN_00cd0c70_cls::FUN_00cd0c70(int aiUnused)
+{
+    reinterpret_cast<::Pool_cd09d0 *>((((Helper*)this)))->Pool_cd09d0::~Pool_cd09d0();
+    return this;
 }
 
 #include "generated/data/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.inc"

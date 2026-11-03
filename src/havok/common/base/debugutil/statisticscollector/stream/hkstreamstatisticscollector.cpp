@@ -385,19 +385,8 @@ class ObjDDF9
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
 };
+void ClearAllItems(int iUnused0, int iUnused1);
 
-
-// @fnv 0x00ddf970
-void ClearAllItems(int iUnused0, int iUnused1)
-{
-    hkArrayDDF9<ObjDDF9*> kArray;
-    reinterpret_cast<::MonitorTreeBuilder *>((kArray))->FUN_00ddf740((::MonitorNodeArray *)(0), {});
-    while (kArray.m_iElementCount)
-    {
-        delete kArray.m_data[kArray.m_iElementCount - 1];
-        kArray.m_iElementCount--;
-    }
-}
 
 extern int DAT_010d8040;
 
@@ -1027,4 +1016,18 @@ void MonitorTreeBuilder::FUN_00ddf740(MonitorNodeArray* roots, MonitorStrings* s
         off += step;
     }
     AggregateChildValues(top, strings);
+}
+
+
+
+// @fnv 0x00ddf970
+void ClearAllItems(int iUnused0, int iUnused1)
+{
+    hkArrayDDF9<ObjDDF9*> kArray;
+    reinterpret_cast<::MonitorTreeBuilder *>((kArray))->FUN_00ddf740((::MonitorNodeArray *)(0), {});
+    while (kArray.m_iElementCount)
+    {
+        delete kArray.m_data[kArray.m_iElementCount - 1];
+        kArray.m_iElementCount--;
+    }
 }

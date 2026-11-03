@@ -207,16 +207,6 @@ struct Owner
     __m128 row30;
     void FUN_00de8c50(const __m128* source, float value);
 };
-// Copies four __m128 rows from source into row00..row30, then calls FUN_00de8910 with value.
-// @fnv 0x00de8c50
-void Owner::FUN_00de8c50(const __m128* apRows, float value)
-{
-    row00 = apRows[0];
-    row10 = apRows[1];
-    row20 = apRows[2];
-    row30 = apRows[3];
-    reinterpret_cast<::S00de9140_Matrix4 *>(this)->FUN_00de8910(value);
-}
 
 struct SourceBlockCDF
 {
@@ -461,21 +451,6 @@ void hkMatrix4::FUN_00de8e50(const hkMatrix4& b)
     hkMatrix4 t;
     reinterpret_cast<::Matrix4V *>(&(t))->FUN_00de8da0((const ::Matrix4Q *)&(*this), (*(::MatrixPointerQ *)&(b)));
     *this = t;
-}
-// Copies the matrix into a local, passes its first row to FUN_00de8910, then passes the local data to FUN_00de8da0 for writing to dst.
-// @fnv 0x00de9270
-void S00de9270_cls::FUN_00de9270(void* dst, const S00de9270_Mat* src)
-{
-    S00de9270_Mat matTmp;
-    *(__m128*)&matTmp.m_r0 = *(const __m128*)&src->m_r0;
-    *(__m128*)&matTmp.m_r1 = *(const __m128*)&src->m_r1;
-    *(__m128*)&matTmp.m_r2 = *(const __m128*)&src->m_r2;
-    *(__m128*)&matTmp.m_r3 = *(const __m128*)&src->m_r3;
-
-    FUN_00de8910_Class* row = (FUN_00de8910_Class*)&matTmp.m_r0;
-    reinterpret_cast<::S00de9140_Matrix4 *>((row))->FUN_00de8910(::DAT_0104da4c);
-
-    reinterpret_cast<::Matrix4V *>((((FUN_00de8da0_Class*)this)))->FUN_00de8da0((const ::Matrix4Q *)(dst), (::MatrixPointerQ)((const float*)&matTmp.m_r0));
 }
 
 // Stores the matrix product formed by dotting each row of right with each column of left.
@@ -951,4 +926,30 @@ bool __cdecl S00de92d0_GeometryProcessing::FUN_00de92d0(const S00de92d0_Vector4&
         return true;
     }
     return false;
+}
+
+// Copies four __m128 rows from source into row00..row30, then calls FUN_00de8910 with value.
+// @fnv 0x00de8c50
+void Owner::FUN_00de8c50(const __m128* apRows, float value)
+{
+    row00 = apRows[0];
+    row10 = apRows[1];
+    row20 = apRows[2];
+    row30 = apRows[3];
+    reinterpret_cast<::S00de9140_Matrix4 *>(this)->FUN_00de8910(value);
+}
+// Copies the matrix into a local, passes its first row to FUN_00de8910, then passes the local data to FUN_00de8da0 for writing to dst.
+// @fnv 0x00de9270
+void S00de9270_cls::FUN_00de9270(void* dst, const S00de9270_Mat* src)
+{
+    S00de9270_Mat matTmp;
+    *(__m128*)&matTmp.m_r0 = *(const __m128*)&src->m_r0;
+    *(__m128*)&matTmp.m_r1 = *(const __m128*)&src->m_r1;
+    *(__m128*)&matTmp.m_r2 = *(const __m128*)&src->m_r2;
+    *(__m128*)&matTmp.m_r3 = *(const __m128*)&src->m_r3;
+
+    FUN_00de8910_Class* row = (FUN_00de8910_Class*)&matTmp.m_r0;
+    reinterpret_cast<::S00de9140_Matrix4 *>((row))->FUN_00de8910(::DAT_0104da4c);
+
+    reinterpret_cast<::Matrix4V *>((((FUN_00de8da0_Class*)this)))->FUN_00de8da0((const ::Matrix4Q *)(dst), (::MatrixPointerQ)((const float*)&matTmp.m_r0));
 }

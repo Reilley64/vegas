@@ -1169,17 +1169,6 @@ struct D04A20World
     void QueueOperation(void* object, bool flag, int data);
 };
 
-// Appends an operation with the given object, flag and data to the pending array, then processes pending operations.
-// @fnv 0x00d04a20
-void D04A20World::QueueOperation(void* object, bool flag, int data)
-{
-    D04A20Operation& op = m_pPendingOperations.AllocatePair();
-    op.m_object = object;
-    op.m_flag = flag;
-    op.m_data = data;
-    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
-}
-
 
 struct D05490Base
 {
@@ -1372,37 +1361,6 @@ void D057A0Queue::FUN_00d057a0(const D057A0Element& element)
         m_pTail = 0;
     m_data[m_pTail++] = element;
     m_iNodeCount++;
-}
-// Initializes the TLS value, allocates a PoolTable, sets up its entries and slot callbacks, then calls FinishInit.
-// @fnv 0x00d05490
-FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
-{
-    TlsSetValue(g_dwTlsIndex, 0);
-    m_pTable = new PoolTable;
-    m_b74 = 0;
-    m_pTable->m_b20 = 0;
-    m_pTable->m_i1c = 0;
-    reinterpret_cast<::ArrayRecord *>(&(m_sub))->FUN_00d05b50((*(const ::ArrayRecord *)(pConfig)));
-    m_uiItemCount = pConfig->m_i18;
-    m_i70 = 0;
-    for (int i = 0; i < 16; ++i)
-    {
-        reinterpret_cast<::hkQueue128 *>(&((*m_pTable)[i]))->FUN_00d056d0(0x80);
-    }
-    m_pTable->m_i18 = 0;
-    for (int k = 0; k < m_uiItemCount; ++k)
-    {
-        m_slots[k].m_i04 = 0;
-        m_slots[k].m_i00 = 0;
-        m_slots[k].m_p08 = (void*)((void (&)())::FUN_00d043d0);
-        m_slots[k].m_p0c = (void*)((void (&)())::FUN_00d043e0);
-        m_pTable->m_counts[k] = 0;
-        m_pTable->m_i18 |= 1 << k;
-    }
-    m_pFn1 = (void*)((void (&)())::FUN_00d04550);
-    m_pFn2 = (void*)((void (&)())::FUN_00d04570);
-    m_i8c = 0;
-    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
 }
 
 // Grows the underlying element array to at least n slots, copying existing nodes and resetting the ring indices.
@@ -2376,157 +2334,6 @@ struct QueueLockView : Owner
 {
     Registry* FUN_00d04400(RequestContext* storage);
 };
-// When param_2 is nonzero, invokes the owner callback and inserts its payload; repeats FUN_00d05840 until it returns a value other than -1.
-// @fnv 0x00d04e80
-int LunaOwner::ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4)
-{
-    union Phase212
-    {
-        volatile unsigned int tick;
-        Registry* registry;
-    };
-    Phase212 phase;
-    {
-        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
-        unsigned int* cursor = trace->current;
-        if (cursor < trace->end)
-        {
-            *cursor = (uintptr_t)str_010ccd90;
-            _ReadWriteBarrier();
-            phase.tick = static_cast<unsigned int>(__rdtsc());
-            cursor[1] = phase.tick;
-            cursor += 3;
-            trace->current = cursor;
-        }
-    }
-
-    int result;
-    for (;;)
-    {
-        RequestContext context;
-        phase.registry = reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400(&context);
-        int index = -1;
-        if (param_2 != 0)
-        {
-            LunaCallbackItem item;
-            typedef int(__cdecl * OwnerCallback)(Owner*, Registry*, int, LunaCallbackItem*);
-            if (((OwnerCallback)unk20)(this, phase.registry, param_2, &item) == 0)
-            {
-                index = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)(::Item *)(&item.payload));
-                Bucket* bucket = &phase.registry->buckets[index];
-                int capacity = bucket->unk04;
-
-                if (item.unk00 == 0)
-                {
-                    if (bucket->unk10 >= capacity)
-                    {
-                        if (capacity == 0)
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
-                        else
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
-                    }
-                    if (bucket->unk08 == 0)
-                        bucket->unk08 = bucket->unk04;
-                    --bucket->unk08;
-                    Item* destination = (Item*)(bucket->unk00 + bucket->unk08 * 0x80);
-                    *destination = item.payload;
-                    ++bucket->unk10;
-                }
-                else
-                {
-                    if (bucket->unk10 >= capacity)
-                    {
-                        if (capacity == 0)
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
-                        else
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
-                    }
-                    if (bucket->unk0C == bucket->unk04)
-                        bucket->unk0C = 0;
-                    Item* destination = (Item*)(bucket->unk00 + bucket->unk0C * 0x80);
-                    *destination = item.payload;
-                    ++bucket->unk0C;
-                    ++bucket->unk10;
-                }
-            }
-
-            unsigned char sub = *(unsigned char*)(param_2 + 1);
-            --Ref212(phase.registry, sub);
-            param_2 = 0;
-        }
-
-        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(index, (::Refs *)(phase.registry), param_4, param_3);
-        if (result != -1)
-            break;
-    }
-
-    {
-        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
-        unsigned int* cursor = trace->current;
-        if (cursor < trace->end)
-        {
-            *cursor = (uintptr_t)::DAT_010c41f8;
-            _ReadWriteBarrier();
-            volatile unsigned int stamp = static_cast<unsigned int>(__rdtsc());
-            cursor[1] = (unsigned int)stamp;
-            cursor += 3;
-            trace->current = cursor;
-        }
-    }
-
-    return result;
-}
-// Enqueues a job at the front or tail of a queue, then repeats FUN_00d05840 until it returns a value other than -1.
-// @fnv 0x00d05020
-int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus)
-{
-    volatile unsigned int tick;
-    {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
-        if (s->m_cur < s->m_kRayEnd)
-        {
-            TimerEntry* h = (TimerEntry*)s->m_cur;
-            h->m_name = "TtGetNextJob";
-            _ReadWriteBarrier();
-            tick = (unsigned int)__rdtsc();
-            h->m_uiCommandId = tick;
-            s->m_cur = (char*)(h + 1);
-        }
-    }
-    RequestContext dynamicDataStorage;
-    bool jobToAdd = true;
-    int result;
-    do
-    {
-        S_00d05020_DynamicData* data = ((::S_00d05020_DynamicData *)(reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400((::RequestContext *)(char *)((char*)&dynamicDataStorage))));
-        int queueIndex = -1;
-        if (jobToAdd)
-        {
-            data->m_sQueueCounts[aiJobType]--;
-            queueIndex = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)&(jobInOut));
-            S_00d05020_Queue& queue = data->m_kQueues[queueIndex];
-            if (priority == 0)
-                queue.enqueueInFront(jobInOut);
-            else
-                queue.enqueue(jobInOut);
-            jobToAdd = false;
-        }
-        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(queueIndex, (::Refs *)(data), waitStatus, (intptr_t)&(jobInOut));
-    } while (result == -1);
-    {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
-        if (s->m_cur < s->m_kRayEnd)
-        {
-            TimerEntry* h = (TimerEntry*)s->m_cur;
-            h->m_name = "Et";
-            _ReadWriteBarrier();
-            tick = (unsigned int)__rdtsc();
-            h->m_uiCommandId = tick;
-            s->m_cur = (char*)(h + 1);
-        }
-    }
-    return result;
-}
 
 // @fnv 0x00d04400
 Registry* QueueLockView::FUN_00d04400(RequestContext*)
@@ -3236,6 +3043,201 @@ tail_check:
         CaptureMarker((void*)::DAT_010c41f8);
         return -1;
     }
+}
+
+
+
+// Appends an operation with the given object, flag and data to the pending array, then processes pending operations.
+// @fnv 0x00d04a20
+void D04A20World::QueueOperation(void* object, bool flag, int data)
+{
+    D04A20Operation& op = m_pPendingOperations.AllocatePair();
+    op.m_object = object;
+    op.m_flag = flag;
+    op.m_data = data;
+    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
+}
+// Initializes the TLS value, allocates a PoolTable, sets up its entries and slot callbacks, then calls FinishInit.
+// @fnv 0x00d05490
+FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
+{
+    TlsSetValue(g_dwTlsIndex, 0);
+    m_pTable = new PoolTable;
+    m_b74 = 0;
+    m_pTable->m_b20 = 0;
+    m_pTable->m_i1c = 0;
+    reinterpret_cast<::ArrayRecord *>(&(m_sub))->FUN_00d05b50((*(const ::ArrayRecord *)(pConfig)));
+    m_uiItemCount = pConfig->m_i18;
+    m_i70 = 0;
+    for (int i = 0; i < 16; ++i)
+    {
+        reinterpret_cast<::hkQueue128 *>(&((*m_pTable)[i]))->FUN_00d056d0(0x80);
+    }
+    m_pTable->m_i18 = 0;
+    for (int k = 0; k < m_uiItemCount; ++k)
+    {
+        m_slots[k].m_i04 = 0;
+        m_slots[k].m_i00 = 0;
+        m_slots[k].m_p08 = (void*)((void (&)())::FUN_00d043d0);
+        m_slots[k].m_p0c = (void*)((void (&)())::FUN_00d043e0);
+        m_pTable->m_counts[k] = 0;
+        m_pTable->m_i18 |= 1 << k;
+    }
+    m_pFn1 = (void*)((void (&)())::FUN_00d04550);
+    m_pFn2 = (void*)((void (&)())::FUN_00d04570);
+    m_i8c = 0;
+    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
+}
+// When param_2 is nonzero, invokes the owner callback and inserts its payload; repeats FUN_00d05840 until it returns a value other than -1.
+// @fnv 0x00d04e80
+int LunaOwner::ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4)
+{
+    union Phase212
+    {
+        volatile unsigned int tick;
+        Registry* registry;
+    };
+    Phase212 phase;
+    {
+        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
+        unsigned int* cursor = trace->current;
+        if (cursor < trace->end)
+        {
+            *cursor = (uintptr_t)str_010ccd90;
+            _ReadWriteBarrier();
+            phase.tick = static_cast<unsigned int>(__rdtsc());
+            cursor[1] = phase.tick;
+            cursor += 3;
+            trace->current = cursor;
+        }
+    }
+
+    int result;
+    for (;;)
+    {
+        RequestContext context;
+        phase.registry = reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400(&context);
+        int index = -1;
+        if (param_2 != 0)
+        {
+            LunaCallbackItem item;
+            typedef int(__cdecl * OwnerCallback)(Owner*, Registry*, int, LunaCallbackItem*);
+            if (((OwnerCallback)unk20)(this, phase.registry, param_2, &item) == 0)
+            {
+                index = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)(::Item *)(&item.payload));
+                Bucket* bucket = &phase.registry->buckets[index];
+                int capacity = bucket->unk04;
+
+                if (item.unk00 == 0)
+                {
+                    if (bucket->unk10 >= capacity)
+                    {
+                        if (capacity == 0)
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
+                        else
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
+                    }
+                    if (bucket->unk08 == 0)
+                        bucket->unk08 = bucket->unk04;
+                    --bucket->unk08;
+                    Item* destination = (Item*)(bucket->unk00 + bucket->unk08 * 0x80);
+                    *destination = item.payload;
+                    ++bucket->unk10;
+                }
+                else
+                {
+                    if (bucket->unk10 >= capacity)
+                    {
+                        if (capacity == 0)
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
+                        else
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
+                    }
+                    if (bucket->unk0C == bucket->unk04)
+                        bucket->unk0C = 0;
+                    Item* destination = (Item*)(bucket->unk00 + bucket->unk0C * 0x80);
+                    *destination = item.payload;
+                    ++bucket->unk0C;
+                    ++bucket->unk10;
+                }
+            }
+
+            unsigned char sub = *(unsigned char*)(param_2 + 1);
+            --Ref212(phase.registry, sub);
+            param_2 = 0;
+        }
+
+        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(index, (::Refs *)(phase.registry), param_4, param_3);
+        if (result != -1)
+            break;
+    }
+
+    {
+        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
+        unsigned int* cursor = trace->current;
+        if (cursor < trace->end)
+        {
+            *cursor = (uintptr_t)::DAT_010c41f8;
+            _ReadWriteBarrier();
+            volatile unsigned int stamp = static_cast<unsigned int>(__rdtsc());
+            cursor[1] = (unsigned int)stamp;
+            cursor += 3;
+            trace->current = cursor;
+        }
+    }
+
+    return result;
+}
+// Enqueues a job at the front or tail of a queue, then repeats FUN_00d05840 until it returns a value other than -1.
+// @fnv 0x00d05020
+int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus)
+{
+    volatile unsigned int tick;
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
+        if (s->m_cur < s->m_kRayEnd)
+        {
+            TimerEntry* h = (TimerEntry*)s->m_cur;
+            h->m_name = "TtGetNextJob";
+            _ReadWriteBarrier();
+            tick = (unsigned int)__rdtsc();
+            h->m_uiCommandId = tick;
+            s->m_cur = (char*)(h + 1);
+        }
+    }
+    RequestContext dynamicDataStorage;
+    bool jobToAdd = true;
+    int result;
+    do
+    {
+        S_00d05020_DynamicData* data = ((::S_00d05020_DynamicData *)(reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400((::RequestContext *)(char *)((char*)&dynamicDataStorage))));
+        int queueIndex = -1;
+        if (jobToAdd)
+        {
+            data->m_sQueueCounts[aiJobType]--;
+            queueIndex = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)&(jobInOut));
+            S_00d05020_Queue& queue = data->m_kQueues[queueIndex];
+            if (priority == 0)
+                queue.enqueueInFront(jobInOut);
+            else
+                queue.enqueue(jobInOut);
+            jobToAdd = false;
+        }
+        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(queueIndex, (::Refs *)(data), waitStatus, (intptr_t)&(jobInOut));
+    } while (result == -1);
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
+        if (s->m_cur < s->m_kRayEnd)
+        {
+            TimerEntry* h = (TimerEntry*)s->m_cur;
+            h->m_name = "Et";
+            _ReadWriteBarrier();
+            tick = (unsigned int)__rdtsc();
+            h->m_uiCommandId = tick;
+            s->m_cur = (char*)(h + 1);
+        }
+    }
+    return result;
 }
 
 #include "generated/data/havok/common/base/thread/jobqueue/hkjobqueue.inc"

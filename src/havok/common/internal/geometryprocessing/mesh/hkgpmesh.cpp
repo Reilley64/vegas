@@ -8778,93 +8778,6 @@ __declspec(nothrow) bool __cdecl TriangleHasVertexAtPoint(const E12160Triangle* 
 struct MeshMerge960 {
     FUN_00e1b750* FUN_00e1d960(Builder* apBuilder);
 };
-// Builds an object from apBuilder, tests triangle pairs against this, removes coincident pairs and returns it if any test succeeded, else deletes it.
-// @fnv 0x00e1d960
-FUN_00e1b750* MeshMerge960::FUN_00e1d960(Builder* apBuilder)
-{
-    bool phaseFlag = false;
-    FUN_00e1b750* obj = new (FUN_00d76ca0::allocate((*static_cast<Router*>(::FUN_00c85750())).getHeap(), 0x110)) FUN_00e1b750();
-    ((FUN_00e1d900_cls*)obj)->FUN_00e1d900(apBuilder);
-    {
-        unsigned int buf[0x80];
-        CharBuffer msg;
-        new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
-        reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0(DAT_010eb0d0);
-        DAT_01268360->Report(0, (unsigned int)-1, (char*)buf, DAT_010eaeb4, 0x8fd);
-        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
-    }
-    void* sub = &obj->sub40;
-    bool found;
-    do {
-        found = false;
-        reinterpret_cast<::Z_E15E50 *>((((E15Target*)obj)))->FUN_00e15e50();
-        reinterpret_cast<::Z_E15E50 *>((((E15Target*)this)))->FUN_00e15e50();
-        E1D960Array<E1D960Pair> pairs;
-        {
-            QueryCtx ctx(&pairs);
-            ::FUN_00d1d890((::Tree *)(sub), (::Tree *)(sub), (::Collider *)(::QueryCtx *)(&ctx));
-        }
-        for (int i = 0; i < pairs.m_iElementCount; i++) {
-            E12160Triangle* ta = pairs.m_data[i].a->m_pTriangle;
-            E12160Triangle* tb = pairs.m_data[i].b->m_pTriangle;
-            if (::S00e19d60_Mesh::FUN_00e19d60((::S00e19d60_Mesh *)(void *)(this), (::S00e19d60_Triangle *)(ta), (::S00e19d60_Mesh *)(obj), (::S00e19d60_Triangle *)(tb), DAT_01013ea4)) {
-                found = true;
-                phaseFlag = true;
-            }
-        }
-    } while (found);
-    if (phaseFlag) {
-        {
-            {
-                unsigned int buf[0x80];
-                CharBuffer msg;
-                new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
-                reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0(DAT_010eb0c4);
-                DAT_01268360->Report(0, (unsigned int)-1, (char*)buf, DAT_010eaeb4, 0x918);
-                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
-            }
-            E1D960Array<E1D960Pair> pairs;
-            E1D960Array<E12160Triangle*> merged;
-            reinterpret_cast<::Z_E15E50 *>((((E15Target*)obj)))->FUN_00e15e50();
-            reinterpret_cast<::Z_E15E50 *>((((E15Target*)this)))->FUN_00e15e50();
-            {
-                QueryCtx ctx(&pairs);
-                ::FUN_00d1d890((::Tree *)(void *)(&((FUN_00e1b750*)this)->sub40), (::Tree *)(sub), (::Collider *)(::QueryCtx *)(&ctx));
-            }
-            for (int i = 0; i < pairs.m_iElementCount; i++) {
-                const E1D960Pair& pair = pairs.m_data[i];
-                E12160Triangle* ta = pair.a->m_pTriangle;
-                E12160Triangle* tb = pair.b->m_pTriangle;
-                if (merged.indexOf(ta) != -1) continue;
-                if (merged.indexOf(tb) != -1) continue;
-                if (!TriangleHasVertexAtPoint(ta, tb->m_kVertices[0]->m_vContactPosition)) continue;
-                if (!TriangleHasVertexAtPoint(ta, tb->m_kVertices[1]->m_vContactPosition)) continue;
-                if (!TriangleHasVertexAtPoint(ta, tb->m_kVertices[2]->m_vContactPosition)) continue;
-                if (!TriangleHasVertexAtPoint(tb, ta->m_kVertices[0]->m_vContactPosition)) continue;
-                if (!TriangleHasVertexAtPoint(tb, ta->m_kVertices[1]->m_vContactPosition)) continue;
-                if (!TriangleHasVertexAtPoint(tb, ta->m_kVertices[2]->m_vContactPosition)) continue;
-                merged.AddBack(ta);
-                merged.AddBack(tb);
-                reinterpret_cast<::HullImplAN *>((((E1D960Mesh*)this)))->RemoveTriangle((::HullTriAN *)(ta));
-                reinterpret_cast<::HullImplAN *>((((E1D960Mesh*)obj)))->RemoveTriangle((::HullTriAN *)(tb));
-            }
-        }
-        {
-            unsigned int buf[0x80];
-            CharBuffer msg;
-            new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
-            reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0(DAT_010eb0b8);
-            DAT_01268360->Report(0, (unsigned int)-1, (char*)buf, DAT_010eaeb4, 0x939);
-            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
-        }
-        reinterpret_cast<::Z_E15E50 *>((((E15Target*)this)))->FUN_00e15e50();
-        return obj;
-    }
-    if (obj) {
-        delete (DelTarget*)obj;
-    }
-    return 0;
-}
 
 template<class T> __forceinline void copyRange360(T* p, int count, const T& value) { for (int i=0; i<count; ++i) p[i] = value; }
 struct Piece {
@@ -8888,48 +8801,6 @@ struct Factory360 {
 int* FUN_00e1f360(int* result, int input, Pieces* output, float low, float high); };
 struct Hull360 {
 };
-// Builds pieces and checks each hull against high/low; on success appends all pieces to output, else destroys them; the status is written through result.
-// @fnv 0x00e1f360
-int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low, float high)
-{
-    Builder360* builder = ((::Builder360 *)(reinterpret_cast<::S00e1c5e0_Mesh *>(this)->FUN_00e1c5e0()));
-    int* out = *(int* volatile*)&result;
-    *out = 10;
-    int status = *builder->FUN_00e1de00(&result, input);
-    *out = status;
-    if (status == 0) {
-        Pieces pieces;
-        reinterpret_cast<::HullConnectivity *>((builder))->FUN_00e12960();
-        builder->FUN_00e1b820(&pieces, 1, 1);
-        for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
-            Hull360* hull = (Hull360*)reinterpret_cast<::hkgpMesh_IConvexOverlap *>((pieces[i]))->FUN_00e114a0();
-            if (!hull) *out = 2;
-            else if (reinterpret_cast<::FUN_00d75440_cls *>((hull))->ComputeScaledPowerRatio() < high || reinterpret_cast<::S_00d752e0_Class *>((hull))->FUN_00d752e0() < low) *out = 8;
-        }
-        if (*out == 0) {
-            for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
-                Piece** item = &pieces[i];
-                Router& router = (*static_cast<Router*>(::FUN_00c85750()));
-                if (output->size == (output->capacity & 0x3fffffff))
-                    ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(output), 4);
-                Piece** slot = &output->data[output->size];
-                copyRange360(slot, 1, *item);
-                output->size++;
-            }
-        } else {
-            for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
-                Piece* item = pieces[i];
-                if (item) item->destroy(1);
-                _ReadWriteBarrier();
-            }
-        }
-        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
-        pieces.size = 0;
-        if ((pieces.capacity & 0x80000000u) == 0) heap.freeBlock(pieces.data, (pieces.capacity & 0x3fffffff)*4);
-    }
-    if (builder) builder->destroy(1);
-    return out;
-}
 
 extern int DAT_010eae0c;
 extern int DAT_0126ec00;
@@ -20975,6 +20846,137 @@ bool __cdecl S00e19d60_Mesh::FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Trian
         }
     }
     return false;
+}
+
+
+// Builds an object from apBuilder, tests triangle pairs against this, removes coincident pairs and returns it if any test succeeded, else deletes it.
+// @fnv 0x00e1d960
+FUN_00e1b750* MeshMerge960::FUN_00e1d960(Builder* apBuilder)
+{
+    bool phaseFlag = false;
+    FUN_00e1b750* obj = new (FUN_00d76ca0::allocate((*static_cast<Router*>(::FUN_00c85750())).getHeap(), 0x110)) FUN_00e1b750();
+    ((FUN_00e1d900_cls*)obj)->FUN_00e1d900(apBuilder);
+    {
+        unsigned int buf[0x80];
+        CharBuffer msg;
+        new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
+        reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0(DAT_010eb0d0);
+        DAT_01268360->Report(0, (unsigned int)-1, (char*)buf, DAT_010eaeb4, 0x8fd);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    void* sub = &obj->sub40;
+    bool found;
+    do {
+        found = false;
+        reinterpret_cast<::Z_E15E50 *>((((E15Target*)obj)))->FUN_00e15e50();
+        reinterpret_cast<::Z_E15E50 *>((((E15Target*)this)))->FUN_00e15e50();
+        E1D960Array<E1D960Pair> pairs;
+        {
+            QueryCtx ctx(&pairs);
+            ::FUN_00d1d890((::Tree *)(sub), (::Tree *)(sub), (::Collider *)(::QueryCtx *)(&ctx));
+        }
+        for (int i = 0; i < pairs.m_iElementCount; i++) {
+            E12160Triangle* ta = pairs.m_data[i].a->m_pTriangle;
+            E12160Triangle* tb = pairs.m_data[i].b->m_pTriangle;
+            if (::S00e19d60_Mesh::FUN_00e19d60((::S00e19d60_Mesh *)(void *)(this), (::S00e19d60_Triangle *)(ta), (::S00e19d60_Mesh *)(obj), (::S00e19d60_Triangle *)(tb), DAT_01013ea4)) {
+                found = true;
+                phaseFlag = true;
+            }
+        }
+    } while (found);
+    if (phaseFlag) {
+        {
+            {
+                unsigned int buf[0x80];
+                CharBuffer msg;
+                new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
+                reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0(DAT_010eb0c4);
+                DAT_01268360->Report(0, (unsigned int)-1, (char*)buf, DAT_010eaeb4, 0x918);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
+            }
+            E1D960Array<E1D960Pair> pairs;
+            E1D960Array<E12160Triangle*> merged;
+            reinterpret_cast<::Z_E15E50 *>((((E15Target*)obj)))->FUN_00e15e50();
+            reinterpret_cast<::Z_E15E50 *>((((E15Target*)this)))->FUN_00e15e50();
+            {
+                QueryCtx ctx(&pairs);
+                ::FUN_00d1d890((::Tree *)(void *)(&((FUN_00e1b750*)this)->sub40), (::Tree *)(sub), (::Collider *)(::QueryCtx *)(&ctx));
+            }
+            for (int i = 0; i < pairs.m_iElementCount; i++) {
+                const E1D960Pair& pair = pairs.m_data[i];
+                E12160Triangle* ta = pair.a->m_pTriangle;
+                E12160Triangle* tb = pair.b->m_pTriangle;
+                if (merged.indexOf(ta) != -1) continue;
+                if (merged.indexOf(tb) != -1) continue;
+                if (!TriangleHasVertexAtPoint(ta, tb->m_kVertices[0]->m_vContactPosition)) continue;
+                if (!TriangleHasVertexAtPoint(ta, tb->m_kVertices[1]->m_vContactPosition)) continue;
+                if (!TriangleHasVertexAtPoint(ta, tb->m_kVertices[2]->m_vContactPosition)) continue;
+                if (!TriangleHasVertexAtPoint(tb, ta->m_kVertices[0]->m_vContactPosition)) continue;
+                if (!TriangleHasVertexAtPoint(tb, ta->m_kVertices[1]->m_vContactPosition)) continue;
+                if (!TriangleHasVertexAtPoint(tb, ta->m_kVertices[2]->m_vContactPosition)) continue;
+                merged.AddBack(ta);
+                merged.AddBack(tb);
+                reinterpret_cast<::HullImplAN *>((((E1D960Mesh*)this)))->RemoveTriangle((::HullTriAN *)(ta));
+                reinterpret_cast<::HullImplAN *>((((E1D960Mesh*)obj)))->RemoveTriangle((::HullTriAN *)(tb));
+            }
+        }
+        {
+            unsigned int buf[0x80];
+            CharBuffer msg;
+            new ((void *)&(msg)) ::FUN_00cb1600((char*)buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&(msg))->FUN_00cc01c0(DAT_010eb0b8);
+            DAT_01268360->Report(0, (unsigned int)-1, (char*)buf, DAT_010eaeb4, 0x939);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(msg))->FUN_00cc00e0::~FUN_00cc00e0();
+        }
+        reinterpret_cast<::Z_E15E50 *>((((E15Target*)this)))->FUN_00e15e50();
+        return obj;
+    }
+    if (obj) {
+        delete (DelTarget*)obj;
+    }
+    return 0;
+}
+// Builds pieces and checks each hull against high/low; on success appends all pieces to output, else destroys them; the status is written through result.
+// @fnv 0x00e1f360
+int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low, float high)
+{
+    Builder360* builder = ((::Builder360 *)(reinterpret_cast<::S00e1c5e0_Mesh *>(this)->FUN_00e1c5e0()));
+    int* out = *(int* volatile*)&result;
+    *out = 10;
+    int status = *builder->FUN_00e1de00(&result, input);
+    *out = status;
+    if (status == 0) {
+        Pieces pieces;
+        reinterpret_cast<::HullConnectivity *>((builder))->FUN_00e12960();
+        builder->FUN_00e1b820(&pieces, 1, 1);
+        for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
+            Hull360* hull = (Hull360*)reinterpret_cast<::hkgpMesh_IConvexOverlap *>((pieces[i]))->FUN_00e114a0();
+            if (!hull) *out = 2;
+            else if (reinterpret_cast<::FUN_00d75440_cls *>((hull))->ComputeScaledPowerRatio() < high || reinterpret_cast<::S_00d752e0_Class *>((hull))->FUN_00d752e0() < low) *out = 8;
+        }
+        if (*out == 0) {
+            for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
+                Piece** item = &pieces[i];
+                Router& router = (*static_cast<Router*>(::FUN_00c85750()));
+                if (output->size == (output->capacity & 0x3fffffff))
+                    ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(output), 4);
+                Piece** slot = &output->data[output->size];
+                copyRange360(slot, 1, *item);
+                output->size++;
+            }
+        } else {
+            for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
+                Piece* item = pieces[i];
+                if (item) item->destroy(1);
+                _ReadWriteBarrier();
+            }
+        }
+        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
+        pieces.size = 0;
+        if ((pieces.capacity & 0x80000000u) == 0) heap.freeBlock(pieces.data, (pieces.capacity & 0x3fffffff)*4);
+    }
+    if (builder) builder->destroy(1);
+    return out;
 }
 
 #include "generated/data/havok/common/internal/geometryprocessing/mesh/hkgpmesh.inc"

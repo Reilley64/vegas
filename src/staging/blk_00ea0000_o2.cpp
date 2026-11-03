@@ -830,7 +830,7 @@ struct S_00eaedc0_Class
 // @fnv 0x00eaedc0
 S_00eaedc0_Class* S_00eaedc0_Class::Initialize(int a1, int a2, float a3, float a4, float a5, int a6)
 {
-    new ((void *)(a3)) class ::FUN_00eae720(a4, a5, a6, {});
+    new ((void *)this) class ::FUN_00eae720(a3, a4, a5, a6);
     m_38 = a1;
     m_00 = (void*)&DAT_010f1abc;
     m_3c = a2;

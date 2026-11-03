@@ -44,6 +44,9 @@ void FUN_00df32a0(Entry8* table, int index, int n)
 struct FinishingFlag
 {
     int m_bFinishing;
+    FinishingFlag() = default;
+    explicit FinishingFlag(int value) : m_bFinishing(value)
+    {}
 };
 
 __declspec(align(16)) struct HavokObjDfd
@@ -873,7 +876,7 @@ struct ShapeChild
 
 struct FUN_00dfb2d0
 {
-    char* unk00;
+    void* unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -3121,14 +3124,6 @@ void FUN_00df7760(const CastSettings* settings, const CollisionAgentContext* in,
         }
     }
 }
-
-// VEGAS17-CONFLICT: FinishingFlag (variant definition below differs from the one above)
-struct FinishingFlag
-{
-    int finishing;
-    explicit FinishingFlag(int value) : finishing(value)
-    {}
-};
 
 class hkBaseObject
 {

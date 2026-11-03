@@ -7001,7 +7001,7 @@ class hkVector4_de1210
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 
@@ -7212,7 +7212,7 @@ struct DE5450Vector4
     }
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     void operator=(const DE5450Vector4& v)
     {
@@ -8667,7 +8667,7 @@ void __cdecl ProcessWorkQueue(ExecutionContext* context, WorkQueue* queue)
     reinterpret_cast<::LunaOwner *>((context))->ProcessCallback((int)(queue), (int)(queue), 0);
 }
 
-extern "C" unsigned long DAT_0126835c;
+extern unsigned long DAT_0126835c;
 
 struct CommandTimingEntry
 {
@@ -12010,10 +12010,6 @@ int __cdecl FUN_00df8440(S00df8440_Owner* owner, S00df8440_Job* job)
 }
 
 namespace SimpleQuad {
-extern "C"
-{
-    extern const __m128 DAT_010c7170;
-}
 class ByteAnswer
 {
     char value;
@@ -13702,8 +13698,6 @@ void E30A0Store(int* piTarget, int iValue);
 
 static float FUN_00df9ae0(unsigned int state);
 
-volatile float df9ae0_sink;
-
 void q_call_df9ae0(void);
 
 static void WriteFloatToVector(float a, float b, float* out);
@@ -13802,16 +13796,9 @@ typedef void (*VTableFn)(void*, int);
 
 typedef void (*Vfn0)(void*, int);
 
-// VEGAS17-CONFLICT: ParserContext (variant definition below differs from the one above)
-struct ParserContext { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,result44; int FUN_00e63af0(int, void*,float*); };
 
-// VEGAS17-CONFLICT: FloatPair (variant definition below differs from the one above)
-struct FloatPair { float first,second;  int FUN_00dfb040(ParserContext*,int,int*,ParserContext**); };
 
 void __cdecl FUN_00dfb950(CalleeObj *pFirst, void *pSecond);
-
-void S_00dfc110_vt::m0(int) {
-}
 
 void __cdecl FUN_00dfd570(FUN_00dfd570_cls *pObject, int a1);
 
@@ -13819,25 +13806,9 @@ void __cdecl FUN_00dfdec0(FUN_00dfdec0_cls *pObject, int a1);
 
 void __cdecl FUN_00dfdef0(FUN_00dfdef0_cls *pObject, int a1);
 
-// VEGAS17-CONFLICT: FourFloatVector (variant definition below differs from the one above)
-struct FourFloatVector { float x,y,z,w; };
 
-// VEGAS17-CONFLICT: Matrix64 (variant definition below differs from the one above)
-struct Matrix64 { FourFloatVector a,b,c,d; };
 
-// VEGAS17-CONFLICT: Input (variant definition below differs from the one above)
-struct Input {
- int count; float a,b; FourFloatVector vector;
- unsigned* values; void* source; Matrix64* matrices; float scale; unsigned flags;
-};
 
-// VEGAS17-CONFLICT: Header (variant definition below differs from the one above)
-struct Header {
- union {float epsilon; unsigned char type;};
- unsigned short count,pad06;
- unsigned flags,unk0c,size;
- float scale,a,b;
-};
 
 void __cdecl FUN_00de9b00();
 
@@ -13850,10 +13821,6 @@ static void FUN_00df30f0(__m128* d, int idx, const __m128* s);
 void hcaller(__m128* d, int idx, const __m128* s);
 
 void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p);
-
-Derived::Derived()
-{
-}
 
 extern const float DAT_0104da4c = 1.1920928955078125e-07f;
 

@@ -7948,7 +7948,7 @@ struct VectorQ
     __m128 quad;
     float& operator()(int component)
     {
-        return quad[component];
+        return reinterpret_cast<float*>(&quad)[component];
     }
     ScalarQ spatialDot(const VectorQ& other) const
     {

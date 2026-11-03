@@ -275,7 +275,7 @@ class hkVector4E6F
 
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     const float& operator()(int i) const
     {

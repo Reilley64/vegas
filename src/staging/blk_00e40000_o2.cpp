@@ -3077,33 +3077,153 @@ struct ExtendedListeners {
     }
 };
 
-struct ActorEntry {
-    int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c;
-    int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c;
-    int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c;
-    int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c;
-    int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c;
-    int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc;
-    int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc;
-    int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc;
-    int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c;
-    int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c;
-    int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c;
-    int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c;
-    int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c;
-    int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc;
-    int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc;
-    int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc;
-    int unk200; int unk204; int unk208; int unk20c; int unk210;
+struct ActorEntry
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
     ExtendedListeners* m_pExtendedListeners;
 
-    ExtendedListeners* getExtendedListeners() {
-        if (!m_pExtendedListeners) {
+    ExtendedListeners* getExtendedListeners()
+    {
+        if (!m_pExtendedListeners)
+        {
             m_pExtendedListeners = new ExtendedListeners;
         }
         return m_pExtendedListeners;
     }
 
+    void FUN_00c9c670(CListener* el);
 };
 
 template <typename T>
@@ -3370,7 +3490,7 @@ public:
     int m_iRows;
     int m_iColumns;
 
-    float& Element(int i) { return m_pfData[i]; }
+    float& Element(int i) { return reinterpret_cast<float*>(&m_pfData)[i]; }
     E87E0Matrix& FUN_00e587e0(const E87E0Matrix& kOther);
 };
 
@@ -3789,8 +3909,12 @@ struct Node4a5
     char pad[0x14];
     unsigned int m_uiName;
 
-    const char* GetName() const { return (const char*)(m_uiName & ~1); }
+    const char* GetName() const
+    {
+        return (const char*)(m_uiName & ~1);
+    }
 
+    Node4a5* FindChildByName(const char* pcName);
 };
 
 struct Owner4a5
@@ -6707,7 +6831,7 @@ struct __declspec(align(16)) PlaneVector {
     __forceinline void add4(const PlaneVector& a) { assign(_mm_add_ps(quad(),a.quad())); }
     __forceinline void setAll3(float f) { assign(_mm_set_ps1(f)); }
 
-    float& operator()(int i) { return f[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&f)[i]; }
 
     const float& operator()(int i) const { return f[i]; }
 
@@ -6831,7 +6955,7 @@ struct hkVector4 {
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
     __forceinline void add4(const hkVector4& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
     __forceinline void setXYZ(const hkVector4& v) { m_vComponents = _mm_shuffle_ps(v.m_vComponents, _mm_unpackhi_ps(v.m_vComponents, m_vComponents), 0xc4); }
-    __forceinline float& operator()(int i) { return m_vComponents[i]; }
+    __forceinline float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
     __forceinline const float& operator()(int i) const { return m_vComponents[i]; }
 };
 struct RaySegment {
@@ -8373,200 +8497,7 @@ extern float _DAT_0104da48;
 
 float __cdecl FindMinFloat(int* param_1);
 
-// VEGAS17-CONFLICT: SlotTableE45 (variant definition below differs from the one above)
-class SlotTableE45
-{
-  public:
-    __forceinline SlotTableE45()
-        : m_pv00(0), m_pv04(0), m_pv08(0), m_pv0C(0), m_pv10(0), m_pv14(0), m_pv18(0), m_pv1C(0), m_pv20(0), m_pv24(0),
-          m_pv28(0), m_pv2C(0), m_pv30(0), m_pv34(0), m_pv38(0), m_pv3C(0), m_pv40(0), m_pv44(0), m_pv48(0), m_pv4C(0),
-          m_pv50(0), m_pv54(0), m_pv58(0), m_pv5C(0), m_pv60(0), m_pv64(0), m_pv68(0), m_pv6C(0), m_pv70(0), m_pv74(0),
-          m_pv78(0), m_pv7C(0)
-    {}
 
-    void* m_pv00;
-    void* m_pv04;
-    void* m_pv08;
-    void* m_pv0C;
-    void* m_pv10;
-    void* m_pv14;
-    void* m_pv18;
-    void* m_pv1C;
-    void* m_pv20;
-    void* m_pv24;
-    void* m_pv28;
-    void* m_pv2C;
-    void* m_pv30;
-    void* m_pv34;
-    void* m_pv38;
-    void* m_pv3C;
-    void* m_pv40;
-    void* m_pv44;
-    void* m_pv48;
-    void* m_pv4C;
-    void* m_pv50;
-    void* m_pv54;
-    void* m_pv58;
-    void* m_pv5C;
-    void* m_pv60;
-    void* m_pv64;
-    void* m_pv68;
-    void* m_pv6C;
-    void* m_pv70;
-    void* m_pv74;
-    void* m_pv78;
-    void* m_pv7C;
-};
-
-// VEGAS17-CONFLICT: ActorEntry (variant definition below differs from the one above)
-struct ActorEntry
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    ExtendedListeners* m_pExtendedListeners;
-
-    ExtendedListeners* getExtendedListeners()
-    {
-        if (!m_pExtendedListeners)
-        {
-            m_pExtendedListeners = new ExtendedListeners;
-        }
-        return m_pExtendedListeners;
-    }
-
-    void FUN_00c9c670(CListener* el);
-};
 
 int FUN_00e60cb0(unsigned char, int);
 
@@ -8593,16 +8524,6 @@ struct Entry
 };
 
 
-// VEGAS17-CONFLICT: Router (variant definition below differs from the one above)
-struct Router
-{
-    int a, b, c, d;
-    Allocator* heap;
-    Allocator& getHeap()
-    {
-        return *heap;
-    }
-};
 
 int FUN_00e60cb0(unsigned char type, int count);
 
@@ -8634,49 +8555,8 @@ struct ArrayBase
     }
 };
 
-// VEGAS17-CONFLICT: Arr (variant definition below differs from the one above)
-template <class T> struct Arr : ArrayBase
-{
-    void reserve(Allocator& heap, int n)
-    {
-        ArrayBase::reserve(heap, n, sizeof(T));
-    }
-    void SetSizeAndGrow(Allocator& heap, int n)
-    {
-        reserve(heap, n);
-        size = n;
-    }
-    T* expand(Allocator& heap, int n)
-    {
-        int old = size;
-        reserve(heap, old + n);
-        size += n;
-        return (T*)data + old;
-    }
-};
 
-// VEGAS17-CONFLICT: Base (variant definition below differs from the one above)
-struct Base
-{
-    virtual void dummy();
-    unsigned short flags;
-    short refs;
-    Base()
-    {
-        refs = 1;
-    }
-};
 
-// VEGAS17-CONFLICT: FUN_00e4a1d0 (variant definition below differs from the one above)
-struct FUN_00e4a1d0 : Base
-{
-    Arr<Entry> entries;
-    Arr<unsigned short> shorts;
-    Arr<unsigned int> ints;
-    String label;
-    FUN_00e4a1d0(const Entry* source, int count);
-    virtual void dummy();
-};
 
 void __cdecl FUN_00e54c10(int idx, L* list);
 
@@ -8692,26 +8572,7 @@ extern int DAT_010c3b80;
 extern int DAT_0102e388;
 
 
-// VEGAS17-CONFLICT: SourceData (variant definition below differs from the one above)
-struct SourceData
-{
-    void* m_ppVirtualMethodTable;
-    unsigned short m_unknown04, m_flags;
-    unsigned char m_uiContentCount, m_unknown09, m_unknown0a, m_unknown0b;
-    float m_pHeadNode, m_iSecondInteger;
-    int m_third, m_fourth, m_fifth, m_sixth, m_seventh;
-};
 
-// VEGAS17-CONFLICT: FUN_00e48400 (variant definition below differs from the one above)
-struct FUN_00e48400
-{
-    int* m_ppVirtualMethodTable;
-    unsigned short m_unknown04, m_flags;
-    unsigned char m_uiContentCount, m_unknown09, m_unknown0a, m_unknown0b;
-    float m_pHeadNode, m_iSecondInteger;
-    int m_third, m_fourth, m_fifth, m_sixth, m_seventh;
-    FUN_00e48400(const SourceData* source);
-};
 
 extern "C" int DAT_010e8ab0;
 
@@ -8720,19 +8581,6 @@ extern "C" int DAT_010e8a90;
 
 int CompareStringsCaseInsensitive(const char* a, const char* b);
 
-// VEGAS17-CONFLICT: Node4a5 (variant definition below differs from the one above)
-struct Node4a5
-{
-    char pad[0x14];
-    unsigned int m_uiName;
-
-    const char* GetName() const
-    {
-        return (const char*)(m_uiName & ~1);
-    }
-
-    Node4a5* FindChildByName(const char* pcName);
-};
 
 HolderStub* __cdecl FUN_00e4e3f0();
 

@@ -815,7 +815,7 @@ struct RotationVector
     __m128 m_vComponents;
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 

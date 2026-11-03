@@ -1559,25 +1559,6 @@ void FUN_00c908c0(void*, void*, int, int);
 
 void FUN_00c90940(void*, void*, int);
 
-template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int needed, int elementSize)
-{
-    int available = array.capacity & 0x3fffffff;
-    if (available < needed)
-    {
-        int next = available * 2;
-        if (needed >= next)
-            next = needed;
-        FUN_00c908c0(this, &array, next, elementSize);
-    }
-}
-
-template <class T> inline void EdgeArray<T>::grow(int elementSize)
-{
-    EdgeMemory* memory = static_cast<EdgeMemory*>(::FUN_00c85750());
-    if (size == (capacity & 0x3fffffff))
-        FUN_00c90940(memory->allocator, this, elementSize);
-}
-
 struct hkVector4
 {
     __m128 m_vComponents;

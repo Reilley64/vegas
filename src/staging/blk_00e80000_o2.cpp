@@ -16657,11 +16657,6 @@ class NiRefObjectE81
 
 typedef void(* FUN_00e88780_D3DCall)(FUN_00e88780_D3DObject* pObject, int index, int value);
 
-// VEGAS17-CONFLICT: FUN_00e88780_Class (variant definition below differs from the one above)
-struct FUN_00e88780_Class
-{
-    void SetIndexedValue(int index, int value, int unused, unsigned char flag);
-};
 
 typedef void(* FUN_00e88830_Slot)(void* self, int code, int value);
 
@@ -16672,28 +16667,6 @@ typedef int(* FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
 
 void _delete(void*, unsigned int);
 
-// VEGAS17-CONFLICT: Target (variant definition below differs from the one above)
-struct Target
-{
-    virtual void f0();
-    virtual unsigned int Hash(Key*);
-    unsigned int bucketCount;
-    Item** buckets;
-    unsigned int count;
-    PoolNode* head;
-    PoolNode* tail;
-    unsigned int listCount;
-    Com* object;
-    unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
-    unsigned int bits[8];
-    void ClearBit(unsigned int index)
-    {
-        unsigned int word = index >> 5;
-        unsigned int mask = 1 << (index & 31);
-        bits[word] &= ~mask;
-    }
-    void FUN_00e8b630();
-};
 
 // VEGAS17-CONFLICT: RefObjStub (variant definition below differs from the one above)
 struct RefObjStub
@@ -16729,14 +16702,6 @@ extern "C" void(* DAT_00fdf1c0)(void*);
 
 extern "C" void(* DAT_00fdf1c4)(void*);
 
-// VEGAS17-CONFLICT: FUN_00e984d0_Struct (variant definition below differs from the one above)
-struct FUN_00e984d0_Struct
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int(__cdecl* unk0c)(FUN_00e984d0_Struct*, int, int, int*, int);
-};
 
 typedef bool(__cdecl* FNV_CondFn_e9c8c0)(float, void*, unsigned int, void*, unsigned int);
 
@@ -16744,17 +16709,7 @@ typedef int(__cdecl* FUN_00e9c950_handler)(float, void*, int, void*, int, int, i
 
 typedef void(__cdecl* DispatchFn_b4010)(float, DispatchObj_b4010*, int, int, int, int, int);
 
-// VEGAS17-CONFLICT: Vec3 (variant definition below differs from the one above)
-struct Vec3
-{
-    float x, y, z;
-};
 
-// VEGAS17-CONFLICT: Matrix (variant definition below differs from the one above)
-struct Matrix
-{
-    Vec3 a, b, c;
-};
 
 extern "C" void* __cdecl FUN_00aa1420(unsigned int size);
 

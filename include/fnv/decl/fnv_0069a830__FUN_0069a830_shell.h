@@ -1,6 +1,6 @@
 #pragma once
 
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 namespace fnv_0069a830 {
 struct FUN_0069a830_shell {

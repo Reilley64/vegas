@@ -33,7 +33,7 @@ struct PathingLocation
 struct NavMeshTriangleReference;
 struct NavMeshTriangleEdgeReference;
 struct NavMeshInfo;
-template <typename T, int N> struct BSSimpleArray;
+template <typename T, unsigned int N> struct BSSimpleArray;
 struct ThreeByThreeMatrix;
 struct PathingRequest
 {
@@ -68,7 +68,7 @@ bool FUN_006ac340_shell::BuildPathingLocationAndSearch(PathingRequest* request, 
     return ComputePath(request, start, end, nodes, links, 0);
 }
 
-template <typename T, int N> struct BSSimpleArray
+template <typename T, unsigned int N> struct BSSimpleArray
 {
     int unk00;
     int unk04;

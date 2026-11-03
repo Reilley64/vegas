@@ -220,7 +220,7 @@ template <class N, class L> class AStarNode
     AStarNode* GetField54() const;
     float FUN_006a7f50() const;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     BSSimpleArray();

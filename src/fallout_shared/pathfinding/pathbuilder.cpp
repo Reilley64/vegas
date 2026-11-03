@@ -120,6 +120,7 @@
 #include "fnv/symbols_00647000.h"
 #include "fnv/symbols_0069e000.h"
 #include "fnv/symbols_006a9000.h"
+#include "fnv/symbols_006b3000.h"
 #include "fnv/symbols_006b9000.h"
 #include "fnv/symbols_006ba000.h"
 #include "fnv/symbols_006c8000.h"
@@ -149,7 +150,6 @@
 #include "pathbuilder_decls.h"
 #include "fnv_result_slot.h"
 
-const ::NavMeshTriangleReference &GetLastElement(const ::BSSimpleArray< ::NavMeshTriangleReference, 1024> *);
 
 namespace seg6b9 {
 struct S6Point

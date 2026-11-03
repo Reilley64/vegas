@@ -60,7 +60,7 @@ class NavMeshPOVData
   public:
     NavMeshTriangleHandle m_kFirstEdge, m_kSecondEdge;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     void* vtable;

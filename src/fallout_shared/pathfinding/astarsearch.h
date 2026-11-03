@@ -2,6 +2,7 @@
 #define FNV_ASTARSEARCH_H
 
 #include "fnv/decl/A83A0ScrapHeap.h"
+#include "fnv/decl/HX.h"
 #include "fnv/decl/FUN_006a83f0_cls.h"
 #include "fnv/decl/FUN_006a8490_class.h"
 #include "fnv/decl/FUN_006b9420_Class.h"

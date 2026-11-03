@@ -40,16 +40,16 @@ struct S_00d65f70_Source
     S_00d65970_Arg** m_items;
     int m_itemCount;
 };
+// The shape display viewer (S_00d65970_Obj): hkReferencedObject (S_00d65970_Base0), its hkProcess part
+// (FUN_00d65f70_class) at +0x08, its world listener part (Adjustor) at +0x20, then the parts at +0x28 and +0x2c.
 struct FUN_00d65f70_class
 {
-    int m_00;
+    virtual void p00();
     int m_04;
     int m_08;
     int m_0c;
     int m_10;
     int m_14;
-    int m_18;
-    S_00d65f70_Source* m_1c;
     void FUN_00d65f70();
 };
 struct S_00c6d840_Pair
@@ -209,9 +209,13 @@ void RegisterShapesProcess()
 struct Target
 {
 };
+struct S_00d65970_Obj;
 struct Adjustor
 {
+    virtual void a00();
+    S_00d65f70_Source* m_context;
     void FUN_00d65fb0();
+    S_00d65970_Obj* viewer();
 };
 
 // @fnv 0x00d661d0
@@ -283,16 +287,8 @@ struct OwnerObject
 {
 };
 
-struct FUN_00d66160_cls
+struct FUN_00d66160_cls : Adjustor
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
     void FUN_00d66160(int arg);
 };
 
@@ -877,11 +873,11 @@ void FUN_00d66080_cls::Destroy()
     m_vptr28 = &::str_0102f13c;
     reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
-// Calls FindItemIndex on the owner object at this-0x20 and, if the result is non-negative, passes it to FUN_00d65fc0.
+// Calls FindItemIndex on the viewer and, if the result is non-negative, passes it to FUN_00d65fc0.
 // @fnv 0x00d66160
 void FUN_00d66160_cls::FUN_00d66160(int arg)
 {
-    OwnerObject* pOwner = (OwnerObject*)((char*)this - 0x20);
+    S_00d65970_Obj* pOwner = viewer();
     int result = reinterpret_cast<::FUN_00d655e0_class *>((pOwner))->FindItemIndex(arg);
     if (result >= 0)
     {
@@ -955,7 +951,7 @@ struct TtShapeDisplayOuter : TtShapeDisplayBase, TtShapeDisplayInner
 
 __forceinline TtShapeDisplayOuter* TtShapeDisplayInner::GetOuter()
 {
-    return (TtShapeDisplayOuter*)((char*)this - 0x2c);
+    return static_cast<TtShapeDisplayOuter*>(this);
 }
 
 static void __forceinline TtPushEvent(const char* name)
@@ -1571,14 +1567,11 @@ struct DisplayOuter : DisplayPrimary, AudioNodeSub
 };
 static DisplayOuter* GetDisplayOuter(AudioNodeSub* p)
 {
-    return (DisplayOuter*)((char*)p - sizeof(DisplayPrimary));
+    return static_cast<DisplayOuter*>(p);
 }
 struct S_00c6d840_Q : S_00c6d840
 {
     S_00c6d840_Pair FindEntry(int key, int unused);
-};
-struct FUN_00d655e0_Q : FUN_00d655e0_class
-{
 };
 void* __cdecl GetProperty1134(D66180Entity* e);
 // Module local helper: it is called from exactly one place, so the compiler
@@ -1593,8 +1586,7 @@ void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
     bool usedDefault;
     iResult = FUN_00d652c0((S_00c6d840*)pParam, checkOverride, &usedDefault);
 
-    FUN_00d655e0_Q* pList = (FUN_00d655e0_Q*)((char*)self - 0x28);
-    int iIndex = reinterpret_cast<::FUN_00d655e0_class *>((pList))->FindItemIndex(pParam->m_i08);
+    int iIndex = reinterpret_cast<::FUN_00d655e0_class *>(GetDisplayOuter(self))->FindItemIndex(pParam->m_i08);
     if (iIndex < 0)
     {
         return;
@@ -1714,14 +1706,6 @@ struct S_00d65970_Base0
 {
     virtual void vfn0();
     int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
 };
 
 struct S_00d65970_B28
@@ -1735,25 +1719,31 @@ struct S_00d65970_B2c
     int unk00;
 };
 
-struct S_00d65970_Obj : S_00d65970_Base0, S_00d65970_B28, S_00d65970_B2c
+struct S_00d65970_Obj : S_00d65970_Base0, FUN_00d65f70_class, Adjustor, S_00d65970_B28, S_00d65970_B2c
 {
     S_00d65970_NodeArray nodes;
     void FUN_00d65970(S_00d65970_Arg* arg);
 };
-// If m_1c is set, iterates its count at offset 0x70 and calls FUN_00d65970 on each entry from the array at 0x6c.
+inline S_00d65970_Obj* Adjustor::viewer()
+{
+    return static_cast<S_00d65970_Obj*>(this);
+}
+// If the viewer's context is set, calls FUN_00d65970 on each of its entries.
 // @fnv 0x00d65f70
 void FUN_00d65f70_class::FUN_00d65f70()
 {
-    if (m_1c)
+    S_00d65970_Obj* viewer = static_cast<S_00d65970_Obj*>(this);
+    S_00d65f70_Source* context = viewer->m_context;
+    if (context)
     {
-        for (int i = 0; i < m_1c->m_itemCount; ++i)
-            reinterpret_cast<::S_00d65970_Obj *>((((FUN_00d65970_stub*)((char*)this - 8))))->FUN_00d65970(m_1c->m_items[i]);
+        for (int i = 0; i < context->m_itemCount; ++i)
+            viewer->FUN_00d65970(context->m_items[i]);
     }
 }
 // @fnv 0x00d65fb0
 void Adjustor::FUN_00d65fb0()
 {
-    reinterpret_cast<::S_00d65970_Obj *>((((Target*)((char*)this - 0x20))))->FUN_00d65970({});
+    viewer()->FUN_00d65970({});
 }
 
 // Creates a node from arg, appends it to the nodes array, and calls vfn1 on all items in arg's element arrays.

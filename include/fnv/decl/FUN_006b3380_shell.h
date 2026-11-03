@@ -2,7 +2,7 @@
 
 class NavMeshEdgeSegment;
 class PathSmootherPOVAvoidanceNode;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 struct FUN_006b3380_shell {
 public:

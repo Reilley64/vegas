@@ -10,7 +10,7 @@ class PathSmootherPOVPoint;
 class PathingRequest;
 class PathingSolution;
 class Sphere;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 class PathSmootherPOVSearch {
 public:

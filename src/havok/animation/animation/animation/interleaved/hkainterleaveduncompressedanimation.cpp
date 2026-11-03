@@ -694,6 +694,16 @@ class S00e3f9b0_Quat
     }
     S00e3f9b0_Vec4 m_vec;
 };
+struct FUN_005611c0_t
+{
+    float x, y, z, w;
+    void FUN_005611c0();
+public:
+    // 0x00cb2830
+    void FUN_00cb2830(float *);
+};
+
+
 
 class S00e3f9b0_QsT
 {
@@ -713,7 +723,7 @@ class S00e3f9b0_QsT
 
         const float oneMinusT = 1.0f - float(t);
 
-        const float signedT = (a.m_rotation.m_vec.dot4(b.m_rotation.m_vec) < 0.0f) ? -t : t;
+        const float signedT = (a.m_rotation.m_vec.dot4(b.m_rotation.m_vec) < 0.0f) ? -float(t) : float(t);
 
         S00e3f9b0_Quat out;
         S00e3f9b0_Vec4 v;
@@ -772,14 +782,6 @@ struct Vec4
     float x, y, z, w;
 };
 
-struct FUN_005611c0_t
-{
-    float x, y, z, w;
-    void FUN_005611c0();
-public:
-    // 0x00cb2830
-    void FUN_00cb2830(float *);
-};
 
 
 inline float scalarValue(__m128 value)

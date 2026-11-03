@@ -643,7 +643,7 @@ template <typename V> class hkStringMapE2F0
     {}
     void insert(const char* pcKey, V val)
     {
-        reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pcKey, (int)((int)(const void *)(val));
+        reinterpret_cast<::hkStringMapD874 *>(&(m_map))->FUN_00d874d0(pcKey, (intptr_t)(val));
     }
 };
 
@@ -1883,7 +1883,7 @@ void hkResourceHandleR::FUN_00e2e4c0(hkResourceContainerR* container)
             }
             if (object == GetUnderlyingObject())
                 return;
-            ((void *)(reinterpret_cast<::FUN_00d87210_class *>(&(link.m_kMemberAccessor))->FUN_00d87210(0))) = object;
+            *(void **)(reinterpret_cast<::FUN_00d87210_class *>(&(link.m_kMemberAccessor))->FUN_00d87210(0)) = object;
             RemoveLink(member.getName());
         }
     }

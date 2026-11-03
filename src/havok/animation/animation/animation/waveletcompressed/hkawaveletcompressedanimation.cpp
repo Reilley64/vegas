@@ -1,8 +1,8 @@
+#include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/symbols_00e2f000.h"
 #include "fnv/symbols_00e51000.h"
-#include "fnv/symbols_00e59000.h"
 #include <intrin.h>
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -16,6 +16,7 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkaWaveletCompressedAnimation.h"
+void PrefixSum(float *, unsigned int);
 
 // Computes an offset from a and the first two bytes of b: ((a - b[1]) * b[0] + 7) / 8 + b[1] * 4.
 // @fnv 0x00e51da0
@@ -995,7 +996,6 @@ void AnimRetry::FUN_00e2fa60(int block, ChunkRetry& chunk) const {
 
 extern "C" unsigned __int64 __rdtsc();
 
-extern "C" unsigned long DAT_0126835c;
 extern "C" void _ReadWriteBarrier();
 
 struct TimerRecord {const char* name;unsigned int time,secondary;};

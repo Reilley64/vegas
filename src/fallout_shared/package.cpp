@@ -535,7 +535,7 @@ void TESPackage::ResetFormData()
     f2c = 0;
     f30 = 0;
     f34 = 0;
-    f48 = 0;
+    pCombatStyle = 0;
     data = 0;
     CopyScheduleFrom(0);
     flags18 = ~0u;
@@ -1595,6 +1595,7 @@ class TESFile;
 struct PerkEntryConditionSet
 {
     void InitializeConditionItems();
+    void InitItem(::TESForm *);
 public:
     void Load(::TESFile *);
 public:
@@ -5985,7 +5986,7 @@ void FUN_0067a1b0_shell::FUN_0067a1b0(TESPackage* apCopy)
     reinterpret_cast<::Struct_067A4A0 *>((((Struct_067A4A0*)this)))->FUN_0067a4a0(reinterpret_cast<::FUN_0067a480_shell *>((((FUN_0067a480_shell*)apCopy)))->FUN_0067a480());
     reinterpret_cast<::FUN_0067a510_shell *>((((FUN_0067a510_shell*)this)))->SetFlag20000(reinterpret_cast<::FUN_0067a4f0_shell *>((((FUN_0067a4f0_shell*)apCopy)))->FUN_0067a4f0());
     reinterpret_cast<::Fake067a790 *>((((Fake067a790*)this)))->FUN_0067a790(reinterpret_cast<::FUN_0067a770_shell *>((((FUN_0067a770_shell*)apCopy)))->IsNotFlag8000000());
-    reinterpret_cast<::ValueModifierEffect *>((((BGSAcousticSpace*)this)))->SetActorValue((::ActorValue::Index)((TESRegion*)((TESTopicInfo*)apCopy)->GetParentQuest()));
+    reinterpret_cast<::TESPackage *>(this)->pCombatStyle = (TESCombatStyle*)((TESTopicInfo*)apCopy)->GetParentQuest();
     reinterpret_cast<::FUN_0067a720_shell *>((((FUN_0067a720_shell*)this)))->SetFlag4000000(reinterpret_cast<::FUN_0067a700_shell *>((((FUN_0067a700_shell*)apCopy)))->FUN_0067a700());
     reinterpret_cast<::FUN_0067a410_shell *>((((FUN_0067a410_shell*)this)))->SetFlag400000(reinterpret_cast<::FUN_0067a3f0_shell *>((((FUN_0067a3f0_shell*)apCopy)))->HasFlag400000());
     reinterpret_cast<::FUN_0067a5f0_shell *>((((FUN_0067a5f0_shell*)this)))->SetFlag80000(reinterpret_cast<::FUN_0067a5d0_class *>((((FUN_0067a5d0_class*)apCopy)))->FUN_0067a5d0());
@@ -6519,12 +6520,12 @@ void FUN_00679b10_shell::FUN_00679b10(BGSLoadFormBuffer* buffer)
 {
     if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00679b10::DataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
     {
-        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         {
             flags &= 0xffff7fff;
         }
 
-        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000)))->FUN_004280f0())
+        if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00679b10::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000)))->FUN_004280f0(0x40000000))
         {
             flags &= 0xfffeffff;
         }
@@ -10156,9 +10157,6 @@ struct P070Package
     NiPoint3 FUN_00675360(P070Ref*);
     bool IsWithinPackageLocation(P070Ref*, P070Ref*, bool, float, bool);
 };
-namespace std {
-float abs(float);
-}
 // @fnv 0x00676390
 bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool ignoreRadius, float customRadius,
                                           bool useProcess)
@@ -10616,7 +10614,7 @@ void Package679120::SavePackage()
         unsigned int begin = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
         unsigned int end = start;
         if (begin > end + 0xffff)
-            ::FUN_005b5e40(::DAT_01015318, str_010685dc, 0x1d6e);
+            ::FUN_005b5e40();
         *(unsigned short*)start = (unsigned short)(begin - end);
     }
 }
@@ -13325,6 +13323,8 @@ public:
     ::TESObjectREFR *GetLocationReference();
 public:
     ::TESObjectCELL *GetLocationCellReference();
+    void FUN_0067f3c0(::TESObjectREFR *);
+    void InitItem(::TESForm *);
 };
 // @fnv 0x00674fd0
 World74* Package74::FUN_00674fd0(Ref74* actor)
@@ -13915,31 +13915,31 @@ void PackageInit::FUN_00674930()
         return;
     int warningsA = FUN_0046e8a0();
     if (((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())))
-        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
+        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID()))))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0())))
-        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()))))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
+        reinterpret_cast<::LocationDescriptor *>((((struct ::FUN_0067f030_ctx *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()))))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData())))
-        reinterpret_cast<::PackageTargetRecord *>((((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData()))))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
+        reinterpret_cast<::PackageTargetRecord *>((((class ::FUN_0067ff70 *)(reinterpret_cast<::Script *>(this)->GetData()))))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian())))
-        reinterpret_cast<::PerkEntryConditionSet *>((((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian()))))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
+        reinterpret_cast<::PerkEntryConditionSet *>((((::ConditionInit *)(reinterpret_cast<::PackedByteIntRecord *>(this)->Endian()))))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))
-        reinterpret_cast<::BGSIdleCollection *>((((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()))))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
+        reinterpret_cast<::BGSIdleCollection *>((((::IdleInit *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()))))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (data)
         data->Init(this);
     unsigned int kCombatStyle = FUN_006733e0();
     if (kCombatStyle)
     {
         ::ResolveFormID(&kCombatStyle, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm_ctx *>(this)->GetFile(-1)))));
-        reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(dynamic_cast<TESCombatStyle*>(FUN_004839c0(kCombatStyle))));
+        reinterpret_cast<::TESPackage *>(this)->pCombatStyle = dynamic_cast<TESCombatStyle*>(FUN_004839c0(kCombatStyle));
         if (!FUN_006733e0())
             ::FUN_005b5e40();
     }
     reinterpret_cast<::FUN_0041fd00_shell *>(&(begin))->FUN_0041fd00(0);
     reinterpret_cast<::FUN_0041fd00_shell *>(&(end))->FUN_0041fd00(1);
     reinterpret_cast<::FUN_0041fd00_shell *>(&(change))->FUN_0041fd00(2);
-    reinterpret_cast<::PackageEventActionData *>(&(begin))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
-    reinterpret_cast<::PackageEventActionData *>(&(end))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
-    reinterpret_cast<::PackageEventActionData *>(&(change))->InitItem((::TESForm_ctx *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(begin))->InitItem((::TESForm *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(end))->InitItem((::TESForm *)(::PackageInit *)(this));
+    reinterpret_cast<::PackageEventActionData *>(&(change))->InitItem((::TESForm *)(::PackageInit *)(this));
     if (warningsA != FUN_0046e8a0())
     {
         ::FUN_005b5e40(

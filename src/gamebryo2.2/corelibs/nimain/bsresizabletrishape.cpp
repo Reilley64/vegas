@@ -116,7 +116,6 @@ struct NiObject;
 struct CloningProcess;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a744c0_holder
 {
@@ -129,7 +128,7 @@ struct FUN_00a86e80_shell : BSResizableTriShape
 NiObject* FUN_00a86e80_shell::FUN_00a86e80(CloningProcess& kCloning)
 {
     BSResizableTriShape* pkObject;
-    pkObject = (BSResizableTriShape*)BSFadeNode::operator new(0xD8);
+    pkObject = (BSResizableTriShape*)::operator new(0xD8);
     if (pkObject)
     {
         new ((void *)(((BSFadeNode*)pkObject))) ::FUN_00a744a0();

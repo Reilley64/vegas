@@ -72,7 +72,6 @@ struct FUN_00a409b0_class
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 float FUN_00a42050(float a, float b, float c);
 extern int DAT_01097904;
@@ -202,7 +201,6 @@ struct FUN_00a414c0_class
 extern int DAT_010976fc;
 struct A51BF0Base
 {
-    static void* operator new(unsigned int);
 };
 struct A51BF0
 {
@@ -309,7 +307,6 @@ class FUN_00a41410_cls
 };
 struct S_00a42290_Mem
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a5d3a0 : S_00a42290_Mem
 {
@@ -941,10 +938,6 @@ class A5B660StringTable
   public:
     ~A5B660StringTable();
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<A5B660Heap&>(g_memoryManager)))->FUN_00aa4060(pvMem);
-    }
 
 
     static void FUN_00a5b660();
@@ -1080,10 +1073,6 @@ struct A1450Element
 {
     int unk00;
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A1450MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 class A1450Array
 {
@@ -1421,7 +1410,6 @@ struct Result
     int unk28;
     int unk2c;
     int unk30;
-    static void* operator new(unsigned int) throw();
     Result(const char*, int, int) throw();
 };
 struct Stream

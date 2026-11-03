@@ -361,8 +361,6 @@ struct S_00878f60_PixelData
     int unk70;
     S_00878f60_PixelData(unsigned int w, unsigned int h, const S_00878f60_PixelFormat& fmt, unsigned int mips,
                          unsigned int faces);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 
 

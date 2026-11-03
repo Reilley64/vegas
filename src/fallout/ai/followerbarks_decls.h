@@ -8,7 +8,6 @@
 #include "fnv/decl/MiddleHighProcess.h"
 #include "fnv/symbols_00457000.h"
 #include "fnv/symbols_011e0000.h"
-void __cdecl operator delete(void*);
 class Actor
 {
   public:

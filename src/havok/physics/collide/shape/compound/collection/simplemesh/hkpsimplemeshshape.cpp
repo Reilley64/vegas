@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00d06000.h"
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_011b2000.h"
@@ -199,10 +200,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 
 extern "C" __m128 _mm_setzero_ps();
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct hkVector4E3C4
 {

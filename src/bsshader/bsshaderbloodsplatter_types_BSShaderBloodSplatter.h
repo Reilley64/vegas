@@ -990,7 +990,6 @@ class BSShaderBloodSplatter : public BSShader
     NiPointer<NiD3DVertexShader> m_spTreeVertexShader[2];    // +0x74, 8 bytes
     NiPointer<NiD3DPixelShader> m_spPixelShaderVariants[2];  // +0x7C, 8 bytes
     BSShaderBloodSplatter();
-    static void* __cdecl operator new(std::size_t size);
     BSShader* CreateShader();
     void InitializeShaderData();
     bool ConfigureShaderPass();

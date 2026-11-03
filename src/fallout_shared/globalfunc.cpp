@@ -2539,8 +2539,6 @@ class NiObject
 
 struct A51BF0Base : NiObject
 {
-    static void* __cdecl operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct BSShaderLightingProperty : A51BF0Base
@@ -2809,8 +2807,6 @@ void FUN_004b6ce0(FUN_004b6ce0_cls* p)
 struct LightingProp80
 {
     LightingProp80();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     void SetShaderFlag(unsigned int, bool);
     int unk00;
     int unk04;
@@ -3269,8 +3265,6 @@ struct RgbaColor
 };
 struct NiLines : NiAVObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     NiLines(unsigned short, stand::NiPoint3*, RgbaColor*, void*, void*, void*, bool*);
     unsigned int unk24;
     unsigned int unk28;
@@ -3386,7 +3380,6 @@ struct PairMap
 };
 Point FUN_004a3760(float, const Point&);
 extern Geometry* DAT_011c6320;
-void __cdecl operator delete(void*);
 // @fnv 0x004b3e60
 bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float threshold, float unused, bool adjust)
 {
@@ -3642,8 +3635,6 @@ struct ImageSpaceEffectParam
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class FUN_00b668b0 : public NiMemObject
 {

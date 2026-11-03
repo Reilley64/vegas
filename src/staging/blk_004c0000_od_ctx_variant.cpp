@@ -1,5 +1,6 @@
 // staging/blk_004c0000_od_ctx_variant.cpp: ObjectTree (2 functions)
 
+#include <new>
 #include <windows.h>
 // blk_004c0000_od_ctx_variant.cpp: context variant of src/staging/blk_004c0000_od.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
@@ -1023,13 +1024,9 @@ struct FUN_0066b0d0_Helper
 {
     void FUN_0066b0d0(int);
 };
-void* __cdecl operator new(unsigned int uiSize);
-void __cdecl operator delete(void* pvMem);
 class C4DF040Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 };
 class C4DF040Point3
 {

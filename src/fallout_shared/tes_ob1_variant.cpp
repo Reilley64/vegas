@@ -1441,10 +1441,6 @@ struct FUN_00454fc0_shell
 };
 struct A51BF0Base
 {
-    static void* operator new(unsigned int size)
-    {
-        return ::FUN_00401000(size);
-    }
 };
 struct NiAVObject : A51BF0Base
 {
@@ -1590,7 +1586,6 @@ struct FUN_00458e20_shell : Calendar
 {
     void FUN_00458e20(NiAVObject*, float);
 };
-void* __cdecl operator new(unsigned int);
 struct G2
 {
     void AddHead(int*);

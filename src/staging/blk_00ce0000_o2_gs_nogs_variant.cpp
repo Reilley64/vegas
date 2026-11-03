@@ -605,10 +605,6 @@ class MemoryManager
 class CF4840Saver
 {
   public:
-    void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     virtual void DeleteThis(bool bFree);
     int unk04;
     int unk08;

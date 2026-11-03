@@ -530,7 +530,6 @@ struct FUN_009ae0f0
     float m14;
     FUN_009ae0f0();
 };
-void* __cdecl operator new(unsigned int);
 struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();

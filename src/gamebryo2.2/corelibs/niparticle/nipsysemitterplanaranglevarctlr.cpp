@@ -3,6 +3,7 @@
 
 
 // @fnv 0x00c2b460
+#include <new>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -68,7 +69,6 @@ void FUN_00c2b4d0(StrArr* pkStrings)
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CloneShell;
 struct FUN_00c32d80
@@ -80,10 +80,6 @@ struct CloneShell : FUN_00c32d80
 {
     virtual ~CloneShell() throw();
 };
-inline void* __cdecl operator new(unsigned int, void* memory)
-{
-    return memory;
-}
 struct C_00c2b480 : FUN_00c32d80
 {
     CloneShell* FUN_00c2b480(void* volatile argument);
@@ -92,7 +88,7 @@ struct C_00c2b480 : FUN_00c32d80
 // @fnv 0x00c2b480
 CloneShell* C_00c2b480::FUN_00c2b480(void* volatile argument)
 {
-    CloneShell* clone = (CloneShell*)NiMemObject::operator new(0x40);
+    CloneShell* clone = (CloneShell*)::operator new(0x40);
     if (clone)
     {
         new ((void*)clone) CloneShell;

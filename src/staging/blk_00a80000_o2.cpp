@@ -106,13 +106,12 @@ struct FUN_00a744a0 {  public:
 };
 struct BSFadeNode {
     void* vtbl;
-    static void* operator new(unsigned int size);
 };
 // Allocates a 0xc4-byte BSFadeNode, runs Init on it, sets its vtbl to DAT_0109e984 and returns it, or returns 0 on allocation failure.
 // @fnv 0x00a877a0
 BSFadeNode* FUN_00a877a0()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0xc4));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0xc4));
     if (node) {
         new ((void *)(reinterpret_cast<FUN_00a744a0*>(node))) ::FUN_00a744a0();
         node->vtbl = &DAT_0109e984;
@@ -298,13 +297,12 @@ void FUN_00a964a0_Class::FUN_00a964a0(void* apValue) {
 
 namespace fnv_00a982d0 {
 struct BSFadeNode {
-    void* operator new(unsigned int);
 };
 
 // @fnv 0x00a982d0
 void* FUN_00a982d0()
 {
-    void* p = BSFadeNode::operator new(0x94);
+    void* p = ::operator new(0x94);
     if (p)
         return ((void *)(new ((void *)(((BSFadeNode*)p))) ::FUN_00a981d0()));
     return 0;
@@ -329,12 +327,11 @@ void FUN_00a99c40_shell::FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp
 
 struct NiLODData {
     NiLODData();
-    void* operator new(size_t, void* p) { return p; }
 };
 // @fnv 0x00a81fb0
 BSFadeNode* FUN_00a81fb0()
 {
-    BSFadeNode* p = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x10));
+    BSFadeNode* p = static_cast<BSFadeNode*>(::operator new(0x10));
     if (p) {
         new (static_cast<void*>(p)) NiLODData;
         p->vtbl = &(*reinterpret_cast<const void * *>(&::DAT_0109e47c));
@@ -368,7 +365,7 @@ extern int DAT_0109fb94;
 // @fnv 0x00a91fe0
 void* __cdecl FUN_00a91fe0()
 {
-    void* p = BSFadeNode::operator new(0x1c);
+    void* p = ::operator new(0x1c);
     if (p) {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraDataHelper*)p)))->FUN_00a7b2e0();
         *(float*)((char*)p + 0x18) = 0.0f;
@@ -399,7 +396,7 @@ struct NiProperty {
 NiProperty* __cdecl FUN_00a95160()
 {
     NiProperty* p = 0;
-    if (void* mem = BSFadeNode::operator new(0x1c))
+    if (void* mem = ::operator new(0x1c))
     {
         p = (NiProperty*)mem;
         new ((void *)(p)) struct ::FUN_00a5c200();
@@ -422,7 +419,7 @@ struct NiParticleMeshes {
 // Allocates a 0xcc-byte NiParticleMeshes, calls Init, sets its vtable and m_flag to 1, and returns it (or null on allocation failure).
 // @fnv 0x00a98e70
 NiParticleMeshes* __cdecl FUN_00a98e70() {
-    NiParticleMeshes* p = (NiParticleMeshes*)BSFadeNode::operator new(0xcc);
+    NiParticleMeshes* p = (NiParticleMeshes*)::operator new(0xcc);
     if (p) {
         new ((void *)(p)) ::NiParticleMeshes();
         p->vft = &DAT_010a0a6c;
@@ -463,7 +460,7 @@ extern const void* DAT_010a12cc;
 // @fnv 0x00a9b330
 void* __cdecl FUN_00a9b330()
 {
-    void* p = BSFadeNode::operator new(0xf0);
+    void* p = ::operator new(0xf0);
     if (p) {
         new ((void *)(p)) ::FUN_00a71f60_cls();
         *(const void**)p = &DAT_010a12cc;
@@ -480,7 +477,7 @@ struct NiAlphaAccumulator {
 // @fnv 0x00a9b4b0
 NiAlphaAccumulator* CreateNiAlphaAccumulator()
 {
-    NiAlphaAccumulator* p = static_cast<NiAlphaAccumulator*>(BSFadeNode::operator new(0x34));
+    NiAlphaAccumulator* p = static_cast<NiAlphaAccumulator*>(::operator new(0x34));
     if (p) {
         p->NiAlphaAccumulator::NiAlphaAccumulator();
         *(unsigned int*)p = (unsigned int)&kVtbl_NiAlphaAccumulator;
@@ -654,7 +651,7 @@ struct FUN_00a87140_class {
 };
 // @fnv 0x00a87140
 FUN_00a87140_class* FUN_00a87140() {
-    FUN_00a87140_class* p = (FUN_00a87140_class*)BSFadeNode::operator new(0xd0);
+    FUN_00a87140_class* p = (FUN_00a87140_class*)::operator new(0xd0);
     if (p) {
         new ((void *)(p)) ::FUN_00a744a0();
         p->vtbl = (void*)&DAT_0109e834;
@@ -841,7 +838,6 @@ struct FUN_00a5a390_shell {
 public:
     void FUN_00a5a390();
 };
-void __cdecl operator delete(void* p, unsigned int);
 // Calls DestroyFogProperty, then deletes this with size 0x1c if bDel is set, and returns this.
 // @fnv 0x00a950f0
 FUN_00a5a390_shell* FUN_00a5a390_shell::FUN_00a950f0(bool bDel)
@@ -1705,7 +1701,6 @@ struct S_00a8f2c0_Obj {
     int unk08;
     int unk0c;
     S_00a8f2c0_Sub sub;
-    static void* operator new(unsigned int n) { return BSFadeNode::operator new(n); }
     S_00a8f2c0_Obj() throw() {
         new ((void *)this) struct ::FUN_00a5d3a0();
         vft = (void*)&DAT_0109f4dc;
@@ -1750,7 +1745,6 @@ struct S_a91120_Blk {
     unsigned char* unk00;
     unsigned int unk04;
     S_a91120_Blk* unk08;
-    static void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a91120::S_a91120_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
     S_a91120_Blk(unsigned int n) throw() {
         unk04 = n;
         unk08 = 0;
@@ -2326,7 +2320,6 @@ void __cdecl FUN_00a81a80()
 
 class BA87920Base {
 public:
-    static void* operator new(unsigned int uiSize);
 
     BA87920Base() throw();
     virtual ~BA87920Base();
@@ -2478,7 +2471,7 @@ struct NiPairHolder {
 // @fnv 0x00a8a700
 NiPairHolder* __cdecl CreateNiPairHolder(void)
 {
-    NiPairHolder* obj = (NiPairHolder*)BSFadeNode::operator new(0x44);
+    NiPairHolder* obj = (NiPairHolder*)::operator new(0x44);
     if (obj != 0) {
         new ((void *)(obj)) struct ::FUN_00a67c00();
         obj->m_vt = &DAT_0109f23c;
@@ -2692,7 +2685,6 @@ class RendererDataA9F : public NiRefObjectA9F {
 
 class Ni2DBufferA9F : public NiRefObjectA9F {
 public:
-    static void* operator new(unsigned int uiSize) throw();
 
     Ni2DBufferA9F() throw();
     virtual ~Ni2DBufferA9F() throw();
@@ -2972,9 +2964,6 @@ struct FUN_00a5e3a0_Helper {  };
 struct PixelRow4 {
     unsigned char rgba[4];
     PixelRow4() {}
-    static void* operator new[](unsigned int size) {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&(*reinterpret_cast<::FUN_00aa4060_class *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
 };
 struct ImageConverter {
     unsigned int unknown000;

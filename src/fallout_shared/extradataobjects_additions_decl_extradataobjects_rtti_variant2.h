@@ -88,11 +88,7 @@ class FactionReaction
     TESFaction* pFaction;
     char m_ucRank;
 };
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* pointer);
 // Public names/layout: JohnnyGuitarNVSE BGSQuestObjective.hpp; its cpp
 // explicitly annotates SetOwner as GAME00437730. No implementation copied.
 class TESQuest;

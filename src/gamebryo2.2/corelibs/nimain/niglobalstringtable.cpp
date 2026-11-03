@@ -69,7 +69,7 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     {
         unsigned uiCurrentThreadID;
         int* piTimestamp;
-        NiPlaybackStat kStat;
+        fnv::crt::FileStatus kStat;
         unsigned uiFlags;
         char pad[2];
         bool bSuccess;
@@ -88,10 +88,10 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     if (preload || force)
     {
         unsigned reserved;
-        if (FUN_00ec923c(acPath, &local.kStat) != -1)
+        if (fnv::crt::stat(acPath, &local.kStat) != -1)
         {
             local.piTimestamp = &(*reinterpret_cast<::NiPlaybackTimestamp *>(&::g_0126fad4)) ? &(*reinterpret_cast<::NiPlaybackTimestamp *>(&::g_0126fad4)).timestamp : &(DAT_01202800 = 0);
-            if (local.kStat.timestamp <= *local.piTimestamp || force)
+            if (static_cast<long long>(local.kStat.size) <= *local.piTimestamp || force)
                 local.uiFlags |= 0x2000;
         }
     }

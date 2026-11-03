@@ -57,7 +57,6 @@ void* __cdecl FUN_00a56060()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_011a9434;
 extern int DAT_011a9438;
@@ -67,7 +66,7 @@ extern int DAT_0109a58c;
 // @fnv 0x00a55ff0
 NiBlendColorInterpolator* __cdecl CreateBlendColorInterpolator()
 {
-    NiBlendColorInterpolator* pInterpolator = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
+    NiBlendColorInterpolator* pInterpolator = (NiBlendColorInterpolator*)::operator new(0x44);
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) class ::FUN_00a36890();
@@ -221,7 +220,7 @@ struct FUN_00a56090_shell : NiBlendColorInterpolator
 // @fnv 0x00a56090
 void* FUN_00a56090_shell::FUN_00a56090(CloningProcess& kCloning)
 {
-    NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
+    NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)::operator new(0x44);
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();

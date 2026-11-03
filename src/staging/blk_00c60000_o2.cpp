@@ -2,6 +2,7 @@
 // src/staging/blk_00c60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -706,7 +707,6 @@ void* FUN_00c7a590::DeallocateSelf(bool abFree)
 
 void FUN_00c76240();
 
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c7a8b0_class
 {
@@ -1446,7 +1446,6 @@ void __cdecl SetTlsValueAndReset(int aiArg, int aiValue)
     tls.value = oldValue;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c6c290_holder
 {
     void FUN_00c6c290();
@@ -1507,7 +1506,6 @@ void* FUN_00c6cb70_class::FUN_00c6cb70(int aiFlags)
     return this;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00cd2de0
 {
     int m_iWordAt00;
@@ -3374,10 +3372,6 @@ struct C67F20Node
 
     ~C67F20Node();
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C67F20Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class C67F20List
@@ -7133,7 +7127,6 @@ void FUN_00c6cef0_cls::CallTargetWithArgs(int a, int b)
 }
 
 extern void __cdecl FUN_00cabf50();
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c6d010_Class
 {
@@ -7276,7 +7269,6 @@ void* __cdecl FUN_00c6d310()
     return &(*reinterpret_cast<int *>(&::g_012681a8));
 }
 
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c6d320_class
 {
@@ -12684,13 +12676,13 @@ struct ChildBase
     ChildBase(Owner* owner, int id);
     virtual ~ChildBase();
     void Attach(WorldEntry* w, hkBoolArg b, int a, int c);
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         ChildBase* p = (ChildBase*)GetAllocHolder()->GetAllocator()->Allocate(n);
         p->m_usMemSizeAndFlags = (unsigned short)n;
         return p;
     }
-    static void operator delete(void* p, unsigned int n);
+    static void operator delete(void* p, std::size_t n);
 };
 
 struct Child : ChildBase
@@ -13309,7 +13301,7 @@ class C687B0Object : public C687B0ObjectBase, public C687B0Listener
   public:
     C687B0Object();
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         void* p = C687B0MemoryRouter::GetMonitorStream().heap().AllocateMemoryBlock(uiSize);
         static_cast<C687B0Object*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -13432,11 +13424,6 @@ class CC68B50Pointer
 
 struct CC68B50Node
 {
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CC68B50Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     CC68B50Node(const CC68B50Pointer& spRetainedObject) throw() : m_pReferencedObject(spRetainedObject), m_pkNext(0)
     {}
@@ -14135,7 +14122,7 @@ BC6DF60Router* BC6DF60GetRouter();
 class BC6DF60Phantom
 {
   public:
-    void* operator new(unsigned int uiNumBytes) throw()
+    void* operator new(std::size_t uiNumBytes) throw()
     {
         return BC6DF60GetRouter()->heap().AllocateMemoryBlock(uiNumBytes);
     }
@@ -14484,12 +14471,6 @@ FUN_00c75d90::~FUN_00c75d90()
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
 }
 
-inline void* operator new(unsigned int, void* pvMem)
-{
-    return pvMem;
-}
-inline void operator delete(void*, void*)
-{}
 
 class MemberC76
 {
@@ -17921,10 +17902,6 @@ struct PooledEntry_c7be
     int unk00;
     int unk04;
     Pointer_c7be<RefObject_c7be> m_pReferencedObject;
-    static void operator delete(void* pvBlock)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060((FUN_00c68f50_cls*)pvBlock);
-    }
 };
 
 // Releases the reference held by pkEntry->m_pReferencedObject and deletes the PooledEntry_c7be instance.
@@ -19024,8 +19001,6 @@ class NiFixedString
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class FUN_00a5ecb0 : public NiMemObject
 {
@@ -21024,10 +20999,6 @@ struct FUN_00c76030
     unsigned int unk04;
     void* m_pData;
     virtual ~FUN_00c76030();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00c76030::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 // Destructor that calls FUN_00b601a0, then passes m_pData to FUN_00aa10f0.
 // @fnv 0x00c76030
@@ -21569,14 +21540,14 @@ struct AllocHeader
 };
 struct EntryBase
 {
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         AudioHolder* h = FUN_00c85750();
         void* p = ((MyAlloc*)h->m_pAllocator)->v04(n);
         ((AllocHeader*)p)->m_iElementCount = (unsigned short)n;
         return p;
     }
-    static void operator delete(void* p, unsigned int n);
+    static void operator delete(void* p, std::size_t n);
 };
 struct FUN_00cbc460 : EntryBase
 {
@@ -23723,8 +23694,6 @@ struct ResourceC73
     int unk10;
     int unk14;
     ResourceC73(DescriptorC73*);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     void IncRefCount()
     {
         InterlockedIncrement(&m_lRefs);
@@ -27369,7 +27338,6 @@ class NiNodeV : public NiAVObjV
 {
   public:
     NiNodeV(unsigned short usChildren = 0);
-    static void* operator new(size_t stSize);
 
     virtual void v_04();
     virtual void v_05();
@@ -28629,10 +28597,6 @@ struct ReleaseObject
 struct FUN_00cbf430
 {
     ~FUN_00cbf430();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060((FUN_00c68f50_cls*)p);
-    }
 };
 struct ShutdownMode
 {
@@ -28779,7 +28743,7 @@ struct C69960Node : NodeBase
     Vec4 m_20;
     Vec4 m_30;
     C69960Node(C69960Node* a);
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void* p);
 };
 struct ResObj

@@ -215,7 +215,6 @@ FUN_0080f1a0_StandIn* FUN_0080f1a0(void* ap1, void* ap2, void* ap3)
     return new FUN_0080f1a0_StandIn(ap1, ap2, ap3);
 }
 
-void* __cdecl operator new(unsigned int);
 extern int _data_011c16bc;
 
 struct FUN_0080f0a0_Class

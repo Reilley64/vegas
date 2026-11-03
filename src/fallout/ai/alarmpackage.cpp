@@ -399,7 +399,6 @@ FUN_009ec700::~FUN_009ec700()
     reinterpret_cast<::FileMatchList *>(&(list))->RemoveAll();
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_009ebae0_shell
 {

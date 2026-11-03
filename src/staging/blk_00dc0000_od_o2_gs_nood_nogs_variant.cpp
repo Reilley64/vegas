@@ -5,6 +5,7 @@
 
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
@@ -18,10 +19,6 @@
 #include <xmmintrin.h>
 #include <math.h>
 #include "fnv/symbols_simd.h"
-inline void* __cdecl operator new(unsigned int, void* location) throw()
-{
-    return location;
-}
 
 struct hkBool
 {

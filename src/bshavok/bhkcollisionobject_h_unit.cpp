@@ -49,7 +49,6 @@
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(std::size_t);
 };
 
 struct MyType : BSFadeNode

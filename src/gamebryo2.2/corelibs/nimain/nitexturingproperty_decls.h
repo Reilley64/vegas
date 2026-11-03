@@ -39,7 +39,6 @@ class MemoryManager
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class NiBinaryStream
 {
@@ -111,10 +110,6 @@ template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterfa
 {
   public:
     NiTPrimitiveArray(unsigned int size, unsigned int grow = 1) throw();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     void SetAt(unsigned int i, T& value)
     {
         if (i >= m_usSize)
@@ -145,10 +140,6 @@ class TextureMapTransform
     unsigned char data[0x48];
     TextureMapTransform() throw();
     void LoadBinary(NiStream&);
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 class NiGlobalStringTable
 {
@@ -218,10 +209,6 @@ class NiTexturingProperty : public NiProperty
             SetClampMode(clamp);
             SetFilterMode(filter);
             SetTextureIndex(index);
-        }
-        static void* operator new(unsigned int n)
-        {
-            return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
         }
         void SetClampMode(ClampMode mode)
         {

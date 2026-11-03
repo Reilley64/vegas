@@ -11,7 +11,6 @@
 extern int DAT_010a02e4;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiObject : BSFadeNode
 {

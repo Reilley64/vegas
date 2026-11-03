@@ -151,8 +151,6 @@ class GlobalObject_00633c90
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 class BSTextureSet : public NiMemObject
 {

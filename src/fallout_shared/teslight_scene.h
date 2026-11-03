@@ -3,6 +3,7 @@
 #define FNV_TESLIGHT_SCENE_H
 
 
+#include <new>
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/symbols_0043b000.h"
 #include "fnv/symbols_011f4000.h"
@@ -14,8 +15,6 @@ class TESObjectREFR;
 class NiMemObject
 {
   public:
-    static void* __cdecl operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 class NiAVObject : public NiMemObject

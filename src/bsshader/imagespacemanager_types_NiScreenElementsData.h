@@ -179,7 +179,6 @@ class NiScreenElementsData : public NiTriShapeData
 {
   public:
     // base NiTriShapeData at +0x0, size 88
-    static void* __cdecl operator new(std::size_t size) throw();
     NiScreenElementsData(bool, bool, unsigned short, int, int, int, int, int, int);
     NiScreenElementsData__Polygon* m_akPolygon;  // +0x58, 4 bytes
     unsigned short* m_ausPIndexer;               // +0x5C, 4 bytes

@@ -564,7 +564,6 @@ class NiNode : public NiObjectNET
   public:
     NiNode(unsigned short arraySize);
     void UpdateModel();
-    static void* operator new(std::size_t size);
     int unk04;
     int unk08;
     int unk0c;
@@ -630,7 +629,6 @@ struct Tile__Extra : NiExtraData
         pNode = node;
         SetName("Tileptr");
     }
-    static void* operator new(std::size_t size);
 };
 
 struct TileX
@@ -1013,8 +1011,6 @@ bool AnimTile::UpdateAnimation(float value, bool force)
 namespace fnv_00a21340 {
 struct NiMemObject
 {
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 struct NiTexture;
 struct TileShaderProperty : NiMemObject

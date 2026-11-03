@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -83,14 +84,6 @@ struct TCBKeyS
     float extra[6];
     ~TCBKeyS()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p, unsigned int)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 void FUN_00a420e0(float p0, float t0, float* tan0, float p1, float t1, float* tan1, float t, float p, float* a,
                   float* b);
@@ -212,14 +205,6 @@ struct TempArrayElement
     void* d;
     ~TempArrayElement()
     {}
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p, unsigned int)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
@@ -231,14 +216,6 @@ struct BezFloatKey
     float outTan;
     ~BezFloatKey()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p, unsigned int)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 float GenInterpFloat(float t, BezFloatKey* keys, int type, unsigned int count, unsigned int stride);
 void FUN_00a420e0(float p0, float t0, float* tan0, float p1, float t1, float* tan1, float t, float p, float* a,
@@ -427,10 +404,6 @@ class A27250FloatKey
   public:
     ~A27250FloatKey();
 
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<A27250Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
 
 
     float m_fTime;
@@ -513,14 +486,6 @@ struct Elem64
     int unk38;
     int unk3C;
 
-    static void* operator new[](unsigned int aSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(aSize);
-    }
-    static void operator delete[](void* apBlock)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(apBlock);
-    }
     ~Elem64()
     {}
 };
@@ -571,10 +536,6 @@ class A281E0BezPosKey
   public:
     ~A281E0BezPosKey();
 
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<A281E0Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
 
 
     float m_fTime;
@@ -1367,10 +1328,6 @@ struct VertexRecord
     int x, y, z, w;
     ~VertexRecord()
     {}
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size);
-    }
 };
 // MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
 void* _memmove(void* d, const void* s, unsigned int n);
@@ -1385,14 +1342,6 @@ struct AnimKeyBase
 struct LinPosKey : AnimKeyBase
 {
     Vec3S pos;
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct FUN_00a6e330_StandIn
 {
@@ -1432,14 +1381,6 @@ struct BezierKeyS
     float extra[9];
     ~BezierKeyS()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p, unsigned int)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct S_00a2af70_V
 {
@@ -2477,10 +2418,6 @@ struct KeyframeElement
     float continuity;
     float bias;
     ~KeyframeElement();
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(bytes);
-    }
 };
 struct FUN_00a2cc40_S
 {
@@ -2499,14 +2436,6 @@ struct Arr8
     char c;
     ~Arr8()
     {}
-    __forceinline static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    __forceinline static void operator delete[](void* p, unsigned int)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct FUN_00a2cf20_Payload
 {
@@ -2758,7 +2687,6 @@ class FUN_00a3a730_cls
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
 };
 class NiKeyBasedInterpolator : public NiMemObject
 {
@@ -2781,10 +2709,6 @@ class NiFloatInterpolator : public NiKeyBasedInterpolator
         lastIndex = 0;
     }
 };
-inline void* __cdecl operator new(unsigned int, void* memory) throw()
-{
-    return memory;
-}
 // AccumulateAnimSink: dispatch a request to the animation sink found at +0x24c
 // of the object passed in, and accumulate the returned count.
 struct AnimSink
@@ -3009,10 +2933,6 @@ struct FloatKey
     float value;
     ~FloatKey() throw()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
 };
 void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 float __cdecl GetValueAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
@@ -3039,14 +2959,6 @@ struct BezPosKey
     Vec3S unk40;
     ~BezPosKey()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 class NiAnimationKeyA3D
 {

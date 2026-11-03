@@ -460,8 +460,6 @@ struct MatW7
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a5ecb0 : NiMemObject
 {
@@ -843,7 +841,6 @@ FUN_007c0870::~FUN_007c0870()
 }
 
 namespace fnv_007c0a40 {
-void* __cdecl operator new(unsigned int);
 struct FUN_00733f50
 {
     void* owner;

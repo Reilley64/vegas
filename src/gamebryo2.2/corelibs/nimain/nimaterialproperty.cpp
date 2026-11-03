@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nimaterialproperty.cpp: free functions (8 functions)
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -29,7 +30,6 @@ class NiRenderer
 
 struct NiMemObject_Del
 {
-    static void __cdecl operator delete(void*, size_t);
 };
 
 // @fnv 0x00a756f0
@@ -79,14 +79,13 @@ void FUN_00a75790_shell::FUN_00a75790(NiStream* pkStream)
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
 };
 
 
 // @fnv 0x00a759e0
 void __cdecl FUN_00a759e0()
 {
-    void* pMemory = BSFadeNode::operator new(0x4c);
+    void* pMemory = ::operator new(0x4c);
     NiRefObject* pFadeNode = (NiRefObject*)(pMemory ? FUN_00a75650(pMemory) : 0);
     if ((NiRefObject*)(*reinterpret_cast<void * *>(&::DAT_011f4a64)) != pFadeNode)
     {
@@ -166,7 +165,6 @@ class BA75730Cloning;
 class BA75730Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
 };
 

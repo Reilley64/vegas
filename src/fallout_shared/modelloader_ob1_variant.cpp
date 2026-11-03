@@ -949,7 +949,6 @@ struct FUN_00a5d3a0 : RefY
 };
 struct Z : FUN_00a5d3a0
 {
-    void* operator new(unsigned int n);
     void* m8;
     Z(void* p)
     {
@@ -1711,10 +1710,6 @@ class C3B270_Object : public FUN_00a5d3a0
 {
   public:
     C3B270_Sub m_08;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     virtual void vf00();
     __forceinline C3B270_Object()
     {}
@@ -2128,7 +2123,6 @@ bool C3B270_Owner::FUN_00c3b270()
 }
 
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-void __cdecl operator delete(void*);
 struct Aade20SecureCopy
 {
 };

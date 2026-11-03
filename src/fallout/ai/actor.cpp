@@ -1,5 +1,6 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -16139,7 +16140,6 @@ void FUN_008c1320(char* pThis)
 }
 
 namespace fnv_008c1470 {
-void* __cdecl operator new(unsigned int);
 
 struct FUN_008c1c00
 {
@@ -18133,8 +18133,6 @@ struct FUN_00964190_shell : public Actor
     void ResetMover();
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 struct DummyMover;
 DummyMover* FUN_009e9d00(DummyMover* pThis, int, void* actor);
@@ -47546,7 +47544,7 @@ struct AcObj
 {
     virtual ~AcObj();
     AcObj(void* p0, void* node, char* buf);
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
     int unk004;
     int unk008;
@@ -48021,7 +48019,7 @@ struct Eef0_Obj
 {
     int m00, m04, m08, m0c, m10, m14, m18, m1c;
     Eef0_Obj();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return Alloc_b10310(size);
     }
@@ -57259,7 +57257,6 @@ const char* B88B7F0Process::GetPackageTypeName()
 }
 
 namespace fnv_0088c830 {
-void* operator new(unsigned int, void*);
 void* FUN_00401000(unsigned int);
 struct TESForm;
 struct ExtraDataList;
@@ -63436,7 +63433,6 @@ extern Actor* DAT_011dea3c;
 struct DeferredDeath
 {
 };
-void* operator new(unsigned int);
 struct HealthActor : Actor
 {
     int FUN_008b87a0(Actor*, bool*);
@@ -89228,7 +89224,6 @@ struct MagicHitEffectEx : public HitEffectBase
 {
     MagicHitEffectEx(TESObjectREFR* ref, TESEffectShader* shader, float a3);
     virtual bool IsFinished();
-    static void* operator new(unsigned int size);
     int unk04;
     int unk08;
     int unk0c;
@@ -89429,8 +89424,6 @@ class B4E10Effect
   public:
     B4E10Effect(B4E10Outer* pkOwner, B4E10Item* pkItem, float fValue);
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     virtual ~B4E10Effect();
     virtual void vfn004();
@@ -98342,7 +98335,6 @@ struct Class50
     int unk44;
     int unk48;
     int unk4c;
-    static void* operator new(size_t sz);
     Class50();
 };
 
@@ -98424,14 +98416,12 @@ namespace fnv_008bbf40 {
 struct PackageTarget206
 {
     int unk00, unk04, unk08;
-    static void* operator new(unsigned int);
     PackageTarget206();
     ~PackageTarget206();
 };
 struct PackageLocation206
 {
     int unk00, unk04, unk08, unk0c;
-    static void* operator new(unsigned int);
     PackageLocation206();
     ~PackageLocation206();
 };
@@ -109922,8 +109912,6 @@ class AHProcess
     virtual void v7a0();
     virtual void v7a4();
     virtual void FinishSwitch(AHActor* pkActor);
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 
 class AHHighProcess : public AHProcess
@@ -134592,7 +134580,6 @@ extern TESSaveLoadGame* DAT_011de45c;
 
 
 
-void* __cdecl operator new(unsigned int size);
 
 struct FUN_008d3310_shell : public Actor
 {
@@ -135147,8 +135134,6 @@ struct Node
     unsigned int unk0a8;
 
     Node(unsigned short);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     unsigned int Call_0043b480();
     Transform& Call_00461130();
     const Vec& Call_0045bb80();

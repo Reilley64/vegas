@@ -5293,8 +5293,6 @@ struct FUN_009bbef0 : PrjMobile
     virtual ~FUN_009bbef0();
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct P062Object;
 struct P062Ammo;
 struct P062Scene;
@@ -6357,7 +6355,6 @@ struct GameVector
     float x, y, z;
 };
 
-extern void* __cdecl operator new(unsigned int);
 struct ActionConsumer
 {
 };

@@ -106,7 +106,6 @@ void* NiPSysSphericalCollider::FUN_00c28200(unsigned int flags)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct Collider : BSFadeNode
 {
@@ -115,7 +114,7 @@ struct Collider : BSFadeNode
 // @fnv 0x00c282a0
 Collider* CreateCollider()
 {
-    Collider* p = (Collider*)BSFadeNode::operator new(0xb0);
+    Collider* p = (Collider*)::operator new(0xb0);
     if (p)
         return p->FUN_00c28110(1.0f, 0, 0, 0, 0, 1.0f);
     return 0;
@@ -194,7 +193,7 @@ struct FUN_00c28250_shell : NiPSysSphericalCollider
 // @fnv 0x00c28250
 Collider* FUN_00c28250_shell::CloneCollider(CloningProcess& kCloning)
 {
-    Collider* pkObject = (Collider*)BSFadeNode::operator new(0xb0);
+    Collider* pkObject = (Collider*)::operator new(0xb0);
     if (pkObject)
         pkObject = pkObject->FUN_00c28110(1.0f, 0, 0, 0, 0, 1.0f);
     else

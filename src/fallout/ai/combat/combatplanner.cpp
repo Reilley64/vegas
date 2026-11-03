@@ -50,8 +50,6 @@ bool CombatPlanner::FUN_00995800(const AStarNode* apNode)
     return false;
 }
 
-void* operator new(unsigned int uiSize, void* pvWhere);
-void operator delete(void* pvMem, void* pvWhere);
 
 extern const float DAT_0108dbf0;  // FLT_MAX
 

@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/bgszonetargetlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/bgszonetargetlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -207,7 +208,7 @@ struct ZoneNode : ZoneBase, ZoneLink
     int unk44;
     int unk48;
     int unk4C;
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void*);
     ZoneNode(unsigned int a, unsigned int b);
 };
@@ -298,7 +299,7 @@ struct ZoneTargetNode
     int unk48;
     int unk4C;
 
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(std::size_t size);
     static void operator delete(void*);
     ZoneTargetNode(unsigned int a, unsigned int b);
 };

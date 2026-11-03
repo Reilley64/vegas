@@ -1,5 +1,6 @@
 // bsshader/shadowscenenode.cpp: ShadowSceneNode, Base, Self, BlendOwner and more (63 functions)
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00c5b5a0_cls.h"
@@ -693,8 +694,6 @@ struct NiColor
 };
 struct BSFadeNode
 {
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 struct NiDirectionalLight : public BSFadeNode
 {
@@ -1897,8 +1896,6 @@ template <class T> struct RefPtr
 struct ShadowRenderTarget : RefObj
 {
     ShadowRenderTarget(int a);
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
     int unk08;
     int unk0c;
     int unk10;
@@ -3430,8 +3427,6 @@ struct Fixed
 };
 struct Alloc
 {
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 struct Light : Ref, Alloc
 {
@@ -7190,10 +7185,6 @@ struct LightEx : public NiRefObject
 {
     char body[0x250 - 8];
     LightEx();
-    static void* operator new(std::size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct ActiveLightList : public NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiRefObject> >
@@ -7257,14 +7248,6 @@ void __cdecl FUN_00aa1460(void* p);
 class S00b5cd00_Light
 {
   public:
-    static void* operator new(std::size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void* p)
-    {
-        FUN_00aa1460(p);
-    }
     S00b5cd00_Light();
 
     int unk00;
@@ -11784,8 +11767,6 @@ struct Provider2180
 struct FUN_00a712f0
 {
     int bytes[0x114 / 4];
-    static void* operator new(std::size_t);
-    static void operator delete(void*, std::size_t);
     FUN_00a712f0();
 };
 

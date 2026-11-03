@@ -7,7 +7,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
 class NiRTTI;
 class NiObject

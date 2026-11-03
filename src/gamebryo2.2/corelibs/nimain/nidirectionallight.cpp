@@ -149,10 +149,6 @@ void LightDerived::FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char
 }  // namespace fnv_00a75d70
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-inline void* operator new(unsigned int, void* memory) throw()
-{
-    return memory;
-}
 // @fnv 0x00a75d50
 NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 {

@@ -184,7 +184,6 @@ struct S_0081c600
 {
     char pad[0x3c];
     void FUN_0081c810();
-    static void __cdecl operator delete(void*, unsigned int);
     S_0081c600* DestroyIfFlagged(unsigned int flags);
 };
 // @fnv 0x0081c600

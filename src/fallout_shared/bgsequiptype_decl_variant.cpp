@@ -116,7 +116,6 @@ class TESDataHandler
   public:
     bool AddFormToDataHandler(TESForm* form);
 };
-void* __cdecl operator new(unsigned int);
 int __cdecl FUN_00406d50(char*, unsigned int, const char*);
 // @fnv 0x00479570
 void FUN_00479570()

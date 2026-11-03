@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/CA8Owner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91120.h"
@@ -1381,10 +1382,6 @@ struct CA92A0Element
     int unk08;
     int unk0C;
 
-    static void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
 };
 
 struct CA92A0Array

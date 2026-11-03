@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/BigState.h"
@@ -913,7 +914,6 @@ struct S_00d0d150_CollisionOutput {
     S_00d0d150_ProcessCdPoint m_akContactPoints[256];
     S_00d0d150_ToiInfo m_fTimeOfImpact;
 };
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
 template <typename T>
 struct S_00d0d150_Array {
     T* m_data;

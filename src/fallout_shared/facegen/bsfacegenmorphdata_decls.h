@@ -12,9 +12,6 @@
 #include "fnv/symbols_0065c000.h"
 #include "fnv/symbols_00661000.h"
 #include "fnv/symbols_00662000.h"
-void* __cdecl operator new(unsigned int);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete(void*);
 extern const char DAT_01065e40[];
 extern const char DAT_01065dd0[];
 extern const char DAT_01065d60[];

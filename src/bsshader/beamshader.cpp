@@ -58,7 +58,6 @@ class BeamShaderSlots
 class BloodSplatterBeamShader : public BeamShader
 {
   public:
-    static void* operator new(std::size_t) throw();
     BloodSplatterBeamShader(NiD3DVertexDeclaration*);
     static BSShader* CreateShader();
 };

@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/E367_Class.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -782,11 +783,11 @@ class hkpPhantomE36C : public hkReferencedObjectE36C
 class FUN_00cf2cb0 : public hkpPhantomE36C
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* pvMem) throw()
+    static __forceinline void* operator new(std::size_t, void* pvMem) throw()
     {
         return pvMem;
     }
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkReferencedObjectE36C* p =
             (hkReferencedObjectE36C*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);

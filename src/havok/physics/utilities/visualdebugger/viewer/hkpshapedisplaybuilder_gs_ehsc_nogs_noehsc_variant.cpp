@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 struct S_00ddfcd0_Allocator
 {
     virtual void v0();
@@ -33,7 +34,7 @@ struct S_00ddfcd0_RefObj
     }
     virtual ~S_00ddfcd0_RefObj() throw()
     {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

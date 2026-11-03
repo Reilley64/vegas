@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a3dab0
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -217,7 +218,6 @@ void* FUN_00a3ddf0_shell::FUN_00a3ddf0(void* pData, int aiIndexA, int aiIndexB, 
 }
 
 void __cdecl FUN_00a3dd40();
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00a3e980_shell
 {
@@ -376,7 +376,6 @@ bool FUN_00a3dcc0_cls::FUN_00a3dcc0(void* pkStream)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a3f060_shell
@@ -387,7 +386,7 @@ struct FUN_00a3f060_shell
 // @fnv 0x00a3f4b0
 void* __cdecl CreateA51BF0Base()
 {
-    void* p = A51BF0Base::operator new(0x5c);
+    void* p = ::operator new(0x5c);
     if (p)
         return ((FUN_00a3f060_shell*)p)->FUN_00a3f060(0, 0);
     return 0;
@@ -980,7 +979,6 @@ class NiObjectA3F
     NiObjectA3F(void* pvFirst, void* pvSecond) throw();
     virtual ~NiObjectA3F();
 
-    static void* operator new(unsigned int uiSize);
 
     int unk04;
     int unk08;

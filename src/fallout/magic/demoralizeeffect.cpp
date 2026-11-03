@@ -613,8 +613,6 @@ struct EffectItem;
 
 struct C70ActiveEffect
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 
 struct C70DemoralizeEffect : C70ActiveEffect

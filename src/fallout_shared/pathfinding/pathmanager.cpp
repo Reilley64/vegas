@@ -5698,8 +5698,6 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
     return result;
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 struct RequestLocation
 {

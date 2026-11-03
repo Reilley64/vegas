@@ -111,10 +111,6 @@ class MemoryManager
 struct FUN_00af2850
 {
     ~FUN_00af2850();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
     char pad[0x24];
 };
 // Deletes the global object pointed to by DAT_011f7244 and clears the pointer.
@@ -245,14 +241,6 @@ struct DLCEntry_00af2940
 extern DLCEntry_00af2940 DAT_011accb8[];
 struct FUN_00b008b0
 {
-    __forceinline static void* operator new(std::size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af2940::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
-    __forceinline static void operator delete(void* p)
-    {
-        (*reinterpret_cast<::fnv_00af2940::P03MM *>(&::g_memoryManager)).Deallocate(p);
-    }
     FUN_00b008b0(unsigned int);
     int a;
     int b;
@@ -373,11 +361,6 @@ struct PoolQ
 struct ItmQ
 {
     ~ItmQ();
-    void operator delete(void* p)
-    {
-        int aiD[3];
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PoolQ *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 struct NodQ
 {

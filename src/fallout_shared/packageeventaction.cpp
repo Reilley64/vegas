@@ -245,7 +245,6 @@ struct FUN_0067dad0_shell
     void FUN_0067dad0(PackageEventActionData* apCopy);
 };
 
-void* __cdecl operator new(unsigned int);
 
 // Copies quantity, flags and form ID from apCopy, then clones or clears the script pointer depending on whether apCopy has one.
 // @fnv 0x0067dad0

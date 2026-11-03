@@ -891,10 +891,6 @@ struct TextureAllocationManagerB63
 {
 };
 
-inline void* operator new(std::size_t bytes)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::TextureAllocationManagerB63 *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-}
 
 struct TextureManagerB63
 {

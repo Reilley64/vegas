@@ -53,7 +53,6 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
     GraphicsRenderer* m_pShaderObject;      // +0x3C, 4 bytes
     ShaderPassRenderer* m_pRenderState;     // +0x40, 4 bytes
     NiD3DShaderConstantMap(GraphicsRenderer*, NiGPUProgram__ProgramType);
-    static void* __cdecl operator new(std::size_t size);
     // IsExactKindOf
     // DynamicCast
     // NiD3DShaderConstantMap

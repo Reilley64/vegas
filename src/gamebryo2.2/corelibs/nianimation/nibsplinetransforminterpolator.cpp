@@ -206,7 +206,6 @@ bool FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChannel)
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a50110_quat
 {
@@ -239,7 +238,6 @@ FUN_00a50110_obj* FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* k
 namespace fnv_00a50180 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a4fff0 : public BSFadeNode
 {

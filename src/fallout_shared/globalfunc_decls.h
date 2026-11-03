@@ -28,8 +28,6 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01267000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 // Canonical folded binding for NiFixedString string-handle conversion.
 class BSFadeNode
 {

@@ -188,7 +188,6 @@ struct FUN_0063a3c0_cls
     int unk04;
 
     FUN_0063a3c0_cls* FUN_0063a3c0(unsigned int auiFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Releases the base object and, if bit 0 of auiFlags is set, deletes this instance, then returns this.

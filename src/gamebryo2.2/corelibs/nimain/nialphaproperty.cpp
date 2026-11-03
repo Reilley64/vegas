@@ -92,10 +92,6 @@ struct SdmBase
     }
     virtual ~SdmBase()
     {}
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 struct SdmDerived : SdmBase
 {
@@ -122,7 +118,6 @@ void CreateSdmDerived()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiPropertyCtorStub
 {
@@ -132,7 +127,7 @@ struct NiPropertyCtorStub
 // @fnv 0x00a5cef0
 void FUN_00a5cef0()
 {
-    char* pAlphaProperty = (char*)BSFadeNode::operator new(0x1c);
+    char* pAlphaProperty = (char*)::operator new(0x1c);
     if (pAlphaProperty)
     {
         new ((void *)(((NiPropertyCtorStub*)pAlphaProperty))) struct ::FUN_00a5c200();
@@ -158,13 +153,12 @@ void FUN_00a5cef0()
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a5ceb0
 NiAlphaProperty* __cdecl CreateNiAlphaProperty()
 {
-    NiAlphaProperty* p = (NiAlphaProperty*)A51BF0Base::operator new(0x1c);
+    NiAlphaProperty* p = (NiAlphaProperty*)::operator new(0x1c);
     if (p)
     {
         new ((void *)(((NiPropertyCtorStub*)p))) struct ::FUN_00a5c200();

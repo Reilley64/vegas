@@ -20,7 +20,6 @@
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(std::size_t);
 };
 struct NiRefObject_s
 {

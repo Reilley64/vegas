@@ -194,7 +194,6 @@ int __cdecl FUN_006fd8e0()
     return (*reinterpret_cast<int *>(&::DAT_011d8670));
 }
 
-void __cdecl operator delete(void*);
 struct FUN_006fa420
 {
 public:
@@ -214,7 +213,6 @@ void* FUN_006fd8f0::Del(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_006f5370
 {
 public:
@@ -234,7 +232,6 @@ void* FUN_006fd920::Del(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_006f76b0
 {
 };

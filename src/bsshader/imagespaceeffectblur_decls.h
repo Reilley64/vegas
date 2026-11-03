@@ -72,14 +72,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     unsigned char unk56;
     char pad57[0x31];
     ImageSpaceShaderParam();
-    static __forceinline void* operator new(std::size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static __forceinline void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
     void AllocateShaderConstants(int, int);
     void SetShaderConstantVector4(int, float, float, float, float);
 };

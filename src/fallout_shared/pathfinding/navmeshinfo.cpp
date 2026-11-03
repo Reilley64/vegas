@@ -121,8 +121,6 @@ class NavMeshBounds
     NavMeshBounds();  // unnamed constructor at 0x0069bcf0
     void CopyTo(NavMeshBounds* other);
 };
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 
 class NavMeshPtr;
 class NavMeshInfo

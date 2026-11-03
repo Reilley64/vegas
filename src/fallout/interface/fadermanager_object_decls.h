@@ -5,6 +5,7 @@
 // FaderManager unit: file-static fader table plus the small accessors.
 // The three covered functions here only need the table layout and a few
 // out-of-line helpers; the larger EH functions follow in later work.
+#include <new>
 #include <stddef.h>
 
 #include "fnv/decl/FUN_00439410_cls.h"
@@ -60,8 +61,6 @@ class TES;
 class NiMemObject
 {
   public:
-    static void* operator new(size_t);
-    static void operator delete(void*, unsigned int);
 };
 
 class NiRefObject : public NiMemObject

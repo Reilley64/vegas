@@ -9,7 +9,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t size);
 };
 
 class NiRefObject : public NiMemObject

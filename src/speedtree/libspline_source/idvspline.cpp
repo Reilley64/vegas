@@ -1,5 +1,6 @@
 // speedtree/libspline_source/idvspline.cpp: Script, SplineSampler (12 functions)
 
+#include <new>
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
@@ -103,13 +104,7 @@ struct Tree
 
 // namespace fnv_00b3b6f0
 
-inline void* operator new(std::size_t, void* p)
-{
-    return p;
-}
 
-inline void operator delete(void*, void*)
-{}
 
 namespace fnv_00b3b880 {
 
@@ -309,17 +304,6 @@ template <class T> class allocator
     {
         ::operator delete(_Ptr);
     }
-};
-}
-
-namespace std {
-class exception
-{
-  public:
-    virtual ~exception();
-    virtual const char* what() const;
-    const char* _m_what;
-    int _m_doFree;
 };
 }
 
@@ -1978,10 +1962,6 @@ struct Sound_b37a
     ~Sound_b37a()
     {
         reinterpret_cast<::FUN_00b37880_class *>(this)->FUN_00b37880_class::~FUN_00b37880_class();
-    }
-    static void operator delete(void* p)
-    {
-        ::FUN_00401030(p);
     }
 };
 
@@ -4789,7 +4769,6 @@ ElemMOVE* __cdecl FUN_00b3b6f0(ElemMOVE* _First, ElemMOVE* _Last, ElemMOVE* _Des
 
 // namespace fnv_00b3b880
 
-void __cdecl operator delete(void*);
 
 void CopyStringStorage(char*, unsigned int, const char*, unsigned int);
 
@@ -4857,7 +4836,6 @@ class out_of_range : public logic_error
 };
 }
 
-void __cdecl operator delete(void*);
 
 namespace std {
 template <class A, class B> struct pair

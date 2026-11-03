@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/LunaOwner.h"
 #include "fnv/decl/RayCaster_00df8aa0.h"
 #include "fnv/symbols_00c90000.h"
@@ -220,10 +221,6 @@ struct Spawned
     unsigned int m_10;
     unsigned int m_14;
     unsigned int m_18;
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
     Spawned(unsigned int first, unsigned int last)
         : m_00((unsigned int)DAT_010dbb04), m_04(1.0f), m_08(first), m_0c(first), m_10(last), m_14(0), m_18(0)
     {}

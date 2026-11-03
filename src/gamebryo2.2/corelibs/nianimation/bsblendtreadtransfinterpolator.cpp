@@ -22,7 +22,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a42fe0()
 
 struct BSFadeNode
 {
-    void* operator new(unsigned int);
 };
 extern int DAT_01097904;
 void FUN_00a36890(void*);
@@ -382,7 +381,7 @@ class FUN_00a36890 : public InterpolatorStorage
 void* CloneOwner::Clone(void* kCloning)
 {
     CloneOwner* pkObject;
-    pkObject = (CloneOwner*)BSFadeNode::operator new(0x34);
+    pkObject = (CloneOwner*)::operator new(0x34);
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();

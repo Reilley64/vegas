@@ -4,6 +4,8 @@
 
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -780,11 +782,11 @@ class hkpPhantomE36C : public hkReferencedObjectE36C
 class FUN_00cf2cb0 : public hkpPhantomE36C
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* pvMem) throw()
+    static __forceinline void* operator new(std::size_t, void* pvMem) throw()
     {
         return pvMem;
     }
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkReferencedObjectE36C* p =
             (hkReferencedObjectE36C*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
@@ -951,7 +953,7 @@ struct ContextE36120
 ContextE36120* GetContextE36120();
 struct ShapeE36120
 {
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         ContextE36120* pkContext = GetContextE36120();
         ShapeE36120* pkShape = static_cast<ShapeE36120*>(pkContext->m_pkMemory->allocateChunk(nbytes));
@@ -988,10 +990,6 @@ struct CapsuleE36120 : public ShapeE36120
     int unk58;
     int unk5C;
 };
-inline void* operator new(unsigned int, void* pvMem) throw()
-{
-    return pvMem;
-}
 struct __declspec(align(16)) hkVector4E363
 {
     float x, y, z, w;

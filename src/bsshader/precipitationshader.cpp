@@ -6,6 +6,8 @@
 
 
 // @fnv 0x00bb0540
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/BSShader.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -234,7 +236,6 @@ struct SpawnedBase
 struct SpawnedObject : SpawnedBase
 {
     SpawnedObject();
-    static void* operator new(std::size_t size);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;

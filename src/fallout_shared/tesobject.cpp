@@ -2422,8 +2422,6 @@ struct CacheOps
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a5ecb0 : NiMemObject
 {

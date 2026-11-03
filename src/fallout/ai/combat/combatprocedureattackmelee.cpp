@@ -6724,8 +6724,6 @@ struct Shape;
 struct Avoid
 {
     int data[6];
-    static void* operator new(unsigned);
-    static void operator delete(void*);
     Avoid();
 };
 struct Ptr

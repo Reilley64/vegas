@@ -241,10 +241,6 @@ struct BSSearchPathSP : NiSearchPathSP
     int m_1b0, m_1b4, m_1b8, m_1bc, m_1c0, m_1c4, m_1c8, m_1cc;
     int m_1d0, m_1d4, m_1d8, m_1dc, m_1e0, m_1e4, m_1e8, m_1ec;
     int m_1f0, m_1f4, m_1f8, m_1fc, m_200, m_204, m_208, m_20c;
-    static void* operator new(std::size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrSP *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 // @fnv 0x00b013f0

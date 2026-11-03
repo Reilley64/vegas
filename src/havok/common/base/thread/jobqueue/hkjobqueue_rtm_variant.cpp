@@ -4,6 +4,7 @@
 
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/ArrayRecord.h"
 #include "fnv/decl/FUN_00d04390.h"
@@ -713,7 +714,7 @@ struct PoolEntry
 };
 struct PoolTable
 {
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         return FUN_00c85750()->heap()->AllocateMemoryBlock(nbytes);
     }

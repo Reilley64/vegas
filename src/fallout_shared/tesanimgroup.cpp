@@ -1,5 +1,6 @@
 // fallout_shared/tesanimgroup.cpp: TESAnimGroup, BSAnimGroupSequence, TESAnimGroupDestructionView, Holder (35 functions)
 
+#include <new>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
@@ -202,7 +203,6 @@ unsigned short FUN_0047d3b0_shell::FUN_0047d3b0()
 
 struct NiMemObjectAllocation
 {
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 
 struct TESAnimGroupDestructionView : public TESAnimGroup
@@ -322,8 +322,6 @@ struct UShortArg
 {
     unsigned short v;
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 // @fnv 0x005f2450
 void SetAnimGroupType(TESAnimGroup* self, UShortArg type)
@@ -351,7 +349,6 @@ void SetAnimGroupType(TESAnimGroup* self, UShortArg type)
 
 extern int DAT_010484e8;
 
-void __cdecl operator delete(void*);
 
 struct EBase
 {
@@ -626,8 +623,6 @@ struct TESFile
 
 struct TESAnimGroupEx : TESAnimGroup
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     TESAnimGroupEx(unsigned short sGroup);
 };
 

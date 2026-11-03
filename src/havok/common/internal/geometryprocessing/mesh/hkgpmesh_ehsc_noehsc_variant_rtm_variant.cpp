@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/common/internal/geometryprocessing/mesh/hkgpmesh.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/mesh/hkgpmesh.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -312,7 +313,7 @@ struct FUN_00d76ca0
         ((FUN_00d76ca0*)memory)->memorySize = (unsigned short)bytes;
         return memory;
     }
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         return allocate(FUN_00c85750().getHeap(), bytes);
     }
@@ -2025,10 +2026,6 @@ struct E24850Node
     E24850Node* m_next;
     E24850Node* m_pSecondNode;
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
     E24850Node(void* data);
 };
 struct E24850List
@@ -2962,10 +2959,6 @@ struct HullFloodTriangle
     int unk2c;
     int m_vis;
 };
-inline void* operator new(unsigned int, void* storage)
-{
-    return storage;
-}
 struct HullFloodEdge
 {
     HullFloodTriangle* m_node;
@@ -4257,7 +4250,7 @@ struct FUN_00e21e30
 // @fnv 0x00e21e30
     virtual ~FUN_00e21e30()
     {}
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         S_00e21e30_Router::FUN_00c85750().heap().ReleaseBlock(p, static_cast<int>(nbytes));
     }
@@ -4781,10 +4774,6 @@ struct ProbeObjectTag
 struct ProbePlacement
 {
 };
-inline void* operator new(unsigned size, ProbePlacement* p)
-{
-    return p;
-}
 template <class T> static __forceinline void ProbeCopyRange(T* destination, int count, const T& source, ProbeObjectTag)
 {
     for (int i = 0; i < count; ++i)

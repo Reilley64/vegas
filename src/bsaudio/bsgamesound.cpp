@@ -1,6 +1,7 @@
 #include <cstddef>
 // bsaudio/bsgamesound.cpp: BSGameSound, SoundView, AudioPathFixer (24 functions)
 
+#include <cstddef>
 #include <windows.h>
 #include <objbase.h>
 #include <cstring>
@@ -650,11 +651,6 @@ struct FUN_00aea730_Class : Sound
 {
     char data[96];
     FUN_00aea730_Class(int);
-    static void* operator new(std::size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((Heap*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*);
 };
 struct Desc
 {

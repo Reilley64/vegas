@@ -1,6 +1,7 @@
 #include <cstddef>
 // bshavok/bhkrigidbody_h_unit.cpp: WorldObject (4 functions)
 
+#include <cstddef>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CA8830Object.h"
 #include "fnv/decl/FNV_MemoryManager.h"

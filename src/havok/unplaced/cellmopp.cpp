@@ -155,7 +155,6 @@ unsigned char* FUN_00622570_Class::FUN_00622570(unsigned char aucValue)
 struct CellMopp_00621d90
 {
     void* Destroy(unsigned int flags);
-    static void operator delete(void* p, unsigned int size);
 };
 struct FUN_00622390_Class
 {
@@ -173,7 +172,6 @@ void* FUN_00622390_Class::FUN_00622390()
 struct FUN_00622440_Class
 {
     void* FUN_00622440(unsigned int flags);
-    static void operator delete(void* p, unsigned int size);
 };
 
 // @fnv 0x00622440
@@ -206,7 +204,6 @@ struct CellMopp_00621e80
 {
     void FUN_00621e80();
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00ca4da0
 {
     ~FUN_00ca4da0();

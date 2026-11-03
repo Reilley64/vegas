@@ -71,7 +71,6 @@ struct Base
 struct Node : Base
 {
     int unk08[14];
-    static void* operator new(unsigned int size) throw();
     Node() throw()
     {}
     virtual void vf();

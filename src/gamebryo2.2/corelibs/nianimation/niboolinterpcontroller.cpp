@@ -14,13 +14,12 @@
 #include "fnv/symbols_011f4000.h"
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiBlendInterpolator;
 // @fnv 0x00a57750
 NiBlendInterpolator* FUN_00a57750(int aiUnused, int aiArg, int aiUnused2, float a4, int a5)
 {
-    void* pMemory = BSFadeNode::operator new(0x34);
+    void* pMemory = ::operator new(0x34);
     if (pMemory)
         return ::ConstructBlendInterpolator((NiBlendInterpolator*)pMemory, aiArg, aiArg, a4, a5);
     return 0;
@@ -156,7 +155,7 @@ NiInterpolator* NiBoolInterpControllerShim::FUN_00a57710(int unused)
         int word;
     } value;
     GetPoseValue(value.flag);
-    S2* result = (S2*)BSFadeNode::operator new(0x18);
+    S2* result = (S2*)::operator new(0x18);
     if (result)
         return (NiInterpolator*)((void *)(new ((void *)(result)) class ::FUN_00a532d0(value.word)));
     return 0;

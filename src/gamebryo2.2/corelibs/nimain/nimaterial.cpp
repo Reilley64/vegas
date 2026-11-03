@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a8f860
+#include <new>
 #include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a9ba90_cls.h"
@@ -186,10 +187,6 @@ class NamedA8F9 : public NiRefObjectA8F9
         reinterpret_cast<::HashTableBase *>(((*reinterpret_cast<::RegistryA8F9 * *>(&::DAT_011f5e34))))->FUN_00aa0250((const unsigned int *)&(m_kName));
     }
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        FUN_00aa1460(pvMem, uiSize);
-    }
 
     NiFixedStringA8F9 m_kName;
 
@@ -202,7 +199,7 @@ NamedA8F9* NamedA8F9::FUN_00a8f9b0(unsigned int uiFlags)
 {
     this->NamedA8F9::~NamedA8F9();
     if (uiFlags & 1)
-        NamedA8F9::operator delete(this, sizeof(NamedA8F9));
+        ::operator delete(this, sizeof(NamedA8F9));
     return this;
 }
 
@@ -221,10 +218,6 @@ struct FUN_00a8f910
 
     void RemoveAll();
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A8F910MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 // Default constructor for a hash table object that holds a hash size and an array of pointers.

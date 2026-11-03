@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/fnv_00e3b0a0__FUN_00e3b0a0_cls.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d6f000.h"
@@ -325,10 +326,6 @@ struct hkMemoryRouterS
     int unk0c;
     hkMemoryAllocator* m_pStreamAllocator;
 };
-__forceinline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 struct hkInplaceIntArray32
 {
     int* m_data;

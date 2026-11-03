@@ -1,6 +1,7 @@
 #include "runtime/crt.h"
 
 #include <cerrno>
+#include <chrono>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -403,6 +404,25 @@ int access(const char* path, int mode)
         return -1;
     if ((mode & 2) != 0 && (status.permissions() & std::filesystem::perms::owner_write) == std::filesystem::perms::none)
         return -1;
+    return 0;
+}
+
+int stat(const char* path, FileStatus* status)
+{
+    std::error_code error;
+    std::uintmax_t size = std::filesystem::file_size(path, error);
+    if (error)
+        return -1;
+    std::filesystem::file_time_type modified = std::filesystem::last_write_time(path, error);
+    if (error)
+        return -1;
+    status->size = size;
+#if defined(_LIBCPP_VERSION) // libc++ has no clock_cast yet
+    auto written = std::chrono::file_clock::to_sys(modified);
+#else
+    auto written = std::chrono::clock_cast<std::chrono::system_clock>(modified);
+#endif
+    status->modified = std::chrono::floor<std::chrono::seconds>(written).time_since_epoch().count();
     return 0;
 }
 

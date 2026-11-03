@@ -2,6 +2,7 @@
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <cmath>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cbf000.h"
@@ -325,10 +326,6 @@ bool* CheckSubQueries(bool* result, void* key, Iface* self)
 }
 
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S_00ddeab0_Elem
 {

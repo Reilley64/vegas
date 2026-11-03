@@ -4,7 +4,6 @@
 
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_0059c000.h"
-extern void __cdecl operator delete(void*);
 struct HKPCloseStrayHitCollector
 {
     void* Destroy(unsigned int flags);

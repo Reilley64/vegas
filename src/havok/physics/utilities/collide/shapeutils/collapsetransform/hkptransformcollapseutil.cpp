@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -763,7 +764,7 @@ struct CollapseRefObject : hkBaseObject
 {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(std::size_t nbytes)
     {
         CollapseRefObject* b =
             static_cast<CollapseRefObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));

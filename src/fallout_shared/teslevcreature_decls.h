@@ -12,8 +12,6 @@
 #include "fnv/decl/TmpEndian.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class TESFileFormVersion
 {
   public:

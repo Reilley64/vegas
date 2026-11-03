@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/symbols_00d45000.h"
@@ -413,7 +415,7 @@ extern "C" D45480MemoryRouter& __cdecl FUN_00c85750();
 class D45480ReferencedObject
 {
   public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         D45480ReferencedObject* b =
             static_cast<D45480ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -1758,10 +1760,6 @@ void __cdecl FUN_00d45dd0(const S_00d45dd0_CdBody& bodyA, const S_00d45dd0_CdBod
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct __declspec(align(16)) Vector228
 {
     float x, y, z, w;
@@ -2031,10 +2029,6 @@ struct SpawnedObject : SpawnedBase
     virtual void v1();
 };
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 // Allocates a SpawnedObject via the holder's allocator, sets its size field to 0x14, and constructs it in place with the given arguments.
 // @fnv 0x00d45f30

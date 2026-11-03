@@ -2,6 +2,7 @@
 #ifndef SCREENCUSTOMSPLATTER_DECLS_H
 #define SCREENCUSTOMSPLATTER_DECLS_H
 
+#include <new>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
 #include "fnv/decl/FUN_004def90_Class.h"
@@ -72,8 +73,6 @@ class NiFrustum
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiExtraData;
 class NiFixedString;

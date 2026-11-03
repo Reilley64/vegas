@@ -37,8 +37,6 @@ class TESWeather__WeatherSound
     unsigned int type;
     TESWeather__WeatherSound();
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void* ptr);
 
 class TESImageSpaceModifiableCountForm_6_ : public BaseFormComponent
 {

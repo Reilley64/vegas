@@ -118,7 +118,6 @@ void DetectLifeEffect::FUN_0080d0e0()
 }  // namespace fnv_0080d0e0
 
 struct ActiveEffect;
-void* operator new(unsigned int size) throw();
 
 struct SpawnedEffect
 {
@@ -326,7 +325,6 @@ struct Actor80c
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_0081f580 : public NiMemObject
 {

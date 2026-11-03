@@ -1,5 +1,6 @@
 // bscore/bssimplearray_h_unit.cpp: PathOwner (1 function)
 
+#include <new>
 #include "fnv/decl/ArrQ0cd50.h"
 #include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -19,12 +20,6 @@
 #include "fnv/symbols_0106c000.h"
 #include "bssimplearray.h"
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 
 class TESForm
 {

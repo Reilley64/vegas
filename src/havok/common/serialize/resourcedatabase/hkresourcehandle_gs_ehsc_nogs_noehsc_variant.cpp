@@ -1048,10 +1048,6 @@ void __cdecl hkArrayUtil_reserveMore(hkMemoryAllocatorE2E* alloc, void* array, i
 template <class T> struct hkRefPtrE2E
 {
     T* m_pRetainedObject;
-    static void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
     __forceinline hkRefPtrE2E(T* e)
     {
         if (e)

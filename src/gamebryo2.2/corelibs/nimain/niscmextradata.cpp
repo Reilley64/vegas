@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00ee89a0
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_00aa1000.h"
@@ -18,7 +19,6 @@ struct FUN_00a7b300_shell
 {
     void FUN_00a7b300();
 };
-void __cdecl operator delete(void*, unsigned int);
 struct NiSCMExtraData
 {
     char _pad[36];

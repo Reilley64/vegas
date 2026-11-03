@@ -148,8 +148,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class bhkSphereShape : public NiMemObject
 {
@@ -236,8 +234,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 
 struct xMemObj
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* p, unsigned int);
 };
 class xSphereShape : public xMemObj
 {
@@ -1385,8 +1381,6 @@ struct __declspec(align(16)) xCinfo
 };
 struct xNiAlloc
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct xShape : xNiAlloc
 {
@@ -2680,7 +2674,6 @@ class NodeV
 
 struct SmoothEntryV
 {
-    static void* operator new(unsigned int uiSize);
     BodyV* m_pkBody;
     void* m_pvRef;
     float m_fTime;
@@ -2871,8 +2864,6 @@ class NodeV
 
 struct SmoothEntryV
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pv);
     BodyV* m_pkBody;
     void* m_pvRef;
     float m_fTime;
@@ -3045,8 +3036,6 @@ struct __declspec(align(16)) xCinfo
 };
 struct xNiAlloc
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct xShape : xNiAlloc
 {

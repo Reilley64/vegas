@@ -80,9 +80,6 @@ template <class Collection> class SettingT : public Setting
     static void EnsureCollection();
 };
 
-// These are declarations only. The pack identifies the real global allocator.
-void* __cdecl operator new(std::size_t size);
-void __cdecl operator delete(void* pointer);
 
 
 #endif

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysagedeathmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysagedeathmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
@@ -158,21 +159,16 @@ void NiPSysAgeDeathModifier::FUN_00c2f1a0(CloningProcess& kCloning)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00c32d80
 {
     FUN_00c32d80();
 };
 extern int DAT_010c03cc;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // @fnv 0x00c2f3a0
 FUN_00c32d80* __cdecl FUN_00c2f3a0()
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)::operator new(0x40);
     if (p)
     {
         new (p) FUN_00c32d80();
@@ -234,7 +230,7 @@ extern int DAT_010c0304;
 // @fnv 0x00c2f150
 NiPSysAgeDeathModifierClone* NiPSysAgeDeathModifierClone::FUN_00c2f150(CloningProcess& kCloning)
 {
-    NiPSysAgeDeathModifierClone* pkObject = (NiPSysAgeDeathModifierClone*)BSFadeNode::operator new(0x20);
+    NiPSysAgeDeathModifierClone* pkObject = (NiPSysAgeDeathModifierClone*)::operator new(0x20);
     if (pkObject)
     {
         pkObject->NiPSysPositionModifier::NiPSysPositionModifier();

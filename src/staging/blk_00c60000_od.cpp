@@ -2,6 +2,7 @@
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/decl/A5d470Class.h"
@@ -571,7 +572,6 @@ void FUN_00c65680_Class::FUN_00c65680()
 struct FUN_00c600c0_class
 {
     void* FUN_00c600c0(unsigned int flags);
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 
 // Calls FUN_00c5fd50, then frees this with operator delete when flags has bit 0 set, and returns this.
@@ -587,14 +587,13 @@ void* FUN_00c600c0_class::FUN_00c600c0(unsigned int flags)
 struct FUN_00c613a0_Class
 {
     void* FUN_00c617e0(unsigned int flags);
-    void operator delete(void* p, unsigned int size);
 };
 // @fnv 0x00c617e0
 void* FUN_00c613a0_Class::FUN_00c617e0(unsigned int flags)
 {
     reinterpret_cast<::C613A0_Extra *>((this))->C613A0_Extra::~C613A0_Extra();
     if (flags & 1)
-        this->operator delete(this, 20);
+        ::operator delete(this, 20);
     return this;
 }
 
@@ -628,7 +627,6 @@ struct FUN_00c632f0_class
 {
     void* FUN_00c632f0(unsigned int flags);
 };
-void __cdecl operator delete(void*, int);
 // @fnv 0x00c632f0
 void* FUN_00c632f0_class::FUN_00c632f0(unsigned int flags)
 {
@@ -671,7 +669,6 @@ void FUN_00c63970_class::FUN_00c63970(void* stream)
 }
 
 void __cdecl FUN_00c63b40(void* p);
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64610_Class
 {
     void FUN_00c63b40();
@@ -921,7 +918,6 @@ struct FUN_00c61b10
     char m_iWordAt00[0x6c];
     FUN_00c61b10();
     ~FUN_00c61b10();
-    static void* operator new(unsigned int size);
 };
 // Allocates and constructs a new FUN_00c61b10 object, returning the pointer.
 // @fnv 0x00c61e70
@@ -1175,7 +1171,6 @@ bool FUN_00c60a10_Class::FUN_00c60a10(NiObject* pObject)
     return false;
 }
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00c60d10_Class
 {
@@ -1193,7 +1188,6 @@ void* FUN_00c60d10_Class::FUN_00c60d10(unsigned int flags)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
@@ -1248,7 +1242,6 @@ extern unsigned int _data_011c16bc;
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct FUN_00c61bc0_class
@@ -1283,7 +1276,6 @@ void FUN_00c63900_class::LoadModifierData(NiStream& stream)
     ::FUN_00a26df0((::MyStream *)&(stream), (void *)&(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x20)));
 }
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00c31750_Class
 {
@@ -1309,7 +1301,6 @@ extern unsigned int _data_011c16bc;
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct FUN_00c63ab0 : A51BF0Base
@@ -1357,7 +1348,6 @@ struct A51BF0Base : public NiAVObject
 {
     char m_ucUnknownByte[0x40];
 
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct FUN_00c63ab0 : public A51BF0Base
@@ -1433,7 +1423,6 @@ FUN_0043ba10_shell* FUN_00c64dc0_Class::FUN_00c64dc0(unsigned int a)
     return reinterpret_cast<::FUN_0043ba10_shell *>(&(m_iWordAt04))->FUN_0043ba10((::FUN_0043ba10_shell *)(a));
 }
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00c64e70_Class
 {
@@ -1456,10 +1445,6 @@ struct SpawnedObject_b9118
 {
     char m00[0x60];
     SpawnedObject_b9118();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // Allocates and constructs a SpawnedObject_b9118 via its custom operator new and returns the pointer.
@@ -1837,10 +1822,6 @@ struct ParticlePositionClone : FUN_00c63330
     ParticleVector3 previousPosition;
     float lastUpdateTime;
 
-    static __forceinline void* __cdecl operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct FUN_00c637b0_Class : FUN_00c63840_Class
 {
@@ -1861,10 +1842,6 @@ struct PositionModifierObject_b9439
 {
     char m00[0x3c];
     PositionModifierObject_b9439();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 // Allocates and constructs a PositionModifierObject_b9439 via its custom operator new and returns the pointer.
 // @fnv 0x00c63880
@@ -2267,8 +2244,6 @@ class NiObjectC60
     NiObjectC60();
     virtual ~NiObjectC60();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -3085,8 +3060,6 @@ void S_00c648a0::FUN_00c648a0(S_00c648a0_Stream* apStream)
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* memory);
 };
 
 struct FUN_00c64de0 : NiAVObject, BSFaceGenMorphData

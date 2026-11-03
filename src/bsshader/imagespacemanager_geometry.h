@@ -29,8 +29,6 @@ class NiScreenElementsData : public NiObject
 {
   public:
     char padding[0x70 - 8];
-    static void* operator new(std::size_t) throw();
-    static void operator delete(void*);
     NiScreenElementsData(bool, bool, unsigned short, int, int, int, int, int, int);
 public:
     bool SetRectangle(int, float, float, float, float);
@@ -47,8 +45,6 @@ class NiScreenElements : public NiAVObject
     char padding[0xb8 - 8];
     NiScreenElementsData* data;
     char tail[8];
-    static void* operator new(std::size_t) throw();
-    static void operator delete(void*);
     NiScreenElements(NiScreenElementsData*);
     NiScreenElementsData* GetData()
     {

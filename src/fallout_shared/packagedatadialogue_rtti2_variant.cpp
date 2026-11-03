@@ -161,7 +161,6 @@ struct ConstructorHost
     ConstructorHost* Construct(float initial, unsigned int object, PairOfBytes flags, float scale,
                                unsigned char enabled, unsigned int reference);
 };
-void* __cdecl operator new(unsigned int);
 class TESForm;
 class BGSLoadFormBuffer
 {

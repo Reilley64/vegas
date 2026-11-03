@@ -5,6 +5,7 @@
 
 // src/havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/hkaabbtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/BuildTree.h"
 #include "fnv/decl/FUN_00d9a4d0_Class.h"
 #include "fnv/decl/S_00d9af30.h"
@@ -345,7 +346,6 @@ struct FUN_00d9c110_cls {
     hkVector4 m70;
     FUN_00d9c110_cls();
 };
-inline void* operator new(unsigned int, void* p) { return p; }
 template <class T> struct hkArray_d9c4 {
     T* m_data;
     int m_iElementCount;

@@ -1459,12 +1459,6 @@ struct FUN_00b7e330 : Object
     unsigned int unk3c;
     unsigned int unk40;
     FUN_00b7e330(void*, unsigned int);
-    static __forceinline void* operator new(std::size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static __forceinline void operator delete(void*)
-    {}
 };
 extern bool DAT_01201f28;
 extern char DAT_01031334[];

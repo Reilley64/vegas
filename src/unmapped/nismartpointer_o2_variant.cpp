@@ -4,6 +4,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/FUN_00a311e0_s.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00e80000.h"
@@ -39,10 +40,6 @@ struct Block
     }
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct ElemPtrArray
 {

@@ -36,7 +36,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern int DAT_0109ff64;
@@ -44,7 +43,7 @@ extern int DAT_0109ff64;
 // @fnv 0x00a93870
 void* __cdecl FUN_00a93870()
 {
-    void* p = BSFadeNode::operator new(0x18);
+    void* p = ::operator new(0x18);
     if (p)
     {
         NiExtraData* pExtra = static_cast<NiExtraData*>(p);
@@ -402,10 +401,6 @@ struct SSE_Node : NiExtraData
     void* m_vtbl;
     unsigned int unk04, unk08, unk0C, unk10;
     int unk14;
-    static void* operator new(unsigned int size)
-    {
-        return BSFadeNode::operator new(size);
-    }
     SSE_Node() throw()
     {
         reinterpret_cast<::ExtraDataObject *>(this)->FUN_00a7b2e0();

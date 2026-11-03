@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobject_ob1_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/tesobject.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
 
+#include <new>
 #include <cstdio>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSXFlags_shell.h"
@@ -57,13 +58,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "tesobject_decls.h"
 
-void __cdecl operator delete(void* _Ptr) throw();
-inline void* operator new(unsigned int, void* _Where) throw()
-{
-    return _Where;
-}
-inline void operator delete(void*, void*) throw()
-{}
 namespace skac53 {
 void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);

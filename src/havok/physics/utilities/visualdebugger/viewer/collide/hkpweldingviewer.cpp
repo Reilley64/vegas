@@ -332,7 +332,6 @@ struct FUN_00d62ec0_cls
     void FUN_00d62720();
 
     FUN_00d62ec0_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00d62720, then if acFlags bit 0 is set frees this via the audio allocator with m_uSize and returns this.

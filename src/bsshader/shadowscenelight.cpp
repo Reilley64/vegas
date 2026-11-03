@@ -395,8 +395,6 @@ struct NiGlobalStringTable
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(std::size_t);
-    static void __cdecl operator delete(void*);
     unsigned char pad[0xc4];
 };
 struct FUN_00a74480 : BSFadeNode
@@ -1567,8 +1565,6 @@ struct ShadowObject : NiAVObject
 };
 struct NiMemObjectAllocation
 {
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 struct ShadowLight : ShadowObject
 {

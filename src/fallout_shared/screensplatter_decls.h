@@ -3,6 +3,8 @@
 #define FNV_SCREENSPLATTER_PRIVATE_H
 
 
+#include <new>
+#include <cstddef>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
 #include "fnv/decl/FUN_004def90_Class.h"
@@ -50,7 +52,7 @@ class FUN_00622c80
 {
   public:
     unsigned char data[0x3b0];
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void*);
     FUN_00622c80(float value, unsigned int id);
 };
@@ -95,8 +97,6 @@ class NiRenderer;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 class FUN_00a712f0 : public NiMemObject

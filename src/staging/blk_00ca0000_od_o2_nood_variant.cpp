@@ -1,5 +1,6 @@
 // staging/blk_00ca0000_od_o2_nood_variant.cpp: Picker_ca3b, TriMeshShape, VecOwnerAB, CacObj and more (15 functions)
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -1220,7 +1221,7 @@ struct F7_Shape
     F7_Vec unk10;
     F7_Vec v20, v30, v40, v50, v60, v70, v80, v90, va0;
     F7_Shape();
-    static void* operator new(unsigned int amount)
+    static void* operator new(std::size_t amount)
     {
         void* r = FUN_00c85750()->heap().alloc(amount);
         ((F7_Shape*)r)->size = (unsigned short)amount;

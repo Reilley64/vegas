@@ -1543,7 +1543,6 @@ void FUN_005eb0e0_shell::FUN_005eb0e0()
 }
 
 namespace fnv_005e9940 {
-void* __cdecl operator new(unsigned int);
 extern unsigned int _data_011c16bc;
 
 struct FUN_005e9800
@@ -1588,7 +1587,6 @@ BGSPerkEntry* FUN_005e9800::Clone()
 }  // namespace fnv_005e9940
 
 namespace fnv_005ea3a0 {
-void* __cdecl operator new(unsigned int);
 
 extern unsigned int _data_011c16bc;
 

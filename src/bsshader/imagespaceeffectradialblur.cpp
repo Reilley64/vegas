@@ -48,14 +48,6 @@ struct S_00b5a4a0_EffectParam
 struct S_00b5a4a0_Param : S_00b5a4a0_EffectParam
 {
     S_00b5a4a0_Param();
-    static void* operator new(std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00b5a4a0_MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        (*reinterpret_cast<::S_00b5a4a0_MM *>(&::g_memoryManager)).Deallocate(p);
-    }
     int unk4;
     int unk8;
     int unkC;

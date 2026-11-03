@@ -2,6 +2,7 @@
 // src/fallout_shared/sky/atmosphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/sky/atmosphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSMultiBoundRoom.h"
@@ -169,11 +170,11 @@ struct AtmoNode
 
     int unk04[0xac / 4 - 1];
     AtmoNode(int iChildren);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }
-    static void operator delete(void* pvMem, unsigned int)
+    static void operator delete(void* pvMem, std::size_t)
     {
         AtmoFree(pvMem);
     }

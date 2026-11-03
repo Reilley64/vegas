@@ -79,14 +79,6 @@ struct ImageSpaceParamArrayX
 struct ImageSpaceShaderParamX : ImageSpaceShaderParam
 {
     ImageSpaceShaderParamX();
-    static void* operator new(std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* pointer)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
-    }
 };
 struct ImageSpaceEffectX : ImageSpaceEffect
 {

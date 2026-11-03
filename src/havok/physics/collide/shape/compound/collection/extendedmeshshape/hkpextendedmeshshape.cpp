@@ -160,10 +160,6 @@ struct S_00d56880_Router
     }
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S_00d56880_Elem
 {

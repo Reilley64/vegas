@@ -1,6 +1,7 @@
 #include <cstddef>
 // bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
 
+#include <cstddef>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/AAF40Updater.h"
@@ -232,7 +233,6 @@ void FUN_00ba9230(void** self, int)
 
 struct BSFadeNode
 {
-    static void* operator new(std::size_t);
 };
 struct FUN_00ba8e50 : BSFadeNode
 {
@@ -557,10 +557,6 @@ struct G4_bacd00
 struct Elem_bacd00
 {
     float f[4];
-    static void* operator new[](std::size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(s);
-    }
 };
 struct FUN_00bacd00 : BSShader
 {

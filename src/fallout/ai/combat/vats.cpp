@@ -485,7 +485,6 @@ void FUN_009c9a50_shell::SetLight(NiLight* apLight, bool abClear)
     }
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_009b4d90
 {

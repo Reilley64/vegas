@@ -240,7 +240,6 @@ struct MLPointLight
     int unk0F4;
     int unk0F8;
 
-    static void* __cdecl operator new(unsigned int auiSize);
     MLPointLight();
     void SetAttenuation(const MLPoint3& arAttenuation);
 };

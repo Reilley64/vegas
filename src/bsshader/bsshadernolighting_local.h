@@ -25,8 +25,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 #endif
 #include "NiObject.h"

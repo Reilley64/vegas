@@ -1,6 +1,7 @@
 
 // to their real unit once identified.
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
@@ -77,7 +78,6 @@ struct RendererPacketEntry
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class GraphicsRenderer : public NiMemObject
 {
@@ -2223,7 +2223,6 @@ class NiRefObject
 class NiPixelData : public NiRefObject
 {
   public:
-    static void* operator new(unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
     int unk08;
     int unk0c;
@@ -4853,10 +4852,6 @@ class E6EC20Cache
   public:
     ~E6EC20Cache();
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        operator_delete_sized(pvMem, uiSize);
-    }
 
     int unk00;
     int unk04;
@@ -9397,14 +9392,6 @@ struct ShaderD3DDevice
 struct ShaderMemMgr
 {
 };
-inline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
 struct ShaderVertexElement
 {
     unsigned short Stream;
@@ -9665,10 +9652,6 @@ class E7A6A0Bucket
         m_kEntries.RemoveAll();
     }
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        operator_delete_sized(pvMem, uiSize);
-    }
 
     int m_iKey;
     E7A6A0Array<E7A6A0Entry*> m_kEntries;
@@ -13791,11 +13774,6 @@ struct Node
 
     Node* m_next;
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-
-        operator_delete_sized(pvMem, uiSize);
-    }
 };
 void* NiMalloc(unsigned int);
 struct RendererBase
@@ -14969,10 +14947,6 @@ struct ShaderProgram;
 
 struct ShaderEntry
 {
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     ShaderEntry(unsigned int id, int target, int type, const ShaderName& name, const char* libraryName, int a2, int a3,
                 int a5, int a4) throw();
     int unk00;

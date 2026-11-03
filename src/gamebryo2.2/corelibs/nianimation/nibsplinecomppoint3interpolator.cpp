@@ -174,7 +174,6 @@ class CloningProcessA513;
 const float DAT_01099a1c = 3.402823466e+38f;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 class FUN_00a506c0
@@ -201,10 +200,6 @@ class ObjA513 : public FUN_00a506c0
     {}
     virtual ~ObjA513() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 
     float m_2c;
     float m_30;
@@ -256,10 +251,6 @@ struct Pair
 struct Comp4 : Base506
 {
     Pair m_pair;
-    static void* operator new(unsigned int bytes) throw()
-    {
-        return FUN_00aa13e0(bytes);
-    }
     Comp4() throw() : Base506(0, 0xffff, 0)
     {}
 };

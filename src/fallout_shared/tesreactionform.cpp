@@ -43,7 +43,6 @@
 #include "fnv/symbols_011de000.h"
 #include "tesreactionform_decls.h"
 
-void __cdecl operator delete(void* pointer);
 
 static const int kInitializeDataComponentValue1 = 8;
 
@@ -285,8 +284,6 @@ FUN_0048ba70::~FUN_0048ba70()
     ((TESReactionForm*)(void*)this)->ClearComponent();
 }
 
-void __cdecl operator delete(void*);
-void* __cdecl operator new(unsigned int);
 struct ReactionEntry
 {
     unsigned int formID;

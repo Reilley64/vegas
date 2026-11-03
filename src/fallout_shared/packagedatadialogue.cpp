@@ -268,7 +268,6 @@ ConstructorHost* ConstructorHost::Construct(float initial, unsigned int object, 
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 
 class TESForm;
 

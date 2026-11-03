@@ -5,6 +5,7 @@
 
 // src/staging/blk_00e00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "../../include/layout_support.h"
 extern int DAT_010305a8;
 extern int DAT_010c749c;
@@ -492,10 +493,6 @@ class E00390Object
   public:
     E00390Object(E00390FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 void FUN_00e00390(void* p, int finishing);
 struct S_00e003d0_Arr
@@ -920,10 +917,6 @@ extern int DAT_010ce4bc;
 void* FUN_00e00b30();
 extern int g_unk0126df40;
 void* __cdecl FUN_00e00b50();
-inline void* operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 struct E00B60FinishFlag
 {
     int m_bFinishing;

@@ -1976,10 +1976,6 @@ struct SubVec
     int v08;
     void SwapThreeInts(Arr8* a);
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct Entry52
 {
     Triple first;

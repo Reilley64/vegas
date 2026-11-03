@@ -2,6 +2,7 @@
 // src/staging/blk_00ac0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -795,13 +796,6 @@ struct FUN_00ac1720_pool
 };
 
 
-struct FUN_00ac1720_err
-{
-    void* m_vptr;
-    unsigned int unk04;
-    unsigned int unk08;
-    void FUN_00ec78f1(unsigned int* out);
-};
 
 // Validates count, reports an error if count*4 would overflow, then allocates count*4 bytes from the pool.
 // @fnv 0x00ac1720
@@ -815,11 +809,7 @@ void __cdecl FUN_00ac1720(unsigned int count)
     {
         if (0xffffffffu / count < 4)
         {
-            unsigned int tmp = 0;
-            FUN_00ac1720_err err2;
-            err2.FUN_00ec78f1(&tmp);
-            err2.m_vptr = DAT_010176f8;
-            FUN_00ec7894(&err2, DAT_01140ef8);
+            throw std::bad_alloc();
         }
     }
     reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00ac1720_pool *>(&::g_memoryManager))))->FUN_00aa3e40(count * 4);
@@ -3297,14 +3287,7 @@ void* __cdecl FUN_00ad5310(unsigned int n)
     {
         if (0xFFFFFFFFu / n < 0x1c)
         {
-            int o;
-            void* obj;
-            int p;
-            int w;
-            o = 0;
-            ((FUN_0044d6c0_class*)&obj)->FUN_00ec78f1((void***)&o);
-            obj = (void*)&(*reinterpret_cast<void * *>(&::DAT_010176f8));
-            _CxxThrowException(&obj, (_ThrowInfo*)0x1140ef8);
+            throw std::bad_alloc();
         }
     }
     return ::FUN_00401000(n * 0x1c);
@@ -4283,10 +4266,7 @@ void* __cdecl AllocateCountedBlocks(unsigned int count)
     }
     else if (0xFFFFFFFFu / count < 0x18)
     {
-        zero = 0;
-        err3.FUN_00ec78f1(&zero);
-        err3.m_vptr = DAT_010176f8;
-        FUN_00ec7894(&err3, DAT_01140ef8);
+        throw std::bad_alloc();
     }
     return FUN_00401000(count * 0x18);
 }
@@ -5070,7 +5050,6 @@ void __cdecl FUN_00ac1600(Rec_00ac1600* begin, Rec_00ac1600* end, const Rec_00ac
 }
 
 
-void __cdecl operator delete(void* pv);
 
 struct S00ace060_Obj
 {

@@ -3,6 +3,7 @@
 #define FNV_TILEIMAGE_PRIVATE_H
 #include <cstddef>
 
+#include <new>
 #include <windows.h>
 #include <stddef.h>
 #include "fnv/decl/FUN_004bc320_shell.h"
@@ -151,8 +152,6 @@ class GlobalObject_00633c90
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*, std::size_t);
 };
 class BSTextureSet : public NiMemObject
 {

@@ -46,7 +46,6 @@
 
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class exception

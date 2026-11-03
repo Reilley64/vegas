@@ -5,6 +5,7 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CCA1B0Level2.h"
@@ -1008,10 +1009,6 @@ struct SpawnedObject
         m_vtbl = (void*)"@$b";
         DAT_0126834c++;
     }
-    void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00cb05d0_cls
@@ -1156,13 +1153,13 @@ struct S00cb0820_Ref
     void* m_vtbl;
     unsigned short m_usAllocationSize;
     short m_iObjectReferenceCount;
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
         S00cb0820_Ref* b = (S00cb0820_Ref*)((S00cb0820_Mem*)FUN_00c85750())->heap().Alloc(size);
         b->m_usAllocationSize = (unsigned short)size;
         return b;
     }
-    void operator delete(void* p, unsigned int size);
+    void operator delete(void* p, std::size_t size);
 };
 
 struct S00cb0820_Src

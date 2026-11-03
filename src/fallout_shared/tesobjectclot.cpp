@@ -104,7 +104,6 @@ struct FUN_005155b0_shell
 {
 };
 
-void __cdecl operator delete(void*);
 
 struct FUN_00515580_shell
 {

@@ -1,6 +1,7 @@
 #ifndef PATHINGREQUEST_DECLS_H
 #define PATHINGREQUEST_DECLS_H
 
+#include <new>
 #include "fnv/decl/FUN_006dc910_shell.h"
 #include "fnv/decl/FUN_009344a0_shell.h"
 #include "fnv/decl/FUN_009611e0_shell.h"
@@ -60,8 +61,6 @@ class PathingAvoidNodeArray
     void FUN_006e3960();
     void FUN_006e39d0();
 
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 extern unsigned char DAT_0106d1d8;
 extern unsigned char DAT_0106d1e4;

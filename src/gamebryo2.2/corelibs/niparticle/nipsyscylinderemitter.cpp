@@ -26,7 +26,6 @@ void NiPSysCylinderEmitter::LoadBinary(NiStream& stream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern void* DAT_010bd8b4;
@@ -34,7 +33,7 @@ extern void* DAT_010bd8b4;
 // @fnv 0x00c1fbf0
 void* __cdecl FUN_00c1fbf0()
 {
-    BSFadeNode* pFadeNode = (BSFadeNode*)BSFadeNode::operator new(0x60);
+    BSFadeNode* pFadeNode = (BSFadeNode*)::operator new(0x60);
     if (pFadeNode)
     {
         new ((void *)(pFadeNode)) ::FUN_00c31af0();
@@ -71,7 +70,7 @@ struct FUN_00c1fba0_shell : BSFadeNode
 // @fnv 0x00c1fba0
 BSFadeNode* FUN_00c1fba0_shell::CloneFadeNode(CloningProcess& kCloning)
 {
-    BSFadeNode* pkObject = (BSFadeNode*)BSFadeNode::operator new(0x60);
+    BSFadeNode* pkObject = (BSFadeNode*)::operator new(0x60);
     if (pkObject)
     {
         new ((void *)(pkObject)) ::FUN_00c31af0();

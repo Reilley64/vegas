@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/hkpconstraintinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cb0a60.h"
@@ -436,7 +437,7 @@ struct FUN_00cb0c10_s
 class FUN_00cf3ea0 : public hkpConstraintInstance
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         void* p = FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         ((unsigned short*)p)[2] = (unsigned short)uiSize;

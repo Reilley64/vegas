@@ -10,8 +10,6 @@
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 class ShadowSceneLight;
 class CloningProcess;

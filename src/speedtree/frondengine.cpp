@@ -571,7 +571,6 @@ int FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
     return uiIndex * 24 + m_iThirdValue;
 }
 
-void __cdecl operator delete(void*);
 
 
 struct FUN_00b1ff50
@@ -668,7 +667,6 @@ void FUN_00b1fe80_helper::FUN_00b1fe80()
     m14 = 0;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_00b20c30_class
 {
@@ -954,7 +952,6 @@ struct FUN_00ec78f1_t
     int m4;
     void* FUN_00ec78f1(int* out);
 };
-void* __cdecl operator new(std::size_t);
 
 // Clamps n to 0 when not positive, reports an error if n exceeds the max element count, then allocates n*0x38 bytes.
 // @fnv 0x00b23980
@@ -967,13 +964,7 @@ void* __cdecl FUN_00b23980(unsigned int n)
     {
         if (-1u / n < 0x38)
         {
-            FUN_00ec78f1_t o;
-            {
-                int zero = 0;
-                o.FUN_00ec78f1(&zero);
-            }
-            o.m0 = (unsigned int)&(*reinterpret_cast<int *>(&::DAT_010176f8));
-            throw o;
+            throw std::bad_alloc();
         }
     }
     return ::FUN_00401000(n * 0x38);
@@ -1251,8 +1242,6 @@ bool Pool_00b1f920::FUN_00b1f920(unsigned int aiNodeCount)
     return true;
 }
 
-void* __cdecl operator new(std::size_t);
-void __cdecl operator delete(void*);
 struct FUN_0044d6c0_class
 {
     void* m_iWordAt00;
@@ -1270,12 +1259,7 @@ void* __cdecl FUN_00b23aa0(unsigned int n)
     {
         if (-1 / n < 24)
         {
-            void** z0;
-            FUN_0044d6c0_class e2;
-            z0 = 0;
-            e2.FUN_00ec78f1(&z0);
-            e2.m_iWordAt00 = &(*reinterpret_cast<int *>(&::DAT_010176f8));
-            throw e2;
+            throw std::bad_alloc();
         }
     }
     return ::FUN_00401000(n * 0x18);
@@ -1706,13 +1690,6 @@ FUN_00b18970::FUN_00b18970()
 }  // namespace fnv_00b18970
 
 namespace fnv_00b23bb0 {
-struct AllocationException
-{
-    unsigned int vtable;
-    unsigned int reserved1;
-    unsigned int reserved2;
-    void FUN_00ec78f1(unsigned int* value);
-};
 
 // Allocates a 12-byte-per-element array of count items, throwing AllocationException on overflow.
 // @fnv 0x00b23bb0
@@ -1722,11 +1699,7 @@ void* __cdecl FUN_00b23bb0(unsigned int count)
         count = 0;
     else if (0xffffffffu / count < 12)
     {
-        unsigned int empty = 0;
-        AllocationException exception;
-        exception.FUN_00ec78f1(&empty);
-        exception.vtable = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010176f8));
-        throw exception;
+        throw std::bad_alloc();
     }
     return ::FUN_00401000(count * 12);
 }
@@ -2676,7 +2649,6 @@ FUN_00b16890_It& FUN_00b16890_It::FUN_00b16890(int _Off)
     return *this;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 
 extern int DAT_010173f0;
 

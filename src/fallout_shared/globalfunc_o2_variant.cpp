@@ -1,5 +1,6 @@
 // fallout_shared/globalfunc_o2_variant.cpp: Holder, SearchObject, ObjectCandidate, BeamPassShader and more (34 functions)
 
+#include <cstddef>
 #include <windows.h>
 // src/fallout_shared/globalfunc_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/globalfunc.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
@@ -1864,8 +1865,6 @@ class bhkRefObject
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 
 class RefObjC86D : public TESObjectDoorController
@@ -1906,10 +1905,6 @@ class AllocatedNode
     int unk08;
     int unk0c;
 
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
 
     AllocatedNode()
     {
@@ -2121,7 +2116,7 @@ struct MemoryManager7100
 class __declspec(align(16)) Aligned7100
 {
   public:
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         unsigned char* pucMem = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManager7100 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize + 0x10);
         unsigned char ucOffset = (unsigned char)(0x10 - ((unsigned int)pucMem & 0xf));
@@ -2528,7 +2523,7 @@ struct Node6b3c0
     Node6b3c0* m_next;
     Node6b3c0(const RefPtr6b3c0& ptr) : m_ptr(ptr), m_next(0)
     {}
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return g_memoryManager6b3c0.Allocate(size);
     }

@@ -4,6 +4,7 @@
 
 // src/havok/physics/utilities/weapons/hkpballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -155,7 +156,7 @@ struct FUN_00cb0c10
 };
 struct FUN_00e46e80
 {
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
     }
@@ -269,7 +270,7 @@ class hkBoolResult
 struct hkpShapeBase : public hkReferencedObject
 {
 
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(std::size_t nbytes)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);

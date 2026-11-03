@@ -37,8 +37,6 @@ class BGSTerminal;
 class TerminalMenuItem;
 class ScriptVariableInfo;
 class ScriptReferencedObject;
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 template <class T> class BSStringT
 {
   public:

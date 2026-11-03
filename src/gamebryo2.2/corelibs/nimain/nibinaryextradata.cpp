@@ -25,7 +25,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
 };
 
 extern int DAT_0102e394;
@@ -33,7 +32,7 @@ extern int DAT_0102e394;
 // @fnv 0x00a7f8e0
 void* __cdecl FUN_00a7f8e0()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)p)))->FUN_00a7b2e0();
@@ -412,8 +411,6 @@ struct CloningProcess;
 class A7F920ExtraData
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* p);
 
     __declspec(nothrow) A7F920ExtraData();
     virtual void vfunc00();

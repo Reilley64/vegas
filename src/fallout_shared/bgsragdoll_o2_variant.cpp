@@ -34,7 +34,6 @@ class TESFormInitFlag
 {
   public:
 };
-void __cdecl operator delete(void*);
 class BGSBodyPartData : public TESForm
 {
 };

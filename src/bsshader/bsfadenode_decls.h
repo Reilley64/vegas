@@ -15,8 +15,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 class NiRefObject : public NiMemObject
 {
@@ -92,11 +90,6 @@ class NiFixedString
   public:
     char* m_kHandle;
     NiFixedString(const char* s);
-    static void* operator new(std::size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*);
 };
 
 

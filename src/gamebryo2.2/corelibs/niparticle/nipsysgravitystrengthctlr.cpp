@@ -104,8 +104,6 @@ class C2A8C0Base
   public:
     C2A8C0Base() throw();
     virtual ~C2A8C0Base();
-    static void* operator new(unsigned int uiSize) throw();
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;

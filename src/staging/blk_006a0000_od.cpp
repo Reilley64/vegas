@@ -1325,7 +1325,6 @@ FUN_006a8700_Class* FUN_006a8700_Class::FUN_006a8700()
     return this;
 }
 
-void* __cdecl operator new(unsigned int, void*);
 struct FUN_006a8a30_class
 {
     void FUN_006a8a30(int base, unsigned int count);
@@ -3575,20 +3574,12 @@ struct PendingItem
     int m_iWordAt00;
     int m_iWordAt04;
     PendingItem();
-    void* operator new(unsigned int size, void* where);
-    void operator delete(void* p, void* where);
 };
 
 PendingItem::PendingItem()
 {}
 
-void* PendingItem::operator new(unsigned int size, void* where)
-{
-    return where;
-}
 
-void PendingItem::operator delete(void* p, void* where)
-{}
 
 // Constructs b PendingItem objects in place in the array at a.
 // @fnv 0x006a23a0
@@ -3631,7 +3622,6 @@ FUN_006a2500_cls::FUN_006a2500_cls()
     FUN_006b3eb0(0, 0);
 }
 
-void __cdecl operator delete(void*, void*);
 
 struct S_006a26d0_Item
 {
@@ -3848,8 +3838,6 @@ struct ImageSpaceEffectParam
     ImageSpaceEffectParam(float a, float b, float c, float d);
 };
 
-void operator delete(void*, void*)
-{}
 
 // @fnv 0x006a68f0
 void FUN_006a69b0_Class::ConstructParams(int aiBaseAddress, int aiCount)
@@ -4160,8 +4148,6 @@ struct FUN_006b3fd0_cls
     unsigned int FUN_006b3fd0();
 };
 
-void* operator new(unsigned int uiSize, void* pvWhere);
-void operator delete(void* pvMem, void* pvWhere);
 
 class C6B40F0Element
 {
@@ -7257,12 +7243,6 @@ bool PathTriangleCheck::FUN_006bec40(PathNode* pNodeA, PathNode* pNodeB, PathNod
 }
 
 namespace fnv_006bf3c0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 
 class FUN_006bf3c0_cls
 {
@@ -7393,7 +7373,6 @@ void Graph006bdf50::JoinAdjacentEdges()
     }
 }
 
-void operator delete(void*, void*);
 
 // Allocates 0x30 bytes from m_0c and placement-constructs a FUN_006bf4d0_obj with a1, a2, a3, returning the new object.
 // @fnv 0x006bf4d0
@@ -7570,7 +7549,6 @@ struct FUN_006a1720_class
     void FUN_006a1720(unsigned int requested, bool shrink);
 };
 
-void* __cdecl operator new(unsigned int size, void* placement);
 struct FUN_006a14b0
 {
     unsigned int unk00;
@@ -12815,8 +12793,6 @@ namespace PathDebugRender {
 
 struct DbgObject
 {
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem, unsigned int);
     void FUN_00441130(int aiFlag, int aiValue);
 };
 
@@ -13595,8 +13571,6 @@ void FUN_006bf870_class::FUN_006bf870()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(this)))->Clear(true);
 }
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 
 struct B6BFDD0Entry
 {

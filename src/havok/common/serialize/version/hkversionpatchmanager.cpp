@@ -2,6 +2,7 @@
 // src/havok/common/serialize/version/hkversionpatchmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionpatchmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/CB1BC0Map.h"
@@ -478,10 +479,6 @@ int OwnerClass::CallHelperWithDefaults(int first, int second)
 class BDBA270Allocator;
 
 
-inline void* __cdecl operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
 
 struct BDBA270Element
 {
@@ -812,7 +809,7 @@ struct DB85E0Impl
 {
     ~DB85E0Impl();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         fnvc_adapt::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -920,7 +917,7 @@ extern "C" DBA1E0MemoryRouter& __cdecl FUN_00c85750();
 class DBA1E0ReferencedObject
 {
   public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         DBA1E0ReferencedObject* b =
             static_cast<DBA1E0ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));

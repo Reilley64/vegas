@@ -250,10 +250,6 @@ void FUN_00ba8be0(BSSP_stub* self, int, int arg)
 struct AllocElem
 {
     int v;
-    static void* operator new[](std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 struct BSSP_stub2
 {
@@ -342,14 +338,6 @@ void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, int iA, int iB, int i
 struct S_00ba8c50_Slot
 {
     ShadowSceneLight* light;
-    static void* operator new[](std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 // Grows the light array to numLights if needed, then stores numLights and copies the variadic ShadowSceneLight pointers into it.
@@ -794,10 +782,6 @@ struct FUN_00ba8e20
     void* m_p;
     FUN_00ba8e20();
     virtual ~FUN_00ba8e20();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 // Default constructor for FUN_00ba8e20; performs no initialization.
 // @fnv 0x00ba8e20

@@ -595,8 +595,6 @@ struct Node90
     int unk0a4;
     int unk0a8;
     Node90(int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Pointer90
 {
@@ -2811,8 +2809,6 @@ struct InputMenu
     void ClearField();
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct FUN_0096a2d0
 {
     BJCard* item;

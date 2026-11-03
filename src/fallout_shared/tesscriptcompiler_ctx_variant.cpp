@@ -29,7 +29,6 @@
 #include "fnv/symbols_011de000.h"
 #include "tesscriptcompiler_packet_decls.h"
 
-void* __cdecl operator new(unsigned int);
 class TESForm
 {
   public:

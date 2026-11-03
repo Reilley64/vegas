@@ -332,8 +332,6 @@ struct FUN_00bcaff0_shell : public TileShader
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(std::size_t);
-    static void __cdecl operator delete(void*);
 };
 struct NiD3DShaderConstantMap : public BSFadeNode
 {
@@ -574,7 +572,6 @@ bool FUN_00bca6c0_shell::FUN_00bca6c0()
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(std::size_t size);
 };
 
 struct NiD3DVertexDeclaration

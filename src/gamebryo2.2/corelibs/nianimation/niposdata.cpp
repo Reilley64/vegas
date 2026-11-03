@@ -54,7 +54,6 @@ void NiPosData::LoadBinary(NiStream& stream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct BaseUnk
 {
@@ -71,7 +70,7 @@ struct Derived : BaseUnk
 // @fnv 0x00a49020
 Derived* FUN_00a49020()
 {
-    Derived* p = (Derived*)BSFadeNode::operator new(sizeof(Derived));
+    Derived* p = (Derived*)::operator new(sizeof(Derived));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5d3a0();

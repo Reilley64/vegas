@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/FUN_00de1fc0.h"
@@ -417,7 +418,7 @@ extern "C" D67880MemoryRouter& __cdecl FUN_00c85750();
 
 class D67880ReferencedObject {
 public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -768,7 +769,7 @@ struct FUN_00d67930 {
     short m_sReferenceCount;
 
     FUN_00d67930();
-    static void operator delete(void* p, unsigned int)
+    static void operator delete(void* p, std::size_t)
     {
         FUN_00d67930* b = static_cast<FUN_00d67930*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

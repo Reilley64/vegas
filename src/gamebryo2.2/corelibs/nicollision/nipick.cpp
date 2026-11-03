@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nicollision/nipick.cpp: Results, NiPick (10 functions)
 
+#include <cstddef>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -401,7 +402,7 @@ class ImageSpaceTextureE993
         reinterpret_cast<::S_00e98aa0_Holder *>(this)->SetObject((::S_00e98aa0_RefObj *)(iParam));
     }
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }

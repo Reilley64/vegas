@@ -3785,7 +3785,6 @@ struct NiRefObjectStub
 {
     void IncRefCount();
     void DecRefCount();
-    static void* operator new(unsigned int size);
 };
 struct BSMultiBoundShape : NiRefObjectStub
 {

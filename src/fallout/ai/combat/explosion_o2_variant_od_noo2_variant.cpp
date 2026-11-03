@@ -417,10 +417,6 @@ struct FUN_00cbc550_class
     int unk34;
     int unk38;
     int unk3c;
-    static void* __cdecl operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     FUN_00cbc550_class();
 };
 struct FUN_00cbca20_class
@@ -597,10 +593,6 @@ class FUN_00cbd650_cls : public FUN_00cbd650_base
   public:
     void FUN_00cbd650(NiViewerStringArray* pkStrings);
 };
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct SmallAlignedState
 {
     unsigned int unk00;
@@ -632,8 +624,6 @@ struct StateOwner
 #include <xmmintrin.h>
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 public:
     void SetRange(float, float);
 };

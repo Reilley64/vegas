@@ -500,10 +500,6 @@ inline float NiPoint3A7E::Length() const
 class NiBoundA7E
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemManagerA7E *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 
     NiPoint3A7E m_kCenter;
     float m_fBoundRadius;
@@ -1035,10 +1031,6 @@ struct BillboardClone : StandIn
 {
     float m_uiFilterValue;
 
-    static void* __cdecl operator new(unsigned int, void* storage)
-    {
-        return storage;
-    }
 
     __forceinline BillboardClone()
     {

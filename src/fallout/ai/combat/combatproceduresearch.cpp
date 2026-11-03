@@ -112,7 +112,6 @@ int CombatProcedureSearch::FUN_009d8c00()
     return eCombatProcedure;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009d8c10_shell
 {

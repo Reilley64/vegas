@@ -255,8 +255,6 @@ class NiPointLight : public NiAVObject
   public:
     unsigned char storage[0xfc - 4];
     NiPointLight();
-    static void* operator new(size_t);
-    static void operator delete(void*);
 };
 class NiGeometry : public NiAVObject
 {
@@ -283,8 +281,6 @@ class BSShaderAccumulator
   public:
     unsigned int storage[0x280 / 4];
     BSShaderAccumulator(BSShaderManager::BATCHRENDERER_CREATION_MODE, unsigned int, unsigned int);
-    static void* operator new(size_t);
-    static void operator delete(void*);
 };
 union SETTING_VALUE
 {
@@ -308,8 +304,6 @@ class NiAlphaProperty : public NiProperty
   public:
     unsigned char storage[0x1c];
     NiAlphaProperty();
-    static void* operator new(size_t);
-    static void operator delete(void*);
 };
 class FOPipboyManager : public FORenderedMenu
 {

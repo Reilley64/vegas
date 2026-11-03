@@ -671,10 +671,6 @@ struct GameAllocator
 };
 struct NiPoint3
 {
-    static __forceinline void* operator new[](size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ImageNodeBuild::GameAllocator *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned)n);
-    }
     float x, y, z;
     NiPoint3()
     {}
@@ -683,10 +679,6 @@ struct NiPoint3
 };
 struct NiUV
 {
-    static __forceinline void* operator new[](size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ImageNodeBuild::GameAllocator *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned)n);
-    }
     float u, v_r;
     NiUV()
     {}
@@ -867,9 +859,7 @@ NiNode* TileImageShim::FUN_00a1fd50()
 }
 
 
-void* __cdecl operator new(size_t);
 
-void __cdecl operator delete(void*);
 
 inline unsigned int BSStringLength(const char* p)
 {
@@ -966,11 +956,6 @@ struct AtlasEntry
     AtlasRect rect;
     AtlasEntry()
     {}
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*);
 };
 
 struct AtlasNode
@@ -979,10 +964,6 @@ struct AtlasNode
     AtlasNode* next;
     AtlasNode(AtlasEntry* const& value) : entry(value), next(0)
     {}
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     void AddToHead(AtlasEntry** value)
     {
         if (!*value)
@@ -1023,9 +1004,7 @@ struct AtlasFile
 
 AtlasFile* FUN_00afdf00(const char*, int, unsigned int);
 
-void* __cdecl operator new(size_t);
 
-void __cdecl operator delete(void*);
 
 extern "C" int __cdecl memcpy_s(void*, size_t, const void*, size_t);
 

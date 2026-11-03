@@ -5,6 +5,7 @@
 
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
@@ -4109,7 +4110,7 @@ class InitC7
 class ProjC7
 {
   public:
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pv);
     ProjC7(const InitC7& kInit);
     virtual void j000();
@@ -4645,7 +4646,6 @@ struct kQ2
 struct kZ
 {
     int unk0, unk4, unk8, unkC, unk10;
-    static void* operator new(unsigned int n);
     kZ();
 };
 
@@ -4715,7 +4715,6 @@ struct __declspec(align(16)) kH
 struct kW
 {
     int unk0, unk4, unk8, unkC, unk10, unk14, unk18;
-    static void* operator new(unsigned int n);
     kW(kH* h);
 };
 

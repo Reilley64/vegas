@@ -373,10 +373,6 @@ class NiFixedString
   public:
     const char* m_pcString;
     ~NiFixedString();
-    void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 
 inline NiFixedString::~NiFixedString()
@@ -931,10 +927,6 @@ struct MapItemD4D0
 class FUN_00a0d4d0
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerD4D0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 
 // @fnv 0x00a0d4d0
     virtual ~FUN_00a0d4d0()
@@ -989,10 +981,6 @@ struct MapItemD520
 class MapBaseD520
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerD520 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     virtual ~MapBaseD520()
     {
         reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
@@ -1054,10 +1042,6 @@ struct MapItemD840
 class MapBaseD840
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerD840 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     virtual ~MapBaseD840()
     {
         reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
@@ -1119,10 +1103,6 @@ struct MapItemE7E0
 class MapBaseE7E0
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerE7E0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     virtual ~MapBaseE7E0()
     {
         reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
@@ -1184,10 +1164,6 @@ struct MapItemE8B0
 class FUN_00a1e8b0
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerE8B0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 
 // @fnv 0x00a1e8b0
     virtual ~FUN_00a1e8b0()
@@ -1257,10 +1233,6 @@ struct C_00a1eb20
     }
 };
 
-inline void operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-}
 
 struct FUN_00a1eb20 : C_00a1eb20
 {
@@ -1356,10 +1328,6 @@ struct Base670
             ::FUN_00aa10f0(p2);
             m_field--;
         }
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     virtual ~Base670()
     {

@@ -2,6 +2,7 @@
 // src/bsmenu/debugtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/debugtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <cstdio>
 #include <cstring>
 #include "fnv/decl/ArrayStub.h"
@@ -1231,10 +1232,9 @@ struct NodePtr {
 struct DynamicEntry {
  int unk00,unk04,unk08; NodePtr node; TextString text; float lifetime;
  ~DynamicEntry() { text.Clear(); }
- static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 };
 
-struct Link { Link* next; Link* prev; DynamicEntry* data; static void operator delete(void* value) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(value); } };
+struct Link { Link* next; Link* prev; DynamicEntry* data; };
 
 struct TextList {
  Link* first; Link* last; unsigned count;
@@ -1396,7 +1396,6 @@ struct DebugItem {
     int unk24;
     int unk28;
     ~DebugItem();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PendingOwner *>(&::g_memoryManager))))->FUN_00aa4060((PendingObj*)p); }
 };
 }
 
@@ -1520,8 +1519,6 @@ struct PendingD9 {
     K16D9 m_e0, m_e1, m_e2, m_e3, m_e4, m_e5, m_e6, m_e7, m_e8;
     int m_f0, m_f1, m_f2;
     PendingD9();
-    static void* operator new(std::size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PendingOwner *>(&::g_memoryManager))))->FUN_00aa4060((PendingObj*)p); }
 };
 
 // @fnv 0x00a0d9e0
@@ -1699,15 +1696,12 @@ struct A0FE20Rec {
 };
 class NiMemObjectBase {
 public:
-    static void* operator new(std::size_t);
 };
 struct A0FE20MemoryFree { void Deallocate(void*); };
 struct A0FE20PropertyState {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
     A0FE20PropertyState();
     ~A0FE20PropertyState();
-    static void* operator new(std::size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-    static void operator delete(void* p) { ((A0FE20MemoryFree*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))->Deallocate(p); }
 };
 unsigned int FUN_0040fc90();
 int FUN_0043b460(volatile long*, long, long);
@@ -1885,7 +1879,6 @@ struct FUN_00a1c800_A {
 struct FUN_00a1c800_B {
     int unk00;
     ~FUN_00a1c800_B();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 };
 
 struct FUN_00a1c800_MapA {
@@ -2095,13 +2088,11 @@ struct BSStrQ { char* m_data; unsigned short m_len; unsigned short m_kMaximumCor
 struct FUN_00a11880 {
     float f0; float f4; int i8; void* m_ptr; BSStrQ m_str; float f18; float c[4];
     FUN_00a11880();
-    void* operator new(std::size_t sz) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(sz); }
     void SetName(const char* s) { reinterpret_cast<::TextString *>(&(m_str))->FUN_004037f0(s, 0); }
 };
 
 struct NodeQ {
     FUN_00a11880* ent; int unk4; int key; int unk0c; int unk10; int unk14;
-    void* operator new(std::size_t sz) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(sz); }
 };
 
 struct ArrQ : BSSimpleArray {
@@ -2520,7 +2511,6 @@ FUN_00a11a80::FUN_00a11a80(int a, const char* name, int x, int y)
 // namespace fnv_00a11a80
 
 struct NiMemObject {
-    static void operator delete(void* memory, std::size_t size);
 };
 
 struct NiExtraData : NiMemObject {
@@ -3055,7 +3045,6 @@ struct AudioSource {
     int priority;
     Color color;
     ~AudioSource();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 };
 
 struct AudioRequest {
@@ -3064,7 +3053,6 @@ struct AudioRequest {
     int line;
     float duration;
     int voice;
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_shell *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 };
 
 struct RequestQueue {
@@ -3255,7 +3243,6 @@ void AudioManager::FUN_00a0e770() {
 
 extern int DAT_011f33c0;
 
-inline void* operator new(std::size_t n) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n); }
 
 __forceinline A0F8Color MakeColor(const unsigned int& r,const unsigned int& g,const unsigned int& b,const unsigned int& a) {
  float red4=(double)r/255.0,green=(double)g/255.0,blue9=(double)b/255.0,alpha=(double)a/255.0;
@@ -3388,8 +3375,6 @@ struct State107 {
     State107(); ~State107();
     static State107* Create();
     static void Destroy(State107*);
-    static void* operator new(std::size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-    static void operator delete(void*);
 };
 State107* State107::Create() { return new State107; }
 void State107::Destroy(State107* state) { delete state; }
@@ -3416,8 +3401,6 @@ struct FUN_0051cf00 {
     int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30;
     M107 rotation; P107 position; float scale;
     int unk68,unk6c,unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c,unk90,unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0;
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
     FUN_0051cf00();
     void FUN_00a5a040() {
         State107* state=0;
@@ -3437,8 +3420,6 @@ struct FUN_0051cf00 {
 };
 struct FUN_004391c0 {
     int a,b,c,d,e,f,g;
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
     FUN_004391c0();
     void FUN_00633ba0(bool,unsigned);
 };
@@ -3575,8 +3556,6 @@ struct NiAVObject : NiObject {
  virtual void vf54();
  virtual void Attach(NiAVObject*,bool);
  virtual void vf56(); virtual void vf57(); virtual void Detach(NiAVObject*);
- static void* operator new(std::size_t);
- static void operator delete(void*);
  int unk1c; NiBound* bound; int unk24,unk28,unk2c,unk30;
  ThreeByThreeMatrix rotation; NiPoint3 translation; float scale;
  ThreeByThreeMatrix worldRotation; NiPoint3 worldTranslation; float worldScale;
@@ -3594,15 +3573,11 @@ struct NiAVObject : NiObject {
 struct NiBillboardNode : NiAVObject { NiBillboardNode(); };
 
 struct NiAlphaProperty {
- static void* operator new(std::size_t);
- static void operator delete(void*);
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18;
  NiAlphaProperty(); void FUN_00633ba0(bool,unsigned short);
 };
 
 struct ExtraData {
- static void* operator new(std::size_t);
- static void operator delete(void*);
  int unk00,unk04,unk08; NiAVObject* node; BSStringTChar text; int unk18; int height;
  inline BSStringTChar& GetText() { return text; }
 };

@@ -1,4 +1,5 @@
 // bscore/bsrandom_precipitation.h: declares NiMemObject, BSShaderAccumulator, Precipitation
+#include <new>
 #ifndef BSRANDOM_PRECIPITATION_H
 #define BSRANDOM_PRECIPITATION_H
 #include <cstddef>
@@ -21,8 +22,6 @@ class GlobalObject_0048f200
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*, std::size_t);
 };
 namespace BSShaderManager {
 enum BATCHRENDERER_CREATION_MODE

@@ -255,10 +255,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     NiTObjectArray<NiPointer<NiTexture> > m_kShaderTextures;                        // +0x58, 16 bytes
     NiTPrimitiveArray_enum_NiTexturingProperty__FilterMode_ m_kTextureFilterModes;  // +0x68, 16 bytes
     NiTMap_unsigned_int_unsigned_int_ m_kRenderStateMap;                            // +0x78, 16 bytes
-    static void* operator new(std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexSize, int pixelSize);
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);

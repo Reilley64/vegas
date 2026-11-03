@@ -1151,12 +1151,6 @@ struct FUN_00c4f8e0
     int unk0FC;
     int unk100;
     int unk104;
-    static void* operator new(unsigned int size)
-    {
-        int unused[4];
-        (void)unused;
-        return FUN_00aa13e0(size);
-    }
     FUN_00c4f8e0();
 };
 struct C4F390_Owner
@@ -1659,13 +1653,6 @@ struct FUN_00c47660
     int unk09C;
     int unk0A0;
     FUN_00c47660();
-    static void* operator new(unsigned int size)
-    {
-        int unused[3];
-        (void)unused;
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C4F460_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p);
 };
 struct C4F460_Node : FUN_00a5ecb0
 {
@@ -1692,11 +1679,6 @@ struct FUN_00c47770
 {  // owned object; destructor at 0x00c47770
     int unk00;
     ~FUN_00c47770();
-    static void operator delete(void* pvMem)
-    {
-        int unused; /* frame space only */
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00c4f550::MemoryHeap_c4f550 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 struct FUN_00c3a620

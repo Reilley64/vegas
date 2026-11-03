@@ -1270,8 +1270,6 @@ class bhkRefObject
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 class RefObjC86D : public TESObjectDoorController
 {
@@ -1303,10 +1301,6 @@ class AllocatedNode
     int unk08;
     int unk0c;
 
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
 
     AllocatedNode()
     {

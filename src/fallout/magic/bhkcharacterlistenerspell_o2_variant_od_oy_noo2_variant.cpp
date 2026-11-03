@@ -457,8 +457,6 @@ class ColorA807
 class Line807
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     Line807(int iType);
     unsigned int unk00;
     unsigned int unk04;

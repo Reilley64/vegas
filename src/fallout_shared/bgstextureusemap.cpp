@@ -101,7 +101,6 @@ FUN_004aa340::~FUN_004aa340()
     RemoveAllEntries();
 }
 
-void __cdecl operator delete(void*);
 struct FUN_004aa650_shell
 {
     void FUN_004aa680();
@@ -211,7 +210,6 @@ void FUN_004aa340::RemoveAllEntries()
     reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<MyMap*>(&this->_m1)))->FUN_00438af0();
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct G2
 {

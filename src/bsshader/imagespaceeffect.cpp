@@ -145,10 +145,6 @@ struct BBA3C00Range
 
 struct BBA3C00Entry
 {
-    static void* operator new(std::size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::BBA3C00Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 
     BBA3C00Range m_akRanges[4];
 };

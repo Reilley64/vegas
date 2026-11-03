@@ -259,7 +259,6 @@ void FUN_00853670_shell::FUN_00853670(int formType)
     m0 = (m0 & ~0x3F) | type;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_00853880_shell
 {
     void FUN_008538b0();
@@ -552,7 +551,6 @@ void FormNameEntry::BuildFormName(char* apName, unsigned int aiNameSize)
     }
 }
 
-void* operator new(unsigned int);
 
 int __cdecl FUN_00854960(FUN_008547f0_shell*, FUN_008547f0_shell*);
 

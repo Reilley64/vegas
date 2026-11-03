@@ -2,6 +2,7 @@
 #ifndef BSFACEGENMODEL_DECLS_H
 #define BSFACEGENMODEL_DECLS_H
 
+#include <new>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00456650_shell.h"
@@ -35,8 +36,6 @@
 #include "fnv/symbols_0119b000.h"
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011de000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class NiPoint3
 {
   public:
@@ -44,8 +43,6 @@ class NiPoint3
     NiPoint3();
     NiPoint3(float, float, float);
 };
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete[](void*);
 enum MEM_CONTEXT
 {
     FaceGenMeshContext = 56,
@@ -230,8 +227,6 @@ class BSFaceGenMorphData
   public:
     void* vtable;
     unsigned int refCount;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class FaceGenTriData
 {

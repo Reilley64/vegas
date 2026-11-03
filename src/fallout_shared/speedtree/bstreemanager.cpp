@@ -1,5 +1,6 @@
 // fallout_shared/speedtree/bstreemanager.cpp: BSTreeManager, LFFreeList, TreeManager (27 functions)
 
+#include <new>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -446,8 +447,6 @@ class TreeModel664b50
     int unk44;
     int unk48;
     int unk4C;
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct TreeModelPtr
@@ -749,8 +748,6 @@ class FUN_00666650 : public BSTreeModel
     int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40;
     int unk44, unk48, unk4c;
     FUN_00666650();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class LockFreeMap_TESObjectREFR___BSTreeNode___
 {
@@ -822,8 +819,6 @@ class NiPixelFormat;
 class NiPixelData
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     NiPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format, unsigned int mipLevels,
                 unsigned int faces);
     unsigned int unk00;
@@ -1090,8 +1085,6 @@ void C6658::Update()
 
 struct xMemObj
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* p, unsigned int);
 };
 
 class RGBColorValue

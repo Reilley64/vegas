@@ -229,10 +229,6 @@ struct Partition_c1d170
 {
     int unk[4];
     Partition_c1d170() throw();
-    static void* __cdecl operator new(unsigned int s) throw()
-    {
-        return FUN_00aa13e0(s);
-    }
 };
 
 struct SkinInst_c1d170
@@ -736,7 +732,6 @@ Emit_c1f880* Emit_c1f880::FUN_00c1f880(unsigned int uiArg)
 // Factory: allocates a 0x88-byte NiPSysMeshEmitter and runs its out-of-line constructor (FUN_00c1f550).
 struct NiPSysMeshEmitterObject
 {
-    static void* __cdecl operator new(unsigned int);
     NiPSysMeshEmitterObject() throw();
     int unk00;
     int unk04;

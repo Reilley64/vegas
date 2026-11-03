@@ -182,7 +182,6 @@ struct FUN_004d94a0_shell : public RagDollData
     bool LoadRagdollChunk(TESFile*);
 };
 
-void* __cdecl operator new(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };

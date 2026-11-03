@@ -76,7 +76,6 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "tesobjectcell_packet_rtti_variant_decl_tesobjectcell_rtti_variant.h"
-void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
 NiAVObject* FUN_0054f4f0();
 class CellView;

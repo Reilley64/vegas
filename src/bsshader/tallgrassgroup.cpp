@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdint>
@@ -333,11 +334,6 @@ struct OutputData : RefObject
     int m8c;
     int m90;
     int m94;
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     OutputData();
 
     void FUN_00439410(int);
@@ -410,11 +406,6 @@ struct C1AClass : RefObject
     int mcc;
     int md0;
     int md4;
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
 };
 struct StyleOne : C1AClass
 {
@@ -478,11 +469,6 @@ struct C469Class : RefObject
     RefObject* child;
     int mb0;
 
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     C469Class();
 
     virtual void vf2();
@@ -548,11 +534,6 @@ struct SmallRef : RefObject
 
     RefObject* m0c;
 
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     SmallRef();
 };
 
@@ -566,11 +547,6 @@ struct OtherRef : RefObject
     int m18;
     int m1c;
     int m20;
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     OtherRef();
 };
 
@@ -586,11 +562,6 @@ struct GridBuffer : RefObject
     int m20;
     int m24;
     int m28;
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
     GridBuffer(int, int);
 
     void FUN_00a72ca0(int);

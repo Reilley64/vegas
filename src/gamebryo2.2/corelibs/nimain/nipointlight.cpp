@@ -88,7 +88,6 @@ const void* __cdecl FUN_00a9b390()
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int size);
 };
 struct FUN_00a71ec0_helper
 {
@@ -169,7 +168,7 @@ struct FUN_00a7d7c0_Class
 void* FUN_00a7d7c0_Class::ClonePointLight(void* process)
 {
     NiPointLightLayout* clone;
-    void* allocation = NiMemObject::operator new(0xfc);
+    void* allocation = ::operator new(0xfc);
     if (allocation)
     {
         clone = (NiPointLightLayout*)allocation;

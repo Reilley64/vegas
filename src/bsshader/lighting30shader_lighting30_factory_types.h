@@ -116,8 +116,6 @@ template <class T> class NiPointer
 class NiMemObject
 {
   public:
-    static void* __cdecl operator new(size_t);
-    static void __cdecl operator delete(void*);
 };
 class NiRefObject : public NiMemObject
 {

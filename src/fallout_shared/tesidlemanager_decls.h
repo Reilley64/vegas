@@ -336,7 +336,6 @@ extern "C" const char fnv_idle_1hp_fast_left[];
 extern "C" const char fnv_idle_1hp_left[];
 template <class T> unsigned int BSStringLength(const T* string);
 
-void* operator new(unsigned int);
 class ModelLoader
 {
   public:

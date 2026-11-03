@@ -969,7 +969,6 @@ bool AudioMarkerData_589600::LoadFromFile(TESFile* apFile)
     return true;
 }
 
-void* __cdecl operator new(unsigned int size);
 struct ContainerItemExtra
 {
     void* pVTable;
@@ -1363,8 +1362,6 @@ struct Node_58cbc0
     int unkA0;
     int unkA4;
     int unkA8;
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pMem, unsigned int);
     Node_58cbc0(unsigned short usChildren);
 };
 

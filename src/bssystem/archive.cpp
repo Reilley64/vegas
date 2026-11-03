@@ -1,6 +1,7 @@
 #include <cstddef>
 // bssystem/archive.cpp: S_af9, NP_afc, ArchiveStand, CompressedArchiveFile and more (114 functions)
 
+#include <new>
 #include <windows.h>
 #include <cctype>
 #include <cstdint>
@@ -2301,20 +2302,10 @@ struct ArchiveStand;
 struct FUN_00afb300 : public ArchiveFile
 {
     FUN_00afb300(const char*, ArchiveStand*, unsigned int, unsigned int, int);
-    static void* operator new(std::size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa550::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 struct FUN_00afc430 : public CompressedArchiveFile
 {
     FUN_00afc430(const char*, ArchiveStand*, unsigned int, unsigned int, int);
-    static void* operator new(std::size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa550::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 struct ArchiveStand
 {
@@ -2377,18 +2368,10 @@ struct ArchiveStand;
 struct FUN_00afb300 : ArchiveFile
 {
     FUN_00afb300(unsigned int, ArchiveStand*, unsigned int, unsigned int, unsigned int);
-    __forceinline static void* operator new(std::size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa750::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 };
 struct FUN_00afc430 : CompressedArchiveFile
 {
     FUN_00afc430(unsigned int, ArchiveStand*, unsigned int, unsigned int, unsigned int);
-    __forceinline static void* operator new(std::size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa750::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 };
 struct ArchiveStand
 {
@@ -2545,10 +2528,6 @@ struct NP_afc
     NiPointer<Archive> m_spArchive;
     NP_afc* m_pkNext;
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc880::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 
     NP_afc(NP_afc* other) : m_spArchive(other->m_spArchive), m_pkNext(0)
     {}
@@ -2662,10 +2641,6 @@ struct NP_afc
     NiPointer<Archive> m_spArchive;
     NP_afc* m_pkNext;
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afcc10::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 
     NP_afc(NP_afc* other) : m_spArchive(other->m_spArchive), m_pkNext(0)
     {}
@@ -2812,14 +2787,6 @@ struct DeallocMM_00affd80
 };
 extern MemMgr_00affd80 _g_memoryManager;
 extern unsigned int DAT_011acff8;
-__forceinline void* operator new[](std::size_t auiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_00affd80 *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
-}
-__forceinline void operator delete[](void* apMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>((((DeallocMM_00affd80*)&(*reinterpret_cast<::MemMgr_00affd80 *>(&::g_memoryManager)))))->FUN_00aa4060(apMem);
-}
 __forceinline int GetMemCtx_00affd80()
 {
     return (*reinterpret_cast<int *>(&::currentAllocationContext));
@@ -3559,10 +3526,6 @@ unsigned int ArcFileX::FUN_00afbde0(void* apBuffer, unsigned int size)
 
 struct ArchiveEntryBuf
 {
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct ArchiveArray
@@ -3642,10 +3605,6 @@ struct ArchiveList
     ArchivePtr m_item;
     ArchiveList* m_pkNext;
     ~ArchiveList();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
     void RemoveAll()
     {
         while (m_pkNext)
@@ -5472,10 +5431,6 @@ struct BSSimpleList
         }
         reinterpret_cast<::NP_afc *>((void *)&(const ::ArcPtr &)(m_item))->FUN_00afc770((::NP_afc *)&(const ::ArcPtr &)(ArcPtr(0)));
     }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pvMem);
-    }
     bool IsEmpty() const
     {
         return m_pkNext == 0 && m_item == 0;
@@ -5528,10 +5483,6 @@ struct ListItem
     unsigned int value;
     ListItem* next;
     ~ListItem();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct NullRef
@@ -6359,8 +6310,6 @@ struct PluginFile
     int unk1c8;
     int unk1cc;
 
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
     PluginFile(const char*, unsigned int, int, bool);
     bool IsGood()
     {
@@ -6404,10 +6353,6 @@ struct OpenNode
 {
     OpenPtr item;
     OpenNode* next;
-    static void* operator new(std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&(*reinterpret_cast<::fnv_00af4be0::MemoryManagerAllocHelper *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
     OpenNode() throw() : item(0), next(0)
     {}
     OpenNode(const OpenPtr& p) throw() : item(p), next(0)
@@ -6716,10 +6661,6 @@ struct HashKey
         return order;
     }
     HashKey(const char*, int);
-    void* operator new(std::size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 inline unsigned int CombinedLength(const char* prefix, const char* name)
 {
@@ -7072,14 +7013,6 @@ struct Critical077
     }
     ~Critical077();
 };
-struct FileStat077
-{
-    unsigned int dev;
-    unsigned short inode, mode, links, uid, gid, alignment;
-    unsigned int rdev, size;
-    unsigned __int64 atime, mtime, ctime;
-};
-int __cdecl FUN_00ec923c(const char*, FileStat077*);
 struct ArcStream077;
 typedef unsigned int(__cdecl* ArcReadFn077)(ArcStream077*, void*, unsigned int, unsigned int*, unsigned int);
 struct ArcStream077
@@ -7257,9 +7190,9 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
         }
         elapsedTmp = GetTickCount() - elapsedTmp;
     }
-    FileStat077 stat;
-    int statResultVal = FUN_00ec923c(pFileName, &stat);
-    stamp = *(Time077*)&stat.mtime;
+    fnv::crt::FileStatus status{};
+    int statResultVal = fnv::crt::stat(pFileName, &status);
+    stamp = *(Time077*)&status.modified;
     if (!HasStatus(8))
     {
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011acdf9)))
@@ -7885,10 +7818,6 @@ struct FUN_00afcdc0
 struct FUN_00afcd90 : FUN_00afcdc0
 {
     virtual ~FUN_00afcd90();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 // Empty virtual destructor for FUN_00afcd90, allowing polymorphic deletion through its base class.
 // @fnv 0x00afcd90
@@ -8430,10 +8359,6 @@ __if_not_exists(MemMgrStand)
 }
 extern MemMgrStand g_arcMemMgr;
 struct ArchiveArray;
-inline void* operator new(std::size_t, void* memory)
-{
-    return memory;
-}
 extern const char DAT_010a445c[];
 BSFile* __cdecl FUN_00afdf00(const char*, int, unsigned int);
 struct FUN_00afd390
@@ -8441,14 +8366,6 @@ struct FUN_00afd390
     unsigned int low;
     unsigned int high;
     FUN_00afd390(const char*, int);
-    inline void* operator new(std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    inline void operator delete(void* memory)
-    {
-        (*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager)).Deallocate(memory);
-    }
 };
 struct FUN_00afcce0
 {
@@ -8458,14 +8375,6 @@ struct FUN_00afcce0
     unsigned int count;
     unsigned int capacity;
     FUN_00afcce0();
-    inline void* operator new(std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    inline void operator delete(void* memory)
-    {
-        (*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager)).Deallocate(memory);
-    }
     void InitArray(unsigned int allocated, unsigned int size)
     {
         entries = 0;

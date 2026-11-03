@@ -325,7 +325,6 @@ struct FUN_0082b300_shell : InvisibilityEffect
 {
     void FUN_0082b300(Actor* apActor);
 };
-void* __cdecl operator new(unsigned int);
 
 struct FUN_0082a5a0_shell
 {
@@ -686,8 +685,6 @@ struct ShaderEffect
     unsigned int unk60;
     unsigned int unk64;
     unsigned int unk68;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     ShaderEffect(TelekinesisReference*, ShaderDefinition*, float);
 };
 struct EffectManager

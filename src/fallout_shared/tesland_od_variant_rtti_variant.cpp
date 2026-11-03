@@ -5,6 +5,8 @@
 
 // src/fallout_shared/tesland_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesland.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include <cstddef>
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/ActorMover.h"
@@ -260,7 +262,6 @@ struct FUN_00537ca0_class
 struct FUN_00a73080_holder
 {
 };
-void __cdecl operator delete(void* p, unsigned int size);
 class ShadowSceneNode;
 struct NiAdditionalGeometryData
 {
@@ -281,7 +282,6 @@ struct FUN_00537d10_Class
 {
     void FUN_00537d40();
     void* FUN_00537d10(unsigned int flags);
-    static void operator delete(void* p, unsigned int size);
 };
 struct QuantityData
 {
@@ -370,7 +370,6 @@ struct FUN_00539fc0_Class
 {
     GlobalObjectO2_00a7b610* FUN_00539fc0();
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_0053a000
 {
 };
@@ -637,7 +636,6 @@ struct FUN_0053a630_Class : public FUN_0053ae30_class
 };
 struct A51BF0Base
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00537d60 : A51BF0Base
 {
@@ -1094,13 +1092,11 @@ struct Property960
     unsigned unk0fc;
     unsigned unk100;
     Property960();
-    static void* operator new(unsigned);
 };
 struct Binary960
 {
     unsigned unk00, unk04, unk08, unk0c, unk10;
     Binary960(unsigned, unsigned char*);
-    static void* operator new(unsigned);
 };
 struct Geometry960
 {
@@ -1954,7 +1950,6 @@ struct CleanupOwner
     CleanupData* data;
     bool FUN_00536d80();
 };
-void* __cdecl operator new(unsigned int);
 struct Point
 {
     float x, y, z;
@@ -2370,7 +2365,7 @@ struct Output538c00
     unsigned int m2c;
 
     Output538c00();
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         return FUN_0056d280(bytes);
     }

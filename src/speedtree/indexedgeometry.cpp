@@ -2,6 +2,7 @@
 // src/speedtree/indexedgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/indexedgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <cstdlib>
 #include "result_slot.h"
 #include "fnv/decl/IndexSet.h"
@@ -700,14 +701,8 @@ unsigned int __cdecl FUN_00ec7c56(void);
 
 // Based on another contributor's triangle-strip reconstruction supplied in packet.json.
 
-void* __cdecl operator new(std::size_t);
 
-void __cdecl operator delete(void*);
 
-inline void* __cdecl operator new(std::size_t, void* p)
-{
-    return p;
-}
 
 namespace StripJoin {
 
@@ -2286,17 +2281,12 @@ void ShapeHost::FUN_00b2fa30(BoundsBox* out)
 
 unsigned int FUN_00ec7c56();
 
-void* __cdecl operator new(size_t);
 
-void __cdecl operator delete(void*);
 
-inline void __cdecl operator delete(void*, void*)
-{}
 
 extern "C" int __cdecl memmove_s(void*, size_t, const void*, size_t);
 
 namespace std {
-template <class T> void swap(T&, T&);
 template <class T> void _Swap_adl(T&, T&);
 template <class T> T* _Allocate(size_t, T*);
 template <class T, class U> void _Construct(T*, const U&);

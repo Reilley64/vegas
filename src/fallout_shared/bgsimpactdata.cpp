@@ -60,7 +60,6 @@ void BGSImpactData::ResetFormData()
     Data.m_eSoundLevel = SOUND_LEVEL_SOUND_LEVEL_NORMAL;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_0058dbe0_class
 {
     void FUN_0058dc10();

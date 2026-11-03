@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00b887b0
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -594,12 +595,6 @@ struct SpawnedMgr
 struct SpawnedObject
 {
     SpawnedObject();
-    void* operator new(std::size_t sz)
-    {
-        return FUN_00aa13e0(sz);
-    }
-    void operator delete(void*)
-    {}
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -1488,12 +1483,6 @@ bool ShaderPassBuilder::InitPasses()
 struct NiD3DShaderConstantMap : NiRefObject
 {
     NiD3DShaderConstantMap(void*, int);
-    void* operator new(std::size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    void operator delete(void*)
-    {}
     virtual void Add(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*, unsigned int,
                      unsigned int, void*, unsigned int);
     unsigned int unk08;
@@ -1655,12 +1644,6 @@ struct Shape_b899a0 : NiRefObject
 {
     Shape_b899a0(unsigned short a1, Pt3_b899a0* points, void* a3, Col_b899a0* colors, void* a5, unsigned short a6,
                  unsigned int a7, unsigned short a8, unsigned short* indices);
-    void* operator new(std::size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    void operator delete(void*)
-    {}
     int s08;
     int s0c;
     int s10;

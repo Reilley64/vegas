@@ -498,7 +498,6 @@ struct FUN_00a2f850_shell : public NiControllerManager
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a2eed0_tgt
 {
@@ -511,7 +510,7 @@ struct FUN_00a2f380_shell
 // @fnv 0x00a2f850
 NiObject* FUN_00a2f850_shell::FUN_00a2f850(CloningProcess* kCloning)
 {
-    FUN_00a2eed0_tgt* mem = (FUN_00a2eed0_tgt*)BSFadeNode::operator new(0x7c);
+    FUN_00a2eed0_tgt* mem = (FUN_00a2eed0_tgt*)::operator new(0x7c);
     NiObject* pkObject;
     if (mem)
     {
@@ -631,13 +630,12 @@ void* FUN_00a2e510_Stub::DestroyNiTMapBase(unsigned int auiFlags)
 
 struct BSFadeNode
 {
-    void* operator new(unsigned int);
     void* FUN_00a2eed0();
 };
 // @fnv 0x00a2f6c0
 void* __cdecl FUN_00a2f6c0()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x7c);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x7c);
     if (p)
         return p->FUN_00a2eed0();
     return 0;
@@ -674,7 +672,6 @@ extern void* DAT_01096258;
 extern void* DAT_01096260;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct P03MM
 {
@@ -801,7 +798,7 @@ S00a2efa0* S00a2efa0::FUN_00a2efa0(NiObjectNET* pkTarget, bool bCumulative)
     m_kList.Construct();
     m_spControllerManager.m_pObject = 0;
     reinterpret_cast<::NiTimeController *>((((NiTimeCtlrStandin*)this)))->SetTarget(pkTarget);
-    void* pControllerMem = BSFadeNode::operator new(0x1c);
+    void* pControllerMem = ::operator new(0x1c);
     m_spControllerManager = pControllerMem ? ((::fnv_00a2efa0::CtrlRefObj *)(::FUN_00a2ed80((int *)(((CtrlRefObj*)pControllerMem)), (int)(pkTarget), 0x4f, {}))) : 0;
     void* pLookupMem = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a2efa0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x10);
     m_pkLookup = pLookupMem ? ((S00a414f0*)pLookupMem)->FUN_00a414f0() : 0;
@@ -1981,10 +1978,6 @@ class S00a2f170_Seq : public NiObject
     bool m_bHasAnimNotes;
 
     static void* FUN_00aa13e0(unsigned int);
-    static void* operator new(unsigned int n) throw()
-    {
-        return FUN_00aa13e0(n);
-    }
 };
 
 class FUN_00a32a10 : public S00a2f170_Seq
@@ -2197,7 +2190,6 @@ bool FUN_00a2f800(NiControllerSequence* seq, float a, float b, int c, int key)
 struct FUN_00a2e1f0 : NiRefObject
 {
     virtual ~FUN_00a2e1f0();
-    static void operator delete(void*, unsigned int);
 };
 // The destructor body is empty.
 // @fnv 0x00a2e1f0
@@ -2212,16 +2204,11 @@ struct FUN_00a2eb80
 {
     void* m_04;
     virtual ~FUN_00a2eb80();
-    static void operator delete(void* p);
 };
 // @fnv 0x00a2eb80
 FUN_00a2eb80::~FUN_00a2eb80()
 {
     ::ReleaseObjectArray((::Obj00a47600 **)(m_04));
-}
-void FUN_00a2eb80::operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a2eb80::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
 }
 }  // namespace fnv_00a2eb80
 

@@ -1176,8 +1176,6 @@ void C7D8EE0List::SelectLast()
     SetSelection(((int)(reinterpret_cast<::FUN_007d8700_shell *>(this)->GetFilteredItemCount())) - 1);
 }
 
-void* __cdecl operator new(unsigned int size, void* location);
-void __cdecl operator delete(void* object, void* location);
 struct FUN_007da240
 {
     int first;
@@ -1344,8 +1342,6 @@ struct FUN_00a712f0
     unsigned int unk108;
     unsigned int unk10c;
     unsigned int unk110;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_00a712f0();
 };
 struct CameraContext

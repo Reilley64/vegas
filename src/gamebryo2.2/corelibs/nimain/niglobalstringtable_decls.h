@@ -1,4 +1,4 @@
-// gamebryo2.2/corelibs/nimain/niglobalstringtable_decls.h: declares NiGlobalStringTable, NiPlaybackStat, NiPlaybackTimestamp, NiPlaybackManager, NiPlaybackFile
+// gamebryo2.2/corelibs/nimain/niglobalstringtable_decls.h: declares NiGlobalStringTable, NiPlaybackTimestamp, NiPlaybackManager, NiPlaybackFile
 #ifndef NIGLOBALSTRINGTABLE_DECLS_H
 #define NIGLOBALSTRINGTABLE_DECLS_H
 
@@ -14,6 +14,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
+#include "runtime/crt.h"
 class NiGlobalStringTable
 {
   public:
@@ -24,12 +25,6 @@ class NiGlobalStringTable
 };
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
-struct NiPlaybackStat
-{
-    int pad[5];
-    int timestamp;
-    int rest[6];
-};
 struct NiPlaybackTimestamp
 {
     int pad;
@@ -63,7 +58,6 @@ class NiPlaybackFile
     char pad[28];
     unsigned state;
 };
-int FUN_00ec923c(const char*, NiPlaybackStat*);
 extern "C" __declspec(dllimport) void* BinkOpen(const char*, unsigned);
 #endif
 

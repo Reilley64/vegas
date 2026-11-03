@@ -35,14 +35,6 @@ struct ImageSpaceShaderParam : public ImageSpaceEffectParam
 {
     char pad[0x88];
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
-    void operator delete(void* p)
-    {
-        ::FUN_00401030(p);
-    }
 
     ImageSpaceShaderParam();
 public:

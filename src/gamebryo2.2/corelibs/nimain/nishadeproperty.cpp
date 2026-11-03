@@ -22,7 +22,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
     NiProperty* pProperty;
     int a;
     int b;
@@ -733,7 +732,7 @@ extern int DAT_0109e274;
 // @fnv 0x00a814e0
 BSFadeNode* FUN_00a814e0()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x20));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x20));
     if (node)
     {
         new ((void *)(((NiProperty*)node))) struct ::FUN_00a5c200();
@@ -762,14 +761,10 @@ struct NiShadeProperty : NiProperty
     int m_iShaderType;
     NiObject* FUN_00a81480(CloningProcess&);
 };
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // @fnv 0x00a81480
 NiObject* NiShadeProperty::FUN_00a81480(CloningProcess& kCloning)
 {
-    NiShadeProperty* pkObject = (NiShadeProperty*)BSFadeNode::operator new(32);
+    NiShadeProperty* pkObject = (NiShadeProperty*)::operator new(32);
     if (pkObject)
     {
         new (pkObject) NiProperty();

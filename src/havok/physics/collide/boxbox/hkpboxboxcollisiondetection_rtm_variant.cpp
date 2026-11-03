@@ -7,6 +7,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include <new>
 #include <cmath>
 #include "fnv/decl/BoxPointInsertion.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
@@ -2011,10 +2012,6 @@ extern const double DAT_010d5378;
 
 struct NFeature
 {
-    __forceinline static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
     unsigned char type, sub;
     unsigned short id;
     NFeature() : id(0)

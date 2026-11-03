@@ -161,10 +161,6 @@ struct PrimArray : GlobalObject_004aff00
 struct BoundDataBlock
 {
     char data[0x30];
-    static void* operator new[](std::size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 struct FUN_00ba8e50
 {
@@ -369,10 +365,6 @@ struct FloatQuad
 {
     float v;
 
-    static void* operator new[](std::size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<TableAllocator*>(&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 // @fnv 0x00ba73a0
@@ -1329,10 +1321,6 @@ extern int DAT_010b8250;
 struct MemoryManagerDealloc
 {
 };
-void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerDealloc *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
 struct NiNode : NiRefObject
 {
 };

@@ -177,7 +177,6 @@ void FUN_00b2bdc0_shell::FUN_00b2bdc0(float afValue44, float afValue40)
     *(float*)(this + 0x40) = afValue40;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
     void* DestroyIfFlagged(unsigned int flags);
@@ -962,7 +961,6 @@ NarrowString& FUN_00b2b910_shell::FUN_00b2b910(const NarrowString& rhs)
     return *this;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 
 namespace shutb2b9 {
 template <class T> inline void GvDestroyOne(T* _Ptr)

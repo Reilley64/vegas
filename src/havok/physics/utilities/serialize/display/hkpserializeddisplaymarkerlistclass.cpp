@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/display/hkpserializeddisplaymarkerlistclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/display/hkpserializeddisplaymarkerlistclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/hkReferencedObjectC905.h"
 struct AudioAllocator
 {
@@ -94,7 +95,7 @@ struct FUN_00e05d10_Base
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, std::size_t)
     {
         FUN_00e05d10_Base* b = static_cast<FUN_00e05d10_Base*>(p);
         FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

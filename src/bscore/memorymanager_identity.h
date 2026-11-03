@@ -30,7 +30,6 @@ class Actor
     SEX GetSex();
 };
 
-void operator delete(void* pointer) throw();
 
 class TESFile
 {
@@ -55,8 +54,6 @@ class ExtraHealth : public BSExtraData
 {
   public:
     float fHealthPercent;
-    static void* operator new(std::size_t size);
-    static void operator delete(void* pointer);
     ExtraHealth(float health);
 };
 

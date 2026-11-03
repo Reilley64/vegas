@@ -3392,14 +3392,6 @@ class Helper69E
   public:
     Helper69E();
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00401000(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        FUN_00401030(pvMem);
-    }
 
     int unk00, unk04, unk08, unk0C;
 };

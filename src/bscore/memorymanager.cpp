@@ -364,17 +364,9 @@ void CallVirtualOnEachElement()
     }
 }
 
-__forceinline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-}
 struct ScrapView
 {
     ~ScrapView();
-    static __forceinline void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct HeapView
 {
@@ -428,10 +420,6 @@ inline void FreeArray(void* p)
 struct FUN_00aa5950_s
 {
     ~FUN_00aa5950_s();
-    static __forceinline void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 extern FUN_00aa5950_s* DAT_011f63b4;
 inline void FUN_00aa5950()
@@ -442,10 +430,6 @@ inline void FUN_00aa5950()
 struct PoolView : MemoryPool
 {
     ~PoolView();
-    static __forceinline void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 inline void DestroyMemoryPools()
 {

@@ -123,9 +123,7 @@ inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b)
     return a > b ? a : b;
 }
 
-void* operator new(std::size_t);
 
-void operator delete(void*);
 
 struct BSString
 {

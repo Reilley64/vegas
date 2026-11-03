@@ -2,8 +2,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00403000.h"
-void* __cdecl operator new(unsigned);
-void* __cdecl operator new[](unsigned);
 struct Heap
 {
     virtual void method0();

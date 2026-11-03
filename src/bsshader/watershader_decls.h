@@ -19,8 +19,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
-    static void operator delete(void*);
 };
 #include "NiRefObject.h"
 #undef NiPointer

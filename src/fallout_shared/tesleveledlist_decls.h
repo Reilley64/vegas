@@ -253,7 +253,6 @@ class FileEntryList
 {
   public:
 };
-void* operator new(unsigned int) throw();
 class TESGlobal : public TESForm
 {
 };

@@ -42,7 +42,6 @@ template <> class NiPointer<NiAVObject>
 class NiMemObject
 {
   public:
-    static void* operator new(std::size_t);
     void IncRefCount();
     void DecRefCount();
 };

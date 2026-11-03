@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/GridCell.h"
 #include "fnv/decl/LunaOwner.h"
 #include "fnv/symbols_00c90000.h"
@@ -10,10 +11,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <xmmintrin.h>
 #include <windows.h>
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 
 
 struct S_00df7010_TimerCommand

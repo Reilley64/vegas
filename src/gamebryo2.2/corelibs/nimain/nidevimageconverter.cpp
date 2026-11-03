@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp: NiDevImageConverter, Converter, NiDevImageConverterStandIn, ImageConverterBase and more (34 functions)
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -2135,10 +2136,6 @@ struct ReaderAllocator
 };
 struct ReaderStorage
 {
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ReaderAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     int unk000;
     int unk004;
     int unk008;
@@ -3378,10 +3375,6 @@ MipPixelData* MipImageConverter::FUN_00a7ae60(const char** ppcFileNames, unsigne
     return pkDest;
 }
 
-inline void* __cdecl operator new(unsigned int, void* memory) throw()
-{
-    return memory;
-}
 
 namespace Mipmap {
 
@@ -3425,7 +3418,6 @@ struct Format
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 
 struct Image : NiMemObject
@@ -3515,7 +3507,7 @@ Image* Converter::GenerateMipmaps(Image* source, Image* destination)
 
     if (!output || !reinterpret_cast<::NiPixelFormat *>(&(output->format))->operator==((const ::NiPixelFormat &)(format)) || output->levels <= 1 || output->faces != source->faces)
     {
-        void* storage = Image::operator new(sizeof(Image));
+        void* storage = ::operator new(sizeof(Image));
         if (storage)
             output = ::new (storage) Image(source->Width(), source->Height(), format, 0, source->Faces());
         else

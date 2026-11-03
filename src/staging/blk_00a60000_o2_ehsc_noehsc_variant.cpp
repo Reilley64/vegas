@@ -99,7 +99,6 @@ struct RecursiveSpinLock
 void FUN_00a638c0(void* p);
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiTriBasedGeomData;
 struct FUN_00a7d670_Class
@@ -124,7 +123,6 @@ struct FUN_00a72590_Class
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a7d6e0_Class
 {
@@ -1464,10 +1462,6 @@ template <class T> class NiPointerA61
 };
 struct NodeA61
 {
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerA61 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 
     NiPointerA61<NiObjectA61> m_pReferencedObject;
     int m_iData;
@@ -1764,7 +1758,6 @@ class NiTPointerMapA6F : public NiTMapBaseA6F
 class NiObjectA6F
 {
   public:
-    static void* operator new(unsigned int uiSize) throw();
 
     NiObjectA6F() throw();
     virtual ~NiObjectA6F() throw();
@@ -1937,11 +1930,6 @@ struct NodeA616
     NodeA616(EntryA616* entry, NodeA616* next) : m_entry(entry), m_next(next)
     {}
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 class HashA616
 {
@@ -2409,10 +2397,6 @@ class FUN_007613f0
     FUN_007613f0() throw();
     ~FUN_007613f0() throw()
     {}
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&(*reinterpret_cast<::NodePool *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 // @fnv 0x00a63ae0

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/SearchObject.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00cf1000.h"
@@ -1480,12 +1481,6 @@ class PairBody
         parent = p;
         motion = t;
     }
-    static void* operator new(unsigned, void* p)
-    {
-        return p;
-    }
-    static void operator delete(void*, void*)
-    {}
     const MotionPose* GetMotionState() const
     {
         return static_cast<const MotionPose*>(motion);

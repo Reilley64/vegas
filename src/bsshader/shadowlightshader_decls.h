@@ -65,7 +65,6 @@ template <> class NiPointer<NiShaderConstantMapEntry>
 class NiD3DShaderConstantMap : public NiRefObject
 {
   public:
-    static void* operator new(std::size_t size);
     NiD3DShaderConstantMap(GraphicsRenderer* renderer, unsigned int type);
     unsigned char layoutPadding8[60];
     virtual unsigned int AddEntry(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*,

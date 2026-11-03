@@ -1,6 +1,7 @@
 // src/staging/blk_00e20000_od_o2_nood_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00e20000_od_o2_nood_variant.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <new>
 #include <windows.h>
 
 // src/staging/blk_00e20000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
@@ -95,7 +96,6 @@ struct E29SrcList { E29Src* data; int count; };
 struct E29Item { __m128 a; __m128 b; char flag20; int val24; };
 struct E29Out1 { E29Item item; void* ptr30; int one34; int zero38; char unk3c; char flag3d; };
 struct E29Out2 { E29Item items[4]; int count; char flagC4; void* ptrs[4]; int unkD8; int unkDC; int zeros[4]; int unkF0; };
-inline void* operator new(unsigned int, void* p) { return p; }
 struct Router_e3a1 {
     int unk00, unk04, unk08, unk0C;
     void* m_pStreamAllocator;

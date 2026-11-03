@@ -229,7 +229,6 @@ void FUN_00996e40_shell::FUN_00996e40()
 }  // namespace fnv_00996e40
 
 struct TESObjectWEAP;
-void* operator new(unsigned int);
 extern char DAT_0108ddac;
 struct FUN_009d0890 : CombatProcedure
 {

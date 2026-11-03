@@ -1,4 +1,5 @@
 // fallout_shared/tesscriptfunctions.cpp: Script, ActorValue, TESActorBaseData, DelStandIn and more (979 functions)
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdint>
@@ -3365,7 +3366,6 @@ void* DelStandIn::FUN_00709a60(unsigned int flags)
 }
 }  // namespace fnv_00709a60
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00a69dd0 {
     char pad[0x10];
@@ -6243,7 +6243,7 @@ public:
     unsigned int uiFlags;
     NiUpdateData(float fTime, bool m_bUpdateEnabled, bool bIsMultiThreaded);
 };
-struct BSFadeNode { static void* operator new(unsigned int); static void operator delete(void*, unsigned int); };
+struct BSFadeNode { };
 struct NiAVObject : BSFadeNode {
 };
 class NiNode : public NiAVObject {
@@ -26051,7 +26051,7 @@ class NiPoint3 { public:
 };
 class NiPoint2 { public: float x,y; NiPoint2(); NiPoint2(float,float); };
 class RgbaColor { public: float r,g,b,a; RgbaColor(); RgbaColor(float,float,float,float); };
-class NiMemObject { public: static void* operator new(unsigned int); static void operator delete(void*, unsigned int); };
+class NiMemObject { public: };
 class NiAVObject : public NiMemObject { public:
  virtual void vf000();
  virtual void vf004();
@@ -36482,8 +36482,6 @@ struct FUN_00a746e0 {
     int unkc0;
     FUN_00a746e0(unsigned short usVertices, LinePoint* pkVertex, LineColor* pkColor, void* pkTexture,
                  unsigned short usNumTextureSets, int eNBTMethod, bool* pkFlags);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 struct LineDrawer {
 };
@@ -38698,7 +38696,7 @@ struct Motion {  };
 struct MoveRequest {
  World* world; Cell* cell; Point position; float xRotation; float unk18; float zRotation;
  bool enabled; char unk21; short unk22; int unk24; int unk28; Reference* destination; int unk30;
- MoveRequest(); static void* operator new(unsigned int);
+ MoveRequest(); 
 };
 struct Process {
 virtual void v000();
@@ -40048,8 +40046,6 @@ public:
     unsigned int unk60;
     unsigned int unk64;
     unsigned int unk68;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     ShaderEffect(TESObjectREFR*, TESForm*, float);
 };
 struct ShaderEffectQueue {  };
@@ -40300,7 +40296,7 @@ struct FUN_0081c720 {
  int unk30;
  int unk34;
  int unk38;
- static void* operator new(unsigned int); static void operator delete(void*, unsigned int);
+ 
  FUN_0081c720(EffectReference*,void*,float);
 };
 struct EffectManager {  };
@@ -49984,7 +49980,7 @@ struct Mgr2 {  };
 struct Mgr1 {  void FUN_005bb9b0(MyVec005bb9b0&); };
 struct FX;
 struct FXPtr { FX* p; FXPtr(FX*); ~FXPtr(); operator FX*() const; };
-class NiMemObject { public: static void* __cdecl operator new(unsigned int); static void operator delete(void*, unsigned int); };
+class NiMemObject { public: };
 struct FX : NiMemObject {
     void* vtbl; int refCount;
     MyVec005bb9b0 pos; float unk14; float unk18; Mat3 rot;

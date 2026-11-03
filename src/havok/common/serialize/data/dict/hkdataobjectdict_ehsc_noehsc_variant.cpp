@@ -5,6 +5,8 @@
 
 // src/havok/common/serialize/data/dict/hkdataobjectdict.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/dict/hkdataobjectdict.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/AF70Owner.h"
 #include "fnv/decl/ClassDictDC.h"
 #include "fnv/decl/DCAB_Owner.h"
@@ -3214,7 +3216,7 @@ struct Shape7DE0
     Shape7DE0() throw() : m_usFlags(0), m_iRefCount(0)
     {}
     virtual ~Shape7DE0();
-    static __forceinline void* operator new(unsigned int nbytes) throw()
+    static __forceinline void* operator new(std::size_t nbytes) throw()
     {
         Context7DE0* pkContext = GetContext7DE0();
         Shape7DE0* pkShape = static_cast<Shape7DE0*>(pkContext->m_pkMemory->allocateChunk(nbytes));
@@ -4316,7 +4318,7 @@ struct ObjectDCB990
     {
         m_kPairs.ClearAndRelease();
     }
-    static void operator delete(void* p, unsigned int nbytes) throw()
+    static void operator delete(void* p, std::size_t nbytes) throw()
     {
         RouterDCB990* pkRouter = GetRouterDCB990();
         pkRouter->m_pkHeap->ReleaseBlock(p, (int)nbytes);
@@ -4454,10 +4456,6 @@ void S00dc7d20_Cls::FUN_00dc7d20(S00dc7d20_Class** ppClass, const char* pcName, 
     pkClass->FUN_00dc9f20(pcPooled, iType, (*(::S00dc7d20_Ptr *)(reinterpret_cast<::Registry_dc8d *>((m_pOwningWorld))->FUN_00dc8d70((void *)(pcTypeName), {}))), iCount);
 }
 
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 struct hkAllocX
 {
@@ -4819,7 +4817,7 @@ struct hkDataRefCountedDC82
         if (--m_uiItemCount == 0)
             delete this;
     }
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         void* p = hkRouterNsDC82::FUN_00c85750().heap().AllocateMemoryBlock(n);
         static_cast<hkDataRefCountedDC82*>(p)->m_usMemSizeAndFlags = (unsigned short)n;

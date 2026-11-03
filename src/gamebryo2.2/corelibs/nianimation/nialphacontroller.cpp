@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nialphacontroller.cpp: NiAlphaController, Holder, FloatCtlr (9 functions)
 
+#include <new>
 #include "fnv/decl/FUN_00a38ef0_Class.h"
 #include "fnv/decl/FUN_00a57640_shell.h"
 #include "fnv/decl/FUN_00a6d290.h"
@@ -40,22 +41,17 @@ int* __cdecl FUN_00a56a80()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiFloatInterpController
 {
     NiFloatInterpController();
 };
 extern int DAT_0109a76c;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a 0x38-byte NiFloatInterpController, constructs it in place, sets its vtable to DAT_0109a76c, and returns it (or null on allocation failure).
 // @fnv 0x00a56b30
 NiFloatInterpController* __cdecl CreateFloatInterpController()
 {
-    NiFloatInterpController* p = (NiFloatInterpController*)BSFadeNode::operator new(0x38);
+    NiFloatInterpController* p = (NiFloatInterpController*)::operator new(0x38);
     if (p)
     {
         new (p) NiFloatInterpController;
@@ -124,7 +120,6 @@ struct NiNew
 {
     int* vt;
     int f[13];
-    static void* __cdecl operator new(unsigned int) throw();
 };
 struct Holder
 {
@@ -134,7 +129,7 @@ struct Holder
 // @fnv 0x00a56ae0
 NiNew* Holder::CreateAndCopy(CloningProcess* apSource)
 {
-    NiNew* n = (NiNew*)NiNew::operator new(0x38);
+    NiNew* n = (NiNew*)::operator new(0x38);
     NiNew* r;
     if (n)
     {

@@ -1611,12 +1611,6 @@ class ConstMap : public NiRefObject
     ConstMap(int a, int b);
     virtual void v2(const char* name, unsigned int type, int a, int idx, int cnt, void* d, int sz, int four, void* e,
                     int f);
-    static void* operator new(std::size_t n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*)
-    {}
     char pad[0x3c];
     virtual void v3();
     virtual void v4();

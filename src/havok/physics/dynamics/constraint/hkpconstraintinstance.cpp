@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstdint>
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -371,21 +372,7 @@ void* hkpPairCF3D::FUN_00cf3dd0() const
     return m_pEntityB->m_cc;
 }
 
-struct hkAllocatorCF3F
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCF3F
-{
-    void* m_apvUnk00[4];
-    hkAllocatorCF3F* m_pkHeap;
-    hkAllocatorCF3F& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 
 struct hkBoolCF3F
@@ -411,7 +398,7 @@ class FUN_00cf3ea0 : public hkpConstraintInstance
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        void* p = static_cast<hkMemoryRouterCF3F*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
         static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -473,29 +460,11 @@ namespace fnv_00cf40b0 {
 
 
 
-struct MemAllocator
-{
-    virtual void dummy0() throw();
-    virtual void dummy1() throw();
-    virtual void deallocate(void* p, int size) throw();
-};
 
-struct ThreadMemory
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    MemAllocator* m_pMemoryAllocator;
-    inline void deallocate(void* p, int size) throw()
-    {
-        m_pMemoryAllocator->deallocate(p, size);
-    }
-};
 
 static inline void hkDeallocate(void* p, int size) throw()
 {
-    ((ThreadMemory*)::FUN_00c85750())->deallocate(p, size);
+    hkMemoryRouter::getInstance().heap().blockFree(p, size);
 }
 
 struct FUN_00cb0c00_class
@@ -551,26 +520,7 @@ void FUN_00cf40b0_class::FUN_00cf40b0()
 }  // namespace fnv_00cf40b0
 
 namespace fnv_00cf4160 {
-class hkMemoryAllocatorCF41
-{
-  public:
-    virtual ~hkMemoryAllocatorCF41() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCF41
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF41* m_pStreamAllocator;
-    hkMemoryAllocatorCF41& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 class FUN_00cf40b0
@@ -582,7 +532,7 @@ class FUN_00cf40b0
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterCF41*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00cf40b0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00cf40b0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00cf40b0* FUN_00cf4160(unsigned int uiFlags) throw();
@@ -951,20 +901,7 @@ struct FUN_00cf3d00_Buf
     FUN_00cf3d00_Vec4 unk30;
 };
 
-struct FUN_00cf3d00_Obj
-{
-    virtual void vf00();
-    virtual FUN_00cf3d00_Buf* vf04(int size);
-};
 
-struct FUN_00cf3d00_Holder
-{
-    void* m0;
-    void* m1;
-    void* m2;
-    void* m3;
-    FUN_00cf3d00_Obj* m4;
-};
 
 
 struct FUN_00cf3d00_class
@@ -989,8 +926,7 @@ void FUN_00cf3d00_class::SetVec4Pair(FUN_00cf3d00_Vec4* a, FUN_00cf3d00_Vec4* b)
         return;
     }
 
-    FUN_00cf3d00_Holder* holder = (FUN_00cf3d00_Holder*)static_cast<hkMemoryRouterCF3F*>(::FUN_00c85750());
-    FUN_00cf3d00_Buf* buf = holder->m4->vf04(0x40);
+    FUN_00cf3d00_Buf* buf = static_cast<FUN_00cf3d00_Buf*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
 
     if (buf != 0)
     {

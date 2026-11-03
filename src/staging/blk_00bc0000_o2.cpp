@@ -432,7 +432,7 @@ void FUN_00bc3040(void* self, int, float* out)
     *out = *(float*)((char*)*(int**)((char*)self + 0x2c) + 0x40);
 }
 
-struct StrArr
+struct StrArr : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
 };
 struct GlobalObjectO2_00a7b610
@@ -444,10 +444,10 @@ void FUN_00bc31f0(StrArr* pStrArr)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
     char* p = ::FUN_00a7d330(::g_01201f90.pData);
-    unsigned int i = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int j = *(unsigned short*)((char*)pStrArr + 0x8);
+    unsigned int i = pStrArr->m_usSize;
+    unsigned int j = pStrArr->m_usMaxSize;
     if (i >= j)
-        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(*(unsigned short*)((char*)pStrArr + 0xe) + i);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->m_usGrowBy + i);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(i, p);
 }
 
@@ -600,7 +600,7 @@ struct GlobalObjectO2_00a7b610_2
 {
     char* pData;
 };
-struct StrArr_00bc3450
+struct StrArr_00bc3450 : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
 };
 // @fnv 0x00bc3450
@@ -608,9 +608,9 @@ void FUN_00bc3450(StrArr_00bc3450* pArray)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(::StrArr *)((StrArr*)pArray));
     char* s = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_2 *>(&::g_01201f9c)).pData);
-    unsigned int i = *(unsigned short*)((char*)pArray + 0xa);
-    if (i >= *(unsigned short*)((char*)pArray + 8))
-        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(i + *(unsigned short*)((char*)pArray + 0xe));
+    unsigned int i = pArray->m_usSize;
+    if (i >= pArray->m_usMaxSize)
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(i + pArray->m_usGrowBy);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(i, s);
 }
 
@@ -1080,10 +1080,10 @@ void FUN_00bc3700(StrArr* pStrArr)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
     char* p = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_3 *>(&::g_01201fa8)).pData);
-    unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int size = *(unsigned short*)((char*)pStrArr + 8);
+    unsigned int idx = pStrArr->m_usSize;
+    unsigned int size = pStrArr->m_usMaxSize;
     if (idx >= size)
-        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(*(unsigned short*)((char*)pStrArr + 0xe) + idx);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->m_usGrowBy + idx);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(idx, p);
 }
 

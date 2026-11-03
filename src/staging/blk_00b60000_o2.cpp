@@ -645,6 +645,7 @@ struct NiObject
 {
     virtual ~NiObject();
     virtual void v1();
+    long m_iRefCount;
 public:
     ::NiObject *DynamicCast(const ::NiRTTI *);
 };
@@ -957,7 +958,7 @@ struct FUN_00b66850_class
     void FUN_00b66850();
 };
 
-struct StrArr
+struct StrArr : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
 };
 
@@ -12005,12 +12006,12 @@ void FUN_00b6f460_class::LoadAndSetAdditional(NiStream* kStream)
     {
         if (old)
         {
-            if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
+            if (InterlockedDecrement(&old->m_iRefCount) == 0)
                 old->v1();
         }
         this->unka4 = pkAdditional;
         if (pkAdditional)
-            InterlockedIncrement((volatile long*)((char*)pkAdditional + 4));
+            InterlockedIncrement(&pkAdditional->m_iRefCount);
     }
 }
 // @fnv 0x00b60150

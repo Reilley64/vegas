@@ -964,7 +964,7 @@ FUN_00bb7170_Class* FUN_00bb7300_Class::CreateInstance()
 }
 
 struct GlobalObjectO2_00a7b610;
-struct StrArr
+struct StrArr : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
@@ -975,10 +975,10 @@ void FUN_00bb74e0(StrArr* a)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((a))->WriteToSettingArray({});
     char* p = ::FUN_00a7d330((const char *)(*(void**)&::g_011fa05c));
-    unsigned int i = *(unsigned short*)((char*)a + 0xa);
-    unsigned int c = *(unsigned short*)((char*)a + 0x8);
+    unsigned int i = a->m_usSize;
+    unsigned int c = a->m_usMaxSize;
     if (i >= c)
-        reinterpret_cast<::ViewerStrings *>((a))->SetSize(i + *(unsigned short*)((char*)a + 0xe));
+        reinterpret_cast<::ViewerStrings *>((a))->SetSize(i + a->m_usGrowBy);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((a))->SetAt(i, p);
 }
 

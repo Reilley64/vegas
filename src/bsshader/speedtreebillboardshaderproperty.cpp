@@ -94,6 +94,8 @@ struct ACS00bac
 
 struct A5A040Cls
 {
+    char pad00[0x9c];
+    char m_kPropertyState;
 };
 
 struct BA86C0Owner
@@ -146,11 +148,11 @@ struct BA86C0Owner
     int FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3);
 };
 
-// Calls FUN_00a5a040 when pArg+0x9c is null and clears unk58 when *unkAC is zero, then returns 0.
+// Calls FUN_00a5a040 when the address of pArg's property state is null and clears unk58 when *unkAC is zero, then returns 0.
 // @fnv 0x00ba86c0
 int BA86C0Owner::FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3)
 {
-    if ((char*)pArg + 0x9c == 0)
+    if (&pArg->m_kPropertyState == 0)
         reinterpret_cast<::FUN_00a5a040_Class *>((pArg))->FUN_00a5a040();
     if (*unkAC == 0)
         unk58 = 0;

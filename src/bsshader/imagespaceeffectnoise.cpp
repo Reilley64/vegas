@@ -20,21 +20,21 @@ void NoiseImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectPa
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, manager->effects->noise, shader, 0);
 }
 
-class ImageSpaceEffectParam;
-class NiTPrimitiveArray_ImageSpaceEffectParam___
+struct EffectInput_ba3b10
 {
-  public:
+    int iTexIndex;
+    int iFilterMode;
 };
 
-// Allocates an 8-byte parameter from two ints and stores it at uiIndex in the array at pThis+0x38.
+// Allocates an 8-byte input from two ints and stores it at uiIndex in the effect's input array.
 // @fnv 0x00ba3b10
 void SetEffectParamAt(char* pThis, int, unsigned int uiIndex, int a2, int a3)
 {
-    int* p = (int*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(8);
-    p[0] = a2;
+    EffectInput_ba3b10* p = (EffectInput_ba3b10*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(8);
+    p->iTexIndex = a2;
     ImageSpaceEffectParam* param = (ImageSpaceEffectParam*)p;
-    p[1] = a3;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceEffectParam___*)(pThis + 0x38))))->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(param));
+    p->iFilterMode = a3;
+    reinterpret_cast<::FUN_00a41520_cls *>(&reinterpret_cast<ImageSpaceEffect*>(pThis)->inputs)->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(param));
 }
 
 #include "generated/data/bsshader/imagespaceeffectnoise.inc"

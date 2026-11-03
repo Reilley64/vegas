@@ -40,6 +40,7 @@ class ImageSpaceEffect
     char prefix[24];
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > params;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > textures;
+    NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > inputs;
 public:
     void SetTextureArraySize(int);
 };

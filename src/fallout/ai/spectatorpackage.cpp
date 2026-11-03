@@ -1,4 +1,5 @@
 // fallout/ai/spectatorpackage.cpp: SpectatorPackage (1 function)
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/symbols_009f9000.h"
 #include "spectatorpackage_decls.h"
@@ -377,7 +378,7 @@ struct Holder_009f7fe0
 // @fnv 0x009f7fe0
 bool Holder_009f7fe0::FUN_009f7fe0()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(_arrA0))->GetName())) == 0 || _flag90 != 0;
+    return SimpleArraySize(&(_arrA0)) == 0 || _flag90 != 0;
 }
 
 struct PC7d
@@ -526,7 +527,7 @@ struct FUN_009f8a80_wrapper : FUN_009f8aa0_class
 void FUN_009f8660_class::FUN_009f8660(BSSimpleArrayActor& aArray)
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(aArray))->Clear(true);
-    unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((FUN_009f84d0_class*)this)->arr))->GetName()));
+    unsigned int count = SimpleArraySize(&(((FUN_009f84d0_class*)this)->arr));
     reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>(&(aArray))->FUN_0084b5c0(count << 1);
     {
         int i = 0;
@@ -547,7 +548,7 @@ void FUN_009f8a10::InitLoadGame(void* apLoadGameBuffer)
     unsigned int isaveGameCount8;
     SpectatorThreatInfo* threatInfo;
     reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((intptr_t)(apLoadGameBuffer));
-    isaveGameCount8 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xa0))))->GetName()));
+    isaveGameCount8 = SimpleArraySize((((ArrSI*)((char*)this + 0xa0))));
     for (i = 0; i < isaveGameCount8; ++i)
     {
         threatInfo = (SpectatorThreatInfo*)((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((FUN_009f8a80_class*)((char*)this + 0xa0))))->FUN_009f8a80(i)));
@@ -574,7 +575,7 @@ void SpectatorPackageSave::FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x94), 12, 0);
 
     threatInfo = reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xa0)
-                     ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xa0)))->GetName()))
+                     ? SimpleArraySize((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xa0)))
                      : 0;
 
     reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(threatInfo);
@@ -1506,7 +1507,7 @@ struct FUN_009f8c70_cls
 // @fnv 0x009f84d0
 void FUN_009f84d0_class::FUN_009f84d0(uintptr_t id)
 {
-    int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName()));
+    int count = SimpleArraySize(&(arr));
     for (int i = 0; i < count; ++i)
     {
         Flt* item = ((::Flt *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<FUN_009f8a80_class*>(&arr)))->FUN_009f8a80(i)));
@@ -1523,7 +1524,7 @@ void FUN_009f84d0_class::FUN_009f84d0(uintptr_t id)
 void SpectatorPackageStandIn::FUN_009f8420(Actor& aActor)
 {
     SpectatorThreatInfo* scanInfo;
-    int isize_ = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xA0)))->GetName()));
+    int isize_ = SimpleArraySize((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0xA0)));
     int i6 = 0;
 
     for (; i6 < isize_; ++i6)
@@ -1709,7 +1710,7 @@ void FUN_009f7500_class::FUN_009f7500(void* param_2)
         field8c = other->field8c;
         field94 = other->field94;
         field90 = other->field90;
-        int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->arrA0))->GetName()));
+        int count = SimpleArraySize(&(other->arrA0));
         reinterpret_cast<::ThreatArray *>((((FUN_009f8b30_class*)&arrA0)))->FUN_009f8b30(count, 1);
         int i;
         for (i = 0; i < count; i++)
@@ -1791,9 +1792,9 @@ struct Package
 // @fnv 0x009f76e0
 void Package::FUN_009f76e0()
 {
-    if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName())))
+    if (!((int)SimpleArraySize(&(threats))))
         return;
-    int sizeSlot13 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName()));
+    int sizeSlot13 = ((int)SimpleArraySize(&(threats)));
     int pointCountSlot1 = 0;
     Vec minimumSlot0 = (*reinterpret_cast<const ::ThreatBounds::Vec *>((void *)&::NiPoint3::ZERO));
     Vec maximumSlot27 = (*reinterpret_cast<const ::ThreatBounds::Vec *>((void *)&::NiPoint3::ZERO));
@@ -2388,7 +2389,7 @@ void FUN_009f7f20_class::FUN_009f7f20(MobileObject* actor, unsigned char flag)
     TargetView* AX;
     if (flag != 0)
     {
-        if ((unsigned int)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)&this->entries)))->GetName()))) > 0)
+        if ((unsigned int)(((int)SimpleArraySize((((ThreatList*)&this->entries))))) > 0)
         {
             TargetView* A5 =
                 (TargetView*)((int)(reinterpret_cast<::Callees *>((((Entry*)((FUN_009f8aa0_class*)&this->entries)->FUN_009f8aa0())))->FUN_00726070()));
@@ -2425,14 +2426,14 @@ struct FUN_009f8570_class
 FUN_006e3850* FUN_009f8570_class::FUN_009f8570()
 {
     FUN_006e3850* output = new FUN_006e3850;
-    int total = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)))->GetName()));
+    int total = ((int)SimpleArraySize((reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0))));
     for (int index = 0; index < total; ++index)
     {
         int used;
         ThreatItem_009f8570* item;
         item = reinterpret_cast<ThreatItem_009f8570*>(
             ((::Entry *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)))->FUN_009f8a80(index))));
-        used = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((output))->GetName()));
+        used = ((int)SimpleArraySize((output)));
         reinterpret_cast<::BSSimpleArray_PathingAvoidNode_1024 *>((output))->SetSize(used + 1, 1);
         reinterpret_cast<::SpectatorInfo *>((item))->FUN_009f6f30((*(::SpectatorVolume *)(((void *)(reinterpret_cast<::S3e60 *>((output))->FUN_006a1400(used))))));
     }
@@ -2748,7 +2749,7 @@ void FUN_009f7d70_cls::FUN_009f7d70(Actor9f7d* pkActor, bool bActive)
         reinterpret_cast<::FUN_008b3ab0_shell *>((pkActor))->FUN_008b3ab0();
         return;
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kTargets))->GetName())) > 0)
+    if (SimpleArraySize(&(m_kTargets)) > 0)
     {
         int iRoll = ::DialogueRandom() % 100;
         Target9f7d* pkCandidate = ((::Target9f7d *)(reinterpret_cast<::Callees *>((((::Candidate9f7d *)(reinterpret_cast<::FUN_009f8aa0_class *>(&(m_kTargets))->FUN_009f8aa0()))))->FUN_00726070()));
@@ -3162,7 +3163,7 @@ struct Package8020
 void Package8020::FUN_009f8020(Actor8020* owner)
 {
     bool updated = false;
-    int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName()));
+    int count = ((int)SimpleArraySize(&(threats)));
     for (int i = 0; i < count; ++i)
     {
         Threat8020* entry = ((::Threat8020 *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(i)));
@@ -3176,7 +3177,7 @@ void Package8020::FUN_009f8020(Actor8020* owner)
             }
         }
     }
-    count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(threats))->GetName()));
+    count = ((int)SimpleArraySize(&(threats)));
     for (int j = 0; j < count; ++j)
     {
         Threat8020* entry = ((::Threat8020 *)(reinterpret_cast<::FUN_009f8a80_wrapper *>(&(threats))->FUN_009f8a80(j)));
@@ -3274,7 +3275,7 @@ void FUN_009f8900_class::FUN_009f8900(BGSLoadFormBuffer* apLoadGameBuffer)
 void Package::FUN_009f8330(Parameter* actor)
 {
     int id = actor->GetMark();
-    int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)((char*)this + 0xA0))))->GetName()));
+    int count = ((int)SimpleArraySize((((ThreatList*)((char*)this + 0xA0)))));
     Entry* match = 0;
     for (int i = 0; i < count; ++i)
     {
@@ -3287,7 +3288,7 @@ void Package::FUN_009f8330(Parameter* actor)
     }
     if (!match)
     {
-        int n = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((ThreatList*)((char*)this + 0xA0))))->GetName()));
+        int n = ((int)SimpleArraySize((((ThreatList*)((char*)this + 0xA0)))));
         reinterpret_cast<::ThreatArray *>((((ThreatList*)((char*)this + 0xA0))))->FUN_009f8b30(n + 1, 1);
         match = ((::Entry *)(reinterpret_cast<::FUN_009f8a80_wrapper *>((((ThreatList*)((char*)this + 0xA0))))->FUN_009f8a80(n)));
     }

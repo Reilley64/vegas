@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatgroupstrategy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroupstrategy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <cctype>
 #include <malloc.h>
@@ -46,7 +47,7 @@ struct FUN_00990890_shell
 // @fnv 0x00990890
 unsigned int FUN_00990890_shell::FUN_00990890()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 0x18)))->GetName()));
+    return SimpleArraySize((reinterpret_cast<ArrSI*>(this + 0x18)));
 }
 
 namespace fnv_00990a60 {
@@ -62,7 +63,7 @@ struct FUN_00990a60_shell
 // @fnv 0x00990a60
 unsigned int FUN_00990a60_shell::GetArrFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(this + 0x28))))->GetName()));
+    return SimpleArraySize((((ArrSI*)(this + 0x28))));
 }
 }  // namespace fnv_00990a60
 

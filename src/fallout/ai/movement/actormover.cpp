@@ -1,5 +1,6 @@
 // fallout/ai/movement/actormover.cpp: ActorMover, Mover, Tgt_b, MobileObject and more (79 functions)
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include <new>
@@ -1130,7 +1131,7 @@ struct FUN_00564db0_cls
 // @fnv 0x00564db0
 void FUN_00564db0_cls::FUN_00564db0(bool abVal)
 {
-    intptr_t iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    intptr_t iflags = SimpleArraySize((((ArrSI*)this)));
     if (abVal)
         iflags |= 0x40000;
     else

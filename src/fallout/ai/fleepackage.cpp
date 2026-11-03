@@ -2,6 +2,7 @@
 // src/fallout/ai/fleepackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/fleepackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A90Cls.h"
@@ -1806,7 +1807,7 @@ PathingAvoidNodeArray* AvoidancePackage_1440::BuildAvoidNodeArray()
         if (!pRef || reinterpret_cast<::TESForm *>((((ActorView*)pRef)))->GetDisabled() || pRef->IsDead(0))
             continue;
 
-        iSize = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00672930_flags*)pNodes_)))->GetName()));
+        iSize = ((int)SimpleArraySize((((FUN_00672930_flags*)pNodes_))));
         reinterpret_cast<::BSSimpleArray_PathingAvoidNode_1024 *>((pNodes_))->SetSize(iSize + 1, true);
         fRadius4 = FUN_00404010(fRadius3 * fRadius3, ::DAT_01016410);
         *((::PathingAvoidanceNode *)(reinterpret_cast<::S3e60 *>((pNodes_))->FUN_006a1400(iSize))) = PathingAvoidanceNode(*((AvoidedRefTarget*)pRef)->GetPos(), fRadius3, fRadius4);

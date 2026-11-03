@@ -253,7 +253,7 @@ struct FUN_009877c0_shell : ArrSI
 // @fnv 0x009877c0
 unsigned int FUN_009877c0_shell::GetFlagsFromSubobject()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x138))))->GetName()));
+    return SimpleArraySize((((ArrSI*)((char*)this + 0x138))));
 }
 
 struct GlobalObject_00869f00
@@ -295,7 +295,7 @@ struct FUN_00988750_shell
 // @fnv 0x00988750
 unsigned int FUN_00988750_shell::GetFlags() const
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((ArrSI*)(this + 0x110))))->GetName()));
+    return SimpleArraySize((void *)(((ArrSI*)(this + 0x110))));
 }
 }  // namespace fnv_00988750
 
@@ -979,7 +979,7 @@ struct C00986670
 SearchNode* C00986670::FUN_00986670(unsigned int a1)
 {
     unsigned int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName())); i++)
+    for (i = 0; i < SimpleArraySize(&(arr)); i++)
     {
         SearchNode* n = arr.FUN_006dad90(i);
         if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((n->p))->FUN_0084e3a0())) == a1)
@@ -1928,7 +1928,7 @@ struct FUN_0096a2b0_stub2
 // @fnv 0x00986500
 void FUN_00986500_shell::RemoveByTarget(std::intptr_t target)
 {
-    for (int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 8))))->GetName())); ++i)
+    for (int i = 0; i < SimpleArraySize((((ArrSI*)((char*)this + 8)))); ++i)
     {
         CombatTarget* combatTarget = ((FUN_0096a2b0_stub2*)((char*)this + 8))->FUN_0096a2b0(i);
         if (*(std::intptr_t*)combatTarget == target)
@@ -1954,7 +1954,7 @@ struct FUN_00986610_shell
 // @fnv 0x00986610
 void* FUN_00986610_shell::FUN_00986610(unsigned int value)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 8))))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize((((ArrSI*)((char*)this + 8)))); ++i)
     {
         CombatClusterMember* m = (CombatClusterMember*)((FUN_0098ef10_shell*)((char*)this + 8))->FUN_0098ef10(i);
         if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((_ref_0084e3a0_fn*)m->pActor)))->FUN_0084e3a0())) == value)
@@ -1982,8 +1982,8 @@ struct FUN_00986b00_shell
 void FUN_00986b00_shell::CopyArrayTo(XArr* dst)
 {
     unsigned int i;
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)dst)))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName())), true);
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName())); ++i)
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)dst)))->FUN_006f2290(SimpleArraySize(&(arr)), true);
+    for (i = 0; i < SimpleArraySize(&(arr)); ++i)
         dst->SetAt(i, (XIdle*)((MyArr*)&arr)->FUN_006dad90(i));
 }
 
@@ -2313,7 +2313,7 @@ void FUN_009869a0_shell::FUN_009869a0(Actor* apActor)
     unsigned int i;
     CombatClusterMember* combatMember;
 
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<MyArr*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->GetName())); ++i)
+    for (i = 0; i < SimpleArraySize((reinterpret_cast<MyArr*>(reinterpret_cast<unsigned char*>(this) + 0x18))); ++i)
     {
         combatMember = reinterpret_cast<CombatClusterMember*>(
             reinterpret_cast<MyArr*>(reinterpret_cast<unsigned char*>(this) + 0x18)->FUN_006dad90(i));
@@ -3027,8 +3027,8 @@ struct FUN_00986760_cls
 void FUN_00986760_cls::FUN_00986760(intptr_t pTarget)
 {
     unsigned int i;
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((FUN_00986760_arg*)pTarget)))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_08))->GetName())), {});
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_08))->GetName())); i++)
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((FUN_00986760_arg*)pTarget)))->FUN_006f2290(SimpleArraySize(&(m_08)), {});
+    for (i = 0; i < SimpleArraySize(&(m_08)); i++)
     {
         ((FUN_00986760_arg*)pTarget)->FUN_0047a110(i, m_08.FUN_0096a2b0(i));
     }
@@ -6766,7 +6766,7 @@ FUN_00985f90::~FUN_00985f90()
         void* target = ((void *)(reinterpret_cast<::Target *>(this)->GetIntAt(j)));
         reinterpret_cast<::FUN_008d0600_s *>(((*reinterpret_cast<::CombatManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_008d0600((intptr_t)(this), (intptr_t)(target));
     }
-    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(member138))->GetName())); k++)
+    for (unsigned int k = 0; k < SimpleArraySize(&(member138)); k++)
     {
         char* pEntry = (SimpleArrayItem<char *>(&(member138), k));
         delete pEntry;
@@ -6798,7 +6798,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
     }
     if (*(*reinterpret_cast<::DebugSetting *>(&::g_011f1824)).FUN_00408d60() && !DAT_011a4d34 && selected3)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())); ++i)
+        for (unsigned int i = 0; i < SimpleArraySize(&(points)); ++i)
         {
             DebugSearchPoint* spot = (SimpleArrayItem<::DebugSearchPoint *>(&(points), i));
             if (!((::DebugNode *)(::FUN_00559450((int *)&(debug)))))
@@ -6868,7 +6868,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             reinterpret_cast<::FUN_00440460_S *>((sphere))->FUN_00440460((const ::V3 *)&((*(const ::DebugPoint *)(((::Vec3 *)(void *)(point))))));
             ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(sphere, true);
         }
-        for (unsigned int q = 0; q < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs))->GetName())); ++q)
+        for (unsigned int q = 0; q < SimpleArraySize(&(pairs)); ++q)
         {
             DebugPair* pair = pairs.FUN_006a7af0(q);
             DebugActor* pairActor = 0;
@@ -8601,7 +8601,7 @@ void Group::FUN_0098a580()
                         headingsSlot11.AppendFloat(::WrapAngle(member->Heading(0)));
                     }
                 }
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(regionsSlot11))->GetName())))
+                if (SimpleArraySize(&(regionsSlot11)))
                 {
                     float previous = reinterpret_cast<::BSMultiBoundSphere *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->GetRadius();
                     ::BuildPathNodeHolder((*(::NiPointer< ::PathSource> *)(&shape)), (::EntryListNode *)(::CombatRegion::RegionArray *)(&regionsSlot11), (::WeightList *)(::CombatRegion::FloatArray *)(&headingsSlot11));
@@ -9348,7 +9348,7 @@ struct UpdateOwner
 // @fnv 0x0098e990
 void UpdateOwner::UpdateElements(unsigned int argument)
 {
-    unsigned int countFirst = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(first))->GetName()));
+    unsigned int countFirst = SimpleArraySize(&(first));
     for (unsigned int indexFirst2 = 0; indexFirst2 < countFirst; indexFirst2++)
     {
         bool removeFirst = false;
@@ -9366,7 +9366,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
         }
     }
     {
-        unsigned int countSecond4 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(second))->GetName()));
+        unsigned int countSecond4 = SimpleArraySize(&(second));
         for (unsigned int indexSecond = 0; indexSecond < countSecond4; indexSecond++)
         {
             bool removeSecond3 = false;
@@ -10469,13 +10469,13 @@ struct GrpQ
 bool ActorMergeData::MergeFrom(ActorMergeData* other)
 {
     MergeTargets* otherMembers = ((::MergeTargets *)(reinterpret_cast<::TESTopicInfoData *>((other))->GetLinkToList()));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((otherMembers))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize((otherMembers)); ++i)
     {
         MergeTarget* target = otherMembers->FUN_0096a2b0(i);
         if (!reinterpret_cast<::fnv_009866d0::FUN_009866d0_shell *>(this)->FUN_009866d0((::fnv_009866d0::Actor *)(target->actor)))
             return false;
     }
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName())); ++j)
+    for (unsigned int j = 0; j < SimpleArraySize(&(targets)); ++j)
     {
         MergeTarget* target = targets.FUN_0096a2b0(j);
         if (!reinterpret_cast<::fnv_009866d0::FUN_009866d0_shell *>((other))->FUN_009866d0((::fnv_009866d0::Actor *)(target->actor)))
@@ -10488,7 +10488,7 @@ bool ActorMergeData::MergeFrom(ActorMergeData* other)
     }
     reinterpret_cast<::FUN_009877e0_shell *>((other))->ClearGlobalObject();
     MergeMembers* otherState = ((::MergeMembers *)(reinterpret_cast<::BGSCameraPath *>((other))->GetConditions()));
-    for (unsigned int m = 0; m < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((otherState))->GetName())); ++m)
+    for (unsigned int m = 0; m < SimpleArraySize((otherState)); ++m)
     {
         MergeMember* member = otherState->FUN_006dad90(m);
         if (reinterpret_cast<::CombatGroup_009867d0 *>(this)->FUN_009867d0((::ActorV *)(member->actor)))
@@ -10501,7 +10501,7 @@ bool ActorMergeData::MergeFrom(ActorMergeData* other)
         else
             ::FUN_005b5e40();
     }
-    for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((otherMembers))->GetName())); ++n)
+    for (unsigned int n = 0; n < SimpleArraySize((otherMembers)); ++n)
     {
         MergeTarget* target = otherMembers->FUN_0096a2b0(n);
         if (reinterpret_cast<::GrpQ *>(this)->FUN_00986410((::ActQ *)(target->actor)))

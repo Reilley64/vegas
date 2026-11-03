@@ -1,5 +1,6 @@
 // fallout/ai/combat/grenadeprojectile.cpp: GrenadeProjectile, GPShell, ImpactProjectile (11 functions)
 
+#include "fnv/form_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <new>
 #include "fnv/decl/Actor.h"
@@ -1591,7 +1592,7 @@ bool ImpactProjectile::ProcessHits()
                     aChanged = true;
             }
 
-            if (!aTarget || !(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((aTarget))->GetName())) & 0x20))
+            if (!aTarget || !(reinterpret_cast<FormFields*>((aTarget))->m_uiFormFlags & 0x20))
             {
 
                 if (!reinterpret_cast<::BGSProjectile *>((((::EventStatus *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_004fd360() || reinterpret_cast<::BGSProjectile *>((((::EventStatus *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetHasExplosionAltTrigger() || ((::EventStatus *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->FUN_005de080())

@@ -4034,7 +4034,7 @@ bool AssignCombatPlanAngles(Ref* apRef, Ref* apTargetRef)
                 int kIter = 0;
                 unsigned int flags = 0;
                 unsigned int value;
-                value = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ptr))->GetName()));
+                value = SimpleArraySize((ptr));
                 value = FUN_0042f5a0(value, 0x40);
                 for (unsigned int e = 0; e < value; e++)
                 {

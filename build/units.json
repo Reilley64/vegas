@@ -2,8 +2,8 @@
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
   "units": 2868,
-  "functions": 68655,
-  "bytes": 11458030,
+  "functions": 68654,
+  "bytes": 11458024,
   "eh_tails": 1954,
   "eh_tail_bytes": 138526
  },
@@ -445899,11 +445899,6 @@
      "address": "0x00da33d0",
      "symbol": "?FUN_00da33d0@FUN_00da33d0_cls@@QAEPAU1@_N@Z",
      "size": 42
-    },
-    {
-     "address": "0x00ee6d9e",
-     "symbol": "?FUN_00ee6d9e@@YGHIHHPBDH@Z",
-     "size": 6
     },
     {
      "address": "0x00da3230",

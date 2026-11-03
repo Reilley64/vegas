@@ -908,7 +908,7 @@ struct FUN_00505c00_shell : public PathingRequest
 // @fnv 0x00505c00
 bool FUN_00505c00_shell::FUN_00505c00()
 {
-    return *((bool*)((char*)this + 0x99));
+    return bFaceTargetAtGoal;
 }
 
 struct FUN_00507e10_shell : public PathingRequest
@@ -919,7 +919,7 @@ struct FUN_00507e10_shell : public PathingRequest
 // @fnv 0x00507e10
 float FUN_00507e10_shell::FUN_00507e10()
 {
-    return *(float*)((char*)this + 0x8c);
+    return m_fPathingRadius;
 }
 
 struct FUN_0069f900_shell : public PathSmootherPOVSearch
@@ -983,7 +983,7 @@ struct FUN_006b05d0_shell : public PathingSolution
 // @fnv 0x006b05d0
 bool FUN_006b05d0_shell::FUN_006b05d0()
 {
-    return *((bool*)((char*)this + 0x40));
+    return m_bHasValidPath;
 }
 
 struct FUN_006b1df0_shell : public PathSmootherPOVSearch
@@ -1588,7 +1588,7 @@ struct BSSimpleArrayActor
 {
 };
 
-struct FUN_006ae190_shell
+struct FUN_006ae190_shell : public PathSmootherPOVSearch
 {
     void FUN_006ae190();
 };
@@ -1596,28 +1596,12 @@ struct FUN_006ae190_shell
 // @fnv 0x006ae190
 void FUN_006ae190_shell::FUN_006ae190()
 {
-    struct POD12
-    {
-        unsigned int x;
-        unsigned int y;
-        unsigned int z;
-    };
-
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4) = new PathSmootherPOVPoint;
-
-    reinterpret_cast<unsigned int*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4))[0] = 2;
-
-    *reinterpret_cast<POD12*>(
-        reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 4) =
-        *reinterpret_cast<POD12*>(reinterpret_cast<char*>(this) + 0x2060);
-
-    *reinterpret_cast<float*>(
-        reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 0x10) = 0.0f;
-
-    *reinterpret_cast<unsigned short*>(
-        reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)) + 0x48) = 0xffff;
-
-    reinterpret_cast<::FUN_00438690 *>((reinterpret_cast<BSSimpleArrayActor*>(reinterpret_cast<char*>(this) + 0x20b4)))->FUN_007cb2e0((unsigned int *)&(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x20c4)));
+    m_pStartPoint = new PathSmootherPOVPoint;
+    m_pStartPoint->eType = 2;
+    m_pStartPoint->Center = m_kPathStartPosition;
+    m_pStartPoint->fRadius = 0.0f;
+    m_pStartPoint->m_usResult = 0xffff;
+    reinterpret_cast<::FUN_00438690 *>(&m_kPathPoints)->FUN_007cb2e0((unsigned int *)&m_pStartPoint);
 }
 
 namespace fnv_006ae280 {

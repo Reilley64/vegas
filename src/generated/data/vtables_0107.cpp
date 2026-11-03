@@ -399,7 +399,7 @@ extern "C" void fnv_fn_009fcf80() __asm__("?FUN_009fcf80@@YAIPEAVFUN_009fcf80_cl
 extern "C" void fnv_fn_009fdcb0() __asm__("?FUN_009fdcb0@FUN_009fdcb0_class@@QEAAPEAHH@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
-extern "C" void fnv_fn_00a7b850() __asm__("?FUN_00a7b850@FnvCpu_FUN_00a7b850_CpuObject@@QEAAHXZ");
+extern "C" void fnv_fn_00a7b850() __asm__("?FUN_00a7b850@FnvCpu_FUN_00a7b850_CpuObject@@QEAAPEAXXZ");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00b6f470() __asm__("?FUN_00b6f470@@YAHXZ");

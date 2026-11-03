@@ -512,7 +512,7 @@ extern "C" void fnv_fn_00e88ad0() __asm__("?FUN_00e88ad0@FUN_00e88ad0_Class@@QEA
 extern "C" void fnv_fn_00e88ae0() __asm__("?FUN_00e88ae0@FUN_00e88ae0_cls@@QEAAEXZ");
 extern "C" void fnv_fn_00e88af0() __asm__("?FUN_00e88af0@FUN_00e88af0_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00e88bb0() __asm__("?ApplyFromArray@FUN_00e88bb0_Class@@QEAAXPEAH@Z");
-extern "C" void fnv_fn_00e88bf0() __asm__("?DestroyIfFlagged@FUN_00e88b00_Class@@QEAAH_N@Z");
+extern "C" void fnv_fn_00e88bf0() __asm__("?DestroyIfFlagged@FUN_00e88b00_Class@@QEAAPEAX_N@Z");
 extern "C" void fnv_fn_00e88c30() __asm__("?RemoveElement@FUN_00e88c30_cls@@QEAA_NPEAUFUN_00e88c30_elem@@@Z");
 extern "C" void fnv_fn_00e88c90() __asm__("?FUN_00e88c90@FUN_00e88c90_shell@@QEAA_NPEAVNiGeometryGroup@@@Z");
 extern "C" void fnv_fn_00e88ca0() __asm__("?CheckAndDispatch@FUN_00e88ca0_t@@QEAA_NPEAUFUN_00e88ca0_Group@@PEAUFUN_00e88ca0_Data@@@Z");
@@ -533,7 +533,7 @@ extern "C" void fnv_fn_00e89ba0() __asm__("?UploadConstants@NiD3DShaderProgramLi
 extern "C" void fnv_fn_00e89c70() __asm__("?SetShaderConstantF@CE89C70ShaderProgram@@QEAA_NPEAUCE89C70ShaderConstant@@PEBMIIPEBG@Z");
 extern "C" void fnv_fn_00e8a120() __asm__("?InitFromTexture@TextureInfo@@QEAA_NPEAUBaseTex@@@Z");
 extern "C" void fnv_fn_00e8a9e0() __asm__("?FUN_00e8a9e0@FUN_00e8a9e0_cls@@QEAAPEAU1@E@Z");
-extern "C" void fnv_fn_00e8aa40() __asm__("?FUN_00e8aa40@FUN_00e8aa40_Class@@QEAAH_N@Z");
+extern "C" void fnv_fn_00e8aa40() __asm__("?FUN_00e8aa40@FUN_00e8aa40_Class@@QEAAPEAX_N@Z");
 extern "C" void fnv_fn_00e8b0c0() __asm__("?FUN_00e8b0c0@FUN_00e8b0c0_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00e8b490() __asm__("?FUN_00e8b490@@YAXPEAHHH@Z");
 extern "C" void fnv_fn_00e8b4e0() __asm__("?FUN_00e8b4e0@FUN_00e8b4e0_Class@@QEAAPEAXI@Z");

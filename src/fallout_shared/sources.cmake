@@ -177,6 +177,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/sky/stars.cpp
   src/fallout_shared/speedtree/bstreemanager.cpp
   src/fallout_shared/speedtree/bstreemodel.cpp
+  src/fallout_shared/speedtree/bstreenode.cpp
   src/fallout_shared/tempeffects/bstecreatetask.cpp
   src/fallout_shared/tempeffects/bstempeffect.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
@@ -320,7 +321,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/sky/precipitation.cpp
   src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sun.cpp
-  src/fallout_shared/speedtree/bstreenode.cpp
   src/fallout_shared/teleportdata.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris.cpp
   src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp

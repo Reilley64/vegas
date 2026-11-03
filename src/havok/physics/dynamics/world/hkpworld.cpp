@@ -125,7 +125,7 @@ struct FUN_00c98820_Class
     FUN_00c98820_ArrayObject** m_08;
     int m_0c;
 
-    void FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth);
+    void FUN_00c98820(void* first, void* second, int third, int fourth, int fifth);
 };
 class C91World : public hkpWorld {
 public:
@@ -1124,11 +1124,11 @@ struct CpuObject {
     unsigned int unk1b0;
     unsigned int unk1b4;
     unsigned int unk1b8;
-    int value;
-    int FUN_00c91110();
+    void* value;
+    void* FUN_00c91110();
 };
 // @fnv 0x00c91110
-int CpuObject::FUN_00c91110()
+void* CpuObject::FUN_00c91110()
 {
     return value;
 }
@@ -7801,11 +7801,11 @@ struct __declspec(align(16)) EC98BE0Vector {
 };
 struct EC98BE0Owner {
     void FUN_00c98b60(EC98BE0Vector* position, float scalar, int a, int b, int c);
-    void FUN_00c98be0(int x, int y, float scalar, int a, int b, int c);
+    void FUN_00c98be0(const void* x, const void* y, float scalar, int a, int b, int c);
 };
 // Constructs a position vector from x and y, then calls FUN_00c98b60 with that position, scalar, and the remaining arguments.
 // @fnv 0x00c98be0
-void EC98BE0Owner::FUN_00c98be0(int x, int y, float scalar, int a, int b, int c)
+void EC98BE0Owner::FUN_00c98be0(const void* x, const void* y, float scalar, int a, int b, int c)
 {
     EC98BE0Vector position;
     reinterpret_cast<::TransformedPosDAD *>(&(position))->FUN_00c7f7a0((*(const ::hkQsTransformDAD *)(x)), (*(const ::hkVector4DAD *)(y)));
@@ -8281,7 +8281,7 @@ struct PhantomSink {
 // @fnv 0x00c92950
 static __declspec(noinline) void FUN_00c92950(PhantomWorld* world, PhantomSink* apSink)
 {
-    BorderSet* border = ((::BorderSet *)(reinterpret_cast<::fnv_00c91110::CpuObject *>((world))->FUN_00c91110()));
+    BorderSet* border = (::BorderSet *)(reinterpret_cast<::fnv_00c91110::CpuObject *>((world))->FUN_00c91110());
     if (border) {
         for (int i = 0; i < world->m_kPhantoms.m_iElementCount; ++i) {
             hkpPhantom* p = world->m_kPhantoms.m_data[i];
@@ -9082,7 +9082,7 @@ void RotationOwner::ApplyRotation(const RotationInput* transform, const __m128* 
     __m128 projected = _mm_mul_ps(_mm_shuffle_ps(dot3, dot3, 0), q);
     __m128 rotated = _mm_add_ps(cross, _mm_add_ps(weighted, projected));
     worldDirection = _mm_add_ps(rotated, rotated);
-    reinterpret_cast<::FUN_00c98820_Class *>(this)->FUN_00c98820((void *)(&worldPosition), (void *)(&worldDirection), (void *)(a), (void *)(b), (void *)(c));
+    reinterpret_cast<::FUN_00c98820_Class *>(this)->FUN_00c98820((void *)(&worldPosition), (void *)(&worldDirection), a, b, c);
 }
 
 
@@ -10310,7 +10310,7 @@ void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntitie
     }
 }
 
-struct Op { char type; int p; };
+struct Op { char type; void* p; };
 struct Pt { unsigned short x; unsigned short pad; unsigned short y; };
 struct Req { char k; Req(char c):k(c){} Req(const Req& o):k(o.k){} };
 struct Info { int u0, u1, cnt; };
@@ -10402,7 +10402,7 @@ void* Mgr::FUN_00c97d30(Item* it)
 {
   unsigned int v94 = m_94;
   if (v94) {
-    Op o; o.type = 8; o.p = (int)it;
+    Op o; o.type = 8; o.p = it;
     reinterpret_cast<::WorldWithPending *>(this)->FUN_00c91160();
     return 0;
   }
@@ -11190,8 +11190,8 @@ void S97_World::FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInp
         }
         if (kdTree) {
             S97_timer(str_010c6970);
-            S97_Array<unsigned long, S97_TempAllocator> hits;
-            ::FUN_00d1b850((::QueryObj *)(kdTree), (int)&(aabb), (int)&(hits));
+            S97_Array<uintptr_t, S97_TempAllocator> hits;
+            ::FUN_00d1b850((::QueryObj *)(kdTree), &(aabb), &(hits));
             S97_timer(str_010c6964);
             int typeA = collA->getShape()->getType();
             for (int i = 0; i < hits.GetLogicalSize(); i++) {
@@ -14736,12 +14736,12 @@ struct FUN_00c98820_ArrayObject
     virtual void vf18();
     virtual void vf1c();
     virtual void vf20();
-    virtual void vf24(void* first, void* second, void* third, void* fourth, void* fifth);
+    virtual void vf24(void* first, void* second, int third, int fourth, int fifth);
 };
 
 
 // @fnv 0x00c98820
-void FUN_00c98820_Class::FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth)
+void FUN_00c98820_Class::FUN_00c98820(void* first, void* second, int third, int fourth, int fifth)
 {
     __m128 sum = _mm_add_ps(*(__m128*)second, *(__m128*)first);
 

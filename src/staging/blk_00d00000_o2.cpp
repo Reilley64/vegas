@@ -1201,7 +1201,7 @@ struct QueryObj
 
 // Records two HkTimer profiling markers around a call to FUN_00d1b4d0 with the QueryObj vertex data and bounds.
 // @fnv 0x00d1b850
-void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
+void __cdecl FUN_00d1b850(QueryObj* obj, void* arg1, void* arg2)
 {
     HkTimer* prof = (HkTimer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* cur = prof->head;

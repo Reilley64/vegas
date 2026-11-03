@@ -238,7 +238,7 @@ struct StreamStub
     unsigned short unk0E;
 };
 
-void __stdcall FUN_00a57420(StreamStub* stream);
+void FUN_00a57420(StreamStub* stream);
 
 struct ControllerStub
 {
@@ -267,7 +267,6 @@ void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
 }
 
 extern "C" unsigned int __cdecl strlen(const char*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiGlobalStringTable
 {
     static char* AddString(const char*);
@@ -435,7 +434,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 
 
 struct NiTransformController

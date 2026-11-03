@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nialphaproperty.cpp: NiAlphaProperty (12 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/decl/FUN_00a5d450_class.h"
@@ -39,7 +40,7 @@ public:
     bool FUN_00a62140(void *);
 };
 // @fnv 0x00a5cb10
-unsigned char __fastcall IsAlphaPropertyEqual(NiAlphaProperty* self, int, NiObject* pkObject)
+unsigned char IsAlphaPropertyEqual(NiAlphaProperty* self, int, NiObject* pkObject)
 {
     NiAlphaProperty* pkAlpha = reinterpret_cast<NiAlphaProperty*>(pkObject);
     return reinterpret_cast<EqBase*>(self)->FUN_00a62140(pkObject) &&
@@ -52,7 +53,6 @@ unsigned char __fastcall IsAlphaPropertyEqual(NiAlphaProperty* self, int, NiObje
            ((unsigned char)(self->m_uiObjectFlags >> 13) & 1) == ((unsigned char)(pkAlpha->m_uiObjectFlags >> 13) & 1);
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObj
 {
     virtual void Destroy();
@@ -127,7 +127,6 @@ struct BSFadeNode
 struct NiPropertyCtorStub
 {
 };
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 // Allocates a 0x1c-byte NiAlphaProperty, initialises its vtable and flags, and stores it in DAT_011f4410 with reference counting.
 // @fnv 0x00a5cef0

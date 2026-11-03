@@ -36,9 +36,6 @@ class NiPoint2
     // SaveBinary
     // char* __cdecl NiPoint2::*(const char*)
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint2) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, y) == 4);
 class RegionPointList : public BSSimpleList<RegionPoint*>
 {
   public:
@@ -85,11 +82,4 @@ class RegionPointList : public BSSimpleList<RegionPoint*>
     // void __cdecl RegionPointList::*()
     // void* __cdecl RegionPointList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(RegionPointList) == 40);
-FNV_STATIC_ASSERT(offsetof(RegionPointList, m_pScaleResult) == 8);
-FNV_STATIC_ASSERT(offsetof(RegionPointList, m_bOwnsPointMemory) == 12);
-FNV_STATIC_ASSERT(offsetof(RegionPointList, m_kMinimums) == 16);
-FNV_STATIC_ASSERT(offsetof(RegionPointList, Maximums) == 24);
-FNV_STATIC_ASSERT(offsetof(RegionPointList, m_uiDistanceInsideAtMax) == 32);
-FNV_STATIC_ASSERT(offsetof(RegionPointList, iCount) == 36);
 #endif

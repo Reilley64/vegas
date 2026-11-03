@@ -1,6 +1,7 @@
 // src/bsshader/mtrenderingsystem_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/mtrenderingsystem.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004a0f60_cls.h"
 #include "fnv/decl/FUN_00aa63c0.h"
@@ -72,8 +73,6 @@ RenderingState::RenderingState()
 }  // namespace fnv_00ba3690
 
 namespace RenderStageWait {
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct WaitHandleCounter
 {
@@ -98,7 +97,7 @@ struct ThreadStages : ::TaskThreadManager
 };
 
 // @fnv 0x00ba3130
-extern "C" void __fastcall FUN_00ba3130(ThreadStages* system, void*, int threadIndex, int stage)
+extern "C" void FUN_00ba3130(ThreadStages* system, void*, int threadIndex, int stage)
 {
     if (!::DAT_011f94b4)
         return;
@@ -111,8 +110,6 @@ extern "C" void __fastcall FUN_00ba3130(ThreadStages* system, void*, int threadI
 }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 struct MemoryManager
 {
@@ -363,7 +360,7 @@ class AccumTaskReceiver : public ::TaskThreadManager
 };
 
 // @fnv 0x00ba3390
-void __fastcall FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, TaskArg1* a2, NiRefObject* a3, void* a4,
+void FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, TaskArg1* a2, NiRefObject* a3, void* a4,
                              void* a5, NiRefObject* a6, unsigned int a7, unsigned int a8, void* a9)
 {
     if (::DAT_011f94b4)
@@ -407,12 +404,8 @@ void __fastcall FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, Ta
 
 }
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void*, long, long*);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 namespace RenderShutdownDetail {
-typedef int(__stdcall* SemaphoreRelease)(void*, long, long*);
+typedef int(* SemaphoreRelease)(void*, long, long*);
 struct TaskSemaphore
 {
     volatile long count;
@@ -453,7 +446,7 @@ struct RenderTaskManager : ::TaskThreadManager
     RenderTask* tasks[2];
 };
 // @fnv 0x00ba2d80
-void __fastcall FUN_00ba2d80(RenderTaskManager* manager)
+void FUN_00ba2d80(RenderTaskManager* manager)
 {
     if (!::DAT_011f94b4)
         return;
@@ -547,9 +540,6 @@ void ThreadOwner::FUN_00ba2e00(int index, unsigned int affinity, void(__cdecl* t
     }
 }
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount,
-                                                                long* lpPreviousCount);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 struct WorkerSync_ba2f30
 {
     volatile long activeCount;
@@ -602,9 +592,6 @@ void ThreadCoordinator_ba2f30::FUN_00ba2f30()
     }
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 struct SemaphoreBA2
 {
@@ -661,7 +648,6 @@ void FUN_00ba2fa0_C::FUN_00ba2fa0()
 }
 
 namespace fnv_00ba2ff0 {
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
 struct MemoryManager
 {
 };
@@ -690,7 +676,7 @@ struct WorkerThreadState : ThreadState
     bool killThread;
 };
 // @fnv 0x00ba2ff0
-void* __fastcall FUN_00ba2ff0(WorkerThreadState* self, void*, unsigned int flags)
+void* FUN_00ba2ff0(WorkerThreadState* self, void*, unsigned int flags)
 {
     self->finishedProcessing.Release();
     self->startProcessing.Release();
@@ -760,8 +746,7 @@ FUN_00ba30e0::FUN_00ba30e0()
     state14 = 0;
 }
 
-__declspec(dllimport) int __stdcall ReleaseSemaphore(void*, long, long*);
-extern int(__stdcall* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c0)(void*);
 
 namespace ThreadStageSignalDetail {
 struct Semaphore
@@ -795,10 +780,6 @@ void RenderingStageController::FUN_00ba30f0(int threadIndex, int stage)
 
 namespace fnv_00ba3190 {
 extern "C" unsigned long __readfsdword(unsigned long offset);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* addend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* semaphore, long releaseCount,
-                                                                long* previousCount);
 
 struct RefObjMt
 {
@@ -980,7 +961,7 @@ void FUN_00ba3190()
 
 void __cdecl FUN_00ba2d70();
 void __cdecl FUN_00ba3030();
-void __stdcall FUN_00ec5fce(void*, unsigned int, int, void(__cdecl*)());
+void FUN_00ec5fce(void*, unsigned int, int, void(__cdecl*)());
 
 struct LinearTaskRecord
 {

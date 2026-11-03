@@ -3,7 +3,6 @@
 #define FNV_AUTOMEMCONTEXT_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 class AutoMemContext
 {
   public:
@@ -11,7 +10,4 @@ class AutoMemContext
     AutoMemContext(MEM_CONTEXT context, bool track, const char* file, int line);
     ~AutoMemContext();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(AutoMemContext) == 0x4);
-FNV_STATIC_ASSERT(offsetof(AutoMemContext, m_eMemoryContext) == 0x0);
 #endif

@@ -22,7 +22,7 @@
 #include "havok/hkaRagdollInstance.h"
 
 // @fnv 0x00ce18d0
-void __stdcall FUN_00ce18d0(int a)
+void FUN_00ce18d0(int a)
 {
     reinterpret_cast<::Ragdoll4 *>((a))->FUN_00ce1760((::hkQsTransformC17 *)((int)&DAT_01268700), (*(const ::hkQsTransformC17 *)(0)), {});
 }

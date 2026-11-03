@@ -55,7 +55,7 @@ const void* __cdecl FUN_00a820d0()
 }
 
 // @fnv 0x00a82600
-void __stdcall FUN_00a82600(int pTarget, int b, float c)
+void FUN_00a82600(int pTarget, int b, float c)
 {
     *(float*)(pTarget + 8) = c;
     *(int*)(pTarget + 4) = b;
@@ -101,21 +101,21 @@ struct S : NiRefObject
     int f4;
     int f8;
     void* fC;
-    void __thiscall FUN_00a824d0();
+    void FUN_00a824d0();
 };
 // @fnv 0x00a824d0
-void __thiscall S::FUN_00a824d0()
+void S::FUN_00a824d0()
 {
     *(void**)this = (void*)&DAT_0109e47c;
     if (NiRenderer::ms_pRenderer)
-        ((void(__thiscall*)(NiRenderer*, void*))(*(void***)NiRenderer::ms_pRenderer)[64])(NiRenderer::ms_pRenderer,
+        ((void(*)(NiRenderer*, void*))(*(void***)NiRenderer::ms_pRenderer)[64])(NiRenderer::ms_pRenderer,
                                                                                           this);
     void* p = fC;
     if (p)
     {
         void* a = (char*)p - 4;
         if (*(int*)a != 0)
-            (*(void(__thiscall**)(void*, int)) * (void**)p)(p, 3);
+            (*(void(**)(void*, int)) * (void**)p)(p, 3);
         else
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(a);
     }
@@ -131,7 +131,7 @@ struct RecursiveSpinLock
 {
 };
 // @fnv 0x00a82620
-void __stdcall PoolFreeUIntNode(void* apNode)
+void PoolFreeUIntNode(void* apNode)
 {
     *(float*)((char*)apNode + 8) = 0.0f;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
@@ -198,7 +198,7 @@ void FUN_00a82710_shell::FUN_00a82710(unsigned int n)
 
 struct FUN_00a82890_shell
 {
-    char __thiscall FUN_00a82890(const unsigned short* a, const void* b);
+    char FUN_00a82890(const unsigned short* a, const void* b);
 };
 
 struct FUN_00a82c70_holder
@@ -383,13 +383,13 @@ struct S_00a82050_Class : S_00a82050_Base
     S_00a82050_Node** ppNodes;
     unsigned int uCount;
 
-    virtual int __thiscall GetIndex(int);
-    virtual bool __thiscall Compare(int, int);
-    virtual void __thiscall Initialize(S_00a82050_Node*, int, float);
+    virtual int GetIndex(int);
+    virtual bool Compare(int, int);
+    virtual void Initialize(S_00a82050_Node*, int, float);
     virtual void Unknown();
-    virtual S_00a82050_Node* __thiscall GetNode();
+    virtual S_00a82050_Node* GetNode();
 
-    void __thiscall FUN_00a82050(int, float);
+    void FUN_00a82050(int, float);
 };
 
 S_00a82050_Base::~S_00a82050_Base()
@@ -397,7 +397,7 @@ S_00a82050_Base::~S_00a82050_Base()
 
 // Looks up the node matching iArg in the bucket at GetIndex(iArg) and sets its fValue to fArg, or inserts a new node at the bucket head and increments uCount.
 // @fnv 0x00a82050
-void __thiscall S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
+void S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
 {
     int iIndex;
     S_00a82050_Node* pNode;
@@ -471,11 +471,11 @@ struct FNV_This_821f0
     unsigned short* m_pusData;
     unsigned int unk04;
     unsigned int m_uCount;
-    char __thiscall ContainsAllValues(FNV_Arg_821f0* pArg);
+    char ContainsAllValues(FNV_Arg_821f0* pArg);
 };
 // Calls ContainsAllValues on three offsets into b taken from a, returning 0 if any call fails and 1 otherwise.
 // @fnv 0x00a82890
-char __thiscall FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const void* apBase)
+char FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const void* apBase)
 {
     for (unsigned int i = 0; i < 3; ++i)
         if (!reinterpret_cast<::FNV_This_821f0 *>(this)->ContainsAllValues((::FNV_Arg_821f0 *)(void *)((char*)apBase + a[i] * 12)))
@@ -485,7 +485,7 @@ char __thiscall FUN_00a82890_shell::FUN_00a82890(const unsigned short* a, const 
 
 // Returns 0 if any usVal in pArg's array is not found in m_pusData via binary search, otherwise 1.
 // @fnv 0x00a821f0
-char __thiscall FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
+char FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
 {
     // The scratch slot that is handed to the search helper is address-taken, so
     // MSVC puts it in the dead incoming-argument slot of this frameless member
@@ -635,7 +635,7 @@ struct WeightedMap
 };
 // For each of three group indices, inserts each entry's key and weight into the map only if the key is absent or its stored weight is lower.
 // @fnv 0x00a82530
-void __stdcall MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, EntryGroup* __restrict groups)
+void MergeGroupWeights(WeightedMap* map, const unsigned short* groupIndices, EntryGroup* __restrict groups)
 {
     for (unsigned int groupIndex = 0; groupIndex < 3; ++groupIndex)
     {
@@ -1999,7 +1999,7 @@ struct NiStreamLinkIDSet
 };
 // Builds and deduplicates BoneLODControllerArray sets from mesh triangles and vertex bone weights, optionally remapping vertex indices.
 // @fnv 0x00a83d40
-void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
+void BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
                                           BoneArray<BoneLODControllerArray*>* sets, unsigned int* remap)
 {
     unsigned int triangleCount = mesh->triangles;
@@ -2290,7 +2290,7 @@ struct WeightMap;
 struct MapVTable
 {
     void* destroy;
-    unsigned int(__thiscall* hash)(WeightMap*, unsigned int);
+    unsigned int(* hash)(WeightMap*, unsigned int);
     void* equal;
 };
 

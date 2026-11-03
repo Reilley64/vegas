@@ -34,12 +34,12 @@ struct FUN_0067bc60_shell
     void* m_vtbl;
     int m_flags;
     TESForm* m_form;
-    FUN_0067bc60_shell* __thiscall ConstructFromForm(TESForm** pForm);
+    FUN_0067bc60_shell* ConstructFromForm(TESForm** pForm);
 };
 
 // Calls the base constructor, sets the vtable to DAT_01068960, clears m_flags, stores *pForm into m_form and returns this.
 // @fnv 0x0067bc60
-FUN_0067bc60_shell* __thiscall FUN_0067bc60_shell::ConstructFromForm(TESForm** pForm)
+FUN_0067bc60_shell* FUN_0067bc60_shell::ConstructFromForm(TESForm** pForm)
 {
     new ((void *)(((FUN_0067ad20_shell*)this))) ::FUN_0067ad20_Class();
     m_vtbl = &DAT_01068960;

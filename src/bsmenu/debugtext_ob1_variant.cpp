@@ -1,5 +1,6 @@
 // bsmenu/debugtext_ob1_variant.cpp: MgrQ, TextList, AudioManager, A0F8Self and more (21 functions)
 
+#include <windows.h>
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/B408A80String.h"
@@ -58,10 +59,10 @@ struct DebugText {
 };
 struct GlobalObject_00a7b610;
 struct FUN_00a11b70_shell {
-    GlobalObject_00a7b610* __thiscall GetGlobalObject();
+    GlobalObject_00a7b610* GetGlobalObject();
 };
 struct DebugText_00a0e430 {
-    void __thiscall AddScaledValue(int a, int b);
+    void AddScaledValue(int a, int b);
 };
 struct VCall_00a0e470 {
     virtual int f0();
@@ -86,7 +87,7 @@ struct FUN_00a0e580_VTab {
     virtual int m3();
     virtual int m4();
     virtual int m5();
-    virtual int __thiscall m6(int, int, const char*, char*, int);
+    virtual int m6(int, int, const char*, char*, int);
 };
 int __cdecl FUN_00a0e580(FUN_00a0e580_VTab* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...);
 struct RgbaColor { float r; float g; float b; float a; };
@@ -107,7 +108,7 @@ struct FUN_00a0e6d0_this {
 };
 int __cdecl InvokeVFuncWithVarArgs(FUN_00a0e6d0_this* p0, int p1, void* p2, int p3, int p4, const char* p5, ...);
 extern int DAT_011f33dc;
-extern void (__stdcall *DAT_00fdf05c)(int*);
+extern void (*DAT_00fdf05c)(int*);
 void __cdecl FUN_00a11820();
 struct NiTMapItem {
     unsigned int key;
@@ -117,7 +118,7 @@ struct NiTMapItem {
 struct NiTPointerMap {
 };
 struct P03MM {
-    void* __thiscall Allocate(unsigned int size);
+    void* Allocate(unsigned int size);
 };
 struct ChangeData;
 struct FUN_00a11c00_shell {
@@ -126,7 +127,7 @@ struct FUN_00a11c00_shell {
 struct BSSimpleArray {
     int _pad;
     void** m_data;
-    unsigned int __thiscall FUN_00a11d20(void* &aValue);
+    unsigned int FUN_00a11d20(void* &aValue);
 };
 struct PendingObj {
     void FUN_00a0dcc0();
@@ -756,8 +757,8 @@ PendingD9* FUN_00a0d9e0(bool bCreate)
 void FUN_00a11820();
 inline float GetElapsed() { float value=DAT_011f63a0; return value; }
 struct SceneNode;
-extern int (__stdcall* LocalDecrement)(void*);
-extern int (__stdcall* LocalIncrement)(void*);
+extern int (* LocalDecrement)(void*);
+extern int (* LocalIncrement)(void*);
 inline int DecrementRef(void* value) { return LocalDecrement(value); }
 inline int IncrementRef(void* value) { return LocalIncrement(value); }
 struct Owner {
@@ -1295,8 +1296,8 @@ void FUN_00a1c800()
 }
 
 void* __cdecl FUN_00ec61c0(void*,int,unsigned);
-extern long (__stdcall* DecrementD)(void*);
-extern long (__stdcall* IncrementD)(void*);
+extern long (* DecrementD)(void*);
+extern long (* IncrementD)(void*);
 inline long DecD(void* p) { return DecrementD(p); }
 inline long IncD(void* p) { return IncrementD(p); }
 struct SceneNodeD {
@@ -1652,7 +1653,6 @@ A11740Item* __cdecl FUN_00a11740(A11740Input* input, int unused, int expected, i
 namespace fnv_00a11880 {
 inline void DeadQ1(){int a[1];}
 inline void DeadQ9(){int a[9];}
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct RefQ { void* vt; long m_uiRefCount; void IncRefCount() { InterlockedIncrement(&m_uiRefCount); } };
 struct NP {
     RefQ* m_pObject;
@@ -1687,7 +1687,7 @@ FUN_00a11880::FUN_00a11880()
 }
 }  // namespace fnv_00a11880
 
-extern long (__stdcall *DAT_00fdf1c4)(long* value);
+extern long (*DAT_00fdf1c4)(long* value);
 
 struct NiRefObject_a119 {
     virtual ~NiRefObject_a119();
@@ -1881,7 +1881,7 @@ struct A11List {
     inline unsigned int RemoveHead();
     inline unsigned int RemoveTail();
     inline unsigned int RemovePos(A11Node** p);
-    unsigned int __thiscall FUN_00a11c40(unsigned int* aKey);
+    unsigned int FUN_00a11c40(unsigned int* aKey);
 };
 
 inline A11Node* A11List::Find(unsigned int* aKey) {
@@ -1973,8 +1973,8 @@ unsigned int A11List::FUN_00a11c40(unsigned int* aKey) {
 
 namespace fnv_00a0dcc0 {
 
-extern int (__stdcall* LocalDecrement)(void*);
-extern int (__stdcall* LocalIncrement)(void*);
+extern int (* LocalDecrement)(void*);
+extern int (* LocalIncrement)(void*);
 inline int DecrementRef(void* value) { return LocalDecrement(value); }
 inline int IncrementRef(void* value) { return LocalIncrement(value); }
 
@@ -3059,8 +3059,8 @@ struct FontSystem { FontFace* faces[2]; inline FontFace* GetFont(int i) { return
 inline FontSystem* FontSystem::GetSingleton() { return (*reinterpret_cast<::FontSystem * *>(&::DAT_011f33f8)); }
 extern "C" void __cdecl FUN_00633ba0();
 extern "C" void __cdecl SetExtraDataName();
-typedef void (__thiscall *AlphaFlag)(NiAlphaProperty*,bool,unsigned short);
-typedef bool (__thiscall *ExtraAttach)(NiObject*,ExtraData*);
+typedef void (*AlphaFlag)(NiAlphaProperty*,bool,unsigned short);
+typedef bool (*ExtraAttach)(NiObject*,ExtraData*);
 // @fnv 0x00a10c00
 unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float duration) {
  if(!root) return false;

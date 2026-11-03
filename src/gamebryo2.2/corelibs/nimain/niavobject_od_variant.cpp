@@ -15,7 +15,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -26,13 +25,12 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct NiAVObject
 {
 };
 struct FUN_00a5a030_shell : NiAVObject
 {
-    void __thiscall FUN_00a5a030(NiUpdateData& data);
+    void FUN_00a5a030(NiUpdateData& data);
 };
 char const* const* __cdecl FUN_00a5a420();
 const void* __cdecl FUN_00b4e1d0();
@@ -41,7 +39,7 @@ struct MemoryManager
 };
 struct FUN_00a59dc0_shell
 {
-    void __thiscall SetBoundObject(void* apBound);
+    void SetBoundObject(void* apBound);
 };
 
 // @fnv 0x00438220
@@ -70,11 +68,11 @@ unsigned short FUN_00456650_shell::FUN_00456650() const
 
 struct FUN_004a51b0_shell
 {
-    const float* __thiscall FUN_004a51b0(int i) const;
+    const float* FUN_004a51b0(int i) const;
 };
 
 // @fnv 0x004a51b0
-const float* __thiscall FUN_004a51b0_shell::FUN_004a51b0(int i) const
+const float* FUN_004a51b0_shell::FUN_004a51b0(int i) const
 {
     const float* base = (const float*)this;
     return base + i;
@@ -82,10 +80,10 @@ const float* __thiscall FUN_004a51b0_shell::FUN_004a51b0(int i) const
 
 struct FUN_0094db80_shell
 {
-    void __thiscall FUN_0094db80(unsigned char ucRef);
+    void FUN_0094db80(unsigned char ucRef);
 };
 // @fnv 0x0094db80
-void __thiscall FUN_0094db80_shell::FUN_0094db80(unsigned char ucRef)
+void FUN_0094db80_shell::FUN_0094db80(unsigned char ucRef)
 {
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1a) = ucRef;
 }

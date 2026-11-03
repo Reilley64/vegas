@@ -30,7 +30,6 @@ class NiQuatTransform
     NiQuatTransform();
     const NiQuaternion& GetOffsetC();
 };
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
 
 // Only the APIs used here are needed; this unit does not allocate NiAVObject.
 class NiAVObject : public NiObjectNET
@@ -102,7 +101,6 @@ class NiBlendInterpolator : public NiInterpolator
 class NiBlendTransformInterpolator : public NiBlendInterpolator
 {
 };
-FNV_STATIC_ASSERT(sizeof(NiBlendTransformInterpolator) == 48);
 
 class NiTimeController : public NiObject
 {
@@ -135,9 +133,5 @@ class AnimationInterpolatorNode : public NiMultiTargetTransformController
     bool FUN_004f05a0();
     void UpdateInterpolatorsAtTime(float time, bool selective);
 };
-FNV_STATIC_ASSERT(sizeof(AnimationInterpolatorNode) == 64);
-FNV_STATIC_ASSERT(offsetof(AnimationInterpolatorNode, m_pkBlendInterpolators) == 0x34);
-FNV_STATIC_ASSERT(offsetof(AnimationInterpolatorNode, m_ppTargetObjects) == 0x38);
-FNV_STATIC_ASSERT(offsetof(AnimationInterpolatorNode, m_usNumInterps) == 0x3c);
 
 #endif

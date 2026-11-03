@@ -3685,11 +3685,11 @@ struct S_00628cc0_Class
 {
     N::__m128 unk00;
 
-    void __thiscall FUN_00628cc0(N::__m128* arg1, N::__m128* arg2);
+    void FUN_00628cc0(N::__m128* arg1, N::__m128* arg2);
 };
 
 // @fnv 0x00628cc0
-void __thiscall S_00628cc0_Class::FUN_00628cc0(N::__m128* arg1, N::__m128* arg2)
+void S_00628cc0_Class::FUN_00628cc0(N::__m128* arg1, N::__m128* arg2)
 {
     unk00 = N::_mm_and_ps(*arg1, *arg2);
 }

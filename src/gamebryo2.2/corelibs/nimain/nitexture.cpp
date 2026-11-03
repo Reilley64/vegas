@@ -109,13 +109,13 @@ void __cdecl FUN_00a91290()
 struct GlobalObjectO2_00a7b610;
 // Returns a pointer to the global object g_011f3f38, ignoring both arguments.
 // @fnv 0x00a47370
-GlobalObjectO2_00a7b610* __fastcall FUN_00a47370(void*, int)
+GlobalObjectO2_00a7b610* FUN_00a47370(void*, int)
 {
     return &::g_011f3f38;
 }
 
 // @fnv 0x00a473b0
-void* __fastcall FUN_00a473b0(void* self, int, unsigned int flags)
+void* FUN_00a473b0(void* self, int, unsigned int flags)
 {
     reinterpret_cast<::FUN_00a5c240_shell *>((self))->DestroyFogProperty();
     if (flags & 1)
@@ -143,7 +143,7 @@ struct FUN_00a62a40_this
 {
 };
 // @fnv 0x00a62a40
-void __fastcall FUN_00a62a40(FUN_00a62a40_this* self, int, CGArray* apArray)
+void FUN_00a62a40(FUN_00a62a40_this* self, int, CGArray* apArray)
 {
     reinterpret_cast<::S *>((self))->FUN_00a5ca80((::StrArray *)(apArray));
     ActorCombatGroup* pEntry = ((::ActorCombatGroup *)(::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f450c)))));

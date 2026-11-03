@@ -93,7 +93,7 @@ int FUN_00cfcc70_class::FUN_00cfcc70(int value) {
 
 
 // @fnv 0x00cfce30
-void __stdcall FUN_00cfce30(void* a1, float a2, void* a3)
+void FUN_00cfce30(void* a1, float a2, void* a3)
 {
     unsigned char* p = (unsigned char*)a1;
     void* eax = *(void**)(p + 0xc);
@@ -232,28 +232,28 @@ struct FUN_00cfdae0_class
 };
 
 struct ContactSubobject {
-    virtual void __fastcall method00(void*);
-    virtual void __fastcall method04(void*);
-    virtual void __fastcall method08(void*);
-    virtual void __fastcall method0c(void*);
-    virtual void __fastcall method10(void*);
-    virtual void __fastcall method14(void*);
-    virtual void __fastcall method18(void*);
-    virtual void __fastcall method1c(void*);
-    virtual void __fastcall method20(void*);
-    virtual void __fastcall method24(void*);
-    virtual void __fastcall method28(void*);
-    virtual void __fastcall method2c(void*);
-    virtual void __fastcall method30(void*);
-    virtual void __fastcall method34(void*);
-    virtual void __fastcall method38(void*);
-    virtual void __fastcall method3c(void*);
-    virtual void __fastcall method40(void*);
+    virtual void method00(void*);
+    virtual void method04(void*);
+    virtual void method08(void*);
+    virtual void method0c(void*);
+    virtual void method10(void*);
+    virtual void method14(void*);
+    virtual void method18(void*);
+    virtual void method1c(void*);
+    virtual void method20(void*);
+    virtual void method24(void*);
+    virtual void method28(void*);
+    virtual void method2c(void*);
+    virtual void method30(void*);
+    virtual void method34(void*);
+    virtual void method38(void*);
+    virtual void method3c(void*);
+    virtual void method40(void*);
 };
 struct FUN_00cfccb0_class {
     void* m_00; void* m_04; void* m_08; void* m_0c; void* m_10;
     ContactSubobject embedded;
-    void __fastcall FUN_00cfccb0(void* forwardedArg);
+    void FUN_00cfccb0(void* forwardedArg);
 };
 // @fnv 0x00cfccb0
 void FUN_00cfccb0_class::FUN_00cfccb0(void* forwardedArg) {
@@ -310,7 +310,7 @@ struct FUN_00cfccc0_target {
     virtual void vf38();
     virtual void vf3c();
     virtual void vf40();
-    virtual void __thiscall vf44(int a, float b, int c, int d, int e, int f);
+    virtual void vf44(int a, float b, int c, int d, int e, int f);
 };
 
 struct FUN_00cfccc0_class {
@@ -321,12 +321,12 @@ struct FUN_00cfccc0_class {
     void* m_10;
     FUN_00cfccc0_target m_14;
 
-    void __thiscall ForwardToVf44(int a, float b, int c, int d, int e, int f);
+    void ForwardToVf44(int a, float b, int c, int d, int e, int f);
 };
 
 // Forwards all six arguments to the virtual method vf44 on the m_14 subobject.
 // @fnv 0x00cfccc0
-void __thiscall FUN_00cfccc0_class::ForwardToVf44(int aiArg1, float afArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6) {
+void FUN_00cfccc0_class::ForwardToVf44(int aiArg1, float afArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6) {
     m_14.vf44(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
 }
 

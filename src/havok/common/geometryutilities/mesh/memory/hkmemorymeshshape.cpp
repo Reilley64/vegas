@@ -9,7 +9,7 @@
 #include "havok/hkMemoryMeshShape.h"
 
 // @fnv 0x00e4a020
-void __stdcall FUN_00e4a020(void* unused)
+void FUN_00e4a020(void* unused)
 {}
 
 class hkMemMeshShapeCand : public hkMemoryMeshShape

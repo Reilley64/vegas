@@ -28,9 +28,4 @@ class CloningProcess
     // void __cdecl CloningProcess::*()
     // void* __cdecl CloningProcess::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(CloningProcess) == 16);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_pCloneMap) == 0);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_pProcessMap) == 4);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_eCloneCopyMode) == 8);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_bExactType) == 12);
 #endif

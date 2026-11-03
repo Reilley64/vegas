@@ -166,10 +166,10 @@ struct FUN_00484d40_Host
 };
 struct FUN_0081e980_shell
 {
-    void __thiscall FUN_0081e980(unsigned int, unsigned int);
+    void FUN_0081e980(unsigned int, unsigned int);
 };
 // @fnv 0x0081e980
-void __thiscall FUN_0081e980_shell::FUN_0081e980(unsigned int a, unsigned int b)
+void FUN_0081e980_shell::FUN_0081e980(unsigned int a, unsigned int b)
 {
     reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel((void *)(a), (void *)(b));
     unsigned int icasterID;

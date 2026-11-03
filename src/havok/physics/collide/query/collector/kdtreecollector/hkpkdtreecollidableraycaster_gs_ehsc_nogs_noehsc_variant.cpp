@@ -167,7 +167,7 @@ struct S00d97bf0_Obj
     int m0C;
     int m10;
 
-    int __thiscall FUN_00d97bf0(int a0, int a1, int a2, int a3);
+    int FUN_00d97bf0(int a0, int a1, int a2, int a3);
 };
 struct D98360Allocator
 {

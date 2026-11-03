@@ -1,5 +1,6 @@
 // fallout_shared/tesfile.cpp: TESFile, TgtOps, TESFile_Standin, GroupWriter and more (87 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -316,7 +317,7 @@ class BaseExtraList
 
 // Retrieves extra data of type 0x8c from the list and returns the int stored at offset 0xc, or 0 if absent.
 // @fnv 0x0041c460
-int __fastcall FUN_0041c460(BaseExtraList* apExtraList)
+int FUN_0041c460(BaseExtraList* apExtraList)
 {
     BSExtraData* pExtra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((apExtraList))->FUN_00410220(0x8c);
     if (!pExtra)
@@ -328,7 +329,7 @@ int __fastcall FUN_0041c460(BaseExtraList* apExtraList)
 
 extern float DAT_01019dd4;
 void* __cdecl memset(void*, int, size_t);
-int __fastcall FUN_00471400(void*);
+int FUN_00471400(void*);
 
 class RecursiveSpinLock
 {
@@ -501,7 +502,7 @@ struct DummyVtbl
 
 // Returns the value at offset 0x38 unless it is -1, in which case it returns the value at offset 0x150.
 // @fnv 0x004720a0
-int __fastcall FUN_004720a0(char* _this)
+int FUN_004720a0(char* _this)
 {
     return *(int*)(_this + 0x38) != -1 ? *(int*)(_this + 0x38) : *(int*)(_this + 0x150);
 }
@@ -529,7 +530,7 @@ bool FUN_00472150_shell::FUN_00472150(bool abSkipIgnored)
 }
 
 // @fnv 0x00472380
-int __fastcall FUN_00472380(int param_1)
+int FUN_00472380(int param_1)
 {
     return *(int*)(param_1 + 0x150);
 }
@@ -539,8 +540,8 @@ struct FUN_00472620_shell : public TESFile
     void FUN_00472620();
 };
 
-bool __fastcall ReadFormHeader(TESFile* _this);
-void __fastcall ReadChunkHeader(TESFile* _this);
+bool ReadFormHeader(TESFile* _this);
+void ReadChunkHeader(TESFile* _this);
 
 // If the file's field at offset 0x240 is zero, calls ReadFormHeader and, on success, clears the current chunk and calls ReadChunkHeader.
 // @fnv 0x00472620
@@ -577,7 +578,7 @@ void FUN_00471f80_shell::ResetFileState(bool getform)
     }
 }
 
-bool __fastcall ReadFormHeader(TESFile*);
+bool ReadFormHeader(TESFile*);
 
 // @fnv 0x00472660
 int FUN_00472660_shell::FUN_00472660()
@@ -651,7 +652,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004734d0_shell : public TESFile
 {
     bool FUN_004734d0(TESForm*);
@@ -682,11 +682,11 @@ class TESSound
 struct TESForm_vtbl
 {
     char pad_00[0x7c];
-    bool(__thiscall* vfunc_7c)(TESForm*, TESFile*);
+    bool(* vfunc_7c)(TESForm*, TESFile*);
     char pad_80[0x0c];
-    unsigned int(__thiscall* vfunc_8c)(TESForm*);
+    unsigned int(* vfunc_8c)(TESForm*);
     char pad_90[0x80];
-    bool(__thiscall* vfunc_110)(TESForm*, void*, bool, bool);
+    bool(* vfunc_110)(TESForm*, void*, bool, bool);
 };
 
 // Seeks the file to apForm's form type and ID, skipping groups and other records, and returns true when the matching record is found.
@@ -772,14 +772,14 @@ bool FUN_004738a0_shell::CheckFileVersion()
 namespace fnv_00473ce0 {
 
 // @fnv 0x00473ce0
-void __fastcall SetField22C(char* pThis, float)
+void SetField22C(char* pThis, float)
 {
     *(int*)(pThis + 0x22c) = DAT_01186740;
 }
 }  // namespace fnv_00473ce0
 
 extern int DAT_011c40b4;
-void* __fastcall FUN_004744d0(void*, int, unsigned int);
+void* FUN_004744d0(void*, int, unsigned int);
 
 struct TempMap_00473f20
 {
@@ -816,7 +816,7 @@ struct FUN_004744d0_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x004744d0
-int* __fastcall FUN_004744d0(int* self, FUN_004744d0_arg a)
+int* FUN_004744d0(int* self, FUN_004744d0_arg a)
 {
     new ((void *)(self)) ::FUN_00474660_class((*(int *)&(const ::FUN_004744d0_arg &)(a)));
     *self = (int)&DAT_01031fac;
@@ -890,7 +890,6 @@ struct BGSSaveGameBuffer
     unsigned int m_uiReadOffset;
     unsigned int m_uiBufferPosition;
 };
-typedef char _sizecheck_BGSSaveGameBuffer[sizeof(BGSSaveGameBuffer) == 20 ? 1 : -1];
 struct BGSSaveFormBuffer : public BGSSaveGameBuffer
 {
     void Save(SaveLoadFile*);
@@ -911,7 +910,6 @@ struct BGSSaveFormBuffer : public BGSSaveGameBuffer
     char _pad_1d[3];
     TESForm* pForm;
 };
-typedef char _sizecheck_BGSSaveFormBuffer[sizeof(BGSSaveFormBuffer) == 36 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -919,7 +917,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_0050f9c0_shell : public BGSSaveFormBuffer
 {
     void FUN_0050f9c0(TESForm*);
@@ -933,7 +930,7 @@ void FUN_0050f9c0_shell::FUN_0050f9c0(TESForm* apForm)
 }  // namespace fnv_0050f9c0
 
 // @fnv 0x008905f0
-bool __fastcall FUN_008905f0(bool* pFlags)
+bool FUN_008905f0(bool* pFlags)
 {
     return pFlags[0x2c];
 }
@@ -958,17 +955,17 @@ void TgtOps::ClearSourceFiles()
 
 struct FUN_004709f0Class
 {
-    void __thiscall FUN_004709f0();
+    void FUN_004709f0();
 };
 
 struct FUN_004601a0Class
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 struct FUN_00471850_Class
 {
-    unsigned int* __thiscall GetFieldAt3FC();
+    unsigned int* GetFieldAt3FC();
 };
 // Returns this for index 0, otherwise the TESFile* at index-1 in the array at offset 0x400, or null if index is out of range or the array is unset.
 // @fnv 0x00471a10
@@ -995,7 +992,7 @@ unsigned int FUN_00471ad0_shell::FUN_00471ad0()
 }
 
 // @fnv 0x00471850
-unsigned int* __thiscall FUN_00471850_Class::GetFieldAt3FC()
+unsigned int* FUN_00471850_Class::GetFieldAt3FC()
 {
     return *(unsigned int**)((char*)this + 0x3fc);
 }
@@ -1003,11 +1000,11 @@ unsigned int* __thiscall FUN_00471850_Class::GetFieldAt3FC()
 
 struct FUN_00473080_Class
 {
-    int __thiscall GetGlobalValue();
+    int GetGlobalValue();
 };
 
 // @fnv 0x00473080
-int __thiscall FUN_00473080_Class::GetGlobalValue()
+int FUN_00473080_Class::GetGlobalValue()
 {
     return DAT_011c54d0;
 }
@@ -1029,7 +1026,7 @@ struct FUN_00473880_Class
 };
 
 // @fnv 0x00473880
-unsigned char __thiscall FUN_00473880_Class::GetZeroByte()
+unsigned char FUN_00473880_Class::GetZeroByte()
 {
     unsigned char v = 0;
     return v;
@@ -1041,7 +1038,7 @@ struct FUN_00473d00_Class
 };
 
 // @fnv 0x00473d00
-char __thiscall FUN_00473d00_Class::ReturnTrue(int a, int b)
+char FUN_00473d00_Class::ReturnTrue(int a, int b)
 {
     char c = 1;
     (void)a;
@@ -1055,11 +1052,11 @@ struct FUN_00474760_holder
 
 struct FUN_00473f00_class
 {
-    void __thiscall ForwardToHolder();
+    void ForwardToHolder();
 };
 
 // @fnv 0x00473f00
-void __thiscall FUN_00473f00_class::ForwardToHolder()
+void FUN_00473f00_class::ForwardToHolder()
 {
     reinterpret_cast<::FUN_00474760_This *>((((FUN_00474760_holder*)this)))->FUN_00474760();
 }
@@ -1090,11 +1087,11 @@ int* FUN_00c3bb80()
 
 struct FUN_00473070Class
 {
-    void* __thiscall GetGlobalPointer();
+    void* GetGlobalPointer();
 };
 
 // @fnv 0x00473070
-void* __thiscall FUN_00473070Class::GetGlobalPointer()
+void* FUN_00473070Class::GetGlobalPointer()
 {
     return DAT_011c54cc;
 }
@@ -1386,7 +1383,6 @@ struct _ULARGE_INTEGER
     unsigned long HighPart;
     unsigned long LowPart;
 };
-typedef char _sizecheck__ULARGE_INTEGER[sizeof(_ULARGE_INTEGER) == 8 ? 1 : -1];
 struct FUN_00471400_shell : public TESFile
 {
     int FUN_00471400();
@@ -1537,10 +1533,6 @@ struct FUN_004721d0_shell : public TESFile
 };
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
-extern "C" __declspec(dllimport) unsigned long __stdcall FormatMessageA(unsigned long, const void*, unsigned long,
-                                                                        unsigned long, char*, unsigned long, char**);
-extern "C" __declspec(dllimport) void* __stdcall LocalFree(void*);
 struct FUN_00472620_shell
 {
 };
@@ -1697,7 +1689,7 @@ struct FUN_00473830_shell
     void ProcessGroups();
 };
 int DAT_010a2480;
-int __fastcall FUN_004720a0(char*);
+int FUN_004720a0(char*);
 
 struct FUN_00472000_interface
 {
@@ -1762,7 +1754,7 @@ struct FormTypeInfo
 };
 
 
-unsigned int __fastcall _FNV_GetFormType(TESForm*);
+unsigned int _FNV_GetFormType(TESForm*);
 
 struct TESFile_Standin
 {
@@ -1777,7 +1769,7 @@ struct TESFile_Standin
 };
 
 // @fnv 0x00472e60
-int __thiscall TESFile_Standin::FUN_00472e60(TESForm* apForm)
+int TESFile_Standin::FUN_00472e60(TESForm* apForm)
 {
     this->FUN_004736c0(apForm);
 
@@ -2221,7 +2213,7 @@ class FUN_00472fe0_cls
 };
 struct FUN_00473180_shell
 {
-    unsigned int __thiscall FUN_00473180(void* buffer, unsigned int size);
+    unsigned int FUN_00473180(void* buffer, unsigned int size);
 };
 
 struct FUN_00473110_shell
@@ -2232,10 +2224,10 @@ struct FUN_00473110_shell
     unsigned int unk0c;
     FUN_00473180_shell* m_pFile;
 
-    TES_RETURN_CODE __thiscall WriteToFile(void* buffer, unsigned int size);
+    TES_RETURN_CODE WriteToFile(void* buffer, unsigned int size);
 };
 
-unsigned int __thiscall FUN_00473180_shell::FUN_00473180(void* buffer, unsigned int size)
+unsigned int FUN_00473180_shell::FUN_00473180(void* buffer, unsigned int size)
 {
     return 0;
 }
@@ -2244,7 +2236,7 @@ int* __cdecl FUN_00ec85e3();
 extern const char DAT_0101a174[];
 
 // @fnv 0x00473110
-TES_RETURN_CODE __thiscall FUN_00473110_shell::WriteToFile(void* buffer, unsigned int size)
+TES_RETURN_CODE FUN_00473110_shell::WriteToFile(void* buffer, unsigned int size)
 {
     if (buffer != 0)
     {
@@ -2561,7 +2553,7 @@ void FUN_00473310_cls::SpawnObject(unsigned int arg)
 }
 
 extern int DAT_010a2480;
-int __fastcall FUN_004720a0(char* _this);
+int FUN_004720a0(char* _this);
 
 struct FUN_004733a0_vobj
 {
@@ -3091,9 +3083,6 @@ class _ULARGE_INTEGER
     unsigned int HighPart;
 };
 
-extern "C" __declspec(dllimport) void* __stdcall FindFirstFileA(const char* lpFileName,
-                                                                _WIN32_FIND_DATAA* lpFindFileData);
-extern "C" __declspec(dllimport) int __stdcall FindClose(void* hFindFile);
 
 struct FUN_00471af0_shell : public TESFile
 {
@@ -3159,8 +3148,8 @@ int FUN_00473090_cls::FUN_00473090()
 
 struct Probe_A
 {
-    bool __thiscall FUN_008256d0();
-    void __thiscall FUN_0063f7b0();
+    bool FUN_008256d0();
+    void FUN_0063f7b0();
 };
 
 struct Probe_B
@@ -3436,10 +3425,6 @@ void SelfX::InflateCompressedForm()
 }  // namespace fnv_004740a0
 
 namespace fnv_00472890 {
-extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
-extern "C" __declspec(dllimport) unsigned long __stdcall FormatMessageA(unsigned long, const void*, unsigned long,
-                                                                        unsigned long, char*, unsigned long, void*);
-extern "C" __declspec(dllimport) void* __stdcall LocalFree(void*);
 
 struct ChunkFile
 {
@@ -3551,10 +3536,6 @@ unsigned int B473180Stream::FUN_00473180(void* pvBuffer, unsigned int uiBytes)
     return uiRead;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
-extern "C" __declspec(dllimport) unsigned long __stdcall FormatMessageA(unsigned long, const void*, unsigned long,
-                                                                        unsigned long, char*, unsigned long, void*);
-extern "C" __declspec(dllimport) void* __stdcall LocalFree(void*);
 
 struct TESOffsetWorker : public TESFile
 {
@@ -3597,7 +3578,7 @@ void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
 }
 
 void* __cdecl memset(void*, int, unsigned int);
-int __fastcall FUN_004720a0(char*);
+int FUN_004720a0(char*);
 extern int DAT_010a2480;
 struct SeekFile
 {

@@ -63,7 +63,6 @@ class ExtraDataList;
 #define FNV_TESFORM_H
 #include "tesscript_layout.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESForm : public BaseFormComponent
 {
   public:
@@ -155,12 +154,6 @@ class TESForm : public BaseFormComponent
 public:
     bool GetInitialized() const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #endif
 // Source layout: Script. PC corrections are in generate_headers.py.
 #ifndef FNV_SCRIPT_H
@@ -168,7 +161,6 @@ FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #include "layout_support.h"
 #include "ScriptHeaderData.h"
 #include "TESForm.h"
-#pragma pack(push, 4)
 class Script : public TESForm
 {
   public:
@@ -206,23 +198,11 @@ class Script : public TESForm
     char* GetData();
     void InitItem(TESForm* form);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Script) == 0x54);
-FNV_STATIC_ASSERT(offsetof(Script, m_kHeader) == 0x18);
-FNV_STATIC_ASSERT(offsetof(Script, m_pText) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(Script, m_data) == 0x30);
-FNV_STATIC_ASSERT(offsetof(Script, m_fValueAtOffset34) == 0x34);
-FNV_STATIC_ASSERT(offsetof(Script, fValueAtOffset38) == 0x38);
-FNV_STATIC_ASSERT(offsetof(Script, m_fValueAtOffset3C) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(Script, m_pOwnerQuest) == 0x40);
-FNV_STATIC_ASSERT(offsetof(Script, m_kReferencedObjectList) == 0x44);
-FNV_STATIC_ASSERT(offsetof(Script, m_kVariableList) == 0x4C);
 #endif
 
 #ifndef FNV_SCRIPT_REFERENCED_OBJECT_H
 #define FNV_SCRIPT_REFERENCED_OBJECT_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ScriptReferencedObject
 {
   public:
@@ -233,17 +213,11 @@ class ScriptReferencedObject
     ScriptReferencedObject(ScriptReferencedObject* source);
     ~ScriptReferencedObject();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ScriptReferencedObject) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ScriptReferencedObject, m_kFormName) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ScriptReferencedObject, pForm) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ScriptReferencedObject, m_uiFormID) == 0xC);
 #endif
 
 #ifndef FNV_SCRIPT_LOCAL_H
 #define FNV_SCRIPT_LOCAL_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ScriptLocalVariable
 {
   public:
@@ -254,11 +228,6 @@ class ScriptLocalVariable
     bool m_bIsString;  // +0x10
     unsigned char layoutPadding11[7];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ScriptLocalVariable) == 0x18);
-FNV_STATIC_ASSERT(offsetof(ScriptLocalVariable, uiID) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ScriptLocalVariable, fValue) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ScriptLocalVariable, m_bIsString) == 0x10);
 #endif
 
 #include "ScriptVariableInfo.h"

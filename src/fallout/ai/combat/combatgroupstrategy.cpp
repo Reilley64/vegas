@@ -69,31 +69,31 @@ struct FUN_00844160_holder
 
 struct FUN_00990a80_shell
 {
-    void __thiscall ForwardToHolder(int arg);
+    void ForwardToHolder(int arg);
 };
 
 struct FUN_00844160_shell
 {
-    void __thiscall FUN_00844160(int state);
+    void FUN_00844160(int state);
 public:
     unsigned int FUN_00844160(unsigned int);
 };
 // @fnv 0x00990a80
-void __thiscall FUN_00990a80_shell::ForwardToHolder(int arg)
+void FUN_00990a80_shell::ForwardToHolder(int arg)
 {
     reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_holder*)((char*)this + 0x28))))->FUN_00844160(arg);
 }
 
 struct FUN_00990aa0_shell
 {
-    void __thiscall FUN_00990aa0(int state);
+    void FUN_00990aa0(int state);
 };
 
-void __thiscall FUN_00844160_shell::FUN_00844160(int state)
+void FUN_00844160_shell::FUN_00844160(int state)
 {}
 
 // @fnv 0x00990aa0
-void __thiscall FUN_00990aa0_shell::FUN_00990aa0(int state)
+void FUN_00990aa0_shell::FUN_00990aa0(int state)
 {
     ((FUN_00844160_shell*)((char*)this + 0x18))->FUN_00844160(state);
 }
@@ -156,18 +156,18 @@ bool FUN_00990480_shell::FUN_00990480()
 
 struct Grp_Call2
 {
-    bool __thiscall FUN_009899a0();
+    bool FUN_009899a0();
 };
 struct Holder904c0
 {
     Grp_Call2* m_pCombatData;
     int _pad;
     int m_iValue;
-    unsigned char __thiscall FUN_009904c0();
+    unsigned char FUN_009904c0();
 };
 // If the cached flag is unset, evaluates the held object's check and stores the result; returns whether the cached flag equals 1.
 // @fnv 0x009904c0
-unsigned char __thiscall Holder904c0::FUN_009904c0()
+unsigned char Holder904c0::FUN_009904c0()
 {
     if (m_iValue == -1)
         m_iValue = m_pCombatData->FUN_009899a0() != 0;
@@ -176,14 +176,14 @@ unsigned char __thiscall Holder904c0::FUN_009904c0()
 
 struct FUN_009905a0_shell
 {
-    void __thiscall UpdateMinProgress();
+    void UpdateMinProgress();
 };
 struct FUN_00990570_shell
 {
-    unsigned int __thiscall FUN_00990570();
+    unsigned int FUN_00990570();
 };
 // @fnv 0x00990570
-unsigned int __thiscall FUN_00990570_shell::FUN_00990570()
+unsigned int FUN_00990570_shell::FUN_00990570()
 {
     if (*(unsigned int*)((char*)this + 0x10) == 0x80000000)
         ((FUN_009905a0_shell*)this)->UpdateMinProgress();
@@ -198,10 +198,10 @@ struct GroupOps
 };
 struct DummyFallback
 {
-    bool __thiscall FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    bool FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 // @fnv 0x00990b70
-bool __thiscall DummyFallback::FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+bool DummyFallback::FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     if (((int)(reinterpret_cast<::Callees *>((((DataOps*)apGroupData)))->FUN_00726070())) < 2)
         return false;
@@ -217,7 +217,7 @@ struct HolderFor410
 };
 struct TargetClass
 {
-    bool __thiscall FUN_00990c10(struct ActorCombatGroup*);
+    bool FUN_00990c10(struct ActorCombatGroup*);
 };
 // Calls FindByValue with 2 on the group and returns true if it succeeds, otherwise false.
 // @fnv 0x00990c10
@@ -230,11 +230,11 @@ bool TargetClass::FUN_00990c10(struct ActorCombatGroup* apGroup)
 
 struct CombatGroupStrategyAmbush
 {
-    void __thiscall FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 
 // @fnv 0x00990cb0
-void __thiscall CombatGroupStrategyAmbush::FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void CombatGroupStrategyAmbush::FUN_00990cb0(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     unsigned int i;
     unsigned int i2;
@@ -256,15 +256,15 @@ struct IntPair
 };
 struct CombatGroupStrategyAdvance
 {
-    void __thiscall FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 struct FUN_00990aa0_helper
 {
-    IntPair* __thiscall FUN_00990aa0(int);
+    IntPair* FUN_00990aa0(int);
 };
 // Iterates the group data's members and calls SetElementValue on the group with each member's _4 value and 4.
 // @fnv 0x00990e70
-void __thiscall CombatGroupStrategyAdvance::FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
+void CombatGroupStrategyAdvance::FUN_00990e70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
     int i;
     IntPair* pmember;
@@ -281,11 +281,11 @@ struct FUN_0098a410_cls
 };
 struct CombatGroupStrategyAdvance
 {
-    bool __thiscall FUN_00990ec0(ActorCombatGroup* apGroup);
+    bool FUN_00990ec0(ActorCombatGroup* apGroup);
 };
 // Calls FindByValue with 4 on apGroup and returns true if the result is nonzero, false otherwise.
 // @fnv 0x00990ec0
-bool __thiscall CombatGroupStrategyAdvance::FUN_00990ec0(ActorCombatGroup* apGroup)
+bool CombatGroupStrategyAdvance::FUN_00990ec0(ActorCombatGroup* apGroup)
 {
     if (((int)(reinterpret_cast<::FUN_0098a410_shell *>((((FUN_0098a410_cls*)apGroup)))->FindByValue(4))) == 0)
         return false;
@@ -333,12 +333,12 @@ struct FUN_00990a60_shell
 
 struct FUN_00990a80_member
 {
-    IntPair* __thiscall ForwardToHolder(unsigned int index);
+    IntPair* ForwardToHolder(unsigned int index);
 };
 
 struct FUN_00990aa0_member
 {
-    IntPair* __thiscall FUN_00990aa0(unsigned int index);
+    IntPair* FUN_00990aa0(unsigned int index);
 };
 
 struct FUN_00990640_shell
@@ -347,7 +347,7 @@ struct FUN_00990640_shell
 
 struct FUN_00990930_shell
 {
-    void __thiscall FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
+    void FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* apGroupData);
 };
 
 struct CombatMemberState

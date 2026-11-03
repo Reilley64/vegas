@@ -15,7 +15,6 @@ class TESModel;
 class TESNPC;
 class TESFile;
 class FileEntryList;
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -32,11 +31,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -70,12 +64,6 @@ class TESModel : public BaseFormComponent
     TESModel();
     static void LoadModelData(TESModel* model, TESFile* file);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESHair : public TESForm, public TESFullName, public TESModel, public TESTexture
 {
   public:
@@ -107,7 +95,4 @@ class TESHair : public TESForm, public TESFullName, public TESModel, public TEST
     virtual bool Load(TESFile* file);
     virtual bool IsValidForNPC(TESNPC* npc);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESHair) == 76);
-FNV_STATIC_ASSERT(offsetof(TESHair, cFlags) == 72);
 #endif

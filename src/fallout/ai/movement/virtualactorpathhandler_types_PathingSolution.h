@@ -135,7 +135,6 @@ enum PathSmootherPOVDebugArcTest__Result
     PathSmootherPOVDebugArcTest__Result_RESULT_FAIL = 1,
     PathSmootherPOVDebugArcTest__Result_RESULT_INFINITE_LOOP = 2
 };
-#pragma pack(push, 4)
 class PathingInfoParams
 {
   public:
@@ -147,11 +146,6 @@ class PathingInfoParams
     // void __cdecl PathingInfoParams::*()
     // void* __cdecl PathingInfoParams::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingInfoParams) == 52);
-FNV_STATIC_ASSERT(offsetof(PathingInfoParams, ints) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingInfoParams, location) == 12);
-#pragma pack(push, 4)
 class PathingInfoEntry
 {
   public:
@@ -166,13 +160,6 @@ class PathingInfoEntry
     // void __cdecl PathingInfoEntry::*()
     // void* __cdecl PathingInfoEntry::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingInfoEntry) == 64);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, InfoType) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, MessageID) == 4);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, ParamID) == 8);
-FNV_STATIC_ASSERT(offsetof(PathingInfoEntry, Params) == 12);
-#pragma pack(push, 4)
 class ParentSpaceNode
 {
   public:
@@ -181,12 +168,6 @@ class ParentSpaceNode
     TESWorldSpace* m_pContainingWorldspace;  // +0x4, 4 bytes
     TESObjectCELL* m_pReferenceCell;         // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ParentSpaceNode) == 12);
-FNV_STATIC_ASSERT(offsetof(ParentSpaceNode, m_bIsWorldspace) == 0);
-FNV_STATIC_ASSERT(offsetof(ParentSpaceNode, m_pContainingWorldspace) == 4);
-FNV_STATIC_ASSERT(offsetof(ParentSpaceNode, m_pReferenceCell) == 8);
-#pragma pack(push, 4)
 class TeleportLink
 {
   public:
@@ -194,11 +175,6 @@ class TeleportLink
     NiPoint3 m_kDestinationPosition;  // +0x4, 12 bytes
     // void __cdecl TeleportLink::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TeleportLink) == 16);
-FNV_STATIC_ASSERT(offsetof(TeleportLink, pPathNodeDoor) == 0);
-FNV_STATIC_ASSERT(offsetof(TeleportLink, m_kDestinationPosition) == 4);
-#pragma pack(push, 4)
 class PathingPath
 {
   public:
@@ -213,13 +189,6 @@ class PathingPath
     // float __cdecl PathingPath::*()
     // void* __cdecl PathingPath::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingPath) == 56);
-FNV_STATIC_ASSERT(offsetof(PathingPath, Spaces) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingPath, Doors) == 16);
-FNV_STATIC_ASSERT(offsetof(PathingPath, Start) == 32);
-FNV_STATIC_ASSERT(offsetof(PathingPath, End) == 44);
-#pragma pack(push, 4)
 class PathingInfo
 {
   public:
@@ -229,14 +198,6 @@ class PathingInfo
     BSSimpleArray<TESObjectREFR*, 1024> TESObjectReferenceArray;      // +0x24, 16 bytes
     PathingPath NavMeshReferenceCollection;                           // +0x34, 56 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingInfo) == 108);
-FNV_STATIC_ASSERT(offsetof(PathingInfo, Items) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingInfo, m_uiNavMeshInfoCount) == 16);
-FNV_STATIC_ASSERT(offsetof(PathingInfo, NavMeshInfoPointerArray) == 20);
-FNV_STATIC_ASSERT(offsetof(PathingInfo, TESObjectReferenceArray) == 36);
-FNV_STATIC_ASSERT(offsetof(PathingInfo, NavMeshReferenceCollection) == 52);
-#pragma pack(push, 4)
 class NavMeshInfoSearchNode
 {
   public:
@@ -244,12 +205,6 @@ class NavMeshInfoSearchNode
     float m_fPathingCostCur;               // +0x4, 4 bytes
     float m_fCost;             // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshInfoSearchNode) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshInfoSearchNode, pInfo) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshInfoSearchNode, m_fPathingCostCur) == 4);
-FNV_STATIC_ASSERT(offsetof(NavMeshInfoSearchNode, m_fCost) == 8);
-#pragma pack(push, 4)
 class CompactNavMeshEdgeReference
 {
   public:
@@ -263,11 +218,6 @@ class CompactNavMeshEdgeReference
     // unsigned __int64 __cdecl CompactNavMeshEdgeReference::*()
     // void __cdecl CompactNavMeshEdgeReference::*(char*, unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CompactNavMeshEdgeReference) == 8);
-FNV_STATIC_ASSERT(offsetof(CompactNavMeshEdgeReference, m_pLocationNavMesh) == 0);
-FNV_STATIC_ASSERT(offsetof(CompactNavMeshEdgeReference, m_usTriangleID) == 4);
-#pragma pack(push, 4)
 class NavMeshTrianglePathEntry
 {
   public:
@@ -279,14 +229,6 @@ class NavMeshTrianglePathEntry
     // NavMeshTrianglePathEntry
     // NavMeshTrianglePathEntry& __cdecl NavMeshTrianglePathEntry::*(const NavMeshTrianglePathEntry&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshTrianglePathEntry) == 24);
-FNV_STATIC_ASSERT(offsetof(NavMeshTrianglePathEntry, Triangle) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshTrianglePathEntry, m_fPathingCostCur) == 8);
-FNV_STATIC_ASSERT(offsetof(NavMeshTrianglePathEntry, m_fCost) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshTrianglePathEntry, NavMeshTrianglePathCostData) == 16);
-FNV_STATIC_ASSERT(offsetof(NavMeshTrianglePathEntry, NavMeshPathCostData) == 20);
-#pragma pack(push, 4)
 class PathSmootherPOVDebugSphereTest
 {
   public:
@@ -296,12 +238,6 @@ class PathSmootherPOVDebugSphereTest
     unsigned char layoutPadding12[2];
     // void __cdecl PathSmootherPOVDebugSphereTest::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathSmootherPOVDebugSphereTest) == 20);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugSphereTest, Center) == 0);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugSphereTest, fRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugSphereTest, m_usResult) == 16);
-#pragma pack(push, 4)
 class PathSmootherPOVDebugRay
 {
   public:
@@ -311,13 +247,6 @@ class PathSmootherPOVDebugRay
     float m_fPathingCostCur;                                    // +0x1C, 4 bytes
     // void __cdecl PathSmootherPOVDebugRay::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathSmootherPOVDebugRay) == 32);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugRay, Start) == 0);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugRay, End) == 12);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugRay, m_kResult) == 24);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugRay, m_fPathingCostCur) == 28);
-#pragma pack(push, 4)
 class SineCosine
 {
   public:
@@ -342,11 +271,6 @@ class SineCosine
     // bool __cdecl SineCosine::*(const SineCosine&)
     // bool __cdecl SineCosine::*(const SineCosine&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SineCosine) == 8);
-FNV_STATIC_ASSERT(offsetof(SineCosine, fCos) == 0);
-FNV_STATIC_ASSERT(offsetof(SineCosine, fSin) == 4);
-#pragma pack(push, 4)
 class CircularArc
 {
   public:
@@ -359,12 +283,6 @@ class CircularArc
     // float __cdecl CircularArc::*(float)
     // CircularArc& __cdecl CircularArc::*(const CircularArc&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CircularArc) == 20);
-FNV_STATIC_ASSERT(offsetof(CircularArc, Start) == 0);
-FNV_STATIC_ASSERT(offsetof(CircularArc, End) == 8);
-FNV_STATIC_ASSERT(offsetof(CircularArc, Dir) == 16);
-#pragma pack(push, 4)
 class Sphere
 {
   public:
@@ -374,11 +292,6 @@ class Sphere
     // Sphere& __cdecl Sphere::*(const Sphere&)
     // void __cdecl Sphere::*(const NiPoint3&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Sphere) == 16);
-FNV_STATIC_ASSERT(offsetof(Sphere, Center) == 0);
-FNV_STATIC_ASSERT(offsetof(Sphere, fRadius) == 12);
-#pragma pack(push, 4)
 class PathSmootherPOVDebugArcRecord
 {
   public:
@@ -388,12 +301,6 @@ class PathSmootherPOVDebugArcRecord
     // PathSmootherPOVDebugArcRecord
     // PathSmootherPOVDebugArcRecord& __cdecl PathSmootherPOVDebugArcRecord::*(const PathSmootherPOVDebugArcRecord&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathSmootherPOVDebugArcRecord) == 40);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugArcRecord, Arc) == 0);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugArcRecord, m_kTestSphere) == 20);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugArcRecord, m_kResult) == 36);
-#pragma pack(push, 4)
 class PathSmootherPOVDebugTests
 {
   public:
@@ -406,12 +313,6 @@ class PathSmootherPOVDebugTests
     // PathSmootherPOVDebugTests& __cdecl PathSmootherPOVDebugTests::*(const PathSmootherPOVDebugTests&)
     // void* __cdecl PathSmootherPOVDebugTests::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathSmootherPOVDebugTests) == 48);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugTests, POVPointerArray) == 0);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugTests, Rays) == 16);
-FNV_STATIC_ASSERT(offsetof(PathSmootherPOVDebugTests, m_kThirdArray) == 32);
-#pragma pack(push, 4)
 class PacketNodeRecord
 {
   public:
@@ -435,12 +336,6 @@ class PacketNodeRecord
     // PacketNodeRecord& __cdecl PacketNodeRecord::*(const PacketNodeRecord&)
     // void* __cdecl PacketNodeRecord::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PacketNodeRecord) == 48);
-FNV_STATIC_ASSERT(offsetof(PacketNodeRecord, iFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(PacketNodeRecord, Location) == 4);
-FNV_STATIC_ASSERT(offsetof(PacketNodeRecord, m_pDoorRef) == 44);
-#pragma pack(push, 4)
 class PathingGraphNode
 {
   public:
@@ -470,13 +365,6 @@ class PathingGraphNode
 public:
     bool IsTransitionNode();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingGraphNode) == 60);
-FNV_STATIC_ASSERT(offsetof(PathingGraphNode, iFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingGraphNode, Location) == 4);
-FNV_STATIC_ASSERT(offsetof(PathingGraphNode, Tangent) == 44);
-FNV_STATIC_ASSERT(offsetof(PathingGraphNode, m_pDoorRef) == 56);
-#pragma pack(push, 4)
 class PathingSolution : public NiRefObject
 {
   public:
@@ -536,16 +424,4 @@ class PathingSolution : public NiRefObject
     // PathingSolution& __cdecl PathingSolution::*(const PathingSolution&)
     // void __cdecl PathingSolution::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingSolution) == 256);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, Info) == 8);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, m_kFirstArray) == 116);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, m_kElementArray) == 132);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, ArrayContainerData) == 148);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, m_kPathingDoorRefArray) == 196);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, PathingRecordCollection) == 212);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, m_iValueBeforeRecordArray) == 216);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, m_kRecordArray) == 220);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, UnsignedIntArray) == 236);
-FNV_STATIC_ASSERT(offsetof(PathingSolution, m_bHasValidPath) == 252);
 #endif

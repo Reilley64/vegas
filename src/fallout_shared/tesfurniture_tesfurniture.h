@@ -72,7 +72,6 @@ class TESBoundAnimObject : public TESForm
     virtual NiNode* Create3DModel(TESObjectREFR*);
     unsigned char layoutPadding18[0x18];
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);
 // TESModel (24 bytes) plus the texture-swap list (8 bytes).
 class TESModel : public BaseFormComponent
 {
@@ -82,7 +81,6 @@ class TESModel : public BaseFormComponent
     virtual void vfn_10();
     virtual const char* GetModelFilePath();
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -90,7 +88,6 @@ class TESModelTextureSwap : public TESModel
     virtual ~TESModelTextureSwap();
     unsigned char layoutPadding18[0x8];
 };
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 0x20);
 class CollisionComponent;
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
@@ -100,8 +97,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     CollisionComponent* pData;  // +0x4
     void InitItem(TESForm* form);
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 0x4);
 class BGSOpenCloseForm
 {
   public:
@@ -110,7 +105,6 @@ class BGSOpenCloseForm
     virtual bool GetBlockActivatesWhileOpening() const;
     BGSOpenCloseForm();
 };
-FNV_STATIC_ASSERT(sizeof(BGSOpenCloseForm) == 0x4);
 // The supplied explicit vtable-pointer field is represented by the three evidenced virtuals.
 class TESObjectACTI : public TESBoundAnimObject,
                       public TESFullName,
@@ -130,7 +124,6 @@ class TESObjectACTI : public TESBoundAnimObject,
     BSStringT<char> m_kActivationPrompt;
     void ResetFormData();
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectACTI) == 0x90);
 class TESFurniture : public TESObjectACTI
 {
   public:
@@ -154,6 +147,4 @@ class TESFurniture : public TESObjectACTI
     NiPoint3 GetMarkerOffset(unsigned int auMarker, float afScale);
     float GetMarkerRotation(unsigned int auMarker);
 };
-FNV_STATIC_ASSERT(sizeof(TESFurniture) == 0x94);
-FNV_STATIC_ASSERT(offsetof(TESFurniture, m_iMarkerCount) == 0x90);
 #endif

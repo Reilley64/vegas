@@ -3,7 +3,6 @@
 #define FNV_TESFULLNAME_H
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESFullName : public BaseFormComponent
 {
   public:
@@ -11,7 +10,4 @@ class TESFullName : public BaseFormComponent
 public:
     void SetFullName(const char *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 #endif

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nimaterialproperty.cpp: free functions (8 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00462d80_shell.h"
@@ -32,11 +33,11 @@ struct NiMemObject_Del
 };
 
 // @fnv 0x00a756f0
-void* __fastcall NiMaterialProperty_Destructor(NiMaterialProperty* pThis, int, unsigned int flags)
+void* NiMaterialProperty_Destructor(NiMaterialProperty* pThis, int, unsigned int flags)
 {
     *(int**)pThis = &(*reinterpret_cast<int *>(&::DAT_0109d6c4));
     if (NiRenderer::ms_pRenderer)
-        (*(void(__thiscall**)(NiRenderer*, NiMaterialProperty*))(*(int*)NiRenderer::ms_pRenderer + 0xf4))(
+        (*(void(**)(NiRenderer*, NiMaterialProperty*))(*(int*)NiRenderer::ms_pRenderer + 0xf4))(
             NiRenderer::ms_pRenderer, pThis);
     reinterpret_cast<::FUN_00a5c240_shell *>((pThis))->DestroyFogProperty();
     if (flags & 1)
@@ -142,7 +143,6 @@ bool FUN_00a75960_shell::FUN_00a75960(NiObject* apObject)
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Holder
 {
     virtual void f0();

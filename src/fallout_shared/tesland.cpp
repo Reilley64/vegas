@@ -39,7 +39,7 @@ class PathingActorData
 };
 
 // @fnv 0x00534550
-void* __fastcall FUN_00534550(PathingActorData* pThis)
+void* FUN_00534550(PathingActorData* pThis)
 {
     ::FUN_00540720((::ExteriorData *)(pThis));
     return pThis;
@@ -59,7 +59,7 @@ struct TESForm
 
 // Reads a BSStringT at thisPtr+0xb8, treats it as a TESForm and returns that form's source file list.
 // @fnv 0x00537b10
-BSSimpleList<TESFile*>* __fastcall GetSourceFilesFromForm(char* thisPtr)
+BSSimpleList<TESFile*>* GetSourceFilesFromForm(char* thisPtr)
 {
     return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)(const char*)(*(BSStringT<char>*)(thisPtr + 0xb8)))))));
 }
@@ -129,7 +129,7 @@ struct blob12
 
 
 // @fnv 0x00537b30
-CellMopp* __fastcall GetCellMopp(char* pThis)
+CellMopp* GetCellMopp(char* pThis)
 {
     return ((::CellMopp *)(reinterpret_cast<::fnv_0041bb10::FUN_0041bb10_Class *>((pThis + 0x28))->FUN_0041bb10()));
 }
@@ -141,7 +141,7 @@ struct FUN_00538e30_class
 };
 
 // @fnv 0x00538e30
-void __fastcall SetVtable(FUN_00538e30_class* this_ptr)
+void SetVtable(FUN_00538e30_class* this_ptr)
 {
     this_ptr->vtable = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }

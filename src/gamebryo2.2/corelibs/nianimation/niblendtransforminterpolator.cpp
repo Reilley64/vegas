@@ -176,7 +176,7 @@ class QuatBlockArg
 };
 
 // @fnv 0x00a40ab0
-void __stdcall FUN_00a40ab0(FUN_00a40ab0_obj* a1)
+void FUN_00a40ab0(FUN_00a40ab0_obj* a1)
 {
     reinterpret_cast<::fnv_00a37980::Blend100 *>((a1))->FUN_00a37980(*(::fnv_00a37980::Stream100 *)nullptr);
     if (a1->m_uiD8 < 0xa01006e)
@@ -221,7 +221,7 @@ template <class T> class AGPrimArray
 typedef AGPrimArray<const char*> AGViewerStrings;
 
 // @fnv 0x00a41170
-void __stdcall FUN_00a41170(AGViewerStrings* pkStrings)
+void FUN_00a41170(AGViewerStrings* pkStrings)
 {
     reinterpret_cast<::BlendSerializer *>((void *)(pkStrings))->FUN_00a38080({});
     pkStrings->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f3e64))));

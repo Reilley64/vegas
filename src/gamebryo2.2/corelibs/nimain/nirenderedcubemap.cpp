@@ -12,11 +12,11 @@
 #include "fnv/symbols_01270000.h"
 struct FUN_00ee8220_shell
 {
-    void* __thiscall FUN_00ee8220();
+    void* FUN_00ee8220();
 };
 
 // @fnv 0x00ee8220
-void* __thiscall FUN_00ee8220_shell::FUN_00ee8220()
+void* FUN_00ee8220_shell::FUN_00ee8220()
 {
     void* p = *(void**)(this + 0x4C);
     return *(void**)((char*)p + 8);
@@ -24,11 +24,11 @@ void* __thiscall FUN_00ee8220_shell::FUN_00ee8220()
 
 struct FUN_00ee8230_shell
 {
-    int __thiscall FUN_00ee8230();
+    int FUN_00ee8230();
 };
 
 // @fnv 0x00ee8230
-int __thiscall FUN_00ee8230_shell::FUN_00ee8230()
+int FUN_00ee8230_shell::FUN_00ee8230()
 {
     int* p = *(int**)((char*)this + 0x4c);
     return *(int*)((char*)p + 0xc);
@@ -49,7 +49,7 @@ struct NiRenderedCubeMap
 };
 struct NiRenderedCubeMap_shell : NiRenderedCubeMap
 {
-    void* __thiscall FUN_00ee8440(unsigned int flags);
+    void* FUN_00ee8440(unsigned int flags);
 };
 extern "C" void _ReadWriteBarrier(void);
 #include <string.h>
@@ -152,7 +152,7 @@ struct Obj
 };
 // Calls FUN_00ee82b0, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00ee8440
-void* __thiscall NiRenderedCubeMap_shell::FUN_00ee8440(unsigned int flags)
+void* NiRenderedCubeMap_shell::FUN_00ee8440(unsigned int flags)
 {
     reinterpret_cast<::Obj *>(this)->FUN_00ee82b0();
     if (flags & 1)

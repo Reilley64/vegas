@@ -95,7 +95,7 @@ struct FUN_00b40070_Class
     float unk44;
     int unk48;
 
-    FUN_00b40070_Class* __thiscall FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
+    FUN_00b40070_Class* FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
                                                 float value, int result);
 };
 struct S_00b40850_P3

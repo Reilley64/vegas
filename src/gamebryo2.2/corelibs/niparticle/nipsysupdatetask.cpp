@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c25870
+#include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -24,7 +25,7 @@ struct NiRefObject
 };
 extern int DAT_010be45c;
 extern int DAT_01069674;
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 struct Obj
 {
     virtual void u0();
@@ -42,7 +43,7 @@ struct S
 // @fnv 0x00c25880
 void S::Destroy()
 {
-    int(__stdcall * f)(void*) = DAT_00fdf1c4;
+    int(* f)(void*) = DAT_00fdf1c4;
     *(void* volatile*)this = (void*)&DAT_010be45c;
     Obj* p = _c;
     if (p)
@@ -61,8 +62,6 @@ void S::Destroy()
     ((NiRefObject*)this)->~NiRefObject();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Ref_00c258e0
 {
     virtual void F0();
@@ -100,7 +99,6 @@ void Host_00c258e0::AssignRefAndValue(Ref_00c258e0* pkObject, float afValue)
 }
 
 extern unsigned char DAT_011f5b08;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct FakeSys
 {
     void** vtbl;
@@ -121,26 +119,24 @@ void Task::ReleaseSysAndDispatch()
     FakeSys* p = sys;
     if (p && !DAT_011f5b08)
     {
-        ((void(__thiscall*)(FakeSys*, float))p->vtbl[61])(p, tm);
+        ((void(*)(FakeSys*, float))p->vtbl[61])(p, tm);
         FakeSys* pSysRef = sys;
         if (pSysRef)
         {
             if (InterlockedDecrement(&pSysRef->ref) == 0)
-                ((void(__thiscall*)(FakeSys*))pSysRef->vtbl[1])(pSysRef);
+                ((void(*)(FakeSys*))pSysRef->vtbl[1])(pSysRef);
             sys = 0;
         }
     }
-    ((void(__thiscall*)(Task*))vtbl[37])(this);
+    ((void(*)(Task*))vtbl[37])(this);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct NiPSysUpdateTask
 {
 };
 struct PoolHelper
 {
-    void __thiscall AppendRecords(int);
+    void AppendRecords(int);
 };
 extern void* DAT_011aeb98;
 extern int DAT_01202600;
@@ -308,8 +304,8 @@ struct S_00e7ec00
 {
 };
 
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 
 // @fnv 0x00c25be0
 bool S_00c25be0::FUN_00c25be0()

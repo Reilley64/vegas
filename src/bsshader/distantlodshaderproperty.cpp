@@ -2,6 +2,7 @@
 // src/bsshader/distantlodshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/distantlodshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B4F9A0ShaderManager.h"
 #include "fnv/decl/ExtraOwnerB.h"
@@ -811,9 +812,7 @@ struct Bound
 
 extern volatile long DAT_011f4400;
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct NiRefObject
 {

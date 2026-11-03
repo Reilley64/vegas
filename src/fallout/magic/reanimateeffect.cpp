@@ -44,11 +44,11 @@ struct Actor;
 
 struct ReanimateEffect
 {
-    unsigned short __thiscall FUN_00827440(Actor* apActor);
+    unsigned short FUN_00827440(Actor* apActor);
 };
 
 // @fnv 0x00827440
-unsigned short __thiscall ReanimateEffect::FUN_00827440(Actor* apActor)
+unsigned short ReanimateEffect::FUN_00827440(Actor* apActor)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00804f80_shell *>(this)->FUN_00804f80(apActor);
@@ -95,7 +95,7 @@ void FUN_00827510_shell::LoadGame(Actor* apActor)
 
 struct TESForm
 {
-    virtual void __thiscall Revert(unsigned int);
+    virtual void Revert(unsigned int);
 };
 struct ActorVirt
 {
@@ -276,18 +276,18 @@ struct BodyVirt
     virtual void b54();
     virtual void b55();
     virtual void b56();
-    virtual void __thiscall b57(int);
+    virtual void b57(int);
 };
 struct FUN_008276e0_shell
 {
     unsigned char _pad[0x48];
     BodyVirt* pBody;
     int iState;
-    void __thiscall FUN_008276e0(Actor* apActor);
+    void FUN_008276e0(Actor* apActor);
 };
 // Reverts this form with apActor, then if iState is below 0x32 and apActor has a116() and pBody exists, calls pBody->b57(1).
 // @fnv 0x008276e0
-void __thiscall FUN_008276e0_shell::FUN_008276e0(Actor* apActor)
+void FUN_008276e0_shell::FUN_008276e0(Actor* apActor)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((unsigned int)apActor);
     if (iState < 0x32 && apActor && ((ActorVirt*)apActor)->a116() && pBody)
@@ -435,7 +435,7 @@ struct DH
 
 struct MagicTarget
 {
-    Actor* __thiscall GetOwnerActor() const;
+    Actor* GetOwnerActor() const;
 };
 
 struct BSThread
@@ -448,7 +448,7 @@ struct Proc_S
 
 struct MagicCaster
 {
-    Actor* __thiscall GetCasterActor();
+    Actor* GetCasterActor();
 };
 
 enum ACTOR_LIFE_STATE;
@@ -698,11 +698,11 @@ struct FUN_00827230_shell
     EffectVirt* m_48;
     int m_4c;
 
-    void __thiscall FUN_00827230();
+    void FUN_00827230();
 };
 
 // @fnv 0x00827230
-void __thiscall FUN_00827230_shell::FUN_00827230()
+void FUN_00827230_shell::FUN_00827230()
 {
     if (reinterpret_cast<::FUN_004226e0_shell *>((g_dataHandler))->FUN_004226e0())
         return;
@@ -1936,7 +1936,7 @@ struct Character : Actor
 
 struct FUN_00827340_cls
 {
-    bool __thiscall FUN_00827340(TESObjectREFR* apRef);
+    bool FUN_00827340(TESObjectREFR* apRef);
 };
 
 // Returns true when a1() yields a Character for which a139(0) is true, FUN_00608d80() is false, and FUN_004f8960() differs from 6.

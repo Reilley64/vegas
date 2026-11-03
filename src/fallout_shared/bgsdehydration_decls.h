@@ -1,5 +1,6 @@
 // fallout_shared/bgsdehydration_decls.h: declares BGSTerrainManager, WaitableObject
 
+#include <windows.h>
 #include "fnv/decl/FUN_009611e0_shell.h"
 class BGSTerrainManager
 {
@@ -9,7 +10,6 @@ public:
 };
 double FUN_00ec6054(double value);
 float ConvertDoubleResult(float value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* value);
 unsigned long WaitForSingleObjectEx(long* value);
 class WaitableObject
 {

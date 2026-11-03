@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/AdvanceSimulation.h"
 #include "fnv/decl/C761F0Character.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -1390,7 +1391,6 @@ struct CollisionQueue {
 void __cdecl FUN_00d9f250(hkVector4*, float, CollisionParameters*, CollisionMotion*, CollisionMotion*, CollisionManager*, CollisionOutput*);
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue);
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _mm_prefetch(char const* p, int hint);
@@ -1526,7 +1526,7 @@ static inline void FreeStackD0(void* p)
 {
     FUN_00c85750()->unk00 = (int)p;
 }
-void __stdcall UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world, PairArrayD0& newPairs, PairArrayD0& delPairs);
+void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world, PairArrayD0& newPairs, PairArrayD0& delPairs);
 // Havok-style query: collect candidate pairs from the source into a temporary array, skip entries
 // below the level or already flagged (>= 8), mark unflagged owners once (callback), and append every
 // accepted object to the output array.
@@ -1631,8 +1631,8 @@ inline void VisitL(OwnerL* owner, unsigned char** ppFlags, float fValue)
     }
 }
 void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned char** ppFlags, ArrL<ObjL*>* out);
-void __stdcall FUN_00d0bc50(int, int, int);
-void __stdcall FUN_00d0bcf0(int a);
+void FUN_00d0bc50(int, int, int);
+void FUN_00d0bcf0(int a);
 struct MotionBody {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
@@ -2046,7 +2046,7 @@ struct ThisFull {
     Elem70* m_30; int m_34;
 };
 union StepArg { Param* step; volatile unsigned int tick; };
-void __fastcall FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg);
+void FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg);
 struct Tmp {
     int unk00;
     int unk04;
@@ -2221,9 +2221,8 @@ struct __declspec(align(16)) S00d0c9c0_Ctx {
     int unk3088;
     int unk308c;
 };
-void __stdcall FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt);
+void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt);
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 // StringCursor TLS slot
@@ -3000,7 +2999,6 @@ struct S_00d0e9c0 {
     int FUN_00d0e9c0(float arg1);
     hkBool FUN_00d0bc20(S_00d0d150_ToiEvent* ev, float* fSubStepTime);
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _mm_prefetch(const char*, int);
 extern char DAT_010cd3e8[];
@@ -4385,7 +4383,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

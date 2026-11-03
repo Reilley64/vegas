@@ -37,7 +37,7 @@ struct MemoryManager
 {
 };
 // @fnv 0x00aa23e0
-void __stdcall FUN_00aa23e0(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
+void FUN_00aa23e0(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
 {
     if (aiAllocationType == 0x10)
     {
@@ -78,7 +78,7 @@ struct SpawnHeap_cls
 
 // For eType 8, reallocates pBlock with extra *pAdjust bytes and fixes the header offset; otherwise forwards to FUN_00aa4200.
 // @fnv 0x00aa22f0
-char* __stdcall ResizeHeapBlock(char* pBlock, int* pSize, unsigned char* pAdjust, int eType, int a5, int a6, int a7,
+char* ResizeHeapBlock(char* pBlock, int* pSize, unsigned char* pAdjust, int eType, int a5, int a6, int a7,
                                 int a8, int a9)
 {
     SpawnHeap_cls* heap = reinterpret_cast<SpawnHeap_cls*>(&(*reinterpret_cast<::MM *>(&::g_memoryManager)));
@@ -110,7 +110,7 @@ struct NiAllocGlobal
 void FUN_00ec61c0(unsigned int p, int zero, unsigned int v);
 
 // @fnv 0x00aa2370
-unsigned int __stdcall AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlignByte, int aiAlignMode,
+unsigned int AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlignByte, int aiAlignMode,
                                              int aiUnused, int a5, int a6, int a7)
 {
     unsigned int r;
@@ -153,7 +153,7 @@ enum NiMemEventTypeAA2
 
 // Allocates memory (aligned or plain) via g_kMemoryManagerAA2, zeroes stSizeInBytes bytes, and returns the pointer.
 // @fnv 0x00aa2240
-void* __stdcall AllocateZeroedMemory(unsigned int& stSizeInBytes, unsigned int& stAlignment,
+void* AllocateZeroedMemory(unsigned int& stSizeInBytes, unsigned int& stAlignment,
                                      NiMemEventTypeAA2 eMemEventType, bool bProvideAccurateSizeOnDeallocate,
                                      const char* pcFile, int iLine, const char* pcFunction)
 {
@@ -183,7 +183,7 @@ class BAA2420MemoryManager
 
 
 // @fnv 0x00aa2420
-void* __stdcall FUN_00aa2420(void* pvMem, unsigned int& uiSize, unsigned char& ucAlignment, int aiAllocationType,
+void* FUN_00aa2420(void* pvMem, unsigned int& uiSize, unsigned char& ucAlignment, int aiAllocationType,
                              bool bProvideSize, unsigned int uiCurrentSize, const char* pcFile, int iLine,
                              const char* pcFunction)
 {

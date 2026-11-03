@@ -4202,7 +4202,7 @@ FUN_00b2e740::FUN_00b2e740(const FUN_00b2e740& kOther)
 
 struct SubObj0C
 {
-    void __thiscall FUN_00ad3000(int v);
+    void FUN_00ad3000(int v);
 };
 
 static __forceinline void Dead9()
@@ -4232,7 +4232,7 @@ struct Entry48
 
 struct Owner
 {
-    Entry48* __thiscall FUN_00ad1960(int a, int b, int c, int d, bool e);
+    Entry48* FUN_00ad1960(int a, int b, int c, int d, bool e);
 };
 
 // @fnv 0x00ad1960

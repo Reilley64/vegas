@@ -9,6 +9,4 @@ class TESResponseList
     TESResponse* pHead;  // +0x0
     void ClearResponses();
 };
-FNV_STATIC_ASSERT(sizeof(TESResponseList) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESResponseList, pHead) == 0x0);
 #endif

@@ -110,10 +110,10 @@ struct BGSSaveFormBuffer
 };
 struct SpectatorThreatInfo
 {
-    void __thiscall FUN_009f70b0(BGSSaveFormBuffer* buffer);
+    void FUN_009f70b0(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009f70b0
-void __thiscall SpectatorThreatInfo::FUN_009f70b0(BGSSaveFormBuffer* buffer)
+void SpectatorThreatInfo::FUN_009f70b0(BGSSaveFormBuffer* buffer)
 {
     unsigned int imodifiedPerceivedTime;
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this + 8, 4, 0);
@@ -155,8 +155,8 @@ void SpectatorThreatInfo::FUN_009f7170(BGSLoadFormBuffer* buffer)
 
 struct FUN_009f73e0
 {
-    void __thiscall FUN_009f7410();
-    void* __thiscall DeleteThis(unsigned int flags);
+    void FUN_009f7410();
+    void* DeleteThis(unsigned int flags);
 };
 
 namespace fnv_009f8300 {
@@ -211,19 +211,19 @@ void Holder009f8770::FUN_009f8770()
 
 struct FUN_009f8aa0_class
 {
-    int __thiscall FUN_009f8aa0();
+    int FUN_009f8aa0();
 };
 struct FUN_009f8ac0_class
 {
-    int __thiscall FUN_009f8ac0(int a);
+    int FUN_009f8ac0(int a);
 };
 // @fnv 0x009f8aa0
-int __thiscall FUN_009f8aa0_class::FUN_009f8aa0()
+int FUN_009f8aa0_class::FUN_009f8aa0()
 {
     return reinterpret_cast<::FUN_009f8ac0_class *>(this)->FUN_009f8ac0(0);
 }
 // @fnv 0x009f8ac0
-int __thiscall FUN_009f8ac0_class::FUN_009f8ac0(int a)
+int FUN_009f8ac0_class::FUN_009f8ac0(int a)
 {
     return a * 0x34 + *(int*)((char*)this + 4);
 }
@@ -294,11 +294,11 @@ void FUN_009f8d00_class::FUN_009f8d00(bool freeStorage)
 
 struct FUN_009f8d60_Class
 {
-    void* __thiscall FUN_009f8d60(int size);
+    void* FUN_009f8d60(int size);
 };
 
 // @fnv 0x009f8d60
-void* __thiscall FUN_009f8d60_Class::FUN_009f8d60(int size)
+void* FUN_009f8d60_Class::FUN_009f8d60(int size)
 {
     void* memory = ::FUN_00401000(size * 0x34);
     return memory;
@@ -307,11 +307,11 @@ void* __thiscall FUN_009f8d60_Class::FUN_009f8d60(int size)
 
 struct FUN_009f8d90
 {
-    void* __thiscall Reallocate(void* p, int n);
+    void* Reallocate(void* p, int n);
 };
 
 // @fnv 0x009f8d90
-void* __thiscall FUN_009f8d90::Reallocate(void* p, int n)
+void* FUN_009f8d90::Reallocate(void* p, int n)
 {
     return ::Reallocate(p, n * 0x34);
 }
@@ -337,10 +337,10 @@ struct S009f9180
 };
 struct S009f8f60
 {
-    void __thiscall FUN_009f8f60(S009f9180*, unsigned int);
+    void FUN_009f8f60(S009f9180*, unsigned int);
 };
 // @fnv 0x009f8f60
-void __thiscall S009f8f60::FUN_009f8f60(S009f9180* a1, unsigned int a2)
+void S009f8f60::FUN_009f8f60(S009f9180* a1, unsigned int a2)
 {
     for (int i = 0; i < a2; ++i)
         reinterpret_cast<::FUN_009f9180_Class *>(&(a1[i]))->FUN_009f9180(0);
@@ -491,19 +491,19 @@ struct GameTimerRecord
 
 struct BGSSaveGameBuffer
 {
-    void __thiscall FUN_00865f60(unsigned int);
+    void FUN_00865f60(unsigned int);
 };
 
 GameTimerRecord g_timeGlobal;
 
 struct SpectatorPackageSave : SpectatorPackage
 {
-    void __thiscall FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer);
+    void FUN_009f87d0(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 struct FUN_009f8a80_wrapper : FUN_009f8aa0_class
 {
-    int __thiscall FUN_009f8a80(unsigned int a);
+    int FUN_009f8a80(unsigned int a);
 };
 // @fnv 0x009f8660
 void FUN_009f8660_class::FUN_009f8660(BSSimpleArrayActor& aArray)
@@ -577,7 +577,7 @@ int FUN_009f8a80_wrapper::FUN_009f8a80(unsigned int a)
 
 struct SpectatorPackageStandIn
 {
-    void __thiscall FUN_009f8420(Actor& aActor);
+    void FUN_009f8420(Actor& aActor);
 };
 
 struct SpectatorThreatInfoStandIn
@@ -615,7 +615,7 @@ struct FUN_009f8900_class
     unsigned char field94[12];
     unsigned char _padA0[4];
 
-    void __thiscall FUN_009f8900(BGSLoadFormBuffer* buffer);
+    void FUN_009f8900(BGSLoadFormBuffer* buffer);
 };
 
 struct WeapStub
@@ -2361,11 +2361,11 @@ struct FUN_009f7f20_class
     UnknownObject64 u0, u1;
     UnknownObject32 u2;
     ArrSI entries;
-    void __thiscall FUN_009f7f20(MobileObject* actor, unsigned char flag);
+    void FUN_009f7f20(MobileObject* actor, unsigned char flag);
 };
 
 // @fnv 0x009f7f20
-void __thiscall FUN_009f7f20_class::FUN_009f7f20(MobileObject* actor, unsigned char flag)
+void FUN_009f7f20_class::FUN_009f7f20(MobileObject* actor, unsigned char flag)
 {
     TargetView* AX;
     if (flag != 0)
@@ -2405,10 +2405,10 @@ struct ThreatItem_009f8570
 };
 struct FUN_009f8570_class
 {
-    FUN_006e3850* __thiscall FUN_009f8570();
+    FUN_006e3850* FUN_009f8570();
 };
 // @fnv 0x009f8570
-FUN_006e3850* __thiscall FUN_009f8570_class::FUN_009f8570()
+FUN_006e3850* FUN_009f8570_class::FUN_009f8570()
 {
     FUN_006e3850* output = new FUN_006e3850;
     int total = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ThreatList*>(reinterpret_cast<char*>(this) + 0xa0)))->GetName()));

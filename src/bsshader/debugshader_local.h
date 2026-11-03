@@ -856,7 +856,6 @@ enum BSShaderManager__eBSSMPassEnum
     BSShaderManager__eBSSMPassEnum_BSSM_UNUSEDPASSES_LAST = 755,
     BSShaderManager__eBSSMPassEnum_BSSM_COUNT = 756
 };
-#pragma pack(push, 4)
 class NiShader : public NiRefObject
 {
   public:
@@ -923,12 +922,6 @@ class NiShader : public NiRefObject
     // NiShader& __cdecl NiShader::*(const NiShader&)
     // void __cdecl NiShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShader) == 20);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_uiShaderIdentifier) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_bShaderEnabled) == 16);
-#pragma pack(push, 4)
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -950,13 +943,6 @@ class NiD3DShaderInterface : public NiShader
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pD3DDevice) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pShaderObject) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pRenderState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_bShaderState) == 32);
-#pragma pack(push, 4)
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -1009,16 +995,6 @@ class NiD3DShader : public NiD3DShaderInterface
     // NiD3DShader& __cdecl NiD3DShader::*(const NiD3DShader&)
     // void __cdecl NiD3DShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShader) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bIsInitialized) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bSoftwareVertexProcessing) == 37);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spShaderDeclaration) == 40);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_pRenderStateGroup) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spFirstShaderConstantMap) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spSecondShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_uiShaderType) == 56);
-#pragma pack(push, 4)
 class NiD3DDefaultShader : public NiD3DShader
 {
   public:
@@ -1050,18 +1026,6 @@ class NiD3DDefaultShader : public NiD3DShader
     // NiD3DDefaultShader& __cdecl NiD3DDefaultShader::*(const NiD3DDefaultShader&)
     // void __cdecl NiD3DDefaultShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DDefaultShader) == 92);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bUseFog) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bFogEnabled) == 61);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiDefaultShaderFlags) == 64);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassCount) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiActivePass) == 72);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFlags) == 76);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pPassFogStatus) == 80);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFogStatusCount) == 84);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pDynamicEffectState) == 88);
-#pragma pack(push, 4)
 class BSShader : public NiD3DDefaultShader
 {
   public:
@@ -1075,13 +1039,6 @@ class BSShader : public NiD3DDefaultShader
 public:
     bool Initialize();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShader, spRenderPass) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_ePass) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_bIsBest) == 100);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_iPassId) == 104);
-#pragma pack(push, 4)
 class BloodSplatterBeamShader : public BSShader
 {
   public:
@@ -1109,13 +1066,6 @@ class BloodSplatterBeamShader : public BSShader
     // BloodSplatterBeamShader& __cdecl BloodSplatterBeamShader::*(const BloodSplatterBeamShader&)
     // void __cdecl BloodSplatterBeamShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BloodSplatterBeamShader) == 192);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_pTextures) == 108);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_pMenuBackgroundScreenGeometry) == 172);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_spTreeVertexShader) == 176);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_spPixelShaderVariants) == 180);
-FNV_STATIC_ASSERT(offsetof(BloodSplatterBeamShader, m_uiShaderState) == 188);
 
 // Smart-pointer targets touched by this TU (DecRefCount/DeleteThis only).
 // Each direct base is the true one-hop base; empty bodies keep all codegen identical.

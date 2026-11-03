@@ -204,22 +204,22 @@ void CaravanMenu::SetTile(int aiIndex, Tile* tile)
 
 struct FUN_0073cba0_shell
 {
-    int __thiscall GetField614();
+    int GetField614();
 };
 
 // @fnv 0x0073cba0
-int __thiscall FUN_0073cba0_shell::GetField614()
+int FUN_0073cba0_shell::GetField614()
 {
     return *(int*)((char*)this + 0x614);
 }
 
 struct FUN_0073cbc0_shell
 {
-    unsigned int __thiscall GetField618();
+    unsigned int GetField618();
 };
 
 // @fnv 0x0073cbc0
-unsigned int __thiscall FUN_0073cbc0_shell::GetField618()
+unsigned int FUN_0073cbc0_shell::GetField618()
 {
     return *(unsigned int*)((char*)this + 0x618);
 }
@@ -243,11 +243,11 @@ unsigned int FUN_00740900_shell::GetFieldAtOffset61C()
 
 struct FUN_00740920_struct
 {
-    unsigned int __thiscall GetField620();
+    unsigned int GetField620();
 };
 
 // @fnv 0x00740920
-unsigned int __thiscall FUN_00740920_struct::GetField620()
+unsigned int FUN_00740920_struct::GetField620()
 {
     return *(unsigned int*)((char*)this + 0x620);
 }
@@ -299,11 +299,11 @@ void FUN_00740ed0_shell::SetField628(int value)
 
 struct FUN_00740ef0_shell
 {
-    void __thiscall FUN_00740ef0(int value);
+    void FUN_00740ef0(int value);
 };
 
 // @fnv 0x00740ef0
-void __thiscall FUN_00740ef0_shell::FUN_00740ef0(int value)
+void FUN_00740ef0_shell::FUN_00740ef0(int value)
 {
     ((int*)((char*)this + 0x62c))[0] = value;
 }
@@ -313,7 +313,7 @@ struct FUN_00a253d0_shell
 };
 struct FUN_0073bab0_shell
 {
-    void __thiscall SetFlag(int a, int b);
+    void SetFlag(int a, int b);
 };
 struct OSGlobals
 {
@@ -335,11 +335,11 @@ void __cdecl FUN_0074a270()
 
 struct FUN_00740e70_shell
 {
-    void __thiscall FUN_00740e70(int value);
+    void FUN_00740e70(int value);
 };
 
 // @fnv 0x00740e70
-void __thiscall FUN_00740e70_shell::FUN_00740e70(int value)
+void FUN_00740e70_shell::FUN_00740e70(int value)
 {
     *(unsigned int*)((char*)this + 0x61c) = value;
 }
@@ -352,16 +352,16 @@ void FUN_0073bab0_shell::SetFlag(int auiMask, int abSet)
 
 struct FUN_0073bb70_shell
 {
-    void __thiscall FUN_0073bba0();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_0073bba0();
+    void* Destroy(unsigned int flags);
 };
 struct FUN_007414c0_shell
 {
-    char __thiscall HasAllTiles();
+    char HasAllTiles();
 };
 // Checks the 0x33 Tile pointers at offset 0x30 and returns 1 only if none of them is null.
 // @fnv 0x007414c0
-char __thiscall FUN_007414c0_shell::HasAllTiles()
+char FUN_007414c0_shell::HasAllTiles()
 {
     for (int i = 0; i < 0x33; ++i)
     {
@@ -637,10 +637,10 @@ struct NPCHandArrayInfo
     int m_0x14;
     int m_0x18;
 
-    void __thiscall FUN_0073b730(BSSimpleArray* pNPCHandArray);
+    void FUN_0073b730(BSSimpleArray* pNPCHandArray);
 };
 
-void __thiscall NPCHandArrayInfo::FUN_0073b730(BSSimpleArray* pNPCHandArray)
+void NPCHandArrayInfo::FUN_0073b730(BSSimpleArray* pNPCHandArray)
 {
     if (pNPCHandArray)
     {
@@ -786,11 +786,11 @@ struct MiddleLowProcess
 
 struct FUN_0074f600_shell
 {
-    int __thiscall FUN_0074f600(int index1, int index2);
+    int FUN_0074f600(int index1, int index2);
 };
 
 // @fnv 0x0074f600
-int __thiscall FUN_0074f600_shell::FUN_0074f600(int index1, int index2)
+int FUN_0074f600_shell::FUN_0074f600(int index1, int index2)
 {
     int evaluateHour = 0;
     int flags;
@@ -824,7 +824,7 @@ int __thiscall FUN_0074f600_shell::FUN_0074f600(int index1, int index2)
 
 struct BSSimpleListTESRaceSize
 {
-    int __thiscall GetSize();
+    int GetSize();
 };
 
 struct BSSimpleArrayActor
@@ -833,7 +833,7 @@ struct BSSimpleArrayActor
 
 struct FUN_006e2b50_shell
 {
-    void __thiscall SetCantOpenDoors(bool value);
+    void SetCantOpenDoors(bool value);
 };
 
 struct FUN_00729970_shell
@@ -1650,7 +1650,7 @@ struct FNV_74A000_Root
 
 struct FNV_74A000_This
 {
-    void __thiscall FUN_0074a000(int slot, float amount);
+    void FUN_0074a000(int slot, float amount);
 };
 
 // @fnv 0x0074a000
@@ -1891,7 +1891,7 @@ struct FUN_0074ecb0_cls
 
 struct FUN_004bc1f0_S
 {
-    void __thiscall FUN_004bc1f0(float x, float y, float z);
+    void FUN_004bc1f0(float x, float y, float z);
 };
 
 struct NiUpdateData
@@ -2038,12 +2038,12 @@ struct S_0074ed40_Cls
     int unk190;
     int unk194;
     NiAVObject* m_rows[16][7];
-    void __thiscall FUN_0074ed40(int index);
+    void FUN_0074ed40(int index);
 };
 
 // For each of the 7 objects in m_rows[index], calls FUN_004bc1f0 with zero coordinates and Update with a zero-time NiUpdateData.
 // @fnv 0x0074ed40
-void __thiscall S_0074ed40_Cls::FUN_0074ed40(int aiRowIndex)
+void S_0074ed40_Cls::FUN_0074ed40(int aiRowIndex)
 {
     for (int i = 0; i < 7; i++)
     {
@@ -3230,11 +3230,11 @@ struct GameList
 };
 struct GroupRegistry
 {
-    void __thiscall RemoveValueFromGroup(void* key, int value);
+    void RemoveValueFromGroup(void* key, int value);
 };
 // Looks up the list for key, scans it for value, and removes that entry (deleting the list and key if it was the only one).
 // @fnv 0x009a4120
-void __thiscall GroupRegistry::RemoveValueFromGroup(void* key, int value)
+void GroupRegistry::RemoveValueFromGroup(void* key, int value)
 {
     GameList* entries = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)(key), (*(::fnv_00853130::CombatThreatRecord * *)(&entries))))
@@ -19287,7 +19287,7 @@ struct FUN_0073bba0 : Menu_007a8b10
 };
 // Calls FUN_0073bba0, then frees this via Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x0073bb70
-void* __thiscall FUN_0073bb70_shell::Destroy(unsigned int flags)
+void* FUN_0073bb70_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0073bba0 *>(this)->FUN_0073bba0::~FUN_0073bba0();
     if (flags & 1)

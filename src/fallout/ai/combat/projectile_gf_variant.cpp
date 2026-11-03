@@ -202,11 +202,11 @@ struct ParentEntity : EventEntity
 {
 };
 extern Vec3 FUN_004a3760(float ratio, const Vec3& direction);
-typedef int(__thiscall* GetKindFn)(EventEntity*);
-typedef Vec3*(__thiscall* GetPositionFn)(EventEntity*);
-typedef Vec3*(__thiscall* GetLocationFn)(WorldTarget*);
-typedef VisualNode*(__thiscall* GetVisualFn)(Controller*);
-typedef bool(__thiscall* DispatchFn)(Controller*, EventEntity*, Vec3*, Vec3*, int, int, int);
+typedef int(* GetKindFn)(EventEntity*);
+typedef Vec3*(* GetPositionFn)(EventEntity*);
+typedef Vec3*(* GetLocationFn)(WorldTarget*);
+typedef VisualNode*(* GetVisualFn)(Controller*);
+typedef bool(* DispatchFn)(Controller*, EventEntity*, Vec3*, Vec3*, int, int, int);
 // @fnv 0x009c0d80
 int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float* hitTime, bool acceptUnknown,
                          float maximumTime)

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d68260
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/FUN_00ddccb0_cls.h"
@@ -27,7 +28,7 @@ struct Allocator {
     virtual void* allocate(int size);
 };
 struct Global { int unk00; int unk04; int unk08; int unk0c; Allocator* allocator; };
-struct Built { int field00; short field04; int field08; int __thiscall FUN_00d682d0(int); };
+struct Built { int field00; short field04; int field08; int FUN_00d682d0(int); };
 extern "C" Global* __cdecl FUN_00c85750();
 // Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
 // @fnv 0x00d686b0
@@ -458,7 +459,6 @@ extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_setzero_ps(void);
 
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 extern const float DAT_010c69c0=(0.85f-1.0f);
 

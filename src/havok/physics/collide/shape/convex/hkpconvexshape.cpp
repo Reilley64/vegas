@@ -7,7 +7,7 @@
 #include "havok/hkpConvexShape.h"
 
 // @fnv 0x00c9e1e0
-int __stdcall FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+int FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     return 2;
 }
@@ -166,7 +166,7 @@ struct Cb;
 
 struct VTable
 {
-    void(__thiscall* fn)(Cb*, P2*, Vec4*);
+    void(* fn)(Cb*, P2*, Vec4*);
 };
 
 struct Cb
@@ -215,7 +215,7 @@ void FN::FUN_00c9e2a0(int p1, int p2, Cb* apCb)
         P2* pP2 = (P2*)p2Value;
         Mat3* m = pP2->m;
         VTable* vt = apCb->vt;
-        void(__thiscall * fn)(Cb*, P2*, Vec4*) = vt->fn;
+        void(* fn)(Cb*, P2*, Vec4*) = vt->fn;
 
         __m128 c0 = _mm_load_ps(&m->c0.x);
         __m128 c1 = _mm_load_ps(&m->c1.x);

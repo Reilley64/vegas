@@ -1,5 +1,6 @@
 // bscore/abstractheap.cpp: AbstractHeap, HeapFreeBlock, AbstractHeapDump, AbstractHeapBuckets and more (19 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -330,12 +331,12 @@ void AbstractHeap::PushBlock(MemoryBlockHeader* block)
 
 struct FUN_00aaa560_shell
 {
-    int __thiscall FUN_00aaa560(int arg);
+    int FUN_00aaa560(int arg);
 };
 
 // Returns -1 if arg is null, otherwise counts nodes by following the pointer at offset 0x4C until it is null.
 // @fnv 0x00aaa560
-int __thiscall FUN_00aaa560_shell::FUN_00aaa560(int pNode)
+int FUN_00aaa560_shell::FUN_00aaa560(int pNode)
 {
     if (!pNode)
         return -1;
@@ -370,8 +371,6 @@ Heap00aaa5b0* Heap00aaa5b0::DestroyIfFlagged(unsigned int flags)
 }
 
 struct _RTL_CRITICAL_SECTION;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
 struct FreeHeapBlock_aa9
 {
     unsigned int m_uiChunkSize;
@@ -464,7 +463,6 @@ struct _MEMORYSTATUS
     unsigned long dwTotalVirtual;
     unsigned long dwAvailVirtual;
 };
-extern "C" __declspec(dllimport) void __stdcall GlobalMemoryStatus(_MEMORYSTATUS*);
 
 struct AbstractHeapDump : AbstractHeap
 {

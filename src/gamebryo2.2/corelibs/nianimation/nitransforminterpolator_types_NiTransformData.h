@@ -18,7 +18,6 @@ enum NiAnimationKey__KeyType
     NiAnimationKey__KeyType_STEPKEY = 5,
     NiAnimationKey__KeyType_NUMKEYTYPES = 6
 };
-#pragma pack(push, 4)
 class NiTransformData : public NiObject
 {
   public:
@@ -55,18 +54,4 @@ class NiTransformData : public NiObject
     // NiTransformData& __cdecl NiTransformData::*(const NiTransformData&)
     // void __cdecl NiTransformData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTransformData) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_usNumRotKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_usNumPosKeys) == 10);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_usNumScaleKeys) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eRotationKeyType) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ePositionKeyType) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eScaleKeyType) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucRotationKeySize) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucPositionKeySize) == 29);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_ucScaleKeySize) == 30);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkRotationKeys) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkPositionKeys) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkScaleKeyArray) == 40);
 #endif

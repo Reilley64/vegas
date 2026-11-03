@@ -64,14 +64,14 @@ FUN_00d04300::FUN_00d04300(bool del)
 }
 
 // @fnv 0x00d021e0
-int __fastcall FUN_00d021e0(int self, int, int* out)
+int FUN_00d021e0(int self, int, int* out)
 {
     *out = *(int*)(self + 0xb4);
     return *out;
 }
 
 // @fnv 0x00d021f0
-void __fastcall FUN_00d021f0(void* this_, int, int* arg, int)
+void FUN_00d021f0(void* this_, int, int* arg, int)
 {
     *(int*)((char*)this_ + 0xb4) = *arg;
 }
@@ -122,7 +122,7 @@ struct S_00d02020_Pair
 
 // For each handle in the pair whose m_type is 2, calls v24 on the owner's owner with the other handle's owner as argument.
 // @fnv 0x00d02020
-void __stdcall FUN_00d02020(S_00d02020_Pair* pair)
+void FUN_00d02020(S_00d02020_Pair* pair)
 {
     if (pair->m_kPointA->m_type == 2)
     {
@@ -443,7 +443,7 @@ struct SubNode
 
 // For each handle in the pair whose type is 2, resolves its node and calls v07 on the target with the other handle's adjusted pointer.
 // @fnv 0x00d01fc0
-void __stdcall FUN_00d01fc0(HandlePair* pHandlePair)
+void FUN_00d01fc0(HandlePair* pHandlePair)
 {
     Handle* h = pHandlePair->first;
     if (h->type == 2)
@@ -1159,7 +1159,7 @@ CpuObject* CpuObject::FUN_00d04320(unsigned int flags)
 // are ignored; otherwise each phantom side is told about the other side's collidable.
 // For each pair member of type 3, calls v24 on the other member's owner's owner, passing the non-phantom member's owner.
 // @fnv 0x00d020f0
-void __stdcall FUN_00d020f0(S_00d02020_Pair* pair)
+void FUN_00d020f0(S_00d02020_Pair* pair)
 {
     if (pair->m_kPointA->m_type == 3 && pair->m_kPointB->m_type == 3)
         return;
@@ -1178,12 +1178,12 @@ void __stdcall FUN_00d020f0(S_00d02020_Pair* pair)
 }
 
 // @fnv 0x00d02200
-void __stdcall FUN_00d02200(int)
+void FUN_00d02200(int)
 {}
 
 // Empty function that takes three int arguments and does nothing.
 // @fnv 0x00d02210
-void __stdcall FUN_00d02210(int, int, int)
+void FUN_00d02210(int, int, int)
 {}
 
 struct OwnerD020;
@@ -1232,7 +1232,7 @@ struct PairD020
 
 // Unless both collidables have type 3, calls v07 on the phantom of each type-3 collidable with the other collidable's owner.
 // @fnv 0x00d02080
-void __stdcall NotifyPhantomCollision(PairD020* pkPair)
+void NotifyPhantomCollision(PairD020* pkPair)
 {
     if (pkPair->m_pkA->m_cType == 3 && pkPair->m_pkB->m_cType == 3)
         return;

@@ -69,10 +69,10 @@ struct FUN_00d874d0_s
 };
 struct FUN_00db7d00_class
 {
-    void* __thiscall FUN_00db7d00(unsigned int a);
+    void* FUN_00db7d00(unsigned int a);
 };
 // @fnv 0x00db7d00
-void* __thiscall FUN_00db7d00_class::FUN_00db7d00(unsigned int a)
+void* FUN_00db7d00_class::FUN_00db7d00(unsigned int a)
 {
     if (a)
     {
@@ -406,7 +406,7 @@ struct Owner_t
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
-    int __thiscall FUN_00db7d60(unsigned int a, unsigned int b);
+    int FUN_00db7d60(unsigned int a, unsigned int b);
 };
 // @fnv 0x00db7dd0
 void DB7DD0Outer::FUN_00db7dd0()
@@ -414,7 +414,7 @@ void DB7DD0Outer::FUN_00db7dd0()
     reinterpret_cast<::Owner_t *>((m_inner))->FUN_00db7d60({}, {});
 }
 
-__declspec(noinline) int __thiscall Owner_t::FUN_00db7d60(unsigned int a, unsigned int b)
+__declspec(noinline) int Owner_t::FUN_00db7d60(unsigned int a, unsigned int b)
 {
     return (int)a;
 }
@@ -1578,7 +1578,7 @@ struct PatchManager
 
 // Applies a patch to a world object, resolving the allocator, running patch operations, and releasing the allocated patch data.
 // @fnv 0x00dba0d0
-int __thiscall PatchManager::FUN_00dba0d0(int apWorld, int param3)
+int PatchManager::FUN_00dba0d0(int apWorld, int param3)
 {
     if (param3 == 0)
     {
@@ -1631,7 +1631,7 @@ struct DBA1A0Class
     int unk18;
     int unk1C;
 
-    int __thiscall FUN_00dba1a0(int a1);
+    int FUN_00dba1a0(int a1);
 };
 
 extern "C" int fnv_unknown_clobber(int a) throw();
@@ -1646,7 +1646,7 @@ static __declspec(noinline) int FUN_00db8000(int* pArr, int iKey)
 
 // Returns 1 when the field checks pass; otherwise calls FUN_00db8000 with this+0xC and a1.
 // @fnv 0x00dba1a0
-int __thiscall DBA1A0Class::FUN_00dba1a0(int aiKey)
+int DBA1A0Class::FUN_00dba1a0(int aiKey)
 {
     if ((unk1C & 0x7FFFFFFF) == 0 && unk10 != 0 && reinterpret_cast<::S_00db8670_PatchManager *>(this)->FUN_00db8670() == 1)
         return 1;
@@ -1665,7 +1665,7 @@ struct W
 {
     int x, y;
     C* inner;
-    void __thiscall FUN_00db7d40(Pair);
+    void FUN_00db7d40(Pair);
 };
 void W::FUN_00db7d40(Pair pair)
 {

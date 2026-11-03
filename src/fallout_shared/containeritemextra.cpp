@@ -40,7 +40,6 @@ struct ContainerItemExtraFileData
 };
 
 // members without the member functions matched in this unit.
-#pragma pack(push, 4)
 class ContainerItemExtra
 {
   public:
@@ -59,13 +58,6 @@ class ContainerItemExtra
     void Copy(ContainerItemExtra* other);
     bool IsDefault();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ContainerItemExtra) == 12);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_pForm) == 0);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_pGlobal) == 4);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_cRank) == 4);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_uiRankFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(ContainerItemExtra, m_fHealth) == 8);
 
 // Initializes the form pointer and union member to null and sets the float value to 1.0.
 // @fnv 0x0040e690

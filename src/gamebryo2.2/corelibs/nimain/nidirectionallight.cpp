@@ -32,7 +32,7 @@ struct Vec3_00a75c20
 
 // Calls FUN_00a71f60, sets the vtable to &DAT_0109d7b4, stores Vec3(1,0,0) at pThis+0xf0 and byte 3 at pThis+0x9d, then returns pThis.
 // @fnv 0x00a75c20
-void* __fastcall FUN_00a75c20(char* pObject)
+void* FUN_00a75c20(char* pObject)
 {
     new ((void *)(pObject)) ::FUN_00a71f60_cls();
     *(int**)pObject = &DAT_0109d7b4;
@@ -62,14 +62,14 @@ void* FUN_00a75c70_shell::FUN_00a75c70()
 
 struct NiDirectionalLightShell : NiDirectionalLight
 {
-    NiDirectionalLight* __thiscall FUN_00a75c80(int n);
+    NiDirectionalLight* FUN_00a75c80(int n);
 };
 
 extern "C" void __cdecl __Dummy_00b6fef0(void* p, int n);
 
 // Calls FUN_00a72010, then if bit 0 of n is set calls __Dummy_00b6fef0 on this with 0xfc, and returns this.
 // @fnv 0x00a75c80
-NiDirectionalLight* __thiscall NiDirectionalLightShell::FUN_00a75c80(int aiFlags)
+NiDirectionalLight* NiDirectionalLightShell::FUN_00a75c80(int aiFlags)
 {
     static_cast<::FUN_00a72010_owner *>(nullptr)->FUN_00a72010();
     if (aiFlags & 1)
@@ -87,7 +87,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00a75cb0_shell : public NiDirectionalLight
 {
     void FUN_00a75cb0(NiUpdateData*);
@@ -163,7 +162,7 @@ NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 class NiObject;
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-void* __fastcall FUN_00a75c20(char* pObject);
+void* FUN_00a75c20(char* pObject);
 
 struct FUN_00a75cf0_impl : public NiDirectionalLight
 {

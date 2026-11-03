@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04350_cls.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
@@ -34,18 +35,18 @@ struct hkpKdTreeWorldManager
     char m_f;
     char m_g;
     char m_h;
-    void __thiscall FUN_00d0a2b0(void* p);
+    void FUN_00d0a2b0(void* p);
 };
 
 // @fnv 0x00d0a2b0
-void __thiscall hkpKdTreeWorldManager::FUN_00d0a2b0(void* p)
+void hkpKdTreeWorldManager::FUN_00d0a2b0(void* p)
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x10))
         m_iThirdValue = 1;
 }
 
 // @fnv 0x00d0ad90
-void __fastcall FUN_00d0ad90(char* self, int unused, char flag)
+void FUN_00d0ad90(char* self, int unused, char flag)
 {
     self[0x20] = flag == 0;
 }
@@ -65,11 +66,11 @@ struct FUN_00d0a340_StandIn
     char m_g;
     char m_h;
 
-    void __thiscall SetFlagOrForward(int);
+    void SetFlagOrForward(int);
 };
 
 // @fnv 0x00d0a340
-void __thiscall FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
+void FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
 {
     if (m_h == 0)
     {
@@ -127,7 +128,7 @@ FUN_00d0a4f0::~FUN_00d0a4f0()
         void* router = _D1A0E0GetMemoryRouter();
         void* mgr = *(void**)((char*)router + 0x10);
         void** vtbl = *(void***)mgr;
-        void(__thiscall * fn)(void*, void*, int) = *(void(__thiscall**)(void*, void*, int))(vtbl + 2);
+        void(* fn)(void*, void*, int) = *(void(**)(void*, void*, int))(vtbl + 2);
         fn(mgr, p, 0x50);
     }
 
@@ -171,7 +172,7 @@ struct FUN_00d0ad80_This
 class FUN_00d0ad80_Class : public FUN_00d0ad80_This
 {
   public:
-    bool __thiscall FUN_00d0ad80();
+    bool FUN_00d0ad80();
 };
 
 // @fnv 0x00d0ad80
@@ -196,12 +197,12 @@ struct FUN_00d0a360_Owner
     unsigned char unk08;
     unsigned char unk09;
 
-    void __thiscall HandleArg(int arg);
+    void HandleArg(int arg);
 };
 
 // If the argument's field at offset 0x10 is nonzero, sets unk08 when unk09 is zero, otherwise calls FUN_00d0a270 on the object 0x18 bytes before this.
 // @fnv 0x00d0a360
-void __thiscall FUN_00d0a360_Owner::HandleArg(int arg)
+void FUN_00d0a360_Owner::HandleArg(int arg)
 {
     FUN_00d0a360_Arg* p = reinterpret_cast<FUN_00d0a360_Arg*>(arg);
     if (p->unk10 != 0)
@@ -731,7 +732,6 @@ void RayCasterD0A4::CastRay(const RayInputD0A4* pkInput, QueryD0A4* pkQuery, int
     FUN_00d98ca0(m_pkShape, pkInput, &pkInput->m_vTo, &kCollector);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cd2d8[];
@@ -1089,7 +1089,6 @@ struct S00d0a560_TimerBuf
 
 extern "C" void _ReadWriteBarrier(void);
 extern int str_010cd2a4;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 
 struct S00d0a560_Owner
@@ -1103,7 +1102,7 @@ struct S00d0a560_Owner
     int unk18;
     S00d0a560_Holder* unk1C;
 
-    void __thiscall FUN_00d0a560(int* out, int ch);
+    void FUN_00d0a560(int* out, int ch);
 };
 
 // Frees the object at *out, builds a new one via Init, then calls GetAudioPair, FillAabbArray, DrawIfCountPositive and FreeBufferPair between two timer records.

@@ -84,7 +84,7 @@ struct Interface_00ebfd20
 {
     virtual void Unk00() = 0;
     virtual void Unk04() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 struct Struct_00ebfd20
@@ -139,56 +139,56 @@ struct FnvLockedRect
 
 struct FnvD3DTexture
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetDevice(void** ppDevice);
-    virtual long __stdcall SetPrivateData(void* guid, const void* data, unsigned long size, unsigned long flags);
-    virtual long __stdcall GetPrivateData(void* guid, void* data, unsigned long* size);
-    virtual long __stdcall FreePrivateData(void* guid);
-    virtual unsigned long __stdcall SetPriority(unsigned long priority);
-    virtual unsigned long __stdcall GetPriority();
-    virtual void __stdcall PreLoad();
-    virtual int __stdcall GetType();
-    virtual unsigned long __stdcall SetLOD(unsigned long lod);
-    virtual unsigned long __stdcall GetLOD();
-    virtual unsigned long __stdcall GetLevelCount();
-    virtual long __stdcall SetAutoGenFilterType(int filterType);
-    virtual int __stdcall GetAutoGenFilterType();
-    virtual void __stdcall GenerateMipSubLevels();
-    virtual long __stdcall GetLevelDesc(unsigned int level, void* desc);
-    virtual long __stdcall GetSurfaceLevel(unsigned int level, void** surface);
-    virtual long __stdcall LockRect(unsigned int level, FnvLockedRect* lockedRect, const void* rect,
+    virtual long QueryInterface(void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetDevice(void** ppDevice);
+    virtual long SetPrivateData(void* guid, const void* data, unsigned long size, unsigned long flags);
+    virtual long GetPrivateData(void* guid, void* data, unsigned long* size);
+    virtual long FreePrivateData(void* guid);
+    virtual unsigned long SetPriority(unsigned long priority);
+    virtual unsigned long GetPriority();
+    virtual void PreLoad();
+    virtual int GetType();
+    virtual unsigned long SetLOD(unsigned long lod);
+    virtual unsigned long GetLOD();
+    virtual unsigned long GetLevelCount();
+    virtual long SetAutoGenFilterType(int filterType);
+    virtual int GetAutoGenFilterType();
+    virtual void GenerateMipSubLevels();
+    virtual long GetLevelDesc(unsigned int level, void* desc);
+    virtual long GetSurfaceLevel(unsigned int level, void** surface);
+    virtual long LockRect(unsigned int level, FnvLockedRect* lockedRect, const void* rect,
                                     unsigned long flags);
-    virtual long __stdcall UnlockRect(unsigned int level);
+    virtual long UnlockRect(unsigned int level);
 };
 
 struct FnvD3DDevice
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall TestCooperativeLevel();
-    virtual unsigned int __stdcall GetAvailableTextureMem();
-    virtual long __stdcall EvictManagedResources();
-    virtual long __stdcall GetDirect3D(void** ppD3D);
-    virtual long __stdcall GetDeviceCaps(void* caps);
-    virtual long __stdcall GetDisplayMode(unsigned int swapChain, void* mode);
-    virtual long __stdcall GetCreationParameters(void* params);
-    virtual long __stdcall SetCursorProperties(unsigned int x, unsigned int y, void* bitmap);
-    virtual void __stdcall SetCursorPosition(int x, int y, unsigned long flags);
-    virtual int __stdcall ShowCursor(int show);
-    virtual long __stdcall CreateAdditionalSwapChain(void* params, void** swapChain);
-    virtual long __stdcall GetSwapChain(unsigned int index, void** swapChain);
-    virtual unsigned int __stdcall GetNumberOfSwapChains();
-    virtual long __stdcall Reset(void* params);
-    virtual long __stdcall Present(const void* src, const void* dst, void* wnd, const void* dirty);
-    virtual long __stdcall GetBackBuffer(unsigned int swapChain, unsigned int index, int type, void** surface);
-    virtual long __stdcall GetRasterStatus(unsigned int swapChain, void* status);
-    virtual long __stdcall SetDialogBoxMode(int enable);
-    virtual void __stdcall SetGammaRamp(unsigned int swapChain, unsigned long flags, const void* ramp);
-    virtual void __stdcall GetGammaRamp(unsigned int swapChain, void* ramp);
-    virtual long __stdcall CreateTexture(unsigned int width, unsigned int height, unsigned int levels,
+    virtual long QueryInterface(void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long TestCooperativeLevel();
+    virtual unsigned int GetAvailableTextureMem();
+    virtual long EvictManagedResources();
+    virtual long GetDirect3D(void** ppD3D);
+    virtual long GetDeviceCaps(void* caps);
+    virtual long GetDisplayMode(unsigned int swapChain, void* mode);
+    virtual long GetCreationParameters(void* params);
+    virtual long SetCursorProperties(unsigned int x, unsigned int y, void* bitmap);
+    virtual void SetCursorPosition(int x, int y, unsigned long flags);
+    virtual int ShowCursor(int show);
+    virtual long CreateAdditionalSwapChain(void* params, void** swapChain);
+    virtual long GetSwapChain(unsigned int index, void** swapChain);
+    virtual unsigned int GetNumberOfSwapChains();
+    virtual long Reset(void* params);
+    virtual long Present(const void* src, const void* dst, void* wnd, const void* dirty);
+    virtual long GetBackBuffer(unsigned int swapChain, unsigned int index, int type, void** surface);
+    virtual long GetRasterStatus(unsigned int swapChain, void* status);
+    virtual long SetDialogBoxMode(int enable);
+    virtual void SetGammaRamp(unsigned int swapChain, unsigned long flags, const void* ramp);
+    virtual void GetGammaRamp(unsigned int swapChain, void* ramp);
+    virtual long CreateTexture(unsigned int width, unsigned int height, unsigned int levels,
                                          unsigned long usage, int format, int pool, FnvD3DTexture** texture,
                                          void** sharedHandle);
 };
@@ -326,27 +326,27 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
 
 struct IUnknownEBF
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObject);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void __stdcall vf0C();
-    virtual void __stdcall vf10();
-    virtual void __stdcall vf14();
-    virtual void __stdcall vf18();
-    virtual void __stdcall vf1C();
-    virtual void __stdcall vf20();
-    virtual void __stdcall vf24();
-    virtual void __stdcall vf28();
-    virtual void __stdcall vf2C();
-    virtual void __stdcall vf30();
-    virtual void __stdcall vf34();
-    virtual void __stdcall vf38();
-    virtual void __stdcall vf3C();
-    virtual void __stdcall vf40();
-    virtual void __stdcall vf44();
-    virtual void __stdcall vf48();
-    virtual void __stdcall vf4C();
-    virtual long __stdcall Apply(unsigned long uiFlags);
+    virtual long QueryInterface(const void* riid, void** ppvObject);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void vf0C();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1C();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2C();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3C();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4C();
+    virtual long Apply(unsigned long uiFlags);
 };
 
 struct EffectStackEBF
@@ -390,7 +390,7 @@ struct IDirect3DTexture9_stub
     virtual void v40();
     virtual void v44();
     virtual void v48();
-    virtual int __stdcall LockRect(unsigned int Level, D3DLOCKED_RECT* pLockedRect, const void* pRect,
+    virtual int LockRect(unsigned int Level, D3DLOCKED_RECT* pLockedRect, const void* pRect,
                                    unsigned int Flags);
 };
 

@@ -2,6 +2,8 @@
 // src/havok/common/base/system/io/socket/bsd/hkbsdsocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/bsd/hkbsdsocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <winsock2.h>
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/CC0280Writer.h"
@@ -13,7 +15,7 @@
 #include "fnv/symbols_00ee6000.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void __stdcall closesocket(int);
+extern "C" void closesocket(int);
 struct FUN_00da2dc0_class
 {
     int m_kPointA;                // +0x00
@@ -41,11 +43,11 @@ extern int DAT_010d5030;
 
 struct hkBsdSocket
 {
-    void __thiscall Destroy();
+    void Destroy();
 };
 
 // @fnv 0x00da3080
-void __thiscall hkBsdSocket::Destroy()
+void hkBsdSocket::Destroy()
 {
     *(int*)this = (int)&DAT_010d5030;
     reinterpret_cast<::FUN_00da2dc0_class *>((this))->CloseSocket();
@@ -64,14 +66,14 @@ struct FUN_00da30a0_cls
     char m_auiShapeKeys[28];
     int m_field_0x20;
     void FUN_00da2de0();
-    void* __thiscall InitWithParam(int param);
+    void* InitWithParam(int param);
 };
 
 struct FUN_00da2db0_cls
 {
     char m_auiShapeKeys[0x20];
     int m_pSocket;
-    bool* __thiscall FUN_00da2db0(bool* pOut);
+    bool* FUN_00da2db0(bool* pOut);
 };
 
 // @fnv 0x00da2db0
@@ -81,7 +83,7 @@ bool* FUN_00da2db0_cls::FUN_00da2db0(bool* pOut)
     return pOut;
 }
 
-extern "C" int __stdcall FUN_00ee6d5c(int, int, int, int);
+extern "C" int FUN_00ee6d5c(int, int, int, int);
 extern "C" int __cdecl FUN_00ee6d50(void);
 
 struct FUN_00da2e60_cls
@@ -104,14 +106,14 @@ int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
         if (FUN_00ee6d50() != 0x2733)
         {
             void** vft = *(void***)this;
-            void(__thiscall * fn)(void*) = (void(__thiscall*)(void*))vft[4];
+            void(* fn)(void*) = (void(*)(void*))vft[4];
             fn(this);
         }
     }
     return 0;
 }
 
-int __stdcall FUN_00ee6d4a(int, int, int);
+int FUN_00ee6d4a(int, int, int);
 
 struct FUN_00da2de0_class
 {
@@ -128,7 +130,7 @@ struct FUN_00da2de0_class
 };
 // Calls FUN_00d2b850, sets the vtable to DAT_010d5030 and m_field_0x20 to param, calls FUN_00da2de0 if param is -1, and returns this.
 // @fnv 0x00da30a0
-void* __thiscall FUN_00da30a0_cls::InitWithParam(int param)
+void* FUN_00da30a0_cls::InitWithParam(int param)
 {
     FUN_00d2b850();
     m_vft = &DAT_010d5030;
@@ -155,7 +157,7 @@ struct FUN_00da2f90_cls
     int m_pSocket;
     bool FUN_00da2f90(int a, int b, int c);
 };
-extern "C" int __stdcall FUN_00ee6d7a(int, int, int, int);
+extern "C" int FUN_00ee6d7a(int, int, int, int);
 // @fnv 0x00da2f90
 bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
 {
@@ -163,16 +165,14 @@ bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
 }
 
 // FUN_00ee6d9e: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 21 (setsockopt, stdcall, 5 args).
-extern "C" __declspec(dllimport) int __stdcall setsockopt(unsigned int s, int level, int optname, const char* optval,
-                                                          int optlen);
 
 // @fnv 0x00ee6d9e
-int __stdcall FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int optlen)
+int FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int optlen)
 {
     return setsockopt(s, level, optname, optval, optlen);
 }
 
-extern "C" int __stdcall FUN_00ee6d56(int, void*, int, int);
+extern "C" int FUN_00ee6d56(int, void*, int, int);
 extern "C" int __cdecl FUN_00ee6d50(void);
 
 struct FUN_00da2e10_cls
@@ -249,7 +249,7 @@ void FUN_00cbbd40_cls::FUN_00cbbd40()
     m_8 = 0x80000000;
 }
 
-extern "C" int __stdcall FUN_00ee6d80(unsigned int s, long lCmd, unsigned long* pulArg);
+extern "C" int FUN_00ee6d80(unsigned int s, long lCmd, unsigned long* pulArg);
 
 class SocketDA2F
 {
@@ -264,7 +264,7 @@ class SocketDA2F
     int unk1C;
     unsigned int m_uiSocket;
 
-    bool __thiscall SetNonBlocking(bool m_bCombatItemSearchActive);
+    bool SetNonBlocking(bool m_bCombatItemSearchActive);
 };
 
 // Sets the socket to non-blocking mode via FUN_00ee6d80 and returns whether the call succeeded.
@@ -284,7 +284,7 @@ bool SocketDA2F::SetNonBlocking(bool m_bCombatItemSearchActive)
 extern char DAT_01269acc;
 extern const char str_010d5004[];
 extern const char str_010d4fdc[];
-int __stdcall FUN_00ee6d86(unsigned short, void*);
+int FUN_00ee6d86(unsigned short, void*);
 
 struct S00da2ff0_Msg
 {
@@ -325,10 +325,10 @@ void InitWinsock()
     }
 }
 
-extern "C" int __stdcall FUN_00ee6d74(int);
-extern "C" int __stdcall FUN_00ee6d6e(const char*);
-extern "C" int __stdcall FUN_00ee6d68(const char*);
-extern "C" int __stdcall FUN_00ee6d62(int, void*, int);
+extern "C" int FUN_00ee6d74(int);
+extern "C" int FUN_00ee6d6e(const char*);
+extern "C" int FUN_00ee6d68(const char*);
+extern "C" int FUN_00ee6d62(int, void*, int);
 extern "C" int __cdecl FUN_00ee6d50(void);
 
 static __declspec(noinline) bool* FUN_00da2eb0(int c, bool* out)
@@ -408,10 +408,10 @@ success:
     return 0;
 }
 
-unsigned short __stdcall FUN_00ee6d74(unsigned short usHostShort);
-int __stdcall FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
-int __stdcall FUN_00ee6d92(unsigned int s, int iBacklog);
-int __stdcall FUN_00ee6d8c(char* pcName, int iNameLen);
+unsigned short FUN_00ee6d74(unsigned short usHostShort);
+int FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
+int FUN_00ee6d92(unsigned int s, int iBacklog);
+int FUN_00ee6d8c(char* pcName, int iNameLen);
 
 extern const char str_010d505c[];
 extern const char str_010d5070[];
@@ -546,7 +546,7 @@ struct FUN_00da33d0_cls : hkBsdSocket
     int m_kPointA;
     unsigned short m_kPointB;
 
-    FUN_00da33d0_cls* __thiscall FUN_00da33d0(bool flag);
+    FUN_00da33d0_cls* FUN_00da33d0(bool flag);
 };
 
 // @fnv 0x00da33d0

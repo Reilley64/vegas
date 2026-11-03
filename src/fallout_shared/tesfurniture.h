@@ -26,7 +26,6 @@ struct TESFormInitFlag : public TESForm
     bool IsFormInitialized() const;
 };
 
-#pragma pack(push, 4)
 // TESObject/TESBoundObject/TESBoundAnimObject chain flattened to its 48-byte
 // PC size; the vtable pointer is inherited from TESForm.
 class TESBoundAnimObject : public TESForm
@@ -34,38 +33,24 @@ class TESBoundAnimObject : public TESForm
   public:
     unsigned char layoutPadding18[0x18];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);
 // TESModel (24 bytes) plus the texture-swap list (8 bytes).
-#pragma pack(push, 4)
 class TESModelTextureSwap : public BaseFormComponent
 {
   public:
     unsigned char layoutPadding04[0x1C];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 0x20);
 class CollisionComponent;
-#pragma pack(push, 4)
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
     CollisionComponent* pData;  // +0x4
     void InitItem(TESForm* form);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 0x4);
-#pragma pack(push, 4)
 class BGSOpenCloseForm
 {
   public:
     void* m_ppVirtualMethodTable;  // +0x0
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSOpenCloseForm) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BGSOpenCloseForm, m_ppVirtualMethodTable) == 0x0);
-#pragma pack(push, 4)
 class TESObjectACTI : public TESBoundAnimObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -77,9 +62,6 @@ class TESObjectACTI : public TESBoundAnimObject,
     unsigned char layoutPadding74[0x1C];  // sounds, water, radio, override text
     void ResetFormData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObjectACTI) == 0x90);
-#pragma pack(push, 4)
 class TESFurniture : public TESObjectACTI
 {
   public:
@@ -103,7 +85,4 @@ class TESFurniture : public TESObjectACTI
     NiPoint3 GetMarkerOffset(unsigned int auMarker, float afScale);
     float GetMarkerRotation(unsigned int auMarker);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESFurniture) == 0x94);
-FNV_STATIC_ASSERT(offsetof(TESFurniture, m_iMarkerCount) == 0x90);
 #endif

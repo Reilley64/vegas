@@ -97,17 +97,17 @@ public:
 };
 
 struct FUN_00d24b50_Obj {
-    void __thiscall FUN_00d24b50(void* object, int flags, hkBoolD260 flag2, float f, hkCollectorD260* collector);
+    void FUN_00d24b50(void* object, int flags, hkBoolD260 flag2, float f, hkCollectorD260* collector);
 };
 
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
-    hkBoolD260 __thiscall FUN_00d26080(void* object, hkInfoD260* info);
+    hkBoolD260 FUN_00d26080(void* object, hkInfoD260* info);
 };
 
 // Runs FUN_00d24b50 on object with a collector built from info and returns whether the collector recorded a hit.
 // @fnv 0x00d26080
-hkBoolD260 __thiscall hkShapeD260::FUN_00d26080(void* object, hkInfoD260* info) {
+hkBoolD260 hkShapeD260::FUN_00d26080(void* object, hkInfoD260* info) {
     hkCollectorD260 collector(info);
     this->FUN_00d24b50(object, 0, hkBoolD260(false), 0.0f, &collector);
     return collector.m_bHasHit;

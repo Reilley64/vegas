@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpConvexTransformShapeBase.h"
-#pragma pack(push, 1)
 class hkpConvexTranslateShape : public hkpConvexTransformShapeBase
 {
   public:
     hkVector4 m_vTranslation;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexTranslateShape[(sizeof(hkpConvexTranslateShape) == 0x30) ? 1 : -1];
 #endif

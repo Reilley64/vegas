@@ -81,19 +81,19 @@ extern void* DAT_01090ed4;
 
 struct FUN_009ca6c0_shell
 {
-    void __thiscall FUN_009ca6c0();
+    void FUN_009ca6c0();
 };
 
 struct FUN_009d0980_shell
 {
-    void __thiscall FUN_009d0980();
+    void FUN_009d0980();
 };
 
-void __thiscall FUN_009ca6c0_shell::FUN_009ca6c0()
+void FUN_009ca6c0_shell::FUN_009ca6c0()
 {}
 
 // @fnv 0x009d0980
-void __thiscall FUN_009d0980_shell::FUN_009d0980()
+void FUN_009d0980_shell::FUN_009d0980()
 {
     *(void**)this = &DAT_01090ed4;
     reinterpret_cast<::FUN_009ca6c0_class *>((((FUN_009ca6c0_shell*)this)))->FUN_009ca6c0();
@@ -101,11 +101,11 @@ void __thiscall FUN_009d0980_shell::FUN_009d0980()
 
 struct FUN_009d09f0_shell
 {
-    void __thiscall SetByteAtOffsetC6(char c);
+    void SetByteAtOffsetC6(char c);
 };
 
 // @fnv 0x009d09f0
-void __thiscall FUN_009d09f0_shell::SetByteAtOffsetC6(char acValue)
+void FUN_009d09f0_shell::SetByteAtOffsetC6(char acValue)
 {
     ((char*)this)[0xc6] = acValue;
 }
@@ -137,12 +137,12 @@ void CombatProcedureAttackRanged::FUN_009d1dc0(Actor* apOpponent)
 
 struct FUN_009d0950_shell
 {
-    void* __thiscall FUN_009d0950(unsigned int flags);
+    void* FUN_009d0950(unsigned int flags);
 };
 
 // Calls FUN_009d0980 on this, frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x009d0950
-void* __thiscall FUN_009d0950_shell::FUN_009d0950(unsigned int flags)
+void* FUN_009d0950_shell::FUN_009d0950(unsigned int flags)
 {
     ((FUN_009d0980_shell*)this)->FUN_009d0980();
     if (flags & 1)
@@ -161,7 +161,7 @@ struct FUN_009d1c30_shell
 };
 struct FUN_009d09a0_shell
 {
-    void __thiscall FUN_009d09a0();
+    void FUN_009d09a0();
 };
 namespace fnv_009d2310 {
 struct BGSSaveFormBuffer
@@ -175,10 +175,10 @@ struct FUN_009a5eb0_shell
 };
 struct CombatProcedureAttackRanged_shell : CombatProcedure
 {
-    void __thiscall FUN_009d2310(BGSSaveFormBuffer* buffer);
+    void FUN_009d2310(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009d2310
-void __thiscall CombatProcedureAttackRanged_shell::FUN_009d2310(BGSSaveFormBuffer* buffer)
+void CombatProcedureAttackRanged_shell::FUN_009d2310(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_00996ed0_shell *>(this)->SaveToBuffer((::BGSSaveFormBuffer *)(buffer));
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x10, 4, 0);
@@ -197,7 +197,7 @@ struct BGSLoadFormBuffer
 };
 struct TimeoutTimer
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
+    void LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 public:
     float FUN_006b9130();
 public:
@@ -210,10 +210,10 @@ struct CombatProcedure_Helper
 };
 struct CombatProcedureAttackRanged_LoadGame
 {
-    void __thiscall FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009d23a0
-void __thiscall CombatProcedureAttackRanged_LoadGame::FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer)
+void CombatProcedureAttackRanged_LoadGame::FUN_009d23a0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_00996ef0_shell *>((((CombatProcedure_Helper*)this)))->FUN_00996ef0(apLoadGameBuffer);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
@@ -705,7 +705,7 @@ class D1C30Task
     D1C30Helper m_kHelper;
 };
 // @fnv 0x009d09a0
-void __thiscall FUN_009d09a0_shell::FUN_009d09a0()
+void FUN_009d09a0_shell::FUN_009d09a0()
 {
     Actor* pattacker;
     pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((((FUN_009cc4d0_shell*)this)))->FUN_00996de0()));

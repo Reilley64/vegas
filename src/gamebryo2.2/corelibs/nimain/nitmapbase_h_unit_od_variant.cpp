@@ -16,11 +16,11 @@
 
 struct FUN_00404cd0_Class
 {
-    void* __thiscall FUN_00404cd0(unsigned int flags);
+    void* FUN_00404cd0(unsigned int flags);
 };
 
 // @fnv 0x00404cd0
-void* __thiscall FUN_00404cd0_Class::FUN_00404cd0(unsigned int flags)
+void* FUN_00404cd0_Class::FUN_00404cd0(unsigned int flags)
 {
     reinterpret_cast<::Twin_008d0360 *>(this)->FUN_00404c80();
     if (flags & 1)

@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 struct hkpGskBaseAgent
 {
     virtual void FUN_00dabe90(bool);
@@ -47,7 +48,6 @@ class FUN_00dabed0_cls
     void SetValueIfExpected(float expected, float value, int unused);
 };
 extern unsigned int DAT_0126835c;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 struct hkpCdBody
@@ -118,7 +118,7 @@ struct StringCursor
     void* m_auiShapeKeys;
     char* m_kRayEnd;
 };
-void __stdcall FUN_00dabe80(int, int, int, int);
+void FUN_00dabe80(int, int, int, int);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);

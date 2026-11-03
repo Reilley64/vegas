@@ -50,10 +50,10 @@ struct FUN_00c3fca0_Class
     unsigned int unk50;
     long* unk54;
     volatile long unk58;
-    bool __thiscall FUN_0044e050(InputValues* input);
+    bool FUN_0044e050(InputValues* input);
 };
 // @fnv 0x0044e050
-bool __thiscall FUN_00c3fca0_Class::FUN_0044e050(InputValues* input)
+bool FUN_00c3fca0_Class::FUN_0044e050(InputValues* input)
 {
     int item = ((Controller*)this)->index(reinterpret_cast<::FUN_0044e0d0_Class *>((input))->GetValue64());
     if (((Controller*)this)->valid(reinterpret_cast<::FUN_0044e0d0_Class *>((input))->GetValue64()))

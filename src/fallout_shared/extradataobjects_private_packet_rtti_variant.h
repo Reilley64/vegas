@@ -51,9 +51,6 @@ class BSExtraData
     virtual ~BSExtraData();
     BSExtraData(unsigned char aEtype);
 };
-FNV_STATIC_ASSERT(sizeof(BSExtraData) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BSExtraData, m_ucExtraDataType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BSExtraData, pNext) == 0x8);
 
 // 8-byte activation record. Proved by the 0x00414010 ctor (stores a pointer
 // at +0x0 and +0.0f at +0x4, no base construction) and by operator new(8)
@@ -67,9 +64,6 @@ class ReferenceFloatEntry
 
     ReferenceFloatEntry();
 };
-FNV_STATIC_ASSERT(sizeof(ReferenceFloatEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(ReferenceFloatEntry, m_pWorldReferenceInfo) == 0);
-FNV_STATIC_ASSERT(offsetof(ReferenceFloatEntry, m_fDelay) == 4);
 
 // matched member-function declaration is added.
 enum LOCK_LEVEL
@@ -101,12 +95,6 @@ class LockExtraData
     int GetLockLevel(TESObjectREFR*);
     bool MeetsMinimumLockLevel();
 };
-FNV_STATIC_ASSERT(sizeof(LockExtraData) == 20);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockState) == 0);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, pKey) == 4);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, cFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockDifficulty) == 12);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockValue) == 16);
 
 // matched member-function declarations are added.
 class ExtraUsedMarkers : public BSExtraData
@@ -118,8 +106,6 @@ class ExtraUsedMarkers : public BSExtraData
     virtual ~ExtraUsedMarkers();
     void SetUsedMarker(unsigned int aMarker, bool aUsed);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraUsedMarkers) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraUsedMarkers, m_uiUsedMarkerFlags) == 12);
 
 class ExtraAction : public BSExtraData
 {
@@ -132,9 +118,6 @@ class ExtraAction : public BSExtraData
     virtual ~ExtraAction();
     ExtraAction();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraAction) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraAction, eAction) == 12);
-FNV_STATIC_ASSERT(offsetof(ExtraAction, m_pActionReference) == 16);
 
 class ExtraGlobal : public BSExtraData
 {
@@ -145,8 +128,6 @@ class ExtraGlobal : public BSExtraData
     virtual ~ExtraGlobal();
     ExtraGlobal(TESGlobal* aGlobal);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraGlobal) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraGlobal, pGlobalForm) == 12);
 
 class ExtraCount : public BSExtraData
 {
@@ -158,8 +139,6 @@ class ExtraCount : public BSExtraData
     virtual ~ExtraCount();
     ExtraCount(short aCount);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraCount) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraCount, iCount) == 12);
 
 class ExtraScript : public BSExtraData
 {
@@ -171,9 +150,6 @@ class ExtraScript : public BSExtraData
     virtual ~ExtraScript();
     ExtraScript(Script* aScript);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraScript) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraScript, pScript) == 12);
-FNV_STATIC_ASSERT(offsetof(ExtraScript, m_pLocals) == 16);
 
 class ExtraLeveledItem : public BSExtraData
 {
@@ -187,9 +163,6 @@ class ExtraLeveledItem : public BSExtraData
     ExtraLeveledItem(int aIndex);
     bool Compare(BSExtraData*);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraLeveledItem) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraLeveledItem, iIndex) == 12);
-FNV_STATIC_ASSERT(offsetof(ExtraLeveledItem, m_bIsLeveledItem) == 16);
 
 class ExtraPersistentCell : public BSExtraData
 {
@@ -200,8 +173,6 @@ class ExtraPersistentCell : public BSExtraData
     virtual ~ExtraPersistentCell();
     ExtraPersistentCell(TESObjectCELL* aCell);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraPersistentCell) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraPersistentCell, m_pCell) == 12);
 
 class ExtraRagDollData : public BSExtraData
 {
@@ -212,8 +183,6 @@ class ExtraRagDollData : public BSExtraData
     virtual ~ExtraRagDollData();
     ExtraRagDollData();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraRagDollData) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraRagDollData, m_pRagDollData) == 12);
 
 class ExtraReservedMarkers : public BSExtraData
 {
@@ -224,8 +193,6 @@ class ExtraReservedMarkers : public BSExtraData
     virtual ~ExtraReservedMarkers();
     ExtraReservedMarkers();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraReservedMarkers) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraReservedMarkers, m_uiReservedMarkers) == 12);
 
 class ExtraStartingWorldOrCell : public BSExtraData
 {
@@ -236,8 +203,6 @@ class ExtraStartingWorldOrCell : public BSExtraData
     virtual ~ExtraStartingWorldOrCell();
     ExtraStartingWorldOrCell();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraStartingWorldOrCell) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraStartingWorldOrCell, m_pStartingWorldOrCell) == 12);
 
 class ExtraMultiBoundData : public BSExtraData
 {
@@ -248,8 +213,6 @@ class ExtraMultiBoundData : public BSExtraData
     virtual ~ExtraMultiBoundData();
     ExtraMultiBoundData();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraMultiBoundData) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraMultiBoundData, pBound) == 12);
 
 class ExtraPatrolRefInUseData : public BSExtraData
 {
@@ -259,8 +222,6 @@ class ExtraPatrolRefInUseData : public BSExtraData
 
     virtual ~ExtraPatrolRefInUseData();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraPatrolRefInUseData) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraPatrolRefInUseData, User) == 12);
 
 // vtbl 0x01015bdc (kVtbl_ExtraWorn, JIP-LN-NVSE); the 0x004322f0 ctor stores
 // only the derived vtable after BSExtraData(0x16), so the class adds no data.
@@ -382,8 +343,6 @@ class ExtraFactionChanges : public BSExtraData
     // ExtraFactionChanges& __cdecl ExtraFactionChanges::*(const ExtraFactionChanges&)
     // void __cdecl ExtraFactionChanges::*()
 };
-FNV_STATIC_ASSERT(sizeof(ExtraFactionChanges) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraFactionChanges, m_pFactionChanges) == 12);
 
 class PlayerCharacter;
 

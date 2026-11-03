@@ -190,7 +190,7 @@ struct FUN_00682510_class
 
 struct FUN_00682570_class
 {
-    int __thiscall FUN_00682570(int a);
+    int FUN_00682570(int a);
 };
 
 struct FUN_006825e0_class
@@ -260,7 +260,7 @@ struct FUN_0068e740_class
 // @fnv 0x0068e740
 void FUN_0068e740_class::FUN_0068e740()
 {
-    ((void(__thiscall*)(void*))((void (&)(void *))::FUN_004a4650))((char*)this + 0x24);
+    ((void(*)(void*))((void (&)(void *))::FUN_004a4650))((char*)this + 0x24);
 }
 
 extern int DAT_0106a038;
@@ -298,11 +298,11 @@ void* FUN_00691870_class::AllocateDoubleSizedBuffer(int count)
 
 struct FUN_006918a0_class
 {
-    void __thiscall FUN_006918a0(void* p, int n);
+    void FUN_006918a0(void* p, int n);
 };
 
 // @fnv 0x006918a0
-void __thiscall FUN_006918a0_class::FUN_006918a0(void* p, int aiSize)
+void FUN_006918a0_class::FUN_006918a0(void* p, int aiSize)
 {
     Reallocate(p, aiSize << 1);
 }
@@ -347,11 +347,11 @@ void GlobalObject_00869f00::FUN_00691bf0()
 
 struct FUN_00691d20_class
 {
-    void* __thiscall FUN_00691d20(void* a, int b);
+    void* FUN_00691d20(void* a, int b);
 };
 
 // @fnv 0x00691d20
-void* __thiscall FUN_00691d20_class::FUN_00691d20(void* apBase, int aiCount)
+void* FUN_00691d20_class::FUN_00691d20(void* apBase, int aiCount)
 {
     return Reallocate(apBase, aiCount * 0xc);
 }
@@ -383,11 +383,11 @@ struct PositionRotation
 };
 struct FUN_006926e0_class
 {
-    PositionRotation* __thiscall FUN_006926e0();
+    PositionRotation* FUN_006926e0();
 };
 // Calls FUN_00692710 on this object, sets the unsigned short at offset 0x24 to 0xffff, and returns this.
 // @fnv 0x006926e0
-PositionRotation* __thiscall FUN_006926e0_class::FUN_006926e0()
+PositionRotation* FUN_006926e0_class::FUN_006926e0()
 {
     ::FUN_00692710((::PositionRotation *)(((PositionRotation*)this)));
     *(unsigned short*)((char*)this + 0x24) = 0xffff;
@@ -480,7 +480,7 @@ void __cdecl FUN_00ec6f20(int, int, int, int);
 
 struct FUN_0069aeb0_class
 {
-    void __thiscall FUN_0069aeb0(int a);
+    void FUN_0069aeb0(int a);
     int f0;
     int f4;
     int f8;
@@ -488,7 +488,7 @@ struct FUN_0069aeb0_class
 
 // Calls FUN_00ec6f20 with f4, f8, 2 and a.
 // @fnv 0x0069aeb0
-void __thiscall FUN_0069aeb0_class::FUN_0069aeb0(int a)
+void FUN_0069aeb0_class::FUN_0069aeb0(int a)
 {
     FUN_00ec6f20(f4, f8, 2, a);
 }
@@ -519,12 +519,12 @@ void FUN_0069b1d0_class::FUN_0069b1d0()
 
 struct FUN_0069b1f0_class
 {
-    void* __thiscall AllocateBytes(unsigned int size);
+    void* AllocateBytes(unsigned int size);
 };
 
 // Allocates a new array of unsigned char of the given size and returns a pointer to it.
 // @fnv 0x0069b1f0
-void* __thiscall FUN_0069b1f0_class::AllocateBytes(unsigned int size)
+void* FUN_0069b1f0_class::AllocateBytes(unsigned int size)
 {
     return new unsigned char[size];
 }
@@ -533,11 +533,11 @@ namespace fnv_0069b220 {
 
 struct FUN_0069b220_class
 {
-    void* __thiscall FUN_0069b220(void* arg, unsigned int size);
+    void* FUN_0069b220(void* arg, unsigned int size);
 };
 
 // @fnv 0x0069b220
-void* __thiscall FUN_0069b220_class::FUN_0069b220(void* arg, unsigned int size)
+void* FUN_0069b220_class::FUN_0069b220(void* arg, unsigned int size)
 {
     return ::Reallocate(arg, size);
 }
@@ -602,15 +602,15 @@ void FUN_0069b780_class::FUN_0069b780(void* p)
 
 struct FUN_006d5320_mem
 {
-    void __thiscall FUN_006d5320();
+    void FUN_006d5320();
 };
 struct FUN_0069b920_class
 {
-    int __thiscall FUN_006d5320();
-    int __thiscall FUN_0069b920();
+    int FUN_006d5320();
+    int FUN_0069b920();
 };
 // @fnv 0x0069b920
-int __thiscall FUN_0069b920_class::FUN_0069b920()
+int FUN_0069b920_class::FUN_0069b920()
 {
     new ((void *)(((FUN_006d5320_mem*)this))) struct ::FUN_006d5320();
     return (int)this;
@@ -750,18 +750,18 @@ struct RefObj
 };
 struct S00681590
 {
-    void __thiscall CopyFromRefObj(RefObj* p, int d);
+    void CopyFromRefObj(RefObj* p, int d);
 };
 // Copies 0x1c bytes from the object returned by p->_ref_006815c0() into this.
 // @fnv 0x00681590
-void __thiscall S00681590::CopyFromRefObj(RefObj* apRefObj, int d)
+void S00681590::CopyFromRefObj(RefObj* apRefObj, int d)
 {
     __memcpy(this, ((void *)(new ((void *)(apRefObj)) ::Vec3())), 0x1c);
 }
 
 struct S682530
 {
-    int __thiscall InitWithValue(int);
+    int InitWithValue(int);
 };
 // @fnv 0x00682510
 int FUN_00682510_class::FUN_00682510(int arg)
@@ -771,7 +771,7 @@ int FUN_00682510_class::FUN_00682510(int arg)
 }
 // Calls FUN_00682570(0), zeroes the field at offset 0xc, and stores a into the fields at offsets 0x10 and 0x14.
 // @fnv 0x00682530
-int __thiscall S682530::InitWithValue(int aiValue)
+int S682530::InitWithValue(int aiValue)
 {
     ((FUN_00682570_class*)this)->FUN_00682570(0);
     *(int*)((char*)this + 0xc) = 0;
@@ -782,8 +782,8 @@ int __thiscall S682530::InitWithValue(int aiValue)
 
 struct FUN_006826a0_class
 {
-    void __thiscall FUN_006826f0();
-    void* __thiscall FUN_006826a0(unsigned int flags);
+    void FUN_006826f0();
+    void* FUN_006826a0(unsigned int flags);
 };
 struct MemoryBlockHeader
 {
@@ -821,7 +821,7 @@ struct Fake683760
     Fake683760* Init();
 };
 // @fnv 0x006836f0
-FUN_006836f0_class* __thiscall FUN_006836f0_class::FUN_006836f0()
+FUN_006836f0_class* FUN_006836f0_class::FUN_006836f0()
 {
     new ((void *)this) ::FUN_00683760_class();
     *reinterpret_cast<int**>(this) = &DAT_01069948;
@@ -868,7 +868,7 @@ FUN_006837f0_t::~FUN_006837f0_t()
 struct FUN_00683870_class
 {
     void FUN_00683850();
-    void* __thiscall FUN_00683870(unsigned int);
+    void* FUN_00683870(unsigned int);
 };
 struct SoundPlaybackHandle
 {
@@ -885,7 +885,7 @@ bool SoundPlaybackHandle::SetPositionFromArray(float* afPosition)
 
 struct BaseForAbb0
 {
-    void __thiscall FUN_0068ac40(int a, int b);
+    void FUN_0068ac40(int a, int b);
 };
 struct FUN_0068abb0 : BaseForAbb0
 {
@@ -901,13 +901,13 @@ FUN_0068abb0::FUN_0068abb0(int a, int b)
 
 struct FUN_0068ab60_shell
 {
-    void* __thiscall FUN_0068abe0(unsigned int flags);
+    void* FUN_0068abe0(unsigned int flags);
 public:
     void FUN_0068ab60();
 };
 // Calls FUN_0068ab80, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0068abe0
-void* __thiscall FUN_0068ab60_shell::FUN_0068abe0(unsigned int flags)
+void* FUN_0068ab60_shell::FUN_0068abe0(unsigned int flags)
 {
     reinterpret_cast<::FUN_0068ab80_class *>(this)->FUN_0068ab80();
     if (flags & 1)
@@ -960,8 +960,8 @@ void* Holder_0068eb50::FUN_0068eb50(unsigned int flags)
 void __cdecl FUN_006919a0();
 struct FUN_00691770_class
 {
-    void __thiscall FUN_006919a0();
-    void* __thiscall FUN_00691770(unsigned int flags);
+    void FUN_006919a0();
+    void* FUN_00691770(unsigned int flags);
 };
 struct FUN_00691ea0_class
 {
@@ -1005,11 +1005,11 @@ struct S00691c60
 {
     int m0;
     TwoIntRecord m4;
-    S00691c60& __thiscall Assign(S00691c60 const&);
+    S00691c60& Assign(S00691c60 const&);
 };
 // Copies m0 and m4 from source into this object and returns a reference to this object.
 // @fnv 0x00691c60
-S00691c60& __thiscall S00691c60::Assign(S00691c60 const& source)
+S00691c60& S00691c60::Assign(S00691c60 const& source)
 {
     m0 = source.m0;
     reinterpret_cast<::S0069a690 *>((void *)&(const ::TwoIntRecord &)(m4))->FUN_0069a690((const ::S0069a690 *)&(source.m4));
@@ -1018,10 +1018,10 @@ S00691c60& __thiscall S00691c60::Assign(S00691c60 const& source)
 
 struct S00692050 : FUN_00691a00_class
 {
-    void* __thiscall FUN_00692050(unsigned int flags);
+    void* FUN_00692050(unsigned int flags);
 };
 // @fnv 0x00692050
-void* __thiscall S00692050::FUN_00692050(unsigned int flags)
+void* S00692050::FUN_00692050(unsigned int flags)
 {
     FUN_00691a00();
     if (flags & 1)
@@ -1033,20 +1033,20 @@ namespace fnv_00692080 {
 
 struct FUN_00691a90_class
 {
-    void __thiscall FUN_00691a90();
+    void FUN_00691a90();
 };
 
-void __thiscall FUN_00691a90_class::FUN_00691a90()
+void FUN_00691a90_class::FUN_00691a90()
 {}
 
 struct FUN_00692080_class
 {
-    void* __thiscall FUN_00692080(unsigned int flags);
+    void* FUN_00692080(unsigned int flags);
 };
 
 // Calls FUN_00691a90 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00692080
-void* __thiscall FUN_00692080_class::FUN_00692080(unsigned int flags)
+void* FUN_00692080_class::FUN_00692080(unsigned int flags)
 {
     reinterpret_cast<::fnv_00691a90::GlobalObject_00869f00 *>((((FUN_00691a90_class*)this)))->FUN_00691a90();
     if (flags & 1)
@@ -1058,7 +1058,7 @@ void* __thiscall FUN_00692080_class::FUN_00692080(unsigned int flags)
 void __cdecl operator delete(void*);
 struct FUN_00691b40_class
 {
-    void* __thiscall FUN_006920b0(unsigned int flags);
+    void* FUN_006920b0(unsigned int flags);
 };
 // Calls FUN_00691b40, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x006920b0
@@ -1075,11 +1075,11 @@ void FUN_00691bf0();
 struct FUN_006920e0_class
 {
     void FUN_00691bf0();
-    void* __thiscall FUN_006920e0(unsigned int flags);
+    void* FUN_006920e0(unsigned int flags);
 };
 // Calls FUN_00691bf0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x006920e0
-void* __thiscall FUN_006920e0_class::FUN_006920e0(unsigned int flags)
+void* FUN_006920e0_class::FUN_006920e0(unsigned int flags)
 {
     reinterpret_cast<::fnv_00691bf0::GlobalObject_00869f00 *>(this)->FUN_00691bf0();
     if (flags & 1)
@@ -1212,13 +1212,13 @@ FUN_0069ada0_class* FUN_0069ada0_class::FUN_0069ada0(unsigned int a, unsigned in
 
 struct FUN_0069b640_class
 {
-    long long __thiscall GetPackedValue();
+    long long GetPackedValue();
     int i0;
     unsigned short w4;
 };
 // Combines i0 and w4 into a 64-bit value by shifting i0 left 32 bits and w4 left 16 bits, then adding them.
 // @fnv 0x0069b640
-long long __thiscall FUN_0069b640_class::GetPackedValue()
+long long FUN_0069b640_class::GetPackedValue()
 {
     return ((long long)i0 << 32) + (w4 << 16);
 }
@@ -1239,11 +1239,11 @@ struct Entry0069b6a0
 };
 struct FUN_0069b6a0_class
 {
-    void __thiscall SetEntryValues(Entry0069b6a0* a, TwoIntRecord b, int c, int d);
+    void SetEntryValues(Entry0069b6a0* a, TwoIntRecord b, int c, int d);
 };
 // Copies b into a->f4 and stores d into a->fc; c is unused.
 // @fnv 0x0069b6a0
-void __thiscall FUN_0069b6a0_class::SetEntryValues(Entry0069b6a0* apEntry, TwoIntRecord aValue, int c, int aiValue)
+void FUN_0069b6a0_class::SetEntryValues(Entry0069b6a0* apEntry, TwoIntRecord aValue, int c, int aiValue)
 {
     reinterpret_cast<::S0069a690 *>((void *)&(const ::fnv_0069b6a0::TwoIntRecord &)(apEntry->f4))->FUN_0069a690((const ::S0069a690 *)&(aValue));
     apEntry->fc = aiValue;
@@ -1252,11 +1252,11 @@ void __thiscall FUN_0069b6a0_class::SetEntryValues(Entry0069b6a0* apEntry, TwoIn
 
 struct H69
 {
-    void* __thiscall FUN_0069b7e0(unsigned int);
+    void* FUN_0069b7e0(unsigned int);
 };
 // Calls FUN_0069af60 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0069b7e0
-void* __thiscall H69::FUN_0069b7e0(unsigned int flags)
+void* H69::FUN_0069b7e0(unsigned int flags)
 {
     ::FUN_0069af60((struct GlobalObject_00869f00*)this);
     if (flags & 1)
@@ -1330,7 +1330,7 @@ void FUN_0069bca0_class::FUN_0069bca0()
 struct FUN_0069cd10_class
 {
     int m_iWordAt00;
-    FUN_0069cd10_class* __thiscall FUN_0069cd10();
+    FUN_0069cd10_class* FUN_0069cd10();
 };
 void __cdecl operator delete(void*);
 
@@ -1352,10 +1352,10 @@ void* FUN_0069d0c0_class::FUN_0069d0c0(unsigned int flags)
 void* __cdecl operator new(unsigned int, void*);
 struct Unk69d0f0
 {
-    void __thiscall FUN_0069d0f0(void* p, unsigned int n);
+    void FUN_0069d0f0(void* p, unsigned int n);
 };
 // @fnv 0x0069d0f0
-void __thiscall Unk69d0f0::FUN_0069d0f0(void* apBuffer, unsigned int auiCount)
+void Unk69d0f0::FUN_0069d0f0(void* apBuffer, unsigned int auiCount)
 {
     int i;
     void* q;
@@ -1394,11 +1394,11 @@ struct FUN_0069da10_C
 {
     int _pad[9];
     char* _p;
-    bool __thiscall FUN_0069da10(unsigned short v, int idx);
+    bool FUN_0069da10(unsigned short v, int idx);
 };
 // Indexes into the array at _p by idx and forwards v to the element's Contains, returning its result.
 // @fnv 0x0069da10
-bool __thiscall FUN_0069da10_C::FUN_0069da10(unsigned short ausValue, int aiIndex)
+bool FUN_0069da10_C::FUN_0069da10(unsigned short ausValue, int aiIndex)
 {
     FUN_0069dee0_class* e = (FUN_0069dee0_class*)(_p + (aiIndex << 4));
     return e->Contains(ausValue);
@@ -1435,7 +1435,7 @@ FUN_0069df10::FUN_0069df10(FUN_0069df10_Param* pParam)
 
 struct SDF10
 {
-    void __thiscall FUN_0069df10(const SDF10&);
+    void FUN_0069df10(const SDF10&);
 };
 struct SDFC0
 {
@@ -1475,7 +1475,7 @@ bool FUN_0069e090_class::FUN_0069e090()
 
 struct FUN_0069efa0_class
 {
-    void* __thiscall FUN_0069efa0(unsigned int flags);
+    void* FUN_0069efa0(unsigned int flags);
 };
 struct VT_0069efd0
 {
@@ -1489,7 +1489,7 @@ struct CLS_0069efd0
 };
 // Calls CallVirtualMethod, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x0069efa0
-void* __thiscall FUN_0069efa0_class::FUN_0069efa0(unsigned int flags)
+void* FUN_0069efa0_class::FUN_0069efa0(unsigned int flags)
 {
     reinterpret_cast<::CLS_0069efd0 *>(this)->CallVirtualMethod();
     if (flags & 1)
@@ -1657,7 +1657,7 @@ struct FUN_0069d140_class
     int iDataLength;
 };
 // @fnv 0x0069cd10
-FUN_0069cd10_class* __thiscall FUN_0069cd10_class::FUN_0069cd10()
+FUN_0069cd10_class* FUN_0069cd10_class::FUN_0069cd10()
 {
     m_iWordAt00 = (int)&DAT_0106b28c;
     reinterpret_cast<::FUN_0069d140_class *>(this)->InitializeBuffer(0, 0);
@@ -1695,10 +1695,10 @@ struct FUN_00682590_class
     void* p;
     int iSize;
     int iPosition;
-    FUN_00682590_class* __thiscall FUN_00682590(unsigned int requested);
+    FUN_00682590_class* FUN_00682590(unsigned int requested);
 };
 // @fnv 0x00682570
-int __thiscall FUN_00682570_class::FUN_00682570(int a)
+int FUN_00682570_class::FUN_00682570(int a)
 {
     reinterpret_cast<::FUN_00682590_class *>(this)->FUN_00682590(a);
     return (int)this;
@@ -1706,7 +1706,7 @@ int __thiscall FUN_00682570_class::FUN_00682570(int a)
 
 // Allocates requested bytes into p (or null when requested is 0), sets iSize to requested and iPosition to 0, then returns this.
 // @fnv 0x00682590
-FUN_00682590_class* __thiscall FUN_00682590_class::FUN_00682590(unsigned int requested)
+FUN_00682590_class* FUN_00682590_class::FUN_00682590(unsigned int requested)
 {
     if (requested > 0)
         p = NiTMallocInterface_0096afc0::Allocate(requested);
@@ -1847,7 +1847,7 @@ struct FUN_00683850_class
     void FUN_00683850();
 };
 // @fnv 0x00683870
-void* __thiscall FUN_00683870_class::FUN_00683870(unsigned int flags)
+void* FUN_00683870_class::FUN_00683870(unsigned int flags)
 {
     reinterpret_cast<::FUN_00683850_class *>(this)->FUN_00683850();
     if (flags & 1)
@@ -1904,7 +1904,7 @@ public:
 
 struct FUN_0069add0_class : public FUN_0072ba80_shell
 {
-    void __thiscall FUN_0069add0(unsigned int, unsigned int);
+    void FUN_0069add0(unsigned int, unsigned int);
 };
 
 
@@ -1931,7 +1931,7 @@ struct BSSimpleArrayActor
     unsigned int mCapacity;
 
     void Clear(bool shrink);
-    void __thiscall Resize(unsigned int size, bool shrink);
+    void Resize(unsigned int size, bool shrink);
 };
 
 struct FUN_0072ba80_shell
@@ -1996,7 +1996,7 @@ struct std
 
 struct FUN_004941c0_shell
 {
-    void __thiscall ScaleByInverse(float value);
+    void ScaleByInverse(float value);
 };
 
 template <> class BSSimpleArray<unsigned short, 1024>
@@ -2145,7 +2145,7 @@ struct FUN_006826f0
 };
 // Calls FUN_006826f0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x006826a0
-void* __thiscall FUN_006826a0_class::FUN_006826a0(unsigned int flags)
+void* FUN_006826a0_class::FUN_006826a0(unsigned int flags)
 {
     reinterpret_cast<::FUN_006826f0 *>(this)->FUN_006826f0::~FUN_006826f0();
     if (flags & 1)
@@ -2413,7 +2413,7 @@ struct FUN_006919a0 : CleanupMap
 };
 // Calls FUN_006919a0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00691770
-void* __thiscall FUN_00691770_class::FUN_00691770(unsigned int flags)
+void* FUN_00691770_class::FUN_00691770(unsigned int flags)
 {
     reinterpret_cast<::FUN_006919a0 *>(this)->FUN_006919a0::~FUN_006919a0();
     if (flags & 1)
@@ -2444,7 +2444,7 @@ struct FUN_00692000_class
     void* unk00;
     void* pBase;
 
-    int __thiscall AddData(FUN_00692000_data* source);
+    int AddData(FUN_00692000_data* source);
 };
 
 void* __cdecl operator new(unsigned int uiSize, void* pvMem);
@@ -2484,7 +2484,7 @@ void FUN_006923f0_class::FUN_006923f0(unsigned int uiRequestedSize, unsigned int
     }
 }
 // @fnv 0x00691c10
-int __thiscall FUN_00691c10_class::FUN_00691c10(S00691c60 const& aEntry)
+int FUN_00691c10_class::FUN_00691c10(S00691c60 const& aEntry)
 {
     int count = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00978bc0()));
 
@@ -2548,7 +2548,7 @@ void FUN_00692740_class::FUN_00692740(unsigned int requested, unsigned int saved
     }
 }
 // @fnv 0x00692000
-int __thiscall FUN_00692000_class::AddData(FUN_00692000_data* source)
+int FUN_00692000_class::AddData(FUN_00692000_data* source)
 {
     int index = reinterpret_cast<::FUN_006925b0_class *>(this)->AppendSlot();
 
@@ -2889,7 +2889,7 @@ struct S_0069d9a0_cls
     void* FUN_0069d9a0(unsigned int flags);
 };
 
-extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (S_0069d9a0_cls::*callback)());
+extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (S_0069d9a0_cls::*callback)());
 
 
 // @fnv 0x0069d9a0
@@ -6068,12 +6068,12 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
 
 struct ScalarDeleteOwner : FUN_00683740_class
 {
-    void* __thiscall FUN_00683780(unsigned int flags);
+    void* FUN_00683780(unsigned int flags);
 };
 
 // Calls FUN_006837f0, deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00683780
-void* __thiscall ScalarDeleteOwner::FUN_00683780(unsigned int flags)
+void* ScalarDeleteOwner::FUN_00683780(unsigned int flags)
 {
     reinterpret_cast<::FUN_006837f0_t *>(this)->FUN_006837f0_t::~FUN_006837f0_t();
     if (flags & 1)

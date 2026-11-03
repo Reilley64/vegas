@@ -31,11 +31,11 @@ struct FourFloatVector
 struct Matrix44;
 struct FUN_00cb21e0_shell
 {
-    void __thiscall FUN_00cb21e0(const Matrix44* source);
+    void FUN_00cb21e0(const Matrix44* source);
 };
 struct FUN_00cb2240_shell
 {
-    void __thiscall FUN_00cb2240(const Matrix44* left, const Matrix44* right);
+    void FUN_00cb2240(const Matrix44* left, const Matrix44* right);
 };
 __declspec(align(16)) struct Matrix44
 {
@@ -65,7 +65,7 @@ struct S_cb2110_Foo
 
     S_c7f4e0_Foo unk30;
 
-    bool* __thiscall FUN_00cb2110(bool* result);
+    bool* FUN_00cb2110(bool* result);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -193,8 +193,8 @@ struct Matrix
 };
 struct Obj : Matrix
 {
-    void __thiscall FUN_00cb2240(Matrix* m, int a);
-    void __thiscall FUN_00cb23e0(int a);
+    void FUN_00cb2240(Matrix* m, int a);
+    void FUN_00cb23e0(int a);
 };
 
 struct FUN_00cb2240_cls

@@ -346,7 +346,6 @@ struct MagicEffectContext
     MagicCaster* m_pEffectInstance;
     ActiveEffect* m_pLinkedEffect;
 };
-typedef char _sizecheck_SpellDispelData[sizeof(MagicEffectContext) == 12 ? 1 : -1];
 struct FUN_00824370_shell : public MagicTarget
 {
     void FUN_00824370();

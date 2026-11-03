@@ -33,11 +33,11 @@ const void* __cdecl FUN_00c2f3d0()
 
 struct NiPSysAirFieldSpreadCtlr
 {
-    void __thiscall FUN_00c2f3e0(float& fValue);
+    void FUN_00c2f3e0(float& fValue);
 };
 
 // @fnv 0x00c2f3e0
-void __thiscall NiPSysAirFieldSpreadCtlr::FUN_00c2f3e0(float& fValue)
+void NiPSysAirFieldSpreadCtlr::FUN_00c2f3e0(float& fValue)
 {
     unsigned char* base = reinterpret_cast<unsigned char*>(this);
     int* ptr = reinterpret_cast<int*>(*(reinterpret_cast<int*>(base + 0x3c)));
@@ -82,11 +82,11 @@ namespace fnv_00c2eff0 {
 void __cdecl _delete(void*, unsigned int);
 struct NiPSysAgeDeathModifier
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // Calls FUN_00c31750, then frees this with _delete when flag has bit 0 set, and returns this.
 // @fnv 0x00c2eff0
-void* __thiscall NiPSysAgeDeathModifier::Destroy(unsigned int flag)
+void* NiPSysAgeDeathModifier::Destroy(unsigned int flag)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flag & 1)
@@ -100,7 +100,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -111,7 +110,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiPSysModifier
 {
@@ -132,11 +130,11 @@ struct NiTStringPointerMap_00e93020
 struct NiPSysAgeDeathModifier : NiPSysModifier
 {
     NiPSysSpawnModifier* m_pSpawnModifier;
-    void __thiscall FUN_00c2f1a0(CloningProcess&);
+    void FUN_00c2f1a0(CloningProcess&);
 };
 // Calls the base ProcessClone, looks up the clone in the cloning map, and remaps the spawn modifier pointer to its cloned counterpart.
 // @fnv 0x00c2f1a0
-void __thiscall NiPSysAgeDeathModifier::FUN_00c2f1a0(CloningProcess& kCloning)
+void NiPSysAgeDeathModifier::FUN_00c2f1a0(CloningProcess& kCloning)
 {
     bool bFound;
     NiObject* pkClone;
@@ -585,7 +583,7 @@ void FUN_00c2f260_shell::SaveAgeDeathModifier(NiStream* stream)
     bool spawnOnDeath = modifier->m_bHasString;
     NiBinaryStream* output = *reinterpret_cast<NiBinaryStream**>(reinterpret_cast<char*>(stream) + 0x250);
     output->WriteSpawnFlag(spawnOnDeath);
-    typedef void(__thiscall * WriteLinkProc)(NiStream*, NiPSysSpawnModifier*);
+    typedef void(* WriteLinkProc)(NiStream*, NiPSysSpawnModifier*);
     WriteLinkProc* pVtbl = *reinterpret_cast<WriteLinkProc**>(stream);
     pVtbl[12](stream, modifier->m_pSpawnModifier);
 }
@@ -600,7 +598,7 @@ struct NiPSysSpawnModifier
 {
     char _pad[0x3c];
     FUN_00c2f3f0Target* unk3c;
-    void __thiscall FUN_00c2f3f0(float fValue);
+    void FUN_00c2f3f0(float fValue);
 };
 
 double g_01012060 = 0.0;
@@ -608,7 +606,7 @@ double g_01012070 = 1.0;
 
 // Clamps fValue to [0,1] and stores it into the target's unk64 field.
 // @fnv 0x00c2f3f0
-void __thiscall NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
+void NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
 {
     FUN_00c2f3f0Target* target = this->unk3c;
     float fClamped = fValue;

@@ -39,7 +39,7 @@ void __cdecl FUN_00dbda20(void* a, void* b)
 
 struct FUN_00dbdd40_s
 {
-    int __thiscall GetOrAddString(int a);
+    int GetOrAddString(int a);
 };
 struct FUN_00d46d40_s
 {
@@ -51,7 +51,7 @@ struct FUN_00dbdf30_s
 {
     int m_kPointA;
     int m_kPointB;
-    void __thiscall FUN_00dbdf30(int a, int b);
+    void FUN_00dbdf30(int a, int b);
 };
 struct MemoryRouter
 {
@@ -94,7 +94,7 @@ FUN_00dbdf00_router* __cdecl _D1A0E0GetMemoryRouter();
 
 struct FUN_00dbdf00_s
 {
-    void __thiscall FUN_00dbdf00(void*, int);
+    void FUN_00dbdf00(void*, int);
 };
 
 // Calls GetOrAddString with b, then passes the result and a to FUN_00cb1870 on the DepthLimit at this+0x9c using the memory router's m_p.
@@ -134,7 +134,7 @@ struct FUN_00dbe760_s : public FUN_00dbc6e0_s
 {
     unsigned short m_uiFilterValue;
 
-    FUN_00dbe760_s* __thiscall FUN_00dbe760(int a);
+    FUN_00dbe760_s* FUN_00dbe760(int a);
 };
 
 struct FUN_00cb1930_s
@@ -242,7 +242,7 @@ void __cdecl FUN_00dbdef0()
 
 struct DbFirst
 {
-    char* __thiscall GetLastNodeFlag(void* out);
+    char* GetLastNodeFlag(void* out);
 };
 
 struct DbSecond
@@ -464,7 +464,7 @@ class hkStringPoolXdbdd40
     int GetOrAddString(const char* str);
 };
 // @fnv 0x00dbdf30
-void __thiscall FUN_00dbdf30_s::FUN_00dbdf30(int pNameSource, int a)
+void FUN_00dbdf30_s::FUN_00dbdf30(int pNameSource, int a)
 {
     int idx = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)(a));
     const char* name = reinterpret_cast<::FnvClassNameNode *>((((FUN_00d46d40_s*)(void*)pNameSource)))->FUN_00d46d40();
@@ -546,7 +546,7 @@ struct S00dbde40_Obj : public S00dbde40_Base
     int unk94;
     int unk98;
 
-    void __thiscall FUN_00dbde40(int a, int b, int c, int d, int e);
+    void FUN_00dbde40(int a, int b, int c, int d, int e);
 };
 
 void* __cdecl FUN_00c85750(void);
@@ -662,7 +662,7 @@ class FUN_00dbdf60 : public hkReferencedObjectDF6
     SectionTableDF6 m_kSectionTable;
 };
 // @fnv 0x00dbe760
-FUN_00dbe760_s* __thiscall FUN_00dbe760_s::FUN_00dbe760(int aiFlags)
+FUN_00dbe760_s* FUN_00dbe760_s::FUN_00dbe760(int aiFlags)
 {
     reinterpret_cast<::FUN_00dbdf60 *>(this)->FUN_00dbdf60::~FUN_00dbdf60();
 
@@ -871,7 +871,7 @@ struct S00dbddc0_cls : public S00dbddc0_Base
     S00dbddc0_Sub9C m_sub9c;
     S00dbddc0_SubA8 m_suba8;
 
-    int __thiscall FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
+    int FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
 };
 // Calls FUN_00dbddc0, builds an S00dbde40_Entry, appends it to arr, and increments unk98 or unk94 depending on b.
 // @fnv 0x00dbde40
@@ -948,7 +948,7 @@ struct S00dbe680_Ret
 
 struct S00dbe680_A2
 {
-    S00dbe680_Ret __thiscall GetLastNodeFlag();
+    S00dbe680_Ret GetLastNodeFlag();
 };
 
 struct S00dbe680_A3
@@ -1054,7 +1054,7 @@ struct FUN_00cb18f0_t
     int unk00;
     int unk04;
     int unk08;
-    int __thiscall FindSlot(int key);
+    int FindSlot(int key);
     __forceinline void insert(void* key, int value)
     {
         SgE150* sg = (SgE150*)FUN_00c85750();
@@ -1067,8 +1067,8 @@ struct MapB8E150
     int unk04;
     int unk08;
     FUN_00cb18f0_t indices;
-    int __thiscall AllocateSlot();
-    __declspec(noinline) void __thiscall FUN_00dc9ec0(void* a, int* b);
+    int AllocateSlot();
+    __declspec(noinline) void FUN_00dc9ec0(void* a, int* b);
 };
 struct PairE150
 {
@@ -1122,7 +1122,7 @@ struct LogObjE150
     virtual void v0();
     virtual void v1();
     virtual void v2();
-    virtual int __thiscall v3(int a, int magic, const char* buf, const char* f, int line);
+    virtual int v3(int a, int magic, const char* buf, const char* f, int line);
 };
 extern int DAT_011b7aec;
 extern const char DAT_010d6734;
@@ -1303,12 +1303,12 @@ struct OwnerE150
     int ub0;
     int ub4;
     MapB8E150 mapb8;
-    void __thiscall FUN_00dbe150(void* a1, void* a2, void* a3, void* a4, void* a5);
+    void FUN_00dbe150(void* a1, void* a2, void* a3, void* a4, void* a5);
 };
 
 // Processes a1 and a2 using map14, may recurse through buffered entries, and logs a message when FUN_00dbd9f0 returns null.
 // @fnv 0x00dbe150
-void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5)
+void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5)
 {
     FUN_00cb18f0_t* pMap = &map14;
     if (pMap->FindSlot((int)apKey) <= pMap->unk08)
@@ -1412,7 +1412,7 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
     }
 }
 
-__declspec(noinline) void __thiscall MapB8E150::FUN_00dc9ec0(void* a, int* b)
+__declspec(noinline) void MapB8E150::FUN_00dc9ec0(void* a, int* b)
 {
     int oldIndex = reinterpret_cast<::FUN_00cb1930_t *>(&(indices))->LookupHashEntry((int)a, -1);
     int index = AllocateSlot();

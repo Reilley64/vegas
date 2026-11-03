@@ -45,7 +45,7 @@ extern int DAT_01099f24;
 void __cdecl FUN_00aa1460(void* pMem, unsigned int uiSize);
 
 // @fnv 0x00a52be0
-void* __fastcall FUN_00a52be0(void* pThis, int, unsigned char flags)
+void* FUN_00a52be0(void* pThis, int, unsigned char flags)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_01099f24;
     reinterpret_cast<class ::FUN_00a5d3d0 *>((pThis))->FUN_00a5d3d0::~FUN_00a5d3d0();
@@ -77,7 +77,7 @@ struct ArrX
     unsigned short m_usGrowBy;
 };
 // @fnv 0x00a52c90
-void __stdcall FUN_00a52c90(ArrX* pArray)
+void FUN_00a52c90(ArrX* pArray)
 {
     reinterpret_cast<::A5D6E0This *>((pArray))->AppendCameraPathEntries({});
     ActorCombatGroup* pObject = ((::fnv_00a52c90::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f403c))))));

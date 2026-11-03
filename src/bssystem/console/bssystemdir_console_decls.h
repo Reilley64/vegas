@@ -11,8 +11,8 @@ struct DirectoryFindData
 {
     char data[320];
 };
-extern void*(__stdcall* DAT_00fdf070)(const char*, DirectoryFindData*);
-extern int(__stdcall* DAT_00fdf068)(void*, DirectoryFindData*);
+extern void*(* DAT_00fdf070)(const char*, DirectoryFindData*);
+extern int(* DAT_00fdf068)(void*, DirectoryFindData*);
 class DirectoryIterator
 {
   public:

@@ -33,7 +33,7 @@ struct Dispatcher
     int unk08;
     Entry* entries;
     int count;
-    void __thiscall NotifyAll(unsigned int);
+    void NotifyAll(unsigned int);
 };
 // Calls Notify(value) on every entry's listener, then calls Finish(1).
 // @fnv 0x00d443a0

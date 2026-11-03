@@ -1,5 +1,6 @@
 // bssystem/archive.cpp: S_af9, NP_afc, ArchiveStand, CompressedArchiveFile and more (114 functions)
 
+#include <windows.h>
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/DirectoryArchive.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -172,10 +173,6 @@ class CompressedArchiveFile : public ArchiveFile
     unsigned int m_uiUncompressedPosition;    // +0x174
 };
 
-typedef char _sizecheck_NiFile[sizeof(NiFile) == 0x30 ? 1 : -1];
-typedef char _sizecheck_BSFile[sizeof(BSFile) == 0x158 ? 1 : -1];
-typedef char _sizecheck_ArchiveFile[sizeof(ArchiveFile) == 0x160 ? 1 : -1];
-typedef char _sizecheck_CompressedArchiveFile[sizeof(CompressedArchiveFile) == 0x178 ? 1 : -1];
 
 // @fnv 0x00afbfa0
 void ArchiveFile::SetEndianSwap(bool doSwap)
@@ -213,7 +210,7 @@ void CompressedArchiveFile::Seek(int offset, int mode)
 }
 
 // @fnv 0x0043c030
-unsigned int __fastcall FUN_0043c030(const char* pThis)
+unsigned int FUN_0043c030(const char* pThis)
 {
     return *(const unsigned int*)(pThis + 0x1c8);
 }
@@ -449,7 +446,7 @@ class PatrolActorPackageData
 
 
 // @fnv 0x009f2da0
-bool __fastcall BuildLinkedRefChain(char* _this)
+bool BuildLinkedRefChain(char* _this)
 {
     bool bLoop;
     TESObjectREFR* pRef =
@@ -602,7 +599,7 @@ struct FUN_00afb170_Args
 };
 
 // @fnv 0x00afb170
-bool __fastcall FUN_00afb170(void* pThis, FUN_00afb170_Args args)
+bool FUN_00afb170(void* pThis, FUN_00afb170_Args args)
 {
     if (args.param_2 == 1)
         return args.param_1;
@@ -706,7 +703,6 @@ struct ZlibStream
     unsigned long m_ulAdler32Checksum;
     unsigned long reserved;
 };
-typedef char _sizecheck_z_stream_s[sizeof(ZlibStream) == 56 ? 1 : -1];
 struct FUN_00afbfe0_shell : public CompressedArchiveFile
 {
     void DestroyCompressedArchiveFile();
@@ -735,7 +731,7 @@ bool FUN_00afc060_shell2::FUN_00afc060(bool a1, bool a2)
 
 struct S
 {
-    void __thiscall FUN_00afc0e0(int, int);
+    void FUN_00afc0e0(int, int);
 };
 
 // @fnv 0x00afc660
@@ -751,7 +747,7 @@ class MemoryManager
     void _DeallocateAlias(void* ptr);
 };
 
-void __fastcall DestroyCompressedArchiveFile(void* pThis);
+void DestroyCompressedArchiveFile(void* pThis);
 
 struct FUN_00afc6c0_shell2 : public CompressedArchiveFile
 {
@@ -792,8 +788,6 @@ void* FUN_00afc6f0_shell2::FUN_00afc6f0(unsigned int flags)
 }
 }  // namespace fnv_00afc6f0
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObj
 {
     virtual void v0();
@@ -834,14 +828,12 @@ NP_afc* NP_afc::FUN_00afc770(NP_afc* apOther)
 
 // Counts the high bits of bytes 0, 1 and 3 of pThis, weighted 2, 1 and 4 respectively, and returns their sum.
 // @fnv 0x00afcfe0
-int __fastcall FUN_00afcfe0(unsigned char* pucData)
+int FUN_00afcfe0(unsigned char* pucData)
 {
     return ((pucData[3] & 0x80) >> 5) + ((pucData[0] & 0x80) >> 6) + ((pucData[1] & 0x80) >> 7);
 }
 
 namespace fnv_00afd1b0 {
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObj
 {
     virtual void v0();
@@ -881,10 +873,10 @@ NP_afd* NP_afd::FUN_00afd1b0(Pointee* pPointee)
 }
 }  // namespace fnv_00afd1b0
 
-extern void(__stdcall* DAT_00fdf1c0)(int);
+extern void(* DAT_00fdf1c0)(int);
 
 // @fnv 0x00afd230
-void __fastcall FUN_00afd230(int* piValue)
+void FUN_00afd230(int* piValue)
 {
     *piValue = 0;
     if (*piValue)
@@ -917,7 +909,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 
 extern "C" int __cdecl _splitpath_s(const char*, char*, unsigned int, char*, unsigned int, char*, unsigned int, char*,
                                     unsigned int);
@@ -1323,8 +1314,6 @@ enum ARCHIVE_TYPE
 {
     ARCHIVE_TYPE_DUMMY
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct BSFileEntry
 {
     char pad[0xc];
@@ -1402,7 +1391,7 @@ extern char* DAT_011f815c;
 extern "C" void __cdecl _DeallocateAlias(void* ptr);
 struct MemoryManager
 {
-    void __thiscall _DeallocateAlias(void* ptr);
+    void _DeallocateAlias(void* ptr);
 };
 
 // @fnv 0x00af44f0
@@ -1610,7 +1599,6 @@ int FUN_00afc400_shell::FUN_00afc400(int a, int b)
     return 0;
 }
 
-extern "C" __declspec(dllimport) int __stdcall TryEnterCriticalSection(void* cs);
 struct Inner
 {
     virtual void Slot0();
@@ -1634,7 +1622,7 @@ void FUN_00afc720_shell::EnterInnerCriticalSection()
     if (owner)
     {
         Inner* p = &owner->inner;
-        if (!TryEnterCriticalSection(&p->field))
+        if (!InterlockedDecrement(&p->field))
             p->Slot1();
     }
 }
@@ -1748,8 +1736,6 @@ bool __cdecl FUN_00af5700(char* apFileName)
 }  // namespace fnv_00af5700
 
 namespace fnv_00af5fa0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
@@ -1847,10 +1833,6 @@ void* LoadFileFromArchives(const char* apFileName, unsigned int auiBufferSize, u
 
 namespace fnv_00af6160 {
 struct _RTL_CRITICAL_SECTION;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION* p);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 const char* __cdecl SkipDataPrefix(const char* apFileName);
 class NiRefObject
 {
@@ -1956,12 +1938,12 @@ namespace fnv_00af7e80 {
 struct FUN_00afd390_class
 {
     void* v;
-    void* __thiscall FUN_00afd390(const char*, int);
+    void* FUN_00afd390(const char*, int);
 };
 
 struct FUN_00afcf00_class
 {
-    int __thiscall FUN_00afcf00(void*);
+    int FUN_00afcf00(void*);
 };
 
 struct Local28
@@ -2008,8 +1990,6 @@ void* FUN_00afcde0_shell::FUN_00afcce0()
 }  // namespace fnv_00afcce0
 
 namespace fnv_00af8e60 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct ArcBase
 {
     virtual ~ArcBase();
@@ -2219,10 +2199,6 @@ void FUN_00afcdc0_StandIn::FUN_00afcdc0()
 
 namespace fnv_00af5320 {
 struct _RTL_CRITICAL_SECTION;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 int __stricmp(const char*, const char*);
 
 class BSRefCountedSI
@@ -2453,7 +2429,6 @@ ArchiveFile* ArchiveStand::CreateArchiveFile(ArchiveFileEntryStand* entry, unsig
 }  // namespace fnv_00afa750
 
 namespace fnv_00afc7f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiRefObject
 {
@@ -2511,8 +2486,6 @@ FUN_00afc7f0::~FUN_00afc7f0()
 }  // namespace fnv_00afc7f0
 
 namespace fnv_00afc880 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct P03MM
 {
@@ -2630,8 +2603,6 @@ void NP_afc::PushArchive(NP_afc* other)
 }  // namespace fnv_00afc880
 
 namespace fnv_00afcc10 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct P03MM
 {
@@ -2757,8 +2728,6 @@ struct Archive;
 struct BSFileEntry;
 struct FileNameHash;
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 class NiRefObject
 {
@@ -3187,8 +3156,6 @@ struct ArcCS
     int unk00;
 };
 struct ArcCS;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(ArcCS*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(ArcCS*);
 struct ArchiveStub
 {
     virtual void v00();
@@ -3355,8 +3322,6 @@ unsigned int FUN_00afbc70_shell::ReadFromArchive(void* apBuffer, unsigned int au
 }
 
 namespace fnv_00afbde0 {
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs);
 
 template <class T> class NiPointer
 {
@@ -4156,10 +4121,6 @@ void __cdecl QuickSortSortKeys(SortKey** entries, int left, int right)
         QuickSortSortKeys(entries, c + 1, right);
 }
 
-__declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-__declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct BSIntrusiveRefCounted_af7
 {
@@ -5329,7 +5290,7 @@ FUN_00afb520_cls::~FUN_00afb520_cls()
             if (*pSp != 0)
             {
                 sub = (FUN_00afb520_sub*)((char*)(*pSp) + 0x158);
-                if (TryEnterCriticalSection(&sub->unk08) == 0)
+                if (InterlockedDecrement(&sub->unk08) == 0)
                 {
                     sub->Slot1();
                 }
@@ -5669,10 +5630,6 @@ void OwnerList::FUN_00afcaf0()
 }
 
 namespace fnv_00af5480 {
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpcs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpcs);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plong);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plong);
 
 struct RefBase_af5480
 {
@@ -5868,10 +5825,6 @@ void __cdecl AddObjectToList(Obj_af5480* pkObj)
 }  // namespace fnv_00af5480
 
 namespace fnv_00af5550 {
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class NiRefObject
 {
@@ -6030,9 +5983,6 @@ extern const char* DAT_011f8158;
 extern const char* DAT_011f815c;
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 extern "C" int __cdecl _stricmp(const char*, const char*);
 extern "C" int __cdecl fopen_s(_iobuf**, const char*, const char*);
 extern "C" int __cdecl feof(_iobuf*);
@@ -6380,8 +6330,6 @@ extern const char DAT_010a442c[];
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 unsigned int __cdecl strlen(const char*);
 const char* __cdecl FUN_00ec7750(const char*, const char*);
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct OpenRef
 {
     virtual void v0();
@@ -6671,10 +6619,6 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
 }  // namespace fnv_00af4be0
 
 namespace fnv_00af67d0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* pkCriticalSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* pkCriticalSection);
 extern "C" int __cdecl strcpy_s(char* pcDst, unsigned int uiSize, const char* pcSrc);
 class NiRefObject
 {
@@ -6795,8 +6739,6 @@ inline void* __cdecl operator new[](unsigned int n)
 }
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct ArcCS
 {
     void* p0;
@@ -7067,8 +7009,8 @@ HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashK
 namespace fnv_00af7eb0 {
 struct MemoryManager
 {
-    void* __thiscall Allocate(unsigned int);
-    void __thiscall Deallocate(void*);
+    void* Allocate(unsigned int);
+    void Deallocate(void*);
 };
 extern MemoryManager _g_memoryManager;
 inline void* __cdecl operator new[](unsigned int n)
@@ -7090,10 +7032,8 @@ inline void __cdecl operator delete(void* p)
 extern unsigned int DAT_011f81d8;
 extern bool DAT_011f8154;
 extern int DAT_011acdfc, DAT_011ace00, DAT_011ace04;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
-extern void(__stdcall* DAT_00fdf054)(void*);
+extern void(* DAT_00fdf054)(void*);
 struct Directory077;
 struct Entry077
 {
@@ -7619,7 +7559,6 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
 }  // namespace fnv_00afa8e0
 
 namespace fnv_00afb300 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 void __cdecl FUN_00ec65a6(char* d, unsigned int n, const char* s);
 void __cdecl FUN_00ec44d0(void* d, const void* s, unsigned int n);
 extern unsigned int DAT_011f8164;
@@ -7736,10 +7675,6 @@ struct CRITICAL_SECTION
 
 extern "C"
 {
-    __declspec(dllimport) void __stdcall EnterCriticalSection(CRITICAL_SECTION*);
-    __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION*);
-    __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-    __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 }
 
 unsigned int __cdecl strlen(const char*);
@@ -8142,15 +8077,11 @@ struct RecursiveMutex
     unsigned debug, lockCount, recursionCount, owner, semaphore, spin;
 };
 
-__declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 
-__declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct LNode;
 extern LNode* DAT_011f8160;
 

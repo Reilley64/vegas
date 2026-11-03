@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp: NiColorInterpolator (17 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -131,10 +132,9 @@ extern int DAT_011a9434;
 extern int DAT_011a9438;
 extern int DAT_011a943c;
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 
 // @fnv 0x00a3bd10
-NiColorInterpolator* __fastcall NiColorInterpolatorConstructor(NiColorInterpolator* pThis, int, void* pkColorData)
+NiColorInterpolator* NiColorInterpolatorConstructor(NiColorInterpolator* pThis, int, void* pkColorData)
 {
     new ((void *)(reinterpret_cast<NiKeyBasedInterpolator*>(pThis))) ::FUN_00a3ca10();
     *reinterpret_cast<int**>(pThis) = &::DAT_01096e14;
@@ -163,11 +163,11 @@ void* FUN_00a3bd70_shell::FUN_00a3bd70()
 
 struct FUN_00a487f0_shell
 {
-    void* __thiscall GetNestedPointer(void* arg);
+    void* GetNestedPointer(void* arg);
 };
 
 // @fnv 0x00a487f0
-void* __thiscall FUN_00a487f0_shell::GetNestedPointer(void* apUnused)
+void* FUN_00a487f0_shell::GetNestedPointer(void* apUnused)
 {
     void* ptr = *(void**)((char*)this + 0x1c);
     if (!ptr)

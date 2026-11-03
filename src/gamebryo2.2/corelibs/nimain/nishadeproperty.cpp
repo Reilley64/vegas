@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nishadeproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nishadeproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/EqBase.h"
 #include "fnv/decl/FUN_00a5c200.h"
@@ -892,16 +893,14 @@ bool NiShadeProperty::FUN_00a9a5b0(NiObject* pkObject)
 }
 }  // namespace fnv_00a9a5b0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 
 struct RefCountedProperty
 {
     struct VTable
     {
-        void(__thiscall* unknown)(RefCountedProperty*);
-        void(__thiscall* release)(RefCountedProperty*);
+        void(* unknown)(RefCountedProperty*);
+        void(* release)(RefCountedProperty*);
     };
     VTable* vtable;
     volatile long referenceCount;

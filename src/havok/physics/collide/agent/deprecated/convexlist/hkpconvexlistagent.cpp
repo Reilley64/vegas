@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -29,11 +30,11 @@
 #include "fnv/symbols_01268000.h"
 struct hkpConvexListAgent
 {
-    void __thiscall FUN_00d33770(int a);
+    void FUN_00d33770(int a);
 };
 
 // @fnv 0x00d33770
-void __thiscall hkpConvexListAgent::FUN_00d33770(int a)
+void hkpConvexListAgent::FUN_00d33770(int a)
 {
     if (*(char*)((char*)this + 0x84))
         reinterpret_cast<::FUN_00dabeb0_cls *>(this)->Reset(a);
@@ -45,11 +46,11 @@ extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
 
 struct FUN_00d33b70_cls
 {
-    void __thiscall FUN_00d33b70(int a, int b, int c, int d);
+    void FUN_00d33b70(int a, int b, int c, int d);
 };
 
 // @fnv 0x00d33b70
-void __thiscall FUN_00d33b70_cls::FUN_00d33b70(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d33b70_cls::FUN_00d33b70(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d339d0(aiArg1, aiArg2, aiArg3, aiArg4);
 }
@@ -61,11 +62,11 @@ extern "C"
 
 struct FUN_00d33c80_class
 {
-    void __thiscall FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void FUN_00d33c80(void* a, void* b, void* c, void* d);
 };
 
 // @fnv 0x00d33c80
-void __thiscall FUN_00d33c80_class::FUN_00d33c80(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+void FUN_00d33c80_class::FUN_00d33c80(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00d33b90(apArg1, apArg2, apArg3, apArg4);
 }
@@ -112,7 +113,7 @@ void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self)
 
 struct FUN_00d337f0_self
 {
-    void __thiscall FUN_00d337f0(int a);
+    void FUN_00d337f0(int a);
 };
 
 struct hkpGskfAgent
@@ -121,7 +122,7 @@ public:
     void FUN_00dacb20(unsigned short);
 };
 // @fnv 0x00d337f0
-void __thiscall FUN_00d337f0_self::FUN_00d337f0(int a)
+void FUN_00d337f0_self::FUN_00d337f0(int a)
 {
     if (*(char*)((char*)this + 0x84))
         reinterpret_cast<::hkpGskfAgent *>(this)->FUN_00dacb20(a);
@@ -129,7 +130,7 @@ void __thiscall FUN_00d337f0_self::FUN_00d337f0(int a)
 
 struct FUN_00d33810_cls : hkpGskfAgent
 {
-    void __thiscall FUN_00d33810(int a);
+    void FUN_00d33810(int a);
 };
 
 // @fnv 0x00d33810
@@ -142,7 +143,7 @@ void FUN_00d33810_cls::FUN_00d33810(int a)
 namespace fnv_00d33830 {
 struct FUN_00d33830_cls
 {
-    void __thiscall FUN_00d33830(int a);
+    void FUN_00d33830(int a);
 };
 
 struct hkpGskfAgent
@@ -150,7 +151,7 @@ struct hkpGskfAgent
 };
 
 // @fnv 0x00d33830
-void __thiscall FUN_00d33830_cls::FUN_00d33830(int aiArg)
+void FUN_00d33830_cls::FUN_00d33830(int aiArg)
 {
     if (*(char*)((char*)this + 0x84))
         reinterpret_cast<::hkObjDACB *>((((hkpGskfAgent*)this)))->ClearSlotById(aiArg);
@@ -160,7 +161,7 @@ void __thiscall FUN_00d33830_cls::FUN_00d33830(int aiArg)
 
 struct FUN_00d33740_cls
 {
-    void __thiscall FUN_00d33740(int a, int b);
+    void FUN_00d33740(int a, int b);
 };
 
 // If the byte at offset 0x84 is zero, calls FUN_00d97250 with this+0x30, the pointer at a+8 and a.
@@ -175,11 +176,11 @@ void FUN_00d33740_cls::FUN_00d33740(int a, int iUnused)
 
 struct FUN_00d33850_cls
 {
-    void __thiscall FUN_00d33850(int a);
+    void FUN_00d33850(int a);
 };
 // Calls FUN_00da42b0 with fields at offsets 0x30, 0x80 and 8 plus a, then clears the field at 0x30 and sets the byte at 0x84 to 1.
 // @fnv 0x00d33850
-void __thiscall FUN_00d33850_cls::FUN_00d33850(int a)
+void FUN_00d33850_cls::FUN_00d33850(int a)
 {
     ::FUN_00da42b0((::BlockPoolArray *)(void *)(this + 0x30), (::S_00da40e0_Dispatcher *)(*(int*)(this + 0x80)), (::S_00da40e0_ContactMgr *)(*(int*)(this + 8)), (*(::S_00da40e0_ConstraintOwner *)(a)));
     *(int*)(this + 0x30) = 0;
@@ -188,7 +189,7 @@ void __thiscall FUN_00d33850_cls::FUN_00d33850(int a)
 
 // Forwards all five arguments to FUN_00d33ca0 and returns its result.
 // @fnv 0x00d33da0
-void* __stdcall FUN_00d33da0(void* a, void* b, void* c, void* d, void* e)
+void* FUN_00d33da0(void* a, void* b, void* c, void* d, void* e)
 {
     return ((void*(__cdecl*)(void*, void*, void*, void*, void*))((void *(&)())::fnv_00d33ca0::FUN_00d33ca0))(a, b, c, d, e);
 }
@@ -278,7 +279,7 @@ struct D338e0Owner
     int unk80;
     unsigned char unk84;
 
-    void __thiscall FUN_00d338e0(int param1, int param2, int param3, int param4);
+    void FUN_00d338e0(int param1, int param2, int param3, int param4);
 };
 
 
@@ -290,7 +291,7 @@ inline void D338e0Dispatch(D338e0Local* local, int* ownerField, int result)
 
 // If unk84 is zero, fills a D338e0Local from the parameters and unk08, calls vf10 on the agent at param2, and dispatches the result with unk30.
 // @fnv 0x00d338e0
-void __thiscall D338e0Owner::FUN_00d338e0(int aiArg1, int apAgentPtr, int aiArg3, int aiArg4)
+void D338e0Owner::FUN_00d338e0(int aiArg1, int apAgentPtr, int aiArg3, int aiArg4)
 {
     if (unk84 == 0)
     {
@@ -904,7 +905,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 extern unsigned long DAT_0126835c;
 extern const char str_010cec28[];
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 
 struct StringCursor
@@ -1109,7 +1109,6 @@ timer_end: {
 namespace fnv_00d33ca0 {
 #include <intrin.h>
 
-extern "C" __declspec(dllimport) unsigned long __stdcall TlsGetValue(unsigned long);
 extern "C" void __cdecl FUN_00d34810(int, int, int, int, int);
 
 extern int DAT_0126835c;
@@ -1220,9 +1219,9 @@ extern "C"
     void* __cdecl FUN_00d33940();
 }
 
-typedef void*(__thiscall* PfnDacbd0)(void* self, void* bodyA, void* bodyB, void* contactMgr);
-typedef void*(__thiscall* PfnD440f0)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
-typedef void*(__thiscall* PfnD33940)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
+typedef void*(* PfnDacbd0)(void* self, void* bodyA, void* bodyB, void* contactMgr);
+typedef void*(* PfnD440f0)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
+typedef void*(* PfnD33940)(void* self, void* bodyA, void* bodyB, void* input, void* contactMgr);
 
 struct AgentCollisionDispatcher
 {

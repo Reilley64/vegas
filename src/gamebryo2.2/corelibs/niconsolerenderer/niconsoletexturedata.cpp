@@ -9,13 +9,13 @@ struct NiRefObject
 
 struct NiTexture_RendererData : NiRefObject
 {
-    void* __thiscall FUN_00a981a0(unsigned int flags);
+    void* FUN_00a981a0(unsigned int flags);
 };
 
 
 // Sets the vtable pointer, calls the NiRefObject destructor, and frees the object with _delete when flags has bit 0 set; returns pThis.
 // @fnv 0x00a981a0
-void* __thiscall NiTexture_RendererData::FUN_00a981a0(unsigned int flags)
+void* NiTexture_RendererData::FUN_00a981a0(unsigned int flags)
 {
     NiTexture_RendererData* pThis = this;
     *reinterpret_cast<void**>(pThis) = reinterpret_cast<void*>(0x010a080c);

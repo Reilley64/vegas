@@ -8,7 +8,7 @@
 #include "havok/hkpStorageSampledHeightFieldShape.h"
 
 // @fnv 0x00d496b0
-int __stdcall FUN_00d496b0(int unused, int aiValue)
+int FUN_00d496b0(int unused, int aiValue)
 {
     int r = (aiValue >= 0x80);
     --r;
@@ -340,8 +340,8 @@ struct HeightFieldVtable
     void* v28;
     void* v2c;
     void* v30;
-    float(__thiscall* GetHeightAt)(HeightFieldSource*, int, int);
-    void(__thiscall* GetTriangleFlip)(HeightFieldSource*, unsigned char*);
+    float(* GetHeightAt)(HeightFieldSource*, int, int);
+    void(* GetTriangleFlip)(HeightFieldSource*, unsigned char*);
 };
 struct HeightFieldSource
 {

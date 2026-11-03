@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cb21e0_shell.h"
 #include "fnv/decl/FUN_00cfbd60_cls.h"
 #include "fnv/symbols_00d2d000.h"
@@ -12,10 +13,10 @@
 #include "fnv/symbols_01076000.h"
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
-void __fastcall FUN_00d2d890(void* self, int, void*, int);
-void __fastcall CallWithValueSource(void* self, int, int, int);
-void __fastcall FUN_00d2d430(void* self, int, int, int);
-void __fastcall FUN_00d2d480(void* self, int, int, int);
+void FUN_00d2d890(void* self, int, void*, int);
+void CallWithValueSource(void* self, int, int, int);
+void FUN_00d2d430(void* self, int, int, int);
+void FUN_00d2d480(void* self, int, int, int);
 // @fnv 0x00d2d9d0
 void FUN_00d2d9d0(void* pObject)
 {
@@ -209,7 +210,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" const char str_010ce7ec[];
 extern "C" const char str_010ce7d4[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 struct S00d2d890_Rec
 {

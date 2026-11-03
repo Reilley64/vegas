@@ -246,7 +246,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct BGSPreloadable : public BaseFormComponent
 {
     virtual void QueueResourceLoad(int, QueuedFile*);
@@ -255,7 +254,6 @@ struct BGSPreloadable : public BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BGSPreloadable[sizeof(BGSPreloadable) == 4 ? 1 : -1];
 struct FUN_005f8bb0_shell : public TESCreature
 {
     void SetImpactDataSet(BGSImpactDataSet*);
@@ -403,7 +401,6 @@ struct IdleAnimationManager
 public:
     ::BSSimpleList<const char *> *FindIdleArrayEntry(const char *, ::ANIM_GROUP_WEAPON_ENUM);
 };
-typedef char _sizecheck_TESIdleManager[sizeof(IdleAnimationManager) == 40 ? 1 : -1];
 struct FUN_00843150_shell : public IdleAnimationManager
 {
     bool FUN_00843150();

@@ -6,7 +6,6 @@
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "NiObject.h"
 
-#pragma pack(push, 4)
 class NiObject;
 class NiStream : public NiObject
 {
@@ -17,5 +16,4 @@ class NiStream : public NiObject
 public:
     ::NiObject *GetLoadedObject();
 };
-#pragma pack(pop)
 #endif

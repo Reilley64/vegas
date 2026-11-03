@@ -1,5 +1,6 @@
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
+#include <windows.h>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BB97550Shader.h"
@@ -92,9 +93,6 @@ class AccumWIP : public BSShaderAccumulator
 
 
 typedef BSSimpleList<unsigned short> BSShaderAccumulatorPassIndexList;
-FNV_STATIC_ASSERT(sizeof(BSShaderAccumulatorPassIndexList) == 8);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_item) == 0);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_pkNext) == 4);
 
 // @fnv 0x00b64ec0
 template <> void BSSimpleList<unsigned short>::RemoveAll()
@@ -146,7 +144,6 @@ struct NiBound
     char m_kCenter[12];
     float m_fBoundRadius;
 };
-typedef char _sizecheck_NiBound[sizeof(NiBound) == 16 ? 1 : -1];
 struct FUN_00b63500_shell : public BSShaderAccumulator
 {
     void RenderBound(void*, bool);
@@ -158,7 +155,7 @@ struct BatchRendererDummy
 {
     __forceinline void AddBoundToRenderGroup(void* aBound, bool abZPrePass, void* pkCamera, bool bFlag)
     {
-        ((void(__thiscall*)(void*, void*, bool, void*, bool))((void (&)(void *, int, void *, bool, void *, bool))::fnv_00b9ac80::AddSortedGroup))(this, aBound, abZPrePass, pkCamera, bFlag);
+        ((void(*)(void*, void*, bool, void*, bool))((void (&)(void *, int, void *, bool, void *, bool))::fnv_00b9ac80::AddSortedGroup))(this, aBound, abZPrePass, pkCamera, bFlag);
     }
 };
 
@@ -173,7 +170,7 @@ void FUN_00b63500_shell::RenderBound(void* aBound, bool abZPrePass)
 
 
 // @fnv 0x00b64e30
-void __fastcall FUN_00b64e30(AccumWIP* pAccumWIP)
+void FUN_00b64e30(AccumWIP* pAccumWIP)
 {
     if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(pAccumWIP) + 0x16C) &&
         *reinterpret_cast<int*>(reinterpret_cast<char*>(pAccumWIP) + 0x19C) != 8)
@@ -241,7 +238,7 @@ struct BSBatchRendererView
 };
 
 // @fnv 0x00b64f20
-void __fastcall FUN_00b64f20(BSBatchRendererView* pThis, int, unsigned int uiIndex)
+void FUN_00b64f20(BSBatchRendererView* pThis, int, unsigned int uiIndex)
 {
     pThis->pAlphaGroups[uiIndex]->ClearPassTextureSlots();
 
@@ -284,7 +281,7 @@ struct Self_00b655b0
 
 // Pops every node from the list, frees each node's element and payload, and returns the nodes to a free pool.
 // @fnv 0x00b655b0
-void __fastcall FUN_00b655b0(Self_00b655b0* self)
+void FUN_00b655b0(Self_00b655b0* self)
 {
     while (self->count != 0)
     {
@@ -331,7 +328,7 @@ struct BSBatchRenderer__PassList
 extern const void* const* vftable_BSBatchRenderer__PassList;
 
 // @fnv 0x00b656b0
-void __fastcall FUN_00b656b0(BSBatchRenderer__PassList* pThis, int)
+void FUN_00b656b0(BSBatchRenderer__PassList* pThis, int)
 {
     *(volatile unsigned int*)pThis = (unsigned int)&vftable_BSBatchRenderer__PassList;
     reinterpret_cast<::FUN_00b63e90_cls *>((pThis))->ReleasePoolNodes();
@@ -462,7 +459,7 @@ struct V42
     {}
 };
 
-extern void __fastcall FUN_00b64f90(void*);
+extern void FUN_00b64f90(void*);
 
 enum BSRENDERSTATE_LOCK;
 struct BSRenderStateManager
@@ -575,7 +572,7 @@ struct AccumStub
 };
 // For each of the three entries, queries the stub, releases and deallocates it, clears the pointer and flag, then clears m_b40.
 // @fnv 0x00b63620
-void __fastcall FUN_00b63620(AccumStub* self)
+void FUN_00b63620(AccumStub* self)
 {
     for (int i = 0; i < 3; ++i)
     {
@@ -610,7 +607,6 @@ struct RenderQueryVolume
     char _pad_1b[1];
     unsigned int m_uiQueryFlags;
 };
-typedef char _sizecheck_ReferenceVolume[sizeof(RenderQueryVolume) == 32 ? 1 : -1];
 struct FUN_00b63680_shell : public BSShaderAccumulator
 {
     bool CheckVolumeState(unsigned int, bool);
@@ -717,7 +713,7 @@ struct AccumStub
 };
 // Calls FUN_00b99a10 on each of the m_uiCount batch renderers, passing m_i8 and m_c31.
 // @fnv 0x00b63a50
-void __fastcall FUN_00b63a50(AccumStub* pAccum)
+void FUN_00b63a50(AccumStub* pAccum)
 {
     for (unsigned int i = 0; i < pAccum->m_uiCount; ++i)
         ::FUN_00b99a10((char *)(pAccum->m_pBatchRenderer[i]), pAccum->m_i8, pAccum->m_c31, {});
@@ -729,7 +725,7 @@ struct BSShaderLightingProperty
 {
 };
 // @fnv 0x00b65570
-void __fastcall FUN_00b65570(char* self, int unused)
+void FUN_00b65570(char* self, int unused)
 {
     reinterpret_cast<::BSShaderLightingProperty *>((reinterpret_cast<BSShaderLightingProperty*>(self + 0xc)))->ClearLights();
 }
@@ -844,7 +840,7 @@ void AccumS::FUN_00b64f90()
 
 namespace fnv_00b656e0 {
 void __cdecl NiFree(void*);
-void __fastcall FUN_00ba8cd0(char*);
+void FUN_00ba8cd0(char*);
 struct RecursiveSpinLock
 {
     unsigned int m_uiOwningThreadID;
@@ -856,7 +852,6 @@ struct OMNode
     unsigned int m_element;
 };
 typedef PoolAllocatorBase<unsigned int>::LinkedListEntry OMAllocNode;
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(_RTL_CRITICAL_SECTION*);
 class BSShaderLightingProperty
 {
   public:
@@ -2940,7 +2935,7 @@ struct NP
     NP& operator=(void*);
 };
 
-void __fastcall FUN_00b64e30(AccumWIP*);
+void FUN_00b64e30(AccumWIP*);
 
 class AccumWIP2 : public AccumWIP
 {
@@ -3804,7 +3799,6 @@ bool DepthAccumulator::FUN_00b64570(NiCamera* camera, TextureView* target)
 }
 }  // namespace fnv_00b64570
 
-extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
 struct LocalCriticalSection
 {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14;

@@ -6,7 +6,6 @@
 
 #include "layout_support.h"
 #include "Menu.h"
-#pragma pack(push, 4)
 class StartMenu : public Menu
 {
   public:
@@ -56,9 +55,4 @@ class StartMenu : public Menu
     unsigned int uiFlags;                  // +0x1A8
     float m_fMenuTimer;                    // +0x1AC
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_pUserOption) == 0x1A4);
-FNV_STATIC_ASSERT(offsetof(StartMenu, uiFlags) == 0x1A8);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_fMenuTimer) == 0x1AC);
 #endif

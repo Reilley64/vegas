@@ -146,11 +146,11 @@ void ComputersMenu::FUN_00754c00(int aiID, Tile* apTile)
 namespace fnv_00757a10 {
 struct ComputersMenu
 {
-    int __thiscall GetMenuId();
+    int GetMenuId();
 };
 
 // @fnv 0x00757a10
-int __thiscall ComputersMenu::GetMenuId()
+int ComputersMenu::GetMenuId()
 {
     return 0x421;
 }
@@ -176,11 +176,11 @@ unsigned char FUN_00757e80_shell::IsFlagBitSet()
 struct FUN_00758390_shell
 {
     signed char m_74;
-    bool __thiscall FUN_00758390();
+    bool FUN_00758390();
 };
 
 // @fnv 0x00758390
-bool __thiscall FUN_00758390_shell::FUN_00758390()
+bool FUN_00758390_shell::FUN_00758390()
 {
     return (((signed char*)this)[0x74 / sizeof(signed char)] & 2) != 0;
 }
@@ -188,11 +188,11 @@ bool __thiscall FUN_00758390_shell::FUN_00758390()
 struct FUN_00758a60_shell
 {
     char m_74;
-    bool __thiscall FUN_00758a60();
+    bool FUN_00758a60();
 };
 
 // @fnv 0x00758a60
-bool __thiscall FUN_00758a60_shell::FUN_00758a60()
+bool FUN_00758a60_shell::FUN_00758a60()
 {
     return (((char*)this)[0x74] & 4) != 0;
 }
@@ -213,18 +213,18 @@ void __cdecl FUN_007596a0(Tile* apTile, void* apMenuItem)
 
 struct S757a20
 {
-    void __thiscall FUN_00757a50();
-    void* __thiscall FUN_00757a20(unsigned int);
+    void FUN_00757a50();
+    void* FUN_00757a20(unsigned int);
 };
 struct FUN_00757e30_Class
 {
     char _pad[0x28];
     Tile* arr[16];
-    bool __thiscall HasAllTiles(int* p);
+    bool HasAllTiles(int* p);
 };
 // Checks that all 16 entries of arr are non-null, returning 0 on the first null and 1 otherwise.
 // @fnv 0x00757e30
-bool __thiscall FUN_00757e30_Class::HasAllTiles(int* piIndex)
+bool FUN_00757e30_Class::HasAllTiles(int* piIndex)
 {
     for (*piIndex = 0; *piIndex < 0x10; (*piIndex)++)
     {
@@ -237,18 +237,18 @@ bool __thiscall FUN_00757e30_Class::HasAllTiles(int* piIndex)
 struct FUN_00758350_shell
 {
     char m_6c[4];
-    bool __thiscall FUN_00758350();
+    bool FUN_00758350();
 };
 // Returns true when the int at offset 0x6c is nonzero and bit 0 of the byte at offset 0x74 is set.
 // @fnv 0x00758350
-bool __thiscall FUN_00758350_shell::FUN_00758350()
+bool FUN_00758350_shell::FUN_00758350()
 {
     return *(int*)((char*)this + 0x6c) && ((*(signed char*)((char*)this + 0x74) & 1));
 }
 
 struct Helper98
 {
-    void __thiscall _ref_0063f7b0();
+    void _ref_0063f7b0();
 };
 struct DispHelper
 {
@@ -256,7 +256,7 @@ struct DispHelper
 void __cdecl RefreshF57EA0TerminalMenu();
 struct FUN_00758a80_shell
 {
-    void __thiscall FUN_00758a80();
+    void FUN_00758a80();
 };
 struct StartMenu
 {
@@ -267,10 +267,10 @@ struct Host
 {
     char _pad[0xA6];
     unsigned char mA6;
-    char const* __thiscall FUN_00758fe0();
+    char const* FUN_00758fe0();
 };
 // @fnv 0x00758fe0
-char const* __thiscall Host::FUN_00758fe0()
+char const* Host::FUN_00758fe0()
 {
     return mA6 < 10 ? DAT_01189e94[mA6]->GetMenuTitle() : 0;
 }
@@ -291,7 +291,7 @@ FUN_00759760_shell::FUN_00759760_shell()
 
 struct S_7597c0
 {
-    int __thiscall FUN_007597c0(int);
+    int FUN_007597c0(int);
 };
 extern S_7597c0* DAT_011d9338;
 // Calls FUN_007597c0(1) on DAT_011d9338 if non-null, then sets DAT_011d9338 to null.
@@ -308,11 +308,11 @@ void __cdecl operator delete(void*);
 struct FUN_007597c0_shell
 {
     void FUN_007597f0();
-    void* __thiscall FUN_007597c0(unsigned int flags);
+    void* FUN_007597c0(unsigned int flags);
 };
 // Calls FUN_007597f0, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x007597c0
-void* __thiscall FUN_007597c0_shell::FUN_007597c0(unsigned int flags)
+void* FUN_007597c0_shell::FUN_007597c0(unsigned int flags)
 {
     FUN_007597f0();
     if (flags & 1)
@@ -327,7 +327,7 @@ struct GlobalObject_0048f200
 };
 struct FUN_00759850_owner
 {
-    void __thiscall FUN_00759850();
+    void FUN_00759850();
 };
 struct FUN_007597f0 : GlobalObject_0048f200
 {
@@ -357,7 +357,7 @@ struct Holder
 };
 struct FUN_007598a0_shell
 {
-    void* __thiscall FUN_007598a0(unsigned int flags);
+    void* FUN_007598a0(unsigned int flags);
 };
 // @fnv 0x00759850
 void Holder::FUN_00759850()
@@ -407,15 +407,15 @@ void __cdecl operator delete(void*);
 
 struct FUN_0075aa20_shell
 {
-    void __thiscall FUN_0075a060();
-    void* __thiscall FUN_0075aa20(unsigned int flags);
+    void FUN_0075a060();
+    void* FUN_0075aa20(unsigned int flags);
 };
 
 struct FUN_007583b0_shell
 {
     char _pad[0x74];
     signed char m_74;
-    void __thiscall SetFlag4(bool aFlag);
+    void SetFlag4(bool aFlag);
 };
 
 // @fnv 0x007583b0
@@ -439,7 +439,7 @@ struct FUN_0075a5e0_shell
 {
     char _pad[4];
     BSSimpleList m_kNode;
-    void __thiscall FUN_0075a5e0(int(__cdecl* f)(void*, void*));
+    void FUN_0075a5e0(int(__cdecl* f)(void*, void*));
 };
 
 struct InterfaceH
@@ -455,7 +455,7 @@ struct FUN_007583f0_shell
     Tile* pTile30;
     char _pad2[0xbc - 0x34];
     const char* m_pText;
-    bool __thiscall HandleButtonInput(int aiButton, float afValue);
+    bool HandleButtonInput(int aiButton, float afValue);
 };
 
 // @fnv 0x007583f0
@@ -469,7 +469,7 @@ bool FUN_007583f0_shell::HandleButtonInput(int aiButton, float afValue)
             if (reinterpret_cast<::sa040a0::Owner *>((reinterpret_cast<TV*>(pTile30)))->IsAllChildrenFlag0())
             {
                 m_pText = 0;
-                (*(void(__thiscall**)(FUN_007583f0_shell*, int, int))(*(int*)this + 0xc))(this, 2, 0);
+                (*(void(**)(FUN_007583f0_shell*, int, int))(*(int*)this + 0xc))(this, 2, 0);
             }
             else
             {
@@ -483,14 +483,14 @@ bool FUN_007583f0_shell::HandleButtonInput(int aiButton, float afValue)
 
 struct FUN_00a01230_shell
 {
-    bool __thiscall IsTraitNonZero(int);
+    bool IsTraitNonZero(int);
 };
 
 struct FUN_0075ab20_shell
 {
     char _pad[0x0C];
     Tile* m_pTile;
-    bool __thiscall IsTileTraitEnabled();
+    bool IsTileTraitEnabled();
 };
 
 extern int DAT_011d93d8;
@@ -498,7 +498,7 @@ extern int DAT_011d93dc;
 
 // Returns true when m_pTile is set and its trait lookup for the cached "_enabled" trait index succeeds.
 // @fnv 0x0075ab20
-bool __thiscall FUN_0075ab20_shell::IsTileTraitEnabled()
+bool FUN_0075ab20_shell::IsTileTraitEnabled()
 {
     static int trait = ::FUN_00a00940("_enabled", -1);
 
@@ -522,12 +522,12 @@ struct NiTPointerList
 
 struct FUN_006ffe80_shell
 {
-    void __thiscall FUN_006ffe80(int, int);
+    void FUN_006ffe80(int, int);
 };
 
 struct FUN_00726db0_class
 {
-    bool __thiscall FUN_00726db0(bool);
+    bool FUN_00726db0(bool);
 };
 
 struct FUN_00759eb0
@@ -543,7 +543,7 @@ struct FUN_007b5330_shell
 
 struct FUN_00759da0_shell : FUN_007b5330_shell
 {
-    void __thiscall InsertAtPosition(char const*, int, int, int);
+    void InsertAtPosition(char const*, int, int, int);
 };
 
 // @fnv 0x00759da0
@@ -666,7 +666,7 @@ struct FUN_00757a50 : MenuBase
 };
 // Calls FUN_00757a50, then if bit 0 of flags is set calls _Deallocate on this, and returns this.
 // @fnv 0x00757a20
-void* __thiscall S757a20::FUN_00757a20(unsigned int flags)
+void* S757a20::FUN_00757a20(unsigned int flags)
 {
     reinterpret_cast<::FUN_00757a50 *>(this)->FUN_00757a50::~FUN_00757a50();
     if (flags & 1)
@@ -889,7 +889,7 @@ class FUN_0075a060
 };
 // Calls FUN_0075a060, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0075aa20
-void* __thiscall FUN_0075aa20_shell::FUN_0075aa20(unsigned int flags)
+void* FUN_0075aa20_shell::FUN_0075aa20(unsigned int flags)
 {
     reinterpret_cast<::FUN_0075a060 *>(this)->FUN_0075a060::~FUN_0075a060();
     if (flags & 1)
@@ -943,12 +943,12 @@ struct FUN_0075aa50_cls
     unsigned short m_1c;
     char unk1e[2];
     float m_20;
-    void __thiscall UpdateScrollItems();
-    void __thiscall ResetAndProcessNodes();
+    void UpdateScrollItems();
+    void ResetAndProcessNodes();
 };
 // Sorts the list using the given comparison function, then calls ResetAndProcessNodes on this object.
 // @fnv 0x0075a5e0
-void __thiscall FUN_0075a5e0_shell::FUN_0075a5e0(int(__cdecl* f)(void*, void*))
+void FUN_0075a5e0_shell::FUN_0075a5e0(int(__cdecl* f)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>(&(m_kNode))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(f));
     reinterpret_cast<::FUN_0075aa50_cls *>((reinterpret_cast<FUN_0075aa50_shell*>(this)))->ResetAndProcessNodes();
@@ -1621,7 +1621,7 @@ struct CHMenu
     void FUN_007586e0(bool abAddRecent);
 };
 // @fnv 0x00758a80
-void __thiscall FUN_00758a80_shell::FUN_00758a80()
+void FUN_00758a80_shell::FUN_00758a80()
 {
     ((Helper98*)((char*)this + 0x98))->_ref_0063f7b0();
     *(int*)((char*)this + 0xA8) = *(((int *)(new ((void *)(((Helper98*)((char*)this + 0x98)))) ::Vec3())));
@@ -3304,11 +3304,11 @@ struct HostF
     Mgr* m_pManager;
     typedef void (HostF::*Handler)(Note*);
     Handler m_handlers[16];
-    void __thiscall FUN_00757f70(int a1, TileF* a2);
+    void FUN_00757f70(int a1, TileF* a2);
 };
 // Processes a tile index and optional tile pointer, updates tile and note display state, and may dispatch a note message to the player.
 // @fnv 0x00757f70
-void __thiscall HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
+void HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
 {
     if (!apTile && aiTileIndex >= 0 && aiTileIndex < 16)
         apTile = m_pTiles[aiTileIndex];

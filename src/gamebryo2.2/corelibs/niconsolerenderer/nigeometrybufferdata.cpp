@@ -28,21 +28,21 @@ extern int DAT_010f0170;
 
 struct UnknownVtable08
 {
-    void(__thiscall* pfn0)(void*);
-    void(__thiscall* pfn1)(void*);
-    void(__thiscall* pfn2)(void*);
-    void(__thiscall* pfn3)(void*);
-    void(__thiscall* pfn4)(void*);
-    void(__thiscall* pfn5)(void*);
-    void(__thiscall* pfn6)(void*);
-    void(__thiscall* pfn7)(void*, void*, unsigned int);
+    void(* pfn0)(void*);
+    void(* pfn1)(void*);
+    void(* pfn2)(void*);
+    void(* pfn3)(void*);
+    void(* pfn4)(void*);
+    void(* pfn5)(void*);
+    void(* pfn6)(void*);
+    void(* pfn7)(void*, void*, unsigned int);
 };
 
 struct UnknownComVtable
 {
-    void(__stdcall* QueryInterface)(void*, void*, void**);
-    unsigned long(__stdcall* AddRef)(void*);
-    unsigned long(__stdcall* Release)(void*);
+    void(* QueryInterface)(void*, void*, void**);
+    unsigned long(* AddRef)(void*);
+    unsigned long(* Release)(void*);
 };
 
 struct UnknownComObj
@@ -93,7 +93,7 @@ struct MemoryManager
 };
 // Calls the object's destructor, then frees the object via g_memoryManager when _flags has bit 0 set, and returns _this.
 // @fnv 0x00e8f170
-void* __fastcall FUN_00e8f170(void* _this, int, unsigned int auiFlags)
+void* FUN_00e8f170(void* _this, int, unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00e8f0f0_shell *>((((FUN_00e8f0f0_shell*)_this)))->DestroyGeometryBufferData();
     if (auiFlags & 1)
@@ -122,9 +122,9 @@ void* RendererData::FUN_00e8ee80(unsigned int auiFlags)
 
 struct IUnk_00e8f010
 {
-    virtual void __stdcall f0();
-    virtual void __stdcall f1();
-    virtual unsigned long __stdcall Release();
+    virtual void f0();
+    virtual void f1();
+    virtual unsigned long Release();
 };
 struct C_00e8f010
 {
@@ -146,9 +146,9 @@ void C_00e8f010::FUN_00e8f010(int a)
 
 struct FakeCOM_00e8f040
 {
-    virtual void __stdcall Dummy() = 0;
-    virtual void __stdcall AddRef() = 0;
-    virtual void __stdcall Release() = 0;
+    virtual void Dummy() = 0;
+    virtual void AddRef() = 0;
+    virtual void Release() = 0;
 };
 struct Holder_00e8f040
 {

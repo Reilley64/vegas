@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 class hkCustomAttributesAttribute;
-#pragma pack(push, 1)
 class hkCustomAttributes
 {
   public:
     hkSimpleArray<hkCustomAttributesAttribute> m_pCustomAttributes;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkCustomAttributes[(sizeof(hkCustomAttributes) == 0x8) ? 1 : -1];
 #endif

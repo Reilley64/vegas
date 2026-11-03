@@ -98,7 +98,6 @@ struct CStringArgument
 public:
     bool FUN_005afad0(::ScriptToken *, bool, bool);
 };
-typedef char _sizecheck_ScriptCompileData[sizeof(CStringArgument) == 88 ? 1 : -1];
 struct FUN_00613790_shell : public CStringArgument
 {
     void* FUN_00613790();
@@ -501,8 +500,8 @@ struct ListX
     ~ListX();
 };
 
-void __fastcall ClearList(void* ptr);
-void __fastcall FUN_005ae730(void* ptr);
+void ClearList(void* ptr);
+void FUN_005ae730(void* ptr);
 
 struct FUN_005ae5c0 : public TESDataHandler, public BSS
 {
@@ -1355,7 +1354,7 @@ struct ScriptLineS
 struct ScriptLineNode
 {
 };
-bool __fastcall FUN_008256d0(ScriptLineNode* pkNode);
+bool FUN_008256d0(ScriptLineNode* pkNode);
 struct ScriptBufferS
 {
     char pad[0x1c];

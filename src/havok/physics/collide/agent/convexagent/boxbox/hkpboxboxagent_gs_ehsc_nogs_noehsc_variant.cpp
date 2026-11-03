@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00db0920_cls.h"
 #include "fnv/decl/Manifold__NDetector.h"
@@ -103,13 +104,13 @@ class SpawnedObject
 };
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
 // @fnv 0x00d406a0
-extern "C" void __stdcall FUN_00d406a0(void* a, void* b, void* c, void* d)
+extern "C" void FUN_00d406a0(void* a, void* b, void* c, void* d)
 {
     FUN_00d40470(a, b, c, d);
 }
 
 typedef void(__cdecl* FUN_00d406c0_fn4)(void*, void*, void*, void*);
-void __stdcall FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
+void FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
 
 #include <xmmintrin.h>
 struct hkVector4_d409
@@ -169,7 +170,6 @@ void RotatedDir_d409::FUN_00d40940()
 }
 
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier();
 struct MonitorRecord
 {
@@ -325,7 +325,6 @@ void Manager::FUN_00d40280(Input* a, Input* b, Parameters* parameters, void* p4)
     timer("Et");
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier();
 struct Query
 {

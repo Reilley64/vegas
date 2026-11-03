@@ -246,16 +246,16 @@ void* FUN_004a5250_shell::AssignFromBound(void* aRhs)
 
 
 // @fnv 0x006240d0
-void* __fastcall FUN_006240d0(void* pThis)
+void* FUN_006240d0(void* pThis)
 {
     new ((void *)(pThis)) ::Vec3();
     return pThis;
 }
 
-void __fastcall FUN_00c4f980(void*);
+void FUN_00c4f980(void*);
 
 // @fnv 0x00c37ec0
-void* __fastcall FUN_00c37ec0(void* this_ptr)
+void* FUN_00c37ec0(void* this_ptr)
 {
     FUN_00c4f980(this_ptr);
     *(const char**)this_ptr = "`pJ";
@@ -263,7 +263,7 @@ void* __fastcall FUN_00c37ec0(void* this_ptr)
 }
 
 // @fnv 0x004a6100
-int __fastcall FUN_004a6100(int this_)
+int FUN_004a6100(int this_)
 {
     return 0x1e;
 }
@@ -288,17 +288,17 @@ float BSMultiBoundAABB::GetPointLength()
 
 struct FUN_004a70f0_shell
 {
-    int* __thiscall FUN_004a70f0();
+    int* FUN_004a70f0();
 };
 
 // @fnv 0x004a70f0
-int* __thiscall FUN_004a70f0_shell::FUN_004a70f0()
+int* FUN_004a70f0_shell::FUN_004a70f0()
 {
     return &(*reinterpret_cast<int *>(&::g_01202818));
 }
 
 // @fnv 0x00c365e0
-int __fastcall FUN_00c365e0(int)
+int FUN_00c365e0(int)
 {
     return 2;
 }
@@ -318,22 +318,22 @@ void* g_012030b8;
 
 struct FUN_00c4f8d0_shell
 {
-    void* __thiscall GetGlobalPtr();
+    void* GetGlobalPtr();
 };
 
 // @fnv 0x00c4f8d0
-void* __thiscall FUN_00c4f8d0_shell::GetGlobalPtr()
+void* FUN_00c4f8d0_shell::GetGlobalPtr()
 {
     return &g_012030b8;
 }
 
 struct FUN_00c4fec0_shell
 {
-    int __thiscall FUN_00c4fec0();
+    int FUN_00c4fec0();
 };
 
 // @fnv 0x00c4fec0
-int __thiscall FUN_00c4fec0_shell::FUN_00c4fec0()
+int FUN_00c4fec0_shell::FUN_00c4fec0()
 {
     return 3;
 }
@@ -514,11 +514,11 @@ FUN_00c4fb10* FUN_00c4fb30_shell::FUN_00c4fb30(CloningProcess& kCloning)
 
 struct FUN_004a60e0_shell
 {
-    char const* const* __thiscall FUN_004a60e0();
+    char const* const* FUN_004a60e0();
 };
 
 // @fnv 0x004a60e0
-char const* const* __thiscall FUN_004a60e0_shell::FUN_004a60e0()
+char const* const* FUN_004a60e0_shell::FUN_004a60e0()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_01202804));
 }
@@ -598,13 +598,13 @@ void* BSMultiBoundSphere::FUN_004a7bf0(unsigned int flags)
 
 struct FUN_00c38020_shell
 {
-    unsigned char __thiscall FUN_00c4fa30(int a);
-    unsigned char __thiscall FUN_00c38020(int a);
+    unsigned char FUN_00c4fa30(int a);
+    unsigned char FUN_00c38020(int a);
 };
 
 // Returns 0 if FUN_00c4fa30(a) is false, otherwise returns 1.
 // @fnv 0x00c38020
-unsigned char __thiscall FUN_00c38020_shell::FUN_00c38020(int aiArg)
+unsigned char FUN_00c38020_shell::FUN_00c38020(int aiArg)
 {
     if (!FUN_00c4fa30(aiArg))
         return 0;
@@ -776,8 +776,8 @@ void* BSOcclusionPlane::FUN_004a6110(unsigned int flags)
 
 struct Unk462D0
 {
-    void __thiscall FUN_004a6310();
-    void* __thiscall FUN_004a62d0(unsigned int);
+    void FUN_004a6310();
+    void* FUN_004a62d0(unsigned int);
 };
 struct GO
 {
@@ -795,7 +795,7 @@ struct FUN_004a6310 : FUN_004a7090
     ~FUN_004a6310();
 };
 // @fnv 0x004a62d0
-void* __thiscall Unk462D0::FUN_004a62d0(unsigned int flags)
+void* Unk462D0::FUN_004a62d0(unsigned int flags)
 {
     reinterpret_cast<::FUN_004a6310 *>((this))->FUN_004a6310::~FUN_004a6310();
     if (flags & 1)
@@ -890,7 +890,7 @@ void S::FUN_004a7800()
     ((ImageSpaceEffectParam*)this)->ImageSpaceEffectParam::ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-void __fastcall FUN_00c4f980(void*);
+void FUN_00c4f980(void*);
 extern int DAT_0101ea8c;
 struct FUN_004a7b40_Pt
 {
@@ -1203,11 +1203,11 @@ void FUN_00c4fca0_This::SaveToStream(NiStream& s)
 
 struct FUN_004a7020_shell
 {
-    char const* const* __thiscall FUN_004a7020();
+    char const* const* FUN_004a7020();
 };
 
 // @fnv 0x004a7020
-char const* const* __thiscall FUN_004a7020_shell::FUN_004a7020()
+char const* const* FUN_004a7020_shell::FUN_004a7020()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_01202820));
 }
@@ -1260,11 +1260,11 @@ extern "C" void* g_01203108;
 
 struct FUN_004a7b90_shell
 {
-    void* __thiscall GetGlobalPointer();
+    void* GetGlobalPointer();
 };
 
 // @fnv 0x004a7b90
-void* __thiscall FUN_004a7b90_shell::GetGlobalPointer()
+void* FUN_004a7b90_shell::GetGlobalPointer()
 {
     return &g_01203108;
 }
@@ -1321,21 +1321,21 @@ void* FUN_00c4f9a0_shell::GetSelf(void* apUnused)
 
 struct FUN_00c4fab0_shell
 {
-    void __thiscall FUN_00c4fab0(int a);
+    void FUN_00c4fab0(int a);
 };
 
 // @fnv 0x00c4fab0
-void __thiscall FUN_00c4fab0_shell::FUN_00c4fab0(int a)
+void FUN_00c4fab0_shell::FUN_00c4fab0(int a)
 {
     reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(a));
 }
 
 struct FUN_00c4fa10_shell
 {
-    void __thiscall FUN_00c4fc50(int a);
+    void FUN_00c4fc50(int a);
 };
 // @fnv 0x00c4fc50
-void __thiscall FUN_00c4fa10_shell::FUN_00c4fc50(int a)
+void FUN_00c4fa10_shell::FUN_00c4fc50(int a)
 {
     reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(a)));
 }
@@ -1385,7 +1385,7 @@ void* __cdecl FUN_004a4e90(int eType, NiPoint3* apPoint, RgbaColor* apTextColor)
     }
 }
 
-void __fastcall FUN_00c4f980(void*);
+void FUN_00c4f980(void*);
 struct FUN_004a6fc0_Pt
 {
     float x;
@@ -1442,11 +1442,11 @@ struct Obj364
 {
     char pad[36];
     Mat364 m;
-    bool __thiscall FUN_00c364b0(Obj364*);
+    bool FUN_00c364b0(Obj364*);
 };
 // Calls FUN_00c38090 on other; if it returns true, also compares m with other's m via _Call_4d9ae0 and returns that result.
 // @fnv 0x00c364b0
-bool __thiscall Obj364::FUN_00c364b0(Obj364* other)
+bool Obj364::FUN_00c364b0(Obj364* other)
 {
     bool ret = reinterpret_cast<::ColorProperty *>(this)->FUN_00c38090((const ::ColorPropertyBase *)(other));
     if (ret)
@@ -2409,12 +2409,12 @@ struct FUN_0049da80_shell
 
 struct FUN_00c38920_cls
 {
-    bool __thiscall FUN_00c38920(ProbeSet* other);
+    bool FUN_00c38920(ProbeSet* other);
 };
 
 // Builds eight box points, then for each masked element tests all eight points and returns false if any test returns 2, otherwise true.
 // @fnv 0x00c38920
-bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
+bool FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
 {
     Vec12 boxPts[8];
     int i;
@@ -3114,7 +3114,6 @@ struct BoxBuildContext
     ColorB edgeColor, faceColor;
     float selectionBrightness, selectionAlpha;
 };
-typedef char ContextSizeCheck[sizeof(BoxBuildContext) == 320 ? 1 : -1];
 struct CornerTraversalB
 {
     int completed;
@@ -3484,24 +3483,24 @@ Obj_004a7150::Obj_004a7150() : unk24(0), unk2c(0)
 }
 }  // namespace fnv_004a7150
 
-void* __fastcall FUN_00c37ec0(void*);
+void* FUN_00c37ec0(void*);
 extern int DAT_0101e9a4;
 struct FUN_00c36310_shell
 {
-    int __thiscall FUN_00c36310();
+    int FUN_00c36310();
 };
 // @fnv 0x00c36310
-int __thiscall FUN_00c36310_shell::FUN_00c36310()
+int FUN_00c36310_shell::FUN_00c36310()
 {
     FUN_00c37ec0(this);
     *(int**)this = &DAT_0101e9a4;
     return (int)this;
 }
 
-void __fastcall FUN_00c4f980(void*);
+void FUN_00c4f980(void*);
 extern int DAT_0101ea8c;
 // @fnv 0x00c4fb10
-void* __fastcall FUN_00c4fb10(void* apObj)
+void* FUN_00c4fb10(void* apObj)
 {
     new ((void *)(apObj)) struct ::FUN_00c4f980();
     *(int*)apObj = (int)&DAT_0101ea8c;

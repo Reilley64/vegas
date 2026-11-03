@@ -2,6 +2,7 @@
 // src/staging/blk_00c20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Builder.h"
@@ -64,12 +65,12 @@
 
 struct FUN_00c3a090_Class
 {
-    char __thiscall FUN_00c3a090(void* arg);
+    char FUN_00c3a090(void* arg);
 };
 
 // Calls IsSameAs with arg and returns its result unchanged.
 // @fnv 0x00c3a090
-char __thiscall FUN_00c3a090_Class::FUN_00c3a090(void* arg)
+char FUN_00c3a090_Class::FUN_00c3a090(void* arg)
 {
     char result = ((char)(reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(arg))));
     return result;
@@ -78,11 +79,11 @@ char __thiscall FUN_00c3a090_Class::FUN_00c3a090(void* arg)
 
 struct FUN_00c3a610_Class
 {
-    void* __thiscall FUN_00c3a610();
+    void* FUN_00c3a610();
 };
 
 // @fnv 0x00c3a610
-void* __thiscall FUN_00c3a610_Class::FUN_00c3a610()
+void* FUN_00c3a610_Class::FUN_00c3a610()
 {
     return &(*reinterpret_cast<void * *>(&::g_01202828));
 }
@@ -117,7 +118,7 @@ struct FUN_00c3a670_Class
 };
 
 // @fnv 0x00c3a670
-void* __thiscall FUN_00c3a670_Class::FUN_00c3a670(void* apBlock, unsigned int count)
+void* FUN_00c3a670_Class::FUN_00c3a670(void* apBlock, unsigned int count)
 {
     return (*reinterpret_cast<::fnv_00c3a670::MemoryManager *>(&::g_memoryManager)).Reallocate(apBlock, count * 4);
 }
@@ -126,11 +127,11 @@ void* __thiscall FUN_00c3a670_Class::FUN_00c3a670(void* apBlock, unsigned int co
 
 struct FUN_00c3b9e0_Class
 {
-    void* __thiscall GetGlobalPointer();
+    void* GetGlobalPointer();
 };
 
 // @fnv 0x00c3b9e0
-void* __thiscall FUN_00c3b9e0_Class::GetGlobalPointer()
+void* FUN_00c3b9e0_Class::GetGlobalPointer()
 {
     return &(*reinterpret_cast<void * *>(&::g_012043dc));
 }
@@ -138,11 +139,11 @@ void* __thiscall FUN_00c3b9e0_Class::GetGlobalPointer()
 
 struct FUN_00c3ba70_Class
 {
-    void* __thiscall FUN_00c3ba70();
+    void* FUN_00c3ba70();
 };
 
 // @fnv 0x00c3ba70
-void* __thiscall FUN_00c3ba70_Class::FUN_00c3ba70()
+void* FUN_00c3ba70_Class::FUN_00c3ba70()
 {
     return &(*reinterpret_cast<void * *>(&::g_012043e4));
 }
@@ -160,30 +161,30 @@ extern void __cdecl FUN_00c3d930();
 struct FUN_00c3c520_class
 {
     const void* vtbl;
-    void __thiscall FUN_00c3c520();
+    void FUN_00c3c520();
 };
 
 // @fnv 0x00c3c520
-void __thiscall FUN_00c3c520_class::FUN_00c3c520()
+void FUN_00c3c520_class::FUN_00c3c520()
 {
     vtbl = &DAT_010c14e8;
-    ((void(__thiscall*)(void*))FUN_00c3d930)(this);
+    ((void(*)(void*))FUN_00c3d930)(this);
 }
 
 extern int DAT_010c1510;
 struct QueuedParents
 {
-    void __thiscall FUN_00c3c570();
+    void FUN_00c3c570();
 };
 extern int DAT_010c14fc;
 
 struct FUN_00c3d930_Class
 {
     void* vftable;
-    void __thiscall FUN_00c3d930();
+    void FUN_00c3d930();
 };
 // @fnv 0x00c3c570
-void __thiscall QueuedParents::FUN_00c3c570()
+void QueuedParents::FUN_00c3c570()
 {
     *reinterpret_cast<int**>(this) = &DAT_010c1510;
     reinterpret_cast<::FUN_00c3d930_Class *>(this)->FUN_00c3d930();
@@ -191,7 +192,7 @@ void __thiscall QueuedParents::FUN_00c3c570()
 
 // Sets the vftable to DAT_010c14fc and calls FUN_00c3d980 with 1.
 // @fnv 0x00c3d930
-void __thiscall FUN_00c3d930_Class::FUN_00c3d930()
+void FUN_00c3d930_Class::FUN_00c3d930()
 {
     char buf[0x18];
     vftable = &DAT_010c14fc;
@@ -222,24 +223,24 @@ void FUN_00c3f710_Class::IncrementRefCount()
 
 struct FUN_00c3f730_Class
 {
-    void __thiscall DecrementRefCount();
+    void DecrementRefCount();
 };
 
 // @fnv 0x00c3f730
-void __thiscall FUN_00c3f730_Class::DecrementRefCount()
+void FUN_00c3f730_Class::DecrementRefCount()
 {
     InterlockedDecrement((volatile long*)(this + 0xc));
 }
 
 struct FUN_00c3fc80_class
 {
-    void __thiscall CallSecondVirtualMethod(void* p);
+    void CallSecondVirtualMethod(void* p);
 };
 
 // @fnv 0x00c3fc80
-void __thiscall FUN_00c3fc80_class::CallSecondVirtualMethod(void* apObject)
+void FUN_00c3fc80_class::CallSecondVirtualMethod(void* apObject)
 {
-    ((void(__thiscall*)(void*))(*reinterpret_cast<void***>(apObject))[1])(apObject);
+    ((void(*)(void*))(*reinterpret_cast<void***>(apObject))[1])(apObject);
 }
 
 struct FUN_00c35980_Class
@@ -260,7 +261,7 @@ int FUN_00c35980_Class::FUN_00c35980()
 
 struct FUN_00c3a080_Class
 {
-    void* __thiscall FUN_00c3a080(int arg);
+    void* FUN_00c3a080(int arg);
 };
 
 // @fnv 0x00c3a080
@@ -274,10 +275,10 @@ struct NiTPrimitiveArray_unsigned_int_
 };
 struct FUN_00c3a0c0_Class
 {
-    void __thiscall AddFirstEmptyFromGlobal(unsigned int a);
+    void AddFirstEmptyFromGlobal(unsigned int a);
 };
 // @fnv 0x00c3a0c0
-void __thiscall FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
+void FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
 {
     struct
     {
@@ -293,15 +294,15 @@ void __thiscall FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
 
 struct FUN_00c3a100_Class
 {
-    void __thiscall FUN_00c3a100(int);
+    void FUN_00c3a100(int);
 };
 // @fnv 0x00c3a100
-void __thiscall FUN_00c3a100_Class::FUN_00c3a100(int)
+void FUN_00c3a100_Class::FUN_00c3a100(int)
 {}
 
 struct FUN_00c3a110_Class
 {
-    void __thiscall FUN_00c3a110(int arg);
+    void FUN_00c3a110(int arg);
 };
 
 // @fnv 0x00c3a110
@@ -310,20 +311,20 @@ void FUN_00c3a110_Class::FUN_00c3a110(int arg)
 
 struct FUN_00c3a120_Class
 {
-    void __thiscall FUN_00c3a120(int);
+    void FUN_00c3a120(int);
 };
 
 // @fnv 0x00c3a120
-void __thiscall FUN_00c3a120_Class::FUN_00c3a120(int)
+void FUN_00c3a120_Class::FUN_00c3a120(int)
 {}
 
 struct FUN_00c3a130_Class
 {
-    char __thiscall FUN_00c3a130(void* arg);
+    char FUN_00c3a130(void* arg);
 };
 
 // @fnv 0x00c3a130
-char __thiscall FUN_00c3a130_Class::FUN_00c3a130(void* arg)
+char FUN_00c3a130_Class::FUN_00c3a130(void* arg)
 {
     return 1;
 }
@@ -331,7 +332,7 @@ char __thiscall FUN_00c3a130_Class::FUN_00c3a130(void* arg)
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
 {
-    void* __thiscall FUN_00c3a140(unsigned int flags);
+    void* FUN_00c3a140(unsigned int flags);
 };
 // Calls FUN_00c39770, then deletes this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c3a140
@@ -348,33 +349,33 @@ struct NiUpdateData
 };
 struct NiNode
 {
-    void __thiscall UpdateDownwardPass(NiUpdateData&, unsigned int);
+    void UpdateDownwardPass(NiUpdateData&, unsigned int);
 };
 struct BSMultiBoundNode : NiNode
 {
-    void __thiscall FUN_00c3a5b0(NiUpdateData& data, unsigned int flags);
+    void FUN_00c3a5b0(NiUpdateData& data, unsigned int flags);
 };
 // Calls UpdateDownwardPass with data and flags, then invokes the object's virtual method at vtable slot 47 on this.
 // @fnv 0x00c3a5b0
-void __thiscall BSMultiBoundNode::FUN_00c3a5b0(NiUpdateData& aUpdateData, unsigned int flags)
+void BSMultiBoundNode::FUN_00c3a5b0(NiUpdateData& aUpdateData, unsigned int flags)
 {
     UpdateDownwardPass(aUpdateData, flags);
-    ((void(__thiscall*)(void*))(*(void***)this)[47])(this);
+    ((void(*)(void*))(*(void***)this)[47])(this);
 }
 
 struct FUN_00c3a620_Class
 {
-    void __thiscall FUN_00c3a620();
+    void FUN_00c3a620();
 };
 struct MemoryManager
 {
 };
 struct FUN_00c3a6a0_Class
 {
-    void* __thiscall FUN_00c3a6a0(unsigned int flags);
+    void* FUN_00c3a6a0(unsigned int flags);
 };
 // @fnv 0x00c3a6a0
-void* __thiscall FUN_00c3a6a0_Class::FUN_00c3a6a0(unsigned int flags)
+void* FUN_00c3a6a0_Class::FUN_00c3a6a0(unsigned int flags)
 {
     ((FUN_00c3a620_Class*)this)->FUN_00c3a620();
     if (flags & 1)
@@ -432,12 +433,12 @@ struct MessageHandler
     const void* vtbl;
     bool bStatic;
     static MessageHandler* pHandler;
-    MessageHandler* __thiscall FUN_00c3bcf0(bool b);
+    MessageHandler* FUN_00c3bcf0(bool b);
 };
 MessageHandler* MessageHandler::pHandler;
 // Calls FUN_00aa4c60, sets the vtable to DAT_010c14a8, stores b in bStatic, sets MessageHandler::pHandler to this and returns this.
 // @fnv 0x00c3bcf0
-MessageHandler* __thiscall MessageHandler::FUN_00c3bcf0(bool abStatic)
+MessageHandler* MessageHandler::FUN_00c3bcf0(bool abStatic)
 {
     reinterpret_cast<::FUN_00aa4c60_class *>(this)->FUN_00aa4c60();
     *(const void**)this = &DAT_010c14a8;
@@ -448,11 +449,11 @@ MessageHandler* __thiscall MessageHandler::FUN_00c3bcf0(bool abStatic)
 
 struct FUN_00c3c070_Class
 {
-    void* __thiscall FUN_00c3c070(int arg);
+    void* FUN_00c3c070(int arg);
 };
 
 // @fnv 0x00c3c070
-void* __thiscall FUN_00c3c070_Class::FUN_00c3c070(int arg)
+void* FUN_00c3c070_Class::FUN_00c3c070(int arg)
 {
     return 0;
 }
@@ -473,10 +474,10 @@ struct MemoryManager
 };
 struct FUN_00c3d380_Class : public FUN_00c3c520_class
 {
-    void* __thiscall FUN_00c3d380(unsigned int flags);
+    void* FUN_00c3d380(unsigned int flags);
 };
 // @fnv 0x00c3d380
-void* __thiscall FUN_00c3d380_Class::FUN_00c3d380(unsigned int flags)
+void* FUN_00c3d380_Class::FUN_00c3d380(unsigned int flags)
 {
     FUN_00c3c520();
     if (flags & 1)
@@ -495,11 +496,11 @@ struct _Base_00441d20
 };
 struct FUN_00c3d410_Class : _Base_00441d20
 {
-    void* __thiscall DestroySelf(unsigned int flags);
+    void* DestroySelf(unsigned int flags);
 };
 // Runs the base destructor, frees this via the memory manager when flags has bit 0 set, and returns this.
 // @fnv 0x00c3d410
-void* __thiscall FUN_00c3d410_Class::DestroySelf(unsigned int flags)
+void* FUN_00c3d410_Class::DestroySelf(unsigned int flags)
 {
     reinterpret_cast<::fnv_00c3cea0::FUN_00c3cea0 *>(this)->fnv_00c3cea0::FUN_00c3cea0::~FUN_00c3cea0();
     if (flags & 1)
@@ -514,10 +515,10 @@ struct MemoryManager
 };
 struct FUN_00c3d950_Class
 {
-    void* __thiscall FUN_00c3d950(unsigned int flags);
+    void* FUN_00c3d950(unsigned int flags);
 };
 // @fnv 0x00c3d950
-void* __thiscall FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
+void* FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
 {
     ((FUN_00c3d930_Class*)this)->FUN_00c3d930();
     if (flags & 1)
@@ -529,27 +530,27 @@ void* __thiscall FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
 struct InputValues;
 struct FUN_00c3fca0_Class
 {
-    void __thiscall FUN_00c3fca0(void* p);
+    void FUN_00c3fca0(void* p);
 public:
     bool FUN_0044e050(::InputValues *);
 };
 // Sets the field at offset 0xc to 4, calls the object's virtual method at vtable index 2, then sets the field to 5 and calls FUN_0044e050.
 // @fnv 0x00c3fca0
-void __thiscall FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
+void FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
 {
     *(int*)((char*)apObject + 0xc) = 4;
-    ((void(__thiscall*)(void*))(*(void***)apObject)[2])(apObject);
+    ((void(*)(void*))(*(void***)apObject)[2])(apObject);
     *(int*)((char*)apObject + 0xc) = 5;
     reinterpret_cast<::FUN_00c3fca0_Class *>(this)->FUN_0044e050((::InputValues *)(apObject));
 }
 
 struct FUN_00c3fe00_Class
 {
-    void* __thiscall FUN_00c3fe00(int a, int b, int c, int d);
+    void* FUN_00c3fe00(int a, int b, int c, int d);
 };
 // Stores the four arguments into the first four fields and zeroes the fields at offsets 0x10 through 0x20, returning this.
 // @fnv 0x00c3fe00
-void* __thiscall FUN_00c3fe00_Class::FUN_00c3fe00(int aiField0, int aiField1, int aiField2, int aiField3)
+void* FUN_00c3fe00_Class::FUN_00c3fe00(int aiField0, int aiField1, int aiField2, int aiField3)
 {
     int* p4 = (int*)((char*)this + 0x14);
     *p4 = 0;
@@ -565,14 +566,13 @@ void* __thiscall FUN_00c3fe00_Class::FUN_00c3fe00(int aiField0, int aiField1, in
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c416a0(int a, int b, int c);
+    bool FUN_00c416a0(int a, int b, int c);
 };
 struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c3fe80(int a, int b, int c, void** out);
+    bool FUN_00c3fe80(int a, int b, int c, void** out);
 };
 // @fnv 0x00c3fe80
 bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void** ppOut)
@@ -775,13 +775,13 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c3ba80_Class
 {
-    void* __thiscall FUN_00c3ba80(unsigned int flags);
+    void* FUN_00c3ba80(unsigned int flags);
     int a, b, c, d;
 };
 
 // Calls FUN_00c3bab0, then deletes this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c3ba80
-void* __thiscall FUN_00c3ba80_Class::FUN_00c3ba80(unsigned int flags)
+void* FUN_00c3ba80_Class::FUN_00c3ba80(unsigned int flags)
 {
     int x, y, z;
     reinterpret_cast<::fnv_00c3bab0::FUN_00c3bab0 *>(this)->fnv_00c3bab0::FUN_00c3bab0::~FUN_00c3bab0();
@@ -819,12 +819,12 @@ void* __cdecl FUN_00c3c1c0(void* a)
 struct GlobalObject_00c3bcf0
 {
     ~GlobalObject_00c3bcf0();
-    void* __thiscall DestroyAndFree(unsigned int flags);
+    void* DestroyAndFree(unsigned int flags);
 };
 struct QueuedParents;
 struct FUN_00c3d3b0_Class : QueuedParents
 {
-    void* __thiscall FUN_00c3d3b0(unsigned int flags);
+    void* FUN_00c3d3b0(unsigned int flags);
 };
 // Calls FUN_00c3c570, then deallocates this via g_memoryManager when flags has bit 0 set, and returns this.
 // @fnv 0x00c3d3b0
@@ -838,10 +838,10 @@ void* FUN_00c3d3b0_Class::FUN_00c3d3b0(unsigned int flags)
 
 struct FUN_00c42f00_Class
 {
-    void* __thiscall FUN_00c3f130(unsigned int flags);
+    void* FUN_00c3f130(unsigned int flags);
 };
 // @fnv 0x00c3f130
-void* __thiscall FUN_00c42f00_Class::FUN_00c3f130(unsigned int flags)
+void* FUN_00c42f00_Class::FUN_00c3f130(unsigned int flags)
 {
     ::DestroyResources((void *)(this));
     if (flags & 1)
@@ -1208,7 +1208,7 @@ struct FUN_00c3a4b0_cls
     FUN_00c3a4b0_node* m_00;
     void* m_04;
     FUN_00c3a4b0_sub m_08;
-    unsigned int __thiscall FUN_00c3a4b0();
+    unsigned int FUN_00c3a4b0();
 };
 
 // @fnv 0x00c3a4b0
@@ -1371,9 +1371,6 @@ void FUN_00c3a620_cls::FUN_00c3a620()
 
 extern "C" unsigned int __cdecl strlen(const char*);
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
-    const char* lpAppName, const char* lpKeyName, const char* lpDefault, char* lpReturnedString, unsigned long nSize,
-    const char* lpFileName);
 
 void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
 void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
@@ -1587,9 +1584,6 @@ typedef void* HINSTANCE;
 typedef void* HHOOK;
 typedef void (*HOOKPROC)(int code, WPARAM wParam, LPARAM lParam);
 
-extern "C" __declspec(dllimport) DWORD __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) int __stdcall SetWindowsHookExA(int idHook, HOOKPROC lpfn, HINSTANCE hMod,
-                                                                 DWORD dwThreadId);
 
 
 extern int DAT_01202d70;
@@ -1603,7 +1597,6 @@ void __cdecl FUN_00c3c250()
     }
 }
 
-extern "C" __declspec(dllimport) int __stdcall UnhookWindowsHookEx(void* hhk);
 
 // If the global hook handle DAT_01202d70 is set, unhooks it with UnhookWindowsHookEx and clears the handle.
 // @fnv 0x00c3c280
@@ -1620,15 +1613,15 @@ extern "C" void* fnv_zlib_memset(void* pvDest, int iValue, int iSize);
 
 typedef void* C3C2B0HWND;
 
-extern int(__stdcall* g_pfnC3C2B0GetClassName)(C3C2B0HWND hWnd, char* pcClassName, int m_iMaximumCount);
-extern int(__stdcall* g_pfnC3C2B0GetWindowText)(C3C2B0HWND hWnd, char* pcString, int m_iMaximumCount);
+extern int(* g_pfnC3C2B0GetClassName)(C3C2B0HWND hWnd, char* pcClassName, int m_iMaximumCount);
+extern int(* g_pfnC3C2B0GetWindowText)(C3C2B0HWND hWnd, char* pcString, int m_iMaximumCount);
 
 int C3C2B0StrCmp(const char* pcA, const char* pcB);
 
 // EnumChildWindows callback: finds the "Cancel" button.
 // Searches a window: if it is a Button whose text is non-empty and not "Cancel", stores it through lParam and returns false; otherwise returns true.
 // @fnv 0x00c3c2b0
-int __stdcall FindFirstNonCancelButton(C3C2B0HWND hWnd, long lParam)
+int FindFirstNonCancelButton(C3C2B0HWND hWnd, long lParam)
 {
     bool bContinueSearch = true;
     if (hWnd)
@@ -1649,14 +1642,10 @@ int __stdcall FindFirstNonCancelButton(C3C2B0HWND hWnd, long lParam)
     return bContinueSearch;
 }
 
-extern "C" __declspec(dllimport) int __stdcall CallNextHookEx(void* hhk, int code, unsigned int wParam, int lParam);
-extern "C" __declspec(dllimport) int __stdcall EnumChildWindows(void* parent, int(__stdcall* callback)(void*, int),
-                                                                int lParam);
-extern "C" __declspec(dllimport) int __stdcall SetWindowTextA(void* hwnd, const char* text);
 
 
 // @fnv 0x00c3c3a0
-int __stdcall CbtHookProc(int code, unsigned int wParam, int lParam)
+int CbtHookProc(int code, unsigned int wParam, int lParam)
 {
     if (code < 0)
     {
@@ -1682,13 +1671,13 @@ int __stdcall CbtHookProc(int code, unsigned int wParam, int lParam)
 struct FUN_00c3c540_Class
 {
     int* unk00;
-    void __thiscall Resize(int a, int b);
-    int* __thiscall FUN_00c3c540();
+    void Resize(int a, int b);
+    int* FUN_00c3c540();
 };
 
 // Sets unk00 to DAT_010c14fc, calls Resize(5, 0), then sets unk00 to DAT_010c1510 and returns this.
 // @fnv 0x00c3c540
-int* __thiscall FUN_00c3c540_Class::FUN_00c3c540()
+int* FUN_00c3c540_Class::FUN_00c3c540()
 {
     int unused04;
     int unused08;
@@ -1770,7 +1759,6 @@ C3D3E0Palette* C3D3E0Palette::FUN_00c3d3e0(unsigned int uiFlags)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObject
 {
     void* vtable;
@@ -1784,7 +1772,7 @@ struct Array
     RefObject** data;
     unsigned int size;
     unsigned int capacity;
-    void __thiscall Resize(unsigned int reserve, unsigned int count);
+    void Resize(unsigned int reserve, unsigned int count);
 };
 // Resets the array, allocates reserve slots (at least count), zero-initialises count elements and sets size to count.
 // @fnv 0x00c3d780
@@ -1919,8 +1907,8 @@ struct FUN_00c3df40_Param1
 
 struct FUN_00c3df40_Class
 {
-    void __thiscall FUN_00c3e690(FUN_00c3df40_Param1* a1, __int64 a2);
-    void __thiscall FUN_00c3df40(FUN_00c3df40_Param1* a1, int a2);
+    void FUN_00c3e690(FUN_00c3df40_Param1* a1, __int64 a2);
+    void FUN_00c3df40(FUN_00c3df40_Param1* a1, int a2);
 };
 // Notifies each task in m_pkTasks with iStatus, then forwards this request and iStatus to g_pkC3CAE0Manager.
 // @fnv 0x00c3cae0
@@ -1941,7 +1929,7 @@ void C3CAE0Request::NotifyTasks(int iStatus)
 }
 
 // @fnv 0x00c3df40
-void __thiscall FUN_00c3df40_Class::FUN_00c3df40(FUN_00c3df40_Param1* pParam, int iValue)
+void FUN_00c3df40_Class::FUN_00c3df40(FUN_00c3df40_Param1* pParam, int iValue)
 {
     __int64 val = pParam->unk10;
     val = (val & 0xFFFFFFFFFF00FFFFULL) + ((__int64)iValue << 16);
@@ -1981,7 +1969,7 @@ struct FUN_00c3f690_pair
 struct FUN_00c3f690_cls
 {
     int unk00;
-    void __thiscall CopyPair(FUN_00c3f690_pair p, FUN_00c3f690_pair* out);
+    void CopyPair(FUN_00c3f690_pair p, FUN_00c3f690_pair* out);
 };
 
 // @fnv 0x00c3f690
@@ -2299,12 +2287,12 @@ struct FUN_00c33280_Class
     unsigned int m_00;
     SettingValue value;
     const char* m_08;
-    void __thiscall FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr);
+    void FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr);
 };
 
 // Builds two spaces plus m_08 in a 256-byte buffer, formats value by the type from FUN_00c33090(m_08), and adds the helper's result to arr via AddFirstEmpty.
 // @fnv 0x00c33280
-void __thiscall FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
+void FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
 {
     char aBuf[256];
     unsigned int ai;
@@ -2455,8 +2443,6 @@ void S00c3a2e0_Cls::FUN_00c3a2e0()
 void FUN_00c3bcc0()
 {}
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern int DAT_01202d78;
 extern char* DAT_01202d58;
 extern bool DAT_01202d90;
@@ -2511,7 +2497,6 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
 void __cdecl FUN_00c3c080()
 {}
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 struct Obj090
 {
@@ -2598,14 +2583,14 @@ struct FUN_00c3f750_Class
     void* unk10;
     FUN_00c41610_Obj* unk14;
 
-    int __thiscall FUN_00c3f750();
+    int FUN_00c3f750();
 };
 
-extern "C" int(__stdcall* DAT_00fdf044)(unsigned int index);
+extern "C" int(* DAT_00fdf044)(unsigned int index);
 
 // Calls DAT_00fdf044 with unk14->unk04 and returns the result if nonzero; otherwise returns unk14->SetSlotValue(this).
 // @fnv 0x00c3f750
-int __thiscall FUN_00c3f750_Class::FUN_00c3f750()
+int FUN_00c3f750_Class::FUN_00c3f750()
 {
     int tmp;
     int d2;

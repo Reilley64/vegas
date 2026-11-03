@@ -69,7 +69,7 @@ struct FUN_00e10a10_Obj
 {
 };
 
-typedef void(__thiscall* VF5_00de7580)(void* self, void* p1, void* p2, void* p3, int p4, int p5);
+typedef void(* VF5_00de7580)(void* self, void* p1, void* p2, void* p3, int p4, int p5);
 
 
 struct ArgHolder_00de7580

@@ -3177,14 +3177,14 @@ struct SaveStream
 
 
 
-    void __thiscall FUN_008579b0(const void*, int);
+    void FUN_008579b0(const void*, int);
 
 };
 
 struct SaveFlag
 {
 
-    unsigned char* __thiscall FUN_00408d60();
+    unsigned char* FUN_00408d60();
 };
 
 
@@ -3242,7 +3242,7 @@ struct FUN_008ce610_owner : PC7d
 
 
 
-    void __thiscall FUN_008ce610(int);
+    void FUN_008ce610(int);
 };
 
 namespace fnv_008ceb50 {
@@ -4618,7 +4618,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
             int manager = ((int)(::FUN_004839c0(*finished)));
 
-            typedef int(__thiscall * LogFunction)(void*);
+            typedef int(* LogFunction)(void*);
 
             ::FUN_0040fbe0();
         }

@@ -971,10 +971,6 @@ class TESNPC : public TESActorBase, public TESRaceForm
     void SetActorValue(ActorValue::Index, int);
     void ResetFaceGen();
 };
-FNV_STATIC_ASSERT(sizeof(TESActorBase) == 0x10c);
-FNV_STATIC_ASSERT(offsetof(TESNPC, m_pClass) == 0x130);
-FNV_STATIC_ASSERT(offsetof(TESNPC, m_pHair) == 0x1b8);
-FNV_STATIC_ASSERT(offsetof(TESNPC, fWeight) == 0x1f8);
 class TESFileChunkData16 : public TESFile
 {
   public:

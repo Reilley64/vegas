@@ -91,11 +91,11 @@ void S_0060ba10::FUN_0096a610(int a)
 
 struct FUN_004f8980_shell
 {
-    virtual bool __thiscall FUN_004f8980(bool);
+    virtual bool FUN_004f8980(bool);
 };
 
 // @fnv 0x004f8980
-bool __thiscall FUN_004f8980_shell::FUN_004f8980(bool)
+bool FUN_004f8980_shell::FUN_004f8980(bool)
 {
     return *(int*)((char*)this + 0x108) != 0;
 }

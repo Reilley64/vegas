@@ -11,7 +11,7 @@ extern int DAT_01023ac4;
 
 // Sets the object's vtable pointer to DAT_01023ac4 and initialises the bytes at offsets 4, 5 and 6 to 0, 0 and 50, returning pThis.
 // @fnv 0x004f1400
-void* __fastcall InitVTableAndFields(void* pThis)
+void* InitVTableAndFields(void* pThis)
 {
     *(int**)pThis = &DAT_01023ac4;
     *((char*)pThis + 4) = 0;
@@ -41,7 +41,7 @@ void __cdecl operator delete(void*);
 
 struct FUN_004f1430_shell
 {
-    void* __thiscall FUN_004f1430(unsigned int flags);
+    void* FUN_004f1430(unsigned int flags);
 };
 
 struct FUN_004f14a0_shell
@@ -51,7 +51,7 @@ struct FUN_004f14a0_shell
 };
 // Calls FUN_004f14a0 on this, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x004f1430
-void* __thiscall FUN_004f1430_shell::FUN_004f1430(unsigned int flags)
+void* FUN_004f1430_shell::FUN_004f1430(unsigned int flags)
 {
     reinterpret_cast<::FUN_004f14a0_shell *>((this))->FUN_004f14a0();
     if (flags & 1)
@@ -60,7 +60,7 @@ void* __thiscall FUN_004f1430_shell::FUN_004f1430(unsigned int flags)
 }
 
 // @fnv 0x004f14a0
-void __thiscall FUN_004f14a0_shell::FUN_004f14a0()
+void FUN_004f14a0_shell::FUN_004f14a0()
 {
     value = &DAT_01023ac4;
 }

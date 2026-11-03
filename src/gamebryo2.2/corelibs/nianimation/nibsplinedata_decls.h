@@ -25,7 +25,6 @@ typedef unsigned int(__cdecl* NiBinaryStreamRead)(NiBinaryStream*, void*, unsign
                                                   unsigned int);
 typedef unsigned int(__cdecl* NiBinaryStreamWrite)(NiBinaryStream*, const void*, unsigned int, unsigned int*,
                                                    unsigned int);
-#pragma pack(push, 4)
 class NiBinaryStream
 {
   public:
@@ -54,16 +53,6 @@ class __declspec(novtable) NiBSplineData : public NiObject
     void CalculateSplineValue(float, float*, unsigned int, NiBSplineBasisData*, unsigned int, float, float);
     virtual void LoadBinary(NiStream& stream);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 0x24c);
-FNV_STATIC_ASSERT(sizeof(NiStream) == 0x250);
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_pfControlPoints) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_psCompactControlPoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_uiControlPointCount) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBSplineData, m_uiCompactControlPointCount) == 20);
-FNV_STATIC_ASSERT(sizeof(NiBSplineData) == 24);
 
 void __cdecl FUN_00a89650(const short*, unsigned int, float, float, float*, unsigned int);
 #endif

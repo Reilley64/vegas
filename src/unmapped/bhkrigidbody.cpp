@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/ActionOwnerC9d590.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004ee840_cls.h"
@@ -108,7 +109,7 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type)
 
 struct FUN_00c8eb00_s
 {
-    void __thiscall FUN_00c8eb00();
+    void FUN_00c8eb00();
 };
 struct LinkedRecord
 {
@@ -216,7 +217,7 @@ struct S_00c8d440_Target
 
 
 // @fnv 0x00c8d440
-void __stdcall FUN_00c8d440(bool flag)
+void FUN_00c8d440(bool flag)
 {
     S_00c8d440_Target* t = (*reinterpret_cast<::S_00c8d440_Target * *>(&::DAT_01268360));
     t->v4(0xf043d534, S_00c8d440_Arg(flag));
@@ -665,7 +666,7 @@ struct FUN_00c8e770_cls
     void ProcessListNodes();
 };
 // @fnv 0x00c8eb00
-void __thiscall FUN_00c8eb00_s::FUN_00c8eb00()
+void FUN_00c8eb00_s::FUN_00c8eb00()
 {
     *(unsigned int*)(this + 0x10) &= 0xffffff77;
     reinterpret_cast<::FUN_00c8e770_cls *>(this)->ProcessListNodes();
@@ -1631,8 +1632,6 @@ FUN_00c8e9c0::~FUN_00c8e9c0()
     --::DAT_012681bc;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 struct AllocTagScopeC8E
 {
     int m_iSaved;
@@ -2612,13 +2611,13 @@ void CollisionOwner::DispatchCollision(Receiver* target)
 {
     __m128 second, first;
     __declspec(align(16)) Matrix source;
-    typedef void(__thiscall * GetSource)(CollisionOwner*, Matrix*);
+    typedef void(* GetSource)(CollisionOwner*, Matrix*);
     ((GetSource)((void**)vtable)[61])(this, &source);
     BodySlot* slot = GetSlot();
     void* body = slot ? slot->getBody() : 0;
     if (body)
     {
-        typedef void(__thiscall * Dispatch)(void*, Matrix*, float, Receiver*);
+        typedef void(* Dispatch)(void*, Matrix*, float, Receiver*);
         ((Dispatch)((void**)*(void* volatile*)body)[7])(body, &source, ::AngularDashpotApplyD4DCB0::DAT_01017d00, target);
     }
     else

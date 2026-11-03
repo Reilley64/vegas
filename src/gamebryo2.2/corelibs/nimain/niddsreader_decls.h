@@ -13,7 +13,7 @@ class NiPixelFormat
 public:
     bool operator!=(const ::NiPixelFormat &) const;
 };
-extern void(__stdcall* DAT_00fdf054)(void*);
+extern void(* DAT_00fdf054)(void*);
 class NiImageReader
 {
   public:

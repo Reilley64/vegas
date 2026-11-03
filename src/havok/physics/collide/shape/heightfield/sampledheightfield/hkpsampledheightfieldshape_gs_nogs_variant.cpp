@@ -47,7 +47,7 @@ struct FUN_00d24b50_Obj {
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
-    hkBoolD260 __thiscall FUN_00d26080(void* object, hkInfoD260* info);
+    hkBoolD260 FUN_00d26080(void* object, hkInfoD260* info);
 };
 struct S00d261b0_Elem {
     __m128 v00;

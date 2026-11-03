@@ -17,7 +17,7 @@ struct NiObject
 
 
 // @fnv 0x00a89b00
-char __stdcall FUN_00a89b00(NiObject* pObject)
+char FUN_00a89b00(NiObject* pObject)
 {
     char b = ((char)(reinterpret_cast<::NiObject_00a7b3d0 *>((pObject))->FUN_00a7b3d0({})));
     return b != 0;
@@ -192,7 +192,7 @@ static __forceinline void LoadU32(S_00a89be0_Stream* s, unsigned int* v, unsigne
 }
 
 // @fnv 0x00a89be0
-void __stdcall FUN_00a89be0(S_00a89be0_Stream* s)
+void FUN_00a89be0(S_00a89be0_Stream* s)
 {
     if (s->m_uiFormatVersion < 0x5000010)
     {

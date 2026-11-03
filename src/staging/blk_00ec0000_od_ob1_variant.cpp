@@ -5,6 +5,7 @@
 
 // src/staging/blk_00ec0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/EC1060File.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -33,7 +34,7 @@
 struct BGSMoviePlayer
 {
 };
-int __stdcall FUN_00ec16b0(int a);
+int FUN_00ec16b0(int a);
 struct P03MM
 {
 };
@@ -43,12 +44,12 @@ struct FUN_00ec1a40_Class
 };
 struct FUN_00ec1c90_class
 {
-    int __thiscall AreStringsEqualIgnoreCase(const char* a, const char* b);
+    int AreStringsEqualIgnoreCase(const char* a, const char* b);
 };
 extern int __cdecl __stricmp(const char*, const char*);
 struct FUN_00ec1dc0_Class
 {
-    int __thiscall IsStringEqualIgnoreCase(const char* a, const char* b);
+    int IsStringEqualIgnoreCase(const char* a, const char* b);
 };
 struct FUN_00ec1f20Class
 {
@@ -56,7 +57,7 @@ struct FUN_00ec1f20Class
 };
 struct FUN_00ec1f40Class
 {
-    void __thiscall FUN_00ec1f40();
+    void FUN_00ec1f40();
 };
 struct FUN_00ec29b0_class
 {
@@ -76,8 +77,8 @@ struct FUN_00ec2c10
     int m_0024;
     int m_0028;
     int m_002c;
-    void __thiscall SetThreadPriorityLevel(int);
-    void __thiscall FUN_00ec2c10_init();
+    void SetThreadPriorityLevel(int);
+    void FUN_00ec2c10_init();
 };
 struct FUN_00ec1570_t
 {
@@ -94,14 +95,14 @@ struct FUN_00ec1570_t
 };
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct FUN_00ec15e0_shell
 {
 };
 struct FUN_00ec19d0_class
 {
-    void* __thiscall FUN_00ec19d0(unsigned int flags);
+    void* FUN_00ec19d0(unsigned int flags);
 };
 struct FUN_00ec0cd0_Class
 {
@@ -114,7 +115,7 @@ struct FUN_00ec1f60_Class
 };
 struct FUN_00ec1fb0_class
 {
-    void __thiscall DisableThreadPriorityBoost();
+    void DisableThreadPriorityBoost();
 };
 struct FUN_00ec2a10_class
 {
@@ -123,7 +124,7 @@ struct FUN_00ec2a10_class
     int m_0008;
     int m_000c;
     int m_0010;
-    void __thiscall PauseMovie();
+    void PauseMovie();
 };
 struct FUN_00ec2d40_class
 {
@@ -136,7 +137,7 @@ struct FUN_00ec2d40_class
     int m_0018;
     int m_001c;
     int m_0020;
-    void __thiscall SetValueAndReset(int a);
+    void SetValueAndReset(int a);
 };
 struct FUN_00ec2aa0_Class
 {
@@ -152,12 +153,11 @@ struct FUN_00ec2aa0_Class
     virtual void v9();
     virtual unsigned int v10();
     virtual unsigned int v11();
-    float __thiscall ComputeRatio(unsigned int a, unsigned int b, bool c);
+    float ComputeRatio(unsigned int a, unsigned int b, bool c);
 };
-extern "C" __declspec(dllimport) int __stdcall SetThreadPriority(void* hThread, int priority);
 struct FUN_00ec1fd0_shell
 {
-    void __thiscall UnpauseBink();
+    void UnpauseBink();
 };
 struct FUN_00ec2a60_class
 {
@@ -166,7 +166,7 @@ struct FUN_00ec2a60_class
     int m_0008;
     int m_000c;
     int m_0010;
-    void __thiscall FUN_00ec2a60();
+    void FUN_00ec2a60();
 };
 struct FUN_00ec2bb0_Class
 {
@@ -184,7 +184,6 @@ struct FUN_00ec2bb0_Class
     virtual unsigned int v11();
     float FUN_00ec2bb0(float, unsigned int, bool);
 };
-extern "C" __declspec(dllimport) int __stdcall GetExitCodeThread(void* hThread, unsigned long* pExitCode);
 struct FUN_00ec17c0_Class
 {
     int m_0000;
@@ -196,9 +195,8 @@ struct FUN_00ec19a0_Class
 {
     int m_0000;
     void* m_0004;
-    void __thiscall FUN_00ec19a0();
+    void FUN_00ec19a0();
 };
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf1c8(void* a, int b);
 struct FUN_00ec1a60_t
 {
     int a;
@@ -207,25 +205,25 @@ struct FUN_00ec1a60_t
 };
 struct FUN_00ec1a60_class
 {
-    void __thiscall FreeStruct(FUN_00ec1a60_t* p);
+    void FreeStruct(FUN_00ec1a60_t* p);
 };
 extern int DAT_010f1ca4;
 struct FUN_00ec1b80_Map
 {
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 struct FUN_00ec1b80_Class
 {
     int m_0000;
     int m_0004;
     int m_0008;
-    void __thiscall Initialize();
+    void Initialize();
 };
 unsigned int __cdecl _strlen(const char* s);
 int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 struct FUN_00ec1cc0_Class
 {
-    void __thiscall AssignString(void* a, const char* b, int c);
+    void AssignString(void* a, const char* b, int c);
 };
 struct FUN_00ec1a90_Class
 {
@@ -233,80 +231,80 @@ struct FUN_00ec1a90_Class
 };
 struct FUN_00ec1d30_Class : FUN_00ec1a90_Class
 {
-    void __thiscall FUN_00ec1d30();
+    void FUN_00ec1d30();
 };
 struct FUN_00ec0460_cls
 {
-    virtual void __stdcall v00(void);
-    virtual void __stdcall v01(void);
-    virtual void __stdcall v02(void);
-    virtual void __stdcall v03(void);
-    virtual void __stdcall v04(void);
-    virtual void __stdcall v05(void);
-    virtual void __stdcall v06(void);
-    virtual void __stdcall v07(void);
-    virtual void __stdcall v08(void);
-    virtual void __stdcall v09(void);
-    virtual void __stdcall v10(void);
-    virtual void __stdcall v11(void);
-    virtual void __stdcall v12(void);
-    virtual void __stdcall v13(void);
-    virtual void __stdcall v14(void);
-    virtual void __stdcall v15(void);
-    virtual void __stdcall v16(void);
-    virtual void __stdcall v17(void);
-    virtual void __stdcall v18(void);
-    virtual void __stdcall v19(void);
-    virtual void __stdcall v20(void);
-    virtual void __stdcall v21(void);
-    virtual void __stdcall v22(void);
-    virtual void __stdcall v23(void);
-    virtual void __stdcall v24(void);
-    virtual void __stdcall v25(void);
-    virtual void __stdcall v26(void);
-    virtual void __stdcall v27(void);
-    virtual void __stdcall v28(void);
-    virtual void __stdcall v29(void);
-    virtual void __stdcall v30(void);
-    virtual void __stdcall v31(void);
-    virtual void __stdcall v32(void);
-    virtual void __stdcall v33(void);
-    virtual void __stdcall v34(void);
-    virtual void __stdcall v35(void);
-    virtual void __stdcall v36(void);
-    virtual void __stdcall v37(void);
-    virtual void __stdcall v38(void);
-    virtual void __stdcall v39(void);
-    virtual void __stdcall v40(void);
-    virtual void __stdcall v41(void);
-    virtual void __stdcall v42(void);
-    virtual void __stdcall v43(void);
-    virtual void __stdcall v44(void);
-    virtual void __stdcall v45(void);
-    virtual void __stdcall v46(void);
-    virtual void __stdcall v47(void);
-    virtual void __stdcall v48(void);
-    virtual void __stdcall v49(void);
-    virtual void __stdcall v50(void);
-    virtual void __stdcall v51(void);
-    virtual void __stdcall v52(void);
-    virtual void __stdcall v53(void);
-    virtual void __stdcall v54(void);
-    virtual void __stdcall v55(void);
-    virtual void __stdcall v56(void);
-    virtual void __stdcall v57(int a, int b);
-    virtual void __stdcall v58(void);
-    virtual void __stdcall v59(void);
-    virtual void __stdcall v60(void);
-    virtual void __stdcall v61(void);
-    virtual void __stdcall v62(void);
-    virtual void __stdcall v63(void);
-    virtual void __stdcall v64(void);
-    virtual void __stdcall v65(void);
-    virtual void __stdcall v66(void);
-    virtual void __stdcall v67(int a, int b, int c);
-    virtual void __stdcall v68(void);
-    virtual void __stdcall v69(int a, int b, int c);
+    virtual void v00(void);
+    virtual void v01(void);
+    virtual void v02(void);
+    virtual void v03(void);
+    virtual void v04(void);
+    virtual void v05(void);
+    virtual void v06(void);
+    virtual void v07(void);
+    virtual void v08(void);
+    virtual void v09(void);
+    virtual void v10(void);
+    virtual void v11(void);
+    virtual void v12(void);
+    virtual void v13(void);
+    virtual void v14(void);
+    virtual void v15(void);
+    virtual void v16(void);
+    virtual void v17(void);
+    virtual void v18(void);
+    virtual void v19(void);
+    virtual void v20(void);
+    virtual void v21(void);
+    virtual void v22(void);
+    virtual void v23(void);
+    virtual void v24(void);
+    virtual void v25(void);
+    virtual void v26(void);
+    virtual void v27(void);
+    virtual void v28(void);
+    virtual void v29(void);
+    virtual void v30(void);
+    virtual void v31(void);
+    virtual void v32(void);
+    virtual void v33(void);
+    virtual void v34(void);
+    virtual void v35(void);
+    virtual void v36(void);
+    virtual void v37(void);
+    virtual void v38(void);
+    virtual void v39(void);
+    virtual void v40(void);
+    virtual void v41(void);
+    virtual void v42(void);
+    virtual void v43(void);
+    virtual void v44(void);
+    virtual void v45(void);
+    virtual void v46(void);
+    virtual void v47(void);
+    virtual void v48(void);
+    virtual void v49(void);
+    virtual void v50(void);
+    virtual void v51(void);
+    virtual void v52(void);
+    virtual void v53(void);
+    virtual void v54(void);
+    virtual void v55(void);
+    virtual void v56(void);
+    virtual void v57(int a, int b);
+    virtual void v58(void);
+    virtual void v59(void);
+    virtual void v60(void);
+    virtual void v61(void);
+    virtual void v62(void);
+    virtual void v63(void);
+    virtual void v64(void);
+    virtual void v65(void);
+    virtual void v66(void);
+    virtual void v67(int a, int b, int c);
+    virtual void v68(void);
+    virtual void v69(int a, int b, int c);
 };
 struct GridDesc
 {
@@ -361,7 +359,7 @@ class NiPlaybackFile
     bool FindString(const char* pcName, bool bQuiet, bool bLoop, bool bFlag);
     bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
 };
-extern "C" __declspec(dllimport) void __stdcall BinkClose(int handle);
+extern "C" __declspec(dllimport) void BinkClose(int handle);
 struct FUN_00ec1020_cls
 {
     int m_00;
@@ -374,8 +372,8 @@ struct FUN_00ec14d0_bink
     void* m_00;
     unsigned int m_04;
 };
-extern "C" __declspec(dllimport) int __stdcall BinkDoFrame(void* hBink);
-extern "C" __declspec(dllimport) int __stdcall BinkCopyToBufferRect(void* hBink, void* dest, int destPitch,
+extern "C" __declspec(dllimport) int BinkDoFrame(void* hBink);
+extern "C" __declspec(dllimport) int BinkCopyToBufferRect(void* hBink, void* dest, int destPitch,
                                                                     unsigned int destHeight, unsigned int destX,
                                                                     unsigned int destY, unsigned int srcX,
                                                                     unsigned int srcY, unsigned int srcWidth,
@@ -384,19 +382,13 @@ unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, in
 // EnableSoundSystem: enables the Bink direct-sound output path.
 // The Bink library is reached through the executable's import table; the
 // address of the direct-sound entry point is passed to BinkSetSoundSystem.
-extern "C" __declspec(dllimport) void __stdcall BinkOpenDirectSound(void* apDirectSound);
-extern "C" __declspec(dllimport) void __stdcall BinkSetSoundSystem(void* system, unsigned int flags);
+extern "C" __declspec(dllimport) void BinkOpenDirectSound(void* apDirectSound);
+extern "C" __declspec(dllimport) void BinkSetSoundSystem(void* system, unsigned int flags);
 class FUN_00ec1680_cls
 {
   public:
     void EnableSoundSystem(bool bEnableSound);
 };
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* pvSecurity, unsigned long ulStackSize,
-                                                              unsigned long(__stdcall* pfnStart)(void*), void* pvParam,
-                                                              unsigned long ulFlags, unsigned long* pulThreadId);
-extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThread);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long ulMilliseconds);
 struct BEC16D0Setting
 {
     void* m_pvVtable;
@@ -441,8 +433,7 @@ struct FUN_00ec1df0_cls
 
     FUN_00ec1df0_cls* FUN_00ec1df0(unsigned int acFlags);
 };
-extern "C" __declspec(dllimport) int __stdcall SetThreadPriorityBoost(void* hThread, int fDisable);
-extern "C" __declspec(dllimport) void __stdcall _BinkPause_8(void*, int);
+extern "C" __declspec(dllimport) int BinkPause(void* hThread, int fDisable);
 struct S_00ec2b20
 {
     virtual void v0();
@@ -459,7 +450,7 @@ struct S_00ec2b20
     virtual unsigned int v11();
     virtual unsigned int v12();
     virtual unsigned int v13();
-    float __thiscall ComputeAdjustedValue(float a, unsigned int b, bool c);
+    float ComputeAdjustedValue(float a, unsigned int b, bool c);
 };
 extern int DAT_0126fae4;
 struct FUN_00ec2c40_cls
@@ -768,7 +759,7 @@ struct SpawnedObject
 };
 
 // @fnv 0x00ec2ca0
-int __stdcall FUN_00ec2ca0(int a1)
+int FUN_00ec2ca0(int a1)
 {
     SpawnedObject* obj = new SpawnedObject();
     reinterpret_cast<::NiPlaybackFile *>((obj))->FindString((const char *)(a1), 1, 1, 1);
@@ -777,8 +768,6 @@ int __stdcall FUN_00ec2ca0(int a1)
 }
 }  // namespace fnv_00ec2ca0
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void*, long, long*);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf1c0(void*);
 struct MovieSemaphore
 {
     int unk00;
@@ -815,7 +804,6 @@ unsigned int __cdecl _strlen(const char* s);
 char* __cdecl _strcpy(char* dst, const char* src);
 char* __cdecl MovieStrtok(char* s, const char* delim);
 int __cdecl MovieStricmp(const char* a, const char* b);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 
 extern const char g_movieExt[];
 extern const char g_movieWarnFmt[];
@@ -865,7 +853,7 @@ struct MoviePlayerA
     {
         MovieSemaphore* semaphore = &semaphore30;
         ReleaseSemaphore(semaphore->handle, 1, 0);
-        FUN_00fdf1c0(semaphore);
+        InterlockedIncrement(semaphore);
         unk3c = true;
     }
     void FUN_00ec2760(const char* list);
@@ -1139,7 +1127,7 @@ struct ScopedAllocContext
 };
 
 // @fnv 0x00ec1ff0
-void* __stdcall FUN_00ec1ff0(unsigned int size)
+void* FUN_00ec1ff0(unsigned int size)
 {
     ScopedAllocContext ctx(0x14);
     return reinterpret_cast<::MemoryManagerStandIn *>((((MemPoolCalls*)&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
@@ -1660,8 +1648,6 @@ void MakeE40()
 }
 
 namespace fnv_00ec15e0 {
-extern "C" __declspec(dllimport) void* __stdcall CreateSemaphoreA(void*, long, long, const char*);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
 class MovieSemaphore
 {
   public:
@@ -1758,8 +1744,6 @@ BSMoviePlayer::~BSMoviePlayer()
 }  // namespace fnv_00ec15e0
 
 namespace fnv_00ec20c0 {
-extern "C" __declspec(dllimport) void* __stdcall CreateSemaphoreA(void*, long, long, const char*);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
 class MovieSemaphore
 {
   public:
@@ -1856,7 +1840,6 @@ BSMoviePlayer::BSMoviePlayer()
 {}
 }  // namespace fnv_00ec20c0
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 struct S0ERTTI
 {
@@ -2018,44 +2001,44 @@ struct S0ERenderer
 
 struct S0EDevice
 {
-    virtual void __stdcall v00();
-    virtual void __stdcall v01();
-    virtual void __stdcall v02();
-    virtual void __stdcall v03();
-    virtual void __stdcall v04();
-    virtual void __stdcall v05();
-    virtual void __stdcall v06();
-    virtual void __stdcall v07();
-    virtual void __stdcall v08();
-    virtual void __stdcall v09();
-    virtual void __stdcall v10();
-    virtual void __stdcall v11();
-    virtual void __stdcall v12();
-    virtual void __stdcall v13();
-    virtual void __stdcall v14();
-    virtual void __stdcall v15();
-    virtual void __stdcall v16();
-    virtual void __stdcall v17();
-    virtual void __stdcall v18();
-    virtual void __stdcall v19();
-    virtual void __stdcall v20();
-    virtual void __stdcall v21();
-    virtual void __stdcall v22();
-    virtual void __stdcall v23();
-    virtual void __stdcall v24();
-    virtual void __stdcall v25();
-    virtual void __stdcall v26();
-    virtual void __stdcall v27();
-    virtual void __stdcall v28();
-    virtual void __stdcall v29();
-    virtual void __stdcall v30();
-    virtual void __stdcall v31();
-    virtual void __stdcall v32();
-    virtual void __stdcall v33();
-    virtual void __stdcall v34();
-    virtual void __stdcall v35();
-    virtual void __stdcall v36();
-    virtual long __stdcall SetRenderTarget(unsigned long RenderTargetIndex, S0ESurface* pRenderTarget);
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual long SetRenderTarget(unsigned long RenderTargetIndex, S0ESurface* pRenderTarget);
 };
 
 struct S0EMoviePlayer

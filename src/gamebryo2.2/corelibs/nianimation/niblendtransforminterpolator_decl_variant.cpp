@@ -136,7 +136,7 @@ class QuatBlockArg
     unsigned int m_18;
     unsigned int m_1C;
 };
-void __stdcall FUN_00a40ab0(FUN_00a40ab0_obj* a1);
+void FUN_00a40ab0(FUN_00a40ab0_obj* a1);
 template <class T> class AGPrimArray
 {
   public:
@@ -162,7 +162,7 @@ template <class T> class AGPrimArray
     }
 };
 typedef AGPrimArray<const char*> AGViewerStrings;
-void __stdcall FUN_00a41170(AGViewerStrings* pkStrings);
+void FUN_00a41170(AGViewerStrings* pkStrings);
 
 __forceinline void Invalidate850(NiQuatTransform& value)
 {

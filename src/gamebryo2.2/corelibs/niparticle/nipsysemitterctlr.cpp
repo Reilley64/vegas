@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.cpp: NiPSysEmitterCtlr, NiBoolData, ThisStruct, Host and more (39 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -127,7 +128,7 @@ struct FUN_00c1ba30 : NiTimeControllerStop
     float m48;
 };
 // @fnv 0x00c1ba30
-void __fastcall FUN_00c1ba30(FUN_00c1ba30* self, int unused)
+void FUN_00c1ba30(FUN_00c1ba30* self, int unused)
 {
     self->m48 = DAT_01015f5c;
     reinterpret_cast<::FUN_00a6cd30_cls *>((self))->ResetTiming();
@@ -143,7 +144,7 @@ extern int DAT_011ae754;
 extern int DAT_011ae758;
 
 // @fnv 0x00c1ba50
-const char* const* __stdcall FUN_00c1ba50(unsigned short usIndex)
+const char* const* FUN_00c1ba50(unsigned short usIndex)
 {
     if (usIndex == 0)
         return reinterpret_cast<const char* const*>(DAT_011ae754);
@@ -206,7 +207,7 @@ void* NiBoolData::Destroy(unsigned int auiFlags)
 
 // Compares pcID against two strings and returns 0, 1, or DAT_NiInterpController_INVALID_INDEX when neither matches.
 // @fnv 0x00c1ba80
-unsigned short __stdcall GetInterpControllerIndex(const char* pcControllerID)
+unsigned short GetInterpControllerIndex(const char* pcControllerID)
 {
     if (::NiStricmp(pcControllerID, (const char*)DAT_011ae754) == 0)
         return 0;
@@ -226,7 +227,7 @@ struct S2
 {
 };
 // @fnv 0x00c1bad0
-NiInterpolator* __stdcall CreateInterpolatorByIndex(unsigned short usInterpolatorIndex)
+NiInterpolator* CreateInterpolatorByIndex(unsigned short usInterpolatorIndex)
 {
     if (usInterpolatorIndex == 0)
     {
@@ -596,7 +597,7 @@ struct FUN_00a56560_shell
 };
 // Allocates a 0x34-byte NiBlendInterpolator and constructs variant 0 or 1 based on usIndex, returning null otherwise.
 // @fnv 0x00c1bb20
-NiBlendInterpolator* __stdcall FUN_00c1bb20(unsigned short usVariant, bool bAccumulateAnimations,
+NiBlendInterpolator* FUN_00c1bb20(unsigned short usVariant, bool bAccumulateAnimations,
                                             bool bManagerControlled, float fWeightThreshold, unsigned char ucArraySize)
 {
     if (usVariant == 0)
@@ -643,7 +644,7 @@ void FUN_00c1ce70_shell::FUN_00c1ce70(StrArr* pkStrings)
     if (pkInterp)
     {
         void** vtbl = *(void***)pkInterp;
-        void(__thiscall * fn)(NiInterpolator*, StrArr*) = (void(__thiscall*)(NiInterpolator*, StrArr*))vtbl[0x60 / 4];
+        void(* fn)(NiInterpolator*, StrArr*) = (void(*)(NiInterpolator*, StrArr*))vtbl[0x60 / 4];
         fn(pkInterp, pkStrings);
     }
 }
@@ -909,7 +910,7 @@ extern unsigned char DAT_01096968;
 
 // Returns vf54() if nonzero; otherwise looks up an object by DAT_011f407c and returns a value indexed by its key, or 0.
 // @fnv 0x00c1bf90
-int __thiscall C1BF90Owner::GetObjectValueByKey()
+int C1BF90Owner::GetObjectValueByKey()
 {
     int iVf54Result = this->unk40->vf54();
     if (iVf54Result == 0)
@@ -935,7 +936,6 @@ int __thiscall C1BF90Owner::GetObjectValueByKey()
     return iVf54Result;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 
 
@@ -1387,7 +1387,7 @@ __forceinline bool C040Has(C040Owner* o, void* p)
 
 // Checks whether obj contains one of the global nodes for the given type (0 or 1), or for type 1 whether FUN_0043b300 matches DAT_011f407c.
 // @fnv 0x00c1c040
-bool __stdcall FUN_00c1c040(C040Owner* pOwner, unsigned short type)
+bool FUN_00c1c040(C040Owner* pOwner, unsigned short type)
 {
     if (type == 0)
     {

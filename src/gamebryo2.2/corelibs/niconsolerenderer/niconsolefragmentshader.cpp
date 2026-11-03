@@ -1,4 +1,5 @@
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BoneHost.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -63,7 +64,7 @@ void ShaderCache::BindGPUProgram()
             (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
         --count;
         ShaderData* data = entry->data;
-        typedef void(__stdcall * SetFunction)(Device*, unsigned int, unsigned int);
+        typedef void(* SetFunction)(Device*, unsigned int, unsigned int);
         ((SetFunction)device->vtable[53])(device, data->handle, 0);
         data->active = false;
     }
@@ -107,12 +108,12 @@ struct MemoryManager
 struct NiShaderInstanceDescriptor
 {
     void* m_p;
-    void* __thiscall FUN_00e8d370(unsigned int mode);
+    void* FUN_00e8d370(unsigned int mode);
 };
 
 // Sets m_p to the address of DAT_010efeb4 and, when mode has bit 0 set, deallocates this via g_memoryManager, then returns this.
 // @fnv 0x00e8d370
-void* __thiscall NiShaderInstanceDescriptor::FUN_00e8d370(unsigned int mode)
+void* NiShaderInstanceDescriptor::FUN_00e8d370(unsigned int mode)
 {
     m_p = &DAT_010efeb4;
     if (mode & 1)
@@ -146,12 +147,12 @@ struct NiTPointerListBase_00e8b5f0
     void* m_pFirstNode;
     void* m_pTail;
     unsigned int m_uiItemCount;
-    void* __thiscall InsertHead(void* arg);
+    void* InsertHead(void* arg);
 };
 
 // Allocates a node from the pool at this+8, links it before the current head, updates the tail when the list was empty, increments the count and returns the node.
 // @fnv 0x00e8b5f0
-void* __thiscall NiTPointerListBase_00e8b5f0::InsertHead(void* arg)
+void* NiTPointerListBase_00e8b5f0::InsertHead(void* arg)
 {
     NodePoolView* pool = (NodePoolView*)((char*)this + 8);
     void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((pool))->FUN_0043a010()));
@@ -189,16 +190,16 @@ struct NiD3DVertexDeclaration
 
 struct NiConsoleShaderDeclaration_shellEx
 {
-    NiD3DVertexDeclaration* __thiscall FUN_00e8d410(unsigned int a, unsigned int b);
+    NiD3DVertexDeclaration* FUN_00e8d410(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x00e8d410
-NiD3DVertexDeclaration* __thiscall NiConsoleShaderDeclaration_shellEx::FUN_00e8d410(unsigned int a, unsigned int b)
+NiD3DVertexDeclaration* NiConsoleShaderDeclaration_shellEx::FUN_00e8d410(unsigned int a, unsigned int b)
 {
     NiD3DVertexDeclaration* p = ::FUN_00e76700(NiRenderer::ms_pRenderer, a, b);
     void** vtable = *(void***)this;
     void* fn = vtable[0x30];
-    ((void(__thiscall*)(NiConsoleShaderDeclaration_shellEx*, NiD3DVertexDeclaration*))fn)(this, p);
+    ((void(*)(NiConsoleShaderDeclaration_shellEx*, NiD3DVertexDeclaration*))fn)(this, p);
     return p;
 }
 
@@ -210,15 +211,14 @@ void __cdecl DispatchByIndex(void* a1, unsigned int auiArg2, unsigned int auiArg
     DAT_0126f738[*(int*)((char*)a1 + 0x134)]((char*)a1 + 0xF4, (char*)a1 + 0x118, auiArg2, auiArg3, auiArg4);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiFragmentShaderInstanceDescriptor
 {
     int _vtbl;
     void* m_pDescriptorData;
-    void* __thiscall FUN_00e8d540(unsigned int);
+    void* FUN_00e8d540(unsigned int);
 };
 // @fnv 0x00e8d540
-void* __thiscall NiFragmentShaderInstanceDescriptor::FUN_00e8d540(unsigned int flags)
+void* NiFragmentShaderInstanceDescriptor::FUN_00e8d540(unsigned int flags)
 {
     if ((int)m_pDescriptorData != (*reinterpret_cast<int *>(&::DAT_0109b220)))
         InterlockedDecrement((long volatile*)((int)m_pDescriptorData - 8));
@@ -240,7 +240,7 @@ struct FUN_00e8d5f0_Param
 };
 // Rejects a1 >= 1 or a null DAT_0126f74c; for a2->m8 of 0 calls FUN_00b79950, for 2 calls FUN_00b80600, and returns true.
 // @fnv 0x00e8d5f0
-bool __stdcall ProcessShaderParam(unsigned int a1, FUN_00e8d5f0_Param* pParam, void* pUnused)
+bool ProcessShaderParam(unsigned int a1, FUN_00e8d5f0_Param* pParam, void* pUnused)
 {
     if (a1 >= 1)
         return false;
@@ -367,7 +367,7 @@ struct S_00e8d590_Obj
 };
 void __cdecl FUN_00e804d0(S_00e8d590_Obj** out);
 // @fnv 0x00e8d590
-bool __stdcall FUN_00e8d590(int* out)
+bool FUN_00e8d590(int* out)
 {
     S_00e8d590_Obj* obj = 0;
     if ((*reinterpret_cast<::BSShaderBloodSplatter * *>(&::DAT_0126f74c)) == 0)
@@ -450,10 +450,10 @@ FUN_00e8db90::FUN_00e8db90(unsigned int a)
     new ((void *)&(m_3c.m_inner)) ::FUN_00ee8a10((*(const ::FUN_00ee8a10 *)(a)));
 }
 
-unsigned int __stdcall FUN_00e805b0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
+unsigned int FUN_00e805b0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
 
 // @fnv 0x00e8d250
-unsigned int __stdcall FUN_00e8d250(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
+unsigned int FUN_00e8d250(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
 {
     return FUN_00e805b0(a, b, c, d, e, f, g);
 }
@@ -547,7 +547,7 @@ extern void* g_pD3DRenderer;
 
 // Returns the pass's vertex or pixel constant map for shader type 0, creating and registering it if absent.
 // @fnv 0x00e8dca0
-NiD3DShaderConstantMap* __stdcall GetOrCreateShaderConstantMap(unsigned int auiShaderType, int eMapType)
+NiD3DShaderConstantMap* GetOrCreateShaderConstantMap(unsigned int auiShaderType, int eMapType)
 {
     if (auiShaderType >= 1)
         return 0;
@@ -578,14 +578,14 @@ NiD3DShaderConstantMap* __stdcall GetOrCreateShaderConstantMap(unsigned int auiS
 
 struct ShaderStandIn
 {
-    unsigned int __thiscall FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
+    unsigned int FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
 };
 struct FUN_00bd16e0_shell : ShaderStandIn
 {
-    unsigned int __thiscall FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
+    unsigned int FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
 };
 // @fnv 0x00bd16e0
-unsigned int __thiscall FUN_00bd16e0_shell::FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
+unsigned int FUN_00bd16e0_shell::FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
 {
     return FUN_00e81170(a, b, c, d, e, f, g);
 }
@@ -630,7 +630,7 @@ struct BloodSplatterView
 
 // Sets blood splatter node values and passes indexed array values to the view; returns false for an unsupported type or missing view.
 // @fnv 0x00e8d450
-bool __stdcall SetBloodSplatter(unsigned int auiShaderType, bool abEnabled, bool bParam3, int aiIndex, bool bParam5,
+bool SetBloodSplatter(unsigned int auiShaderType, bool abEnabled, bool bParam3, int aiIndex, bool bParam5,
                                 int aiSecondIndex)
 {
     if (auiShaderType >= 1)
@@ -788,7 +788,7 @@ class ShaderConstantMapE8D
 
 // Creates and adds an entry, then sets its fields according to predefined or object lookup results.
 // @fnv 0x00e8d630
-bool __stdcall AddShaderConstant(unsigned int uiFlags, unsigned int* puiIndex, const char* pcName,
+bool AddShaderConstant(unsigned int uiFlags, unsigned int* puiIndex, const char* pcName,
                                  unsigned int uiUnused3, unsigned int uiExtra)
 {
     if (uiFlags >= 1)

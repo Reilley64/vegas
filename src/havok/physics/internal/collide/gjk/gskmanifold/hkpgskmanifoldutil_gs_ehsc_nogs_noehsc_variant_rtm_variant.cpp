@@ -65,7 +65,7 @@ struct S_00dad4d0_Set
         return *(unsigned short*)((char*)&entries[count] + (off >> 3));
     }
 };
-void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
+void FUN_00dae220(int unused, S_00dad640_Set* set);
 void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index);
 #include <xmmintrin.h>
 struct __declspec(align(16)) S_00daee00_Vec
@@ -177,7 +177,7 @@ struct S_00dae220_Set
     unsigned char unk3;
     S_00dae220_Entry entries[1];
 };
-void __fastcall FUN_00dae220(int unused, S_00dae220_Set* set);
+void FUN_00dae220(int unused, S_00dae220_Set* set);
 extern "C" void _ReadWriteBarrier(void);
 struct ContactManifold
 {
@@ -229,8 +229,8 @@ static inline S_00dad4d0_Entry& ContactEntry(ContactManifold* set, unsigned inde
 {
     return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(set) + 4 + index * 8);
 }
-static void __fastcall FUN_00dae220(int, ContactManifold* set);
-static __declspec(noinline) void __fastcall FUN_00dae220(int, ContactManifold* set)
+static void FUN_00dae220(int, ContactManifold* set);
+static __declspec(noinline) void FUN_00dae220(int, ContactManifold* set)
 {
     __declspec(align(16)) unsigned int usedWords[4];
     _mm_store_ps(reinterpret_cast<float*>(usedWords), _mm_setzero_ps());

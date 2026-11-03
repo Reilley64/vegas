@@ -335,11 +335,11 @@ float __cdecl FUN_0047eeb0(unsigned char a)
 
 struct FUN_0047f7e0_shell
 {
-    unsigned short __thiscall FUN_0047f7e0(unsigned int aiFlags);
+    unsigned short FUN_0047f7e0(unsigned int aiFlags);
 };
 
 // @fnv 0x0047f7e0
-unsigned short __thiscall FUN_0047f7e0_shell::FUN_0047f7e0(unsigned int aiFlags)
+unsigned short FUN_0047f7e0_shell::FUN_0047f7e0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 8)
@@ -383,11 +383,11 @@ TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0047f8c0_shell
 {
-    void __thiscall FUN_0047f8c0(unsigned int arg1, unsigned int arg2);
+    void FUN_0047f8c0(unsigned int arg1, unsigned int arg2);
 };
 
 // @fnv 0x0047f8c0
-void __thiscall FUN_0047f8c0_shell::FUN_0047f8c0(unsigned int uiFlags, unsigned int arg2)
+void FUN_0047f8c0_shell::FUN_0047f8c0(unsigned int uiFlags, unsigned int arg2)
 {
     if (uiFlags & 8)
     {

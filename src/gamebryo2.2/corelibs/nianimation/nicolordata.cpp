@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicolordata.cpp: NiColorData, NiColorDataHack, NiColorDataA3D (9 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -593,8 +594,6 @@ void FUN_00a3d490_cls::FUN_00a3d490(FUN_00a3d490_arr* arr)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, (*(char * *)(&item)));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectD27
 {

@@ -99,7 +99,7 @@ struct DispatchTarget
 
 // For each pair member whose tag is 2, resolves a relative target and calls its v24 with the other member's offset-adjusted pointer.
 // @fnv 0x00cf6e40
-void __stdcall DispatchPairTargets(RefPair* apPair)
+void DispatchPairTargets(RefPair* apPair)
 {
     if (apPair->pFirst->tag == 2)
     {

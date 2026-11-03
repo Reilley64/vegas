@@ -223,8 +223,8 @@ public:
 struct BSFaceGenAnimationData_Vtable
 {
     char pad[0xb8];
-    void(__thiscall* vfn_b8)(void*, float, bool, bool, bool, bool, bool);
-    void(__thiscall* vfn_bc)(void*, float, bool, bool, bool, bool);
+    void(* vfn_b8)(void*, float, bool, bool, bool, bool, bool);
+    void(* vfn_bc)(void*, float, bool, bool, bool, bool);
 };
 
 // @fnv 0x0064a310
@@ -290,29 +290,29 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
 {
     float pmods[17];
 
-    reinterpret_cast<void(__thiscall*)(void*, bool, bool, bool, bool)>((*reinterpret_cast<void***>(this))[0xfc / 4])(
+    reinterpret_cast<void(*)(void*, bool, bool, bool, bool)>((*reinterpret_cast<void***>(this))[0xfc / 4])(
         this, abResetExpression, abResetPhoneme, abResetModifier, abResetCustomMorph);
 
     if (abResetExpression)
     {
-        reinterpret_cast<void(__thiscall*)(void*, float)>((*reinterpret_cast<void***>(
+        reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
             reinterpret_cast<char*>(this) + 0x10))[0x10 / 4])(reinterpret_cast<char*>(this) + 0x10, 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
-            reinterpret_cast<void(__thiscall*)(void*, int, float)>((*reinterpret_cast<void***>(this))[0x114 / 4])(
+            reinterpret_cast<void(*)(void*, int, float)>((*reinterpret_cast<void***>(this))[0x114 / 4])(
                 this, -1, 1.0f);
         }
         else
         {
-            reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(
+            reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
                 reinterpret_cast<char*>(this) + 0x10))[0x20 / 4])(reinterpret_cast<char*>(this) + 0x10, 1);
         }
     }
 
     if (abResetModifier)
     {
-        reinterpret_cast<void(__thiscall*)(void*, float)>((*reinterpret_cast<void***>(
+        reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
             reinterpret_cast<char*>(this) + 0x94))[0x10 / 4])(reinterpret_cast<char*>(this) + 0x94, 0.0f);
 
         if (afTime > ::_DAT_01012060)
@@ -322,25 +322,25 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
                 BSFaceGenManager::ApplyFaceGenValues(pmods, 0x11, 1);
                 pmods[0] = 1.0f;
                 pmods[1] = 1.0f;
-                reinterpret_cast<void(__thiscall*)(void*, float*, float)>((*reinterpret_cast<void***>(this))[0xf0 / 4])(
+                reinterpret_cast<void(*)(void*, float*, float)>((*reinterpret_cast<void***>(this))[0xf0 / 4])(
                     this, pmods, afTime);
             }
             else
             {
-                reinterpret_cast<void(__thiscall*)(void*, int, float, int)>(
+                reinterpret_cast<void(*)(void*, int, float, int)>(
                     (*reinterpret_cast<void***>(this))[0xf4 / 4])(this, 2, afTime, 1);
             }
         }
         else
         {
-            reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(
+            reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
                 reinterpret_cast<char*>(this) + 0x94))[0x20 / 4])(reinterpret_cast<char*>(this) + 0x94, 1);
 
             if (abForDeath)
             {
-                reinterpret_cast<void(__thiscall*)(void*, int, float)>((*reinterpret_cast<void***>(this))[0xa0 / 4])(
+                reinterpret_cast<void(*)(void*, int, float)>((*reinterpret_cast<void***>(this))[0xa0 / 4])(
                     this, 0, 1.0f);
-                reinterpret_cast<void(__thiscall*)(void*, int, float)>((*reinterpret_cast<void***>(this))[0xa0 / 4])(
+                reinterpret_cast<void(*)(void*, int, float)>((*reinterpret_cast<void***>(this))[0xa0 / 4])(
                     this, 1, 1.0f);
             }
         }
@@ -348,34 +348,34 @@ void FUN_0064a520_shell::ResetFaceGenData(float afTime, bool abResetExpression, 
 
     if (abResetPhoneme)
     {
-        reinterpret_cast<void(__thiscall*)(void*, float)>((*reinterpret_cast<void***>(
+        reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
             reinterpret_cast<char*>(this) + 0xc8))[0x10 / 4])(reinterpret_cast<char*>(this) + 0xc8, 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
-            reinterpret_cast<void(__thiscall*)(void*, int, float, int)>((*reinterpret_cast<void***>(this))[0xf4 / 4])(
+            reinterpret_cast<void(*)(void*, int, float, int)>((*reinterpret_cast<void***>(this))[0xf4 / 4])(
                 this, 0, afTime, 1);
         }
         else
         {
-            reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(
+            reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
                 reinterpret_cast<char*>(this) + 0xc8))[0x20 / 4])(reinterpret_cast<char*>(this) + 0xc8, 1);
         }
     }
 
     if (abResetCustomMorph)
     {
-        reinterpret_cast<void(__thiscall*)(void*, float)>((*reinterpret_cast<void***>(
+        reinterpret_cast<void(*)(void*, float)>((*reinterpret_cast<void***>(
             reinterpret_cast<char*>(this) + 0xfc))[0x10 / 4])(reinterpret_cast<char*>(this) + 0xfc, 0.0f);
 
         if (afTime > ::_DAT_01012060)
         {
-            reinterpret_cast<void(__thiscall*)(void*, int, float, int)>((*reinterpret_cast<void***>(this))[0xf4 / 4])(
+            reinterpret_cast<void(*)(void*, int, float, int)>((*reinterpret_cast<void***>(this))[0xf4 / 4])(
                 this, 3, afTime, 1);
         }
         else
         {
-            reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(
+            reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(
                 reinterpret_cast<char*>(this) + 0xfc))[0x20 / 4])(reinterpret_cast<char*>(this) + 0xfc, 1);
         }
     }
@@ -434,7 +434,7 @@ void FUN_0064b400_shell::SetMoodExpression(int aiMoodindex, bool abTalking)
     if (!reinterpret_cast<BSFaceGenKeyframeMultiple*>(reinterpret_cast<char*>(this) + 0x10)
              ->vfn_2c(*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c)))
     {
-        typedef void(__thiscall * Vfn120)(void*);
+        typedef void(* Vfn120)(void*);
         (*reinterpret_cast<Vfn120*>((*reinterpret_cast<char**>(this)) + 0x120))(this);
     }
 }
@@ -465,7 +465,7 @@ template <class Alloc, class T> class NiTPointerListBase
 
 // Removes the head node from the list, fixes up head/tail links, deletes the node, decrements the count and returns its Script element.
 // @fnv 0x007b5390
-Script* __fastcall PopFrontScript(NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*>* pThis)
+Script* PopFrontScript(NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*>* pThis)
 {
     NiTListItem<Script*>* pkNode = pThis->m_pkHead;
     pThis->m_pkHead = pThis->m_pkHead->m_pkNext;
@@ -573,7 +573,6 @@ struct NiPoint2
     float x;
     float y;
 };
-typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 struct FUN_0064b630_shell : public BSFaceGenAnimationData
 {
     bool UpdateFaceGenAnimation(float);
@@ -1727,7 +1726,7 @@ class ListBase
     Keyframe* RemoveHead();
 };
 
-unsigned __fastcall FUN_0044ddc0(void*);
+unsigned FUN_0044ddc0(void*);
 
 class Keyframe
 {

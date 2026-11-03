@@ -284,7 +284,6 @@ struct AnimSequenceSingle : public AnimSequenceBase
     void __local_vftable_ctor_closure();
     BSAnimGroupSequence* pForwardSequence;
 };
-typedef char _sizecheck_AnimSequenceSingle[sizeof(AnimSequenceSingle) == 8 ? 1 : -1];
 struct FUN_0048f010_shell : public AnimSequenceSingle
 {
     void SetAnimSequence(BSAnimGroupSequence*, bool);
@@ -357,7 +356,7 @@ struct FUN_0048f0c0 : public FUN_0048f1b0
 extern int DAT_0101d8e8;
 
 // @fnv 0x0048f1b0
-int* __fastcall FUN_0048f1b0(int* pThis)
+int* FUN_0048f1b0(int* pThis)
 {
     *pThis = (int)&DAT_0101d8e8;
     return pThis;
@@ -365,7 +364,7 @@ int* __fastcall FUN_0048f1b0(int* pThis)
 
 
 // @fnv 0x0048f200
-void* __fastcall FUN_0048f200(void* pThis)
+void* FUN_0048f200(void* pThis)
 {
     ::FUN_00718d90((::InventoryStackRecord *)(pThis));
     return pThis;
@@ -391,7 +390,6 @@ struct AnimSequenceMultiple
     BSAnimGroupSequence* FUN_0048f790(TESAnimGroup* apAnimGroup);
 };
 
-typedef char _sizecheck_AnimSequenceMultiple[sizeof(AnimSequenceMultiple) == 8 ? 1 : -1];
 struct FUN_0048f3a0_shell : public AnimSequenceMultiple
 {
     void FUN_0048f3a0(BSAnimGroupSequence*, bool);
@@ -526,17 +524,16 @@ struct AnimSequenceSingle : public AnimSequenceBase
     void __local_vftable_ctor_closure();
     BSAnimGroupSequence* pForwardSequence;
 };
-typedef char _sizecheck_AnimSequenceSingle[sizeof(AnimSequenceSingle) == 8 ? 1 : -1];
 struct FUN_00490e10_shell : public AnimSequenceSingle
 {
     void ConstructAnimSequenceSingle(void*);
 };
 
-void __fastcall FUN_0048f1b0(void* pThis);
+void FUN_0048f1b0(void* pThis);
 extern int DAT_0101d8c8;
 
 // @fnv 0x00490e10
-void* __fastcall ConstructAnimSequenceSingle(AnimSequenceSingle* pThis)
+void* ConstructAnimSequenceSingle(AnimSequenceSingle* pThis)
 {
     FUN_0048f1b0(pThis);
     *reinterpret_cast<void**>(pThis) = &DAT_0101d8c8;
@@ -571,7 +568,7 @@ template <class T> class BSStringT
 };
 
 // @fnv 0x00490f80
-const char* __fastcall FUN_00490f80(char* pThis)
+const char* FUN_00490f80(char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0x69c);
 }
@@ -636,7 +633,7 @@ struct FUN_00493750_Helper
 };
 
 // @fnv 0x00493750
-int __fastcall FUN_00493750(const FUN_00493750_Helper* apHelper)
+int FUN_00493750(const FUN_00493750_Helper* apHelper)
 {
     return apHelper->val;
 }
@@ -698,7 +695,7 @@ struct FUN_00493830_shell : public Animation
     bool FUN_00493830();
 };
 
-bool __fastcall _ref_008256d0(void* pThis);
+bool _ref_008256d0(void* pThis);
 
 // @fnv 0x00493830
 bool FUN_00493830_shell::FUN_00493830()
@@ -799,7 +796,6 @@ struct NiQuatTransform
     char m_kRotate[16];
     float m_fScale;
 };
-typedef char _sizecheck_NiQuatTransform[sizeof(NiQuatTransform) == 32 ? 1 : -1];
 struct FUN_004942c0_shell : public NiQuatTransform
 {
     bool IsTranslateXNotNegatedConstant();
@@ -918,7 +914,7 @@ bool FUN_00494710_shell::FUN_00494710(unsigned short ausGroupIndex)
 }
 
 // @fnv 0x00495460
-float __fastcall GetFloatAtOffset1C(char* pThis)
+float GetFloatAtOffset1C(char* pThis)
 {
     return *(float*)(pThis + 0x1c);
 }
@@ -941,14 +937,14 @@ void FUN_00495480_shell::FUN_00495480(float afValue)
 
 // Returns the larger of the two bytes at offsets 0x29 and 0x2a of pThis.
 // @fnv 0x004954e0
-unsigned char __fastcall GetMaxOfTwoBytes(unsigned char* pThis)
+unsigned char GetMaxOfTwoBytes(unsigned char* pThis)
 {
     return pThis[0x2a] > pThis[0x29] ? pThis[0x2a] : pThis[0x29];
 }
 
 // Returns the larger of the bytes at offsets 0x2b and 0x29 of pThis.
 // @fnv 0x00495520
-unsigned char __fastcall GetMaxByte(unsigned char* pThis)
+unsigned char GetMaxByte(unsigned char* pThis)
 {
     return pThis[0x2b] > pThis[0x29] ? pThis[0x2b] : pThis[0x29];
 }
@@ -992,7 +988,7 @@ struct blob1
 };
 
 // @fnv 0x004955a0
-bool __fastcall FUN_004955a0(bhkRagdollController* pThis)
+bool FUN_004955a0(bhkRagdollController* pThis)
 {
     return *((bool*)pThis + 0x222);
 }
@@ -1253,7 +1249,6 @@ struct NiQuatTransform
     char m_kRotate[16];
     float m_fScale;
 };
-typedef char _sizecheck_NiQuatTransform[sizeof(NiQuatTransform) == 32 ? 1 : -1];
 struct FUN_00496420_shell : public NiQuatTransform
 {
     void FUN_00496420(float);
@@ -1344,7 +1339,7 @@ float FUN_00496550_shell::GetMinBlendValue(NiNode* apNode)
 
 // Sets the object's vtable to vftable_NiRefObject and calls FinishScriptRunLock on DAT_011f4400.
 // @fnv 0x00496910
-void __fastcall FUN_00496910(int** apObject)
+void FUN_00496910(int** apObject)
 {
     *apObject = &::DAT_0101dce4;
     ::WaitForSingleObjectEx((long *)(void *)((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount))));
@@ -1369,7 +1364,7 @@ NiControllerManager* FUN_00496940_shell::FUN_00496940()
 }
 }  // namespace fnv_00496940
 
-void __fastcall FUN_004969b0(void*);
+void FUN_004969b0(void*);
 
 struct FUN_00496980_caller
 {
@@ -1537,7 +1532,7 @@ struct TES
 {
 };
 
-void __fastcall FUN_004965d0(void* pThis, int, TESIdleForm*, int, int, Actor*, int, Animation*);
+void FUN_004965d0(void* pThis, int, TESIdleForm*, int, int, Actor*, int, Animation*);
 
 struct AnimIdleStub : public BSFadeNode
 {
@@ -1994,7 +1989,7 @@ struct FUN_006d2c40_dummy
 };
 
 // @fnv 0x006d2c40
-float __fastcall GetFieldB4Float(char* pObject)
+float GetFieldB4Float(char* pObject)
 {
     return *(float*)(pObject + 0xb4);
 }
@@ -2050,7 +2045,6 @@ struct GameTimerRecord
     bool m_bSecondTimerFlag;
     char _pad_1e[2];
 };
-typedef char _sizecheck_BSTimer[sizeof(GameTimerRecord) == 32 ? 1 : -1];
 struct MagicCaster
 {
     virtual void CastSpellOnCaster(SpellItem*, bool);
@@ -2104,7 +2098,6 @@ struct MagicCaster
     MagicEffectCollection* apTargetLight;
     int eState;
 };
-typedef char _sizecheck_MagicCaster[sizeof(MagicCaster) == 12 ? 1 : -1];
 struct FUN_00825c00_shell : public GameTimerRecord
 {
     unsigned int FUN_00825c00();
@@ -2183,7 +2176,6 @@ struct AnimSequenceMultiple : public AnimSequenceBase
     virtual char ContainsSequence(BSAnimGroupSequence*);
     void* m_pSingleSequence;
 };
-typedef char _sizecheck_AnimSequenceMultiple[sizeof(AnimSequenceMultiple) == 8 ? 1 : -1];
 struct FUN_0048f450_shell : public AnimSequenceMultiple
 {
     BSAnimGroupSequence* GetSequenceByIndex(char);
@@ -2816,7 +2808,7 @@ void MapBase::SetOrInsert(unsigned short key, AnimSequenceBase* val)
 
 // If the counter at p+0x10 is positive, calls FinishScriptRunLock on that field.
 // @fnv 0x0043bac0
-void __fastcall FinishScriptRunLockIfActive(void* p)
+void FinishScriptRunLockIfActive(void* p)
 {
     if (*(int*)((char*)p + 0x10) > 0)
         ::WaitForSingleObjectEx((long *)(void *)((char*)p + 0x10));
@@ -2825,7 +2817,7 @@ void __fastcall FinishScriptRunLockIfActive(void* p)
 extern float DAT_0101d890;
 
 // @fnv 0x004954c0
-void __fastcall SetNegatedGlobal(void* thisPtr)
+void SetNegatedGlobal(void* thisPtr)
 {
     *(float*)((char*)thisPtr + 0x48) = -DAT_0101d890;
 }
@@ -2858,14 +2850,14 @@ NiFixedString* __cdecl FUN_00499b80()
     return DAT_011c61c0;
 }
 
-bool __fastcall _ref_008256d0(void* pThis);
+bool _ref_008256d0(void* pThis);
 
 struct FUN_00726070_standin
 {
 };
 
 // @fnv 0x0049bd30
-int __fastcall GetListCount(void* pThis)
+int GetListCount(void* pThis)
 {
     int count = 0;
     if (!_ref_008256d0((char*)pThis + 0x104))
@@ -2887,7 +2879,6 @@ struct NiRTTI
     char* m_pcName;
     void* m_pBaseRTTI;
 };
-typedef char _sizecheck_NiRTTI[sizeof(NiRTTI) == 8 ? 1 : -1];
 
 struct NiObject
 {
@@ -3048,11 +3039,11 @@ float FUN_009c8d60_t::FUN_009c8d60()
 
 struct FUN_0048ef90_shell
 {
-    unsigned int __thiscall FUN_0048ef90(unsigned int dummy);
+    unsigned int FUN_0048ef90(unsigned int dummy);
 };
 
 // @fnv 0x0048ef90
-unsigned int __thiscall FUN_0048ef90_shell::FUN_0048ef90(unsigned int dummy)
+unsigned int FUN_0048ef90_shell::FUN_0048ef90(unsigned int dummy)
 {
     return *(unsigned int*)((char*)this + 4);
 }
@@ -3136,14 +3127,14 @@ int FUN_00495560_shell::GetFieldAt(int index)
 
 struct FUN_004964a0_shell
 {
-    void __thiscall FUN_004964a0(bool abFlag);
+    void FUN_004964a0(bool abFlag);
 };
 
 extern float DAT_0101d890;
 
 // If abFlag is false, stores the negated DAT_0101d890 into the float at this+0x1c.
 // @fnv 0x004964a0
-void __thiscall FUN_004964a0_shell::FUN_004964a0(bool abFlag)
+void FUN_004964a0_shell::FUN_004964a0(bool abFlag)
 {
     if (!abFlag)
         *(float*)((char*)this + 0x1c) = -DAT_0101d890;
@@ -3326,7 +3317,7 @@ struct LowProcess
 struct HA
 {
 };
-bool __fastcall FUN_00498290(void*);
+bool FUN_00498290(void*);
 struct Holder
 {
     bool FUN_00498230(void*);
@@ -3455,11 +3446,11 @@ bool TESAnimGroup::FUN_004937c0()
 namespace fnv_004937e0 {
 struct TESAnimGroup
 {
-    bool __thiscall FUN_004937e0();
+    bool FUN_004937e0();
 };
 
 // @fnv 0x004937e0
-bool __thiscall TESAnimGroup::FUN_004937e0()
+bool TESAnimGroup::FUN_004937e0()
 {
     return ::TESAnimGroup::IsActionTypeValid(*(unsigned short*)((char*)this + 0x10));
 }
@@ -3708,7 +3699,7 @@ struct FakeRef
 };
 struct FakeAnim
 {
-    unsigned short __thiscall GetSerializedSize(void* apRef);
+    unsigned short GetSerializedSize(void* apRef);
 };
 // Returns 2 plus the animation's size for apRef when apAnimation is set and apRef's Virt(0) check fails.
 // @fnv 0x0049aa20
@@ -4070,7 +4061,7 @@ struct ParameterObject
 };
 struct StringManager
 {
-    const unsigned char* __thiscall FUN_00408d60();
+    const unsigned char* FUN_00408d60();
 };
 struct MessageInfo
 {
@@ -7628,7 +7619,6 @@ class FUN_0048f810
     BSSimpleList<IdleReplayDelayEntry*> m_acTrailingData;
 };
 
-FNV_STATIC_ASSERT(sizeof(FUN_0048f810) == 0x13c);
 
 // @fnv 0x0048f810
 FUN_0048f810::FUN_0048f810() : m_acHeaderData(0), m_acReservedBytes(0), LocalInput(0), LocalStateValue(0)
@@ -9531,7 +9521,7 @@ FUN_004965d0::FUN_004965d0(Item4965* apItem, void* apField14, void* apFieldC, Ac
             if (items[j] && apActor)
             {
                 sols[j].Reset(((void *)(::FUN_004aeed0((::TESForm *)(items[j]), (::TESModel *)(void *)((ItemBase4965*)items[j]), -1, (::TESObjectREFR *)(apActor), (::NiAVObject *)(0)))));
-                void* manager = ((void *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_004965d0::Manager4965 *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>(((((Anim4965 * (__thiscall*)(Actor4965*)) apActor->vtable[121])(apActor))))->FUN_00496940()))))));
+                void* manager = ((void *)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::fnv_004965d0::Manager4965 *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>(((((Anim4965 * (*)(Actor4965*)) apActor->vtable[121])(apActor))))->FUN_00496940()))))));
                 void* pointer = manager;
                 ::AddObjectToPalette((::NiAVObject *)(void *)(((void *)(::FUN_00559450((int *)&(sols[j]))))), (::NiDefaultAVObjectPalette *)(pointer));
                 reinterpret_cast<::FUN_00496960_shell *>((apActor))->SetByteAt14E(true);

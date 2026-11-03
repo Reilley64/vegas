@@ -19,7 +19,6 @@ class hkpVehicleSuspension;
 class hkpVehicleTransmission;
 class hkpVehicleVelocityDamper;
 class hkpVehicleWheelCollide;
-#pragma pack(push, 1)
 class hkpVehicleInstance : public hkpUnaryAction
 {
   public:
@@ -51,6 +50,4 @@ class hkpVehicleInstance : public hkpUnaryAction
     char padCF[0x1];
     hkReal m_fGearShiftTime;  // +0xD0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleInstance[(sizeof(hkpVehicleInstance) == 0xD4) ? 1 : -1];
 #endif

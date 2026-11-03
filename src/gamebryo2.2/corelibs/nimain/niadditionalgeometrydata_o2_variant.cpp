@@ -29,7 +29,7 @@ struct P03MM
 };
 
 // @fnv 0x00a72510
-void* __stdcall FUN_00a72510(unsigned int size)
+void* FUN_00a72510(unsigned int size)
 {
     if (size)
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
@@ -39,7 +39,7 @@ void* __stdcall FUN_00a72510(unsigned int size)
 namespace fnv_00a727c0 {
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int size);
+    void* Allocate(unsigned int size);
 };
 extern int DAT_0109cf58;
 struct NiAGDDataBlock
@@ -169,11 +169,11 @@ class FUN_00a72530_owner
     unsigned int unk08;
     unsigned char unk0c;
 
-    void __thiscall FUN_00a72530(unsigned int value);
+    void FUN_00a72530(unsigned int value);
 };
 
 // @fnv 0x00a72530
-void __thiscall FUN_00a72530_owner::FUN_00a72530(unsigned int value)
+void FUN_00a72530_owner::FUN_00a72530(unsigned int value)
 {
     if (value == 0 && unk0c != 0)
         value = unk08;

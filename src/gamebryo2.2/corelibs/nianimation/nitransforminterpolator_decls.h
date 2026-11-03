@@ -1,9 +1,9 @@
 #ifndef NITRANSFORMINTERPOLATOR_DECLS_H
 #define NITRANSFORMINTERPOLATOR_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_0058cb00_Class.h"
 #include "fnv/symbols_00a26000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 #include "nitransforminterpolator_types_NiQuatTransform.h"
 #include "nitransforminterpolator_types_NiTransformData.h"
 

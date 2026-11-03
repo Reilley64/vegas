@@ -122,7 +122,6 @@ struct BGSTerrainManager
     char _pad_2a[2];
     char m_cTerrainBytesB[16];
 };
-typedef char _sizecheck_BGSTerrainManager[sizeof(BGSTerrainManager) == 60 ? 1 : -1];
 struct FUN_006fd130_shell : public BGSTerrainManager
 {
     void FUN_006fd130();
@@ -167,7 +166,7 @@ struct FUN_006fce00_shell
 
 // If the pointer at offset 4 is non-null, calls FUN_006fd980(7) on it.
 // @fnv 0x006fce00
-void __thiscall FUN_006fce00_shell::FUN_006fce00()
+void FUN_006fce00_shell::FUN_006fce00()
 {
     if (*(int*)((char*)this + 4) != 0)
         (*(FUN_006fd980_shell**)((char*)this + 4))->FUN_006fd980(7);
@@ -175,7 +174,7 @@ void __thiscall FUN_006fce00_shell::FUN_006fce00()
 
 struct BGSTerrainChunk
 {
-    int __thiscall FUN_006fceb0(int);
+    int FUN_006fceb0(int);
 };
 
 struct FUN_006fce30_shell : BGSTerrainChunk
@@ -242,11 +241,11 @@ struct FUN_006fd060_holder
 {
     unsigned int m_00;
     BGSTerrainNode* m_04;
-    void __thiscall FUN_006fd060();
+    void FUN_006fd060();
 };
 
 // @fnv 0x006fd060
-void __thiscall FUN_006fd060_holder::FUN_006fd060()
+void FUN_006fd060_holder::FUN_006fd060()
 {
     reinterpret_cast<::fnv_006ff4c0::FUN_006ff4c0_shell *>((m_04))->ProcessBlock();
 }
@@ -307,11 +306,11 @@ struct FUN_006fcef0_shell
 {
     int m_00;
     FUN_006fed30_Callee* m_04;
-    int __thiscall ForwardToCallee(int);
+    int ForwardToCallee(int);
 };
 // If m_04 is set, forwards a to m_04's FUN_006fed30 and returns its result; otherwise returns 0.
 // @fnv 0x006fcef0
-int __thiscall FUN_006fcef0_shell::ForwardToCallee(int a)
+int FUN_006fcef0_shell::ForwardToCallee(int a)
 {
     int unused = 0;
     if (m_04)

@@ -1,6 +1,7 @@
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -26,11 +27,11 @@ struct NiObject
 
 struct FUN_00c36040_Class
 {
-    void __thiscall FUN_00c36040(NiStream* stream);
+    void FUN_00c36040(NiStream* stream);
 };
 
 // @fnv 0x00c36040
-void __thiscall FUN_00c36040_Class::FUN_00c36040(NiStream* stream)
+void FUN_00c36040_Class::FUN_00c36040(NiStream* stream)
 {
     reinterpret_cast<::FUN_00a5d610_Object *>((((NiObject*)this)))->ReadGroup((::NiStream *)&(*stream));
     reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
@@ -69,12 +70,12 @@ void Holder::FUN_00c36070(class NiStream& stream)
 
 struct FUN_00c36220_class
 {
-    void* __thiscall AppendCameraPathEntries(int);
-    void* __thiscall FUN_00c36220(int arg);
+    void* AppendCameraPathEntries(int);
+    void* FUN_00c36220(int arg);
 };
 
 // @fnv 0x00c36220
-void* __thiscall FUN_00c36220_class::FUN_00c36220(int arg)
+void* FUN_00c36220_class::FUN_00c36220(int arg)
 {
     return AppendCameraPathEntries(arg);
 }
@@ -92,7 +93,6 @@ void* S_00c36290::FUN_00c36290(unsigned int flags)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct R_00c362c0
 {
     virtual void f0();
@@ -119,11 +119,11 @@ void S_00c362c0::FUN_00c362c0()
 
 struct FUN_00c36300_Class
 {
-    void* __thiscall FUN_00c36300();
+    void* FUN_00c36300();
 };
 
 // @fnv 0x00c36300
-void* __thiscall FUN_00c36300_Class::FUN_00c36300()
+void* FUN_00c36300_Class::FUN_00c36300()
 {
     return &(*reinterpret_cast<void * *>(&::g_01202810));
 }
@@ -137,8 +137,8 @@ struct BSMultiBound
 };
 struct FUN_00c35f50_class
 {
-    void __thiscall FUN_00c35fe0(BSMultiBound*, int);
-    BSMultiBound* __thiscall FUN_00c35f50(int);
+    void FUN_00c35fe0(BSMultiBound*, int);
+    BSMultiBound* FUN_00c35f50(int);
 };
 
 // @fnv 0x00c35f50

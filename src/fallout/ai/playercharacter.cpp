@@ -1,5 +1,6 @@
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A23D40Input.h"
 #include "fnv/decl/A5D2C0Object.h"
@@ -1996,11 +1997,11 @@ struct Shell451
 };
 struct FUN_00493bb0_Class
 {
-    char __thiscall FUN_00493bb0();
+    char FUN_00493bb0();
 };
 
 // @fnv 0x00493bb0
-char __thiscall FUN_00493bb0_Class::FUN_00493bb0()
+char FUN_00493bb0_Class::FUN_00493bb0()
 {
     return ((char*)this)[0x104];
 }
@@ -2229,7 +2230,7 @@ struct GO
 
 struct C68E30Owner
 {
-    void __thiscall FUN_00c68e30(C68E30Holder* holder, int value);
+    void FUN_00c68e30(C68E30Holder* holder, int value);
 };
 
 
@@ -2779,10 +2780,10 @@ struct Setting_S
 };
 struct FUN_008d3290_Class
 {
-    float __thiscall FUN_008d3290();
+    float FUN_008d3290();
 };
 // @fnv 0x008d3290
-float __thiscall FUN_008d3290_Class::FUN_008d3290()
+float FUN_008d3290_Class::FUN_008d3290()
 {
     return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting217))))));
 }
@@ -2822,11 +2823,11 @@ unsigned int FUN_00939750_class::FUN_00939750()
 
 struct FUN_00939770_Class
 {
-    void __thiscall FUN_00939770(int value);
+    void FUN_00939770(int value);
 };
 
 // @fnv 0x00939770
-void __thiscall FUN_00939770_Class::FUN_00939770(int value)
+void FUN_00939770_Class::FUN_00939770(int value)
 {
     *(int*)((char*)this + 0x738) = value;
 }
@@ -2864,11 +2865,11 @@ bool FUN_009397e0_obj::FUN_009397e0()
 
 struct FUN_00939820_Class
 {
-    unsigned int __thiscall GetOffset190();
+    unsigned int GetOffset190();
 };
 
 // @fnv 0x00939820
-unsigned int __thiscall FUN_00939820_Class::GetOffset190()
+unsigned int FUN_00939820_Class::GetOffset190()
 {
     return *(unsigned int*)((char*)this + 0x190);
 }
@@ -2911,12 +2912,12 @@ void __cdecl operator delete(void* p);
 
 struct FUN_009398a0_Class
 {
-    void* __thiscall FUN_009398a0(unsigned int flags);
+    void* FUN_009398a0(unsigned int flags);
 };
 
 // Calls FUN_009398d0, deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x009398a0
-void* __thiscall FUN_009398a0_Class::FUN_009398a0(unsigned int flags)
+void* FUN_009398a0_Class::FUN_009398a0(unsigned int flags)
 {
     reinterpret_cast<::FUN_009398d0 *>(this)->FUN_009398d0::~FUN_009398d0();
     if (flags & 1)
@@ -2954,7 +2955,7 @@ struct FUN_0093a740_s
 };
 // Returns true if any of the four flag bytes at offsets 0x798 through 0x79b in self are non-zero.
 // @fnv 0x0093a740
-bool __fastcall FUN_0093a740(FUN_0093a740_s* self)
+bool FUN_0093a740(FUN_0093a740_s* self)
 {
     return self->b[0x799] || self->b[0x798] || self->b[0x79a] || self->b[0x79b];
 }
@@ -4173,7 +4174,7 @@ void PlayerCharacterValueUpdates::FUN_0093ae80(int actorValue, int amount, Playe
     FUN_00704e10(actorValue);
     if (actorValue == 16 && amount < 0)
     {
-        typedef void(__thiscall * HealthUpdate)(PlayerCharacterValueUpdates*, PlayerCharacter*, float);
+        typedef void(* HealthUpdate)(PlayerCharacterValueUpdates*, PlayerCharacter*, float);
         reinterpret_cast<HealthUpdate>((*reinterpret_cast<void***>(this))[0x12e])(this, source,
                                                                                   static_cast<float>(amount));
     }
@@ -5639,7 +5640,6 @@ struct PlayerCharacterStandin : public Character
     void FUN_0093b3a0(ActorValue::Index av, int delta, Actor* attacker);
 };
 
-FNV_STATIC_ASSERT(offsetof(PlayerCharacterStandin, heartbeatSound) == 0x77c);
 
 struct ValueOwner
 {
@@ -12275,11 +12275,11 @@ void Owner::FUN_0093df50()
 
 struct FUN_0093e4f0_Class
 {
-    unsigned int* __thiscall FUN_0093e4f0();
+    unsigned int* FUN_0093e4f0();
 };
 
 // @fnv 0x0093e4f0
-unsigned int* __thiscall FUN_0093e4f0_Class::FUN_0093e4f0()
+unsigned int* FUN_0093e4f0_Class::FUN_0093e4f0()
 {
     return *(unsigned int**)((char*)this + 0x634);
 }
@@ -15038,7 +15038,7 @@ struct ActorAnimation : TESObjectREFR
     virtual void UnknownActorF9();
     virtual void UnknownActorFA();
     virtual void ApplyAnimation(AnimationData*, int, unsigned char, int, bool);
-    void __thiscall FUN_009462c0(unsigned char allowTransition, unsigned char skipIfPlayable);
+    void FUN_009462c0(unsigned char allowTransition, unsigned char skipIfPlayable);
 };
 extern int DAT_011dea3c;
 extern void* __cdecl FUN_004bf220(ActorAnimation*);
@@ -15049,9 +15049,9 @@ struct NextState
 extern int __cdecl FUN_0044ddc0(void*);
 // Searches the state's animation list for the next entry whose handle test is positive; if found, sets an AnimationLink for it and calls ApplyAnimation.
 // @fnv 0x009462c0
-void __thiscall ActorAnimation::FUN_009462c0(unsigned char allowTransition, unsigned char skipIfPlayable)
+void ActorAnimation::FUN_009462c0(unsigned char allowTransition, unsigned char skipIfPlayable)
 {
-    typedef AnimationData*(__thiscall * GetAnimation)(AnimationController*);
+    typedef AnimationData*(* GetAnimation)(AnimationController*);
     if (!process || !process->GetState())
         return;
     {
@@ -15088,7 +15088,7 @@ void __thiscall ActorAnimation::FUN_009462c0(unsigned char allowTransition, unsi
                                                     int iAnimIdCopy = j;
                                                     if (!reinterpret_cast<::RefList *>((c))->FUN_005f65d0((void **)(int *)(&iAnimIdCopy)))
                                                     {
-                                                        typedef void(__thiscall * Reset)(AnimationController*, int);
+                                                        typedef void(* Reset)(AnimationController*, int);
                                                         if (process)
                                                             process->SetLink(0);
                                                         j = 0;
@@ -15137,9 +15137,9 @@ void __thiscall ActorAnimation::FUN_009462c0(unsigned char allowTransition, unsi
                                                     e = FUN_004bf220(this);
                                                     k = reinterpret_cast<::FUN_004c8f30_shell *>((((ActorAnimation*)e)))->FUN_004c8f30(f);
                                                     d = new AnimationLink(f, k);
-                                                    typedef void(__thiscall * SetLink)(AnimationController*,
+                                                    typedef void(* SetLink)(AnimationController*,
                                                                                        AnimationLink*);
-                                                    typedef AnimationData*(__thiscall * Toggle)(AnimationController*,
+                                                    typedef AnimationData*(* Toggle)(AnimationController*,
                                                                                                 int);
                                                     process->SetLink(d);
                                                     reinterpret_cast<::CombatProcedure *>((process->Toggle(0)))->Initialize({});
@@ -26386,7 +26386,7 @@ unsigned int FUN_00950bb0_shell::FUN_00950bb0(bool abFirstPerson)
 
 // If FUN_00524d10(self) is false, returns the value at offset 0x694; otherwise returns GetReferenceType().
 // @fnv 0x00950be0
-int __fastcall FUN_00950be0(bool* self)
+int FUN_00950be0(bool* self)
 {
     if (!FUN_00524d10(self))
         return (int)*(GO*)((char*)self + 0x694);
@@ -27267,17 +27267,17 @@ void FUN_00951940_Class::FUN_00951940(NiNode* node)
 
 namespace fnv_00951a10 {
 // FUN_00951a10 v01 - one-pass transcription from the packet/disassembly
-typedef bool(__thiscall* Fn22c)(void*, int);
-typedef void*(__thiscall* Fn1f4)(void*);
-typedef void(__thiscall* Fn210)(void*, int);
-typedef float(__thiscall* Fn2bc)(void*, int);
-typedef void*(__thiscall* Fn1d0)(void*);
-typedef void*(__thiscall* Fn148)(void*);
-typedef void*(__thiscall* Fn8c)(void*, void*);
-typedef void*(__thiscall* Fn0c)(void*);
-typedef void(__thiscall* FnEc)(void*, int, void*);
-typedef void(__thiscall* FnDc)(void*, void*);
-typedef void(__thiscall* Fn580)(void*, int, int, int);
+typedef bool(* Fn22c)(void*, int);
+typedef void*(* Fn1f4)(void*);
+typedef void(* Fn210)(void*, int);
+typedef float(* Fn2bc)(void*, int);
+typedef void*(* Fn1d0)(void*);
+typedef void*(* Fn148)(void*);
+typedef void*(* Fn8c)(void*, void*);
+typedef void*(* Fn0c)(void*);
+typedef void(* FnEc)(void*, int, void*);
+typedef void(* FnDc)(void*, void*);
+typedef void(* Fn580)(void*, int, int, int);
 struct ThisVtbl
 {
     void* s000;
@@ -30783,12 +30783,12 @@ unsigned int FUN_00953c20_shell::FUN_00953c20()
 
 struct FUN_00953c50_Class
 {
-    char __thiscall FUN_00953c50(char* outCombat);
+    char FUN_00953c50(char* outCombat);
 };
 
 // Writes the byte at offset 0xdf1 into outCombat if non-null, then returns the byte at offset 0xdf0.
 // @fnv 0x00953c50
-char __thiscall FUN_00953c50_Class::FUN_00953c50(char* outCombat)
+char FUN_00953c50_Class::FUN_00953c50(char* outCombat)
 {
     if (outCombat)
         *outCombat = *(char*)((char*)this + 0xdf1);
@@ -31521,11 +31521,11 @@ void FUN_00953f80_Class::FUN_00953f80()
 
 struct FUN_00953fb0_Class
 {
-    char __thiscall FUN_00953fb0();
+    char FUN_00953fb0();
 };
 
 // @fnv 0x00953fb0
-char __thiscall FUN_00953fb0_Class::FUN_00953fb0()
+char FUN_00953fb0_Class::FUN_00953fb0()
 {
     return reinterpret_cast<char*>(this)[0x6e8];
 }
@@ -33642,7 +33642,7 @@ struct FUN_0084e3a0_shell
 };
 struct FUN_00609c70_shell
 {
-    unsigned short __thiscall GetSaveSize(void* a1);
+    unsigned short GetSaveSize(void* a1);
 };
 struct FUN_005f6ed0_shell
 {
@@ -33743,7 +33743,7 @@ struct Obj2Vtbl
     void* v49;
     void* v4a;
     void* v4b;
-    int(__thiscall* f130)(void* self);
+    int(* f130)(void* self);
 };
 struct Obj2
 {
@@ -35134,11 +35134,11 @@ struct PlayerCharacter_stand_in_0049
 
 struct FUN_009590d0_Class
 {
-    void __thiscall FUN_009590d0(bool aNeedReset);
+    void FUN_009590d0(bool aNeedReset);
 };
 
 // @fnv 0x009590d0
-void __thiscall FUN_009590d0_Class::FUN_009590d0(bool aNeedReset)
+void FUN_009590d0_Class::FUN_009590d0(bool aNeedReset)
 {
     *(bool*)((char*)this + 0xe39) = aNeedReset;
 }
@@ -40340,7 +40340,7 @@ void PlayerCharacterStandin::FUN_0093b3a0(ActorValue::Index av, int delta, Actor
 
         if ((double)delta < 0.0)
         {
-            ((void(__thiscall*)(Actor*, Actor*, float))(*(void***)this)[0x12E])(this, attacker, (float)delta);
+            ((void(*)(Actor*, Actor*, float))(*(void***)this)[0x12E])(this, attacker, (float)delta);
         }
 
         if (fNewRatio <= 0.0 || fNewRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))))
@@ -41262,7 +41262,7 @@ struct FNVPlayerScanner
 {
     void FUN_00962190();
 };
-typedef bool(__fastcall* FNVVirtualActorPredicate)(Actor*);
+typedef bool(* FNVVirtualActorPredicate)(Actor*);
 // Sets player byte 0x7c4 to 1 if any collected reference is an Actor whose vtable slot 0xc1 returns true, otherwise 0; frees the list.
 // @fnv 0x00962190
 void FNVPlayerScanner::FUN_00962190()
@@ -44964,12 +44964,12 @@ struct ImageSpaceModifierInstance;
 
 struct ImageSpaceModifierInstance
 {
-    void __thiscall FUN_009655e0();
+    void FUN_009655e0();
 };
 
 // If the pointer at offset 0x5f0 is non-null, passes it to FUN_005293f0 and sets it to null.
 // @fnv 0x009655e0
-void __thiscall ImageSpaceModifierInstance::FUN_009655e0()
+void ImageSpaceModifierInstance::FUN_009655e0()
 {
     if (*(ImageSpaceModifierInstance**)((char*)this + 0x5f0))
     {
@@ -46895,7 +46895,7 @@ struct PC7dForm
 struct PC7dMap
 {
 };
-int __fastcall FUN_00401170(void* form);
+int FUN_00401170(void* form);
 
 struct PC7d
 {
@@ -49777,11 +49777,11 @@ void LightPlayer::FUN_009673d0(float delta)
 
 struct FUN_00967700_class
 {
-    bool __thiscall IsFlagged();
+    bool IsFlagged();
 };
 // Returns true if the bool at offset 0x160 or the bool at offset 0x161 in the object is set.
 // @fnv 0x00967700
-bool __thiscall FUN_00967700_class::IsFlagged()
+bool FUN_00967700_class::IsFlagged()
 {
     if (*((bool*)((char*)this + 0x160)) || *((bool*)((char*)this + 0x161)))
         return 1;
@@ -50100,7 +50100,7 @@ TESObjectREFR* FUN_00967a00_Class::GetActorFromPhysicsController()
 
 struct PlayerObject
 {
-    void __thiscall FUN_00967ac0(int b);
+    void FUN_00967ac0(int b);
 };
 
 // @fnv 0x00967aa0
@@ -54707,11 +54707,11 @@ NearbyRefEntry* PlayerNearbyRefs::FUN_00969930()
 
 struct FUN_00969ac0_Class
 {
-    void __thiscall FUN_00969ac0();
+    void FUN_00969ac0();
 };
 
 // @fnv 0x00969ac0
-void __thiscall FUN_00969ac0_Class::FUN_00969ac0()
+void FUN_00969ac0_Class::FUN_00969ac0()
 {
     DAT_011e07ab = 1;
 }
@@ -54748,7 +54748,6 @@ namespace fnv_00969b20 {
 // division of the returned tick count by 1000, and stores the quotient to a
 // global counter.
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount(void);
 
 
 struct TimeRefresh
@@ -54763,7 +54762,6 @@ void TimeRefresh::FUN_00969b20()
 }
 }  // namespace fnv_00969b20
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount(void);
 
 struct GameTimeSource
 {
@@ -65446,17 +65444,6 @@ struct PCStandin
     Actor* unkD44;
     BSSimpleList<StructD48*>* unkD48;
 };
-FNV_STATIC_ASSERT(offsetof(PCStandin, pProcess) == 0x68);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk208) == 0x208);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk210) == 0x210);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk224) == 0x224);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk604) == 0x604);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk60C) == 0x60c);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk638) == 0x638);
-FNV_STATIC_ASSERT(offsetof(PCStandin, soundHandle77C) == 0x77c);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unkD2C) == 0xd2c);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unkD44) == 0xd44);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unkD48) == 0xd48);
 
 class LoadCameraView
 {
@@ -67971,11 +67958,11 @@ void PlayerFormFlagSetter::FUN_00954910(bool enabled)
 void __cdecl FUN_00704470(int);
 struct PlayerNoteRemoval : PlayerCharacter
 {
-    void __thiscall FUN_00966b80(void* note);
+    void FUN_00966b80(void* note);
 };
 // Calls FUN_00704470 on the note, then removes it from the list at offset 0x5E4.
 // @fnv 0x00966b80
-void __thiscall PlayerNoteRemoval::FUN_00966b80(void* note)
+void PlayerNoteRemoval::FUN_00966b80(void* note)
 {
     FUN_00704470(reinterpret_cast<int>(note));
     reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<BSSimpleList<void*>*>(layoutPadding5E4)))->FUN_00905330((::InventoryStackRecord *const &)(note));

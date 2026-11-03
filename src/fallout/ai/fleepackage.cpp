@@ -1090,7 +1090,7 @@ struct BGSLoadFormBuffer
 
 struct G2
 {
-    void __thiscall AddHead(int*);
+    void AddHead(int*);
 };
 
 struct TESPackage_LoadGameHelper

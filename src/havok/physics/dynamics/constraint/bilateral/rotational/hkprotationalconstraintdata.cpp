@@ -7,7 +7,7 @@
 
 // Writes 3 and 0x18 into out[1] and out[0] when flag is set, otherwise writes 0 into both.
 // @fnv 0x00e3b520
-void __stdcall FUN_00e3b520(char flag, int* out)
+void FUN_00e3b520(char flag, int* out)
 {
     if (flag)
     {
@@ -23,10 +23,10 @@ void __stdcall FUN_00e3b520(char flag, int* out)
 
 struct FUN_00e3b500_cls
 {
-    void __thiscall FUN_00e3b500(int arg);
+    void FUN_00e3b500(int arg);
 };
 // @fnv 0x00e3b500
-void __thiscall FUN_00e3b500_cls::FUN_00e3b500(int arg)
+void FUN_00e3b500_cls::FUN_00e3b500(int arg)
 {
     ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x74, (::GenericConstraintAtomScheme *)(arg));
 }
@@ -49,16 +49,16 @@ struct hkBool_ret
 
 struct RotationHelper
 {
-    hkBool_ret __thiscall IsOrthonormal(float eps);
+    hkBool_ret IsOrthonormal(float eps);
 };
 
 struct hkpRotationalConstraintDataHelper : public hkpRotationalConstraintData
 {
-    hkBool_ret __thiscall FUN_00e3b550();
+    hkBool_ret FUN_00e3b550();
 };
 
 // @fnv 0x00e3b550
-hkBool_ret __thiscall hkpRotationalConstraintDataHelper::FUN_00e3b550()
+hkBool_ret hkpRotationalConstraintDataHelper::FUN_00e3b550()
 {
     float eps = 0.001f;
     return ((RotationHelper*)&m_kBridgeAtoms.m_kLocalRotations.m_kRotationA)->IsOrthonormal(eps).m_cBooleanValue &&

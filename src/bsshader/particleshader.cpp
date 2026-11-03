@@ -1,5 +1,6 @@
 // bsshader/particleshader.cpp: ParticleShader, ShaderState (12 functions)
 
+#include <windows.h>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/CloneSourceA5d6.h"
@@ -55,12 +56,12 @@ BSShader* ParticleShader::CreateShader()
 
 struct NiD3DPass
 {
-    void __thiscall DestroyPass();
+    void DestroyPass();
 };
 
 // Assigns a NiD3DPass pointer, releasing the old pass when its refcount at offset 0x64 drops to zero and incrementing the new pass's refcount.
 // @fnv 0x00ba53c0
-void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
+void* AssignNiD3DPass(void* pThis, int, void* param)
 {
     NiD3DPass** ppThis = (NiD3DPass**)pThis;
     NiD3DPass** ppParam = (NiD3DPass**)param;
@@ -91,11 +92,11 @@ void* __cdecl FUN_00ba5730()
 
 struct FUN_00ba6ce0_shell
 {
-    char __thiscall FUN_00ba6ce0(int value);
+    char FUN_00ba6ce0(int value);
 };
 
 // @fnv 0x00ba6ce0
-char __thiscall FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
+char FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
 {
     *(int*)((char*)this + 0x12c) = value;
     return 1;
@@ -106,18 +107,17 @@ struct FUN_00ba52f0_shell
     char _pad[0x74];
     void* _a;
     void* _b;
-    void __thiscall FUN_00ba52f0();
+    void FUN_00ba52f0();
 };
 // Calls the virtual function at vtable slot 74 twice, passing _a and then _b.
 // @fnv 0x00ba52f0
-void __thiscall FUN_00ba52f0_shell::FUN_00ba52f0()
+void FUN_00ba52f0_shell::FUN_00ba52f0()
 {
-    typedef void(__thiscall * Fn)(FUN_00ba52f0_shell*, void*);
+    typedef void(* Fn)(FUN_00ba52f0_shell*, void*);
     (*(Fn**)this)[74](this, _a);
     (*(Fn**)this)[74](this, _b);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 void FUN_00e80190();
 extern "C" void FUN_00be0f10();
 
@@ -138,7 +138,7 @@ struct RefSlot
         {
             if (--*(int*)((char*)p + 0x64) == 0)
             {
-                ((void(__thiscall*)(void*))FUN_00e80190)(p);
+                ((void(*)(void*))FUN_00e80190)(p);
             }
         }
     }
@@ -149,7 +149,7 @@ struct RefSlot
         {
             if (--*(int*)((char*)p + 0x64) == 0)
             {
-                ((void(__thiscall*)(void*))FUN_00e80190)(p);
+                ((void(*)(void*))FUN_00e80190)(p);
             }
             value = 0;
         }
@@ -283,8 +283,6 @@ FUN_00ba5740::~FUN_00ba5740()
 }
 
 namespace fnv_00ba69f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 struct ConstantMap
 {
     static void* operator new(unsigned int) throw();
@@ -846,7 +844,6 @@ struct Q64_Pt2
     float x;
     float y;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 

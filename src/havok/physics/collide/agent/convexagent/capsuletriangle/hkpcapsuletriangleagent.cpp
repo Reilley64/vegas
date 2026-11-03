@@ -5,6 +5,7 @@
 
 // Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
 // @fnv 0x00d3ab60
+#include <windows.h>
 #include "fnv/decl/CapsuleTriProcess.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkpCapsuleTriangleAgent.h"
@@ -96,7 +97,7 @@ struct NoteDispatcher {
 struct FUN_00d39930_class : ReceiverBase {
     NoteDispatcher* dispatcher;
     unsigned short receiverIds[3];
-    void __thiscall DispatchToReceivers(void* value);
+    void DispatchToReceivers(void* value);
 };
 // Dispatches value to each non-0xFFFF receiver id via dispatcher, then releases this if non-null.
 // @fnv 0x00d39930
@@ -479,7 +480,7 @@ struct Vt {
     void* f10; void* f14; void* f18; void* f1c;
     void* f20; void* f24; void* f28; void* f2c;
     void* f30; void* f34; void* f38; void* f3c;
-    int (__thiscall *fn)(void*, void*, void*, void*, void*, void*, void*, void*);
+    int (*fn)(void*, void*, void*, void*, void*, void*, void*, void*);
 };
 struct ShapeInterface {
     virtual void slot00();
@@ -530,7 +531,7 @@ struct Contact {
     __m128 normal;
     __m128 position;
     Contact& operator=(const Contact& c) { normal = c.normal; position = c.position; return *this; }
-    void __thiscall FUN_00caad60(void* arg);
+    void FUN_00caad60(void* arg);
 };
 
 
@@ -851,7 +852,6 @@ ContactNormalSetter* ContactNormalSetter::FUN_00caad60(const __m128* source)
     return this;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct MonitorRecord { const char* name; unsigned int time; unsigned int unk08; };
 struct MonitorStream { unsigned int unk00; MonitorRecord* cursor; unsigned int unk08; MonitorRecord* end; };
 struct __declspec(align(16)) PlainVector { int x,y,z,w; __m128 quad() const { return *(const __m128*)this; } };

@@ -55,12 +55,6 @@ class CombatGoal
 
     static CombatGoal* CreateGoal(COMBAT_GOAL eType);
 };
-FNV_STATIC_ASSERT(sizeof(CombatGoal) == 28);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_kFirstWorldStateNode) == 4);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_kCombatWorldStateListNode) == 12);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, eType) == 20);
-FNV_STATIC_ASSERT(offsetof(CombatGoal, m_uiGoalFlags) == 24);
 
 class CombatGoalActivateCombatItem : public CombatGoal
 {

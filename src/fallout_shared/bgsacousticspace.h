@@ -27,23 +27,17 @@ struct TESFormInitFlag : public TESForm
 {
 };
 
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
     unsigned char layoutPadding18[0xC];  // +0x18 parent list, prev, next
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 0x24);
 
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
     unsigned char layoutPadding24[0xC];  // +0x24 bound min/max
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
 
 class TESSound : public TESBoundObject
 {
@@ -96,7 +90,6 @@ enum CELL_ENVIRO_TYPE
 };
 
 
-#pragma pack(push, 4)
 class BGSAcousticSpace : public TESBoundObject
 {
   public:
@@ -114,15 +107,4 @@ class BGSAcousticSpace : public TESBoundObject
     virtual void InitItem();
     virtual bool Load(TESFile* file);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSAcousticSpace) == 84);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, m_bIsInterior) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, pDawnSound) == 52);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, pNoonSound) == 56);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, pDuskSound) == 60);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, pNightSound) == 64);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, pWallaSound) == 68);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, pRegion) == 72);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, m_eCellEnvironmentType) == 76);
-FNV_STATIC_ASSERT(offsetof(BGSAcousticSpace, m_iFlags) == 80);
 #endif

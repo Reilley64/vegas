@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niobjectnet.cpp: NiObjectNET, ShortArray, MorphTarget, bhkSphereShape and more (26 functions)
 
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -204,7 +205,7 @@ void NiObjectNET::RefreshExtraData()
 
 
 // @fnv 0x00a5b950
-void __fastcall AssignFixedString(char* pThis, int, char** ppkName)
+void AssignFixedString(char* pThis, int, char** ppkName)
 {
     char* pcNewName = *ppkName;
     if (*reinterpret_cast<char**>(pThis + 8) != pcNewName)
@@ -223,8 +224,6 @@ struct FUN_00a5bfa0_shell : public NiObjectNET
     void ClearExtraData();
 };
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct NiExtraDataDeleteProxy : public NiObjectNET
 {
@@ -249,7 +248,7 @@ void FUN_00a5bfa0_shell::ClearExtraData()
 extern int DAT_0109b23c;
 
 // @fnv 0x00a5c760
-void __fastcall FUN_00a5c760(void** pThis)
+void FUN_00a5c760(void** pThis)
 {
     *pThis = &DAT_0109b23c;
     ::FUN_00aa10f0(pThis[1]);
@@ -317,7 +316,7 @@ struct NiObjectBase
     bool RegisterStreamables(NiStream*);
 };
 // @fnv 0x00a5c180
-bool __fastcall FUN_00a5c180(void* thisp, int, NiStream* kStream)
+bool FUN_00a5c180(void* thisp, int, NiStream* kStream)
 {
     char* self = reinterpret_cast<char*>(thisp);
     VStream* stream = reinterpret_cast<VStream*>(kStream);
@@ -456,7 +455,7 @@ struct NiObjSave
     void SaveBinaryX();
 };
 // @fnv 0x00a5c5b0
-void __fastcall SaveNiObjectLinks(char* self, int, VStream* kStream)
+void SaveNiObjectLinks(char* self, int, VStream* kStream)
 {
     ::FUN_00a89af0((int)(reinterpret_cast<NiObject*>(self)));
     reinterpret_cast<::FUN_00a641f0_cls *>((kStream))->WriteObjectLink(reinterpret_cast<NiFixedString*>(self + 8));
@@ -495,7 +494,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a5c290_shell : public NiObjectNET
 {
     void FUN_00a5c290(NiObjectNET*, CloningProcess*);
@@ -503,8 +501,6 @@ struct FUN_00a5c290_shell : public NiObjectNET
 
 extern "C" unsigned int __cdecl strlen(const char*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 int strcpy_s(char*, unsigned int, const char*);
 struct NiGlobalStringTable
 {
@@ -633,8 +629,6 @@ void FUN_00a5c290_shell::FUN_00a5c290(NiObjectNET* pkDest, CloningProcess* kClon
 }
 }  // namespace fnv_00a5c290
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ControllerPointerProxy
 {
     NiTimeController* m_pObject;
@@ -694,7 +688,6 @@ void ControllerOwner::FUN_00a5c480(NiTimeController* controller)
 
 // Deleting destructor of an NiObjectNET-style object: drop extra data, the controller and the name, then free.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 
 class C7B0RefObject
@@ -986,8 +979,8 @@ struct LinkObjectA5 : LinkBaseA5
     unsigned short m_pRayCursor;
     void RemoveExtraDataByName(unsigned short index)
     {
-        void(__stdcall * leaveLock)(void*) = LeaveCriticalSection;
-        void(__stdcall * enterLock)(void*) = EnterCriticalSection;
+        void(* leaveLock)(void*) = LeaveCriticalSection;
+        void(* enterLock)(void*) = EnterCriticalSection;
         enterLock(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
         if (index < m_iElementCount)
             reinterpret_cast<::NiObjectNET *>(this)->DeleteExtraData(index);
@@ -1113,7 +1106,6 @@ void LinkObjectA5::FUN_00a5c6a0(NiStream& stream)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct BSFadeNode
 {

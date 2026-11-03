@@ -74,7 +74,7 @@ struct StrArr
 {
 };
 // @fnv 0x00c2a260
-void __stdcall FUN_00c2a260(StrArr* pkStrings)
+void FUN_00c2a260(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* pStr = FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_012026f0)).m_pcName);

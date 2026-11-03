@@ -292,8 +292,6 @@ FUN_00ca39a0::FUN_00ca39a0(float x)
     m_vtbl = (unsigned int)&DAT_010c74ec;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct Ca39f0Vector4
 {
@@ -843,8 +841,6 @@ void FUN_00ca5360_cls::FUN_00ca5360(MassInfo_ca5360* pkInfo)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 
 class Ca5580Ref

@@ -52,7 +52,7 @@ struct NiPSysModifierCtlr
 };
 
 // @fnv 0x00a4fbd0
-void __fastcall LoadBinaryWithVersionCheck(NiPSysModifierCtlr* pThis, int, NiStream& kStream)
+void LoadBinaryWithVersionCheck(NiPSysModifierCtlr* pThis, int, NiStream& kStream)
 {
     pThis->LoadBinary(kStream);
     if (*(unsigned int*)((char*)&kStream + 0xd8) < 0x0a010068)
@@ -68,7 +68,7 @@ struct NiTimeController_Call
 };
 
 // @fnv 0x00a572a0
-int* __fastcall InitTimeController(int* pThis)
+int* InitTimeController(int* pThis)
 {
     new ((void *)(reinterpret_cast<NiTimeController_Call*>(pThis))) ::FUN_00a38e00();
     pThis[0] = reinterpret_cast<int>(&DAT_0109aa14);
@@ -110,7 +110,7 @@ struct FloatSrc
 
 // Allocates a FUN_00a3c390 fade node constructed from the float value returned by the FloatSrc at self+0x3c.
 // @fnv 0x00a41240
-void* __fastcall CreateFadeNodeFromFloatSource(void* self, int edx, unsigned short usIndex)
+void* CreateFadeNodeFromFloatSource(void* self, int edx, unsigned short usIndex)
 {
     return new FUN_00a3c390((*(FloatSrc**)((char*)self + 0x3c))->Get());
 }
@@ -133,7 +133,7 @@ static void* Init(void* p)
 }
 
 // @fnv 0x00a41280
-void* __fastcall FUN_00a41280(CopyHelper* self, int edx, void* kCloning)
+void* FUN_00a41280(CopyHelper* self, int edx, void* kCloning)
 {
     void* pMemory = BSFadeNode::operator new(0x40);
     void* pkObject = pMemory ? Init(pMemory) : 0;
@@ -154,10 +154,10 @@ struct ArrHelper
     unsigned short pad;
     unsigned short m_usGrowBy;
 };
-void __stdcall FUN_00a57420(ArrHelper* a);
+void FUN_00a57420(ArrHelper* a);
 
 // @fnv 0x00a41380
-void __stdcall AppendGlobalObject(ArrHelper* pkStrings)
+void AppendGlobalObject(ArrHelper* pkStrings)
 {
     FUN_00a57420(pkStrings);
     ActorCombatGroup* v = ((::fnv_00a41380::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<::fnv_00a41380::GlobalObjectO2_00a7b610 * *>(&::g_011f3e6c))))));
@@ -197,7 +197,7 @@ struct StreamView
 };
 
 // @fnv 0x00a4fc00
-void __fastcall LinkColorInterpolator(NiPSysModifierCtlr* self, int edx, NiStream* kStream)
+void LinkColorInterpolator(NiPSysModifierCtlr* self, int edx, NiStream* kStream)
 {
     reinterpret_cast<struct ::FUN_00a57630 *>((self))->LinkObject(*kStream);
     if (((StreamView*)kStream)->m_uiNifVersion < 0x0a010068)
@@ -213,7 +213,7 @@ void __fastcall LinkColorInterpolator(NiPSysModifierCtlr* self, int edx, NiStrea
             if (p)
                 p->IncRefCount();
         }
-        (*(void(__thiscall**)(NiColorInterpolator*))(*(char**)*ppInterpolatorSlot + 0xbc))(*ppInterpolatorSlot);
+        (*(void(**)(NiColorInterpolator*))(*(char**)*ppInterpolatorSlot + 0xbc))(*ppInterpolatorSlot);
     }
 }
 }  // namespace fnv_00a4fc00

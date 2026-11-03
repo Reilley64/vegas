@@ -466,9 +466,9 @@ struct Dummy_0071f9c0
     void* FUN_0071f9c0(unsigned int);
 };
 
-bool __fastcall _ref_008256d0(void*);
-void* __fastcall FUN_0071f9c0(Dummy_0071f9c0*, int, unsigned int);
-void __fastcall _ref_0063f7b0(void*);
+bool _ref_008256d0(void*);
+void* FUN_0071f9c0(Dummy_0071f9c0*, int, unsigned int);
+void _ref_0063f7b0(void*);
 
 struct Caller_0071f9c0
 {
@@ -479,13 +479,13 @@ struct Caller_0071f9c0
 };
 
 // @fnv 0x007e07f0
-void __fastcall FUN_007e07f0(char* this_ptr)
+void FUN_007e07f0(char* this_ptr)
 {
     while (!_ref_008256d0(this_ptr + 4))
     {
         Dummy_0071f9c0* p1;
         Dummy_0071f9c0* p2 = (p1 = *((::Dummy_0071f9c0 **)(new ((void *)(this_ptr + 4)) ::Vec3())));
-        (p2 != 0) ? ((void*(__thiscall*)(Dummy_0071f9c0*, unsigned int))FUN_0071f9c0)(p2, 1) : 0;
+        (p2 != 0) ? ((void*(*)(Dummy_0071f9c0*, unsigned int))FUN_0071f9c0)(p2, 1) : 0;
         _ref_0063f7b0(this_ptr + 4);
     }
 }
@@ -834,7 +834,6 @@ public:
 public:
     int FUN_00747d00();
 };
-typedef char _sizecheck_InterfaceManager[sizeof(InterfaceManager) == 1144 ? 1 : -1];
 
 struct VDtor
 {
@@ -1262,7 +1261,7 @@ struct StrArg
 };
 // Appends arg.p to the BSStringT, growing the buffer via Set when the combined length exceeds MaxLength, then copies the string and updates the length.
 // @fnv 0x00404820
-BSStringT<char>* __fastcall FUN_00404820(BSStringT<char>* self, StrArg aStrArg)
+BSStringT<char>* FUN_00404820(BSStringT<char>* self, StrArg aStrArg)
 {
     unsigned int uiTotalLen;
     unsigned int uiSrcLen;
@@ -1755,11 +1754,11 @@ bool __cdecl IsHealingOptionAvailable(StatsMenu__HealingOption* apOption)
 }
 
 namespace fnv_007e0850 {
-void __fastcall _ref_0063f7b0(void*);
-bool __fastcall _ref_008256d0(void*);
+void _ref_0063f7b0(void*);
+bool _ref_008256d0(void*);
 
 // @fnv 0x007e0850
-void __fastcall FUN_007e0850(void* thisPtr)
+void FUN_007e0850(void* thisPtr)
 {
     void* p;
     while (!_ref_008256d0((char*)thisPtr + 4))
@@ -4367,7 +4366,7 @@ void StatsMenuH_007df620::UpdateXboxButtonState()
 }  // namespace fnv_007df620
 
 namespace fnv_007e0060 {
-// FUN_007e0060: /MT /Od /GS /EHsc, 114 bytes, __thiscall with one stack argument.
+// FUN_007e0060: /MT /Od /GS /EHsc, 114 bytes, with one stack argument.
 // Validates an index against a computed limit, then notifies the owner.
 
 

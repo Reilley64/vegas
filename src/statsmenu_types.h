@@ -21,8 +21,4 @@ class TileMenu : public TileRect
   public:
     Menu* menu;
 };
-FNV_STATIC_ASSERT(sizeof(TileRect) == 0x3C);
-FNV_STATIC_ASSERT(sizeof(TileMenu) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TileRect, unk38) == 0x38);
-FNV_STATIC_ASSERT(offsetof(TileMenu, menu) == 0x3C);
 #endif

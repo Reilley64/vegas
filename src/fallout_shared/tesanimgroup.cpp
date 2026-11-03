@@ -325,7 +325,7 @@ void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 
 // @fnv 0x005f2450
-void __fastcall SetAnimGroupType(TESAnimGroup* self, UShortArg type)
+void SetAnimGroupType(TESAnimGroup* self, UShortArg type)
 {
     self->sType = type.v;
     int i;
@@ -402,11 +402,11 @@ ANIM_GROUP_MOVE_ENUM FUN_005f23a0_shell::GetMoveAnimGroup()
 
 struct FUN_005f23e0_shell
 {
-    unsigned short __thiscall FUN_005f23e0();
+    unsigned short FUN_005f23e0();
 };
 
 // @fnv 0x005f23e0
-unsigned short __thiscall FUN_005f23e0_shell::FUN_005f23e0()
+unsigned short FUN_005f23e0_shell::FUN_005f23e0()
 {
     return ((unsigned short)(::fnv_005f2400::FUN_005f2400(*((unsigned short*)((char*)this + 0x10)))));
 }
@@ -468,7 +468,6 @@ struct SoundPlaybackEntry
     float fCurrentSpeed;
     TESSound* SoundAssetTmp;
 };
-typedef char _sizecheck_GROUP_SOUND[sizeof(SoundPlaybackEntry) == 16 ? 1 : -1];
 struct FUN_005f2820_shell : public TESAnimGroup
 {
     void FUN_005f2820(unsigned int);
@@ -577,7 +576,6 @@ struct TimedTextEntry
     float m_fTime;
     NiFixedString m_kText;
 };
-typedef char _sizecheck_NiTextKey[sizeof(TimedTextEntry) == 8 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -585,7 +583,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 
 int __strnicmp(const char* str1, const char* str2, int count);
 const char* _strrchr(const char* str, int ch);

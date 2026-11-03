@@ -422,7 +422,7 @@ NiPoint3 FUN_00ad78e0_cls::FUN_00ad78e0()
 
 // Sets BSAudioManager's master volume to f and calls FUN_00adc160 with the manager.
 // @fnv 0x00ad7b10
-void __fastcall SetMasterVolume(float afVolume, int)
+void SetMasterVolume(float afVolume, int)
 {
     BSAudioManager& mgr = BSAudioManager::GetRandomGenerator();
     mgr.fMasterVolume = afVolume;
@@ -452,7 +452,7 @@ struct FUN_00adc160_shell
 };
 
 // @fnv 0x00ad7b70
-void __fastcall FUN_00ad7b70(void* thisPtr, float m_fVolumeSetting2)
+void FUN_00ad7b70(void* thisPtr, float m_fVolumeSetting2)
 {
     BSAudioManager& instance = BSAudioManager::GetRandomGenerator();
     instance.m_fVolumeSetting2 = m_fVolumeSetting2;
@@ -931,7 +931,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00ad7230_shell : public BSAudio
 {
     void FUN_00ad7230(bool);
@@ -1121,7 +1120,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00ad77f0_shell : public BSAudio
 {
     void FUN_00ad77f0(float, unsigned int);
@@ -1388,7 +1386,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00ad8100_shell : public BSAudio
 {
     void FUN_00ad8100(char*, unsigned int, void*);

@@ -68,12 +68,6 @@ template<> void NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVOb
 template<> void NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >::SetAt(unsigned int uiIndex, const NiPointer<NiAVObject>& element);
 
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > NiTArray_CombatGroup_Malloc;
-typedef char NiTArraySizeCheck[(sizeof(NiTArray_CombatGroup_Malloc) == 16) ? 1 : -1];
-typedef char NiTArrayBaseCheck[(offsetof(NiTArray_CombatGroup_Malloc, m_pBase) == 4) ? 1 : -1];
-typedef char NiTArrayMaxSizeCheck[(offsetof(NiTArray_CombatGroup_Malloc, m_usMaxSize) == 8) ? 1 : -1];
-typedef char NiTArraySizeMemberCheck[(offsetof(NiTArray_CombatGroup_Malloc, m_usSize) == 10) ? 1 : -1];
-typedef char NiTArrayESizeCheck[(offsetof(NiTArray_CombatGroup_Malloc, m_usESize) == 12) ? 1 : -1];
-typedef char NiTArrayGrowByCheck[(offsetof(NiTArray_CombatGroup_Malloc, m_usGrowBy) == 14) ? 1 : -1];
 
 // @fnv 0x004afc50
 template<>

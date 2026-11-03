@@ -61,7 +61,7 @@ struct FUN_00b2bdc0_shell
 void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 struct RandomNumberGenerator
 {
@@ -76,7 +76,7 @@ struct ElementIterator
 };
 struct FUN_00b2daf0_shell : CTreeEngine
 {
-    void __thiscall FUN_00b2daf0(ElementIterator* a);
+    void FUN_00b2daf0(ElementIterator* a);
 };
 namespace std {
 template <class C> struct char_traits
@@ -123,7 +123,7 @@ struct FUN_00b2bd40_Obj
     float unk40;
     float unk44;
 
-    float __thiscall GetNormalizedValue();
+    float GetNormalizedValue();
 };
 struct FUN_00b3d720_String
 {
@@ -153,11 +153,11 @@ struct FUN_00b3d720_Class
     float unk4C;
     float unk50;
 
-    FUN_00b3d720_Class* __thiscall FUN_00b3d720();
+    FUN_00b3d720_Class* FUN_00b3d720();
 };
 extern float DAT_010a587c;
 
-void __stdcall FUN_00ec5fce(void* self, unsigned int elemSize, unsigned int count, void* dtor);
+void FUN_00ec5fce(void* self, unsigned int elemSize, unsigned int count, void* dtor);
 void FUN_00b33370();
 
 struct S00b2b490_Guard
@@ -3371,10 +3371,10 @@ struct LodInfoReader : CTreeEngine
     float unkFC;
     float unk100;
     float unk104;
-    void __thiscall FUN_00b2ceb0(ElementIterator* a);
+    void FUN_00b2ceb0(ElementIterator* a);
 };
 // @fnv 0x00b2ceb0
-void __thiscall LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
+void LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
 {
     DeadTop();
     int token = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
@@ -3414,7 +3414,7 @@ void __thiscall LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
 extern const char str_010a54cc[];
 extern char DAT_01170384;
 
-extern "C" void __stdcall FUN_00ec7894(void* pException, void* apThrowInfo);
+extern "C" void FUN_00ec7894(void* pException, void* apThrowInfo);
 
 struct S00b2c790_Error
 {

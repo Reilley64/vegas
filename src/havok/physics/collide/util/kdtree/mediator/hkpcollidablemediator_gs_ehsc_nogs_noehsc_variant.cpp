@@ -234,7 +234,7 @@ static __forceinline void convertToUint32WithClip(const __m128& in, const __m128
 }
 
 // @fnv 0x00d9e020
-void __stdcall FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
+void FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
 {
     hkAabbUint32Q aabb32;
     const hkAabbUint32Q& bv = collidable->m_kBoundingVolumeData;

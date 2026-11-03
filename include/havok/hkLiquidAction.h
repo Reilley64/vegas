@@ -4,13 +4,10 @@
 #define FNV_HAVOK_HKLIQUIDACTION_H
 #include "hkBase.h"
 #include "hkpUnaryAction.h"
-#pragma pack(push, 1)
 class hkLiquidAction : public hkpUnaryAction
 {
   public:
     char pad1C[0x4];
     hkVector4 m_Force;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkLiquidAction[(sizeof(hkLiquidAction) == 0x30) ? 1 : -1];
 #endif

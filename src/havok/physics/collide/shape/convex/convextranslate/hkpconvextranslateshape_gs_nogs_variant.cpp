@@ -38,7 +38,7 @@ struct Own_dd5e60
     int unk10;
     int unk14;
     Sub_dd5e60* m_sub;  // at +0x18
-    void __thiscall FUN_00dd5e60();
+    void FUN_00dd5e60();
 };
 class hkpShapeCollectionDD5E
 {
@@ -87,7 +87,7 @@ struct Own_dd5e70
     int unk14;
     void* m_sub;
 
-    void __thiscall AttachChildAndAttribute(Sub_dd5e70* object, int unused);
+    void AttachChildAndAttribute(Sub_dd5e70* object, int unused);
 };
 struct FUN_00dd5ea0_class
 {
@@ -134,11 +134,11 @@ struct FUN_00dd5fa0_Object
     FUN_00dd5fa0_VTable* m_sub;
     __m128 m_vTranslation;
 
-    void __thiscall FUN_00dd5fa0(__m128* value);
+    void FUN_00dd5fa0(__m128* value);
 };
 
 // @fnv 0x00dd5fa0
-void __thiscall FUN_00dd5fa0_Object::FUN_00dd5fa0(__m128* value)
+void FUN_00dd5fa0_Object::FUN_00dd5fa0(__m128* value)
 {
     m_sub->v44(value);
     *value = _mm_add_ps(m_vTranslation, *value);
@@ -164,11 +164,11 @@ struct Child_dd5fd0
 
 struct Struct_dd5fd0 : public hkpConvexTranslateShape
 {
-    void __thiscall FUN_00dd5fd0(hkVector4* v);
+    void FUN_00dd5fd0(hkVector4* v);
 };
 
 // @fnv 0x00dd5fd0
-void __thiscall Struct_dd5fd0::FUN_00dd5fd0(hkVector4* v)
+void Struct_dd5fd0::FUN_00dd5fd0(hkVector4* v)
 {
     Child_dd5fd0* child = (Child_dd5fd0*)m_pContainedShape.m_pContainedShape;
     child->v34(v);

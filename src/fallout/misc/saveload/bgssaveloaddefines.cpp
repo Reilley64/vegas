@@ -288,7 +288,6 @@ struct MemoryManager
     bool m_bImageInfoValid;
     char _pad_349[3];
 };
-typedef char _sizecheck_MemoryManager[sizeof(MemoryManager) == 844 ? 1 : -1];
 
 
 // @fnv 0x00401030

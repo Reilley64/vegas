@@ -188,12 +188,12 @@ struct Self
     int unk58;
     int unk5c;
     Child* children[2];
-    void __thiscall ForEachChild(Callback cb, int arg);
+    void ForEachChild(Callback cb, int arg);
 };
 
 // Iterates over the two child pointers, checks each child's RTTI chain against g_rttiA and g_rttiB, and invokes cb on each non-null child with 0 and arg.
 // @fnv 0x00b813b0
-void __thiscall Self::ForEachChild(Callback apCallback, int arg)
+void Self::ForEachChild(Callback apCallback, int arg)
 {
     for (int i = 0; i < 2; i++)
     {

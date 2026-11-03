@@ -75,7 +75,7 @@ struct DepthLimit
 };
 // Hashes key, and if the hash is within the limit, writes the bucket's paired value to out and returns 0; otherwise returns 1.
 // @fnv 0x00cb1980
-int __fastcall LookupBucketValue(DepthLimit* self, int edx, int key, int* paiOut)
+int LookupBucketValue(DepthLimit* self, int edx, int key, int* paiOut)
 {
     int iHash = reinterpret_cast<::FUN_00cb18f0_t *>((self))->FindSlot(key);
     if (iHash <= *(int*)((char*)self + 8))
@@ -198,7 +198,7 @@ struct HashEntryTable
 {
 };
 // @fnv 0x00dc8e30
-unsigned long __fastcall LookupWithDefault(HashEntryTable* self, int edx, unsigned long key)
+unsigned long LookupWithDefault(HashEntryTable* self, int edx, unsigned long key)
 {
     return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((HashEntryTable*)((char*)self + 0xc))))->LookupHashEntry(key, -1)));
 }
@@ -249,7 +249,7 @@ class hkMapBaseCB19
     void RemoveEntry(void* it) throw();
 };
 // @fnv 0x00cb1fb0
-int __thiscall FUN_00cb18f0_t::FUN_00cb1fb0(int key)
+int FUN_00cb18f0_t::FUN_00cb1fb0(int key)
 {
     int found = FindSlot(key);
     if (found <= m_iPairCount)

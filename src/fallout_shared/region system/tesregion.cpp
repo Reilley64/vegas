@@ -188,7 +188,7 @@ TESRegionDataManager* FUN_00740940_shell::GetRegionDataManager()
 
 
 // @fnv 0x004f10b0
-void __fastcall FUN_004f10b0(char* param_1)
+void FUN_004f10b0(char* param_1)
 {
     reinterpret_cast<::FUN_005827d0_list *>((param_1 + 8))->FUN_005827d0();
 }
@@ -386,7 +386,7 @@ class B4F1050DataList
   public:
 };
 
-void* __fastcall B4F1050GetWeatherTypes(TESRegionDataWeather* pkWeather);
+void* B4F1050GetWeatherTypes(TESRegionDataWeather* pkWeather);
 
 class B4F1050Region
 {

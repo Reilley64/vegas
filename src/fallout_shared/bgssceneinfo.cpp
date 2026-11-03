@@ -297,7 +297,7 @@ struct FUN_004a95d0_shell
     void* FUN_004a95d0(int a);
 };
 // @fnv 0x004a8f50
-void* __thiscall FUN_004a8f50_shell::FUN_004a8f50()
+void* FUN_004a8f50_shell::FUN_004a8f50()
 {
     reinterpret_cast<::FUN_004a95d0_shell *>((((FUN_004a8f50_shell*)((char*)this + 4))))->FUN_004a95d0(0x25);
     return this;

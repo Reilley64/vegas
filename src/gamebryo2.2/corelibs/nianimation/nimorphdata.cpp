@@ -5,6 +5,7 @@
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/Cls_a64ea0.h"
@@ -33,7 +34,7 @@ struct NiRefObject
 };
 struct S41660
 {
-    void __thiscall FUN_00a41660(int);
+    void FUN_00a41660(int);
 };
 struct NiMorphData
 {
@@ -71,7 +72,7 @@ struct NiObject
 {
     void* _vfptr;
     int _ref;
-    bool __thiscall RegisterStreamables(NiStream&);
+    bool RegisterStreamables(NiStream&);
 };
 struct NiMorphData : NiObject
 {
@@ -85,11 +86,11 @@ struct NiMorphData : NiObject
     unsigned int m_uiNumTargets;
     unsigned int _pad0C;
     MorphTarget* m_pMorphTargets;
-    bool __thiscall FUN_00a41710(NiStream& kStream);
+    bool FUN_00a41710(NiStream& kStream);
 };
 // Registers the base object's streamables, then streams the _04 field of each morph target, returning false if registration fails.
 // @fnv 0x00a41710
-bool __thiscall NiMorphData::FUN_00a41710(NiStream& kStream)
+bool NiMorphData::FUN_00a41710(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
         return false;
@@ -134,10 +135,10 @@ struct Object
     int field_04;
     volatile float field_08;
     int field_0c;
-    Object* __thiscall FUN_00a415f0();
+    Object* FUN_00a415f0();
 };
 // @fnv 0x00a415f0
-Object* __thiscall Object::FUN_00a415f0()
+Object* Object::FUN_00a415f0()
 {
     field_00 = 0;
     field_04 = (*reinterpret_cast<int *>(&::DAT_0109b220));
@@ -159,7 +160,7 @@ struct RefItem_b9415
     int m_refs;
 };
 
-typedef int(__stdcall* ReleaseFn_b9415)(int p);
+typedef int(* ReleaseFn_b9415)(int p);
 
 class FUN_00a41610_cls
 {
@@ -190,7 +191,6 @@ namespace fnv_00a41660 {
 struct MemoryManager_00a41660
 {
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Reference_00a41660
 {
     virtual void Unused();
@@ -207,10 +207,10 @@ struct Entry_00a41660
 struct Owner_00a41660
 {
     Entry_00a41660 object;
-    void* __thiscall FUN_00a41660(unsigned char flags);
+    void* FUN_00a41660(unsigned char flags);
 };
 // @fnv 0x00a41660
-void* __thiscall Owner_00a41660::FUN_00a41660(unsigned char flags)
+void* Owner_00a41660::FUN_00a41660(unsigned char flags)
 {
     if (flags & 2)
     {

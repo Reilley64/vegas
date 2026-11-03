@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AllocatorStatisticsDD8D.h"
 #include "fnv/decl/B60Owner.h"
@@ -31,11 +32,11 @@
 #include "fnv/symbols_010d1000.h"
 struct hkFreeListAllocator
 {
-    void __thiscall PrintStatistics(int);
+    void PrintStatistics(int);
 };
 
 // @fnv 0x00d5f950
-void __thiscall hkFreeListAllocator::PrintStatistics(int aiUnused)
+void hkFreeListAllocator::PrintStatistics(int aiUnused)
 {
     ::FUN_00cc0410((::hkOstream *)(aiUnused),
                  "printStatistics is not supported on hkFreeListAllocator - use hkDebugMemory or hkPoolMemory\n");
@@ -152,8 +153,6 @@ void* FUN_00d5f910_cls::AllocateBlock(int aiUnused, int aiNumBytes)
     return m_sub28.BlockAlloc(aiUnused, aiNumBytes);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct FreeListEntry
 {
@@ -520,8 +519,8 @@ class FUN_00d60270_cls : public HeapBase60270
 };
 
 
-extern void(__stdcall* DAT_00fdf05c)(int*);
-extern void(__stdcall* DAT_00fdf100)(int*);
+extern void(* DAT_00fdf05c)(int*);
+extern void(* DAT_00fdf100)(int*);
 namespace d5f {
 struct Res
 {
@@ -580,11 +579,11 @@ void Pool::AllocateBlocks(int aiCount)
 }
 
 // @fnv 0x00d5fab0
-void __stdcall FUN_00d5fab0(int)
+void FUN_00d5fab0(int)
 {}
 
-extern void(__stdcall* DAT_00fdf05c)(int* pkCriticalSection);
-extern void(__stdcall* DAT_00fdf100)(int* pkCriticalSection);
+extern void(* DAT_00fdf05c)(int* pkCriticalSection);
+extern void(* DAT_00fdf100)(int* pkCriticalSection);
 
 class MemoryPoolW
 {
@@ -2735,12 +2734,12 @@ struct AllocModel
     ItemObj* m_items[41];
     int m_uiItemCount;
 
-    bool* __thiscall FUN_00d5f890(bool* __restrict p);
+    bool* FUN_00d5f890(bool* __restrict p);
 };
 
 // Locks m_cs, sets *p to 1, calls each item's method until its output byte is zero, then returns p.
 // @fnv 0x00d5f890
-bool* __thiscall AllocModel::FUN_00d5f890(bool* __restrict pbSuccess)
+bool* AllocModel::FUN_00d5f890(bool* __restrict pbSuccess)
 {
     EnterCriticalSection(&m_cs);
     *pbSuccess = 1;
@@ -3167,7 +3166,6 @@ void QuitAllocator::FUN_00d5ff50()
     reinterpret_cast<::QueueOwner *>((reinterpret_cast<QuitLargeBlockView*>(&m_kLargeBlockAllocator)))->ProcessAllItems();
 }
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct EmbeddedItem
 {
     int m00, m04, m08, m0c, m10, m14, m18, m1c, m20, m24, m28, m2c, m30;
@@ -3178,7 +3176,7 @@ struct EmbeddedMember
 struct FUN_00d5ffd0_class
 {
     void* vtable;
-    void __thiscall FUN_00d5ffd0();
+    void FUN_00d5ffd0();
 };
 // @fnv 0x00d603e0
 D603E0Object* D603E0Object::FUN_00d603e0(unsigned int uiFlags)

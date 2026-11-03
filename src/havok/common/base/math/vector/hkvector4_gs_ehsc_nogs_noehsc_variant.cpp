@@ -7,7 +7,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 // CheckFloatsFinite (0x00c7f4e0, 21 bytes)
 //
-// The original is a __thiscall member of a class whose object *is* the float
+// The original is a member of a class whose object *is* the float
 // array.  It forwards to a file-static helper FUN_00c7f4a0(out, self, count).
 //
 // MSVC 2008 gives an internal-linkage (file-static) helper its own internal

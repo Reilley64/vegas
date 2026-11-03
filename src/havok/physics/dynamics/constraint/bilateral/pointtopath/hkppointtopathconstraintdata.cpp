@@ -14,7 +14,7 @@
 #include "havok/hkpPointToPathConstraintData.h"
 
 // @fnv 0x00dee720
-void __stdcall FUN_00dee720(int aiUnused, void* apData)
+void FUN_00dee720(int aiUnused, void* apData)
 {
     *(int*)((char*)apData + 4) = 7;
     *(int*)apData = 0x3c;
@@ -22,12 +22,12 @@ void __stdcall FUN_00dee720(int aiUnused, void* apData)
 
 struct FUN_00dee7f0_class
 {
-    void __thiscall FUN_00dee7f0(void* a);
+    void FUN_00dee7f0(void* a);
 };
 
 // Fills the struct at a with a pointer to this+0xc and constant fields 0, 0x180, 7, 8, 0xc.
 // @fnv 0x00dee7f0
-void __thiscall FUN_00dee7f0_class::FUN_00dee7f0(void* a)
+void FUN_00dee7f0_class::FUN_00dee7f0(void* a)
 {
     *(int*)((char*)a + 0x10) = (int)((char*)this + 0xc);
     *(int*)((char*)a + 0x14) = 0xc;
@@ -50,10 +50,10 @@ struct FUN_00dee7d0_class
     void* m_10;
     void* m_14;
     DDCC60World* m_obj;
-    void __thiscall Destroy();
+    void Destroy();
 };
 // @fnv 0x00dee7d0
-void __thiscall FUN_00dee7d0_class::Destroy()
+void FUN_00dee7d0_class::Destroy()
 {
     DDCC60World* p = m_obj;
     m_vft = &DAT_010da004;
@@ -70,7 +70,7 @@ int __cdecl FUN_00dee740()
 
 struct FUN_00c7f640_Class
 {
-    void __thiscall FUN_00c7f640(unsigned int arg, void* position);
+    void FUN_00c7f640(unsigned int arg, void* position);
 };
 class FUN_00dee820_Class
 {
@@ -618,7 +618,7 @@ class hkpParametricCurve
     virtual hkBoolC IsClosedCurve();
 };
 
-typedef hkReal(__thiscall* CurveLengthCall)(hkpParametricCurve*, hkReal);
+typedef hkReal(* CurveLengthCall)(hkpParametricCurve*, hkReal);
 struct CurveDispatchTable
 {
     void* destructor;
@@ -910,12 +910,12 @@ PathDeleteRouter* __cdecl FUN_00c85750();
 
 struct PathDeleteData : hkpPointToPathConstraintData
 {
-    void* __thiscall FUN_00deef10(unsigned char flags);
+    void* FUN_00deef10(unsigned char flags);
 };
 
 // Calls the base destructor, then if flags bit 0 is set, releases this block through the router heap using m_usMemSizeAndFlags, and returns this.
 // @fnv 0x00deef10
-void* __thiscall PathDeleteData::FUN_00deef10(unsigned char flags)
+void* PathDeleteData::FUN_00deef10(unsigned char flags)
 {
     reinterpret_cast<::FUN_00dee7d0_class *>(this)->Destroy();
     if (flags & 1)

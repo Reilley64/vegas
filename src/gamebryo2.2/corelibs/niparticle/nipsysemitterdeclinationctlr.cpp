@@ -14,7 +14,7 @@ struct NiPSysEmitterDeclinationCtlr
 };
 
 // @fnv 0x00c2a1b0
-void __thiscall NiPSysEmitterDeclinationCtlr::FUN_00c2a1b0(float& fValue)
+void NiPSysEmitterDeclinationCtlr::FUN_00c2a1b0(float& fValue)
 {
     void* p = *(void**)((char*)this + 0x3C);
     fValue = *(float*)((char*)p + 0x20);

@@ -58,12 +58,12 @@ void FUN_00b2bcf0_shell::FUN_00b06260(float* pfA, float* pfB)
 
 struct FUN_00b071c0_Class
 {
-    void __thiscall SetField14(int param);
+    void SetField14(int param);
 };
 
 // Stores the low byte of param at offset 0x14 of the object pointed to by the pointer at this+0x10.
 // @fnv 0x00b071c0
-void __thiscall FUN_00b071c0_Class::SetField14(int aiValue)
+void FUN_00b071c0_Class::SetField14(int aiValue)
 {
     int* p = *(int**)((char*)this + 0x10);
     *(char*)((char*)p + 0x14) = (char)aiValue;
@@ -248,17 +248,17 @@ struct FUN_00b08500_shell
 
 // Forwards the two float arguments to the object pointed to by the first member of this object.
 // @fnv 0x00b08500
-void __thiscall FUN_00b08500_shell::FUN_00b08500(float afValue, float afOther)
+void FUN_00b08500_shell::FUN_00b08500(float afValue, float afOther)
 {
     ((FUN_00b2bdc0_shell*)*reinterpret_cast<int*>(this))->FUN_00b2bdc0(afValue, afOther);
 }
 
 struct FUN_00b086f0_class
 {
-    unsigned short __thiscall GetLowWordAtOffset0x78();
+    unsigned short GetLowWordAtOffset0x78();
 };
 // @fnv 0x00b086f0
-unsigned short __thiscall FUN_00b086f0_class::GetLowWordAtOffset0x78()
+unsigned short FUN_00b086f0_class::GetLowWordAtOffset0x78()
 {
     int v;
     v = *reinterpret_cast<int*>(reinterpret_cast<char*>(*reinterpret_cast<int*>(this)) + 0x78);
@@ -300,10 +300,10 @@ struct CSpeedTreeRT
     int m_p0;
     int m_p4;
     SpeedTreeLodData* m_pLodData;
-    void __thiscall FUN_00b088b0();
+    void FUN_00b088b0();
 };
 // @fnv 0x00b088b0
-void __thiscall CSpeedTreeRT::FUN_00b088b0()
+void CSpeedTreeRT::FUN_00b088b0()
 {
     if (m_pLodData)
         reinterpret_cast<::CB28 *>((m_pLodData))->FreeLodBuffers();
@@ -498,11 +498,11 @@ void __cdecl AssignString(const char* s);
 
 struct CSpeedTreeRT_GetBoundingBox
 {
-    void __thiscall FUN_00b08c80(float* dst);
+    void FUN_00b08c80(float* dst);
 };
 
 // @fnv 0x00b08c80
-void __thiscall CSpeedTreeRT_GetBoundingBox::FUN_00b08c80(float* afBounds)
+void CSpeedTreeRT_GetBoundingBox::FUN_00b08c80(float* afBounds)
 {
     if (afBounds)
     {
@@ -540,10 +540,10 @@ struct FUN_00b0a260_Class
     void* m_50;
     void* m_54;
     void* m_58;
-    int __thiscall GetEntryCount();
+    int GetEntryCount();
 };
 // @fnv 0x00b0a260
-int __thiscall FUN_00b0a260_Class::GetEntryCount()
+int FUN_00b0a260_Class::GetEntryCount()
 {
     int result = 0;
     if (m_58)
@@ -690,12 +690,12 @@ struct FUN_00b02d40_class
     void* m_30;
     void* m_34;
     void* m_38;
-    void __thiscall ClearFields();
+    void ClearFields();
 };
 
 // Sets eleven pointer fields of the object (m_10 through m_38) to null.
 // @fnv 0x00b02d40
-void __thiscall FUN_00b02d40_class::ClearFields()
+void FUN_00b02d40_class::ClearFields()
 {
     m_10 = 0;
     m_14 = 0;
@@ -883,12 +883,12 @@ float FUN_00b073f0_class::FUN_00b073f0()
 struct FUN_00b07440_Class
 {
     void* m_p;
-    float __thiscall FUN_00b07440();
+    float FUN_00b07440();
 };
 
 // Returns the float at offset 0x1c of the object stored at m_p+0x5c, or 0.0f if m_p or that pointer is null.
 // @fnv 0x00b07440
-float __thiscall FUN_00b07440_Class::FUN_00b07440()
+float FUN_00b07440_Class::FUN_00b07440()
 {
     if (m_p)
     {
@@ -915,7 +915,7 @@ template <class _CharT> struct allocator
 template <class _CharT, class _Traits, class _Alloc> class basic_string
 {
   public:
-    void __thiscall _Tidy(bool, unsigned int);
+    void _Tidy(bool, unsigned int);
 };
 }
 
@@ -924,7 +924,7 @@ struct FUN_0044d6f0_This
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void __thiscall FUN_00ec79a1();
+    void FUN_00ec79a1();
 };
 
 
@@ -932,7 +932,7 @@ struct FUN_00b09780_class : FUN_0044d6f0_This
 {
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > m_iThirdValue;
 
-    void __thiscall FUN_00b09780();
+    void FUN_00b09780();
 };
 
 // @fnv 0x00b09780
@@ -1045,7 +1045,7 @@ FUN_00b02ac0::~FUN_00b02ac0()
 
 struct FUN_00b08610_shell
 {
-    unsigned short __thiscall FUN_00b08610(float fLodLevel);
+    unsigned short FUN_00b08610(float fLodLevel);
 };
 // Maps a LOD fraction to a discrete level index using the LOD level count, clamping the top value down by one.
 // @fnv 0x00b08610
@@ -1527,7 +1527,7 @@ struct FUN_00b10430_Class
     int unk00;
     int unk04;
 
-    FUN_00b10430_Class* __thiscall FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range);
+    FUN_00b10430_Class* FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range);
 };
 
 // Resets unk00, validates index against range bounds via FUN_00ec7c56, then stores range->unk00 and index into the object.
@@ -1916,11 +1916,11 @@ struct FUN_00b09730_Class : FUN_0044d6f0_This
 {
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > m_iThirdValue;
 
-    void* __thiscall FUN_00b09730(unsigned int flags);
+    void* FUN_00b09730(unsigned int flags);
 };
 
 // @fnv 0x00b09730
-void* __thiscall FUN_00b09730_Class::FUN_00b09730(unsigned int flags)
+void* FUN_00b09730_Class::FUN_00b09730(unsigned int flags)
 {
     FUN_00b09730_Local local;
 

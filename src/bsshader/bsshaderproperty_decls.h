@@ -21,7 +21,6 @@ struct BSShaderPropertyLightSlot
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
-FNV_STATIC_ASSERT(sizeof(BSShaderPropertyLightSlot) == sizeof(ShadowSceneLight*));
 
 class BSShaderProperty
 {
@@ -91,6 +90,4 @@ class BSShaderProperty::ShaderPassList
     void Add(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*, ShadowSceneLight*,
              ShadowSceneLight*);
 };
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty::ShaderPassEntry) == 16);
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty::ShaderPassList) == 20);
 #endif

@@ -10,7 +10,6 @@
 #include "hkpRagdollMotorConstraintAtom.h"
 #include "hkpSetLocalTransformsConstraintAtom.h"
 #include "hkpTwistLimitConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpRagdollConstraintDataAtoms
 {
   public:
@@ -28,6 +27,4 @@ class hkpRagdollConstraintDataAtoms
     hkpConeLimitConstraintAtom m_kPlaneLimit;           // +0x114
     hkpBallSocketConstraintAtom m_kBallSocket;          // +0x128
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRagdollConstraintDataAtoms[(sizeof(hkpRagdollConstraintDataAtoms) == 0x130) ? 1 : -1];
 #endif

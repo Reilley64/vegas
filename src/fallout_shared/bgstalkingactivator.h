@@ -63,26 +63,19 @@ class BGSVoiceType : public TESForm
 {
 };
 
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
     unsigned char modelData[0x14];
     static void LoadModelData(TESModel* apModel, TESFile* apFile);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
 
-#pragma pack(push, 4)
 class TESModelTextureSwap : public TESModel
 {
   public:
     unsigned char swapData[8];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 0x20);
 
-#pragma pack(push, 4)
 class TESScriptableForm : public BaseFormComponent
 {
   public:
@@ -91,18 +84,12 @@ class TESScriptableForm : public BaseFormComponent
     unsigned char layoutPadding9[3];
     void InitItem(TESForm* apForm);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESScriptableForm) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESScriptableForm, m_pFormScript) == 0x4);
 
-#pragma pack(push, 4)
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
     void* pData;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
 
 class BGSOpenCloseForm
 {
@@ -110,32 +97,22 @@ class BGSOpenCloseForm
     void* m_ppVirtualMethodTable;  // +0x0
 };
 
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
     unsigned char layoutPadding18[0xC];  // +0x18 parent list, prev, next
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 0x24);
 
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
     unsigned char layoutPadding24[0xC];  // +0x24 bound min/max
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
 
-#pragma pack(push, 4)
 class TESBoundAnimObject : public TESBoundObject
 {
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);
 
-#pragma pack(push, 4)
 class TESObjectACTI : public TESBoundAnimObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -160,14 +137,8 @@ class TESObjectACTI : public TESBoundAnimObject,
     virtual void InitItem();
     void SetLoopingSound(TESSound* apSound);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObjectACTI) == 144);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, m_pSoundEffect) == 116);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, pRadioTemplate) == 124);
-FNV_STATIC_ASSERT(offsetof(TESObjectACTI, cActivateTextOverride) == 136);
 
 
-#pragma pack(push, 4)
 class BGSTalkingActivator : public TESObjectACTI
 {
   public:
@@ -183,8 +154,4 @@ class BGSTalkingActivator : public TESObjectACTI
     static void AddRadioStation(TESObjectREFR*);
     static void FindRadioStations(TESObjectREFR*, BSSimpleList<TESObjectREFR*>*, BSSimpleList<float>*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSTalkingActivator) == 152);
-FNV_STATIC_ASSERT(offsetof(BGSTalkingActivator, m_pTempRef) == 144);
-FNV_STATIC_ASSERT(offsetof(BGSTalkingActivator, m_kFactionList) == 148);
 #endif

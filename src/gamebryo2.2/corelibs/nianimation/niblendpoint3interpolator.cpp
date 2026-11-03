@@ -130,9 +130,9 @@ void FUN_00a55ef0_shell::AppendPoint3Value(void* pkStrings)
 
 // Calls the virtual function at vtable offset 0xb0 on p and returns its bool result.
 // @fnv 0x00a55a60
-bool __stdcall FUN_00a55a60(NiBlendPoint3Interpolator* p)
+bool FUN_00a55a60(NiBlendPoint3Interpolator* p)
 {
-    return reinterpret_cast<bool(__thiscall*)(NiObject*)>(*reinterpret_cast<const unsigned int*>(
+    return reinterpret_cast<bool(*)(NiObject*)>(*reinterpret_cast<const unsigned int*>(
         reinterpret_cast<const unsigned char*>(*reinterpret_cast<const unsigned int*>(p)) + 0xb0))(p);
 }
 

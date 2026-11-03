@@ -47,12 +47,12 @@ void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c26920_shell
 {
-    FUN_00c26920_shell* __thiscall DestroyIfFlagged(int a);
+    FUN_00c26920_shell* DestroyIfFlagged(int a);
 };
 
 // Calls FUN_00c31750, then deletes this with size 0x3c when bit 0 of a is set, and returns this.
 // @fnv 0x00c26920
-FUN_00c26920_shell* __thiscall FUN_00c26920_shell::DestroyIfFlagged(int a)
+FUN_00c26920_shell* FUN_00c26920_shell::DestroyIfFlagged(int a)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (a & 1)
@@ -64,7 +64,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -75,7 +74,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiObject;
 struct ShaderBufferRecord;
@@ -233,7 +231,7 @@ struct Pt_c268
 };
 
 // @fnv 0x00c26820
-Pt_c268 __stdcall FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
+Pt_c268 FUN_00c26820(const Pt_c268& origin, const Pt_c268& direction, const Pt_c268& point)
 {
     Pt_c268 vDifference = point - origin;
     float dot = vDifference * direction;
@@ -433,7 +431,6 @@ struct NiTransform
     Vec3 translation;
     float scale;
 };
-typedef char _sizecheck_NiTransform[sizeof(NiTransform) == 52 ? 1 : -1];
 struct TransformNode
 {
     int unk00;

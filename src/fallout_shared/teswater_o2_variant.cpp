@@ -63,11 +63,11 @@ extern int DAT_0109cb9c;
 
 struct FUN_00a6fae0_Class
 {
-    void __thiscall FUN_00a6fae0();
+    void FUN_00a6fae0();
 };
 
 // @fnv 0x00a6fae0
-void __thiscall FUN_00a6fae0_Class::FUN_00a6fae0()
+void FUN_00a6fae0_Class::FUN_00a6fae0()
 {
     *(int*)this = (int)&DAT_0109cb9c;
     reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();

@@ -5,6 +5,7 @@
 
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <windows.h>
 #include "fnv/decl/C68CB0World.h"
 #include "fnv/decl/C8F670Object.h"
 #include "fnv/decl/Entity_c8ea.h"
@@ -284,7 +285,7 @@ struct bhkSphereShape
     virtual void f43();
     virtual void f44();
     virtual RetV* Target(char* p);
-    void __thiscall FUN_00ca0740(void* a, ArgB* b);
+    void FUN_00ca0740(void* a, ArgB* b);
 };
 struct S_00cb3070
 {
@@ -1209,7 +1210,7 @@ struct FUN_00c9f420_Class
 };
 struct ProjectileCreator
 {
-    Object_00c9f5a0* __thiscall FUN_00c9f640(int mode);
+    Object_00c9f5a0* FUN_00c9f640(int mode);
 };
 struct TLSBlock
 {
@@ -1605,7 +1606,7 @@ struct SphereScaleFields
 };
 struct SphereScalingMethod : bhkSphereShape
 {
-    void __thiscall FUN_00c9fea0(void* first, ArgB* second);
+    void FUN_00c9fea0(void* first, ArgB* second);
 };
 struct Tls_ca0090
 {
@@ -2005,8 +2006,6 @@ class NiControllerC9E : public NiObjectC9E
     int unk10;
     int unk14;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct HkResult_c6b
 {
     int m_00;

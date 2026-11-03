@@ -34,7 +34,7 @@ struct BSPlayerDistanceCheckController
 {
     virtual ~BSPlayerDistanceCheckController();
     static void __cdecl operator delete(void* p, unsigned int size);
-    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 struct TESObjectDoorController
@@ -287,7 +287,7 @@ struct FUN_008d1650 : FUN_00a6d290
 };
 // Runs the destructor and, when bit 0 of flags is set, frees this with operator delete; returns this.
 // @fnv 0x008d1620
-void* __thiscall BSPlayerDistanceCheckController::ScalarDeletingDestructor(unsigned int flags)
+void* BSPlayerDistanceCheckController::ScalarDeletingDestructor(unsigned int flags)
 {
     reinterpret_cast<::FUN_008d1650 *>((this))->FUN_008d1650::~FUN_008d1650();
     if (flags & 1)

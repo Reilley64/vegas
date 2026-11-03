@@ -13,11 +13,11 @@ struct NiPSysModifierFloatCtlr
 
 struct NiPSysFieldMagnitudeCtlr : NiPSysModifierFloatCtlr
 {
-    void __thiscall FUN_00c29ea0(float& fValue);
+    void FUN_00c29ea0(float& fValue);
 };
 
 // @fnv 0x00c29ea0
-void __thiscall NiPSysFieldMagnitudeCtlr::FUN_00c29ea0(float& fValue)
+void NiPSysFieldMagnitudeCtlr::FUN_00c29ea0(float& fValue)
 {
     fValue = *(float*)(*(NiPSysModifierFloatCtlr**)((char*)this + 0x3C) + 0x1C);
 }
@@ -31,11 +31,11 @@ void* __cdecl FUN_00c2b140()
 
 struct NiPSysFieldMagnitudeCtlr_shell : NiPSysFieldMagnitudeCtlr
 {
-    void __thiscall FUN_00c2b150(float value);
+    void FUN_00c2b150(float value);
 };
 
 // @fnv 0x00c2b150
-void __thiscall NiPSysFieldMagnitudeCtlr_shell::FUN_00c2b150(float value)
+void NiPSysFieldMagnitudeCtlr_shell::FUN_00c2b150(float value)
 {
     ((float*)*(int*)((char*)this + 0x3c))[7] = value;
 }
@@ -50,7 +50,7 @@ struct StrArr
     unsigned short m_usGrow;
 };
 // @fnv 0x00c2b1b0
-void __stdcall FUN_00c2b1b0(StrArr* pkStrings)
+void FUN_00c2b1b0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* pcStr = FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_01202718)));

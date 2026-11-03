@@ -163,7 +163,6 @@ class FUN_00d4ce10 : public FUN_00c9ea40
     virtual ~FUN_00d4ce10() throw();
 };
 
-typedef char fnv_check_d4ce10[(sizeof(FUN_00d4ce10) == 0x170) ? 1 : -1];
 
 // Constructs the object from a shape and transform, clears the bool flag, and stores the collision filter info in the collidable.
 // @fnv 0x00d4ce10

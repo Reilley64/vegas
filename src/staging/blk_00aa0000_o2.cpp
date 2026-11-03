@@ -2,6 +2,7 @@
 // src/staging/blk_00aa0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CBaseList9FD.h"
@@ -31,7 +32,7 @@
 void FUN_00aa0000()
 {
     if (DAT_011f6044)
-        ((void(__thiscall*)(void*)) * (void**)(*(char**)DAT_011f6044 + 0x20))(DAT_011f6044);
+        ((void(*)(void*)) * (void**)(*(char**)DAT_011f6044 + 0x20))(DAT_011f6044);
 }
 
 
@@ -198,8 +199,6 @@ void* FUN_00aa02f0_s::FUN_00aa02f0(unsigned char bDelete)
 }
 }  // namespace fnv_00aa02f0
 
-extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(long long*);
-extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(long long*);
 extern unsigned char DAT_011ac222;
 extern long long DAT_011f6068;
 extern long long DAT_011f606c;
@@ -334,7 +333,7 @@ void __cdecl FUN_00aa13e0(int value)
 
 struct FUN_00aff950_shell
 {
-    unsigned int __thiscall FUN_00aa1810(void* buffer, unsigned int size);
+    unsigned int FUN_00aa1810(void* buffer, unsigned int size);
 };
 
 // @fnv 0x00aa19c0
@@ -474,7 +473,7 @@ namespace fnv_00aa2170 {
 
 struct FUN_00aa21e0_shell
 {
-    void __thiscall FUN_00aa21e0();
+    void FUN_00aa21e0();
 };
 
 struct FUN_00aa4060_shell
@@ -675,7 +674,6 @@ void FUN_00aa24f0_cls::FUN_00aa24f0()
 // The object keeps the thread handle at +0x24 and a "suspended" flag at +0x1c.
 // When no thread handle is stored the call fails immediately with -1; otherwise
 // the thread is suspended and, if the suspend succeeded, the flag is raised.
-extern "C" __declspec(dllimport) unsigned long __stdcall SuspendThread(void*);
 
 class FUN_00aa2710_cls
 {
@@ -841,7 +839,6 @@ void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
 
 extern "C" void* __cdecl MemSetAA3(void* pvDest, int iValue, unsigned int uiSize);
 
@@ -1103,7 +1100,6 @@ bool FileNameComponents::BuildFullPath(char* pcOutPath, unsigned int uiBufferSiz
 }
 }  // namespace fnv_00aa2820
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 struct StringHandleAllocatorAA0
 {
 };
@@ -1201,7 +1197,7 @@ struct StringMapAllocAA0
 };
 // Resets the key and value of a StringMapItemAA0, runs its destructor, and returns it to the StringMapAllocAA0 allocator.
 // @fnv 0x00aa0330
-void __stdcall FUN_00aa0330(StringMapItemAA0* pkItem)
+void FUN_00aa0330(StringMapItemAA0* pkItem)
 {
     pkItem->m_key = 0;
     pkItem->m_val = 0;
@@ -1482,7 +1478,6 @@ struct SysInfoQ
     unsigned short wProcessorLevel;
     unsigned short wProcessorRevision;
 };
-extern "C" __declspec(dllimport) void __stdcall GetSystemInfo(SysInfoQ*);
 
 // Allocates 8 bytes from the memory manager, stores the processor count and performance frequency, and sets the global pointer to the block.
 // @fnv 0x00aa1920

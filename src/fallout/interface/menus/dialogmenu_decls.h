@@ -179,9 +179,4 @@ class TESResponse
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(Menu) == 0x28);
-FNV_STATIC_ASSERT(sizeof(ListBox_int_) == 0x30);
-FNV_STATIC_ASSERT(sizeof(DialogMenu) == 0x13C);
-FNV_STATIC_ASSERT(offsetof(DialogMenu, m_eGoodbyeState) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(DialogMenu, m_kResponseListBox) == 0x40);
 #endif

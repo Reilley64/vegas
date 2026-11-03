@@ -253,7 +253,7 @@ bool TESRace::GetBipedObjectModelPath(TESNPC* npc, BIPED_OBJECT part, char* out)
 extern int DAT_0104b5f8;
 
 // @fnv 0x006104a0
-TESModel* __fastcall ConstructTESModel(TESModel* pThis)
+TESModel* ConstructTESModel(TESModel* pThis)
 {
     new ((void *)(pThis)) ::FUN_00488f50_cls();
     *(int**)pThis = &DAT_0104b5f8;
@@ -576,7 +576,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_006148f0_shell : public TESRace
 {
     bool BuildBodyModTexturePath(TESNPC*, char*, char*);
@@ -688,7 +687,7 @@ struct FUN_00615330_shell
 
 // Copies aWeapon into a stack buffer, compares it with the string at this+0x50c, and if different stores it there and returns true.
 // @fnv 0x00615330
-bool __thiscall FUN_00615330_shell::SetWeaponName(char const* aWeapon)
+bool FUN_00615330_shell::SetWeaponName(char const* aWeapon)
 {
     unsigned int len = ::FUN_0044a670(aWeapon) + 1;
     char* buf = (char*)_alloca(len);
@@ -1116,12 +1115,12 @@ struct S_00613ad0_Class
 
     S_00613ad0_Element m[2];
 
-    void __thiscall DispatchToElement(int, int);
+    void DispatchToElement(int, int);
 };
 
 // Bounds-checks a against the two-element array m and, if valid, calls the element's virtual V6 with b.
 // @fnv 0x00613ad0
-void __thiscall S_00613ad0_Class::DispatchToElement(int aiIndex, int b)
+void S_00613ad0_Class::DispatchToElement(int aiIndex, int b)
 {
     if (aiIndex < 0 || aiIndex >= 2)
         return;

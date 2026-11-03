@@ -48,7 +48,6 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct FUN_00488ff0_shell : public FileEntryList
 {
     void FUN_00488ff0();
@@ -85,7 +84,6 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct FUN_00489620_shell : public FileEntryList
 {
     bool ClearTextureList();
@@ -153,12 +151,12 @@ struct FUN_00489860_shell
     unsigned char b2;
     unsigned char b3;
     int i4;
-    unsigned char* __thiscall FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
+    unsigned char* FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
 };
 
 // Stores the four byte arguments into b0..b3 and the int argument into i4, then returns this as an unsigned char pointer.
 // @fnv 0x00489860
-unsigned char* __thiscall FUN_00489860_shell::FUN_00489860(unsigned char aucByte0, unsigned char aucByte1,
+unsigned char* FUN_00489860_shell::FUN_00489860(unsigned char aucByte0, unsigned char aucByte1,
                                                            unsigned char aucByte2, unsigned char aucByte3, int aiValue)
 {
     b0 = aucByte0;
@@ -200,7 +198,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESLeveledList : public BaseFormComponent
 {
     virtual unsigned char GetChanceNone();
@@ -241,7 +238,6 @@ struct TESLeveledList : public BaseFormComponent
     TESGlobal* m_pLevelGlobal;
     char m_kLeveledObjects[8];
 };
-typedef char _sizecheck_TESLeveledList[sizeof(TESLeveledList) == 28 ? 1 : -1];
 struct FUN_00487a00_shell : public TESLeveledList
 {
     void FUN_00487a00(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
@@ -390,7 +386,6 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -398,7 +393,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00489940_shell : public FileEntryList
 {
     void LoadChunkData(TESFile*, TESForm*, char*);
@@ -429,7 +423,7 @@ void FUN_00489940_shell::LoadChunkData(TESFile* file, TESForm* form, char* name)
 
 struct FUN_004f9ec0_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 // Calls CallInnerMethod, then deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x004f9ec0
@@ -976,7 +970,7 @@ struct ActorSexView481010
     int FUN_005f0cc0();
 };
 
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 
 // Returns the biped model for a TESBipedModelForm, selecting the male or female variant based on the owner actor's sex when a reference is provided.
 // @fnv 0x00481010

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/Agent378.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BvTreeAgentD3.h"
@@ -460,11 +461,11 @@ struct LinearCastState
 
 struct CastObj
 {
-    void __thiscall FUN_00d31610(int a1, int a2, int a3, LinearCastState& st);
+    void FUN_00d31610(int a1, int a2, int a3, LinearCastState& st);
 };
 
 // @fnv 0x00d31610
-void __thiscall CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& st)
+void CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& st)
 {
     LinearCastState* s = &st;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -1290,7 +1291,6 @@ extern "C"
     __m128 _mm_set_ps1(float);
     __m128 _mm_set_ss(float);
     __m128 _mm_load_ss(const float*);
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
     unsigned __int64 __rdtsc();
     void _ReadWriteBarrier();
 }

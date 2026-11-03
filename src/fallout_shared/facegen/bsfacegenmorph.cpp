@@ -93,7 +93,7 @@ void BSFaceGenMorphStatistical::ApplyDifferentialMorph(NiTriBasedGeom* geom, BSF
 extern int DAT_01065cb8;
 
 // @fnv 0x00660690
-void** __fastcall FUN_00660690(void** p)
+void** FUN_00660690(void** p)
 {
     *p = &DAT_01065cb8;
     return p;
@@ -109,7 +109,7 @@ unsigned int __cdecl MinUnsigned(unsigned short ausValue, unsigned int auValue)
 
 struct FUN_006606b0_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 struct S006607F0
@@ -199,7 +199,7 @@ struct FUN_006606e0_shell
     void SetVTable();
 };
 // @fnv 0x006606b0
-void* __thiscall FUN_006606b0_shell::Destroy(unsigned int flags)
+void* FUN_006606b0_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_006606e0_shell *>(this)->SetVTable();
     if (flags & 1)

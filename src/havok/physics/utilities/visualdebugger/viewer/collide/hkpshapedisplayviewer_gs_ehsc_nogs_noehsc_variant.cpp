@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/CpuObject.h"
@@ -610,7 +611,6 @@ struct TtTlsData
     int unk08;
     TtTlsRecord* m_kRayEnd;
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct TtShapeDisplayInner
 {
     int unk00;

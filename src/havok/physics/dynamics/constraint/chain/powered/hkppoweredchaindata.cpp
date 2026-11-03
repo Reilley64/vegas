@@ -273,11 +273,11 @@ struct S00e3b770_Obj
     int unk18;
     int m_iElementCount;
 
-    void __thiscall FUN_00e3b770(int unused, S00e3b770_Result* result);
+    void FUN_00e3b770(int unused, S00e3b770_Result* result);
 };
 
 // @fnv 0x00e3b770
-void __thiscall S00e3b770_Obj::FUN_00e3b770(int unused, S00e3b770_Result* result)
+void S00e3b770_Obj::FUN_00e3b770(int unused, S00e3b770_Result* result)
 {
     int size = m_iElementCount;
     int stride = size * 6;

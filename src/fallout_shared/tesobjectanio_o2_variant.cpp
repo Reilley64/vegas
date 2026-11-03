@@ -53,7 +53,7 @@ struct _ref_0084e3a0_t
 };
 struct FUN_00511d10_shell
 {
-    void __thiscall FUN_00511d10();
+    void FUN_00511d10();
 };
 
 // sub ecx,0x18; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases

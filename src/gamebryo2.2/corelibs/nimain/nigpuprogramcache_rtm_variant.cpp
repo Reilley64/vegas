@@ -4,6 +4,7 @@
 
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/C00be0ad0.h"
 #include "fnv/decl/CpuObject.h"
@@ -62,7 +63,7 @@ struct SomeClass
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00ee9ca0_shell
 {
-    void* __thiscall FUN_00ee9ca0(unsigned int flags);
+    void* FUN_00ee9ca0(unsigned int flags);
 };
 struct FUN_00a5e3a0_Helper
 {
@@ -82,8 +83,6 @@ struct FUN_00aa2200
     unsigned char initialized;
     FUN_00aa2200();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 class NiFixedString
 {
   public:
@@ -436,7 +435,7 @@ struct ItemWithDtor
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
-void __stdcall ClearAndDeleteItem(ItemWithDtor* pItem);
+void ClearAndDeleteItem(ItemWithDtor* pItem);
 void __cdecl FreeBlock(void* p);
 struct ReleaseHelper
 {
@@ -528,7 +527,7 @@ struct FUN_00ee90f0_cls
     unsigned int unk04;
     unsigned int m_uiItemCount;
 };
-bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList);
+bool RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList);
 // 0x00ee8a70  unit_e3a382715159.cpp  /MT /O2 /GS /EHsc /Gy
 // target: 8D 41 28 C3   lea eax,[ecx+0x28] ; ret   (4 bytes, thiscall getter)
 struct C00ee8a70
@@ -547,7 +546,7 @@ struct FnvCpu_FUN_00ee8a90_CpuObject
 };
 struct FUN_00ee8aa0_shell
 {
-    char __thiscall FUN_00ee8aa0();
+    char FUN_00ee8aa0();
 };
 class NiFile
 {
@@ -872,8 +871,6 @@ class GpuCacheWriter
     bool FUN_00ee9620();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiGlobalStringTable
 {
@@ -883,8 +880,8 @@ class NiGlobalStringTable
 
 struct CacheRefVTable
 {
-    void(__thiscall* Destroy)(void*);
-    void(__thiscall* DeleteThis)(void*);
+    void(* Destroy)(void*);
+    void(* DeleteThis)(void*);
 };
 
 class RefObjBase

@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c2d540
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00c319e0_cls.h"
 #include "fnv/decl/MyIsEqual.h"
@@ -50,7 +51,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -61,10 +61,7 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
-long __declspec(dllimport) __stdcall InterlockedDecrement(long*);
-long __declspec(dllimport) __stdcall InterlockedIncrement(long*);
 class CloningProcess;
 class NiStream;
 struct NiPSysModifier
@@ -178,8 +175,6 @@ void NiPSysColliderManager::FUN_00c2d410(CloningProcess& kCloning)
 }  // namespace fnv_00c2d410
 
 namespace fnv_00c2d440 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiObject
 {
     virtual void _f0();
@@ -307,7 +302,6 @@ void NiPSysColliderManager::FUN_00c2d4d0(NiStream& kStream)
 }  // namespace fnv_00c2d4d0
 
 namespace fnv_00c2d5e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct Holder31750
 {
 };

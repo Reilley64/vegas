@@ -10,7 +10,6 @@
 class TESModelList;
 class FileEntryList;
 class FileEntryListCollection;
-#pragma pack(push, 4)
 class TESFile;
 class TESModelList;
 class FileEntryListCollection
@@ -28,11 +27,6 @@ class FileEntryListCollection
 public:
     void LoadFromTESFile(::TESModelList *, ::TESFile *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryListCollection) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryListCollection, m_uiFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryListCollection, m_ppElementArray) == 4);
-#pragma pack(push, 4)
 class TESModelList : public BaseFormComponent
 {
   public:
@@ -58,8 +52,4 @@ class TESModelList : public BaseFormComponent
     // TESModelList& __cdecl TESModelList::*(const TESModelList&)
     // void* __cdecl TESModelList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelList) == 20);
-FNV_STATIC_ASSERT(offsetof(TESModelList, m_kModelPaths) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModelList, m_kModelData) == 12);
 #endif

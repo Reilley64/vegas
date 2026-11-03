@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niextradatacontroller.cpp: NiPSysModifierCtlr, NiExtraDataController, FakeController, TargetController (8 functions)
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/FUN_00a38fe0_shell.h"
@@ -76,7 +77,6 @@ bool FUN_00a57100_Caller::FUN_00a57100(NiStream& kStream)
     return true;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiTimeController : NiObjectNET
 {
     virtual void SetTarget(NiObjectNET*);

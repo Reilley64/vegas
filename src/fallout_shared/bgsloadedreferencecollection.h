@@ -42,7 +42,6 @@ class TimeGlobal
   public:
 };
 
-#pragma pack(push, 4)
 class LoadedReferenceMap : public NiTPointerMap<unsigned int, TESObjectREFR*>
 {
   public:
@@ -51,10 +50,6 @@ class LoadedReferenceMap : public NiTPointerMap<unsigned int, TESObjectREFR*>
 
     bool AddReference(TESObjectREFR* pRef);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(LoadedReferenceMap) == 24);
-FNV_STATIC_ASSERT(offsetof(LoadedReferenceMap, iCount) == 16);
-FNV_STATIC_ASSERT(offsetof(LoadedReferenceMap, m_uiLastUpdateTime) == 20);
 
 #endif

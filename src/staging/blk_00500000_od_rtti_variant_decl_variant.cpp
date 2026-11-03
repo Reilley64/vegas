@@ -136,7 +136,7 @@ struct FUN_00507610_Class
 };
 struct FUN_005076c0Class
 {
-    void __thiscall FUN_005076c0(float value);
+    void FUN_005076c0(float value);
 };
 struct FUN_005076e0_Class
 {
@@ -144,7 +144,7 @@ struct FUN_005076e0_Class
 };
 struct FUN_00507720_Class
 {
-    void __thiscall FUN_00507720(float value);
+    void FUN_00507720(float value);
 };
 struct FUN_00507740_Class
 {
@@ -180,7 +180,7 @@ struct FUN_00508070_class
 };
 struct FUN_00509890_class
 {
-    void* __thiscall FUN_00509890(bool);
+    void* FUN_00509890(bool);
 };
 struct FUN_0050d1d0_class
 {
@@ -188,7 +188,7 @@ struct FUN_0050d1d0_class
 };
 struct FUN_0050d1f0_Class
 {
-    bool __thiscall FUN_0050d1f0() const;
+    bool FUN_0050d1f0() const;
 };
 struct FUN_0050d210_Class
 {
@@ -215,11 +215,11 @@ struct BGSTerrainManager
 };
 struct FUN_00510380_Class
 {
-    unsigned int __thiscall GetTerrainMinLevel(BGSTerrainManager* a);
+    unsigned int GetTerrainMinLevel(BGSTerrainManager* a);
 };
 struct FUN_005103a0_class
 {
-    void __thiscall FUN_005103a0(const char* a, const char* b);
+    void FUN_005103a0(const char* a, const char* b);
 };
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
 extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
@@ -243,14 +243,14 @@ extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
 {
     void* m_p;
-    void* __thiscall FUN_00519b20(void* arg);
+    void* FUN_00519b20(void* arg);
 };
 struct Unk_00a5e930
 {
 };
 struct FUN_0051cfe0_Class
 {
-    unsigned int __thiscall FUN_0051cfe0();
+    unsigned int FUN_0051cfe0();
 };
 struct FUN_0051f4d0_class
 {
@@ -262,7 +262,7 @@ struct FUN_0051f4f0_Class
 };
 struct FUN_0051f530_class
 {
-    void __thiscall FUN_0051f530(int value);
+    void FUN_0051f530(int value);
 };
 extern void* DAT_0102b3f0;
 struct FUN_00519c50_class
@@ -270,13 +270,13 @@ struct FUN_00519c50_class
     void* pVft;
     int _0x4;
     void* _0x8;
-    void __thiscall FUN_00519c50();
+    void FUN_00519c50();
 };
 void __cdecl FUN_005010f0();
 struct FUN_005010c0_class
 {
-    void __thiscall FUN_005010f0();
-    void* __thiscall FUN_005010c0(unsigned int flags);
+    void FUN_005010f0();
+    void* FUN_005010c0(unsigned int flags);
 };
 struct NiPoint4
 {
@@ -291,13 +291,13 @@ struct FUN_00507660_class
 };
 struct FUN_00519b50_class
 {
-    void __thiscall FUN_00519bf0();
-    void* __thiscall FUN_00519b50(unsigned int flags);
+    void FUN_00519bf0();
+    void* FUN_00519b50(unsigned int flags);
 };
 struct FUN_00519c50_class;
 struct FUN_00519c80_class
 {
-    void* __thiscall FUN_00519c80(unsigned int flags);
+    void* FUN_00519c80(unsigned int flags);
 };
 struct FUN_00501cd0_class
 {
@@ -307,7 +307,7 @@ struct FUN_00501cd0_class
     void* m_0c;
     unsigned int m_10;
     void* m_14;
-    void* __thiscall FUN_00501cd0();
+    void* FUN_00501cd0();
 };
 struct TESForm;
 struct FUN_00507590_Data
@@ -318,7 +318,7 @@ struct FUN_00507590_Data
 };
 struct FUN_00507590_Class
 {
-    void __thiscall SetData(FUN_00507590_Data v);
+    void SetData(FUN_00507590_Data v);
 };
 struct Vec12_5075c0
 {
@@ -328,19 +328,19 @@ struct Vec12_5075c0
 };
 struct S5075c0
 {
-    void __thiscall FUN_005075c0(Vec12_5075c0 v);
+    void FUN_005075c0(Vec12_5075c0 v);
 };
 struct FUN_00507630_Cls
 {
     unsigned char _pad[0xC4];
     NiPoint4 fld;
-    void __thiscall SetPoint(NiPoint4 p);
+    void SetPoint(NiPoint4 p);
 };
 struct FUN_00507690_Class
 {
     char _pad[0xe4];
     NiPoint4 m_0xe4;
-    void __thiscall FUN_00507690(NiPoint4 v);
+    void FUN_00507690(NiPoint4 v);
 };
 struct BGSImpactData
 {
@@ -375,14 +375,14 @@ struct FUN_0050e640_Holder
 {
     char _0[4];
     unsigned char _4;
-    bool __thiscall MatchesValue(unsigned char v);
+    bool MatchesValue(unsigned char v);
 };
 struct AVH
 {
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int FUN_00514fd0();
 };
 struct LH
 {
@@ -394,7 +394,7 @@ struct FUN_00519500_class
 };
 struct FUN_00519b20
 {
-    void* __thiscall ConstructArray(unsigned int n);
+    void* ConstructArray(unsigned int n);
 };
 struct TESGrassBase
 {
@@ -487,7 +487,7 @@ struct FUN_0050a5a0 : TESObjectMISC
 };
 struct TESObjectREFR_Flags
 {
-    void __thiscall SetRefFlag40000000(bool set);
+    void SetRefFlag40000000(bool set);
 };
 struct Setting_S
 {
@@ -788,7 +788,7 @@ struct Actor : public ActorPad04, public ActorValueOwner
 };
 struct FUN_00516cd0_class
 {
-    bool __thiscall CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
+    bool CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 int DAT_011c6200;
 struct FUN_00505b80_cls
@@ -1127,7 +1127,7 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool __thiscall FUN_0050de20(S_0050de20_A* a, int b);
+    bool FUN_0050de20(S_0050de20_A* a, int b);
 };
 struct S_5102e0_Node
 {

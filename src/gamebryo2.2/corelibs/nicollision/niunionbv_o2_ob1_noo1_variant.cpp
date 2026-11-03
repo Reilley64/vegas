@@ -89,7 +89,7 @@ struct S
 {
     S* FUN_00e9ee60(void*);
 };
-S* __fastcall FUN_00e9efb0(void* self);
+S* FUN_00e9efb0(void* self);
 // FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.
 //
 // The original code is "mov eax, 4 ; ret": the function simply hands the
@@ -121,7 +121,7 @@ struct TextureVTable
     void* vf14;
     void* vf18;
     void* vf1C;
-    void(__thiscall* Attach)(ImageSpaceTexture*, Item*);
+    void(* Attach)(ImageSpaceTexture*, Item*);
 };
 class ImageSpaceTexture
 {
@@ -231,11 +231,11 @@ struct Source365
         return unk0e;
     }
 
-    State365* __thiscall FUN_00e9eef0();
+    State365* FUN_00e9eef0();
 };
 
 // @fnv 0x00e9eef0
-State365* __thiscall Source365::FUN_00e9eef0()
+State365* Source365::FUN_00e9eef0()
 {
     State365* state = static_cast<State365*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(State365)));
 

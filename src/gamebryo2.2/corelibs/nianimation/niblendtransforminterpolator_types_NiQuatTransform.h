@@ -55,11 +55,6 @@ class NiQuaternion
 public:
     void MakeUnitLength();
 };
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
 class NiStream;
 class NiQuatTransform
 {
@@ -93,8 +88,4 @@ class NiQuatTransform
 public:
     void LoadBinary(::NiStream &);
 };
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
 #endif

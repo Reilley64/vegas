@@ -1,5 +1,6 @@
 // bssystem/console/bsconsolefilecache.cpp: FaceGenData (13 functions)
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00b00cf0_shell.h"
 #include "fnv/decl/FUN_00b01f00_class.h"
@@ -30,8 +31,6 @@ FaceGenData::FaceGenData()
 BSWin32FileCache::BSWin32FileCache()
 {}
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FUN_00b02310_shell
 {
     bool FUN_00b02310(unsigned char* param);
@@ -72,10 +71,6 @@ void FUN_00b02360_shell::DeleteIfNotNull(DelObj* apObject)
         delete apObject;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long dwExitCode);
 struct Inner_00b023b0
 {
     long cnt;
@@ -89,7 +84,7 @@ struct Outer_00b023b0
 };
 // Waits on the inner handle, decrements the inner counter, calls ResumeAllThreads, then exits the thread.
 // @fnv 0x00b023b0
-void __stdcall WaitAndExitThread(Outer_00b023b0* pOuter)
+void WaitAndExitThread(Outer_00b023b0* pOuter)
 {
     Inner_00b023b0* pInner = &pOuter->inner;
     WaitForSingleObject(pInner->h, 0xFFFFFFFF);
@@ -98,13 +93,12 @@ void __stdcall WaitAndExitThread(Outer_00b023b0* pOuter)
     ExitThread(0);
 }
 
-extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long);
 struct Unk00b023f0
 {
 };
 // Calls three methods on p in sequence, then terminates the calling thread with ExitThread(0).
 // @fnv 0x00b023f0
-void __stdcall FUN_00b023f0(Unk00b023f0* pTarget)
+void FUN_00b023f0(Unk00b023f0* pTarget)
 {
     ::CallVfn1OnAllEntries((int)(pTarget));
     reinterpret_cast<::JobThread *>((pTarget))->FUN_00b02460();
@@ -112,7 +106,6 @@ void __stdcall FUN_00b023f0(Unk00b023f0* pTarget)
     ExitThread(0);
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
 struct FUN_00b02420_Data
 {
     unsigned char pad[0x1C];
@@ -165,12 +158,9 @@ struct FUN_00b02130_shell
 {
     bool QueueItem(void* p);
 };
-extern "C" __declspec(dllimport) void __stdcall ReleaseSemaphore(void* hSemaphore, long cReleaseCount,
-                                                                 long* lPreviousCount);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 
 // @fnv 0x00b02130
-bool __thiscall FUN_00b02130_shell::QueueItem(void* apItem)
+bool FUN_00b02130_shell::QueueItem(void* apItem)
 {
     void* pInnerTmp = *(void**)((char*)apItem + 8);
     void* pInner2;
@@ -230,11 +220,6 @@ char FUN_00b020a0_shell::FUN_00b020a0(void* pObject)
     return (char)flag;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForMultipleObjects(unsigned long nCount,
-                                                                                const void* const* lpHandles,
-                                                                                int bWaitAll,
-                                                                                unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 
 struct FUN_00b01f50_shell
 {
@@ -266,7 +251,6 @@ void FUN_00b01f50_shell::FUN_00b01f50()
     CloseHandle(*(void**)((char*)this + 0x14));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 struct Lock_00b02220
 {
     int m_debugInfo;

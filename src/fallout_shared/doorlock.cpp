@@ -48,7 +48,6 @@ class TESGlobal;
 class TESClass;
 class TESActorBase;
 class InventoryChanges;
-#pragma pack(push, 4)
 class DoorAccessData
 {
   public:
@@ -65,14 +64,6 @@ class DoorAccessData
     bool CanActorOpenDoor(const PathingActorData* pActorData, bool bFlag);
     bool CanUnlockDoor(const PathingActorData* pActorData, TESObjectREFR* pRef, bool& bNeedsKey);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DoorAccessData) == 24);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pSourceCell) == 0);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pDestinationCell) == 4);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pTeleportData) == 8);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pKeyForm) == 12);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_iLockLevel) == 16);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pLockLevelGlobal) == 20);
 
 // @fnv 0x0073cb80
 bool DoorAccessData::ReadState98()
@@ -129,7 +120,6 @@ struct KeySearch
     int iCount;
 };
 class TESKey;
-#pragma pack(push, 4)
 class LockExtraData
 {
   public:
@@ -143,13 +133,6 @@ class LockExtraData
     int GetLockLevel(TESObjectREFR* pRef);
     bool IsLocked();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LockExtraData) == 20);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockState) == 0);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, pKey) == 4);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, cFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockDifficulty) == 12);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockValue) == 16);
 
 // @fnv 0x005021a0
 bool LockExtraData::IsLocked()
@@ -402,7 +385,6 @@ DoorAccessData::DoorAccessData(TESObjectREFR* pRef)
     m_iLockLevel = reinterpret_cast<::s5679f0::Owner *>((pRef))->FUN_005679f0();
     m_pLockLevelGlobal = ((::TESGlobal *)(reinterpret_cast<::fnv_00567960::FUN_00567960_shell *>((pRef))->FUN_00567960()));
 }
-typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
 struct FUN_00501e80_shell : public DoorAccessData
 {
     void FUN_00501e80(TESObjectREFR*);

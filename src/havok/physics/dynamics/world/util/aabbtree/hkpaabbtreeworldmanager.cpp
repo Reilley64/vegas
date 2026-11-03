@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/Dispatcher.h"
@@ -66,12 +67,12 @@ FUN_00d08330::FUN_00d08330(char acFlags)
 
 struct FUN_00d08350 {
     void* m_p;
-    void* __thiscall Set(void* arg);
+    void* Set(void* arg);
 };
 
 // Stores the address of DAT_010ccf8c into m_p and, if arg's low bit is set, deallocates self before returning it.
 // @fnv 0x00d08350
-void* __thiscall FUN_00d08350::Set(void* arg)
+void* FUN_00d08350::Set(void* arg)
 {
     void* self = this;
     m_p = &DAT_010ccf8c;
@@ -81,11 +82,11 @@ void* __thiscall FUN_00d08350::Set(void* arg)
 }
 
 struct FUN_00d083a0_class {
-    void __thiscall FUN_00d083a0(int a);
+    void FUN_00d083a0(int a);
 };
 
 // @fnv 0x00d083a0
-void __thiscall FUN_00d083a0_class::FUN_00d083a0(int aiValue)
+void FUN_00d083a0_class::FUN_00d083a0(int aiValue)
 {
     *(int*)((char*)this + 0x30) = aiValue;
     *(int*)((char*)this + 0x34) = (*(int*)((char*)this + 0x38) << 4) + aiValue;
@@ -125,12 +126,12 @@ FUN_00d0a150::FUN_00d0a150(bool abFree)
 struct FUN_00d0a1a0 {
     int* a;
     int* b;
-    int __thiscall Init(int p);
+    int Init(int p);
 };
 
 // Sets a and b to the addresses of two globals, frees this if p has bit 0 set, and returns this.
 // @fnv 0x00d0a1a0
-int __thiscall FUN_00d0a1a0::Init(int aiFlags)
+int FUN_00d0a1a0::Init(int aiFlags)
 {
     b = &DAT_010ccfac;
     a = &DAT_010ccfa0;
@@ -140,7 +141,7 @@ int __thiscall FUN_00d0a1a0::Init(int aiFlags)
 }
 
 // @fnv 0x00d08390
-int __fastcall FUN_00d08390(void* self, int, int value)
+int FUN_00d08390(void* self, int, int value)
 {
     *(int**)((char*)self + 0x38) = (int*)value;
     return value << 5;
@@ -148,20 +149,20 @@ int __fastcall FUN_00d08390(void* self, int, int value)
 
 struct HashEntryTable {  };
 struct FUN_00d08550_Class {
-    void __thiscall FUN_00d08550();
+    void FUN_00d08550();
 };
 // @fnv 0x00d08550
-void __thiscall FUN_00d08550_Class::FUN_00d08550()
+void FUN_00d08550_Class::FUN_00d08550()
 {
     ((char*)this)[0x69] = 0;
     reinterpret_cast<::FUN_00cb1a60_t *>((((HashEntryTable*)((char*)this + 0x50))))->ResetEntries();
 }
 
 struct FUN_00d08560_class {
-    void __thiscall FUN_00d08560();
+    void FUN_00d08560();
 };
 // @fnv 0x00d08560
-void __thiscall FUN_00d08560_class::FUN_00d08560()
+void FUN_00d08560_class::FUN_00d08560()
 {
     *(int*)((char*)this + 0x48) = 0;
     *(char*)((char*)this + 0x2c) = 0;
@@ -177,14 +178,14 @@ struct FUN_00d08a40_class {
     char pad9[0x43];
     char m_4c;
     char m_4d;
-    void __thiscall ProcessFlaggedEntries(void* arg);
+    void ProcessFlaggedEntries(void* arg);
 };
 
 struct FUN_00cd2a00_class {
 };
 
 // @fnv 0x00d083e0
-void __stdcall FUN_00d083e0(void* arg)
+void FUN_00d083e0(void* arg)
 {
     FUN_00cd2a00_class* p = reinterpret_cast<FUN_00cd2a00_class*>(
         reinterpret_cast<char*>(arg) + reinterpret_cast<signed char*>(arg)[0x10]);
@@ -192,26 +193,26 @@ void __stdcall FUN_00d083e0(void* arg)
 }
 
 struct FUN_00d08a90_class {
-    void __thiscall FUN_00d08a90(void* arg);
+    void FUN_00d08a90(void* arg);
 };
 struct FUN_00d08fb0_Class {
     char pad[0x54];
     char m_54;
     char m_55;
-    void __thiscall FUN_00d08fb0(char* arg);
-    void __thiscall FUN_00d08c90(char* arg);
+    void FUN_00d08fb0(char* arg);
+    void FUN_00d08c90(char* arg);
 };
 void __cdecl FUN_00d08c90(void* self, int a);
 struct FUN_00d08fd0_class {
     char pad[0x50];
     char m_50;
     char m_51;
-    void __thiscall FUN_00d08fd0(int a);
-    void __thiscall FUN_00d08c90(int a);
+    void FUN_00d08fd0(int a);
+    void FUN_00d08c90(int a);
 };
 struct FUN_00d0a130 {
     void* p;
-    void* __thiscall Set(char b);
+    void* Set(char b);
 };
 // @fnv 0x00d0a130
 void* FUN_00d0a130::Set(char abFree)
@@ -282,32 +283,32 @@ void Derived::FUN_00d089d0()
 
 namespace fnv_00d089e0 {
 struct Base {
-    void __thiscall FUN_00d08570();
+    void FUN_00d08570();
 };
 
 struct Derived {
-    void __thiscall FUN_00d089e0();
+    void FUN_00d089e0();
 };
 
 // @fnv 0x00d089e0
-void __thiscall Derived::FUN_00d089e0()
+void Derived::FUN_00d089e0()
 {
     ((Base*)((char*)this - 0x18))->FUN_00d08570();
 }
 }  // namespace fnv_00d089e0
 
 struct FUN_00d0a1f0_Class {
-    void __thiscall FUN_00d0a1f0(unsigned char value);
+    void FUN_00d0a1f0(unsigned char value);
 };
 
 // @fnv 0x00d0a1f0
-void __thiscall FUN_00d0a1f0_Class::FUN_00d0a1f0(unsigned char value) {
+void FUN_00d0a1f0_Class::FUN_00d0a1f0(unsigned char value) {
     *reinterpret_cast<unsigned char*>(reinterpret_cast<int>(this) + 0x68) = value;
 }
 
 // Empty function that takes an int argument and does nothing.
 // @fnv 0x00d08380
-void __stdcall FUN_00d08380(int) {
+void FUN_00d08380(int) {
 }
 
 struct FUN_00cd29f0_cls {
@@ -734,13 +735,13 @@ struct FUN_00d08c70_class {
     int unk04;
     int unk08;
     FUN_00d9a4d0_class* unk0C;
-    void __thiscall FUN_00d08c70(void* arg);
+    void FUN_00d08c70(void* arg);
 };
 // Calls FUN_00d083e0 with arg to get a word, then passes it to the method at unk0C + 0x1c.
 // @fnv 0x00d08c70
 void FUN_00d08c70_class::FUN_00d08c70(void* arg)
 {
-    typedef unsigned short (__stdcall *FunctionReturningWord)(void*);
+    typedef unsigned short (*FunctionReturningWord)(void*);
     unsigned int value = ((FunctionReturningWord)&FUN_00d083e0)(arg);
     reinterpret_cast<::FUN_00d9a4d0_Class *>((((FUN_00d9a4d0_class*)((char*)unk0C + 0x1c))))->GetEntryOffset(value);
 }
@@ -811,7 +812,7 @@ public:
     void FUN_00d08c90(hkpEntityD08C* pkEntity);
 };
 // @fnv 0x00d08fb0
-void __thiscall FUN_00d08fb0_Class::FUN_00d08fb0(char* arg)
+void FUN_00d08fb0_Class::FUN_00d08fb0(char* arg)
 {
     arg += 0x10;
     m_55 = 1;
@@ -819,7 +820,7 @@ void __thiscall FUN_00d08fb0_Class::FUN_00d08fb0(char* arg)
     reinterpret_cast<::hkpEntityListD08C *>((((FUN_00d08fb0_Class*)((char*)this - 0x14))))->FUN_00d08c90((::hkpEntityD08C *)(arg));
 }
 // @fnv 0x00d08fd0
-void __thiscall FUN_00d08fd0_class::FUN_00d08fd0(int a)
+void FUN_00d08fd0_class::FUN_00d08fd0(int a)
 {
     m_51 = 1;
     m_50 = 0;
@@ -1078,10 +1079,10 @@ struct FUN_00d0a1e0_class {
     int unk60;
     int unk64;
     char unk68;
-    char __thiscall FUN_00d0a1e0();
+    char FUN_00d0a1e0();
 };
 // @fnv 0x00d0a1e0
-char __thiscall FUN_00d0a1e0_class::FUN_00d0a1e0() {
+char FUN_00d0a1e0_class::FUN_00d0a1e0() {
     return unk68;
 }
 
@@ -1533,7 +1534,7 @@ struct S00d0a490_cls {
     int m_08;
     int m_0c;
     int m_10;
-    int __thiscall CallSubroutine(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
+    int CallSubroutine(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 };
 // Initialises a local S00d0a490_Obj with DAT_010ccfcc and DAT_0104da4c, then calls FUN_00d984b0 with m_10 and the seven arguments.
 // @fnv 0x00d0a490
@@ -1591,7 +1592,6 @@ void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world)
 
 extern char DAT_010cd234[];
 extern char DAT_010c41f8[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct MonitorEvent { const char* tag; unsigned int time; unsigned int extra; };
@@ -1766,7 +1766,6 @@ namespace fnv_00d085e0 {
 extern "C" void _ReadWriteBarrier();
 
 extern "C" char str_010cd014[], str_010cd004[], str_010ccff4[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
 extern "C" unsigned __int64 __rdtsc();
 struct MyBool0 { int m_v; MyBool0(bool b) { m_v = (int)b; } };
 __declspec(noalias) void __cdecl bpv(void*, void*, const hkVector4D084&, const hkVector4D084&, hkpWorldRayCasterD084*) throw();
@@ -1781,7 +1780,7 @@ struct FUN_00d085e0_class {
     void* arg10;
     int unk14, unk18, unk1c, unk20;
     char flag24;
-    void __thiscall FUN_00d085e0(const hkpWorldRayCastInputD084& input, const OtherObject* b, hkpWorldRayCastOutputD084* c);
+    void FUN_00d085e0(const hkpWorldRayCastInputD084& input, const OtherObject* b, hkpWorldRayCastOutputD084* c);
 };
 
 // Performs a broad-phase ray cast via bpv and an optional tree cast, recording trace events to a TLS buffer.
@@ -1846,7 +1845,6 @@ void FUN_00d085e0_class::FUN_00d085e0(const hkpWorldRayCastInputD084& input, con
 }
 }  // namespace fnv_00d085e0
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010cd130[];
 extern const char str_010cd124[];
 extern const char str_010cd11c[];
@@ -2375,7 +2373,7 @@ struct AllocV {
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual void __thiscall ReleaseBlock(void* p, int bytes);
+    virtual void ReleaseBlock(void* p, int bytes);
 };
 
 struct TempArr {
@@ -2413,12 +2411,12 @@ struct EntListSelf {
     int m_entSize;
     int m_entCap;
 
-    void __thiscall FUN_00d09df0(void* p1, void* p2);
+    void FUN_00d09df0(void* p1, void* p2);
 };
 // Records a monitor event, calls FUN_00d09df0 on first update or FUN_00d099d0 otherwise, sets dirty, and records a closing monitor event.
 // @fnv 0x00d0a060
 void UpdateOwner::FUN_00d0a060(void* a, void* b) {
-    void* (__stdcall *getTls)(unsigned long) = TlsGetValue;
+    void* (*getTls)(unsigned long) = TlsGetValue;
     MonitorStream* stream = (MonitorStream*)getTls((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonitorEvent* event = stream->current;
     if (event < stream->end) {
@@ -2481,10 +2479,10 @@ static __forceinline void mark12(MarkerBuf* buf, char* name, volatile unsigned i
 
 // Builds the active tree for this entity list, dispatching to targets and optionally updating the tree with the provided parameters.
 // @fnv 0x00d09df0
-void __thiscall EntListSelf::FUN_00d09df0(void* p1, void* p2)
+void EntListSelf::FUN_00d09df0(void* p1, void* p2)
 {
     volatile unsigned int stamp;
-    MarkerBuf* (__stdcall *getBuf)(int) = (MarkerBuf* (__stdcall *)(int))DAT_00fdf044;
+    MarkerBuf* (*getBuf)(int) = (MarkerBuf* (*)(int))DAT_00fdf044;
     TempArr arr;
     arr.m_data = 0;
     arr.m_iElementCount = 0;

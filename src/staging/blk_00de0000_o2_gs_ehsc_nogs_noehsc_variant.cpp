@@ -100,24 +100,24 @@
 #include "../../include/layout_support.h"
 void __cdecl FUN_00df64d0(void* p, int b);
 struct FUN_00cb0c00_class {
-    void __thiscall FUN_00cb0c00();
+    void FUN_00cb0c00();
 };
 void FUN_00dfb490(FUN_00cb0c00_class* self);
 struct hkReferencedObject {  };
 void FUN_00dfb9d0(hkReferencedObject** p);
 extern int DAT_010df34c;
 struct FUN_00dfbdf0_class {
-    void __thiscall FUN_00cb0a70(int a);
+    void FUN_00cb0a70(int a);
 };
 struct FUN_00d21de0_Class {
 };
 extern "C" void* DAT_010e222c;
 struct FUN_00cb0a70_class {
-    void __thiscall FUN_00cb0a70(int);
+    void FUN_00cb0a70(int);
 };
 void __cdecl FUN_00dfd770(void* arg1, void* arg2);
 struct FUN_00cb0a70_cls {
-    void __thiscall FUN_00cb0a70(char*);
+    void FUN_00cb0a70(char*);
 };
 void FUN_00dfda10(char* b, char* a);
 extern int DAT_010d3cc0;
@@ -129,7 +129,7 @@ struct FUN_00cb0a70_Class {
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_00cb0a70(int a);
+    void FUN_00cb0a70(int a);
 };
 struct FUN_00dff0f0_class {
     int m;
@@ -148,7 +148,7 @@ void CopyFields(void* a, void* b);
 void FUN_00dfbc70(FUN_00cb0c00_class* self);
 extern int DAT_010df89c;
 extern int DAT_010dff44;
-typedef void (__thiscall *VTable0)(void*, int);
+typedef void (*VTable0)(void*, int);
 extern int DAT_010e00cc;
 extern int DAT_010e00dc;
 extern int DAT_010e04ac;
@@ -158,7 +158,7 @@ extern int DAT_010e11ec;
 extern int DAT_010da04c;
 extern int DAT_010d0b3c;
 extern int DAT_010d0be4;
-typedef int (__thiscall *VFunc0)(void*, int);
+typedef int (*VFunc0)(void*, int);
 extern int DAT_010c91ec;
 extern int DAT_010d0cd4;
 struct FUN_00dfd7a0_vt {
@@ -167,7 +167,7 @@ struct FUN_00dfd7a0_vt {
 };
 void __cdecl FUN_00dfd7c0(void* arg);
 struct FUN_00dfd940_vt {
-    virtual void __thiscall FUN_00dfd940(int);
+    virtual void FUN_00dfd940(int);
 };
 void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p);
 void __cdecl FUN_00dfdb40(void* p);
@@ -177,7 +177,7 @@ void __cdecl FUN_00dfdf90(int a, int b);
 extern int DAT_010e3e5c;
 extern int DAT_010e5474;
 struct FUN_00dfe430_class {
-    virtual int __thiscall FUN_00cb0a70(int a);
+    virtual int FUN_00cb0a70(int a);
 };
 extern int DAT_010e57a4;
 struct FUN_00dfe670_vt {
@@ -196,13 +196,13 @@ extern int DAT_010e66fc;
 extern int DAT_010e676c;
 extern int DAT_010c8e94;
 struct FUN_00cb0a70_m_helper {
-    void __thiscall m(int);
+    void m(int);
 };
-typedef void (__thiscall *VTableFn)(void*, int);
+typedef void (*VTableFn)(void*, int);
 extern int DAT_010e75cc;
 extern int DAT_010e75dc;
 extern int DAT_010e75ec;
-typedef int (__thiscall *Vfn)(void*, int);
+typedef int (*Vfn)(void*, int);
 extern int DAT_010e7c24;
 extern int DAT_010cc0d8;
 struct FUN_00dffdc0_vt {
@@ -211,7 +211,7 @@ struct FUN_00dffdc0_vt {
 extern int DAT_010d3838;
 extern int DAT_010cb798;
 struct FUN_00dfff60_vt {
-    virtual int __thiscall v0(int);
+    virtual int v0(int);
 };
 struct FUN_00dfffc0_VT {
     virtual void m0(int);
@@ -237,7 +237,7 @@ struct FUN_00de87c0_class {
 };
 void __cdecl FUN_00de81a0(void* self, void* arg);
 struct FUN_00d21ce0_cls {
-    void __thiscall FUN_00d21ce0(void*);
+    void FUN_00d21ce0(void*);
 };
 struct FUN_00de8550_t {
     int m_iWordAt00;
@@ -248,18 +248,18 @@ void __cdecl FUN_00de8550(FUN_00de8550_t* a, int b);
 struct FUN_00de8830_Class {
     void CopyTransposedMatrix(float* src);
 };
-typedef void (__thiscall *Vfn0)(void*, int);
-typedef int (__thiscall *VFunc_00dfb270)(void*, int);
+typedef void (*Vfn0)(void*, int);
+typedef int (*VFunc_00dfb270)(void*, int);
 void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_m_helper* a, int v);
-typedef void (__thiscall *VFunc00dfb3f0)(void*, int);
+typedef void (*VFunc00dfb3f0)(void*, int);
 struct FUN_00dfb450_vt {
     virtual void m0(int);
 };
 struct FUN_00dfb890_vt {
     virtual void v0(int);
 };
-typedef void (__thiscall *VTable0_00dfba70)(void*, int);
-typedef void (__thiscall *VFn0)(void*, int);
+typedef void (*VTable0_00dfba70)(void*, int);
+typedef void (*VFn0)(void*, int);
 void __cdecl FUN_00dfbbf0(void* p, int a);
 struct S_00d49310_Lock { ~S_00d49310_Lock(); };
 void __cdecl FUN_00dfbc20(S_00d49310_Lock* self);
@@ -269,32 +269,32 @@ struct S_00dfb720_Elem {
     ~S_00dfb720_Elem();
 };
 void __cdecl FUN_00dfbca0(S_00dfb720_Elem* p);
-typedef void (__thiscall *VTable0)(void*, int);
-typedef void (__thiscall *VFunc1)(void*, int);
+typedef void (*VTable0)(void*, int);
+typedef void (*VFunc1)(void*, int);
 struct FUN_00dfc040_vt {
-    virtual void __thiscall FUN_00dfc040(int);
+    virtual void FUN_00dfc040(int);
 };
 void __cdecl FUN_00dfc040(FUN_00dfc040_vt* p);
-typedef void (__thiscall *V00dfc790)(void*, int);
-typedef void (__thiscall *Vfn_00dfcb60)(void*, int);
+typedef void (*V00dfc790)(void*, int);
+typedef void (*Vfn_00dfcb60)(void*, int);
 struct FUN_00dfcc30_vt {
     virtual void v0(int);
 };
 struct FUN_00dd0420_Class {
-    FUN_00dd0420_Class* __thiscall FUN_00dd0420(int);
+    FUN_00dd0420_Class* FUN_00dd0420(int);
 };
 void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a);
 struct FUN_00dfce00_vt {
-    virtual void __thiscall v0(int);
+    virtual void v0(int);
 };
 struct FUN_00dfcf00_vt {
     virtual void m_iWordAt00(int);
 };
 struct FUN_00dfd240_vt {
-    virtual void __thiscall FUN_00dfd240(int);
+    virtual void FUN_00dfd240(int);
 };
 void __cdecl FUN_00dfd240(FUN_00dfd240_vt* p);
-typedef void (__thiscall *Vfn_00dfd620)(void*, int);
+typedef void (*Vfn_00dfd620)(void*, int);
 struct DFD680MeshData {
     void FUN_00dfd680();
 };
@@ -318,7 +318,7 @@ struct ArrayPair {
     ~ArrayPair();
 };
 void __cdecl FUN_00dfe0c0(ArrayPair* p);
-typedef void (__thiscall *Vfn_00dfe270)(void*, int);
+typedef void (*Vfn_00dfe270)(void*, int);
 extern int DAT_010cb864;
 struct FUN_00ce5360_class {
     int m_iWordAt00;
@@ -335,7 +335,7 @@ struct FUN_00dfe4e0_vt {
 };
 extern int DAT_010e587c;
 extern int DAT_010e5a58;
-typedef void (__thiscall *Vfn0)(void*, int);
+typedef void (*Vfn0)(void*, int);
 struct FUN_00dfec30_vt {
     virtual void m0(int);
 };
@@ -343,34 +343,34 @@ struct FUN_00dfecf0_vt { virtual void v0(int); };
 struct FUN_00dfede0_vt {
     virtual void v0(int);
 };
-typedef int (__thiscall *Vfn_00dfeec0)(void*, int);
-struct FUN_00dfef00_vt { virtual void __thiscall m0(int); };
+typedef int (*Vfn_00dfeec0)(void*, int);
+struct FUN_00dfef00_vt { virtual void m0(int); };
 struct FUN_00dff1d0_vt {
     virtual void m0(int);
 };
-typedef void (__thiscall *VTable0)(void*, int);
+typedef void (*VTable0)(void*, int);
 struct FUN_00dff370_vt {
-    virtual void __thiscall FUN_00dff370(int);
+    virtual void FUN_00dff370(int);
 };
 void __cdecl FUN_00dff370(FUN_00dff370_vt* p);
-typedef void (__thiscall *VTable0)(void*, int);
-typedef void (__thiscall *VTable0)(void*, int);
+typedef void (*VTable0)(void*, int);
+typedef void (*VTable0)(void*, int);
 extern int DAT_010d0994;
 struct FUN_00dff9b0_m : FUN_00cb0a70 {
-    void __thiscall m(int);
+    void m(int);
 };
-typedef void (__thiscall *VTblFn0)(void*, int);
+typedef void (*VTblFn0)(void*, int);
 struct FUN_00dffc60_vt {
     virtual void m0(int);
 };
 struct FUN_00dffd80_vt {
-    virtual void __thiscall FUN_00cb0a70(int);
+    virtual void FUN_00cb0a70(int);
 };
-typedef void (__thiscall *VTableFn)(void*, int);
+typedef void (*VTableFn)(void*, int);
 struct FUN_00dffe60_vt {
     virtual void m_iWordAt00(int);
 };
-typedef void (__thiscall *Vfn0)(void*, int);
+typedef void (*Vfn0)(void*, int);
 struct AudioAllocator {
     virtual void v00();
     virtual void v04();
@@ -956,10 +956,10 @@ struct FUN_00df3140_pair {
     unsigned int m_ucLowNibble;
     unsigned int m_ucHighNibble;
 };
-void __stdcall CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int idx, FUN_00df3140_pair* src);
+void CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int idx, FUN_00df3140_pair* src);
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 int* __cdecl FUN_00df6490();
 void* __cdecl FUN_00df64b0();
@@ -977,14 +977,11 @@ struct FUN_00df7a60_class {
     int unk18;
     void* m_p1c;
 
-    void __thiscall FUN_00df7a60();
+    void FUN_00df7a60();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedExchangeAdd(
-    volatile long* value,
-    long increment);
 extern float DAT_010dbb3c;
-struct ParserContext { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,result44; int __thiscall FUN_00e63af0(int, void*,float*); };
-struct FloatPair { float first,second;  int __thiscall FUN_00dfb040(ParserContext*,int,int*,ParserContext**); };
+struct ParserContext { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c,unk40,result44; int FUN_00e63af0(int, void*,float*); };
+struct FloatPair { float first,second;  int FUN_00dfb040(ParserContext*,int,int*,ParserContext**); };
 struct CpuOpaque;
 CpuOpaque* __cdecl FUN_00dfb260();
 int* __cdecl FUN_00dfb280();
@@ -1146,7 +1143,7 @@ int* __cdecl FUN_00dfc100();
 struct S_00dfc110_vt {
     virtual void m0(int);
 };
-void __thiscall S_00dfc110_vt::m0(int) {
+void S_00dfc110_vt::m0(int) {
 }
 int* __cdecl FUN_00dfc120();
 extern int DAT_010dff44;
@@ -1184,7 +1181,7 @@ void* FUN_00dfc5b0();
 int* __cdecl FUN_00dfc5d0();
 void* __cdecl FUN_00dfc5f0();
 struct FUN_00dfc600_vt {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 void* __cdecl FUN_00dfc610();
 int* __cdecl FUN_00dfc660();
@@ -1552,7 +1549,7 @@ void* FUN_00dfdde0();
 struct CpuOpaque;
 CpuOpaque* __cdecl FUN_00dfde00();
 struct FUN_00dfde10_vtable {
-    virtual void __thiscall slot0(int value) {}
+    virtual void slot0(int value) {}
 };
 int __cdecl FUN_00dfde20();
 extern int DAT_010d3cc0;
@@ -1616,7 +1613,7 @@ void* FUN_00dfe330();
 extern int DAT_010e5474;
 // Helper object whose virtual-like member performs the work.
 struct FUN_00cb0a70_obj {
-    void __thiscall m_00cb0a70(int value);
+    void m_00cb0a70(int value);
 };
 // FUN_00dfe460 : a one-line function - getter
 void* FUN_00dfe460();
@@ -1634,7 +1631,7 @@ struct FUN_00dfe6e0_Class {
 void* __cdecl FUN_00dfe6f0();
 extern int DAT_010e59ac;
 struct FUN_00dfe970_class {
-    virtual void __thiscall m_iWordAt00(int);
+    virtual void m_iWordAt00(int);
 };
 void* __cdecl FUN_00dfe980();
 int __cdecl FUN_00dfeab0();
@@ -1780,7 +1777,7 @@ struct FNVRecordPointers {
     int m28;
     int m2c;
     void* volatile m30;
-    FNVRecordPointers* __thiscall InitializeRecordPointers(int unused);
+    FNVRecordPointers* InitializeRecordPointers(int unused);
 };
 void* __cdecl FUN_00dffa20();
 void* __cdecl FUN_00dffa40();
@@ -1788,7 +1785,7 @@ void* __cdecl FUN_00dffa40();
 // when that object is present.
 struct FUN_00dffa50_cls
 {
-    void __thiscall FUN_00dffa90(int value);
+    void FUN_00dffa90(int value);
 };
 struct DFFA90FinishFlag {
     int m_bFinishing;
@@ -2358,9 +2355,8 @@ struct FUN_00df7210_Class {
     int unk08;
     int unk0c;
     FUN_00df7210_Inner* m10;
-    char* __thiscall FUN_00df7210(char* out);
+    char* FUN_00df7210(char* out);
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
@@ -2529,7 +2525,7 @@ struct S00de0fe0_Arr {
     S00de0fe0_Element** data;
     int count;
     int cap;
-    void __thiscall FUN_00ddfb70();
+    void FUN_00ddfb70();
 };
 struct S00de0fe0_Obj10 {
     int unk00;
@@ -2612,7 +2608,6 @@ struct ExecutionContext {
 };
 extern unsigned long DAT_0126835c;
 extern "C" const char str_010db918[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
 struct CommandTimingEntry
 {
@@ -3995,7 +3990,7 @@ struct FUN_00dfdd90_cls
 {
     int unk00;
     SubObject* m_pSub;
-    void __thiscall FUN_00cb0c00();
+    void FUN_00cb0c00();
 };
 void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p);
 AudioHolder* __cdecl FUN_00c85750() throw();
@@ -4107,12 +4102,12 @@ public:
     int m68;
     int m6c;
 
-    void __thiscall FUN_00dfb1e0(int a1, int a2, const __m128* source,
+    void FUN_00dfb1e0(int a1, int a2, const __m128* source,
                                 float a4, int a5, int a6, int a7, int a8);
 };
 
 // @fnv 0x00dfb1e0
-void __thiscall TransformRadiusInput::FUN_00dfb1e0(
+void TransformRadiusInput::FUN_00dfb1e0(
     int a1, int a2, const __m128* source, float a4,
     int a5, int a6, int a7, int a8)
 {

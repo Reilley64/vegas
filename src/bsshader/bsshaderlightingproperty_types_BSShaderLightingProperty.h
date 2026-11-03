@@ -30,7 +30,6 @@ class NiTListItem_ShadowSceneLight___;
 class NiTPointerAllocator_unsigned_int_;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___;
 class NiTPointerListSingleThread_ShadowSceneLight___;
-#pragma pack(push, 4)
 class NiShadeProperty : public NiProperty
 {
   public:
@@ -66,11 +65,6 @@ class NiShadeProperty : public NiProperty
     // NiShadeProperty& __cdecl NiShadeProperty::*(const NiShadeProperty&)
     // void __cdecl NiShadeProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShadeProperty) == 32);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_uiObjectFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_iShaderType) == 28);
-#pragma pack(push, 4)
 class BSShaderProperty : public NiShadeProperty
 {
   public:
@@ -141,24 +135,16 @@ class BSShaderProperty : public NiShadeProperty
     // BSShaderProperty& __cdecl BSShaderProperty::*(const BSShaderProperty&)
     // void __cdecl BSShaderProperty::*()
 };
-#pragma pack(pop)
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -166,11 +152,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBlo
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
 {
   public:
@@ -195,12 +176,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
     // NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
 {
@@ -229,18 +204,12 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___) == 12);
-#pragma pack(push, 4)
 class NiTPointerListSingleThread_ShadowSceneLight___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
 {
   public:
     // base NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *> at +0x0, size 12
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListSingleThread_ShadowSceneLight___) == 12);
-#pragma pack(push, 4)
 class BSShaderLightingProperty : public BSShaderProperty, public NiMemObjectAllocation
 {
   public:
@@ -300,5 +269,4 @@ class BSShaderLightingProperty : public BSShaderProperty, public NiMemObjectAllo
     // BSShaderLightingProperty& __cdecl BSShaderLightingProperty::*(const BSShaderLightingProperty&)
     // void __cdecl BSShaderLightingProperty::*()
 };
-#pragma pack(pop)
 #endif

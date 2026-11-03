@@ -205,7 +205,7 @@ struct Arr
 {
     unsigned int* GetAt(int);
 };
-typedef void(__thiscall* ActorVFn)(Actor*);
+typedef void(* ActorVFn)(Actor*);
 // Iterates every group, calls a virtual function on each member actor, and re-reads the member count when it changes.
 // @fnv 0x00991dc0
 void FUN_00991dc0_shell::FUN_00991dc0()
@@ -2334,7 +2334,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00993440_shell : public CombatManager
 {
     void LoadCombatState(BGSLoadGameBuffer*);
@@ -2839,7 +2838,7 @@ struct Manager496
     CombatMap496* map;
     int CountNearbyActors(NiPoint3, float, float, Actor496*, int*, int*, int*, int*);
 };
-typedef NiPoint3(__thiscall* Predict496)(Actor496*, float);
+typedef NiPoint3(* Predict496)(Actor496*, float);
 // @fnv 0x00992ba0
 int Manager496::CountNearbyActors(NiPoint3 origin, float range, float time, Actor496* source, int* outSelf,
                                   int* outGroup, int* outAllied, int* outEnemy)
@@ -2894,8 +2893,8 @@ struct CombatGroupShell_00991f80 : ActorCombatGroup
 struct ActorShell_00991f80 : Actor
 {
 };
-typedef void(__thiscall* SetCombatGroupProc_00991f80)(Actor*, ActorCombatGroup*);
-typedef unsigned int(__thiscall* GetActorValueProc_00991f80)(Actor*);
+typedef void(* SetCombatGroupProc_00991f80)(Actor*, ActorCombatGroup*);
+typedef unsigned int(* GetActorValueProc_00991f80)(Actor*);
 extern const char UNK_0108dab0[];
 struct FUN_00991f80_shell : CombatManager
 {

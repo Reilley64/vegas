@@ -173,21 +173,21 @@ struct hkVector4;
 struct FUN_009c1a50_shell
 {
     void* FUN_009c1a50();
-    void __thiscall FUN_009c1a20(hkVector4 const& v);
+    void FUN_009c1a20(hkVector4 const& v);
 };
 // @fnv 0x009c1a20
-void __thiscall FUN_009c1a50_shell::FUN_009c1a20(hkVector4 const& aVector)
+void FUN_009c1a50_shell::FUN_009c1a20(hkVector4 const& aVector)
 {
     ::SetNiPoint3FromHkVector4((::NiPoint3 &)(aVector), (*(const ::hkVector4 *)(FUN_009c1a50())));
 }
 
 struct FUN_009c8600_Class
 {
-    bool __thiscall FUN_009c8600();
+    bool FUN_009c8600();
 };
 
 // @fnv 0x009c8600
-bool __thiscall FUN_009c8600_Class::FUN_009c8600()
+bool FUN_009c8600_Class::FUN_009c8600()
 {
     return (reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x44)[0] & 8) ? true : false;
 }
@@ -338,11 +338,11 @@ char FUN_009d7c60_class::GetByteAtOffsetE1()
 
 struct FUN_009d9f00_Class
 {
-    unsigned int __thiscall FUN_009d9f00();
+    unsigned int FUN_009d9f00();
 };
 
 // @fnv 0x009d9f00
-unsigned int __thiscall FUN_009d9f00_Class::FUN_009d9f00()
+unsigned int FUN_009d9f00_Class::FUN_009d9f00()
 {
     return *(unsigned int*)((char*)this + 0x144);
 }
@@ -406,8 +406,8 @@ struct FUN_009c1aa0_Class
     int m_38;
     int m_3c;
     int m_40;
-    FUN_009c1aa0_Class& __thiscall FUN_009c1aa0(FUN_009c1aa0_Class const& src);
-    void __thiscall FUN_009c1b00(int);
+    FUN_009c1aa0_Class& FUN_009c1aa0(FUN_009c1aa0_Class const& src);
+    void FUN_009c1b00(int);
 };
 struct T_
 {
@@ -422,11 +422,11 @@ struct FUN_009c1b00
     int m_14;
     int m_18;
     int m_1c;
-    FUN_009c1b00* __thiscall Set(FUN_009c1b00 const* s);
+    FUN_009c1b00* Set(FUN_009c1b00 const* s);
 };
 // Copies src into this: calls FUN_009c1b00 on src, copies 8 ints from offset 8 and m_40.
 // @fnv 0x009c1aa0
-FUN_009c1aa0_Class& __thiscall FUN_009c1aa0_Class::FUN_009c1aa0(FUN_009c1aa0_Class const& aSource)
+FUN_009c1aa0_Class& FUN_009c1aa0_Class::FUN_009c1aa0(FUN_009c1aa0_Class const& aSource)
 {
     reinterpret_cast<::FUN_009c1b00 *>(this)->Set((const ::FUN_009c1b00 *)((int)&aSource));
     for (unsigned int i = 0; i < 8; ++i)
@@ -628,11 +628,11 @@ struct FUN_009c1a00_Class
     int m_1c;
     int m_20;
     int m_24;
-    CF845* __thiscall ConstructCF845(CF845* p);
+    CF845* ConstructCF845(CF845* p);
 };
 
 // @fnv 0x009c1a00
-CF845* __thiscall FUN_009c1a00_Class::ConstructCF845(CF845* pObject)
+CF845* FUN_009c1a00_Class::ConstructCF845(CF845* pObject)
 {
     new ((void *)(pObject)) ::GlobalObject_008c71b0(m_24);
     return pObject;
@@ -755,7 +755,7 @@ struct FUN_009d7c00_Class
 {
     char pad[0x128];
     FUN_00997520_Class sub;
-    void __thiscall ForwardToSub(int);
+    void ForwardToSub(int);
 };
 // @fnv 0x009d7c00
 void FUN_009d7c00_Class::ForwardToSub(int aiValue)
@@ -805,13 +805,13 @@ struct OrientationSource
 struct OrientationObject
 {
     void** vtable;
-    void __thiscall SetOrientationFromDirection(Vector3 input);
+    void SetOrientationFromDirection(Vector3 input);
 };
 extern "C" float __cdecl FUN_00408840(float);
 extern const double DAT_01018c00;
-typedef void*(__thiscall* GetContextFn)(OrientationObject*);
-typedef float(__thiscall* GetAngleFn)(OrientationObject*, int);
-typedef void(__thiscall* SetAngleFn)(OrientationObject*, float);
+typedef void*(* GetContextFn)(OrientationObject*);
+typedef float(* GetAngleFn)(OrientationObject*, int);
+typedef void(* SetAngleFn)(OrientationObject*, float);
 // @fnv 0x009c6030
 void OrientationObject::SetOrientationFromDirection(Vector3 aDirection)
 {
@@ -2589,7 +2589,7 @@ struct LinkedObject
 
 struct FUN_009d9ee0_Class
 {
-    void __thiscall FUN_009d9ee0(LinkedObject* linked);
+    void FUN_009d9ee0(LinkedObject* linked);
 };
 
 // @fnv 0x009d9ee0

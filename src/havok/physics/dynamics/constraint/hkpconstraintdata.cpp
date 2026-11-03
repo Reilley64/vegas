@@ -8,18 +8,18 @@
 
 struct FUN_00d21a30_class
 {
-    void __thiscall FUN_00d21a30(int a, int b, int c);
+    void FUN_00d21a30(int a, int b, int c);
 };
 
 // @fnv 0x00d21a30
-void __thiscall FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLength)
+void FUN_00d21a30_class::FUN_00d21a30(int a, int pBuffer, int uiLength)
 {
     if (pBuffer)
         ::FUN_00cb1280((void*)pBuffer, 0, uiLength);
 }
 
 // @fnv 0x00d21a50
-int __stdcall FUN_00d21a50(int a)
+int FUN_00d21a50(int a)
 {
     return a;
 }

@@ -27,23 +27,23 @@
 #include "havok/hkResourceHandle.h"
 struct FUN_00e2df60_class
 {
-    int __thiscall FUN_00e2df60(int);
+    int FUN_00e2df60(int);
 };
 extern int DAT_010eb19c;
 struct FUN_00e2def0_class
 {
     void* m_p;
-    int __thiscall InitAndMaybeFree(int flags);
+    int InitAndMaybeFree(int flags);
 };
 struct FUN_00e2df40_class
 {
-    const char* __thiscall FUN_00e2df40(int);
+    const char* FUN_00e2df40(int);
 };
 struct D481D0RefVariant
 {
     const void* GetVariantValue() const;
 };
-const void* __fastcall FUN_00e2df20(char* self, int);
+const void* FUN_00e2df20(char* self, int);
 struct FUN_00d479e0_class
 {
 };
@@ -60,7 +60,7 @@ struct FUN_00e2df80_obj
 };
 struct FUN_00e2df80_class
 {
-    int __thiscall FUN_00e2df80(void* a, int* out);
+    int FUN_00e2df80(void* a, int* out);
 };
 extern int DAT_010eb288;
 struct FUN_00cb0a70
@@ -82,7 +82,7 @@ struct FUN_00e2f1e0_class
 {
     void* m_p;
     S_00e028e0_Base m_base;
-    void* __thiscall Destroy(int flags);
+    void* Destroy(int flags);
 };
 struct FUN_00e2ea40_class
 {
@@ -92,7 +92,7 @@ struct FUN_00e2f210_manager
 {
     virtual void unused();
     virtual void unused2();
-    virtual void __thiscall release(void* resource, unsigned short handle);
+    virtual void release(void* resource, unsigned short handle);
 };
 struct FUN_00e2f210_router
 {
@@ -104,7 +104,7 @@ FUN_00e2f210_router* _D1A0E0GetMemoryRouter();
 struct FUN_00e2f210_class : public FUN_00e2ea40_class
 {
     unsigned short m_handle;
-    void* __thiscall FUN_00e2f210(unsigned int flags);
+    void* FUN_00e2f210(unsigned int flags);
 };
 struct FUN_00e2df50_Obj
 {
@@ -146,7 +146,7 @@ struct FNVEntryCollection
     FNVEntry** items;
     int count;
 
-    FNVEntry* __thiscall FUN_00e2dfd0(const void* filter, FNVEntry* previous);
+    FNVEntry* FUN_00e2dfd0(const void* filter, FNVEntry* previous);
 };
 struct Entry
 {
@@ -188,7 +188,7 @@ struct EntryArray
     int capacityAndFlags;
 };
 MemoryRouter* __cdecl FUN_00c85750();
-void __stdcall FUN_00e2e960(int x);
+void FUN_00e2e960(int x);
 class hkMemoryAllocatorE2E2;
 struct hkMemoryRouterE2E2
 {
@@ -330,7 +330,7 @@ struct S00e2e3f0_Obj
     int m_uiItemCount;
     void FUN_00e2e3f0();
 };
-extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
+extern "C" __declspec(noinline) void FUN_00cb0c00(void* self)
 {
     ::FUN_00401030(self);
 }
@@ -463,7 +463,7 @@ struct FUN_00e2e9e0_class
     int m_iValueAfterStandIn;
     int m_flags;
 
-    void* __thiscall Ctor();
+    void* Ctor();
 };
 extern int DAT_010eb288;
 struct ReferencedE2EB70

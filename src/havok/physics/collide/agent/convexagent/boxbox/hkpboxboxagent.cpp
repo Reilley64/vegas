@@ -170,7 +170,7 @@ callPath:
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
 
 // @fnv 0x00d406a0
-extern "C" void __stdcall FUN_00d406a0(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+extern "C" void FUN_00d406a0(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00d40470(apArg1, apArg2, apArg3, apArg4);
 }
@@ -179,7 +179,7 @@ typedef void(__cdecl* FUN_00d406c0_fn4)(void*, void*, void*, void*);
 
 
 // @fnv 0x00d408c0
-void __stdcall FUN_00d408c0(void* a1, void* a2, void* a3, void* a4)
+void FUN_00d408c0(void* a1, void* a2, void* a3, void* a4)
 {
     ((FUN_00d406c0_fn4)((void *(&)())::FUN_00d406c0))(a1, a2, a3, a4);
 }

@@ -73,7 +73,7 @@ template <class T, class A> struct NiTPrimitiveArray
 };
 // Appends the string returned by _FUN_00a7d330(g_011f36fc_arg1) to pkStrings, growing the array when full.
 // @fnv 0x00a570b0
-void __stdcall FUN_00a570b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void FUN_00a570b0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
     char* pcString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4200)));
@@ -148,7 +148,7 @@ class NiAnimTarget
 
 
 // @fnv 0x00a57050
-NiAnimTarget* __stdcall FUN_00a57050(int a, int b)
+NiAnimTarget* FUN_00a57050(int a, int b)
 {
     NiAnimTarget* p = (NiAnimTarget*)((void *)(static_cast<::CloneSourceA5d6 *>(nullptr)->FUN_00a5d680()));
     p->v52();
@@ -156,7 +156,7 @@ NiAnimTarget* __stdcall FUN_00a57050(int a, int b)
 }
 
 // @fnv 0x00a57020
-char __stdcall FUN_00a57020(int a, int b, int c)
+char FUN_00a57020(int a, int b, int c)
 {
     return 0;
 }

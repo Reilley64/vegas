@@ -71,7 +71,7 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetAt(unsigned int, T&);
 };
 // @fnv 0x00c30880
-void __stdcall FUN_00c30880(StrArr* pkStrings)
+void FUN_00c30880(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_012027b8))));
@@ -142,7 +142,7 @@ struct WorkerAirFriction : NiPSysAirFieldAirFrictionCtlr
     int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     int unk2c, unk30, unk34, unk38;
     WorkerTarget* target;
-    void __thiscall FUN_00c307e0(volatile float value);
+    void FUN_00c307e0(volatile float value);
 };
 // Clamps value to [0,1] and stores it in target->targetValue.
 // @fnv 0x00c307e0

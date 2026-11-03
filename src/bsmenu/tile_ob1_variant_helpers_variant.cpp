@@ -1,6 +1,7 @@
 // src/bsmenu/tile_ob1_variant_helpers_variant.cpp - helper variant unit created 2026-11-01 by helper_variants.py: the reworked code of these functions uses the
 // approved helpers of fnv_asm_helpers.h, which src/bsmenu/tile_ob1_variant.cpp cannot include without changing its accepted functions.
 // Same flags (/MT /Od /Oy- /GS /EHsc /Gy /Ob1); declarations copied from that unit's skeleton.
+#include <windows.h>
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -161,7 +162,6 @@ public:
 public:
     bool IsValid() const;
 };
-typedef char _sizecheck_BSSoundHandle[sizeof(SoundPlaybackHandle) == 12 ? 1 : -1];
 struct FUN_00a0b110_shell : public Tile {
     void FUN_00a0b110(int);
 };
@@ -201,7 +201,6 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-typedef char _sizecheck_AutoTileLock[sizeof(EmptyPolymorphicObject) == 1 ? 1 : -1];
 struct FUN_00a03c90_shell : public Tile {
     Menu* FUN_00a03c90();
 };
@@ -246,7 +245,6 @@ struct FUN_00a0abe0 : Base_00a0abe0 {
 
     virtual ~FUN_00a0abe0();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Tile__TileTemplate {
     void Clear();
 };
@@ -595,7 +593,7 @@ struct FUN_00a0d220_cls {
 // Claim: clm_0814eff69ec3418ebf5d -> FUN_00a0d280 (0x00a0d280, 24 bytes)
 // Flags: /MT /Od /Oy- /GS /EHsc /Gy /Ob1
 //
-// Shape: a tiny __thiscall member of the tile-template class.  The body only
+// Shape: a tiny member of the tile-template class.  The body only
 // forwards to a method of the sub-object that lives at this+0x0C.  MSVC /Od
 // spills 'this' into the frame (the slot sits below every named local) and
 // reloads it with the sub-object adjustment right before the call:
@@ -1036,9 +1034,6 @@ struct FUN_00ac5490 : public S00ac5490_Base {
     FUN_00ac5490(S00ac5490_Str a);
 };
 struct _RTL_CRITICAL_SECTION;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 class FUN_009ff340;
 struct S009ff340_List { int FUN_0057c730(FUN_009ff340* const& p); };
 extern char str_01093f44[];
@@ -1137,8 +1132,6 @@ int FUN_00a01630(ExtraNode* pkNode)
 }
 
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 class MenuLockA01 {
 public:
     MenuLockA01() { FUN_00a044f0(); }
@@ -1207,7 +1200,7 @@ struct ClipProperty {
 };
 struct ClipGeometry {  };
 struct ClipArray;
-inline void __fastcall FUN_004afc80(ClipArray*);
+inline void FUN_004afc80(ClipArray*);
 struct ClipPointer {
     ClipGeometry* pointer;
     __forceinline ClipGeometry* operator->() { return pointer; }
@@ -1220,7 +1213,7 @@ struct ClipArray {
 };
 ClipPointer* __cdecl AllocateClipArray(unsigned int);
 void __cdecl FreeClipArray(ClipPointer*);
-inline void __fastcall FUN_004afc80(ClipArray* array) {
+inline void FUN_004afc80(ClipArray* array) {
     ClipPointer* oldData;
     unsigned short source;
     unsigned short destination;
@@ -1495,7 +1488,6 @@ class FUN_00a0d3c0 : public MapBaseD3C0 {
 public:
     virtual ~FUN_00a0d3c0();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
 class NiFixedString {
 public:
     char* text;

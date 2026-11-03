@@ -34,7 +34,7 @@ struct S_00cf6f10_Obj
 };
 
 // @fnv 0x00cf6f10
-int __stdcall FUN_00cf6f10(S_00cf6f10_Rec* pRec)
+int FUN_00cf6f10(S_00cf6f10_Rec* pRec)
 {
     S_00cf6f10_Node* a = pRec->first;
     if (a->type == 3 && pRec->second->type == 3)
@@ -94,7 +94,7 @@ static inline Disp* GetDisp(Sh* s)
     return (Disp*)(p + p[0x10]);
 }
 // @fnv 0x00cf6ea0
-void __stdcall DispatchPairByType(Pair* p)
+void DispatchPairByType(Pair* p)
 {
     if (p->a->type == 3 && p->b->type == 3)
         return;

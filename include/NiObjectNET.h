@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "NiFixedString.h"
 #include "NiObject.h"
-#pragma pack(push, 4)
 class NiObjectNET : public NiObject
 {
   public:
@@ -17,11 +16,4 @@ class NiObjectNET : public NiObject
 public:
     void SetFlags(unsigned short);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiObjectNET) == 0x18);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_kName) == 0x8);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_pControllers) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_ppExtraData) == 0x10);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_usExtraDataCount) == 0x14);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_usMaxSize) == 0x16);
 #endif

@@ -84,7 +84,7 @@ void NiBackToFrontAccumulator::QuickSort(int left, int right)
 
 struct NiObject;
 // @fnv 0x00aa0ae0
-unsigned char __stdcall FUN_00aa0ae0(NiObject* pkObject)
+unsigned char FUN_00aa0ae0(NiObject* pkObject)
 {
     unsigned char r = ((unsigned char)(reinterpret_cast<::FUN_00ba87d0_Class *>((pkObject))->FUN_00ba87d0({})));
     return r != 0;

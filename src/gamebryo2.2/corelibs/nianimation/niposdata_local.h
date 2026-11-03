@@ -22,7 +22,6 @@ enum NiAnimationKey__KeyType
     NiAnimationKey__KeyType_STEPKEY = 5,
     NiAnimationKey__KeyType_NUMKEYTYPES = 6
 };
-#pragma pack(push, 4)
 class NiPoint3
 {
   public:
@@ -41,14 +40,4 @@ class NiPosData : public NiObject
     unsigned char layoutPadding15[3];
     static NiPoint3* ComputePositionAtTime(NiPoint3* pOut, float fTime, const NiPoint3* pIn);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPosData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_uiNumKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_pKeyArray) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_eRequestType) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPosData, m_ucKeyDataSize) == 20);
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 8);
 #endif

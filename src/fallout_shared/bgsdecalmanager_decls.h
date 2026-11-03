@@ -2,6 +2,7 @@
 #ifndef BGSDECALMANAGER_DECLS_H
 #define BGSDECALMANAGER_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
 #include "fnv/symbols_0043c000.h"
 #include "fnv/symbols_004a0000.h"
@@ -12,8 +13,6 @@
 #define FNV_FORCEINLINE inline
 #endif
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class TESObjectCELL;
 class BSTempEffectSimpleDecal;
 class BSFaceGenAnimationData;

@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00c9bff0_Class.h"
 #include "fnv/decl/FUN_00cb1a60_t.h"
@@ -36,10 +37,10 @@ struct FUN_00d08330 {
 };
 struct FUN_00d08350 {
     void* m_p;
-    void* __thiscall Set(void* arg);
+    void* Set(void* arg);
 };
 struct FUN_00d083a0_class {
-    void __thiscall FUN_00d083a0(int a);
+    void FUN_00d083a0(int a);
 };
 struct FUN_00d08ff0_t {
     int a;
@@ -59,15 +60,15 @@ struct FUN_00d0a150 {
 struct FUN_00d0a1a0 {
     int* a;
     int* b;
-    int __thiscall Init(int p);
+    int Init(int p);
 };
-int __fastcall FUN_00d08390(void* self, int, int value);
+int FUN_00d08390(void* self, int, int value);
 struct HashEntryTable {  };
 struct FUN_00d08550_Class {
-    void __thiscall FUN_00d08550();
+    void FUN_00d08550();
 };
 struct FUN_00d08560_class {
-    void __thiscall FUN_00d08560();
+    void FUN_00d08560();
 };
 struct FUN_00d08940_class {
 };
@@ -77,32 +78,32 @@ struct FUN_00d08a40_class {
     char pad9[0x43];
     char m_4c;
     char m_4d;
-    void __thiscall ProcessFlaggedEntries(void* arg);
+    void ProcessFlaggedEntries(void* arg);
 };
 struct FUN_00cd2a00_class {
 };
-void __stdcall FUN_00d083e0(void* arg);
+void FUN_00d083e0(void* arg);
 struct FUN_00d08a90_class {
-    void __thiscall FUN_00d08a90(void* arg);
+    void FUN_00d08a90(void* arg);
 };
 struct FUN_00d08fb0_Class {
     char pad[0x54];
     char m_54;
     char m_55;
-    void __thiscall FUN_00d08fb0(char* arg);
-    void __thiscall FUN_00d08c90(char* arg);
+    void FUN_00d08fb0(char* arg);
+    void FUN_00d08c90(char* arg);
 };
 void __cdecl FUN_00d08c90(void* self, int a);
 struct FUN_00d08fd0_class {
     char pad[0x50];
     char m_50;
     char m_51;
-    void __thiscall FUN_00d08fd0(int a);
-    void __thiscall FUN_00d08c90(int a);
+    void FUN_00d08fd0(int a);
+    void FUN_00d08c90(int a);
 };
 struct FUN_00d0a130 {
     void* p;
-    void* __thiscall Set(char b);
+    void* Set(char b);
 };
 // add ecx,-0x14; jmp FUN_00d08570 : override in Derived forwards to the primary base's virtual.
 struct PrimaryBase
@@ -126,9 +127,9 @@ Derived::Derived()
 {
 }
 struct FUN_00d0a1f0_Class {
-    void __thiscall FUN_00d0a1f0(unsigned char value);
+    void FUN_00d0a1f0(unsigned char value);
 };
-void __stdcall FUN_00d08380(int);
+void FUN_00d08380(int);
 struct FUN_00cd29f0_cls {
 public:
     void FUN_00cd29f0(unsigned int);
@@ -404,7 +405,7 @@ struct FUN_00d08c70_class {
     int unk04;
     int unk08;
     FUN_00d9a4d0_class* unk0C;
-    void __thiscall FUN_00d08c70(void* arg);
+    void FUN_00d08c70(void* arg);
 };
 class hkMemoryAllocatorD08C;
 struct hkMemoryRouterD08C {
@@ -517,7 +518,7 @@ struct FUN_00d0a1e0_class {
     int unk60;
     int unk64;
     char unk68;
-    char __thiscall FUN_00d0a1e0();
+    char FUN_00d0a1e0();
 };
 extern int DAT_010ccfcc;
 extern int DAT_010ccfe0;
@@ -742,7 +743,7 @@ struct S00d0a490_cls {
     int m_08;
     int m_0c;
     int m_10;
-    int __thiscall CallSubroutine(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
+    int CallSubroutine(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 };
 void __cdecl FUN_00d083c0();
 struct hkpEntityB90 {
@@ -767,7 +768,6 @@ struct hkpWorldB90 {
 void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world);
 extern char DAT_010cd234[];
 extern char DAT_010c41f8[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct MonitorEvent { const char* tag; unsigned int time; unsigned int extra; };
@@ -846,7 +846,6 @@ public:
 D0A230Listener::D0A230Listener()
 {
 }
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010cd130[];
 extern const char str_010cd124[];
 extern const char str_010cd11c[];
@@ -1165,7 +1164,7 @@ struct AllocV {
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual void __thiscall ReleaseBlock(void* p, int bytes);
+    virtual void ReleaseBlock(void* p, int bytes);
 };
 struct TempArr {
     int* m_data;
@@ -1201,7 +1200,7 @@ struct EntListSelf {
     int m_entSize;
     int m_entCap;
 
-    void __thiscall FUN_00d09df0(void* p1, void* p2);
+    void FUN_00d09df0(void* p1, void* p2);
 };
 static __forceinline void mark16(MarkerBuf* buf, char* name, char* name2, volatile unsigned int* stampOut)
 {
@@ -1295,7 +1294,7 @@ struct CollectorState {
  __m128 m40,m50,m60,m70;
  float f80,f84;
  float* m_88;
- void __thiscall FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8);
+ void FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8);
 };
 extern "C" const __m128 DAT_010ec7f0={1,1,1,1};
 extern "C" const float DAT_01016248=0.5f;

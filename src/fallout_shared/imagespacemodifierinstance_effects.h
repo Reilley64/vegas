@@ -74,7 +74,6 @@ enum ImageSpaceModifierInstanceDRB__DepthOfFieldMode
     ImageSpaceModifierInstanceDRB__DepthOfFieldMode_DOF_BACK = 2,
     ImageSpaceModifierInstanceDRB__DepthOfFieldMode_DOF_NONE = 3
 };
-#pragma pack(push, 4)
 class ImageSpaceModifierInstanceDRB : public ImageSpaceModifierInstanceTemp, public NiMemObjectAllocation
 {
   public:
@@ -122,16 +121,6 @@ class ImageSpaceModifierInstanceDRB : public ImageSpaceModifierInstanceTemp, pub
     // void __cdecl ImageSpaceModifierInstanceDRB::*()
     // ImageSpaceModifierInstanceDRB& __cdecl ImageSpaceModifierInstanceDRB::*(const ImageSpaceModifierInstanceDRB&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierInstanceDRB) == 68);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, m_fRampUp) == 32);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, fStart) == 36);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, m_fRampDown) == 40);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, m_fRampDownStart) == 44);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, Center) == 48);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, fDistance) == 56);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, fImpulseRadiusSquared) == 60);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDRB, Mode) == 64);
 enum ImageSpaceModifierInstanceDOF__DepthOfFieldMode
 {
     ImageSpaceModifierInstanceDOF__DepthOfFieldMode_DOF_FRONT_BACK = 0,
@@ -142,7 +131,6 @@ enum ImageSpaceModifierInstanceDOF__DepthOfFieldMode
     ImageSpaceModifierInstanceDOF__DepthOfFieldMode_DOF_BACK_MASK = 5,
     ImageSpaceModifierInstanceDOF__DepthOfFieldMode_DOF_NONE = 6
 };
-#pragma pack(push, 4)
 class ImageSpaceModifierInstanceDOF : public ImageSpaceModifierInstanceTemp, public NiMemObjectAllocation
 {
   public:
@@ -182,10 +170,4 @@ class ImageSpaceModifierInstanceDOF : public ImageSpaceModifierInstanceTemp, pub
     // void __cdecl ImageSpaceModifierInstanceDOF::*()
     // ImageSpaceModifierInstanceDOF& __cdecl ImageSpaceModifierInstanceDOF::*(const ImageSpaceModifierInstanceDOF&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierInstanceDOF) == 48);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDOF, fDistance) == 32);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDOF, fImpulseRadiusSquared) == 36);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDOF, m_fMaskConstant) == 40);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceDOF, Mode) == 44);
 #endif

@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c21720
+#include <windows.h>
 #include "fnv/decl/CloneSourceA5d6.h"
 #include "fnv/decl/FUN_00a63460_shell.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
@@ -207,8 +208,6 @@ void NiPSysMeshUpdateModifier::AppendString(StrArr* pkStrings)
 }
 }  // namespace fnv_00c21840
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiRefObject
 {
     virtual void v00();
@@ -322,14 +321,13 @@ void FUN_00c212b0_cls::FUN_00c212b0(unsigned int uiIndex, FUN_00c212b0_src* pSou
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct CloneHandle;
 struct MeshObject
 {
     virtual void OnBeginDestroy();
     virtual void Destroy();
     volatile long refCount;
-    CloneHandle __thiscall PopBack() throw();
+    CloneHandle PopBack() throw();
 };
 struct CloneHandle
 {
@@ -357,7 +355,7 @@ struct CloneHandle
             pointer = 0;
         }
     }
-    CloneHandle& __thiscall FUN_006e5cc0(const CloneHandle& other) throw();
+    CloneHandle& FUN_006e5cc0(const CloneHandle& other) throw();
 };
 struct MeshLookup
 {
@@ -399,7 +397,7 @@ struct MeshLookup
     MeshObject** meshes;
     unsigned short unk90;
     unsigned short meshCount;
-    void __thiscall GetMeshHandle(unsigned int index, CloneHandle* result);
+    void GetMeshHandle(unsigned int index, CloneHandle* result);
 };
 // If index is within meshCount and meshes[index] is non-null, assigns a clone handle of that mesh to result; otherwise clears result.
 // @fnv 0x00c21340
@@ -556,8 +554,6 @@ class BC21890Node : public BC21890AVObject
     BC21890ObjectArray m_kChildList;
 };
 
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedIncrement(volatile long* p);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedDecrement(volatile long* p);
 
 class MyRefObject
 {
@@ -768,8 +764,6 @@ void MeshUpdateStreamWriter::WriteMeshUpdate(NiStream* stream)
         stream->RegisterObject(m_ppkMeshes[i]);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ReferenceSource
 {
 };
@@ -1082,7 +1076,7 @@ struct MeshPSysData
 
 // For each active vertex, copies position and scale to its mesh, optionally sets rotation, then calls UpdateDownwardPass.
 // @fnv 0x00c21080
-void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
+void FUN_00c21080(float fTime, MeshPSysData* pkData)
 {
     float* pfRotationAngles = pkData->m_pfRotationAngles;
     MeshNiPoint3* pkRotationAxes = pkData->m_pkRotationAxes;
@@ -1111,8 +1105,8 @@ void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
     }
 }
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 class Mesh_c21
 {

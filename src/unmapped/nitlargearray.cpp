@@ -1,9 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/symbols_0109b000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* lpAddend);
 
 typedef char* GlobalStringHandle;
 

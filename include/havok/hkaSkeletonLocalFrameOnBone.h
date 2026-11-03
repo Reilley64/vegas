@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 class hkLocalFrame;
-#pragma pack(push, 1)
 class hkaSkeletonLocalFrameOnBone
 {
   public:
     hkLocalFrame* m_pLocalFrame;  // +0x0
     hkInt32 m_iBoneIndex;         // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaSkeletonLocalFrameOnBone[(sizeof(hkaSkeletonLocalFrameOnBone) == 0x8) ? 1 : -1];
 #endif

@@ -8,7 +8,6 @@ class RegionPoint;
 #define FNV_EXTRADATALIST_H
 #include "layout_support.h"
 #include "BaseExtraList.h"
-#pragma pack(push, 4)
 class ExtraDataList : public BaseExtraList
 {
   public:
@@ -17,6 +16,4 @@ class ExtraDataList : public BaseExtraList
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges* changes);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #endif

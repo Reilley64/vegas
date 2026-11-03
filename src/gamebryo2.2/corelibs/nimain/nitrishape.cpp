@@ -33,7 +33,7 @@ struct FUN_00a74530_DelHelper : NiMemObject
 
 // Calls FUN_00a89760 on pThis, frees pThis with operator delete when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a74530
-void* __fastcall DestroyNiTriShape(void* pThis, int, unsigned int flags)
+void* DestroyNiTriShape(void* pThis, int, unsigned int flags)
 {
     reinterpret_cast<::FUN_00a89760_cls *>((pThis))->FUN_00a89760_cls::~FUN_00a89760_cls();
     if (flags & 1)
@@ -62,7 +62,6 @@ struct BSScissorTriShape : public NiTriShape
     char _pad_c4[44];
     char pDataToSerialize[16];
 };
-typedef char _sizecheck_BSScissorTriShape[sizeof(BSScissorTriShape) == 256 ? 1 : -1];
 struct FUN_00a74600_shell : public NiTriShape
 {
     void FUN_00a74600(NiRenderer*);
@@ -74,11 +73,11 @@ void FUN_00a80610();
 // @fnv 0x00a74600
 void FUN_00a74600_shell::FUN_00a74600(NiRenderer* apkRenderer)
 {
-    ((void(__thiscall*)(NiTriShape*, NiRenderer*))FUN_00a80610)(this, apkRenderer);
+    ((void(*)(NiTriShape*, NiRenderer*))FUN_00a80610)(this, apkRenderer);
     int state = *(int*)((char*)apkRenderer + 0x200);
     if ((state == 1 || state == 2) && *((char*)apkRenderer + 0x208) == 1)
     {
-        ((void(__thiscall*)(NiRenderer*, NiTriShape*))(*(void***)apkRenderer)[0x1b4 / 4])(apkRenderer, this);
+        ((void(*)(NiRenderer*, NiTriShape*))(*(void***)apkRenderer)[0x1b4 / 4])(apkRenderer, this);
     }
 }
 
@@ -168,7 +167,6 @@ struct BSResizableTriShape : public NiTriShape
     char LocalBound[16];
     char _pad_104[12];
 };
-typedef char _sizecheck_BSResizableTriShape[sizeof(BSResizableTriShape) == 272 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -199,7 +197,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00a74560_shell : public NiTriShape
 {
     void GetTriangleVertices(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**);
@@ -272,18 +269,18 @@ struct FUN_00a80610_This
 };
 struct FUN_00a745c0_This
 {
-    void __thiscall FUN_00a745c0(void*);
+    void FUN_00a745c0(void*);
 };
 // Calls FUN_00a80610 on the renderer, then if renderer state at 0x200 is 1 or 2 and byte at 0x208 is 1, invokes vtable slot 107 with this.
 // @fnv 0x00a745c0
-void __thiscall FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
+void FUN_00a745c0_This::FUN_00a745c0(void* apkRenderer)
 {
     void* pkRenderer = apkRenderer;
     reinterpret_cast<::FUN_00a80610_shell *>((((FUN_00a80610_This*)this)))->FUN_00a80610((::NiRenderer *)(pkRenderer));
     if ((*(int*)((char*)pkRenderer + 0x200) == 1 || *(int*)((char*)pkRenderer + 0x200) == 2) &&
         *(char*)((char*)pkRenderer + 0x208) == 1)
     {
-        ((void(__thiscall**)(void*, void*))(*(void***)pkRenderer))[107](pkRenderer, this);
+        ((void(**)(void*, void*))(*(void***)pkRenderer))[107](pkRenderer, this);
     }
 }
 

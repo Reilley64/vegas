@@ -44,7 +44,7 @@ struct FUN_00509bd0_shell
 {
     char pad[0x64];
     char m_64;  // +0x64
-    void __thiscall SetFlag2(bool value);
+    void SetFlag2(bool value);
 };
 struct FUN_00509c20_shell
 {

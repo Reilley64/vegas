@@ -58,7 +58,7 @@
 #include "fnv/symbols_011d0000.h"
 struct FUN_0062e750_shell
 {
-    void* __thiscall FUN_0062e750(unsigned int flags);
+    void* FUN_0062e750(unsigned int flags);
 };
 extern int DAT_011c7a3c;
 extern unsigned char DAT_011c7a5a;
@@ -80,26 +80,26 @@ float ExpFloat(float value);
 extern float _gModifierZero;
 struct FUN_005631e0_shell
 {
-    bool __thiscall IsNonZero(int a);
+    bool IsNonZero(int a);
 };
 struct FUN_0062e710_shell
 {
-    void __thiscall SetValueAt(float f, int a, int b);
+    void SetValueAt(float f, int a, int b);
 };
 struct BSSimpleList_Ragdoll
 {
-    void* __thiscall FUN_006310e0();
+    void* FUN_006310e0();
 };
 struct TESDataHandler
 {
 };
 struct FUN_006310c0_shell
 {
-    void __thiscall FUN_006310c0();
+    void FUN_006310c0();
 };
 struct FUN_00c9a460_shell
 {
-    void __thiscall FUN_00c9a600(int a);
+    void FUN_00c9a600(int a);
 };
 
 #include <xmmintrin.h>

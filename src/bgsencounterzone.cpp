@@ -425,7 +425,7 @@ struct Calendar
     unsigned int GetGameHoursPassed();
 };
 // @fnv 0x005262a0
-bool __fastcall FUN_005262a0(BGSEncounterZone* apZone)
+bool FUN_005262a0(BGSEncounterZone* apZone)
 {
     bool result = true;
     if (apZone != ::DAT_011c9520 && *(unsigned short*)((char*)apZone + 0x2c))

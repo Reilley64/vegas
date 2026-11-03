@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/DataA38.h"
 #include "fnv/decl/FUN_00a641f0_cls.h"
 #include "fnv/decl/FUN_00a95ca0_shell.h"
@@ -20,11 +21,11 @@ struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    int __thiscall FUN_00a43560(short arg);
+    int FUN_00a43560(short arg);
 };
 struct FUN_00a43580_shell
 {
-    void* __thiscall FUN_00a43580(unsigned short flag);
+    void* FUN_00a43580(unsigned short flag);
 };
 struct FUN_00a435a0_shell
 {
@@ -39,7 +40,7 @@ struct FUN_00a435c0_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    char __thiscall FUN_00a435c0(short arg);
+    char FUN_00a435c0(short arg);
 };
 struct TrackFlags
 {
@@ -65,7 +66,7 @@ struct FUN_00a434b0_shell
     float valueDelta;
     unsigned int sampleIndex;
     SampleTrack* track;
-    bool __thiscall UpdateSampleValue(float time, int, int);
+    bool UpdateSampleValue(float time, int, int);
 };
 struct FUN_00a435e0_shell
 {
@@ -136,7 +137,7 @@ struct FUN_00a435e0_shell
     int unk1c;
     int unk20;
 
-    bool __thiscall FUN_00a435e0(int arg);
+    bool FUN_00a435e0(int arg);
 };
 inline void FUN_00a435e0_shell::v01()
 {}
@@ -492,8 +493,6 @@ class A43600Controller : public A43600Base
     A43600Object* m_pkTarget;
 };
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
 
 struct MemoryManager
 {

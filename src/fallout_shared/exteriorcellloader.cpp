@@ -42,7 +42,7 @@ struct ExteriorCellLoaderTask : IOManager
 };
 
 // @fnv 0x00527ce0
-void __thiscall ExteriorCellLoaderTask::FUN_00527ce0()
+void ExteriorCellLoaderTask::FUN_00527ce0()
 {
     SubmitTask();
 }
@@ -297,7 +297,7 @@ struct GameWorld : TES
 };
 struct GlobalSettings
 {
-    unsigned char* __thiscall FUN_00408d60();
+    unsigned char* FUN_00408d60();
 };
 struct CellLoadData : IntPoint2D
 {
@@ -307,7 +307,7 @@ struct CellLoadData : IntPoint2D
 };
 struct CellLoader
 {
-    void __thiscall FUN_00528620(CellLoadData* data);
+    void FUN_00528620(CellLoadData* data);
 };
 // @fnv 0x00527cb0
 void FUN_00527cb0_shell::FUN_00527cb0()
@@ -411,12 +411,12 @@ bool FUN_00528870_shell::RunQueuedTask(QueuedTask* pTask, void* pArg)
 
 struct CellLoaderDeletingTask : FUN_00527c70_shell
 {
-    void* __thiscall FUN_00527c40(unsigned int aiFlags);
+    void* FUN_00527c40(unsigned int aiFlags);
 };
 
 // Calls FUN_00527c70, deallocates this when aiFlags bit 0 is set, and returns this.
 // @fnv 0x00527c40
-void* __thiscall CellLoaderDeletingTask::FUN_00527c40(unsigned int aiFlags)
+void* CellLoaderDeletingTask::FUN_00527c40(unsigned int aiFlags)
 {
     FUN_00527c70();
     if (aiFlags & 1)

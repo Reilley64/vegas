@@ -165,7 +165,7 @@ int __cdecl FUN_004fa4b0(const S_004fa4b0* apLeft, const S_004fa4b0* apRight)
 
 // Initializes the object: sets byte 0 to 10, byte 1 to 0, int at offset 4 to 0, constructs the object at offset 8, and returns pThis.
 // @fnv 0x004fa5e0
-void* __fastcall FUN_004fa5e0(char* pObject)
+void* FUN_004fa5e0(char* pObject)
 {
     pObject[0] = 10;
     pObject[1] = 0;
@@ -190,7 +190,7 @@ struct AEList
 unsigned int __cdecl BSStringLength(const char*);
 // Checks that a.d, its flag, and its string are non-empty, then inserts a.d into the AEList at self+0x1c and returns true; otherwise returns false.
 // @fnv 0x004fa610
-bool __fastcall InsertDebrisIfValid(char* self, DArg aDebrisArg)
+bool InsertDebrisIfValid(char* self, DArg aDebrisArg)
 {
     if (!aDebrisArg.d || !aDebrisArg.d->c || !aDebrisArg.d->p || !::FUN_0044a670(aDebrisArg.d->p))
         return false;
@@ -267,11 +267,11 @@ FUN_004f9cd0::FUN_004f9cd0()
 
 struct FUN_004fa950_shell
 {
-    int __thiscall IsFlagSet();
+    int IsFlagSet();
 };
 
 // @fnv 0x004fa950
-int __thiscall FUN_004fa950_shell::IsFlagSet()
+int FUN_004fa950_shell::IsFlagSet()
 {
     return (*reinterpret_cast<signed char*>(this + 1) & 1);
 }

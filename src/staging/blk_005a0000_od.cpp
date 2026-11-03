@@ -145,11 +145,11 @@ char __cdecl FUN_005b9240()
 
 struct FUN_005b92e0_class
 {
-    int __thiscall GetField59C();
+    int GetField59C();
 };
 
 // @fnv 0x005b92e0
-int __thiscall FUN_005b92e0_class::GetField59C()
+int FUN_005b92e0_class::GetField59C()
 {
     return *(int*)((char*)this + 0x59c);
 }
@@ -159,15 +159,15 @@ struct FUN_005a7220_class
 };
 struct FUN_005a71d0_class
 {
-    void* __thiscall FUN_005a71d0();
+    void* FUN_005a71d0();
 };
 struct FUN_005a7220_cls
 {
-    int __thiscall Initialize();
+    int Initialize();
 };
 // Calls Initialize on the sub-objects at offsets 4 and 0x2c, then sets the fields at 0, 0x50 and 0x54 and returns this.
 // @fnv 0x005a71d0
-void* __thiscall FUN_005a71d0_class::FUN_005a71d0()
+void* FUN_005a71d0_class::FUN_005a71d0()
 {
     reinterpret_cast<::FUN_005a7220_cls *>((((FUN_005a7220_class*)((char*)this + 4))))->Initialize();
     reinterpret_cast<::FUN_005a7220_cls *>((((FUN_005a7220_class*)((char*)this + 0x2c))))->Initialize();
@@ -177,7 +177,7 @@ void* __thiscall FUN_005a71d0_class::FUN_005a71d0()
     return this;
 }
 // @fnv 0x005a7220
-int __thiscall FUN_005a7220_cls::Initialize()
+int FUN_005a7220_cls::Initialize()
 {
     *(int*)this = 0;
     *(int*)(this + 4) = 0;
@@ -203,12 +203,12 @@ struct BSSimpleListBase
 
 struct FUN_005a7c00_class : public BSSimpleListBase
 {
-    char __thiscall FUN_005a7c00(BSSimpleListBase* other);
+    char FUN_005a7c00(BSSimpleListBase* other);
 };
 
 // Compares this list node's value and next pointer against another's, returning 1 if either differs, else 0.
 // @fnv 0x005a7c00
-char __thiscall FUN_005a7c00_class::FUN_005a7c00(BSSimpleListBase* other)
+char FUN_005a7c00_class::FUN_005a7c00(BSSimpleListBase* other)
 {
     if (reinterpret_cast<Flt*>(this)->operator unsigned int() != reinterpret_cast<Flt*>(other)->operator unsigned int())
         return 1;
@@ -219,10 +219,10 @@ char __thiscall FUN_005a7c00_class::FUN_005a7c00(BSSimpleListBase* other)
 
 struct FUN_005a8e20_cls
 {
-    char __thiscall FUN_005a8ef0(int param_2, int param_3);
+    char FUN_005a8ef0(int param_2, int param_3);
 };
 // @fnv 0x005a8ef0
-char __thiscall FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
+char FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
 {
     int result = ((int)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)((void*)param_2), false)));
     if (!result)

@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedmenu_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/forenderedmenu.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/FUN_00438230_Class.h"
 #include "fnv/decl/FUN_00439410_cls.h"
@@ -149,7 +150,7 @@ struct FUN_007fadf0_shell : public FORenderedMenu
 };
 struct FUN_0087d6c0_shell
 {
-    float __thiscall FUN_0087d6c0();
+    float FUN_0087d6c0();
 };
 struct FUN_00706060_shell
 {
@@ -157,7 +158,7 @@ struct FUN_00706060_shell
 };
 struct HOLDER
 {
-    void* __thiscall DestroyHolder(unsigned int);
+    void* DestroyHolder(unsigned int);
 };
 struct MenuStub
 {
@@ -193,7 +194,6 @@ struct MyMenu : public FORenderedMenu
     void FUN_007ffdb0();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
 
 struct SpawnedRef
 {

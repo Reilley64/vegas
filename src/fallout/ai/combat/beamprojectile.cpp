@@ -456,10 +456,10 @@ struct FUN_00979280_shell : FUN_009bda10_shell
     int unk148;
     int unk14C;
     HandleField target;
-    void __thiscall FUN_00979280();
+    void FUN_00979280();
 };
 // @fnv 0x00979280
-void __thiscall FUN_00979280_shell::FUN_00979280()
+void FUN_00979280_shell::FUN_00979280()
 {
     reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(0x10, 0);
     reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>(this)->FUN_005de0a0(1, 1);

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nigeometrydata.cpp: NiGeometryData, NiGeometryDataRecovered, NiGeometryDataCmp, GeomData and more (36 functions)
 
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A72720StreamSet.h"
@@ -110,7 +111,7 @@ NiObjectGroup* __cdecl FUN_00a669c0()
 }
 
 // @fnv 0x00a669d0
-void __stdcall FUN_00a669d0(NiObjectGroup* pkGroup)
+void FUN_00a669d0(NiObjectGroup* pkGroup)
 {
     DAT_011f4880 = pkGroup;
 }
@@ -383,7 +384,6 @@ struct FUN_00a67c70_shell : public NiGeometryData
     void DestroyGeometryData();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 struct NiRenderer
 {
@@ -2363,8 +2363,8 @@ __forceinline void ReadPoint2EA0(StreamEA0& stream, void* data, unsigned int cou
 }
 
 void* FUN_00ec61c0(void* pvDest, int iValue, unsigned int uiSize);
-typedef void*(__thiscall* CtorStubEA0)(void*);
-extern "C" void __stdcall _vector_constructor_iterator(void* apvArray, unsigned int uiElemSize, int iCount,
+typedef void*(* CtorStubEA0)(void*);
+extern "C" void _vector_constructor_iterator(void* apvArray, unsigned int uiElemSize, int iCount,
                                                        CtorStubEA0 pfnCtor);
 
 class GeomEA0 : public ObjEA0

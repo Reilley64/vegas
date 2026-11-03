@@ -52,11 +52,11 @@ void FUN_00b01c40_shell::SetByteAt45(unsigned char u8)
 
 struct FUN_00b01c70_shell
 {
-    int __thiscall FUN_00b01c70(int a, int b);
+    int FUN_00b01c70(int a, int b);
 };
 
 // @fnv 0x00b01c70
-int __thiscall FUN_00b01c70_shell::FUN_00b01c70(int a, int b)
+int FUN_00b01c70_shell::FUN_00b01c70(int a, int b)
 {
     return 0;
 }
@@ -103,11 +103,11 @@ bool FUN_00b01cb0_shell::FUN_00b01cb0(int arg1)
 
 struct FUN_00b01cc0_shell
 {
-    void __thiscall FUN_00b01cc0(int);
+    void FUN_00b01cc0(int);
 };
 
 // @fnv 0x00b01cc0
-void __thiscall FUN_00b01cc0_shell::FUN_00b01cc0(int)
+void FUN_00b01cc0_shell::FUN_00b01cc0(int)
 {}
 
 struct FUN_00b01cd0_shell
@@ -121,11 +121,11 @@ void FUN_00b01cd0_shell::FUN_00b01cd0()
 
 struct FUN_00b01ce0_shell
 {
-    void __thiscall FUN_00b01ce0(int);
+    void FUN_00b01ce0(int);
 };
 
 // @fnv 0x00b01ce0
-void __thiscall FUN_00b01ce0_shell::FUN_00b01ce0(int)
+void FUN_00b01ce0_shell::FUN_00b01ce0(int)
 {}
 
 struct FUN_00b01cf0_shell
@@ -139,11 +139,11 @@ void FUN_00b01cf0_shell::FUN_00b01cf0(float a, float b, float c, float d)
 
 struct FUN_00b01d10_shell
 {
-    bool __thiscall FUN_00b01d10(int a);
+    bool FUN_00b01d10(int a);
 };
 
 // @fnv 0x00b01d10
-bool __thiscall FUN_00b01d10_shell::FUN_00b01d10(int a)
+bool FUN_00b01d10_shell::FUN_00b01d10(int a)
 {
     return 0;
 }
@@ -158,11 +158,11 @@ void FUN_00b01c60_shell::FUN_00b01c60()
 
 struct FUN_00b01d00_shell
 {
-    void __thiscall FUN_00b01d00();
+    void FUN_00b01d00();
 };
 
 // @fnv 0x00b01d00
-void __thiscall FUN_00b01d00_shell::FUN_00b01d00()
+void FUN_00b01d00_shell::FUN_00b01d00()
 {}
 
 struct S_00b01d20_MemoryManager

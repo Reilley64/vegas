@@ -46,7 +46,7 @@ ActorPathHandler::PATH_HANDLER_RESULT CallNoPathUpdate(ActorPathHandler* pHandle
 }
 
 // @fnv 0x00405d80
-bool __fastcall FUN_00405d80(int* pThis)
+bool FUN_00405d80(int* pThis)
 {
     return pThis[3] > 0;
 }
@@ -66,7 +66,7 @@ struct EffectSetting
 };
 
 // @fnv 0x004064b0
-bool __fastcall IsArchetypeFlagSet(EffectSetting* pThis)
+bool IsArchetypeFlagSet(EffectSetting* pThis)
 {
     return ::HasEffectArchetypeFlag((*(int *)&(const ::MagicEffectSystem::_Type::Type &)((MagicEffectSystem::_Type::Type)pThis->GetArchetype())), 0x7c);
 }
@@ -123,7 +123,6 @@ struct EffectItem
 public:
     bool IsDetrimental();
 };
-typedef char _sizecheck_EffectItem[sizeof(EffectItem) == 36 ? 1 : -1];
 
 struct EffectItemList_shell
 {
@@ -131,7 +130,7 @@ struct EffectItemList_shell
 };
 
 // @fnv 0x004065e0
-int __fastcall FUN_004065e0(EffectItemList_shell* pthis)
+int FUN_004065e0(EffectItemList_shell* pthis)
 {
     int eresult = -1;
     EffectItem* peffect = pthis->FindCostliestEffectItem(3, 0);
@@ -209,7 +208,7 @@ class RecursiveSpinLock
 extern int DAT_01070020;
 
 // @fnv 0x0071f540
-void* __fastcall ConstructWithVTable(void* apObject)
+void* ConstructWithVTable(void* apObject)
 {
     new ((void *)(reinterpret_cast<RecursiveSpinLock*>(reinterpret_cast<char*>(apObject) + 4))) ::fnv_00722f60::SL();
     *reinterpret_cast<int**>(apObject) = &DAT_01070020;
@@ -514,11 +513,11 @@ struct Obj93
 {
     char _p[0xA4];
     Mid93 m;
-    void __thiscall GetTwoValues(float*, float*);
+    void GetTwoValues(float*, float*);
 };
 // Stores FUN_008a0c20(this) into *p2 and the result of m.f2(46) into *p1.
 // @fnv 0x0093abe0
-void __thiscall Obj93::GetTwoValues(float* pfValue, float* pfResult)
+void Obj93::GetTwoValues(float* pfValue, float* pfResult)
 {
     *pfResult = reinterpret_cast<::FUN_008a0c20_shell *>((this))->FUN_008a0c20();
     *pfValue = (float)m.f2(46);

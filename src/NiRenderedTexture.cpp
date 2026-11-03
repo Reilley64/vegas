@@ -71,7 +71,7 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
 // extern "C" long __cdecl InterlockedDecrement(long*);
 
 // @fnv 0x00a7fd30
-void* __fastcall DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned char flags)
+void* DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned char flags)
 {
     void* p30 = *(void**)((char*)self + 0x30);
     if (p30)
@@ -82,7 +82,7 @@ void* __fastcall DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned c
         if (InterlockedDecrement((long*)((char*)p30 + 4)) == 0)
         {
             void** vtbl = *(void***)p30;
-            ((void(__thiscall*)(void*))vtbl[1])(p30);
+            ((void(*)(void*))vtbl[1])(p30);
         }
     }
 
@@ -91,7 +91,7 @@ void* __fastcall DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned c
     if (p24)
     {
         void** vtbl24 = *(void***)p24;
-        ((void(__thiscall*)(void*, int))vtbl24[0])(p24, 1);
+        ((void(*)(void*, int))vtbl24[0])(p24, 1);
     }
 
     ::FUN_00a5f800((::TextureListView *)(self));

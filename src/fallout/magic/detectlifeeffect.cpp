@@ -42,18 +42,18 @@ TESEffectShader* __cdecl FUN_0080d0d0()
 
 struct FUN_0080cd60_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 struct FUN_0080d930_shell
 {
 };
 struct FUN_0080cd90_shell
 {
-    void __thiscall FUN_0080cd90();
+    void FUN_0080cd90();
 };
 // Calls FUN_0080cd90, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0080cd60
-void* __thiscall FUN_0080cd60_shell::Destroy(unsigned int flags)
+void* FUN_0080cd60_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0080cd90_shell *>(this)->FUN_0080cd90();
     if (flags & 1)
@@ -61,7 +61,7 @@ void* __thiscall FUN_0080cd60_shell::Destroy(unsigned int flags)
     return this;
 }
 // @fnv 0x0080cd90
-void __thiscall FUN_0080cd90_shell::FUN_0080cd90()
+void FUN_0080cd90_shell::FUN_0080cd90()
 {
     *reinterpret_cast<void**>(this) = &DAT_01079e7c;
     reinterpret_cast<::FUN_0080d930 *>((reinterpret_cast<FUN_0080d930_shell*>(this)))->FUN_0080d930::~FUN_0080d930();

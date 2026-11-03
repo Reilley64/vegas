@@ -189,7 +189,7 @@ struct FUN_00e48ab0_value
 
 struct FUN_00e48ab0_class
 {
-    int* __thiscall FUN_00e48ab0(int* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
+    int* FUN_00e48ab0(int* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
 };
 
 // Calls ShouldCollide on the object at this-8, passing value and the value_1c fields of arg2 and arg3, then returns value.

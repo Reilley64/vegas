@@ -16,11 +16,11 @@ void* __cdecl FUN_00c2b460()
 
 struct NiPSysEmitterPlanarAngleVarCtlr
 {
-    void __thiscall FUN_00c2b470(float fValue);
+    void FUN_00c2b470(float fValue);
 };
 
 // @fnv 0x00c2b470
-void __thiscall NiPSysEmitterPlanarAngleVarCtlr::FUN_00c2b470(float fValue)
+void NiPSysEmitterPlanarAngleVarCtlr::FUN_00c2b470(float fValue)
 {
     *(float*)(*(int*)(this + 0x3c) + 0x2c) = fValue;
 }
@@ -56,7 +56,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330(g_01202730) to the end of pkStrings, growing the array if it is full.
 // @fnv 0x00c2b4d0
-void __stdcall FUN_00c2b4d0(StrArr* pkStrings)
+void FUN_00c2b4d0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202730))));

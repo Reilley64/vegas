@@ -135,7 +135,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void FUN_009ac170(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -145,7 +145,7 @@ struct Explosion
 struct NiRTTI;
 struct bhkLiquidAction
 {
-    const NiRTTI* __thiscall GetRTTI() const;
+    const NiRTTI* GetRTTI() const;
 };
 struct NavMesh;
 struct NavMeshPtr
@@ -158,7 +158,7 @@ struct FUN_009afc30_shell
 };
 struct BSOcclusionPlane
 {
-    int __thiscall IsNotCulled();
+    int IsNotCulled();
 };
 struct FUN_009afbb0_shell
 {
@@ -168,11 +168,11 @@ struct FUN_009afbb0_shell
 extern "C" void __cdecl FUN_009afbe0(void*);
 struct FUN_00621100_shell
 {
-    void __thiscall SetVtable(void);
+    void SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void FUN_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -463,7 +463,7 @@ struct FUN_00cbc550_class
 };
 struct FUN_00cbca20_class
 {
-    FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
+    FUN_00cbc550_class* FUN_00cbca20(int flags);
 };
 
 #include <xmmintrin.h>

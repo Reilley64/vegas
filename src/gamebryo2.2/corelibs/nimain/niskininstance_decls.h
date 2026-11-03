@@ -1,12 +1,11 @@
 // gamebryo2.2/corelibs/nimain/niskininstance_decls.h: declares NiObject, NiStream, NiSkinInstance
 #pragma once
 
+#include <windows.h>
 #include "fnv/decl/FUN_00a63460_shell.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/symbols_00aa1000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiStream;
 class NiObject
 {

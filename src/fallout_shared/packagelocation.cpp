@@ -154,7 +154,7 @@ unsigned int BGSMessageInitAccess::GetIconFormID()
 
 // Sets the first byte of the object to 3 and zeroes the two 32-bit fields at offsets 4 and 8, then returns the object.
 // @fnv 0x0067f030
-LocationDescriptor* __fastcall FUN_0067f030(LocationDescriptor* pObject)
+LocationDescriptor* FUN_0067f030(LocationDescriptor* pObject)
 {
     *(char*)pObject = 3;
     *(unsigned int*)((char*)pObject + 4) = 0;
@@ -1403,12 +1403,12 @@ struct FUN_0067f060_Class
     int unk04;
     int unk08;
 
-    FUN_0067f060_Class* __thiscall CopyFromSource(FUN_0067f060_Source* source);
+    FUN_0067f060_Class* CopyFromSource(FUN_0067f060_Source* source);
 };
 
 // Copies the source's type byte and value into this object, then sets the remaining fields based on the type byte.
 // @fnv 0x0067f060
-FUN_0067f060_Class* __thiscall FUN_0067f060_Class::CopyFromSource(FUN_0067f060_Source* source)
+FUN_0067f060_Class* FUN_0067f060_Class::CopyFromSource(FUN_0067f060_Source* source)
 {
     this->unk00 = source->unk00;
     this->unk04 = source->unk08;

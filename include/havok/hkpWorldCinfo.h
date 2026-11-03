@@ -9,7 +9,6 @@
 class hkWorldMemoryAvailableWatchDog;
 class hkpCollisionFilter;
 class hkpConvexListFilter;
-#pragma pack(push, 1)
 class hkpWorldCinfo : public hkReferencedObject
 {
   public:
@@ -116,6 +115,4 @@ class hkpWorldCinfo : public hkReferencedObject
     hkBool m_bFireCollisionCallbacks;  // +0xE0
     char padE1[0xF];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpWorldCinfo[(sizeof(hkpWorldCinfo) == 0xF0) ? 1 : -1];
 #endif

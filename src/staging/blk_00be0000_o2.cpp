@@ -2,6 +2,7 @@
 // src/staging/blk_00be0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -29,7 +30,7 @@ public:
     void DestroyPass();
 };
 // @fnv 0x00be08e0
-bool __fastcall FUN_00be08e0(char* self, int)
+bool FUN_00be08e0(char* self, int)
 {
     NiD3DPass::CreateD3DPass(*(NiPointer<NiD3DPass>*)(self + 0x5c));
     return true;
@@ -86,7 +87,7 @@ class SubOwner
 };
 
 // @fnv 0x00be08c0
-int __stdcall DispatchSubTarget(SubOwner* self)
+int DispatchSubTarget(SubOwner* self)
 {
     SubTarget* sub = ((::SubTarget *)(reinterpret_cast<::FUN_00a59d30_C *>((self))->FUN_00a59d30(3)));
     return sub->v39(self);
@@ -123,12 +124,12 @@ FUN_00be08f0::FUN_00be08f0(void* owner) : PassBase(owner, 2), unk2c(0)
 
 struct FNVNiD3DPassStandIn
 {
-    void* __thiscall FUN_00be2290(unsigned int flags);
+    void* FUN_00be2290(unsigned int flags);
 };
 
 // Calls FUN_00be0f10, then if bit 0 of flags is set calls FUN_00aa1460 on this with size 0x6c, and returns this.
 // @fnv 0x00be2290
-void* __thiscall FNVNiD3DPassStandIn::FUN_00be2290(unsigned int flags)
+void* FNVNiD3DPassStandIn::FUN_00be2290(unsigned int flags)
 {
     reinterpret_cast<::fnv_00be0f10::ShaderDerived *>(this)->fnv_00be0f10::ShaderDerived::~ShaderDerived();
 
@@ -144,8 +145,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -631,11 +630,11 @@ void __cdecl FUN_00beb830()
 
 struct C0
 {
-    int __thiscall FUN_00be0b10();
+    int FUN_00be0b10();
 };
 
 // @fnv 0x00be0b10
-int __thiscall C0::FUN_00be0b10()
+int C0::FUN_00be0b10()
 {
     return *(int*)((char*)this + 0x2c);
 }

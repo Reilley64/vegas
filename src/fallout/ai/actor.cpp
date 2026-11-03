@@ -1,5 +1,6 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A4F0Menu.h"
 #include "fnv/decl/A5D2C0Object.h"
@@ -1328,7 +1329,6 @@ public:
 public:
     unsigned short GetFatigue() const;
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct FUN_0047ded0_shell : public TESActorBaseData
 {
     unsigned short FUN_0047ded0();
@@ -1457,7 +1457,7 @@ void FUN_005f8bd0_Helper::Set(int val)
 }
 
 // @fnv 0x005f9b50
-int __fastcall GetField158(int param_1)
+int GetField158(int param_1)
 {
     return *(int*)(param_1 + 0x158);
 }
@@ -1466,7 +1466,7 @@ class PlayerCharacter;
 extern PlayerCharacter* pPlayer;
 
 // @fnv 0x00719ae0
-bool __fastcall FUN_00719ae0(void* _this)
+bool FUN_00719ae0(void* _this)
 {
     return reinterpret_cast<::FUN_00719b00_class *>((pPlayer))->FUN_00719b00();
 }
@@ -1485,7 +1485,7 @@ void FUN_00762130_dummy::SetIAmInDialogue(bool abIAmInDialogue)
 }
 
 // @fnv 0x00778970
-int __fastcall GetField18C(char* pThis)
+int GetField18C(char* pThis)
 {
     return *(int*)(pThis + 0x18c);
 }
@@ -1503,10 +1503,10 @@ void FUN_00810530_c::FUN_00810530(bool abflag)
     b = abflag;
 }
 
-unsigned short __fastcall FUN_0087f9f0(void* pThis);
+unsigned short FUN_0087f9f0(void* pThis);
 
 // @fnv 0x0087d670
-unsigned short __fastcall FUN_0087d670(char* pThis)
+unsigned short FUN_0087d670(char* pThis)
 {
     return FUN_0087f9f0(pThis - 0xA4);
 }
@@ -1529,25 +1529,25 @@ bool FUN_0087d6a0_shell::FUN_0087d6a0()
 
 
 // @fnv 0x0087d750
-int __fastcall FUN_0087d750(Actor* apActor)
+int FUN_0087d750(Actor* apActor)
 {
     return ((int)(reinterpret_cast<::FUN_005f0c80_shell *>((apActor->GetActorBase()))->FUN_005f0c80()));
 }
 
 // @fnv 0x0087d770
-bool __fastcall FUN_0087d770(Actor* pThis)
+bool FUN_0087d770(Actor* pThis)
 {
     return *((bool*)((char*)pThis + 0x145));
 }
 
 // @fnv 0x0087d790
-int __fastcall FUN_0087d790(int param_1)
+int FUN_0087d790(int param_1)
 {
     return param_1 - 0x88;
 }
 
 // @fnv 0x0087d7b0
-int __fastcall FUN_0087d7b0(int aiValue)
+int FUN_0087d7b0(int aiValue)
 {
     return aiValue - 0x94;
 }
@@ -1564,7 +1564,7 @@ bool FUN_0087eeb0_shell::FUN_0087eeb0()
 }
 
 // @fnv 0x0087eed0
-unsigned char __fastcall GetByteAtOffsetBE(unsigned char* pThis)
+unsigned char GetByteAtOffsetBE(unsigned char* pThis)
 {
     return pThis[0xbe];
 }
@@ -1763,7 +1763,7 @@ struct FUN_0087f620_shell : public Actor
 // @fnv 0x0087f620
 bool FUN_0087f620_shell::FUN_0087f620()
 {
-    if (!(*(bool(__thiscall**)(Actor*))(*(int*)this + 0x218))(this) && reinterpret_cast<::FUN_0087f570_shell *>((this))->FUN_0087f570())
+    if (!(*(bool(**)(Actor*))(*(int*)this + 0x218))(this) && reinterpret_cast<::FUN_0087f570_shell *>((this))->FUN_0087f570())
         return false;
     return true;
 }
@@ -1773,7 +1773,7 @@ struct FUN_0087f750_shell : public Actor
     TESObjectCELL* FUN_0087f750();
 };
 
-int __fastcall _FNV_GetFormType(void* pThis);
+int _FNV_GetFormType(void* pThis);
 
 // Returns the object at offset 0x170 if it is a TESObjectCELL (form type 0x41), otherwise null.
 // @fnv 0x0087f750
@@ -1788,7 +1788,7 @@ TESObjectCELL* FUN_0087f750_shell::FUN_0087f750()
     return pCell;
 }
 
-int __fastcall _FNV_GetFormType(void* thisPtr);
+int _FNV_GetFormType(void* thisPtr);
 
 struct TESObjectCELL_Ext : public TESObjectCELL
 {
@@ -1796,7 +1796,7 @@ struct TESObjectCELL_Ext : public TESObjectCELL
 
 // Returns the object at offset 0x170 if its form type is 0x39 and it is an interior cell, otherwise null.
 // @fnv 0x0087f7a0
-int __fastcall FUN_0087f7a0(void* thisPtr)
+int FUN_0087f7a0(void* thisPtr)
 {
     TESObjectCELL_Ext* cell = 0;
     if (*(void**)((char*)thisPtr + 0x170) != 0)
@@ -2003,7 +2003,7 @@ struct Vtbl_0087f800
 };
 
 // @fnv 0x0087f800
-void __fastcall InitCellOrWorldSpace(TESObjectREFR* apRef)
+void InitCellOrWorldSpace(TESObjectREFR* apRef)
 {
     *(S12_0087f800*)((char*)apRef + 0x160) = *(S12_0087f800*)reinterpret_cast<TESTopicInfo*>(apRef)->GetAddTopicList();
     *(float*)((char*)apRef + 0x16c) = reinterpret_cast<Vtbl_0087f800*>(apRef)->v175(0);
@@ -2014,7 +2014,7 @@ void __fastcall InitCellOrWorldSpace(TESObjectREFR* apRef)
 }
 
 // @fnv 0x0087f900
-bool __fastcall FUN_0087f900(void* thisPtr)
+bool FUN_0087f900(void* thisPtr)
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(thisPtr) + 0x170))
         return true;
@@ -2683,7 +2683,7 @@ int FUN_00880850_stand::FUN_00880850(int aiArg1, int aiArg2, int aiArg3)
 }
 
 // @fnv 0x00880890
-float __fastcall FUN_00880890(void* pThis, float a1, float afValue, float a3)
+float FUN_00880890(void* pThis, float a1, float afValue, float a3)
 {
     return afValue;
 }
@@ -2705,7 +2705,7 @@ void FUN_008808f0_shell::FUN_008808f0(int aiWhich, bool abBaseValueModified)
 
 // Gets the reference's extra data inventory changes and returns whether the changes pass the check in FUN_004bfc80.
 // @fnv 0x00880910
-bool __fastcall FUN_00880910(TESObjectREFR* pThis)
+bool FUN_00880910(TESObjectREFR* pThis)
 {
     bool res = false;
     InventoryChanges* changes = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pThis))->FUN_005d43c0()))->GetContainerChangeData();
@@ -2963,7 +2963,7 @@ TESPackage* FUN_008814b0_shell::FUN_008814b0()
 }
 }  // namespace fnv_008814b0
 
-bool __fastcall FUN_00881570(Actor* pThis);
+bool FUN_00881570(Actor* pThis);
 
 struct Actor_Helper : public Actor
 {
@@ -3050,7 +3050,7 @@ struct Process_Helper
 };
 
 // @fnv 0x008815a0
-int __fastcall FUN_008815a0(Actor* apActor)
+int FUN_008815a0(Actor* apActor)
 {
     int pkg;
     if (apActor->m_pBaseProcess)
@@ -3058,7 +3058,7 @@ int __fastcall FUN_008815a0(Actor* apActor)
         if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PlayerCharacter*)apActor)))->FUN_00493bb0())) &&
             (!FUN_00881570(apActor) || ((Actor_Helper*)apActor)->IsWithinRadius(0)))
         {
-            pkg = ((int(__thiscall*)(Actor*))(*(void***)apActor)[0x42c / 4])(apActor);
+            pkg = ((int(*)(Actor*))(*(void***)apActor)[0x42c / 4])(apActor);
             if (pkg)
             {
                 return pkg;
@@ -3114,7 +3114,6 @@ struct ActorPackageContext
     float m_fPackageValue;
     unsigned int iFlags;
 };
-typedef char _sizecheck_ActorPackage[sizeof(ActorPackageContext) == 24 ? 1 : -1];
 struct FUN_00881650_shell : public Actor
 {
     TESObjectREFR* FUN_00881650();
@@ -3156,13 +3155,13 @@ bool FUN_00881c90_cls::IsExpired(unsigned int now)
 }
 
 // @fnv 0x008840d0
-bool __fastcall IsFlagBitSet(char* pThis)
+bool IsFlagBitSet(char* pThis)
 {
     return (*(unsigned int*)(pThis + 0x1c) & 1) ? true : false;
 }
 
 // @fnv 0x008840f0
-bool __fastcall FUN_008840f0(int pObject)
+bool FUN_008840f0(int pObject)
 {
     return (*(unsigned int*)(pObject + 0x1c) & 0x200) ? true : false;
 }
@@ -3338,7 +3337,7 @@ struct FakeProcess
 };
 
 // @fnv 0x008842c0
-bool __fastcall FUN_008842c0(Actor* pThis)
+bool FUN_008842c0(Actor* pThis)
 {
     bool bResult = false;
     if (*(FakeProcess**)((char*)pThis + 0x68))
@@ -3438,7 +3437,7 @@ struct FUN_00884480_shell : public Actor
 // @fnv 0x00884480
 bool FUN_00884480_shell::FUN_00884480()
 {
-    if (Unk_8D() || (*(bool(__thiscall**)(Actor*, bool))(*(int*)this + 0x22c))(this, false))
+    if (Unk_8D() || (*(bool(**)(Actor*, bool))(*(int*)this + 0x22c))(this, false))
         return false;
     if (Unk_8C())
         return false;
@@ -3756,7 +3755,7 @@ struct FUN_008845a0_shell : public Actor
     bool FUN_008845a0();
 };
 
-bool __fastcall FUN_00884690(void*);
+bool FUN_00884690(void*);
 
 struct FakeBaseProcess
 {
@@ -4144,7 +4143,6 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct FUN_00884690_shell : public TESActorBaseData
 {
     bool FUN_00884690();
@@ -4164,9 +4162,9 @@ struct FUN_008846c0_shell : public Animation
 // @fnv 0x008845a0
 bool FUN_008845a0_shell::FUN_008845a0()
 {
-    if (((bool(__thiscall*)(Actor*, int))(*(void***)this)[0x22c / 4])(this, 1))
+    if (((bool(*)(Actor*, int))(*(void***)this)[0x22c / 4])(this, 1))
         return false;
-    if (((bool(__thiscall*)(Actor*))(*(void***)this)[0x4b4 / 4])(this))
+    if (((bool(*)(Actor*))(*(void***)this)[0x4b4 / 4])(this))
         return false;
     if (!FUN_00884690((char*)GetActorBase() + 0x30))
         return false;
@@ -4243,7 +4241,7 @@ void FUN_008848c0_Class::set(unsigned int val)
 }
 
 // @fnv 0x00884920
-bool __fastcall FUN_00884920(int* pThis)
+bool FUN_00884920(int* pThis)
 {
     return pThis[11] != 0;
 }
@@ -4300,11 +4298,11 @@ struct blob12
     char b[12];
 };
 
-void __fastcall FUN_00884970(int, blob4);
+void FUN_00884970(int, blob4);
 
 // If the pointer at pThis[11] is non-null, forwards the blob4 argument to FUN_00884970 along with that pointer.
 // @fnv 0x00884940
-void __fastcall FUN_00884940(int* pThis, blob4 aBlob)
+void FUN_00884940(int* pThis, blob4 aBlob)
 {
     if (pThis[11] != 0)
         FUN_00884970(pThis[11], aBlob);
@@ -4324,7 +4322,7 @@ void DummyClass_00884970::FUN_00884970(unsigned int mask)
 }
 
 // @fnv 0x00884990
-void __fastcall UpdateFlag800State(Actor* pThis)
+void UpdateFlag800State(Actor* pThis)
 {
     if (reinterpret_cast<::FUN_008846e0_shell *>((pThis))->GetVtbl20Result() & 0x800)
     {
@@ -4361,7 +4359,7 @@ struct BaseProcessHelper
 // @fnv 0x00884c80
 float FUN_00884c80_shell::FUN_00884c80()
 {
-    float fresult = (*(float(__thiscall***)(void*))((char*)this - 0xa8))[0x458 / 4]((char*)this - 0xa8);
+    float fresult = (*(float(***)(void*))((char*)this - 0xa8))[0x458 / 4]((char*)this - 0xa8);
     if (*(CombatLOS**)((char*)this - 0x40) && ::FUN_00884920((int *)((*(CombatLOS**)((char*)this - 0x40)))))
     {
         reinterpret_cast<::BaseProcessHelper *>(((*(CombatLOS**)((char*)this - 0x40))))->SetWalkSpeed(fresult);
@@ -4423,7 +4421,7 @@ float FUN_00884dc0_shell::FUN_00884dc0()
     }
     else
     {
-        return ((float(__thiscall*)(Actor*))(*(void***)this)[0x458 / 4])(this);
+        return ((float(*)(Actor*))(*(void***)this)[0x458 / 4])(this);
     }
 }
 }  // namespace fnv_00884dc0
@@ -4498,7 +4496,7 @@ float FUN_00884eb0_shell::FUN_00884eb0()
     }
     else
     {
-        return ((float(__thiscall*)(Actor*))(*(void***)this)[0x45c / 4])(this);
+        return ((float(*)(Actor*))(*(void***)this)[0x45c / 4])(this);
     }
 }
 }  // namespace fnv_00884eb0
@@ -4788,7 +4786,7 @@ void FUN_00885360_holder::FUN_00885360(float afValue)
 }
 
 // @fnv 0x00885490
-float __fastcall GetField42C(char* pThis)
+float GetField42C(char* pThis)
 {
     return *(float*)(pThis + 0x42c);
 }
@@ -4800,7 +4798,7 @@ struct FUN_008854b0_helper
 };
 
 // @fnv 0x008854b0
-void __fastcall FUN_008854b0(FUN_008854b0_helper* pThis, float value)
+void FUN_008854b0(FUN_008854b0_helper* pThis, float value)
 {
     pThis->f42C = value;
 }
@@ -5026,7 +5024,7 @@ struct VTableHelper00886080
 };
 
 // @fnv 0x00886080
-unsigned int __fastcall FUN_00886080(char* pThis)
+unsigned int FUN_00886080(char* pThis)
 {
     if (*reinterpret_cast<VTableHelper00886080**>(pThis + 0x68))
     {
@@ -5040,7 +5038,7 @@ unsigned int __fastcall FUN_00886080(char* pThis)
 }
 
 // @fnv 0x00886b10
-unsigned char __fastcall GetByteAt146(void* thisptr)
+unsigned char GetByteAt146(void* thisptr)
 {
     return *(unsigned char*)((char*)thisptr + 0x146);
 }
@@ -5559,14 +5557,14 @@ bool __cdecl GetFlag(ActorValue::Index, unsigned int);
 void FUN_0088b740_shell::FUN_0088b740(int aiWhich, float afAmount)
 {
     if (afAmount > 0.0f &&
-        (*reinterpret_cast<float(__thiscall***)(void*, int)>(reinterpret_cast<char*>(this) + 0xa4))[5](
+        (*reinterpret_cast<float(***)(void*, int)>(reinterpret_cast<char*>(this) + 0xa4))[5](
             reinterpret_cast<char*>(this) + 0xa4, aiWhich) < 0.0f)
     {
-        (*reinterpret_cast<void(__thiscall***)(void*, int, float, int)>(this))[0x3ac / 4](this, aiWhich, afAmount, 0);
+        (*reinterpret_cast<void(***)(void*, int, float, int)>(this))[0x3ac / 4](this, aiWhich, afAmount, 0);
     }
     else if (::FUN_00406d70((*(int *)&(const ::ActorValue::Index &)(static_cast<ActorValue::Index>(aiWhich))), 0x200) && afAmount < 0.0f)
     {
-        (*reinterpret_cast<void(__thiscall***)(void*, int, float, int)>(this))[0x3ac / 4](this, aiWhich, afAmount, 0);
+        (*reinterpret_cast<void(***)(void*, int, float, int)>(this))[0x3ac / 4](this, aiWhich, afAmount, 0);
     }
 }
 
@@ -5575,7 +5573,7 @@ struct FUN_0088c650_shell : public Actor
     void FUN_0088c650(TESBoundObject*, int, ExtraDataList*, bool, bool, bool);
 };
 
-int __fastcall _FNV_GetFormType(TESBoundObject* obj);
+int _FNV_GetFormType(TESBoundObject* obj);
 
 class BGSSaveLoadGame
 {
@@ -5830,7 +5828,6 @@ public:
 public:
     void AttachFaceGenNode();
 };
-typedef char _sizecheck_BipedAnim[sizeof(BipedAnim) == 692 ? 1 : -1];
 struct FUN_0088e0f0_shell : public BipedAnim
 {
     TESForm* FUN_0088e0f0(int);
@@ -6418,7 +6415,6 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct FUN_0089d5e0_shell : public TESActorBaseData
 {
     bool FUN_0089d5e0();
@@ -6432,13 +6428,13 @@ bool FUN_0089d5e0_shell::FUN_0089d5e0()
 }  // namespace fnv_0089d5e0
 
 // @fnv 0x0089d600
-void* __fastcall FUN_0089d600(char* pThis)
+void* FUN_0089d600(char* pThis)
 {
     return pThis + 0x450;
 }
 
 // @fnv 0x0089d620
-int __fastcall FUN_0089d620(char* this_ptr)
+int FUN_0089d620(char* this_ptr)
 {
     return *(int*)(this_ptr + 0x2e4);
 }
@@ -6944,7 +6940,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -6973,13 +6968,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct TESScriptableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -6998,7 +6991,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 struct TESEnchantableForm : public BaseFormComponent
 {
     virtual int GetCastingType();
@@ -7020,7 +7012,6 @@ struct TESEnchantableForm : public BaseFormComponent
     char _pad_a[2];
     int m_eCastingType;
 };
-typedef char _sizecheck_TESEnchantableForm[sizeof(TESEnchantableForm) == 16 ? 1 : -1];
 struct TESValueForm : public BaseFormComponent
 {
     virtual unsigned short GetSaveSize(unsigned int);
@@ -7039,7 +7030,6 @@ struct TESValueForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     unsigned int iValue;
 };
-typedef char _sizecheck_TESValueForm[sizeof(TESValueForm) == 8 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -7053,7 +7043,6 @@ struct TESWeightForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct TESHealthForm : public BaseFormComponent
 {
     virtual unsigned int GetBaseHealth();
@@ -7068,7 +7057,6 @@ struct TESHealthForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     unsigned int m_uiHealthValue;
 };
-typedef char _sizecheck_TESHealthForm[sizeof(TESHealthForm) == 8 ? 1 : -1];
 struct FUN_008a1760_shell : public Actor
 {
     int FUN_008a1760();
@@ -7444,7 +7432,6 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct FUN_008a46a0_shell : public TESActorBaseData
 {
     bool FUN_008a46a0();
@@ -7462,7 +7449,7 @@ struct _Dummy_008a5170
 };
 
 // @fnv 0x008a5170
-bool __fastcall FUN_008a5170(const _Dummy_008a5170* _this)
+bool FUN_008a5170(const _Dummy_008a5170* _this)
 {
     return ((int)(reinterpret_cast<::bhkCharacterListener *>((void *)(_this))->FUN_00621270(1))) != 0;
 }
@@ -7471,7 +7458,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_008a5530_shell : public Actor
 {
     void FUN_008a5530();
@@ -7837,7 +7823,7 @@ class Actor_ext : public Actor
 
 // Returns true if the actor's current package exists and its pack type equals 0x18, otherwise false.
 // @fnv 0x008a6170
-bool __fastcall IsInPackageType(Actor_ext* pThis)
+bool IsInPackageType(Actor_ext* pThis)
 {
     TESPackage* package = pThis->GetCurrentPackage();
     if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 0x18)
@@ -7857,7 +7843,7 @@ struct FUN_008a6290_S
 };
 
 // @fnv 0x008a6290
-bool __fastcall FUN_008a6290(const FUN_008a6290_S* pThis)
+bool FUN_008a6290(const FUN_008a6290_S* pThis)
 {
     return (pThis->flags & 0x10000) ? true : false;
 }
@@ -8857,7 +8843,7 @@ struct FUN_008a7570_shell : public Actor
 bool FUN_008843a0_shell::FUN_008843a0()
 {
     if (this->Unk_8D() ||
-        reinterpret_cast<bool(__thiscall*)(Actor*, int)>((*reinterpret_cast<void***>(this))[0x22c / 4])(this, 0))
+        reinterpret_cast<bool(*)(Actor*, int)>((*reinterpret_cast<void***>(this))[0x22c / 4])(this, 0))
     {
         return false;
     }
@@ -9681,7 +9667,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -9718,7 +9703,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_008a8150_shell : public BGSLoadFormBuffer
 {
     void FUN_008a8150(unsigned char);
@@ -9883,7 +9867,7 @@ struct VTable22C
 
 // Checks v139(0) on pRef, then returns the version of the extra data entry with type 0x5F, or 0 if absent.
 // @fnv 0x008a8170
-unsigned char __fastcall GetExtraDataVersion(TESObjectREFR* pRef)
+unsigned char GetExtraDataVersion(TESObjectREFR* pRef)
 {
     if (!((VTable22C*)pRef)->v139(0))
     {
@@ -9901,7 +9885,7 @@ unsigned char __fastcall GetExtraDataVersion(TESObjectREFR* pRef)
 struct DummyVTable008a83c0
 {
     char pad[0x3e8];
-    bool(__thiscall* fn)(void*, int, int, bool);
+    bool(* fn)(void*, int, int, bool);
 };
 
 struct DummyClass008a83c0
@@ -10174,9 +10158,9 @@ public:
 
 // Calls the virtual function at offset 0x428 on pThis to get an EffectSetting, then returns its cast sound, or 0 if none.
 // @fnv 0x008ac810
-TESSound* __fastcall GetEffectCastSound(void* pThis)
+TESSound* GetEffectCastSound(void* pThis)
 {
-    EffectSetting* pEffect = (*reinterpret_cast<EffectSetting*(__thiscall***)(void*)>(pThis))[0x428 / 4](pThis);
+    EffectSetting* pEffect = (*reinterpret_cast<EffectSetting*(***)(void*)>(pThis))[0x428 / 4](pThis);
     if (pEffect)
         return pEffect->GetCastSound();
     return 0;
@@ -10256,7 +10240,7 @@ struct BaseProcessCall
 };
 
 // @fnv 0x008acb70
-void __fastcall SetWeaponDPS(BaseProcessCall* pThis, float afWeaponDPS)
+void SetWeaponDPS(BaseProcessCall* pThis, float afWeaponDPS)
 {
     if (pThis->m_pCachedValues)
     {
@@ -10291,7 +10275,7 @@ struct FUN_008acbe0_shell : public Actor
     float GetModifiedDamagePerSecond(float);
 };
 
-float __fastcall FUN_008be600(Actor*);
+float FUN_008be600(Actor*);
 
 struct DummyAVOwner
 {
@@ -10303,7 +10287,7 @@ struct DummyAVOwner
 struct DummyActorVtbl
 {
     void* v[0x110];
-    float(__thiscall* v440)(void*);
+    float(* v440)(void*);
 };
 
 // @fnv 0x008acbe0
@@ -10360,7 +10344,7 @@ bool FUN_008ace90_shell::FUN_008ace90()
 
 struct FUN_008acf70_s
 {
-    void __thiscall FUN_008acf70(int aeWhich, bool abSet);
+    void FUN_008acf70(int aeWhich, bool abSet);
 };
 
 struct FUN_008acfa0_s
@@ -10799,7 +10783,7 @@ void FUN_008b0140_shell::SetVisibilityMask(bool abVal, int aiVisMask)
 }
 
 // @fnv 0x008b1ff0
-bool __fastcall FUN_008b1ff0(const char* pThis)
+bool FUN_008b1ff0(const char* pThis)
 {
     return (*(const unsigned int*)(pThis + 0x1c) & 2) ? true : false;
 }
@@ -11381,7 +11365,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -11399,7 +11382,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -11428,7 +11410,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_008b3880_shell : public Actor
 {
     void PathToLocation(PathingRequest*, void*, TESForm*, float, PathingAvoidNodeArray*);
@@ -11535,7 +11516,7 @@ struct FUN_008b3bf0_shell : public Actor
     bool FUN_008b3bf0();
 };
 
-bool __fastcall FUN_008b3c10(void*);
+bool FUN_008b3c10(void*);
 
 // @fnv 0x008b3bf0
 bool FUN_008b3bf0_shell::FUN_008b3bf0()
@@ -11816,14 +11797,13 @@ struct CombatState
     char m_kProcedureStateData[4];
     int m_iCombatProcedureType;
 };
-typedef char _sizecheck_CombatState[sizeof(CombatState) == 556 ? 1 : -1];
 struct FUN_008b3c10_shell : public CombatState
 {
     bool FUN_008b3c10();
 };
 
 // @fnv 0x008b3c10
-bool __fastcall FUN_008b3c10(CombatState* pThis)
+bool FUN_008b3c10(CombatState* pThis)
 {
     return pThis->m_bCombatStateFlag2;
 }
@@ -11884,7 +11864,6 @@ public:
 public:
     ::NiTransform operator*(const ::NiTransform &) const;
 };
-typedef char _sizecheck_NiTransform[sizeof(NiTransform) == 64 ? 1 : -1];
 struct Matrix4x4
 {
     void Set(void*);
@@ -11898,7 +11877,6 @@ struct Matrix4x4
     Matrix4x4* Mul(Matrix4x4*);
     char m_cMatrixData[64];
 };
-typedef char _sizecheck_BSNiMatrix[sizeof(Matrix4x4) == 64 ? 1 : -1];
 struct FUN_008b42e0_shell : public NiTransform
 {
     void InvertTransform(NiTransform*);
@@ -11942,7 +11920,7 @@ struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
 };
 
 // @fnv 0x008b6800
-unsigned int __fastcall GetObjectFlags(char* pThis)
+unsigned int GetObjectFlags(char* pThis)
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(pThis + 0x20))))->GetName()));
 }
@@ -12083,7 +12061,7 @@ Animation* FUN_008b70d0_shell::FUN_008b70d0()
 
 // Returns true when the byte at offset 0x69 is set and the unsigned int at offset 0x6c is greater than zero.
 // @fnv 0x008b7320
-bool __fastcall FUN_008b7320(char* pThis)
+bool FUN_008b7320(char* pThis)
 {
     return *(unsigned char*)(pThis + 0x69) && *(unsigned int*)(pThis + 0x6c) > 0;
 }
@@ -12104,7 +12082,7 @@ struct Struct_008b7b70
 
 // Returns true when the virtual calls at indices 0x1d and 0x1e are both zero (or one is) and the call at 0x48 is zero.
 // @fnv 0x008b7b70
-bool __fastcall FUN_008b7b70(Struct_008b7b70* pThis)
+bool FUN_008b7b70(Struct_008b7b70* pThis)
 {
     if ((pThis->m_a4.v3(0x1d) == 0.0 || pThis->m_a4.v3(0x1e) == 0.0) && pThis->m_a4.v3(0x48) == 0.0)
         return true;
@@ -12138,7 +12116,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESReactionForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -12169,7 +12146,6 @@ struct TESReactionForm : public BaseFormComponent
     unsigned char m_ucReactionFlags;
     char _pad_d[3];
 };
-typedef char _sizecheck_TESReactionForm[sizeof(TESReactionForm) == 16 ? 1 : -1];
 struct FUN_008b8290_shell : public Actor
 {
     int FUN_008b8290(TESFaction*, bool);
@@ -12262,7 +12238,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESReactionForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -12293,7 +12268,6 @@ struct TESReactionForm : public BaseFormComponent
     unsigned char m_ucReactionFlags;
     char _pad_d[3];
 };
-typedef char _sizecheck_TESReactionForm[sizeof(TESReactionForm) == 16 ? 1 : -1];
 struct FactionReaction
 {
     void Endian();
@@ -12301,7 +12275,6 @@ struct FactionReaction
     char m_ucRank;
     char _pad_5[3];
 };
-typedef char _sizecheck_FACTION_RANK[sizeof(FactionReaction) == 8 ? 1 : -1];
 struct FUN_008b8ca0_shell : public Actor
 {
     unsigned int FUN_008b8ca0(TESFaction**, unsigned int, void*, void*);
@@ -12468,7 +12441,7 @@ void R_008b8f20::FUN_008b8f20(TESFaction* faction)
 }
 
 // @fnv 0x008b9220
-void* __fastcall FUN_008b9220(char* pThis)
+void* FUN_008b9220(char* pThis)
 {
     return pThis + 0x648;
 }
@@ -12501,7 +12474,7 @@ class CombatLOS
     virtual float vfunc3(int);
 };
 
-void __fastcall FUN_008b9d80(CombatLOS* pThis, float fVal);
+void FUN_008b9d80(CombatLOS* pThis, float fVal);
 
 // @fnv 0x008b9d20
 float FUN_008b9d20_shell::FUN_008b9d20()
@@ -12548,9 +12521,9 @@ struct VBase
     virtual void v2();
     virtual float v3(int);
 };
-void __fastcall SetEndurance(CombatLOS* p, float f);
+void SetEndurance(CombatLOS* p, float f);
 // @fnv 0x008b9ff0
-float __fastcall FUN_008b9ff0(char* self)
+float FUN_008b9ff0(char* self)
 {
     float r = ((VBase*)(self - 4))->v3(15);
     if (*(CombatLOS**)(self - 0x40))
@@ -14491,7 +14464,7 @@ bool TES::FUN_008bb520(P3X p, bool abFlag)
 }  // namespace fnv_008bb520
 
 // @fnv 0x008bb5a0
-int __fastcall GetField2AC(char* pThis)
+int GetField2AC(char* pThis)
 {
     return *(int*)(pThis + 0x2ac);
 }
@@ -14860,7 +14833,7 @@ struct VTable_008bbe20
 {
     void* vfn0;
     void* vfn1;
-    int(__thiscall* vfn2)(void*, int);
+    int(* vfn2)(void*, int);
 };
 
 // Calls vfn2 on the object at this-4, then if the CombatLOS at this-0x40 reports FUN_00884920, passes the result to FUN_008bbe70; returns the result.
@@ -14873,7 +14846,7 @@ int FUN_008bbe20_shell::FUN_008bbe20()
     {
         if (::FUN_00884920((int *)((*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(this) - 0x40)))))
         {
-            reinterpret_cast<void(__thiscall*)(CombatLOS*, int)>(FUN_008bbe70)(
+            reinterpret_cast<void(*)(CombatLOS*, int)>(FUN_008bbe70)(
                 *reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(this) - 0x40), eresult);
         }
     }
@@ -15149,7 +15122,6 @@ struct Crime
     char m_kCrimeStamp[4];
     void* m_pEnemyFactions;
 };
-typedef char _sizecheck_Crime[sizeof(Crime) == 60 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -15167,7 +15139,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESReactionForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -15198,13 +15169,12 @@ struct TESReactionForm : public BaseFormComponent
     unsigned char m_ucReactionFlags;
     char _pad_d[3];
 };
-typedef char _sizecheck_TESReactionForm[sizeof(TESReactionForm) == 16 ? 1 : -1];
 struct FUN_008bcb40_shell : public Actor
 {
     void FUN_008bcb40();
 };
 
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 
 struct TESFaction
 {
@@ -15256,7 +15226,7 @@ struct FUN_008bcc80_shell : public Actor
     bool FUN_008bcc80();
 };
 
-TESPackage* __fastcall FUN_009344a0(Actor*);
+TESPackage* FUN_009344a0(Actor*);
 
 // @fnv 0x008bcc80
 bool FUN_008bcc80_shell::FUN_008bcc80()
@@ -15351,7 +15321,7 @@ void FUN_008bcd20_shell::FUN_008bcd20()
 }  // namespace fnv_008bcd20
 
 // @fnv 0x008bcdd0
-float __fastcall GetField3EC(char* pThis)
+float GetField3EC(char* pThis)
 {
     return *(float*)(pThis + 0x3ec);
 }
@@ -15385,7 +15355,7 @@ void FUN_008bd570_helper::set(char val)
 }
 
 // @fnv 0x008bd5c0
-char __fastcall GetByteAtOffset43(char* pThis)
+char GetByteAtOffset43(char* pThis)
 {
     return pThis[0x43];
 }
@@ -15436,7 +15406,7 @@ void FUN_008bd5e0_shell::FUN_008bd5e0(const NiQuaternion* arRot)
 }
 
 // @fnv 0x008bd610
-void __fastcall SetCastDown(char* pThis, blob1 abCastDown)
+void SetCastDown(char* pThis, blob1 abCastDown)
 {
     pThis[0x243] = abCastDown.b[0];
 }
@@ -15665,7 +15635,7 @@ struct FwdB
     char pad[0x10];
     float val;
 };
-bool __fastcall FUN_00884e90(FwdB*, int, int);
+bool FUN_00884e90(FwdB*, int, int);
 struct FUN_00884e90_holder
 {
     bool FUN_00884e90(int);
@@ -15829,7 +15799,7 @@ struct DummyProcess
 
 // Returns 0 if the cached values are null, otherwise the cached eye level unless flag 0x200 is set, in which case it returns the owner's v2c value.
 // @fnv 0x008be9b0
-float __fastcall FUN_008be9b0(DummyProcess* _this, OwnerArg apOwner)
+float FUN_008be9b0(DummyProcess* _this, OwnerArg apOwner)
 {
     return _this->m_pCachedValues == 0
                ? 0.0f
@@ -15879,7 +15849,7 @@ struct CombatLOS_Sub
 };
 
 // @fnv 0x008bea10
-void __fastcall FUN_008bea10(CombatState_Fake* pThis)
+void FUN_008bea10(CombatState_Fake* pThis)
 {
     if (pThis->los && ::FUN_00884920((int *)(pThis->los)))
         ((CombatLOS_Sub*)pThis->los)->FUN_008bea80(pThis);
@@ -16119,7 +16089,7 @@ class DummyProcess_008bffc0
     virtual TESPackage* GetCurrentPackage();
 };
 
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 
 // @fnv 0x008bffc0
 bool FUN_008bffc0_shell::FUN_008bffc0()
@@ -16152,7 +16122,7 @@ struct _VDelDummy
 
 // Clears fields at offsets 0xc0, 0x128, 0x12c and 0x130, calls FUN_0087fd20, and deletes the two _VDelDummy objects at 0x12c and 0x130.
 // @fnv 0x008c1320
-void __fastcall FUN_008c1320(char* pThis)
+void FUN_008c1320(char* pThis)
 {
     *(int*)(pThis + 0xc0) = 0;
     ::FUN_0087fd20((::FUN_0087fd20_Class *)(pThis));
@@ -16469,7 +16439,7 @@ struct TargetThis
 };
 
 // @fnv 0x008c1470
-void __fastcall UpdateAlchemyCastSound(TargetThis* pThis)
+void UpdateAlchemyCastSound(TargetThis* pThis)
 {
     if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PlayerCharacter*)pThis)))->FUN_00493bb0())))
     {
@@ -16507,7 +16477,7 @@ struct BoolWrap
 };
 
 // @fnv 0x008c1ac0
-void __fastcall FUN_008c1ac0(void* pThis, BoolWrap abSet)
+void FUN_008c1ac0(void* pThis, BoolWrap abSet)
 {
     abSet.v ? (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pThis) + 0x140) |= 0x80000000)
             : (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(pThis) + 0x140) &= ~0x80000000);
@@ -16554,14 +16524,14 @@ struct BoolWrap
 };
 
 // @fnv 0x008c1b50
-void __fastcall SetFlag40000000(char* pThis, BoolWrap abSet)
+void SetFlag40000000(char* pThis, BoolWrap abSet)
 {
     abSet.v ? (*(unsigned int*)(pThis + 0x140) |= 0x40000000) : (*(unsigned int*)(pThis + 0x140) &= ~0x40000000);
 }
 }  // namespace fnv_008c1b50
 
 // @fnv 0x008c1bc0
-bool __fastcall FUN_008c1bc0(int pObject)
+bool FUN_008c1bc0(int pObject)
 {
     return (*(unsigned int*)(pObject + 0x140) & 0x40000000) != 0;
 }
@@ -16818,7 +16788,7 @@ class TES
 
 // Returns the result of the Sky virtual call v3b8 if GetLogDate() is non-null, otherwise returns 0.
 // @fnv 0x008c4090
-int __fastcall FUN_008c4090(char* pThis)
+int FUN_008c4090(char* pThis)
 {
     if (((::fnv_008c4090::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)(pThis - 0x94))))->GetBaseTexture())))
     {
@@ -17403,7 +17373,7 @@ float HX::GetResponseValue()
 }  // namespace fnv_008c47f0
 
 // @fnv 0x008c4830
-float __fastcall GetField2B0(void* pThis)
+float GetField2B0(void* pThis)
 {
     return *(float*)((char*)pThis + 0x2b0);
 }
@@ -17487,7 +17457,7 @@ struct CellHelper
 };
 
 // @fnv 0x008d2a40
-void __fastcall FUN_008d2a40(Actor* apActor)
+void FUN_008d2a40(Actor* apActor)
 {
     TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apActor))->GetTarget()));
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(apActor) + 0x1c0) =
@@ -17516,7 +17486,7 @@ void Holder::FUN_008d4870(int a1)
 namespace fnv_00903bd0 {
 
 // @fnv 0x00903bd0
-void __fastcall FUN_00903bd0(char* pThis)
+void FUN_00903bd0(char* pThis)
 {
     reinterpret_cast<::Callees *>((pThis + 0x4c))->FUN_00726070();
 }
@@ -17910,7 +17880,7 @@ TESPackage* FUN_009344a0_shell::FUN_009344a0()
 }
 
 // @fnv 0x00939710
-int __fastcall FUN_00939710(int param_1)
+int FUN_00939710(int param_1)
 {
     return *(int*)(param_1 + 0x17c);
 }
@@ -17968,7 +17938,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -17997,13 +17966,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct TESScriptableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -18022,7 +17989,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 struct TESEnchantableForm : public BaseFormComponent
 {
     virtual int GetCastingType();
@@ -18044,7 +18010,6 @@ struct TESEnchantableForm : public BaseFormComponent
     char _pad_a[2];
     int m_eCastingType;
 };
-typedef char _sizecheck_TESEnchantableForm[sizeof(TESEnchantableForm) == 16 ? 1 : -1];
 struct TESValueForm : public BaseFormComponent
 {
     virtual unsigned short GetSaveSize(unsigned int);
@@ -18063,7 +18028,6 @@ struct TESValueForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     unsigned int iValue;
 };
-typedef char _sizecheck_TESValueForm[sizeof(TESValueForm) == 8 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -18077,7 +18041,6 @@ struct TESWeightForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct TESHealthForm : public BaseFormComponent
 {
     virtual unsigned int GetBaseHealth();
@@ -18092,7 +18055,6 @@ struct TESHealthForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     unsigned int m_uiHealthValue;
 };
-typedef char _sizecheck_TESHealthForm[sizeof(TESHealthForm) == 8 ? 1 : -1];
 struct FUN_00952720_shell : public Actor
 {
     float FUN_00952720();
@@ -18147,7 +18109,7 @@ struct DummyCaller
 
 // Calls FUN_009500a0, then copies the float at offset 0x6e4 to or from DAT_011e0d60 depending on bVal.b, and forwards bVal.b to SetFlagAndCullNodes.
 // @fnv 0x00961d90
-void __fastcall SyncFlaggedFloat(DummyCaller* pThis, BoolArg bVal)
+void SyncFlaggedFloat(DummyCaller* pThis, BoolArg bVal)
 {
     reinterpret_cast<::VanityModePlayer *>((pThis))->FUN_009500a0();
     if (bVal.b)
@@ -18170,7 +18132,7 @@ void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 
 struct DummyMover;
-DummyMover* __fastcall FUN_009e9d00(DummyMover* pThis, int, void* actor);
+DummyMover* FUN_009e9d00(DummyMover* pThis, int, void* actor);
 
 struct DummyMover
 {
@@ -18194,7 +18156,7 @@ void FUN_00964190_shell::ResetMover()
 }
 
 // @fnv 0x0097f2f0
-char __fastcall GetByteAtOffset70(char* pThis)
+char GetByteAtOffset70(char* pThis)
 {
     return pThis[0x70];
 }
@@ -18223,7 +18185,7 @@ struct HolderA
 // @fnv 0x00884d20
 float FUN_00884d20_shell::FUN_00884d20()
 {
-    float fresult = ((float(__thiscall*)(void*))(*(void***)((char*)this - 0xa8))[0x45c / 4])((char*)this - 0xa8);
+    float fresult = ((float(*)(void*))(*(void***)((char*)this - 0xa8))[0x45c / 4])((char*)this - 0xa8);
     if (*(void**)((char*)this - 0x40) && ::FUN_00884920((int *)(((HolderA*)*(void**)((char*)this - 0x40)))))
         ((FUN_00884d80_holder*)*(void**)((char*)this - 0x40))->FUN_00884d80(fresult);
     return fresult;
@@ -18253,7 +18215,7 @@ bool FUN_0088c570_shell::IsPointInConeFOV(void* arPoint, float afConeFOV)
     NiPoint3 vec = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)arPoint)))->FUN_00439ef0-((::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((TopicH*)this)))->GetAddTopicList()))), *(const ::NiPoint3 *)nullptr)));
     ftargetangle = ::GetDirectionAngle((const ::NiPoint3 *)&(vec));
     ftargetangledelta =
-        FUN_004b15e0(((float(__thiscall*)(void*, int))(*(void***)this)[0x2bc / 4])(this, 0), ftargetangle, &fignore);
+        FUN_004b15e0(((float(*)(void*, int))(*(void***)this)[0x2bc / 4])(this, 0), ftargetangle, &fignore);
     if (std::abs(ftargetangledelta) < afConeFOV * 0.5)
         return true;
     return false;
@@ -19420,7 +19382,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESReactionForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -19451,7 +19412,6 @@ struct TESReactionForm : public BaseFormComponent
     unsigned char m_ucReactionFlags;
     char _pad_d[3];
 };
-typedef char _sizecheck_TESReactionForm[sizeof(TESReactionForm) == 16 ? 1 : -1];
 struct FUN_008b8e90_shell : public Actor
 {
     bool FUN_008b8e90(TESFaction*);
@@ -19512,12 +19472,12 @@ bool Sub8bd700::FUN_008bd700()
 {
     if (((BaseH*)((char*)((Actor*)((char*)this - 0x94))->GetActorBase() + 0x30))->V9())
         return true;
-    if (((bool(__thiscall*)(Actor*))(*(void***)((Actor*)((char*)this - 0x94)))[0x21c / 4])(
+    if (((bool(*)(Actor*))(*(void***)((Actor*)((char*)this - 0x94)))[0x21c / 4])(
             ((Actor*)((char*)this - 0x94))))
         return reinterpret_cast<::FUN_008ace90_shell *>((((GhostH*)((Actor*)((char*)this - 0x94)))))->FUN_008ace90();
     if (reinterpret_cast<::FUN_008ace90_shell *>((((GhostH*)((Actor*)((char*)this - 0x94)))))->FUN_008ace90())
         return true;
-    if (((bool(__thiscall*)(Actor*, int))(*(void***)((Actor*)((char*)this - 0x94)))[0x1a0 / 4])(
+    if (((bool(*)(Actor*, int))(*(void***)((Actor*)((char*)this - 0x94)))[0x1a0 / 4])(
             ((Actor*)((char*)this - 0x94)), 0))
         return true;
     return false;
@@ -20222,7 +20182,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESDescription : public BaseFormComponent
 {
     virtual char* GetDescription(TESForm*, int);
@@ -20243,7 +20202,6 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-typedef char _sizecheck_TESDescription[sizeof(TESDescription) == 8 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -20272,13 +20230,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct ActorValueInfo : public TESForm, public TESFullName, public TESDescription, public TESIcon
 {
     virtual void __vslot_10();
@@ -20304,7 +20260,6 @@ struct ActorValueInfo : public TESForm, public TESFullName, public TESDescriptio
     int m_iEnumeratedNameCount;
     char m_apEnumeratedNames[40];
 };
-typedef char _sizecheck_ActorValueInfo[sizeof(ActorValueInfo) == 196 ? 1 : -1];
 struct FUN_00880700_shell : public Actor
 {
     void FUN_00880700(int, float);
@@ -24470,7 +24425,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -24499,7 +24453,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_00893340_shell : public Actor
 {
     void FUN_00893340(bool);
@@ -24971,7 +24924,7 @@ void FUN_00893340_shell::FUN_00893340(bool abUseInitialPackage)
 }
 }  // namespace fnv_00893340
 
-int __fastcall _FNV_GetFormType(void* pThis);
+int _FNV_GetFormType(void* pThis);
 namespace fnv_0089fb80 {
 struct TESSaveLoadGame
 {
@@ -29324,7 +29277,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -29361,7 +29313,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -29372,12 +29323,10 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_008abfe0_shell : public Actor
 {
     void FUN_008abfe0(BGSLoadFormBuffer*);
@@ -32014,7 +31963,7 @@ struct MI_008c48d0
     virtual void m5();
     virtual int v6();
 };
-int __fastcall _FNV_GetFormType(void* pThis);
+int _FNV_GetFormType(void* pThis);
 class EnchantmentItem
 {
   public:
@@ -32688,7 +32637,7 @@ float FUN_00885020_shell::FUN_00885020()
     float fwidth2;
     float fwidth1;
 
-    typedef void(__thiscall * FnBound)(void*, Point3*);
+    typedef void(* FnBound)(void*, Point3*);
     ((FnBound*)(*(void**)((char*)this - 0xa8)))[0x1dc / 4]((char*)this - 0xa8, &kBoundsMaximum);
     ((FnBound*)(*(void**)((char*)this - 0xa8)))[0x1d8 / 4]((char*)this - 0xa8, &kFirstBoundsPointEntry);
 
@@ -33410,7 +33359,7 @@ struct TESObject
 
 struct FUN_004a4220Class
 {
-    unsigned int __thiscall GetNextFromSubobject();
+    unsigned int GetNextFromSubobject();
 };
 
 // @fnv 0x004a4220
@@ -33465,11 +33414,11 @@ int FUN_0087d690_Class::FUN_0087d690()
 
 struct FUN_0087d6d0_Class
 {
-    int __thiscall FUN_0087d6d0();
+    int FUN_0087d6d0();
 };
 
 // @fnv 0x0087d6d0
-int __thiscall FUN_0087d6d0_Class::FUN_0087d6d0()
+int FUN_0087d6d0_Class::FUN_0087d6d0()
 {
     return (int)this - 0xa4;
 }
@@ -33803,19 +33752,19 @@ bool BSXFlags::IsBitSet() const
 
 struct FUN_008978f0_Class
 {
-    void __thiscall FUN_008978f0(int a, char b);
+    void FUN_008978f0(int a, char b);
 };
 
 // Stores the byte value b at offset a*0x30+0x1bd within this object.
 // @fnv 0x008978f0
-void __thiscall FUN_008978f0_Class::FUN_008978f0(int aiIndex, char abValue)
+void FUN_008978f0_Class::FUN_008978f0(int aiIndex, char abValue)
 {
     ((char*)this)[aiIndex * 0x30 + 0x1bd] = abValue;
 }
 
 struct FUN_0089d670_Class
 {
-    char __thiscall GetByteAt28D();
+    char GetByteAt28D();
 };
 
 // @fnv 0x0089d670
@@ -33838,18 +33787,18 @@ unsigned char FUN_0089d690_class::GetByteAt28E()
 struct FUN_0089d6b0Class
 {
     unsigned int fileValueAt668;
-    unsigned int __thiscall GetFileValueAt668();
+    unsigned int GetFileValueAt668();
 };
 
 // @fnv 0x0089d6b0
-unsigned int __thiscall FUN_0089d6b0Class::GetFileValueAt668()
+unsigned int FUN_0089d6b0Class::GetFileValueAt668()
 {
     return ((unsigned int*)this)[0x29c / 4];
 }
 
 struct FUN_0089d6d0_Class
 {
-    unsigned int __thiscall GetField298();
+    unsigned int GetField298();
 };
 
 // @fnv 0x0089d6d0
@@ -33903,7 +33852,7 @@ struct FUN_008a67d0_class
 };
 
 // @fnv 0x008a67d0
-bool __thiscall FUN_008a67d0_class::IsEmpty()
+bool FUN_008a67d0_class::IsEmpty()
 {
     return ((BSSimpleList<int>*)((char*)this + 0x98))->IsEmpty();
 }
@@ -33984,7 +33933,7 @@ void FUN_008b2880Class::SetByteAtOffset(char value)
 struct FUN_008b3980Class
 {
     void* m_190;
-    void __thiscall FUN_008b3980();
+    void FUN_008b3980();
 };
 
 struct FUN_009dcab0Class
@@ -33992,7 +33941,7 @@ struct FUN_009dcab0Class
 };
 
 // @fnv 0x008b3980
-void __thiscall FUN_008b3980Class::FUN_008b3980()
+void FUN_008b3980Class::FUN_008b3980()
 {
     reinterpret_cast<::Unk009dcab0 *>((((FUN_009dcab0Class*)*(void**)((char*)this + 0x190))))->FUN_009dcab0();
 }
@@ -34075,11 +34024,11 @@ TESEffectShader* __cdecl FUN_008c4e00()
 
 struct FUN_008d0510
 {
-    char __thiscall FUN_008d0510_(int arg1, int arg2, int arg3, int arg4);
+    char FUN_008d0510_(int arg1, int arg2, int arg3, int arg4);
 };
 
 // @fnv 0x008d0510
-char __thiscall FUN_008d0510::FUN_008d0510_(int arg1, int arg2, int arg3, int arg4)
+char FUN_008d0510::FUN_008d0510_(int arg1, int arg2, int arg3, int arg4)
 {
     return 0;
 }
@@ -34160,7 +34109,7 @@ struct FUN_00939790_Class
 };
 
 // @fnv 0x00939790
-int __thiscall FUN_00939790_Class::GetField738()
+int FUN_00939790_Class::GetField738()
 {
     return *(int*)((char*)this + 0x738);
 }
@@ -34356,22 +34305,22 @@ struct Actor;
 
 struct FUN_007316d0_Class
 {
-    TESForm* __thiscall FUN_007316d0();
+    TESForm* FUN_007316d0();
 };
 
 // @fnv 0x007316d0
-TESForm* __thiscall FUN_007316d0_Class::FUN_007316d0()
+TESForm* FUN_007316d0_Class::FUN_007316d0()
 {
     return ::FUN_004839c0(*(unsigned int*)((char*)this + 0x214));
 }
 
 struct FUN_00815340_Class
 {
-    void __thiscall FUN_00815340();
+    void FUN_00815340();
 };
 
 // @fnv 0x00815340
-void __thiscall FUN_00815340_Class::FUN_00815340()
+void FUN_00815340_Class::FUN_00815340()
 {
     reinterpret_cast<::FUN_00815360_cls *>(this)->CallSlot08();
 }
@@ -34400,12 +34349,12 @@ void Actor_StandIn::SetFlag144(bool abValue)
 
 struct FUN_0087d830_class
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Calls FUN_0087dcb0, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x0087d830
-void* __thiscall FUN_0087d830_class::Destroy(unsigned int flags)
+void* FUN_0087d830_class::Destroy(unsigned int flags)
 {
     reinterpret_cast<::fnv_0087dcb0::FUN_0087dcb0 *>(this)->fnv_0087dcb0::FUN_0087dcb0::~FUN_0087dcb0();
     if (flags & 1)
@@ -34418,11 +34367,11 @@ extern "C" void* DAT_01084734;
 struct FUN_0087d860_Class
 {
     void** pvt;
-    void* __thiscall FUN_0087d860();
+    void* FUN_0087d860();
 };
 
 // @fnv 0x0087d860
-void* __thiscall FUN_0087d860_Class::FUN_0087d860()
+void* FUN_0087d860_Class::FUN_0087d860()
 {
     pvt = &DAT_01084734;
     return this;
@@ -34502,11 +34451,11 @@ unsigned int ActorView::FUN_00884320()
 
 struct FUN_00885d70_Class
 {
-    float __thiscall GetFieldDC();
+    float GetFieldDC();
 };
 
 // @fnv 0x00885d70
-float __thiscall FUN_00885d70_Class::GetFieldDC()
+float FUN_00885d70_Class::GetFieldDC()
 {
     return *(float*)((char*)this + 0xdc);
 }
@@ -34526,12 +34475,12 @@ void Dummy629670::FUN_00886c80(bool b)
 
 struct FUN_009314d0_class
 {
-    void __thiscall FUN_009314d0(float);
+    void FUN_009314d0(float);
 };
 
 struct FUN_00887ac0_class
 {
-    void __thiscall FUN_00887ac0(float f);
+    void FUN_00887ac0(float f);
 };
 
 namespace fnv_00887af0 {
@@ -34609,11 +34558,11 @@ struct FUN_004cb4b0
 
 struct FUN_008924e0 : public Actor
 {
-    void __thiscall SetRelationshipRank(Actor* target, int amount);
+    void SetRelationshipRank(Actor* target, int amount);
 };
 
 // @fnv 0x008924e0
-void __thiscall FUN_008924e0::SetRelationshipRank(Actor* target, int amount)
+void FUN_008924e0::SetRelationshipRank(Actor* target, int amount)
 {
     InventoryChanges* changes = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData();
     reinterpret_cast<::Inv4cb4b0 *>((reinterpret_cast<FUN_004cb4b0*>(changes)))->FUN_004cb4b0((int)(this), amount, (int)(target));
@@ -34756,12 +34705,12 @@ struct G2
 
 struct FUN_008abfa0_Class
 {
-    void __thiscall FUN_008abfa0(int* arg);
+    void FUN_008abfa0(int* arg);
 };
 
 // Increments the int at this+0xd68 and adds a pointer to arg to the list at this+0x5fc.
 // @fnv 0x008abfa0
-void __thiscall FUN_008abfa0_Class::FUN_008abfa0(int* arg)
+void FUN_008abfa0_Class::FUN_008abfa0(int* arg)
 {
     ++(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd68));
     reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x5fc)->AddHead(reinterpret_cast<int*>(&arg));
@@ -34771,12 +34720,12 @@ extern "C" void __cdecl FUN_0062d350(void*);
 
 struct FUN_008aff30_Class
 {
-    void __thiscall FUN_0062d350();
-    void* __thiscall Construct();
+    void FUN_0062d350();
+    void* Construct();
 };
 
 // @fnv 0x008aff30
-void* __thiscall FUN_008aff30_Class::Construct()
+void* FUN_008aff30_Class::Construct()
 {
     new ((void *)this) ::FUN_0062d350();
     *(void**)(this) = (void*)&(*reinterpret_cast<void (*)()>(&::DAT_01084e54));
@@ -34840,11 +34789,11 @@ public:
 
 struct FUN_008b3860_cls
 {
-    void __thiscall FUN_008b3860(int a);
+    void FUN_008b3860(int a);
 };
 
 // @fnv 0x008b3860
-void __thiscall FUN_008b3860_cls::FUN_008b3860(int a)
+void FUN_008b3860_cls::FUN_008b3860(int a)
 {
     ((FUN_009de330_cls**)(this + 0x190))[0]->ApplyNodeLookup((::Fx_Arg *)(a));
 }
@@ -34983,11 +34932,11 @@ char FUN_008b3c90_class::GetByteAtOffset114()
 
 struct FUN_008b3cb0_class
 {
-    void __thiscall FUN_008b3cb0(int);
+    void FUN_008b3cb0(int);
 };
 
 // @fnv 0x008b3cb0
-void __thiscall FUN_008b3cb0_class::FUN_008b3cb0(int a)
+void FUN_008b3cb0_class::FUN_008b3cb0(int a)
 {
     reinterpret_cast<::Unk009DE3A0 *>((((FUN_008b3cb0_class*)*(int**)((char*)this + 0x190))))->SetFormID((::TESForm *)(a));
 }
@@ -35070,12 +35019,12 @@ struct FUN_008b97f0_Class
     int m_24;
     int m_28;
     Inner* m_2c;
-    void __thiscall FUN_008b97f0(float f);
+    void FUN_008b97f0(float f);
 };
 
 // If m_2c is set, stores f at offset 0x28 of m_2c and calls m_2c->FUN_008848c0(0x100).
 // @fnv 0x008b97f0
-void __thiscall FUN_008b97f0_Class::FUN_008b97f0(float afValue)
+void FUN_008b97f0_Class::FUN_008b97f0(float afValue)
 {
     if (m_2c)
     {
@@ -35146,12 +35095,12 @@ struct FUN_00422550_
 
 struct FUN_008bc7d0
 {
-    void __thiscall CallFUN_008bc7d0(void* arg);
+    void CallFUN_008bc7d0(void* arg);
 };
 
 // Calls FUN_00422550 on the extra data list returned by GetExtraData, passing arg through.
 // @fnv 0x008bc7d0
-void __thiscall FUN_008bc7d0::CallFUN_008bc7d0(void* arg)
+void FUN_008bc7d0::CallFUN_008bc7d0(void* arg)
 {
     reinterpret_cast<::FUN_00422550_cls *>((((FUN_00422550_*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0())))))->FUN_00422550((int)(arg));
 }
@@ -35209,11 +35158,11 @@ struct FUN_005a4c00Class
 
 struct FUN_008c09b0Class
 {
-    void __thiscall FUN_008c09b0();
+    void FUN_008c09b0();
 };
 
 // @fnv 0x008c09b0
-void __thiscall FUN_008c09b0Class::FUN_008c09b0()
+void FUN_008c09b0Class::FUN_008c09b0()
 {
     *(int*)((char*)this + 0x140) =
         ((int)(reinterpret_cast<::ActorState *>((((FUN_005a4c00Class*)this)))->GetMaskedState())) + 1 | (*(int*)((char*)this + 0x140) & 0xC0000000);
@@ -35232,12 +35181,12 @@ void FUN_008c1920Class::FUN_008c1920(float value)
 
 struct FUN_008c45e0_class
 {
-    bool __thiscall FUN_008c45e0(int a1, int* apFloat, int* apInt, int a2);
+    bool FUN_008c45e0(int a1, int* apFloat, int* apInt, int a2);
 };
 
 // Sets the int output to 0 and the float output to 1.0 when the pointers are non-null, then returns true.
 // @fnv 0x008c45e0
-bool __thiscall FUN_008c45e0_class::FUN_008c45e0(int aUnused, int* apFloat, int* apInt, int aUnused2)
+bool FUN_008c45e0_class::FUN_008c45e0(int aUnused, int* apFloat, int* apInt, int aUnused2)
 {
     if (apInt)
         *apInt = 0;
@@ -35325,7 +35274,7 @@ struct Dummy629670
 };
 
 // @fnv 0x00931530
-void __thiscall Dummy629670::FUN_00931530(bool param)
+void Dummy629670::FUN_00931530(bool param)
 {
     reinterpret_cast<::FUN_00629670_Class *>((((Dummy629670*)((char*)this + 0x410))))->FUN_00629670(0x400000, param);
 }
@@ -35347,11 +35296,11 @@ unsigned int FUN_00931580_Class::FUN_00931580()
 
 struct FUN_009396a0_Class
 {
-    int __thiscall GetFieldD44();
+    int GetFieldD44();
 };
 
 // @fnv 0x009396a0
-int __thiscall FUN_009396a0_Class::GetFieldD44()
+int FUN_009396a0_Class::GetFieldD44()
 {
     return *(int*)((char*)this + 0xd44);
 }
@@ -35376,11 +35325,11 @@ float FUN_0094c460Class::FUN_0094c460(int arg)
 
 struct FUN_0094c870_Class : MagicCaster
 {
-    void __thiscall FUN_0094c870(SpellItem* apSpell, bool abImmediate);
+    void FUN_0094c870(SpellItem* apSpell, bool abImmediate);
 };
 
 // @fnv 0x0094c870
-void __thiscall FUN_0094c870_Class::FUN_0094c870(SpellItem* apSpell, bool abImmediate)
+void FUN_0094c870_Class::FUN_0094c870(SpellItem* apSpell, bool abImmediate)
 {
     MagicCaster::CastSpellOnCaster(apSpell, abImmediate);
 }
@@ -35411,7 +35360,7 @@ struct FUN_00996de0_Class
 };
 
 // @fnv 0x00996de0
-unsigned int __thiscall FUN_00996de0_Class::FUN_00996de0()
+unsigned int FUN_00996de0_Class::FUN_00996de0()
 {
     return ((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(m_p))));
 }
@@ -35426,18 +35375,18 @@ struct FUN_009ab9a0_shell
 };
 
 // @fnv 0x009ab9a0
-void __thiscall FUN_009ab9a0_shell::FUN_009ab9a0(int a)
+void FUN_009ab9a0_shell::FUN_009ab9a0(int a)
 {
     reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>((((FUN_005de0a0_shell*)this)))->FUN_005de0a0(0x20, 1);
 }
 
 struct FUN_009d8d20_Class
 {
-    int __thiscall GetFieldEC();
+    int GetFieldEC();
 };
 
 // @fnv 0x009d8d20
-int __thiscall FUN_009d8d20_Class::GetFieldEC()
+int FUN_009d8d20_Class::GetFieldEC()
 {
     return *(int*)((char*)this + 0xec);
 }
@@ -36156,7 +36105,7 @@ float ActorProxy::FUN_008808a0(float afValue, Actor* apAttacker)
 {
     float fresult;
     float fmult;
-    typedef bool(__thiscall * VFn)(ActorProxy*);
+    typedef bool(* VFn)(ActorProxy*);
     fresult = afValue;
     fmult = ::GetFloatByType(::FUN_005be4d0((char*)g_thePlayer), 16, ((VFn)(*(void***)this)[216])(this));
     fresult *= fmult;
@@ -36767,12 +36716,12 @@ struct FUN_00884ff0_holder
 {
     char pad_68[0x68];
     FUN_00884d80_holder* m_68;
-    void __thiscall FUN_00884ff0(float value);
+    void FUN_00884ff0(float value);
 };
 
 // Forwards value to the FUN_00884d80 method of m_68 when m_68 is non-null.
 // @fnv 0x00884ff0
-void __thiscall FUN_00884ff0_holder::FUN_00884ff0(float value)
+void FUN_00884ff0_holder::FUN_00884ff0(float value)
 {
     if (m_68)
     {
@@ -40387,7 +40336,7 @@ struct PlaceHolder008acfa0
 };
 // If the object at offset 0x2c is non-null, forwards aeWhich and abSet to its FUN_008acfa0 method.
 // @fnv 0x008acf70
-void __thiscall FUN_008acf70_s::FUN_008acf70(int aeWhich, bool abSet)
+void FUN_008acf70_s::FUN_008acf70(int aeWhich, bool abSet)
 {
     if (*(FUN_008acfa0_s**)((char*)this + 0x2c) != 0)
     {
@@ -40786,11 +40735,11 @@ struct FUN_008b3c50_Class
 {
     char pad[0x190];
     FUN_009dcb30_Receiver* receiver;
-    int __thiscall DispatchToReceiver();
+    int DispatchToReceiver();
 };
 
 // @fnv 0x008b3c50
-int __thiscall FUN_008b3c50_Class::DispatchToReceiver()
+int FUN_008b3c50_Class::DispatchToReceiver()
 {
     return ((int)(reinterpret_cast<::Holder009dcb30 *>((receiver))->FUN_009dcb30()));
 }
@@ -40808,11 +40757,11 @@ struct H_8b3cd0
 {
     char _pad[0x190];
     M_8b3cd0* p;
-    void __thiscall FUN_008b3cd0(S_8b3cd0 v);
+    void FUN_008b3cd0(S_8b3cd0 v);
 };
 // Forwards the given vector to the method on the object stored at offset 0x190.
 // @fnv 0x008b3cd0
-void __thiscall H_8b3cd0::FUN_008b3cd0(S_8b3cd0 aVector)
+void H_8b3cd0::FUN_008b3cd0(S_8b3cd0 aVector)
 {
     reinterpret_cast<::fnv_009de160::FUN_009de160_shell *>((p))->SetMoveTarget((*(::NiPoint3 *)&(const ::S_8b3cd0 &)(aVector)));
 }
@@ -40914,7 +40863,7 @@ void FUN_008b9c80_This::FUN_008b9c80(float afValue)
 }
 }  // namespace fnv_008b9c80
 
-bool __fastcall FUN_00884920(int*);
+bool FUN_00884920(int*);
 struct H008b9e70
 {
     void FUN_008b9e70(float);
@@ -41268,7 +41217,7 @@ unsigned int FUN_008bbd90Class::GetArrFlags()
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arrsi))->GetName()));
 }
 
-bool __fastcall FUN_00884920(int*);
+bool FUN_00884920(int*);
 struct Aux008bbf00
 {
     void FUN_008bbf00(int);
@@ -41312,7 +41261,7 @@ struct FUN_008bbf00_class
 
 // If m_2c is set, stores a into its m_34 field and calls FUN_008848c0 with 0x800.
 // @fnv 0x008bbf00
-void __thiscall FUN_008bbf00_class::FUN_008bbf00(int aiValue)
+void FUN_008bbf00_class::FUN_008bbf00(int aiValue)
 {
     if (this->m_2c)
     {
@@ -41454,7 +41403,7 @@ bool ActorV_S::FUN_008d40e0(bool abIgnoreHeight)
 }
 
 // @fnv 0x008d41f0
-bool __thiscall FUN_008d41f0_StandIn::FUN_008d41f0() const
+bool FUN_008d41f0_StandIn::FUN_008d41f0() const
 {
     return (m_flags & 4) ? true : false;
 }
@@ -41535,7 +41484,7 @@ struct Creature
 float Creature::FUN_008d4f10()
 {
     float speed = 0.0f;
-    typedef bool(__thiscall * IsOverencumberedFn)(Creature*);
+    typedef bool(* IsOverencumberedFn)(Creature*);
     if (!((IsOverencumberedFn)(*(void***)(this))[214])(this))
         speed = actorValues.GetCurrentActorValue(21) * 1.1 * Creature::GetAnimationSpeedMultiplier((ANIM_GROUP_ENUM)7);
     return speed;
@@ -43897,7 +43846,7 @@ struct P09AS
 struct P09Node
 {
 };
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 struct P09H
 {
 };
@@ -44250,7 +44199,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -44279,13 +44227,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct TESScriptableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -44304,7 +44250,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 struct TESEnchantableForm : public BaseFormComponent
 {
     virtual int GetCastingType();
@@ -44326,7 +44271,6 @@ struct TESEnchantableForm : public BaseFormComponent
     char _pad_a[2];
     int m_eCastingType;
 };
-typedef char _sizecheck_TESEnchantableForm[sizeof(TESEnchantableForm) == 16 ? 1 : -1];
 struct TESValueForm : public BaseFormComponent
 {
     virtual unsigned short GetSaveSize(unsigned int);
@@ -44345,7 +44289,6 @@ struct TESValueForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     unsigned int iValue;
 };
-typedef char _sizecheck_TESValueForm[sizeof(TESValueForm) == 8 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -44359,7 +44302,6 @@ struct TESWeightForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct TESHealthForm : public BaseFormComponent
 {
     virtual unsigned int GetBaseHealth();
@@ -44374,7 +44316,6 @@ struct TESHealthForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     unsigned int m_uiHealthValue;
 };
-typedef char _sizecheck_TESHealthForm[sizeof(TESHealthForm) == 8 ? 1 : -1];
 struct FUN_008c1940_shell : public Actor
 {
     void FUN_008c1940();
@@ -57316,7 +57257,7 @@ struct TESForm;
 struct ExtraDataList;
 struct TESBoundObject;
 struct TESObjectWEAP;
-int __fastcall _FNV_GetFormType(TESBoundObject*);
+int _FNV_GetFormType(TESBoundObject*);
 struct GlobalObject_0041a250
 {
     int m_iWordAt00;
@@ -58291,7 +58232,7 @@ struct UERef
 {
 };
 
-int __fastcall FUN_00401170(TESBoundObject*);
+int FUN_00401170(TESBoundObject*);
 
 struct UEActorV
 {
@@ -61099,10 +61040,10 @@ struct Actor8
 // @fnv 0x00894cc0
 bool FUN_00894cc0_shell::FUN_00894cc0(bool abBlock)
 {
-    void* panim = ((void*(__thiscall*)(FUN_00894cc0_shell*))(*(void***)this)[0x1e4 / 4])(this);
+    void* panim = ((void*(*)(FUN_00894cc0_shell*))(*(void***)this)[0x1e4 / 4])(this);
     if (panim == 0)
     {
-        if (((int(__thiscall*)(FUN_00894cc0_shell*))(*(void***)this)[0x428 / 4])(this))
+        if (((int(*)(FUN_00894cc0_shell*))(*(void***)this)[0x428 / 4])(this))
             reinterpret_cast<::FUN_009818e0_shell *>((((S2*)((S1*)this)->CallInnerVFunc139(reinterpret_cast<::FUN_00894d60_shell *>((((H3*)this)))->FUN_00894d60()))))->FUN_009818e0({});
         return false;
     }
@@ -66737,8 +66678,8 @@ float FUN_00886010_cls::FUN_00886010()
 // @fnv 0x008a0c60
 float S_008a0c60_Obj::GetOrInitValue()
 {
-    typedef float(__thiscall * GetFn)(void*);
-    typedef void(__thiscall * SetFn)(void*, float);
+    typedef float(* GetFn)(void*);
+    typedef void(* SetFn)(void*, float);
     float x = ((GetFn)(*(void***)this)[196])(this);
     if (x == -1.0)
     {
@@ -70755,12 +70696,12 @@ struct ActorData
     virtual void unknownVirtual_2e8();
     virtual void unknownVirtual_2ec();
     virtual void unknownVirtual_2f0();
-    virtual void __thiscall virtual_2f4(ActionResource* resource, int enable, int force);
-    void __thiscall EnableActionResourceIfLowState();
+    virtual void virtual_2f4(ActionResource* resource, int enable, int force);
+    void EnableActionResourceIfLowState();
 };
 // If FUN_008d8520()->FUN_0045cd60() is below 2, fetches resource 0x1b, enables it, sets its value to 0 and applies it via virtual_2f4.
 // @fnv 0x008a8060
-void __thiscall ActorData::EnableActionResourceIfLowState()
+void ActorData::EnableActionResourceIfLowState()
 {
     if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessState *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())) < 2)
     {
@@ -80452,9 +80393,9 @@ namespace fnv_008b7360 {
 struct FUN_008b7360_Class
 {
 
-    void __thiscall FUN_008b73f0(unsigned char value, Animation* animation);
+    void FUN_008b73f0(unsigned char value, Animation* animation);
 
-    void __thiscall FUN_008b7360(unsigned char value, int state);
+    void FUN_008b7360(unsigned char value, int state);
 };
 
 extern FUN_008b7360_Class* DAT_011dea3c;
@@ -80466,7 +80407,7 @@ struct FUN_008b7360_Setting
 
 
 // @fnv 0x008b7360
-void __thiscall FUN_008b7360_Class::FUN_008b7360(unsigned char value, int state)
+void FUN_008b7360_Class::FUN_008b7360(unsigned char value, int state)
 {
     if (this == DAT_011dea3c)
     {
@@ -80681,7 +80622,7 @@ struct ScanHolderA
     ScanSubA sub;
 };
 
-int __fastcall ScanEntryRank(TESFaction* entry);
+int ScanEntryRank(TESFaction* entry);
 
 class FUN_008b7e20_cls
 {
@@ -83011,12 +82952,12 @@ struct FUN_008ba4a0_Class : public FUN_008ba4a0_Data
 {
     FUN_008ba4a0_Vtbl* unk68;
 
-    bool __thiscall HasAnyFlag();
+    bool HasAnyFlag();
 };
 
 // Calls vf390 on the vtable object and returns true if the returned flags contain any of bits 4, 8, 0x10, 0x40, 0x100, 0x80, 0x400, 0x800, 0x1000 or 0x2000.
 // @fnv 0x008ba4a0
-bool __thiscall FUN_008ba4a0_Class::HasAnyFlag()
+bool FUN_008ba4a0_Class::HasAnyFlag()
 {
     unsigned int flags = this->unk68->vf390();
 
@@ -86341,7 +86282,7 @@ struct TargetObject;
 struct LookupProvider;
 struct LookupTable;
 struct LookupResult;
-extern "C" bool __fastcall FUN_008bca70(TargetObject*);
+extern "C" bool FUN_008bca70(TargetObject*);
 struct LookupResult
 {
 };
@@ -86893,7 +86834,7 @@ struct FUN_008be6d0_Target
 
 struct FUN_008be740_Obj
 {
-    void __thiscall FUN_008be740(void* a1);
+    void FUN_008be740(void* a1);
 };
 
 
@@ -86946,7 +86887,7 @@ struct FUN_008be6d0_Class
 
 // If unk68 is set and FUN_00884920 succeeds, calls unk68->FUN_008be740 with &unkA8; otherwise calls unkA8.vf20().
 // @fnv 0x008be6d0
-void __fastcall FUN_008be6d0(FUN_008be6d0_Class* param_1)
+void FUN_008be6d0(FUN_008be6d0_Class* param_1)
 {
     if (param_1->unk68 != 0 && ::FUN_00884920((int *)(param_1->unk68)))
     {
@@ -94213,7 +94154,7 @@ struct Owner933
 
 struct MagicCasterShell
 {
-    bool __thiscall ApplyEffect(void* effect, void* context, int* errorOut, bool immediate);
+    bool ApplyEffect(void* effect, void* context, int* errorOut, bool immediate);
 };
 
 // @fnv 0x0094c800
@@ -107726,9 +107667,9 @@ struct ActorAnimationView
     void FUN_008b73f0(bool alternate, Animation* animation, const char* modelName, FNVAnimationLink* link);
 };
 extern ActorAnimationView* DAT_011dea3c;
-typedef FNVActorAppearance*(__thiscall* GetAppearanceCallback)(FNVActorProcess*);
-typedef int(__thiscall* ActorTestCallback)(ActorAnimationView*);
-typedef bool(__thiscall* ActorFlagCallback)(ActorAnimationView*, int);
+typedef FNVActorAppearance*(* GetAppearanceCallback)(FNVActorProcess*);
+typedef int(* ActorTestCallback)(ActorAnimationView*);
+typedef bool(* ActorFlagCallback)(ActorAnimationView*, int);
 // Builds a locomotion model path from the model name, loads the animation resource with a variant, and attaches it to the animation or link.
 // @fnv 0x008b73f0
 void ActorAnimationView::FUN_008b73f0(bool alternate, Animation* animation, const char* modelName,
@@ -110443,7 +110384,7 @@ struct FUN_00887a10_cls
     int FUN_00887a10();
 };
 // @fnv 0x00887ac0
-void __thiscall FUN_00887ac0_class::FUN_00887ac0(float afValue)
+void FUN_00887ac0_class::FUN_00887ac0(float afValue)
 {
     FUN_009314d0_class* result = ((::FUN_009314d0_class *)(reinterpret_cast<::FUN_00887a10_cls *>(this)->FUN_00887a10()));
     if (result)
@@ -110471,7 +110412,7 @@ struct FUN_00cb8fe0_Class
 };
 struct FUN_00887a80_Class
 {
-    void __thiscall FUN_00887a80(unsigned char flag);
+    void FUN_00887a80(unsigned char flag);
 };
 // @fnv 0x00887a80
 void FUN_00887a80_Class::FUN_00887a80(unsigned char flag)
@@ -126787,7 +126728,6 @@ struct HQueue
 {
 };
 extern "C" HProjectile* __cdecl CreateProjectileRef(HSpell*, HActor*, int, HCell*, MPt, HMatrix);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 extern HActor* DAT_011dea3c;
 struct HPartName
 {
@@ -133240,9 +133180,9 @@ struct UpdateActor : public Actor
     int FUN_007af430();
 };
 
-typedef bool(__thiscall* ActorBoolFn)(void*);
-typedef void(__thiscall* ActorPostureFn)(void*, int, int, int);
-typedef void(__thiscall* ActorAuxFn)(void*, bool);
+typedef bool(* ActorBoolFn)(void*);
+typedef void(* ActorPostureFn)(void*, int, int, int);
+typedef void(* ActorAuxFn)(void*, bool);
 
 // Per-frame actor update taking delta: runs timers, updates movement and process state, and makes a final cell-related call for non-player actors.
 // @fnv 0x00886360
@@ -140603,13 +140543,13 @@ struct MovePoint454 : NiPoint3
 };
 struct MoveSelf454 : MoveActor454
 {
-    void __thiscall FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
+    void FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
                                  unsigned char offset, unsigned char allow);
 };
 
 // Moves the calling actor and its followers to a destination cell, optionally pathing around obstacles and resetting movement state.
 // @fnv 0x008ad1c0
-void __thiscall MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
+void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
                                           unsigned char abUseOffset, unsigned char allow)
 {
     float extra;
@@ -141401,12 +141341,12 @@ class CharacterPackageActor
     int f60;
     int f64;
     CharacterPackageProcess* pProc68;
-    void __thiscall FUN_008d2db0(ObjA* a1, int a2, int a3, bool a4);
+    void FUN_008d2db0(ObjA* a1, int a2, int a3, bool a4);
 };
 
 // Unless FUN_00493bb0() holds, creates an object via CreatePackageStandIn(0x25), fills it, calls pProc68->vfn_540(a2, a4, a3), vfn_2f4, then a1->FUN_008a8060().
 // @fnv 0x008d2db0
-void __thiscall CharacterPackageActor::FUN_008d2db0(ObjA* a1, int a2, int a3, bool a4)
+void CharacterPackageActor::FUN_008d2db0(ObjA* a1, int a2, int a3, bool a4)
 {
     if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())))
         return;
@@ -142882,7 +142822,7 @@ bool FleeActorEntry::FUN_008a6650(bool abFleePack)
     return false;
 }
 
-void __fastcall InitCellOrWorldSpace(TESObjectREFR*);
+void InitCellOrWorldSpace(TESObjectREFR*);
 
 struct ActorCellInitView
 {
@@ -145949,11 +145889,11 @@ struct KillActor
     int unk198;
     int unk19c;
     void* m_pContinuousBeamProjectile;
-    void __thiscall FUN_0089d900(::Actor*, float);
+    void FUN_0089d900(::Actor*, float);
 };
 
 // @fnv 0x0089d900
-void __thiscall KillActor::FUN_0089d900(::Actor* arg1, float arg2)
+void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
 {
     float *p, *q;
     KillSupport::VV proc, xv, yv, pr, p80, p84, p9c, pa0, pa4, pq, pr178, pr17c, p188, pp19c, pp1a0, pp1a4, pq1ac,
@@ -146569,12 +146509,12 @@ struct ActorGoldInventoryView
 
 struct ActorGoldQuery : ::Actor
 {
-    int __thiscall FUN_00891d70();
+    int FUN_00891d70();
 };
 
 // Returns the result of FUN_004cb320 on the actor's container change data, or 0 if there is none.
 // @fnv 0x00891d70
-int __thiscall ActorGoldQuery::FUN_00891d70()
+int ActorGoldQuery::FUN_00891d70()
 {
     int amount = 0;
     ::InventoryChanges* changes = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData();
@@ -147173,13 +147113,13 @@ class LimbRestoreBaseView
 
 struct Actor_8b6ae0 : public ::Actor
 {
-    void __thiscall FUN_008b6ae0();
+    void FUN_008b6ae0();
     void RemoveLimb(unsigned int limbIndex);
 };
 
 // For each stored part with body data, it calls DismemberLimb with that part's limb index and stored byte values.
 // @fnv 0x008b6ae0
-void __thiscall Actor_8b6ae0::FUN_008b6ae0()
+void Actor_8b6ae0::FUN_008b6ae0()
 {
     ExtraDismemberedLimbs* pLimbs = (ExtraDismemberedLimbs*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetDismemberedLimbs();
     if (!pLimbs)
@@ -147676,7 +147616,7 @@ struct EffectAddedTargetView
     virtual void m0();
     virtual void m1();
     virtual void* v2();
-    virtual void __thiscall FUN_008c4ab0(::ActiveEffect*);
+    virtual void FUN_008c4ab0(::ActiveEffect*);
 };
 typedef ::MagicItem EffectAddedMagicType;
 struct EffectAddedItemBaseView
@@ -147734,11 +147674,11 @@ struct EffectAddedPainView
 };
 struct EffectAddedActorView : public EffectAddedOwnerView, public EffectAddedTargetView
 {
-    virtual void __thiscall FUN_008c4ab0(::ActiveEffect* apEffect);
+    virtual void FUN_008c4ab0(::ActiveEffect* apEffect);
 };
 // Handles an effect being added to the actor, updating process state, checking resistance, and refreshing pain interaction.
 // @fnv 0x008c4ab0
-void __thiscall EffectAddedActorView::FUN_008c4ab0(::ActiveEffect* apEffect)
+void EffectAddedActorView::FUN_008c4ab0(::ActiveEffect* apEffect)
 {
     void* pAV;
     {

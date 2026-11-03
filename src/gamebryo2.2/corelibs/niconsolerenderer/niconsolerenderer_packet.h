@@ -2,14 +2,13 @@
 #ifndef FNV_RENDERER_PACKET_H
 #define FNV_RENDERER_PACKET_H
 
+#include <windows.h>
 #include "fnv/symbols_00a29000.h"
 extern const char DAT_010ae590[];
 class NiD3DDefaultShader
 {
   public:
 };
-extern "C" __declspec(dllimport) void __stdcall fnv_EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall fnv_LeaveCriticalSection(void*);
 class NiConsoleRendererPacketVTable
 {
   public:

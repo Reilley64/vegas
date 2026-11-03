@@ -430,7 +430,7 @@ void* FUN_005fc730_shell::FUN_005fc730(unsigned int flags)
 
 struct FUN_00484bf0
 {
-    unsigned short __thiscall GetSaveSize(unsigned int);
+    unsigned short GetSaveSize(unsigned int);
 };
 
 struct FUN_0048c2e0_shell
@@ -789,7 +789,7 @@ void FUN_005fd690_s::FUN_005fd690(BGSSaveFormBuffer* buffer)
 }
 
 namespace fnv_005fd850 {
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 struct Node_006815c0
 {
 };

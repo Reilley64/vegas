@@ -7,7 +7,7 @@
 #include "fnv/symbols_011b3000.h"
 struct FUN_00e4dd90_shell
 {
-    void __thiscall FUN_00e4dd90(float* output);
+    void FUN_00e4dd90(float* output);
 };
 struct FUN_00e4dde0
 {

@@ -103,7 +103,7 @@ struct OutBa
     InBa* fC;
 };
 // @fnv 0x00ba6240
-void __stdcall FUN_00ba6240(OutBa* a1)
+void FUN_00ba6240(OutBa* a1)
 {
     InBa* p = a1->fC;
     int cond = 0;
@@ -200,9 +200,9 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetSize(unsigned int);
     void SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00c878c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
+void FUN_00c878c0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >*);
 // @fnv 0x00c87be0
-void __stdcall FUN_00c87be0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* p)
+void FUN_00c87be0(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* p)
 {
     FUN_00c878c0(p);
     char* v = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_01268158)));
@@ -358,7 +358,7 @@ bool FUN_00c75460_S::FUN_00c75460()
 
 
 // @fnv 0x00ba5de0
-void __stdcall FUN_00ba5de0(OutBa* a1, int unused)
+void FUN_00ba5de0(OutBa* a1, int unused)
 {
     InBa* p = a1->fC;
     int c = 0;
@@ -768,7 +768,7 @@ struct FUN_00c86d20_Class
 {
     int unk00, unk04;
     InnerData* inner;
-    void __thiscall FUN_00c86d20(OutputData* dest);
+    void FUN_00c86d20(OutputData* dest);
 };
 // @fnv 0x00c86d20
 void FUN_00c86d20_Class::FUN_00c86d20(OutputData* dest)
@@ -1110,7 +1110,7 @@ struct FadeNodeEntry
 };
 
 // @fnv 0x00ead0d0
-FadeNodeEntry* __stdcall FUN_00ead0d0(FadeNodeEntry* pHead)
+FadeNodeEntry* FUN_00ead0d0(FadeNodeEntry* pHead)
 {
     if (pHead == 0)
     {
@@ -1146,7 +1146,7 @@ struct InBaFull
 int __cdecl GetTableValue(int);
 
 // @fnv 0x00ba5e60
-void __stdcall FUN_00ba5e60(OutBa* a1)
+void FUN_00ba5e60(OutBa* a1)
 {
     InBaFull* p = reinterpret_cast<InBaFull*>(a1->fC);
     int bMatch = 0;
@@ -1197,8 +1197,6 @@ bool FUN_00c69ee0(NiAVObject* pkObject, bool bRecurse, bool bForce)
     return bResult;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile const*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile const*);
 
 struct StageReturn
 {

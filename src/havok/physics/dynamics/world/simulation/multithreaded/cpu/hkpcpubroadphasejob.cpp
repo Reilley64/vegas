@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/DispatcherCF7080.h"
 #include "fnv/decl/FUN_00c911d0_Class.h"
@@ -21,8 +22,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned __int64 u64;
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(u32);
-extern "C" long (__stdcall* DAT_00fdf1ec)(volatile long*, long);
+extern "C" long (* DAT_00fdf1ec)(volatile long*, long);
 extern "C" u64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 

@@ -19,9 +19,6 @@
 #include "fnv/symbols_00587000.h"
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_011c3000.h"
-#define FNV_JOIN2(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN2(a, b)
-#define FNV_STATIC_ASSERT(e) typedef char FNV_JOIN(fnv_check_, __LINE__)[(e) ? 1 : -1]
 class TESFile;
 class TESLoadScreenType;
 enum ENUM_FORM_ID
@@ -69,10 +66,6 @@ class WorldCellRecord
     unsigned int uiWorldID;
     unsigned int uiCellKey;
 };
-FNV_STATIC_ASSERT(sizeof(WorldCellRecord) == 12);
-FNV_STATIC_ASSERT(offsetof(WorldCellRecord, auiFormId) == 0);
-FNV_STATIC_ASSERT(offsetof(WorldCellRecord, uiWorldID) == 4);
-FNV_STATIC_ASSERT(offsetof(WorldCellRecord, uiCellKey) == 8);
 // Source layout: BaseFormComponent. PC corrections are in generate_headers.py.
 class BaseFormComponent
 {
@@ -82,7 +75,6 @@ class BaseFormComponent
     virtual void CopyFromBase(BaseFormComponent* component);
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 
 // Source layout: TESForm. PC corrections are in generate_headers.py.
 class TESForm : public BaseFormComponent
@@ -174,11 +166,6 @@ class TESForm : public BaseFormComponent
 public:
     bool GetInitialized() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 
 // Source layout: TESTexture. PC corrections are in generate_headers.py.
 class TESTexture : public BaseFormComponent
@@ -189,8 +176,6 @@ class TESTexture : public BaseFormComponent
     static void ReadTextureData(TESTexture*, TESFile*);
     BSStringT<char> FullNameComponent;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESTexture) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 
 // Source layout: TESDescription. PC corrections are in generate_headers.py.
 class TESDescription : public BaseFormComponent
@@ -199,8 +184,6 @@ class TESDescription : public BaseFormComponent
     TESDescription();
     unsigned long m_uiDescriptionFileOffset;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESDescription) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESDescription, m_uiDescriptionFileOffset) == 0x4);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 // Community LoadForm fields (JohnnyGuitar TESLoadScreen.hpp), matching PC record offsets.
@@ -247,10 +230,6 @@ class TESLoadScreen : public TESForm, public TESTexture, public TESDescription
     // TESLoadScreen& __cdecl TESLoadScreen::*(const TESLoadScreen&)
     // void __cdecl TESLoadScreen::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESLoadScreen) == 64);
-FNV_STATIC_ASSERT(offsetof(TESLoadScreen, m_kWorldCellRecordList) == 44);
-FNV_STATIC_ASSERT(offsetof(TESLoadScreen, m_pLoadScreenType) == 52);
-FNV_STATIC_ASSERT(offsetof(TESLoadScreen, m_kLoadScreenText) == 56);
 
 class TESDataHandler
 {

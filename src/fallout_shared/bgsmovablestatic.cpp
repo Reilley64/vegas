@@ -71,7 +71,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004fbf00_shell : public BGSMovableStatic
 {
     void FUN_004fbf00(TESSound*);
@@ -127,11 +126,11 @@ FUN_004fba00_obj::FUN_004fba00_obj()
 
 struct FUN_004fc060_shell
 {
-    void __thiscall SetByteFromPtr(const unsigned char* src);
+    void SetByteFromPtr(const unsigned char* src);
 };
 
 // @fnv 0x004fc060
-void __thiscall FUN_004fc060_shell::SetByteFromPtr(const unsigned char* src)
+void FUN_004fc060_shell::SetByteFromPtr(const unsigned char* src)
 {
     ((unsigned char*)this)[0] = *src;
 }

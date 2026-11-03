@@ -22,13 +22,13 @@ struct FUN_00dba680_cls
     void* vtbl;
     void* p1;
     void* p2;
-    void __thiscall FUN_00dba680();
+    void FUN_00dba680();
 };
 struct FUN_00dbaab0_cls
 {
     void* vtbl;
     void* p1;
-    void __thiscall DispatchFloatToVtbl(float f);
+    void DispatchFloatToVtbl(float f);
 };
 struct Inner
 {
@@ -58,7 +58,7 @@ struct dba6d0_Target
 struct FUN_00dba6d0_cls
 {
     dba6d0_Target* m_p;
-    dba6d0_Ret __thiscall CallVirtualV5(const int& h);
+    dba6d0_Ret CallVirtualV5(const int& h);
 };
 struct Target
 {
@@ -325,7 +325,7 @@ struct FUN_00dbac70_cls
 {
     dbac70_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbac70();
+    void FUN_00dbac70();
 };
 struct S_00dbac90_Obj
 {
@@ -416,7 +416,7 @@ struct FUN_00dbad00_cls
 {
     dbad00_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad00(int* a);
+    void FUN_00dbad00(int* a);
 };
 struct dbad60_Target
 {
@@ -435,7 +435,7 @@ struct FUN_00dbad60_cls
 {
     dbad60_Target* m_p;
     int m_f;
-    void __thiscall FUN_00dbad60(int a, int b);
+    void FUN_00dbad60(int a, int b);
 };
 struct DBADC0Target
 {
@@ -472,12 +472,12 @@ struct Callback
 };
 struct FUN_00dbab50_cls
 {
-    void __thiscall FUN_00dbab50(void* value);
+    void FUN_00dbab50(void* value);
 };
 struct FUN_00dbaea0_cls
 {
     Callback* target;
-    FUN_00dbab50_cls* __thiscall InvokeCallbackInto(FUN_00dbab50_cls* output, void* argument);
+    FUN_00dbab50_cls* InvokeCallbackInto(FUN_00dbab50_cls* output, void* argument);
 };
 struct FUN_00dbaf10_callback
 {
@@ -495,9 +495,9 @@ struct FUN_00dbaf10_cls
     FUN_00dbaf10_callback* vtbl;
     void* p1;
     void* p2;
-    void __thiscall DispatchRecords(void* records);
+    void DispatchRecords(void* records);
 };
-extern char __stdcall Equals(void*);
+extern char Equals(void*);
 struct DBAFB0Source
 {
     virtual void unk00();
@@ -547,16 +547,16 @@ struct VirtualTarget
 struct ValueHolder
 {
     void* m_uiFilterValue;
-    __declspec(noinline) void __thiscall SetValue(void* p);
+    __declspec(noinline) void SetValue(void* p);
 };
-void __thiscall ValueHolder::SetValue(void* p)
+void ValueHolder::SetValue(void* p)
 {
     m_uiFilterValue = (void*)((unsigned int)m_uiFilterValue << ((unsigned int)p & 31));
 }
 struct FUN_00dba6a0_cls
 {
     VirtualTarget* m_00;
-    void* __thiscall SetShiftedValue(void* a1);
+    void* SetShiftedValue(void* a1);
 };
 // FUN_00dba700 - forwarding stub (9 bytes).
 //
@@ -579,7 +579,7 @@ struct Sub_dba700
 struct Owner_dba700
 {
     Sub_dba700* m_target;
-    void __thiscall FUN_00dba700(void* a);
+    void FUN_00dba700(void* a);
 };
 struct FnvCpu_FUN_00dba710_CpuInterface
 {
@@ -621,7 +621,7 @@ struct RefCountedObj
 struct FUN_00dba7a0_cls
 {
     RefCountedObj* m_pEntryObject;
-    void __thiscall AssignRefCounted(FUN_00dba7a0_cls* src);
+    void AssignRefCounted(FUN_00dba7a0_cls* src);
 };
 struct DBA7F0Object
 {
@@ -664,7 +664,7 @@ struct VTarget
 struct FUN_00dba870_cls
 {
     VTarget* m_pFlagTarget;
-    void* __thiscall FUN_00dba870(void* a, void* b);
+    void* FUN_00dba870(void* a, void* b);
 };
 struct FUN_00dba8b0_tgt
 {
@@ -678,7 +678,7 @@ struct FUN_00dba8b0_tgt
 struct FUN_00dba8b0_cls
 {
     FUN_00dba8b0_tgt* m_00;
-    void __thiscall FUN_00dba8b0();
+    void FUN_00dba8b0();
 };
 struct FnvCpu_FUN_00dba8d0_CpuInterface
 {
@@ -732,7 +732,7 @@ struct Sub_dba8e0
 struct Owner_dba8e0
 {
     Sub_dba8e0* m_target;
-    void __thiscall FUN_00dba8e0(void* a);
+    void FUN_00dba8e0(void* a);
 };
 struct Dispatch
 {
@@ -810,7 +810,7 @@ struct FUN_00dba9d0_cls
 {
     InnerObj* m_00;
     void* m_04;
-    void* __thiscall FUN_00dba9d0(FUN_00dba760_cls* arg);
+    void* FUN_00dba9d0(FUN_00dba760_cls* arg);
 };
 struct FUN_00dbaa30_target
 {
@@ -836,7 +836,7 @@ struct FUN_00dbaa30_cls
 {
     FUN_00dbaa30_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaa30(int a1);
+    void FUN_00dbaa30(int a1);
 };
 // DispatchToObject: forwards a call through the object stored at offset 0.
 struct VirtDispatchIface
@@ -869,7 +869,7 @@ struct FUN_00dbaa50_cls
 {
     void* m_pObject;
     void* m_pParam;
-    void __thiscall DispatchToObject(void** pArg);
+    void DispatchToObject(void** pArg);
 };
 struct Callee
 {
@@ -955,7 +955,7 @@ struct FUN_00dbaad0_cls
 {
     FUN_00dbaad0_target* m_00;
     void* m_04;
-    void __thiscall FUN_00dbaad0(int a1);
+    void FUN_00dbaad0(int a1);
 };
 struct SpawnedPair
 {
@@ -966,7 +966,7 @@ struct FUN_00dbab90_cls
 {
     void* m_pObservedSource;
 
-    SpawnedPair __thiscall FUN_00dbab90(void* value);
+    SpawnedPair FUN_00dbab90(void* value);
 };
 struct DBABE0Target
 {
@@ -1009,7 +1009,7 @@ struct FUN_00dbad80_cls
 {
     VirtualTarget00* m_pFlagTarget;
     void* m_pArg;
-    void __thiscall FUN_00dbad80(int a1, int a2);
+    void FUN_00dbad80(int a1, int a2);
 };
 struct FUN_00dbade0_obj
 {
@@ -1053,7 +1053,7 @@ struct FUN_00dbade0_obj
 struct FUN_00dbade0_cls
 {
     FUN_00dbade0_obj* m_00;
-    void __thiscall FUN_00dbade0(int a);
+    void FUN_00dbade0(int a);
 };
 struct FnvCpu_FUN_00dbadf0_CpuInterface
 {
@@ -1213,7 +1213,7 @@ struct FUN_00dbae60_Inner
 struct FUN_00dbae60_cls
 {
     FUN_00dbae60_Inner* m_00;
-    void __thiscall FUN_00dbae60(int a);
+    void FUN_00dbae60(int a);
 };
 // The controller reached through this->controller is a polymorphic object.
 // FUN_00dbae80 forwards to the virtual at vtable offset 0x64 (slot 25) of that
@@ -1252,7 +1252,7 @@ struct FUN_00dbae80_cls
 {
     Controller_cls* controller;  // +0x00
     void* p1;                    // +0x04
-    void __thiscall FUN_00dbae80(void* a, void* b);
+    void FUN_00dbae80(void* a, void* b);
 };
 // FUN_00dbae90 : the stub family - load a sub-object out of `this` and tail-jump
 // to one of its virtuals.  The target is in EAX, which means the callee takes ONE
@@ -1289,7 +1289,7 @@ struct Sub_dbae90
 struct Own_dbae90
 {
     Sub_dbae90* m_sub;
-    void __thiscall FUN_00dbae90(void* a);
+    void FUN_00dbae90(void* a);
 };
 struct S_00dbaed0_Elem
 {
@@ -1437,9 +1437,9 @@ struct FUN_00dbac50_cls
 {
     Fnv299VTarget* m_00;
     int m_04;
-    void __thiscall DispatchToVTableSlot8(int a1);
+    void DispatchToVTableSlot8(int a1);
 };
-typedef void(__thiscall* Fnv299Dispatch)(Fnv299VTarget*, int);
+typedef void(* Fnv299Dispatch)(Fnv299VTarget*, int);
 struct ObjectValue
 {
     void* object;
@@ -1774,7 +1774,7 @@ struct ArrayBulkHandle
     void FUN_00dbae50(const unsigned int* values, int count);
 };
 struct ArrayBulkTarget;
-typedef void(__fastcall* ArrayBulkSlot)(ArrayBulkTarget*, int);
+typedef void(* ArrayBulkSlot)(ArrayBulkTarget*, int);
 struct ArrayBulkTarget
 {
     ArrayBulkSlot* vtbl;
@@ -1783,11 +1783,11 @@ struct ArrayBulkOwner
 {
     ArrayBulkTarget* object;
 };
-void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded);
+void FUN_00dbae70(ArrayBulkOwner* self, int forwarded);
 struct DataObjectHandle
 {
     RefObj* object;
-    DataObjectHandle* __thiscall FUN_00dba760(RefObj* p);
+    DataObjectHandle* FUN_00dba760(RefObj* p);
 };
 struct DataClassResult : FUN_00dba650_cls
 {

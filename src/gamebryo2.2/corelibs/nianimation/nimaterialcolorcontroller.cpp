@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4b570
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a57630.h"
 #include "fnv/decl/FUN_00a57c80.h"
@@ -46,7 +47,7 @@ void* __cdecl FUN_00a4b790()
     void* p = BSFadeNode::operator new(0x3c);
     if (p)
     {
-        ((void(__thiscall*)(void*))FUN_00a57c80)(p);
+        ((void(*)(void*))FUN_00a57c80)(p);
         *(unsigned short*)((char*)p + 0x38) = 0;
         *(void**)p = &DAT_01098a14;
         return p;
@@ -65,7 +66,7 @@ struct GlobalObjectO2_00a7b610
 
 // Appends the string returned by FUN_00a7d330(g_011f3f88.m_str) to pkStrings, growing it when the length reaches the count.
 // @fnv 0x00a4b880
-void __stdcall FUN_00a4b880(StrArr* pkStrings)
+void FUN_00a4b880(StrArr* pkStrings)
 {
     ::FUN_00a57d10((::NiTArray< ::ActorCombatGroup *, ::NiTMallocInterface< ::ActorCombatGroup *>> *)(pkStrings));
     char* pStr = ::FUN_00a7d330((*reinterpret_cast<::fnv_00a4b880::GlobalObjectO2_00a7b610 *>(&::g_011f3f88)).m_str);
@@ -369,12 +370,12 @@ struct NiObject
 struct NiMaterialColorController
 {
     unsigned char mFlags[0x38];
-    bool __thiscall FUN_00a4b540(NiObject* pkObject);
+    bool FUN_00a4b540(NiObject* pkObject);
 };
 
 // Returns true if pkObject passes FUN_00a57c10 and its mFlags[0x38] low 3 bits match this object's mFlags[0x38] low 3 bits.
 // @fnv 0x00a4b540
-bool __thiscall NiMaterialColorController::FUN_00a4b540(NiObject* pkObject)
+bool NiMaterialColorController::FUN_00a4b540(NiObject* pkObject)
 {
     if (!((bool)(reinterpret_cast<::StandIn *>(this)->FUN_00a57c10((::FUN_00a57c10_This *)(pkObject), {}))))
         return false;
@@ -576,7 +577,6 @@ void NiMaterialColorControllerA4B5::FUN_00a4b580(NiUpdateDataA4B5& kUpdateData)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObj
 {
     virtual void f0();
@@ -749,7 +749,7 @@ struct NiMaterialColorController
 
 // Initializes NiMaterialColorController fields, calls FUN_00a5e930, and optionally calls __Dummy_00b6fef0 if arg bit 0 is set.
 // @fnv 0x00bc29e0
-NiMaterialColorController* __thiscall NiMaterialColorController::FUN_00bc29e0(int aiFlags)
+NiMaterialColorController* NiMaterialColorController::FUN_00bc29e0(int aiFlags)
 {
     ((float*)this)[0x2d] = 100.0f;
     ((float*)this)[0x2c] = ::DAT_010ba600;

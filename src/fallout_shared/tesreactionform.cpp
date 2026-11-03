@@ -212,7 +212,7 @@ struct Args_0048bfc0
     int aiReaction;
 };
 // @fnv 0x0048bfc0
-void __fastcall FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
+void FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
 {
     if (!args.apForm)
         return;
@@ -798,7 +798,7 @@ void TESReactionFormLoad::LoadReactions(unsigned int auiChangeFlags, BGSLoadForm
     }
 }
 
-void __fastcall _ref_0063f7b0(void* pList);
+void _ref_0063f7b0(void* pList);
 
 struct FUN_0048c930_shell
 {

@@ -215,7 +215,7 @@ struct Object180
     void* unk00;
     int unk04;
     void* unk08;
-    Object180* __thiscall FUN_00dcc6a0(void* input, int arg2);
+    Object180* FUN_00dcc6a0(void* input, int arg2);
 };
 // @fnv 0x00d48f00
 int __cdecl FUN_00d48f00(Header180* pHeader, int arg2, int arg3, int arg4)
@@ -417,7 +417,7 @@ Obj1* FUN_00d49420_cls::ProcessPair(Obj1* apArg1, Obj2* apArg2)
             Vt4Obj* v = reinterpret_cast<GlobalObj*>(DAT_01268b08)->unk10();
             void** pVtableSlot = *(void***)v + 4;
             void* arg = local28.FUN_00dba680();
-            void* pSecond = reinterpret_cast<void*(__thiscall*)(void*, void*)>(*pVtableSlot)(v, arg);
+            void* pSecond = reinterpret_cast<void*(*)(void*, void*)>(*pVtableSlot)(v, arg);
             apArg2->GetSourcePair(&pair);
             void* first = pair.first;
             if (pair.second != 0)

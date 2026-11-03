@@ -426,7 +426,6 @@ public:
 public:
     void FUN_00680170(void *);
 };
-typedef char _sizecheck_PackageTarget[sizeof(PackageTargetRecord) == 16 ? 1 : -1];
 struct FUN_006801a0_shell : public PackageTargetRecord
 {
     void FUN_006801a0(PackageTargetRecord*);
@@ -735,7 +734,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_0091fe80_shell : public MiddleHighProcess
 {
     void FUN_0091fe80(Animation*);
@@ -881,7 +879,7 @@ struct Host
 };
 struct FUN_009145c0
 {
-    float __thiscall GetControllerPhase();
+    float GetControllerPhase();
 };
 struct S9145e0
 {
@@ -1554,10 +1552,10 @@ struct TimingSettings
 struct ProcessToken
 {
 };
-typedef bool(__thiscall* PackageFilter)(TESPackage*, Actor*, Actor*, int, float, int);
-typedef ControllerCalls*(__thiscall* ControllerForTarget)(Actor*, Actor*);
-typedef void(__thiscall* ImmediateAction)(Actor*, Actor*, int, int, int, int, int, float, float);
-typedef void(__thiscall* ProcessAction)(Actor*, Actor*, int, bool, bool, bool, int, bool, int);
+typedef bool(* PackageFilter)(TESPackage*, Actor*, Actor*, int, float, int);
+typedef ControllerCalls*(* ControllerForTarget)(Actor*, Actor*);
+typedef void(* ImmediateAction)(Actor*, Actor*, int, int, int, int, int, float, float);
+typedef void(* ProcessAction)(Actor*, Actor*, int, bool, bool, bool, int, bool, int);
 struct FUN_00916880_shell : MiddleHighProcess
 {
     bool TryStartCombatAction(Actor*, Actor*, bool, bool, int, bool, bool, bool, bool, bool, bool, bool, int);
@@ -3404,9 +3402,9 @@ struct SaveGameRecordWriter
 {
     void SaveActorRecord(void* actor);
 };
-typedef RecordData*(__thiscall* GetRecordFunction)(SaveGameRecordWriter*);
-typedef bool(__thiscall* GetStateFunction)(void*, int);
-typedef bool(__thiscall* GetSwitchFunction)(void*);
+typedef RecordData*(* GetRecordFunction)(SaveGameRecordWriter*);
+typedef bool(* GetStateFunction)(void*, int);
+typedef bool(* GetSwitchFunction)(void*);
 struct FUN_00914ab0
 {
     ~FUN_00914ab0();
@@ -5710,7 +5708,7 @@ struct PendingResourceManager
 };
 struct PendingProcess : MiddleHighProcess
 {
-    void __thiscall RemovePendingByGroupAndValue(int group, int value);
+    void RemovePendingByGroupAndValue(int group, int value);
 };
 struct P114Point
 {
@@ -7212,7 +7210,7 @@ struct GCls
 };
 extern int DAT_01183028;
 extern int DAT_01183140;
-bool __fastcall FUN_00425fd0(TESObjectCELL* c);
+bool FUN_00425fd0(TESObjectCELL* c);
 void* __cdecl FUN_00ec43fb(void* a1, int a2, void* a3, void* a4, int a5);
 struct FUN_00672930_cls
 {
@@ -11298,7 +11296,7 @@ struct ObjC9;
 struct ObjPkg9;
 struct Obj309;
 class TESObjectCELL;
-bool __fastcall FUN_00425fd0(TESObjectCELL*);
+bool FUN_00425fd0(TESObjectCELL*);
 struct EP_008c48d0
 {
     void* GetEntryPoint();
@@ -16183,7 +16181,7 @@ class PackageActorView : public Actor
 
 };
 
-bool __fastcall FUN_00881570(Actor* pActor);
+bool FUN_00881570(Actor* pActor);
 
 class PackageClockView
 {

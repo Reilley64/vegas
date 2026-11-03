@@ -1,6 +1,7 @@
 // src/bsshader/bscubemapcamera.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bscubemapcamera.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <math.h>
 #include "fnv/decl/BSRenderStateManager.h"
 #include "fnv/decl/BSRenderedTexture.h"
@@ -20,8 +21,7 @@
 #include "fnv/symbols_0101e000.h"
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011f9000.h"
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-__declspec(dllimport) int __stdcall InterlockedDecrement(long*);
+extern int(* DAT_00fdf1c0)(void*);
 struct RefObject
 {
     virtual void slot0();
@@ -453,8 +453,8 @@ struct CleanupRef
 {
     struct Methods
     {
-        void(__thiscall* slot0)(CleanupRef*);
-        void(__thiscall* destroy)(CleanupRef*);
+        void(* slot0)(CleanupRef*);
+        void(* destroy)(CleanupRef*);
     };
     Methods* methods;
     long refs;

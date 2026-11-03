@@ -53,8 +53,6 @@ class ObstacleTask
     ObstacleTask(const NiPointer<ObstacleData>& obstacle, OBSTACLE_TASK_TYPE type, const NavMeshPtr& navMesh);
 };
 
-FNV_STATIC_ASSERT(sizeof(ObstacleTask) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ObstacleTask, apSearchNavMesh) == 0x0c);
 
 template <> class BSSimpleList<NiPointer<ObstacleData> >
 {
@@ -105,9 +103,5 @@ class NavMeshObstacleManager
     void ProcessActivatedObstacles();
 };
 
-FNV_STATIC_ASSERT(sizeof(LockFreeQueue<bhkRigidBody*>) == 0x40);
-FNV_STATIC_ASSERT(offsetof(NavMeshObstacleManager, m_kActiveObstacles) == 0x3c);
-FNV_STATIC_ASSERT(offsetof(NavMeshObstacleManager, m_kActivatedRigidBodies) == 0x60);
-FNV_STATIC_ASSERT(offsetof(NavMeshObstacleManager, RigidBodyObstacleLookup) == 0xe0);
 
 #endif

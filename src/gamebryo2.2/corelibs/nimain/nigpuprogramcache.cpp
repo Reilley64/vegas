@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00aa1ab0
+#include <windows.h>
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/C00be0ad0.h"
 #include "fnv/decl/DBBCBC0Target.h"
@@ -76,10 +77,10 @@ void __cdecl FUN_00ee9a60();
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00ee9ca0_shell
 {
-    void* __thiscall FUN_00ee9ca0(unsigned int flags);
+    void* FUN_00ee9ca0(unsigned int flags);
 };
 // @fnv 0x00ee9ca0
-void* __thiscall FUN_00ee9ca0_shell::FUN_00ee9ca0(unsigned int flags)
+void* FUN_00ee9ca0_shell::FUN_00ee9ca0(unsigned int flags)
 {
     FUN_00ee9a60();
     if (flags & 1)
@@ -103,7 +104,7 @@ struct NiGPUProgramCache
 };
 
 // @fnv 0x00ee8e70
-bool __thiscall NiGPUProgramCache::FUN_00ee8e70()
+bool NiGPUProgramCache::FUN_00ee8e70()
 {
     m_kObjectMap.RemoveAll();
     m_bLoadComplete = false;
@@ -123,11 +124,11 @@ struct NiTFixedStringMap_NiAVObject___
 struct FUN_00ee9070_shell : NiTFixedStringMap_NiAVObject___
 {
     void* m_p;
-    FUN_00ee9070_shell* __thiscall FUN_00ee9070(bool);
+    FUN_00ee9070_shell* FUN_00ee9070(bool);
 };
 // Sets the vtable, removes all entries, frees the object at offset 8, and optionally deallocates this instance.
 // @fnv 0x00ee9070
-FUN_00ee9070_shell* __thiscall FUN_00ee9070_shell::FUN_00ee9070(bool b)
+FUN_00ee9070_shell* FUN_00ee9070_shell::FUN_00ee9070(bool b)
 {
     *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_01101378));
     RemoveAll();
@@ -164,8 +165,6 @@ FUN_00aa2200::FUN_00aa2200()
     initialized = 1;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiFixedString
 {
@@ -554,7 +553,7 @@ void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
 
 // Reads a length-prefixed string into a2 via self->fn, advances self->pos, and null-terminates the buffer; returns false if a3 is 0 or a2 is null.
 // @fnv 0x00ee92d0
-bool __stdcall FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3)
+bool FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3)
 {
     if (a3 == 0)
         goto fail;
@@ -787,7 +786,7 @@ struct ItemWithDtor
 
 // Clears the item's key and value, then deletes the item through its custom operator delete.
 // @fnv 0x00ee99d0
-void __stdcall ClearAndDeleteItem(ItemWithDtor* pItem)
+void ClearAndDeleteItem(ItemWithDtor* pItem)
 {
     pItem->m_key = (const char*)0;
     pItem->m_val = (NiRefObject*)0;
@@ -975,7 +974,6 @@ void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
 }  // namespace fnv_00ee9b10
 
 namespace fnv_00ee9bf0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 void* __cdecl FUN_00aa1070(unsigned int);
 void* __cdecl FUN_00ec61c0(void*, unsigned int, unsigned int);
 
@@ -1093,7 +1091,7 @@ struct FUN_00ee90f0_cls
 
 // Marks entries whose keys appear in a1, then removes every unmarked entry from a2 by index in reverse order and returns true.
 // @fnv 0x00ee90f0
-bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList)
+bool RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList)
 {
     unsigned char flags[0x400];
     unsigned int count = apEntryList->m_uiItemCount;
@@ -1164,10 +1162,10 @@ char* FnvCpu_FUN_00ee8a90_CpuObject::FUN_00ee8a90()
 
 struct FUN_00ee8aa0_shell
 {
-    char __thiscall FUN_00ee8aa0();
+    char FUN_00ee8aa0();
 };
 // @fnv 0x00ee8aa0
-char __thiscall FUN_00ee8aa0_shell::FUN_00ee8aa0()
+char FUN_00ee8aa0_shell::FUN_00ee8aa0()
 {
     return *(unsigned char*)((char*)this + 0x39);
 }
@@ -1361,7 +1359,7 @@ inline void S_00ee9230_WriteBinary(S_00ee9230_Stream* pkStream, const void* pvBu
 
 // Writes a length-prefixed null-terminated string to pkStream, using a zero length when pcString is null.
 // @fnv 0x00ee9230
-bool __stdcall FUN_00ee9230(S_00ee9230_Stream* pkStream, const char* pcString)
+bool FUN_00ee9230(S_00ee9230_Stream* pkStream, const char* pcString)
 {
     if (pcString == 0)
     {

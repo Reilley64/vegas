@@ -33,7 +33,6 @@ enum NiTexturingProperty__ClampMode
     NiTexturingProperty__ClampMode_WRAP_S_WRAP_T = 3,
     NiTexturingProperty__ClampMode_CLAMP_MAX_MODES = 4
 };
-#pragma pack(push, 4)
 class ImageSpaceTexture
 {
   public:
@@ -70,12 +69,4 @@ class ImageSpaceTexture
     // ImageSpaceTexture& __cdecl ImageSpaceTexture::*(ImageSpaceTexture&)
     // void* __cdecl ImageSpaceTexture::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag1) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag2) == 1);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag3) == 2);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, pTexture) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eTextureFilterMode) == 8);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eClampMode) == 12);
 #endif

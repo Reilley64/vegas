@@ -418,7 +418,7 @@ struct FUN_00511860_shell
     void FUN_00511860(void* apSaveGameBuffer);
 };
 
-void __thiscall FUN_00511860_shell::FUN_00511860(void* apSaveGameBuffer)
+void FUN_00511860_shell::FUN_00511860(void* apSaveGameBuffer)
 {}
 
 struct FUN_00501b90_shell : FUN_00511860_shell
@@ -427,7 +427,7 @@ struct FUN_00501b90_shell : FUN_00511860_shell
 };
 
 // @fnv 0x00501b90
-void __thiscall FUN_00501b90_shell::FUN_00501b90(void* apSaveGameBuffer)
+void FUN_00501b90_shell::FUN_00501b90(void* apSaveGameBuffer)
 {
     reinterpret_cast<::FUN_00511860_holder *>((this))->FUN_00511860((::BGSSaveFormBuffer *)(apSaveGameBuffer));
 }
@@ -452,12 +452,12 @@ unsigned int FUN_00501270_shell::FUN_00501270(TESObjectREFR* apRef)
 
 struct TermHack
 {
-    float __thiscall FUN_005017a0(TESObjectREFR* apItemActivated);
-    bool __thiscall IsSkillSufficient(TESObjectREFR* apItemActivated, float afSkill);
+    float FUN_005017a0(TESObjectREFR* apItemActivated);
+    bool IsSkillSufficient(TESObjectREFR* apItemActivated, float afSkill);
 };
 // Returns whether the skill value returned by FUN_005017a0 for the activated reference is less than or equal to afSkill.
 // @fnv 0x00501760
-bool __thiscall TermHack::IsSkillSufficient(TESObjectREFR* apItemActivated, float afSkill)
+bool TermHack::IsSkillSufficient(TESObjectREFR* apItemActivated, float afSkill)
 {
     return FUN_005017a0(apItemActivated) <= afSkill;
 }
@@ -488,10 +488,10 @@ struct FUN_00501a30_shell
 {
     unsigned char _pad[0xA4];
     char _mA4;
-    int __thiscall FUN_00501a30(Script* apScript);
+    int FUN_00501a30(Script* apScript);
 };
 // @fnv 0x00501a30
-int __thiscall FUN_00501a30_shell::FUN_00501a30(Script* apScript)
+int FUN_00501a30_shell::FUN_00501a30(Script* apScript)
 {
     char c = -1;
     if (apScript)
@@ -554,14 +554,14 @@ struct FormChangeMask
 struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();
-    FormChangeMask __thiscall GetChangeFlags(unsigned int);
+    FormChangeMask GetChangeFlags(unsigned int);
 };
 struct BaseStub501bb0
 {
 };
 struct Host501bb0 : BaseStub501bb0
 {
-    void __thiscall FUN_00501bb0(BGSLoadFormBuffer*);
+    void FUN_00501bb0(BGSLoadFormBuffer*);
 };
 // @fnv 0x00501bb0
 void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
@@ -579,10 +579,10 @@ void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
 
 struct FUN_00501250_shell
 {
-    bool __thiscall IsFlagSet();
+    bool IsFlagSet();
 };
 // @fnv 0x00501250
-bool __thiscall FUN_00501250_shell::IsFlagSet()
+bool FUN_00501250_shell::IsFlagSet()
 {
     return (*(unsigned char*)((char*)this + 0xa5) & 1) ? true : false;
 }
@@ -698,7 +698,7 @@ struct FUN_00501830_shell
     unsigned char _pad[0x10];
     Script m_kScript;
 
-    void __thiscall FUN_00501830(Script* apScript);
+    void FUN_00501830(Script* apScript);
 };
 
 // @fnv 0x00501830
@@ -1307,7 +1307,7 @@ struct RefLevel
 
 // Returns the initial result, optionally adding a scaled level value and capping it at 4 when the flag is set.
 // @fnv 0x005011a0
-int __thiscall FUN_00501270_shell::FUN_005011a0(TESObjectREFR* apRef)
+int FUN_00501270_shell::FUN_005011a0(TESObjectREFR* apRef)
 {
     unsigned int result = reinterpret_cast<FUN_00501a30_shell*>(this)->FUN_00501a30(reinterpret_cast<Script*>(apRef));
     if (reinterpret_cast<FUN_00501250_shell*>(this)->IsFlagSet())

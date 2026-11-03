@@ -96,11 +96,11 @@ struct FakeDevice
     virtual void f88();
     virtual void f89();
     virtual void f90();
-    virtual long __stdcall CreateVertexShader(const unsigned long* pFunction, void** ppShader);
+    virtual long CreateVertexShader(const unsigned long* pFunction, void** ppShader);
 };
 // Creates a vertex shader via DAT_0126fa28; on failure logs an error with the HRESULT and returns 0, otherwise returns the shader pointer.
 // @fnv 0x00e98890
-void* __stdcall CreateVertexShaderChecked(void* pShaderBytecode, void* pUnused, unsigned int uiUnused, void* pUnused2,
+void* CreateVertexShaderChecked(void* pShaderBytecode, void* pUnused, unsigned int uiUnused, void* pUnused2,
                                           unsigned int uiUnused2, unsigned int uiUnused3)
 {
     long hr = (*reinterpret_cast<::FakeDevice * *>(&::g_0126fa28))->CreateVertexShader((const unsigned long*)pShaderBytecode, (void**)&pShaderBytecode);
@@ -130,12 +130,12 @@ struct PixelShaderDevice : FakeDevice
     virtual void f103() = 0;
     virtual void f104() = 0;
     virtual void f105() = 0;
-    virtual long __stdcall CreatePixelShader(const unsigned long*, GeometryRelatedType**);
+    virtual long CreatePixelShader(const unsigned long*, GeometryRelatedType**);
 };
 
 // Creates a pixel shader from pvCode via DAT_0126fa28, logging an error and returning 0 on failure.
 // @fnv 0x00e988d0
-GeometryRelatedType* __stdcall FUN_00e988d0(void* pvShaderCode)
+GeometryRelatedType* FUN_00e988d0(void* pvShaderCode)
 {
     GeometryRelatedType* hShader;
     long m_kResult =

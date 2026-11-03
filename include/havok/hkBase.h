@@ -16,7 +16,6 @@ typedef short hkHalf;
 typedef char* hkStringPtr;
 class hkClass;
 class hkClassEnum;
-#pragma pack(push, 1)
 struct hkVector4
 {
     hkReal x, y, z, w;
@@ -76,7 +75,6 @@ struct hkHomogeneousArray
     void* m_data;
     int m_iElementCount;
 };  // 12
-#pragma pack(pop)
 class hkBaseObject
 {
   public:

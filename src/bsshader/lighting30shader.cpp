@@ -1,5 +1,6 @@
 // bsshader/lighting30shader.cpp: SM3ShaderLoader, Shadow, Lighting, MapOwner and more (36 functions)
 
+#include <windows.h>
 #include "fnv/decl/BoneHost.h"
 #include "fnv/decl/C0BC90Shader.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -278,7 +279,7 @@ public:
 
 // If DAT_012010b0[8] is set, computes pos minus DAT_011f474c minus the offset at DAT_011f91c8+0x1e4 and stores the result into DAT_01201360/64/68.
 // @fnv 0x00bbbcf0
-void __stdcall UpdatePositionOffset(const NiPoint3& pos)
+void UpdatePositionOffset(const NiPoint3& pos)
 {
     if (DAT_012010b0[8])
     {
@@ -293,7 +294,7 @@ void __stdcall UpdatePositionOffset(const NiPoint3& pos)
 
 // If DAT_012010cc[8] is nonzero, copies four ints at offsets 0x84..0x90 of param_1 into DAT_01201b50..DAT_01201b5c.
 // @fnv 0x00bbbda0
-void __stdcall FUN_00bbbda0(const char* param_1)
+void FUN_00bbbda0(const char* param_1)
 {
     if (DAT_012010cc[8] != 0)
     {
@@ -306,7 +307,7 @@ void __stdcall FUN_00bbbda0(const char* param_1)
 
 
 // @fnv 0x00bbbdf0
-void __fastcall FUN_00bbbdf0(void* this_ptr, int, char* param_1)
+void FUN_00bbbdf0(void* this_ptr, int, char* param_1)
 {
     if (DAT_012010d8[8] != 0)
     {
@@ -393,7 +394,7 @@ struct DummyVTable
 
 // If DAT_012010e0[8] is set, queries param_1->vf4(5, 0) to set DAT_01201bec to 1.0 or 0.0 and copies the float at param_1+0x30 into DAT_01201be8.
 // @fnv 0x00bbbe30
-void __fastcall FUN_00bbbe30(void* this_ptr, int edx_unused, DummyVTable* param_1)
+void FUN_00bbbe30(void* this_ptr, int edx_unused, DummyVTable* param_1)
 {
     if (DAT_012010e0[8] != 0)
     {
@@ -408,7 +409,7 @@ void __fastcall FUN_00bbbe30(void* this_ptr, int edx_unused, DummyVTable* param_
 
 // Calls FUN_00be1ff0 with arg unless DAT_011f91e4 falls within any of four excluded ranges.
 // @fnv 0x00bbc5c0
-void __stdcall DispatchIfNotExcluded(int arg)
+void DispatchIfNotExcluded(int arg)
 {
     if ((DAT_011f91e4 < 0x1cc || DAT_011f91e4 > 0x1dc) && (DAT_011f91e4 < 0x1bd || DAT_011f91e4 > 0x1c3) &&
         (DAT_011f91e4 < 0x1e0 || DAT_011f91e4 > 0x1e1) && (DAT_011f91e4 < 0x2d8 || DAT_011f91e4 > 0x2ef))
@@ -418,7 +419,7 @@ void __stdcall DispatchIfNotExcluded(int arg)
 }
 
 // @fnv 0x00bbd820
-int __fastcall FUN_00bbd820(char* pThis, int, char* arg1, char* apFlags)
+int FUN_00bbd820(char* pThis, int, char* arg1, char* apFlags)
 {
     bool bHasFlag = false;
     if (*reinterpret_cast<int*>(*reinterpret_cast<char**>(arg1 + 0xB8) + 0x28) != 0)
@@ -438,7 +439,7 @@ int __fastcall FUN_00bbd820(char* pThis, int, char* arg1, char* apFlags)
 
 // Checks DAT_011f91e4 and state entries, calling FUN_00b97e80, UpdateRendererStateCount or decrementing DAT_011ff9dc and calling FUN_00b97e30 based on flags.
 // @fnv 0x00bbeef0
-void __fastcall FUN_00bbeef0(void* this_ptr, int, unsigned char** state)
+void FUN_00bbeef0(void* this_ptr, int, unsigned char** state)
 {
     unsigned int val = DAT_011f91e4;
     if (val == 0x1e0 || val == 0x1e1)
@@ -470,11 +471,11 @@ void __cdecl FUN_00bbc9c0();
 
 struct FUN_00bbef60_shell
 {
-    void* __thiscall DestroyIfFlagged(int flag);
+    void* DestroyIfFlagged(int flag);
 };
 
 // @fnv 0x00bbef60
-void* __thiscall FUN_00bbef60_shell::DestroyIfFlagged(int aiFlags)
+void* FUN_00bbef60_shell::DestroyIfFlagged(int aiFlags)
 {
     FUN_00bbc9c0();
     if (aiFlags & 1)
@@ -495,14 +496,14 @@ void S::ApplyToGlobalRange()
     do
     {
         int v = *p;
-        (*(void(__thiscall**)(S*, int))(*(int*)this + 0x128))(this, v);
+        (*(void(**)(S*, int))(*(int*)this + 0x128))(this, v);
         ++p;
     } while ((int)p < (int)&(*reinterpret_cast<int *>(&::DAT_01201080)));
 }
 
 // Iterates entries from start to the count at p+0x18 and zeroes the int at offset 8 of each non-null entry from the array at p+0x24.
 // @fnv 0x00bbc610
-void __stdcall FUN_00bbc610(void* apContainer, unsigned int start)
+void FUN_00bbc610(void* apContainer, unsigned int start)
 {
     for (unsigned int i = start; i < *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apContainer) + 0x18); ++i)
     {
@@ -560,7 +561,7 @@ struct Obj_bbb890
 };
 
 // @fnv 0x00bbb890
-void __stdcall UpdateTransformedPosition(M_bbb890 kMat, Obj_bbb890* pObject)
+void UpdateTransformedPosition(M_bbb890 kMat, Obj_bbb890* pObject)
 {
     if ((*reinterpret_cast<::Flag_bbb890 * *>(&::ConstantMaps::DAT_012010a4))->bOn || (*reinterpret_cast<::Flag_bbb890 * *>(&::ConstantMaps::DAT_012010c8))->bOn)
     {
@@ -577,7 +578,6 @@ void __stdcall UpdateTransformedPosition(M_bbb890 kMat, Obj_bbb890* pObject)
 }
 
 namespace fnv_00bbce70 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObj_bbce70
 {
     virtual void v0();
@@ -955,7 +955,7 @@ struct ShadowSceneOwner
 
 
 // @fnv 0x00bbde20
-void __stdcall FUN_00bbde20(int bFog, ShadowSceneOwner* pOwner, int iUnused)
+void FUN_00bbde20(int bFog, ShadowSceneOwner* pOwner, int iUnused)
 {
     if (!pOwner)
         return;
@@ -1272,7 +1272,7 @@ struct SceneRoot
 };
 // Computes a light's color (override or base), scales it by exposure and intensity, then clamps and accumulates it into the global color or stores it separately.
 // @fnv 0x00bbecd0
-void __stdcall ApplyLightSource(LightSource* light, RenderContext* context)
+void ApplyLightSource(LightSource* light, RenderContext* context)
 {
     Color3 color = light->overrideColor ? *light->overrideColor : light->color;
     bool separate = context->state->value != 0;
@@ -1319,8 +1319,6 @@ void __stdcall ApplyLightSource(LightSource* light, RenderContext* context)
 }
 
 namespace ConstantMaps {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct Object
 {
@@ -1863,7 +1861,7 @@ extern FogColorA DAT_01201300, DAT_01201310, DAT_01201320;
 extern FogColorA DAT_01201330, DAT_01201340;
 
 // @fnv 0x00bbba00
-void __stdcall UpdateShaderMatrices(int identity, const ShaderTransform* transform)
+void UpdateShaderMatrices(int identity, const ShaderTransform* transform)
 {
     if (!(*reinterpret_cast<::Lighting30PacketState * *>(&::ConstantMaps::DAT_012010b4))->dirty)
         return;
@@ -2016,7 +2014,7 @@ struct DeviceOwner
     int m58;
     Device* m5c;
 };
-typedef void(__thiscall* RenderDrawFn)(Device*, void*, int, unsigned short, int, void*);
+typedef void(* RenderDrawFn)(Device*, void*, int, unsigned short, int, void*);
 struct FUN_00bbd000_cls
 {
     int m00;
@@ -2089,8 +2087,6 @@ struct ShaderDescriptor
     D3DXMACRO kMacros[9];
 };
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class BSPixelShader
 {
@@ -2840,7 +2836,7 @@ struct ActorOrigin
 };
 // Sets light colors and updates position/alpha entries in DAT_01201c90 using matrix transforms, actor origin, and scale adjustments.
 // @fnv 0x00bbc050
-void __stdcall FUN_00bbc050(LightingSource* source, EffectOp* op, unsigned int type, OtherData* detail, Matrix* matrix,
+void FUN_00bbc050(LightingSource* source, EffectOp* op, unsigned int type, OtherData* detail, Matrix* matrix,
                             int adjustScale, SizeScale* size)
 {
     LocalPoint3 vPoint, v;
@@ -5681,7 +5677,7 @@ struct PlaneTarget
     virtual void s34();
     virtual void s35();
     virtual void s36();
-    virtual void __stdcall SetWaterColorParameter(int i, Plane* p);
+    virtual void SetWaterColorParameter(int i, Plane* p);
 };
 
 struct Shadow
@@ -6034,7 +6030,7 @@ struct S00bbe9c0_VT
     void* vf104;
     void* vf108;
     void* vf10c;
-    float(__thiscall* GetActorValueModifierAmount)(S00bbe9c0_Obj*);
+    float(* GetActorValueModifierAmount)(S00bbe9c0_Obj*);
 };
 struct S00bbe9c0_Obj
 {
@@ -6050,7 +6046,7 @@ __declspec(noinline) float SolColor::ComputeWeightedSum() const
 }
 // Computes ambient, diffuse, specular and emissive coefficients into DAT_01201b60 from lighting, state and render mode, and updates the dim flag.
 // @fnv 0x00bbe9c0
-void __stdcall FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c0_Flags** state,
+void FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c0_Flags** state,
                             unsigned int renderMode)
 {
     (*reinterpret_cast<::fnv_00bbe9c0::S00bbe9c0_Coef *>(&::ConstantMaps::DAT_01201b60)) = (*reinterpret_cast<::fnv_00bbe9c0::S00bbe9c0_Coef *>(&::DAT_011a9be0));

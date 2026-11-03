@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/solver/hksolverallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/solver/hksolverallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cbf1a0_cls.h"
 #include "fnv/decl/SearchObject.h"
 #include "fnv/symbols_00c90000.h"
@@ -46,7 +47,6 @@ bool FUN_00d5e8a0_Class::CanAllocate(int size)
     return size <= m_uiLogicalSize - m_iAllocated;
 }
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 
 extern int DAT_010d1110;
 
@@ -81,7 +81,7 @@ void FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection()
 }
 
 // @fnv 0x00c661c0
-int __stdcall FUN_00c661c0(unsigned int arg0, unsigned int arg1)
+int FUN_00c661c0(unsigned int arg0, unsigned int arg1)
 {
     return (int)arg1;
 }
@@ -103,17 +103,15 @@ void S_00d5e8f0::FUN_00d5e8f0()
 }
 
 // @fnv 0x00d5e880
-int __stdcall FUN_00d5e880(int arg0)
+int FUN_00d5e880(int arg0)
 {
     return 0;
 }
 
 // @fnv 0x00d5e890
-void __stdcall FUN_00d5e890(void* context, unsigned int flags)
+void FUN_00d5e890(void* context, unsigned int flags)
 {}
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs);
 
 struct hkCriticalSectionD5E9
 {
@@ -229,8 +227,8 @@ void hkObjD5E9::InitStream(char* pBuffer, int size)
 }
 
 namespace fnv_00d5e9b0 {
-extern void(__stdcall* DAT_00fdf05c)(void* pvSection);
-extern void(__stdcall* DAT_00fdf100)(void* pvSection);
+extern void(* DAT_00fdf05c)(void* pvSection);
+extern void(* DAT_00fdf100)(void* pvSection);
 
 class hkCriticalSectionD5E9
 {
@@ -532,8 +530,6 @@ class FUN_00d5e900
 FUN_00d5e900::FUN_00d5e900() : m_04(0), m_08(0), m_0C(0), m_10(0), m_14(0), m_pChildAtom(0)
 {}
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct S00d5eb10_Block
 {

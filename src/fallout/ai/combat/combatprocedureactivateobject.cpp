@@ -320,11 +320,11 @@ class C_Ranged
 
 struct FUN_009caac0_shell
 {
-    void __thiscall FUN_009caac0(int arg1);
+    void FUN_009caac0(int arg1);
 };
 
 // @fnv 0x009caac0
-void __thiscall FUN_009caac0_shell::FUN_009caac0(int arg1)
+void FUN_009caac0_shell::FUN_009caac0(int arg1)
 {
     ((int*)this)[3] = arg1;
     ((int*)this)[2] = 1;

@@ -8,11 +8,11 @@
 struct FUN_008526d0_shell
 {
     int m_iWordAt00;
-    int __thiscall SetFromCall(int a, int b, int c, int d);
+    int SetFromCall(int a, int b, int c, int d);
 };
 
 // @fnv 0x008526d0
-int __thiscall FUN_008526d0_shell::SetFromCall(int a, int b, int c, int d)
+int FUN_008526d0_shell::SetFromCall(int a, int b, int c, int d)
 {
     m_iWordAt00 = (int)((void *)(reinterpret_cast<::Win32ReadFile *>(this)->Read((void *)(a), b, c, (unsigned long long *)(d))));
     return m_iWordAt00;
@@ -49,12 +49,12 @@ int S_008785e0::SetAndGetField0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 struct FileSizeInfo
 {
     unsigned int m_eErrorCode;
-    unsigned int __thiscall FUN_0065c290(LARGE_INTEGER& auiSize);
+    unsigned int FUN_0065c290(LARGE_INTEGER& auiSize);
 };
 
 // Stores the result of GetValue into m_eErrorCode and returns it.
 // @fnv 0x0065c290
-unsigned int __thiscall FileSizeInfo::FUN_0065c290(LARGE_INTEGER& auiSize)
+unsigned int FileSizeInfo::FUN_0065c290(LARGE_INTEGER& auiSize)
 {
     m_eErrorCode = reinterpret_cast<::FUN_00aff000_tbl *>(this)->GetValue((unsigned int *)(::_LARGE_INTEGER *)(&auiSize));
     return m_eErrorCode;

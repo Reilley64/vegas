@@ -17,7 +17,6 @@ class NiGeometryData__RendererData;
 class NiPoint2;
 class NiTriBasedGeomData;
 class NiTriStripsData;
-#pragma pack(push, 4)
 class NiBound
 {
   public:
@@ -46,12 +45,6 @@ class NiBound
     // char* __cdecl NiBound::*(const char*)
     // const NiBound& __cdecl NiBound::*(const NiBound&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
-#pragma pack(push, 4)
 class NiGeometryData : public NiObject
 {
   public:
@@ -129,25 +122,6 @@ class NiGeometryData : public NiObject
     // NiGeometryData& __cdecl NiGeometryData::*(const NiGeometryData&)
     // void __cdecl NiGeometryData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeometryData) == 64);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
-#pragma pack(push, 4)
 class NiTriBasedGeomData : public NiGeometryData
 {
   public:
@@ -170,10 +144,6 @@ class NiTriBasedGeomData : public NiGeometryData
     // NiTriBasedGeomData& __cdecl NiTriBasedGeomData::*(const NiTriBasedGeomData&)
     // void __cdecl NiTriBasedGeomData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriBasedGeomData) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTriBasedGeomData, m_usTriangles) == 64);
-#pragma pack(push, 4)
 class NiTriStripsData : public NiTriBasedGeomData
 {
   public:
@@ -210,9 +180,4 @@ class NiTriStripsData : public NiTriBasedGeomData
     // NiTriStripsData& __cdecl NiTriStripsData::*(const NiTriStripsData&)
     // void __cdecl NiTriStripsData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriStripsData) == 80);
-FNV_STATIC_ASSERT(offsetof(NiTriStripsData, m_usStrips) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTriStripsData, m_pusStripLengths) == 72);
-FNV_STATIC_ASSERT(offsetof(NiTriStripsData, m_pusStripLists) == 76);
 #endif

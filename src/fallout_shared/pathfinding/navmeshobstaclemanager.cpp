@@ -352,13 +352,13 @@ struct FUN_00b00ae0_shell
 };
 
 // @fnv 0x006c08e0
-void __fastcall FUN_006c08e0(void* pThis)
+void FUN_006c08e0(void* pThis)
 {
     reinterpret_cast<::FUN_00b00ae0_class *>(&(reinterpret_cast<FUN_00b00ae0_shell&>(::GetTaskletManager())))->FUN_00b00ae0((void **)(pThis));
 }
 
 class BSWin32TaskletManager;
-void __fastcall FUN_00b00bc0(BSWin32TaskletManager*, int, void*);
+void FUN_00b00bc0(BSWin32TaskletManager*, int, void*);
 
 struct Dummy006c09d0
 {
@@ -367,9 +367,9 @@ struct Dummy006c09d0
 typedef void (Dummy006c09d0::*MemFn)(void*);
 
 // @fnv 0x006c09d0
-void __fastcall FUN_006c09d0(void* pThis)
+void FUN_006c09d0(void* pThis)
 {
-    ((void(__thiscall*)(BSWin32TaskletManager*, void*)) & FUN_00b00bc0)(&::GetTaskletManager(), pThis);
+    ((void(*)(BSWin32TaskletManager*, void*)) & FUN_00b00bc0)(&::GetTaskletManager(), pThis);
 }
 
 struct Actor;
@@ -482,7 +482,7 @@ struct FUN_006c0f10_shell : public NavMeshObstacleManager
 };
 
 struct TESObjectDOOR;
-unsigned int __fastcall _FNV_GetFormType(TESBoundObject*);
+unsigned int _FNV_GetFormType(TESBoundObject*);
 
 struct Call_006c0c80
 {
@@ -625,7 +625,7 @@ class FUN_006c02c0 : public GlobalObject_0044fae0
 };
 
 // @fnv 0x006c1170
-void __fastcall FUN_006c1170(char* pThis)
+void FUN_006c1170(char* pThis)
 {
     pThis[0x18] = 1;
 }
@@ -660,7 +660,7 @@ struct Obj3520
 {
     void** vt;
 };
-typedef void*(__thiscall* Fn3520)(Obj3520*);
+typedef void*(* Fn3520)(Obj3520*);
 // @fnv 0x006c3520
 bool ClearStringAndCheck(Obj3520* pObj, BSStringT_char* pString)
 {
@@ -730,7 +730,7 @@ struct FUN_006c4900_shell : public NavMeshObstacleManager
     bool FUN_006c4900();
 };
 
-bool __fastcall _ref_008256d0(void* pThis);
+bool _ref_008256d0(void* pThis);
 
 // Iterates the list at this+0x180, calls FUN_00694500 on each entry's value, then removes all entries and returns true.
 // @fnv 0x006c4900
@@ -751,7 +751,7 @@ extern int DAT_0106c5d8;
 
 // Sets pThis[0] to the address of DAT_0106c5d8 and pThis[1] to 0, then returns pThis.
 // @fnv 0x006c5e40
-int* __fastcall FUN_006c5e40(int* pObject)
+int* FUN_006c5e40(int* pObject)
 {
     pObject[0] = (int)&DAT_0106c5d8;
     pObject[1] = 0;
@@ -761,7 +761,7 @@ int* __fastcall FUN_006c5e40(int* pObject)
 extern int DAT_0106c5d8;
 
 // @fnv 0x006c5e70
-void __fastcall FUN_006c5e70(int** ppObject)
+void FUN_006c5e70(int** ppObject)
 {
     *ppObject = &DAT_0106c5d8;
 }
@@ -826,7 +826,7 @@ struct FUN_006c60a0_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006c60a0
-int* __fastcall FUN_006c60a0(int* self, FUN_006c60a0_arg aArg)
+int* FUN_006c60a0(int* self, FUN_006c60a0_arg aArg)
 {
     reinterpret_cast<::FUN_006c6b10_Class *>((self))->FUN_006c6b10((*(unsigned int *)&(const ::FUN_006c60a0_arg &)(aArg)));
     *self = (int)&DAT_01031fac;
@@ -922,7 +922,7 @@ template <> class BSSimpleArray<NavMeshInfo*, 1024>
 
 // Sets the object's first field to the string "0rl" and calls FUN_006b3eb0(0, false) on the array, returning pThis.
 // @fnv 0x006c6c10
-void* __fastcall FUN_006c6c10(void* pThis)
+void* FUN_006c6c10(void* pThis)
 {
     *reinterpret_cast<const char**>(pThis) = "0rl";
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(pThis)->FUN_006b3eb0(0, false);
@@ -937,7 +937,7 @@ struct GlobalObject_00869f00
 };
 
 // @fnv 0x006c6de0
-void __fastcall FUN_006c6de0(GlobalObject_00869f00* pThis)
+void FUN_006c6de0(GlobalObject_00869f00* pThis)
 {
     *(int**)pThis = &(*reinterpret_cast<int *>((void *)&::s6c7530::DAT_0106c708));
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
@@ -1010,7 +1010,7 @@ struct FUN_006c4540_obj
 };
 // Deletes every object stored in the array at this+0x14c, then clears the containers at this+0x14c and this+0x13c, returning true.
 // @fnv 0x006c4540
-bool __fastcall ClearOwnedObjects(char* this_ptr)
+bool ClearOwnedObjects(char* this_ptr)
 {
     unsigned int icount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(this_ptr + 0x14c))))->GetName()));
     for (unsigned int t = 0; t < icount; t++)
@@ -1033,7 +1033,7 @@ struct FUN_006c4ec0_vt
     virtual void v2();
 };
 // @fnv 0x006c4ec0
-void __fastcall ProcessObstacleTasks(NavMeshObstacleManager* pObstacleManager)
+void ProcessObstacleTasks(NavMeshObstacleManager* pObstacleManager)
 {
     void* taskIt;
     taskIt = ((BGSReconstructFormsInAllFilesMap*)((char*)pObstacleManager + 0x12c))->GetFirstPos();
@@ -1077,7 +1077,7 @@ struct FUN_006c5ef0_arg
     Flt* nav;
 };
 // @fnv 0x006c5ef0
-FUN_006c77a0_cls* __fastcall FUN_006c5ef0(char* this_ptr, FUN_006c5ef0_arg aNavArg)
+FUN_006c77a0_cls* FUN_006c5ef0(char* this_ptr, FUN_006c5ef0_arg aNavArg)
 {
     FUN_006c77a0_cls* ptask = 0;
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)(this_ptr + 0x12c))))->FUN_00853130(*aNavArg.nav, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)ptask)))
@@ -1274,7 +1274,7 @@ struct FUN_006c1c70_shell
 
 struct FUN_006c5ff0_shell
 {
-    void __thiscall FUN_006c5ff0(void* apArg);
+    void FUN_006c5ff0(void* apArg);
 };
 // @fnv 0x006c1c70
 void FUN_006c1c70_shell::FUN_006c1c70(int arg)
@@ -1287,7 +1287,7 @@ void FUN_006c5ff0_shell::FUN_006c5ff0(void* apArg)
 
 struct FUN_006c1c90_shell
 {
-    void __thiscall ForwardToSubObject(void* apArg);
+    void ForwardToSubObject(void* apArg);
 };
 
 // @fnv 0x006c1c90
@@ -1366,20 +1366,20 @@ void FUN_006c1e70_shell::FUN_006c1e70(int a1)
 
 struct ObstacleData_shell
 {
-    void* __thiscall FUN_006c2490(unsigned int flags);
+    void* FUN_006c2490(unsigned int flags);
 };
 
-void __fastcall FUN_006c5e70(int**);
+void FUN_006c5e70(int**);
 void __cdecl operator delete(void*);
 
 struct FUN_006c5e90_shell
 {
-    void* __thiscall FUN_006c5e90(unsigned int flags);
+    void* FUN_006c5e90(unsigned int flags);
 };
 
 // Calls FUN_006c5e70 on this object, deletes it when flags has bit 0 set, and returns this.
 // @fnv 0x006c5e90
-void* __thiscall FUN_006c5e90_shell::FUN_006c5e90(unsigned int flags)
+void* FUN_006c5e90_shell::FUN_006c5e90(unsigned int flags)
 {
     FUN_006c5e70((int**)this);
     if (flags & 1)
@@ -1425,17 +1425,17 @@ void FUN_006c0150_shell::FUN_006c0170()
 namespace fnv_006c1d60 {
 struct ScriptLocalsX
 {
-    void __thiscall FUN_006c1da0(void*);
+    void FUN_006c1da0(void*);
 };
 
 struct FUN_006c1d60_shell
 {
-    void __thiscall FUN_006c1d60(ScriptLocalsX* arg);
+    void FUN_006c1d60(ScriptLocalsX* arg);
 };
 
 // Calls two methods on arg, passing the pointers stored at this+0x120 and this+0x124.
 // @fnv 0x006c1d60
-void __thiscall FUN_006c1d60_shell::FUN_006c1d60(ScriptLocalsX* arg)
+void FUN_006c1d60_shell::FUN_006c1d60(ScriptLocalsX* arg)
 {
     reinterpret_cast<::ScriptLocalsX *>((arg))->FUN_006c1dd0(*(void**)(this + 0x120));
     arg->FUN_006c1da0(*(void**)(this + 0x124));
@@ -1527,7 +1527,7 @@ FUN_006c0210_shell::FUN_006c0210_shell()
     vtbl = &DAT_0106c3d4;
 }
 
-void __fastcall FUN_006c0260(void*);
+void FUN_006c0260(void*);
 struct FUN_006c0230_shell
 {
     void* FUN_006c0230(unsigned int);
@@ -1916,7 +1916,7 @@ struct FUN_006c47e0_shell : public NavMeshObstacleManager
 
 class BSTempEffect;
 struct UList;
-bool __fastcall _ref_008256d0(UList*);
+bool _ref_008256d0(UList*);
 struct GridArray
 {
 };
@@ -1973,7 +1973,7 @@ struct FUN_006c4fb0_shell : public NavMeshObstacleManager
 };
 
 struct UNode;
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 struct GO
 {
     GO(int);
@@ -2317,12 +2317,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_006c45e0_shell : public NavMeshObstacleManager
 {
     void ProcessAddedRefs();
@@ -2876,11 +2874,11 @@ extern int DAT_0106c3c4;
 struct FUN_006c0100_t
 {
     int v;
-    void* __thiscall FUN_006c0100();
+    void* FUN_006c0100();
 };
 
 // @fnv 0x006c0100
-void* __thiscall FUN_006c0100_t::FUN_006c0100()
+void* FUN_006c0100_t::FUN_006c0100()
 {
     v = (int)&DAT_0106c3c4;
     return this;
@@ -2995,8 +2993,8 @@ struct S_006c0900
     void FUN_006c0900();
 };
 
-void __fastcall FUN_006c09f0(void* pThis);
-void __fastcall FUN_006c09d0(void* pThis);
+void FUN_006c09f0(void* pThis);
+void FUN_006c09d0(void* pThis);
 
 // @fnv 0x006c0900
 void S_006c0900::FUN_006c0900()
@@ -3300,7 +3298,7 @@ struct FUN_006c24d0 : FUN_00496910_Base
     ~FUN_006c24d0();
 };
 // @fnv 0x006c2490
-void* __thiscall ObstacleData_shell::FUN_006c2490(unsigned int flags)
+void* ObstacleData_shell::FUN_006c2490(unsigned int flags)
 {
     reinterpret_cast<::FUN_006c24d0 *>((this))->FUN_006c24d0::~FUN_006c24d0();
     if (flags & 1)
@@ -3892,7 +3890,7 @@ struct Map0dc0
     bool GetAt(unsigned int key, RefSP0dc0& val);
 };
 
-unsigned int __fastcall GetFormType0dc0(TESBoundObject* form);
+unsigned int GetFormType0dc0(TESBoundObject* form);
 
 struct ObstMgr0dc0
 {
@@ -6161,7 +6159,7 @@ void FUN_00963d60_shell::FUN_00963d60(int param_2)
 namespace s60 {
 struct Form;
 struct Door;
-int __fastcall FUN_00401170(Form* f);
+int FUN_00401170(Form* f);
 struct Ref
 {
 };

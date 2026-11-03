@@ -1195,7 +1195,7 @@ void F3a0::FUN_0057f3a0()
 
 struct FUN_006e5cc0_Class
 {
-    void __thiscall FUN_006e5cc0(void* a1);
+    void FUN_006e5cc0(void* a1);
 };
 struct FUN_005800e0_shell
 {

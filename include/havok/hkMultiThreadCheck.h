@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKMULTITHREADCHECK_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkMultiThreadCheck
 {
   public:
@@ -23,6 +22,4 @@ class hkMultiThreadCheck
     hkUint16 m_usMarkedForWrite;  // +0x4
     hkUint16 m_usMarkCount;       // +0x6
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkMultiThreadCheck[(sizeof(hkMultiThreadCheck) == 0x8) ? 1 : -1];
 #endif

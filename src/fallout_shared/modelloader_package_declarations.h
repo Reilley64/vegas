@@ -85,17 +85,4 @@ class TESPackage : public TESForm
     bool GetForceUnequipWeapon() const;
 };
 
-typedef char Assert_PackageTime_Size[(sizeof(TESPackage::PackageTime) == 8) ? 1 : -1];
-typedef char Assert_PackageObject_Size[(sizeof(TESPackage::ObjectType) == 4) ? 1 : -1];
-typedef char Assert_PackageLocationData_Size[(sizeof(TESPackage::LocationData) == 0xC) ? 1 : -1];
-typedef char Assert_PackageTargetData_Size[(sizeof(TESPackage::TargetData) == 0x10) ? 1 : -1];
-typedef char Assert_PackageAction_Size[(sizeof(TESPackage::PackageAction) == 0x10) ? 1 : -1];
-typedef char Assert_Package_Size[(sizeof(TESPackage) == 0x80) ? 1 : -1];
-typedef char Assert_Package_Flags[(offsetof(TESPackage, packageFlags) == 0x1C) ? 1 : -1];
-typedef char Assert_Package_Data[(offsetof(TESPackage, packageData) == 0x28) ? 1 : -1];
-typedef char Assert_Package_Time[(offsetof(TESPackage, time) == 0x38) ? 1 : -1];
-typedef char Assert_Package_Begin[(offsetof(TESPackage, onBeginAction) == 0x4C) ? 1 : -1];
-typedef char Assert_Package_End[(offsetof(TESPackage, onEndAction) == 0x5C) ? 1 : -1];
-typedef char Assert_Package_Change[(offsetof(TESPackage, onChangeAction) == 0x6C) ? 1 : -1];
-typedef char Assert_Package_Last[(offsetof(TESPackage, unk07C) == 0x7C) ? 1 : -1];
 #endif

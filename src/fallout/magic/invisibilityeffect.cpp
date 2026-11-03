@@ -307,10 +307,10 @@ struct Actor
 };
 struct InvisibilityEffect
 {
-    void __thiscall ApplyInvisibility(Actor* actor);
+    void ApplyInvisibility(Actor* actor);
 };
 // @fnv 0x0080e540
-void __thiscall InvisibilityEffect::ApplyInvisibility(Actor* actor)
+void InvisibilityEffect::ApplyInvisibility(Actor* actor)
 {
     reinterpret_cast<::LoadedValueEffect *>(this)->FUN_0082cd10(actor);
     if (FUN_005b9b00() && actor == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -62,7 +63,7 @@ void hkpPhantomDisplayViewer::FUN_00d66250(void* arg)
             void* item = *(void**)(*(int*)((char*)arg + 0x110) + i * 4);
             void* vt = *(void**)base;
             void* fn = *(void**)((char*)vt + 8);
-            ((void(__thiscall*)(void*, void*))fn)(base, item);
+            ((void(*)(void*, void*))fn)(base, item);
             ++i;
         } while (i < *(int*)((char*)arg + 0x114));
     }
@@ -109,7 +110,7 @@ void FUN_00d662c0_stub::AttachToIsland(void* pIsland)
         {
             void* item = ((void**)edi->m_items_110)[i];
             void* pVtable = *(void**)base;
-            ((void(__thiscall*)(void*, void*)) * (void**)((char*)pVtable + 4))(base, item);
+            ((void(*)(void*, void*)) * (void**)((char*)pVtable + 4))(base, item);
             ++i;
         } while (i < edi->m_count_114);
     }
@@ -139,11 +140,11 @@ struct FUN_00d663f0_Class
     void* m_unknown1;
     FUN_00d663f0_Array m_ppData;
 
-    void __thiscall AppendInt(int value);
+    void AppendInt(int value);
 };
 
 // @fnv 0x00d663f0
-void __thiscall FUN_00d663f0_Class::AppendInt(int value)
+void FUN_00d663f0_Class::AppendInt(int value)
 {
     FUN_00d663f0_Array& array = m_ppData;
     FUN_00d663f0_MemoryRouter* router = static_cast<FUN_00d663f0_MemoryRouter*>(_D1A0E0GetMemoryRouter());
@@ -724,7 +725,6 @@ inline void* operator new(unsigned int, void* p)
     return p;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" const char str_010d1c38[];
 struct MonitorCommand
 {

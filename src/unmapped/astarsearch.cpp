@@ -19,11 +19,11 @@ void FUN_006a7d30_shell::FUN_006a7d30(float afValue)
 struct CombatTargetTimestamp
 {
     float fTime;
-    float __thiscall FUN_006a7f50() const;
+    float FUN_006a7f50() const;
 };
 
 // @fnv 0x006a7f50
-float __thiscall CombatTargetTimestamp::FUN_006a7f50() const
+float CombatTargetTimestamp::FUN_006a7f50() const
 {
     return fTime;
 }

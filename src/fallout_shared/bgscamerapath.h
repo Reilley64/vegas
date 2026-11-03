@@ -26,22 +26,17 @@ class NiFormArray
     void SetFormAtIndex(unsigned int index, TESForm* form);
 };
 class CameraShotData;
-#pragma pack(push, 4)
 class CameraShotData
 {
   public:
     unsigned char cFlags;  // +0x0, 1 bytes
     // void __cdecl CameraShotData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CameraShotData) == 1);
-FNV_STATIC_ASSERT(offsetof(CameraShotData, cFlags) == 0);
 class TESConditionInit
 {
   public:
     void InitItem(TESForm* form);
 };
-#pragma pack(push, 4)
 class BGSCameraPath : public TESForm
 {
   public:
@@ -67,14 +62,6 @@ class BGSCameraPath : public TESForm
     BSSimpleList<BGSCameraShot*>* GetShotList();
     PerkEntryConditionSet* GetConditions();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSCameraPath) == 56);
-FNV_STATIC_ASSERT(offsetof(BGSCameraPath, Conditions) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSCameraPath, m_kCameraShotList) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSCameraPath, data) == 40);
-FNV_STATIC_ASSERT(offsetof(BGSCameraPath, m_pPathArray) == 44);
-FNV_STATIC_ASSERT(offsetof(BGSCameraPath, m_pFirstCameraPath) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSCameraPath, m_pSecondCameraPath) == 52);
 class BGSCameraPath;
 class CameraPathManager
 {

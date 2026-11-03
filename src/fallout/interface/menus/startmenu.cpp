@@ -1,5 +1,6 @@
 // fallout/interface/menus/startmenu.cpp: StartMenu, BGSSaveLoadUI, StartMenu_Wrap, ListBox_Option and more (184 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
@@ -346,10 +347,10 @@ char* FUN_0075f8c0_shell::FUN_0075f8c0()
     return *(char**)((char*)this + 0xc);
 }
 
-void __fastcall FUN_007d6f80(void* pThis);
+void FUN_007d6f80(void* pThis);
 
 // @fnv 0x007cb560
-void __fastcall FUN_007cb560(void* pThis)
+void FUN_007cb560(void* pThis)
 {
     FUN_007d6f80(pThis);
 }
@@ -415,7 +416,7 @@ struct ListBox_int_
     bool ContainsKey(Tile*);
 };
 
-void __fastcall UpdateTargetInfo(StartMenu*);
+void UpdateTargetInfo(StartMenu*);
 
 // @fnv 0x007cf8e0
 void FUN_007cf8e0_shell::FUN_007cf8e0(int aiID, Tile* apTarget)
@@ -1169,14 +1170,14 @@ struct SM7d6
 };
 void HandleBackAction();
 // @fnv 0x007d6950
-int __fastcall FUN_007d6950(BGSSaveLoadFileEntry* pThis)
+int FUN_007d6950(BGSSaveLoadFileEntry* pThis)
 {
     pThis->ReadTypedData();
     return *(int*)((char*)pThis + 8);
 }
 
 // @fnv 0x007d6970
-int __fastcall FUN_007d6970(BGSSaveLoadFileEntry* pThis)
+int FUN_007d6970(BGSSaveLoadFileEntry* pThis)
 {
     pThis->ReadTypedData();
     return *(int*)((char*)pThis + 0x14);
@@ -1213,7 +1214,7 @@ struct Dummy7d6e90
 }
 
 // @fnv 0x007d6e90
-int __fastcall CallVirtualZero(Dummy7d6e90* pObject)
+int CallVirtualZero(Dummy7d6e90* pObject)
 {
     return pObject->v5(0, 0);
 }
@@ -1226,7 +1227,7 @@ class Tile
 };
 
 // @fnv 0x007d88a0
-bool __fastcall FUN_007d88a0(void* pThis)
+bool FUN_007d88a0(void* pThis)
 {
     static int s_trait = ::FUN_00a00940("_enabled", -1);
     return *((Tile**)pThis + 3) && reinterpret_cast<::FUN_00a01230_shell *>(((*((Tile**)pThis + 3))))->IsTraitNonZero(s_trait);
@@ -1519,7 +1520,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_007d51a0_shell : public StartMenu
 {
     bool FUN_007d51a0(BGSSaveLoadFileEntry*);
@@ -1624,7 +1624,7 @@ void FUN_00704000()
     ::fnv_007aa530::CleanupGlobalObject();
 }
 
-void __fastcall FUN_007cb560(void* p);
+void FUN_007cb560(void* p);
 
 struct FUN_007cb580_Class
 {
@@ -2838,7 +2838,6 @@ unsigned int ListBox_Option::FUN_007d9ee0()
 }  // namespace fnv_007d9ee0
 
 struct HWND__;
-extern "C" __declspec(dllimport) HWND__* __stdcall GetForegroundWindow();
 struct DIGUID
 {
     unsigned long Data1;
@@ -2849,28 +2848,28 @@ struct DIGUID
 struct DIDATAFORMAT;
 struct IDirectInputDevice8A
 {
-    virtual long __stdcall QueryInterface(const DIGUID& riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall GetCapabilities(void* lpDIDevCaps) = 0;
-    virtual long __stdcall EnumObjects(void* lpCallback, void* pvRef, unsigned long dwFlags) = 0;
-    virtual long __stdcall GetProperty(const DIGUID& rguidProp, void* pdiph) = 0;
-    virtual long __stdcall SetProperty(const DIGUID& rguidProp, const void* pdiph) = 0;
-    virtual long __stdcall Acquire() = 0;
-    virtual long __stdcall Unacquire() = 0;
-    virtual long __stdcall GetDeviceState(unsigned long cbData, void* lpvData) = 0;
-    virtual long __stdcall GetDeviceData(unsigned long cbObjectData, void* rgdod, unsigned long* pdwInOut,
+    virtual long QueryInterface(const DIGUID& riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long GetCapabilities(void* lpDIDevCaps) = 0;
+    virtual long EnumObjects(void* lpCallback, void* pvRef, unsigned long dwFlags) = 0;
+    virtual long GetProperty(const DIGUID& rguidProp, void* pdiph) = 0;
+    virtual long SetProperty(const DIGUID& rguidProp, const void* pdiph) = 0;
+    virtual long Acquire() = 0;
+    virtual long Unacquire() = 0;
+    virtual long GetDeviceState(unsigned long cbData, void* lpvData) = 0;
+    virtual long GetDeviceData(unsigned long cbObjectData, void* rgdod, unsigned long* pdwInOut,
                                          unsigned long dwFlags) = 0;
-    virtual long __stdcall SetDataFormat(const DIDATAFORMAT* lpdf) = 0;
-    virtual long __stdcall SetEventNotification(void* hEvent) = 0;
-    virtual long __stdcall SetCooperativeLevel(HWND__* hwnd, unsigned long dwFlags) = 0;
+    virtual long SetDataFormat(const DIDATAFORMAT* lpdf) = 0;
+    virtual long SetEventNotification(void* hEvent) = 0;
+    virtual long SetCooperativeLevel(HWND__* hwnd, unsigned long dwFlags) = 0;
 };
 struct IDirectInput8A
 {
-    virtual long __stdcall QueryInterface(const DIGUID& riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall CreateDevice(const DIGUID& rguid, IDirectInputDevice8A** lplpDirectInputDevice,
+    virtual long QueryInterface(const DIGUID& riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long CreateDevice(const DIGUID& rguid, IDirectInputDevice8A** lplpDirectInputDevice,
                                         void* pUnkOuter) = 0;
 };
 struct MouseInputStandIn
@@ -2893,12 +2892,12 @@ void MouseInputStandIn::RecreateDevice(bool abNonExclusive)
         *(IDirectInputDevice8A**)((char*)this + 0x30) = pDevice;
         if (abNonExclusive)
         {
-            hr = (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetCooperativeLevel(GetForegroundWindow(), 2 | 4);
+            hr = (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetCooperativeLevel(GetActiveWindow(), 2 | 4);
             *(unsigned int*)((char*)this + 4) |= 8;
         }
         else
         {
-            hr = (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetCooperativeLevel(GetForegroundWindow(), 1 | 4);
+            hr = (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetCooperativeLevel(GetActiveWindow(), 1 | 4);
             *(unsigned int*)((char*)this + 4) &= ~8;
         }
         switch (hr)
@@ -3140,11 +3139,11 @@ void FUN_007ce690_cls::InitPointer()
 
 struct FUN_007d1240_Class
 {
-    void __thiscall FUN_007d1240(int value);
+    void FUN_007d1240(int value);
 };
 
 // @fnv 0x007d1240
-void __thiscall FUN_007d1240_Class::FUN_007d1240(int value)
+void FUN_007d1240_Class::FUN_007d1240(int value)
 {
     *(int*)((char*)this + 0x7b8) = value;
 }
@@ -3165,11 +3164,11 @@ struct FUN_007d5120_Class
 {
     unsigned int a;
     unsigned int b;
-    void __thiscall FUN_007d5120();
+    void FUN_007d5120();
 };
 
 // @fnv 0x007d5120
-void __thiscall FUN_007d5120_Class::FUN_007d5120()
+void FUN_007d5120_Class::FUN_007d5120()
 {
     a = ((unsigned int)(::FUN_00457fe0()));
     b = 0;
@@ -3201,13 +3200,13 @@ extern "C" void __cdecl _ref_008256d0();
 struct FUN_007d6e70_class
 {
     char pad[4];
-    void __thiscall CallOnMemberAtOffset4();
+    void CallOnMemberAtOffset4();
 };
 
 // @fnv 0x007d6e70
-void __thiscall FUN_007d6e70_class::CallOnMemberAtOffset4()
+void FUN_007d6e70_class::CallOnMemberAtOffset4()
 {
-    ((void(__thiscall*)(void*))_ref_008256d0)((char*)this + 4);
+    ((void(*)(void*))_ref_008256d0)((char*)this + 4);
 }
 
 struct WeatherEntry;
@@ -5247,7 +5246,7 @@ bool C7D1360Actor::FUN_007d1360()
 
 struct FUN_007d1400_Class
 {
-    void __thiscall FUN_007d1400(int);
+    void FUN_007d1400(int);
 };
 
 // Calls FUN_00969e90 with the given argument and 0 when the argument is 0 or 1.
@@ -5459,7 +5458,7 @@ struct ChainB
 struct ChainA
 {
 };
-ChainA* __stdcall FUN_00af2640(void*);
+ChainA* FUN_00af2640(void*);
 struct SaveUI
 {
 };
@@ -5527,7 +5526,7 @@ struct TargetSM
     void FUN_007ce9b0(int, TileX*);
 };
 
-void __fastcall UpdateTargetInfo(TargetSM*);
+void UpdateTargetInfo(TargetSM*);
 
 // @fnv 0x007ce9b0
 void TargetSM::FUN_007ce9b0(int reason, TileX* tile)
@@ -5793,7 +5792,7 @@ struct FUN_005dfa10_cls
 struct FUN_00af2640_cls
 {
 };
-FUN_00af2640_cls* __stdcall FUN_00af2640(int a, void (*pfn)());
+FUN_00af2640_cls* FUN_00af2640(int a, void (*pfn)());
 
 extern unsigned int DAT_011dac60;
 
@@ -7117,7 +7116,6 @@ extern int __cdecl FUN_0072fa60(int);
 
 
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 struct InputDevice_7d
 {
@@ -7773,12 +7771,12 @@ struct FUN_007d8fe0_shell
 
 struct FUN_007d7b50_shell
 {
-    void __thiscall ForEachEntry(unsigned char arg);
+    void ForEachEntry(unsigned char arg);
 };
 
 // Iterates the list at this+4 and calls FUN_007d8fe0 with each entry's f0 when arg is 0 or the entry's b8 is 0.
 // @fnv 0x007d7b50
-void __thiscall FUN_007d7b50_shell::ForEachEntry(unsigned char arg)
+void FUN_007d7b50_shell::ForEachEntry(unsigned char arg)
 {
     Iter* it = this ? (Iter*)((char*)this + 4) : 0;
     for (; it != 0 && ((::fnv_007d7b50::Ctx *)(new ((void *)(it)) ::Vec3()))->f0 != 0; it = ((::fnv_007d7b50::Iter *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
@@ -7790,7 +7788,7 @@ void __thiscall FUN_007d7b50_shell::ForEachEntry(unsigned char arg)
 }  // namespace fnv_007d7b50
 
 // 0x0084ff30 CreateScriptMessageDirectory (claim clm_c35ffe5e4677479fb2aa)
-// BOOL __thiscall(void* this, char* lpPathName): builds path in caller buffer and creates it.
+// BOOL (void* this, char* lpPathName): builds path in caller buffer and creates it.
 // v1 = v0 with extern "C" __declspec(dllimport) CreateDirectoryA (fix ff15 import call form).
 
 struct FUN_0084ff30_shell
@@ -7800,7 +7798,6 @@ struct FUN_0084ff30_shell
 
 int __cdecl strcat_s(char* Destination, unsigned int SizeInBytes, const char* Source);
 struct GlobalObject2_0045cfe0;
-extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(const char* lpPathName, void* lpSecurityAttributes);
 
 // Builds a path from FUN_004dc110 and a prepared script message, then calls CreateDirectoryA on it and returns the result.
 // @fnv 0x0084ff30
@@ -8418,7 +8415,7 @@ struct BSStrHelper7d5
     operator const char*() const;
 };
 // @fnv 0x007d5280
-const char* __fastcall FUN_007d5280(void* p)
+const char* FUN_007d5280(void* p)
 {
     return *(BSStrHelper7d5*)((char*)p + 0x40);
 }
@@ -8710,9 +8707,6 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
 }  // namespace fnv_007cbaf0
 
 struct _WIN32_FIND_DATAA;
-extern "C" __declspec(dllimport) void* __stdcall FindFirstFileA(const char*, _WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindNextFileA(void*, _WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindClose(void*);
 
 struct SaveEnumerationTime
 {

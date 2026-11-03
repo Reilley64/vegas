@@ -143,13 +143,13 @@ struct FUN_00b40070_Class
     float unk44;
     int unk48;
 
-    FUN_00b40070_Class* __thiscall FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
+    FUN_00b40070_Class* FUN_00b40070(NiPoint3* position, unsigned char value18, unsigned char value10,
                                                 float value, int result);
 };
 
 // Calls FUN_00b3f030, sets unk00 to &DAT_010a58fc, stores value10, value18, value and result, zeroes three points, and copies position into unk04.
 // @fnv 0x00b40070
-FUN_00b40070_Class* __thiscall FUN_00b40070_Class::FUN_00b40070(NiPoint3* position, unsigned char value18,
+FUN_00b40070_Class* FUN_00b40070_Class::FUN_00b40070(NiPoint3* position, unsigned char value18,
                                                                 unsigned char value10, float value, int result)
 {
     FUN_00b40070_Point* firstPointA;

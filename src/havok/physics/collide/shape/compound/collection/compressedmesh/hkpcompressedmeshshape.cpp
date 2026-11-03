@@ -42,7 +42,7 @@ struct FUN_00e3deb0_Class
     unsigned int m_reserved;
     unsigned short m_uiSize;
 
-    void* __thiscall FUN_00e3deb0(unsigned int uiFlags);
+    void* FUN_00e3deb0(unsigned int uiFlags);
 };
 
 struct FUN_00e3deb0_MemoryManager
@@ -51,9 +51,9 @@ struct FUN_00e3deb0_MemoryManager
 // @fnv 0x00e3deb0
     virtual ~FUN_00e3deb0_MemoryManager()
     {}
-    virtual void __thiscall Unused()
+    virtual void Unused()
     {}
-    virtual void __thiscall Free(void* pMemory, unsigned int uiSize)
+    virtual void Free(void* pMemory, unsigned int uiSize)
     {}
 };
 
@@ -66,7 +66,7 @@ struct FUN_00e3deb0_Router
 void __cdecl FUN_00e3dc50();
 FUN_00e3deb0_Router* __cdecl _D1A0E0GetMemoryRouter();
 
-void* __thiscall FUN_00e3deb0_Class::FUN_00e3deb0(unsigned int uiFlags)
+void* FUN_00e3deb0_Class::FUN_00e3deb0(unsigned int uiFlags)
 {
     FUN_00e3deb0_Class* pShape = this;
 
@@ -82,7 +82,7 @@ void* __thiscall FUN_00e3deb0_Class::FUN_00e3deb0(unsigned int uiFlags)
 }
 
 // @fnv 0x00e3c9d0
-__declspec(noinline) unsigned int __stdcall FUN_00e3c9d0(unsigned int a1, unsigned int a2)
+__declspec(noinline) unsigned int FUN_00e3c9d0(unsigned int a1, unsigned int a2)
 {
     return 0xF0;
 }
@@ -107,7 +107,7 @@ int __cdecl FUN_00e3c9c0(int first, int unusedSecond)
 }
 
 // @fnv 0x00e3ca00
-int __stdcall FUN_00e3ca00(int arg0)
+int FUN_00e3ca00(int arg0)
 {
     return 0;
 }
@@ -328,12 +328,12 @@ struct FUN_00e3d060_Owner
     unsigned int unk70;
     unsigned int unk74;
     unsigned int m_pSubAttributeData;
-    void __thiscall SetAttribute(unsigned long instanceMask, unsigned short attributeValue);
+    void SetAttribute(unsigned long instanceMask, unsigned short attributeValue);
 };
 
 // Writes attributeValue to the attribute table or sub-attribute data based on instanceMask and m_uiShiftCount.
 // @fnv 0x00e3d060
-void __thiscall FUN_00e3d060_Owner::SetAttribute(unsigned long instanceMask, unsigned short attributeValue)
+void FUN_00e3d060_Owner::SetAttribute(unsigned long instanceMask, unsigned short attributeValue)
 {
     unsigned int shiftResult = instanceMask >> m_uiShiftCount;
 
@@ -1653,12 +1653,12 @@ struct FUN_00e3dae0_Class
     float unkE8;
     float unkEC;
 
-    FUN_00e3dae0_Class* __thiscall FUN_00e3dae0(float value);
+    FUN_00e3dae0_Class* FUN_00e3dae0(float value);
 };
 
 // Initializes the object with a float value, sets default state fields, and returns this.
 // @fnv 0x00e3dae0
-FUN_00e3dae0_Class* __thiscall FUN_00e3dae0_Class::FUN_00e3dae0(float value)
+FUN_00e3dae0_Class* FUN_00e3dae0_Class::FUN_00e3dae0(float value)
 {
     new ((void *)(reinterpret_cast<FUN_00d21410_Obj*>(this))) class ::FUN_00d21410(0x10, 6);
 

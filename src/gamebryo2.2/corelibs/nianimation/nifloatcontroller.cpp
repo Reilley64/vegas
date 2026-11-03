@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00a6d730_shell.h"
 #include "fnv/decl/NiTimeControllerCM.h"
@@ -92,8 +93,6 @@ void StandIn00a57a40::FUN_00a57a40(CloningProcess& kCloning)
         pData->ProcessClone(kCloning);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FakeObj543
 {
     virtual void F00();
@@ -263,17 +262,15 @@ struct FakeController
 {
     char _pad[0x38];
     void* m_pData;
-    void __thiscall FUN_00a57b00(NiStream&);
+    void FUN_00a57b00(NiStream&);
 };
 // @fnv 0x00a57b00
-void __thiscall FakeController::FUN_00a57b00(NiStream& stream)
+void FakeController::FUN_00a57b00(NiStream& stream)
 {
     reinterpret_cast<::FUN_00a6d730_shell *>((((BaseHack*)this)))->FUN_00a6d730((::Stream_a6d730 &)(stream));
     ((StreamHack*)&stream)->SaveLink(m_pData);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct MyInterp
 {
     virtual void f00();
@@ -325,8 +322,6 @@ void CloneableObj::CopyInterpTo(CloneableObj* pkDest, void* pkProc)
 
 // Destructor: release the held reference explicitly, then let the member and base destructors run.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
 
 class A57990RefObject
 {

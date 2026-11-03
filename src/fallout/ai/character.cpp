@@ -129,7 +129,7 @@
 #include "character_decls.h"
 
 // @fnv 0x008d1e70
-bool __fastcall Character_GetTrespassing(Character* self)
+bool Character_GetTrespassing(Character* self)
 {
     return self->m_bTrespassing;
 }
@@ -220,7 +220,7 @@ void Character::LoadGame(BGSLoadFormBuffer* buffer)
 }
 
 // @fnv 0x008d1e90
-void __fastcall FUN_008d1e90(Character* this_ptr, float value)
+void FUN_008d1e90(Character* this_ptr, float value)
 {
     *(float*)((char*)this_ptr + 0x1c4) = value;
 }
@@ -420,7 +420,6 @@ struct MusicMarkerReference
     TESObjectREFR* m_pMarkerReference;
     MediaLocation* m_pAudioMarkerData;
 };
-typedef char _sizecheck_AudioMarkerInfo[sizeof(MusicMarkerReference) == 8 ? 1 : -1];
 struct FUN_009698a0_shell : public PlayerCharacter
 {
     MediaLocationController* GetMediaLocationController();
@@ -1756,12 +1755,12 @@ struct FUN_008ac850_owner
     virtual void* f0265();
     virtual FUN_008ac850_object* f0266();
 
-    void __thiscall FUN_008ac850(void* value);
+    void FUN_008ac850(void* value);
 };
 
 // Retrieves the object via f0266 and, if non-null, forwards value to its SetWaterForm method.
 // @fnv 0x008ac850
-void __thiscall FUN_008ac850_owner::FUN_008ac850(void* value)
+void FUN_008ac850_owner::FUN_008ac850(void* value)
 {
     FUN_008ac850_object* object = f0266();
     if (object != 0)

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPSERIALIZEDDISPLAYRBTRANSFORMSDISPLAYTRANSFORMPAIR_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpSerializedDisplayRbTransformsDisplayTransformPair
 {
   public:
@@ -12,7 +11,4 @@ class hkpSerializedDisplayRbTransformsDisplayTransformPair
     char pad4[0xC];
     hkTransform m_kTransform;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSerializedDisplayRbTransformsDisplayTransformPair
-    [(sizeof(hkpSerializedDisplayRbTransformsDisplayTransformPair) == 0x50) ? 1 : -1];
 #endif

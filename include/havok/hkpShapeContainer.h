@@ -3,12 +3,9 @@
 #ifndef FNV_HAVOK_HKPSHAPECONTAINER_H
 #define FNV_HAVOK_HKPSHAPECONTAINER_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpShapeContainer
 {
   public:
     char pad0[0x4];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpShapeContainer[(sizeof(hkpShapeContainer) == 0x4) ? 1 : -1];
 #endif

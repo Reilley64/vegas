@@ -32,26 +32,26 @@ struct FUN_00688590_shell
 };
 struct BSDismemberSkinInstance
 {
-    void* __thiscall FUN_006885e0(unsigned int);
-    void __thiscall FUN_00688610();
+    void* FUN_006885e0(unsigned int);
+    void FUN_00688610();
 };
 struct FUN_00685e60_shell
 {
-    void __thiscall FUN_00685e60(unsigned int, unsigned int);
+    void FUN_00685e60(unsigned int, unsigned int);
 };
 struct NiSkinInstance
 {
-    void __thiscall FUN_00a85580();
-    void* __thiscall FUN_006885a0(unsigned int flags);
+    void FUN_00a85580();
+    void* FUN_006885a0(unsigned int flags);
 };
 
 extern "C" void __cdecl _Call_a5d3a0();
 struct FUN_00a81f90_class
 {
-    void* __thiscall FUN_00a81f90();
+    void* FUN_00a81f90();
 };
 // @fnv 0x00a81f90
-void* __thiscall FUN_00a81f90_class::FUN_00a81f90()
+void* FUN_00a81f90_class::FUN_00a81f90()
 {
     _Call_a5d3a0();
     *(int*)this = (int)&DAT_0109e47c;

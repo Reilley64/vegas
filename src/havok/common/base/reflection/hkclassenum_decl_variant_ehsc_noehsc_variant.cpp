@@ -20,7 +20,7 @@ struct hkCustomAttributes
 };
 struct FUN_00db76a0_Class
 {
-    void* __thiscall GetAttribute(void* arg);
+    void* GetAttribute(void* arg);
 };
 struct FUN_00db7860
 {

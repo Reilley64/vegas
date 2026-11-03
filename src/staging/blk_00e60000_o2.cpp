@@ -2,6 +2,7 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AlphaList.h"
@@ -93,7 +94,7 @@ void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00e7d230_cls
 {
-    FUN_00e7d230_cls* __thiscall DestroyIfFlagged(int);
+    FUN_00e7d230_cls* DestroyIfFlagged(int);
 };
 
 struct MM
@@ -104,11 +105,11 @@ void __cdecl DestroyArrayElements(void*);
 
 struct FUN_00e7f790_Class
 {
-    void __thiscall DestroyList();
+    void DestroyList();
 };
 
 // @fnv 0x00e7f790
-void __thiscall FUN_00e7f790_Class::DestroyList()
+void FUN_00e7f790_Class::DestroyList()
 {
     DestroyArrayElements(*(void**)this);
     void* next = *(void**)((char*)this + 8);
@@ -140,12 +141,12 @@ int __cdecl FUN_00e60c70(int a)
 
 struct FUN_00e67fd0_cls
 {
-    void __thiscall ClearEntries();
+    void ClearEntries();
 };
 
 // Zeroes the first int of each of two arrays of entries, using the counts at offsets 0x10 and 8 and strides 0x50 and 0x40.
 // @fnv 0x00e67fd0
-void __thiscall FUN_00e67fd0_cls::ClearEntries()
+void FUN_00e67fd0_cls::ClearEntries()
 {
     int count = 0;
     if (count < *(int*)((char*)this + 0x10))
@@ -167,10 +168,10 @@ void __thiscall FUN_00e67fd0_cls::ClearEntries()
     }
 }
 
-typedef void*(__stdcall* DepthDevice)(unsigned int);
-typedef int(__stdcall* CreateExFn)(unsigned int, DepthDevice**);
-extern void*(__stdcall* DAT_00fdf0ac)(void*, const char*);
-extern void*(__stdcall* DAT_00fdf0b0)(const char*);
+typedef void*(* DepthDevice)(unsigned int);
+typedef int(* CreateExFn)(unsigned int, DepthDevice**);
+extern void*(* DAT_00fdf0ac)(void*, const char*);
+extern void*(* DAT_00fdf0b0)(const char*);
 
 // Loads D3D9.DLL and resolves Direct3DCreate9Ex and Direct3DCreate9, returning 1 if the Direct3DCreate9 pointer is available.
 // @fnv 0x00e69410
@@ -181,7 +182,7 @@ unsigned char __cdecl InitD3D9CreateFunctions()
     DAT_0126f0d4 = DAT_00fdf0b0("D3D9.DLL");
     if (DAT_0126f0d4)
     {
-        void*(__stdcall * pfnGetProcAddress)(void*, const char*) = DAT_00fdf0ac;
+        void*(* pfnGetProcAddress)(void*, const char*) = DAT_00fdf0ac;
         DAT_0126f0e0 = (CreateExFn)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9Ex");
         ::g_0126f0dc = (DepthDevice)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9");
         if (::g_0126f0dc)
@@ -199,11 +200,11 @@ struct FUN_00e7b200_Class
 {
     int vtbl;
     int m_p;
-    FUN_00e7b200_Class* __thiscall FUN_00e7b200(int);
+    FUN_00e7b200_Class* FUN_00e7b200(int);
 };
 // Sets the vtable, frees m_p with NiFree, and if bit 0 of a is set deallocates this via the memory manager; returns this.
 // @fnv 0x00e7b200
-FUN_00e7b200_Class* __thiscall FUN_00e7b200_Class::FUN_00e7b200(int aiFlags)
+FUN_00e7b200_Class* FUN_00e7b200_Class::FUN_00e7b200(int aiFlags)
 {
     vtbl = (int)&DAT_010eec74;
     NiFree((void*)m_p);
@@ -223,14 +224,14 @@ struct FUN_00e7d490_Class
     void* _18;
     void* _1c;
     void* _20;
-    void __thiscall FUN_00e7d490();
+    void FUN_00e7d490();
 };
 // @fnv 0x00e7d490
-void __thiscall FUN_00e7d490_Class::FUN_00e7d490()
+void FUN_00e7d490_Class::FUN_00e7d490()
 {
     if (_14)
     {
-        ((void(__stdcall*)(void*))(*(void***)_14)[2])(_14);
+        ((void(*)(void*))(*(void***)_14)[2])(_14);
         _14 = 0;
     }
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(_0c);
@@ -238,14 +239,14 @@ void __thiscall FUN_00e7d490_Class::FUN_00e7d490()
     _0c = 0;
     if (tmp)
     {
-        ((void(__stdcall*)(void*))(*(void***)tmp)[2])(tmp);
+        ((void(*)(void*))(*(void***)tmp)[2])(tmp);
         _20 = 0;
     }
 }
 
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
+    void* Allocate(unsigned int);
 };
 struct StagePool
 {
@@ -290,11 +291,11 @@ struct FUN_00e7efc0_List
     int _z;
     int count;
     FUN_00e7efc0_Node* head;
-    FUN_00e7efc0_Node* __thiscall FUN_00e7efc0(FUN_00e7efc0_Node* node);
+    FUN_00e7efc0_Node* FUN_00e7efc0(FUN_00e7efc0_Node* node);
 };
 // Unlinks node from the doubly linked list, fixes neighbours and head, decrements count, clears node's links and returns it.
 // @fnv 0x00e7efc0
-FUN_00e7efc0_Node* __thiscall FUN_00e7efc0_List::FUN_00e7efc0(FUN_00e7efc0_Node* node)
+FUN_00e7efc0_Node* FUN_00e7efc0_List::FUN_00e7efc0(FUN_00e7efc0_Node* node)
 {
     FUN_00e7efc0_Node* prev = node->prev;
     FUN_00e7efc0_Node* next = node->next;
@@ -313,7 +314,7 @@ FUN_00e7efc0_Node* __thiscall FUN_00e7efc0_List::FUN_00e7efc0(FUN_00e7efc0_Node*
 namespace fnv_00e7f2b0 {
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
+    void* Allocate(unsigned int);
 };
 struct D3DRenderStateGroup
 {
@@ -406,39 +407,39 @@ struct DX9VolumeDesc_00e68530
 
 struct DX9BaseTexture_00e68530
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall GetDevice(void** ppDevice) = 0;
-    virtual long __stdcall SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
+    virtual long QueryInterface(const void* riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long GetDevice(void** ppDevice) = 0;
+    virtual long SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
                                           unsigned long Flags) = 0;
-    virtual long __stdcall GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData) = 0;
-    virtual long __stdcall FreePrivateData(const void* refguid) = 0;
-    virtual unsigned long __stdcall SetPriority(unsigned long PriorityNew) = 0;
-    virtual unsigned long __stdcall GetPriority() = 0;
-    virtual void __stdcall PreLoad() = 0;
-    virtual DX9ResourceType_00e68530 __stdcall GetType() = 0;
-    virtual unsigned long __stdcall SetLOD(unsigned long LODNew) = 0;
-    virtual unsigned long __stdcall GetLOD() = 0;
-    virtual unsigned long __stdcall GetLevelCount() = 0;
-    virtual long __stdcall SetAutoGenFilterType(int FilterType) = 0;
-    virtual int __stdcall GetAutoGenFilterType() = 0;
-    virtual void __stdcall GenerateMipSubLevels() = 0;
+    virtual long GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData) = 0;
+    virtual long FreePrivateData(const void* refguid) = 0;
+    virtual unsigned long SetPriority(unsigned long PriorityNew) = 0;
+    virtual unsigned long GetPriority() = 0;
+    virtual void PreLoad() = 0;
+    virtual DX9ResourceType_00e68530 GetType() = 0;
+    virtual unsigned long SetLOD(unsigned long LODNew) = 0;
+    virtual unsigned long GetLOD() = 0;
+    virtual unsigned long GetLevelCount() = 0;
+    virtual long SetAutoGenFilterType(int FilterType) = 0;
+    virtual int GetAutoGenFilterType() = 0;
+    virtual void GenerateMipSubLevels() = 0;
 };
 
 struct DX9Texture_00e68530 : DX9BaseTexture_00e68530
 {
-    virtual long __stdcall GetLevelDesc(unsigned int Level, DX9SurfaceDesc_00e68530* pDesc) = 0;
+    virtual long GetLevelDesc(unsigned int Level, DX9SurfaceDesc_00e68530* pDesc) = 0;
 };
 
 struct DX9CubeTexture_00e68530 : DX9BaseTexture_00e68530
 {
-    virtual long __stdcall GetLevelDesc(unsigned int Level, DX9SurfaceDesc_00e68530* pDesc) = 0;
+    virtual long GetLevelDesc(unsigned int Level, DX9SurfaceDesc_00e68530* pDesc) = 0;
 };
 
 struct DX9VolumeTexture_00e68530 : DX9BaseTexture_00e68530
 {
-    virtual long __stdcall GetLevelDesc(unsigned int Level, DX9VolumeDesc_00e68530* pDesc) = 0;
+    virtual long GetLevelDesc(unsigned int Level, DX9VolumeDesc_00e68530* pDesc) = 0;
 };
 
 struct NiComponentSpec
@@ -580,12 +581,12 @@ struct FUN_00e7d560_Class
     void* _50;
     void* _54;
     void* _58;
-    void __thiscall FUN_00e7d560();
+    void FUN_00e7d560();
 };
 
 // Releases the DX9BaseTexture objects at _14 and _58, deallocates the pointer at _0c, and nulls all three.
 // @fnv 0x00e7d560
-void __thiscall FUN_00e7d560_Class::FUN_00e7d560()
+void FUN_00e7d560_Class::FUN_00e7d560()
 {
     if (_14)
     {
@@ -611,7 +612,7 @@ struct FUN_00e613f0
     int _08;
     FUN_00e673f0_shell** _0c;
     int _10;
-    int __thiscall Sum();
+    int Sum();
 };
 
 struct FUN_00e63ec0_Class
@@ -620,7 +621,7 @@ struct FUN_00e63ec0_Class
     int _04;
     int* _08;
     int _0c;
-    int __thiscall FUN_00e63ec0(int a, int* out);
+    int FUN_00e63ec0(int a, int* out);
 };
 
 // @fnv 0x00e63ec0
@@ -657,7 +658,7 @@ struct FUN_00e7afc0_Class : NiTMapBaseStub
     int vtbl;
     int _04;
     int _08;
-    FUN_00e7afc0_Class* __thiscall FUN_00e7afc0(int);
+    FUN_00e7afc0_Class* FUN_00e7afc0(int);
 };
 // Sets the vtable, removes all entries, frees the buffer at _08, and deallocates this object when ai has bit 0 set.
 // @fnv 0x00e7afc0
@@ -675,20 +676,20 @@ namespace fnv_00e7b000 {
 struct NiTMapBaseStub
 {
     void* vtbl;
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 
 struct FUN_00e7b000_Class : NiTMapBaseStub
 {
     int _04;
     void* _08;
-    FUN_00e7b000_Class* __thiscall FUN_00e7b000(int deleting);
+    FUN_00e7b000_Class* FUN_00e7b000(int deleting);
 };
 
 
 // Restores two vtables, calls RemoveAll on each, frees _08, and deallocates this when deleting has bit 0 set.
 // @fnv 0x00e7b000
-FUN_00e7b000_Class* __thiscall FUN_00e7b000_Class::FUN_00e7b000(int deleting)
+FUN_00e7b000_Class* FUN_00e7b000_Class::FUN_00e7b000(int deleting)
 {
     vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_010eec7c));
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
@@ -714,7 +715,7 @@ struct FUN_00e7b230_Class
 {
     void* vtbl;
     void* m_p;
-    void* __thiscall FUN_00e7b230(unsigned char flags);
+    void* FUN_00e7b230(unsigned char flags);
 };
 
 // @fnv 0x00e7b230
@@ -737,16 +738,16 @@ struct M788
 
 struct FUN_00e7b550_Class
 {
-    void __thiscall DeleteAllItems();
+    void DeleteAllItems();
 };
 
 struct FUN_00e7bb50_Class
 {
-    void __thiscall FUN_00e7bb50();
+    void FUN_00e7bb50();
 };
 
 // @fnv 0x00e7bb50
-void __thiscall FUN_00e7bb50_Class::FUN_00e7bb50()
+void FUN_00e7bb50_Class::FUN_00e7bb50()
 {
     unsigned char* self = reinterpret_cast<unsigned char*>(this);
 
@@ -789,11 +790,11 @@ struct NiD3DShader
     void* const* vtbl;
     unsigned char _padding[0x4c];
     void* m_p;
-    void __thiscall FUN_00e7c540();
+    void FUN_00e7c540();
 };
 
 // @fnv 0x00e7c540
-void __thiscall NiD3DShader::FUN_00e7c540()
+void NiD3DShader::FUN_00e7c540()
 {
     vtbl = DAT_010eecac;
     NiFree(m_p);
@@ -807,7 +808,7 @@ unsigned char __cdecl FUN_00e7cca0(int* pObject)
 {
     if (DAT_0126f590)
     {
-        if (((long(__stdcall*)(void*, int))(*((void***)(*(void***)pObject + 0x9c / 4))))(pObject, 0) < 0)
+        if (((long(*)(void*, int))(*((void***)(*(void***)pObject + 0x9c / 4))))(pObject, 0) < 0)
             return 0;
         DAT_0126f590 = 0;
     }
@@ -822,7 +823,7 @@ public:
 };
 
 extern int DAT_010eefbc;
-extern void*(__stdcall* DAT_00fdf1c4)(void*);
+extern void*(* DAT_00fdf1c4)(void*);
 
 struct FUN_00e7d1b0_Class
 {
@@ -835,11 +836,11 @@ struct FUN_00e7d1b0_Class
     void* _18;
     void* _1c;
     void* _20;
-    void __thiscall FUN_00e7d1b0();
+    void FUN_00e7d1b0();
 };
 // Calls FUN_00e7d1b0, then deletes this (size 0x24) when bit 0 of a is set, and returns this.
 // @fnv 0x00e7d230
-FUN_00e7d230_cls* __thiscall FUN_00e7d230_cls::DestroyIfFlagged(int aiFlags)
+FUN_00e7d230_cls* FUN_00e7d230_cls::DestroyIfFlagged(int aiFlags)
 {
     static_cast<::FUN_00e7d1b0_Class *>(nullptr)->FUN_00e7d1b0();
     if (aiFlags & 1)
@@ -855,7 +856,7 @@ void FUN_00e7d1b0_Class::FUN_00e7d1b0()
     if (p)
     {
         void** vt = *(void***)p;
-        typedef void(__stdcall * RelFn)(void*);
+        typedef void(* RelFn)(void*);
         RelFn rel = (RelFn)vt[2];
         rel(p);
         *(void**)((char*)this + 0x20) = 0;
@@ -865,7 +866,7 @@ void FUN_00e7d1b0_Class::FUN_00e7d1b0()
     if (p)
     {
         void** vt = *(void***)p;
-        typedef void(__stdcall * RelFn)(void*);
+        typedef void(* RelFn)(void*);
         RelFn rel = (RelFn)vt[2];
         rel(p);
         *(void**)((char*)this + 0x14) = 0;
@@ -879,8 +880,8 @@ void FUN_00e7d1b0_Class::FUN_00e7d1b0()
 
 struct FUN_00e7d690_Class
 {
-    void __thiscall FUN_00e7d4e0();
-    FUN_00e7d690_Class* __thiscall FUN_00e7d690(int flags);
+    void FUN_00e7d4e0();
+    FUN_00e7d690_Class* FUN_00e7d690(int flags);
 };
 
 // Calls FUN_00e7d4e0, frees this with operator delete when flags has bit 1 set, and returns this.
@@ -903,9 +904,6 @@ struct NiRefObject
 {
 };
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct FUN_00e7dbc0_Class
 {
@@ -924,7 +922,7 @@ void FUN_00e7dbc0_Class::FUN_00e7dbc0()
     *(int*)this = (int)&::DAT_010eeed4;
     if (q)
     {
-        (*(void(__stdcall**)(void*))(*(int*)q + 8))(q);
+        (*(void(**)(void*))(*(int*)q + 8))(q);
         *(int*)((char*)this + 0x14) = 0;
     }
     void* r = *(void**)((char*)this + 0xc);
@@ -947,7 +945,7 @@ struct FUN_00e7ef80_List
     int _x;
     int count;
     FUN_00e7ef80_Node* head;
-    FUN_00e7ef80_Node* __thiscall FUN_00e7ef80(FUN_00e7ef80_Node* node);
+    FUN_00e7ef80_Node* FUN_00e7ef80(FUN_00e7ef80_Node* node);
 };
 // Unlinks node from the doubly linked list, fixing neighbours and head, decrements count, clears the node's links and returns it.
 // @fnv 0x00e7ef80
@@ -1126,7 +1124,7 @@ class E673F0Geometry
 };
 // Sums the results of calling GetPrimitiveCount on each of the _10 entries in the _0c array and returns the total.
 // @fnv 0x00e613f0
-int __thiscall FUN_00e613f0::Sum()
+int FUN_00e613f0::Sum()
 {
     int total = 0;
     for (int i = 0; i < _10; ++i)
@@ -2223,21 +2221,21 @@ struct CopyLock
 };
 struct CopySurface
 {
-    virtual void __stdcall vf0() = 0;
-    virtual void __stdcall vf1() = 0;
-    virtual void __stdcall vf2() = 0;
-    virtual void __stdcall vf3() = 0;
-    virtual void __stdcall vf4() = 0;
-    virtual void __stdcall vf5() = 0;
-    virtual void __stdcall vf6() = 0;
-    virtual void __stdcall vf7() = 0;
-    virtual void __stdcall vf8() = 0;
-    virtual void __stdcall vf9() = 0;
-    virtual void __stdcall vf10() = 0;
-    virtual void __stdcall vf11() = 0;
-    virtual long __stdcall GetDesc(CopyDesc*) = 0;
-    virtual long __stdcall LockRect(CopyLock*, void*, unsigned) = 0;
-    virtual long __stdcall UnlockRect() = 0;
+    virtual void vf0() = 0;
+    virtual void vf1() = 0;
+    virtual void vf2() = 0;
+    virtual void vf3() = 0;
+    virtual void vf4() = 0;
+    virtual void vf5() = 0;
+    virtual void vf6() = 0;
+    virtual void vf7() = 0;
+    virtual void vf8() = 0;
+    virtual void vf9() = 0;
+    virtual void vf10() = 0;
+    virtual void vf11() = 0;
+    virtual long GetDesc(CopyDesc*) = 0;
+    virtual long LockRect(CopyLock*, void*, unsigned) = 0;
+    virtual long UnlockRect() = 0;
 };
 struct CopyPixels
 {
@@ -2328,30 +2326,30 @@ void __cdecl FUN_00e68150(CopyPixels* pSourcePixels, unsigned level, CopySurface
 
 struct TexDevice
 {
-    virtual void __stdcall vf0() = 0;
-    virtual void __stdcall vf1() = 0;
-    virtual void __stdcall vf2() = 0;
-    virtual void __stdcall vf3() = 0;
-    virtual void __stdcall vf4() = 0;
-    virtual void __stdcall vf5() = 0;
-    virtual void __stdcall vf6() = 0;
-    virtual void __stdcall vf7() = 0;
-    virtual void __stdcall vf8() = 0;
-    virtual void __stdcall vf9() = 0;
-    virtual void __stdcall vf10() = 0;
-    virtual void __stdcall vf11() = 0;
-    virtual void __stdcall vf12() = 0;
-    virtual void __stdcall vf13() = 0;
-    virtual void __stdcall vf14() = 0;
-    virtual void __stdcall vf15() = 0;
-    virtual void __stdcall vf16() = 0;
-    virtual void __stdcall vf17() = 0;
-    virtual void __stdcall vf18() = 0;
-    virtual void __stdcall vf19() = 0;
-    virtual void __stdcall vf20() = 0;
-    virtual void __stdcall vf21() = 0;
-    virtual void __stdcall vf22() = 0;
-    virtual long __stdcall CreateTexture(unsigned, unsigned, unsigned, unsigned, int, int, void**, void*) = 0;
+    virtual void vf0() = 0;
+    virtual void vf1() = 0;
+    virtual void vf2() = 0;
+    virtual void vf3() = 0;
+    virtual void vf4() = 0;
+    virtual void vf5() = 0;
+    virtual void vf6() = 0;
+    virtual void vf7() = 0;
+    virtual void vf8() = 0;
+    virtual void vf9() = 0;
+    virtual void vf10() = 0;
+    virtual void vf11() = 0;
+    virtual void vf12() = 0;
+    virtual void vf13() = 0;
+    virtual void vf14() = 0;
+    virtual void vf15() = 0;
+    virtual void vf16() = 0;
+    virtual void vf17() = 0;
+    virtual void vf18() = 0;
+    virtual void vf19() = 0;
+    virtual void vf20() = 0;
+    virtual void vf21() = 0;
+    virtual void vf22() = 0;
+    virtual long CreateTexture(unsigned, unsigned, unsigned, unsigned, int, int, void**, void*) = 0;
 };
 struct TexRenderer
 {
@@ -2776,7 +2774,7 @@ struct FUN_00e687e0_cls
     unsigned int unk5C;
     unsigned int unk60;
     unsigned int m_i64;
-    void __thiscall SetValue(unsigned int value);
+    void SetValue(unsigned int value);
 };
 
 // @fnv 0x00e687e0
@@ -2863,7 +2861,7 @@ struct CubeMapSource
     virtual void v07();
     virtual void v08();
     virtual void v09();
-    virtual int __stdcall v0A();
+    virtual int v0A();
     virtual void v0B();
     virtual void v0C();
     virtual void v0D();
@@ -2871,13 +2869,13 @@ struct CubeMapSource
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int __stdcall GetSurfaceLevel(unsigned int i, int* out);
+    virtual int GetSurfaceLevel(unsigned int i, int* out);
 };
 struct CubeMapSurface
 {
     virtual void v00();
     virtual void v01();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 struct FUN_00e68870_arg
 {
@@ -2940,7 +2938,7 @@ struct FUN_00e68870_cls
     int unk70;
     int unk74;
     unsigned int m_78;
-    void __thiscall FUN_00e68870(FUN_00e68870_arg* a1);
+    void FUN_00e68870(FUN_00e68870_arg* a1);
 };
 // @fnv 0x00e68870
 void FUN_00e68870_cls::FUN_00e68870(FUN_00e68870_arg* apSourceData)
@@ -2982,29 +2980,29 @@ struct FUN_00e68920_Surface
 {
     virtual void unk00();
     virtual void unk04();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long Release();
 };
 struct FUN_00e68920_Tex
 {
-    virtual long __stdcall unk00();
-    virtual long __stdcall unk04();
-    virtual long __stdcall unk08();
-    virtual long __stdcall unk0C();
-    virtual long __stdcall unk10();
-    virtual long __stdcall unk14();
-    virtual long __stdcall unk18();
-    virtual long __stdcall unk1C();
-    virtual long __stdcall unk20();
-    virtual long __stdcall unk24();
-    virtual int __stdcall GetType();
-    virtual long __stdcall unk2C();
-    virtual long __stdcall unk30();
-    virtual long __stdcall unk34();
-    virtual long __stdcall unk38();
-    virtual long __stdcall unk3C();
-    virtual long __stdcall unk40();
-    virtual long __stdcall unk44();
-    virtual long __stdcall GetSurfaceLevel(unsigned int level, FUN_00e68920_Surface** ppSurf);
+    virtual long unk00();
+    virtual long unk04();
+    virtual long unk08();
+    virtual long unk0C();
+    virtual long unk10();
+    virtual long unk14();
+    virtual long unk18();
+    virtual long unk1C();
+    virtual long unk20();
+    virtual long unk24();
+    virtual int GetType();
+    virtual long unk2C();
+    virtual long unk30();
+    virtual long unk34();
+    virtual long unk38();
+    virtual long unk3C();
+    virtual long unk40();
+    virtual long unk44();
+    virtual long GetSurfaceLevel(unsigned int level, FUN_00e68920_Surface** ppSurf);
 };
 struct FUN_00e68920_cls
 {
@@ -3039,11 +3037,11 @@ struct FUN_00e68920_cls
     unsigned int unk70;
     unsigned int unk74;
     unsigned int m_78;
-    void __thiscall FUN_00e68920(int a1);
+    void FUN_00e68920(int a1);
 };
 // Copies renderer data into each surface level of m_pTex from m_78 up to unk68, skipping null or type 4/5 textures and logging failed GetSurfaceLevel calls.
 // @fnv 0x00e68920
-void __thiscall FUN_00e68920_cls::FUN_00e68920(int a1)
+void FUN_00e68920_cls::FUN_00e68920(int a1)
 {
     if (m_pTex == 0)
         return;
@@ -3499,7 +3497,7 @@ struct ListNode_b9541
 };
 
 // @fnv 0x00e7b550
-void __thiscall FUN_00e7b550_cls::DeleteAllItems()
+void FUN_00e7b550_cls::DeleteAllItems()
 {
     ListNode_b9541* node = *(ListNode_b9541**)((char*)this + 0x134);
     if (node != 0)
@@ -3522,11 +3520,11 @@ void __thiscall FUN_00e7b550_cls::DeleteAllItems()
 class BE7BBF0Source
 {
   public:
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObject);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetDesc(void* pDesc);
-    virtual unsigned int __stdcall GetCount();
+    virtual long QueryInterface(const void* riid, void** ppvObject);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetDesc(void* pDesc);
+    virtual unsigned int GetCount();
 };
 
 class BE7BBF0Item
@@ -3988,7 +3986,7 @@ struct S_00e7c610_Object
 };
 
 // @fnv 0x00e7c610
-void __stdcall FUN_00e7c610(float* afMatrix, S_00e7c610_Object* pObject)
+void FUN_00e7c610(float* afMatrix, S_00e7c610_Object* pObject)
 {
     pObject->unk5e = 1;
 
@@ -4056,24 +4054,24 @@ bool FUN_00e7cc90_cls::FUN_00e7cc90()
 
 struct E7CCD0Device
 {
-    virtual long __stdcall vfunc00();
-    virtual long __stdcall vfunc01();
-    virtual long __stdcall vfunc02();
-    virtual long __stdcall vfunc03();
-    virtual long __stdcall vfunc04();
-    virtual long __stdcall vfunc05();
-    virtual long __stdcall vfunc06();
-    virtual long __stdcall vfunc07();
-    virtual long __stdcall vfunc08();
-    virtual long __stdcall vfunc09();
-    virtual long __stdcall vfunc0A();
-    virtual long __stdcall vfunc0B();
-    virtual long __stdcall vfunc0C();
-    virtual long __stdcall vfunc0D();
-    virtual long __stdcall vfunc0E();
-    virtual long __stdcall vfunc0F();
-    virtual long __stdcall vfunc10();
-    virtual long __stdcall Present(const void* pSourceRect, const void* pDestRect, void* hDestWindowOverride,
+    virtual long vfunc00();
+    virtual long vfunc01();
+    virtual long vfunc02();
+    virtual long vfunc03();
+    virtual long vfunc04();
+    virtual long vfunc05();
+    virtual long vfunc06();
+    virtual long vfunc07();
+    virtual long vfunc08();
+    virtual long vfunc09();
+    virtual long vfunc0A();
+    virtual long vfunc0B();
+    virtual long vfunc0C();
+    virtual long vfunc0D();
+    virtual long vfunc0E();
+    virtual long vfunc0F();
+    virtual long vfunc10();
+    virtual long Present(const void* pSourceRect, const void* pDestRect, void* hDestWindowOverride,
                                    const void* pDirtyRegion);
 };
 
@@ -4115,7 +4113,7 @@ bool E7CCD0Renderer::PresentFrame()
 
 // Candidate reconstruction of FUN_00e7cdb0 (0x00e7cdb0, 59 bytes).
 //
-// The original is a __thiscall member of a NiDX9*BufferData-like object:
+// The original is a member of a NiDX9*BufferData-like object:
 //   * a 32-bit id member lives at offset +0x14 of the object,
 //   * a global int caches the last id that was accepted,
 //   * the id is validated through a renderer interface object passed as the
@@ -4195,8 +4193,8 @@ unsigned char FnvBufferData::FUN_00e7cdb0(FnvRendererData* pRenderer)
     return 1;
 }
 
-typedef int(__stdcall* FNV_PFN_2)(void* obj, void* arg);
-typedef void(__stdcall* FNV_PFN_1)(void* obj);
+typedef int(* FNV_PFN_2)(void* obj, void* arg);
+typedef void(* FNV_PFN_1)(void* obj);
 struct FUN_00a8f080_shell
 {
 };
@@ -4271,9 +4269,9 @@ unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
 class Handler
 {
   public:
-    virtual void __stdcall v00();
-    virtual void __stdcall v01();
-    virtual void __stdcall v02();
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
 };
 
 
@@ -4310,7 +4308,6 @@ CpuOpaque* __cdecl FUN_00e7d220()
     return &(*reinterpret_cast<::CpuOpaque *>(&::g_0126f5a4));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 struct D3DSurfaceDesc_e7d250
 {
@@ -4326,44 +4323,44 @@ struct D3DSurfaceDesc_e7d250
 
 struct D3DSurface_e7d250
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall GetDevice(void** ppDevice) = 0;
-    virtual long __stdcall SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
+    virtual long QueryInterface(const void* riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long GetDevice(void** ppDevice) = 0;
+    virtual long SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
                                           unsigned long Flags) = 0;
-    virtual long __stdcall GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData) = 0;
-    virtual long __stdcall FreePrivateData(const void* refguid) = 0;
-    virtual unsigned long __stdcall SetPriority(unsigned long PriorityNew) = 0;
-    virtual unsigned long __stdcall GetPriority() = 0;
-    virtual void __stdcall PreLoad() = 0;
-    virtual int __stdcall GetType() = 0;
-    virtual long __stdcall GetContainer(const void* riid, void** ppContainer) = 0;
-    virtual long __stdcall GetDesc(D3DSurfaceDesc_e7d250* pDesc) = 0;
+    virtual long GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData) = 0;
+    virtual long FreePrivateData(const void* refguid) = 0;
+    virtual unsigned long SetPriority(unsigned long PriorityNew) = 0;
+    virtual unsigned long GetPriority() = 0;
+    virtual void PreLoad() = 0;
+    virtual int GetType() = 0;
+    virtual long GetContainer(const void* riid, void** ppContainer) = 0;
+    virtual long GetDesc(D3DSurfaceDesc_e7d250* pDesc) = 0;
 };
 
 struct D3DTexture_e7d250
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall GetDevice(void** ppDevice) = 0;
-    virtual long __stdcall SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
+    virtual long QueryInterface(const void* riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long GetDevice(void** ppDevice) = 0;
+    virtual long SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
                                           unsigned long Flags) = 0;
-    virtual long __stdcall GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData) = 0;
-    virtual long __stdcall FreePrivateData(const void* refguid) = 0;
-    virtual unsigned long __stdcall SetPriority(unsigned long PriorityNew) = 0;
-    virtual unsigned long __stdcall GetPriority() = 0;
-    virtual void __stdcall PreLoad() = 0;
-    virtual int __stdcall GetType() = 0;
-    virtual unsigned long __stdcall SetLOD(unsigned long LODNew) = 0;
-    virtual unsigned long __stdcall GetLOD() = 0;
-    virtual unsigned long __stdcall GetLevelCount() = 0;
-    virtual long __stdcall SetAutoGenFilterType(int FilterType) = 0;
-    virtual int __stdcall GetAutoGenFilterType() = 0;
-    virtual void __stdcall GenerateMipSubLevels() = 0;
-    virtual long __stdcall GetLevelDesc(unsigned int Level, D3DSurfaceDesc_e7d250* pDesc) = 0;
-    virtual long __stdcall GetSurfaceLevel(unsigned int Level, D3DSurface_e7d250** ppSurfaceLevel) = 0;
+    virtual long GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData) = 0;
+    virtual long FreePrivateData(const void* refguid) = 0;
+    virtual unsigned long SetPriority(unsigned long PriorityNew) = 0;
+    virtual unsigned long GetPriority() = 0;
+    virtual void PreLoad() = 0;
+    virtual int GetType() = 0;
+    virtual unsigned long SetLOD(unsigned long LODNew) = 0;
+    virtual unsigned long GetLOD() = 0;
+    virtual unsigned long GetLevelCount() = 0;
+    virtual long SetAutoGenFilterType(int FilterType) = 0;
+    virtual int GetAutoGenFilterType() = 0;
+    virtual void GenerateMipSubLevels() = 0;
+    virtual long GetLevelDesc(unsigned int Level, D3DSurfaceDesc_e7d250* pDesc) = 0;
+    virtual long GetSurfaceLevel(unsigned int Level, D3DSurface_e7d250** ppSurfaceLevel) = 0;
 };
 
 struct NiPixelFormat;
@@ -4488,7 +4485,6 @@ NiDX9TextureBufferData* __cdecl NiDX9TextureBufferData::FUN_00e7d250(D3DTexture_
 }
 
 namespace fnv_00e7d4e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 extern int DAT_010ef06c;
 
@@ -4496,7 +4492,7 @@ struct FUN_00e7d4e0_child
 {
     virtual void v00();
     virtual void v04();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 
 struct FUN_00e7d4e0_pool
@@ -4563,7 +4559,6 @@ int* __cdecl FUN_00e7d550()
 }
 
 namespace fnv_00e7d620 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
@@ -4572,7 +4567,7 @@ struct FUN_00e7d620_child
 {
     virtual void v00();
     virtual void v04();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 
 struct FUN_00e7d620_pool
@@ -4658,7 +4653,7 @@ struct BlockAllocatedStringArray
     unsigned int capacity;
     unsigned int size;
     Block* blocks;
-    void __thiscall AppendBlock(unsigned int count);
+    void AppendBlock(unsigned int count);
 };
 // Allocates a Block of count elements, appends each element pointer to the array (growing it as needed), and links the block into the blocks list.
 // @fnv 0x00e7eb50
@@ -4693,7 +4688,7 @@ void BlockAllocatedStringArray::AppendBlock(unsigned int count)
 namespace fnv_00e7ec60 {
 struct FUN_00e7ec60_Helper
 {
-    void __thiscall Release(int mode);
+    void Release(int mode);
 };
 
 struct FUN_00e7ec60_Allocator
@@ -4706,12 +4701,12 @@ struct FUN_00e7ec60_cls
     FUN_00e7ec60_Helper* m_00;
     int m_04;
     FUN_00e7ec60_cls* m_08;
-    void __thiscall FUN_00e7ec60();
+    void FUN_00e7ec60();
 };
 
 // Releases m_00 with mode 3, then recursively destroys and deallocates the m_08 child via DAT_011f6238.
 // @fnv 0x00e7ec60
-void __thiscall FUN_00e7ec60_cls::FUN_00e7ec60()
+void FUN_00e7ec60_cls::FUN_00e7ec60()
 {
     if (m_00 != 0)
     {
@@ -4989,7 +4984,7 @@ struct FUN_00e687a0 : Mid_00e687a0
 FUN_00e687a0::FUN_00e687a0(int p1, int p2) : Mid_00e687a0(p1, p2)
 {}
 
-extern long(__stdcall* DAT_00fdf1c0)(void*);
+extern long(* DAT_00fdf1c0)(void*);
 struct E74RefShader
 {
     virtual void v00();
@@ -5906,8 +5901,8 @@ struct FUN_00e74c00_cls
     bool HandleDeviceLost();
 };
 
-typedef int(__stdcall* FNVSlot3Fn)(void*);
-typedef int(__stdcall* FNVSlot80Fn)(void*, int);
+typedef int(* FNVSlot3Fn)(void*);
+typedef int(* FNVSlot80Fn)(void*, int);
 typedef bool(__cdecl* FNVCallbackFn)(void*);
 
 // Calls slot 3 on m_p288, optionally slot 128, and on device-lost codes runs the restore callbacks or FUN_00e736b0.
@@ -6080,11 +6075,11 @@ class TexFormatList
     int m_unk12c;
     int m_unk130;
     Node* m_pFirstNode;
-    int __thiscall FindFormatValue(unsigned char flag, int key);
+    int FindFormatValue(unsigned char flag, int key);
 };
 
 // @fnv 0x00e7aed0
-int __thiscall TexFormatList::FindFormatValue(unsigned char abUseFlag4, int key)
+int TexFormatList::FindFormatValue(unsigned char abUseFlag4, int key)
 {
     Node* node = m_pFirstNode;
     int result = 0;
@@ -6391,9 +6386,9 @@ struct AdditionalDepthDevice
 {
     void** vtable;
 };
-typedef unsigned long(__stdcall* DepthAddRef)(void*);
-typedef long(__stdcall* DepthAcquireSurface)(void*, void*, int, D3DSurface_e7d250**);
-typedef long(__stdcall* DepthGetDescription)(void*, DepthSurfaceDescription*);
+typedef unsigned long(* DepthAddRef)(void*);
+typedef long(* DepthAcquireSurface)(void*, void*, int, D3DSurface_e7d250**);
+typedef long(* DepthGetDescription)(void*, DepthSurfaceDescription*);
 class AdditionalDepthData : public NiDX92DBufferDataStub
 {
   public:
@@ -6784,7 +6779,7 @@ struct FUN_00e76620_cls
     int unk2c;
     int unk30;
     unsigned char unk34;
-    unsigned char __thiscall FUN_00e76620();
+    unsigned char FUN_00e76620();
 };
 
 // @fnv 0x00e76620
@@ -7787,15 +7782,15 @@ struct S00e7b590_D3D
     virtual int v_d();
     virtual int v_e();
     virtual int v_f();
-    virtual unsigned int __stdcall GetAdapterModeCount(unsigned int a, D3DFORMAT f);
-    virtual int __stdcall EnumAdapterModes(unsigned int a, D3DFORMAT f, unsigned int i, S00e7b590_Mode* m);
+    virtual unsigned int GetAdapterModeCount(unsigned int a, D3DFORMAT f);
+    virtual int EnumAdapterModes(unsigned int a, D3DFORMAT f, unsigned int i, S00e7b590_Mode* m);
     virtual int v_g();
-    virtual int __stdcall CheckDeviceType(unsigned int a, D3DDEVTYPE t, D3DFORMAT d, D3DFORMAT b, int w);
+    virtual int CheckDeviceType(unsigned int a, D3DDEVTYPE t, D3DFORMAT d, D3DFORMAT b, int w);
     virtual int v_h();
     virtual int v_i();
     virtual int v_j();
     virtual int v_k();
-    virtual int __stdcall GetDeviceCaps(unsigned int a, D3DDEVTYPE t, S00e7b590_Caps* c);
+    virtual int GetDeviceCaps(unsigned int a, D3DDEVTYPE t, S00e7b590_Caps* c);
 };
 
 struct OuterNode
@@ -8070,8 +8065,6 @@ unsigned char FUN_00e7ce10_cls::FUN_00e7ce10()
     return m_0c->FUN_00a77980(0x12) > 0;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 class ItemE7CF
 {
@@ -8161,8 +8154,8 @@ struct SurfDesc
 struct Surf
 {
     virtual long QI();
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
     virtual void v3();
     virtual void v4();
     virtual void v5();
@@ -8172,13 +8165,13 @@ struct Surf
     virtual void v9();
     virtual void v10();
     virtual void v11();
-    virtual long __stdcall GetDesc(SurfDesc*);
+    virtual long GetDesc(SurfDesc*);
 };
 struct Swap
 {
     virtual long QI();
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
     virtual void v3();
     virtual void v4();
     virtual void v5();
@@ -8214,7 +8207,7 @@ struct Swap
     virtual void v35();
     virtual void v36();
     virtual void v37();
-    virtual long __stdcall GetSurf(unsigned, Surf**);
+    virtual long GetSurf(unsigned, Surf**);
 };
 struct Tex
 {
@@ -9387,9 +9380,9 @@ struct D3DXImageInfoQ
 
 struct D3DBaseTextureQ
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 struct DDSFileHeaderQ
@@ -9621,11 +9614,11 @@ NiFileQ* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBuff
 void* __cdecl FUN_00aa1070(unsigned int uiSize);
 void __cdecl FUN_00aa10f0(void* pvMem);
 void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
-long __stdcall FUN_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
-__declspec(noalias) long __stdcall FUN_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
+long FUN_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
+__declspec(noalias) long FUN_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
                                                 D3DBaseTextureQ** ppkTexture);
-long __stdcall FUN_00ee6e16(void* pkDevice, const void* pvSrc, unsigned int uiSize, D3DBaseTextureQ** ppkTexture);
-long __stdcall FUN_00ee6e10(void* pkDevice, const void* pvSrc, unsigned int uiSize, D3DBaseTextureQ** ppkTexture);
+long FUN_00ee6e16(void* pkDevice, const void* pvSrc, unsigned int uiSize, D3DBaseTextureQ** ppkTexture);
+long FUN_00ee6e10(void* pkDevice, const void* pvSrc, unsigned int uiSize, D3DBaseTextureQ** ppkTexture);
 
 struct LocalGroup2
 {
@@ -9894,15 +9887,15 @@ struct CurrentMode
 
 struct AdapterApi
 {
-    virtual long __stdcall f00() throw() = 0;
-    virtual long __stdcall f04() throw() = 0;
-    virtual long __stdcall f08() throw() = 0;
-    virtual long __stdcall f0C() throw() = 0;
-    virtual long __stdcall f10() throw() = 0;
-    virtual long __stdcall GetDesc(int handle, int flags, void* out) throw() = 0;
-    virtual unsigned int __stdcall GetCount(int handle, int name) throw() = 0;
-    virtual long __stdcall GetParam(int handle, int name, unsigned int index, DisplayMode* out) throw() = 0;
-    virtual long __stdcall GetTech(int handle, CurrentMode* out) throw() = 0;
+    virtual long f00() throw() = 0;
+    virtual long f04() throw() = 0;
+    virtual long f08() throw() = 0;
+    virtual long f0C() throw() = 0;
+    virtual long f10() throw() = 0;
+    virtual long GetDesc(int handle, int flags, void* out) throw() = 0;
+    virtual unsigned int GetCount(int handle, int name) throw() = 0;
+    virtual long GetParam(int handle, int name, unsigned int index, DisplayMode* out) throw() = 0;
+    virtual long GetTech(int handle, CurrentMode* out) throw() = 0;
 };
 
 struct SpinLk
@@ -10449,7 +10442,7 @@ int S00e60650::FUN_00e60650()
     return value;
 }
 
-// FUN_00e60660: __thiscall accessor, returns this ? &this->field_14 : 0
+// FUN_00e60660: accessor, returns this ? &this->field_14 : 0
 struct FUN_00e60660_Cls;
 
 struct FUN_00e60660_Cls
@@ -10460,7 +10453,7 @@ struct FUN_00e60660_Cls
     int unk0c;
     int unk10;
     int unk14;
-    int* __thiscall FUN_00e60660();
+    int* FUN_00e60660();
 };
 
 // @fnv 0x00e60660
@@ -10922,9 +10915,9 @@ struct D3DProbe
     virtual int v1c();
     virtual int v20();
     virtual int v24();
-    virtual int __stdcall CheckDeviceFormat(unsigned int a, int t, int af, unsigned int u, int rt, int cf);
-    virtual int __stdcall CheckDeviceMultiSampleType(unsigned int a, int t, int sf, int w, int mt, unsigned int* q);
-    virtual int __stdcall CheckDepthStencilMatch(unsigned int a, int t, int af, int rf, int df);
+    virtual int CheckDeviceFormat(unsigned int a, int t, int af, unsigned int u, int rt, int cf);
+    virtual int CheckDeviceMultiSampleType(unsigned int a, int t, int sf, int w, int mt, unsigned int* q);
+    virtual int CheckDepthStencilMatch(unsigned int a, int t, int af, int rf, int df);
 };
 
 struct MapSetAt
@@ -11132,45 +11125,45 @@ struct PresentParamsE7D6B0
 
 struct DeviceE7D6B0
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual void __stdcall v03() = 0;
-    virtual void __stdcall v04() = 0;
-    virtual void __stdcall v05() = 0;
-    virtual void __stdcall v06() = 0;
-    virtual void __stdcall v07() = 0;
-    virtual void __stdcall v08() = 0;
-    virtual void __stdcall v09() = 0;
-    virtual void __stdcall v10() = 0;
-    virtual void __stdcall v11() = 0;
-    virtual void __stdcall v12() = 0;
-    virtual void __stdcall v13() = 0;
-    virtual void __stdcall v14() = 0;
-    virtual void __stdcall v15() = 0;
-    virtual void __stdcall v16() = 0;
-    virtual void __stdcall v17() = 0;
-    virtual void __stdcall v18() = 0;
-    virtual void __stdcall v19() = 0;
-    virtual void __stdcall v20() = 0;
-    virtual void __stdcall v21() = 0;
-    virtual void __stdcall v22() = 0;
-    virtual void __stdcall v23() = 0;
-    virtual void __stdcall v24() = 0;
-    virtual void __stdcall v25() = 0;
-    virtual void __stdcall v26() = 0;
-    virtual void __stdcall v27() = 0;
-    virtual void __stdcall v28() = 0;
-    virtual void __stdcall v29() = 0;
-    virtual void __stdcall v30() = 0;
-    virtual void __stdcall v31() = 0;
-    virtual void __stdcall v32() = 0;
-    virtual void __stdcall v33() = 0;
-    virtual void __stdcall v34() = 0;
-    virtual void __stdcall v35() = 0;
-    virtual void __stdcall v36() = 0;
-    virtual void __stdcall v37() = 0;
-    virtual long __stdcall GetRenderTarget(unsigned long RenderTargetIndex, D3DSurface_e7d250** ppRenderTarget) = 0;
+    virtual long QueryInterface(const void* riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual void v03() = 0;
+    virtual void v04() = 0;
+    virtual void v05() = 0;
+    virtual void v06() = 0;
+    virtual void v07() = 0;
+    virtual void v08() = 0;
+    virtual void v09() = 0;
+    virtual void v10() = 0;
+    virtual void v11() = 0;
+    virtual void v12() = 0;
+    virtual void v13() = 0;
+    virtual void v14() = 0;
+    virtual void v15() = 0;
+    virtual void v16() = 0;
+    virtual void v17() = 0;
+    virtual void v18() = 0;
+    virtual void v19() = 0;
+    virtual void v20() = 0;
+    virtual void v21() = 0;
+    virtual void v22() = 0;
+    virtual void v23() = 0;
+    virtual void v24() = 0;
+    virtual void v25() = 0;
+    virtual void v26() = 0;
+    virtual void v27() = 0;
+    virtual void v28() = 0;
+    virtual void v29() = 0;
+    virtual void v30() = 0;
+    virtual void v31() = 0;
+    virtual void v32() = 0;
+    virtual void v33() = 0;
+    virtual void v34() = 0;
+    virtual void v35() = 0;
+    virtual void v36() = 0;
+    virtual void v37() = 0;
+    virtual long GetRenderTarget(unsigned long RenderTargetIndex, D3DSurface_e7d250** ppRenderTarget) = 0;
 };
 
 class SwapChainBufferData : public NiDX92DBufferDataStub
@@ -11666,7 +11659,7 @@ struct D3DDevice_e7d850
     virtual void vf25() = 0;
     virtual void vf26() = 0;
     virtual void vf27() = 0;
-    virtual long __stdcall GetDepthStencilSurface(D3DSurface_e7d250** ppZStencilSurface) = 0;
+    virtual long GetDepthStencilSurface(D3DSurface_e7d250** ppZStencilSurface) = 0;
 };
 
 class NiDX9AdditionalDepthStencilBufferData : public NiDX92DBufferDataStub

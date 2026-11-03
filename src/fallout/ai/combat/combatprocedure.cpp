@@ -29,14 +29,14 @@ void FUN_0097f450_shell::SetAttacker(unsigned char bAttacker)
 
 struct FUN_009ca6e0_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 void __cdecl FUN_009ca6c0_shell_member();
 
 // Calls FUN_009ca6c0, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x009ca6e0
-void* __thiscall FUN_009ca6e0_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_009ca6e0_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_009ca6c0_class *>(this)->FUN_009ca6c0();
     if (flags & 1)
@@ -70,7 +70,7 @@ void FUN_009d4f30_shell::SetByteAtOffset188ToFF()
 
 struct FUN_00980070_shell
 {
-    unsigned int __thiscall FUN_00980070();
+    unsigned int FUN_00980070();
 };
 
 // @fnv 0x00980070
@@ -85,11 +85,11 @@ struct BGSSaveFormBuffer
 
 struct FUN_00996ed0_shell
 {
-    void __thiscall SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
+    void SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // @fnv 0x00996ed0
-void __thiscall FUN_00996ed0_shell::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_00996ed0_shell::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(this + 8, 4, 0);
 }
@@ -109,7 +109,7 @@ struct CombatProcedureEx
 {
     int _pad;
     CombatController* m_pCombatController;
-    void __thiscall SetLookAtPoint(const NiPoint3& arLookAtPoint, unsigned char acPriority);
+    void SetLookAtPoint(const NiPoint3& arLookAtPoint, unsigned char acPriority);
 };
 // Passes the look-at point and priority to the combat controller, then applies the returned value via a second controller call.
 // @fnv 0x00996e60
@@ -126,11 +126,11 @@ struct MyProc
 {
     int _pad;
     CombatController* pCtrl;
-    void __thiscall FUN_00996ea0();
+    void FUN_00996ea0();
 };
 // Calls FUN_00981690 on this, then passes the result to pCtrl->FUN_00981720.
 // @fnv 0x00996ea0
-void __thiscall MyProc::FUN_00996ea0()
+void MyProc::FUN_00996ea0()
 {
     reinterpret_cast<::CombatController *>((pCtrl))->FUN_00981720(((int)(reinterpret_cast<::fnv_00981690::CombatController *>((pCtrl))->FUN_00981690((::fnv_00981690::CombatProcedure *)(void *)(this)))));
 }
@@ -142,11 +142,11 @@ struct BGSLoadFormBuffer
 
 struct FUN_00996ef0_shell
 {
-    void __thiscall FUN_00996ef0(BGSLoadFormBuffer* buffer);
+    void FUN_00996ef0(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x00996ef0
-void __thiscall FUN_00996ef0_shell::FUN_00996ef0(BGSLoadFormBuffer* buffer)
+void FUN_00996ef0_shell::FUN_00996ef0(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 8), 4);
 }
@@ -163,29 +163,29 @@ struct CombatProcedure_008b3a50
 {
     char _pad[0x190];
     Attacker_008b3a50* m_atk;
-    void* __thiscall FUN_008b3a50();
+    void* FUN_008b3a50();
 };
 // Returns the result of calling f4 on the attacker object stored in m_atk.
 // @fnv 0x008b3a50
-void* __thiscall CombatProcedure_008b3a50::FUN_008b3a50()
+void* CombatProcedure_008b3a50::FUN_008b3a50()
 {
     return m_atk->f4();
 }
 
 struct AlchemyItem
 {
-    void* __thiscall FUN_004030b0();
+    void* FUN_004030b0();
 };
 
 struct FUN_00996e00_shell
 {
     char _pad[4];
     AlchemyItem* _m_04;  // +0x04
-    void* __thiscall FUN_00996e00();
+    void* FUN_00996e00();
 };
 
 // @fnv 0x00996e00
-void* __thiscall FUN_00996e00_shell::FUN_00996e00()
+void* FUN_00996e00_shell::FUN_00996e00()
 {
     return _m_04->FUN_004030b0();
 }
@@ -199,11 +199,11 @@ struct FUN_00996e20_shell
 {
     char _pad[4];
     CombatController* m_pCombatController;  // +0x04
-    void __thiscall FUN_00996e20(int aiCombatMoveMode);
+    void FUN_00996e20(int aiCombatMoveMode);
 };
 
 // @fnv 0x00996e20
-void __thiscall FUN_00996e20_shell::FUN_00996e20(int aiCombatMoveMode)
+void FUN_00996e20_shell::FUN_00996e20(int aiCombatMoveMode)
 {
     reinterpret_cast<::fnv_00981570::FUN_00981570_shell *>((this->m_pCombatController))->FUN_00981570(aiCombatMoveMode);
 }
@@ -218,11 +218,11 @@ struct FUN_00996e40_shell
 {
     char _pad[4];
     CombatController* m_pCombatController;
-    void __thiscall FUN_00996e40();
+    void FUN_00996e40();
 };
 
 // @fnv 0x00996e40
-void __thiscall FUN_00996e40_shell::FUN_00996e40()
+void FUN_00996e40_shell::FUN_00996e40()
 {
     reinterpret_cast<::fnv_00981660::CombatController *>((m_pCombatController))->ResetCombatState();
 }

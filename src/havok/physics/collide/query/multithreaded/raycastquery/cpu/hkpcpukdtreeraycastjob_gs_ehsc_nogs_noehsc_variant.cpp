@@ -9,7 +9,7 @@
 #include "fnv/decl/S_00d98300.h"
 struct FUN_00e4dd90_shell
 {
-    void __thiscall FUN_00e4dd90(float* output);
+    void FUN_00e4dd90(float* output);
 };
 struct FUN_00e4dde0
 {
@@ -236,7 +236,7 @@ class GuardInner
   public:
     virtual void Alpha();
 
-    virtual BoolResult __thiscall Query(void* f8, void* p1);
+    virtual BoolResult Query(void* f8, void* p1);
 };
 
 struct F04Obj
@@ -271,7 +271,7 @@ __declspec(align(16)) struct FUN_009c1aa0_Class
     float f44;
     float f48;
 
-    FUN_009c1aa0_Class& __thiscall FUN_009c1aa0(const FUN_009c1aa0_Class& src);
+    FUN_009c1aa0_Class& FUN_009c1aa0(const FUN_009c1aa0_Class& src);
     bool DidHit() const
     {
         return gate < 1.0f;
@@ -408,7 +408,7 @@ class HeadObj
 
     virtual void Juliett();
 
-    virtual Mask __thiscall V28(void* mat, void* arr, const Mask& p2);
+    virtual Mask V28(void* mat, void* arr, const Mask& p2);
 
     int h04;
     int h08;
@@ -488,11 +488,11 @@ struct Cls
 
     int flags80[4];
 
-    void __thiscall FUN_00e4de10(Param* p1, const Mask& p2);
+    void FUN_00e4de10(Param* p1, const Mask& p2);
 };
 
 // @fnv 0x00e4de10
-void __thiscall Cls::FUN_00e4de10(Param* p1, const Mask& p2)
+void Cls::FUN_00e4de10(Param* p1, const Mask& p2)
 {
     HeadObj* head = p1->head;
     if (head)

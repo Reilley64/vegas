@@ -19,7 +19,7 @@ extern void* DAT_010d3dc8;
 
 static void* tlsGetValue()
 {
-    return ((void*(__stdcall*)(unsigned int))DAT_0fdf044)((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
+    return ((void*(*)(unsigned int))DAT_0fdf044)((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
 }
 
 struct ShapeCmds

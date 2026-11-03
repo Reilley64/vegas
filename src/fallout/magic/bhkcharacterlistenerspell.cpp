@@ -179,7 +179,7 @@ struct Global
 
 struct ProxyUpdate
 {
-    void __thiscall FUN_00806f20(Owner1* a1, Arg2* a2);
+    void FUN_00806f20(Owner1* a1, Arg2* a2);
 };
 
 // For each item, checks its node's m_48 and calls FUN_004a3f10 on the item when branch conditions are met.

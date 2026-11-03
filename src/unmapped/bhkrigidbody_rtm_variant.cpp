@@ -3,6 +3,7 @@
 
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/ActionOwnerC9d590.h"
 #include "fnv/decl/C74C20Quat.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -84,7 +85,7 @@ struct StrArr
 };
 struct FUN_00c8eb00_s
 {
-    void __thiscall FUN_00c8eb00();
+    void FUN_00c8eb00();
 };
 struct LinkedRecord
 {
@@ -172,7 +173,7 @@ struct S_00c8d440_Target
     virtual void v3();
     virtual void v4(unsigned int id, S_00c8d440_Arg arg);
 };
-void __stdcall FUN_00c8d440(bool flag);
+void FUN_00c8d440(bool flag);
 struct NativeData
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -1286,8 +1287,6 @@ struct FUN_00c8e9c0 : LiquidBase
     LiquidLink link;
     virtual ~FUN_00c8e9c0();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 struct AllocTagScopeC8E
 {
     int m_iSaved;

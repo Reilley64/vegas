@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niddsreader.cpp: NiDDSReader, DDSReader, NiBMPReader, ClsReader and more (23 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A62190PixelFormat.h"
 #include "fnv/decl/A8b110Owner.h"
@@ -34,7 +35,7 @@ NiBMPReader::NiBMPReader()
 
 // For each of the count at thisPtr+0x10e, copies one source byte into three consecutive destination bytes.
 // @fnv 0x00a8d4e0
-void __fastcall ExpandGrayToRgb(void* thisPtr, int, unsigned char* src, unsigned char* dst)
+void ExpandGrayToRgb(void* thisPtr, int, unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)((char*)thisPtr + 0x10e); ++i)
     {
@@ -46,7 +47,7 @@ void __fastcall ExpandGrayToRgb(void* thisPtr, int, unsigned char* src, unsigned
 
 // Converts a count of 16-bit RGB565 pixels from pucSrc into 24-bit RGB888 bytes written to pucDest.
 // @fnv 0x00a8d520
-void __fastcall ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, unsigned char* pucDest)
+void ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, unsigned char* pucDest)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(pThis + 0x10e); i++)
     {
@@ -58,7 +59,7 @@ void __fastcall ConvertRgb565ToRgb888(char* pThis, int, unsigned char* pucSrc, u
 }
 
 // @fnv 0x00a8d590
-void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, unsigned char* pDst)
+void FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, unsigned char* pDst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(this_ptr + 0x10e); i++)
     {
@@ -74,7 +75,7 @@ void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, un
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8c0e0
-bool __stdcall FUN_00a8c0e0(const char* extension)
+bool FUN_00a8c0e0(const char* extension)
 {
     if (NiStricmp(extension, ".dds") != 0)
         return false;
@@ -82,7 +83,7 @@ bool __stdcall FUN_00a8c0e0(const char* extension)
 }
 
 // @fnv 0x00a8c100
-bool __stdcall IsValidBitDepth(int a, int b, int c, int d, unsigned int bits)
+bool IsValidBitDepth(int a, int b, int c, int d, unsigned int bits)
 {
     if (bits == 16 || bits == 24 || bits == 32)
         return true;
@@ -95,7 +96,7 @@ struct NiPixelFormatMaskView : NiPixelFormat
 };
 // Returns a canonical NiPixelFormat for 16-, 24- and 32-bit formats, otherwise returns fmt unchanged.
 // @fnv 0x00a8c120
-NiPixelFormat __stdcall NormalizePixelFormat(NiPixelFormat aFormat)
+NiPixelFormat NormalizePixelFormat(NiPixelFormat aFormat)
 {
     switch (aFormat.bits)
     {
@@ -131,7 +132,7 @@ FUN_00a8c190::FUN_00a8c190()
 
 // For each of the count at self+0x10e, reads a byte from src, subtracts the byte at self+0x104, and writes the result to dst.
 // @fnv 0x00a8d4a0
-void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsigned char* dst)
+void FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsigned char* dst)
 {
     unsigned int i;
     for (i = 0; i < *(unsigned short*)(self + 0x10e); i++)
@@ -142,7 +143,7 @@ void __fastcall FUN_00a8d4a0(char* self, int edx, const unsigned char* src, unsi
 }
 
 // @fnv 0x00a8d600
-void __fastcall FUN_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst)
+void FUN_00a8d600(char* self, int edx, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < *(unsigned short*)(self + 0x10e); ++i)
     {
@@ -162,7 +163,7 @@ struct FUN_00a8d670_obj
     unsigned short width;
 };
 // @fnv 0x00a8d670
-void __fastcall FUN_00a8d670(FUN_00a8d670_obj* self, int unused, const unsigned char* src, unsigned char* dst)
+void FUN_00a8d670(FUN_00a8d670_obj* self, int unused, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < self->width; i++)
     {
@@ -179,7 +180,7 @@ struct FUN_00a8d6c0_obj
     unsigned short width;
 };
 // @fnv 0x00a8d6c0
-void __fastcall FUN_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned char* src, unsigned char* dst)
+void FUN_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned char* src, unsigned char* dst)
 {
     for (unsigned int i = 0; i < self->width; i++)
     {
@@ -193,7 +194,7 @@ void __fastcall FUN_00a8d6c0(FUN_00a8d6c0_obj* self, int unused, const unsigned 
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8d710
-bool __stdcall IsTgaExtension(const char* ext)
+bool IsTgaExtension(const char* ext)
 {
     if (NiStricmp(ext, ".tga") == 0 || NiStricmp(ext, ".targa") == 0)
         return true;
@@ -252,7 +253,7 @@ FUN_00a8d750::FUN_00a8d750()
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8e3f0
-bool __stdcall IsNotBmpExtension(const char* extension)
+bool IsNotBmpExtension(const char* extension)
 {
     if (NiStricmp(extension, ".bmp") != 0)
         return false;
@@ -260,7 +261,7 @@ bool __stdcall IsNotBmpExtension(const char* extension)
 }
 
 extern int DAT_0109f4b0;
-extern void(__stdcall* DAT_00fdf058)(void*);
+extern void(* DAT_00fdf058)(void*);
 
 void __cdecl FUN_00aa10f0(void* apMemory);
 
@@ -327,8 +328,8 @@ struct ClsImage
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
 extern void __cdecl FUN_00aa10f0(void* p);
 extern void* __cdecl FUN_00aa1070(unsigned int size);
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 
 struct ClsReader : NiImageReader
 {
@@ -482,8 +483,8 @@ ClsImage* ClsReader::ReadImage(ClsStream* stream, ClsImage* image)
     return result;
 }
 
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 
 class NiBinaryStream
 {
@@ -874,8 +875,8 @@ void __cdecl FUN_00a8c7a0(BinaryStreamView* stream, PixelDataView* data, NiPixel
     }
 }
 
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 struct ImageStream
 {
     unsigned int unk00, position;
@@ -1069,9 +1070,9 @@ PixelData* DDSReader::ReadPixelData(ImageStream* stream, PixelData* apPixelData)
 }
 
 namespace fnv_00a8dce0 {
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
-void __fastcall DecodeBytes(char* self, int edx, const unsigned char* src, unsigned char* dst);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
+void DecodeBytes(char* self, int edx, const unsigned char* src, unsigned char* dst);
 struct ReadStream
 {
     virtual void v00();
@@ -1097,7 +1098,7 @@ struct DDSReader : NiImageReader
     unsigned char unk119, unk11a, unk11b;
     NiPixelFormat m_eFormat;
     unsigned int d160, d164, d168, d16c;
-    void(__fastcall* m_pfnPixelConverter)(char*, int, unsigned char*, unsigned char*);
+    void(* m_pfnPixelConverter)(char*, int, unsigned char*, unsigned char*);
     unsigned int d174;
     unsigned char b178, b179, b17a, b17b;
     bool FUN_00a8dce0(ReadStream* stream, int* pA, int* pB, NiPixelFormat* pFmt, unsigned char* pByte, int* pFlag);
@@ -1178,7 +1179,7 @@ bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, Ni
     case 4:
         b114 = 0;
         if (bHasPalette)
-            m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))DecodeBytes;
+            m_pfnPixelConverter = (void(*)(char*, int, unsigned char*, unsigned char*))DecodeBytes;
         else
         {
             DAT_00fdf100(lock);
@@ -1188,9 +1189,9 @@ bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, Ni
     case 8:
         b114 = 1;
         if (bHasPalette)
-            m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))::FUN_00a8d4a0;
+            m_pfnPixelConverter = (void(*)(char*, int, unsigned char*, unsigned char*))::FUN_00a8d4a0;
         else
-            m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))::ExpandGrayToRgb;
+            m_pfnPixelConverter = (void(*)(char*, int, unsigned char*, unsigned char*))::ExpandGrayToRgb;
         break;
     case 15:
     case 16:
@@ -1198,7 +1199,7 @@ bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, Ni
         if (bHasPalette)
         {
             if (bIs32Bit)
-                m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))::FUN_00a8d600;
+                m_pfnPixelConverter = (void(*)(char*, int, unsigned char*, unsigned char*))::FUN_00a8d600;
             else
                 m_pfnPixelConverter = ::FUN_00a8d590;
         }
@@ -1207,11 +1208,11 @@ bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, Ni
         break;
     case 24:
         b114 = 3;
-        m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))((void (&)(char *, int, unsigned char *, unsigned char *))::FUN_00a8d670);
+        m_pfnPixelConverter = (void(*)(char*, int, unsigned char*, unsigned char*))((void (&)(char *, int, unsigned char *, unsigned char *))::FUN_00a8d670);
         break;
     case 32:
         b114 = 4;
-        m_pfnPixelConverter = (void(__fastcall*)(char*, int, unsigned char*, unsigned char*))((void (&)(char *, int, unsigned char *, unsigned char *))::FUN_00a8d6c0);
+        m_pfnPixelConverter = (void(*)(char*, int, unsigned char*, unsigned char*))((void (&)(char *, int, unsigned char *, unsigned char *))::FUN_00a8d6c0);
         break;
     }
     b178 = 0;
@@ -1228,7 +1229,6 @@ bool DDSReader::FUN_00a8dce0(ReadStream* stream, int* apWidth, int* apHeight, Ni
 struct MemoryManager
 {
 };
-__declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct FUN_00a8e480 : NiImageReader
 {
     virtual ~FUN_00a8e480();

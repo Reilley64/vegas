@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00de1210.h"
 #include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
@@ -284,7 +285,6 @@ D6AD90Object::D6AD90Object()
 {
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 struct S00d6a9b0_Rec
 {

@@ -6,11 +6,11 @@
 struct NiD3DShaderProgramCreatorHLSL
 {
     unsigned int m_uiCompileFlags;
-    void __thiscall FUN_00e91ae0(unsigned int uiFlags);
+    void FUN_00e91ae0(unsigned int uiFlags);
 };
 
 // @fnv 0x00e91ae0
-void __thiscall NiD3DShaderProgramCreatorHLSL::FUN_00e91ae0(unsigned int uiFlags)
+void NiD3DShaderProgramCreatorHLSL::FUN_00e91ae0(unsigned int uiFlags)
 {
     ((unsigned int*)this)[1] = uiFlags;
 }
@@ -25,7 +25,7 @@ struct NiD3DShaderProgramCreatorHLSL
 };
 
 // @fnv 0x00e91c10
-void* __thiscall NiD3DShaderProgramCreatorHLSL::Destroy(unsigned int flags)
+void* NiD3DShaderProgramCreatorHLSL::Destroy(unsigned int flags)
 {
     m_vftable = &(*reinterpret_cast<void * *>(&::DAT_010f0a68));
     if (flags & 1)
@@ -39,10 +39,10 @@ void* __thiscall NiD3DShaderProgramCreatorHLSL::Destroy(unsigned int flags)
 struct NiD3DShaderProgramCreator
 {
     void* vtable;
-    void* __thiscall FUN_00e91be0(unsigned int);
+    void* FUN_00e91be0(unsigned int);
 };
 // @fnv 0x00e91be0
-void* __thiscall NiD3DShaderProgramCreator::FUN_00e91be0(unsigned int flags)
+void* NiD3DShaderProgramCreator::FUN_00e91be0(unsigned int flags)
 {
     vtable = (void*)&DAT_010f0a68;
     if (flags & 1)

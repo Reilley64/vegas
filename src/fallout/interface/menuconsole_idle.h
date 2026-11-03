@@ -29,16 +29,12 @@ class ScriptCompiler
     ScriptCompiler();
 };
 
-#pragma pack(push, 4)
 class DFALL_NiTListItem_BSStringT_char_____
 {
   public:
     // void* __cdecl DFALL<NiTListItem<BSStringT<char> > >::*()
     // void __cdecl DFALL<NiTListItem<BSStringT<char> > >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTListItem_BSStringT_char_____) == 1);
-#pragma pack(push, 4)
 class NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char_____AntiBloatAllocator
     : public DFALL_NiTListItem_BSStringT_char_____
 {
@@ -46,11 +42,6 @@ class NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char_____AntiB
     // base DFALL<NiTListItem<BSStringT<char> > > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
 {
   public:
@@ -77,12 +68,6 @@ class NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
     // NiTListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >& __cdecl NiTListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >::*(const NiTListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >&)
     // void* __cdecl NiTListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
     : public NiTListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
 {
@@ -111,9 +96,6 @@ class NiTPointerListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
     // NiTPointerListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >& __cdecl NiTPointerListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >::*(const NiTPointerListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >&)
     // void* __cdecl NiTPointerListBase<DFALL<NiTListItem<BSStringT<char> > >,BSStringT<char> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___) == 12);
-#pragma pack(push, 4)
 class NiTList_BSStringT_char___ : public NiTPointerListBase_DFALL_NiTListItem_BSStringT_char______BSStringT_char___
 {
   public:
@@ -123,9 +105,6 @@ class NiTList_BSStringT_char___ : public NiTPointerListBase_DFALL_NiTListItem_BS
     // NiTList<BSStringT<char> >& __cdecl NiTList<BSStringT<char> >::*(const NiTList<BSStringT<char> >&)
     // void* __cdecl NiTList<BSStringT<char> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTList_BSStringT_char___) == 12);
-#pragma pack(push, 4)
 class ConsoleManager
 {
   public:
@@ -158,22 +137,4 @@ class ConsoleManager
     void Init();
     static ConsoleManager* pInstance;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ConsoleManager) == 2324);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_pScriptCompiler) == 0);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_kOutputLines) == 4);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_kCommandHistory) == 16);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_iCommandHistoryPosition) == 28);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_iScrollPosition) == 32);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_iOutputLineCount) == 36);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_bVisible) == 40);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, iConsoleLineSpacing) == 44);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_iConsoleX) == 48);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_iConsoleY) == 52);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, cVisible) == 56);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, bIsActive) == 57);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_bRecordingBatch) == 58);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_iBatchCommandCount) == 60);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_aacCommandHistory) == 64);
-FNV_STATIC_ASSERT(offsetof(ConsoleManager, m_acOutputFilename) == 2064);
 #endif

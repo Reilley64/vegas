@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/bgsdecalmanager.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/CameraPass__Camera.h"
 #include "fnv/decl/DecalSetup.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -108,8 +109,6 @@ void HostV::FUN_00c4ee90(ObjV* pkObj)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiCullingProcess;
 class NiNodeX;
 class NiObj

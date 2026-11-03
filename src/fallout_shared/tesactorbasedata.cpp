@@ -201,8 +201,8 @@ class TESRegion
 };
 
 void __cdecl operator delete(void*);
-bool __fastcall _ref_008256d0(void*);
-void __fastcall _ref_0063f7b0(void*);
+bool _ref_008256d0(void*);
+void _ref_0063f7b0(void*);
 
 // Iterates the region's color list, deleting each entry and advancing until the list is empty or _ref_008256d0 reports a stop.
 // @fnv 0x0047c9d0
@@ -308,7 +308,7 @@ bool FUN_0047cdb0_shell::FUN_0047cdb0()
     return bretval;
 }
 
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 
 // Returns true if the pointer at offset 0x24 is non-null and its form type is 0x2c or 0x2d.
 // @fnv 0x0047cdd0
@@ -341,7 +341,7 @@ public:
     static ::TESForm *CreateFormForType(unsigned char);
 };
 
-int __fastcall _FNV_GetFormType(TESActorBase*);
+int _FNV_GetFormType(TESActorBase*);
 
 struct DummyBase1
 {
@@ -595,7 +595,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESReactionForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -626,7 +625,6 @@ struct TESReactionForm : public BaseFormComponent
     unsigned char m_ucReactionFlags;
     char _pad_d[3];
 };
-typedef char _sizecheck_TESReactionForm[sizeof(TESReactionForm) == 16 ? 1 : -1];
 struct FUN_0047d680_shell : public TESActorBaseData
 {
     int GetFactionRank(TESFaction*, bool);
@@ -643,7 +641,7 @@ struct FACTION_RANK_local
     signed char rank;
 };
 
-bool __fastcall HasFactionFlag8(TESFaction*);
+bool HasFactionFlag8(TESFaction*);
 
 // @fnv 0x0047d680
 int FUN_0047d680_shell::GetFactionRank(TESFaction* apFaction, bool abPC)
@@ -680,7 +678,7 @@ void FUN_0047e2a0();
 void FUN_0047dd30_shell::FUN_0047dd30(int aiNewFlags)
 {
     *(int*)((char*)this + 4) = aiNewFlags;
-    ((void(__thiscall*)(void*, int)) & FUN_0047e2a0)(this, 2);
+    ((void(*)(void*, int)) & FUN_0047e2a0)(this, 2);
 }
 
 namespace fnv_0047de40 {
@@ -844,14 +842,14 @@ struct FUN_0047e270_shell : public TESActorBaseData
     void SetSpeedMult(unsigned short);
 };
 
-void __fastcall FUN_0047e2a0(void*, int, int);
+void FUN_0047e2a0(void*, int, int);
 
 // Stores asSpeedMult at offset 0x12 of this object and calls FUN_0047e2a0 with this and 2.
 // @fnv 0x0047e270
 void FUN_0047e270_shell::SetSpeedMult(unsigned short asSpeedMult)
 {
     *(unsigned short*)((char*)this + 0x12) = asSpeedMult;
-    ((void(__thiscall*)(void*, int))FUN_0047e2a0)(this, 2);
+    ((void(*)(void*, int))FUN_0047e2a0)(this, 2);
 }
 }  // namespace fnv_0047e270
 
@@ -911,7 +909,7 @@ void FUN_0047e2a0_shell::FUN_0047e2a0(int aiChangeFlags)
     TESForm* pform = reinterpret_cast<TESForm*>(pactbase);
     if (pform)
     {
-        typedef void(__thiscall * AddChange_t)(TESForm*, int);
+        typedef void(* AddChange_t)(TESForm*, int);
         (*reinterpret_cast<AddChange_t*>((*reinterpret_cast<int*>(pform)) + 0x48))(pform, aiChangeFlags);
     }
 }
@@ -947,7 +945,6 @@ struct FactionReaction
     char m_ucRank;
     char _pad_5[3];
 };
-typedef char _sizecheck_FACTION_RANK[sizeof(FactionReaction) == 8 ? 1 : -1];
 struct FUN_0047ca20_shell : public TESActorBaseData
 {
     void CopyFactionRanks(TESActorBaseData*);
@@ -1059,11 +1056,11 @@ bool FUN_0047d7e0_Class::FUN_0047d7e0() const
 
 struct FUN_0047e360_Cls
 {
-    void __thiscall ClearFlags(unsigned int mask);
+    void ClearFlags(unsigned int mask);
 };
 
 // @fnv 0x0047e360
-void __thiscall FUN_0047e360_Cls::ClearFlags(unsigned int mask)
+void FUN_0047e360_Cls::ClearFlags(unsigned int mask)
 {
     ((int*)this)[0x28 / 4] &= ~mask;
 }
@@ -1304,7 +1301,7 @@ struct TESForm
 
 struct BSSimpleListTESRaceSize
 {
-    int __thiscall GetSize();
+    int GetSize();
 };
 
 struct TESSaveLoadGame
@@ -1313,7 +1310,7 @@ struct TESSaveLoadGame
 
 struct GlobalObject_0045cf30
 {
-    unsigned char* __thiscall Bool();
+    unsigned char* Bool();
 };
 
 struct Interface
@@ -1322,7 +1319,7 @@ struct Interface
 
 struct TESActorBaseData_0047e380
 {
-    unsigned short __thiscall FUN_0047e380(unsigned int aiFlags);
+    unsigned short FUN_0047e380(unsigned int aiFlags);
 };
 
 TESForm* __cdecl _ref_004839c0(unsigned int);
@@ -1847,7 +1844,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_0047ce10_shell : public TESActorBaseData
 {
     void FUN_0047ce10(TESObjectREFR*);

@@ -28,7 +28,7 @@ struct P03MM
 struct FUN_00a219e0_shell
 {
     void* FUN_00a219e0(unsigned int flags);
-    void __thiscall DestroyTileImageBase();
+    void DestroyTileImageBase();
 };
 
 // Calls DestroyTileImageBase, then deallocates this via g_memoryManager when flags has bit 1 set, and returns this.

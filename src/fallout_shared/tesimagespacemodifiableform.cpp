@@ -43,14 +43,14 @@ struct BaseFormComponent
 };
 struct FUN_004875c0_shell : BaseFormComponent
 {
-    bool __thiscall FUN_004875c0(BaseFormComponent* apCompareFC);
+    bool FUN_004875c0(BaseFormComponent* apCompareFC);
 };
 
 extern int DAT_0101cbd8;
 
 // Initialises the BaseFormComponent base, installs the vtable from DAT_0101cbd8, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00487420
-void* __fastcall FUN_00487420(void* pThis)
+void* FUN_00487420(void* pThis)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101cbd8;
@@ -106,7 +106,7 @@ void FUN_00487570_cls::FUN_00487570(unsigned int a1)
 
 // Returns true if the cast fails or the two calls to _ref_00726070() return different values.
 // @fnv 0x004875c0
-bool __thiscall FUN_004875c0_shell::FUN_004875c0(BaseFormComponent* apCompareFC)
+bool FUN_004875c0_shell::FUN_004875c0(BaseFormComponent* apCompareFC)
 {
     TESImageSpaceModifiableForm* pCompareImageSpaceForm = dynamic_cast<TESImageSpaceModifiableForm*>(apCompareFC);
     if (!pCompareImageSpaceForm)

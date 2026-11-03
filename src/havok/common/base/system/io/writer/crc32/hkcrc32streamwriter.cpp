@@ -62,7 +62,7 @@ FUN_00db7870_cls::FUN_00db7870_cls(unsigned int value)
 
 // Sets the one-byte flag at *p to 1 (true) and returns nothing.
 // @fnv 0x00db7890
-void __stdcall FUN_00db7890(void* p)
+void FUN_00db7890(void* p)
 {
     *(unsigned char*)p = 1;
 }

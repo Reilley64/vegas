@@ -93,11 +93,11 @@ extern const void* vftable_NiDynamicEffect;
 
 struct FUN_00a69390_shell : public NiDynamicEffect
 {
-    void* __thiscall DestroyNiDynamicEffect(unsigned int flags);
+    void* DestroyNiDynamicEffect(unsigned int flags);
 };
 
 // @fnv 0x00a69390
-void* __thiscall FUN_00a69390_shell::DestroyNiDynamicEffect(unsigned int flags)
+void* FUN_00a69390_shell::DestroyNiDynamicEffect(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &vftable_NiDynamicEffect;
     reinterpret_cast<::FUN_00a68e30_shell *>((this))->FUN_00a68e30();
@@ -218,7 +218,7 @@ void Zx3Effect::FUN_00a69140(StrArr* pkStrings)
 
 struct EffectObject : NiDynamicEffect
 {
-    void __thiscall SaveToStream(NiStream* stream);
+    void SaveToStream(NiStream* stream);
 };
 static __forceinline unsigned int WriteBytes(NiBinaryStream* output, const void* bytes, unsigned int length)
 {
@@ -227,13 +227,13 @@ static __forceinline unsigned int WriteBytes(NiBinaryStream* output, const void*
     output->m_uiStreamFlags += written;
     return written;
 }
-typedef void(__thiscall* SaveLinkedObject)(NiStream*, NiNode*);
+typedef void(* SaveLinkedObject)(NiStream*, NiNode*);
 static __forceinline void WriteLinkedObject(NiStream* stream, NiNode*& object)
 {
     ((SaveLinkedObject*)stream->m_ppVirtualMethodTable)[12](stream, object);
 }
 // @fnv 0x00a68f80
-void __thiscall EffectObject::SaveToStream(NiStream* stream)
+void EffectObject::SaveToStream(NiStream* stream)
 {
     reinterpret_cast<::fnv_00a5a900::Obj00a5a900 *>(this)->FUN_00a5a900((*(::fnv_00a5a900::NiStream *)(stream)));
     unsigned char enabled = m_bEffectEnabled;
@@ -263,11 +263,11 @@ static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
 class FNVEffect : public NiDynamicEffect
 {
   public:
-    bool __thiscall FUN_00a68d80(FNVEffect* other);
+    bool FUN_00a68d80(FNVEffect* other);
 };
 // Returns false if counts differ or paired entries differ in nullness; otherwise returns true if FUN_00a5a260 succeeds.
 // @fnv 0x00a68d80
-bool __thiscall FNVEffect::FUN_00a68d80(FNVEffect* other)
+bool FNVEffect::FUN_00a68d80(FNVEffect* other)
 {
     if (!reinterpret_cast<::A5a260Object *>(this)->FUN_00a5a260((::A5a260CompareBase *)(other)))
         return false;

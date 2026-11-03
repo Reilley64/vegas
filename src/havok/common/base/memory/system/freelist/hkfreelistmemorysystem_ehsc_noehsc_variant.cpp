@@ -26,7 +26,7 @@
 #include "fnv/symbols_010ca000.h"
 struct FUN_00cd06c0_t
 {
-    void __thiscall FUN_00cd06c0(int v);
+    void FUN_00cd06c0(int v);
 };
 struct FUN_00cd06a0
 {
@@ -84,7 +84,7 @@ struct FUN_00cd0940_iface
 };
 struct FUN_00cd0940_shell
 {
-    void __thiscall ResetRecordState(int* param, unsigned char mode);
+    void ResetRecordState(int* param, unsigned char mode);
 };
 struct AudioAllocator
 {

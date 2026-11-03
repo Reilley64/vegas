@@ -20,7 +20,7 @@ NetworkSystemUtility& NetworkSystemUtility::GetRandomGenerator()
 }
 
 // @fnv 0x00af2d40
-void* __fastcall FUN_00af2d40(void* pThis)
+void* FUN_00af2d40(void* pThis)
 {
     *(bool*)pThis = false;
     *((void**)pThis + 1) = 0;

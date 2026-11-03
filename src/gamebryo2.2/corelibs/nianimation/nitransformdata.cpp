@@ -164,7 +164,7 @@ void FUN_00a4e270_shell::DestroyTransformData()
 
 // Calls DestroyTransformData on pThis, then if flags has bit 1 set calls FUN_00aa1460 with 0x2c, and returns pThis.
 // @fnv 0x00a4e5b0
-void* __fastcall FUN_00a4e5b0(void* pThis, int, unsigned int flags)
+void* FUN_00a4e5b0(void* pThis, int, unsigned int flags)
 {
     reinterpret_cast<::FUN_00a4e270_shell *>((pThis))->DestroyTransformData();
     if (flags & 1)

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp: NiDevImageConverter, Converter, NiDevImageConverterStandIn, ImageConverterBase and more (34 functions)
 
+#include <windows.h>
 #include "fnv/decl/A62190PixelFormat.h"
 #include "fnv/decl/Conv.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -385,7 +386,7 @@ struct FUN_00a78630_shell : public NiDevImageConverter
 // @fnv 0x00a78630
 void* FUN_00a78630_shell::SelectPlatformFormat(int ePlatform, void* kFmtPrefs, void* kSrcFmt, void* kDesiredFmt)
 {
-    typedef void*(__thiscall * VFn)(void*, void*, void*, void*);
+    typedef void*(* VFn)(void*, void*, void*, void*);
 
     switch (ePlatform)
     {
@@ -489,7 +490,7 @@ void FUN_00a7aff0_shell::FUN_00a7aff0()
         }
     }
     ((BSShaderLightingProperty*)&self->head)->ClearLights();
-    typedef void(__fastcall * InitCapsFn)(void*);
+    typedef void(* InitCapsFn)(void*);
     ((InitCapsFn)&((void (&)(const char *))::FUN_00a29680))(&self->field_780);
     reinterpret_cast<::fnv_00a76680::FUN_00a76680 *>((self))->fnv_00a76680::FUN_00a76680::~FUN_00a76680();
 }
@@ -609,12 +610,12 @@ struct NodePoolView
 
 struct FUN_00a7b0b0_shell
 {
-    void __thiscall PushImageReaderNode(NiImageReader* pkReader);
+    void PushImageReaderNode(NiImageReader* pkReader);
 };
 
 // Allocates a node from the pool at self+0x998, stores pkReader at offset 8, and links the node into the list at self+0x990/0x994.
 // @fnv 0x00a7b0b0
-void __thiscall FUN_00a7b0b0_shell::PushImageReaderNode(NiImageReader* pkReader)
+void FUN_00a7b0b0_shell::PushImageReaderNode(NiImageReader* pkReader)
 {
     char* self = (char*)this;
     NodePoolView* pool = (NodePoolView*)(self + 0x998);
@@ -841,7 +842,7 @@ static inline bool IsPal_a78a50(const NiPixelFormat& kFmt)
 }
 
 // @fnv 0x00a78a50
-const NiPixelFormat* __stdcall FUN_00a78a50(const FormatPrefs_a78a50& kPrefs, const NiPixelFormat& kSrcFmt,
+const NiPixelFormat* FUN_00a78a50(const FormatPrefs_a78a50& kPrefs, const NiPixelFormat& kSrcFmt,
                                             const NiPixelFormat& kDestFmt)
 {
     bool bAlpha;
@@ -1188,7 +1189,7 @@ struct PixelFormat_a786e0 : NiPixelFormat
 };
 
 // @fnv 0x00a786e0
-const NiPixelFormat* __stdcall FUN_00a786e0(const FormatPrefs_a786e0& prefs, const NiPixelFormat& src,
+const NiPixelFormat* FUN_00a786e0(const FormatPrefs_a786e0& prefs, const NiPixelFormat& src,
                                             const NiPixelFormat& dest)
 {
     if (prefs.m_ePreferredPixelLayout == 7)
@@ -3146,7 +3147,7 @@ NiPixelData* ImageConverterBase::FUN_00a78570(int a1, int a2, const NiPixelData&
 
 // Allocates destination pixel data and fills it using differences between neighboring source bytes.
 // @fnv 0x00a78be0
-NiPixelData* __stdcall FUN_00a78be0(const NiPixelData& src, const NiPixelFormat& fmt)
+NiPixelData* FUN_00a78be0(const NiPixelData& src, const NiPixelFormat& fmt)
 {
     unsigned width = src.m_puiWidth[0], height = src.m_puiHeight[0];
     unsigned levels = src.m_uiMipmapLevels;
@@ -3782,7 +3783,6 @@ void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int 
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*) throw();
 
 class NiRefObj
 {
@@ -3832,8 +3832,8 @@ static inline unsigned int GetFaceTotal(const NiPixelData* pkData) throw()
 }
 
 struct ConverterTable;
-typedef bool(__fastcall* ConvertProc)(NiDevImageConverter*, ConverterTable*, NiPixelData&, const NiPixelData&, int);
-typedef NiPixelData*(__thiscall* BumpProc)(NiDevImageConverter*, const NiPixelData&, const NiPixelFormat&);
+typedef bool(* ConvertProc)(NiDevImageConverter*, ConverterTable*, NiPixelData&, const NiPixelData&, int);
+typedef NiPixelData*(* BumpProc)(NiDevImageConverter*, const NiPixelData&, const NiPixelFormat&);
 struct ConverterTable
 {
     void* entry00;

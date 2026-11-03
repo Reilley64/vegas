@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00470440.h"
@@ -29,8 +30,6 @@ void FUN_0085fbb0::Method_0085fbb0()
     BSFile::~BSFile();
 }
 
-extern "C" __declspec(dllimport) char* __stdcall lstrcpy(char*, const char*);
-extern "C" __declspec(dllimport) char* __stdcall lstrcatA(char*, const char*);
 struct FindData_t
 {
     unsigned long dwFileAttributes;
@@ -45,9 +44,6 @@ struct FindData_t
     char cAlternateFileName[14];
 };
 struct _WIN32_FIND_DATAA;
-extern "C" __declspec(dllimport) void* __stdcall FindFirstFileA(const char*, _WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindNextFileA(void*, _WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindClose(void*);
 struct DebrisData;
 struct StartMenu
 {
@@ -310,7 +306,7 @@ struct FUN_0085fbd0_class
     char pad[0x70];
     List* m_kNode;
 
-    void __thiscall DeleteAllItems();
+    void DeleteAllItems();
 };
 // @fnv 0x0085f900
 void SaveLoadList::LoadSaveFiles()
@@ -327,7 +323,7 @@ void SaveLoadList::LoadSaveFiles()
                     if (list)
                         reinterpret_cast<::FUN_0085fbd0_class *>(this)->DeleteAllItems();
                     list = new SL;
-                    lstrcpy(path, ((char *)(::FUN_004dc110())));
+                    lstrcpyA(path, ((char *)(::FUN_004dc110())));
                     lstrcatA(path, ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))));
                     lstrcatA(path, "*.ess");
                     handle = FindFirstFileA(path, (_WIN32_FIND_DATAA*)&findData);
@@ -353,7 +349,7 @@ void SaveLoadList::LoadSaveFiles()
 
 // Iterates the list, deletes each item, clears the list, deletes the list, and nulls the pointer.
 // @fnv 0x0085fbd0
-void __thiscall FUN_0085fbd0_class::DeleteAllItems()
+void FUN_0085fbd0_class::DeleteAllItems()
 {
     if (m_kNode)
     {
@@ -377,12 +373,12 @@ void __cdecl operator delete(void*);
 
 struct SaveGameFileDeleteEntry85 : public FUN_0085fbb0
 {
-    void* __thiscall FUN_0085fb80(unsigned int flags);
+    void* FUN_0085fb80(unsigned int flags);
 };
 
 // Calls Method_0085fbb0 of the base, deletes this when bit 0 of flags is set, and returns this.
 // @fnv 0x0085fb80
-void* __thiscall SaveGameFileDeleteEntry85::FUN_0085fb80(unsigned int flags)
+void* SaveGameFileDeleteEntry85::FUN_0085fb80(unsigned int flags)
 {
     FUN_0085fbb0::Method_0085fbb0();
     if (flags & 1)

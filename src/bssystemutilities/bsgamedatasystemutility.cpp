@@ -22,7 +22,7 @@ struct VTable
 {
     void* f0;
     void* f1;
-    void(__thiscall* f2)(void*);
+    void(* f2)(void*);
 };
 struct Obj
 {

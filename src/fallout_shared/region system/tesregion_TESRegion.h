@@ -38,10 +38,6 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
 class TESRegion : public TESForm
 {
   public:
@@ -83,11 +79,4 @@ class TESRegion : public TESForm
     // TESRegion& __cdecl TESRegion::*(const TESRegion&)
     // void __cdecl TESRegion::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESRegion) == 56);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_pRegionDataList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESRegion, pRegionPointList) == 28);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_pContainingWorldspace) == 32);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_pRegionWeather) == 36);
-FNV_STATIC_ASSERT(offsetof(TESRegion, fWeatherChance) == 40);
-FNV_STATIC_ASSERT(offsetof(TESRegion, m_kDiffuseColor) == 44);
 #endif

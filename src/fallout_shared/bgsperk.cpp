@@ -65,7 +65,7 @@ unsigned char BGSEntryPointPerkEntry::GetFunction()
 // @fnv 0x005eaa50
 void BGSEntryPointPerkEntry::ApplyEntryPointEffect(Actor* actor, bool apply)
 {
-    reinterpret_cast<void(__thiscall*)(Actor*, BGSEntryPointPerkEntry*, bool)>(
+    reinterpret_cast<void(*)(Actor*, BGSEntryPointPerkEntry*, bool)>(
         (*reinterpret_cast<void***>(actor))[0x129])(actor, this, apply);
 }
 
@@ -370,7 +370,6 @@ struct RGBColor
     unsigned char m_ucRank;
     unsigned char m_ucRegionPriority;
 };
-typedef char _sizecheck_PerkEntrySaveData[sizeof(RGBColor) == 3 ? 1 : -1];
 struct FUN_005e96b0_shell : public BGSPerkEntry
 {
     void LoadFromSaveData(RGBColor*);
@@ -520,12 +519,12 @@ int FUN_005ec060_shell::FUN_005ec060()
 
 struct FUN_005e95b0_shell : BGSPerkEntry
 {
-    void __thiscall FUN_005e95b0(BGSPerkEntry* apCopy);
+    void FUN_005e95b0(BGSPerkEntry* apCopy);
 };
 
 // Copies the two BGSPerkEntry fields from apCopy into this entry.
 // @fnv 0x005e95b0
-void __thiscall FUN_005e95b0_shell::FUN_005e95b0(BGSPerkEntry* apCopy)
+void FUN_005e95b0_shell::FUN_005e95b0(BGSPerkEntry* apCopy)
 {
     this->m_ucRank = apCopy->m_ucRank;
     this->m_ucRegionPriority = apCopy->m_ucRegionPriority;
@@ -547,7 +546,7 @@ bool FUN_005e95e0_shell::Compare(BGSPerkEntry* apCompare)
 }
 
 // @fnv 0x005eb7e0
-void* __fastcall FUN_005eb7e0(void* this_ptr)
+void* FUN_005eb7e0(void* this_ptr)
 {
     return reinterpret_cast<char*>(this_ptr) + 0x5FC;
 }
@@ -1726,7 +1725,7 @@ struct FUN_005a4910_Class
     unsigned int GetFieldD68(void) const;
 };
 
-void* __fastcall FUN_005eb7e0(void*);
+void* FUN_005eb7e0(void*);
 
 struct FUN_005eb6a0_VTable
 {

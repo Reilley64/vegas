@@ -34,13 +34,13 @@ extern "C" void __cdecl FUN_00b02c90();
 
 struct FUN_00b274a0_class
 {
-    void __thiscall FUN_00b02c90();
-    FUN_00b274a0_class* __thiscall ResetState();
+    void FUN_00b02c90();
+    FUN_00b274a0_class* ResetState();
 };
 
 // Calls FUN_00b02c90, clears the byte at offset 0x3c and the int at offset 0x40, and returns this.
 // @fnv 0x00b274a0
-FUN_00b274a0_class* __thiscall FUN_00b274a0_class::ResetState()
+FUN_00b274a0_class* FUN_00b274a0_class::ResetState()
 {
     new ((void *)this) ::FUN_00b02c90_class();
     *reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x3c) = 0;
@@ -62,7 +62,7 @@ struct FUN_00b3c440_class
 int FUN_00b3c440_class::FUN_00b3c440(int aiValue)
 {
     int pad[24];
-    reinterpret_cast<void(__thiscall*)(FUN_00b3c440_class*, int)>(FUN_0044a450)(this, aiValue);
+    reinterpret_cast<void(*)(FUN_00b3c440_class*, int)>(FUN_0044a450)(this, aiValue);
     *reinterpret_cast<int**>(this) = &DAT_010a57fc;
     return reinterpret_cast<int>(this);
 }
@@ -83,11 +83,11 @@ extern int DAT_010a5890;
 
 struct FUN_00b3f0a0_Class
 {
-    void __thiscall FUN_00b3f0a0();
+    void FUN_00b3f0a0();
 };
 
 // @fnv 0x00b3f0a0
-void __thiscall FUN_00b3f0a0_Class::FUN_00b3f0a0()
+void FUN_00b3f0a0_Class::FUN_00b3f0a0()
 {
     *(int*)this = (int)&DAT_010a5890;
 }
@@ -97,7 +97,7 @@ struct NiPoint3
     float x;
     float y;
     float z;
-    NiPoint3& __thiscall FUN_00b2a1c0(const NiPoint3& other);
+    NiPoint3& FUN_00b2a1c0(const NiPoint3& other);
 };
 
 // Adds other's x, y and z to this point's components and returns this point.
@@ -115,7 +115,7 @@ unsigned int __cdecl FUN_00ec7c56();
 struct FUN_00b393b0_Class
 {
     int* vtbl;
-    int __thiscall GetVtblAndValue(int a);
+    int GetVtblAndValue(int a);
 };
 
 // @fnv 0x00b393b0
@@ -133,12 +133,12 @@ int FUN_00b393b0_Class::GetVtblAndValue(int pOut)
 
 struct FUN_00b3c4b0_class
 {
-    FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0(int a);
+    FUN_00b3c4b0_class* FUN_00b3c4b0(int a);
 };
 
 // Zeroes five floats at offsets 0x0-0x10, clamps a to at most 5, stores it at 0x14, and returns this.
 // @fnv 0x00b3c4b0
-FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0_class::FUN_00b3c4b0(int a)
+FUN_00b3c4b0_class* FUN_00b3c4b0_class::FUN_00b3c4b0(int a)
 {
     *(float*)(this + 0x10) = 0.0f;
     *(float*)(this + 0xc) = 0.0f;
@@ -298,12 +298,12 @@ struct FUN_00b2e1b0_class
     unsigned char* m_kRayEnd;
     int m_pRayCursor;
 
-    void __thiscall FreeBuffer();
+    void FreeBuffer();
 };
 
 
 // @fnv 0x00b2e1b0
-void __thiscall FUN_00b2e1b0_class::FreeBuffer()
+void FUN_00b2e1b0_class::FreeBuffer()
 {
     struct State
     {
@@ -350,7 +350,7 @@ struct FUN_00b34d90_class
     int value;
     char* end;
 
-    void __thiscall FUN_00b34d90();
+    void FUN_00b34d90();
 };
 
 // Frees the buffer at begin if set, then resets begin, value and end to zero.
@@ -440,14 +440,14 @@ FUN_00b3f030_Class::FUN_00b3f030_Class()
 struct Random
 {
     void* vtbl;
-    void* __thiscall DestroyRandom(unsigned int flags);
+    void* DestroyRandom(unsigned int flags);
 };
 
 extern const int vftable_Random[];
 
 // Sets the vtable pointer to vftable_Random and, if flags has bit 0 set, deallocates this; returns this.
 // @fnv 0x00b3f2e0
-void* __thiscall Random::DestroyRandom(unsigned int flags)
+void* Random::DestroyRandom(unsigned int flags)
 {
     this->vtbl = (void*)vftable_Random;
     if (flags & 1)
@@ -590,7 +590,7 @@ struct FUN_00b277b0_cls
     void* Destroy(unsigned int flags);
 };
 
-extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_00b277b0_cls::*callback)());
+extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_00b277b0_cls::*callback)());
 
 
 // @fnv 0x00b277b0
@@ -629,12 +629,12 @@ struct FnvB2e080
     int f0c;
     int f10;
     int f14;
-    bool __thiscall InitBuffer(unsigned int count);
+    bool InitBuffer(unsigned int count);
 };
 
 // Resets the three fields to zero and, when count is non-zero and within the limit, allocates a buffer of count*0x54 bytes and stores its start and end pointers.
 // @fnv 0x00b2e080
-bool __thiscall FnvB2e080::InitBuffer(unsigned int count)
+bool FnvB2e080::InitBuffer(unsigned int count)
 {
     int unused[34];
     unsigned int n;
@@ -865,7 +865,7 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 
-extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
+extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
 
 // @fnv 0x00b35f00
 extern "C" void __cdecl FUN_00b35f00(unsigned int n)
@@ -1074,11 +1074,11 @@ struct FUN_00b3c750_cls
 {
     float data[5];
     int count;
-    FUN_00aa7830_cls __thiscall Subtract(const FUN_00b3c5a0_class* other);
+    FUN_00aa7830_cls Subtract(const FUN_00b3c5a0_class* other);
 };
 
 // @fnv 0x00b3c750
-FUN_00aa7830_cls __thiscall FUN_00b3c750_cls::Subtract(const FUN_00b3c5a0_class* other)
+FUN_00aa7830_cls FUN_00b3c750_cls::Subtract(const FUN_00b3c5a0_class* other)
 {
     int n = -1;
     if (count < other->count)
@@ -1219,7 +1219,7 @@ struct StringLike
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall Clear(bool flag, unsigned int count);
+    void Clear(bool flag, unsigned int count);
 };
 
 struct FUN_00b3d800_cls
@@ -1315,10 +1315,10 @@ struct FUN_00b3fdd0_class
     int unk54;
     int unk58;
     FUN_00b37880_class* unk5c;
-    void __thiscall FUN_00b3fdd0(FUN_00b37880_class* value);
+    void FUN_00b3fdd0(FUN_00b37880_class* value);
 };
 // @fnv 0x00b3fdd0
-void __thiscall FUN_00b3fdd0_class::FUN_00b3fdd0(FUN_00b37880_class* value)
+void FUN_00b3fdd0_class::FUN_00b3fdd0(FUN_00b37880_class* value)
 {
     if (unk5c != value)
     {
@@ -1342,8 +1342,8 @@ struct FUN_00b3c3b0_Class
     int unk08;
     FUN_00b3c3b0_Sub unk0c;
 
-    void __thiscall FUN_00ec79a1();
-    void __thiscall Initialize();
+    void FUN_00ec79a1();
+    void Initialize();
 };
 
 // Sets unk00 to DAT_010173e8, calls FUN_0044a730(1, 0) on unk0c, then calls FUN_00ec79a1.
@@ -1412,13 +1412,13 @@ struct Mat
     float m20;
     float m21;
     float m22;
-    Mat* __thiscall Multiply(Mat* out, Mat* rhs);
-    void __thiscall FUN_00b273d0(float angle);
+    Mat* Multiply(Mat* out, Mat* rhs);
+    void FUN_00b273d0(float angle);
 };
 
 // Builds a 2D rotation matrix from angle and multiplies it into the current matrix.
 // @fnv 0x00b273d0
-void __thiscall Mat::FUN_00b273d0(float angle)
+void Mat::FUN_00b273d0(float angle)
 {
     Mat hold;
     Mat buf;

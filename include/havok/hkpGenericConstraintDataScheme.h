@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpGenericConstraintDataSchemeConstraintInfo.h"
 class hkpConstraintMotor;
-#pragma pack(push, 1)
 class hkpGenericConstraintDataScheme
 {
   public:
@@ -16,6 +15,4 @@ class hkpGenericConstraintDataScheme
     hkArray<void*> m_ppModifiers;                         // +0x28
     hkArray<hkpConstraintMotor*> m_ppMotors;              // +0x34
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpGenericConstraintDataScheme[(sizeof(hkpGenericConstraintDataScheme) == 0x40) ? 1 : -1];
 #endif

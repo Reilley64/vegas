@@ -7,7 +7,6 @@
 #include "hkReferencedObject.h"
 class hkaBone;
 class hkaSkeletonLocalFrameOnBone;
-#pragma pack(push, 1)
 class hkaSkeleton : public hkReferencedObject
 {
   public:
@@ -18,6 +17,4 @@ class hkaSkeleton : public hkReferencedObject
     hkArray<hkStringPtr> m_kBoneNames;                    // +0x30
     hkArray<hkaSkeletonLocalFrameOnBone> m_kLocalFrames;  // +0x3C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaSkeleton[(sizeof(hkaSkeleton) == 0x48) ? 1 : -1];
 #endif

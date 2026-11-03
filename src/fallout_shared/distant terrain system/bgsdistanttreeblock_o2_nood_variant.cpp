@@ -140,7 +140,7 @@ struct FakeArray
 {
     int _0;
     InstanceData* _4;
-    unsigned int __thiscall AppendInstance(InstanceData*);
+    unsigned int AppendInstance(InstanceData*);
 };
 struct NavMeshSearchLOSArray
 {
@@ -1081,11 +1081,11 @@ struct S_00bb6050
     int unk7c;
     int unk80;
 
-    int __thiscall FUN_00bb6050(int arg0, int arg1);
+    int FUN_00bb6050(int arg0, int arg1);
 };
 
 // @fnv 0x00bb6050
-int __thiscall S_00bb6050::FUN_00bb6050(int arg0, int arg1)
+int S_00bb6050::FUN_00bb6050(int arg0, int arg1)
 {
     return this->unk80;
 }

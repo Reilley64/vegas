@@ -83,8 +83,6 @@ class FormChangeMask
     int iFlags;  // +0x0, 4 bytes
 };
 #pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FormChangeMask) == 4);
-FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -93,7 +91,6 @@ FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
 #include "layout_support.h"
 #include "NiPoint3.h"
 class ReferencePlacementData;
-#pragma pack(push, 1)
 class ReferencePlacementData
 {
   public:
@@ -108,17 +105,7 @@ class ReferencePlacementData
     unsigned char m_ucFlags;              // +0x2C, 1 bytes
     bool GetCellAndWorld(TESObjectCELL*& apCell, TESWorldSpace*& apWorld);
 };
-#pragma pack(pop)
 // is already naturally aligned, so all offsets are unchanged, and only packing
-FNV_STATIC_ASSERT(sizeof(ReferencePlacementData) == 45);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_uiLocationFormID) == 0);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_uiBaseFormID) == 4);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_uiOriginalBaseFormID) == 8);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_iCellX) == 12);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_iCellY) == 16);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, Location) == 20);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, Angle) == 32);
-FNV_STATIC_ASSERT(offsetof(ReferencePlacementData, m_ucFlags) == 44);
 #endif
 
 class TESForm

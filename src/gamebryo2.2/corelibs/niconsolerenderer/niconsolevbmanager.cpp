@@ -8,6 +8,7 @@
 // NiD3DHLSLVertexShader, i.e. immediately after the 60-byte NiD3DVertexShader
 // base object.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00a66960_cls.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00e8b000.h"
@@ -95,7 +96,7 @@ struct Outer
 
 // Calls func1c then func18 on a->m08; if func18 returns nonzero, stores it in a->m28[b] when b < a->m20 and returns true, else false.
 // @fnv 0x00e8bfa0
-bool __stdcall FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
+bool FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
 {
     Inner* p = apOuter->m08;
     p->func1c(apOuter, uiIndex);
@@ -111,7 +112,7 @@ bool __stdcall FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
 void* _memmove(void*, const void*, unsigned int);
 // Copies count blocks of size bytes from src to dst, advancing dst by stride and src by size each time.
 // @fnv 0x00e8c090
-void __stdcall CopyStridedElements(char* apDest, char* src, unsigned int stride, unsigned int size, unsigned int count)
+void CopyStridedElements(char* apDest, char* src, unsigned int stride, unsigned int size, unsigned int count)
 {
     if (count <= 0)
         return;
@@ -124,8 +125,7 @@ void __stdcall CopyStridedElements(char* apDest, char* src, unsigned int stride,
 }
 
 void* __cdecl _memmove(void*, const void*, unsigned int);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-struct VTBL_00e8c0d0 { char _pad[0x30]; int (__stdcall *fn)(void*); };
+struct VTBL_00e8c0d0 { char _pad[0x30]; int (*fn)(void*); };
 struct OBJ_00e8c0d0 { VTBL_00e8c0d0* v; };
 struct S_00e8c0d0
 {
@@ -151,7 +151,7 @@ bool S_00e8c0d0::CopyAndRelease(void* apObj)
 
 
 // @fnv 0x00e8c120
-void __stdcall FUN_00e8c120(Outer* p1, Outer* p2, unsigned int* flags, unsigned int* auiOffset, int* p5,
+void FUN_00e8c120(Outer* p1, Outer* p2, unsigned int* flags, unsigned int* auiOffset, int* p5,
                             unsigned int* p6, unsigned int* p7, unsigned int* p8, unsigned int* p9)
 {
     unsigned int cnt;
@@ -194,20 +194,19 @@ void __stdcall FUN_00e8c120(Outer* p1, Outer* p2, unsigned int* flags, unsigned 
 }
 
 struct Holder_e8bff0 {
-    virtual void __stdcall slot00() = 0;
-    virtual void __stdcall slot04() = 0;
-    virtual void __stdcall slot08() = 0;
-    virtual void __stdcall slot0c() = 0;
-    virtual void __stdcall slot10() = 0;
-    virtual void __stdcall slot14() = 0;
-    virtual void __stdcall slot18() = 0;
-    virtual void __stdcall slot1c() = 0;
-    virtual void __stdcall slot20() = 0;
-    virtual void __stdcall slot24() = 0;
-    virtual void __stdcall slot28() = 0;
-    virtual int __stdcall read(unsigned int type, unsigned int length, unsigned int* out, unsigned int flags) = 0;
+    virtual void slot00() = 0;
+    virtual void slot04() = 0;
+    virtual void slot08() = 0;
+    virtual void slot0c() = 0;
+    virtual void slot10() = 0;
+    virtual void slot14() = 0;
+    virtual void slot18() = 0;
+    virtual void slot1c() = 0;
+    virtual void slot20() = 0;
+    virtual void slot24() = 0;
+    virtual void slot28() = 0;
+    virtual int read(unsigned int type, unsigned int length, unsigned int* out, unsigned int flags) = 0;
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 void __cdecl FUN_00ec44d0(void* p, unsigned int out, unsigned int n);
 struct Owner_e8bff0 {
     void*& Data() { return *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x40); }
@@ -250,9 +249,9 @@ struct VertexBuffer {
     virtual void f8();
     virtual void f9();
     virtual void f10();
-    virtual int __stdcall Lock(unsigned int, unsigned int, void**, unsigned int);
-    virtual int __stdcall Unlock();
-    virtual int __stdcall GetDesc(BufferDesc*);
+    virtual int Lock(unsigned int, unsigned int, void**, unsigned int);
+    virtual int Unlock();
+    virtual int GetDesc(BufferDesc*);
 };
 struct VertexRecord {
     unsigned int unk00, unk04;

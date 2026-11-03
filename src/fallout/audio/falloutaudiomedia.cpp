@@ -1,5 +1,6 @@
 // fallout/audio/falloutaudiomedia.cpp: FalloutAudioMedia, FAMThread (30 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSFile.h"
 #include "fnv/decl/FUN_00591a40_class.h"
 #include "fnv/decl/FUN_00595cb0_shell.h"
@@ -121,8 +122,6 @@ char FalloutAudioMedia::IsRadioPlaying()
     return state.result;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
 
 namespace fnv_anon_falloutaudiomedia {}
 using namespace fnv_anon_falloutaudiomedia;
@@ -135,7 +134,7 @@ void FAMThread::WaitForThread()
 }
 
 // @fnv 0x0082f7b0
-unsigned int __fastcall FUN_0082f7b0(FAMThread* pThis)
+unsigned int FUN_0082f7b0(FAMThread* pThis)
 {
     pThis->state |= 2;
     while (pThis->state & 1)
@@ -496,7 +495,7 @@ struct FUN_0082f950_shell
     void* ScalarDeletingDestructor(unsigned int flags);
 };
 
-extern void __stdcall FUN_00ec5fce(void*, unsigned int, unsigned int, void (FUN_0082f950_shell::*)());
+extern void FUN_00ec5fce(void*, unsigned int, unsigned int, void (FUN_0082f950_shell::*)());
 
 // Destructor that runs cleanup, optionally frees the object (and its 4-byte header when flags bit 2 is set), and returns the object pointer.
 // @fnv 0x0082f950
@@ -516,7 +515,6 @@ void* FUN_0082f950_shell::ScalarDeletingDestructor(unsigned int flags)
     return this;
 }
 
-extern "C" __declspec(dllimport) int __stdcall SetEvent(void*);
 extern void* DAT_011dd3b0;
 class AudioClock
 {

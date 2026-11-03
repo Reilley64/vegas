@@ -206,7 +206,7 @@ void FalloutRadio::RadioSynchUnPaused()
     ms_uiRadioSyncFlags |= 2;
 }
 
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 
 // Walks the DAT_011dd58c list until an entry whose first int equals param_1 is found, returning that entry or null.
 // @fnv 0x00832930
@@ -332,7 +332,7 @@ struct FUN_008373d0_struct
 };
 
 // @fnv 0x008373d0
-FUN_008373d0_struct* __fastcall ClearStruct(FUN_008373d0_struct* pThis)
+FUN_008373d0_struct* ClearStruct(FUN_008373d0_struct* pThis)
 {
     pThis->f = 0.0f;
     pThis->p = 0;
@@ -341,7 +341,7 @@ FUN_008373d0_struct* __fastcall ClearStruct(FUN_008373d0_struct* pThis)
 
 
 // @fnv 0x008373f0
-void __fastcall FUN_008373f0(void* pThis)
+void FUN_008373f0(void* pThis)
 {
     ::FUN_00837410((::Node_00837410 *)(pThis));
 }
@@ -566,11 +566,11 @@ struct FUN_00833040_shell
     int m_0c;
     int m_10;
     int m_14;
-    bool __thiscall IsFlag20Set();
+    bool IsFlag20Set();
 };
 
 // @fnv 0x00833040
-bool __thiscall FUN_00833040_shell::IsFlag20Set()
+bool FUN_00833040_shell::IsFlag20Set()
 {
     return ((m_14 & 0x20) != 0);
 }
@@ -606,7 +606,7 @@ bool FUN_00833bc0_shell::IsFlagSet()
 }
 
 // @fnv 0x00833c00
-bool __fastcall IsFlag80Set(void* thisPtr)
+bool IsFlag80Set(void* thisPtr)
 {
     return (((int*)thisPtr)[5] & 0x80) != 0;
 }
@@ -656,12 +656,12 @@ bool FUN_00835670_shell::IsFlag8Set()
 
 struct RadioConvTask
 {
-    bool __thiscall GetDescription(char* apDescription, unsigned int aiBufferSize);
+    bool GetDescription(char* apDescription, unsigned int aiBufferSize);
 };
 
 // Writes the string "Radio conversation task" into apDescription using the given buffer size and returns true.
 // @fnv 0x008373a0
-bool __thiscall RadioConvTask::GetDescription(char* apDescription, unsigned int aiBufferSize)
+bool RadioConvTask::GetDescription(char* apDescription, unsigned int aiBufferSize)
 {
     ::FUN_00406d00(apDescription, aiBufferSize, "Radio conversation task");
     return true;
@@ -962,7 +962,6 @@ struct StateStandIn
 // @fnv 0x00836af0
 void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
 {
-#pragma pack(push, 1)
     struct LoadLocals
     {
         void* receiverResult;
@@ -989,7 +988,6 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
         RadioReceiver* firstReceiver;
         BSSimpleList<RadioReceiver*>* firstNode;
     } locals;
-#pragma pack(pop)
     void* pRefr;
     locals.firstNode = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c));
     while (locals.firstNode)
@@ -1166,7 +1164,7 @@ bool FUN_0083b9f0_shell::FUN_0083b9f0()
 }
 
 namespace fnv_0083c470 {
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 struct FUN_0083c470_holder
 {
     void FUN_0083c470();
@@ -1219,11 +1217,11 @@ struct FUN_00836470_shell
 
 struct FUN_008366c0_shell
 {
-    void __thiscall FUN_008366c0(int a);
+    void FUN_008366c0(int a);
 };
 
 // @fnv 0x008366c0
-void __thiscall FUN_008366c0_shell::FUN_008366c0(int a)
+void FUN_008366c0_shell::FUN_008366c0(int a)
 {
     reinterpret_cast<::S_00836470 *>((((FUN_00836470_shell*)((char*)this + 4))))->UpdateSoundItems(a);
 }

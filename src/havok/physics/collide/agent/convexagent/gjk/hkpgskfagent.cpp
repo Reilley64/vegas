@@ -38,7 +38,7 @@ void __cdecl InitVtable(FUN_00dacc70_vt* p)
 
 struct FUN_00dacaf0_vt
 {
-    void(__thiscall* dtor)(void*, int);
+    void(* dtor)(void*, int);
 };
 
 struct FUN_00dacaf0
@@ -101,11 +101,11 @@ struct FUN_00dacb60_class
 
     Potential m_potentials[256];
 
-    void __thiscall AddPotential(unsigned short value);
+    void AddPotential(unsigned short value);
 };
 
 // @fnv 0x00dacb60
-void __thiscall FUN_00dacb60_class::AddPotential(unsigned short value)
+void FUN_00dacb60_class::AddPotential(unsigned short value)
 {
     int count = m_uiItemCount;
     int i;
@@ -295,8 +295,8 @@ inline void* allocateAgentDACC(int nbytes)
 
 struct GskInitDACC : FUN_00dacbd0
 {
-    FUN_00dabf10* __thiscall FUN_00dacbd0(int, int, int);
-    FUN_00dabf10* __thiscall FUN_00dabf10(int, int, int);
+    FUN_00dabf10* FUN_00dacbd0(int, int, int);
+    FUN_00dabf10* FUN_00dabf10(int, int, int);
 };
 
 // If c is nonzero, allocates 0x80 bytes and calls FUN_00dacbd0; otherwise allocates 0x30 bytes and calls FUN_00dabf10; returns the constructed object.

@@ -74,7 +74,7 @@ struct HkStringBuf
 
 // Builds a fixed message about getDataChunks being unimplemented, reports it via g_01268360->Message and breaks if it returns nonzero.
 // @fnv 0x00dfb670
-void __stdcall ReportGetDataChunksNotImplemented(int a1, int a2, int a3, int a4)
+void ReportGetDataChunksNotImplemented(int a1, int a2, int a3, int a4)
 {
     unsigned int auBuffer[128];
     HkStringBuf buf((char*)auBuffer, sizeof(auBuffer));
@@ -265,11 +265,11 @@ struct FloatOwner
     int unk10;
     int unk14;
     VirtualFloat* unk18;
-    float __thiscall FUN_00dfb6d0(float value, int mode);
+    float FUN_00dfb6d0(float value, int mode);
 };
 // Forwards value and mode to the virtual Slot3 of the object at unk18 and returns its result.
 // @fnv 0x00dfb6d0
-float __thiscall FloatOwner::FUN_00dfb6d0(float value, int mode)
+float FloatOwner::FUN_00dfb6d0(float value, int mode)
 {
     return unk18->Slot3(value, mode);
 }

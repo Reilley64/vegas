@@ -1,6 +1,6 @@
 #pragma once
 
-class _ULARGE_INTEGER;
+union _ULARGE_INTEGER;
 struct TESRecordHeader;
 template <class> class BSSimpleList;
 

@@ -29,11 +29,11 @@ struct TESPackage
 
 struct TrespassPackage : TESPackage
 {
-    void __thiscall FUN_009f9840(BGSLoadFormBuffer*);
+    void FUN_009f9840(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x009f9840
-void __thiscall TrespassPackage::FUN_009f9840(BGSLoadFormBuffer* apLoadGameBuffer)
+void TrespassPackage::FUN_009f9840(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::Package6798c0 *>(this)->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x80)), 4);
@@ -47,12 +47,12 @@ void __thiscall TrespassPackage::FUN_009f9840(BGSLoadFormBuffer* apLoadGameBuffe
 
 struct TrespassPackageShell : TrespassPackage
 {
-    void* __thiscall FUN_009f9220(unsigned int flags);
+    void* FUN_009f9220(unsigned int flags);
 };
 
 // Calls FUN_009f9450, then deletes this when flags has bit 1 set, and returns this.
 // @fnv 0x009f9220
-void* __thiscall TrespassPackageShell::FUN_009f9220(unsigned int flags)
+void* TrespassPackageShell::FUN_009f9220(unsigned int flags)
 {
     reinterpret_cast<::FUN_009f9450 *>(this)->FUN_009f9450::~FUN_009f9450();
     if (flags & 1)
@@ -68,11 +68,11 @@ struct FUN_00679a90_shell
 
 struct FUN_009f98e0_shell : public TrespassPackage
 {
-    void __thiscall FUN_009f98e0(unsigned int);
+    void FUN_009f98e0(unsigned int);
 };
 
 // @fnv 0x009f98e0
-void __thiscall FUN_009f98e0_shell::FUN_009f98e0(unsigned int a)
+void FUN_009f98e0_shell::FUN_009f98e0(unsigned int a)
 {
     reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((int)((void*)a));
     *(TESForm**)((char*)this + 0x88) =
@@ -86,7 +86,7 @@ struct STR00
 };
 struct FUN_00484d40_Host
 {
-    void __thiscall FUN_00484d40(unsigned int*, int);
+    void FUN_00484d40(unsigned int*, int);
 };
 struct Base009f8770
 {
@@ -96,10 +96,10 @@ struct TESSaveLoadGame
 };
 struct TrespassPackageInit : Base009f8770
 {
-    void __thiscall LoadTrespassPackage();
+    void LoadTrespassPackage();
 };
 // @fnv 0x009f9660
-void __thiscall TrespassPackageInit::LoadTrespassPackage()
+void TrespassPackageInit::LoadTrespassPackage()
 {
     reinterpret_cast<::fnv_00679340::Package679 *>(this)->FUN_00679340();
     reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00(this + 0x80, 4);
@@ -129,11 +129,11 @@ struct BGSSaveFormBuffer
 };
 struct FUN_009f9790_shell
 {
-    void __thiscall SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
+    void SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 // Calls the base save routine, then writes five 4-byte fields at offsets 0x80-0x98 and two pointers at 0x88/0x8c to the save buffer.
 // @fnv 0x009f9790
-void __thiscall FUN_009f9790_shell::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_009f9790_shell::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     ((FUN_006797c0_shell*)this)->FUN_006797c0((::FUN_006797c0_arg *)(apSaveGameBuffer));
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(this + 0x80, 4, 0);
@@ -178,7 +178,7 @@ struct PC7d
 
 struct FUN_00484d20_Class
 {
-    void __thiscall ForwardToSaveLoadGame(int, int);
+    void ForwardToSaveLoadGame(int, int);
 };
 
 struct SaveManager
@@ -193,7 +193,7 @@ struct FUN_009f9570_shell
     TESForm* pOwner;
     TESForm* pReferencedForm;
 
-    void __thiscall SaveFormRefs();
+    void SaveFormRefs();
 };
 
 // @fnv 0x009f9570

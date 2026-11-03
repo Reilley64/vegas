@@ -49,11 +49,11 @@ struct FUN_00a77960_shell
 {
     int field0;
     int field4;
-    int __thiscall IsField4InRange();
+    int IsField4InRange();
 };
 
 // @fnv 0x00a77960
-int __thiscall FUN_00a77960_shell::IsField4InRange()
+int FUN_00a77960_shell::IsField4InRange()
 {
     if (field4 >= 4 && field4 <= 6)
         return 1;

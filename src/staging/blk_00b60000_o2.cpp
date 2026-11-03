@@ -2,6 +2,7 @@
 // src/staging/blk_00b60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/B9B3D0Shader.h"
 #include "fnv/decl/B9F30Owner.h"
@@ -274,7 +275,7 @@ void* FUN_00b61220_class::DestroyIfFlagged(int aiFlags)
 }
 
 // @fnv 0x00b63bd0
-void __stdcall FUN_00b63bd0(void* apObject, int aiValue, char c)
+void FUN_00b63bd0(void* apObject, int aiValue, char c)
 {
     *(int*)((char*)apObject + 4) = aiValue;
     *(char*)((char*)apObject + 8) = c;
@@ -373,12 +374,12 @@ void __cdecl operator delete(void* p, unsigned int) throw();
 
 struct FUN_00b6b160_class
 {
-    FUN_00b6b160_class* __thiscall FUN_00b6b160(int flags);
+    FUN_00b6b160_class* FUN_00b6b160(int flags);
 };
 
 // Calls FUN_00b6aef0, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00b6b160
-FUN_00b6b160_class* __thiscall FUN_00b6b160_class::FUN_00b6b160(int flags)
+FUN_00b6b160_class* FUN_00b6b160_class::FUN_00b6b160(int flags)
 {
     FUN_00b6aef0();
     if (flags & 1)
@@ -436,7 +437,7 @@ void FUN_00b71b70_class::ReleaseStage()
 
 
 // @fnv 0x00b7c150
-void __stdcall SetEntryField(int aiIndex)
+void SetEntryField(int aiIndex)
 {
     int* base = (int*)DAT_0126f74c;
     int* p = (int*)base[0x24 / 4];
@@ -454,7 +455,7 @@ struct FUN_00b7deb0_class
 };
 
 // @fnv 0x00b7deb0
-void __thiscall FUN_00b7deb0_class::FUN_00b7deb0()
+void FUN_00b7deb0_class::FUN_00b7deb0()
 {
     UpdateFogShaderConstants();
     UpdateSpawnedObjectFlags();
@@ -522,10 +523,10 @@ struct FUN_00b605a0_class
     int m_iWordAt00;
     int m_iWordAt04;
     void* m_8;
-    FUN_00b605a0_class* __thiscall FUN_00b605a0(int flags);
+    FUN_00b605a0_class* FUN_00b605a0(int flags);
 };
 // @fnv 0x00b605a0
-FUN_00b605a0_class* __thiscall FUN_00b605a0_class::FUN_00b605a0(int flags)
+FUN_00b605a0_class* FUN_00b605a0_class::FUN_00b605a0(int flags)
 {
     m_iWordAt00 = (int)&DAT_010ade18;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
@@ -536,7 +537,7 @@ FUN_00b605a0_class* __thiscall FUN_00b605a0_class::FUN_00b605a0(int flags)
 }
 
 // @fnv 0x00b60d70
-void __fastcall FUN_00b60d70(void* self, int, int value)
+void FUN_00b60d70(void* self, int, int value)
 {
     *(int*)((char*)self + 0x90) = value;
 }
@@ -557,7 +558,7 @@ struct NiTAbstractPoolAllocator_unsigned_int
     static LinkedListEntry* ms_pFreeList;
 };
 // @fnv 0x00b63df0
-void __stdcall FreePoolNode(void* p)
+void FreePoolNode(void* p)
 {
     NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry* n = (NiTAbstractPoolAllocator_unsigned_int::LinkedListEntry*)p;
     *(unsigned char*)((char*)n + 8) = 0;
@@ -618,9 +619,9 @@ void FUN_00b66520_class::ApplyRenderMode()
     (*reinterpret_cast<void (**[])(void *)>(&::DAT_011f9f40))[0](this);
 }
 
-bool __stdcall FUN_00b70270(void*);
+bool FUN_00b70270(void*);
 // @fnv 0x00b665c0
-char __stdcall FUN_00b665c0(int a)
+char FUN_00b665c0(int a)
 {
     FUN_00b70270((void*)a);
     return 0;
@@ -649,7 +650,7 @@ struct FUN_00b71ad0_class
 };
 // Copies 0x60 bytes from src into this+0x1a8 and sets the flag at this+0x208 to 1, or clears that flag when src is null.
 // @fnv 0x00b71ad0
-void __thiscall FUN_00b71ad0_class::CopySourceData(const void* src)
+void FUN_00b71ad0_class::CopySourceData(const void* src)
 {
     if (src)
     {
@@ -699,7 +700,7 @@ struct FUN_00b7b930_Ctx
 
 // If the entry is enabled, the target is valid and the context value is nonzero, writes a world or identity-offset matrix into DAT_011fd968.
 // @fnv 0x00b7b930
-void __stdcall UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, int iIdentity, const FUN_00b7b930_Transform* pkWorld)
+void UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, int iIdentity, const FUN_00b7b930_Transform* pkWorld)
 {
     if (!(*reinterpret_cast<::FUN_00b7b930_Entry * *>(&::DAT_011febe4))->bEnabled)
         return;
@@ -772,7 +773,7 @@ FUN_00b606f0_class::~FUN_00b606f0_class()
 
 struct BSShaderAccumulator
 {
-    void __thiscall FUN_00b63120(unsigned int a, int b);
+    void FUN_00b63120(unsigned int a, int b);
 };
 // Iterates the shader entries at this+0x174 up to the count at this+0x18c, calling HasListedItemInRange on each until one returns true.
 // @fnv 0x00b63120
@@ -802,7 +803,7 @@ public:
 };
 struct NiRendererHelper
 {
-    void __thiscall TryUnlock();
+    void TryUnlock();
 };
 void __cdecl FUN_00b6b0b0();
 int __cdecl GetCurrentItem();
@@ -818,7 +819,7 @@ void FUN_00b6b840()
         if (r == 0)
         {
             NiRenderer* p = NiRenderer::ms_pRenderer;
-            r = (*(int(__thiscall**)(NiRenderer*))(*(int*)p + 0xc8))(p);
+            r = (*(int(**)(NiRenderer*))(*(int*)p + 0xc8))(p);
         }
         ((GraphicsRenderer*)NiRenderer::ms_pRenderer)->BeginUsingRenderTargetGroup((::NiRenderTargetGroup *)(void *)((void*)r), 0);
     }
@@ -844,7 +845,7 @@ FUN_00b605e0_class::FUN_00b605e0_class(int flags)
 
 struct FUN_00b60c90_class : FUN_00b606f0_class
 {
-    FUN_00b60c90_class* __thiscall FUN_00b60c90(int flags);
+    FUN_00b60c90_class* FUN_00b60c90(int flags);
 };
 // Runs the base class destructor, frees this via g_memoryManager when flags has bit 0 set, and returns this.
 // @fnv 0x00b60c90
@@ -859,11 +860,11 @@ FUN_00b60c90_class* FUN_00b60c90_class::FUN_00b60c90(int flags)
 void __cdecl FUN_00b60b50();
 struct FUN_00b60f30_class
 {
-    FUN_00b60f30_class* __thiscall FUN_00b60f30(int flags);
+    FUN_00b60f30_class* FUN_00b60f30(int flags);
 };
 // Calls FUN_00b60b50, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00b60f30
-FUN_00b60f30_class* __thiscall FUN_00b60f30_class::FUN_00b60f30(int flags)
+FUN_00b60f30_class* FUN_00b60f30_class::FUN_00b60f30(int flags)
 {
     FUN_00b60b50();
     if (flags & 1)
@@ -926,7 +927,7 @@ struct FUN_00b63d80_base
 };
 struct FUN_00b63e70_class : FUN_00b63d80_base
 {
-    FUN_00b63e70_class* __thiscall FUN_00b63e70(bool bDelete);
+    FUN_00b63e70_class* FUN_00b63e70(bool bDelete);
 };
 
 // @fnv 0x00b64490
@@ -939,7 +940,7 @@ bool __cdecl FUN_00b64490(void* a, void* b, void* c, void* d, void* e)
 
 extern int DAT_010ae0c0;
 extern long volatile DAT_011f4400;
-extern void(__stdcall* DAT_00fdf1c4)(void*);
+extern void(* DAT_00fdf1c4)(void*);
 
 struct FUN_00b66850_class
 {
@@ -955,7 +956,7 @@ struct StrArr
 
 // Appends the string returned by _FUN_00a7d330(g_011fa018) to arr, growing arr to idx plus the growth value when idx reaches capacity.
 // @fnv 0x00b6a670
-void __stdcall FUN_00b6a670(StrArr* pStrArr)
+void FUN_00b6a670(StrArr* pStrArr)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((pStrArr))->WriteToSettingArray({});
     char* p = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011fa018))));
@@ -983,7 +984,7 @@ void PushRefCountedSlot(int* pObject)
             {
                 if (InterlockedDecrement((long*)old + 1) == 0)
                 {
-                    (*(void(__thiscall**)(int*))(*(int*)old + 4))(old);
+                    (*(void(**)(int*))(*(int*)old + 4))(old);
                 }
             }
             *slot = pObject;
@@ -1205,7 +1206,7 @@ struct NiD3DShader
 
 // If both textureStage and shader are non-null, passes the shader's V56() result to textureStage->ApplyPairToState.
 // @fnv 0x00b71b10
-void __stdcall FUN_00b71b10(BeamStage* textureStage, NiD3DShader* shader)
+void FUN_00b71b10(BeamStage* textureStage, NiD3DShader* shader)
 {
     if (textureStage != 0 && shader != 0)
     {
@@ -1333,7 +1334,7 @@ struct FnvB60280Ref
 struct FnvB60280Owner
 {
     FnvB60280Ref* m_pCur;
-    FnvB60280Owner* __thiscall FUN_00b60280(FnvB60280Ref* pNew);
+    FnvB60280Owner* FUN_00b60280(FnvB60280Ref* pNew);
 };
 
 // Releases the current reference if different, then stores pNew and increments its ref count.
@@ -1357,8 +1358,6 @@ FnvB60280Owner* FnvB60280Owner::FUN_00b60280(FnvB60280Ref* pNew)
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 void* __cdecl FUN_00aa1070(unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct ManagedRef
 {
@@ -1438,7 +1437,7 @@ void FUN_00b604b0_class::AssignString(AssignedString* out, const char* input, Re
     out->object = ref;
 }
 
-// FUN_00b60750 - a __thiscall member that hands a block over to its caller
+// FUN_00b60750 - a member that hands a block over to its caller
 // and releases it again.
 //
 // The original reads two members of the object:
@@ -1461,7 +1460,7 @@ void FUN_00b604b0_class::AssignString(AssignedString* out, const char* input, Re
 //   call dword ptr [0x00fdf1c0]                ; the engine's deallocator
 // <done>: mov eax, esi / pop esi / pop ecx / ret 4
 //
-// The deallocator is the global function pointer DAT_00fdf1c0 - a __stdcall
+// The deallocator is the global function pointer DAT_00fdf1c0 - a
 // pointer with one void* argument - so the block is released as (block + 4).
 //
 // The scratch flag is a volatile int that the original only ever reads in a
@@ -1479,7 +1478,7 @@ struct FUN_00b60750_owner
     void* FUN_00b60750(void* pOut);
 };
 
-extern void(__stdcall* DAT_00fdf1c0)(void*);
+extern void(* DAT_00fdf1c0)(void*);
 
 // Stores the block pointer from unk250 (or null if unk258 is zero) into pOut and calls DAT_00fdf1c0 on block+4 when non-null.
 // @fnv 0x00b60750
@@ -1970,7 +1969,7 @@ struct Resource
     void* vtable;
     int unk04;
     void* unk08;
-    Resource* __thiscall DestroyResource(unsigned int flags);
+    Resource* DestroyResource(unsigned int flags);
 };
 // @fnv 0x00b63e30
 Resource* Resource::DestroyResource(unsigned int flags)
@@ -2165,7 +2164,7 @@ struct DecompOwner
     bool CheckAndNotify(int a);
 };
 
-bool __stdcall FUN_00bc3770(int a);
+bool FUN_00bc3770(int a);
 
 // Calls FUN_00bc3770(a); if it succeeds, invokes v21(a) on the stored target pointer when non-null and returns true, otherwise false.
 // @fnv 0x00b667e0
@@ -2903,7 +2902,6 @@ FUN_00b6aed0::FUN_00b6aed0(B6AED0RefObject* pObject)
         m_pObject->IncRefCount();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 class NiRefObject
 {
@@ -3007,7 +3005,6 @@ B6B100RefObject* B6B100Manager::GetCurrentItem()
                                    : NiPointer<B6B100RefObject>(0);
 }
 
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* pkSection);
 
 struct B6B330CriticalSection
 {
@@ -3614,8 +3611,8 @@ struct FUN_00b6c1d0_Class
     virtual void VFBC();
     virtual void VFC0();
     virtual void VFC4();
-    virtual int* __thiscall VF50_Call();
-    int __thiscall FUN_00b6c1d0();
+    virtual int* VF50_Call();
+    int FUN_00b6c1d0();
 };
 
 struct FUN_00b6c1d0_SubClass
@@ -3664,7 +3661,7 @@ struct FUN_00b6c1d0_SubClass
     virtual void VFA4();
     virtual void VFA8();
     virtual void VFAC();
-    virtual int* __thiscall VF44_Call(int a);
+    virtual int* VF44_Call(int a);
 };
 
 // @fnv 0x00b6c1d0
@@ -3814,7 +3811,6 @@ struct NiGlobalStringTable
 {
     static char* AddString(const char* s);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 struct FixedStr_b6d170
 {
@@ -4060,7 +4056,7 @@ struct S_00b6f8d0_Object
     void** vtable;
 };
 
-typedef S_00b6f8d0_Node*(__thiscall* S_00b6f8d0_GetNext)(S_00b6f8d0_Object*);
+typedef S_00b6f8d0_Node*(* S_00b6f8d0_GetNext)(S_00b6f8d0_Object*);
 
 
 struct FUN_00b6f8d0_class
@@ -4091,12 +4087,12 @@ struct FUN_00b6f8d0_class
     int unk5c;
     S_00b6f8d0_Object* unk60;
 
-    void __thiscall FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), int value);
+    void FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), int value);
 };
 
 // Walks the linked list returned by unk60's vtable[2] looking for DAT_011f444c or DAT_011f4ac4, then calls callback with unk60, 0 and value.
 // @fnv 0x00b6f8d0
-void __thiscall FUN_00b6f8d0_class::FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), int value)
+void FUN_00b6f8d0_class::FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), int value)
 {
     S_00b6f8d0_Object* object = this->unk60;
 
@@ -4518,7 +4514,7 @@ struct FUN_00b71b90_VirtualObject
     void** vtable;
 };
 
-typedef void(__thiscall* FUN_00b71b90_VirtualFunction)(FUN_00b71b90_VirtualObject*);
+typedef void(* FUN_00b71b90_VirtualFunction)(FUN_00b71b90_VirtualObject*);
 
 
 struct FUN_00b71b90_class
@@ -4623,10 +4619,10 @@ struct S_00b7ac20_Class
     S_00b7ac20_Callable* unk30;
     S_00b7ac20_Callable* unk34;
 
-    void __thiscall FUN_00b7ac20(int index);
+    void FUN_00b7ac20(int index);
 };
 
-void __thiscall S_00b7ac20_Class::FUN_00b7ac20(int index)
+void S_00b7ac20_Class::FUN_00b7ac20(int index)
 {
     if (DAT_011fb4c0[index] != 0)
     {
@@ -4791,7 +4787,7 @@ struct BSFogProperty
 extern float DAT_011fd918;
 // Copies the context's light data into global light vectors and, when enabled, stores fog color and depth/density into global fog vectors.
 // @fnv 0x00b7ad80
-void __stdcall UpdateLightAndFogGlobals(int enabled, Context* context)
+void UpdateLightAndFogGlobals(int enabled, Context* context)
 {
     if (context)
     {
@@ -4895,7 +4891,7 @@ struct ShaderFieldsStub
 
 // Stores shader's m_pArr[j] into stage i's m_08 and calls the stage's ApplyPairToState with shader->V56().
 // @fnv 0x00b7c0a0
-void __stdcall FUN_00b7c0a0(NiD3DShader* shader, unsigned int uiStageIndex, unsigned int j)
+void FUN_00b7c0a0(NiD3DShader* shader, unsigned int uiStageIndex, unsigned int j)
 {
     StageMgrStub* pStageMgr = reinterpret_cast<StageMgrStub*>(DAT_0126f74c);
     TexStageStub* stage = pStageMgr->m_pElems[uiStageIndex];
@@ -5017,7 +5013,7 @@ struct S_00b7c120_Global2
 
 // Looks up targets[index] and stores the result of callback->FUN_004bc320(0) into its unk08 field.
 // @fnv 0x00b7c120
-void __stdcall FUN_00b7c120(int index)
+void FUN_00b7c120(int index)
 {
     S_00b7c120_Global1* global1 = reinterpret_cast<S_00b7c120_Global1*>(DAT_0126f74c);
     S_00b7c120_Target** targets = global1->unk24;
@@ -5053,7 +5049,7 @@ struct FUN_00b7c170_Container
 
 
 // @fnv 0x00b7c170
-void __stdcall FUN_00b7c170(int index)
+void FUN_00b7c170(int index)
 {
     FUN_00b7c170_Container* container = reinterpret_cast<FUN_00b7c170_Container*>(DAT_0126f74c);
     container->unk24[index]->unk08 = DAT_011f95e8;
@@ -5135,7 +5131,7 @@ struct B7C1F0Property
 
 // Assigns the property's texture at uiTexture to the pass stage at uiStage, falling back to the default texture or null when none is set.
 // @fnv 0x00b7c1f0
-void __stdcall FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, unsigned int uiTexture, bool bUseDefault)
+void FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, unsigned int uiTexture, bool bUseDefault)
 {
     B7C1F0Stage* pkStage = (*reinterpret_cast<::B7C1F0Pass * *>(&::DAT_0126f74c))->m_ppkStages[uiStage];
     B7C1F0Texture* pkTexture = pkProperty->m_ppkTextures[uiTexture];
@@ -5146,10 +5142,10 @@ void __stdcall FUN_00b7c1f0(B7C1F0Property* pkProperty, unsigned int uiStage, un
 }
 
 
-typedef int(__thiscall* FUN_00b7c230_VFn)(void* self, int a, int b);
+typedef int(* FUN_00b7c230_VFn)(void* self, int a, int b);
 
 // @fnv 0x00b7c230
-void __stdcall FUN_00b7c230(char* self, unsigned int uiIndex, int a3, unsigned char ucFlag)
+void FUN_00b7c230(char* self, unsigned int uiIndex, int a3, unsigned char ucFlag)
 {
     char* g = (char*)DAT_0126f74c;
     int* table = *(int**)(g + 0x24);
@@ -5249,7 +5245,7 @@ struct SlotGlobal
 
 // Looks up the slot element at index and stores obj->GetValue(5, arg) into its m_08, or DAT_011f9514 when that returns 0.
 // @fnv 0x00b7c2c0
-void __stdcall SetSlotValue(SlotObject* obj, int index, int arg)
+void SetSlotValue(SlotObject* obj, int index, int arg)
 {
     SlotGlobal* g = (SlotGlobal*)DAT_0126f74c;
     SlotElem* elem = g->m_24[index];
@@ -5296,7 +5292,7 @@ struct RenderArguments
 };
 
 // @fnv 0x00b7c320
-void __stdcall ApplyRenderModeState(RenderArguments* args)
+void ApplyRenderModeState(RenderArguments* args)
 {
     const unsigned int mode = DAT_011f91e4;
     if (mode == 0x250 || mode == 0x251)
@@ -5756,7 +5752,7 @@ struct RenderOutput
     NiTransform transform;
 };
 struct Callback;
-typedef void(__thiscall* RenderCallback)(Callback*, void*, int, int, int, int, int, int, NiTransform*, NiQuaternion*,
+typedef void(* RenderCallback)(Callback*, void*, int, int, int, int, int, int, NiTransform*, NiQuaternion*,
                                          int, int);
 struct Callback
 {
@@ -5800,7 +5796,7 @@ struct FUN_00b7e300_pool
 {
 };
 
-extern void __stdcall FUN_00ec5fce(void* pData, int stride, int count, void(__cdecl* fnDestroy)(void*));
+extern void FUN_00ec5fce(void* pData, int stride, int count, void(__cdecl* fnDestroy)(void*));
 extern void __cdecl FUN_0045cec0(void* pElement);
 
 // Sets the vtable, then frees the m_pData array with its element destructor and releases the block.
@@ -5858,7 +5854,6 @@ FUN_00b60360::~FUN_00b60360()
 }
 
 namespace fnv_00b60b50 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 class NiRefObject
 {
   public:
@@ -6393,7 +6388,6 @@ bool __cdecl AddEntriesToAccumulator(B644B0Shape* pkShape, void* pvKey, int iUnu
 }
 
 namespace fnv_00b66810 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 
 struct SpawnedBaseObject
@@ -6644,7 +6638,7 @@ struct GroupDispatch
     void* slot47;
     void* slot48;
     void* slot49;
-    TargetGroup*(__fastcall* group)(RenderConfigSurface*, GroupDispatch*);
+    TargetGroup*(* group)(RenderConfigSurface*, GroupDispatch*);
 };
 struct GroupReceiver
 {
@@ -6654,7 +6648,7 @@ int __cdecl FUN_00b6c200(int);
 extern unsigned int DAT_011adbc8;
 extern bool DAT_012004fc;
 // @fnv 0x00b6c2c0
-void __stdcall GetRenderTargetDesc(RenderConfigSurface* renderer, unsigned int type, unsigned int* width,
+void GetRenderTargetDesc(RenderConfigSurface* renderer, unsigned int type, unsigned int* width,
                                    unsigned int* height, unsigned int* format, unsigned int* unused,
                                    unsigned int* flags, unsigned int* samples)
 {
@@ -7892,8 +7886,6 @@ struct RefCopy
     virtual void DeleteThis();
     long refs;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct CopyBase
 {
 };
@@ -8232,10 +8224,10 @@ B6AE60Obj* __cdecl CreateB6AE60Obj()
     return new B6AE60Obj();
 }
 
-typedef void(__stdcall* FUN_00b7c190_VFn)(void*, int, int, int);
+typedef void(* FUN_00b7c190_VFn)(void*, int, int, int);
 
 // @fnv 0x00b7c190
-void __stdcall UpdateSlotFromGlobal(int index)
+void UpdateSlotFromGlobal(int index)
 {
     SlotGlobal* global = (SlotGlobal*)DAT_0126f74c;
     SlotElem* element = global->m_24[index];
@@ -8264,101 +8256,101 @@ struct FogVector
 };
 struct FogDevice
 {
-    virtual void __stdcall slot0();
-    virtual void __stdcall slot1();
-    virtual void __stdcall slot2();
-    virtual void __stdcall slot3();
-    virtual void __stdcall slot4();
-    virtual void __stdcall slot5();
-    virtual void __stdcall slot6();
-    virtual void __stdcall slot7();
-    virtual void __stdcall slot8();
-    virtual void __stdcall slot9();
-    virtual void __stdcall slot10();
-    virtual void __stdcall slot11();
-    virtual void __stdcall slot12();
-    virtual void __stdcall slot13();
-    virtual void __stdcall slot14();
-    virtual void __stdcall slot15();
-    virtual void __stdcall slot16();
-    virtual void __stdcall slot17();
-    virtual void __stdcall slot18();
-    virtual void __stdcall slot19();
-    virtual void __stdcall slot20();
-    virtual void __stdcall slot21();
-    virtual void __stdcall slot22();
-    virtual void __stdcall slot23();
-    virtual void __stdcall slot24();
-    virtual void __stdcall slot25();
-    virtual void __stdcall slot26();
-    virtual void __stdcall slot27();
-    virtual void __stdcall slot28();
-    virtual void __stdcall slot29();
-    virtual void __stdcall slot30();
-    virtual void __stdcall slot31();
-    virtual void __stdcall slot32();
-    virtual void __stdcall slot33();
-    virtual void __stdcall slot34();
-    virtual void __stdcall slot35();
-    virtual void __stdcall slot36();
-    virtual void __stdcall slot37();
-    virtual void __stdcall slot38();
-    virtual void __stdcall slot39();
-    virtual void __stdcall slot40();
-    virtual void __stdcall slot41();
-    virtual void __stdcall slot42();
-    virtual void __stdcall slot43();
-    virtual void __stdcall slot44();
-    virtual void __stdcall slot45();
-    virtual void __stdcall slot46();
-    virtual void __stdcall slot47();
-    virtual void __stdcall slot48();
-    virtual void __stdcall slot49();
-    virtual void __stdcall slot50();
-    virtual void __stdcall slot51();
-    virtual void __stdcall slot52();
-    virtual void __stdcall slot53();
-    virtual void __stdcall slot54();
-    virtual void __stdcall slot55();
-    virtual void __stdcall slot56();
-    virtual void __stdcall slot57();
-    virtual void __stdcall slot58();
-    virtual void __stdcall slot59();
-    virtual void __stdcall slot60();
-    virtual void __stdcall slot61();
-    virtual void __stdcall slot62();
-    virtual void __stdcall slot63();
-    virtual void __stdcall slot64();
-    virtual void __stdcall slot65();
-    virtual void __stdcall slot66();
-    virtual void __stdcall slot67();
-    virtual void __stdcall slot68();
-    virtual void __stdcall slot69();
-    virtual void __stdcall slot70();
-    virtual void __stdcall slot71();
-    virtual void __stdcall slot72();
-    virtual void __stdcall slot73();
-    virtual void __stdcall slot74();
-    virtual void __stdcall slot75();
-    virtual void __stdcall slot76();
-    virtual void __stdcall slot77();
-    virtual void __stdcall slot78();
-    virtual void __stdcall slot79();
-    virtual void __stdcall slot80();
-    virtual void __stdcall slot81();
-    virtual void __stdcall slot82();
-    virtual void __stdcall slot83();
-    virtual void __stdcall slot84();
-    virtual void __stdcall slot85();
-    virtual void __stdcall slot86();
-    virtual void __stdcall slot87();
-    virtual void __stdcall slot88();
-    virtual void __stdcall slot89();
-    virtual void __stdcall slot90();
-    virtual void __stdcall slot91();
-    virtual void __stdcall slot92();
-    virtual void __stdcall slot93();
-    virtual long __stdcall SetVertexShaderConstantF(unsigned int, const float*, unsigned int);
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void slot7();
+    virtual void slot8();
+    virtual void slot9();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual void slot37();
+    virtual void slot38();
+    virtual void slot39();
+    virtual void slot40();
+    virtual void slot41();
+    virtual void slot42();
+    virtual void slot43();
+    virtual void slot44();
+    virtual void slot45();
+    virtual void slot46();
+    virtual void slot47();
+    virtual void slot48();
+    virtual void slot49();
+    virtual void slot50();
+    virtual void slot51();
+    virtual void slot52();
+    virtual void slot53();
+    virtual void slot54();
+    virtual void slot55();
+    virtual void slot56();
+    virtual void slot57();
+    virtual void slot58();
+    virtual void slot59();
+    virtual void slot60();
+    virtual void slot61();
+    virtual void slot62();
+    virtual void slot63();
+    virtual void slot64();
+    virtual void slot65();
+    virtual void slot66();
+    virtual void slot67();
+    virtual void slot68();
+    virtual void slot69();
+    virtual void slot70();
+    virtual void slot71();
+    virtual void slot72();
+    virtual void slot73();
+    virtual void slot74();
+    virtual void slot75();
+    virtual void slot76();
+    virtual void slot77();
+    virtual void slot78();
+    virtual void slot79();
+    virtual void slot80();
+    virtual void slot81();
+    virtual void slot82();
+    virtual void slot83();
+    virtual void slot84();
+    virtual void slot85();
+    virtual void slot86();
+    virtual void slot87();
+    virtual void slot88();
+    virtual void slot89();
+    virtual void slot90();
+    virtual void slot91();
+    virtual void slot92();
+    virtual void slot93();
+    virtual long SetVertexShaderConstantF(unsigned int, const float*, unsigned int);
 };
 struct FogRenderState
 {
@@ -8430,7 +8422,7 @@ void UpdateFogShaderConstants()
 
 struct FnvB60150Thunk : FUN_00b6f460_class
 {
-    void __thiscall FUN_00b60150(NiStream* stream);
+    void FUN_00b60150(NiStream* stream);
 };
 
 void __cdecl FUN_00bc3770();
@@ -11019,7 +11011,7 @@ struct IDirect3DDevice9
     virtual void dummy91() = 0;
     virtual void dummy92() = 0;
     virtual void dummy93() = 0;
-    virtual long __stdcall SetVertexShaderConstantF(unsigned int StartRegister, const float* pConstantData,
+    virtual long SetVertexShaderConstantF(unsigned int StartRegister, const float* pConstantData,
                                                     unsigned int Vector4fCount) = 0;
 };
 
@@ -11178,7 +11170,7 @@ struct Shader
 
 // For lights 1 and up, uploads the transformed position and radius as vertex shader constants and stores the colour in _DAT_011FA0C0.
 // @fnv 0x00b7c850
-void __stdcall UpdateLightShaderConstants(const Matrix* matrix, float scale)
+void UpdateLightShaderConstants(const Matrix* matrix, float scale)
 {
     Collection* collection = (Collection*)(*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0));
     float count = (float)collection->count - 1.0f;
@@ -11482,7 +11474,7 @@ struct AlphaVTable
     int unk100;
     int unk104;
     int unk108;
-    float(__thiscall* GetAlpha)(struct AlphaSource*);
+    float(* GetAlpha)(struct AlphaSource*);
 };
 struct AlphaSource
 {
@@ -11497,101 +11489,101 @@ struct LightSet
 };
 struct ShaderDevice
 {
-    virtual void __stdcall slot00() = 0;
-    virtual void __stdcall slot04() = 0;
-    virtual void __stdcall slot08() = 0;
-    virtual void __stdcall slot0c() = 0;
-    virtual void __stdcall slot10() = 0;
-    virtual void __stdcall slot14() = 0;
-    virtual void __stdcall slot18() = 0;
-    virtual void __stdcall slot1c() = 0;
-    virtual void __stdcall slot20() = 0;
-    virtual void __stdcall slot24() = 0;
-    virtual void __stdcall slot28() = 0;
-    virtual void __stdcall slot2c() = 0;
-    virtual void __stdcall slot30() = 0;
-    virtual void __stdcall slot34() = 0;
-    virtual void __stdcall slot38() = 0;
-    virtual void __stdcall slot3c() = 0;
-    virtual void __stdcall slot40() = 0;
-    virtual void __stdcall slot44() = 0;
-    virtual void __stdcall slot48() = 0;
-    virtual void __stdcall slot4c() = 0;
-    virtual void __stdcall slot50() = 0;
-    virtual void __stdcall slot54() = 0;
-    virtual void __stdcall slot58() = 0;
-    virtual void __stdcall slot5c() = 0;
-    virtual void __stdcall slot60() = 0;
-    virtual void __stdcall slot64() = 0;
-    virtual void __stdcall slot68() = 0;
-    virtual void __stdcall slot6c() = 0;
-    virtual void __stdcall slot70() = 0;
-    virtual void __stdcall slot74() = 0;
-    virtual void __stdcall slot78() = 0;
-    virtual void __stdcall slot7c() = 0;
-    virtual void __stdcall slot80() = 0;
-    virtual void __stdcall slot84() = 0;
-    virtual void __stdcall slot88() = 0;
-    virtual void __stdcall slot8c() = 0;
-    virtual void __stdcall slot90() = 0;
-    virtual void __stdcall slot94() = 0;
-    virtual void __stdcall slot98() = 0;
-    virtual void __stdcall slot9c() = 0;
-    virtual void __stdcall slota0() = 0;
-    virtual void __stdcall slota4() = 0;
-    virtual void __stdcall slota8() = 0;
-    virtual void __stdcall slotac() = 0;
-    virtual void __stdcall slotb0() = 0;
-    virtual void __stdcall slotb4() = 0;
-    virtual void __stdcall slotb8() = 0;
-    virtual void __stdcall slotbc() = 0;
-    virtual void __stdcall slotc0() = 0;
-    virtual void __stdcall slotc4() = 0;
-    virtual void __stdcall slotc8() = 0;
-    virtual void __stdcall slotcc() = 0;
-    virtual void __stdcall slotd0() = 0;
-    virtual void __stdcall slotd4() = 0;
-    virtual void __stdcall slotd8() = 0;
-    virtual void __stdcall slotdc() = 0;
-    virtual void __stdcall slote0() = 0;
-    virtual void __stdcall slote4() = 0;
-    virtual void __stdcall slote8() = 0;
-    virtual void __stdcall slotec() = 0;
-    virtual void __stdcall slotf0() = 0;
-    virtual void __stdcall slotf4() = 0;
-    virtual void __stdcall slotf8() = 0;
-    virtual void __stdcall slotfc() = 0;
-    virtual void __stdcall slot100() = 0;
-    virtual void __stdcall slot104() = 0;
-    virtual void __stdcall slot108() = 0;
-    virtual void __stdcall slot10c() = 0;
-    virtual void __stdcall slot110() = 0;
-    virtual void __stdcall slot114() = 0;
-    virtual void __stdcall slot118() = 0;
-    virtual void __stdcall slot11c() = 0;
-    virtual void __stdcall slot120() = 0;
-    virtual void __stdcall slot124() = 0;
-    virtual void __stdcall slot128() = 0;
-    virtual void __stdcall slot12c() = 0;
-    virtual void __stdcall slot130() = 0;
-    virtual void __stdcall slot134() = 0;
-    virtual void __stdcall slot138() = 0;
-    virtual void __stdcall slot13c() = 0;
-    virtual void __stdcall slot140() = 0;
-    virtual void __stdcall slot144() = 0;
-    virtual void __stdcall slot148() = 0;
-    virtual void __stdcall slot14c() = 0;
-    virtual void __stdcall slot150() = 0;
-    virtual void __stdcall slot154() = 0;
-    virtual void __stdcall slot158() = 0;
-    virtual void __stdcall slot15c() = 0;
-    virtual void __stdcall slot160() = 0;
-    virtual void __stdcall slot164() = 0;
-    virtual void __stdcall slot168() = 0;
-    virtual void __stdcall slot16c() = 0;
-    virtual void __stdcall slot170() = 0;
-    virtual void __stdcall slot174() = 0;
-    virtual long __stdcall SetVertexShaderConstantF(unsigned int, const float*, unsigned int) = 0;
+    virtual void slot00() = 0;
+    virtual void slot04() = 0;
+    virtual void slot08() = 0;
+    virtual void slot0c() = 0;
+    virtual void slot10() = 0;
+    virtual void slot14() = 0;
+    virtual void slot18() = 0;
+    virtual void slot1c() = 0;
+    virtual void slot20() = 0;
+    virtual void slot24() = 0;
+    virtual void slot28() = 0;
+    virtual void slot2c() = 0;
+    virtual void slot30() = 0;
+    virtual void slot34() = 0;
+    virtual void slot38() = 0;
+    virtual void slot3c() = 0;
+    virtual void slot40() = 0;
+    virtual void slot44() = 0;
+    virtual void slot48() = 0;
+    virtual void slot4c() = 0;
+    virtual void slot50() = 0;
+    virtual void slot54() = 0;
+    virtual void slot58() = 0;
+    virtual void slot5c() = 0;
+    virtual void slot60() = 0;
+    virtual void slot64() = 0;
+    virtual void slot68() = 0;
+    virtual void slot6c() = 0;
+    virtual void slot70() = 0;
+    virtual void slot74() = 0;
+    virtual void slot78() = 0;
+    virtual void slot7c() = 0;
+    virtual void slot80() = 0;
+    virtual void slot84() = 0;
+    virtual void slot88() = 0;
+    virtual void slot8c() = 0;
+    virtual void slot90() = 0;
+    virtual void slot94() = 0;
+    virtual void slot98() = 0;
+    virtual void slot9c() = 0;
+    virtual void slota0() = 0;
+    virtual void slota4() = 0;
+    virtual void slota8() = 0;
+    virtual void slotac() = 0;
+    virtual void slotb0() = 0;
+    virtual void slotb4() = 0;
+    virtual void slotb8() = 0;
+    virtual void slotbc() = 0;
+    virtual void slotc0() = 0;
+    virtual void slotc4() = 0;
+    virtual void slotc8() = 0;
+    virtual void slotcc() = 0;
+    virtual void slotd0() = 0;
+    virtual void slotd4() = 0;
+    virtual void slotd8() = 0;
+    virtual void slotdc() = 0;
+    virtual void slote0() = 0;
+    virtual void slote4() = 0;
+    virtual void slote8() = 0;
+    virtual void slotec() = 0;
+    virtual void slotf0() = 0;
+    virtual void slotf4() = 0;
+    virtual void slotf8() = 0;
+    virtual void slotfc() = 0;
+    virtual void slot100() = 0;
+    virtual void slot104() = 0;
+    virtual void slot108() = 0;
+    virtual void slot10c() = 0;
+    virtual void slot110() = 0;
+    virtual void slot114() = 0;
+    virtual void slot118() = 0;
+    virtual void slot11c() = 0;
+    virtual void slot120() = 0;
+    virtual void slot124() = 0;
+    virtual void slot128() = 0;
+    virtual void slot12c() = 0;
+    virtual void slot130() = 0;
+    virtual void slot134() = 0;
+    virtual void slot138() = 0;
+    virtual void slot13c() = 0;
+    virtual void slot140() = 0;
+    virtual void slot144() = 0;
+    virtual void slot148() = 0;
+    virtual void slot14c() = 0;
+    virtual void slot150() = 0;
+    virtual void slot154() = 0;
+    virtual void slot158() = 0;
+    virtual void slot15c() = 0;
+    virtual void slot160() = 0;
+    virtual void slot164() = 0;
+    virtual void slot168() = 0;
+    virtual void slot16c() = 0;
+    virtual void slot170() = 0;
+    virtual void slot174() = 0;
+    virtual long SetVertexShaderConstantF(unsigned int, const float*, unsigned int) = 0;
 };
 struct DeviceHolder
 {
@@ -11794,7 +11786,7 @@ struct ScaleSource
 struct LightMatrix;
 // Fills shader constant arrays with transformed light positions, radii, and colors from the active light set.
 // @fnv 0x00b7cb00
-void __stdcall UpdateShaderLights(const LightMatrix* matrix, float radiusScale, ScaleSource* source)
+void UpdateShaderLights(const LightMatrix* matrix, float radiusScale, ScaleSource* source)
 {
     LightSet* lights = reinterpret_cast<LightSet*>((*reinterpret_cast<::S_00b7c120_Global2 * *>(&::DAT_011f91e0)));
     float alpha = lights->property->alpha->vtable->GetAlpha(lights->property->alpha);
@@ -11845,7 +11837,7 @@ void __stdcall UpdateShaderLights(const LightMatrix* matrix, float radiusScale, 
 
 // Sets two global values into specific slots of DAT_0126f74c based on which pass identifier is supplied.
 // @fnv 0x00b7cfb0
-void __stdcall SetPassValues(unsigned int uiPass)
+void SetPassValues(unsigned int uiPass)
 {
     switch (uiPass)
     {
@@ -12235,7 +12227,7 @@ void FUN_00b6f460_class::LoadAndSetAdditional(NiStream* kStream)
     }
 }
 // @fnv 0x00b60150
-void __thiscall FnvB60150Thunk::FUN_00b60150(NiStream* stream)
+void FnvB60150Thunk::FUN_00b60150(NiStream* stream)
 {
     reinterpret_cast<::C_00b6f460 *>(this)->FUN_00b6f460();
 }
@@ -12343,8 +12335,6 @@ void __cdecl FUN_00b6b940(PixelData* pkData)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct Surface051
 {
     virtual void Slot0();
@@ -15967,8 +15957,6 @@ bool __cdecl FUN_00b64440(RSSettings* apSettings, B64440A2* a2, void* a3, RSPack
     return ProcessCommands(apSettings, a2, a3, apPacket, apResponse);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct FUN_00b63b60_class
 {

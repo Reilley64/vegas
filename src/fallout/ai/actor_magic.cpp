@@ -3012,7 +3012,7 @@ struct XProcVtbl17
     virtual void vfn_1cc(int, int, int, void*);
 };
 
-int __fastcall FUN_00401170(void*);
+int FUN_00401170(void*);
 
 
 
@@ -8032,7 +8032,7 @@ struct XForm17
 struct XRefr17
 {
 };
-int __fastcall FUN_00401170(void*);
+int FUN_00401170(void*);
 
 // Checks if the water actor is below the cell water level or below another water actor via a physics ray query, then sets waterFlags.
 // @fnv 0x009b2940

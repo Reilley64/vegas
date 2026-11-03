@@ -86,7 +86,7 @@ struct ProgramCacheDirectoryState
 };
 
 // @fnv 0x00ee8d20
-extern "C" bool __fastcall FUN_00ee8d20(ProgramCacheDirectoryState* cache, int)
+extern "C" bool FUN_00ee8d20(ProgramCacheDirectoryState* cache, int)
 {
     if (cache->workingDirectory != reinterpret_cast<const char*>((*reinterpret_cast<int *>(&::DAT_0109b220))))
     {

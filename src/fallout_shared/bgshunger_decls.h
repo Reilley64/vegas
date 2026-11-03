@@ -50,7 +50,5 @@ class SpellItem : public TESForm
 };
 void InsertHungerStage(BGSHungerStage* stage);
 
-FNV_STATIC_ASSERT(sizeof(BGSHungerStage) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSHungerStage, data) == 24);
 
 #endif

@@ -14,7 +14,7 @@
 #include "fnv/symbols_011de000.h"
 struct BGSSaveFormBuffer
 {
-    void __thiscall SerializeFormData(void* apForm, int aFlags);
+    void SerializeFormData(void* apForm, int aFlags);
 };
 
 struct FUN_0043aa40_shell
@@ -27,7 +27,7 @@ struct FUN_0043aa40_shell
     int m_14;
     int m_18;
     int m_1c;
-    void __thiscall FUN_0043aa40(BGSSaveFormBuffer* apBuffer);
+    void FUN_0043aa40(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_00424940_shell
@@ -51,11 +51,11 @@ struct FUN_00865c80_shell
 {
     int m_auiShapeKeys;
     int m_ptr;
-    void __thiscall FUN_00865c80(FUN_00846330_shell* a1, int a2);
+    void FUN_00865c80(FUN_00846330_shell* a1, int a2);
 };
 
 // @fnv 0x00865c80
-void __thiscall FUN_00865c80_shell::FUN_00865c80(FUN_00846330_shell* a1, int a2)
+void FUN_00865c80_shell::FUN_00865c80(FUN_00846330_shell* a1, int a2)
 {
     if (DAT_011de134->FUN_00424940())
     {
@@ -110,7 +110,7 @@ void BGSSaveGameBuffer::FUN_00865f60(unsigned int aiVariableValue)
 
 struct FUN_00835f10_shell
 {
-    void __thiscall FUN_00835f10(BGSSaveFormBuffer* apBuffer);
+    void FUN_00835f10(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_009f3850_shell
@@ -119,19 +119,19 @@ struct FUN_009f3850_shell
     int m_04;
     int m_08;
     int m_0c;
-    void __thiscall FUN_009f3850(BGSSaveFormBuffer* apBuffer);
+    void FUN_009f3850(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_006e2350_shell
 {
-    void __thiscall FUN_006e2350(BGSSaveFormBuffer* apBuffer);
+    void FUN_006e2350(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_006f50b0_shell
 {
     int m_00;
     int m_04;
-    void __thiscall FUN_006f50b0(BGSSaveFormBuffer* apBuffer);
+    void FUN_006f50b0(BGSSaveFormBuffer* apBuffer);
 };
 
 struct Flt
@@ -145,12 +145,12 @@ struct BGSSaveGameBufferSaveStringHelper
 
 struct FUN_0083d690_shell
 {
-    void __thiscall FUN_0083d690(BGSSaveFormBuffer* apBuffer);
+    void FUN_0083d690(BGSSaveFormBuffer* apBuffer);
 };
 
 struct FUN_00857bd0
 {
-    void __thiscall Init(unsigned int);
+    void Init(unsigned int);
 };
 struct FUN_008579b0_shell
 {
@@ -162,11 +162,11 @@ struct FUN_008579b0_shell
     int m_14;
     int m_18;
     int m_1c;
-    void __thiscall FUN_008579b0(void* a1, unsigned int a2);
+    void FUN_008579b0(void* a1, unsigned int a2);
 };
 // Copies a2 bytes from a1 into the buffer at this+0x14, then calls Init with a2.
 // @fnv 0x008579b0
-void __thiscall FUN_008579b0_shell::FUN_008579b0(void* apSource, unsigned int uiSize)
+void FUN_008579b0_shell::FUN_008579b0(void* apSource, unsigned int uiSize)
 {
     __memcpy(*(void**)((char*)this + 0x14), apSource, uiSize);
     ((FUN_00857bd0*)this)->Init(uiSize);
@@ -174,7 +174,7 @@ void __thiscall FUN_008579b0_shell::FUN_008579b0(void* apSource, unsigned int ui
 
 struct S00865ce0
 {
-    void __thiscall FUN_00865ce0(void* a1, unsigned int a2, unsigned int a3, unsigned char a4);
+    void FUN_00865ce0(void* a1, unsigned int a2, unsigned int a3, unsigned char a4);
 };
 // Writes size bytes from data into the buffer at the given offset, using the buffer's stored base position.
 // @fnv 0x00865570
@@ -188,11 +188,11 @@ struct FUN_00865c10_shell
 {
     int m_00;
     void* m_04;
-    void __thiscall FUN_00865c10();
+    void FUN_00865c10();
 };
 // Sets m_00 to the address of DAT_01082324, then deallocates the pointer stored in m_04.
 // @fnv 0x00865c10
-void __thiscall FUN_00865c10_shell::FUN_00865c10()
+void FUN_00865c10_shell::FUN_00865c10()
 {
     m_00 = (int)&DAT_01082324;
     void* p = m_04;
@@ -201,10 +201,10 @@ void __thiscall FUN_00865c10_shell::FUN_00865c10()
 
 struct FUN_00865c40_shell : FUN_00865c80_shell
 {
-    void __thiscall FUN_00865c40(FUN_00846330_shell*);
+    void FUN_00865c40(FUN_00846330_shell*);
 };
 // @fnv 0x00865c40
-void __thiscall FUN_00865c40_shell::FUN_00865c40(FUN_00846330_shell* a1)
+void FUN_00865c40_shell::FUN_00865c40(FUN_00846330_shell* a1)
 {
     ::ForwardToShell(a1, (int)((char*)this + 0xc), 4);
     this->FUN_00865c80(a1, *(int*)((char*)this + 0xc));
@@ -216,10 +216,10 @@ struct Dummy84eaf0
 };
 struct FUN_00865db0_shell
 {
-    void __thiscall FUN_00865db0(unsigned int a, unsigned int b);
+    void FUN_00865db0(unsigned int a, unsigned int b);
 };
 // @fnv 0x00865db0
-void __thiscall FUN_00865db0_shell::FUN_00865db0(unsigned int a, unsigned int uiUnused)
+void FUN_00865db0_shell::FUN_00865db0(unsigned int a, unsigned int uiUnused)
 {
     Dummy84eaf0 p;
     ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)&(p));
@@ -240,7 +240,7 @@ struct PackedFormID : Dummy84eaf0
 };
 struct FUN_00865df0_holder : BGSSaveGameBuffer
 {
-    void __thiscall FUN_00865df0(TESForm*, unsigned);
+    void FUN_00865df0(TESForm*, unsigned);
 };
 // @fnv 0x00865df0
 void FUN_00865df0_holder::FUN_00865df0(TESForm* apForm, unsigned aiUnusuedMetaDataArg)
@@ -256,7 +256,7 @@ void FUN_00865df0_holder::FUN_00865df0(TESForm* apForm, unsigned aiUnusuedMetaDa
 
 struct FUN_00865e50_shell : BGSSaveGameBuffer
 {
-    void __thiscall FUN_00865e50(void* data, unsigned int size, unsigned int offset);
+    void FUN_00865e50(void* data, unsigned int size, unsigned int offset);
 };
 // Writes three ranges of this object (offsets 4, 0x10, 0x1c) and the form at m_00 into the save buffer.
 // @fnv 0x0043aa40
@@ -269,7 +269,7 @@ void FUN_0043aa40_shell::FUN_0043aa40(BGSSaveFormBuffer* apBuffer)
 }
 // Writes the object's pointer to the save buffer, then saves four consecutive one-byte fields at offsets 0x1c through 0x1f.
 // @fnv 0x00835f10
-void __thiscall FUN_00835f10_shell::FUN_00835f10(BGSSaveFormBuffer* apBuffer)
+void FUN_00835f10_shell::FUN_00835f10(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SerializeFormData(*(void**)this, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x1c, 1, 0);
@@ -278,7 +278,7 @@ void __thiscall FUN_00835f10_shell::FUN_00835f10(BGSSaveFormBuffer* apBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x1f, 1, 0);
 }
 // @fnv 0x009f3850
-void __thiscall FUN_009f3850_shell::FUN_009f3850(BGSSaveFormBuffer* apBuffer)
+void FUN_009f3850_shell::FUN_009f3850(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&m_04, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&m_08, 4, 0);
@@ -286,25 +286,25 @@ void __thiscall FUN_009f3850_shell::FUN_009f3850(BGSSaveFormBuffer* apBuffer)
     apBuffer->SerializeFormData(m_00, 0);
 }
 // @fnv 0x006e2350
-void __thiscall FUN_006e2350_shell::FUN_006e2350(BGSSaveFormBuffer* apBuffer)
+void FUN_006e2350_shell::FUN_006e2350(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(this, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x2c, 12, 0);
     apBuffer->SerializeFormData(*(void**)((char*)this + 0x38), 0);
-    ((void(__thiscall*)(void*, BGSSaveFormBuffer*))(*(void***)(*(void***)((char*)this + 4))))((char*)this + 4,
+    ((void(*)(void*, BGSSaveFormBuffer*))(*(void***)(*(void***)((char*)this + 4))))((char*)this + 4,
                                                                                               apBuffer);
 }
 // Saves 4 bytes of this object, saves the pointer at offset 0x2c, then calls the virtual save on the sub-object at offset 4.
 // @fnv 0x006f50b0
-void __thiscall FUN_006f50b0_shell::FUN_006f50b0(BGSSaveFormBuffer* apBuffer)
+void FUN_006f50b0_shell::FUN_006f50b0(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(this, 4, 0);
     apBuffer->SerializeFormData(*(void**)((char*)this + 0x2c), 0);
-    ((void(__thiscall*)(FUN_006f50b0_shell*, BGSSaveFormBuffer*))(*(void**)(*(void**)((char*)this + 4))))(
+    ((void(*)(FUN_006f50b0_shell*, BGSSaveFormBuffer*))(*(void**)(*(void**)((char*)this + 4))))(
         (FUN_006f50b0_shell*)((char*)this + 4), apBuffer);
 }
 // @fnv 0x00865e50
-void __thiscall FUN_00865e50_shell::FUN_00865e50(void* data, unsigned int size, unsigned int offset)
+void FUN_00865e50_shell::FUN_00865e50(void* data, unsigned int size, unsigned int offset)
 {
     WriteAtOffset(data, size, 0);
 }
@@ -327,11 +327,11 @@ struct NiQuaternion
     float y;
     float z;
     float w;
-    void __thiscall FromRotationMatrix(ThreeByThreeMatrix const&);
+    void FromRotationMatrix(ThreeByThreeMatrix const&);
 };
 struct FUN_00865ee0_shell
 {
-    void __thiscall SaveQuaternion(ThreeByThreeMatrix const&, int, int);
+    void SaveQuaternion(ThreeByThreeMatrix const&, int, int);
 };
 // Builds a NiQuaternion from aMatrix and writes its 16 bytes into the save buffer.
 // @fnv 0x00865ee0
@@ -351,11 +351,11 @@ struct FUN_00865f20_shell
     int _04;
     int _08;
     unsigned int m_0c;
-    unsigned int __thiscall FUN_00865f20();
+    unsigned int FUN_00865f20();
 };
 // Appends a single '#' character at offset m_0c and returns the previous offset.
 // @fnv 0x00865f20
-unsigned int __thiscall FUN_00865f20_shell::FUN_00865f20()
+unsigned int FUN_00865f20_shell::FUN_00865f20()
 {
     char cvalue;
     unsigned int iposition;
@@ -367,16 +367,16 @@ unsigned int __thiscall FUN_00865f20_shell::FUN_00865f20()
 
 struct FUN_0083fb10_shell
 {
-    void __thiscall FUN_0083fb10(BGSSaveFormBuffer* apBuffer);
+    void FUN_0083fb10(BGSSaveFormBuffer* apBuffer);
 };
 
 unsigned int __cdecl _strlen(const char*);
 struct FUN_00865e70_shell : BGSSaveGameBuffer
 {
-    void __thiscall FUN_00865e70(const char* apString, unsigned int aiUnusedMetaDataArg);
+    void FUN_00865e70(const char* apString, unsigned int aiUnusedMetaDataArg);
 };
 // @fnv 0x0083d690
-void __thiscall FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
+void FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)((Flt*)this)->operator unsigned int(), 0);
     reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);
@@ -388,7 +388,7 @@ void __thiscall FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
     apBuffer->SerializeFormData(*(void**)((char*)this + 0x20), 0);
 }
 // @fnv 0x0083fb10
-void __thiscall FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)
+void FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)(unsigned int)*(Flt*)this, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 8, 1, 0);
@@ -414,13 +414,13 @@ void FUN_00865e70_shell::FUN_00865e70(const char* apString, unsigned int aiUnuse
 
 struct FUN_00865ff0_shell : FUN_00865f20_shell
 {
-    void __thiscall FUN_00865ff0(unsigned int a1, unsigned int a2);
+    void FUN_00865ff0(unsigned int a1, unsigned int a2);
 };
 
 extern const char $SG2649[];
 
 // @fnv 0x00865ff0
-void __thiscall FUN_00865ff0_shell::FUN_00865ff0(unsigned int uiValue, unsigned int a2)
+void FUN_00865ff0_shell::FUN_00865ff0(unsigned int uiValue, unsigned int a2)
 {
     if (uiValue < 0x40)
     {
@@ -473,7 +473,7 @@ struct FUN_00865ce0_state
 
 // Grows the buffer until it fits a3+a2 (+1 if a4==0), copies a2 bytes from a1 to m_04+a3, appends a 0x7c terminator when a4==0, and updates m_0c/m_10.
 // @fnv 0x00865ce0
-void __thiscall S00865ce0::FUN_00865ce0(void* pSource, unsigned int uiLength, unsigned int a3, unsigned char a4)
+void S00865ce0::FUN_00865ce0(void* pSource, unsigned int uiLength, unsigned int a3, unsigned char a4)
 {
     int iTerminator = (a4 == 0);
 

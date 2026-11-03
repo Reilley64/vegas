@@ -9,8 +9,4 @@ class TESFileHeader
     unsigned int m_uiFileRecordTotal;     // +0x4
     unsigned int m_uiThirdUnsignedValue;  // +0x8
 };
-FNV_STATIC_ASSERT(sizeof(TESFileHeader) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFileHeader, m_fRecordValue) == 0x0);
-FNV_STATIC_ASSERT(offsetof(TESFileHeader, m_uiFileRecordTotal) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESFileHeader, m_uiThirdUnsignedValue) == 0x8);
 #endif

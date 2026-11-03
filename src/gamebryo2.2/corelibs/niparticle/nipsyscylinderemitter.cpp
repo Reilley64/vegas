@@ -106,7 +106,7 @@ struct FUN_00c1fd00_shell
     float m_fCylinderRadius;
     float m_fCylinderHeight;
 
-    void __thiscall AppendShapeParams(StrArr*);
+    void AppendShapeParams(StrArr*);
 };
 
 // @fnv 0x00c1fd00

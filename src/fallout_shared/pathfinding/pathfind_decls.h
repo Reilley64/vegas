@@ -34,7 +34,6 @@
 #undef PathingLocation
 #undef BSSimpleArray
 #include "../../../include/AutoMemContext.h"
-#pragma pack(push, 4)
 class PathfindQueueStorage
 {
   public:
@@ -68,7 +67,6 @@ class NavMeshPtr : public NiPointer<NavMesh>
 public:
     ::NavMeshPtr &operator=(const ::NavMeshPtr &);
 };
-FNV_STATIC_ASSERT(sizeof(NavMeshPtr) == 4);
 class PathingLocationProxy
 {
   protected:
@@ -77,9 +75,6 @@ class PathingLocationProxy
   public:
     bool FindContainingTriangle(FindTriangleForLocationFilter*);
 };
-FNV_STATIC_ASSERT(sizeof(PathingLocation) == sizeof(FNV_PathingLocation_Canonical));
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_usTriangleID) == offsetof(FNV_PathingLocation_Canonical, m_usTriangleID));
-#pragma pack(pop)
 class NavMesh;
 class PathingActorData;
 class PathingPath

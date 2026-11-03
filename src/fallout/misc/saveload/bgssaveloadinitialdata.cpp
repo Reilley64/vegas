@@ -139,7 +139,7 @@ struct BGSNumericIDIndex3
 };
 // Sets the three bytes of the BGSNumericIDIndex3 to zero and returns the object.
 // @fnv 0x0084eaf0
-BGSNumericIDIndex3* __fastcall ClearNumericIDIndex(BGSNumericIDIndex3* self)
+BGSNumericIDIndex3* ClearNumericIDIndex(BGSNumericIDIndex3* self)
 {
     self->a = 0;
     self->b = 0;
@@ -160,7 +160,7 @@ struct Dummy84eaf0
 
 // Calls FUN_0084eac0 on this object, then ClearNumericIDIndex on the sub-object at offset 0x1C, and returns this.
 // @fnv 0x0084eb20
-BGSNumericIDIndex3* __thiscall BGSNumericIDIndex3::FUN_0084eb20()
+BGSNumericIDIndex3* BGSNumericIDIndex3::FUN_0084eb20()
 {
     FUN_0084eac0();
     ((Dummy84eaf0*)((char*)this + 0x1C))->ClearNumericIDIndex();

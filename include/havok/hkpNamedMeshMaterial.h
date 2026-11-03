@@ -4,12 +4,9 @@
 #define FNV_HAVOK_HKPNAMEDMESHMATERIAL_H
 #include "hkBase.h"
 #include "hkpMeshMaterial.h"
-#pragma pack(push, 1)
 class hkpNamedMeshMaterial : public hkpMeshMaterial
 {
   public:
     hkStringPtr m_name;  // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpNamedMeshMaterial[(sizeof(hkpNamedMeshMaterial) == 0x8) ? 1 : -1];
 #endif

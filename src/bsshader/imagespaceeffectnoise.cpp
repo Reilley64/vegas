@@ -28,7 +28,7 @@ class NiTPrimitiveArray_ImageSpaceEffectParam___
 
 // Allocates an 8-byte parameter from two ints and stores it at uiIndex in the array at pThis+0x38.
 // @fnv 0x00ba3b10
-void __fastcall SetEffectParamAt(char* pThis, int, unsigned int uiIndex, int a2, int a3)
+void SetEffectParamAt(char* pThis, int, unsigned int uiIndex, int a2, int a3)
 {
     int* p = (int*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(8);
     p[0] = a2;

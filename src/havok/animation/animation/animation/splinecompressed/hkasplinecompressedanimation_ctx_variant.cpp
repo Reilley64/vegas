@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
 #include "fnv/decl/FnvNode.h"
 #include "fnv/decl/fnv_00e33e90__hkaSplineCompressedAnimationE33E.h"
@@ -18,10 +19,10 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkaSplineCompressedAnimation.h"
 struct FUN_00e33330_Class {
-    void* __thiscall FUN_00e33330();
+    void* FUN_00e33330();
 };
 extern bool DAT_0126efb8;
-int __stdcall FUN_00e32ed0(int a1, int a2);
+int FUN_00e32ed0(int a1, int a2);
 struct FnvAnimation
 {
     virtual void slot00();
@@ -93,7 +94,6 @@ public:
 
     void GetDataChunks(unsigned int frame, float delta, hkaAnimationDataChunkE333* dataChunks, int numDataChunks) const throw();
 };
-typedef char fnv_check_e33350[(sizeof(hkaSplineCompressedAnimationE333) == 0x90) ? 1 : -1];
 struct hkMathE334 {
     static int max2(int x, int y) { return x > y ? x : y; }
 };
@@ -272,14 +272,13 @@ public:
     int unk78;
     int unk7C;
 
-    void __thiscall FUN_00e345a0();
+    void FUN_00e345a0();
 };
 #include <xmmintrin.h>
 struct FUN_00e32ec0_Class : public hkaSplineCompressedAnimation {
     int FUN_00e32ec0() const;
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -308,8 +307,8 @@ static __forceinline void S00e340e0_timer(const char* name)
     }
 }
 
-int __stdcall S00e340e0_vnum(const void* self);
-int __stdcall S00e340e0_read(const unsigned char* p, float t, unsigned char qt, unsigned char q, int type, void* out);
+int S00e340e0_vnum(const void* self);
+int S00e340e0_read(const unsigned char* p, float t, unsigned char qt, unsigned char q, int type, void* out);
 
 struct S00e340e0_Anim {
     int unk00;
@@ -354,7 +353,7 @@ struct S00e340e0_Anim {
 };
 
 
-typedef int (__thiscall S00e340e0_Anim::*S00e340e0_pv)() const;
+typedef int (S00e340e0_Anim::*S00e340e0_pv)() const;
 void S00e340e0_Anim::FUN_00e2f7c0(float time, unsigned int& frameOut, float& deltaOut) const
 {
     const unsigned int maxFrameIndex = S00e340e0_vnum(this) - 1;

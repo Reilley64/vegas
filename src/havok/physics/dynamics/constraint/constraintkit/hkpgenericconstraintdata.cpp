@@ -781,7 +781,7 @@ int* FUN_00d50560_class::FUN_00d50560(unsigned int index)
 }
 
 // @fnv 0x00d50500
-void __stdcall FUN_00d50500(unsigned char* out)
+void FUN_00d50500(unsigned char* out)
 {
     *out = 1;
 }
@@ -993,7 +993,7 @@ extern "C" __m128 __cdecl _mm_setzero_ps(void);
 
 // Copies two vectors from src, sets a third to each unit axis in turn calling FUN_00dcf280 each time, then adds 3 to src->unkB8.
 // @fnv 0x00d503c0
-void __stdcall FUN_00d503c0(int a, int b, int c, FUN_00d503c0_src* src, void* obj, void* out)
+void FUN_00d503c0(int a, int b, int c, FUN_00d503c0_src* src, void* obj, void* out)
 {
     FUN_00d503c0_m m;
     m.r0.v = src->r0.v;
@@ -1075,7 +1075,7 @@ struct S00d50e10_Rows
 
 // Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to the int at p+0xB8.
 // @fnv 0x00d50e10
-void __stdcall FUN_00d50e10(int a0, int a1, int a2, void* p, int d, int e)
+void FUN_00d50e10(int a0, int a1, int a2, void* p, int d, int e)
 {
     float* base = reinterpret_cast<float*>(p);
     S00d50e10_Rows out1;
@@ -1167,7 +1167,7 @@ struct SolverStateD510
 
 // Reads two indices from ppSchema, computes a Jacobian via FUN_00dcfec0, stores it with two floats from ppData, and calls FUN_00d6cb30.
 // @fnv 0x00d51060
-void __stdcall FUN_00d51060(const char** ppSchema, const float** ppData, void* pvUnused, SolverStateD510* pkState,
+void FUN_00d51060(const char** ppSchema, const float** ppData, void* pvUnused, SolverStateD510* pkState,
                             void* pvA, void* pvB)
 {
     SolverInfoD510 kInfo;
@@ -1244,7 +1244,7 @@ struct d51390_item
 
 // Advances the stream, builds an item from a pool record and the cursor value with a destination offset by pool->unkB8, calls DAT_00dcefb0, and increments unkB8.
 // @fnv 0x00d51390
-void __stdcall FUN_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d51390_ctx* ctx, void* a6)
+void FUN_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d51390_ctx* ctx, void* a6)
 {
     int destBase = ctx->unk64;
     (*stream) += 1;
@@ -1352,7 +1352,7 @@ struct S00d505c0_Blk
 
 // Builds an S00d505c0_Blk from vectors in c, a float read via b and a destination offset, calls FUN_00dcf100 with basePtr and index, and increments c[0xb8/4].
 // @fnv 0x00d505c0
-void __stdcall FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, int index)
+void FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, int index)
 {
     int idxBase = basePtr[0x64 / 4];
 
@@ -1410,7 +1410,7 @@ extern unsigned int DAT_011b5a90;
 
 // Loads three vectors into out, calls FUN_00dcee80, sets a to old b XORed with a constant and b to old a, calls it again, and adds 2 to data->numDecoded.
 // @fnv 0x00d50d60
-void __stdcall FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream* apStream, int a4, int a5)
+void FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream* apStream, int a4, int a5)
 {
     D50D60_Out out;
     ++*a0;
@@ -1490,7 +1490,7 @@ static inline __m128 hkLenSq3(__m128 v)
 
 // Builds a normalized cross product and dot of m_colsA[idx] and m_colsB[idx] with two floats from data and calls FUN_00d6cb30, unless the cross is near zero.
 // @fnv 0x00d50ec0
-void __stdcall FUN_00d50ec0(int** cmds, hkVector4** data, int unused, hkSchemeVecs* apSchemeVecs, int p5, int p6)
+void FUN_00d50ec0(int** cmds, hkVector4** data, int unused, hkSchemeVecs* apSchemeVecs, int p5, int p6)
 {
     float lenSq;
     int idx = *++*cmds;
@@ -1533,7 +1533,7 @@ struct S00d51100_Blk
 
 
 // @fnv 0x00d51100
-void __stdcall FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, int index)
+void FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, int index)
 {
     (*a)++;
     int val = **a;
@@ -1581,7 +1581,7 @@ struct AngleRecord
 
 // Reads an index from stream, computes an angle via pool and FUN_00d50450, adjusts it to stay within ±π of the previous angle, stores it, and calls FUN_00d6cb30.
 // @fnv 0x00d51170
-void __stdcall FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int unused, AnglePool* pool, void* a,
+void FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int unused, AnglePool* pool, void* a,
                             void* b)
 {
     SolverInfoD510 info;
@@ -1697,7 +1697,7 @@ void __cdecl FUN_00dd03c0(SixIntegerData* output, SixteenWordFloatRecord* in, vo
 
 // Advances the command and data pointers, computes a dot product for a motor constraint, and updates the solver state if a motor is present.
 // @fnv 0x00d51270
-void __stdcall FUN_00d51270(const int** commands, const hkVector4** data, hkpGenericConstraintDataScheme* scheme,
+void FUN_00d51270(const int** commands, const hkVector4** data, hkpGenericConstraintDataScheme* scheme,
                             GenericConstraintRuntime* runtime, SixteenWordFloatRecord* apStepInfo, void** schema)
 {
     *commands += 1;
@@ -1878,7 +1878,7 @@ struct StepScratch
 };
 // Computes and unwraps an angle from runtime vectors, stores it back, and if a motor exists calls FUN_00dcfff0 and FUN_00d6ce70; then increments m_iFirstInteger.
 // @fnv 0x00d51410
-void __stdcall FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime, QueryIn* apQuery, void** out)
+void FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime, QueryIn* apQuery, void** out)
 {
     StepScratch v;
     ++*cmdPtr;
@@ -1982,7 +1982,7 @@ struct StateD506
     int count;
 };
 struct ModifierD506;
-typedef void(__thiscall* ApplyD506)(ModifierD506*, StateD506*, int);
+typedef void(* ApplyD506)(ModifierD506*, StateD506*, int);
 struct ModifierVTableD506
 {
     void* unknown;
@@ -1993,7 +1993,7 @@ struct ModifierD506
     ModifierVTableD506* vtable;
 };
 extern "C" void FUN_00c7f640();
-typedef void(__thiscall* PivotD506)(VecD506*, const void*, const VecD506*);
+typedef void(* PivotD506)(VecD506*, const void*, const VecD506*);
 struct InterpreterD506
 {
     void FUN_00d50640(hkpGenericConstraintDataScheme*, const InputD506*, void*);
@@ -2005,7 +2005,7 @@ void FUN_00d50bd0_owner::FUN_00d50bd0(SolverItem* item, int index)
     ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(item), (::fnv_00d6f2b0::EventRecord **)(index), item->unk64, 8);
     reinterpret_cast<::InterpreterD506 *>(this)->FUN_00d50640(&m_kConstraintDataScheme, (const ::InputD506 *)(item), (void *)(index));
 }
-typedef void(__thiscall* HandlerD506)(InterpreterD506*, int**, VecD506**, hkpGenericConstraintDataScheme*, StateD506*,
+typedef void(* HandlerD506)(InterpreterD506*, int**, VecD506**, hkpGenericConstraintDataScheme*, StateD506*,
                                       InputD506*, void*);
 
 static __forceinline void rotateD506(VecD506& out, const FUN_00cdf250_class* m, const VecD506& vec)
@@ -2163,7 +2163,7 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
 }
 
 // @fnv 0x00d50d00
-void __stdcall FUN_00d50d00(int** commands, int unusedData, int unusedScheme, Runtime* runtime, void* input,
+void FUN_00d50d00(int** commands, int unusedData, int unusedScheme, Runtime* runtime, void* input,
                             void* output)
 {
     ++*commands;

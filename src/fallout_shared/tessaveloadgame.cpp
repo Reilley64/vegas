@@ -1,5 +1,6 @@
 // fallout_shared/tessaveloadgame.cpp: TESSaveLoadGame, NiTPointerMap_Standin, Holder, ChangesMap and more (142 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorTaskManager.h"
@@ -244,7 +245,6 @@ struct ChangeData
     unsigned int iFlags;
     void* pBuffer;
 };
-typedef char _sizecheck_ChangeData[sizeof(ChangeData) == 8 ? 1 : -1];
 struct FUN_00855220_shell : public ChangesMap
 {
     bool FUN_00855220(unsigned int, bool);
@@ -273,7 +273,7 @@ struct Dummy_00863390
 };
 
 // @fnv 0x008552b0
-int* __fastcall FUN_008552b0(Dummy_00863390* apObject)
+int* FUN_008552b0(Dummy_00863390* apObject)
 {
     apObject->FUN_00863390(0x25);
     *(int*)apObject = (int)&DAT_01080514;
@@ -289,7 +289,7 @@ struct Dummy_00863390
 
 // Calls FUN_00863390 with 0x25, stores the address of DAT_01080514 into the object, and returns the object pointer.
 // @fnv 0x008553e0
-int* __fastcall FUN_008553e0(Dummy_00863390* apObject)
+int* FUN_008553e0(Dummy_00863390* apObject)
 {
     apObject->FUN_00863390(0x25);
     *(int*)apObject = (int)&DAT_01080514;
@@ -306,7 +306,7 @@ struct Dummy_00863390
 
 // Calls FUN_00863390 with 0x25, stores the address of DAT_01080514 into the object, and returns the object pointer.
 // @fnv 0x00855550
-int* __fastcall FUN_00855550(Dummy_00863390* apObject)
+int* FUN_00855550(Dummy_00863390* apObject)
 {
     apObject->FUN_00863390(0x25);
     *(int*)apObject = (int)&DAT_01080514;
@@ -315,7 +315,7 @@ int* __fastcall FUN_00855550(Dummy_00863390* apObject)
 }  // namespace fnv_00855550
 
 // @fnv 0x00856850
-void __fastcall CopyByteToOffset80(char* pBuffer)
+void CopyByteToOffset80(char* pBuffer)
 {
     pBuffer[0x80] = pBuffer[0x75];
 }
@@ -341,7 +341,7 @@ struct ArgVal_00863840
 };
 
 // @fnv 0x00863840
-void __fastcall SetMapItemKeyValue(void* pThis, ArgItem_00863840 pkItem, ArgKey_00863840 key, ArgVal_00863840 val)
+void SetMapItemKeyValue(void* pThis, ArgItem_00863840 pkItem, ArgKey_00863840 key, ArgVal_00863840 val)
 {
     pkItem.pkItem->m_key = key.key;
     pkItem.pkItem->m_val = val.val;
@@ -364,8 +364,6 @@ void S00863d90::FUN_00863d90(const unsigned int& auiElement)
     ((NiTLargeArray*)this)->SetAtGrow(cnt, auiElement);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 struct Elem00c3e7d0
 {
 };
@@ -422,7 +420,7 @@ unsigned short __cdecl FUN_007065c0(void)
 
 struct InteriorCellNewReferencesMap
 {
-    void* __thiscall FUN_008552e0(unsigned int flags);
+    void* FUN_008552e0(unsigned int flags);
 };
 
 
@@ -472,12 +470,12 @@ struct FUN_00861610_Class
 {
     char m_auiShapeKeys[0x5c];
     int* m_field5C;
-    int __thiscall GetRangeBetweenEntries(int arg, int arg2);
+    int GetRangeBetweenEntries(int arg, int arg2);
 };
 
 // Returns the difference between the element at index arg+1 and the element at index arg in the array pointed to by m_field5C.
 // @fnv 0x00861610
-int __thiscall FUN_00861610_Class::GetRangeBetweenEntries(int aiIndex, int aiUnused)
+int FUN_00861610_Class::GetRangeBetweenEntries(int aiIndex, int aiUnused)
 {
     return m_field5C[aiIndex + 1] - m_field5C[aiIndex];
 }
@@ -533,11 +531,11 @@ void* FUN_00863540_class::FUN_00863540(unsigned int flags)
 
 struct FUN_00863c90_Class
 {
-    bool __thiscall IsEqual(unsigned char a, unsigned char b);
+    bool IsEqual(unsigned char a, unsigned char b);
 };
 
 // @fnv 0x00863c90
-bool __thiscall FUN_00863c90_Class::IsEqual(unsigned char aucLeft, unsigned char aucRight)
+bool FUN_00863c90_Class::IsEqual(unsigned char aucLeft, unsigned char aucRight)
 {
     return aucLeft == aucRight;
 }
@@ -554,12 +552,12 @@ struct FUN_00863d60_obj
 {
     int field0;
     ActorCombatGroup** field4;
-    void __thiscall FUN_00863d60();
+    void FUN_00863d60();
 };
 
 // Sets field0 to the address of DAT_01081f98, then deallocates field4 via NiTMallocInterface::Deallocate.
 // @fnv 0x00863d60
-void __thiscall FUN_00863d60_obj::FUN_00863d60()
+void FUN_00863d60_obj::FUN_00863d60()
 {
     field0 = reinterpret_cast<int>(&DAT_01081f98);
     ::FUN_004ede70(field4);
@@ -578,14 +576,14 @@ TESObjectREFR* FUN_00855130_This::FUN_00855130(TESForm* pForm)
 
 struct FUN_00863480Class
 {
-    void __thiscall FUN_00863640();
-    void* __thiscall FUN_00863480(unsigned int flags);
+    void FUN_00863640();
+    void* FUN_00863480(unsigned int flags);
 };
 
 
 // Calls FUN_00863640, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00863480
-void* __thiscall FUN_00863480Class::FUN_00863480(unsigned int flags)
+void* FUN_00863480Class::FUN_00863480(unsigned int flags)
 {
     FUN_00863640();
     if (flags & 1)
@@ -617,11 +615,11 @@ struct NiTPointerMap_Standin
     void ClearAndFree();
 };
 
-void __thiscall NiTPointerMap_Standin::RemoveAll()
+void NiTPointerMap_Standin::RemoveAll()
 {}
 
 // @fnv 0x00863d30
-void __thiscall NiTPointerMap_Standin::ClearAndFree()
+void NiTPointerMap_Standin::ClearAndFree()
 {
     m_ppVirtualMethodTable = &DAT_01081f78;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
@@ -646,17 +644,17 @@ void TESSaveLoadGameHelper::FUN_00484ce0(void* form, int flag)
 namespace fnv_00484d00 {
 struct FUN_008579e0_shell
 {
-    void __thiscall FUN_008579e0(void* buffer, unsigned int size);
+    void FUN_008579e0(void* buffer, unsigned int size);
 };
 
 
 struct FUN_00484d00_shell
 {
-    void __thiscall FUN_00484d00(void* buffer, unsigned int size);
+    void FUN_00484d00(void* buffer, unsigned int size);
 };
 
 // @fnv 0x00484d00
-void __thiscall FUN_00484d00_shell::FUN_00484d00(void* buffer, unsigned int size)
+void FUN_00484d00_shell::FUN_00484d00(void* buffer, unsigned int size)
 {
     reinterpret_cast<FUN_008579e0_shell*>(::g_TESSaveLoadGame)->FUN_008579e0(buffer, size);
 }
@@ -705,24 +703,24 @@ struct FUN_00862370_class
     void* m_84;
     void* m_88;
     int* m_8c;
-    int* __thiscall GetOrCreatePointer();
+    int* GetOrCreatePointer();
 };
 
 extern int DAT_01081e30;
 struct FUN_00863360
 {
-    void* __thiscall FUN_00863361(int);
+    void* FUN_00863361(int);
 };
 extern int DAT_01081e50;
 struct FUN_00863390_class
 {
     int m;
-    void __thiscall FUN_008636d0(int);
-    int __thiscall FUN_00863390(int a);
+    void FUN_008636d0(int);
+    int FUN_00863390(int a);
 };
 // Calls FUN_008636d0 with a, stores the address of DAT_01081e50 in m, and returns this.
 // @fnv 0x00863390
-int __thiscall FUN_00863390_class::FUN_00863390(int a)
+int FUN_00863390_class::FUN_00863390(int a)
 {
     FUN_008636d0(a);
     m = (int)&DAT_01081e50;
@@ -761,13 +759,13 @@ extern int DAT_01081ed0;
 
 struct FUN_00863450_Class
 {
-    int __thiscall FUN_00863e30(int);
-    int __thiscall InitWithGlobal(int a);
+    int FUN_00863e30(int);
+    int InitWithGlobal(int a);
 };
 
 // Calls FUN_00863e30 with a, stores the address of DAT_01081ed0 into this, and returns this.
 // @fnv 0x00863450
-int __thiscall FUN_00863450_Class::InitWithGlobal(int a)
+int FUN_00863450_Class::InitWithGlobal(int a)
 {
     reinterpret_cast<::FUN_00863e30_struct *>(this)->FUN_00863e30(a);
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01081ed0);
@@ -795,11 +793,11 @@ void FUN_008636a0::Init()
 
 struct FUN_00863cb0_Class
 {
-    void __thiscall FUN_00863cb0(int a, char b, int c);
+    void FUN_00863cb0(int a, char b, int c);
 };
 
 // @fnv 0x00863cb0
-void __thiscall FUN_00863cb0_Class::FUN_00863cb0(int a, char b, int aiValue)
+void FUN_00863cb0_Class::FUN_00863cb0(int a, char b, int aiValue)
 {
     ((char*)a)[4] = b;
     ((int*)a)[2] = aiValue;
@@ -828,7 +826,6 @@ struct ChangeData
     unsigned int iFlags;
     void* pBuffer;
 };
-typedef char _sizecheck_ChangeData[sizeof(ChangeData) == 8 ? 1 : -1];
 struct FUN_00858730_shell : public TESSaveLoadGame
 {
     bool FUN_00858730(TESForm*);
@@ -852,7 +849,7 @@ struct ATM
 {
 };
 struct GlobalObject_0044fae0;
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 struct Fake440e30
 {
 };
@@ -1225,10 +1222,10 @@ struct PlayerCharacter
 };
 struct FUN_008616f0_shell
 {
-    bool __thiscall FUN_008616f0();
+    bool FUN_008616f0();
 };
 // @fnv 0x008616f0
-bool __thiscall FUN_008616f0_shell::FUN_008616f0()
+bool FUN_008616f0_shell::FUN_008616f0()
 {
     if (reinterpret_cast<::FUN_004f8960_shell *>((::_g_thePlayer))->FUN_004f8960() == 2 || reinterpret_cast<::FUN_004f8960_shell *>((::_g_thePlayer))->FUN_004f8960() == 1)
         return false;
@@ -1294,11 +1291,11 @@ struct FUN_00862430_vec
 };
 struct FUN_00862430_cls
 {
-    bool __thiscall HasInvalidComponents(FUN_00862430_vec* v);
+    bool HasInvalidComponents(FUN_00862430_vec* v);
 };
 // Returns true if any component of v is non-finite or NaN, otherwise false.
 // @fnv 0x00862430
-bool __thiscall FUN_00862430_cls::HasInvalidComponents(FUN_00862430_vec* pVec)
+bool FUN_00862430_cls::HasInvalidComponents(FUN_00862430_vec* pVec)
 {
     if (!_FNV_Finite(pVec->x) || !_FNV_Finite(pVec->y) || !_FNV_Finite(pVec->z) || _FNV_IsNaN(pVec->x) ||
         _FNV_IsNaN(pVec->y) || _FNV_IsNaN(pVec->z))
@@ -1447,7 +1444,7 @@ struct FUN_008635d0_t
 };
 // Calls FUN_008635d0 with a, stores the address of DAT_01081e30 at this, and returns this.
 // @fnv 0x00863360
-void* __thiscall FUN_00863360::FUN_00863361(int a)
+void* FUN_00863360::FUN_00863361(int a)
 {
     new ((void *)this) ::FUN_008635d0_t(a);
     *reinterpret_cast<void**>(this) = &DAT_01081e30;
@@ -1972,7 +1969,6 @@ struct LLD_TESHelper
 
 extern unsigned int DAT_011de464;
 
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 // @fnv 0x00861ea0
 void LLD_TESHelper::FUN_00861ea0()
@@ -2295,7 +2291,7 @@ class C8578b0
 class C857950
 {
   public:
-    void __thiscall FUN_00857950(int* a, int b);
+    void FUN_00857950(int* a, int b);
 };
 
 
@@ -2485,12 +2481,12 @@ struct FUN_00861ee0_Class
     int unk7c;
     unsigned char unk80;
 
-    void __thiscall FUN_00861ee0(unsigned char value);
+    void FUN_00861ee0(unsigned char value);
 };
 
 // If value is below 0x13, calls FUN_005b5e40 with DAT_01081cf0, value and 0x13, then stores value in unk80.
 // @fnv 0x00861ee0
-void __thiscall FUN_00861ee0_Class::FUN_00861ee0(unsigned char value)
+void FUN_00861ee0_Class::FUN_00861ee0(unsigned char value)
 {
     if (value < 0x13)
         ::FUN_005b5e40();
@@ -2742,8 +2738,8 @@ void TESSL8623::FUN_008623a0(void* form)
 
 struct FUN_008634b0_Class
 {
-    void __thiscall FUN_00863740();
-    void* __thiscall FUN_008634b0(unsigned int flags);
+    void FUN_00863740();
+    void* FUN_008634b0(unsigned int flags);
 };
 struct FUN_00863a60_Node
 {
@@ -2765,7 +2761,7 @@ struct FUN_00863a60_Class
     FUN_00863a60_Node** nodes;
     int count;
 
-    void __thiscall FUN_00863a60(unsigned char key, int value);
+    void FUN_00863a60(unsigned char key, int value);
 };
 
 // Empty inline virtual stub; the class's first vtable slot, defined with no body.
@@ -2789,7 +2785,7 @@ inline void* FUN_00863a60_Class::vf14()
     return 0;
 }
 
-void __thiscall FUN_00863a60_Class::FUN_00863a60(unsigned char key, int value)
+void FUN_00863a60_Class::FUN_00863a60(unsigned char key, int value)
 {
     int counter = this->vf04(key);
     FUN_00863a60_Node* node = this->nodes[counter];
@@ -2831,7 +2827,7 @@ struct FUN_00863b40_Class
     int unk04;
     FUN_00863b40_Node** nodes;
 
-    bool __thiscall FUN_00863b40(unsigned char key, int* result);
+    bool FUN_00863b40(unsigned char key, int* result);
 };
 
 // @fnv 0x00863b40
@@ -2846,7 +2842,7 @@ inline bool FUN_00863b40_Class::vf08(unsigned char, unsigned char)
     return false;
 }
 
-bool __thiscall FUN_00863b40_Class::FUN_00863b40(unsigned char key, int* result)
+bool FUN_00863b40_Class::FUN_00863b40(unsigned char key, int* result)
 {
     int counter = this->vf04(key);
     FUN_00863b40_Node* node = this->nodes[counter];
@@ -2936,7 +2932,7 @@ FUN_00863cd0::~FUN_00863cd0()
 struct FUN_00c3e340_cls
 {
     char pad_00[0x80];
-    void(__thiscall* m_pFn)();
+    void(* m_pFn)();
     void FUN_00c3e340();
 };
 
@@ -3764,15 +3760,13 @@ struct FileFinderStub
 {
     static int Exist(const char*, char*, unsigned int, unsigned int);
 };
-extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(const char*, void*);
-extern "C" __declspec(dllimport) int __stdcall DeleteFileA(const char*);
 struct SaveOwner
 {
     void BuildSaveFilename(char*);
     SaveFile* OpenSaveFile(SaveFile*, const char*, unsigned int);
 };
 // @fnv 0x00857950
-void __thiscall C857950::FUN_00857950(int* pObject, int b)
+void C857950::FUN_00857950(int* pObject, int b)
 {
     int* p;
     if (pObject == 0)
@@ -3780,7 +3774,7 @@ void __thiscall C857950::FUN_00857950(int* pObject, int b)
     p = ((int *)(reinterpret_cast<::SaveOwner *>((((C857370*)this)))->OpenSaveFile((::SaveFile *)(pObject), (const char *)(b), 3)));
     if (p == 0)
         p = pObject;
-    ::FUN_00aff0b0((const char *)((*(int(__thiscall**)(int*))(*(int**)p + 6))(p)));
+    ::FUN_00aff0b0((const char *)((*(int(**)(int*))(*(int**)p + 6))(p)));
     reinterpret_cast<::fnv_008578b0::FUN_008578b0_Class *>((((C8578b0*)this)))->ReleaseFile((::fnv_008578b0::BSFile *)(p), 3);
 }
 // Builds the save file path from the name and settings, rotates .bak backups, then opens or seeks a SaveFile according to mode.
@@ -6220,8 +6214,6 @@ struct TimeHeader
 {
     unsigned short year, month, dayOfWeek, day, hour, minute, second, milliseconds;
 };
-extern "C" __declspec(dllimport) void __stdcall GetSystemTime(TimeHeader*);
-extern "C" __declspec(dllimport) int __stdcall CoCreateGuid(void*);
 struct PixelHeader
 {
     virtual ~PixelHeader();
@@ -6334,14 +6326,14 @@ struct Stub8622Ext
 struct Stub8622Lt
 {
 };
-bool __fastcall FUN_008256d0(void* node);
+bool FUN_008256d0(void* node);
 struct Stub8622Self : FUN_00862370_class
 {
     int* InitMaxValue();
 };
 // Returns m_8c, calling InitMaxValue first to initialize it if it is null.
 // @fnv 0x00862370
-int* __thiscall FUN_00862370_class::GetOrCreatePointer()
+int* FUN_00862370_class::GetOrCreatePointer()
 {
     if (m_8c == 0)
         reinterpret_cast<::Stub8622Self *>(this)->InitMaxValue();
@@ -6782,8 +6774,6 @@ struct RequestValue
 {
     unsigned int first, second;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long* dest, long exch,
-                                                                           long comparand);
 
 struct FUN_00c3e690_Req
 {
@@ -6865,7 +6855,6 @@ bool FUN_00c3e690_cls::FUN_00c3e690(FUN_00c3e690_Req* p, RequestValue value)
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 extern unsigned char DAT_01202df0;
 
@@ -6897,12 +6886,12 @@ struct FUN_00c3e750_Class
     unsigned int a4c;
     ArrSI** a50;
 
-    bool __thiscall FUN_00c3e750();
+    bool FUN_00c3e750();
 };
 
 // Sets DAT_01202df0 to 0; if the increment of a48 reaches 1, waits for a44 to clear, then calls FUN_00446f70 on each a50 element and increments a44.
 // @fnv 0x00c3e750
-bool __thiscall FUN_00c3e750_Class::FUN_00c3e750()
+bool FUN_00c3e750_Class::FUN_00c3e750()
 {
     unsigned int index;
 
@@ -6992,8 +6981,6 @@ void* Own61::RemoveCommand(const char* key, int a, int b)
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long*, long, long);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ObjA
 {
     int unk00, unk04;
@@ -7418,7 +7405,7 @@ struct DH58030
 };
 struct TES58030
 {
-    Ref58030* __thiscall FUN_004fd3e0();
+    Ref58030* FUN_004fd3e0();
 };
 struct Player58030
 {
@@ -7431,20 +7418,20 @@ struct Sky58030
 };
 struct Field58030
 {
-    void __thiscall FUN_008558a0(int id, const char* name);
+    void FUN_008558a0(int id, const char* name);
 };
 struct Host58030
 {
     char unk00[0x44];
     Field58030* f44;
-    int __thiscall FUN_00858600(int id);
-    void __thiscall FUN_00858700(int x);
-    void __thiscall FUN_00858030(int aParam);
+    int FUN_00858600(int id);
+    void FUN_00858700(int x);
+    void FUN_00858030(int aParam);
 };
 
 // Writes save data for the player, world, process lists, sky, HUD, interface, and regions into the save stream.
 // @fnv 0x00858030
-void __thiscall Host58030::FUN_00858030(int aParam)
+void Host58030::FUN_00858030(int aParam)
 {
     int v48;
 
@@ -7903,7 +7890,7 @@ extern char* DAT_011a2224;
 extern const char DAT_01081bbc[];
 extern const char DAT_01081b50[];
 extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
-void __fastcall CopyByteToOffset80(char*);
+void CopyByteToOffset80(char*);
 struct SaveLoadManager
 {
     unsigned char FUN_008df040();
@@ -8409,7 +8396,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&revision), 1);
     if (!unka8)
     {
-        CoCreateGuid(&unk98);
+        GetSystemTime(&unk98);
         unka8 = revision;
     }
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&unk98), 16);
@@ -8427,7 +8414,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
         _c0 = ::FUN_0044a670(_h) + 1;
     float _b = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CalendarHeader *>(&::g_011de7b8))))->GetGameDaysPassed() + ((double)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CalendarHeader *>(&::g_011de7b8))))->GetGameTime())) / 24.0;
     TimeHeader _n;
-    GetSystemTime(&_n);
+    GetLocalTime(&_n);
     unsigned int _image = 0;
     int _ap = 256;
     int _cb_ = 256;

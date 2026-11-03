@@ -37,11 +37,11 @@ struct FourFloatVector
 struct Matrix44;
 struct FUN_00cb21e0_shell
 {
-    void __thiscall FUN_00cb21e0(const Matrix44* source);
+    void FUN_00cb21e0(const Matrix44* source);
 };
 struct FUN_00cb2240_shell
 {
-    void __thiscall FUN_00cb2240(const Matrix44* left, const Matrix44* right);
+    void FUN_00cb2240(const Matrix44* left, const Matrix44* right);
 };
 __declspec(align(16)) struct Matrix44
 {
@@ -61,7 +61,7 @@ void Matrix44::FUN_00cb2420(const Matrix44* left, const Matrix44* right)
 
 struct S_c7f4e0_Foo
 {
-    bool* __thiscall CheckFloatsFinite(bool* value);
+    bool* CheckFloatsFinite(bool* value);
 };
 
 struct S_cb2110_Foo
@@ -81,11 +81,11 @@ struct S_cb2110_Foo
 
     S_c7f4e0_Foo unk30;
 
-    bool* __thiscall FUN_00cb2110(bool* result);
+    bool* FUN_00cb2110(bool* result);
 };
 
 // @fnv 0x00cb2110
-bool* __thiscall S_cb2110_Foo::FUN_00cb2110(bool* result)
+bool* S_cb2110_Foo::FUN_00cb2110(bool* result)
 {
     bool value1;
     bool value2;
@@ -250,13 +250,13 @@ struct Matrix
 
 struct Obj : Matrix
 {
-    void __thiscall FUN_00cb2240(Matrix* m, int a);
-    void __thiscall FUN_00cb23e0(int a);
+    void FUN_00cb2240(Matrix* m, int a);
+    void FUN_00cb23e0(int a);
 };
 
 // Copies the matrix into a local, applies FUN_00cb2240 to that copy with a, leaving the original matrix unchanged.
 // @fnv 0x00cb23e0
-void __thiscall Obj::FUN_00cb23e0(int a)
+void Obj::FUN_00cb23e0(int a)
 {
     Matrix localMatrix;
     localMatrix.r0.v = r0.v;
@@ -303,7 +303,7 @@ struct FUN_00cb20b0_shell
     FourFloatVector row2;
     FourFloatVector row3;
 
-    const Matrix44* __thiscall FUN_00cb20b0(const Matrix44* source);
+    const Matrix44* FUN_00cb20b0(const Matrix44* source);
 };
 
 // Applies g_absMask to the first three source rows, shuffles source row3 with g_rowMask, stores the results, and returns source.

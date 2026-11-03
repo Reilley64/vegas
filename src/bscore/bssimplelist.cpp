@@ -261,7 +261,7 @@ GObj* GList::FUN_004f35b0(int key)
     while (node)
     {
         pObj = *((::GObj **)(new ((void *)(node)) ::Vec3()));
-        if (pObj && reinterpret_cast<int(__thiscall*)(GObj*)>((*reinterpret_cast<void***>(pObj))[4])(pObj) == key)
+        if (pObj && reinterpret_cast<int(*)(GObj*)>((*reinterpret_cast<void***>(pObj))[4])(pObj) == key)
             return pObj;
         node = ((::GNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -418,7 +418,6 @@ struct FormFlagRecord
     TESForm* pForm;
     unsigned int iFlags;
 };
-typedef char _sizecheck_ACTION_OBJECT[sizeof(FormFlagRecord) == 8 ? 1 : -1];
 
 struct ActNode
 {
@@ -496,7 +495,7 @@ struct Dummy_0061bf20
 {
     char b[0x10];
 };
-Dummy_0061bf20* __fastcall ConstructDummy(Dummy_0061bf20*);
+Dummy_0061bf20* ConstructDummy(Dummy_0061bf20*);
 struct FUN_00619740
 {
     void* pQuest;

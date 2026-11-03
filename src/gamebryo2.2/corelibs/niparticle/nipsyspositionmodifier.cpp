@@ -166,7 +166,7 @@ struct FnvMod
 
 // Advances each particle position by its velocity times the elapsed time since its last update, then stores the new time.
 // @fnv 0x00c28bc0
-void __stdcall IntegrateParticlePositions(float fTime, FnvMod* pMod)
+void IntegrateParticlePositions(float fTime, FnvMod* pMod)
 {
     pMod->Slot43();
     FnvPSysPart* parts = pMod->parts;

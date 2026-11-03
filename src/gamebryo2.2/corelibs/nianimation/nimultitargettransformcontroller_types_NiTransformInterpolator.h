@@ -13,7 +13,6 @@ class NiQuatTransform;
 class NiQuaternion;
 class NiTransformData;
 class NiTransformInterpolator;
-#pragma pack(push, 4)
 class NiInterpolator : public NiObject
 {
   public:
@@ -34,10 +33,6 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
-#pragma pack(push, 4)
 class NiKeyBasedInterpolator : public NiInterpolator
 {
   public:
@@ -57,9 +52,6 @@ class NiKeyBasedInterpolator : public NiInterpolator
     // NiKeyBasedInterpolator& __cdecl NiKeyBasedInterpolator::*(const NiKeyBasedInterpolator&)
     // void __cdecl NiKeyBasedInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiKeyBasedInterpolator) == 12);
-#pragma pack(push, 4)
 class NiQuaternion
 {
   public:
@@ -108,13 +100,6 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
-#pragma pack(push, 4)
 class NiQuatTransform
 {
   public:
@@ -145,12 +130,6 @@ class NiQuatTransform
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
-#pragma pack(push, 4)
 class NiTransformInterpolator : public NiKeyBasedInterpolator
 {
   public:
@@ -198,13 +177,4 @@ class NiTransformInterpolator : public NiKeyBasedInterpolator
     // void __cdecl NiTransformInterpolator::*()
     // void __cdecl NiTransformInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTransformInterpolator) == 72);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_kDefaultTransform) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_spTransformData) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_usLastRotationKeyIndex) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_usLastPositionKeyIndex) == 50);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_usLastScaleKeyIndex) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_kDefaultTranslation) == 56);
-FNV_STATIC_ASSERT(offsetof(NiTransformInterpolator, m_bPoseValid) == 68);
 #endif

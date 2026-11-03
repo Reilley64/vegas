@@ -62,7 +62,7 @@ struct S_00dad4d0_Set
         return *(unsigned short*)((char*)&entries[count] + (off >> 3));
     }
 };
-void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
+void FUN_00dae220(int unused, S_00dad640_Set* set);
 void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index);
 
 #include <xmmintrin.h>
@@ -582,7 +582,7 @@ struct S_00dae220_Set
 };
 
 // @fnv 0x00dae220
-void __fastcall FUN_00dae220(int unused, S_00dae220_Set* set)
+void FUN_00dae220(int unused, S_00dae220_Set* set)
 {
     __declspec(align(16)) unsigned char used[16];
     unsigned int remap[16];
@@ -689,7 +689,7 @@ static inline S_00dad4d0_Entry& ContactEntry(ContactManifold* set, unsigned inde
     return *reinterpret_cast<S_00dad4d0_Entry*>(reinterpret_cast<char*>(set) + 4 + index * 8);
 }
 
-static void __fastcall FUN_00dae220(int, ContactManifold* set);
+static void FUN_00dae220(int, ContactManifold* set);
 
 // @fnv 0x00daf1e0
 int FUN_00daf1e0(ContactManifold* set, void* a, void* b, void* c, ContactContext* context, S_00dad4d0_Key* key,
@@ -822,7 +822,7 @@ int FUN_00daf1e0(ContactManifold* set, void* a, void* b, void* c, ContactContext
 }
 
 // Compact the shared vertex table and re-encode every contact's offsets.
-static __declspec(noinline) void __fastcall FUN_00dae220(int, ContactManifold* set)
+static __declspec(noinline) void FUN_00dae220(int, ContactManifold* set)
 {
     __declspec(align(16)) unsigned int usedWords[4];
     _mm_store_ps(reinterpret_cast<float*>(usedWords), _mm_setzero_ps());

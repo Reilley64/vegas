@@ -2,6 +2,7 @@
 #ifndef NIOBJECTNET_PRIVATE_DECLS_H
 #define NIOBJECTNET_PRIVATE_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/FUN_00a63460_shell.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -136,8 +137,6 @@ public:
     void DeleteExtraData(unsigned short);
 };
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned int);
 
 class NiStream

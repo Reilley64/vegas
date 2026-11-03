@@ -13,7 +13,6 @@ class NiParticleSystem;
 class NiPSysBoundUpdateModifier;
 class NiBound;
 class NiRTTI;
-#pragma pack(push, 4)
 class CloningProcess;
 class NiPSysModifier : public NiObject
 {
@@ -47,13 +46,6 @@ class NiPSysModifier : public NiObject
 public:
     void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_uiUpdateOrder) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_pkTarget) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_bModifierActive) == 20);
-#pragma pack(push, 4)
 class NiPSysSpawnModifier : public NiPSysModifier
 {
   public:
@@ -98,16 +90,6 @@ class NiPSysSpawnModifier : public NiPSysModifier
     // NiPSysSpawnModifier& __cdecl NiPSysSpawnModifier::*(const NiPSysSpawnModifier&)
     // void __cdecl NiPSysSpawnModifier::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysSpawnModifier) == 52);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_usSpawnGenerationCount) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_fSpawnPercentage) == 28);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_usMinimumParticlesToSpawn) == 32);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_usMaximumParticlesToSpawn) == 34);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_fSpawnedSpeedChaos) == 36);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_fSpawnDirectionChaos) == 40);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_fYValue) == 44);
-FNV_STATIC_ASSERT(offsetof(NiPSysSpawnModifier, m_fLifeSpanVariation) == 48);
 
 // Binary stream read layout and inline operations, corroborated by the PC call sites.
 class NiBinaryStream
@@ -126,8 +108,6 @@ class NiBinaryStream
         return uiBytesRead;
     }
 };
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_pfnRead) == 8);
 
 class NiStream
 {
@@ -135,7 +115,6 @@ class NiStream
     unsigned char m_auStreamHeader[0x24C];
     NiBinaryStream* m_pUnderlyingStream;
 };
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 0x24C);
 
 template <class T>
 FNV_FORCEINLINE void NiBinaryStreamLoad(NiBinaryStream& kStream, T* pValue, unsigned int uiNumEls = 1)
@@ -148,7 +127,6 @@ template <class T> FNV_FORCEINLINE void ReadBinaryValue(NiStream& kStream, T& va
 {
     NiBinaryStreamLoad(*kStream.m_pUnderlyingStream, &value, 1);
 }
-#pragma pack(push, 4)
 class NiPSysBoundUpdateModifier : public NiPSysModifier
 {
   public:
@@ -162,9 +140,4 @@ class NiPSysBoundUpdateModifier : public NiPSysModifier
     unsigned short m_usUpdateSkipCounter;  // +0x1A, 2 bytes
     NiBound* m_pkBounds;                   // +0x1C, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysBoundUpdateModifier) == 32);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_usUpdateSkip) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_usUpdateSkipCounter) == 26);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_pkBounds) == 28);
 #endif

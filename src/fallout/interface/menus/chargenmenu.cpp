@@ -52,11 +52,11 @@
 #include "fnv/symbols_011de000.h"
 struct CharGenMenu
 {
-    int __thiscall FUN_00753340();
+    int FUN_00753340();
 };
 
 // @fnv 0x00753340
-int __thiscall CharGenMenu::FUN_00753340()
+int CharGenMenu::FUN_00753340()
 {
     return 0x418;
 }
@@ -168,10 +168,10 @@ struct FUN_007542d0_shell
     virtual void f3(int, int);
     char _pad[0x40];
     Tile* tile;
-    bool __thiscall HandleButton(int aiButton, float afValue);
+    bool HandleButton(int aiButton, float afValue);
 };
 // @fnv 0x007542d0
-bool __thiscall FUN_007542d0_shell::HandleButton(int aiButton, float afValue)
+bool FUN_007542d0_shell::HandleButton(int aiButton, float afValue)
 {
     bool bhandled = false;
     switch (aiButton)
@@ -277,7 +277,7 @@ void __cdecl UpdateTagSkillTile(Tile* apTile, ActorValue::Index aeIndex)
 
 struct StartMenu
 {
-    char const* __thiscall GetMenuTitle();
+    char const* GetMenuTitle();
 };
 
 struct GlobalObject_0040c150 : StartMenu
@@ -342,7 +342,7 @@ void FUN_00753d20_shell::UpdatePointsDisplay()
 
 struct FUN_00754950_shell
 {
-    bool __thiscall FUN_00754950(Tile* apSelectItem);
+    bool FUN_00754950(Tile* apSelectItem);
 };
 
 // @fnv 0x00754950

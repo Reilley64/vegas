@@ -56,12 +56,12 @@ void FUN_00b1add0::Set(float a, float b, float c)
 
 struct FUN_00b39460_class
 {
-    void __thiscall FUN_00b39460();
+    void FUN_00b39460();
 };
 
 // Frees the pointer stored at the start of this object via operator delete.
 // @fnv 0x00b39460
-void __thiscall FUN_00b39460_class::FUN_00b39460()
+void FUN_00b39460_class::FUN_00b39460()
 {
     void* v = *(void**)this;
     ::FUN_00401030(v);
@@ -70,7 +70,7 @@ void __thiscall FUN_00b39460_class::FUN_00b39460()
 struct FUN_0064df10_helper
 {
     void* p;
-    void __thiscall deallocate(void* a, unsigned int b);
+    void deallocate(void* a, unsigned int b);
 };
 struct Date
 {
@@ -96,11 +96,11 @@ struct FUN_00b1db00_class
     int i8;
     int ic;
     int i10;
-    unsigned int __thiscall FUN_00b1db00(unsigned int a);
+    unsigned int FUN_00b1db00(unsigned int a);
 };
 // Bounds-checks index a against (i10 - ic) / 56, calls FUN_00ec7c56 if out of range, and returns ic + a * 56.
 // @fnv 0x00b1db00
-unsigned int __thiscall FUN_00b1db00_class::FUN_00b1db00(unsigned int uiIndex)
+unsigned int FUN_00b1db00_class::FUN_00b1db00(unsigned int uiIndex)
 {
     if (uiIndex >= (unsigned int)((i10 - ic) / 56))
         FUN_00ec7c56();
@@ -152,11 +152,11 @@ struct FUN_00b319a0_class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    int __thiscall FUN_00b319a0(int n);
+    int FUN_00b319a0(int n);
 };
 unsigned int __cdecl FUN_00ec7c56();
 // @fnv 0x00b319a0
-int __thiscall FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
+int FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
 {
     if (uiIndex >= (unsigned int)((m_10 - m_iThirdValue) / 24))
         FUN_00ec7c56();
@@ -172,11 +172,11 @@ struct FUN_00b1ec70_class
     int* p;
     int* q;
     int* r;
-    void __thiscall FUN_00b1ec70();
+    void FUN_00b1ec70();
 };
 // Frees the buffer at p after calling FUN_00b1ebc0 on p and q, then resets p, q and r to null.
 // @fnv 0x00b1ec70
-void __thiscall FUN_00b1ec70_class::FUN_00b1ec70()
+void FUN_00b1ec70_class::FUN_00b1ec70()
 {
     int a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12;
     if (p)
@@ -253,7 +253,7 @@ struct FUN_00b1fe80_helper
     int* mC;
     int* m10;
     int* m14;
-    void __thiscall FUN_00b1fe80();
+    void FUN_00b1fe80();
 };
 // Frees the array at mC after calling FUN_00b22650 on it, then nulls mC, m10 and m14.
 // @fnv 0x00b1fe80
@@ -297,7 +297,7 @@ struct FUN_00b1f650_class
     void* pc;
     void* pe;
     void* pp;
-    void __thiscall FUN_00b1f650();
+    void FUN_00b1f650();
 };
 
 // Frees the pc buffer via FUN_00b20c30 and operator delete, then resets pc, pe and pp to null.
@@ -380,12 +380,12 @@ struct CopyableStateBlock
     int i30;
     int i34;
 
-    void __thiscall FUN_00b24ae0(const CopyableStateBlock* that);
-    CopyableStateBlock* __thiscall CopyFrom(const CopyableStateBlock& that);
+    void FUN_00b24ae0(const CopyableStateBlock* that);
+    CopyableStateBlock* CopyFrom(const CopyableStateBlock& that);
 };
 
 // @fnv 0x00b249d0
-CopyableStateBlock* __thiscall CopyableStateBlock::CopyFrom(const CopyableStateBlock& aOther)
+CopyableStateBlock* CopyableStateBlock::CopyFrom(const CopyableStateBlock& aOther)
 {
     FUN_00b249d0_local local;
 
@@ -545,8 +545,8 @@ struct SpawnEntry : StringLike
     float f20;
     float f24;
     float f28;
-    int __thiscall Init(SpawnEntry*, int, int);
-    SpawnEntry* __thiscall FUN_00b22f80(SpawnEntry* that);
+    int Init(SpawnEntry*, int, int);
+    SpawnEntry* FUN_00b22f80(SpawnEntry* that);
 };
 // Clears the entry, initialises it with g_010173f0, copies the f1c/f20/f24/f28 fields from the passed entry, and returns this.
 // @fnv 0x00b22f80
@@ -566,9 +566,9 @@ struct FUN_00ec78f1_t
 {
     int m0;
     int m4;
-    void* __thiscall FUN_00ec78f1(int* out);
+    void* FUN_00ec78f1(int* out);
 };
-void __stdcall FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
+void FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
 void* __cdecl operator new(unsigned int);
 
 // Clamps n to 0 when not positive, reports an error if n exceeds the max element count, then allocates n*0x38 bytes.
@@ -626,7 +626,7 @@ void __cdecl CopyObjects(CopyableStateBlock* apDest, unsigned int auiCount, cons
     }
 }
 
-__declspec(noreturn) void __stdcall FUN_00ec7894(void*, void*);
+__declspec(noreturn) void FUN_00ec7894(void*, void*);
 struct BadAlloc
 {
     int vt;
@@ -651,7 +651,7 @@ int* FUN_0044d670(unsigned int n)
 
 // Sets the nine floats at instance to the 3x3 identity matrix and returns instance.
 // @fnv 0x00b12af0
-FUN_00b12af0_shell* __fastcall FUN_00b12af0(FUN_00b12af0_shell* apMatrix)
+FUN_00b12af0_shell* FUN_00b12af0(FUN_00b12af0_shell* apMatrix)
 {
     *(float*)apMatrix = 1.0f;
     *(float*)((char*)apMatrix + 4) = 0.0f;
@@ -792,12 +792,12 @@ struct Ctx
 
 struct StringHolder : std::string
 {
-    StringHolder* __thiscall FUN_00b1d100();
+    StringHolder* FUN_00b1d100();
 };
 
 // Calls _Tidy(false, 0) to release the string's internal buffer and returns this.
 // @fnv 0x00b1d100
-StringHolder* __thiscall StringHolder::FUN_00b1d100()
+StringHolder* StringHolder::FUN_00b1d100()
 {
     Ctx obj;
     char* p = &obj.r;
@@ -815,12 +815,12 @@ struct S00b1dd80_Obj
     unsigned int ic;
     unsigned int p10;
 
-    int* __thiscall FUN_00b1dd80(int* out, int* p, unsigned int q);
+    int* FUN_00b1dd80(int* out, int* p, unsigned int q);
 };
 
 // Shifts the 0x38-byte elements after q down, drops the last one (p10 -= 0x38), and returns out holding i0 and q; calls FUN_00ec7c56 if q is out of range.
 // @fnv 0x00b1dd80
-int* __thiscall S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
+int* S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
 {
     int u0;
     int u1;
@@ -981,7 +981,7 @@ struct S00b24a80_Obj;
 
 struct S00b24a80_Spawn
 {
-    void __thiscall AssignSubstring(S00b24a80_Obj* a, int b, unsigned int c);
+    void AssignSubstring(S00b24a80_Obj* a, int b, unsigned int c);
 };
 
 struct S00b24a80_Obj
@@ -997,7 +997,7 @@ struct S00b24a80_Obj
     float f20;
     float f24;
     float f28;
-    S00b24a80_Obj* __thiscall FUN_00b24a80(S00b24a80_Obj* src);
+    S00b24a80_Obj* FUN_00b24a80(S00b24a80_Obj* src);
 };
 
 void S00b24a80_Spawn::AssignSubstring(S00b24a80_Obj* a, int b, unsigned int c)
@@ -1266,7 +1266,7 @@ struct V3b244a0
     float z;
 };
 
-void __stdcall FUN_00ec7894(int a, int b);
+void FUN_00ec7894(int a, int b);
 
 // Stores *src into each of count V3b244a0 elements starting at dest; the catch handler calls FUN_00ec7894(0, 0).
 // @fnv 0x00b244a0
@@ -1376,9 +1376,9 @@ struct AllocationException
     unsigned int vtable;
     unsigned int reserved1;
     unsigned int reserved2;
-    void __thiscall FUN_00ec78f1(unsigned int* value);
+    void FUN_00ec78f1(unsigned int* value);
 };
-void __stdcall FUN_00ec7894(void* exception, void* info);
+void FUN_00ec7894(void* exception, void* info);
 
 // Allocates a 12-byte-per-element array of count items, throwing AllocationException on overflow.
 // @fnv 0x00b23bb0

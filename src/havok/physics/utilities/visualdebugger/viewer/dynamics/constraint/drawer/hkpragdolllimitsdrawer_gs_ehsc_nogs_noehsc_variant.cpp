@@ -303,7 +303,7 @@ struct Cls
     void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
 };
-typedef int(__thiscall* VCall38)(void* self, void* a, int color, int a2, int a3);
+typedef int(* VCall38)(void* self, void* a, int color, int a2, int a3);
 struct Big
 {
     float m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, ma, mb, mc, md, me, mf;
@@ -449,7 +449,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         if (!(threeArray.cap & (int)0x80000000))
         {
             void** ovt = *(void***)ow;
-            ((void(__thiscall*)(void*, void*, int))ovt[4])(ow, threeArray.data, (threeArray.cap & 0x3fffffff) * 4);
+            ((void(*)(void*, void*, int))ovt[4])(ow, threeArray.data, (threeArray.cap & 0x3fffffff) * 4);
         }
         threeArray.data = 0;
         threeArray.cap = (int)0x80000000;
@@ -461,7 +461,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         if (!(halfArray.cap & (int)0x80000000))
         {
             void** ovt = *(void***)ow;
-            ((void(__thiscall*)(void*, void*, int))ovt[4])(ow, halfArray.data, (halfArray.cap & 0x3fffffff) * 4);
+            ((void(*)(void*, void*, int))ovt[4])(ow, halfArray.data, (halfArray.cap & 0x3fffffff) * 4);
         }
         halfArray.data = 0;
         halfArray.cap = (int)0x80000000;
@@ -473,7 +473,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         if (!(zeroArray.cap & (int)0x80000000))
         {
             void** ovt = *(void***)ow;
-            ((void(__thiscall*)(void*, void*, int))ovt[4])(ow, zeroArray.data, (zeroArray.cap & 0x3fffffff) * 4);
+            ((void(*)(void*, void*, int))ovt[4])(ow, zeroArray.data, (zeroArray.cap & 0x3fffffff) * 4);
         }
         zeroArray.data = 0;
         zeroArray.cap = (int)0x80000000;

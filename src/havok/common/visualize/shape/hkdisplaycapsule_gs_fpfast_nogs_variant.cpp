@@ -14,7 +14,7 @@ struct hkDisplayCapsule
 {
     void FUN_00d22d70();
 };
-void __stdcall FUN_00d22db0(int, int);
+void FUN_00d22db0(int, int);
 
 #include <xmmintrin.h>
 

@@ -35,7 +35,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330(g_011f5f6c) to the StrArr, growing it via SetSize when the size reaches the max.
 // @fnv 0x00a9b430
-void __stdcall FUN_00a9b430(StrArr* pStrArr)
+void FUN_00a9b430(StrArr* pStrArr)
 {
     reinterpret_cast<::FUN_00a721e0_shell *>((pStrArr))->AppendEffectProperties({});
     char* pkString = ::FUN_00a7d330((const char *)((*reinterpret_cast<const void *const *>(&::g_011f5f6c))));

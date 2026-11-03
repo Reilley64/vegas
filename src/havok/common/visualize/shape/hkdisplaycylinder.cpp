@@ -3,7 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d58500
-void __stdcall FUN_00d58500(int, int)
+void FUN_00d58500(int, int)
 {}
 
 #include <xmmintrin.h>

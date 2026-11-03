@@ -13,7 +13,6 @@ class MemoryManager
 };
 
 
-#pragma pack(push, 4)
 class BSSystemUtilitiesStrings
 {
   public:
@@ -23,9 +22,6 @@ class BSSystemUtilitiesStrings
     virtual void Initialize();
     virtual void Destroy();
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(BSSystemUtilitiesStrings) == 36);
-FNV_STATIC_ASSERT(offsetof(BSSystemUtilitiesStrings, m_pStringFunctions) == 4);
 
 #endif

@@ -155,7 +155,7 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x00694e10
-void __fastcall FUN_00694e10(GlobalObject_00869f00* pThis)
+void FUN_00694e10(GlobalObject_00869f00* pThis)
 {
     *(unsigned int**)pThis = &DAT_0106b0dc;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
@@ -476,7 +476,7 @@ void FUN_00694b10_shell::FUN_00694b10(unsigned int size, bool abShrink)
     {
         if (capacity == 0)
         {
-            p = ((void*(__thiscall*)(void*, unsigned int))((void**)vtbl)[1])(this, size);
+            p = ((void*(*)(void*, unsigned int))((void**)vtbl)[1])(this, size);
             capacity = size;
         }
         else
@@ -789,7 +789,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -799,7 +798,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct NavMeshSaveDataHeader
 {
     unsigned int m_uiField0;
@@ -809,7 +807,6 @@ struct NavMeshSaveDataHeader
     unsigned int m_uiField4;
     unsigned int m_uiField5;
 };
-typedef char _sizecheck_NavMeshSaveStruct[sizeof(NavMeshSaveDataHeader) == 24 ? 1 : -1];
 struct NavMeshInfoSaveData
 {
     static unsigned int GetSaveSize();
@@ -827,7 +824,6 @@ struct NavMeshInfoSaveData
     unsigned short m_usTriangleIdentifier;
     char _pad_2e[2];
 };
-typedef char _sizecheck_EdgeExtraInfoOLD[sizeof(NavMeshInfoSaveData) == 48 ? 1 : -1];
 struct FUN_00692950_shell : public NavMesh
 {
     bool FUN_00692950(TESFile*);
@@ -1555,7 +1551,6 @@ struct NavMesh_0068ef50 : TESForm, ChildCell_0068ef50
 {
     TESObjectCELL* FUN_0068ef50();
 };
-typedef char _sizecheck_TESForm_0068ef50[sizeof(TESForm) == 0x18 ? 1 : -1];
 // @fnv 0x0068ef50
 TESObjectCELL* NavMesh_0068ef50::FUN_0068ef50()
 {

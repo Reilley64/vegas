@@ -15,12 +15,12 @@ struct NiUnsharedGeometryGroup
 {
     void* m_ppVirtualMethodTable;
     virtual ~NiUnsharedGeometryGroup();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Restores the vtable, clears the global pointer if it refers to this object, calls FUN_00e98710, and optionally deletes the object.
 // @fnv 0x00e94d30
-void* __thiscall NiUnsharedGeometryGroup::Destroy(unsigned int flags)
+void* NiUnsharedGeometryGroup::Destroy(unsigned int flags)
 {
     NiUnsharedGeometryGroup* pThis = this;
     *(void**)pThis = &DAT_010f1008;
@@ -53,10 +53,10 @@ __forceinline void* __cdecl operator new(unsigned int, void* p)
 }
 struct S
 {
-    void __thiscall CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture);
+    void CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture);
 };
 // @fnv 0x00e94de0
-void __thiscall S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture)
+void S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture)
 {
     if (*(int*)((char*)pkScreenTexture + 0x1c) == 0)
     {
@@ -71,13 +71,13 @@ void __thiscall S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTextur
 
 struct FakeVB
 {
-    virtual void __stdcall F0();
-    virtual void __stdcall F1();
-    virtual unsigned long __stdcall Release();
+    virtual void F0();
+    virtual void F1();
+    virtual unsigned long Release();
 };
 // Releases the vertex buffer chip for the given stream index, clears its slot and deletes the chip.
 // @fnv 0x00e94ee0
-void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
+void FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
 {
     NiVBChip* pkChip;
     if (uiStreamIndex < *(unsigned int*)((char*)pkBuffData + 0x20))
@@ -202,7 +202,7 @@ struct NiGeometryGroup;
 struct NiScreenTexture;
 struct NiSkinInstance;
 struct NiVBChip;
-void __stdcall FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
+void FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
 void* _fnv_zlib_memset(void*, int, unsigned int);
 struct BufEntry
 {
@@ -362,35 +362,35 @@ void BufferManager::ClearBuffers()
 struct IDirect3DVertexBuffer9_E94;
 struct IDirect3DDevice9_E94
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall TestCooperativeLevel();
-    virtual unsigned int __stdcall GetAvailableTextureMem();
-    virtual long __stdcall EvictManagedResources();
-    virtual long __stdcall GetDirect3D(void**);
-    virtual long __stdcall GetDeviceCaps(void*);
-    virtual long __stdcall GetDisplayMode(unsigned int, void*);
-    virtual long __stdcall GetCreationParameters(void*);
-    virtual long __stdcall SetCursorProperties(unsigned int, unsigned int, void*);
-    virtual void __stdcall SetCursorPosition(int, int, unsigned long);
-    virtual int __stdcall ShowCursor(int);
-    virtual long __stdcall CreateAdditionalSwapChain(void*, void**);
-    virtual long __stdcall GetSwapChain(unsigned int, void**);
-    virtual unsigned int __stdcall GetNumberOfSwapChains();
-    virtual long __stdcall Reset(void*);
-    virtual long __stdcall Present(const void*, const void*, void*, const void*);
-    virtual long __stdcall GetBackBuffer(unsigned int, unsigned int, int, void**);
-    virtual long __stdcall GetRasterStatus(unsigned int, void*);
-    virtual long __stdcall SetDialogBoxMode(int);
-    virtual void __stdcall SetGammaRamp(unsigned int, unsigned long, const void*);
-    virtual void __stdcall GetGammaRamp(unsigned int, void*);
-    virtual long __stdcall CreateTexture(unsigned int, unsigned int, unsigned int, unsigned long, int, int, void**,
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long TestCooperativeLevel();
+    virtual unsigned int GetAvailableTextureMem();
+    virtual long EvictManagedResources();
+    virtual long GetDirect3D(void**);
+    virtual long GetDeviceCaps(void*);
+    virtual long GetDisplayMode(unsigned int, void*);
+    virtual long GetCreationParameters(void*);
+    virtual long SetCursorProperties(unsigned int, unsigned int, void*);
+    virtual void SetCursorPosition(int, int, unsigned long);
+    virtual int ShowCursor(int);
+    virtual long CreateAdditionalSwapChain(void*, void**);
+    virtual long GetSwapChain(unsigned int, void**);
+    virtual unsigned int GetNumberOfSwapChains();
+    virtual long Reset(void*);
+    virtual long Present(const void*, const void*, void*, const void*);
+    virtual long GetBackBuffer(unsigned int, unsigned int, int, void**);
+    virtual long GetRasterStatus(unsigned int, void*);
+    virtual long SetDialogBoxMode(int);
+    virtual void SetGammaRamp(unsigned int, unsigned long, const void*);
+    virtual void GetGammaRamp(unsigned int, void*);
+    virtual long CreateTexture(unsigned int, unsigned int, unsigned int, unsigned long, int, int, void**,
                                          void**);
-    virtual long __stdcall CreateVolumeTexture(unsigned int, unsigned int, unsigned int, unsigned int, unsigned long,
+    virtual long CreateVolumeTexture(unsigned int, unsigned int, unsigned int, unsigned int, unsigned long,
                                                int, int, void**, void**);
-    virtual long __stdcall CreateCubeTexture(unsigned int, unsigned int, unsigned long, int, int, void**, void**);
-    virtual long __stdcall CreateVertexBuffer(unsigned int Length, unsigned long Usage, unsigned long FVF, int Pool,
+    virtual long CreateCubeTexture(unsigned int, unsigned int, unsigned long, int, int, void**, void**);
+    virtual long CreateVertexBuffer(unsigned int Length, unsigned long Usage, unsigned long FVF, int Pool,
                                               IDirect3DVertexBuffer9_E94** ppVB, void** pSharedHandle);
 };
 class NiMemObject_E94

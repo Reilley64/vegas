@@ -1,20 +1,18 @@
 
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
 #include "bsthread_console_pc.h"
 #include "bsthread_console_pc.h"
 #include "bsthread_console_pc.h"
-unsigned long __stdcall RunThreadProc(void* thread);
+unsigned long RunThreadProc(void* thread);
 struct CRITSEC
 {
     int a[6];
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITSEC*);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITSEC*);
 struct FUN_00aa64f0_t
 {
     int vt;
@@ -25,7 +23,6 @@ struct FUN_00aa64f0_t
     void StopAndCloseHandle();
 };
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* pkCriticalSection);
 
 struct CriticalSectionAA63
 {

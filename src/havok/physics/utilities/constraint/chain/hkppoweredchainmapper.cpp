@@ -235,7 +235,7 @@ struct FnMap
         ProcessArgument(FUN_00c85750()->heap);
         ::FUN_00a29680();
     }
-    void __thiscall ProcessArgument(FnAllocator*) throw();
+    void ProcessArgument(FnAllocator*) throw();
 };
 struct FnNodePair
 {

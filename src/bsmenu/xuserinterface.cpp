@@ -2,6 +2,7 @@
 // src/bsmenu/xuserinterface.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/xuserinterface.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00711e00_StandIn.h"
 #include "fnv/decl/FUN_00877720_shell.h"
 #include "fnv/decl/MagicCaster_shell.h"
@@ -14,9 +15,6 @@
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f6000.h"
-extern "C" __declspec(dllimport) int __stdcall MessageBoxA(void* hWnd, const char* lpText, const char* lpCaption,
-                                                           unsigned int uType);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 
 struct SettingBool
 {
@@ -138,7 +136,6 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
     return result;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 struct GameTimerRecord
 {

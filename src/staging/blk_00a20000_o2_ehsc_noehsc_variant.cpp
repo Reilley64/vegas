@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -103,7 +104,7 @@ struct FUN_00a2ceb0_cls {
     FUN_00a2ceb0_cls& Clear();
 };
 extern unsigned char DAT_01096968;
-typedef int (__stdcall *FnInterlockedDecrement)(void*);
+typedef int (*FnInterlockedDecrement)(void*);
 extern FnInterlockedDecrement DAT_00fdf1c4;
 struct FUN_00a31260_StandIn {
     void* p0;
@@ -153,8 +154,8 @@ struct FloatRecord_b5532
     int unk00;
     float m_04;
 };
-typedef void (__thiscall *Fn_00a26fa0_cb)(void *);
-void __stdcall ApplyCallbackBackwards(char *p, int iTileIndex, int nCount, Fn_00a26fa0_cb pFn);
+typedef void (*Fn_00a26fa0_cb)(void *);
+void ApplyCallbackBackwards(char *p, int iTileIndex, int nCount, Fn_00a26fa0_cb pFn);
 struct TempArrayElement
 {
     void* a;
@@ -663,7 +664,7 @@ typedef bool (__cdecl *FNV_CbFn)(float, int*, int*);
 // The game's vector constructor iterator: it calls the element constructor
 // (a plain function pointer, the object pointer travels in ECX) once per
 // element.  It pops its own four arguments.
-extern "C" void __stdcall FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
+extern "C" void FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
 // The element constructor of the allocated object.
 class A29F00BinaryStream {
 public:
@@ -2166,10 +2167,8 @@ struct FNVHolder {
     void FUN_00a2dd10();
 };
 struct FUN_00a351d0_cls {
-    void __thiscall CrossFadeTo(int a, float b, int c, float d, float e);
+    void CrossFadeTo(int a, float b, int c, float d, float e);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 extern unsigned int DAT_011f36a8;
 struct ObjA00a2;
 extern ObjA00a2* DAT_011f36a4;
@@ -2288,7 +2287,7 @@ struct S_00a385d0_T {
     float scale;
     void InvertTransform(S_00a385d0_T* out);
 };
-// FUN_00a3a730 : __thiscall, 27 bytes
+// FUN_00a3a730 : , 27 bytes
 //   mov edx, [esp+8]
 //   mov eax, [ecx]
 //   mov eax, [eax+0xa0]
@@ -2539,7 +2538,6 @@ struct FUN_00a3da50_Owner {
     int m_unk24C;
     FUN_00a3da50_Anim *m_pAnim;
 };
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct S_a3dd40_Obj {
     virtual ~S_a3dd40_Obj();
     virtual void DeleteThis() throw();

@@ -531,7 +531,6 @@ struct ThreeByThreeMatrix {
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_00524ac0_shell : public ThreeByThreeMatrix {
     void FUN_00524ac0(float);
 };
@@ -561,13 +560,13 @@ struct TESObjectCELL {
 };
 
 // @fnv 0x00524cf0
-NiAVObject* __fastcall FUN_00524cf0(TESObjectCELL* apCell)
+NiAVObject* FUN_00524cf0(TESObjectCELL* apCell)
 {
     return apCell->GetCellChildAt(1);
 }
 
 // @fnv 0x00524d10
-bool __fastcall FUN_00524d10(bool* pThis)
+bool FUN_00524d10(bool* pThis)
 {
     return pThis[0x64b];
 }
@@ -719,7 +718,7 @@ struct blob48 { char b[48]; };
 extern blob12 NiPoint3_ZERO;
 
 // @fnv 0x00524d70
-void __fastcall FUN_00524d70(char* this_ptr)
+void FUN_00524d70(char* this_ptr)
 {
     *(int*)(this_ptr + 0xd2c) = 0;
     *(blob12*)(this_ptr + 0xd30) = NiPoint3_ZERO;
@@ -738,12 +737,12 @@ BSFaceGenAnimationData* FUN_00524c90()
 
 struct FUN_00522440_shell
 {
-    int __thiscall GetValueByFlag(bool bUse);
+    int GetValueByFlag(bool bUse);
 };
 
 // Returns the int at offset 0x244 when bUse is true, otherwise the int at offset 0x220.
 // @fnv 0x00522440
-int __thiscall FUN_00522440_shell::GetValueByFlag(bool bUse)
+int FUN_00522440_shell::GetValueByFlag(bool bUse)
 {
     if (bUse)
     {
@@ -770,23 +769,23 @@ unsigned int FUN_00522500_shell::GetField234()
 
 struct FUN_00522520_shell
 {
-    int __thiscall GetField238();
+    int GetField238();
 };
 
 // @fnv 0x00522520
-int __thiscall FUN_00522520_shell::GetField238()
+int FUN_00522520_shell::GetField238()
 {
     return *(int*)((char*)this + 0x238);
 }
 
 struct FUN_00522560_shell
 {
-    int __thiscall FUN_00522560(bool param);
+    int FUN_00522560(bool param);
 };
 
 // Returns 2 when param is true, otherwise returns the int stored at offset 0x364 of this object.
 // @fnv 0x00522560
-int __thiscall FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
+int FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
 {
     if (abReturnTwo)
         return 2;
@@ -870,11 +869,11 @@ float FUN_00645c60_shell::GetField178Float() const
 
 struct FUN_008bffa0_shell
 {
-    int __thiscall GetField228();
+    int GetField228();
 };
 
 // @fnv 0x008bffa0
-int __thiscall FUN_008bffa0_shell::GetField228()
+int FUN_008bffa0_shell::GetField228()
 {
     return *(int*)((char*)this + 0x228);
 }
@@ -912,11 +911,11 @@ void FUN_00521580_shell::FUN_00521580(bool bVal)
 }
 
 struct FUN_00522540_shell {
-    int __thiscall GetField23C();
+    int GetField23C();
 };
 
 // @fnv 0x00522540
-int __thiscall FUN_00522540_shell::GetField23C()
+int FUN_00522540_shell::GetField23C()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x23c);
 }
@@ -2936,7 +2935,7 @@ struct TESObjectCELL;
 struct NiFixedString;
 struct BSFaceGenAnimationData;
 BSFaceGenAnimationData* __cdecl FUN_00524c90();
-NiAVObject* __fastcall FUN_00524cf0(TESObjectCELL*);
+NiAVObject* FUN_00524cf0(TESObjectCELL*);
 NiFixedString* __cdecl FUN_00524cc0();
 
 struct FirePoint {

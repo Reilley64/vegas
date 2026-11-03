@@ -7,7 +7,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/symbols_010c9000.h"
 #include "havok/hkpShape.h"
-int __stdcall FUN_00c9e3f0(void* p, int size);
+int FUN_00c9e3f0(void* p, int size);
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"

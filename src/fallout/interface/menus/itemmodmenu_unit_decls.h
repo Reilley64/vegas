@@ -17,7 +17,6 @@
 #include "fnv/symbols_01070000.h"
 #include "fnv/symbols_011d9000.h"
 #include "fnv/symbols_011da000.h"
-#pragma pack(push, 4)
 
 class Tile;
 class TileMenu;
@@ -130,7 +129,6 @@ class RepairMenu : public Menu
     RepairMenu();
 };
 
-#pragma pack(pop)
 
 extern "C"
 {

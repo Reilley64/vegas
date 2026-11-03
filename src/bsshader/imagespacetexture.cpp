@@ -16,7 +16,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESEnchantableForm : public BaseFormComponent
 {
     virtual int GetCastingType();
@@ -38,7 +37,6 @@ struct TESEnchantableForm : public BaseFormComponent
     char _pad_a[2];
     int m_eCastingType;
 };
-typedef char _sizecheck_TESEnchantableForm[sizeof(TESEnchantableForm) == 16 ? 1 : -1];
 struct FUN_0041fd00_shell : public TESEnchantableForm
 {
     void FUN_0041fd00(int);

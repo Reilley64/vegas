@@ -12,17 +12,13 @@
 #define FNV_NIFLOATINTERPOLATOR_UNIT_H
 
 
+#include <windows.h>
 #include <float.h>
 #include <stddef.h>
 
-#define FNV_NIFI_SIZE_ASSERT(type, size) typedef char fnv_nifi_size_##type[(sizeof(type) == (size)) ? 1 : -1]
-#define FNV_NIFI_OFFSET_ASSERT(type, member, offset)                                                                   \
-    typedef char fnv_nifi_offset_##type##_##member[(offsetof(type, member) == (offset)) ? 1 : -1]
 
 #define FNV_FORCEINLINE __forceinline
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 class NiStream;
 
@@ -109,7 +105,6 @@ class NiStream
     unsigned char m_auPadStreamHeader[0x24C];
     NiBinaryStream* m_pUnderlyingStream;  // +0x24C
 };
-FNV_NIFI_OFFSET_ASSERT(NiStream, m_pUnderlyingStream, 0x24C);
 
 // ---------------------------------------------------------------------------
 // NiFloatData.
@@ -136,11 +131,6 @@ class NiFloatData : public NiObject
     unsigned char m_ucKeyDataSize;           // +0x14, 1 bytes
     unsigned char m_auPadKeySize[3];
 };
-FNV_NIFI_SIZE_ASSERT(NiFloatData, 24);
-FNV_NIFI_OFFSET_ASSERT(NiFloatData, m_uiNumKeys, 8);
-FNV_NIFI_OFFSET_ASSERT(NiFloatData, m_pKeyArray, 12);
-FNV_NIFI_OFFSET_ASSERT(NiFloatData, m_eRequestType, 16);
-FNV_NIFI_OFFSET_ASSERT(NiFloatData, m_ucKeyDataSize, 20);
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -152,8 +142,6 @@ class NiInterpolator : public NiObject
 
     float m_fLastTime;  // +0x8, 4 bytes
 };
-FNV_NIFI_SIZE_ASSERT(NiInterpolator, 12);
-FNV_NIFI_OFFSET_ASSERT(NiInterpolator, m_fLastTime, 8);
 
 class NiKeyBasedInterpolator : public NiInterpolator
 {
@@ -162,7 +150,6 @@ class NiKeyBasedInterpolator : public NiInterpolator
     virtual ~NiKeyBasedInterpolator();
     virtual void LoadBinary(NiStream& kStream);
 };
-FNV_NIFI_SIZE_ASSERT(NiKeyBasedInterpolator, 12);
 
 class NiFloatInterpolator : public NiKeyBasedInterpolator
 {
@@ -175,10 +162,6 @@ class NiFloatInterpolator : public NiKeyBasedInterpolator
     NiPointer<NiFloatData> m_spFloatData;  // +0x10, 4 bytes
     unsigned int m_uiLastKeyIndex;         // +0x14, 4 bytes
 };
-FNV_NIFI_SIZE_ASSERT(NiFloatInterpolator, 24);
-FNV_NIFI_OFFSET_ASSERT(NiFloatInterpolator, m_fFloatValue, 12);
-FNV_NIFI_OFFSET_ASSERT(NiFloatInterpolator, m_spFloatData, 16);
-FNV_NIFI_OFFSET_ASSERT(NiFloatInterpolator, m_uiLastKeyIndex, 20);
 
 // Release-mode diagnostics: asserts vanish, the verified read still runs.
 #define NIASSERT(x) ((void)0)

@@ -60,10 +60,10 @@ struct FUN_00906160_shell
 };
 struct FUN_00905e30_shell : FUN_00906160_shell
 {
-    void* __thiscall FUN_00905e30();
+    void* FUN_00905e30();
 };
 // @fnv 0x00905e30
-void* __thiscall FUN_00905e30_shell::FUN_00905e30()
+void* FUN_00905e30_shell::FUN_00905e30()
 {
     new ((void *)this) ::FUN_00906160(10, 37, 12);
     return this;

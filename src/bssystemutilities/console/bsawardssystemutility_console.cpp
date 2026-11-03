@@ -57,18 +57,18 @@ void IdleSystem::Idle()
                     ::FUN_005b5e40();
                     continue;
                 }
-                if (SteamUserStatsAccessor())
+                if (SteamUserStats())
                 {
                     char name[4];
                     ::FUN_00406d00(name, 4, "A%02d", iAwardId);
                     name[3] = 0;
-                    SteamUserStatsAccessor()->SetAchievement(name);
+                    SteamUserStats()->SetAchievement(name);
                 }
                 pListIter = pListIter->m_pkNext;
             }
         }
-        if (SteamUserStatsAccessor())
-            SteamUserStatsAccessor()->StoreStats();
+        if (SteamUserStats())
+            SteamUserStats()->StoreStats();
         reinterpret_cast<::Node185 *>(&(m_kNode))->FUN_00ae83e0();
     }
 }

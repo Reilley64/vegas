@@ -7,7 +7,7 @@
 #include "fnv/symbols_011f6000.h"
 struct MemoryManager
 {
-    void* __thiscall _DeallocateAlias(void*);
+    void* _DeallocateAlias(void*);
 };
 
 extern "C" void* __cdecl _DeallocateAlias(void*);
@@ -15,12 +15,12 @@ extern "C" void* __cdecl _DeallocateAlias(void*);
 struct BSTaskletManagerCallback
 {
     int* vtable;
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Sets the vtable to DAT_010a47b8 and, when flags has bit 0 set, deallocates this through g_memoryManager, returning this.
 // @fnv 0x00b00e90
-void* __thiscall BSTaskletManagerCallback::Destroy(unsigned int flags)
+void* BSTaskletManagerCallback::Destroy(unsigned int flags)
 {
     this->vtable = &DAT_010a47b8;
     if (flags & 1)

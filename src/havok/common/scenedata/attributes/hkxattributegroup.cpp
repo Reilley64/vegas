@@ -130,7 +130,7 @@ struct TextWriter
     void** virtualMethods;
 };
 extern "C" const char str_010c9308[];
-typedef void(__thiscall* WriteMethod)(TextWriter*, const char*, int);
+typedef void(* WriteMethod)(TextWriter*, const char*, int);
 struct AttributeFormatter
 {
     int unknown00;
@@ -256,7 +256,7 @@ struct S00e5cce0_Class
     int unk00;
     ElemArray arr;
 
-    S00e5cce0_Class& __thiscall FUN_00e5cce0(const S00e5cce0_Class& o);
+    S00e5cce0_Class& FUN_00e5cce0(const S00e5cce0_Class& o);
 };
 
 Allocator* __cdecl FUN_00c85750(void);
@@ -288,7 +288,7 @@ static __forceinline void constructElems(NewElem* p, int n)
 
 // Calls FUN_00cb0c30(o), destroys existing elements, then copies o.arr via FUN_00e5cec0 and returns *this.
 // @fnv 0x00e5cce0
-S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
+S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
 {
     reinterpret_cast<::Cb0StringCopy *>(this)->FUN_00cb0c30((const ::CB0StringPtr &)(aOther));
     ElemArray& s = arr;

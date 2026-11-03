@@ -69,7 +69,7 @@
 #include "../../include/layout_support.h"
 struct FUN_00c600f0_Class
 {
-    void* __thiscall FUN_00c600f0();
+    void* FUN_00c600f0();
 };
 struct NiStream;
 class CloningProcess;
@@ -92,21 +92,21 @@ struct FUN_00c60930_class
 };
 struct FUN_00c60d40_Class
 {
-    void* __thiscall FUN_00c60d40();
+    void* FUN_00c60d40();
 };
 struct FUN_00c61420_Class
 {
-    void* __thiscall FUN_00c61420(void* p);
+    void* FUN_00c61420(void* p);
 };
 struct FUN_00a99870_Class
 {
-    void __thiscall FUN_00a99870(int, int);
+    void FUN_00a99870(int, int);
 };
-void __thiscall FUN_00a99870_Class::FUN_00a99870(int, int)
+void FUN_00a99870_Class::FUN_00a99870(int, int)
 {}
 struct FUN_00c61430_Class
 {
-    void __thiscall FUN_00c61430(int, int);
+    void FUN_00c61430(int, int);
 };
 struct FUN_00c61450_Class
 {
@@ -125,7 +125,7 @@ struct FUN_00c61490_Class
 };
 struct FUN_00c614c0_Class
 {
-    void __thiscall FUN_00c614c0(void* ap);
+    void FUN_00c614c0(void* ap);
 };
 struct FUN_00c614e0_Class
 {
@@ -156,7 +156,7 @@ struct NiObject
 };
 struct FUN_00c61f60_class
 {
-    void __thiscall FUN_00c61f60(int);
+    void FUN_00c61f60(int);
 };
 struct FUN_00c61f80_cls
 {
@@ -169,18 +169,18 @@ struct NiPSysCylinderEmitter
 };
 struct FUN_00c627e0_Class
 {
-    void __thiscall FUN_00c627e0(void* p);
+    void FUN_00c627e0(void* p);
 };
 struct FUN_00c632e0_Class
 {
-    void* __thiscall FUN_00c632e0();
+    void* FUN_00c632e0();
 };
 struct FUN_00c31670_class
 {
 };
 struct FUN_00c63950_class
 {
-    void __thiscall ForwardToOther(int a);
+    void ForwardToOther(int a);
 };
 struct GlobalObject_00a7b610;
 struct FUN_00c63aa0_class
@@ -201,7 +201,7 @@ struct FUN_00c644d0_Class
 };
 struct FUN_00c64600_Class
 {
-    void* __thiscall GetGlobalPointer();
+    void* GetGlobalPointer();
 };
 struct NiStream;
 struct NiObjectBase
@@ -213,7 +213,7 @@ struct FUN_00c64b70 : NiObjectBase
 };
 struct FUN_00c64fc0_class
 {
-    int __thiscall GetThisAddress(int);
+    int GetThisAddress(int);
 };
 struct NiStream;
 struct NiExtraData
@@ -243,16 +243,16 @@ struct FUN_00c65680_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __thiscall FUN_00c65680();
+    void FUN_00c65680();
 };
 struct FUN_00c600c0_class
 {
-    void* __thiscall FUN_00c600c0(unsigned int flags);
+    void* FUN_00c600c0(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
 {
-    void* __thiscall FUN_00c617e0(unsigned int flags);
+    void* FUN_00c617e0(unsigned int flags);
     void operator delete(void* p, unsigned int size);
 };
 extern "C" void NiFree(void*);
@@ -263,15 +263,15 @@ struct FUN_00c63210_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void* __thiscall FUN_00c63210(int flag);
+    void* FUN_00c63210(int flag);
 };
 struct FUN_00a7b300_shell
 {
-    void __thiscall FUN_00a7b300();
+    void FUN_00a7b300();
 };
 struct FUN_00c632f0_class
 {
-    void* __thiscall FUN_00c632f0(unsigned int flags);
+    void* FUN_00c632f0(unsigned int flags);
 };
 void __cdecl operator delete(void*, int);
 struct CloningProcess;
@@ -280,7 +280,7 @@ struct NiPSysModifierCopy : NiPSysModifier
 };
 struct FUN_00c63840_Class : NiPSysModifier
 {
-    void __thiscall CopyModifierWithValue(NiPSysModifier* dst, CloningProcess* proc);
+    void CopyModifierWithValue(NiPSysModifier* dst, CloningProcess* proc);
 };
 struct SStream;
 struct SObj;
@@ -289,14 +289,14 @@ struct NiPSysModifier_00c31950
 };
 struct FUN_00c63970_class : NiPSysModifier_00c31950
 {
-    void __thiscall FUN_00c63970(void* stream);
+    void FUN_00c63970(void* stream);
 };
 void __cdecl FUN_00c63b40(void* p);
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64610_Class
 {
-    void __thiscall FUN_00c63b40();
-    void* __thiscall FUN_00c64610(unsigned int flags);
+    void FUN_00c63b40();
+    void* FUN_00c64610(unsigned int flags);
 };
 struct FUN_00c64930_Class
 {
@@ -308,7 +308,7 @@ struct FUN_00c64940_Class
 };
 struct FUN_00c64c30_Class
 {
-    bool __thiscall FUN_00c64c30(int a);
+    bool FUN_00c64c30(int a);
 };
 extern int DAT_010c3384;
 struct NiPSysPositionModifier
@@ -341,11 +341,11 @@ struct P03MM
 };
 struct FUN_00c62090_Class
 {
-    char* __thiscall BuildAttachTypeString(const char* name, int type);
+    char* BuildAttachTypeString(const char* name, int type);
 };
 struct FUN_00c63320_Class
 {
-    GlobalObject_00a7b610* __thiscall FUN_00c63320();
+    GlobalObject_00a7b610* FUN_00c63320();
 };
 struct NiStream
 {
@@ -362,7 +362,7 @@ struct FUN_00c65210_class
     void* m_10;
     void* m_14;
     unsigned short m_18;
-    void __thiscall FUN_00c65210(NiStream& stream);
+    void FUN_00c65210(NiStream& stream);
 };
 extern "C" void* __cdecl NiMalloc(unsigned int size);
 struct FUN_00c65760_Class
@@ -373,7 +373,7 @@ struct FUN_00c65760_Class
     unsigned short m_iFlags;
     unsigned short m_iPad;
     unsigned short m_iType;
-    void* __thiscall InitArray(unsigned short count, unsigned short type);
+    void* InitArray(unsigned short count, unsigned short type);
 };
 struct FUN_00c61b10
 {
@@ -421,14 +421,14 @@ struct FUN_00c65710_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void* __thiscall FUN_00c65710(unsigned int flags);
+    void* FUN_00c65710(unsigned int flags);
 };
 struct IsEqualHelper
 {
 };
 struct FUN_00c60000_Class
 {
-    bool __thiscall IsEqualWithFloat(void* arg);
+    bool IsEqualWithFloat(void* arg);
 };
 struct FUN_00c60700_Group
 {
@@ -470,7 +470,7 @@ struct MyIsEqual
 };
 struct FUN_004a4cc0_shell
 {
-    bool __thiscall FUN_004a4cc0(void*);
+    bool FUN_004a4cc0(void*);
 };
 struct FUN_00c60a10_Class
 {
@@ -482,12 +482,12 @@ struct FUN_00c60a10_Class
     float m_58;
     float m_5c;
 
-    bool __thiscall FUN_00c60a10(NiObject*);
+    bool FUN_00c60a10(NiObject*);
 };
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c60d10_Class
 {
-    void* __thiscall FUN_00c60d10(unsigned int flags);
+    void* FUN_00c60d10(unsigned int flags);
 };
 struct A51BF0Base
 {
@@ -532,7 +532,7 @@ struct FUN_00c31750_Class
 };
 struct FUN_00c63a70_Class
 {
-    void* __thiscall FUN_00c63a70(unsigned int flags);
+    void* FUN_00c63a70(unsigned int flags);
 };
 struct FUN_00c64500_Class : FUN_00c61490_Class
 {
@@ -566,7 +566,7 @@ struct FUN_00c64dc0_Class
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64e70_Class
 {
-    void* __thiscall FUN_00c65650(unsigned int flags);
+    void* FUN_00c65650(unsigned int flags);
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9118
@@ -838,7 +838,7 @@ struct S_00c643d0_Foo
     unsigned short m_uiItemCount;
     void* m_entries[16];
 
-    void __thiscall FUN_00c643d0(int arg);
+    void FUN_00c643d0(int arg);
 };
 class FUN_00c64b90_target;
 class FUN_00c64b90_item
@@ -922,7 +922,7 @@ struct FUN_00c65180_Class
     int m_14;
     unsigned short m_18;
 
-    unsigned char __thiscall VisitEntries(FUN_00c65180_VTable* p);
+    unsigned char VisitEntries(FUN_00c65180_VTable* p);
 };
 struct MyColorA
 {
@@ -1054,7 +1054,7 @@ struct C639a0Cls : MyIsEqual
 {
     char pad[0x20];
     float m_20;
-    bool __thiscall FUN_00c639a0(NiObject* pObject);
+    bool FUN_00c639a0(NiObject* pObject);
 };
 
 #include <xmmintrin.h>

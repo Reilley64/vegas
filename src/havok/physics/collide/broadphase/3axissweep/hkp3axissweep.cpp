@@ -33,7 +33,7 @@ struct BSAudio { void* p; int a; int b; };
 BSAudio* __cdecl FUN_00c85750();
 struct UnkRet { int x; int y; };
 // @fnv 0x00d11bc0
-void __fastcall AppendPairToBuffer(UnkRet* apFirst, UnkRet* apSecond, void* apBuffer)
+void AppendPairToBuffer(UnkRet* apFirst, UnkRet* apSecond, void* apBuffer)
 {
     BSAudio* p = FUN_00c85750();
     int* q = (int*)apBuffer;
@@ -46,7 +46,7 @@ void __fastcall AppendPairToBuffer(UnkRet* apFirst, UnkRet* apSecond, void* apBu
 }
 
 // @fnv 0x00d10ad0
-void __fastcall ToggleBit(int aiBitIndex, void* apBits)
+void ToggleBit(int aiBitIndex, void* apBits)
 {
     int* p = (int*)apBits;
     int idx = aiBitIndex >> 5;
@@ -60,7 +60,7 @@ struct Entry {
 };
 // Binary-searches a sorted Entry range for the first entry whose key is not less than key, returning that entry pointer.
 // @fnv 0x00d10ea0
-Entry* __stdcall LowerBoundEntry(Entry* first, Entry* last, unsigned short key) {
+Entry* LowerBoundEntry(Entry* first, Entry* last, unsigned short key) {
     while ((((char*)last - (char*)first) & ~3) > 0x40) {
         Entry* middle = first + (((char*)last - (char*)first) >> 3);
         if (middle->key < key) first = middle;
@@ -284,7 +284,7 @@ void S_00d1a180_Axis::RemapEndPoints(char* nodes, const S_00d1a180_IntArray& rem
 }
 
 // @fnv 0x00d10af0
-void __fastcall FUN_00d10af0(int index, unsigned int* apuiBits)
+void FUN_00d10af0(int index, unsigned int* apuiBits)
 {
     unsigned int mask = 1u << (index & 0x1f);
     unsigned int w = index >> 5;
@@ -350,7 +350,7 @@ int FUN_00d11620_cls::FUN_00d11620()
 //   shl eax, 4                  ; * 16 (entry stride)
 //   add eax, [ecx+0xA0]         ; + &this->entries
 //   mov [esp+4], eax            ; forward as first stack arg
-//   jmp FUN_00d11650            ; __thiscall tail call, ecx = this preserved
+//   jmp FUN_00d11650            ; tail call, ecx = this preserved
 
 struct UnkHandle {
     int unk00; // entry index read at [handle]
@@ -364,10 +364,10 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
 };
 
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
-// __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
+// helper taking (self in ecx, handle in edx, entry on stack).
+void FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
 
-// Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
+// Stand-in owner class for the thunk; fnvcheck matches the name FUN_00d119c0.
 struct FUN_00d119c0_owner {
     int unk00;
     int unk04;
@@ -447,7 +447,7 @@ struct FUN_00d11c10_cls {
 
 // Grows the pair array if full, then appends an entry holding self->m_0C and other->m_0C and increments the count.
 // @fnv 0x00d11c10
-void __fastcall AppendPairEntry(FUN_00d11c10_cls* pFirst, FUN_00d11c10_cls* pSecond, PairArray* arr) {
+void AppendPairEntry(FUN_00d11c10_cls* pFirst, FUN_00d11c10_cls* pSecond, PairArray* arr) {
     HkHolder* holder = reinterpret_cast<HkHolder*>(FUN_00c85750());
     if (arr->m_iArrayLength == (int)(arr->m_uCapFlags & 0x3fffffffu)) {
         ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(arr), 8);
@@ -462,7 +462,7 @@ unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 
 BSAudio* __cdecl FUN_00c85750();
 
-void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
+void AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
 
 struct FnvNode {
     unsigned int m_00;
@@ -491,7 +491,7 @@ struct FnvHolderTail {
 };
 
 // @fnv 0x00d11c60
-void __fastcall FUN_00d11c60(void* base, FnvNode* pNode, unsigned short ausValue, FnvNode* pOther, FnvArr* pPairArr)
+void FUN_00d11c60(void* base, FnvNode* pNode, unsigned short ausValue, FnvNode* pOther, FnvArr* pPairArr)
 {
     if ((pOther->m_0c & 1) == 0) {
         FnvArr* arr = pPairArr;
@@ -522,7 +522,7 @@ unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 
 BSAudio* __cdecl FUN_00c85750();
 
-void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
+void AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
 
 struct PairEntry {
     int m_00;
@@ -564,7 +564,7 @@ struct TaggedList {
 };
 
 // @fnv 0x00d11d00
-void __fastcall RemoveOrAppendTagEntry(char* base, TagEntity* entity, unsigned int idx, TagOwner* owner, PairArray* arr)
+void RemoveOrAppendTagEntry(char* base, TagEntity* entity, unsigned int idx, TagOwner* owner, PairArray* arr)
 {
     if ((owner->m_0c & 1) == 0) {
         AllocHolder* holder = reinterpret_cast<AllocHolder*>(FUN_00c85750());
@@ -1595,7 +1595,7 @@ static void FreeLocalVec(LocalVec& v)
     int cap = v.m_08;
     v.m_04 = 0;
     if ((cap & (int)0x80000000) == 0) {
-        typedef void (__thiscall* FreeFn)(AllocObj*, void*, int);
+        typedef void (* FreeFn)(AllocObj*, void*, int);
         FreeFn fn = (FreeFn)ao->m_vtbl[4];
         fn(ao, v.m_00, (cap & 0x3fffffff) * 2);
     }
@@ -1805,12 +1805,12 @@ struct S00d11470_Object {
 };
 
 struct S00d11470_Owner {
-    bool __thiscall FUN_00d11470(int* first, int* second);
+    bool FUN_00d11470(int* first, int* second);
 };
 
 // Takes the 16-byte records at unkA0 indexed by *first and *second and returns true if none of their field cross-differences has a sign bit set.
 // @fnv 0x00d11470
-bool __thiscall S00d11470_Owner::FUN_00d11470(int* first, int* second)
+bool S00d11470_Owner::FUN_00d11470(int* first, int* second)
 {
     S00d11470_Object* object =
         reinterpret_cast<S00d11470_Object*>(this);
@@ -1979,7 +1979,7 @@ void d11Sweep::FUN_00d11fa0(d11Out& __restrict out)
         d11Node* node = &m_pNodes[i];
         _ReadWriteBarrier();
         if (!(node->m_flags & 1))
-            ((void (__thiscall*)(d11Sweep*, d11Node*, d11Pair*))FUN_00d11650)(this, node, &((d11Pair*)pOut->m_data)[iPairIndex++]);
+            ((void (*)(d11Sweep*, d11Node*, d11Pair*))FUN_00d11650)(this, node, &((d11Pair*)pOut->m_data)[iPairIndex++]);
     }
 }
 
@@ -3366,7 +3366,7 @@ struct SweepList { void* data; int size; int capacity;
 
 };
 struct SweepAxis { SweepEnd* data; int size; int capacity; };
-void __fastcall AppendPairToBuffer(SweepNode*, SweepNode*, void*);
+void AppendPairToBuffer(SweepNode*, SweepNode*, void*);
 struct __declspec(align(16)) SweepVector { float x,y,z,w; };
 struct __declspec(align(16)) SweepBounds { unsigned low[4], high[4]; };
 struct SweepManager {

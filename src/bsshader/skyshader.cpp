@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00b887b0
+#include <windows.h>
 #include <new>
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -43,7 +44,7 @@ struct NiPropertyState
 };
 
 // @fnv 0x00b8a1a0
-void __stdcall FUN_00b8a1a0(const NiPropertyState* apState)
+void FUN_00b8a1a0(const NiPropertyState* apState)
 {
     void* pkSkyProp = apState->m_spProperties[3];
     int val = *(int*)((char*)pkSkyProp + 0x8c);
@@ -154,7 +155,6 @@ void Struct00b884b0::AttachAll()
     } while (--n);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiRefObject
 {
@@ -420,7 +420,7 @@ struct Holder_Stand
 };
 
 // @fnv 0x00b89cc0
-void __stdcall FUN_00b89cc0(Holder_Stand* apHolder)
+void FUN_00b89cc0(Holder_Stand* apHolder)
 {
     Mgr_Stand* mgr = (*reinterpret_cast<::Mgr_Stand * *>(&::DAT_0126f74c));
     Node_Stand* esi = apHolder->m_0c;
@@ -780,7 +780,6 @@ void ShaderStateTable::SelectShaderByType(unsigned int aeType)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 struct StageReturn
 
@@ -1485,7 +1484,6 @@ bool ShaderPassBuilder::InitPasses()
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiD3DShaderConstantMap : NiRefObject
 {
     NiD3DShaderConstantMap(void*, int);
@@ -1615,7 +1613,7 @@ void ConstantMapOwner::CreateShaderConstantMaps()
 
 struct Pool_b899a0
 {
-    void __thiscall FUN_00aa3e90(void* p);
+    void FUN_00aa3e90(void* p);
 };
 inline void* operator new[](unsigned int size, Pool_b899a0& pool)
 {
@@ -2338,7 +2336,6 @@ void Shader::FUN_00b89d80(float apRenderArg)
 #include <stdlib.h>
 void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiD3DGPUProgramCache
 {
     static const char* GetVertexShaderProfile();

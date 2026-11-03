@@ -6,7 +6,7 @@
 #include "fnv/decl/FUN_00d2be50.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_0106e000.h"
-void __stdcall FUN_00d2bef0(char* p)
+void FUN_00d2bef0(char* p)
 {
     *p = 1;
 }
@@ -35,7 +35,7 @@ struct FUN_00d2bfb0_class
 };
 
 // @fnv 0x00d2bfb0
-void __thiscall FUN_00d2bfb0_class::FUN_00d2bfb0()
+void FUN_00d2bfb0_class::FUN_00d2bfb0()
 {
     vtbl = &DAT_010ce6f4;
     reinterpret_cast<::FUN_00d2be50 *>(this)->Close();
@@ -44,7 +44,7 @@ void __thiscall FUN_00d2bfb0_class::FUN_00d2bfb0()
 
 void __cdecl FUN_00ecda70(void*);
 // @fnv 0x00d2bec0
-void __fastcall FUN_00d2bec0(void* self, int)
+void FUN_00d2bec0(void* self, int)
 {
     void* p = *(void**)((char*)self + 8);
     if (p)
@@ -163,7 +163,7 @@ unsigned char* FUN_00d2bed0_cls::GetFlagAsByte(unsigned char* out)
 }
 
 // @fnv 0x00d2bee0
-void __stdcall FUN_00d2bee0(unsigned char* output)
+void FUN_00d2bee0(unsigned char* output)
 {
     *output = 1;
 }

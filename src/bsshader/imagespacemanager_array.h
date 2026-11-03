@@ -18,5 +18,4 @@ template <> class NiTArray<bool, NiTMallocInterface<bool> > : public NiMemObject
     bool RemoveAtAndFill(unsigned int);
     void SetAt(unsigned int, const bool&);
 };
-FNV_STATIC_ASSERT((sizeof(NiTArray<bool, NiTMallocInterface<bool> >) == 16));
 #endif

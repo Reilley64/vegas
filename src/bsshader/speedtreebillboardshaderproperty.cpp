@@ -79,7 +79,7 @@ int* __cdecl FUN_00ba8680()
 
 
 // @fnv 0x00ba8670
-bool __stdcall FUN_00ba8670(void* apValue)
+bool FUN_00ba8670(void* apValue)
 {
     ::FUN_00b665c0((int)(apValue));
     return false;
@@ -268,7 +268,7 @@ struct ObjHdr
 };
 
 // @fnv 0x00ba8780
-void __stdcall FUN_00ba8780(ObjHdr* apObj)
+void FUN_00ba8780(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
     reinterpret_cast<::Target *>((pObj))->FUN_00b690d0({});

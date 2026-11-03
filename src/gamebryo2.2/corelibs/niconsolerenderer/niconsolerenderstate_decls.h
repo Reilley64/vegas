@@ -4,8 +4,8 @@
 #include "fnv/symbols_00e69000.h"
 #include "fnv/symbols_0126f000.h"
 struct DepthDevice;
-typedef int(__stdcall* CreateExFunction)(unsigned int, DepthDevice**);
-typedef DepthDevice*(__stdcall* CreateFunction)(unsigned int);
+typedef int(* CreateExFunction)(unsigned int, DepthDevice**);
+typedef DepthDevice*(* CreateFunction)(unsigned int);
 class NiD3DDefaultShader
 {
   public:

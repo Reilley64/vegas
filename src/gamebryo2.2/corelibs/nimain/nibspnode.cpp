@@ -58,12 +58,12 @@ struct NiAVObject
 };
 struct NiBSPNode : NiAVObject
 {
-    void __thiscall FUN_00a9a840(NiUpdateData&);
-    void __thiscall FUN_00a9a760();
+    void FUN_00a9a840(NiUpdateData&);
+    void FUN_00a9a760();
 };
 
 // @fnv 0x00a9a840
-void __thiscall NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
+void NiBSPNode::FUN_00a9a840(NiUpdateData& aUpdateData)
 {
     reinterpret_cast<::NiAVObject *>(this)->UpdateWorldData((::NiUpdateData &)(aUpdateData));
     FUN_00a9a760();

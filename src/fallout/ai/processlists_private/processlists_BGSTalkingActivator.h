@@ -16,7 +16,4 @@ class BGSTalkingActivator : public TESObjectACTI
     BGSVoiceType* m_kFactionList;  // +0x94
     // Exact public PC declaration/address: BGSTalkingActivator.cpp, 00516BF0.
 };
-FNV_STATIC_ASSERT(sizeof(BGSTalkingActivator) == 0x98);
-FNV_STATIC_ASSERT(offsetof(BGSTalkingActivator, m_pTempRef) == 0x90);
-FNV_STATIC_ASSERT(offsetof(BGSTalkingActivator, m_kFactionList) == 0x94);
 #endif

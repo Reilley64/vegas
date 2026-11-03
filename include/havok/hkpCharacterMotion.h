@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPCHARACTERMOTION_H
 #include "hkBase.h"
 #include "hkpMotion.h"
-#pragma pack(push, 1)
 class hkpCharacterMotion : public hkpMotion
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCharacterMotion[(sizeof(hkpCharacterMotion) == 0x120) ? 1 : -1];
 #endif

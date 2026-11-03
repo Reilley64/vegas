@@ -135,6 +135,4 @@ class BloomImageSpaceEffect : public ImageSpaceEffect
 extern float DAT_012023f4;
 extern float DAT_012023f8;
 
-typedef char BloomShaderParamSizeCheck[sizeof(ImageSpaceShaderParam) == 0x88 ? 1 : -1];
-typedef char BloomEffectSizeCheck[sizeof(ImageSpaceEffect) == 0x58 ? 1 : -1];
 #endif

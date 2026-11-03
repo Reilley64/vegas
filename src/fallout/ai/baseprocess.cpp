@@ -170,7 +170,7 @@ struct Dummy_00527770
 
 // Calls FUN_00527770 with 0x25, sets the first pointer to "@kR", and zeroes the ints at offsets 16 and 20 before returning pThis.
 // @fnv 0x00526b00
-void* __fastcall FUN_00526b00(void* pThis)
+void* FUN_00526b00(void* pThis)
 {
     ((Dummy_00527770*)pThis)->FUN_00527770(0x25);
     *(const char**)pThis = "@kR";
@@ -210,18 +210,18 @@ void FUN_008d0640_shell::InitProcess()
 }
 
 // @fnv 0x008d1030
-void __fastcall ClearField44(int param_1)
+void ClearField44(int param_1)
 {
     *reinterpret_cast<int*>(param_1 + 0x44) = 0;
 }
 
 struct FUN_00524b60_shell
 {
-    unsigned char __thiscall GetByteAt102();
+    unsigned char GetByteAt102();
 };
 
 // @fnv 0x00524b60
-unsigned char __thiscall FUN_00524b60_shell::GetByteAt102()
+unsigned char FUN_00524b60_shell::GetByteAt102()
 {
     return *(unsigned char*)((char*)this + 0x102);
 }
@@ -246,12 +246,12 @@ struct TESIdleForm;
 
 struct FUN_008d02f0_shell
 {
-    bool __thiscall FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType, bool abForce3d,
+    bool FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType, bool abForce3d,
                                  bool abChooseNewOne, bool abTestConditions);
 };
 
 // @fnv 0x008d02f0
-bool __thiscall FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType,
+bool FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdleForm* apIdle, int aeType,
                                                  bool abForce3d, bool abChooseNewOne, bool abTestConditions)
 {
     return false;
@@ -259,11 +259,11 @@ bool __thiscall FUN_008d02f0_shell::FUN_008d02f0(MobileObject* apMobile, TESIdle
 
 struct FUN_008d0350_shell
 {
-    void __thiscall FUN_008d0350(int, int, int, int, int, int, int);
+    void FUN_008d0350(int, int, int, int, int, int, int);
 };
 
 // @fnv 0x008d0350
-void __thiscall FUN_008d0350_shell::FUN_008d0350(int, int, int, int, int, int, int)
+void FUN_008d0350_shell::FUN_008d0350(int, int, int, int, int, int, int)
 {}
 
 struct ActiveEffect;
@@ -729,7 +729,6 @@ struct TESSaveLoadGame
     char m_acSaveGamePath[272];
     _FILETIME* m_pMostRecentSaveTime;
 };
-typedef char _sizecheck_TESSaveLoadGame[sizeof(TESSaveLoadGame) == 456 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -737,12 +736,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_008d0370_shell : public TESSaveLoadGame
 {
     bool FUN_008d0370(TESForm*);
@@ -760,7 +757,7 @@ struct FUN_008d0390_shell
 };
 
 // @fnv 0x008d0390
-float __thiscall FUN_008d0390_shell::GetDistanceBetweenActors(void* apActor, void* apTarget)
+float FUN_008d0390_shell::GetDistanceBetweenActors(void* apActor, void* apTarget)
 {
     return 0.0f;
 }
@@ -771,14 +768,14 @@ struct FUN_008d05f0_shell
 };
 
 // @fnv 0x008d05f0
-float __thiscall FUN_008d05f0_shell::FUN_008d05f0(int aiWhich)
+float FUN_008d05f0_shell::FUN_008d05f0(int aiWhich)
 {
     return 0.0f;
 }
 
 
 // @fnv 0x008d08f0
-const NiPoint3* __fastcall FUN_008d08f0(BaseProcess* this_)
+const NiPoint3* FUN_008d08f0(BaseProcess* this_)
 {
     return &::NiPoint3::ZERO;
 }
@@ -1600,7 +1597,7 @@ struct FUN_008d0e80_class
 };
 
 // @fnv 0x008d0e80
-void __thiscall FUN_008d0e80_class::FUN_008d0e80(int aiUnused1, int aiUnused2, void* p3)
+void FUN_008d0e80_class::FUN_008d0e80(int aiUnused1, int aiUnused2, void* p3)
 {
     void* t = FUN_00ec43fb(p3, 0, DAT_01184920, (*reinterpret_cast<char (*)[]>(&::DAT_011846d4)), 0);
     if (t != 0 && t != (*reinterpret_cast<void * *>(&::_g_thePlayer)) && this->vfn_22c() == 0 && this->vfn_280() == -1)

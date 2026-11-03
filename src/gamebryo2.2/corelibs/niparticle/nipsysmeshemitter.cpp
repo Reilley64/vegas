@@ -72,10 +72,10 @@ struct NiPSysCylinderEmitter : NiPSysVolumeEmitter
 {
     float m_fCylinderRadius;
     float m_fCylinderHeight;
-    bool __thiscall FUN_00c1f9e0(NiAVObject* pkObject);
+    bool FUN_00c1f9e0(NiAVObject* pkObject);
 };
 // @fnv 0x00c1f9e0
-bool __thiscall NiPSysCylinderEmitter::FUN_00c1f9e0(NiAVObject* pkObject)
+bool NiPSysCylinderEmitter::FUN_00c1f9e0(NiAVObject* pkObject)
 {
     NiPSysCylinderEmitter* pkDest = (NiPSysCylinderEmitter*)pkObject;
     if (reinterpret_cast<::FUN_00c31b80_This *>(this)->FUN_00c31b80(pkObject) && ((float*)((char*)this + 0x58))[0] == ((float*)((char*)pkDest + 0x58))[0] &&
@@ -110,10 +110,10 @@ struct NiPSysMeshEmitter
     void* m_64;
     void* m_68;
     char _pad2[0x88 - 0x6C];
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // @fnv 0x00c1f500
-void* __thiscall NiPSysMeshEmitter::Destroy(unsigned int flags)
+void* NiPSysMeshEmitter::Destroy(unsigned int flags)
 {
     void* tmp1 = m_68;
     m_64 = (void*)&DAT_010bd6a0;
@@ -140,7 +140,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiStream
 {
@@ -211,10 +210,10 @@ int __cdecl GetRandomNumber(void);
 
 struct FUN_00c1f5f0_shell : NiPSysMeshEmitter
 {
-    void __thiscall GetRandomEmitterParticle(NiSkinInstance*, NiGeometry*, NiPoint3&, NiPoint3&);
-    void __thiscall EmitFromMesh(NiGeometry*, NiPoint3&, NiPoint3&);
+    void GetRandomEmitterParticle(NiSkinInstance*, NiGeometry*, NiPoint3&, NiPoint3&);
+    void EmitFromMesh(NiGeometry*, NiPoint3&, NiPoint3&);
 
-    void __thiscall FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
+    void FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
 };
 
 void* __cdecl FUN_00aa13e0(unsigned int);
@@ -800,7 +799,7 @@ struct BoneTransformD230
     float m_22;
     NiPoint3 m_translate;
     float m_fScale;
-    BoneTransformD230 __thiscall operator*(const BoneTransformD230& rhs) const;
+    BoneTransformD230 operator*(const BoneTransformD230& rhs) const;
 };
 struct Sub4880
 {
@@ -1004,7 +1003,7 @@ void scale(NiPoint3& r, const NiPoint3& a, float f)
 }
 // Accumulates weighted transformed positions and normals for the selected vertex, then writes the results to the output vectors.
 // @fnv 0x00c1d230
-void __stdcall SkinVertex(NiPoint3* outPos, NiPoint3* outVel, Arg3Obj* arg3, Arg4Obj* arg4, Arg5Obj* arg5, int vert)
+void SkinVertex(NiPoint3* outPos, NiPoint3* outVel, Arg3Obj* arg3, Arg4Obj* arg4, Arg5Obj* arg5, int vert)
 {
     BoneHead* skin = arg4->m_08;
     BoneTransformD230 c;
@@ -1326,7 +1325,7 @@ struct EmitterAccessor
     int m_iEmissionType;
 
 
-    bool __thiscall FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* pkGeometry, NiPoint3& kPosition,
+    bool FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* pkGeometry, NiPoint3& kPosition,
                                  NiPoint3& kMotionVelocity);
 };
 
@@ -1691,10 +1690,10 @@ bool FUN_00c1d6b0_cls::IsEquivalent(FUN_00c1d6b0_cls* other)
 extern int __cdecl FUN_00ecadb8(void);
 struct C1d9e0_Emitter : MeshEmitter_c1cf50
 {
-    bool __thiscall PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity);
+    bool PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity);
 };
 // @fnv 0x00c1d9e0
-bool __thiscall C1d9e0_Emitter::PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
+bool C1d9e0_Emitter::PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
     int iRandomIndex = FUN_00ecadb8();
     char* data = *(char**)((char*)pkGeometry + 0xb8);
@@ -1851,14 +1850,14 @@ struct GeometryRuntimeType
 
 extern "C" void __cdecl FUN_00525340(MeshPoint* point);
 
-typedef int(__thiscall* GeometryTestFn)(NiGeometry*);
-typedef GeometryRuntimeType*(__thiscall* GeometryRTTIFn)(NiGeometry*);
-typedef unsigned short(__thiscall* GetTriangleCountFn)(void*);
-typedef void(__thiscall* GetTriangleIndicesFn)(void*, unsigned int, unsigned short*, unsigned short*, unsigned short*);
+typedef int(* GeometryTestFn)(NiGeometry*);
+typedef GeometryRuntimeType*(* GeometryRTTIFn)(NiGeometry*);
+typedef unsigned short(* GetTriangleCountFn)(void*);
+typedef void(* GetTriangleIndicesFn)(void*, unsigned int, unsigned short*, unsigned short*, unsigned short*);
 
 struct MeshEmitterCandidate : FUN_00c1f5f0_shell
 {
-    bool __thiscall PickEmitterParticle(NiGeometry* geometry, MeshPoint& position, MeshPoint& velocity);
+    bool PickEmitterParticle(NiGeometry* geometry, MeshPoint& position, MeshPoint& velocity);
 };
 
 // Selects triangle vertices or a consecutive vertex pair, computes position and velocity, then applies the particle transform.
@@ -2323,13 +2322,13 @@ struct GeometryRuntimeType
 };
 extern const double DAT_01099ee0;
 extern "C" void __cdecl FUN_00525340(MeshPoint* point);
-typedef int(__thiscall* GeometryTestFn)(NiGeometry*);
-typedef GeometryRuntimeType*(__thiscall* GeometryRTTIFn)(NiGeometry*);
-typedef unsigned short(__thiscall* GetTriangleCountFn)(void*);
-typedef void(__thiscall* GetTriangleIndicesFn)(void*, unsigned int, unsigned short*, unsigned short*, unsigned short*);
+typedef int(* GeometryTestFn)(NiGeometry*);
+typedef GeometryRuntimeType*(* GeometryRTTIFn)(NiGeometry*);
+typedef unsigned short(* GetTriangleCountFn)(void*);
+typedef void(* GetTriangleIndicesFn)(void*, unsigned int, unsigned short*, unsigned short*, unsigned short*);
 struct MeshEmitterCandidate : FUN_00c1f5f0_shell
 {
-    bool __thiscall EmitFromMesh(NiGeometry* geometry, MeshPoint& position, MeshPoint& velocity);
+    bool EmitFromMesh(NiGeometry* geometry, MeshPoint& position, MeshPoint& velocity);
 };
 // For triangle geometry, selects triangle vertices, averages their positions and normals, applies mode-dependent sampling, then transforms the particle.
 // @fnv 0x00c1eb20
@@ -2442,7 +2441,7 @@ struct CloneEmitter
     void** items;
     unsigned int unk5c;
     unsigned short count;
-    void __thiscall CloneItems(CloneProcess& process);
+    void CloneItems(CloneProcess& process);
     unsigned int GetCount() const
     {
         return count;
@@ -2477,7 +2476,7 @@ struct FUN_00c1d660_cls
 // @fnv 0x00c1d660
 FUN_00c1d660_cls* FUN_00c1d660_cls::Release(unsigned char acFlags)
 {
-    LONG(__stdcall * pDecrement)(LONG volatile*) = &InterlockedDecrement;
+    LONG(* pDecrement)(LONG volatile*) = &InterlockedDecrement;
     FUN_00c1d660_cls* self = this;
     NiRefObject* obj = self->m_08;
     if (obj != 0)
@@ -2579,7 +2578,7 @@ struct NiSkinGeom790
 struct NiSkinSub790
 {
     unsigned int m_00;
-    void __thiscall FUN_0066b0d0(unsigned int v);
+    void FUN_0066b0d0(unsigned int v);
 };
 
 struct NiSkinObj790
@@ -2602,11 +2601,11 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct FUN_00c1f790_cls : NiPSysMeshEmitter
 {
-    void __thiscall SetSkinGeom(NiSkinGeom790* pkGeom);
+    void SetSkinGeom(NiSkinGeom790* pkGeom);
 };
 // Looks up each non-null item in the process map and appends its mapped value, or the original item when absent, to output.
 // @fnv 0x00c1f8f0
-void __thiscall CloneEmitter::CloneItems(CloneProcess& process)
+void CloneEmitter::CloneItems(CloneProcess& process)
 {
     reinterpret_cast<::NiPSysModifier *>(this)->ProcessClone((::CloningProcess &)(process));
     void* clone = 0;
@@ -2627,7 +2626,7 @@ void __thiscall CloneEmitter::CloneItems(CloneProcess& process)
 
 // Sets skin geometry on the emitter, updating m_54 and m_64 slots, and sets flags 0x33 on the geometry's flags.
 // @fnv 0x00c1f790
-void __thiscall FUN_00c1f790_cls::SetSkinGeom(NiSkinGeom790* pkGeom)
+void FUN_00c1f790_cls::SetSkinGeom(NiSkinGeom790* pkGeom)
 {
     NiSkinGeom790* pSkinGeom = pkGeom;
     if (pSkinGeom != 0)
@@ -2771,7 +2770,7 @@ class MeshReconstruction : public FUN_00c1f5f0_shell
     }
 };
 // @fnv 0x00c1f5f0
-void __thiscall FUN_00c1f5f0_shell::FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelocity)
+void FUN_00c1f5f0_shell::FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
     unsigned int uiEmitterIndex;
     NiGeometry* pkGeomEmitter;

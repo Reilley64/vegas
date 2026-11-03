@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/hkpsimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/hkpsimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/ContainerD082.h"
@@ -43,11 +44,11 @@
 
 
 struct FUN_00cf87a0_Class {
-    void __thiscall ForwardToGlobal(int a, int b, int c);
+    void ForwardToGlobal(int a, int b, int c);
 };
 
 // @fnv 0x00cf87a0
-void __thiscall FUN_00cf87a0_Class::ForwardToGlobal(int aiArg1, int aiArg2, int aiUnused)
+void FUN_00cf87a0_Class::ForwardToGlobal(int aiArg1, int aiArg2, int aiUnused)
 {
     ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(aiArg1), (*(const ::InvalidateTimDetail::Input *)(aiArg2)));
 }
@@ -66,7 +67,7 @@ public:
     virtual void vfn14();
     virtual void vfn18();
 
-    hkUint32 __thiscall FUN_00cf8730(hkReal dt);
+    hkUint32 FUN_00cf8730(hkReal dt);
 };
 
 // @fnv 0x00cf8730
@@ -89,7 +90,6 @@ hkUint32 SimulationDerived::FUN_00cf8730(hkReal afDeltaTime) {
 }
 
 extern "C" {
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
     unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
     extern const char str_010cc530[];
@@ -208,7 +208,7 @@ hkUint32 hkpSimulation_Derived::FUN_00cf8820()
 extern "C" void CollectLinearCast();
 
 struct FUN_00cfa400_Obj {
-    void __thiscall FUN_00cfa400(int a1, int a2, int a3, int a4);
+    void FUN_00cfa400(int a1, int a2, int a3, int a4);
 };
 
 namespace fnv_00cfa470 {
@@ -469,7 +469,7 @@ FnvCpu_FUN_00cfa7a0_CpuObject* FnvCpu_FUN_00cfa7a0_CpuObject::FUN_00cfa7a0(unsig
 }
 
 extern void* DAT_00fdf044;
-typedef void* (__stdcall *S00cf8a40_TlsFn)(unsigned long);
+typedef void* (*S00cf8a40_TlsFn)(unsigned long);
 
 struct S00cf8a40_Cmd {
     const char* m_name;
@@ -830,7 +830,7 @@ struct hkpLinearCastInputCF9 {
 
 
 // @fnv 0x00cf92c0
-void __stdcall CollectLinearCast(hkpLinearCastInputCF9* apLinearCastInput, hkpCollisionInputCF9* input, hkpCdPointCollectorCF9* collector)
+void CollectLinearCast(hkpLinearCastInputCF9* apLinearCastInput, hkpCollisionInputCF9* input, hkpCdPointCollectorCF9* collector)
 {
     collector->m_fEarlyOutDistance = ::DAT_0104da48;
     collector->m_hitCount = 0;
@@ -844,7 +844,6 @@ void __stdcall CollectLinearCast(hkpLinearCastInputCF9* apLinearCastInput, hkpCo
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 struct SimMonStream {
     char* m_kRayStart;
@@ -1282,7 +1281,7 @@ struct MainObj {
  virtual void s00(); virtual void s04(); virtual void s08(); virtual void s0c();
  virtual void s10(); virtual void s14(); virtual void s18(); virtual void s1c();
  virtual void s20(); virtual void s24(); virtual void s28();
- virtual void __thiscall Proc(void*, void*, int, Arr*, Arr*);
+ virtual void Proc(void*, void*, int, Arr*, Arr*);
 };
 struct AllocX {
  virtual void a00(); virtual void a04(); virtual void a08(); virtual void a0c();
@@ -1292,7 +1291,7 @@ struct AllocX {
 };
 struct Stream { int unk0; char* pos; int unk8; char* cap; };
 struct TimerEvent { const char* tag; u32 stamp; u32 unk08; const char* subtag; };
-typedef void* (__stdcall *TlsFn)(unsigned long);
+typedef void* (*TlsFn)(unsigned long);
 static __forceinline void record16(TlsFn get,volatile u32& t){
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;
  if((char*)p < s->cap){ p->tag=::DAT_010cc624; p->subtag=str_010cc618; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)p+16; }
@@ -2065,7 +2064,6 @@ int Simulation::FUN_00cf8da0(const TimeInterval* step) {
 extern "C" void _ReadWriteBarrier(void);
 
 extern "C" unsigned __int64 __cdecl __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct TraceEntry { const char* m_name; unsigned int m_low; unsigned int m_high; };
 struct TraceState { unsigned int unk00; TraceEntry* m_next; unsigned int unk08; TraceEntry* m_last; };
 __forceinline void stamp(const char* name, volatile unsigned int& clockSlot) {
@@ -2386,7 +2384,7 @@ unsigned int unk05c;
 unsigned int unk060; };
 struct S00cfa080_Obj {
  unsigned int unk00, unk04, unk08; W* m_pOwningWorld;
- void __thiscall FUN_00cfa080(hkVector4* p);
+ void FUN_00cfa080(hkVector4* p);
 };
 extern "C" void __cdecl FUN_00cf9c60(unsigned int, unsigned int, W*);
 __forceinline void stampN(const char* name) {
@@ -2636,7 +2634,7 @@ struct Pair {
 };
 struct Quaternion {
     __m128 value;
-    void __thiscall FUN_00cb2450(const __m128*, float);
+    void FUN_00cb2450(const __m128*, float);
 };
 struct Transform {
     hkRotation rotation;
@@ -2756,7 +2754,7 @@ struct CollisionOutput {
     float separatingVelocity, rotateNormal;
     int tail00, tail04, tail08, tail0c, tail10, tail14, tail18, tail1c, tail20, tail24, tail28, tail2c;
 };
-typedef void (__thiscall *ProcessCallback)(void*, Pair*, CollisionInput*, CollisionOutput*);
+typedef void (*ProcessCallback)(void*, Pair*, CollisionInput*, CollisionOutput*);
 float __cdecl ClampAsin(float);
 extern const double DAT_010cc5d0;
 inline __m128 loadVector(const hkVector4& v) { return _mm_load_ps(&v.x); }
@@ -2789,11 +2787,11 @@ inline void releaseAll(PairArray& pairs, PairMap& visited) {
 }
 inline float hkMaxF(float a,float b){return a>b?a:b;}
 struct SimulationContext {
-    void __thiscall FUN_00cf9480(Body**, int, CollisionInput*, ProcessCallback, int);
+    void FUN_00cf9480(Body**, int, CollisionInput*, ProcessCallback, int);
 };
 // Forwards the four arguments to FUN_00cf9480, passing CollectLinearCast as the callback.
 // @fnv 0x00cfa400
-void __thiscall FUN_00cfa400_Obj::FUN_00cfa400(int a1, int a2, int a3, int a4) {
+void FUN_00cfa400_Obj::FUN_00cfa400(int a1, int a2, int a3, int a4) {
     reinterpret_cast<::SimulationContext *>(this)->FUN_00cf9480((::Body **)(a1), a2, (::CollisionInput *)(a3), (void (*)(void *, Pair *, CollisionInput *, CollisionOutput *))(CollectLinearCast), a4);
 }
 // If flags & 2, calls FUN_00cf9480 with first, second, data->unk78 and ForwardToGlobal; if flags & 4, calls InitArrayEntries(first, second).
@@ -2808,7 +2806,7 @@ void MyObj::FUN_00cfa430(void* first, void* second, S00cfa430_Data* data, unsign
 }
 // Iterates over bodies, collects collision pairs, invokes callback for each, and applies corrective rotations when mode is 1 and a contact is found.
 // @fnv 0x00cf9480
-void __thiscall SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* input, ProcessCallback callback, int mode) {
+void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* input, ProcessCallback callback, int mode) {
     PairMap visited;
     visited.data=0; visited.size=0; visited.mask=-1;
     MemoryRouter* router=(MemoryRouter*)FUN_00c85750(); Allocator* initialHeap=router->heap;
@@ -2954,7 +2952,7 @@ struct __declspec(align(16)) FNVState_CFA5F0 {
     float contactNormalY;
     float contactNormalZ;
     float contactDistance;
-    void __thiscall FUN_00cfa7d0(const int* source);
+    void FUN_00cfa7d0(const int* source);
 };
 struct FNVSIM_CFA5F0 {
     int unk00;
@@ -3012,10 +3010,10 @@ struct FNVAudioHolder_CFA5F0 {
 extern "C" void __cdecl FUN_00cf9c60(int arg1,int arg2,FNVSIM_CFA5F0* simulation);
 FNVAudioHolder_CFA5F0* __cdecl FUN_00c85750();
 struct FNVOwner_CFA5F0 {
-    void __thiscall FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim, const int* values,int arg5);
+    void FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim, const int* values,int arg5);
 };
 // @fnv 0x00cfa5f0
-void __thiscall FNVOwner_CFA5F0::FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim,const int* values,int arg5) {
+void FNVOwner_CFA5F0::FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim,const int* values,int arg5) {
     FNVState_CFA5F0 state;
     int* source = sim->stateSource78;
     memcpy(&state, source, 0x50);

@@ -16,9 +16,9 @@ struct hkpSweptTransformDisplayViewer
 
 extern "C" void FUN_00d64650();
 // @fnv 0x00d647f0
-void __fastcall FUN_00d647f0(void* self)
+void FUN_00d647f0(void* self)
 {
-    ((void(__thiscall*)(void*))FUN_00d64650)((char*)self - 0x20);
+    ((void(*)(void*))FUN_00d64650)((char*)self - 0x20);
 }
 
 
@@ -217,7 +217,7 @@ struct FUN_00d647b0_Listener
     int unk00;
 };
 
-typedef void(__thiscall* FUN_00d647b0_Handler)(FUN_00d647b0_Listener* self, int item);
+typedef void(* FUN_00d647b0_Handler)(FUN_00d647b0_Listener* self, int item);
 
 struct FUN_00d647b0_cls
 {

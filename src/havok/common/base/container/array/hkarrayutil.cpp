@@ -211,7 +211,7 @@ struct S_00da2bd0_CallTree
         return m_data[m_iElementCount++];
     }
 
-    int __thiscall FindOrAddCallTrace(const hkUlong* trace, int depth);
+    int FindOrAddCallTrace(const hkUlong* trace, int depth);
 };
 
 // @fnv 0x00da2bd0

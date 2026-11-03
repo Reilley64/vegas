@@ -254,11 +254,11 @@ template <class K, class V> class NiTPointerMap
     void GetNext(void*&, K&, V&);
 };
 
-bool __fastcall _ref_008256d0(BSSimpleList<const char*>*);
-void __fastcall _ref_0063f7b0(BSSimpleList<const char*>*);
+bool _ref_008256d0(BSSimpleList<const char*>*);
+void _ref_0063f7b0(BSSimpleList<const char*>*);
 
 // @fnv 0x006003c0
-void __fastcall FUN_006003c0(void* thisPtr)
+void FUN_006003c0(void* thisPtr)
 {
     void* pIter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)thisPtr)))->GetFirstPos();
     while (pIter)

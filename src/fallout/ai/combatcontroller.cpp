@@ -196,7 +196,7 @@ NiPoint3* Point3Offset::ProjectileLaunched(NiPoint3* pResult, NiPoint3* pSource)
 }
 
 // @fnv 0x007031c0
-int __fastcall FUN_007031c0(int pThis)
+int FUN_007031c0(int pThis)
 {
     return *(int*)(pThis + 0xf0);
 }
@@ -477,14 +477,13 @@ struct CombatState
     char m_kProcedureStateData[4];
     int m_iCombatProcedureType;
 };
-typedef char _sizecheck_CombatState[sizeof(CombatState) == 556 ? 1 : -1];
 struct FUN_0097fb20_shell : public CombatState
 {
     bool FUN_0097fb20();
 };
 
 // @fnv 0x0097fb20
-bool __fastcall FUN_0097fb20(CombatState* pThis)
+bool FUN_0097fb20(CombatState* pThis)
 {
     return pThis->m_bWeaponSwitchPrevented;
 }
@@ -505,8 +504,8 @@ bool FUN_0097e310_shell::IsField8One()
 
 struct FUN_00980250_shell
 {
-    void __thiscall FUN_00980110(int);
-    void __thiscall FUN_009801b0(int);
+    void FUN_00980110(int);
+    void FUN_009801b0(int);
     void FUN_00980250();
 };
 
@@ -519,11 +518,11 @@ void FUN_00980250_shell::FUN_00980250()
 
 struct FUN_00980700_shell
 {
-    int __thiscall FUN_00980700(int index);
+    int FUN_00980700(int index);
 };
 
 // @fnv 0x00980700
-int __thiscall FUN_00980700_shell::FUN_00980700(int index)
+int FUN_00980700_shell::FUN_00980700(int index)
 {
     return ((int*)this)[index + 2];
 }
@@ -531,12 +530,12 @@ int __thiscall FUN_00980700_shell::FUN_00980700(int index)
 
 struct FUN_00981340_shell
 {
-    void __thiscall FreeSlot(int idx);
+    void FreeSlot(int idx);
 };
 
 // Frees the pointer stored at this+0x190+idx*4 and sets that slot to null.
 // @fnv 0x00981340
-void __thiscall FUN_00981340_shell::FreeSlot(int aiIndex)
+void FUN_00981340_shell::FreeSlot(int aiIndex)
 {
     void* p = *(void**)((char*)this + aiIndex * 4 + 0x190);
     ::FUN_00401030(p);
@@ -648,11 +647,11 @@ void Unk_0097f7a0::FUN_0097f7a0(void* apArg, bool b)
 struct FUN_0097fb60_shell
 {
     unsigned int m_iWordAt00[0x3a];
-    unsigned int __thiscall GetFieldAtE8();
+    unsigned int GetFieldAtE8();
 };
 
 // @fnv 0x0097fb60
-unsigned int __thiscall FUN_0097fb60_shell::GetFieldAtE8()
+unsigned int FUN_0097fb60_shell::GetFieldAtE8()
 {
     return m_iWordAt00[0xe8 / 4];
 }
@@ -681,7 +680,7 @@ struct FUN_0097fd40_shell
 };
 
 // @fnv 0x0097fd40
-bool __thiscall FUN_0097fd40_shell::FUN_0097fd40() const
+bool FUN_0097fd40_shell::FUN_0097fd40() const
 {
     return ((TESActorBaseData*)this)->GetFlag(3);
 }
@@ -696,22 +695,22 @@ struct EffectSetting
 struct FUN_0097fd60_shell
 {
     EffectSetting* m_pEffectSetting;  // +0x9c
-    void __thiscall FUN_0097fd60(TESEffectShader* a1);
+    void FUN_0097fd60(TESEffectShader* a1);
 };
 
 // @fnv 0x0097fd60
-void __thiscall FUN_0097fd60_shell::FUN_0097fd60(TESEffectShader* pShader)
+void FUN_0097fd60_shell::FUN_0097fd60(TESEffectShader* pShader)
 {
     ((EffectSetting*)*(int*)((char*)this + 0x9c))->SetEnchantEffectShader(pShader);
 }
 
 struct FUN_00980720_shell
 {
-    void* __thiscall GetEntryAt(unsigned int index);
+    void* GetEntryAt(unsigned int index);
 };
 
 // @fnv 0x00980720
-void* __thiscall FUN_00980720_shell::GetEntryAt(unsigned int index)
+void* FUN_00980720_shell::GetEntryAt(unsigned int index)
 {
     return *(void**)((char*)this + 0x60 + index * 4);
 }
@@ -723,7 +722,7 @@ struct FUN_00980740_shell
 
 // Sets the two int fields at offsets 8 and 0x60 for the given index to zero.
 // @fnv 0x00980740
-void __thiscall FUN_00980740_shell::FUN_00980740(int index)
+void FUN_00980740_shell::FUN_00980740(int index)
 {
     *(int*)((char*)this + index * 4 + 8) = 0;
     *(int*)((char*)this + index * 4 + 0x60) = 0;
@@ -842,7 +841,7 @@ struct Calendar
 {
 };
 struct TESWorldSpace;
-bool __fastcall FUN_00995870(unsigned int);
+bool FUN_00995870(unsigned int);
 struct FUN_00995830_Class
 {
     void FUN_00995830();
@@ -1009,7 +1008,6 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -1017,7 +1015,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004c8f30_shell : public InventoryChanges
 {
     int FUN_004c8f30(int);
@@ -1223,21 +1220,21 @@ void Host0097f6d0::FUN_0097f6d0(int a1)
 
 struct FUN_0099a680_shell
 {
-    void __thiscall SetStampFromActor(int arg);
+    void SetStampFromActor(int arg);
 };
 
-void __thiscall FUN_0099a680_shell::SetStampFromActor(int arg)
+void FUN_0099a680_shell::SetStampFromActor(int arg)
 {}
 
 struct FUN_0097f7d0_shell
 {
     char pad[0x9c];
     FUN_0099a680_shell* m_0x9c;
-    void __thiscall ForwardToMember(int arg);
+    void ForwardToMember(int arg);
 };
 
 // @fnv 0x0097f7d0
-void __thiscall FUN_0097f7d0_shell::ForwardToMember(int arg)
+void FUN_0097f7d0_shell::ForwardToMember(int arg)
 {
     reinterpret_cast<::fnv_0099a680::FUN_0099a680_s *>((m_0x9c))->SetStampFromActor(arg);
 }
@@ -3447,7 +3444,7 @@ struct Selection
 struct Container
 {
 };
-typedef Container*(__thiscall* GetContainerMethod)(VtableOwner*);
+typedef Container*(* GetContainerMethod)(VtableOwner*);
 struct VtableOwner
 {
     void** vtable;

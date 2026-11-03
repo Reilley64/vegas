@@ -67,7 +67,7 @@ struct NiGeometryBufferData
     NiVBChip** m_ppkVertexBuffers;
 };
 // @fnv 0x00e94770
-void __stdcall FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+void FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     NiVBChip* pkChip;
     NiVBBlock* pkBlock;
@@ -676,9 +676,9 @@ void* __cdecl FUN_00aa13e0(unsigned int n);
 void __cdecl FUN_00e941a0(void* object);
 struct S00e94b80_Unknown
 {
-    virtual long __stdcall QueryInterface(void* riid, void** out);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void* riid, void** out);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct S00e94b80_Heap
 {

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niviscontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niviscontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a38e00.h"
 #include "fnv/decl/FUN_00a57630.h"
@@ -47,7 +48,7 @@ struct BSFadeNode
 
 struct FUN_00a57790_shell
 {
-    void __thiscall FUN_00a57790();
+    void FUN_00a57790();
 };
 
 extern void* DAT_01097e8c;
@@ -87,9 +88,9 @@ struct NiStream
 public:
     ::NiObject *GetLoadedObject();
 };
-void __stdcall FUN_00a44d20(NiStream* pStream);
+void FUN_00a44d20(NiStream* pStream);
 // @fnv 0x00a44d20
-void __stdcall FUN_00a44d20(NiStream* pStream)
+void FUN_00a44d20(NiStream* pStream)
 {
     reinterpret_cast<::fnv_00a57c70::FUN_00a57c70 *>((pStream))->LoadBinary(*(::fnv_00a57c70::NiStream *)nullptr);
     if (*(unsigned int*)((char*)pStream + 0xd8) < 0xa010068)
@@ -137,10 +138,10 @@ struct NiTimeController
 };
 struct FUN_00a57640_shell : NiTimeController
 {
-    FUN_00a57640_shell* __thiscall FUN_00a57640();
+    FUN_00a57640_shell* FUN_00a57640();
 };
 // @fnv 0x00a57640
-FUN_00a57640_shell* __thiscall FUN_00a57640_shell::FUN_00a57640()
+FUN_00a57640_shell* FUN_00a57640_shell::FUN_00a57640()
 {
     new ((void *)this) ::FUN_00a38e00();
     *(void**)(char*)this = &DAT_0109ab44;
@@ -165,10 +166,10 @@ struct StrArr
 {
 };
 
-void __stdcall FUN_00a57800(StrArr*);
+void FUN_00a57800(StrArr*);
 
 // @fnv 0x00a44f40
-void __stdcall FUN_00a44f40(StrArr* pkStrings)
+void FUN_00a44f40(StrArr* pkStrings)
 {
     FUN_00a57800(pkStrings);
     char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3f08))));
@@ -182,8 +183,6 @@ void __stdcall FUN_00a44f40(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiElementCount, pcStr);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plValue);
 
 class BA44D50Object;
 

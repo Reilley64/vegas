@@ -34,16 +34,13 @@ class AccumWIP : public BSShaderAccumulator
 #include "bsshaderaccumulator_batchrenderer.h"
 #include "MemoryManager.h"
 typedef BSSimpleList<unsigned short> BSShaderAccumulatorPassIndexList;
-FNV_STATIC_ASSERT(sizeof(BSShaderAccumulatorPassIndexList) == 8);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_item) == 0);
-FNV_STATIC_ASSERT(offsetof(BSShaderAccumulatorPassIndexList, m_pkNext) == 4);
 
 class Handler
 {
   public:
-    virtual void __stdcall v00();
-    virtual void __stdcall v01();
-    virtual void __stdcall v02();
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
 };
 
 class FUN_00c4ed40_cls

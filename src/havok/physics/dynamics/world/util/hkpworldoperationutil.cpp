@@ -57,11 +57,11 @@
 #include "fnv/symbols_01272000.h"
 struct FUN_00cb7460_class
 {
-    int __thiscall FUN_00cb7460(int value);
+    int FUN_00cb7460(int value);
 };
 
 // @fnv 0x00cb7460
-int __thiscall FUN_00cb7460_class::FUN_00cb7460(int value)
+int FUN_00cb7460_class::FUN_00cb7460(int value)
 {
     if (value + 1 == *(int*)((char*)this + 8))
         return *(int*)this;
@@ -2479,7 +2479,7 @@ struct VObj
 // The object at [owner + 0x64] - its member at 0xcf70f0 pops its own arguments.
 struct Coll
 {
-    void __thiscall add(void* p, int n);
+    void add(void* p, int n);
 };
 
 // The four-word record that is handed to v1c by address.
@@ -6006,8 +6006,8 @@ struct C6A870_Item
 };
 
 struct C6A870_Heap;
-typedef void*(__thiscall* C6A870_AllocFn)(C6A870_Heap*, int&);
-typedef void(__thiscall* C6A870_FreeFn)(C6A870_Heap*, void*, int);
+typedef void*(* C6A870_AllocFn)(C6A870_Heap*, int&);
+typedef void(* C6A870_FreeFn)(C6A870_Heap*, void*, int);
 struct C6A870_HeapTable
 {
     void* v00;
@@ -6113,7 +6113,7 @@ void __cdecl FUN_00cb55d0(C6A870_World* world);
 void __cdecl AddItemToContainer(C6A870_World* world, C6A870_Item* item);
 
 struct C6A870_Self;
-typedef C6A870_World*(__thiscall* C6A870_Query)(C6A870_Self*);
+typedef C6A870_World*(* C6A870_Query)(C6A870_Self*);
 struct C6A870_QueryTable
 {
     void* f00;
@@ -6719,8 +6719,8 @@ struct Inner
     int unk1cc;
     float m_1d0;
 };
-typedef void(__thiscall* FnFree)(void* self, void* p, int bytes);
-typedef void(__thiscall* Fn20)(void* self, void* p, int a, void* b, int c);
+typedef void(* FnFree)(void* self, void* p, int bytes);
+typedef void(* Fn20)(void* self, void* p, int a, void* b, int c);
 struct RemRef
 {
 };

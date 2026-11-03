@@ -545,7 +545,7 @@ struct NoteRecord
     NoteQuestList ownerQuests;
     unsigned char noteType;
     unsigned char wasRead;
-    void __thiscall Destroy();
+    void Destroy();
 };
 // Destructor that calls ClearNoteData to release the note's data.
 // @fnv 0x005e8170

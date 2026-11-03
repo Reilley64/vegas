@@ -26,10 +26,10 @@ struct FUN_00d87440_Class
     void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    int __thiscall FUN_00d87440(int a);
+    int FUN_00d87440(int a);
 };
 // @fnv 0x00d87440
-int __thiscall FUN_00d87440_Class::FUN_00d87440(int aiIndex)
+int FUN_00d87440_Class::FUN_00d87440(int aiIndex)
 {
     return *(int*)((char*)m_iWordAt00 + aiIndex * 4 + m_8 * 8 + 8);
 }
@@ -81,11 +81,11 @@ struct FUN_00d87460_class
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void __thiscall SetElement(int idx, int val);
+    void SetElement(int idx, int val);
 };
 
 // @fnv 0x00d87460
-void __thiscall FUN_00d87460_class::SetElement(int aiIndex, int aiValue)
+void FUN_00d87460_class::SetElement(int aiIndex, int aiValue)
 {
     *(int*)((int*)m_iWordAt00 + m_8 * 2 + 2 + aiIndex) = aiValue;
 }

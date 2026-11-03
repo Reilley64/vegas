@@ -33,16 +33,16 @@ struct NiRenderer
 };
 struct FUN_00a80610_shell
 {
-    void __thiscall FUN_00a80610(NiRenderer*);
-    void __thiscall FUN_00c25730(NiRenderer*);
+    void FUN_00a80610(NiRenderer*);
+    void FUN_00c25730(NiRenderer*);
 };
 // @fnv 0x00c25730
-void __thiscall FUN_00a80610_shell::FUN_00c25730(NiRenderer* apkRenderer)
+void FUN_00a80610_shell::FUN_00c25730(NiRenderer* apkRenderer)
 {
     this->FUN_00a80610(apkRenderer);
     NiRenderer* pkRenderer = apkRenderer;
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
-        ((void(__thiscall*)(NiRenderer*, FUN_00a80610_shell*))(*(void***)pkRenderer)[112])(pkRenderer, this);
+        ((void(*)(NiRenderer*, FUN_00a80610_shell*))(*(void***)pkRenderer)[112])(pkRenderer, this);
 }
 
 struct StrArr
@@ -71,7 +71,7 @@ struct ParticleSystem
 };
 struct ParticleOwner
 {
-    ParticleSystem* __thiscall CreateParticleSystem(unsigned int flags);
+    ParticleSystem* CreateParticleSystem(unsigned int flags);
 };
 // Allocates a 0x110-byte ParticleSystem, initialises it and its vtable, passes it to FUN_00c1b6f0 with flags, and returns it.
 // @fnv 0x00c257d0
@@ -103,14 +103,14 @@ struct NiCullingProcess
 };
 struct NiGeometry
 {
-    void __thiscall OnVisible(NiCullingProcess&);
+    void OnVisible(NiCullingProcess&);
 };
 struct FUN_00c256f0_cls : NiGeometry
 {
-    void __thiscall FUN_00c256f0(NiCullingProcess&);
+    void FUN_00c256f0(NiCullingProcess&);
 };
 // @fnv 0x00c256f0
-void __thiscall FUN_00c256f0_cls::FUN_00c256f0(NiCullingProcess& a)
+void FUN_00c256f0_cls::FUN_00c256f0(NiCullingProcess& a)
 {
     NiGeometry::OnVisible(a);
 }

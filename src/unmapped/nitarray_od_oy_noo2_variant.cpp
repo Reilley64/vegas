@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/DummyStruct_00631820.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -139,8 +140,6 @@ void __cdecl FUN_00869420(RefList* apSource, RefList* apTarget)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectA47
 {

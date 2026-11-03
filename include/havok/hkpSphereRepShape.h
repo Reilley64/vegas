@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPSPHEREREPSHAPE_H
 #include "hkBase.h"
 #include "hkpShape.h"
-#pragma pack(push, 1)
 class hkpSphereRepShape : public hkpShape
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSphereRepShape[(sizeof(hkpSphereRepShape) == 0x10) ? 1 : -1];
 #endif

@@ -133,14 +133,14 @@ void __cdecl ProcessEntries();
 void __cdecl FUN_00e23a10();
 
 struct FUN_00e24a80_Class {
-    void __thiscall FUN_00e24a80();
+    void FUN_00e24a80();
 };
 
 // @fnv 0x00e24a80
-void __thiscall FUN_00e24a80_Class::FUN_00e24a80()
+void FUN_00e24a80_Class::FUN_00e24a80()
 {
-    ((void (__thiscall *)(void*))ProcessEntries)(this + 8);
-    ((void (__thiscall *)(void*))FUN_00e23a10)(this + 0x20);
+    ((void (*)(void*))ProcessEntries)(this + 8);
+    ((void (*)(void*))FUN_00e23a10)(this + 0x20);
 }
 
 struct Subobject { virtual void Release(unsigned int flags); };
@@ -385,7 +385,7 @@ struct ErrorReporter
 
 // Calls FUN_00e230f0(1); if report is set and an error is returned, builds a message and reports it via DAT_01268360, returning whether the error is zero.
 // @fnv 0x00e14b30
-bool __stdcall CheckError(bool report)
+bool CheckError(bool report)
 {
     int error = reinterpret_cast<::fnv_00e230f0::MeshClass *>((1))->FUN_00e230f0({});
     if (report && error)
@@ -561,7 +561,7 @@ extern const char s_10eae6c[];
 extern const char s_10eae18[];
 
 // @fnv 0x00e22520
-void __stdcall FUN_00e22520(int a, int b, int c)
+void FUN_00e22520(int a, int b, int c)
 {
     hkErrStreamE os;
     int buf[0x80];
@@ -1573,8 +1573,8 @@ struct Inputs_00e118e0
 
 struct FUN_00e118e0_class
 {
-    void __thiscall FUN_00e11710(void*, void*, void*, void*, void*);
-    void __thiscall FUN_00e118e0(const volatile Inputs_00e118e0*, void*, void*);
+    void FUN_00e11710(void*, void*, void*, void*, void*);
+    void FUN_00e118e0(const volatile Inputs_00e118e0*, void*, void*);
 };
 
 // Passes the data pointers of the first, second and third input blocks to FUN_00e11710 along with argument2 and argument3.
@@ -1745,7 +1745,7 @@ struct S_00e13910_Edge {
 };
 
 // @fnv 0x00e13910
-S_00e13910_Edge __stdcall FlipEdge(S_00e13910_Edge edge) {
+S_00e13910_Edge FlipEdge(S_00e13910_Edge edge) {
     S_00e13910_Edge link = edge.link();
     if (link.isValid()) {
         const S_00e13910_Edge nextLink = edge.next().link();
@@ -4212,7 +4212,7 @@ namespace fnv_00e11a60 {
 struct ListNode;
 
 
-void __stdcall FUN_00e11910(ListNode* apNode);
+void FUN_00e11910(ListNode* apNode);
 
 struct ListNode {
     ListNode* m_pNext;
@@ -5440,7 +5440,7 @@ struct FUN_00c7f640_Obj {
     int z;
     int w;
 
-    void __thiscall FUN_00c7f640(int value, S_00e11a90_Vec* data);
+    void FUN_00c7f640(int value, S_00e11a90_Vec* data);
 };
 
 struct S_00e11a90_Node {
@@ -5459,7 +5459,7 @@ struct S_00e11a90_Class {
     int unk10;
     S_00e11a90_Node* head;
 
-    void __thiscall FUN_00e11a90(int value);
+    void FUN_00e11a90(int value);
 };
 
 
@@ -8110,7 +8110,7 @@ static inline bool ReverseEdges(const S00e124d0_Entry& a, const S00e124d0_Entry&
 }
 // Iterates edge pairs, links matching vertices via m_ppLinks, and removes entries when edges are reversed or one is null.
 // @fnv 0x00e124d0
-void __stdcall FUN_00e124d0(S00e124d0_Table* t) {
+void FUN_00e124d0(S00e124d0_Table* t) {
     for (int i = 0; i < t->m_uiItemCount; ++i) {
         for (int j = i + 1; j < t->m_uiItemCount; ++j) {
             S00e124d0_Entry* ei = &t->m_data[i];
@@ -9058,7 +9058,7 @@ struct S00e22de0_frame
 
 // Fills a local frame from a, b, c and DAT_01268370..DAT_012683a0, calls FUN_00e4c730, and returns the w of its output, or DAT_0104e148 if it returns nonzero.
 // @fnv 0x00e22de0
-float __stdcall FUN_00e22de0(int a, int b, bool c)
+float FUN_00e22de0(int a, int b, bool c)
 {
     S00e22de0_frame f;
     S00e22de0_frame* __restrict q = &f;
@@ -9754,7 +9754,7 @@ void hkgpMeshStub::FUN_00e13210(const MeshPoint* apPoint, MeshResult* apResult)
 
 extern "C" __m128 _mm_set_ss(float);
 
-void __stdcall FUN_00c7f640(int arg, void* p);
+void FUN_00c7f640(int arg, void* p);
 
 struct Ex_Holder {
     int unk00;

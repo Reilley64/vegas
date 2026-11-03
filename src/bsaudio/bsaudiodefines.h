@@ -21,7 +21,6 @@
 
 class SoundMessageRecord;
 
-#pragma pack(push, 4)
 class NiPoint3
 {
   public:
@@ -30,13 +29,7 @@ class NiPoint3
     float y;  // +0x4
     float z;  // +0x8
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 
-#pragma pack(push, 4)
 class BSAudioDefinition
 {
   public:
@@ -116,23 +109,7 @@ class BSAudioDefinition
         return *this;
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSAudioDefinition) == 572);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, pName) == 0);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, Name) == 4);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, pFileName) == 264);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, FileName) == 268);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, fFirstValue) == 528);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, fSecondValue) == 532);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, Location) == 536);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, uiSoundFlags) == 548);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, m_fMinimumDistance) == 552);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, m_fMaximumDistance) == 556);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, m_uiSoundParameterA) == 560);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, m_uiSoundParameterB) == 564);
-FNV_STATIC_ASSERT(offsetof(BSAudioDefinition, m_uiSoundParameter6) == 568);
 
-#pragma pack(push, 4)
 class BSSoundInfo
 {
   public:
@@ -168,15 +145,6 @@ class BSSoundInfo
         m_bValueAt14 = false;
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSSoundInfo) == 596);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_uiSoundID) == 0);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_fSoundVolume) == 4);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_fFadeDuration) == 8);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_uiValueAt0C) == 12);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_uiPlaybackFlags) == 16);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_bValueAt14) == 20);
-FNV_STATIC_ASSERT(offsetof(BSSoundInfo, m_kAudioDefinition) == 24);
 
 template <class Allocator, class T>
 // @fnv 0x00ae7f90

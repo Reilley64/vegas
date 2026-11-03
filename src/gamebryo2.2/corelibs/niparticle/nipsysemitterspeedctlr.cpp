@@ -64,7 +64,7 @@ struct StrArr
     unsigned short m_usGrowBy;
 };
 // @fnv 0x00c2b3d0
-void __stdcall FUN_00c2b3d0(StrArr* pkStrings)
+void FUN_00c2b3d0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* psz = ::FUN_00a7d330((const char *)((*reinterpret_cast<const void * *>(&::g_01202728))));

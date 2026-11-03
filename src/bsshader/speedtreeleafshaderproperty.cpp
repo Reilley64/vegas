@@ -2,10 +2,10 @@
 // src/bsshader/speedtreeleafshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreeleafshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 
 // Base of the object: a NiRefObject-like polymorphic base whose constructor is
+#include <windows.h>
 struct NiRefObject
 {
     virtual void v0();

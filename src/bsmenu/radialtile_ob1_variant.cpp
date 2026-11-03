@@ -31,7 +31,7 @@ struct P03MM
 struct FUN_00a219e0_shell
 {
     void* FUN_00a219e0(unsigned int flags);
-    void __thiscall DestroyTileImageBase();
+    void DestroyTileImageBase();
 };
 // ---------------------------------------------------------------------------
 // 0x00a21690 - FUN_00a219e0_shell::DestroyTileImageBase()

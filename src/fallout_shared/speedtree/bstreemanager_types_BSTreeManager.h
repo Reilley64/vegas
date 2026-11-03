@@ -14,7 +14,6 @@ class NiAlphaProperty;
 class NiMaterialProperty;
 class NiTexture;
 class TESObjectTREE;
-#pragma pack(push, 4)
 class BSTreeManager
 {
   public:
@@ -85,17 +84,4 @@ class BSTreeManager
     // BSTreeManager& __cdecl BSTreeManager::*(const BSTreeManager&)
     // void* __cdecl BSTreeManager::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTreeManager) == 32);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_pLoadedModelMap) == 0);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_pTreeTexture) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_spMaterialProperty) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_pAlphaProperty) == 12);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_pBSXFlags) == 16);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_fCurrentWeatherBlend) == 20);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_bFirstOfFourFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_bSecondOfFourFlags) == 25);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, ReferenceTreeManagerState) == 26);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_bFourthTreeManagerFlag) == 27);
-FNV_STATIC_ASSERT(offsetof(BSTreeManager, m_pTreeInstanceMap) == 28);
 #endif

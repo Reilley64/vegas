@@ -1,6 +1,7 @@
 // src/staging/blk_00d80000_o2_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00d80000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <windows.h>
 #include <stdlib.h>
 
 // src/staging/blk_00d80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -587,7 +588,7 @@ struct FUN_00d873b0_Obj {
 struct FUN_00d873f0_Holder {
     int unk00;
     FUN_00d86910_Obj* unk04;
-    FUN_00d873b0_Obj* __thiscall FUN_00d873f0(FUN_00d873b0_Obj* a);
+    FUN_00d873b0_Obj* FUN_00d873f0(FUN_00d873b0_Obj* a);
 };
 class hkSetD874 {
 public:
@@ -602,7 +603,7 @@ struct FUN_00d87910_cls {
 
     FUN_00d87910_cls* FUN_00d87910();
 };
-extern "C" unsigned int (__stdcall *DAT_00fdf1d0)();
+extern "C" unsigned int (*DAT_00fdf1d0)();
 struct FUN_00d87a80_Stub {
     void* FUN_00d87a80(int);
 };
@@ -777,7 +778,6 @@ struct FUN_00d93310_cls {
 extern "C" {
     unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int dwTlsIndex);
     void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
 struct StringCursor {
@@ -900,7 +900,7 @@ struct FUN_00d9a4a0_Obj {
     FUN_00d9a4a0_Float* unk10;
 
 };
-float __fastcall FUN_00d9a4a0( FUN_00d9a4a0_Obj* self, int unused, FUN_00d9a4a0_Param* param);
+float FUN_00d9a4a0( FUN_00d9a4a0_Obj* self, int unused, FUN_00d9a4a0_Param* param);
 struct IdxStand_ {
     char* m_iWordAt00;
     void* FUN_00d9a4c0(int idx);
@@ -908,7 +908,7 @@ struct IdxStand_ {
 struct FUN_00d9a4d0_Class {
     int unk00;
 
-    int __thiscall GetEntryOffset(unsigned short value);
+    int GetEntryOffset(unsigned short value);
 };
 struct FnvCpu_FUN_00d9f6b0_CpuInterface {
     virtual void Invoke(int value);
@@ -916,13 +916,13 @@ struct FnvCpu_FUN_00d9f6b0_CpuInterface {
 struct FUN_00d9fb30_Stub {
     void FUN_00d9fb30();
 };
-void __stdcall FUN_00d9fca0(int);
-void __stdcall FUN_00d9fcb0(int, int, int);
-void __stdcall FUN_00d9fcc0(int);
-void __stdcall FUN_00d9fcd0(int);
-void __stdcall FUN_00d9fce0(int);
+void FUN_00d9fca0(int);
+void FUN_00d9fcb0(int, int, int);
+void FUN_00d9fcc0(int);
+void FUN_00d9fcd0(int);
+void FUN_00d9fce0(int);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-typedef void* (__stdcall* D85TlsFn)(unsigned long);
+typedef void* (* D85TlsFn)(unsigned long);
 extern D85TlsFn DAT_00fdf044;
 struct D85Ctn {
     void** entries;
@@ -1189,7 +1189,7 @@ static int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, voi
 int S00d881a0_Wrap(void* p);
 static unsigned char* S00d96870_outp;
 static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
-void __fastcall S00d96870_Entry(unsigned char* self, int* src);
+void S00d96870_Entry(unsigned char* self, int* src);
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_load_ps(const float*);
@@ -1240,7 +1240,7 @@ struct FUN_00d9a410_Stub {
     int unk1c;
     unsigned char* unk20;
 
-    void __thiscall InvokeCallback(int* param);
+    void InvokeCallback(int* param);
 };
 struct ArgD9A4 {
     int unk00, unk04, unk08, unk0C;
@@ -1397,7 +1397,7 @@ struct PivotCData {
     PivotCData* m_wrapped;
 };
 void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex);
-typedef void* (__stdcall* D90TlsFn)(unsigned long);
+typedef void* (* D90TlsFn)(unsigned long);
 extern D90TlsFn DAT_00fdf044;
 struct D90Ctn {
     void** entries;
@@ -1840,7 +1840,6 @@ void CleanupEntry();
 extern "C" void _ReadWriteBarrier(void);
 extern "C" {
     unsigned __int64 __rdtsc(void);
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int dwTlsIndex);
 }
 extern "C" char str_010d3e98[];
 struct S00d944d0_Stream {
@@ -2184,7 +2183,7 @@ struct D94Tls {
     int unk08;
     D94Rec16* pEnd;
 };
-typedef void* (__stdcall *D94TlsGetFn)(unsigned long);
+typedef void* (*D94TlsGetFn)(unsigned long);
 extern D94TlsGetFn DAT_00fdf044;
 extern const char str_010d3ef4[];
 struct D94Sub {
@@ -2714,7 +2713,7 @@ struct MemberD86 {
     __declspec(noinline) int FUN_00d86b30() { return subType; }
 };
 // @fnv 0x00d86ec0
-extern "C" int __fastcall FUN_00d86ec0(MemberD86* self, void*, char* output, int capacity) {
+extern "C" int FUN_00d86ec0(MemberD86* self, void*, char* output, int capacity) {
     TypeNameD86* cls = self->classType;
     int t = self->type;
     const char* className = cls ? reinterpret_cast<::FnvClassNameNode *>((cls))->FUN_00d46d40() : "unknown";

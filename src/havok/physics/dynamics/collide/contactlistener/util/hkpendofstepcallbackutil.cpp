@@ -52,7 +52,7 @@ struct Target
 
 // Calls FUN_00c93920 on apTarget, passing apObject as the argument.
 // @fnv 0x00d9e250
-void __fastcall PassObjectToTarget(Derived* apObject, void* apUnused, Target* apTarget)
+void PassObjectToTarget(Derived* apObject, void* apUnused, Target* apTarget)
 {
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(apObject));
 }

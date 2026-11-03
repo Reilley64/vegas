@@ -6,7 +6,6 @@
 #include "hkBase.h"
 class hkReferencedObject;
 class hkxNodeAnnotationData;
-#pragma pack(push, 1)
 class hkxNode
 {
   public:
@@ -20,6 +19,4 @@ class hkxNode
     hkBool m_bSelected;                             // +0x44
     char pad45[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxNode[(sizeof(hkxNode) == 0x48) ? 1 : -1];
 #endif

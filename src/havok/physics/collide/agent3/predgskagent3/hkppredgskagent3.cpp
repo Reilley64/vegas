@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d418b0
+#include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00cfbd60_cls.h"
 #include "fnv/decl/FUN_00dafe70_cls.h"
@@ -108,7 +109,7 @@ struct __declspec(align(16)) HandlerTable
     int unk3C;
 };
 
-// Stand-in for the script object: the registration is a __thiscall member.
+// Stand-in for the script object: the registration is a member.
 class CScript
 {
   public:
@@ -297,7 +298,6 @@ extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int 
 
 // Adapted from an unverified 2026-10-23 prior contributor draft; independently checked under this claim.
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 typedef union __declspec(intrin_type) __declspec(align(16)) __m128

@@ -40,18 +40,4 @@ class PlayerCharacter : public Character
 public:
     bool IsSleepingOrResting();
 };
-FNV_STATIC_ASSERT(sizeof(PlayerCharacter) == 0xE50);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueModifierData) == 0x244);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_afScriptModifiers) == 0x378);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueState) == 0x4AC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueData) == 0x4B0);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, bThirdPerson) == 0x64C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_ucValueAt680) == 0x680);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_pCurrentQuest) == 0x6B8);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kObjectiveList) == 0x6BC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_ucByteAtOffset7B8) == 0x7B8);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_bHasPerks) == 0x7BC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, Perks) == 0x87C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kEntryPointPerks) == 0x884);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kCompanionPerks) == 0xAD4);
 #endif

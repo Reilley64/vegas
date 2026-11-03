@@ -48,7 +48,7 @@ public:
     NiGeometryBufferData();
 };
 // @fnv 0x00e951e0
-void __stdcall FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+void FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     if (uiStream < pkBuffData->m_uiRegisterStreamCount)
     {
@@ -103,11 +103,11 @@ struct FUN_00e95780_shell
 {
     void* _0;
     void* _4;
-    void* __thiscall FUN_00e95780(unsigned int);
+    void* FUN_00e95780(unsigned int);
 };
 // Frees the stored pointer via _NiFreeAlias, sets the first field to &DAT_010f1034, and deallocates this when f has bit 0 set.
 // @fnv 0x00e95780
-void* __thiscall FUN_00e95780_shell::FUN_00e95780(unsigned int auiFlags)
+void* FUN_00e95780_shell::FUN_00e95780(unsigned int auiFlags)
 {
     void* tmp = _4;
     _0 = (void*)&DAT_010f1034;
@@ -121,7 +121,7 @@ void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e95b40_shell
 {
     virtual ~FUN_00e95b40_shell();
-    void* __thiscall DestroyIfFlagged(unsigned int uiFlags);
+    void* DestroyIfFlagged(unsigned int uiFlags);
 };
 // Stand-ins for the unnamed/undeclared entities used by this function.
 struct NiTMapBaseStub
@@ -139,11 +139,11 @@ struct FUN_00e95380_shell
     void* m_pUnk04;    // +0x04
     void* m_pUnk08;    // +0x08
 
-    void* __thiscall DestroyDynamicMap(unsigned int uiFlags);
+    void* DestroyDynamicMap(unsigned int uiFlags);
 };
 
 // @fnv 0x00e95380
-void* __thiscall FUN_00e95380_shell::DestroyDynamicMap(unsigned int uiFlags)
+void* FUN_00e95380_shell::DestroyDynamicMap(unsigned int uiFlags)
 {
     m_pVftable = &(*reinterpret_cast<void * *>(&::DAT_010f109c));
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
@@ -205,11 +205,11 @@ struct S_00e95300
     void* m_unk04;
     void* m_unk08;
 
-    S_00e95300* __thiscall FUN_00e95300(int param);
+    S_00e95300* FUN_00e95300(int param);
 };
 
 // @fnv 0x00e95300
-S_00e95300* __thiscall S_00e95300::FUN_00e95300(int aiFlags)
+S_00e95300* S_00e95300::FUN_00e95300(int aiFlags)
 {
     m_vftable = &DAT_010f107c;
     reinterpret_cast<::S_00b601a0_Map *>((((Base_00b601a0*)this)))->FUN_00b601a0();
@@ -243,7 +243,7 @@ struct Destination
 };
 struct FUN_00e95500_Class
 {
-    void __thiscall EnsureBuffer(Destination*);
+    void EnsureBuffer(Destination*);
 };
 // If destination->buffer1c is null, allocates a 0x54-byte Buffer, initializes it, stores it in buffer1c, calls FUN_00e98730, and sets index18 to 0xffff.
 // @fnv 0x00e95500
@@ -479,9 +479,9 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct VertexBufferRef
 {
-    virtual void __stdcall QueryInterface() = 0;
-    virtual void __stdcall AddRef() = 0;
-    virtual void __stdcall Release() = 0;
+    virtual void QueryInterface() = 0;
+    virtual void AddRef() = 0;
+    virtual void Release() = 0;
 };
 
 struct BufferSetData
@@ -596,8 +596,8 @@ struct S_00e987c0_Device
     void** vtable;
 };
 
-typedef void(__stdcall* FUN_00e987c0_StreamRelease)(S_00e987c0_Stream*);
-typedef int(__stdcall* FUN_00e987c0_Allocate)(S_00e987c0_Device*, unsigned int, unsigned int, void*, int, void*, int);
+typedef void(* FUN_00e987c0_StreamRelease)(S_00e987c0_Stream*);
+typedef int(* FUN_00e987c0_Allocate)(S_00e987c0_Device*, unsigned int, unsigned int, void*, int, void*, int);
 
 struct S_00e987c0_Class
 {
@@ -608,7 +608,7 @@ struct S_00e987c0_Class
     S_00e987c0_Stream* unk10;
     unsigned int unk14;
 
-    S_00e987c0_Stream* __thiscall AllocateStream(unsigned int uiStream, unsigned int* lpOffset, unsigned int* lpFlags,
+    S_00e987c0_Stream* AllocateStream(unsigned int uiStream, unsigned int* lpOffset, unsigned int* lpFlags,
                                                  unsigned char bForceFallback, unsigned char bUseSpecialFlags);
 };
 // @fnv 0x00e95550
@@ -690,7 +690,7 @@ Chip* Group::GetOrCreateChip(Data* data, unsigned int stream)
 
 // Updates the stream size and allocation as needed, advances or resets the offset, sets flags, and returns the stream pointer.
 // @fnv 0x00e987c0
-S_00e987c0_Stream* __thiscall S_00e987c0_Class::AllocateStream(unsigned int uiStream, unsigned int* lpOffset,
+S_00e987c0_Stream* S_00e987c0_Class::AllocateStream(unsigned int uiStream, unsigned int* lpOffset,
                                                                unsigned int* lpFlags, unsigned char bForceFallback,
                                                                unsigned char bUseSpecialFlags)
 {
@@ -764,7 +764,7 @@ struct ReleaseBuffer
 {
     void** vtable;
 };
-typedef void(__stdcall* ReleaseFn)(ReleaseBuffer*);
+typedef void(* ReleaseFn)(ReleaseBuffer*);
 struct DynamicSetData
 {
     unsigned int unk00, unk04, capacity;
@@ -803,7 +803,7 @@ template <class T> struct DynamicMapData;
 template <class T> struct MapVtableData
 {
     void* slot0;
-    unsigned int(__thiscall* hash)(DynamicMapData<T>*, const char*);
+    unsigned int(* hash)(DynamicMapData<T>*, const char*);
 };
 template <class T> struct DynamicMapData
 {
@@ -885,7 +885,7 @@ struct DynamicGroupData
 };
 // Calls FUN_00e95880, then deletes this with size 0x50 when bit 0 of uiFlags is set, and returns this.
 // @fnv 0x00e95b40
-void* __thiscall FUN_00e95b40_shell::DestroyIfFlagged(unsigned int uiFlags)
+void* FUN_00e95b40_shell::DestroyIfFlagged(unsigned int uiFlags)
 {
     static_cast<::DynamicGroupData *>(nullptr)->FUN_00e95880();
     if (uiFlags & 1)

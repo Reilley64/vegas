@@ -38,7 +38,7 @@ struct Own_dd5e60
     int unk10;
     int unk14;
     Sub_dd5e60* m_sub;  // at +0x18
-    void __thiscall FUN_00dd5e60();
+    void FUN_00dd5e60();
 };
 class hkpShapeCollectionDD5E
 {
@@ -87,7 +87,7 @@ struct Own_dd5e70
     int unk14;
     void* m_sub;
 
-    void __thiscall AttachChildAndAttribute(Sub_dd5e70* object, int unused);
+    void AttachChildAndAttribute(Sub_dd5e70* object, int unused);
 };
 struct FUN_00dd5ea0_class
 {
@@ -163,10 +163,10 @@ struct Own_dd5f10
     Sub_dd5f10* m_sub;
     int unk1C;
     __m128 m_trans;
-    void __thiscall FUN_00dd5f10(float* a, float* b);
+    void FUN_00dd5f10(float* a, float* b);
 };
 // @fnv 0x00dd5f10
-void __thiscall Own_dd5f10::FUN_00dd5f10(float* a, float* b)
+void Own_dd5f10::FUN_00dd5f10(float* a, float* b)
 {
     Sub_dd5f10* s = m_sub;
     s->v38(a, b);

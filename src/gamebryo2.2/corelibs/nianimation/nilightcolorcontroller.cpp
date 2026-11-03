@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a461c0
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_004bc280_S.h"
 #include "fnv/decl/FUN_00a495f0.h"
@@ -22,7 +23,7 @@
 #include "fnv/symbols_01096000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
-char __stdcall FUN_00a461c0(void* kStream)
+char FUN_00a461c0(void* kStream)
 {
     char result = 0;
     result = reinterpret_cast<::FUN_00a57780_shell *>((kStream))->FUN_00a57780(*(::NiStream *)nullptr) ? 1 : 0;
@@ -32,11 +33,11 @@ char __stdcall FUN_00a461c0(void* kStream)
 struct FUN_00a4d1b0_shell
 {
     unsigned char m_flag;
-    const char* __thiscall GetLightTypeName();
+    const char* GetLightTypeName();
 };
 
 // @fnv 0x00a4d1b0
-const char* __thiscall FUN_00a4d1b0_shell::GetLightTypeName()
+const char* FUN_00a4d1b0_shell::GetLightTypeName()
 {
     unsigned char flag = *(unsigned char*)((char*)this + 0x38);
     const char* result = "Ambient";
@@ -60,7 +61,7 @@ struct BSFadeNode
 
 struct NiLightColorController
 {
-    void __thiscall FUN_00a57c80();
+    void FUN_00a57c80();
 };
 
 extern int DAT_01098dd4;
@@ -132,11 +133,11 @@ public:
 };
 struct FUN_00a4d1d0_holder
 {
-    bool __thiscall FUN_00a4d1d0(NiObject* pkObject);
+    bool FUN_00a4d1d0(NiObject* pkObject);
 };
 // Checks pkObject via FUN_00a57c10, then compares bit 0 of the inverted byte at offset 0x38 with the byte at this+0x38 and returns the result.
 // @fnv 0x00a4d1d0
-bool __thiscall FUN_00a4d1d0_holder::FUN_00a4d1d0(NiObject* pkObject)
+bool FUN_00a4d1d0_holder::FUN_00a4d1d0(NiObject* pkObject)
 {
     NiLightColorController* pkControl = (NiLightColorController*)pkObject;
     if (!((bool)(reinterpret_cast<::StandIn *>((pkControl))->FUN_00a57c10({}, {}))))
@@ -161,7 +162,7 @@ struct NiObjectNET
 };
 // Walks the RTTI chain of pkTarget and returns true if it reaches g_011f4a68_arg1, false if pkTarget is null or the chain ends.
 // @fnv 0x00a4d210
-bool __stdcall FUN_00a4d210(NiObjectNET* pkTarget)
+bool FUN_00a4d210(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;
@@ -182,13 +183,12 @@ struct R462
     virtual void f0();
     virtual void f1();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct H462
 {
-    void* __thiscall DestroyAndFree(unsigned int);
+    void* DestroyAndFree(unsigned int);
 };
 // @fnv 0x00a4d460
-void* __thiscall H462::DestroyAndFree(unsigned int auiFlags)
+void* H462::DestroyAndFree(unsigned int auiFlags)
 {
     *(void* volatile*)this = (void*)&DAT_01098dd4;
     void* p = *(void* volatile*)((char*)this + 0x34);
@@ -209,13 +209,13 @@ struct CloningProcess
 };
 struct NiAlphaController
 {
-    void __thiscall CopyMemberData(NiAlphaController*, CloningProcess&);
+    void CopyMemberData(NiAlphaController*, CloningProcess&);
 };
 struct CloneHost
 {
     char _pad[0x38];
     unsigned short m_uiObjectFlags;
-    void* __thiscall FUN_00a4d4b0(CloningProcess&);
+    void* FUN_00a4d4b0(CloningProcess&);
 };
 struct StrArr
 {
@@ -223,7 +223,7 @@ struct StrArr
     unsigned short m_iElementCount;
 };
 // @fnv 0x00a4d5a0
-void __stdcall FUN_00a4d5a0(StrArr* pkStrings)
+void FUN_00a4d5a0(StrArr* pkStrings)
 {
     ::FUN_00a57d10((::NiTArray< ::ActorCombatGroup *, ::NiTMallocInterface< ::ActorCombatGroup *>> *)(pkStrings));
     char* p = ::FUN_00a7d330((const char *)(*(GlobalObjectO2_00a7b610**)&::g_011f3fa8));
@@ -255,10 +255,10 @@ struct Base840
 struct Stand840 : Base840
 {
     short _38;
-    void __thiscall WriteToStream(NiStream&);
+    void WriteToStream(NiStream&);
 };
 // @fnv 0x00a4b840
-void __thiscall Stand840::WriteToStream(NiStream& stream)
+void Stand840::WriteToStream(NiStream& stream)
 {
     ::FUN_00a57c00();
     NiBinaryStream* __restrict out = stream._250;
@@ -266,8 +266,6 @@ void __thiscall Stand840::WriteToStream(NiStream& stream)
     out->_4 += out->_c(out, &_38, 2, &size, 1);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 
 struct RefObject
@@ -402,11 +400,11 @@ struct Host
     unsigned int unk2c;
     unsigned int unk30;
     RefObject* activeObject;
-    void __thiscall LoadActiveObject(VersionedDataBlock* stream);
+    void LoadActiveObject(VersionedDataBlock* stream);
 };
 // Reads a stream, and for older versions creates a RefObject from it, swaps it into activeObject with reference counting, then activates it.
 // @fnv 0x00a4d3a0
-void __thiscall Host::LoadActiveObject(VersionedDataBlock* stream)
+void Host::LoadActiveObject(VersionedDataBlock* stream)
 {
     reinterpret_cast<struct ::FUN_00a57630 *>((stream))->LinkObject(*(::NiStream *)nullptr);
     if (stream->version >= 0x0a010068)
@@ -464,7 +462,7 @@ struct NiTimeController
     Controller34* controller34;
     unsigned int flags38;
 
-    void __thiscall EvaluateAndApplyOutput(float& parameter);
+    void EvaluateAndApplyOutput(float& parameter);
 };
 
 // Evaluates the controller output into a clamped 0..1 vector and writes it to the output object, swapping vector/color when flags38 bit 0 is set.
@@ -477,7 +475,7 @@ void NiTimeController::EvaluateAndApplyOutput(float& parameter)
     {
         if (controller34 == 0)
             return;
-        if (!((bool(__thiscall**)(Controller34*))(controller34->vtable + 53))[0](controller34))
+        if (!((bool(**)(Controller34*))(controller34->vtable + 53))[0](controller34))
             return;
     }
 
@@ -487,7 +485,7 @@ void NiTimeController::EvaluateAndApplyOutput(float& parameter)
 
     NiPoint3 sourceValues;
     NiPoint3 kClampedValues;
-    typedef bool(__thiscall * Evaluate)(Controller34*, float, NiObject*, NiPoint3*);
+    typedef bool(* Evaluate)(Controller34*, float, NiObject*, NiPoint3*);
     if (!((Evaluate)controller->vtable[37])(controller, value28, output2c, &sourceValues))
         return;
 
@@ -532,7 +530,7 @@ struct FUN_00a57c80 : FUN_00a38e00
     FUN_00a57c80();
 };
 // @fnv 0x00a4d4b0
-void* __thiscall CloneHost::FUN_00a4d4b0(CloningProcess& kCloning)
+void* CloneHost::FUN_00a4d4b0(CloningProcess& kCloning)
 {
     CloneHost* pkObject = (CloneHost*)BSFadeNode::operator new(0x3c);
     if (pkObject)

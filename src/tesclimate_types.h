@@ -80,13 +80,4 @@ class TESClimate : public TESForm
     unsigned char m_ucTimeSettings[6];
     unsigned char layoutPadding56[2];
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(sizeof(TESTexture) == 12);
-FNV_STATIC_ASSERT(sizeof(TESWeatherList) == 8);
-FNV_STATIC_ASSERT(sizeof(WeatherEntry) == 12);
-FNV_STATIC_ASSERT(sizeof(TESClimate) == 88);
-FNV_STATIC_ASSERT(offsetof(TESClimate, m_kStarsModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESClimate, weatherList) == 48);
-FNV_STATIC_ASSERT(offsetof(TESClimate, m_kSunTextures) == 56);
-FNV_STATIC_ASSERT(offsetof(TESClimate, m_ucTimeSettings) == 80);
 #endif

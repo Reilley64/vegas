@@ -66,7 +66,7 @@ struct Owner_0081b830
 
 // If the subobject at offset 0x40 is non-null, forwards the argument to its _ref_00905330 method.
 // @fnv 0x0081b830
-void __fastcall ForwardArgToSubobject(Owner_0081b830* pThis, Arg_0081b830 arg)
+void ForwardArgToSubobject(Owner_0081b830* pThis, Arg_0081b830 arg)
 {
     if (pThis->unk40 != 0)
     {
@@ -77,7 +77,7 @@ void __fastcall ForwardArgToSubobject(Owner_0081b830* pThis, Arg_0081b830 arg)
 struct FUN_0081b6c0_shell;
 
 // @fnv 0x0081b6c0
-int __fastcall FUN_0081b6c0(int)
+int FUN_0081b6c0(int)
 {
     return 4;
 }
@@ -262,7 +262,7 @@ struct FUN_0081bde0_shell
 };
 
 // @fnv 0x0081bde0
-void __thiscall FUN_0081bde0_shell::SaveLoad(ActiveEffect* apActiveEffect, TESObjectREFR* apTarget)
+void FUN_0081bde0_shell::SaveLoad(ActiveEffect* apActiveEffect, TESObjectREFR* apTarget)
 {
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 0x20, 4);
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081bde0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(reinterpret_cast<char*>(this) + 0x24, 1);

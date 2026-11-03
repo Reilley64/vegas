@@ -45,7 +45,7 @@ void* __cdecl FUN_00ca34b0()
 
 
 // @fnv 0x00ca3560
-void __fastcall FUN_00ca3560(int** self, int)
+void FUN_00ca3560(int** self, int)
 {
     self[4] = &DAT_010c6fb0;
     self[0] = &(*reinterpret_cast<int *>(&::DAT_0102e388));
@@ -644,7 +644,7 @@ static __forceinline void copyName(char* d, const char* s)
 }
 // Builds an hkaSkeleton rig from scene nodes and attachments, computing parent links, relative transforms, bone names, and shape-derived attachment positions.
 // @fnv 0x00ca21c0
-Rig* __stdcall BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentList* attachments)
+Rig* BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentList* attachments)
 {
     Rig* rig;
     rig = new Rig;
@@ -770,10 +770,10 @@ struct Provider;
 struct ProviderTable
 {
     void* unk00;
-    void*(__thiscall* allocate)(Provider*, unsigned);
+    void*(* allocate)(Provider*, unsigned);
     void* unk08;
     void* unk0c;
-    void(__thiscall* free)(Provider*, void*, unsigned);
+    void(* free)(Provider*, void*, unsigned);
 };
 struct Provider
 {
@@ -782,8 +782,8 @@ struct Provider
 struct VecTable
 {
     void* unk00;
-    void*(__thiscall* allocate)(void*, unsigned int);
-    void(__thiscall* free)(void*, void*);
+    void*(* allocate)(void*, unsigned int);
+    void(* free)(void*, void*);
 };
 struct Context
 {
@@ -823,7 +823,7 @@ struct RendererTable
     void* unk30;
     void* unk34;
     void* unk38;
-    void(__thiscall* bounds)(void*, void*, void*);
+    void(* bounds)(void*, void*, void*);
 };
 struct Renderer
 {
@@ -1106,7 +1106,7 @@ struct TargetTable
     void* unkb8;
     void* unkbc;
     void* unkc0;
-    void(__thiscall* notify)(Target*);
+    void(* notify)(Target*);
 };
 struct Target
 {
@@ -1354,7 +1354,7 @@ struct BoundTable
     void* unk90;
     void* unk94;
     void* unk98;
-    void(__thiscall* attach)(FUN_0056e550*, void*);
+    void(* attach)(FUN_0056e550*, void*);
 };
 struct FUN_0056e550
 {

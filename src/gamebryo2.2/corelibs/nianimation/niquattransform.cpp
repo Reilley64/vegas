@@ -51,11 +51,11 @@ struct Outer_00a2bdb0
 {
     int _0;
     Inner_00a6db50 _4;
-    Outer_00a2bdb0* __thiscall FUN_00a2bdb0();
+    Outer_00a2bdb0* FUN_00a2bdb0();
 };
 // Calls the inner object's method with four zero floats and returns this.
 // @fnv 0x00a2bdb0
-Outer_00a2bdb0* __thiscall Outer_00a2bdb0::FUN_00a2bdb0()
+Outer_00a2bdb0* Outer_00a2bdb0::FUN_00a2bdb0()
 {
     reinterpret_cast<::FUN_00a6db50_V *>(&(_4))->Set(0.0f, 0.0f, 0.0f, 0.0f);
     return this;

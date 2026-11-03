@@ -1,5 +1,6 @@
 // fallout_shared/renderer.cpp: Renderer, SettingS (13 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
@@ -247,28 +248,28 @@ struct GRRamp
 
 struct GRDevice
 {
-    virtual long __stdcall v00();
-    virtual long __stdcall v04();
-    virtual long __stdcall v08();
-    virtual long __stdcall v0C();
-    virtual long __stdcall v10();
-    virtual long __stdcall v14();
-    virtual long __stdcall v18();
-    virtual long __stdcall v1C();
-    virtual long __stdcall v20();
-    virtual long __stdcall v24();
-    virtual long __stdcall v28();
-    virtual long __stdcall v2C();
-    virtual long __stdcall v30();
-    virtual long __stdcall v34();
-    virtual long __stdcall v38();
-    virtual long __stdcall v3C();
-    virtual long __stdcall v40();
-    virtual long __stdcall v44();
-    virtual long __stdcall v48();
-    virtual long __stdcall v4C();
-    virtual long __stdcall v50();
-    virtual long __stdcall SetGammaRamp(unsigned int auiSwapChain, unsigned long aulFlags, const GRRamp* apRamp);
+    virtual long v00();
+    virtual long v04();
+    virtual long v08();
+    virtual long v0C();
+    virtual long v10();
+    virtual long v14();
+    virtual long v18();
+    virtual long v1C();
+    virtual long v20();
+    virtual long v24();
+    virtual long v28();
+    virtual long v2C();
+    virtual long v30();
+    virtual long v34();
+    virtual long v38();
+    virtual long v3C();
+    virtual long v40();
+    virtual long v44();
+    virtual long v48();
+    virtual long v4C();
+    virtual long v50();
+    virtual long SetGammaRamp(unsigned int auiSwapChain, unsigned long aulFlags, const GRRamp* apRamp);
 };
 
 struct GRRenderer
@@ -423,12 +424,6 @@ struct G7790
 {
     SETTING_VALUE* Bool();
 };
-__declspec(dllimport) int __stdcall IMP_fdf2b8(int, int, int, int, int, int, int, int, int, int, int, int);
-__declspec(dllimport) int __stdcall IMP_fdf2ec(int, int);
-__declspec(dllimport) int __stdcall IMP_fdf2e8(int, int, int);
-__declspec(dllimport) int __stdcall IMP_fdf310(void*, int);
-__declspec(dllimport) int __stdcall IMP_fdf2a4(int, int, int, int, int, int, int);
-__declspec(dllimport) int __stdcall IMP_fdf2b0(int);
 extern int DAT_011c6fc0;
 extern int DAT_011c6fc4;
 extern int DAT_011c70cc;
@@ -460,7 +455,7 @@ struct DevObj
     virtual void vfn_1c();
     virtual void vfn_20();
     virtual void vfn_24();
-    virtual int __stdcall vfn_28(int, int, int, int, int, int);
+    virtual int vfn_28(int, int, int, int, int, int);
 };
 struct RendObj
 {
@@ -543,7 +538,7 @@ struct RendObj
     virtual void vfn_130();
     virtual void vfn_134();
     virtual void vfn_138();
-    virtual int __stdcall vfn_13c(float);
+    virtual int vfn_13c(float);
 };
 struct ShaderInitializer
 {
@@ -1495,9 +1490,6 @@ struct Ver654
     int unk18;
 };
 typedef int(__cdecl* Fn0)();
-__declspec(dllimport) void* __stdcall IMP_fdf0b0(const char*);
-__declspec(dllimport) void* __stdcall IMP_fdf0ac(void*, const char*);
-__declspec(dllimport) void* __stdcall IMP_fdf0a8(void*);
 extern char DAT_0102148c;
 extern char DAT_01021478;
 extern char DAT_01021570;
@@ -1614,17 +1606,17 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
         }
         else
         {
-            ::DAT_011c6fbc = IMP_fdf2b8(0, (*reinterpret_cast<int *>(&::_DAT_011a2fe8)), 0, 0x50000000, 0, 0, ((int)(::FUN_004dc1f0())), ::FUN_004dc200(),
+            ::DAT_011c6fbc = CreateWindowExA(0, (*reinterpret_cast<int *>(&::_DAT_011a2fe8)), 0, 0x50000000, 0, 0, ((int)(::FUN_004dc1f0())), ::FUN_004dc200(),
                                       DAT_011c6fc0, 0, DAT_011c6fc4, 0);
             Rect4 rect13;
             rect13.a = 0;
             rect13.b = 0;
             rect13.c = ((int)(::FUN_004dc1f0()));
             rect13.d = ::FUN_004dc200();
-            IMP_fdf310(&rect13, IMP_fdf2e8(DAT_011c6fc0, -16, IMP_fdf2ec(::DAT_011c6fbc, -8)));
+            AdjustWindowRect(&rect13, GetWindowLongA(DAT_011c6fc0, -16, GetClassLongA(::DAT_011c6fbc, -8)));
             int w3 = rect13.c - rect13.a;
             int h11 = rect13.d - rect13.b;
-            IMP_fdf2a4(DAT_011c6fc0, 0, reinterpret_cast<::TESObjectCELL *>(&(DAT_011c75d4))->GetCellStandValue(), reinterpret_cast<::TESObjectCELL *>(&(DAT_011c7654))->GetCellStandValue(), w3, h11, 0x40);
+            SetWindowPos(DAT_011c6fc0, 0, reinterpret_cast<::TESObjectCELL *>(&(DAT_011c75d4))->GetCellStandValue(), reinterpret_cast<::TESObjectCELL *>(&(DAT_011c7654))->GetCellStandValue(), w3, h11, 0x40);
         }
         DAT_011c70cc = 0;
         if (DAT_011c7418.Bool()->b)
@@ -1637,10 +1629,10 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
         bool flag2 = false;
         if (((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&(DAT_011c77b4))->GetBoolValue())))
         {
-            if (IMP_fdf2b0(0x50) > 1)
+            if (GetSystemMetrics(0x50) > 1)
             {
-                int t113 = IMP_fdf2b0(1);
-                int t212 = IMP_fdf2b0(0);
+                int t113 = GetSystemMetrics(1);
+                int t212 = GetSystemMetrics(0);
                 if (t113 != ::FUN_004dc200())
                 {
                     flag2 = true;
@@ -1802,10 +1794,10 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
     bool flag27 = true;
     if (::FUN_004dc0b0() == 2)
     {
-        void* hmod = IMP_fdf0b0((const char*)&DAT_0102148c);
+        void* hmod = LoadLibraryA((const char*)&DAT_0102148c);
         if (hmod != 0)
         {
-            void* proc = IMP_fdf0ac(hmod, (const char*)&DAT_01021478);
+            void* proc = GetProcAddress(hmod, (const char*)&DAT_01021478);
             if (proc != 0)
             {
                 int res = ((Fn0)proc)();
@@ -1815,7 +1807,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
                     (*reinterpret_cast<unsigned char *>(&::DAT_011f9181)) = 0;
                 }
             }
-            IMP_fdf0a8(hmod);
+            FreeLibrary(hmod);
         }
     }
     else if (::FUN_004dc0b0() == 1)

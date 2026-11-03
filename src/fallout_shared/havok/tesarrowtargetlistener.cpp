@@ -403,7 +403,7 @@ struct S_0062a690_Actor
     virtual void unk_136();
     virtual bool vfn_0224();
 
-    unsigned int __thiscall FUN_00401170();
+    unsigned int FUN_00401170();
 };
 
 struct S_0062a690_ProcessArray

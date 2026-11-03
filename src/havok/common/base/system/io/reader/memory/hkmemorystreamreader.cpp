@@ -12,11 +12,11 @@ struct FUN_00e059e0
     int m_0c;
     int m_10;
     int m_14;
-    int __thiscall GetCurrentOffset();
+    int GetCurrentOffset();
 };
 
 // @fnv 0x00e059e0
-int __thiscall FUN_00e059e0::GetCurrentOffset()
+int FUN_00e059e0::GetCurrentOffset()
 {
     if (m_14 >= 0)
     {
@@ -34,11 +34,11 @@ struct hkMemoryStreamReader
     int m_0c;
     int m_10;
     int m_14;
-    unsigned char* __thiscall IsSupported(unsigned char* supported);
+    unsigned char* IsSupported(unsigned char* supported);
 };
 
 // @fnv 0x00e059c0
-unsigned char* __thiscall hkMemoryStreamReader::IsSupported(unsigned char* supported)
+unsigned char* hkMemoryStreamReader::IsSupported(unsigned char* supported)
 {
     *supported = (m_10 != 0);
     return supported;
@@ -65,11 +65,11 @@ FUN_00e05bf0Router* __cdecl _D1A0E0GetMemoryRouter();
 
 struct FUN_00e05bf0Class : hkMemoryStreamReader
 {
-    void __thiscall FUN_00e05bb0();
-    hkMemoryStreamReader* __thiscall FUN_00e05bf0(int flags);
+    void FUN_00e05bb0();
+    hkMemoryStreamReader* FUN_00e05bf0(int flags);
 };
 
-hkMemoryStreamReader* __thiscall FUN_00e05bf0Class::FUN_00e05bf0(int flags)
+hkMemoryStreamReader* FUN_00e05bf0Class::FUN_00e05bf0(int flags)
 {
     FUN_00e05bb0();
 
@@ -102,7 +102,7 @@ unsigned char* FUN_00e059d0_cls::FUN_00e059d0(unsigned char* supported)
 
 // FUN_00e05a00: sets the flag byte pointed to by the argument to 1 and returns the argument.
 // @fnv 0x00e05a00
-unsigned char* __stdcall FUN_00e05a00(unsigned char* supported)
+unsigned char* FUN_00e05a00(unsigned char* supported)
 {
     *supported = 1;
     return supported;
@@ -137,11 +137,11 @@ hkBoolE059 hkObjectE059::IsNotAtEnd() const
 
 struct FUN_00e05a10_cls : hkMemoryStreamReader
 {
-    int __thiscall FUN_00e05a10(int arg4, int mode);
+    int FUN_00e05a10(int arg4, int mode);
 };
 // Computes a new stream position from arg4 and mode, clamps it to [0, m_10], stores it in m_0c and returns whether clamping occurred.
 // @fnv 0x00e05a10
-int __thiscall FUN_00e05a10_cls::FUN_00e05a10(int aiOffset, int mode)
+int FUN_00e05a10_cls::FUN_00e05a10(int aiOffset, int mode)
 {
     int edx = -1;
     switch (mode)
@@ -201,11 +201,11 @@ struct FUN_00e05a80Class
     int m_0c;
     int m_10;
 
-    int __thiscall ReadFromBuffer(void* destination, int count);
+    int ReadFromBuffer(void* destination, int count);
 };
 
 // @fnv 0x00e05a80
-int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
+int FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
 {
     unsigned char state;
     if (*checkState(&state))
@@ -232,7 +232,7 @@ struct FUN_00e05af0_Obj : hkMemoryStreamReader
 };
 
 // @fnv 0x00e05af0
-int __thiscall FUN_00e05af0_Obj::ReadBytes(int aiByteCount)
+int FUN_00e05af0_Obj::ReadBytes(int aiByteCount)
 {
     int local;
     unsigned char* result = IsNotAtEnd(((unsigned char*)&local) + 3);

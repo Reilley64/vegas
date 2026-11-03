@@ -107,7 +107,7 @@ struct FUN_00acbb70_shell
 };
 
 // @fnv 0x00acbb70
-int __thiscall FUN_00acbb70_shell::FUN_00acbb70()
+int FUN_00acbb70_shell::FUN_00acbb70()
 {
     return 0;
 }

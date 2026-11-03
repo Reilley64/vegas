@@ -60,12 +60,12 @@ void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 
 struct FUN_00a61590_class
 {
-    void* __thiscall ClearAndReset();
+    void* ClearAndReset();
 };
 
 // Zeroes the first 0xb24 bytes of this object, sets the int at offset 0xb24 to 0, and returns this.
 // @fnv 0x00a61590
-void* __thiscall FUN_00a61590_class::ClearAndReset()
+void* FUN_00a61590_class::ClearAndReset()
 {
     _fnv_zlib_memset(this, 0, 0xb24);
     *(int*)((char*)this + 0xb24) = 0;
@@ -109,11 +109,11 @@ extern int DAT_011f4ab4;
 
 struct FUN_00a7f820_Class
 {
-    void __thiscall FUN_00a7f820();
+    void FUN_00a7f820();
 };
 
 // @fnv 0x00a7f820
-void __thiscall FUN_00a7f820_Class::FUN_00a7f820()
+void FUN_00a7f820_Class::FUN_00a7f820()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_0109df2c;
     DAT_011f4ab4 = 0;
@@ -121,7 +121,7 @@ void __thiscall FUN_00a7f820_Class::FUN_00a7f820()
 
 // Clamps each of the first three floats in the array to a maximum of 1.0.
 // @fnv 0x00a69690
-void __fastcall FUN_00a69690(float* afValues)
+void FUN_00a69690(float* afValues)
 {
     if (afValues[0] > 1.0f)
         afValues[0] = 1.0f;
@@ -137,12 +137,12 @@ struct MemoryManager
 
 struct FUN_00a615c0_Class
 {
-    void __thiscall ClearAllBuckets();
+    void ClearAllBuckets();
 };
 
 // Walks each of 0x3e9 bucket lists, freeing every node via g_memoryManager.Deallocate, then clears the buckets and the pointer at offset 0xfa4.
 // @fnv 0x00a615c0
-void __thiscall FUN_00a615c0_Class::ClearAllBuckets()
+void FUN_00a615c0_Class::ClearAllBuckets()
 {
     void** p = (void**)(this + 0);
     for (unsigned int i = 0; i < 0x3e9; ++i)
@@ -164,7 +164,7 @@ struct RecursiveSpinLock
 {
 };
 // @fnv 0x00a638c0
-void __stdcall FUN_00a638c0(void* pNode)
+void FUN_00a638c0(void* pNode)
 {
     ((unsigned short*)((char*)pNode + 8))[0] = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
@@ -185,11 +185,11 @@ struct MemoryManager
 
 struct FUN_00a63b30_Class
 {
-    void* __thiscall FUN_00a63b30(bool);
+    void* FUN_00a63b30(bool);
 };
 
 // @fnv 0x00a63b30
-void* __thiscall FUN_00a63b30_Class::FUN_00a63b30(bool abFree)
+void* FUN_00a63b30_Class::FUN_00a63b30(bool abFree)
 {
     void* p = *(void**)((char*)this + 4);
     *(int**)((char*)this) = &::DAT_0109bc3c;
@@ -208,11 +208,11 @@ struct FUN_00a652d0_class
 {
     int m0;
     void* m4;
-    void* __thiscall FUN_00a652d0(bool);
+    void* FUN_00a652d0(bool);
 };
 // Sets m0 to &DAT_0109bd98, calls ReleaseObjectArray on m4, and if b is set deallocates this via _g_memoryManager, returning this.
 // @fnv 0x00a652d0
-void* __thiscall FUN_00a652d0_class::FUN_00a652d0(bool abFree)
+void* FUN_00a652d0_class::FUN_00a652d0(bool abFree)
 {
     m0 = (int)&::DAT_0109bd98;
     ::ReleaseObjectArray((::Obj00a47600 **)(m4));
@@ -247,10 +247,10 @@ void* __cdecl FUN_00a7b790()
 
 struct FUN_00a7d670_Class
 {
-    void* __thiscall FUN_00a7d670();
+    void* FUN_00a7d670();
 };
 // @fnv 0x00a7d670
-void* __thiscall FUN_00a7d670_Class::FUN_00a7d670()
+void* FUN_00a7d670_Class::FUN_00a7d670()
 {
     new ((void *)(this)) ::FUN_00a71f60_cls();
     *(float*)((char*)this + 0xf0) = 0.0f;
@@ -302,10 +302,10 @@ struct NiCullingProperty
 };
 struct FUN_00a755f0_Class : NiCullingProperty
 {
-    void __thiscall CopyCullingData(void* dst, CloningProcess& proc);
+    void CopyCullingData(void* dst, CloningProcess& proc);
 };
 // @fnv 0x00a755f0
-void __thiscall FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& proc)
+void FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& proc)
 {
     ::FUN_00a5d7a0();
     char* a = (char*)this;
@@ -340,7 +340,7 @@ int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
         return 0;
     *out = *(int*)(obj + 4);
     int* vtable = *(int**)obj;
-    void(__thiscall * fn)(void*, int, int) = *(void(__thiscall**)(void*, int, int))(vtable + 2);
+    void(* fn)(void*, int, int) = *(void(**)(void*, int, int))(vtable + 2);
     fn((void*)obj, 0, 0);
     return *(int*)(obj + 8);
 }
@@ -419,7 +419,7 @@ struct NiTMapBaseStub
 {
     void* vtable;
     void* data;
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 
 void _NiFree(void*);
@@ -428,11 +428,11 @@ struct FUN_00a63a20_Class : NiTMapBaseStub
 {
     void* ptr;
 
-    void* __thiscall FUN_00a63a20(int flags);
+    void* FUN_00a63a20(int flags);
 };
 
 // @fnv 0x00a63a20
-void* __thiscall FUN_00a63a20_Class::FUN_00a63a20(int flags)
+void* FUN_00a63a20_Class::FUN_00a63a20(int flags)
 {
     vtable = &::DAT_0109bca4;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
@@ -452,14 +452,14 @@ void* __thiscall FUN_00a63a20_Class::FUN_00a63a20(int flags)
 namespace fnv_00a63a60 {
 struct NiTMapBaseStub
 {
-    void __thiscall RemoveAll();
-    void* __thiscall FUN_00a63a60(unsigned char);
+    void RemoveAll();
+    void* FUN_00a63a60(unsigned char);
 };
 
 void __cdecl _NiFree(void*);
 
 // @fnv 0x00a63a60
-void* __thiscall NiTMapBaseStub::FUN_00a63a60(unsigned char flag)
+void* NiTMapBaseStub::FUN_00a63a60(unsigned char flag)
 {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_0109bcec);
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
@@ -476,7 +476,7 @@ struct NiTMapBaseStub
     void* vptr;
     int padding;
     void* data;
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 
 extern int DAT_0109bd0c;
@@ -484,11 +484,11 @@ void _NiFree(void*);
 
 struct FUN_00a63aa0_Class : NiTMapBaseStub
 {
-    void* __thiscall FUN_00a63aa0(int flags);
+    void* FUN_00a63aa0(int flags);
 };
 
 // @fnv 0x00a63aa0
-void* __thiscall FUN_00a63aa0_Class::FUN_00a63aa0(int flags)
+void* FUN_00a63aa0_Class::FUN_00a63aa0(int flags)
 {
     this->vptr = &DAT_0109bd0c;
     reinterpret_cast<::S_00b601a0_Map *>((this))->FUN_00b601a0();
@@ -511,21 +511,21 @@ struct NiTMapBaseStub
 {
     void* vftable;
     void* reserved;
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 
 struct FUN_00a63b60_Class : NiTMapBaseStub
 {
     void* pData;
 
-    void* __thiscall FUN_00a63b60(unsigned char flags);
+    void* FUN_00a63b60(unsigned char flags);
 };
 
 void __cdecl NiFree(void* p);
 
 // Resets the vftable, removes all entries, frees pData, and deallocates this when flags has bit 0 set.
 // @fnv 0x00a63b60
-void* __thiscall FUN_00a63b60_Class::FUN_00a63b60(unsigned char flags)
+void* FUN_00a63b60_Class::FUN_00a63b60(unsigned char flags)
 {
     vftable = &(*reinterpret_cast<int *>(&::fnv_00a63ba0::DAT_0109bc64));
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
@@ -542,7 +542,7 @@ void* __thiscall FUN_00a63b60_Class::FUN_00a63b60(unsigned char flags)
 namespace fnv_00a63ba0 {
 struct NiTMapBaseStub
 {
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 
 struct FUN_00a63ba0_Class : public NiTMapBaseStub
@@ -551,13 +551,13 @@ struct FUN_00a63ba0_Class : public NiTMapBaseStub
     unsigned int padding;
     void* buffer;
 
-    void* __thiscall FUN_00a63ba0(unsigned char flags);
+    void* FUN_00a63ba0(unsigned char flags);
 };
 
 void __cdecl _NiFree(void*);
 
 // @fnv 0x00a63ba0
-void* __thiscall FUN_00a63ba0_Class::FUN_00a63ba0(unsigned char flags)
+void* FUN_00a63ba0_Class::FUN_00a63ba0(unsigned char flags)
 {
     vtable = &DAT_0109bd54;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
@@ -580,7 +580,7 @@ struct NiPoint3
     float y;
     float z;
 
-    NiPoint3 __thiscall CrossProduct(NiPoint3 const& other) const;
+    NiPoint3 CrossProduct(NiPoint3 const& other) const;
 };
 
 struct FUN_00a699d0_Class
@@ -588,12 +588,12 @@ struct FUN_00a699d0_Class
     NiPoint3 normal;
     float distance;
 
-    FUN_00a699d0_Class* __thiscall FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
+    FUN_00a699d0_Class* FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
 };
 
 // Computes the normal as the cross product of the two edge vectors and sets distance to the dot product of the normal with point0.
 // @fnv 0x00a699d0
-FUN_00a699d0_Class* __thiscall FUN_00a699d0_Class::FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1,
+FUN_00a699d0_Class* FUN_00a699d0_Class::FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1,
                                                                 NiPoint3 const* point2)
 {
     NiPoint3 edge1;
@@ -617,13 +617,13 @@ struct NiTFixedStringMap_NiAVObject___
 {
     void* m_baseData0;
     void* m_baseData1;
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 
 struct FUN_00a6ea00_Class : NiTFixedStringMap_NiAVObject___
 {
     void* m_pData;
-    void* __thiscall FUN_00a6ea00(unsigned char flag);
+    void* FUN_00a6ea00(unsigned char flag);
 };
 
 extern int DAT_0109ca08;
@@ -965,7 +965,7 @@ class FUN_00a61920_Class
   public:
     FUN_00a61920_Node* m_pBuckets[1];
 
-    bool __thiscall FindShaderByHash(int, int, NiShader**);
+    bool FindShaderByHash(int, int, NiShader**);
 };
 
 void NiShader::Release()
@@ -977,7 +977,7 @@ int* NiShader::GetHash()
 }
 
 // @fnv 0x00a61920
-bool __thiscall FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, int iHashKey, NiShader** ppOutShader)
+bool FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, int iHashKey, NiShader** ppOutShader)
 {
     FUN_00a61920_Node* node = m_pBuckets[iBucketIndex];
     bool found = false;
@@ -1208,7 +1208,7 @@ struct TLSHeap_b9725
 
 void* __cdecl ClearAndReset();
 void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
-void __stdcall Init_b9725(void* p, unsigned int size, int count, void* cb);
+void Init_b9725(void* p, unsigned int size, int count, void* cb);
 
 // Allocates two blocks via the TLS heap, zeroes the first and initializes the second with Init_b9725, storing both in globals and restoring the TLS field.
 // @fnv 0x00a61ad0
@@ -1456,7 +1456,7 @@ struct SlotObject
 };
 
 
-typedef long(__stdcall* FNV_INTERLOCKED_DECREMENT)(volatile long*);
+typedef long(* FNV_INTERLOCKED_DECREMENT)(volatile long*);
 
 // Iterates g_pendingTable, decrements each object's reference count and calls its virtual slot 1 when the count reaches zero, then clears the entry.
 // @fnv 0x00a62280
@@ -1475,8 +1475,6 @@ void ReleasePendingTable()
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 struct RefObj_a62
 {
@@ -1533,12 +1531,12 @@ struct FUN_00a639e0_Class
     void* m_baseData0;
     void* m_baseData1;
     void* m_baseData2;
-    FUN_00a639e0_Class* __thiscall FUN_00a639e0(char param_2);
+    FUN_00a639e0_Class* FUN_00a639e0(char param_2);
 };
 
 // Resets m_baseData0, clears the map, frees m_baseData2, and optionally deallocates this object.
 // @fnv 0x00a639e0
-FUN_00a639e0_Class* __thiscall FUN_00a639e0_Class::FUN_00a639e0(char abFreeMemory)
+FUN_00a639e0_Class* FUN_00a639e0_Class::FUN_00a639e0(char abFreeMemory)
 {
     m_baseData0 = &DAT_0109bc84;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
@@ -1674,7 +1672,7 @@ struct FUN_00a674b0_cls
     unsigned char unk38;
     unsigned char unk39;
     unsigned char m_3a;
-    void __thiscall GetOutRec(OutRec674* out);
+    void GetOutRec(OutRec674* out);
 };
 
 // If m_3a is set, optionally queries m_30 via FUN_00a72720 and writes the resulting a, b and 0 into out.
@@ -1735,7 +1733,7 @@ FUN_00a69b00::FUN_00a69b00()
 
 struct FUN_00a69b40_Class
 {
-    void __thiscall FUN_00a69b40(int param_2);
+    void FUN_00a69b40(int param_2);
 };
 
 // Sets or clears bit 0 of the flags at offset 0x18 depending on whether param_2 is nonzero or any entry after the first in the array at 0x20 is nonzero.
@@ -1773,7 +1771,6 @@ void FUN_00a69b40_Class::FUN_00a69b40(int param_2)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 class NiGlobalStringTable
 {
   public:
@@ -1841,12 +1838,12 @@ struct FUN_00a6db50_V
     float m_04;
     float m_08;
     float m_0c;
-    FUN_00a6db50_V* __thiscall Set(float a, float b, float c, float d);
+    FUN_00a6db50_V* Set(float a, float b, float c, float d);
 };
 
 // Stores the four float arguments into m_00, m_04, m_08 and m_0c and returns this.
 // @fnv 0x00a6db50
-FUN_00a6db50_V* __thiscall FUN_00a6db50_V::Set(float a, float b, float c, float d)
+FUN_00a6db50_V* FUN_00a6db50_V::Set(float a, float b, float c, float d)
 {
     m_00 = a;
     m_04 = b;
@@ -2060,11 +2057,11 @@ struct ObjectRegistry
     void* unk18;
     IndexedObjects indexedObjects;
 
-    bool __thiscall RemoveObject(unsigned int index, bool clearReferences);
+    bool RemoveObject(unsigned int index, bool clearReferences);
 };
 
 // @fnv 0x00a72600
-bool __thiscall ObjectRegistry::RemoveObject(unsigned int index, bool clearReferences)
+bool ObjectRegistry::RemoveObject(unsigned int index, bool clearReferences)
 {
     SceneEntry* object = index < indexedObjects.count ? indexedObjects.entries[index] : 0;
     if (!object)
@@ -3067,7 +3064,6 @@ void S_00a7fea0_Class::TransformPoint(const S_00a7fea0_Xf& aXf)
     scale = aXf.scale * scale;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class MemoryManagerA61
 {
@@ -3196,8 +3192,6 @@ void NameTableA61::RemoveNode(NodeA61* pkNode)
 
 // Fixed-size (713 bucket) pointer map: return the current entry's object and advance the iterator.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
 
 class A619B0Object
 {
@@ -4036,7 +4030,7 @@ void* __cdecl FindNodeByObject(A61E60Obj* obj)
 }
 
 // @fnv 0x00a62130
-bool __fastcall FUN_00a62130(void* a, int b, NiStream* s)
+bool FUN_00a62130(void* a, int b, NiStream* s)
 {
     return ::FUN_00a5c180(a, b, s);
 }
@@ -4044,11 +4038,11 @@ bool __fastcall FUN_00a62130(void* a, int b, NiStream* s)
 class EqBase
 {
   public:
-    bool __thiscall FUN_00a62140(void* other);
+    bool FUN_00a62140(void* other);
 };
 
 // @fnv 0x00a62140
-bool __thiscall EqBase::FUN_00a62140(void* other)
+bool EqBase::FUN_00a62140(void* other)
 {
     return reinterpret_cast<::fnv_00a5c820::NetEqual *>(this)->FUN_00a5c820((::NiObjectNET *)(other));
 }
@@ -4095,7 +4089,7 @@ void __cdecl FUN_00a75f00()
 }
 
 // @fnv 0x00a75f20
-unsigned short __fastcall FUN_00a75f20(char* p, int)
+unsigned short FUN_00a75f20(char* p, int)
 {
     return *reinterpret_cast<unsigned short*>(p + 0x40);
 }
@@ -4532,7 +4526,6 @@ void FUN_00a60770_shell::GetFileStrings(StrArr* pkStrings)
     pkStrings->Add(pcString);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 namespace A61F {
 
@@ -4696,7 +4689,7 @@ struct FUN_00a7fb80_Class
     int m_28;
     int m_2C;
     int m_30;
-    void* __thiscall FUN_00a7fb80();
+    void* FUN_00a7fb80();
 };
 struct Z2Setup
 {

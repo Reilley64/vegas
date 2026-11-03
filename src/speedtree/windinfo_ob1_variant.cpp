@@ -51,7 +51,7 @@ struct S00b408b0_Exc
     int m18;
 };
 
-void __stdcall FUN_00ec7894(void* obj, void* info);
+void FUN_00ec7894(void* obj, void* info);
 
 struct S00b408b0_Big
 {

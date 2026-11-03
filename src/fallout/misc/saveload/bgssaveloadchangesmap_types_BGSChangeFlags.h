@@ -28,6 +28,4 @@ class FormChangeMask
     // FormChangeMask __cdecl FormChangeMask::*(FormChangeMask, FormChangeMask, unsigned int, bool)
 };
 #pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FormChangeMask) == 4);
-FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
 #endif

@@ -2,6 +2,7 @@
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -352,7 +353,7 @@ FUN_00a2ceb0_cls& FUN_00a2ceb0_cls::Clear() {
 }
 
 extern unsigned char DAT_01096968;
-typedef int (__stdcall *FnInterlockedDecrement)(void*);
+typedef int (*FnInterlockedDecrement)(void*);
 extern FnInterlockedDecrement DAT_00fdf1c4;
 struct FUN_00a31260_StandIn {
     void* p0;
@@ -371,13 +372,13 @@ void FUN_00a31260_StandIn::FUN_00a31260()
     obj = p0;
     if (obj) {
         if (pfnDecrement((char*)obj + 4) == 0)
-            ((void (__thiscall*)(void*))(*(void***)obj)[1])(obj);
+            ((void (*)(void*))(*(void***)obj)[1])(obj);
         p0 = 0;
     }
     obj = p1;
     if (obj) {
         if (pfnDecrement((char*)obj + 4) == 0)
-            ((void (__thiscall*)(void*))(*(void***)obj)[1])(obj);
+            ((void (*)(void*))(*(void***)obj)[1])(obj);
         p1 = 0;
     }
     p2 = 0;
@@ -403,7 +404,7 @@ void FUN_00a30700_T::ReleaseRefs()
         if (fn((char*)p + 4) == 0)
         {
             void** vt = *(void***)p;
-            ((void (__thiscall*)(void*))vt[1])(p);
+            ((void (*)(void*))vt[1])(p);
         }
     }
 
@@ -413,7 +414,7 @@ void FUN_00a30700_T::ReleaseRefs()
         if (fn((char*)p + 4) == 0)
         {
             void** vt = *(void***)p;
-            ((void (__thiscall*)(void*))vt[1])(p);
+            ((void (*)(void*))vt[1])(p);
         }
     }
 }
@@ -570,12 +571,12 @@ bool AreRecordsEqual(FloatRecord_b5532* apRecordA, FloatRecord_b5532* apRecordB)
     return apRecordA->m_04 == apRecordB->m_04;
 }
 
-typedef void (__thiscall *Fn_00a26fa0_cb)(void *);
+typedef void (*Fn_00a26fa0_cb)(void *);
 
 // Walks a strided array backwards: the callback is invoked with
 // pBase + step*(count-1) down to pBase, one element per step.
 // @fnv 0x00a26fa0
-void __stdcall ApplyCallbackBackwards(char *pBase, int iStride, int nCount, Fn_00a26fa0_cb pFn)
+void ApplyCallbackBackwards(char *pBase, int iStride, int nCount, Fn_00a26fa0_cb pFn)
 {
     pBase += iStride * nCount;
     while (--nCount >= 0) {
@@ -1518,7 +1519,7 @@ typedef bool (__cdecl *FNV_CbFn)(float, int*, int*);
 // The game's vector constructor iterator: it calls the element constructor
 // (a plain function pointer, the object pointer travels in ECX) once per
 // element.  It pops its own four arguments.
-extern "C" void __stdcall FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
+extern "C" void FNV_array_ctor_iterator(void* base, unsigned int size, unsigned int count, void* ctor);
 
 // The element constructor of the allocated object.
 extern "C" void __cdecl FNV_element_ctor(void* self);
@@ -2138,7 +2139,7 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
 }
 
 struct FUN_00a6e330_StandIn {
-    void __thiscall FUN_00a6e330(float value, const void* first, const void* second);
+    void FUN_00a6e330(float value, const void* first, const void* second);
 };
 
 // Calls FUN_00a6e330 on result with value and the two pointers advanced by 4 bytes.
@@ -3757,18 +3758,16 @@ void FNVHolder::FUN_00a2dd10() {
 }
 
 struct FUN_00a351d0_cls {
-    void __thiscall CrossFadeTo(int a, float b, int c, float d, float e);
+    void CrossFadeTo(int a, float b, int c, float d, float e);
 };
 
 // Forwards the five arguments to self->CrossFadeTo.
 // @fnv 0x00a2e1b0
-void __stdcall CallFUN_00a351d0(FUN_00a351d0_cls* self, int aiArg1, float afArg2, int aiArg3, float afArg4, float afArg5)
+void CallFUN_00a351d0(FUN_00a351d0_cls* self, int aiArg1, float afArg2, int aiArg3, float afArg4, float afArg5)
 {
     self->CrossFadeTo(aiArg1, afArg2, aiArg3, afArg4, afArg5);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 extern unsigned int DAT_011f36a8;
 struct ObjA00a2;
 extern ObjA00a2* DAT_011f36a4;
@@ -4053,7 +4052,7 @@ void S_00a385d0_T::InvertTransform(S_00a385d0_T* out) {
     else out->pos = pos.Neg();
 }
 
-// FUN_00a3a730 : __thiscall, 27 bytes
+// FUN_00a3a730 : , 27 bytes
 //   mov edx, [esp+8]
 //   mov eax, [ecx]
 //   mov eax, [eax+0xa0]
@@ -4362,7 +4361,6 @@ int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, int iIndex)
     return iResult;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct S_a3dd40_Obj {
     virtual ~S_a3dd40_Obj();
@@ -5163,8 +5161,7 @@ struct ElemA2 {
         return 0;
     }
 };
-typedef char ElemA2_size_check[sizeof(ElemA2) == 20 ? 1 : -1];
-extern "C" void __stdcall _vector_constructor_iterator(void*, unsigned int, unsigned int, void*);
+extern "C" void _vector_constructor_iterator(void*, unsigned int, unsigned int, void*);
 extern "C" void Clear();
 // Allocates a raw block for count ElemA2 items, writes the count at the front, and constructs the elements via _vector_constructor_iterator.
 // @fnv 0x00a2ced0
@@ -5342,7 +5339,7 @@ struct ArrayCookie
 };
 }
 
-extern "C" void* __fastcall FUN_0052d160(void* element);
+extern "C" void* FUN_0052d160(void* element);
 
 // Allocates a block of NiColorKey_K elements via g_memoryManager and constructs them with FUN_0052d160.
 // @fnv 0x00a2a1b0

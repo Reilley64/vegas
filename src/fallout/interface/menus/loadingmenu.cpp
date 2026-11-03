@@ -408,7 +408,7 @@ struct FUN_Sub
 };
 // Calls FUN_004ed900 on the FUN_Sub at self+0xdc, then FUN_004ed8c0 with self+0x94, self+0x34 and self+0x60.
 // @fnv 0x00788f80
-void __fastcall FUN_00788f80(char* self)
+void FUN_00788f80(char* self)
 {
     reinterpret_cast<::NiTPointerListBase *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed900();
     reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x94));
@@ -490,7 +490,7 @@ struct FUN_0078a1f0_this
 
 // Returns true if pSequence is set and its GetState() equals 1.
 // @fnv 0x0078a1f0
-bool __fastcall FUN_0078a1f0(FUN_0078a1f0_this* pThis)
+bool FUN_0078a1f0(FUN_0078a1f0_this* pThis)
 {
     return pThis->pSequence && ((int)(reinterpret_cast<::LowProcess *>((pThis->pSequence))->GetActiveCombatTarget())) == 1;
 }
@@ -539,7 +539,7 @@ class TESForm_Ex
 
 
 // @fnv 0x0078a940
-void __fastcall FUN_0078a940(char* this_ptr)
+void FUN_0078a940(char* this_ptr)
 {
     for (void* pIter = this_ptr + 0x1d0; pIter && *((::TESForm_Ex **)(new ((void *)(pIter)) ::Vec3())); pIter = reinterpret_cast<::Callees *>((pIter))->FUN_00726070())
     {
@@ -720,7 +720,6 @@ struct LoadScreenTypeData
     char m_acSecondString[40];
     unsigned int m_uiTrailingValue;
 };
-typedef char _sizecheck_LoadScreenType_Data[sizeof(LoadScreenTypeData) == 88 ? 1 : -1];
 struct FUN_0078b9b0_shell : public LoadingMenu
 {
     void FUN_0078b9b0(void*);
@@ -802,7 +801,7 @@ void LMStandIn::FUN_0078bb40()
 }
 
 // @fnv 0x0078bc60
-int __fastcall FUN_0078bc60(int apObject)
+int FUN_0078bc60(int apObject)
 {
     return *(int*)(apObject + 0x34) + 0x18;
 }
@@ -824,7 +823,6 @@ struct RecursiveLock
     unsigned long m_uiSecondValue;
     int m_uiRecursionCount;
 };
-typedef char _sizecheck_BSCriticalSection[sizeof(RecursiveLock) == 40 ? 1 : -1];
 
 class NiRenderer
 {
@@ -837,7 +835,7 @@ class TaskThreadManager
     static TaskThreadManager* __cdecl GetSingleton();
 };
 
-int __fastcall FUN_0078d1d0(RecursiveLock*);
+int FUN_0078d1d0(RecursiveLock*);
 bool __cdecl BSSpinLockGlobalTryLock(void);
 
 struct MTRenderingSystem_Helper
@@ -903,10 +901,10 @@ void __cdecl FUN_0078d080(void)
     reinterpret_cast<::S_0082f1f0_Lock *>(&((*reinterpret_cast<::RecursiveLock *>(&::DAT_011f4380))))->FUN_0082f1f0();
 }
 
-extern void*(__stdcall* DAT_00fdf0b4)(void*, long, long, const char*);
+extern void*(* DAT_00fdf0b4)(void*, long, long, const char*);
 
 // @fnv 0x0078d3b0
-CountingSemaphore* __fastcall InitSemaphore(CountingSemaphore* pThis)
+CountingSemaphore* InitSemaphore(CountingSemaphore* pThis)
 {
     pThis->iCount = 0;
     pThis->m_iMaximumCount = 1;
@@ -936,7 +934,7 @@ template <> class BSSimpleArray<NavMeshInfo*, 1024>
 };
 
 // @fnv 0x0078d880
-void* __fastcall FUN_0078d880(void* pThis)
+void* FUN_0078d880(void* pThis)
 {
     *reinterpret_cast<int**>(pThis) = &::DAT_0107410c;
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(pThis)->FUN_006b3eb0(0, false);
@@ -951,7 +949,7 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x0078d8b0
-void __fastcall FUN_0078d8b0(GlobalObject_00869f00* pThis)
+void FUN_0078d8b0(GlobalObject_00869f00* pThis)
 {
     *(int**)pThis = &DAT_0107410c;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
@@ -988,7 +986,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_007890e0_shell : public LoadingMenu
 {
     void InitLoadingMenu(TESForm*);

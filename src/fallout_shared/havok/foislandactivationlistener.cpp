@@ -647,7 +647,7 @@ struct SceneObject
 };
 struct FUN_00624580_Class
 {
-    void __thiscall FUN_00624580(SceneList* object);
+    void FUN_00624580(SceneList* object);
 };
 // @fnv 0x00624580
 void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
@@ -665,9 +665,9 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
         SceneObject* parent = geometry ? ((::fnv_00624580::SceneObject *)(::FUN_0056f930((::NiAVObject *)(geometry)))) : 0;
         if (parent)
         {
-            typedef unsigned char(__thiscall * Predicate)(SceneObject*);
-            typedef void(__thiscall * Dispatch)(SceneObject*, int);
-            typedef int(__thiscall * Retrieve)(SceneObject*, int);
+            typedef unsigned char(* Predicate)(SceneObject*);
+            typedef void(* Dispatch)(SceneObject*, int);
+            typedef int(* Retrieve)(SceneObject*, int);
             if (!reinterpret_cast<Predicate>((*reinterpret_cast<void***>(parent))[64])(parent))
             {
                 reinterpret_cast<Dispatch>((*reinterpret_cast<void***>(parent))[18])(parent, 4);

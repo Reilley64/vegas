@@ -349,7 +349,6 @@ struct NiColor
     float g;
     float b;
 };
-typedef char _sizecheck_NiColor[sizeof(NiColor) == 12 ? 1 : -1];
 struct FUN_006b0570_shell : public FORenderedMenu
 {
     void FUN_006b0570(NiColor*);

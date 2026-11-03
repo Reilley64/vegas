@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/S00d3d6b0_SphereTriAgent.h"
 #include "fnv/decl/TargetAgent_Cand.h"
 #include "fnv/symbols_00cd7000.h"
@@ -156,7 +157,7 @@ struct D3DD10Data
 struct D3DD10Object
 {
 
-    void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
+    void FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
 };
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -304,7 +305,6 @@ void ParticleSystemOps::FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState
 }
 
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 
 extern "C"
 {
@@ -414,7 +414,7 @@ class SphereTriAgent
 };
 // Builds a D3DD10Data with value p3, flag 0 and vt DAT_010ce81c, then calls FUN_00d3d2a0 with p1, p0, p2 and that data.
 // @fnv 0x00d3dd10
-void __thiscall D3DD10Object::FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int uiValue)
+void D3DD10Object::FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int uiValue)
 {
     D3DD10Data data;
 

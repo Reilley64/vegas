@@ -320,7 +320,7 @@ FUN_00e9e680::FUN_00e9e680(const Pt3_e9e& akPoint, const Pt3_e9e& kNormal) : m_k
 // manager, initializes its member, copies the bounding-volume data and the
 // trailing NiPoint3, and returns the clone (NULL when allocation fails).
 //
-// Target: __thiscall, caller pops, size 78, /MT /O2 /GS /EHsc /Gy.
+// Target: , caller pops, size 78, /MT /O2 /GS /EHsc /Gy.
 // Uses the pack's declarations: NiBoundingVolume, NiPoint3, P03MM,
 // g_memoryManager.
 

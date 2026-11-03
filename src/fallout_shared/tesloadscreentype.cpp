@@ -30,11 +30,11 @@ struct FUN_005e78f0_t
 
 struct TESLoadScreenType_Shell
 {
-    void __thiscall CopyFrom(TESForm* apCopy);
+    void CopyFrom(TESForm* apCopy);
 };
 
 // @fnv 0x005a7690
-void __thiscall TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
+void TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
 {
     TESLoadScreenType* pmisc = (TESLoadScreenType*)dynamic_cast<TESLoadScreenType*>(apCopy);
     if (!pmisc)
@@ -47,7 +47,7 @@ void __thiscall TESLoadScreenType_Shell::CopyFrom(TESForm* apCopy)
 
 struct ScalarStandIn
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct FUN_004855a0
 {
@@ -62,7 +62,7 @@ struct FUN_005a7630_shell
 {
     char _pad[24];
     LoadScreenTypeData _data;
-    void __thiscall SwapEndianAndProcess();
+    void SwapEndianAndProcess();
 };
 struct ScriptS
 {
@@ -74,11 +74,11 @@ struct FUN_005e79a0_t
 struct FUN_005a76f0_shell
 {
     char _pad[0x18];
-    bool __thiscall FUN_005a76f0(TESForm* apCompare);
+    bool FUN_005a76f0(TESForm* apCompare);
 };
 // Compares a TESLoadScreenType against this object's header bytes and a nested check, returning true when either differs or the cast fails.
 // @fnv 0x005a76f0
-bool __thiscall FUN_005a76f0_shell::FUN_005a76f0(TESForm* apCompare)
+bool FUN_005a76f0_shell::FUN_005a76f0(TESForm* apCompare)
 {
     TESLoadScreenType* pcomp = dynamic_cast<TESLoadScreenType*>(apCompare);
     if (!pcomp)
@@ -101,7 +101,7 @@ struct FUN_005a72d0_cls : FUN_005a72d0_base
 };
 // Calls FUN_005a72d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x005a72a0
-void* __thiscall ScalarStandIn::DestroyIfFlagged(unsigned int flags)
+void* ScalarStandIn::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_005a72d0_cls *>(this)->FUN_005a72d0_cls::~FUN_005a72d0_cls();
     if (flags & 1)
@@ -175,7 +175,7 @@ bool TESLoadScreenType::Load(TESFile* file)
 }
 // Calls M, conditionally byte-swaps _data before and after FUN_00485e20, then calls M again.
 // @fnv 0x005a7630
-void __thiscall FUN_005a7630_shell::SwapEndianAndProcess()
+void FUN_005a7630_shell::SwapEndianAndProcess()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     if (((bool)(::FUN_00401500())))

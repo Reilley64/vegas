@@ -173,10 +173,10 @@ struct C009c58e0
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009b4d10
-void __thiscall S009b4d10::FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer)
+void S009b4d10::FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::Projectile9c58 *>((((C009c58e0*)this)))->FUN_009c58e0((::LoadBuffer9c58 *)(apLoadGameBuffer));
     bFlag150 = 0;
@@ -186,7 +186,7 @@ struct NiAVObject;
 
 struct ObjHelper
 {
-    TESForm* __thiscall FUN_00621a90();
+    TESForm* FUN_00621a90();
 };
 
 
@@ -210,7 +210,7 @@ void FUN_009b4bf0_shell::DispatchReferenceSourceFiles(ObjHelper* pObjHelper, voi
             pRef8 = ::FUN_0056f930((NiAVObject*)((void *)(reinterpret_cast<::FUN_00810660_Class *>((pObjHelper))->FUN_00810660())));
             m_kSourceFiles = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(pObjHelper->FUN_00621a90()))));
             nCount2 = -1;
-            ((void(__thiscall*)(void*, TESObjectREFR*, void**, void**, BSSimpleList<TESFile*>*, int, int))(
+            ((void(*)(void*, TESObjectREFR*, void**, void**, BSSimpleList<TESFile*>*, int, int))(
                 (*(void***)this)[203]))(this, pRef8, &a2, &a5, m_kSourceFiles, nCount2, 0x24);
         }
     }

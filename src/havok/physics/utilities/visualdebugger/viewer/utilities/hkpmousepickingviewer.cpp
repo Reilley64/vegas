@@ -18,7 +18,7 @@
 extern "C" void* DAT_011b5ff0;
 
 // @fnv 0x00d66bd0
-void __stdcall FUN_00d66bd0(void** pOut, void** pCount)
+void FUN_00d66bd0(void** pOut, void** pCount)
 {
     *pOut = &DAT_011b5ff0;
     *pCount = (void*)3;

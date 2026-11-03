@@ -22,7 +22,7 @@ struct BipedModelForm
 };
 struct FUN_0040a0f0_shell : BipedModelForm
 {
-    void __thiscall EndianAtOffset9C(void);
+    void EndianAtOffset9C(void);
 };
 
 // sub ecx,0x30; jmp <target>  ==  MSVC adjustor thunk for a second base.

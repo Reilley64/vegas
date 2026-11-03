@@ -174,30 +174,30 @@ void FUN_005046e0_shell::FUN_005046e0()
 
 struct TESCasinoChips_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 
 struct FUN_00504620_shell
 {
-    void __thiscall ClearFields();
+    void ClearFields();
 };
 
 // Zeroes 0x38 bytes starting at offset 0x1e8 of this object via memset.
 // @fnv 0x00504620
-void __thiscall FUN_00504620_shell::ClearFields()
+void FUN_00504620_shell::ClearFields()
 {
     memset(this + 0x1e8, 0, 0x38);
 }
 
 struct FUN_00504e00_shell
 {
-    void* __thiscall FUN_00504e00(int index);
+    void* FUN_00504e00(int index);
 };
 
 // @fnv 0x00504e00
-void* __thiscall FUN_00504e00_shell::FUN_00504e00(int index)
+void* FUN_00504e00_shell::FUN_00504e00(int index)
 {
     return (void**)((char*)this + 0x24 + index * 32);
 }
@@ -206,11 +206,11 @@ struct FUN_00504e20_shell
 {
     unsigned char _pad[0x164];
     unsigned char m_aiIndexedValues[0x200];
-    unsigned char* __thiscall FUN_00504e20(int idx);
+    unsigned char* FUN_00504e20(int idx);
 };
 
 // @fnv 0x00504e20
-unsigned char* __thiscall FUN_00504e20_shell::FUN_00504e20(int aiIndex)
+unsigned char* FUN_00504e20_shell::FUN_00504e20(int aiIndex)
 {
     return &m_aiIndexedValues[aiIndex * 0xc];
 }
@@ -219,11 +219,11 @@ unsigned char* __thiscall FUN_00504e20_shell::FUN_00504e20(int aiIndex)
 struct FUN_00504e40_shell
 {
     unsigned int m_0218;
-    TESForm* __thiscall FUN_00504e40();
+    TESForm* FUN_00504e40();
 };
 
 // @fnv 0x00504e40
-TESForm* __thiscall FUN_00504e40_shell::FUN_00504e40()
+TESForm* FUN_00504e40_shell::FUN_00504e40()
 {
     return ::FUN_004839c0(*(unsigned int*)((char*)this + 0x218));
 }
@@ -314,7 +314,7 @@ struct FUN_00504e40_shell
 struct FUN_00504e60_shell
 {
 };
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct Casino_504cc0
 {
@@ -376,7 +376,7 @@ struct FUN_00503d40_shell : public TESBoundObject,
 };
 // Calls FUN_00503d40, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00503d10
-void* __thiscall TESCasinoChips_shell::Destroy(unsigned int flags)
+void* TESCasinoChips_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_00503d40_shell *>(this)->FUN_00503d40_shell::~FUN_00503d40_shell();
     if (flags & 1)

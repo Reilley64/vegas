@@ -54,7 +54,7 @@ struct FUN_00a1c050_Class
 };
 
 // @fnv 0x00a1c050
-void* __thiscall FUN_00a1c050_Class::FUN_00a1c050(void* p, unsigned int n)
+void* FUN_00a1c050_Class::FUN_00a1c050(void* p, unsigned int n)
 {
     return (*reinterpret_cast<::fnv_00a1c050::MemoryManager *>(&::g_memoryManager)).Reallocate(p, n << 5);
 }
@@ -62,11 +62,11 @@ void* __thiscall FUN_00a1c050_Class::FUN_00a1c050(void* p, unsigned int n)
 
 struct FUN_00a1e720_class
 {
-    void __thiscall FUN_00a1e720(int a, int b, int c);
+    void FUN_00a1e720(int a, int b, int c);
 };
 
 // @fnv 0x00a1e720
-void __thiscall FUN_00a1e720_class::FUN_00a1e720(int pObject, int b, int c)
+void FUN_00a1e720_class::FUN_00a1e720(int pObject, int b, int c)
 {
     *(int*)((char*)pObject + 4) = b;
     *(int*)((char*)pObject + 8) = c;
@@ -77,12 +77,12 @@ struct FUN_00a1e1a0_class
 {
     int m_vtbl;
     int m_field;
-    void __thiscall FUN_00a1e1a0();
+    void FUN_00a1e1a0();
 };
 
 // Sets the vtable pointer to DAT_01095524 and frees the m_field pointer via NiFreeAlias.
 // @fnv 0x00a1e1a0
-void __thiscall FUN_00a1e1a0_class::FUN_00a1e1a0()
+void FUN_00a1e1a0_class::FUN_00a1e1a0()
 {
     m_vtbl = (int)&DAT_01095524;
     void* p = (void*)m_field;
@@ -94,12 +94,12 @@ struct MemoryManager
 };
 struct FUN_00a11d80_Class
 {
-    void __thiscall InitAndClear();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void InitAndClear();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 // Calls InitAndClear, then deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00a11d80
-void* __thiscall FUN_00a11d80_Class::DestroyIfFlagged(unsigned int flags)
+void* FUN_00a11d80_Class::DestroyIfFlagged(unsigned int flags)
 {
     InitAndClear();
     if (flags & 1)
@@ -115,12 +115,12 @@ struct MemoryManager
 
 struct FUN_00a1c100_Class
 {
-    void __thiscall Reset();
-    void* __thiscall FUN_00a1c100(unsigned int flags);
+    void Reset();
+    void* FUN_00a1c100(unsigned int flags);
 };
 
 // @fnv 0x00a1c100
-void* __thiscall FUN_00a1c100_Class::FUN_00a1c100(unsigned int flags)
+void* FUN_00a1c100_Class::FUN_00a1c100(unsigned int flags)
 {
     Reset();
     if (flags & 1)
@@ -138,12 +138,12 @@ struct FUN_00a1e400_class
 {
     int m_vtbl;
     int m_field;
-    FUN_00a1e400_class* __thiscall FUN_00a1e400(int flags);
+    FUN_00a1e400_class* FUN_00a1e400(int flags);
 };
 
 // Sets the vtable, frees m_field via NiFree, and if flags has bit 0 set deallocates this through the memory manager; returns this.
 // @fnv 0x00a1e400
-FUN_00a1e400_class* __thiscall FUN_00a1e400_class::FUN_00a1e400(int flags)
+FUN_00a1e400_class* FUN_00a1e400_class::FUN_00a1e400(int flags)
 {
     void* old;
     m_vtbl = (int)&DAT_01095524;
@@ -212,11 +212,11 @@ struct FUN_00a0d5f0_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0(unsigned int size);
+    FUN_00a0d5f0_class* FUN_00a0d5f0(unsigned int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes them and stores the pointer in m_data.
 // @fnv 0x00a0d5f0
-FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0_class::FUN_00a0d5f0(unsigned int size)
+FUN_00a0d5f0_class* FUN_00a0d5f0_class::FUN_00a0d5f0(unsigned int size)
 {
     unsigned int iAllocationSize;
     unsigned int memsetSize;
@@ -405,7 +405,7 @@ struct FUN_00a0d710_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d710_class* __thiscall FUN_00a0d710(unsigned int size);
+    FUN_00a0d710_class* FUN_00a0d710(unsigned int size);
 };
 // @fnv 0x00a0d710
 FUN_00a0d710_class* FUN_00a0d710_class::FUN_00a0d710(unsigned int size)
@@ -429,7 +429,7 @@ struct FUN_00a1ee60_class
     int* m_vtbl;
     void* m_data;
     FUN_00a1ee60_class(unsigned short c);
-    FUN_00a1ee60_class* __thiscall FUN_00a1ee60(int freeMem);
+    FUN_00a1ee60_class* FUN_00a1ee60(int freeMem);
 };
 // @fnv 0x00a1ee60
 FUN_00a1ee60_class* FUN_00a1ee60_class::FUN_00a1ee60(int freeMem)
@@ -488,7 +488,7 @@ struct FUN_00a1e520_class
     unsigned short m_iElementCount;
     unsigned short m_uiItemCount;
     unsigned short m_live;
-    void __thiscall Resize(unsigned int size);
+    void Resize(unsigned int size);
 };
 
 // @fnv 0x00a1e520
@@ -564,12 +564,12 @@ struct FUN_00a0d5c0_Local
 
 struct FUN_00a0d5c0_Class
 {
-    int __thiscall FUN_00a0d5c0(int arg);
+    int FUN_00a0d5c0(int arg);
 };
 
 // Calls FUN_00a0d2a0 on this, then if bit 0 of arg is set calls FUN_00aa4060 on this, and returns this as an int.
 // @fnv 0x00a0d5c0
-int __thiscall FUN_00a0d5c0_Class::FUN_00a0d5c0(int aiFlags)
+int FUN_00a0d5c0_Class::FUN_00a0d5c0(int aiFlags)
 {
     FUN_00a0d5c0_Local local;
 
@@ -689,10 +689,10 @@ struct Q7
 };
 struct FUN_00a1ea70_Class
 {
-    void* __thiscall FUN_00a1ea70(unsigned int a2);
+    void* FUN_00a1ea70(unsigned int a2);
 };
 // @fnv 0x00a1ea70
-void* __thiscall FUN_00a1ea70_Class::FUN_00a1ea70(unsigned int auiFlags)
+void* FUN_00a1ea70_Class::FUN_00a1ea70(unsigned int auiFlags)
 {
     Q7 q;
     (void)q;
@@ -713,12 +713,12 @@ struct FUN_00a1ebf0_Class : S00a0d390
 {
     void* m_data;
     int m_auiShapeKeys;
-    void* __thiscall FUN_00a1ebf0(int flags);
+    void* FUN_00a1ebf0(int flags);
 };
 
 
 // @fnv 0x00a1ebf0
-void* __thiscall FUN_00a1ebf0_Class::FUN_00a1ebf0(int flags)
+void* FUN_00a1ebf0_Class::FUN_00a1ebf0(int flags)
 {
     int _temp1;
     int _temp2;
@@ -766,11 +766,11 @@ class S_00a0c9f0
     S_00a0c9f0_Pool m_kNodePool;
 
   public:
-    void __thiscall FUN_00a0c9f0(int* pValue);
+    void FUN_00a0c9f0(int* pValue);
 };
 
 // @fnv 0x00a0c9f0
-void __thiscall S_00a0c9f0::FUN_00a0c9f0(int* pValue)
+void S_00a0c9f0::FUN_00a0c9f0(int* pValue)
 {
     volatile int dummy_frame[7];
     S_00a0c9f0_Node* pNode = ((::S_00a0c9f0_Node *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kNodePool))->FUN_0043a010()));
@@ -812,11 +812,11 @@ extern int DAT_01094e9c;
 struct FUN_00a0d990_cls : S00a0d390
 {
     void* m_data;
-    int __thiscall FUN_00a0d990(int arg);
+    int FUN_00a0d990(int arg);
 };
 
 // @fnv 0x00a0d990
-int __thiscall FUN_00a0d990_cls::FUN_00a0d990(int aiFlags)
+int FUN_00a0d990_cls::FUN_00a0d990(int aiFlags)
 {
     int a;
     int b;

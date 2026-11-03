@@ -21,7 +21,7 @@ int __cdecl FUN_00d22350()
 }
 
 // @fnv 0x00d22d60
-int __stdcall FUN_00d22d60(int a, int b)
+int FUN_00d22d60(int a, int b)
 {
     return 0x40;
 }
@@ -113,11 +113,11 @@ struct FUN_00d224a0_Data
     __m128 unk20;
     __m128 unk30;
 
-    void __thiscall FUN_00d224a0(__m128* result);
+    void FUN_00d224a0(__m128* result);
 };
 
 // @fnv 0x00d224a0
-void __thiscall FUN_00d224a0_Data::FUN_00d224a0(__m128* result)
+void FUN_00d224a0_Data::FUN_00d224a0(__m128* result)
 {
     result[0] = unk20;
     result[1] = unk30;
@@ -134,12 +134,12 @@ union __declspec(align(16)) AlignedHKVector4
 };
 struct FUN_00d22590_Class : hkpCapsuleShape
 {
-    FUN_00d22590_Class* __thiscall FUN_00d22590(const AlignedHKVector4& first, const AlignedHKVector4& second,
+    FUN_00d22590_Class* FUN_00d22590(const AlignedHKVector4& first, const AlignedHKVector4& second,
                                                 float radius);
 };
 // Initializes a capsule shape from two points and a radius, storing the radius in both endpoints' w components and setting the type to 5.
 // @fnv 0x00d22590
-FUN_00d22590_Class* __thiscall FUN_00d22590_Class::FUN_00d22590(const AlignedHKVector4& first,
+FUN_00d22590_Class* FUN_00d22590_Class::FUN_00d22590(const AlignedHKVector4& first,
                                                                 const AlignedHKVector4& second, float radius)
 {
     m_fSphereRadius = radius;
@@ -202,12 +202,12 @@ class Aabb_d22440
     __m128 m_kMin;
     __m128 m_kMax;
 
-    void __thiscall FUN_00d22440(__m128* pkCenter) const;
+    void FUN_00d22440(__m128* pkCenter) const;
 };
 
 // Stores (m_kMax + m_kMin) scaled by the float at DAT_01016248 into pkCenter.
 // @fnv 0x00d22440
-void __thiscall Aabb_d22440::FUN_00d22440(__m128* pkCenter) const
+void Aabb_d22440::FUN_00d22440(__m128* pkCenter) const
 {
     __m128 sum = _mm_add_ps(m_kMax, m_kMin);
     *pkCenter = sum;

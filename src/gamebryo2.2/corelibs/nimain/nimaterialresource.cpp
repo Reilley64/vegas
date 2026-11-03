@@ -47,7 +47,7 @@ int C00be0ad0::FUN_00be0ad0()
 }
 
 // @fnv 0x00eea510
-void* __fastcall FUN_00eea510(void* thisptr)
+void* FUN_00eea510(void* thisptr)
 {
     return (char*)thisptr + 0x14;
 }

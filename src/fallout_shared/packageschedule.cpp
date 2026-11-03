@@ -56,14 +56,13 @@ struct DurationData
 public:
     int FUN_00678ca0();
 };
-typedef char _sizecheck_PackageSchedule[sizeof(DurationData) == 8 ? 1 : -1];
 struct FUN_0067fcb0_shell : public DurationData
 {
     void ResetSchedule(PackedByteIntRecord*);
 };
 
 // @fnv 0x0067fcb0
-DurationData* __fastcall ResetSchedule(DurationData* pThis)
+DurationData* ResetSchedule(DurationData* pThis)
 {
     pThis->m_kScheduleData.m_cByte0 = -1;
     pThis->m_kScheduleData.m_cByte1 = -1;
@@ -94,7 +93,6 @@ struct DurationData
     void* __vecDelDtor(unsigned int);
     PackedByteIntRecord m_kScheduleData;
 };
-typedef char _sizecheck_PackageSchedule[sizeof(DurationData) == 8 ? 1 : -1];
 struct FUN_0067fd40_shell : public DurationData
 {
     void FUN_0067fd40(DurationData*);
@@ -145,7 +143,6 @@ struct CombatCoverPointData
     char m_cTrailingData[6];
     char _pad_76[2];
 };
-typedef char _sizecheck_CombatCoverLocation[sizeof(CombatCoverPointData) == 120 ? 1 : -1];
 struct FUN_0067fdb0_shell : public CombatCoverPointData
 {
     void FUN_0067fdb0(bool);

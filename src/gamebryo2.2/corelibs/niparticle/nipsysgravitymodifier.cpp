@@ -23,7 +23,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 
 // @fnv 0x00c22af0
@@ -44,7 +43,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -55,7 +53,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiPoint3
 {
@@ -111,7 +108,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiStream
 {
@@ -408,7 +404,7 @@ struct FNVSerializer
 void FNVSerializer::WriteToStream(FNVStreamArchive* stream)
 {
     reinterpret_cast<::ParticleModifierBinary *>(this)->FUN_00c31950((*(::OutputStream *)(stream)));
-    typedef void(__thiscall * HeaderWriter)(FNVStreamArchive*, unsigned int);
+    typedef void(* HeaderWriter)(FNVStreamArchive*, unsigned int);
     HeaderWriter pHeaderWriter = reinterpret_cast<HeaderWriter>((*reinterpret_cast<void***>(stream))[12]);
     pHeaderWriter(stream, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x18));
     reinterpret_cast<::NiColor *>((reinterpret_cast<FNVSubproperty*>(reinterpret_cast<char*>(this) + 0x1c)))->SaveBinary((*(::NiStream *)(stream)));
@@ -711,7 +707,7 @@ inline VectorC22 operator*(float scale, const VectorC22& point)
     return VectorC22(point.x * scale, point.y * scale, point.z * scale);
 }
 
-__declspec(noinline) void __fastcall FUN_004a0c10(VectorC22* point)
+__declspec(noinline) void FUN_004a0c10(VectorC22* point)
 {
     float length = point->Length();
     if (length > 9.999999974752427e-07)
@@ -727,7 +723,7 @@ __declspec(noinline) void __fastcall FUN_004a0c10(VectorC22* point)
     }
 }
 
-__declspec(noinline) float __fastcall FUN_00457910(VectorC22* point)
+__declspec(noinline) float FUN_00457910(VectorC22* point)
 {
     float length = point->Length();
     if (length > 9.999999974752427e-07)

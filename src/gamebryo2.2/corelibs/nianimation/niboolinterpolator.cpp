@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00a53070
+#include <windows.h>
 #include "fnv/decl/A53480Object.h"
 #include "fnv/decl/FUN_00a95ca0_shell.h"
 #include "fnv/decl/StandIn_00a537a0.h"
@@ -15,18 +16,18 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109a000.h"
 #include "fnv/symbols_011f4000.h"
-int __stdcall FUN_00a53070(unsigned short usChannel)
+int FUN_00a53070(unsigned short usChannel)
 {
     return 5;
 }
 
 struct FUN_00a53080_shell
 {
-    int __thiscall GetThirdValue(int arg);
+    int GetThirdValue(int arg);
 };
 
 // @fnv 0x00a53080
-int __thiscall FUN_00a53080_shell::GetThirdValue(int arg)
+int FUN_00a53080_shell::GetThirdValue(int arg)
 {
     int* p = *(int**)((char*)this + 0x10);
     if (!p)
@@ -36,11 +37,11 @@ int __thiscall FUN_00a53080_shell::GetThirdValue(int arg)
 
 struct FUN_00a53090_shell
 {
-    int __thiscall GetValueFromMember(void* arg);
+    int GetValueFromMember(void* arg);
 };
 
 // @fnv 0x00a53090
-int __thiscall FUN_00a53090_shell::GetValueFromMember(void* apUnused)
+int FUN_00a53090_shell::GetValueFromMember(void* apUnused)
 {
     void* p = *(void**)((char*)this + 0x10);
     if (!p)
@@ -58,7 +59,7 @@ public:
 struct HC1Base
 {
     int _p[4];
-    bool __thiscall FUN_00aa0ad0(NiStream*);
+    bool FUN_00aa0ad0(NiStream*);
 };
 struct NiBoolData
 {
@@ -92,10 +93,10 @@ template <class T> struct NiPointer
 struct NiBoolInterpolator : HC1Base
 {
     NiPointer<NiBoolData> m_spBoolData;
-    bool __thiscall FUN_00a3c5b0(NiStream*);
+    bool FUN_00a3c5b0(NiStream*);
 };
 // @fnv 0x00a3c5b0
-bool __thiscall NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
+bool NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
 {
     if (!HC1Base::FUN_00aa0ad0(kStream))
         return false;
@@ -106,7 +107,6 @@ bool __thiscall NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
 }
 
 namespace fnv_00a531a0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiBoolData
 {
     virtual void F0();
@@ -138,11 +138,11 @@ struct FUN_00a531a0_shell
     unsigned char m_bBoolValue;
     char _pad[3];
     NiPointer m_spBoolData;
-    void __thiscall SetBoolValue(bool bPoseValue);
+    void SetBoolValue(bool bPoseValue);
 };
 // Clears the NiPointer member and stores the given bool into m_bBoolValue.
 // @fnv 0x00a531a0
-void __thiscall FUN_00a531a0_shell::SetBoolValue(bool abValue)
+void FUN_00a531a0_shell::SetBoolValue(bool abValue)
 {
     m_spBoolData = 0;
     m_bBoolValue = abValue;
@@ -179,12 +179,12 @@ struct FUN_00a530a0_shell
     volatile unsigned char unk0c;
     int unk10;
 
-    unsigned char __thiscall FUN_00a530a0(int unused);
+    unsigned char FUN_00a530a0(int unused);
 };
 
 
 // @fnv 0x00a530a0
-unsigned char __thiscall FUN_00a530a0_shell::FUN_00a530a0(int unused)
+unsigned char FUN_00a530a0_shell::FUN_00a530a0(int unused)
 {
     if (unk10 != 0)
         return 0;
@@ -558,10 +558,10 @@ struct S_00a533c0_Class
     unsigned char unk0c;
     S_00a533c0_Data* unk10;
     unsigned char unk14;
-    bool __thiscall UpdateValue(float fValue, int iValue, unsigned char* pOut);
+    bool UpdateValue(float fValue, int iValue, unsigned char* pOut);
 };
 // @fnv 0x00a533c0
-bool __thiscall S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned char* pucOut)
+bool S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned char* pucOut)
 {
     if (unk08 == fValue)
     {
@@ -661,8 +661,6 @@ NiBoolInterpA535* NiBoolInterpA535::FUN_00a53590(CloningProcessA535& cloning)
     return p;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 namespace A536 {
 
@@ -769,7 +767,6 @@ void NiBoolInterpolatorA536::FUN_00a53600(NiStream& kStream)
     m_spBoolData = ((::A536::NiBoolData *)(reinterpret_cast<::NiStream *>(&(kData))->DeserializeObject()));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct BRef
 {

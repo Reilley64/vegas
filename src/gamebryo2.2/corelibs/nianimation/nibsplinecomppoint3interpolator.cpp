@@ -65,7 +65,7 @@ struct StrArr
 };
 // Grows the string array if it is full, then appends the string returned by _FUN_00a7d330(g_011f4014) at the current size index.
 // @fnv 0x00a51480
-void __stdcall FUN_00a51480(StrArr* pkStrings)
+void FUN_00a51480(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00a50960_shell *>((pkStrings))->FUN_00a50960({});
     char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f4014)));
@@ -101,7 +101,7 @@ struct SplineEvaluationState
     float scale;
     float bias;
 
-    bool __thiscall EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out);
+    bool EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out);
 };
 // @fnv 0x00a51280
 bool SplineEvaluationState::EvaluateSplineAtTime(float time, unsigned int unused, Vec3* out)
@@ -233,7 +233,7 @@ ObjA513* ObjA513::FUN_00a51360(CloningProcessA513& cloning)
 
 void* __cdecl FUN_00a51270();
 
-void __stdcall FUN_00a51480(StrArr* pkStrings);
+void FUN_00a51480(StrArr* pkStrings);
 
 extern void* FUN_00aa13e0(unsigned int bytes) throw();
 

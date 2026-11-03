@@ -41,13 +41,13 @@ const char* const* __cdecl FUN_00c32e00()
 
 struct FUN_00a3a710_shell
 {
-    void __thiscall CallVirtualMethodAtOffsetA8(void* arg, void* dummy);
+    void CallVirtualMethodAtOffsetA8(void* arg, void* dummy);
 };
 
 // @fnv 0x00a3a710
-void __thiscall FUN_00a3a710_shell::CallVirtualMethodAtOffsetA8(void* pObject, void* pUnused)
+void FUN_00a3a710_shell::CallVirtualMethodAtOffsetA8(void* pObject, void* pUnused)
 {
-    typedef void(__thiscall * fp)(void*);
+    typedef void(* fp)(void*);
     fp f = *(fp*)((char*)(*(void**)pObject) + 0xa8);
     f(pObject);
 }
@@ -57,7 +57,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330(g_012026d8_arg1) to pkStrings, growing the array if its count reaches capacity.
 // @fnv 0x00c32f60
-void __stdcall FUN_00c32f60(StrArr* pkStrings)
+void FUN_00c32f60(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00c315b0_cls *>((pkStrings))->AppendModifierInfo({});
     char* pString = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_012027f8)));
@@ -138,10 +138,10 @@ struct ThisCtlr
     virtual void v58();
     virtual void v59();
     virtual void GetValue(float*);
-    void __thiscall FUN_00c32e90(NiObject*, unsigned short);
+    void FUN_00c32e90(NiObject*, unsigned short);
 };
 // @fnv 0x00c32e90
-void __thiscall ThisCtlr::FUN_00c32e90(NiObject* pkInterp, unsigned short usIndex)
+void ThisCtlr::FUN_00c32e90(NiObject* pkInterp, unsigned short usIndex)
 {
     NiObject* pkFloatInterp;
     float fValue;

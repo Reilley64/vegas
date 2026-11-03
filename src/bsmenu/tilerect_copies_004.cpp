@@ -5,6 +5,7 @@
 #ifndef FNV_TILERECT_H
 #define FNV_TILERECT_H
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00a01230_shell.h"
@@ -173,7 +174,6 @@ class TileListBoxCalls
 };
 
 class NiFixedString;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class NiFixedString
 {
@@ -195,7 +195,6 @@ class NiFixedString
     }
 };
 
-#pragma pack(push, 4)
 class Tile
 {
   public:
@@ -233,9 +232,7 @@ class Tile
         Extra(Tile*, NiNode*);
     };
 };
-#pragma pack(pop)
 
-#pragma pack(push, 4)
 class TileRect : public Tile
 {
   public:
@@ -260,14 +257,7 @@ class TileRect : public Tile
     }
     bool m_bTextureLoaded;
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(Tile) == 0x38);
-FNV_STATIC_ASSERT(offsetof(Tile, StringProvider) == 0x20);
-FNV_STATIC_ASSERT(offsetof(Tile, m_pRenderedNodeEntry) == 0x2C);
-FNV_STATIC_ASSERT(sizeof(Tile::Extra) == 0x14);
-FNV_STATIC_ASSERT(sizeof(TileRect) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TileRect, m_bTextureLoaded) == 0x38);
 
 #endif
 

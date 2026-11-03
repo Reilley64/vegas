@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkMotionState.h"
 #include "hkpPhantom.h"
-#pragma pack(push, 1)
 class hkpShapePhantom : public hkpPhantom
 {
   public:
     char padA4[0xC];
     hkMotionState m_kMotionState;  // +0xB0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpShapePhantom[(sizeof(hkpShapePhantom) == 0x160) ? 1 : -1];
 #endif

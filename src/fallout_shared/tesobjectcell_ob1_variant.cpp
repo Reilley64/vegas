@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/tesobjectcell.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/CollectionView.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -161,8 +162,8 @@ unsigned char BoxInput::FUN_00c34890(const SphereInput* sphere)
     return (point7.x - halfA <= halfWidth && point7.y - halfA <= halfDepth) ? 1 : 0;
 }
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct NiRefObject
 {
@@ -407,10 +408,6 @@ void Owner5b::FUN_00c5b1c0(RefObj5b* p)
 }
 
 namespace fnv_00c5b370 {
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 struct RefObject
 {

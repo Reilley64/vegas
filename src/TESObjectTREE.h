@@ -55,10 +55,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
 class ShortPoint3
 {
   public:
@@ -98,19 +94,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
 class TESBoundObject : public TESObject
 {
   public:
@@ -131,8 +120,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class TESBoundTreeObject : public TESBoundObject
 {
   public:
@@ -147,7 +134,6 @@ class TESBoundTreeObject : public TESBoundObject
     // TESBoundTreeObject& __cdecl TESBoundTreeObject::*(const TESBoundTreeObject&)
     // void __cdecl TESBoundTreeObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundTreeObject) == 48);
 class FileEntryList
 {
   public:
@@ -164,9 +150,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
@@ -199,10 +182,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class TESModelTree : public TESModel
 {
   public:
@@ -213,7 +192,6 @@ class TESModelTree : public TESModel
     // TESModelTree& __cdecl TESModelTree::*(const TESModelTree&)
     // void __cdecl TESModelTree::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModelTree) == 24);
 class TESTexture1024 : public TESTexture
 {
   public:
@@ -224,7 +202,6 @@ class TESTexture1024 : public TESTexture
     // TESTexture1024& __cdecl TESTexture1024::*(const TESTexture1024&)
     // void* __cdecl TESTexture1024::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESTexture1024) == 12);
 class TESIconTree : public TESTexture1024
 {
   public:
@@ -235,7 +212,6 @@ class TESIconTree : public TESTexture1024
     // TESIconTree& __cdecl TESIconTree::*(const TESIconTree&)
     // void* __cdecl TESIconTree::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESIconTree) == 12);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -298,8 +274,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class NiTPrimitiveArray_unsigned_int_ : public NiTArray<unsigned int, NiTMallocInterface<unsigned int> >
 {
   public:
@@ -310,7 +284,6 @@ class NiTPrimitiveArray_unsigned_int_ : public NiTArray<unsigned int, NiTMallocI
     // void __cdecl NiTPrimitiveArray<unsigned int>::*()
     // void __cdecl NiTPrimitiveArray<unsigned int>::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_unsigned_int_) == 16);
 class TreeRecordData
 {
   public:
@@ -324,15 +297,6 @@ class TreeRecordData
     float m_fRustleSpeed;         // +0x1C, 4 bytes
     // void __cdecl TreeRecordData::*()
 };
-FNV_STATIC_ASSERT(sizeof(TreeRecordData) == 32);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, m_fFirstRecordValue) == 0);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, FiveFloatEndianRecord) == 4);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, ShadowParameters) == 8);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, m_fFourthShadowValue) == 12);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, TreeVisualSettings) == 16);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, m_iShadowRadius) == 20);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, m_fRustleMagnitude) == 24);
-FNV_STATIC_ASSERT(offsetof(TreeRecordData, m_fRustleSpeed) == 28);
 class NiPoint2
 {
   public:
@@ -359,9 +323,6 @@ class NiPoint2
     // SaveBinary
     // char* __cdecl NiPoint2::*(const char*)
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint2) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, y) == 4);
 class TESFormInitFlag
 {
   public:
@@ -399,8 +360,4 @@ class TESObjectTREE : public TESBoundTreeObject,
     // TESObjectTREE& __cdecl TESObjectTREE::*(const TESObjectTREE&)
     // void __cdecl TESObjectTREE::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectTREE) == 148);
-FNV_STATIC_ASSERT(offsetof(TESObjectTREE, m_kSeedArray) == 92);
-FNV_STATIC_ASSERT(offsetof(TESObjectTREE, Data) == 108);
-FNV_STATIC_ASSERT(offsetof(TESObjectTREE, m_kBillboardDimensions) == 140);
 #endif

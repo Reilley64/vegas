@@ -30,11 +30,11 @@ struct FUN_00c543e0_shell : NiAVObject
 };
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* FUN_00c54d60();
 };
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int FUN_00c54030(int param_1);
 };
 
 
@@ -46,7 +46,7 @@ char const* const* __cdecl FUN_00a99940()
 
 struct FUN_00a7b300_shell
 {
-    void __thiscall FUN_00a7b300();
+    void FUN_00a7b300();
 };
 struct FUN_00a99950_shell
 {
@@ -55,10 +55,10 @@ struct FUN_00a99950_shell
     int f08;
     int f0c;
     int f10;
-    void __thiscall FUN_00a99950();
+    void FUN_00a99950();
 };
 // @fnv 0x00a99950
-void __thiscall FUN_00a99950_shell::FUN_00a99950()
+void FUN_00a99950_shell::FUN_00a99950()
 {
     void* p = *(void**)((char*)this + 0x10);
     *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
@@ -118,12 +118,12 @@ struct FUN_00a99a50_shell
     int b;
     int c;
     int d;
-    void __thiscall FUN_00a7b300();
-    FUN_00a99a50_shell* __thiscall FUN_00a99a50(int);
+    void FUN_00a7b300();
+    FUN_00a99a50_shell* FUN_00a99a50(int);
     void __cdecl operator delete(void* p, unsigned int);
 };
 // @fnv 0x00a99a50
-FUN_00a99a50_shell* __thiscall FUN_00a99a50_shell::FUN_00a99a50(int flag)
+FUN_00a99a50_shell* FUN_00a99a50_shell::FUN_00a99a50(int flag)
 {
     vtbl = (int)&DAT_010a0c7c;
     ::FUN_00aa10f0((void*)d);
@@ -170,10 +170,10 @@ struct FUN_00a99870_shell : public NiExtraData
 {
     unsigned int m_uiSize;
     int* m_piValue;
-    void __thiscall FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning);
+    void FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning);
 };
 // @fnv 0x00a99870
-void __thiscall FUN_00a99870_shell::FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning)
+void FUN_00a99870_shell::FUN_00a99870(FUN_00a99870_shell* pDest, void* pCloning)
 {
     reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pDest), (::CloningProcess *)(pCloning));
     if (m_piValue && m_uiSize > 0)

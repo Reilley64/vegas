@@ -482,7 +482,7 @@ void FUN_00d0bb20_cls::Destroy()
 }  // namespace fnv_00d0bb20
 
 // @fnv 0x00d0b520
-void __stdcall FUN_00d0b520(int)
+void FUN_00d0b520(int)
 {}
 
 // hkpBroadPhaseBorder (the RTTI name in the image) has one primary base and

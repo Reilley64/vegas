@@ -30,7 +30,7 @@
 #include "fnv/symbols_00d86000.h"
 #include "fnv/symbols_00d87000.h"
 #include "fnv/symbols_01268000.h"
-void __stdcall FUN_00dbb610(int* p);
+void FUN_00dbb610(int* p);
 struct hkReferencedObject
 {
 };
@@ -48,14 +48,14 @@ struct FUN_00dbbb20_Class
     int m_08;
     int m_0C;
     void* m_10;
-    int __thiscall FUN_00dbbb20(int a);
+    int FUN_00dbbb20(int a);
 };
 struct FUN_00d46f00_Class
 {
 };
 struct FUN_00dbbc50_Class
 {
-    int __thiscall FUN_00dbbc50(int a);
+    int FUN_00dbbc50(int a);
 };
 struct FUN_00dbbc60_Class
 {
@@ -67,7 +67,7 @@ struct FUN_00dbbc60_Class
     int m_14;
     int m_18;
     int m_1c;
-    int __thiscall FUN_00dbbc60(int a);
+    int FUN_00dbbc60(int a);
 };
 struct FUN_00d873b0_t
 {
@@ -77,14 +77,14 @@ struct FUN_00d873b0_t
 };
 struct D481D0Class
 {
-    const char* __thiscall getName();
+    const char* getName();
 };
 struct FUN_00dbb920_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    const char* __thiscall FUN_00dbb920();
+    const char* FUN_00dbb920();
 };
 struct TypeNode
 {
@@ -118,7 +118,7 @@ struct FUN_00dbbd70_class
     char* m_10;
     int m_14;
     int m_18;
-    __int64 __thiscall GetEntry64(int a);
+    __int64 GetEntry64(int a);
 };
 struct Shape
 {
@@ -133,7 +133,7 @@ struct FUN_00dbbfa0_Class
     int m_08;
     Container* m_0c;
 
-    void __thiscall FUN_00dbbfa0(int, int);
+    void FUN_00dbbfa0(int, int);
 };
 struct FUN_00d46f20_Class
 {
@@ -155,7 +155,7 @@ struct FUN_00dbc640_allocator
     {}
     virtual void FUN_00dbc640_1()
     {}
-    virtual void __thiscall FUN_00dbc640_2(FUN_00dbc640_class* p, unsigned short size);
+    virtual void FUN_00dbc640_2(FUN_00dbc640_class* p, unsigned short size);
 };
 struct FUN_00dbc640_router
 {
@@ -172,7 +172,7 @@ struct FUN_00dbc640_class
     unsigned short m_04;
 
 
-    FUN_00dbc640_class* __thiscall FUN_00dbc640(int flags);
+    FUN_00dbc640_class* FUN_00dbc640(int flags);
 };
 FUN_00dbc640_class* FUN_00dbc640_class::FUN_00dbc640(int flags)
 {
@@ -208,7 +208,7 @@ struct FUN_00dbb9e0_Class
     int unk08;
     FUN_00d47080_Class* unk0c;
 
-    void __thiscall FUN_00dbb9e0();
+    void FUN_00dbb9e0();
 };
 struct FUN_00dbb9f0_cls
 {
@@ -224,12 +224,12 @@ struct FUN_00dbba00_Class
     int m_04;
     int m_08;
     int m_0C;
-    int __thiscall FUN_00dbba00(int param_1);
+    int FUN_00dbba00(int param_1);
 };
-__int64 __stdcall FUN_00dbba40(int);
-int __stdcall FUN_00dc9520(unsigned int arg0);
-int __stdcall FUN_00dbb120(int arg0);
-int __stdcall FUN_00dbb130(int a, int b);
+__int64 FUN_00dbba40(int);
+int FUN_00dc9520(unsigned int arg0);
+int FUN_00dbb120(int arg0);
+int FUN_00dbb130(int a, int b);
 struct FUN_00c90510_Obj : hkReferencedObject
 {
 };
@@ -258,7 +258,7 @@ struct FUN_00dbb360_Class
     hkReferencedObject* m_0C;
     FUN_00d87790_Obj m_10;
     int m_14, m_18, m_1C, m_20, m_24;
-    FUN_00dbb360_Class* __thiscall Initialize();
+    FUN_00dbb360_Class* Initialize();
 };
 class hkMemoryAllocatorDBB5
 {
@@ -453,7 +453,7 @@ class hkHalf
         m_uiFilterValue = (short)(t >> 16);
     }
 };
-hkHalf __stdcall MakeZeroHalf(int a);
+hkHalf MakeZeroHalf(int a);
 struct FUN_00d871a0_Data
 {
     int memberData;
@@ -633,7 +633,7 @@ struct FUN_00c85750_Result
 };
 struct FUN_00c85750_Class
 {
-    int __thiscall FUN_00c85750();
+    int FUN_00c85750();
 };
 class FUN_00dba490_heap
 {
@@ -755,10 +755,10 @@ class hkLibDBB6
 
     hkNodeRefDBB6 FUN_00dbb620();
 };
-float __stdcall FUN_00dbba10(void* pArg);
+float FUN_00dbba10(void* pArg);
 struct FUN_00d470f0_Obj
 {
-    unsigned char* __thiscall GetLastNodeFlag(unsigned char* flag);
+    unsigned char* GetLastNodeFlag(unsigned char* flag);
 };
 struct HKDBB50Handle
 {
@@ -773,7 +773,7 @@ struct FUN_00dbba50_Obj
     int m_0C;
     FUN_00d470f0_Obj* m_10;
 
-    HKDBB50Handle* __thiscall GetHandle(HKDBB50Handle* __restrict handle);
+    HKDBB50Handle* GetHandle(HKDBB50Handle* __restrict handle);
 };
 struct FUN_00d871a0
 {
@@ -788,7 +788,7 @@ struct FUN_00dbbb60_cls
     int m_08;
     int m_0c;
     int m_10;
-    void* __thiscall FUN_00dbbb60(int a, int b);
+    void* FUN_00dbbb60(int a, int b);
 };
 struct ComponentDescDBC5C0
 {
@@ -858,7 +858,7 @@ struct S00dbb260_Sub
 {
     int unk00;
     int unk04;
-    void __thiscall FUN_00d873d0(S00dbb260_Args* args);
+    void FUN_00d873d0(S00dbb260_Args* args);
 };
 
 struct S00dbb260_Result

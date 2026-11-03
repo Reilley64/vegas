@@ -35,7 +35,7 @@ public:
 
 struct FrenzyEffect : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_0080df90(Actor* apActor);
+    unsigned short FUN_0080df90(Actor* apActor);
 };
 
 // @fnv 0x0080df90
@@ -62,7 +62,7 @@ struct ValueModifierEffectCtor
 };
 struct FrenzyEffectShell : ValueModifierEffect
 {
-    void* __thiscall ConstructFrenzyEffect(void* a, void* b, void* c);
+    void* ConstructFrenzyEffect(void* a, void* b, void* c);
 };
 // Runs the ValueModifierEffect constructor, installs the vtable pointer at DAT_0107a16c, clears the byte at offset 0x4c, and returns this.
 // @fnv 0x0080dbb0
@@ -79,11 +79,11 @@ struct TESSaveLoadGame
 };
 struct FUN_0080dfd0_shell : ValueModifierEffect
 {
-    void __thiscall FUN_0080dfd0(Actor* actor);
+    void FUN_0080dfd0(Actor* actor);
 };
 // Calls FUN_00802db0 on the actor, then passes this+0x4c and 1 to TESSaveLoadGame::FUN_008579b0.
 // @fnv 0x0080dfd0
-void __thiscall FUN_0080dfd0_shell::FUN_0080dfd0(Actor* actor)
+void FUN_0080dfd0_shell::FUN_0080dfd0(Actor* actor)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(actor);
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x4c, 1);
@@ -286,8 +286,8 @@ struct FrenzyEffectCore
     void FUN_0080ddd0();
 };
 
-typedef void(__thiscall* ActorAction)(Actor*, Actor*);
-typedef unsigned char(__thiscall* ActorPredicate)(Actor*);
+typedef void(* ActorAction)(Actor*, Actor*);
+typedef unsigned char(* ActorPredicate)(Actor*);
 
 // @fnv 0x0080ddd0
 void FrenzyEffectCore::FUN_0080ddd0()

@@ -35,14 +35,4 @@ class Script : public TESForm
     ScriptHeaderData* GetHeader();
     void InitItem(TESForm* form);
 };
-FNV_STATIC_ASSERT(sizeof(Script) == 0x54);
-FNV_STATIC_ASSERT(offsetof(Script, m_kHeader) == 0x18);
-FNV_STATIC_ASSERT(offsetof(Script, m_pText) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(Script, m_data) == 0x30);
-FNV_STATIC_ASSERT(offsetof(Script, m_fValueAtOffset34) == 0x34);
-FNV_STATIC_ASSERT(offsetof(Script, fValueAtOffset38) == 0x38);
-FNV_STATIC_ASSERT(offsetof(Script, m_fValueAtOffset3C) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(Script, m_pOwnerQuest) == 0x40);
-FNV_STATIC_ASSERT(offsetof(Script, m_kReferencedObjectList) == 0x44);
-FNV_STATIC_ASSERT(offsetof(Script, m_kVariableList) == 0x4C);
 #endif

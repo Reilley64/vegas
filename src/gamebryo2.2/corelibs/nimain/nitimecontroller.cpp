@@ -136,7 +136,7 @@ struct TCEq : NiObject
     NiObject* m_pkTarget;
 };
 // @fnv 0x00a6cc80
-bool __fastcall FUN_00a6cc80(TCEq* pThis, int edx, NiObject* pkObject)
+bool FUN_00a6cc80(TCEq* pThis, int edx, NiObject* pkObject)
 {
     TCEq* pkControl = (TCEq*)pkObject;
     if (reinterpret_cast<::A5d470Class *>((pThis))->IsSameAs((::A5d470Object *)(pkObject)) && pThis->m_uiObjectFlags == pkControl->m_uiObjectFlags &&
@@ -156,7 +156,7 @@ struct TCChain
     TCChain* m_pNext;
 };
 // @fnv 0x00a6cd00
-unsigned int __fastcall FUN_00a6cd00(TCChain* p, int edx)
+unsigned int FUN_00a6cd00(TCChain* p, int edx)
 {
     unsigned int n = 0;
     while (p)
@@ -176,7 +176,7 @@ struct TCStart
     float m_fLastTime;
 };
 // @fnv 0x00a6cd10
-void __fastcall InitStartTime(TCStart* p, int edx, float fTime)
+void InitStartTime(TCStart* p, int edx, float fTime)
 {
     p->m_uiObjectFlags |= 8;
     p->m_fLastTime = ::DAT_01015f5c;
@@ -191,7 +191,7 @@ struct TCReg : NiObject
 };
 // Registers the object's streamables with kStream, then registers the streamables of the stored NiObject if present; returns false if the base registration fails.
 // @fnv 0x00a6d0f0
-bool __fastcall FUN_00a6d0f0(TCReg* p, int edx, NiStream& kStream)
+bool FUN_00a6d0f0(TCReg* p, int edx, NiStream& kStream)
 {
     if (!p->NiObject::RegisterStreamables(kStream))
         return false;

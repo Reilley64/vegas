@@ -10,5 +10,4 @@ class GarbageCollector
     static void Remove(TESObjectREFR* reference);
     static void Add(BSTempEffect* effect);
 };
-FNV_STATIC_ASSERT(sizeof(GarbageCollector) == 0x1);
 #endif

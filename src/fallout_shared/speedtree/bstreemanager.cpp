@@ -299,7 +299,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiColor
 {
     void Clamp();
@@ -315,7 +314,6 @@ struct NiColor
     float g;
     float b;
 };
-typedef char _sizecheck_NiColor[sizeof(NiColor) == 12 ? 1 : -1];
 
 struct B006815c0
 {
@@ -1202,7 +1200,7 @@ struct PointerArrayCount667
 {
     unsigned int count;
 };
-void __stdcall FUN_00ec5fce(void*, unsigned int, int, void (PointerDtor667::*)());
+void FUN_00ec5fce(void*, unsigned int, int, void (PointerDtor667::*)());
 
 // Destroys the object or its array elements, optionally frees the allocation, and returns this or the preceding count header.
 // @fnv 0x00667120

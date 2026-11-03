@@ -438,7 +438,7 @@ __forceinline void initVehicleComponents(hkpVehicleData& self,
 }
 
 // @fnv 0x00e39ab0
-void __fastcall FUN_00e39ab0(hkpVehicleData* self, int, const Array<SuspensionWheelParameters>& suspensionWheelParams,
+void FUN_00e39ab0(hkpVehicleData* self, int, const Array<SuspensionWheelParameters>& suspensionWheelParams,
                              const RigidBody* chassis)
 {
     initVehicleComponents(*self, suspensionWheelParams, chassis);

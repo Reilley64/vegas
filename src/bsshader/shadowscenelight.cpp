@@ -125,7 +125,7 @@ static __forceinline int IsShaderProp_00b9e770(char* prop)
 
 // Walks the list at self+0x138, clears field +0x38 of each item's shader property, then nulls the list head.
 // @fnv 0x00b9e770
-void __fastcall ClearShaderPropRefs(char* self)
+void ClearShaderPropRefs(char* self)
 {
     Node_00b9e770* pNode = *(Node_00b9e770**)(self + 0x138);
     while (pNode)
@@ -147,7 +147,7 @@ void __fastcall ClearShaderPropRefs(char* self)
     *(Node_00b9e770**)(self + 0x138) = 0;
 }
 
-extern "C" __declspec(dllimport) void __stdcall FreeBlockImp(void*);
+extern "C" __declspec(dllimport) void FreeBlockImp(void*);
 struct FUN_00b9e8f0
 {
     virtual ~FUN_00b9e8f0();
@@ -168,7 +168,7 @@ FUN_00b9e8f0::~FUN_00b9e8f0()
     }
 }
 
-extern "C" __declspec(dllimport) void __stdcall FreeBlockImp(void*);
+extern "C" __declspec(dllimport) void FreeBlockImp(void*);
 struct MemoryManager
 {
 };
@@ -190,7 +190,7 @@ struct SsArr
 };
 // Destructs the SsArr object, frees its data block, and deallocates the object itself when flags has bit 0 set.
 // @fnv 0x00b9e920
-SsArr* __fastcall DestroySsArr(SsArr* p, int, unsigned int flags)
+SsArr* DestroySsArr(SsArr* p, int, unsigned int flags)
 {
     p->SsArr::~SsArr();
     if (flags & 1)
@@ -205,7 +205,7 @@ struct GlobalObjectO2_00b9fda0
 };
 
 // @fnv 0x00ba00e0
-GlobalObjectO2_00b9fda0* __fastcall FUN_00ba00e0(GlobalObjectO2_00b9fda0* this_ptr, int /*edx*/, int param2)
+GlobalObjectO2_00b9fda0* FUN_00ba00e0(GlobalObjectO2_00b9fda0* this_ptr, int /*edx*/, int param2)
 {
     this_ptr->~GlobalObjectO2_00b9fda0();
     if (param2 & 1)

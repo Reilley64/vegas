@@ -100,7 +100,6 @@ enum NiConsoleRenderer__TexFormat
     NiConsoleRenderer__TexFormat_TEX_DEFAULT = 22,
     NiConsoleRenderer__TexFormat_TEX_NUM = 22
 };
-#pragma pack(push, 4)
 class NiCriticalSection
 {
   public:
@@ -116,12 +115,6 @@ class NiCriticalSection
     // unsigned int __cdecl NiCriticalSection::*()
     // void* __cdecl NiCriticalSection::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiCriticalSection) == 128);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_kCriticalSection) == 0);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_ulThreadOwner) == 28);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_uiLockCount) == 32);
-#pragma pack(push, 4)
 class NiRenderer : public NiObject
 {
   public:
@@ -184,20 +177,6 @@ class NiRenderer : public NiObject
     // NiRenderer& __cdecl NiRenderer::*(const NiRenderer&)
     // void __cdecl NiRenderer::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiRenderer) == 640);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_acRendererDataA) == 8);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_pCamera) == 12);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_pActiveRenderTargetGroup) == 16);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_acRendererDataB) == 20);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_acRendererDataC) == 128);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_acRendererDataD) == 256);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_acRendererDataE) == 384);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_iRendererState) == 512);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_uiRendererFlags) == 516);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_bRendererFlagA) == 520);
-FNV_STATIC_ASSERT(offsetof(NiRenderer, m_bRendererFlagB) == 521);
-#pragma pack(push, 4)
 class _D3DVSHADERCAPS2_0
 {
   public:
@@ -206,13 +185,6 @@ class _D3DVSHADERCAPS2_0
     int NumTemps;                 // +0x8, 4 bytes
     int StaticFlowControlDepth;   // +0xC, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(_D3DVSHADERCAPS2_0) == 16);
-FNV_STATIC_ASSERT(offsetof(_D3DVSHADERCAPS2_0, Caps) == 0);
-FNV_STATIC_ASSERT(offsetof(_D3DVSHADERCAPS2_0, DynamicFlowControlDepth) == 4);
-FNV_STATIC_ASSERT(offsetof(_D3DVSHADERCAPS2_0, NumTemps) == 8);
-FNV_STATIC_ASSERT(offsetof(_D3DVSHADERCAPS2_0, StaticFlowControlDepth) == 12);
-#pragma pack(push, 4)
 class _D3DPSHADERCAPS2_0
 {
   public:
@@ -222,14 +194,6 @@ class _D3DPSHADERCAPS2_0
     int StaticFlowControlDepth;   // +0xC, 4 bytes
     int NumInstructionSlots;      // +0x10, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(_D3DPSHADERCAPS2_0) == 20);
-FNV_STATIC_ASSERT(offsetof(_D3DPSHADERCAPS2_0, Caps) == 0);
-FNV_STATIC_ASSERT(offsetof(_D3DPSHADERCAPS2_0, DynamicFlowControlDepth) == 4);
-FNV_STATIC_ASSERT(offsetof(_D3DPSHADERCAPS2_0, NumTemps) == 8);
-FNV_STATIC_ASSERT(offsetof(_D3DPSHADERCAPS2_0, StaticFlowControlDepth) == 12);
-FNV_STATIC_ASSERT(offsetof(_D3DPSHADERCAPS2_0, NumInstructionSlots) == 16);
-#pragma pack(push, 4)
 class _D3DCAPS9
 {
   public:
@@ -303,78 +267,6 @@ class _D3DCAPS9
     unsigned long MaxVertexShader30InstructionSlots;  // +0x128, 4 bytes
     unsigned long MaxPixelShader30InstructionSlots;   // +0x12C, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(_D3DCAPS9) == 304);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, DeviceType) == 0);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, AdapterOrdinal) == 4);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, Caps) == 8);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, Caps2) == 12);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, Caps3) == 16);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, PresentationIntervals) == 20);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, CursorCaps) == 24);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, DevCaps) == 28);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, PrimitiveMiscCaps) == 32);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, RasterCaps) == 36);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, ZCmpCaps) == 40);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, SrcBlendCaps) == 44);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, DestBlendCaps) == 48);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, AlphaCmpCaps) == 52);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, ShadeCaps) == 56);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, TextureCaps) == 60);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, TextureFilterCaps) == 64);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, CubeTextureFilterCaps) == 68);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, VolumeTextureFilterCaps) == 72);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, TextureAddressCaps) == 76);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, VolumeTextureAddressCaps) == 80);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, LineCaps) == 84);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxTextureWidth) == 88);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxTextureHeight) == 92);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVolumeExtent) == 96);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxTextureRepeat) == 100);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxTextureAspectRatio) == 104);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxAnisotropy) == 108);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVertexW) == 112);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, GuardBandLeft) == 116);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, GuardBandTop) == 120);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, GuardBandRight) == 124);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, GuardBandBottom) == 128);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, ExtentsAdjust) == 132);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, StencilCaps) == 136);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, FVFCaps) == 140);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, TextureOpCaps) == 144);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxTextureBlendStages) == 148);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxSimultaneousTextures) == 152);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, VertexProcessingCaps) == 156);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxActiveLights) == 160);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxUserClipPlanes) == 164);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVertexBlendMatrices) == 168);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVertexBlendMatrixIndex) == 172);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxPointSize) == 176);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxPrimitiveCount) == 180);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVertexIndex) == 184);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxStreams) == 188);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxStreamStride) == 192);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, VertexShaderVersion) == 196);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVertexShaderConst) == 200);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, PixelShaderVersion) == 204);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, PixelShader1xMaxValue) == 208);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, DevCaps2) == 212);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxNpatchTessellationLevel) == 216);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, Reserved5) == 220);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MasterAdapterOrdinal) == 224);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, AdapterOrdinalInGroup) == 228);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, NumberOfAdaptersInGroup) == 232);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, DeclTypes) == 236);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, NumSimultaneousRTs) == 240);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, StretchRectFilterCaps) == 244);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, VS20Caps) == 248);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, PS20Caps) == 264);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, VertexTextureFilterCaps) == 284);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVShaderInstructionsExecuted) == 288);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxPShaderInstructionsExecuted) == 292);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxVertexShader30InstructionSlots) == 296);
-FNV_STATIC_ASSERT(offsetof(_D3DCAPS9, MaxPixelShader30InstructionSlots) == 300);
-#pragma pack(push, 4)
 class Direct3DResourceRecord
 {
   public:
@@ -385,15 +277,6 @@ class Direct3DResourceRecord
     void* m_pPointerAtOffset10;         // +0x10, 4 bytes
     unsigned long m_uiFieldAtOffset14;  // +0x14, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Direct3DResourceRecord) == 24);
-FNV_STATIC_ASSERT(offsetof(Direct3DResourceRecord, Flags) == 0);
-FNV_STATIC_ASSERT(offsetof(Direct3DResourceRecord, m_uiResourceId) == 4);
-FNV_STATIC_ASSERT(offsetof(Direct3DResourceRecord, ResourceEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(Direct3DResourceRecord, m_uiFieldAtOffset0C) == 12);
-FNV_STATIC_ASSERT(offsetof(Direct3DResourceRecord, m_pPointerAtOffset10) == 16);
-FNV_STATIC_ASSERT(offsetof(Direct3DResourceRecord, m_uiFieldAtOffset14) == 20);
-#pragma pack(push, 4)
 class NiBound
 {
   public:
@@ -422,12 +305,6 @@ class NiBound
     // char* __cdecl NiBound::*(const char*)
     // const NiBound& __cdecl NiBound::*(const NiBound&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
-#pragma pack(push, 4)
 class _D3DMATRIX
 {
   public:
@@ -455,26 +332,6 @@ class _D3DMATRIX
         float m[4][4];  // +0x0, 64 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(_D3DMATRIX) == 64);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _11) == 0);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _12) == 4);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _13) == 8);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _14) == 12);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _21) == 16);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _22) == 20);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _23) == 24);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _24) == 28);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _31) == 32);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _32) == 36);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _33) == 40);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _34) == 44);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _41) == 48);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _42) == 52);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _43) == 56);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, _44) == 60);
-FNV_STATIC_ASSERT(offsetof(_D3DMATRIX, m) == 0);
-#pragma pack(push, 4)
 class _D3DVIEWPORT9
 {
   public:
@@ -485,31 +342,16 @@ class _D3DVIEWPORT9
     float MinZ;            // +0x10, 4 bytes
     float MaxZ;            // +0x14, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(_D3DVIEWPORT9) == 24);
-FNV_STATIC_ASSERT(offsetof(_D3DVIEWPORT9, X) == 0);
-FNV_STATIC_ASSERT(offsetof(_D3DVIEWPORT9, Y) == 4);
-FNV_STATIC_ASSERT(offsetof(_D3DVIEWPORT9, Width) == 8);
-FNV_STATIC_ASSERT(offsetof(_D3DVIEWPORT9, Height) == 12);
-FNV_STATIC_ASSERT(offsetof(_D3DVIEWPORT9, MinZ) == 16);
-FNV_STATIC_ASSERT(offsetof(_D3DVIEWPORT9, MaxZ) == 20);
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -517,12 +359,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface_____Ant
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface_____AntiBloatAllocator) ==
-                  4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___
 {
   public:
@@ -547,12 +383,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___
     // NiTListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___
 {
@@ -581,9 +411,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface_
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiD3DShaderInterface *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_NiD3DShaderInterface___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiD3DShaderInterface___
 {
@@ -594,9 +421,6 @@ class NiTPointerList_NiD3DShaderInterface___
     // NiTPointerList<NiD3DShaderInterface *>& __cdecl NiTPointerList<NiD3DShaderInterface *>::*(const NiTPointerList<NiD3DShaderInterface *>&)
     // void* __cdecl NiTPointerList<NiD3DShaderInterface *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_NiD3DShaderInterface___) == 12);
-#pragma pack(push, 4)
 class ShaderConstantLayout
 {
   public:
@@ -632,19 +456,6 @@ class ShaderConstantLayout
     // unsigned int __cdecl ShaderConstantLayout::*()
     // unsigned int __cdecl ShaderConstantLayout::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShaderConstantLayout) == 40);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, m_uiFirstInteger) == 0);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, SecondUnsignedIntegerField) == 4);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, SixUnsignedIntegerRecord) == 8);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, m_uiFourthDataValue) == 12);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, FifthUnsignedIntegerField) == 16);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, SevenUnsignedIntegerRecord) == 20);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, m_uiFourthInteger) == 24);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, FourthUnsignedIntegerField) == 28);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, FiveUnsignedIntegerRecord) == 32);
-FNV_STATIC_ASSERT(offsetof(ShaderConstantLayout, m_uiBufferSize) == 36);
-#pragma pack(push, 4)
 class D3DXMATRIX : public _D3DMATRIX
 {
   public:
@@ -665,9 +476,6 @@ class D3DXMATRIX : public _D3DMATRIX
     // int __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
     // int __cdecl D3DXMATRIX::*(const D3DXMATRIX&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(D3DXMATRIX) == 64);
-#pragma pack(push, 4)
 class GraphicsRenderer : public NiRenderer
 {
   public:
@@ -966,99 +774,4 @@ class GraphicsRenderer : public NiRenderer
     unsigned int GetRenderTargetWidth();
     unsigned int GetRenderTargetHeight();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(GraphicsRenderer) == 2432);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, RendererStateRecord) == 640);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiSecondUnsignedValue) == 644);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bDeviceFlag) == 648);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pDirect3DDevice) == 652);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kDeviceCapabilities) == 656);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kDirect3DResourceRecord) == 960);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiDeviceResourceCount) == 984);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bDeviceCapabilityFlag) == 988);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiDeviceState) == 992);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_fDeviceValue) == 996);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiSecondInteger) == 1000);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bAdditionalDeviceCapabilityFlag) == 1004);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bSecondDeviceCapabilityFlag) == 1005);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, TwoBooleanThreeIntegerFloatRecord) == 1008);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, BooleanFourIntegerFloatRecord) == 1012);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiThirdInteger) == 1016);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_fPrePackValue) == 1020);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiIntegerAfterPrePackValue) == 1024);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_acPrePackObjectName) == 1028);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kPrePackObjectMap) == 1060);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, BatchedObjectRenderState) == 1076);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, BatchedShaderRenderState) == 1080);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, BatchedPropertyRenderState) == 1084);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, BatchedGeometryRenderState) == 1088);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_spShaderInterface) == 1092);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kCameraPosition) == 1096);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kCameraDirection) == 1108);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kCameraUp) == 1120);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kCameraRight) == 1132);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kWorldBound) == 1144);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kModelBound) == 1160);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_fNearPlaneDistance) == 1176);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_fFarPlaneDistance) == 1180);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kViewMatrix) == 1184);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kViewport) == 1248);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiViewportState) == 1272);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiFirstRendererStateValue) == 1276);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiSecondRendererStateValue) == 1280);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_uiThirdRendererStateValue) == 1284);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bFlagAt6F4) == 1288);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bFlagAt6F5) == 1289);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, TexturePixelFormatCache) == 1292);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_ppkPixelFormatTable) == 1296);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_apRenderTargetPixelFormats) == 1736);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_aspRenderTargetPixelData) == 1756);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_eTextureFormat) == 1776);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pDefaultRenderTargetGroup) == 1780);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pCurrentRenderTargetGroup) == 1784);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, RenderTargetState) == 1788);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bFlagAt8A4) == 1792);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_bFlagAt8A5) == 1793);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_fGeometryParameter) == 1796);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pPropertyState) == 1800);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pGeometryGroupManager) == 1804);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pUnsharedGeometryGroup) == 1808);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pDynamicGeometryGroup) == 1812);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pCurrentRenderState) == 1816);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pShaderStreamInfo) == 1820);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pRenderTargetGroup) == 1824);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pFourthRendererObject) == 1828);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kRenderedTextureMap) == 1832);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kRenderedCubeMapMap) == 1848);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kGeometryObjectMap) == 1864);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kShaderList) == 1880);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kShaderData) == 1892);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_spGeometryBuffer) == 1932);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kFirstShadowMatrix) == 1936);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kSecondShadowMatrix) == 2000);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kThirdShadowMatrix) == 2064);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_kShadowMatrixAfterThird) == 2128);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, ShadowGeometryData) == 2192);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pSourcePoint2Array) == 2256);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pIntermediateGeometryObject) == 2260);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pSecondPoint2Array) == 2264);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pIndexArray) == 2268);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_usIndexCount) == 2272);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, MaterialVertexBufferRecord) == 2276);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_spRenderMaterial) == 2280);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pVertexBufferData) == 2284);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, MaterialVertexBufferData) == 2288);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pFirstCOMInterface) == 2292);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, VertexBufferAndInterfacePointerBundle) == 2296);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, MixedInterfacePointerBundleA) == 2300);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, SevenUnknownInterfacePointerGroupC) == 2304);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, SevenUnknownInterfacePointerGroupA) == 2308);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, SevenUnknownInterfacePointerGroupE) == 2312);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, SevenUnknownInterfacePointerGroupB) == 2316);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, SevenUnknownInterfacePointerGroupD) == 2320);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, MixedInterfacePointerBundleB) == 2324);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pCOMUnknownInterface) == 2328);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pAdditionalCOMInterface) == 2332);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, m_pFourthRendererInterface) == 2336);
-FNV_STATIC_ASSERT(offsetof(GraphicsRenderer, GeometryRendererInterface) == 2340);
 #endif

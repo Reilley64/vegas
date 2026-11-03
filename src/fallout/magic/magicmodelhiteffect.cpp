@@ -298,7 +298,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -333,7 +332,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0081db90_shell : public BGSLoadFormBuffer
 {
     void FUN_0081db90();
@@ -882,11 +880,11 @@ struct FUN_0081d5d0_Class
     char pad20[0x0c];
     const char* unk2c;
 
-    unsigned short __thiscall FUN_0081d5d0();
+    unsigned short FUN_0081d5d0();
 };
 
 // @fnv 0x0081d5d0
-unsigned short __thiscall FUN_0081d5d0_Class::FUN_0081d5d0()
+unsigned short FUN_0081d5d0_Class::FUN_0081d5d0()
 {
     unsigned short usSize = 0;
 

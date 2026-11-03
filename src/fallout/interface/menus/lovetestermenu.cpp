@@ -103,8 +103,8 @@
 #include "fnv/symbols_01203000.h"
 struct FUN_00791a80_shell
 {
-    void __thiscall FUN_00795dc0();
-    void* __thiscall FUN_00791a80(unsigned int flags);
+    void FUN_00795dc0();
+    void* FUN_00791a80(unsigned int flags);
 };
 
 struct Flt
@@ -203,7 +203,7 @@ struct FUN_00795dc0
     ~FUN_00795dc0();
 };
 // @fnv 0x00791a80
-void* __thiscall FUN_00791a80_shell::FUN_00791a80(unsigned int flags)
+void* FUN_00791a80_shell::FUN_00791a80(unsigned int flags)
 {
     reinterpret_cast<::FUN_00795dc0 *>(this)->FUN_00795dc0::~FUN_00795dc0();
     if (flags & 1)
@@ -350,8 +350,8 @@ struct LoveTesterMenu
 {
     char pad[0x54];
     bool m_bState54;
-    void __thiscall StepPosition(int);
-    void __thiscall FUN_00795e20();
+    void StepPosition(int);
+    void FUN_00795e20();
 };
 
 
@@ -370,7 +370,7 @@ struct FUN_00794d30_shell
 {
     int FUN_00794d30();
 };
-int __fastcall FUN_00794d80(void*);
+int FUN_00794d80(void*);
 
 struct AVOwner_007927a0
 {
@@ -437,7 +437,7 @@ bool FUN_007927a0_shell::HandleKeyInput(int aiKey)
 
 // Sums the player's avOwner values for indices 5 through 11 and returns the total.
 // @fnv 0x00794d80
-int __fastcall FUN_00794d80(void* apUnused)
+int FUN_00794d80(void* apUnused)
 {
     return (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(5) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(6) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(7) +
            (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(8) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(9) + (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(10) +
@@ -468,7 +468,7 @@ struct SoundPlaybackHandle
     int _4;
     int _8;
     ~SoundPlaybackHandle();
-    bool __thiscall Play();
+    bool Play();
 public:
     ::SoundPlaybackHandle &operator=(const ::SoundPlaybackHandle &);
 };
@@ -476,7 +476,7 @@ public:
 struct BSAudio
 {
     static BSAudio* __cdecl GetSingleton(void);
-    SoundPlaybackHandle __thiscall GetSoundHandleByEditorID(const char*, unsigned int, bool);
+    SoundPlaybackHandle GetSoundHandleByEditorID(const char*, unsigned int, bool);
 };
 
 struct LoveTesterMenu
@@ -992,7 +992,7 @@ extern const char DAT_010747c4[];
 struct PlayerSetter
 {
 };
-void __fastcall FUN_00795e20(Glob*);
+void FUN_00795e20(Glob*);
 struct CallbackInput
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
@@ -2072,7 +2072,7 @@ void __cdecl PlaySpecialBookSoundAndSetStat(Button_7caa80* button)
 }
 }  // namespace fnv_007caa80
 
-void __fastcall FUN_00795e20(Glob*);
+void FUN_00795e20(Glob*);
 
 // @fnv 0x00795b30
 void __cdecl UpdateLoveTester()

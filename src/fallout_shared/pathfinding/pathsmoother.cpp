@@ -31,12 +31,12 @@ struct FUN_006ed4e0_shell
 
 struct FUN_006f25d0_shell
 {
-    void __thiscall FUN_006f25d0();
+    void FUN_006f25d0();
 };
 
 struct FUN_006ed510_shell
 {
-    void __thiscall FUN_006ed510();
+    void FUN_006ed510();
 };
 // Calls FUN_006ed510, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x006ed4e0
@@ -61,7 +61,7 @@ struct FUN_006f25d0 : FUN_006f25b0
     ~FUN_006f25d0();
 };
 // @fnv 0x006ed510
-void __thiscall FUN_006ed510_shell::FUN_006ed510()
+void FUN_006ed510_shell::FUN_006ed510()
 {
     reinterpret_cast<::FUN_006f25d0 *>((((FUN_006f25d0_shell*)((char*)this + 0x2c))))->FUN_006f25d0::~FUN_006f25d0();
 }

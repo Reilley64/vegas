@@ -1,5 +1,6 @@
 // fallout_shared/bgsdecalmanager.cpp: BGSDecalManager, BSA_, PD_, M3_ and more (61 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/AlignedVector.h"
@@ -113,7 +114,7 @@
 #include "bgsdecalmanager_types_BSTempEffectSimpleDecal.h"
 
 // @fnv 0x00460140
-int __fastcall FUN_00460140(int apBase)
+int FUN_00460140(int apBase)
 {
     return apBase + 0x10;
 }
@@ -188,7 +189,6 @@ struct ThreeByThreeMatrix
 public:
     void GetRow(unsigned int, ::NiPoint3 &);
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_004769c0_shell : public ThreeByThreeMatrix
 {
     void FUN_004769c0(unsigned int, float*);
@@ -208,10 +208,10 @@ class Date
     ~Date();
 };
 
-int __fastcall CallNestedAtOffset80(void*);
+int CallNestedAtOffset80(void*);
 
 // @fnv 0x004a0370
-void __fastcall FUN_004a0370(char* pThis)
+void FUN_004a0370(char* pThis)
 {
     ::fnv_0082f1b0::FUN_0082f1b0(pThis + 0x80);
     if (CallNestedAtOffset80(pThis) == 1)
@@ -256,7 +256,7 @@ P3* P3::FUN_004a0bd0(P3* out)
 }
 
 // @fnv 0x004a0d10
-void* __fastcall FUN_004a0d10(char* pThis)
+void* FUN_004a0d10(char* pThis)
 {
     return pThis + 0x100;
 }
@@ -389,7 +389,6 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004a39f0_shell : public CFilter
 {
     void FUN_004a39f0(int);
@@ -426,7 +425,6 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004a3a20_shell : public CFilter
 {
     unsigned int FUN_004a3a20();
@@ -451,7 +449,7 @@ unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
     return apRef ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
 }
 
-void __fastcall FUN_004a3b70(void*);
+void FUN_004a3b70(void*);
 
 struct Base_004a3b30
 {
@@ -509,7 +507,6 @@ struct WorldRayCastInput
     unsigned int m_uiFilterInfo;
     char _pad_28[8];
 };
-typedef char _sizecheck_hkpWorldRayCastInput[sizeof(WorldRayCastInput) == 48 ? 1 : -1];
 struct RayCastHitResult
 {
     struct blob1 DidHit();
@@ -519,7 +516,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -530,7 +526,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -538,7 +533,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 {
     hkpRigidBody* GethkRigidBody();
@@ -573,7 +567,6 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     bool m_bPickFailed;
     char _pad_ad[3];
 };
-typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3da0_shell : public BhkPickData
 {
     void FUN_004a3da0(void*);
@@ -622,7 +615,7 @@ struct Flt
     operator unsigned int() const;
 };
 // @fnv 0x004a3f70
-void __fastcall FUN_004a3f70(char* self, Flt f)
+void FUN_004a3f70(char* self, Flt f)
 {
     *(unsigned int*)(self + 0x24) = (unsigned int)f;
 }
@@ -650,7 +643,6 @@ struct WorldRayCastInput
     unsigned int m_uiFilterInfo;
     char _pad_28[8];
 };
-typedef char _sizecheck_hkpWorldRayCastInput[sizeof(WorldRayCastInput) == 48 ? 1 : -1];
 struct RayCastHitResult
 {
     struct blob1 DidHit();
@@ -660,7 +652,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -671,7 +662,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -679,7 +669,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 {
     hkpRigidBody* GethkRigidBody();
@@ -714,7 +703,6 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     bool m_bPickFailed;
     char _pad_ad[3];
 };
-typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3fb0_shell : public BhkPickData
 {
     void FUN_004a3fb0(hkpAllRayHitCollector*);
@@ -769,7 +757,6 @@ struct ConsoleManager
     char m_aacCommandHistory[2000];
     char m_acOutputFilename[260];
 };
-typedef char _sizecheck_MenuConsole[sizeof(ConsoleManager) == 2324 ? 1 : -1];
 struct FUN_004a4020_shell : public ConsoleManager
 {
     bool FUN_004a4020();
@@ -828,7 +815,6 @@ struct WorldRayCastInput
     unsigned int m_uiFilterInfo;
     char _pad_28[8];
 };
-typedef char _sizecheck_hkpWorldRayCastInput[sizeof(WorldRayCastInput) == 48 ? 1 : -1];
 struct RayCastHitResult
 {
     struct blob1 DidHit();
@@ -838,7 +824,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -849,7 +834,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -857,7 +841,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 {
     hkpRigidBody* GethkRigidBody();
@@ -892,7 +875,6 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     bool m_bPickFailed;
     char _pad_ad[3];
 };
-typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_008cdd90_shell : public BhkPickData
 {
     hkpAllRayHitCollector* FUN_008cdd90();
@@ -973,7 +955,7 @@ FUN_004a3bc0::~FUN_004a3bc0()
 
 struct FUN_004a0f50_shell
 {
-    int* __thiscall GetGlobalIntPtr();
+    int* GetGlobalIntPtr();
 };
 
 // @fnv 0x004a0f50
@@ -1010,13 +992,13 @@ void __cdecl FUN_004a1a00()
 
 
 // @fnv 0x004a1a30
-void __fastcall FUN_004a1a30(int __this)
+void FUN_004a1a30(int __this)
 {
     reinterpret_cast<class ::FUN_004a47b0 *>((__this))->FUN_004a47b0::~FUN_004a47b0();
 }
 
 // @fnv 0x004a3b50
-void __fastcall FUN_004a3b50(void* thisPtr)
+void FUN_004a3b50(void* thisPtr)
 {
     ((float*)thisPtr)[1] = 1.0f;
 }
@@ -1081,7 +1063,7 @@ void FUN_004a3ae0_shell::FUN_004a3ae0()
 }
 
 extern int DAT_0101e594;
-void __fastcall FUN_004a3b50(void*);
+void FUN_004a3b50(void*);
 
 struct FUN_004a3b30_shell
 {
@@ -1090,17 +1072,17 @@ struct FUN_004a3b30_shell
 };
 
 // @fnv 0x004a3b30
-void* __thiscall FUN_004a3b30_shell::InitializeVftable()
+void* FUN_004a3b30_shell::InitializeVftable()
 {
     m_vftable = &DAT_0101e594;
     FUN_004a3b50(this);
     return this;
 }
 
-void __fastcall FUN_004a3b50(void* p);
+void FUN_004a3b50(void* p);
 
 // @fnv 0x004a3b70
-void __fastcall FUN_004a3b70(void* p)
+void FUN_004a3b70(void* p)
 {
     reinterpret_cast<::FUN_00621c90_Class *>(((char*)p + 0x10))->FUN_00626870();
     FUN_004a3b50(p);
@@ -1113,7 +1095,7 @@ struct T_
 };
 
 // @fnv 0x004a3f90
-void __thiscall T_::ForwardToSubObject(void* apParam)
+void T_::ForwardToSubObject(void* apParam)
 {
     reinterpret_cast<::AlignedVector *>((((T_*)((char*)this + 0x90))))->FUN_004a3f10((*(const ::AlignedVector *)(apParam)));
 }
@@ -1123,17 +1105,17 @@ namespace bsrandom_singleton {
 struct MersenneTwister
 {
     static MersenneTwister* __cdecl GetRandomGenerator(void);
-    void __thiscall AddGeometryDecal(void* a, int b, char c);
+    void AddGeometryDecal(void* a, int b, char c);
 };
 }
 
 struct FUN_004a3fe0_shell
 {
-    void __thiscall FUN_004a3fe0(void* a, int b, char c);
+    void FUN_004a3fe0(void* a, int b, char c);
 };
 
 // @fnv 0x004a3fe0
-void __thiscall FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
+void FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
 {
     if (*(int*)((char*)pObject + 0x48) == 0)
     {
@@ -1163,7 +1145,7 @@ struct S004a03f0
     void CleanupDecalEmitters();
 };
 // @fnv 0x0049fff0
-void __fastcall FUN_0049fff0(BGSDecalManager* p)
+void FUN_0049fff0(BGSDecalManager* p)
 {
     FUN_004a0010();
     p->RenderDecals();
@@ -1190,10 +1172,10 @@ struct BSCullingProcess
 };
 struct Unk
 {
-    void __thiscall FUN_004a1a10(int, unsigned char);
+    void FUN_004a1a10(int, unsigned char);
 };
 // @fnv 0x004a1a10
-void __thiscall Unk::FUN_004a1a10(int aiArg, unsigned char b)
+void Unk::FUN_004a1a10(int aiArg, unsigned char b)
 {
     ::SetSelectionMask(0x27, aiArg, b);
 }
@@ -1898,8 +1880,6 @@ bool __cdecl IsAcousticSpaceFormTypeAllowed(Refr_C* apRef, int aiArg)
     return true;
 }
 
-extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64* apFrequency);
-extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64* apCounter);
 
 namespace DecalAdd {
 

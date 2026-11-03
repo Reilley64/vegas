@@ -19,7 +19,7 @@
 #include "fnv/symbols_00d67000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01269000.h"
-void __stdcall ClearTwoInts(int* a, int* b);
+void ClearTwoInts(int* a, int* b);
 int __cdecl FUN_00d67960();
 struct Item;
 struct Sink
@@ -282,7 +282,7 @@ struct FUN_00d67970_class
     void* unk08;
     void* unk0c;
 
-    void __thiscall FUN_00d67970(FUN_00d67970_helper* helper);
+    void FUN_00d67970(FUN_00d67970_helper* helper);
 };
 struct OwnerBinding
 {

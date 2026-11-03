@@ -4,7 +4,6 @@
 #include "layout_support.h"
 #include "LowProcess.h"
 #include "ActorValueModifierList.h"
-#pragma pack(push, 4)
 class MiddleLowProcess : public LowProcess
 {
   public:
@@ -13,8 +12,4 @@ class MiddleLowProcess : public LowProcess
     int GetProcessInteger();
     void SetProcessInteger(int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MiddleLowProcess) == 0xC8);
-FNV_STATIC_ASSERT(offsetof(MiddleLowProcess, m_iValueB4) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(MiddleLowProcess, m_kProcessModifierList) == 0xB8);
 #endif

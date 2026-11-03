@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Ob1 /Oy- /GS /EHsc /Gy (unit src/fallout/ai/actor.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -84,7 +85,6 @@ struct ArrowMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
 };
-__declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct ArrowString
 {
     char* value;

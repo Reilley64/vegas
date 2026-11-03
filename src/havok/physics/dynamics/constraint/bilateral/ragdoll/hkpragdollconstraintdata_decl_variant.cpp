@@ -11,14 +11,14 @@
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_0102e000.h"
 #include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
-void __stdcall FUN_00cde9d0(int* a, int* b);
+void FUN_00cde9d0(int* a, int* b);
 struct FUN_00cde980_cls
 {
-    void __thiscall FUN_00cde980(int a);
+    void FUN_00cde980(int a);
 };
 struct FUN_00cde960_cls
 {
-    void __thiscall FUN_00cde960(float a);
+    void FUN_00cde960(float a);
 };
 struct FUN_00cde9b0_cls
 {
@@ -130,7 +130,7 @@ struct FUN_00cde970_cls
 // The getter returns that byte shifted right by one bit.
 struct RagdollBodiesToNotify : public hkpRagdollConstraintData
 {
-    int __thiscall FUN_00cde9a0();
+    int FUN_00cde9a0();
 };
 int __cdecl FUN_00cdead0();
 union __declspec(intrin_type) __declspec(align(16)) __m128

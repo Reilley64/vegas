@@ -30,12 +30,12 @@ extern int __cdecl _fclose(int);
 
 struct FUN_00d2bda0_cls
 {
-    void __thiscall DestroyFileHandle();
+    void DestroyFileHandle();
 };
 
 // Resets the vtable pointers and closes the stored file handle if present.
 // @fnv 0x00d2bda0
-void __thiscall FUN_00d2bda0_cls::DestroyFileHandle()
+void FUN_00d2bda0_cls::DestroyFileHandle()
 {
     int file = *(int*)((char*)this + 0xc);
     *(int*)this = (int)&DAT_010ce6c0;
@@ -60,13 +60,13 @@ long FUN_00d2bd50_cls::FUN_00d2bd50()
 }
 
 // @fnv 0x00d2bd10
-void __stdcall FUN_00d2bd10(unsigned char* output)
+void FUN_00d2bd10(unsigned char* output)
 {
     *output = 1;
 }
 
 // @fnv 0x00d2bd20
-void __stdcall FUN_00d2bd20(char* a1)
+void FUN_00d2bd20(char* a1)
 {
     *a1 = 1;
 }

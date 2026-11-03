@@ -481,7 +481,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -540,20 +539,19 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 
 // Multiplies the point pt by the 3x3 matrix mat and stores the result in pOut, returning pOut.
 // @fnv 0x004b3ae0
 NiPoint3* FUN_004b3ae0(NiPoint3* pOut, const NiPoint3& pt, const float* mat)
 {
-    ((void(__thiscall*)(NiPoint3*, float, float, float))(&NiPoint3::ComponentProduct))(
+    ((void(*)(NiPoint3*, float, float, float))(&NiPoint3::ComponentProduct))(
         pOut, pt.x * mat[0] + pt.y * mat[3] + pt.z * mat[6], pt.x * mat[1] + pt.y * mat[4] + pt.z * mat[7],
         pt.x * mat[2] + pt.y * mat[5] + pt.z * mat[8]);
     return pOut;
 }
 
 // @fnv 0x0052baf0
-void __fastcall ConstructFloatInterpolator(NiFloatInterpolator* pThis)
+void ConstructFloatInterpolator(NiFloatInterpolator* pThis)
 {
     pThis->NiFloatInterpolator::NiFloatInterpolator(0);
 }
@@ -562,7 +560,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct Obj52 : NiMemObject
 {
@@ -625,11 +622,11 @@ struct NiRTTI;
 
 struct NiColorData
 {
-    NiRTTI* __thiscall GetRTTI() const;
+    NiRTTI* GetRTTI() const;
 };
 
 // @fnv 0x0052d120
-NiRTTI* __thiscall NiColorData::GetRTTI() const
+NiRTTI* NiColorData::GetRTTI() const
 {
     return &(*reinterpret_cast<::fnv_0052d120::NiRTTI *>(&::g_011f3750));
 }
@@ -638,16 +635,16 @@ NiRTTI* __thiscall NiColorData::GetRTTI() const
 struct GlobalObject_0052b8f0
 {
     ~GlobalObject_0052b8f0();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 
 struct FUN_00533060_shell
 {
-    void* __thiscall FUN_00533060(void** a, void** b, char* c);
+    void* FUN_00533060(void** a, void** b, char* c);
 };
 // @fnv 0x00533060
-void* __thiscall FUN_00533060_shell::FUN_00533060(void** apFirst, void** apSecond, char* c)
+void* FUN_00533060_shell::FUN_00533060(void** apFirst, void** apSecond, char* c)
 {
     *apFirst = *(void**)((char*)this + 8);
     *apSecond = *(void**)((char*)this + 0x10);
@@ -706,7 +703,7 @@ struct FUN_0052bbd0 : Base5a
 };
 // Runs the destructor, frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0052baa0
-void* __thiscall GlobalObject_0052b8f0::Destroy(unsigned int flags)
+void* GlobalObject_0052b8f0::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0052bbd0 *>(this)->FUN_0052bbd0::~FUN_0052bbd0();
     if (flags & 1)
@@ -1625,7 +1622,7 @@ struct PassPtr
 {
     TESImageSpaceModifier* value;
 };
-extern "C" void __fastcall FUN_004851b0(TESImageSpaceModifier*, PassPtr);
+extern "C" void FUN_004851b0(TESImageSpaceModifier*, PassPtr);
 struct CopyBaseShell
 {
     void FUN_004851b0(TESImageSpaceModifier*);

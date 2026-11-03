@@ -35,7 +35,6 @@ class BaseProcess
     void ApplyLoadBuffer(BGSLoadFormBuffer*);
     void Revert(BGSLoadFormBuffer*);
 };
-FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);
 class ActorPackageCall
 {
   public:

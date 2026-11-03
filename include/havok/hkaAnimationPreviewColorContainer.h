@@ -5,13 +5,9 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkaAnimationPreviewColorContainer : public hkReferencedObject
 {
   public:
     hkArray<hkUint32> m_kPreviewColors;  // +0x8
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkaAnimationPreviewColorContainer[(sizeof(hkaAnimationPreviewColorContainer) == 0x14) ? 1 : -1];
 #endif

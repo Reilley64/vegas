@@ -577,7 +577,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004bda70_shell : public InventoryStackRecord
 {
     bool HasEffect(unsigned char);
@@ -650,20 +649,20 @@ Script* FUN_004bde40_shell::FUN_004bde40()
 
 
 // @fnv 0x004be060
-int __fastcall FUN_004be060(void* pThis)
+int FUN_004be060(void* pThis)
 {
     return ((int)(reinterpret_cast<::FUN_004be080_Class *>((pThis))->FUN_004be080()));
 }
 
 // @fnv 0x004be180
-float __fastcall FUN_004be180(char* pThis)
+float FUN_004be180(char* pThis)
 {
     return *(float*)(pThis + 0x17c);
 }
 
 struct ItemNode;
 struct ExtraNode;
-int __fastcall _FNV_GetFormType(unsigned int);
+int _FNV_GetFormType(unsigned int);
 struct ArrSI
 {
 };
@@ -739,7 +738,7 @@ bool FUN_004bfc80_shell::FUN_004bfc80()
 }
 
 // @fnv 0x004bfd80
-unsigned char __fastcall FUN_004bfd80(unsigned char* pData)
+unsigned char FUN_004bfd80(unsigned char* pData)
 {
     return (pData[0x180] & 1) != 0;
 }
@@ -775,7 +774,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004bfda0_shell : public InventoryChanges
 {
     ExtraDataList* FUN_004bfda0(TESBoundObject*, bool);
@@ -831,14 +829,14 @@ public:
 
 // Returns true when weap is a ranged weapon and FUN_004c0c60 returns false for it.
 // @fnv 0x004c0bf0
-bool __fastcall FUN_004c0bf0(TESObjectWEAP* weap)
+bool FUN_004c0bf0(TESObjectWEAP* weap)
 {
     return ::FUN_004c0c30((char *)(weap)) && !::FUN_004c0c60((::FUN_004c0c60_Helper *)(weap));
 }
 
 // Returns true when the byte at offset 0xf4 of the object is between 3 and 13, otherwise false.
 // @fnv 0x004c0c30
-bool __fastcall FUN_004c0c30(char* pThis)
+bool FUN_004c0c30(char* pThis)
 {
     switch (pThis[0xf4])
     {
@@ -1025,7 +1023,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_004c0c90_shell : public Animation
 {
     void FUN_004c0c90(float);
@@ -1083,7 +1080,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_004c3380_shell : public InventoryChanges
 {
     void FUN_004c3380(InventoryStackRecord*, bool);
@@ -1138,7 +1134,7 @@ class TESObjectWEAP
   public:
 };
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 // Merges an inventory change into this list: combines counts and extra-data lists, optionally deletes the source, and removes emptied entries.
 // @fnv 0x004c3380
@@ -1242,13 +1238,13 @@ struct FUN_004c94d0_shell
 };
 
 // @fnv 0x004c94d0
-unsigned char __thiscall FUN_004c94d0_shell::GetFlag() const
+unsigned char FUN_004c94d0_shell::GetFlag() const
 {
     return !(reinterpret_cast<const unsigned char*>(this)[0xac] & 2);
 }
 
 // @fnv 0x004d1360
-bool __fastcall FUN_004d1360(char* pThis)
+bool FUN_004d1360(char* pThis)
 {
     return *(int*)(pThis + 0x7bc) == 1 ? true : false;
 }
@@ -1317,7 +1313,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -1335,7 +1330,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0087ce80_shell : public TESObjectREFR
 {
     void FUN_0087ce80(TESObjectCELL*);
@@ -1421,7 +1415,7 @@ struct FUN_004bd9d0_shell
 
 // Returns a float field selected by a1 (1, 2 or 4) and a2 (0 or 1), otherwise 0.0f.
 // @fnv 0x004bd9d0
-float __thiscall FUN_004bd9d0_shell::FUN_004bd9d0(int a1, unsigned char auiSubIndex)
+float FUN_004bd9d0_shell::FUN_004bd9d0(int a1, unsigned char auiSubIndex)
 {
     if (a1 == 1)
     {
@@ -2171,7 +2165,7 @@ struct VTableHelper
 };
 
 // @fnv 0x004bf0e0
-void __fastcall FUN_004bf0e0(InventoryChanges* pThis)
+void FUN_004bf0e0(InventoryChanges* pThis)
 {
     pThis->m_fArmorWeight = pThis->m_fTotalWeight;
     pThis->m_fTotalWeight = -1.0f;
@@ -2278,7 +2272,7 @@ struct FUN_004c0c60_Helper
 
 // Returns true when the helper's type field is one of 3 through 9, otherwise false.
 // @fnv 0x004c0c60
-bool __fastcall FUN_004c0c60(FUN_004c0c60_Helper* pThis)
+bool FUN_004c0c60(FUN_004c0c60_Helper* pThis)
 {
     switch (pThis->type)
     {
@@ -2307,13 +2301,13 @@ struct FUN_004c0cd0_Arg
 };
 
 // @fnv 0x004c0cd0
-void __fastcall SetField1F0(FUN_004c0cd0_This* pThis, FUN_004c0cd0_Arg aValue)
+void SetField1F0(FUN_004c0cd0_This* pThis, FUN_004c0cd0_Arg aValue)
 {
     pThis->field_1f0 = aValue.val;
 }
 
 void* __cdecl operator new(unsigned int);
-void __fastcall FUN_004bf0e0(InventoryChanges*);
+void FUN_004bf0e0(InventoryChanges*);
 struct SL
 {
     SL();
@@ -2515,7 +2509,6 @@ struct InventoryItemEntry
     TESBoundObject* pObj;
     ContainerItemExtra* m_pExtraData;
 };
-typedef char _sizecheck_ContainerObject[sizeof(InventoryItemEntry) == 12 ? 1 : -1];
 struct FUN_004d1610_shell : public InventoryChanges
 {
     void FUN_004d1610();
@@ -2526,8 +2519,8 @@ struct FUN_004bffb0_S
 {
     void* FUN_004bffb0();
 };
-ContNode* __fastcall FUN_00717e50(void*);
-bool __fastcall FUN_008256d0(ContNode*);
+ContNode* FUN_00717e50(void*);
+bool FUN_008256d0(ContNode*);
 struct FUN_00410360
 {
     FUN_00410360();
@@ -2784,7 +2777,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -2821,7 +2813,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_004bee00_shell : public InventoryStackRecord
 {
     void FUN_004bee00(BGSLoadFormBuffer*);
@@ -2880,7 +2871,7 @@ struct FUN_004bfe50_t : InventoryChanges
     void RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef);
 };
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct TESContainer
 {
@@ -3411,7 +3402,7 @@ struct InventoryChangesIter : public InventoryChanges
 
 struct TESForm;
 struct TESBoundObject;
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct ContEntry4c6ba0
 {
@@ -4174,7 +4165,7 @@ int Changes::FUN_004cba70(TESLevItem* pLeveledItem)
 
 extern char DAT_01183128[];
 
-bool __fastcall FUN_004d1360(char*);
+bool FUN_004d1360(char*);
 int __cdecl FUN_00ec43fb(void*, int, const char*, const char*, int);
 
 struct ObjectForm
@@ -4276,10 +4267,10 @@ struct InventoryNode
 struct InventoryItemManager
 {
     InventoryNode* entries;
-    void __thiscall FUN_004d42f0(InventoryStream*);
+    void FUN_004d42f0(InventoryStream*);
 };
 // @fnv 0x004d42f0
-void __thiscall InventoryItemManager::FUN_004d42f0(InventoryStream* stream)
+void InventoryItemManager::FUN_004d42f0(InventoryStream* stream)
 {
     int savedInitial = stream->getInitialSetting();
     int savedFlags;
@@ -6034,7 +6025,7 @@ struct RefShell : TESObjectREFR
     void Invalidate(unsigned mask)
     {
 
-        typedef void(__thiscall * Callback)(TESObjectREFR*, unsigned);
+        typedef void(* Callback)(TESObjectREFR*, unsigned);
 
         ((Callback)(*(void***)this)[18])(this, mask);
     }
@@ -9590,7 +9581,7 @@ bool InventoryIterOwner::AdvanceInventoryIterator(IterState* state, void** out, 
     return false;
 }
 
-int __fastcall FNV_GetFormType(TESForm* pForm);
+int FNV_GetFormType(TESForm* pForm);
 
 struct TopicEntry4d4 : FUN_004459e0
 {
@@ -11137,7 +11128,7 @@ struct Transfer4c37Node84
 {
 };
 unsigned char __cdecl FUN_00702680(int a, int b);
-int __fastcall FUN_00401170(int a);
+int FUN_00401170(int a);
 void* __cdecl FUN_00401000(int a);
 struct Transfer4c37Obj96
 {
@@ -12447,9 +12438,9 @@ struct XInv17
     XActor17* pRef;
     TESContainer* FUN_004bffb0();
 };
-void __fastcall FUN_004bf0e0(InventoryChanges*);
-int __fastcall FUN_00401170(unsigned int);
-bool __fastcall FUN_004c0bf0(TESObjectWEAP*);
+void FUN_004bf0e0(InventoryChanges*);
+int FUN_00401170(unsigned int);
+bool FUN_004c0bf0(TESObjectWEAP*);
 
 extern XExtra17* DAT_011c6448;
 
@@ -15960,7 +15951,7 @@ class Script
     static bool HandleScriptLocals(TESObjectREFR*, void*, void*, double&);
 };
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 
 

@@ -22,7 +22,7 @@
 #include "fnv/symbols_0102e000.h"
 struct FUN_00e06780_class
 {
-    void __thiscall AppendChar(char b);
+    void AppendChar(char b);
 };
 struct S_00e066f0_Src
 {
@@ -105,7 +105,7 @@ struct ByteSink
 
     void PutBytePair(char acFirst, char acSecond);
 };
-typedef void(__thiscall* FlushFunction)(void*);
+typedef void(* FlushFunction)(void*);
 struct BufferWriter
 {
     int unknown00;
@@ -265,7 +265,7 @@ template <class T> inline T S_00e07040_Max(T a, T b)
 {
     return a > b ? a : b;
 }
-int __stdcall FUN_00e07040(S_00e07040_A* a, S_00e07040_B* b)
+int FUN_00e07040(S_00e07040_A* a, S_00e07040_B* b)
 {
     int n = b->unk08 - 8;
     if (n <= 0)
@@ -356,7 +356,7 @@ struct Allocator
 {
     virtual void* unk00(void* p);
     virtual void* unk04(void* p);
-    virtual void __thiscall ReleaseBlock(void* p, unsigned short size);
+    virtual void ReleaseBlock(void* p, unsigned short size);
 };
 struct Router
 {
@@ -371,7 +371,7 @@ struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
     unsigned short unk04;
-    FUN_00e09640_class* __thiscall FUN_00e09640(int flags);
+    FUN_00e09640_class* FUN_00e09640(int flags);
 };
 struct FUN_00e06800_cls
 {
@@ -381,7 +381,7 @@ struct FUN_00e06800_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall FUN_00e06800(char a, int v);
+    void FUN_00e06800(char a, int v);
 };
 struct FUN_00e06880_cls
 {
@@ -391,7 +391,7 @@ struct FUN_00e06880_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall FUN_00e06880(char a, int v);
+    void FUN_00e06880(char a, int v);
 };
 struct FUN_00e069a0_cls
 {
@@ -401,7 +401,7 @@ struct FUN_00e069a0_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall FUN_00e069a0(char a, unsigned int v);
+    void FUN_00e069a0(char a, unsigned int v);
 };
 struct FUN_00e06490_cls
 {
@@ -414,9 +414,9 @@ struct FUN_00e06a60_cls
     int unk0c;
     int unk10;
 
-    void __thiscall FillWithPattern(int count);
+    void FillWithPattern(int count);
 };
-// FUN_00e06af0 - a small __thiscall member that fills in a result flag.
+// FUN_00e06af0 - a small member that fills in a result flag.
 //
 // The original code is exactly:
 //     00e06af0  8b 44 24 08        mov eax, dword ptr [esp + 8]
@@ -463,7 +463,7 @@ struct FUN_00e06780_owner : public FUN_00e06780_class
     int unk10;
     int unk14;
     int unk18;  // +0x18
-    char* __thiscall FUN_00e06af0(char* out, FUN_00e06780_actor* actor, int* value);
+    char* FUN_00e06af0(char* out, FUN_00e06780_actor* actor, int* value);
 };
 struct Stream
 {
@@ -490,7 +490,7 @@ struct FUN_00e06c40_class
     char pad[0x10];
     Stream* m_stream;
 
-    int __thiscall FUN_00e06c40(int a1, int a2);
+    int FUN_00e06c40(int a1, int a2);
 };
 struct Sink
 {
@@ -526,7 +526,7 @@ class FUN_00e06cb0_cls
     int unk0c;
     Sink* m_pSink;
 
-    void __thiscall WritePacket(const Pkt* p);
+    void WritePacket(const Pkt* p);
 };
 struct S_00e06e00_Item
 {
@@ -693,7 +693,7 @@ struct Handler
 {
     int unk00, unk04, unk08, unk0c;
     Entry* unk10;
-    int __thiscall FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
+    int FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
 };
 struct S_00e07da0_Bounds
 {
@@ -909,7 +909,7 @@ class FUN_00e095d0_cls
     unsigned int unk40;
     unsigned int unk44;
 
-    FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
+    FUN_00e095d0_cls* FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
 };
 // Emit an opcode with an immediate, choosing the byte, short or int form (and its opcode offset) by value range.
 class E6BC0Writer
@@ -1031,7 +1031,7 @@ struct FUN_00e07550_cls
     int unk08;
     int unk0c;
     BufWriter* m_10;
-    void __thiscall FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
+    void FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
 };
 extern "C" unsigned int __cdecl _rotl(unsigned int, int);
 struct KdNode;
@@ -1123,7 +1123,7 @@ struct MyTree
     int unk5c;
     float f60[3];
 
-    int __thiscall Recurse(KdNode* n, KdCtx* a, KdCtx* c);
+    int Recurse(KdNode* n, KdCtx* a, KdCtx* c);
 };
 #include <xmmintrin.h>
 struct FUN_00e07b90_bounds
@@ -1134,7 +1134,7 @@ struct FUN_00e07b90_vector
 {
     float x, y, z, w;
 };
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
+void FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
 struct S_00e07d60_Info
 {
     float x;

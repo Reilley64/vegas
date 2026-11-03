@@ -2,6 +2,7 @@
 // Menu, VATSMenu polymorphic, so dynamic_cast on them compiles next to the file's own names (0x00705780).
 
 
+#include <windows.h>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlphaInterface.h"
@@ -690,7 +691,7 @@ struct FORenderedTerminal
 };
 struct FUN_00706810_Class
 {
-    int __thiscall FUN_00706810();
+    int FUN_00706810();
 };
 struct Dummy00712450
 {
@@ -880,8 +881,6 @@ struct FUN_00707870_Owner
 struct FUN_00707870_Target
 {
 };
-extern "C" __declspec(dllimport) int __stdcall IsDebuggerPresent();
-extern "C" __declspec(dllimport) __declspec(noreturn) void __stdcall ExitProcess(unsigned int uExitCode);
 extern "C" void __debugbreak();
 void FUN_00703fd0();
 void FUN_0086a530();
@@ -1596,10 +1595,6 @@ struct WinMessage
     unsigned int time;
     WinPoint pt;
 };
-extern "C" __declspec(dllimport) int __stdcall PeekMessageA(WinMessage*, HWND__*, unsigned int, unsigned int,
-                                                            unsigned int);
-extern "C" __declspec(dllimport) int __stdcall TranslateMessage(const WinMessage*);
-extern "C" __declspec(dllimport) long __stdcall DispatchMessageA(const WinMessage*);
 struct InterfaceControl
 {
 };
@@ -1677,7 +1672,7 @@ unsigned char FUN_007824b0();
 float GetMapMenuFloatSetting();
 struct FUN_00703960_Class
 {
-    void __thiscall SetByteAtOffsetEC(char param);
+    void SetByteAtOffsetEC(char param);
 };
 class TESForm;
 class TESGlobal;
@@ -2305,7 +2300,6 @@ struct FUN_00709930
 // World-map tile mesh build / screenshot dump; param_1 != 0 selects the dump path.
 // Builds on the packet's best prior attempt; corrected constructors, calls and local layout.
 // Packet flags: /MT /Od /Oy- /GS /EHsc /Gy /GF. Entry ABI: __cdecl, caller pops.
-extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(const char*, void*);
 namespace points {
 struct FUN_006815c0
 {
@@ -2332,7 +2326,7 @@ struct FUN_004a7800
     FUN_004a7800(float, float, float, float);
 };
 typedef FUN_004a7800 NiCol;
-// object reached from DAT_011dea3c through virtual slot 0x1f4 (index 125, __thiscall)
+// object reached from DAT_011dea3c through virtual slot 0x1f4 (index 125, )
 struct C125
 {
     virtual void v000();
@@ -2462,7 +2456,7 @@ struct C125
     virtual void v124();
     virtual void* v125();
 };
-// object with virtual name accessor at slot 0x130 (index 76, __thiscall)
+// object with virtual name accessor at slot 0x130 (index 76, )
 struct C76a
 {
     virtual void v000();
@@ -2703,7 +2697,7 @@ struct C76c
     virtual void v075();
     virtual unsigned int v076(int);
 };
-// object with virtual slot 0xdc (index 55, __thiscall, callee pops 8)
+// object with virtual slot 0xdc (index 55, , callee pops 8)
 struct C55
 {
     virtual void v000();
@@ -2763,7 +2757,7 @@ struct C55
     virtual void v054();
     virtual void v055(void*, int);
 };
-// object with virtual slot 0x9c (index 39, __thiscall, callee pops 4)
+// object with virtual slot 0x9c (index 39, , callee pops 4)
 struct C39
 {
     virtual void v000();
@@ -3067,16 +3061,16 @@ struct MapMenuR6
     unsigned char field_12c;
 };
 // free helpers; conventions read from add esp evidence
-extern "C" void __stdcall FUN_00401050(void*, unsigned int, unsigned int, void*);
+extern "C" void FUN_00401050(void*, unsigned int, unsigned int, void*);
 extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_004a7800();
 extern "C" void* __cdecl FUN_00ec62c0();
 struct ColorSource
 {
 };
-extern "C" void __fastcall FUN_00719060(void*);
+extern "C" void FUN_00719060(void*);
 /* ecx = FUN_00718b60 result */
-extern "C" void __fastcall FUN_00a59c60(void*);
+extern "C" void FUN_00a59c60(void*);
 /* ecx = FUN_0056c7f0 result */
 struct GObj
 {

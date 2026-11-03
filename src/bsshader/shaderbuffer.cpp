@@ -96,7 +96,7 @@ struct FUN_00aa4060_Manager
 
 
 extern void FUN_0045cec0(void* object);
-extern void __stdcall FUN_00ec5fce(void* base, unsigned int elementSize, unsigned int count, void (*destructor)(void*));
+extern void FUN_00ec5fce(void* base, unsigned int elementSize, unsigned int count, void (*destructor)(void*));
 
 struct FUN_00b7e2b0_Class
 {

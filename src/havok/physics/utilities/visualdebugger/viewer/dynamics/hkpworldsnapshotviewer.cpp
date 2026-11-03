@@ -16,11 +16,11 @@ extern void __cdecl FUN_00ddcc60();
 
 struct FUN_00d62fe0_cls
 {
-    void __thiscall FUN_00d62fe0();
+    void FUN_00d62fe0();
 };
 
 // @fnv 0x00d62fe0
-void __thiscall FUN_00d62fe0_cls::FUN_00d62fe0()
+void FUN_00d62fe0_cls::FUN_00d62fe0()
 {
     *(int*)this = (int)&DAT_010d1720;
     *(int*)((char*)this + 8) = (int)&DAT_010d1700;
@@ -170,11 +170,11 @@ struct FUN_00d62fa0_class
     SubObj m_subObj;
     Container* m_container;
 
-    void __thiscall ProcessContainerItems();
+    void ProcessContainerItems();
 };
 
 // @fnv 0x00d62fa0
-void __thiscall FUN_00d62fa0_class::ProcessContainerItems()
+void FUN_00d62fa0_class::ProcessContainerItems()
 {
     if (m_container)
     {

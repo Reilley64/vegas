@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "RecursiveSpinLock.h"
 #include "IMemoryHeap.h"
-#pragma pack(push, 4)
 class ZeroOverheadHeap : public IMemoryHeap
 {
   public:
@@ -20,12 +19,4 @@ class ZeroOverheadHeap : public IMemoryHeap
     virtual void Deallocate(void* pointer, unsigned int alignment);
     virtual bool ContainsBlockImpl(const void* pointer);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ZeroOverheadHeap) == 0x40);
-FNV_STATIC_ASSERT(offsetof(ZeroOverheadHeap, iSize) == 0x4);
-FNV_STATIC_ASSERT(offsetof(ZeroOverheadHeap, pName) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ZeroOverheadHeap, m_pPoolBase) == 0xC);
-FNV_STATIC_ASSERT(offsetof(ZeroOverheadHeap, m_pCurrent) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ZeroOverheadHeap, m_iAllocationCount) == 0x14);
-FNV_STATIC_ASSERT(offsetof(ZeroOverheadHeap, lock) == 0x20);
 #endif

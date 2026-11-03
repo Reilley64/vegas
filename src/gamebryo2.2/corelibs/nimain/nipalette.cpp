@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a8b070
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -25,8 +26,6 @@ void* __cdecl FUN_00a8b070()
     return &(*reinterpret_cast<void * *>(&::g_011f5c08));
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FUN_00a8b010_Node
 {
     char _pad[0x1c];
@@ -58,7 +57,7 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_0109f3fc;
-void __fastcall FUN_00a8afc0(void*);
+void FUN_00a8afc0(void*);
 struct MyObj
 {
     void* v0;
@@ -136,7 +135,7 @@ template <class T, class A> struct NiTPrimitiveArray
     void SetAt(unsigned int, T&);
 };
 // @fnv 0x00a8b460
-void __stdcall FUN_00a8b460(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void FUN_00a8b460(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
     char* pszString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f5c08))));
@@ -428,7 +427,7 @@ void DataArray::ReadFromSource(DataSource* source)
     Observer* observer = (*reinterpret_cast<::fnv_00a8b2c0::Observer * *>(&::NiRenderer::ms_pRenderer));
     if (observer)
     {
-        typedef void(__thiscall * OnRead)(Observer*, DataArray*);
+        typedef void(* OnRead)(Observer*, DataArray*);
         (reinterpret_cast<OnRead>(observer->vtable[0x150 / 4]))(observer, this);
     }
 }
@@ -697,7 +696,7 @@ struct ArrayElement
 };
 // Copies the f08 scalar and the f14/f0C integer array from rhs, reallocating the array only when the element count differs.
 // @fnv 0x00a8b190
-MyObj* __fastcall FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
+MyObj* FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
 {
     if (self != rhs)
     {
@@ -722,7 +721,7 @@ MyObj* __fastcall FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
 
 // Appends the given node to the end of a doubly-linked list guarded by a critical section, updating the head and tail pointers.
 // @fnv 0x00a8afc0
-void __fastcall FUN_00a8afc0(void* apNode)
+void FUN_00a8afc0(void* apNode)
 {
     FUN_00a8b010_Node* node = static_cast<FUN_00a8b010_Node*>(apNode);
     EnterCriticalSection(&DAT_011f5c80);

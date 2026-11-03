@@ -18,7 +18,7 @@
 class IMemoryHeap;
 #include "MemoryManager.h"
 
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 extern "C" int strcpy_s(char*, unsigned int, const char*);
 extern "C" int strcat_s(char*, unsigned int, const char*);
 struct _iobuf;

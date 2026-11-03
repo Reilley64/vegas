@@ -14,7 +14,7 @@ struct TransformRecord {
     float unk18;
     float unk1C;
     float unk20;
-    void __thiscall GetMatrix(unsigned int parameter, float* output);
+    void GetMatrix(unsigned int parameter, float* output);
 };
 
 struct S_00a59a30_BinaryStream;

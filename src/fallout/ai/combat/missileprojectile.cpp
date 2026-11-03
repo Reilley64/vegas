@@ -126,7 +126,7 @@ struct FUN_009ba4d0_shell
 };
 
 // @fnv 0x009ba4d0
-char const* const* __thiscall FUN_009ba4d0_shell::GetArg1Ptr()
+char const* const* FUN_009ba4d0_shell::GetArg1Ptr()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_0126818c));
 }
@@ -336,7 +336,7 @@ void __cdecl operator delete(void*);
 
 struct FUN_009ba5c0_shell
 {
-    void* __thiscall FUN_009ba5c0(unsigned int flags);
+    void* FUN_009ba5c0(unsigned int flags);
 };
 
 extern int DAT_0108ffb4;
@@ -344,11 +344,11 @@ extern int DAT_0108ffb4;
 struct FUN_009ba5f0_shell
 {
     void* p;
-    void __thiscall FUN_009ba5f0();
+    void FUN_009ba5f0();
 };
 // Calls FUN_009ba5f0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x009ba5c0
-void* __thiscall FUN_009ba5c0_shell::FUN_009ba5c0(unsigned int flags)
+void* FUN_009ba5c0_shell::FUN_009ba5c0(unsigned int flags)
 {
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->FUN_009ba5f0();
     if (flags & 1)
@@ -357,7 +357,7 @@ void* __thiscall FUN_009ba5c0_shell::FUN_009ba5c0(unsigned int flags)
 }
 
 // @fnv 0x009ba5f0
-void __thiscall FUN_009ba5f0_shell::FUN_009ba5f0()
+void FUN_009ba5f0_shell::FUN_009ba5f0()
 {
     p = &DAT_0108ffb4;
     reinterpret_cast<::C89AC0_Owner *>((this))->SetChildObject((::C89AC0_Child *)(0));
@@ -366,10 +366,10 @@ void __thiscall FUN_009ba5f0_shell::FUN_009ba5f0()
 namespace fnv_009ba610 {
 struct FUN_009ba5f0_shell
 {
-    void __thiscall FUN_009ba610();
+    void FUN_009ba610();
 };
 // @fnv 0x009ba610
-void __thiscall FUN_009ba5f0_shell::FUN_009ba610()
+void FUN_009ba5f0_shell::FUN_009ba610()
 {
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->FUN_009ba5f0();
 }
@@ -377,11 +377,11 @@ void __thiscall FUN_009ba5f0_shell::FUN_009ba610()
 
 struct FUN_009ba630_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 // Calls FUN_009ba610, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x009ba630
-void* __thiscall FUN_009ba630_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_009ba630_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::fnv_009ba610::FUN_009ba5f0_shell *>(this)->FUN_009ba610();
     if (flags & 1)
@@ -400,7 +400,7 @@ struct FUN_009baaa0_shell
 // @fnv 0x009baaa0
 void FUN_009baaa0_shell::FUN_009baaa0(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<void(__thiscall*)(void*, BGSLoadFormBuffer*)>(SaveProjectile)(this, buffer);
+    reinterpret_cast<void(*)(void*, BGSLoadFormBuffer*)>(SaveProjectile)(this, buffer);
     reinterpret_cast<::FUN_00865e50_shell *>((reinterpret_cast<BGSSaveFormBuffer*>(buffer)))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x150, 4, 0);
 }
 

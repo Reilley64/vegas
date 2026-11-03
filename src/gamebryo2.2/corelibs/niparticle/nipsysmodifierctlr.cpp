@@ -158,7 +158,7 @@ unsigned char S_00c313a0::IsEquivalentTo(S_00c313a0* other)
     return unk38 == other->unk38;
 }
 
-extern int(__stdcall* DAT_00fdf1c4)(void* apMemory);
+extern int(* DAT_00fdf1c4)(void* apMemory);
 
 struct NiPSysModifierRef
 {
@@ -192,7 +192,7 @@ struct FUN_00c314a0_cls
 // @fnv 0x00c314a0
 FUN_00c314a0_cls* FUN_00c314a0_cls::Destroy(unsigned char acFlags)
 {
-    int(__stdcall * pfnFree)(void*) = DAT_00fdf1c4;
+    int(* pfnFree)(void*) = DAT_00fdf1c4;
     *(volatile int*)&m_vptr = (int)&(*reinterpret_cast<int *>(&::NiPSysModifierCtlr_vtable));
     char* pName = *(char* volatile*)&m_kTargetModifierName;
     if (pName != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
@@ -278,7 +278,7 @@ struct ControllerStandin
 };
 struct ModifierControllerStandin : ControllerStandin
 {
-    void __thiscall FUN_00c31590(NiStream& stream);
+    void FUN_00c31590(NiStream& stream);
 };
 // @fnv 0x00c31590
 void ModifierControllerStandin::FUN_00c31590(NiStream& stream)

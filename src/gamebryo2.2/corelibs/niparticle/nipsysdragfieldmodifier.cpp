@@ -33,12 +33,12 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c2c800()
 
 struct FUN_00c2c810_shell
 {
-    void* __thiscall FUN_00c2c810(int arg);
+    void* FUN_00c2c810(int arg);
 };
 
 // Calls FUN_00c31750, then if bit 0 of arg is set calls __Dummy_00b6fef0 on this with 0x40, and returns this.
 // @fnv 0x00c2c810
-void* __thiscall FUN_00c2c810_shell::FUN_00c2c810(int arg)
+void* FUN_00c2c810_shell::FUN_00c2c810(int arg)
 {
     void* p = this;
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
@@ -74,11 +74,11 @@ struct NiPSysFieldModifier : BSFadeNode
 };
 struct NiPSysDragFieldModifier : NiPSysFieldModifier
 {
-    NiPSysFieldModifier* __thiscall FUN_00c2c8d0(CloningProcess&);
+    NiPSysFieldModifier* FUN_00c2c8d0(CloningProcess&);
 };
 // Allocates and initialises a NiPSysDragFieldModifier clone, copies the byte at offset 0x30 and the NiPoint3 at offset 0x34 from this, and returns it.
 // @fnv 0x00c2c8d0
-NiPSysFieldModifier* __thiscall NiPSysDragFieldModifier::FUN_00c2c8d0(CloningProcess& process)
+NiPSysFieldModifier* NiPSysDragFieldModifier::FUN_00c2c8d0(CloningProcess& process)
 {
     NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(BSFadeNode::operator new(0x40));
     if (clone)
@@ -152,7 +152,7 @@ struct DragFieldFields
 };
 // Scales each active particle's velocity by a damping factor derived from deltaTime, age and damping, zeroing it once the factor reaches zero.
 // @fnv 0x00c2c830
-void __fastcall ApplyDragDamping(DragFieldFields* self, void*, float deltaTime, BoundDataBlock* data)
+void ApplyDragDamping(DragFieldFields* self, void*, float deltaTime, BoundDataBlock* data)
 {
     for (unsigned short i = 0; i < data->activeCount; ++i)
     {
@@ -172,7 +172,7 @@ void __fastcall ApplyDragDamping(DragFieldFields* self, void*, float deltaTime, 
     }
 }
 
-// FUN_00c2cae0: /MT /O2 /GS /EHsc /Gy, 56 bytes, __thiscall with one stack argument.
+// FUN_00c2cae0: /MT /O2 /GS /EHsc /Gy, 56 bytes, with one stack argument.
 // Compares this modifier against another one: a shared "compatible" helper, the
 // type tag byte at +0x30, and the drag-field data block at +0x34.
 
@@ -235,7 +235,7 @@ struct Subobject
 };
 struct FUN_00c2ce10_owner
 {
-    void __thiscall InvokeCallbackAndUpdate(void* object);
+    void InvokeCallbackAndUpdate(void* object);
 };
 // @fnv 0x00c2ce10
 void FUN_00c2ce10_owner::InvokeCallbackAndUpdate(void* object)
@@ -275,11 +275,11 @@ struct FNVMain
     unsigned char enabled30;
     unsigned char state31, state32, state33;
     FNVChild child34;
-    void __thiscall FUN_00c2ce70(FNVParameter*);
+    void FUN_00c2ce70(FNVParameter*);
 };
 // Calls FUN_00c321f0, invokes the owner's callback0c with the enabled byte and adds its result to total04, then calls child34.FUN_00a69780.
 // @fnv 0x00c2ce70
-void __thiscall FNVMain::FUN_00c2ce70(FNVParameter* pParameter)
+void FNVMain::FUN_00c2ce70(FNVParameter* pParameter)
 {
     reinterpret_cast<::NiPSysFieldModifierImpl *>(this)->FUN_00c321f0((*(::NiStream *)(pParameter)));
     unsigned char enabled = enabled30;
@@ -316,10 +316,10 @@ struct FNVObject195
     int unk20, unk24, unk28, unk2c;
     unsigned char attribute30;
     FNVSubObject195 subobject34;
-    void __thiscall FUN_00c2cec0(FNVArray195* storage);
+    void FUN_00c2cec0(FNVArray195* storage);
 };
 // @fnv 0x00c2cec0
-void __thiscall FNVObject195::FUN_00c2cec0(FNVArray195* pArray)
+void FNVObject195::FUN_00c2cec0(FNVArray195* pArray)
 {
     FNVArray195* const array = pArray;
     reinterpret_cast<::S_00c322b0 *>(this)->FUN_00c322b0((::S_00c322b0_Arr *)(array));
@@ -504,7 +504,7 @@ struct NiPoint3Helper : NiPoint3
 
 struct NiTransformHelper : NiTransform
 {
-    NiPoint3 __thiscall FUN_004b4500(const NiPoint3& kPt) const;
+    NiPoint3 FUN_004b4500(const NiPoint3& kPt) const;
 };
 
 inline NiPoint3 operator-(const NiPoint3& a, const NiPoint3& b)
@@ -545,13 +545,13 @@ struct DragModifier
     char pad31, pad32, pad33;
     NiPoint3 m_kLightVector;
 
-    void __thiscall ApplyDragDamping(float fTime, BoundDataBlock* pkData);
-    void __thiscall FUN_00c2cb20(float fTime, BoundDataBlock* pkData);
+    void ApplyDragDamping(float fTime, BoundDataBlock* pkData);
+    void FUN_00c2cb20(float fTime, BoundDataBlock* pkData);
 };
 
 // Applies a drag field modifier to active particles, scaling or zeroing their velocity based on influence, distance, and motion direction.
 // @fnv 0x00c2cb20
-void __thiscall DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
+void DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
 {
     if (m_fInfluence == 0.0f)
         return;

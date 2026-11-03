@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nifogproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifogproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00a5d450_class.h"
 #include "fnv/decl/FUN_00a62a40_this.h"
 #include "fnv/decl/S_0060ba10.h"
@@ -18,7 +19,6 @@ struct Obj00a9a120
     volatile long m_ref;
 };
 extern Obj00a9a120* DAT_011f5f3c;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // If the global object exists, decrements its reference count, calls its virtual f1 when the count reaches zero, and clears the global pointer.
 // @fnv 0x00a9a120
 void FUN_00a9a120()
@@ -218,11 +218,11 @@ public:
 
 struct A9a030Fog : FUN_00a99ed0
 {
-    bool __thiscall FUN_00a9a030(FUN_00a99ed0* other);
+    bool FUN_00a9a030(FUN_00a99ed0* other);
 };
 
 // @fnv 0x00a9a030
-bool __thiscall A9a030Fog::FUN_00a9a030(FUN_00a99ed0* other)
+bool A9a030Fog::FUN_00a9a030(FUN_00a99ed0* other)
 {
     EqBase* base = reinterpret_cast<EqBase*>(this);
 
@@ -489,7 +489,6 @@ void SaverA9A2::FUN_00a9a230(NiStreamA9A2& kStream)
     reinterpret_cast<::NiColor *>(&(m_kFogTint))->SaveBinary((::NiStream &)(kStream));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct RefObj : Obj00a9a120
 {
     void IncRefCount()

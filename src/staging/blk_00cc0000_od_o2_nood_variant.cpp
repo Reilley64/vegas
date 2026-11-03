@@ -906,7 +906,7 @@ struct PoseQuaternion
     PoseVector vector;
     void FUN_00c66320(const PoseQuaternion&, const PoseQuaternion&);
 };
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 struct QuaternionProduct
 {
     __m128 quad;
@@ -1219,7 +1219,7 @@ struct S_00ccbce0_Owner
     int unk10;
     S_00ccbce0_Ref* unk14;
 
-    void __thiscall FUN_00ccbce0(S_00ccbce0_Output* value);
+    void FUN_00ccbce0(S_00ccbce0_Output* value);
 };
 
 // @fnv 0x00ccbce0
@@ -1697,7 +1697,7 @@ class S_00cd3c20_Obj
 };
 
 // @fnv 0x00cd3c20
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj)
+void FUN_00cd3c20(S_00cd3c20_Obj* obj)
 {
     if (obj->unk520 != 0xb)
     {
@@ -2088,7 +2088,7 @@ unsigned int LunaTarget::FUN_00cca360(LunaArgument* argument)
     else
         attrs = 0;
     void* result = ((void *)(::FUN_00d54cd0((void *)(attrs), (::S_00d54cd0_Input *)(::ScratchGeometry *)(&action.scratch), (void *)(0))));
-    typedef void(__thiscall * ActionHandler)(LunaTarget*, LunaAction*);
+    typedef void(* ActionHandler)(LunaTarget*, LunaAction*);
     ActionHandler handler = reinterpret_cast<ActionHandler>((*reinterpret_cast<void***>(this))[44]);
     action.result = result;
     handler(this, &action);
@@ -3222,8 +3222,8 @@ struct OutputHandler
     void FUN_00cca6f0(InitializePathingRequestFromPosition* request);
 };
 
-typedef void(__thiscall* OutputMethod)(OutputHandler*, void*);
-typedef void(__thiscall* RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
+typedef void(* OutputMethod)(OutputHandler*, void*);
+typedef void(* RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
 
 // @fnv 0x00cca6f0
 void OutputHandler::FUN_00cca6f0(InitializePathingRequestFromPosition* request)
@@ -3902,7 +3902,7 @@ class CylinderInitOwner
     virtual void v45();
     virtual void v46();
     virtual void v47(ParamSrc*);
-    void __thiscall FUN_00ccd8c0(ParamSrc*);
+    void FUN_00ccd8c0(ParamSrc*);
 };
 // @fnv 0x00ccd8c0
 void CylinderInitOwner::FUN_00ccd8c0(ParamSrc* p)

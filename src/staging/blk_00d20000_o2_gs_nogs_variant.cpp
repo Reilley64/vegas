@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D338e0Owner.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -74,7 +75,7 @@ extern int DAT_010ce930;
 struct FUN_00d2f220_class
 {
     int* p;
-    int __thiscall InitializeWithGlobal(int a);
+    int InitializeWithGlobal(int a);
 };
 void __cdecl FUN_00d36c30(void* p);
 void CreateRetObj();
@@ -100,7 +101,7 @@ struct CollisionAgentFunctionTable {
 struct Agent {
 };
 struct FUN_00d27f50_Obj {
-    void __thiscall FUN_00d27f50(int param_1, int param_2);
+    void FUN_00d27f50(int param_1, int param_2);
 };
 struct FUN_00d27f70 {
     int** m_ppIndices;
@@ -108,7 +109,7 @@ struct FUN_00d27f70 {
 
     FUN_00d27f70(int** indices, int numIndices);
 };
-struct FUN_00d27ff0_class {int** values; void __thiscall UnionFindMerge(int first, int second);};
+struct FUN_00d27ff0_class {int** values; void UnionFindMerge(int first, int second);};
 struct D28030FixedArray {
     int* m_data;
     int m_iElementCount;
@@ -225,10 +226,10 @@ struct FUN_00d36b20_Class {
     int unk14;
     int unk18;
 
-    FUN_00d36b20_Class* __thiscall FUN_00d36b20(int param1, int param2, int* param3, int param4);
+    FUN_00d36b20_Class* FUN_00d36b20(int param1, int param2, int* param3, int param4);
 };
 struct FUN_00d36cc0_Obj {
-    void __thiscall FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
+    void FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
 };
 struct FnvCpu_FUN_00d36ce0_CpuCallData { void* descriptor; float bound; unsigned int value; };
 struct FnvCpu_FUN_00d36ce0_CpuObject {
@@ -477,7 +478,7 @@ struct FUN_00d219e0_cls
     int unk0C;
     FUN_00d219e0_node* unk10;
     int unk14;
-    void __thiscall SetLists(FUN_00d219e0_node* a, FUN_00d219e0_node* b);
+    void SetLists(FUN_00d219e0_node* a, FUN_00d219e0_node* b);
 };
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
@@ -526,13 +527,13 @@ struct FUN_00d277f0_arg
 };
 struct FUN_00d61840_class {
     int m_iWordAt00;
-    int __thiscall FUN_00d61c10(int a);
+    int FUN_00d61c10(int a);
 };
 int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj);
 struct PathHelper {
     char* m_data;
 
-    void __thiscall FUN_00d61c10(const char* s);
+    void FUN_00d61c10(const char* s);
 };
 const char* __cdecl FUN_00d2b360(const char* path, PathHelper* str);
 struct FnvCpu_FUN_00d2c7d0_CpuInterface {
@@ -558,7 +559,7 @@ struct FUN_00d2cd80_Obj
     int unk00;
     FUN_00d04350_Obj unk04;
 
-    FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
+    FUN_00d2cd80_Obj* FUN_00d2cd80();
 };
 struct SubA {  };
 struct SubB {  };
@@ -590,7 +591,7 @@ struct FUN_00d34aa0_Obj {
     virtual void vf18();
     virtual void vf1C();
 
-    virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
+    virtual void FUN_00d34aa0(int a, int b, int c, int d);
 };
 struct FnvCpu_FUN_00d34b00_CpuCallData { void* descriptor; float bound; unsigned int value; };
 struct FnvCpu_FUN_00d34b00_CpuObject {
@@ -815,7 +816,6 @@ void caller_d284f0()
     g_out_d284f0 = FUN_00d284f0(g_t_d284f0, (Obj_d284f0*)g_in_d284f0);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct FourFloatVector { __m128 value; };
 struct Transform { FourFloatVector x,y,z,translation; };
 struct Contact { FourFloatVector position,normal; unsigned int id,unk24,unk28,unk2c; };

@@ -5,7 +5,7 @@
 
 #include "fnv/decl/FUN_00dd51d0_class.h"
 #include "fnv/symbols_00c85000.h"
-int __stdcall ReadIntField(const void* a, int* b);
+int ReadIntField(const void* a, int* b);
 struct FUN_00dd5260_T
 {
     int a;
@@ -14,7 +14,7 @@ struct FUN_00dd5260_T
     int d;
     int e;
 };
-void __stdcall FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst);
+void FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst);
 struct FUN_00dd5210_Interface
 {
     virtual void First();
@@ -78,7 +78,7 @@ struct CpuObject
     unsigned short size;
     CpuObject* FUN_00dd55a0(unsigned int flags);
 };
-void __stdcall FUN_00dd51e0(int, int);
+void FUN_00dd51e0(int, int);
 struct FnvCpu_FUN_00dd5290_CpuObject
 {
     unsigned int unk00;

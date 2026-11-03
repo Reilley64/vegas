@@ -29,17 +29,17 @@
 #include "havok/hkpMouseSpringAction.h"
 struct FUN_00d2b1f0
 {
-    void __thiscall EntityRemovedCallback(int);
+    void EntityRemovedCallback(int);
 };
 struct FUN_00cbb1c0 : FUN_00d2b1f0
 {
-    void __thiscall Method(int);
+    void Method(int);
 };
 struct FUN_00cbb1b0_Class
 {
     char pad0[0x48];
     hkReal m_fMaxRelativeForce;
-    void __thiscall FUN_00cbb1b0(hkReal a);
+    void FUN_00cbb1b0(hkReal a);
 };
 int __cdecl FUN_00cbb8a0();
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -124,7 +124,7 @@ struct Ms_Body
     int u17;
     int u18;
     int u19;
-    void __thiscall FUN_00cd2d80(Ms_Sphere* s, Ms_Xf* x, int parent);
+    void FUN_00cd2d80(Ms_Sphere* s, Ms_Xf* x, int parent);
 };
 struct Ms_Input
 {
@@ -445,7 +445,7 @@ struct hkStepInfo
 
 struct FUN_00ca86c0_class
 {
-    unsigned int __thiscall FUN_00ca86c0();
+    unsigned int FUN_00ca86c0();
 };
 
 struct FUN_00cdf250_class
@@ -454,12 +454,12 @@ struct FUN_00cdf250_class
 
 struct Vector4Ext : hkVector4
 {
-    void __thiscall FUN_00c7f640(const hkTransform* t, const hkVector4* v);
+    void FUN_00c7f640(const hkTransform* t, const hkVector4* v);
 };
 
 struct Matrix3Ext : FUN_00cdf250_class, hkMatrix3
 {
-    void __thiscall Subtract(const hkMatrix3* a);
+    void Subtract(const hkMatrix3* a);
 };
 
 struct MotionExt
@@ -474,7 +474,7 @@ struct MotionExt
     virtual void unk7();
     virtual void unk8();
     virtual void unk9();
-    virtual void __thiscall GetLocalInverseInertia(hkMatrix3* out);
+    virtual void GetLocalInverseInertia(hkMatrix3* out);
     virtual void unk11();
     virtual void unk12();
     virtual void unk13();
@@ -484,7 +484,7 @@ struct MotionExt
     virtual void unk17();
     virtual void unk18();
     virtual void unk19();
-    virtual void __thiscall ApplyImpulseAtPoint(const hkVector4* impulse, const hkVector4* point);
+    virtual void ApplyImpulseAtPoint(const hkVector4* impulse, const hkVector4* point);
 
     int unk04;
     int unk08;
@@ -527,7 +527,7 @@ struct RigidBodyExt : FUN_00ca86c0_class
     hkVector4 unkd0;
     MotionExt m_pMotionState;
 
-    void __thiscall FUN_00ca0c40(const hkVector4* point, hkVector4* outVel);
+    void FUN_00ca0c40(const hkVector4* point, hkVector4* outVel);
 };
 
 extern "C" double __cdecl sqrt(double);
@@ -536,11 +536,11 @@ typedef void(__cdecl* MouseSpringCallback)(hkpMouseSpringAction*, const hkStepIn
 
 struct MouseSpringActionExt : hkpMouseSpringAction
 {
-    void __thiscall FUN_00cbb1e0(const hkStepInfo& stepInfo);
+    void FUN_00cbb1e0(const hkStepInfo& stepInfo);
 };
 
 // @fnv 0x00cbb1e0
-void __thiscall MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
+void MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
 {
     Vector4Ext impulse;
     Vector4Ext worldPos;

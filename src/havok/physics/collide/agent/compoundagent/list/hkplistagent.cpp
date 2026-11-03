@@ -8,24 +8,24 @@
 #include "fnv/symbols_00da4000.h"
 struct hkAgent1nMachine
 {
-    void __thiscall InvalidateTim(void*);
+    void InvalidateTim(void*);
 };
 
 struct hkpListAgent
 {
     char m0[0x10];
-    void __thiscall FUN_00d36850(void* arg);
+    void FUN_00d36850(void* arg);
 };
 
 // @fnv 0x00d36850
-void __thiscall hkpListAgent::FUN_00d36850(void* arg)
+void hkpListAgent::FUN_00d36850(void* arg)
 {
     ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x10)), (*(::CollisionAgentContext *)(arg)));
 }
 
 
 // @fnv 0x00d36b00
-void __stdcall FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     ::FUN_00d36990();
 }
@@ -47,7 +47,7 @@ void Owner::FUN_00d36870(float afValue1, float afValue2, int aiValue)
 
 
 // @fnv 0x00d36940
-void __stdcall FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+void FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     ::FUN_00d36920();
 }
@@ -55,7 +55,7 @@ void __stdcall FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apAr
 
 // Forwards all five arguments to FUN_00d36930.
 // @fnv 0x00d36960
-void __stdcall FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
+void FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
     ::FUN_00d36930();
 }

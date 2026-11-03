@@ -5,6 +5,7 @@
 
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BDBA270Array.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -35,13 +36,13 @@ extern "C" void __cdecl FUN_00cb0a70(void*);
 extern int DAT_010d461c;
 struct FUN_00da07b0_class
 {
-    void __thiscall FUN_00cb0a70(void*);
+    void FUN_00cb0a70(void*);
 };
 extern int DAT_010c6bec;
 extern int DAT_010d6014;
 struct FUN_00db7ab0_class
 {
-    void* __thiscall FUN_00db7ab0(void* a, void* b, void* c);
+    void* FUN_00db7ab0(void* a, void* b, void* c);
 };
 void* __cdecl FUN_00da6e10(void* a, void* b, void* c);
 void __cdecl FUN_00da0680(char* a, int b);
@@ -51,11 +52,11 @@ struct FUN_00da0740_vt
 };
 struct FUN_00cb0a70_class
 {
-    void __thiscall FUN_00cb0a70(int);
+    void FUN_00cb0a70(int);
 };
 struct FUN_00db7cf0_class
 {
-    int __thiscall FUN_00db7cf0(int a, int b);
+    int FUN_00db7cf0(int a, int b);
 };
 void* __cdecl FUN_00da0610();
 char* __cdecl FUN_00da0630(void);
@@ -298,7 +299,7 @@ struct FUN_00db0060_class
     int unk14;
     int unk18;
 
-    void __thiscall FUN_00db0060(int* param_2, int param_3);
+    void FUN_00db0060(int* param_2, int param_3);
 };
 struct DB7570Pair
 {
@@ -330,7 +331,7 @@ struct FUN_00db75b0_class
     FUN_00db75b0_entry* unk04;
     int unk08;
 
-    unsigned int __thiscall FUN_00db75b0(int a1, unsigned int* a2);
+    unsigned int FUN_00db75b0(int a1, unsigned int* a2);
 };
 struct FUN_00db78a0_item
 {
@@ -678,9 +679,9 @@ struct CallbackHolder
     int unk00;
     int unk04;
     int unk08;
-    void(__stdcall* callback)(void* argument);
+    void(* callback)(void* argument);
 };
-extern void*(__stdcall* DAT_00fdf110)();
+extern void*(* DAT_00fdf110)();
 struct FUN_00da2b30_Class
 {
     int unk00;
@@ -701,7 +702,7 @@ struct FUN_00da2b90_Obj
     short unk06;
     int* unk08;
 
-    unsigned int* __thiscall Initialize();
+    unsigned int* Initialize();
 };
 struct DA2D70Listener
 {
@@ -722,7 +723,7 @@ struct DA2D70Object
     int unk00;
     unsigned short unk04;
 
-    void* __thiscall NotifyAudioListener(int flags);
+    void* NotifyAudioListener(int flags);
 };
 extern BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00da2da0();
@@ -845,7 +846,6 @@ void drive_db0dc0(void)
 }
 
 #include <string.h>
-extern "C" __declspec(dllimport) void* __stdcall GetCurrentProcess();
 int __cdecl FUN_00eca38d(char*, unsigned int, const char*, ...);
 struct SymbolInfoBuffer
 {
@@ -868,11 +868,11 @@ struct DebugFunctions
     void* unk0c;
     void* unk10;
     void* unk14;
-    int(__stdcall* symbolFromAddress)(void*, unsigned int, unsigned int*, SymbolInfoBuffer*);
+    int(* symbolFromAddress)(void*, unsigned int, unsigned int*, SymbolInfoBuffer*);
     void* unk1c;
     void* unk20;
     void* unk24;
-    int(__stdcall* lineFromAddress)(void*, unsigned __int64, unsigned int*, SourceLine*);
+    int(* lineFromAddress)(void*, unsigned __int64, unsigned int*, SourceLine*);
 };
 extern char DAT_01269a88;
 struct StackTracer

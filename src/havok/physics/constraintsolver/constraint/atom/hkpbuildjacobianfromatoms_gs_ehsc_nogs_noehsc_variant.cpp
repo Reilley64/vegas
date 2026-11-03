@@ -287,7 +287,7 @@ static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* ta
     *cursor = rec;
 }
 
-void __fastcall S00d6e280_Wrap(S00d6e280_Obj* self, S00d6e280_Other* other, S00d6e280_Arg* a1)
+void S00d6e280_Wrap(S00d6e280_Obj* self, S00d6e280_Other* other, S00d6e280_Arg* a1)
 {
     S00d6e280_Rec* cur = 0;
     __m128* tab = 0;

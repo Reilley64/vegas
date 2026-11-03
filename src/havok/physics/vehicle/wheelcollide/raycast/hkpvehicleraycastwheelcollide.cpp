@@ -350,7 +350,7 @@ struct S00e41f30_impl
     S00e41f30_listener m_kChassisRejectionListener;
     int unk20;
 
-    void __thiscall CreateWheelPhantom(S00e41f30_arg* arg);
+    void CreateWheelPhantom(S00e41f30_arg* arg);
 };
 
 namespace fnvc_adapt {
@@ -475,13 +475,13 @@ struct CollisionDetectionWheelOutputE423
 
 struct hkpVehicleRayCastWheelCollideE423
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE423& kCdInfo);
 };
 
 // Copies contact point velocity, writes negated hard point components to the separating normal, and stores the wheel rest length.
 // @fnv 0x00e423d0
-void __stdcall hkpVehicleRayCastWheelCollideE423::RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle,
+void hkpVehicleRayCastWheelCollideE423::RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle,
                                                                       unsigned char ucWheelNum,
                                                                       CollisionDetectionWheelOutputE423& kCdInfo)
 {
@@ -676,12 +676,12 @@ struct __declspec(align(16)) FUN_00e41eb0_Input
 
 struct FUN_00e41eb0_Host : public hkpVehicleRayCastWheelCollide
 {
-    void __thiscall FUN_00e41eb0(const void* source, void* output);
+    void FUN_00e41eb0(const void* source, void* output);
 };
 
 // Builds an input from vectors at source offsets 0x50 and 0x60 (filter info = m_uiWheelCount) and passes it with output to m_pPhantom's FUN_00cf26b0.
 // @fnv 0x00e41eb0
-void __thiscall FUN_00e41eb0_Host::FUN_00e41eb0(const void* source, void* output)
+void FUN_00e41eb0_Host::FUN_00e41eb0(const void* source, void* output)
 {
     FUN_00e41eb0_Input input;
     *(__m128*)&input.m_vFrom = *(__m128*)((const char*)source + 0x50);
@@ -901,7 +901,7 @@ struct FUN_00e42010_self
 
 // Computes the min/max AABB from the m_kBounds of all items in the self->unk48 array, storing the result into aabb.
 // @fnv 0x00e42010
-void __stdcall FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb)
+void FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb)
 {
     _mm_store_ps(&aabb->m_data[0], _mm_min_ps(_mm_load_ps(&self->unk48[0].m_kBounds.m_data[0]),
                                               _mm_load_ps(&self->unk48[0].m_kBounds.m_data[4])));

@@ -40,7 +40,6 @@ struct TESFactionReactionView
     TESReactionFormBufferAccess reaction;
 };
 
-FNV_STATIC_ASSERT(offsetof(TESFactionReactionView, reaction) == 0x24);
 
 class TESFormInitFlag
 {

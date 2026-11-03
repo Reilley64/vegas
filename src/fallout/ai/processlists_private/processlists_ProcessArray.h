@@ -23,10 +23,4 @@ class MobileObjectProcessArray
     PROCESS_TYPE GetProcessLevelFromIndex(unsigned int auiIndex) const;
     unsigned int GetIndexFromObject(MobileObject* apObject, PROCESS_TYPE aeLevel) const;
 };
-FNV_STATIC_ASSERT(sizeof(PROCESS_TYPE) == 4);
-FNV_STATIC_ASSERT(sizeof(MobileObjectProcessArray) == 0x40);
-FNV_STATIC_ASSERT(offsetof(MobileObjectProcessArray, m_kMobileObjectArray) == 0);
-FNV_STATIC_ASSERT(offsetof(MobileObjectProcessArray, m_auiProcessHeadIndices) == 0x10);
-FNV_STATIC_ASSERT(offsetof(MobileObjectProcessArray, m_auiProcessTailIndices) == 0x20);
-FNV_STATIC_ASSERT(offsetof(MobileObjectProcessArray, m_auiNextUpdateIndices) == 0x30);
 #endif

@@ -120,7 +120,7 @@ unsigned int FUN_00e363a0_StandIn::FUN_00e363a0(unsigned char wheelIndex)
     FUN_00e363a0_Wheel* wheel =
         *reinterpret_cast<FUN_00e363a0_Wheel**>(reinterpret_cast<unsigned char*>(puiWheelPointers) + offset);
 
-    void(__thiscall * fn)(FUN_00e363a0_Wheel*) = reinterpret_cast<void(__thiscall*)(FUN_00e363a0_Wheel*)>(
+    void(* fn)(FUN_00e363a0_Wheel*) = reinterpret_cast<void(*)(FUN_00e363a0_Wheel*)>(
         *reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(wheel) + 0x28));
     fn(wheel);
 
@@ -795,13 +795,13 @@ struct CollisionDetectionWheelOutputE366
 
 struct hkpVehicleRayCastWheelCollideE366
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE366& kCdInfo);
 };
 
 // Copies contact point velocity, writes negated hard point components to the separating normal, and stores the wheel rest length.
 // @fnv 0x00e36670
-void __stdcall hkpVehicleRayCastWheelCollideE366::RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle,
+void hkpVehicleRayCastWheelCollideE366::RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle,
                                                                       unsigned char ucWheelNum,
                                                                       CollisionDetectionWheelOutputE366& kCdInfo)
 {
@@ -1541,7 +1541,7 @@ struct CapsuleE36120 : public ShapeE36120
 };
 
 // @fnv 0x00e36120
-ShapeE36120* __stdcall FUN_00e36120(float afHeight, float fRadius)
+ShapeE36120* FUN_00e36120(float afHeight, float fRadius)
 {
     Vector4E36120 kTop;
     kTop.set(::DAT_01011d78, ::DAT_01011d78, afHeight * 0.5, ::DAT_01011d78);

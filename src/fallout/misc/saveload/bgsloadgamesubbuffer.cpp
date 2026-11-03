@@ -80,7 +80,7 @@ void BGSLoadGameSubBuffer::LoadGame(BGSLoadGameBuffer* buffer)
                     cursor = new char[total];
                     reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(this)))->SetQuantity((unsigned int)cursor);
                     byteDestination = cursor;
-                    typedef unsigned char(__thiscall * ReadByte)(BGSLoadGameBuffer*);
+                    typedef unsigned char(* ReadByte)(BGSLoadGameBuffer*);
                     *byteDestination = ((ReadByte)buffer->m_ppVirtualMethodTable[0])(buffer);
                     cursor++;
                     WriteEncodedInteger(cursor, value);
@@ -103,7 +103,7 @@ void LoadGameSubBufferQueue::ProcessSubBuffer(QUEUED_SUB_BUFFER_TYPE type, BGSLo
         reinterpret_cast<BGSLoadGameSubBuffer*>(&subBuffer)->LoadGame(reinterpret_cast<BGSLoadGameBuffer*>(buffer));
         if (!(TESForm*)subBuffer)
             return;
-        typedef TESForm*(__thiscall * GetForm)(BGSLoadFormBuffer*);
+        typedef TESForm*(* GetForm)(BGSLoadFormBuffer*);
         key = form ? form : ((GetForm)buffer->m_ppVirtualMethodTable[1])(buffer);
         reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<NiTPointerMap<unsigned int, TESObjectREFR*>*>(&m_kSubBuffersByType[type])))->FUN_00844700((unsigned int)key, (unsigned int)(reinterpret_cast<TESObjectREFR*>(subBuffer.m_pObject)));
     }
@@ -151,7 +151,7 @@ void BGSLoadGameSubBuffer::RestoreAnimation(TESForm* form)
         if (form->GetIsReference())
         {
             TESForm* reference = form;
-            typedef bool(__thiscall * IsActor)(TESForm*);
+            typedef bool(* IsActor)(TESForm*);
             if (((IsActor)(*reinterpret_cast<void***>(reference))[0x40])(reference))
             {
                 Animation* animation = 0;
@@ -159,7 +159,7 @@ void BGSLoadGameSubBuffer::RestoreAnimation(TESForm* form)
                     animation = ::_g_thePlayer->GetAnimation(firstPerson);
                 else
                 {
-                    typedef Animation*(__thiscall * GetAnimation)(TESForm*);
+                    typedef Animation*(* GetAnimation)(TESForm*);
                     animation = ((GetAnimation)(*reinterpret_cast<void***>(reference))[0x79])(reference);
                 }
                 if (animation)
@@ -373,7 +373,7 @@ void LoadGameSubBufferQueue::ProcessQueuedSubBuffers(QUEUED_SUB_BUFFER_TYPE eSub
                         {
                             reference = reinterpret_cast<TESObjectREFR*>(form);
                             load = reinterpret_cast<unsigned int>(((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reference))->FUN_0043fcd0()))) != 0;
-                            typedef bool(__thiscall * IsActor)(TESObjectREFR*);
+                            typedef bool(* IsActor)(TESObjectREFR*);
                             if (((IsActor)(*reinterpret_cast<void***>(reference))[0x40])(reference))
                                 actor = reference;
                         }

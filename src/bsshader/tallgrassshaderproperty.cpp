@@ -1,5 +1,6 @@
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -401,7 +402,6 @@ FUN_00b60f50* FUN_00b60f50_Create()
     return new FUN_00b60f50;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct MapObject
 {
     virtual void slot0();

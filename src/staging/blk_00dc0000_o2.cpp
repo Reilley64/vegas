@@ -44,12 +44,12 @@
 
 struct FUN_00dd4b10_struct
 {
-    void __thiscall AssignFromSource(const void* p);
+    void AssignFromSource(const void* p);
 };
 
 // Copies six consecutive unsigned ints from p into this at offsets 8 through 28.
 // @fnv 0x00dd4b10
-void __thiscall FUN_00dd4b10_struct::AssignFromSource(const void* pSource)
+void FUN_00dd4b10_struct::AssignFromSource(const void* pSource)
 {
     const unsigned int* src = (const unsigned int*)pSource;
     *(unsigned int*)((char*)this + 8) = src[0];
@@ -76,12 +76,12 @@ struct FUN_00dd4b40_Class
     unsigned int m_2c;
     unsigned int m_30;
     unsigned int m_34;
-    void __thiscall SetValues(const unsigned int* p);
+    void SetValues(const unsigned int* p);
 };
 
 // Copies six unsigned ints from the array p into fields m_20 through m_34.
 // @fnv 0x00dd4b40
-void __thiscall FUN_00dd4b40_Class::SetValues(const unsigned int* auiValues)
+void FUN_00dd4b40_Class::SetValues(const unsigned int* auiValues)
 {
     m_20 = auiValues[0];
     m_24 = auiValues[1];
@@ -103,12 +103,12 @@ struct FUN_00dd5170_class
     int h;
     int i;
     int j;
-    void __thiscall CopySixInts(const int* p);
+    void CopySixInts(const int* p);
 };
 
 // Copies six consecutive ints from the pointed-to array into fields c through h.
 // @fnv 0x00dd5170
-void __thiscall FUN_00dd5170_class::CopySixInts(const int* pSource)
+void FUN_00dd5170_class::CopySixInts(const int* pSource)
 {
     c = pSource[0];
     d = pSource[1];
@@ -169,11 +169,11 @@ struct FUN_00dd0420_Class
     int m_14;
     int m_18;
     int m_1c;
-    FUN_00dd0420_Class* __thiscall FUN_00dd0420(int arg);
+    FUN_00dd0420_Class* FUN_00dd0420(int arg);
 };
 // If arg is nonzero, zeroes m_00/m_08/m_0c, sets m_04 to 0x10, calls FUN_00d51760 on m_1c and this, then sets m_00 to m_04; returns this.
 // @fnv 0x00dd0420
-FUN_00dd0420_Class* __thiscall FUN_00dd0420_Class::FUN_00dd0420(int aiFlag)
+FUN_00dd0420_Class* FUN_00dd0420_Class::FUN_00dd0420(int aiFlag)
 {
     if (aiFlag)
     {
@@ -189,10 +189,10 @@ FUN_00dd0420_Class* __thiscall FUN_00dd0420_Class::FUN_00dd0420(int aiFlag)
 
 struct FUN_00dd4b70_class
 {
-    void __thiscall FUN_00dd4b70(unsigned char value);
+    void FUN_00dd4b70(unsigned char value);
 };
 // @fnv 0x00dd4b70
-void __thiscall FUN_00dd4b70_class::FUN_00dd4b70(unsigned char value)
+void FUN_00dd4b70_class::FUN_00dd4b70(unsigned char value)
 {
     *(unsigned char*)(this + 0x1c) = value;
     *(unsigned char*)(this + 0x64) = value;
@@ -309,7 +309,7 @@ FUN_00dcc5a0_class* FUN_00dcc5a0_class::FUN_00dcc5a0(int arg)
 
 struct FUN_00cb0a70
 {
-    void __thiscall m(int);
+    void m(int);
 };
 // @fnv 0x00dccae0
 void __cdecl FUN_00dccae0(void* a, void* iValue)
@@ -336,11 +336,11 @@ extern int DAT_010d77b4[];
 struct FUN_00dcd4b0_Class
 {
     void* m_ppVirtualMethodTable;
-    FUN_00dcd4b0_Class* __thiscall InitializeAndMaybeFree(int flags);
+    FUN_00dcd4b0_Class* InitializeAndMaybeFree(int flags);
 };
 
 // @fnv 0x00dcd4b0
-FUN_00dcd4b0_Class* __thiscall FUN_00dcd4b0_Class::InitializeAndMaybeFree(int flags)
+FUN_00dcd4b0_Class* FUN_00dcd4b0_Class::InitializeAndMaybeFree(int flags)
 {
     m_ppVirtualMethodTable = DAT_010d77b4;
     if (flags & 1)
@@ -354,12 +354,12 @@ struct DDA7C0OStream
 
 struct FUN_00dda6b0_Class
 {
-    void __thiscall WriteUInt32Triple(const unsigned int* p);
+    void WriteUInt32Triple(const unsigned int* p);
 };
 
 // Writes the three consecutive unsigned ints pointed to by p to the stream via writeInt32.
 // @fnv 0x00dda6b0
-void __thiscall FUN_00dda6b0_Class::WriteUInt32Triple(const unsigned int* auiValues)
+void FUN_00dda6b0_Class::WriteUInt32Triple(const unsigned int* auiValues)
 {
     reinterpret_cast<::hkOArchive_2 *>((((DDA7C0OStream*)this)))->WriteInt(auiValues[0]);
     reinterpret_cast<::hkOArchive_2 *>((((DDA7C0OStream*)this)))->WriteInt(auiValues[1]);
@@ -371,10 +371,10 @@ struct D2B3D0Map
 };
 struct FUN_00ddf030_Class
 {
-    void __thiscall FUN_00ddf030(int arg);
+    void FUN_00ddf030(int arg);
 };
 // @fnv 0x00ddf030
-void __thiscall FUN_00ddf030_Class::FUN_00ddf030(int arg)
+void FUN_00ddf030_Class::FUN_00ddf030(int arg)
 {
     reinterpret_cast<::FUN_00cb1a60_t *>((((D2B3D0Map*)((char*)this + 0x20))))->ResetEntries();
 }
@@ -385,7 +385,7 @@ struct D2B3D0Map
 };
 
 // @fnv 0x00ddf040
-void __fastcall FUN_00ddf040(char* ecx, int edx)
+void FUN_00ddf040(char* ecx, int edx)
 {
     reinterpret_cast<::FUN_00cb1a60_t *>((((D2B3D0Map*)(ecx + 0x20))))->ResetEntries();
 }
@@ -406,7 +406,7 @@ struct FUN_00ddfb80_s
 
 // Initialises the object: sets field at offset 6 to 1, assigns the vtable, copies two pointers from src, and zeroes the field at offset 16.
 // @fnv 0x00ddfb80
-FUN_00ddfb80_s* __fastcall FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src)
+FUN_00ddfb80_s* FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src)
 {
     *(unsigned short*)((char*)self + 6) = 1;
     self->m_vt = &DAT_010d8094;
@@ -416,9 +416,9 @@ FUN_00ddfb80_s* __fastcall FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* s
     return self;
 }
 
-// FUN_00dc1660: __stdcall identity on its single stack parameter.
+// FUN_00dc1660: identity on its single stack parameter.
 // @fnv 0x00dc1660
-int __stdcall FUN_00dc1660(int a1)
+int FUN_00dc1660(int a1)
 {
     return a1;
 }
@@ -567,12 +567,12 @@ struct FUN_00dcc180_Class
     int unk04;
     FUN_00dcc180_Interface* unk08;
 
-    unsigned char* __thiscall FUN_00dcc180(unsigned char* value);
+    unsigned char* FUN_00dcc180(unsigned char* value);
 };
 
 // If unk08 is set, forwards value to its virtual method; otherwise writes 0 to *value and returns value.
 // @fnv 0x00dcc180
-unsigned char* __thiscall FUN_00dcc180_Class::FUN_00dcc180(unsigned char* pucValue)
+unsigned char* FUN_00dcc180_Class::FUN_00dcc180(unsigned char* pucValue)
 {
     if (unk08)
         unk08->FUN_00dcc180_03(pucValue);
@@ -620,13 +620,13 @@ struct FUN_00dcc670_Class
     unsigned short unk06;
     int unk08;
 
-    int* __thiscall InitFromValue(int* value);
+    int* InitFromValue(int* value);
 };
 
 
 // Sets unk06 to 1, unk00 to &DAT_010d7540, and unk08 to the result of DAT_01268364->FUN_00dcc670_v3(value), then returns this.
 // @fnv 0x00dcc670
-int* __thiscall FUN_00dcc670_Class::InitFromValue(int* value)
+int* FUN_00dcc670_Class::InitFromValue(int* value)
 {
     int* local_value = value;
 
@@ -783,8 +783,8 @@ struct S_00dcc9c0_Target
 
 struct S_00dcc9c0_Class
 {
-    void __thiscall ReadToken(S_00dcc9c0_StringBuf* buf) throw();
-    S_00dcc9c0_Class* __thiscall FUN_00dcc9c0(S_00dcc9c0_Target* target) throw();
+    void ReadToken(S_00dcc9c0_StringBuf* buf) throw();
+    S_00dcc9c0_Class* FUN_00dcc9c0(S_00dcc9c0_Target* target) throw();
 };
 
 // @fnv 0x00dcc9c0
@@ -866,7 +866,7 @@ int __cdecl FUN_00dced40()
 
 struct FUN_00d4dfc0_class
 {
-    void __thiscall FUN_00d4dfc0(unsigned int value);
+    void FUN_00d4dfc0(unsigned int value);
 };
 
 // @fnv 0x00dced50
@@ -1126,7 +1126,7 @@ struct S_00dd8cf0_Ret
 };
 struct S_00dd8cf0
 {
-    S_00dd8cf0_Ret __thiscall AllMatch(const int* arr, int n);
+    S_00dd8cf0_Ret AllMatch(const int* arr, int n);
 };
 extern int DAT_010d7c34;
 
@@ -1289,7 +1289,7 @@ typedef struct S_00dd8fa0_S S_00dd8fa0_S;
 struct S_00dd8fa0_Vtable
 {
     void* unk00;
-    S_00dd8fa0_S*(__thiscall* method)(S_00dd8fa0_S*, int);
+    S_00dd8fa0_S*(* method)(S_00dd8fa0_S*, int);
 };
 
 struct S_00dd8fa0_S
@@ -1533,7 +1533,7 @@ struct FUN_00dcc130_Class
     unsigned short unk04;
     unsigned short enabled06;
     int unk08;
-    int* __thiscall FUN_00dcc130(int* value);
+    int* FUN_00dcc130(int* value);
 };
 
 // Sets enabled06 to 1, installs the vtable, stores value in unk08, calls FUN_00c90510, and returns this.
@@ -1552,7 +1552,7 @@ struct S_00dcc740_Cls
     unsigned int m_00;
     unsigned int m_04;
     unsigned int m_08;
-    S_00dcc740_Cls* __thiscall ReadSignedShort(unsigned short* out);
+    S_00dcc740_Cls* ReadSignedShort(unsigned short* out);
 };
 
 struct IniTokenStream
@@ -1580,8 +1580,8 @@ S_00dcc740_Cls* S_00dcc740_Cls::ReadSignedShort(unsigned short* out)
     return this;
 }
 
-extern void(__stdcall* DAT_00fdf05c)(int*);
-extern void(__stdcall* DAT_00fdf100)(int*);
+extern void(* DAT_00fdf05c)(int*);
+extern void(* DAT_00fdf100)(int*);
 
 struct Lock_dd9
 {
@@ -1650,7 +1650,7 @@ struct S_00dcc790_Class
     unsigned int m_04;
     S_00dcc240_Reader* m_08;
 
-    S_00dcc790_Class* __thiscall ReadSignedValue(unsigned short* result);
+    S_00dcc790_Class* ReadSignedValue(unsigned short* result);
 };
 
 extern "C" void __cdecl SkipWhitespace(void);
@@ -1664,7 +1664,7 @@ static __declspec(noinline) unsigned short FUN_00dcc240(unsigned char* ok, S_00d
 
 // Reads a 16-bit value via FUN_00dcc240 and stores it negated into result when ok is set, otherwise as-is; returns this.
 // @fnv 0x00dcc790
-S_00dcc790_Class* __thiscall S_00dcc790_Class::ReadSignedValue(unsigned short* result)
+S_00dcc790_Class* S_00dcc790_Class::ReadSignedValue(unsigned short* result)
 {
     unsigned char ok;
     unsigned short value = FUN_00dcc240(&ok, m_08);
@@ -1692,7 +1692,7 @@ struct FUN_00dcc8a0_Class
     int unk04;
     S_00dcc8a0_Handle unk08;
 
-    FUN_00dcc8a0_Class* __thiscall ParseSignedInt(FNVInt64* out);
+    FUN_00dcc8a0_Class* ParseSignedInt(FNVInt64* out);
 };
 
 static __declspec(noinline) FNVInt64 S_00dcc8a0_ParseInt(S_00dcc8a0_Handle h, unsigned char* neg)
@@ -1783,7 +1783,7 @@ struct S_00dcc600_Class
     int m_04;
     S_00dcc600_Inner* m_08;
 
-    int __thiscall ReadUntilValue(unsigned char* buffer, int length, signed char value);
+    int ReadUntilValue(unsigned char* buffer, int length, signed char value);
 };
 
 // Resets the stream, then reads bytes into buffer until the value or end is hit, returning the index or -1.
@@ -1999,7 +1999,7 @@ struct S_00dcb0b0_Class
     int unk08;
     S_00dcb0b0_Target* unk0C;
 
-    void __thiscall CallTargetV6();
+    void CallTargetV6();
 };
 
 // @fnv 0x00dcb0b0
@@ -2040,11 +2040,11 @@ class FUN_00dcc5c0_cls
     int unk04;
     int m_08;
 
-    FUN_00dcc5c0_cls* __thiscall GetFloatValue(float* out);
+    FUN_00dcc5c0_cls* GetFloatValue(float* out);
 };
 
 // @fnv 0x00dcc5c0
-FUN_00dcc5c0_cls* __thiscall FUN_00dcc5c0_cls::GetFloatValue(float* out)
+FUN_00dcc5c0_cls* FUN_00dcc5c0_cls::GetFloatValue(float* out)
 {
     *out = FUN_00dcc3b0(m_08);
     return this;
@@ -2076,7 +2076,7 @@ struct FUN_00dcc7e0_Class
     unsigned int m_04;
     unsigned int m_08;
 
-    FUN_00dcc7e0_Class* __thiscall ReadSignedInt(int* out);
+    FUN_00dcc7e0_Class* ReadSignedInt(int* out);
 };
 
 // Reads a signed integer from the stream at m_08 via FUN_00dcc240, applies the sign flag, stores the result in out, and returns this.
@@ -2108,7 +2108,7 @@ struct FUN_00dcc860_Class
     int unk04;
     S_dcc860_Handle unk08;
 
-    FUN_00dcc860_Class* __thiscall ReadInt64(FNVInt64* out);
+    FUN_00dcc860_Class* ReadInt64(FNVInt64* out);
 };
 
 static __declspec(noinline) FNVInt64 S_dcc860_ParseInt(S_dcc860_Handle h, unsigned char* neg)
@@ -2354,7 +2354,7 @@ class hkLargeBlockAllocatorDD8
 };
 // Returns true only if IsValidChunk accepts every element of arr; stops at the first element it rejects.
 // @fnv 0x00dd8cf0
-S_00dd8cf0_Ret __thiscall S_00dd8cf0::AllMatch(const int* pValues, int iCount)
+S_00dd8cf0_Ret S_00dd8cf0::AllMatch(const int* pValues, int iCount)
 {
     S_00dd8cf0_Ret r;
     for (int i = 0; i < iCount; i++)
@@ -2419,7 +2419,7 @@ struct S_00dc6fc0_Class
     int unk08;
     S_00dc6fc0_Target* m_0c;
 
-    int __thiscall FUN_00dc6fc0();
+    int FUN_00dc6fc0();
 };
 
 // @fnv 0x00dc6fc0
@@ -3025,12 +3025,12 @@ struct FUN_00dd9d20_Object
     int unk0C;
     void* unk10;
 
-    void __thiscall FUN_00dd9d20();
+    void FUN_00dd9d20();
 };
 
 // Sets unk00 and unk08 to data pointers, and if unk10 is set deletes that critical section and frees it via vf08 of the object at offset 0x10 of FUN_00c85750().
 // @fnv 0x00dd9d20
-void __thiscall FUN_00dd9d20_Object::FUN_00dd9d20()
+void FUN_00dd9d20_Object::FUN_00dd9d20()
 {
     void* criticalSection = unk10;
 
@@ -3210,7 +3210,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
 }  // namespace fnv_00dcc8e0
 
 // @fnv 0x00dccb60
-void __stdcall FUN_00dccb60(int value)
+void FUN_00dccb60(int value)
 {}
 
 extern "C"

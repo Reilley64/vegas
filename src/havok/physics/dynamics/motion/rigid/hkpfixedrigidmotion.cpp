@@ -26,11 +26,11 @@ void* FUN_00d1e160_t::InitFixedRigidMotion(int a, int b)
 }
 
 // @fnv 0x00d1e130
-void __stdcall FUN_00d1e130(int, int)
+void FUN_00d1e130(int, int)
 {}
 
 // @fnv 0x00d1e140
-void __stdcall FUN_00d1e140(void* a)
+void FUN_00d1e140(void* a)
 {}
 
 // 0x00d1e150  /MT /O2 /GS /EHsc /Gy   target: C2 04 00  (ret 4, empty thiscall with one stack arg)

@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/bipedanim.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/B4AEE60Owner.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -116,7 +117,6 @@
 #include "fnv/symbols_011f9000.h"
 #include "bipedanim_decls.h"
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct FixStrQ
 {
     char* m_kHandle;

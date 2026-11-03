@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00e91780
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/ConsoleRendererShaders.h"
@@ -88,8 +89,6 @@ void NiPersistentSrcTextureRendererData::FreePixelData()
 }
 
 namespace fnv_00a98110 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiObjectHelper
 {
     virtual void LinkObject(NiStream&);
@@ -872,7 +871,6 @@ void TextureLoad::LoadTextureData(LoadStream& stream)
 }
 
 namespace fnv_00e75a70 {
-extern "C" long __declspec(dllimport) __stdcall InterlockedDecrement(volatile long*) throw();
 inline void NiFree(void* p) throw()
 {
     ::FUN_00aa10f0(p);
@@ -1149,9 +1147,9 @@ struct Member_90c
 
 struct IDirect3DDevice9_Custom
 {
-    virtual long __stdcall QueryInterface(void*, void**) throw();
-    virtual long __stdcall AddRef() throw();
-    virtual long __stdcall Release() throw();
+    virtual long QueryInterface(void*, void**) throw();
+    virtual long AddRef() throw();
+    virtual long Release() throw();
     virtual void d3d_0() throw();
     virtual void d3d_1() throw();
     virtual void d3d_2() throw();
@@ -1249,11 +1247,11 @@ struct IDirect3DDevice9_Custom
     virtual void d3d_94() throw();
     virtual void d3d_95() throw();
     virtual void d3d_96() throw();
-    virtual long __stdcall Method100(unsigned int, unsigned int, unsigned int, unsigned int) throw();
+    virtual long Method100(unsigned int, unsigned int, unsigned int, unsigned int) throw();
     virtual void d3d2_0() throw();
     virtual void d3d2_1() throw();
     virtual void d3d2_2() throw();
-    virtual long __stdcall Method104(unsigned int) throw();
+    virtual long Method104(unsigned int) throw();
 };
 
 struct Obj8B8

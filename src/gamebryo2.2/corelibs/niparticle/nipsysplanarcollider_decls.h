@@ -2,10 +2,9 @@
 #ifndef NIPSYSPLANARCOLLIDER_DECLS_H
 #define NIPSYSPLANARCOLLIDER_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "nipsysplanarcollider_types_NiPSysPlanarCollider.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct NiBinaryStream
 {
     unsigned unused;

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00aa0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/B65CD70Vector.h"
@@ -99,24 +100,24 @@
 extern "C" void* __cdecl _malloc(unsigned int);
 struct FUN_00aa4290_Class
 {
-    void* __thiscall AllocateBuffer(unsigned int size, unsigned int pad);
+    void* AllocateBuffer(unsigned int size, unsigned int pad);
 };
 extern "C" void __cdecl free(void*);
 struct FUN_00aa42c0_class
 {
-    void __thiscall FreePointer(void* p, int dummy);
+    void FreePointer(void* p, int dummy);
 };
 struct FUN_00aa4790_Class
 {
-    void __thiscall FUN_00aa4790(int a, int b, int c);
+    void FUN_00aa4790(int a, int b, int c);
 };
 struct FUN_00aa4c10_class
 {
-    void __thiscall FUN_00aa4c10(int arg);
+    void FUN_00aa4c10(int arg);
 };
 struct FUN_00aa4c40_class
 {
-    void __thiscall FUN_00aa4c40(int a);
+    void FUN_00aa4c40(int a);
 };
 struct FUN_00aa4c60_class
 {
@@ -129,7 +130,7 @@ struct AbstractHeapLogger
 };
 struct FUN_00aa6950_Class
 {
-    void __thiscall ClearPoolSlot(unsigned int a);
+    void ClearPoolSlot(unsigned int a);
 };
 struct FUN_00aa7e50_Class
 {
@@ -166,16 +167,16 @@ struct P03MM
 };
 struct FUN_00aa8b00_Class
 {
-    void* __thiscall FUN_00aa8b00();
+    void* FUN_00aa8b00();
 };
 void __cdecl ReportFr2Error(const char* a, int b, const char* c);
 struct FUN_00aa41e0_Class
 {
-    void* __thiscall FUN_00aa41e0(unsigned int a, unsigned int b);
+    void* FUN_00aa41e0(unsigned int a, unsigned int b);
 };
 struct FUN_00aa41f0_Class
 {
-    void __thiscall FUN_00aa41f0(int a, int b, int c);
+    void FUN_00aa41f0(int a, int b, int c);
 };
 struct FUN_00aa45a0_vt
 {
@@ -191,26 +192,26 @@ struct FUN_00aa45a0_Class
     unsigned short m_uiItemCount;
     unsigned int m_unknown;
     FUN_00aa45a0_vt** m_items;
-    FUN_00aa45a0_vt* __thiscall FindItemByArg(int arg);
+    FUN_00aa45a0_vt* FindItemByArg(int arg);
 };
 struct FUN_00aa46a0_holder
 {
-    void* __thiscall GetEntryAt(unsigned int a);
+    void* GetEntryAt(unsigned int a);
 };
 struct FUN_00aa4710_Class
 {
-    char __thiscall FUN_00aa4710(int a, unsigned char b, int c);
+    char FUN_00aa4710(int a, unsigned char b, int c);
 };
 struct MemoryManager
 {
 };
 struct FUN_00aa4b20_Class
 {
-    void __thiscall ClearAndDeallocate(void* p);
+    void ClearAndDeallocate(void* p);
 };
 struct FUN_00aa50f0_Class
 {
-    void __thiscall FUN_00aa50f0(unsigned int a);
+    void FUN_00aa50f0(unsigned int a);
 };
 struct FUN_00aa8b80_class
 {
@@ -218,7 +219,7 @@ struct FUN_00aa8b80_class
     void* m4;
     void* m8;
     int mC;
-    void __thiscall AppendBlock(void* block);
+    void AppendBlock(void* block);
 };
 struct FUN_00aa8c40_N
 {
@@ -235,17 +236,17 @@ struct FUN_00aa8c40_H
 };
 struct FUN_00aa9d20_Class
 {
-    void __thiscall FUN_00aa9d20(int arg);
+    void FUN_00aa9d20(int arg);
 };
 struct FUN_00aaa6d0_Class
 {
-    void* __thiscall FUN_00aaa6d0();
+    void* FUN_00aaa6d0();
 };
 struct FUN_00aaa6e0_Class
 {
     int m0;
     int m4;
-    void __thiscall SetFlags(unsigned int flags, int unused);
+    void SetFlags(unsigned int flags, int unused);
 };
 void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int len);
 struct FUN_00aa47e0_Class
@@ -254,7 +255,7 @@ struct FUN_00aa47e0_Class
     int m4;
     void* m8;
     int mC;
-    FUN_00aa47e0_Class* __thiscall FUN_00aa47e0(unsigned int count);
+    FUN_00aa47e0_Class* FUN_00aa47e0(unsigned int count);
 };
 struct FUN_00aba370_s
 {
@@ -264,7 +265,7 @@ struct FUN_00aba370_s
     unsigned int m_0c;
     unsigned int m_10;
     unsigned int m_14;
-    void __thiscall FUN_00aba370(unsigned int pos, unsigned char b);
+    void FUN_00aba370(unsigned int pos, unsigned char b);
 };
 void __cdecl FUN_00ec7c56();
 struct FUN_00abbeb0_Class
@@ -289,15 +290,15 @@ struct FUN_00aa4760_Class : public FUN_00aa4710_Class
 };
 struct FUN_00aa4ca0_class
 {
-    void __thiscall FUN_00aa4ca0(unsigned int a, unsigned int b, float c, unsigned int d, unsigned int e);
+    void FUN_00aa4ca0(unsigned int a, unsigned int b, float c, unsigned int d, unsigned int e);
 };
 struct FUN_00aa5fc0_Class
 {
-    int __thiscall ClearFields();
+    int ClearFields();
 };
 struct FUN_00aa6920_Class
 {
-    void __thiscall RegisterInPool(unsigned int index);
+    void RegisterInPool(unsigned int index);
 };
 struct FUN_00aa8a40_vt
 {
@@ -313,7 +314,7 @@ struct FUN_00aa8a40_Node
 struct FUN_00aa8a40_Class
 {
     FUN_00aa8c40_H m_kNode;
-    void __thiscall FUN_00aa8a40(FUN_00aa8a40_Node* node);
+    void FUN_00aa8a40(FUN_00aa8a40_Node* node);
 };
 struct HeapFreeBlock
 {
@@ -350,12 +351,12 @@ struct AbstractHeap
     HeapFreeBlock* m2048;
     HeapFreeBlock* m204c;
 
-    void __thiscall Clear();
+    void Clear();
 };
 struct FUN_00aaaa80_Class
 {
-    void* __thiscall FUN_00aaaa80();
-    void* __thiscall DestroyWithFlags(unsigned int flags);
+    void* FUN_00aaaa80();
+    void* DestroyWithFlags(unsigned int flags);
 };
 struct FUN_00ab2e70
 {
@@ -478,7 +479,7 @@ struct FUN_00aa4ae0_Class
 struct FUN_00aa4bb0_Class
 {
     void FUN_00aa4a60();
-    int __thiscall FUN_00aa4bb0(int arg);
+    int FUN_00aa4bb0(int arg);
 };
 struct FUN_00aa4bb0_Local
 {
@@ -486,7 +487,6 @@ struct FUN_00aa4bb0_Local
     int unk04;
     int unk08;
 };
-extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64* frequency);
 void __cdecl InitPerformanceFrequency(void);
 struct ScrapHeapEntry
 {
@@ -505,24 +505,19 @@ struct FUN_00aa5ff0_Class
     unsigned int m_uiItemCount;
     unsigned int m_uiThreadId;
 
-    void __thiscall FUN_00aa5ff0();
+    void FUN_00aa5ff0();
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volatile long* destination, long exchange,
-                                                                           long comparand);
 struct FUN_00aa6330_Class
 {
     int unk0;
     unsigned int unk4;
     bool IsCurrentThread();
 };
-extern "C" __declspec(dllimport) int __stdcall VirtualFree(void*, unsigned int, unsigned int);
 struct FUN_00aa6680_class
 {
     unsigned int unk00;
     void* allocation;
-    void __thiscall FreeAllocation();
+    void FreeAllocation();
 };
 struct LinkedNode
 {
@@ -550,9 +545,9 @@ struct MemoryPool
 extern char DAT_010a2850;
 extern int DAT_011f6bec;
 extern int DAT_011f6bd4;
-typedef void(__stdcall* FUN_00fdf054_t)(void*);
-typedef void(__stdcall* FUN_00fdf05c_t)(void*);
-typedef void(__stdcall* FUN_00fdf100_t)(void*);
+typedef void(* FUN_00fdf054_t)(void*);
+typedef void(* FUN_00fdf05c_t)(void*);
+typedef void(* FUN_00fdf100_t)(void*);
 extern FUN_00fdf054_t DAT_00fdf054;
 extern FUN_00fdf05c_t DAT_00fdf05c;
 extern FUN_00fdf100_t DAT_00fdf100;
@@ -561,10 +556,10 @@ void __cdecl FUN_00fdb2b0(void);
 struct FUN_00aa7300_Obj
 {
 };
-extern "C" void(__stdcall* DAT_00fdf05c)(void*);
-extern "C" void(__stdcall* DAT_00fdf100)(void*);
-extern "C" void(__stdcall* DAT_00fdf1b4)(void*, int, int);
-extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
+extern "C" void(* DAT_00fdf05c)(void*);
+extern "C" void(* DAT_00fdf100)(void*);
+extern "C" void(* DAT_00fdf1b4)(void*, int, int);
+extern "C" void(* DAT_00fdf1c0)(void*);
 struct BlockSource
 {
     virtual void v0();
@@ -591,9 +586,8 @@ struct FUN_00aa8be0_cls
     void* m_04;
     void* m_08;
     void* m_0c;
-    void __thiscall ClearList();
+    void ClearList();
 };
-extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void* cs);
 extern "C" char DAT_010a28c8;
 extern "C" char DAT_010a2bbc;
 struct FUN_00aa8ca0_cls
@@ -619,7 +613,7 @@ struct FUN_00aa8ca0_cls
     FUN_00aa8ca0_cls* FUN_00aa8ca0(int a1, int a2, int a3, int a4);
 };
 extern "C" void __cdecl FUN_00ec61c0(void* p, int value, unsigned int size);
-extern "C" void __stdcall FUN_00eccec5(int code);
+extern "C" void FUN_00eccec5(int code);
 struct FUN_00aa8dd0_slot
 {
     int m_flag;
@@ -708,7 +702,7 @@ struct S_00aadd20_Vector
 S_00aadd20_Vector* __cdecl FUN_00aadd20(S_00aadd20_Vector* out, S_00aadd20_Vector* in);
 struct FUN_00aadda0_Class
 {
-    int __thiscall FUN_00aadda0(int a, float b);
+    int FUN_00aadda0(int a, float b);
 };
 // Candidate: FUN_00aafa30
 struct FlagBox
@@ -720,7 +714,7 @@ void __cdecl FUN_00aafa30(int a0, int a1, int a2, int a3);
 struct FUN_00aafbd0_cls
 {
     int unk00;
-    void __thiscall FUN_00aafbd0();
+    void FUN_00aafbd0();
 };
 struct FUN_00ab2630_cls
 {
@@ -783,7 +777,7 @@ struct FnvAbaf60Owner
     int m_i08;
     int m_i0c;
     int m_i10;
-    FnvAbaf60Iter* __thiscall FUN_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter a, FnvAbaf60Iter b);
+    FnvAbaf60Iter* FUN_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter a, FnvAbaf60Iter b);
 };
 // The helper that turns two offsets into the offset of the element behind the
 // last one of the range.
@@ -865,7 +859,7 @@ struct FUN_00abc260_cls
 };
 struct FUN_00aa6650_Class
 {
-    bool __thiscall FreeMemory(unsigned int size, void* p);
+    bool FreeMemory(unsigned int size, void* p);
 };
 struct FUN_00aa7300_node
 {
@@ -932,8 +926,8 @@ struct PoolA
     virtual void FreeNode(NodeA* node);
     CounterA* FUN_00aa8a80();
 };
-extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
-extern "C" void(__stdcall* DAT_00fdf1c8)(void*, int);
+extern "C" void(* DAT_00fdf1c4)(void*);
+extern "C" void(* DAT_00fdf1c8)(void*, int);
 extern PoolA* DAT_011f6c04;
 struct S_0044a730_Class
 {
@@ -1041,9 +1035,6 @@ FUN_00aa74c0::~FUN_00aa74c0()
 }
 
 // The supplied unit has incompatible Win32 prototypes, so retain its pointer-erased ABI.
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct ShutdownMessage
 {
     unsigned int flags;
@@ -2401,9 +2392,6 @@ struct MemoryStatusAA3880
     unsigned __int64 ullAvailVirtual;
     unsigned __int64 ullAvailExtendedVirtual;
 };
-extern "C" __declspec(dllimport) int __stdcall GlobalMemoryStatusEx(MemoryStatusAA3880* pkStatus);
-extern "C" __declspec(dllimport) int __stdcall MessageBoxA(void* hWnd, const char* pcText, const char* pcCaption,
-                                                           unsigned int uiType);
 extern "C" __declspec(noreturn) void __cdecl exit(int iCode);
 extern "C" void __cdecl FUN_00ec61c0(void* pvDst, int iValue, unsigned int uiSize);
 struct MemoryManagerAA3880
@@ -2675,7 +2663,7 @@ FUN_00aa4a60::~FUN_00aa4a60()
 
 struct S_00aa8950_MM
 {
-    void __thiscall FUN_00aa4060(void*);
+    void FUN_00aa4060(void*);
 };
 
 struct S00aa8950_ReleaseGuard
@@ -2688,11 +2676,11 @@ struct S00aa8950_ReleaseGuard
 
 struct S00aa8950_Obj : FUN_00aa8be0_cls
 {
-    void* __thiscall FUN_00aa8950(unsigned int flags);
+    void* FUN_00aa8950(unsigned int flags);
 };
 
 // @fnv 0x00aa8950
-void* __thiscall S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
+void* S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
 {
     ((int*)this)[0] = 0x010a2970;
     {
@@ -4441,7 +4429,7 @@ struct NoiseGrid
     unsigned int rows;
     unsigned int columns;
 
-    NoiseRow __thiscall FUN_0060b370(unsigned int row);
+    NoiseRow FUN_0060b370(unsigned int row);
     __forceinline unsigned int getRows()
     {
         return rows;
@@ -4460,7 +4448,7 @@ struct NoiseGrid
 
 struct NoiseGridBuilder
 {
-    void __thiscall FUN_00aad6b0(float magnitude, NoiseGrid input[2][2], NoiseGrid output[2][2]);
+    void FUN_00aad6b0(float magnitude, NoiseGrid input[2][2], NoiseGrid output[2][2]);
 };
 
 // @fnv 0x00aad6b0
@@ -4657,7 +4645,7 @@ struct Big
 };
 struct FUN_00aadde0_cls
 {
-    void __thiscall FUN_00aadde0(int a);
+    void FUN_00aadde0(int a);
 };
 // @fnv 0x00aaac10
 bool AAOwner::FUN_00aaac10(AAStream* stream, unsigned int (*lengths)[2])
@@ -11440,7 +11428,7 @@ ElemBF50& FUN_00abbf50_Iterator::FUN_00abbf50() const
 
 struct S00abc120_shell
 {
-    void __thiscall FUN_00aa4060(void* p);
+    void FUN_00aa4060(void* p);
 };
 
 struct S00abc120_ptr
@@ -11454,11 +11442,11 @@ struct S00abc120_cls
 {
     void* m_00;
 
-    void __thiscall FUN_00abc120();
+    void FUN_00abc120();
 };
 
 // @fnv 0x00abc120
-void __thiscall S00abc120_cls::FUN_00abc120()
+void S00abc120_cls::FUN_00abc120()
 {
     S00abc120_ptr p;
     p.m_v = m_00;
@@ -11525,7 +11513,7 @@ void __cdecl FUN_00ac20d0(Vec3Item*, unsigned int, const Vec3Item*, unsigned int
 
 struct Vector3Heap
 {
-    void __thiscall FUN_00aa4060(void*);
+    void FUN_00aa4060(void*);
 };
 
 struct UnchangedBaseTag
@@ -18971,7 +18959,7 @@ struct FnvBlockVector
         FnvFill::unchecked_uninitialized_fill_n(_Ptr, _Count, _Val, _Alval);
         return _Ptr + _Count;
     }
-    void __thiscall FUN_00abd2e0(FnvBlockIterator _Where, unsigned int _Count, const FnvBlock16& _Val);
+    void FUN_00abd2e0(FnvBlockIterator _Where, unsigned int _Count, const FnvBlock16& _Val);
 };
 // @fnv 0x00abd2e0
 void FnvBlockVector::FUN_00abd2e0(FnvBlockIterator _Where, unsigned int _Count, const FnvBlock16& _Val)
@@ -19048,7 +19036,6 @@ __forceinline void* operator new[](unsigned int size)
 }
 void operator delete(void*);
 void operator delete[](void*);
-extern "C" __declspec(dllimport) void* __stdcall CreateSemaphoreA(void*, long, long, const char*);
 struct IOSemaphore
 {
     long initialCount;
@@ -19118,11 +19105,7 @@ struct IOFreeQueue
     }
 };
 
-extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
-                                                              void*, unsigned long, unsigned long*);
-extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
-unsigned long __stdcall RunThreadProc(void*);
+unsigned long RunThreadProc(void*);
 struct IOThread
 {
     int* vtable;

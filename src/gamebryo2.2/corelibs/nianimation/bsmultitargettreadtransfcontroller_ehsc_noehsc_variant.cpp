@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/FUN_00a42f80_cls.h"
@@ -27,7 +28,7 @@ struct FUN_00a35e90_shell : public BSMultiTargetTreadTransfController
 };
 struct FUN_00a35fc0_shell
 {
-    void __thiscall SetSlotValue(unsigned short idx, void* val);
+    void SetSlotValue(unsigned short idx, void* val);
 };
 class NiStream;
 struct NiInterpController
@@ -37,7 +38,7 @@ public:
 };
 struct FUN_00a35910_shell
 {
-    unsigned short __thiscall FindIndexByValue(unsigned short a);
+    unsigned short FindIndexByValue(unsigned short a);
 };
 struct Inner_00a35f30
 {
@@ -65,11 +66,11 @@ struct Holder_00a35f30
 };
 struct FUN_00a35f70_struct
 {
-    void __thiscall SetSlotEntry(unsigned short, void*, unsigned short, void*);
+    void SetSlotEntry(unsigned short, void*, unsigned short, void*);
 };
 struct S_00a36050
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 struct Interp00a358b0
@@ -131,7 +132,7 @@ struct Ctrl00a358b0
     char _0[52];
     Interp00a358b0* m_base;
     unsigned short m_num;
-    void __thiscall FUN_00a358b0(float afStartTime, float afEndTime);
+    void FUN_00a358b0(float afStartTime, float afEndTime);
 };
 // Stand-in for NiInterpolator: the virtual used at vtable offset 0xB8 (index 46)
 // takes no stack arguments (this-> in ecx only).
@@ -185,7 +186,7 @@ struct InterpStub_00a2fac0
     virtual void v45() = 0;
     virtual bool IsCorrectType() = 0;  // +0xB8
 };
-bool __stdcall FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex);
+bool FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex);
 // FUN_00a35900 : BSMultiTargetTreadTransfController entry getter.
 // Returns &m_pEntries[usIndex]; the stride is sizeof(TreadEntry) = 0x34.
 struct FUN_00a35900_cls
@@ -248,7 +249,7 @@ struct TreadInterpolator : FUN_00a2f8c0
 };
 struct TreadController
 {
-    TreadInterpolator* __thiscall CreateInterpolator(unsigned int index);
+    TreadInterpolator* CreateInterpolator(unsigned int index);
 };
 struct TreadElem_00a35b90
 {
@@ -304,10 +305,8 @@ struct FUN_00a35fe0_shell
     Entry_00a35fe0** unk3C;
     unsigned short unk40;
 
-    unsigned short __thiscall FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
+    unsigned short FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 inline unsigned int NiAtomicIncrement(unsigned int& v)
 {
     return InterlockedIncrement((long*)&v);
@@ -510,7 +509,6 @@ struct ArrayCount
     ArrayCount(unsigned int count) : value(count)
     {}
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct MemoryManagerAllocHelper
 {
 };

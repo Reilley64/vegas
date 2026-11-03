@@ -98,11 +98,11 @@ bool Flt::Equals(unsigned int value)
 
 struct FUN_0076bda0_class
 {
-    FUN_0076bda0_class* __thiscall FUN_0076bda0();
+    FUN_0076bda0_class* FUN_0076bda0();
 };
 
 // @fnv 0x0076bda0
-FUN_0076bda0_class* __thiscall FUN_0076bda0_class::FUN_0076bda0()
+FUN_0076bda0_class* FUN_0076bda0_class::FUN_0076bda0()
 {
     reinterpret_cast<::FUN_00aa50f0_Class *>(this)->FUN_00aa50f0(((unsigned int)(::FUN_00457fe0())));
     return this;
@@ -215,8 +215,8 @@ void NiFixedString::FUN_00761760(int* data, unsigned int n)
 
 struct GlobalObject_0076b930
 {
-    void __thiscall FUN_0076b930();
-    GlobalObject_0076b930* __thiscall FUN_0076b870(unsigned int flags);
+    void FUN_0076b930();
+    GlobalObject_0076b930* FUN_0076b870(unsigned int flags);
 };
 struct SoundPlaybackHandle
 {
@@ -235,7 +235,7 @@ struct FUN_0076b8a0_class
 };
 // Calls FUN_0076b930 on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x0076b870
-GlobalObject_0076b930* __thiscall GlobalObject_0076b930::FUN_0076b870(unsigned int flags)
+GlobalObject_0076b930* GlobalObject_0076b930::FUN_0076b870(unsigned int flags)
 {
     reinterpret_cast<::FUN_0076b8a0_class *>((this))->FUN_0076b8a0_class::~FUN_0076b8a0_class();
     if (flags & 1)
@@ -294,7 +294,7 @@ FUN_0076b930::FUN_0076b930() : _00(false)
 struct WeatherEntry;
 struct G2
 {
-    void __thiscall AddHead(WeatherEntry*&);
+    void AddHead(WeatherEntry*&);
 };
 // Adds a WeatherEntry to the list at g_011d970c and sorts it using FUN_0076bb00 as the comparison.
 // @fnv 0x0076baa0

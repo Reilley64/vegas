@@ -5,6 +5,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/FUN_00de1d20.h"
@@ -181,7 +182,6 @@ void FUN_00de2a00_cls::ProcessSpawnedList()
 extern "C" {
     unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 }
 
 
@@ -315,7 +315,6 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
 
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 extern "C" unsigned __int64 __rdtsc();
 

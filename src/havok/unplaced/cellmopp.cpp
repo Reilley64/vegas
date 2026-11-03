@@ -49,7 +49,7 @@ void FUN_00621e40Class::FUN_00621e40()
 
 struct FUN_00622290_cls
 {
-    int __thiscall FUN_00622290(int a, int b, int c);
+    int FUN_00622290(int a, int b, int c);
 };
 
 struct FUN_006222c0_class
@@ -58,7 +58,7 @@ struct FUN_006222c0_class
 };
 // Calls SetPackedValue with the three arguments, then returns this.
 // @fnv 0x00622290
-int __thiscall FUN_00622290_cls::FUN_00622290(int a, int b, int c)
+int FUN_00622290_cls::FUN_00622290(int a, int b, int c)
 {
     reinterpret_cast<::FUN_006222c0_class *>(this)->SetPackedValue(a, b, c);
     return (int)this;
@@ -108,11 +108,11 @@ void* FUN_006223d0::FUN_00577190()
 
 struct FUN_00622420_Class
 {
-    void* __thiscall GetGlobalPtr();
+    void* GetGlobalPtr();
 };
 
 // @fnv 0x00622420
-void* __thiscall FUN_00622420_Class::GetGlobalPtr()
+void* FUN_00622420_Class::GetGlobalPtr()
 {
     return &(*reinterpret_cast<void * *>(&::g_01268350));
 }
@@ -154,15 +154,15 @@ unsigned char* FUN_00622570_Class::FUN_00622570(unsigned char aucValue)
 
 struct CellMopp_00621d90
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
     static void operator delete(void* p, unsigned int size);
 };
 struct FUN_00622390_Class
 {
-    void* __thiscall FUN_00622390();
+    void* FUN_00622390();
 };
 // @fnv 0x00622390
-void* __thiscall FUN_00622390_Class::FUN_00622390()
+void* FUN_00622390_Class::FUN_00622390()
 {
     new ((void *)this) ::FUN_0056e6f0();
     *(void**)this = &DAT_0104dbac;
@@ -172,12 +172,12 @@ void* __thiscall FUN_00622390_Class::FUN_00622390()
 
 struct FUN_00622440_Class
 {
-    void* __thiscall FUN_00622440(unsigned int flags);
+    void* FUN_00622440(unsigned int flags);
     static void operator delete(void* p, unsigned int size);
 };
 
 // @fnv 0x00622440
-void* __thiscall FUN_00622440_Class::FUN_00622440(unsigned int flags)
+void* FUN_00622440_Class::FUN_00622440(unsigned int flags)
 {
     reinterpret_cast<::FUN_00caff80 *>(this)->FUN_00caff80::~FUN_00caff80();
     if (flags & 1)
@@ -213,7 +213,7 @@ struct FUN_00ca4da0
 };
 struct FUN_006223f0 : FUN_00ca4da0
 {
-    void* __thiscall Delete(unsigned int flags);
+    void* Delete(unsigned int flags);
 };
 // Runs the base destructor, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x006223f0
@@ -227,7 +227,7 @@ void* FUN_006223f0::Delete(unsigned int flags)
 
 struct CellMopp_006224f0
 {
-    void* __thiscall Reset();
+    void* Reset();
 };
 // @fnv 0x00622490
 FUN_00622490::FUN_00622490()
@@ -256,7 +256,7 @@ struct FUN_00621dc0_cls : FUN_00621dc0_base
 };
 // Calls FUN_00621dc0, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00621d90
-void* __thiscall CellMopp_00621d90::Destroy(unsigned int flags)
+void* CellMopp_00621d90::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_00621dc0_cls *>((this))->FUN_00621dc0_cls::~FUN_00621dc0_cls();
     if (flags & 1)

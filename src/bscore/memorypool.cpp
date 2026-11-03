@@ -34,7 +34,7 @@ struct DummyClass_00aa6db0
 };
 
 // @fnv 0x00aa6db0
-unsigned int __fastcall FUN_00aa6db0(DummyClass_00aa6db0* pThis)
+unsigned int FUN_00aa6db0(DummyClass_00aa6db0* pThis)
 {
     for (unsigned int i = 0; i < pThis->ItemUpdateArray; ++i)
     {

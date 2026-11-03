@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d34000.h"
 #include "fnv/symbols_010c4000.h"
@@ -23,9 +24,9 @@ void hkpShapeCollectionAgent::FUN_00d436f0(int arg)
     {
         void** arr = reinterpret_cast<void**>(reinterpret_cast<void**>(this)[3]);
         void* obj = arr[i * 2 + 1];
-        ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(obj))[7])(obj, arg);
+        ((void(*)(void*, int))(*reinterpret_cast<void***>(obj))[7])(obj, arg);
     }
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(this))[0])(this, 1);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(this))[0])(this, 1);
 }
 
 struct ShapeItem
@@ -125,7 +126,6 @@ void FUN_00d43760_cls::DispatchToEntries(float afArg1, float afArg2, int aiArg3)
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 
 struct StringCursor
@@ -1064,7 +1064,7 @@ struct B512
     B256 b;
 };
 
-// Calling convention note: declared __thiscall as in the packet (this in ecx, callee pops 20 bytes).
+// Calling convention note: declared as in the packet (this in ecx, callee pops 20 bytes).
 struct Agent : hkpShapeCollectionAgent
 {
     void FUN_00d43aa0(Holder* holder, int a, int b, int c, int d);

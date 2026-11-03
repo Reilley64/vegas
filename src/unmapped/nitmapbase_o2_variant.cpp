@@ -10,11 +10,11 @@ struct NiStream
 };
 struct NiMapBase
 {
-    void __thiscall FUN_00bb7160(NiStream*);
-    void __thiscall FUN_00b60210(NiStream* stream);
+    void FUN_00bb7160(NiStream*);
+    void FUN_00b60210(NiStream* stream);
 };
 // @fnv 0x00b60210
-void __thiscall NiMapBase::FUN_00b60210(NiStream* stream)
+void NiMapBase::FUN_00b60210(NiStream* stream)
 {
     FUN_00bb7160(stream);
     reinterpret_cast<::FUN_00a64160_cls *>((stream))->FUN_00a64160(*(const char**)((char*)this + 0x88));

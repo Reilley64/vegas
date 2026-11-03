@@ -101,7 +101,7 @@ float FUN_00a6dc30(float t, float fCos)
 
 // Interpolates p to q and a to b by t, then slerps between those two results by 2*t*(1-t) into self.
 // @fnv 0x00a6e430
-void __fastcall FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const NiQuaternion& aStart,
+void FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const NiQuaternion& aStart,
                              const NiQuaternion& aStart2, const NiQuaternion& aEnd2, const NiQuaternion& aEnd)
 {
     NiQuaternion q1;
@@ -122,7 +122,6 @@ struct FourComponentNumericValue
 {
     char u[16];
 };
-typedef char _sizecheck___vector4[sizeof(FourComponentNumericValue) == 16 ? 1 : -1];
 struct FUN_00a4ff00_shell : public NiQuaternion
 {
     void NormalizeQuaternion();
@@ -429,12 +428,12 @@ struct FUN_00a6e190_shell
     float f4;
     float f8;
     float fc;
-    char* __thiscall FUN_00a6e190(const char* pcPrefix);
+    char* FUN_00a6e190(const char* pcPrefix);
 };
 
 // Allocates a buffer and writes pcPrefix and f0, f4, f8, and fc using the shown format string.
 // @fnv 0x00a6e190
-char* __thiscall FUN_00a6e190_shell::FUN_00a6e190(const char* pcPrefix)
+char* FUN_00a6e190_shell::FUN_00a6e190(const char* pcPrefix)
 {
     unsigned int uiLen = strlen(pcPrefix) + 0x80;
     char* pcString = (char*)::FUN_00aa1070(uiLen);

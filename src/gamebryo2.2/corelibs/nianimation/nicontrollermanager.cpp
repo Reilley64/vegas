@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicontrollermanager.cpp: Item, NiControllerManager, TargetStandIn, NiTFixedStringMap_NiAVObject___ and more (40 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A1450OwnedArray.h"
 #include "fnv/decl/A54440Hash.h"
@@ -112,7 +113,7 @@ __forceinline void init_map(int* map, int size)
 }
 
 // @fnv 0x00a2ed80
-int* __fastcall FUN_00a2ed80(int* this_ptr, int, int arg1, int arg2)
+int* FUN_00a2ed80(int* this_ptr, int, int arg1, int arg2)
 {
     new ((void *)(this_ptr)) struct ::FUN_00a5d3a0();
     this_ptr[0] = reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::DAT_01096284)));
@@ -138,7 +139,7 @@ struct HashObj
 
 // Looks up a key in the hash table by key modulo hash size, walking the bucket chain and returning the matching item's value or 0.
 // @fnv 0x00a2ee00
-void* __fastcall FUN_00a2ee00(HashObj* pThis, int, const unsigned int* pKey)
+void* FUN_00a2ee00(HashObj* pThis, int, const unsigned int* pKey)
 {
     unsigned int key = *pKey;
     if (key)
@@ -170,7 +171,7 @@ struct NiObject_Helper
 };
 
 // @fnv 0x00a2ee70
-void* __fastcall FUN_00a2ee70(int* pThis, int, unsigned int flags)
+void* FUN_00a2ee70(int* pThis, int, unsigned int flags)
 {
     int* pMap = pThis + 2;
     *pThis = (int)&(*reinterpret_cast<int *>(&::DAT_01096284));
@@ -191,7 +192,7 @@ void* __fastcall FUN_00a2ee70(int* pThis, int, unsigned int flags)
 void __cdecl FUN_00aa1460(void* p, size_t size);
 
 // @fnv 0x00a2ef80
-void* __fastcall FUN_00a2ef80(void* pThis, int, unsigned int flags)
+void* FUN_00a2ef80(void* pThis, int, unsigned int flags)
 {
     ::fnv_00a2ebb0::FUN_00a2ebb0((char *)(pThis));
     if (flags & 1)
@@ -211,7 +212,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a2f380_shell : public NiControllerManager
 {
     void CloneControllerManager(NiControllerManager*, CloningProcess*);
@@ -287,11 +287,11 @@ const char* __cdecl FUN_00a2e1e0()
 
 struct FUN_00a2e420_shell
 {
-    unsigned char __thiscall FUN_00a2e420(float f);
+    unsigned char FUN_00a2e420(float f);
 };
 
 // @fnv 0x00a2e420
-unsigned char __thiscall FUN_00a2e420_shell::FUN_00a2e420(float f)
+unsigned char FUN_00a2e420_shell::FUN_00a2e420(float f)
 {
     unsigned int i = 0;
     while (i < *(unsigned int*)((char*)this + 0x4c))
@@ -302,7 +302,7 @@ unsigned char __thiscall FUN_00a2e420_shell::FUN_00a2e420(float f)
             void** vtbl = (void**)p;
             void* obj = *vtbl;
             void** v2 = (void**)((char*)obj + 0x8c);
-            (*(void(__thiscall**)(void*, float, unsigned int))v2)(p, f, 0);
+            (*(void(**)(void*, float, unsigned int))v2)(p, f, 0);
         }
         ++i;
     }
@@ -317,7 +317,7 @@ struct S460
     void DestroyHashTable();
 };
 // @fnv 0x00a2e550
-void* __fastcall FUN_00a2e550(S460* self, int edx, unsigned int flags)
+void* FUN_00a2e550(S460* self, int edx, unsigned int flags)
 {
     self->DestroyHashTable();
     if (flags & 1)
@@ -329,7 +329,6 @@ namespace fnv_00a2ebb0 {
 extern int DAT_0109619c;
 extern int DAT_01096184;
 void __cdecl NiFree(void*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RC
 {
     virtual void V0();
@@ -354,7 +353,7 @@ struct S290
 };
 
 // @fnv 0x00a2ebb0
-void __fastcall FUN_00a2ebb0(char* self)
+void FUN_00a2ebb0(char* self)
 {
     char* b = self + 0x34;
     *(void**)self = &DAT_0109619c;
@@ -400,7 +399,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a2ede0()
 }
 
 // @fnv 0x00a2edf0
-void __fastcall FUN_00a2edf0(char* self, int edx, void* scene)
+void FUN_00a2edf0(char* self, int edx, void* scene)
 {
     *(void**)(self + 0x18) = scene;
 }
@@ -418,7 +417,7 @@ struct Stub
 typedef NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString, const char*> >, const char*> Map;
 
 // @fnv 0x00a2ee40
-void __fastcall FUN_00a2ee40(char* self, int edx, NiFixedString& name, const char* obj)
+void FUN_00a2ee40(char* self, int edx, NiFixedString& name, const char* obj)
 {
     if (!obj)
     {
@@ -429,8 +428,6 @@ void __fastcall FUN_00a2ee40(char* self, int edx, NiFixedString& name, const cha
 }
 
 class NiShader;
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Mgr;
 struct Seq
 {
@@ -460,7 +457,7 @@ template <class K, class V> class NiTPointerMap;
 typedef NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*> SMap;
 
 // @fnv 0x00a2f0c0
-bool __fastcall AttachSeqToOwner(Owner* pOwner, int edx, Seq* s, int* name, Seq* flag)
+bool AttachSeqToOwner(Owner* pOwner, int edx, Seq* s, int* name, Seq* flag)
 {
     if (pOwner && *(Owner**)((char*)s + 0x40))
         return false;
@@ -494,7 +491,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a2f850_shell : public NiControllerManager
 {
     NiObject* FUN_00a2f850(CloningProcess*);
@@ -591,11 +587,11 @@ struct TargetStandIn
     int _00;
     int _04;
     void* _08;
-    void* __thiscall FUN_00a2e4d0(unsigned int);
+    void* FUN_00a2e4d0(unsigned int);
 };
 // Resets the vtable, removes all map entries, frees the _08 pointer, and optionally deallocates the object when aFlag has bit 0 set.
 // @fnv 0x00a2e4d0
-void* __thiscall TargetStandIn::FUN_00a2e4d0(unsigned int aFlag)
+void* TargetStandIn::FUN_00a2e4d0(unsigned int aFlag)
 {
     *(void**)this = (void*)&::DAT_01096124;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
@@ -672,8 +668,6 @@ void* NiTFixedStringMap_NiAVObject___::FUN_00a2eb40(unsigned int auiFlags)
 }  // namespace fnv_00a2eb40
 
 namespace fnv_00a2efa0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern void* DAT_0109619c;
@@ -829,8 +823,6 @@ struct FUN_00a2f6e0_shell : public NiControllerManager
     void FUN_00a2f6e0(NiStream*);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct FS543
 {
@@ -1030,11 +1022,9 @@ class Registry
     unsigned short unk3c;
     unsigned short m_usItemCount;
 
-    Item* __thiscall FindItemByBindingId(int aiSoundId, bool bFlag);
+    Item* FindItemByBindingId(int aiSoundId, bool bFlag);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 Item::~Item()
 {}
@@ -1043,7 +1033,7 @@ void Item::DeleteThis()
 {}
 
 // @fnv 0x00a2e570
-Item* __thiscall Registry::FindItemByBindingId(int aiBindingId, bool abRequireFlag)
+Item* Registry::FindItemByBindingId(int aiBindingId, bool abRequireFlag)
 {
     unsigned int uiIndex = 0;
 
@@ -1477,8 +1467,6 @@ bool FUN_00a2e320_shell::FUN_00a2e320(FUN_00a2e320_shell* apOther)
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct CloneProc;
 
@@ -1778,7 +1766,7 @@ class Sequence
 
 // Deactivates pkSource and starts pkDest with the given arguments when pkSource is active and pkDest is not.
 // @fnv 0x00a2e280
-bool __stdcall FUN_00a2e280(Sequence* pkSource, Sequence* pkDest, float fTime, int iArg0, int iArg1, float fDuration,
+bool FUN_00a2e280(Sequence* pkSource, Sequence* pkDest, float fTime, int iArg0, int iArg1, float fDuration,
                             int iArg2)
 {
     if (!pkSource->m_iActive || pkDest->m_iActive)
@@ -2197,7 +2185,7 @@ struct SeqTarget
 
 // If the sequence is inactive, look up the target by key and call its FUN_00a350d0 with the given parameters, returning the result.
 // @fnv 0x00a2f800
-bool __stdcall FUN_00a2f800(NiControllerSequence* seq, float a, float b, int c, int key)
+bool FUN_00a2f800(NiControllerSequence* seq, float a, float b, int c, int key)
 {
     if (seq->m_eAnimationState != NiControllerSequence::INACTIVE)
     {

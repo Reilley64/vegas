@@ -69,7 +69,7 @@ bool FUN_008aced0_cls::HasCachedFlag(unsigned int aeWhich)
 }
 
 // @fnv 0x00867a20
-void __fastcall FUN_00867a20(void* aThis)
+void FUN_00867a20(void* aThis)
 {
     *(char*)((char*)aThis + 0x1C) = 1;
 }

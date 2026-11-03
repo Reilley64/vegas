@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.cpp: NiD3DShaderProgramFactory, ProgFactoryDirs, ShaderEntryOwner (26 functions)
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -81,7 +82,7 @@ struct Lst
     Nd* head;
 };
 // @fnv 0x00e92fe0
-int __fastcall FUN_00e92fe0(Lst* l, int, Nd** apNext)
+int FUN_00e92fe0(Lst* l, int, Nd** apNext)
 {
     Nd* n = l->head;
     *apNext = n;
@@ -103,7 +104,7 @@ void FUN_00e93df0()
 
 struct FUN_00e93f30_shell
 {
-    void* __thiscall DestroyShaderProgramFactory(unsigned int flags);
+    void* DestroyShaderProgramFactory(unsigned int flags);
 };
 
 struct ShaderBufferRecord;
@@ -116,7 +117,7 @@ struct NiD3DShaderProgramFactory_00e93060
 {
     int m_auiShapeKeys[6];
     NiTStringPointerMap_00e93060* m_pShaderBufferMap;
-    ShaderBufferRecord* __thiscall FUN_00e93060(const char* pcShaderName);
+    ShaderBufferRecord* FUN_00e93060(const char* pcShaderName);
 };
 
 // @fnv 0x00e93060
@@ -235,7 +236,7 @@ struct NiD3DShaderProgramFactory_00e93020
 {
     int m_auiShapeKeys[5];
     NiTStringPointerMap_00e93020* m_pShaderBufferMap;
-    ShaderBufferRecord* __thiscall FUN_00e93020(const char* pcShaderName);
+    ShaderBufferRecord* FUN_00e93020(const char* pcShaderName);
 };
 // @fnv 0x00e93020
 ShaderBufferRecord* NiD3DShaderProgramFactory_00e93020::FUN_00e93020(const char* pcShaderName)
@@ -289,10 +290,10 @@ struct Dealloc_00e93ab0
 };
 struct Owner_00e93ab0
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // @fnv 0x00e93ab0
-void* __thiscall Owner_00e93ab0::DestroyIfFlagged(unsigned int flags)
+void* Owner_00e93ab0::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00e93540_Map *>(this)->FUN_00e93540();
     if (flags & 1)
@@ -394,11 +395,11 @@ struct FUN_00e937f0_shell
 {
     int m_auiShapeKeys[5];
     NiTStringTemplateMap<NiTPointerMap<char const*, NiShader*>, NiShader*>* m_pTaskMap;
-    void __thiscall AddShader(ShaderArg* pkShader);
+    void AddShader(ShaderArg* pkShader);
 };
 // If pkShader and the map are non-null, inserts pkShader into the map keyed by pkShader->GetKey().
 // @fnv 0x00e937f0
-void __thiscall FUN_00e937f0_shell::AddShader(ShaderArg* pkShader)
+void FUN_00e937f0_shell::AddShader(ShaderArg* pkShader)
 {
     if (pkShader && m_pTaskMap)
         m_pTaskMap->SetAt(pkShader->GetKey(), (NiShader*)pkShader);
@@ -417,12 +418,12 @@ void FUN_00e92f70(int param_1)
         int* piVar1 = *(int**)(param_1 + 0x288);
         if (DAT_0126fa18 != 0)
         {
-            (**(void(__stdcall**)(int))(*(int*)DAT_0126fa18 + 8))(DAT_0126fa18);
+            (**(void(**)(int))(*(int*)DAT_0126fa18 + 8))(DAT_0126fa18);
         }
         DAT_0126fa18 = (int)piVar1;
         if (piVar1 != 0)
         {
-            (**(void(__stdcall**)(int*))(*(int*)piVar1 + 4))(piVar1);
+            (**(void(**)(int*))(*(int*)piVar1 + 4))(piVar1);
         }
         DAT_0126fa20 = *(int*)(DAT_0126fa1c + 0x8b8);
         return;
@@ -430,7 +431,7 @@ void FUN_00e92f70(int param_1)
     DAT_0126fa20 = 0;
     if (DAT_0126fa18 != 0)
     {
-        (**(void(__stdcall**)(int))(*(int*)DAT_0126fa18 + 8))(DAT_0126fa18);
+        (**(void(**)(int))(*(int*)DAT_0126fa18 + 8))(DAT_0126fa18);
     }
     DAT_0126fa18 = 0;
 }
@@ -542,12 +543,12 @@ struct NiD3DShaderProgramFactory_Shell
     int unk04;
     BSBatchRenderer__AlphaList m_directories;
 
-    void __thiscall RemoveDirectoryEntry(const char* pcDirectory);
+    void RemoveDirectoryEntry(const char* pcDirectory);
 };
 
 // Copies pcDirectory into a path buffer, converts '/' to '\\', then removes the matching entry from m_directories if found.
 // @fnv 0x00e93bb0
-void __thiscall NiD3DShaderProgramFactory_Shell::RemoveDirectoryEntry(const char* pcDirectory)
+void NiD3DShaderProgramFactory_Shell::RemoveDirectoryEntry(const char* pcDirectory)
 {
     if (!pcDirectory || strcmp(pcDirectory, "") == 0)
         return;
@@ -576,11 +577,11 @@ void __thiscall NiD3DShaderProgramFactory_Shell::RemoveDirectoryEntry(const char
 
 extern int DAT_010f0f70;
 extern int DAT_011f4400;
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct ShaderProgramStandIn_00e93e00
 {
-    virtual void __thiscall vf00(int);
+    virtual void vf00(int);
 };
 
 struct FUN_00e93cc0_Obj
@@ -602,10 +603,10 @@ struct FUN_00e93e00_Obj : public FUN_00e93cc0_Obj
     ShaderProgramStandIn_00e93e00* unk14;
     ShaderProgramStandIn_00e93e00* unk18;
 
-    void __thiscall FUN_00e93e00();
+    void FUN_00e93e00();
 };
 // @fnv 0x00e93f30
-void* __thiscall FUN_00e93f30_shell::DestroyShaderProgramFactory(unsigned int flags)
+void* FUN_00e93f30_shell::DestroyShaderProgramFactory(unsigned int flags)
 {
     NiD3DShaderProgramFactory* self = (NiD3DShaderProgramFactory*)this;
     static_cast<::FUN_00e93e00_Obj *>(nullptr)->FUN_00e93e00();
@@ -689,7 +690,6 @@ void* __cdecl FUN_00e938e0(void* pkDesc, void* pkRenderer, const char* pcLibName
     return pkShader;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern "C" void* __cdecl MemSet_00e93ad0(void* dst, int value, unsigned int size);
 
 class NiRefObject
@@ -817,8 +817,8 @@ struct ShaderEntryList
         position = position->next;
         return element;
     }
-    void __thiscall FUN_00b602d0();
-    void __thiscall FUN_00e7d5b0();
+    void FUN_00b602d0();
+    void FUN_00e7d5b0();
 };
 struct ShaderEntryNodePool
 {

@@ -137,7 +137,7 @@ struct Built
     int field00;
     short field04;
     int field08;
-    void __thiscall FUN_00d2f980(int);
+    void FUN_00d2f980(int);
 };
 extern "C" Global* __cdecl FUN_00c85750();
 // Allocates a 0x40-byte Built from the global allocator, sets its field04 to 0x40, and calls FUN_00d2f980 with arg4.
@@ -153,21 +153,21 @@ void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
 
 // Calls FUN_00d30f50, passing along all five arguments unchanged.
 // @fnv 0x00d315a0
-void __stdcall FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
+void FUN_00d315a0(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
 {
     ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(apFirst)), (*(const ::S_00d30f50_CdBody *)(apSecond)), (*(const ::S_00d30f50_LinearCastInput *)(apThird)), (*(::S_00d30f50_CdPointCollector *)(apFourth)), (::S_00d30f50_CdPointCollector *)(apFifth));
 }
 
 extern "C" void __cdecl FUN_00d31110(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
-extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
+extern "C" void FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
 
 
 // @fnv 0x00d315f0
-void __stdcall FUN_00d315f0(void* apA, void* apB, void* apC, void* apD)
+void FUN_00d315f0(void* apA, void* apB, void* apC, void* apD)
 {
     FUN_00d312f0(apA, apB, apC, apD);
 }
@@ -281,9 +281,9 @@ struct S_00d2f8f0_ArgVtbl
     void* unk00;
     void* unk04;
     void* unk08;
-    void(__thiscall* unk0c)(void*, char*, int, int);
+    void(* unk0c)(void*, char*, int, int);
     void* unk10;
-    void(__thiscall* unk14)(void*, int, char*, void*, int, void*);
+    void(* unk14)(void*, int, char*, void*, int, void*);
 };
 
 struct S_00d2f8f0_Arg
@@ -395,7 +395,7 @@ void OwnerD2F5::FUN_00d2f550(void* pArg)
     delete this;
 }
 
-typedef void(__thiscall* TUpdateFn)(void* self, float, float, int);
+typedef void(* TUpdateFn)(void* self, float, float, int);
 
 struct SUpdated
 {

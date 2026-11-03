@@ -10,12 +10,12 @@
 #include "fnv/symbols_00da4000.h"
 struct hkAgent1nMachine
 {
-    void __thiscall InvalidateTim(void*);
+    void InvalidateTim(void*);
 };
 struct hkpListAgent
 {
     char m0[0x10];
-    void __thiscall FUN_00d36850(void* arg);
+    void FUN_00d36850(void* arg);
 };
 struct Owner
 {

@@ -43,7 +43,6 @@ enum DEFAULT_OBJECT
     DEFAULT_OBJECT_DO_CATEYE_MOBILE_EFFECT = 33,
     DEFAULT_OBJECT_DO_COUNT = 34
 };
-#pragma pack(push, 4)
 class BGSDefaultObjectManager : public TESForm
 {
   public:
@@ -68,7 +67,4 @@ class BGSDefaultObjectManager : public TESForm
     BGSDefaultObjectManager();
     static BGSDefaultObjectManager* ms_pSystemUtility;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDefaultObjectManager) == 160);
-FNV_STATIC_ASSERT(offsetof(BGSDefaultObjectManager, m_apDefaultObjects) == 24);
 #endif

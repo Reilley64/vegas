@@ -183,13 +183,13 @@ void FUN_006dcfe0_shell::FUN_006dcfe0(int aiVal)
 }
 
 // @fnv 0x006dd5a0
-int __fastcall IsPathingLocationFlagSet(PathingLocation* pThis)
+int IsPathingLocationFlagSet(PathingLocation* pThis)
 {
     return *((unsigned char*)pThis + 0x26) & 1;
 }
 
 // @fnv 0x006df160
-TESForm*& __fastcall GetFirstForm(NiFormArray* pThis)
+TESForm*& GetFirstForm(NiFormArray* pThis)
 {
     return pThis->FUN_00877a30(0);
 }
@@ -240,7 +240,7 @@ struct FUN_006dcfe0_shell : public PathingLocation
 
 // Initialises a PathingLocation from a point and navmesh info: sets vtable, location, flags, worldspace/cell and clears triangle data.
 // @fnv 0x006dcf20
-PathingLocation* __fastcall FUN_006dcf20(PathingLocation* self, PtrLoc aLocation, PtrNav apNavMeshInfo)
+PathingLocation* FUN_006dcf20(PathingLocation* self, PtrLoc aLocation, PtrNav apNavMeshInfo)
 {
     self->m_ppVirtualMethodTable = (void**)&::DAT_0102583c;
     new ((void *)(&self->Location)) ::Vec3();

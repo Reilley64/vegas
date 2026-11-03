@@ -263,10 +263,10 @@ extern int DAT_0106c8d4;
 struct FUN_006c87f0_shell
 {
     void* vftable;
-    void __thiscall FUN_006c87f0();
+    void FUN_006c87f0();
 };
 // @fnv 0x006c87f0
-void __thiscall FUN_006c87f0_shell::FUN_006c87f0()
+void FUN_006c87f0_shell::FUN_006c87f0()
 {
     vftable = &DAT_0106c8d4;
     reinterpret_cast<::FUN_006c8a30_Class *>(this)->FUN_006c8a30(1);

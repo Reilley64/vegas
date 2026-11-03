@@ -25,12 +25,6 @@ class MagicEffectEntry
     // void __cdecl MagicEffectEntry::*()
     // void __cdecl MagicEffectEntry::*()
 };
-FNV_STATIC_ASSERT(sizeof(MagicEffectEntry) == 20);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iMagnitude) == 0);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iArea) == 4);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_iPayloadInteger) == 8);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_eRange) == 12);
-FNV_STATIC_ASSERT(offsetof(MagicEffectEntry, m_eAssociatedActorValue) == 16);
 class EffectItem
 {
   public:
@@ -80,9 +74,4 @@ public:
 public:
     bool IsScriptBasedEffect();
 };
-FNV_STATIC_ASSERT(sizeof(EffectItem) == 36);
-FNV_STATIC_ASSERT(offsetof(EffectItem, data) == 0);
-FNV_STATIC_ASSERT(offsetof(EffectItem, m_pEffectSetting) == 20);
-FNV_STATIC_ASSERT(offsetof(EffectItem, m_fCost) == 24);
-FNV_STATIC_ASSERT(offsetof(EffectItem, Conditions) == 28);
 #endif

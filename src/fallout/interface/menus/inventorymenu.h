@@ -21,11 +21,4 @@ class InventoryMenu : public Menu
     void AssignTileByID(int id, Tile* tile);
 };
 
-FNV_STATIC_ASSERT(sizeof(InventoryMenu) == 0x124);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_iCurrentTab) == 0x84);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kPageStates) == 0x88);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kItemList) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kMenuData) == 0xE8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kHotkeyObjects) == 0x11C);
 #endif

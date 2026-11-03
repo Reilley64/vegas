@@ -111,7 +111,7 @@ struct Field21c
 };
 struct Obj621ad0
 {
-    int __thiscall FUN_00621ad0();
+    int FUN_00621ad0();
 };
 struct ModeShell
 {
@@ -532,7 +532,7 @@ struct ThisShell
     unsigned char unk64b;
     bool bThirdPerson;
     unsigned char byte64d;
-    void __thiscall FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag);
+    void FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag);
 };
 // @fnv 0x0094a0c0
 void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)

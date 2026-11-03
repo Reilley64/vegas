@@ -20,11 +20,11 @@
 
 struct FUN_00bb79d0_class
 {
-    void __thiscall FUN_00bb79d0(bool value);
+    void FUN_00bb79d0(bool value);
 };
 
 // @fnv 0x00bb79d0
-void __thiscall FUN_00bb79d0_class::FUN_00bb79d0(bool value)
+void FUN_00bb79d0_class::FUN_00bb79d0(bool value)
 {
     *(char*)((char*)this + 0xac) = value;
 }

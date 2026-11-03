@@ -20,7 +20,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "nitrishapedata_decls.h"
 
-void __fastcall FUN_00a7b8c0(void*);
+void FUN_00a7b8c0(void*);
 
 class NiMemObject
 {
@@ -30,7 +30,7 @@ class NiMemObject
 
 // Calls FUN_00a7b8c0 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 1 set, and returns pThis.
 // @fnv 0x00a7b920
-void* __fastcall FUN_00a7b920(void* pThis, int, unsigned int flags)
+void* FUN_00a7b920(void* pThis, int, unsigned int flags)
 {
     FUN_00a7b8c0(pThis);
     if (flags & 1)
@@ -49,7 +49,7 @@ struct FUN_00a7b6c0_T
 
 // Frees the previous c buffer if it differs from the new one, stores a and c, and sets b to a times 3.
 // @fnv 0x00a7b6c0
-void __fastcall FUN_00a7b6c0(FUN_00a7b6c0_T* self, int, unsigned short ausValue, unsigned short* apusBuffer)
+void FUN_00a7b6c0(FUN_00a7b6c0_T* self, int, unsigned short ausValue, unsigned short* apusBuffer)
 {
     if (apusBuffer != self->c && self->c)
         ::FUN_00aa10f0(self->c);
@@ -67,7 +67,7 @@ struct FUN_00a7b700_T
 };
 
 // @fnv 0x00a7b700
-void __fastcall FUN_00a7b700(FUN_00a7b700_T* self, int, unsigned short ausValue, unsigned int auiValue)
+void FUN_00a7b700(FUN_00a7b700_T* self, int, unsigned short ausValue, unsigned int auiValue)
 {
     self->a = ausValue;
     self->b = ausValue * 3;
@@ -82,7 +82,7 @@ struct FUN_00a7b720_T
 
 // Reads three consecutive unsigned shorts from self->c at offset i*3 and writes them to the three output pointers.
 // @fnv 0x00a7b720
-void __fastcall FUN_00a7b720(FUN_00a7b720_T* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
+void FUN_00a7b720(FUN_00a7b720_T* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
                              unsigned short* i2)
 {
     unsigned int j = i * 3;
@@ -100,7 +100,7 @@ struct FUN_00a7b760_T
 };
 
 // @fnv 0x00a7b760
-void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
+void FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
                              unsigned int* p4)
 {
     *p1 = self->a;
@@ -111,7 +111,7 @@ void __fastcall FUN_00a7b760(FUN_00a7b760_T* self, int, unsigned short* p1, unsi
 
 
 // @fnv 0x00a7b860
-const char* const* __fastcall FUN_00a7b860(void* self, int)
+const char* const* FUN_00a7b860(void* self, int)
 {
     return &(*reinterpret_cast<const char *const *>(&::g_011f4a88));
 }
@@ -123,7 +123,7 @@ struct FUN_00a7b870_T
 };
 
 // @fnv 0x00a7b870
-FUN_00a7b870_T* __fastcall FUN_00a7b870(FUN_00a7b870_T* self, int)
+FUN_00a7b870_T* FUN_00a7b870(FUN_00a7b870_T* self, int)
 {
     self->a = 0;
     self->b = 0;

@@ -806,7 +806,7 @@ struct FUN_0044d6c0_class
     int m2;
     void* FUN_00ec78f1(void*** ppArg);
 };
-extern "C" __declspec(noreturn) void __stdcall __CxxThrowException(void* pException, void* apThrowInfo);
+extern "C" __declspec(noreturn) void __CxxThrowException(void* pException, void* apThrowInfo);
 // Throws an exception if a*0x30 would overflow an unsigned int, otherwise calls operator new with a*0x30 bytes.
 // @fnv 0x00b3b540
 void __cdecl FUN_00b3b540(int aiCount, int aiUnused)

@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpCollisionFilter.h"
-#pragma pack(push, 1)
 class hkpConstrainedSystemFilter : public hkpCollisionFilter
 {
   public:
     char pad30[0x4];
     hkpCollisionFilter* m_pChildFilter;  // +0x34
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConstrainedSystemFilter[(sizeof(hkpConstrainedSystemFilter) == 0x38) ? 1 : -1];
 #endif

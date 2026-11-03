@@ -2,6 +2,7 @@
 // src/bsshader/speedtreefrondshader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreefrondshader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/BSShaderPass.h"
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/symbols_00406000.h"
@@ -13,8 +14,6 @@
 #include "fnv/symbols_011ad000.h"
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_011fa000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct BSFadeNode
 {

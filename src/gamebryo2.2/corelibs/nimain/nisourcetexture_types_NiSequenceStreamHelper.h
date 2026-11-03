@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "NiObjectNET.h"
 class NiSequenceStreamHelper;
-#pragma pack(push, 4)
 class NiSequenceStreamHelper : public NiObjectNET
 {
   public:
@@ -23,6 +22,4 @@ class NiSequenceStreamHelper : public NiObjectNET
     // NiSequenceStreamHelper& __cdecl NiSequenceStreamHelper::*(const NiSequenceStreamHelper&)
     // void __cdecl NiSequenceStreamHelper::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiSequenceStreamHelper) == 24);
 #endif

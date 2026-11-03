@@ -139,7 +139,7 @@ int BGSIdleCollection::GetPickType()
 
 
 // @fnv 0x00479790
-void* __fastcall FUN_00479790(BaseFormComponent* pThis)
+void* FUN_00479790(BaseFormComponent* pThis)
 {
     ::FUN_00402d30((int *)(pThis));
     *(int**)pThis = &(*reinterpret_cast<int *>(&::fnv_004797c0::DAT_0101abd8));
@@ -158,7 +158,7 @@ struct SArgs
 };
 // Stores the value pointed to by a.v into the element of self at index a.i.
 // @fnv 0x0047a110
-void __fastcall FUN_0047a110(Arr* self, SArgs aArgs)
+void FUN_0047a110(Arr* self, SArgs aArgs)
 {
     *self->GetAt(aArgs.i) = *aArgs.v;
 }
@@ -183,11 +183,11 @@ extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct BGSIdleCollection_shell : BGSIdleCollection
 {
-    bool __thiscall IsDifferentFrom(BaseFormComponent* other);
+    bool IsDifferentFrom(BaseFormComponent* other);
 };
 
 // @fnv 0x00479930
-bool __thiscall BGSIdleCollection_shell::IsDifferentFrom(BaseFormComponent* other)
+bool BGSIdleCollection_shell::IsDifferentFrom(BaseFormComponent* other)
 {
     BGSIdleCollection* idle = dynamic_cast<BGSIdleCollection*>(other);
     if (!idle)

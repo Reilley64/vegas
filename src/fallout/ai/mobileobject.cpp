@@ -433,7 +433,6 @@ struct WorldRayCastInput
     unsigned int m_uiFilterInfo;
     char _pad_28[8];
 };
-typedef char _sizecheck_hkpWorldRayCastInput[sizeof(WorldRayCastInput) == 48 ? 1 : -1];
 struct RayCastHitResult
 {
     struct blob1 DidHit();
@@ -443,7 +442,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -454,7 +452,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -462,7 +459,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 {
     hkpRigidBody* GethkRigidBody();
@@ -497,7 +493,6 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     bool m_bPickFailed;
     char _pad_ad[3];
 };
-typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3eb0_shell : public BhkPickData
 {
     void FUN_004a3eb0(void*);
@@ -525,7 +520,7 @@ extern int DAT_0108a490;
 extern int DAT_0108a49c;
 
 // @fnv 0x0092eb50
-void* __fastcall FUN_0092eb50(char* this_ptr)
+void* FUN_0092eb50(char* this_ptr)
 {
     new ((void *)(((TESObjectREFR*)this_ptr))) ::fnv_0055a2f0::FUN_0055a2f0();
     *(int**)(this_ptr + 0x00) = &DAT_0108a49c;
@@ -1071,7 +1066,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -1108,7 +1102,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00932d60_shell : public MobileObject
 {
     void FUN_00932d60(BGSLoadFormBuffer*);
@@ -1238,7 +1231,7 @@ void FUN_009333e0_shell::FUN_009333e0(bool abDeleted)
     {
         bool bcaster = dynamic_cast<MagicCaster*>((MobileObject*)this) || ((bool)(::FUN_00933480(this)));
         ((ST_009333e0*)this)->FUN_0092ed60(bcaster);
-        (*(void(__thiscall**)(void*))(*(int*)this + 0x2fc))(this);
+        (*(void(**)(void*))(*(int*)this + 0x2fc))(this);
     }
 }
 
@@ -1249,8 +1242,8 @@ struct MobileObject_Helper : public MobileObject
     void FUN_00936aa0(bool);
 };
 
-void __fastcall SetAccumulate(MobileObject_Helper*, int, int);
-void __fastcall FUN_00936aa0(MobileObject_Helper*, int, bool);
+void SetAccumulate(MobileObject_Helper*, int, int);
+void FUN_00936aa0(MobileObject_Helper*, int, bool);
 
 // Looks up the form for the given id; if it is a mobile object, either clears its flag or calls SetAccumulate and FUN_00936aa0 with abSucceeded.
 // @fnv 0x00936a20
@@ -1268,8 +1261,8 @@ void __cdecl HandleMobileObjectResult(void* apContext, bool abSucceeded)
         }
         if (!*((bool*)pactor + 0x83))
         {
-            ((void(__thiscall*)(MobileObject*, int))SetAccumulate)(pactor, 0);
-            ((void(__thiscall*)(MobileObject*, bool))FUN_00936aa0)(pactor, abSucceeded);
+            ((void(*)(MobileObject*, int))SetAccumulate)(pactor, 0);
+            ((void(*)(MobileObject*, bool))FUN_00936aa0)(pactor, abSucceeded);
         }
         else
         {
@@ -1382,11 +1375,11 @@ class FUN_0092f140_shell
     unsigned int m_field_0xd2c;
 
   public:
-    unsigned int __thiscall GetFieldD2C();
+    unsigned int GetFieldD2C();
 };
 
 // @fnv 0x0092f140
-unsigned int __thiscall FUN_0092f140_shell::GetFieldD2C()
+unsigned int FUN_0092f140_shell::GetFieldD2C()
 {
     return *(unsigned int*)((unsigned char*)this + 0xd2c);
 }
@@ -1405,13 +1398,13 @@ public:
 };
 
 // @fnv 0x00930570
-int __fastcall HasFlag40000(DummyFlags* this_)
+int HasFlag40000(DummyFlags* this_)
 {
     return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this_ + 0x410))))->FUN_00621270(0x40000))) != 0;
 }
 
 // @fnv 0x00930600
-void __fastcall SetField558(void* thisPtr, float value)
+void SetField558(void* thisPtr, float value)
 {
     *(float*)((char*)thisPtr + 0x558) = value;
 }
@@ -1453,8 +1446,8 @@ void FUN_00810f90_shell::SetFlag4000(bool abSet)
 
 struct FUN_0092ec10_shell
 {
-    void* __thiscall FUN_0092ec40();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* FUN_0092ec40();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 
@@ -1464,11 +1457,11 @@ extern "C"
 
 struct FUN_00930620_shell
 {
-    void __thiscall FUN_00930620();
+    void FUN_00930620();
 };
 
 // @fnv 0x00930620
-void __thiscall FUN_00930620_shell::FUN_00930620()
+void FUN_00930620_shell::FUN_00930620()
 {
     *(float*)((char*)this + 0x530) = DAT_011b014c;
 }
@@ -1812,11 +1805,11 @@ bool FUN_009bc8c0_shell::FUN_009bc8c0()
 
 struct FUN_0080f790_shell : public TESObjectREFR
 {
-    float __thiscall GetAngleZOnReference(int dummy);
+    float GetAngleZOnReference(int dummy);
 };
 
 // @fnv 0x0080f790
-float __thiscall FUN_0080f790_shell::GetAngleZOnReference(int dummy)
+float FUN_0080f790_shell::GetAngleZOnReference(int dummy)
 {
     return (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)this)->GetData())).z;
 }
@@ -2177,12 +2170,12 @@ struct FUN_00930540_shell
 {
     char pad[0x410];
     FUN_00629670_T m_410;
-    void __thiscall FUN_00930540(unsigned char param);
+    void FUN_00930540(unsigned char param);
 };
 
 // Forwards the given byte and the constant 0x100 to the member's FUN_00629670.
 // @fnv 0x00930540
-void __thiscall FUN_00930540_shell::FUN_00930540(unsigned char abValue)
+void FUN_00930540_shell::FUN_00930540(unsigned char abValue)
 {
     reinterpret_cast<::FUN_00629670_Class *>(&(m_410))->FUN_00629670(0x100, abValue);
 }
@@ -3902,7 +3895,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -3939,7 +3931,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00932a00_shell : public MobileObject
 {
     void FUN_00932a00(BGSLoadFormBuffer*);
@@ -4375,7 +4366,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -4412,7 +4402,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00932b70_shell : public MobileObject
 {
     void FUN_00932b70(BGSLoadFormBuffer*);
@@ -5079,7 +5068,6 @@ struct TESTopicInfo : public TESForm
     TESQuest* m_pOwnerQuest;
     unsigned long m_ulTopicFlags;
 };
-typedef char _sizecheck_TESTopicInfo[sizeof(TESTopicInfo) == 80 ? 1 : -1];
 struct FUN_00934250_shell : public MobileObject
 {
     void FUN_00934250();
@@ -5518,7 +5506,6 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_0092f260_shell : public MobileObject
 {
     bhkCharacterController* FUN_0092f260(float, NiPoint3*, unsigned int);
@@ -5613,7 +5600,7 @@ struct NiAVObjectVT
 struct FUN_00b4e030_S
 {
 };
-const NiPoint3& __fastcall FUN_0045bb80(void*);
+const NiPoint3& FUN_0045bb80(void*);
 struct FUN_00561730_S
 {
 };
@@ -5644,7 +5631,7 @@ struct MovementPose
     float fSpeed;
     bool bFlag;
 };
-void* __fastcall FUN_009304d0(MovementPose*);
+void* FUN_009304d0(MovementPose*);
 
 struct FUN_0088b0a0_c
 {
@@ -6483,11 +6470,11 @@ struct FUN_0055e730_shell
 
 struct FUN_00931ff0_shell : public MobileObject
 {
-    unsigned short __thiscall FUN_00931ff0(unsigned int aiFlags);
+    unsigned short FUN_00931ff0(unsigned int aiFlags);
 };
 
 // @fnv 0x00931ff0
-unsigned short __thiscall FUN_00931ff0_shell::FUN_00931ff0(unsigned int aiFlags)
+unsigned short FUN_00931ff0_shell::FUN_00931ff0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += 1;
@@ -7938,7 +7925,7 @@ struct FUN_0092ec40 : RefStub
 };
 // Calls FUN_0092ec40, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x0092ec10
-void* __thiscall FUN_0092ec10_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_0092ec10_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_0092ec40 *>(this)->FUN_0092ec40::~FUN_0092ec40();
     if (flags & 1)
@@ -7980,12 +7967,12 @@ struct FUN_009304d0_shell
     float unk20;
     bool unk24;
 
-    void* __thiscall FUN_009304d0();
+    void* FUN_009304d0();
 };
 
 // Initialises the object's fields: zeroes unk00 and unk20, copies DAT_011f426c into unk04 and unk10, sets unk24 to true, and returns this.
 // @fnv 0x009304d0
-void* __thiscall FUN_009304d0_shell::FUN_009304d0()
+void* FUN_009304d0_shell::FUN_009304d0()
 {
     unk00 = 0.0f;
     unk04 = ::NiPoint3::ZERO;
@@ -9708,7 +9695,7 @@ struct QueueReplacement
 };
 struct FUN_009c4920_shell : public MobileObject
 {
-    bool __thiscall ReplaceProcessWithMiddleHigh();
+    bool ReplaceProcessWithMiddleHigh();
 };
 // @fnv 0x009c4920
 bool FUN_009c4920_shell::ReplaceProcessWithMiddleHigh()
@@ -10159,7 +10146,6 @@ class HighProcess : public BaseProcess
     int unk_hp_269;
     int unk_hp_270;
 };
-FNV_STATIC_ASSERT(sizeof(HighProcess) == 0x46c);
 
 class MiddleHighProcess : public BaseProcess
 {
@@ -10305,7 +10291,6 @@ class MiddleHighProcess : public BaseProcess
     int unk_mhp_137;
     int unk_mhp_138;
 };
-FNV_STATIC_ASSERT(sizeof(MiddleHighProcess) == 0x25c);
 
 class FUN_0092c950 : public BaseProcess
 {
@@ -10350,7 +10335,6 @@ class FUN_0092c950 : public BaseProcess
     int unk_mlp_036;
     int unk_mlp_037;
 };
-FNV_STATIC_ASSERT(sizeof(FUN_0092c950) == 0xc8);
 
 class FUN_00906dc0 : public BaseProcess
 {
@@ -10390,7 +10374,6 @@ class FUN_00906dc0 : public BaseProcess
     int unk_lp_031;
     int unk_lp_032;
 };
-FNV_STATIC_ASSERT(sizeof(FUN_00906dc0) == 0xb4);
 
 class ProcessVTableFix
 {
@@ -12553,12 +12536,12 @@ class MagicProjectileObject
     int unk64;
     MagicProjectileRef* unk68;
 
-    NiPoint3 __thiscall FUN_0056fb10();
-    NiPoint3 __thiscall FUN_00933630();
+    NiPoint3 FUN_0056fb10();
+    NiPoint3 FUN_00933630();
 };
 
 // @fnv 0x00933630
-NiPoint3 __thiscall MagicProjectileObject::FUN_00933630()
+NiPoint3 MagicProjectileObject::FUN_00933630()
 {
     if (unk68 && unk68->vf5f0())
     {

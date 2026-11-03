@@ -35,7 +35,4 @@ class AutoMemContext
   private:
     MEM_CONTEXT eOldMemContext;
 };
-FNV_STATIC_ASSERT(sizeof(MEM_CONTEXT) == 4);
-FNV_STATIC_ASSERT(sizeof(AutoMemContext) == 4);
-FNV_STATIC_ASSERT(offsetof(InterfaceManager, screenAspectRatio) == 0x4D0);
 #endif

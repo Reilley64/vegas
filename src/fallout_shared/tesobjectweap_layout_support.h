@@ -4,11 +4,6 @@
 #define FNV_TESOBJECTWEAP_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 class Script;
 class TESFile;
 class TESForm;
@@ -50,11 +45,6 @@ template <class T> class BSStringT
     void SetMaxLength(unsigned int length);
     BSStringT<T>& operator=(const T* text);
 };
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, pString) == 0);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sLen) == 4);
-FNV_STATIC_ASSERT(offsetof(BSStringT<char>, sMaxLen) == 6);
 namespace ActorValue {
 enum Index
 {

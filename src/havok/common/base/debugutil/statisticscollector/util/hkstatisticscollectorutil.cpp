@@ -438,7 +438,7 @@ void __cdecl FUN_00cf6920(void* a1, Node* apNode, void* apArg)
 //   movzx edx,byte [eax+map] / jmp [edx*4+jt]   (33-case two level switch)
 //   ... 3 clusters: *out=1, *out=0, and one that calls a helper.
 //
-// The helper at 0x00d86910 is a __thiscall member that returns the dword at
+// The helper at 0x00d86910 is a member that returns the dword at
 // this+4; it must be a real call (not inlined) so that `this` stays in ECX.
 
 struct FNV_Cf62b0_Obj
@@ -453,10 +453,10 @@ struct FNV_Cf62b0_Obj
     unsigned char unk0d;
     unsigned short unk0e;
     unsigned short unk10;  // the flag word
-    int __thiscall FUN_cf62b0_get04();
+    int FUN_cf62b0_get04();
 };
 
-__declspec(noinline) int __thiscall FNV_Cf62b0_Obj::FUN_cf62b0_get04()
+__declspec(noinline) int FNV_Cf62b0_Obj::FUN_cf62b0_get04()
 {
     return m04;
 }

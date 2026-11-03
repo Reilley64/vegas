@@ -108,7 +108,7 @@ struct FUN_007316f0_shell
 };
 struct BlackJackMenu
 {
-    int __thiscall FUN_00731790();
+    int FUN_00731790();
 };
 int __cdecl FUN_00733f80();
 struct FUN_007399d0_shell
@@ -117,11 +117,11 @@ struct FUN_007399d0_shell
 };
 struct FUN_00734d30_shell
 {
-    int __thiscall HasFlag(int aFlag);
+    int HasFlag(int aFlag);
 };
 struct FUN_007317d0_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct Helper731800
 {
@@ -163,11 +163,11 @@ struct FUN_00733f50_shell
 };
 struct FUN_00733f90_shell
 {
-    char __thiscall FUN_00733f90();
+    char FUN_00733f90();
 };
 struct FUN_00738fb0_shell
 {
-    int __thiscall GetAdjustedValue(int a1);
+    int GetAdjustedValue(int a1);
 };
 struct NiAVObject
 {
@@ -179,13 +179,13 @@ struct FUN_00739ad0_Holder
 {
     char _pad[0xDB4];
     NiAVObject* m_pTreeNode;
-    void __thiscall HideArrowNodes();
+    void HideArrowNodes();
 };
 struct FUN_00733fd0_shell
 {
     char _pad_0[0xf8];
     float m_fMinimum;  // +0xf8
-    void __thiscall FUN_00733fd0(float fMin);
+    void FUN_00733fd0(float fMin);
 };
 struct FUN_00734d50_holder
 {
@@ -266,14 +266,14 @@ struct FUN_00738270_shell
     NiAVObject* m_pCardObject2;
     NiAVObject* m_pCardObject3;
 
-    void __thiscall UncullCardObjects();
+    void UncullCardObjects();
 };
 struct StartMenu
 {
 };
 struct FUN_00a01290_shell
 {
-    void __thiscall SetTraitAndReset(int, float);
+    void SetTraitAndReset(int, float);
 };
 struct P09TileS
 {
@@ -283,7 +283,7 @@ struct Tile2
 };
 struct FUN_00738c30_shell
 {
-    void __thiscall FUN_00738c30(int, float);
+    void FUN_00738c30(int, float);
 };
 struct BlackJackMenu_Layout
 {
@@ -302,9 +302,9 @@ struct Padding16ByteBlock
 };
 struct G2
 {
-    bool __thiscall _ref_008256d0();
-    void __thiscall _ref_00726c60(Padding16ByteBlock* const& value);
-    void __thiscall AddHead(Padding16ByteBlock* const& value);
+    bool _ref_008256d0();
+    void _ref_00726c60(Padding16ByteBlock* const& value);
+    void AddHead(Padding16ByteBlock* const& value);
 };
 struct SoundListView
 {
@@ -320,7 +320,7 @@ struct FUN_007393f0_shell
     G2* _playerHand;
 
 
-    void __thiscall DealInitialCards();
+    void DealInitialCards();
 };
 extern "C" void* _ReadWriteBarrier_unused;
 struct SetBase
@@ -438,7 +438,7 @@ struct FUN_007399f0_cls
     unsigned char _pad0[0xdb4];
     int m_db4;
 
-    void __thiscall FUN_007399f0();
+    void FUN_007399f0();
 };
 struct ChipNodeX
 {

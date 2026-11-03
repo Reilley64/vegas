@@ -44,7 +44,7 @@ struct FUN_009f0a20
 };
 // Adds apActor to the head of the list at offset 0x10 only if it is not already in that list.
 // @fnv 0x009f0a20
-void __thiscall FUN_009f0a20::RegisterActor(Actor* apActor)
+void FUN_009f0a20::RegisterActor(Actor* apActor)
 {
     if (!(reinterpret_cast<::RefList *>((((LH*)((char*)this + 0x10))))->FUN_005f65d0((void **)&(apActor))))
         ((G2*)((char*)this + 0x10))->AddHead(apActor);

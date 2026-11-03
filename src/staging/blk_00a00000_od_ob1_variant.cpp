@@ -36,21 +36,21 @@ struct FUN_00a1c020_Class
 };
 struct FUN_00a1e720_class
 {
-    void __thiscall FUN_00a1e720(int a, int b, int c);
+    void FUN_00a1e720(int a, int b, int c);
 };
 struct FUN_00a1e1a0_class
 {
     int m_vtbl;
     int m_field;
-    void __thiscall FUN_00a1e1a0();
+    void FUN_00a1e1a0();
 };
 struct MemoryManager
 {
 };
 struct FUN_00a11d80_Class
 {
-    void __thiscall InitAndClear();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void InitAndClear();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 void __cdecl FUN_00ec30b0();
 int __cdecl _FUN_00ec7c66(void* dst, unsigned int size, const void* src, unsigned int count);
@@ -79,7 +79,7 @@ struct FUN_00a0d5f0_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0(unsigned int size);
+    FUN_00a0d5f0_class* FUN_00a0d5f0(unsigned int size);
 };
 void* _fnv_zlib_memset(void* dest, int val, unsigned int size);
 extern int DAT_01094e9c;
@@ -145,14 +145,14 @@ struct FUN_00a0d710_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d710_class* __thiscall FUN_00a0d710(unsigned int size);
+    FUN_00a0d710_class* FUN_00a0d710(unsigned int size);
 };
 struct FUN_00a1ee60_class
 {
     int* m_vtbl;
     void* m_data;
     FUN_00a1ee60_class(unsigned short c);
-    FUN_00a1ee60_class* __thiscall FUN_00a1ee60(int freeMem);
+    FUN_00a1ee60_class* FUN_00a1ee60(int freeMem);
 };
 struct S00a0d390
 {
@@ -176,7 +176,7 @@ struct FUN_00a1e520_class
     unsigned short m_iElementCount;
     unsigned short m_uiItemCount;
     unsigned short m_live;
-    void __thiscall Resize(unsigned int size);
+    void Resize(unsigned int size);
 };
 struct FUN_00a0d2a0_Obj
 {
@@ -196,7 +196,7 @@ struct FUN_00a0d5c0_Local
 };
 struct FUN_00a0d5c0_Class
 {
-    int __thiscall FUN_00a0d5c0(int arg);
+    int FUN_00a0d5c0(int arg);
 };
 struct FUN_00a0d7c0_Arg
 {
@@ -233,7 +233,7 @@ struct FUN_00a1e880_class : S00a0d390
 // frame pinned via unused Q7 struct (probe2/probe3 verified sub esp,20h + this@-20h, zero extra insns)
 struct FUN_00a1e900_Class
 {
-    int __thiscall FUN_00a1e900();
+    int FUN_00a1e900();
 };
 struct Q7
 {
@@ -241,7 +241,7 @@ struct Q7
 };
 struct FUN_00a1ea70_Class
 {
-    void* __thiscall FUN_00a1ea70(unsigned int a2);
+    void* FUN_00a1ea70(unsigned int a2);
 };
 struct FUN_00a0c7a0_shell
 {
@@ -265,7 +265,7 @@ class S_00a0c9f0
     S_00a0c9f0_Pool m_kNodePool;
 
   public:
-    void __thiscall FUN_00a0c9f0(int* pValue);
+    void FUN_00a0c9f0(int* pValue);
 };
 struct FUN_00a0d790_class : S00a0d390
 {
@@ -276,7 +276,7 @@ extern int DAT_01094e9c;
 struct FUN_00a0d990_cls : S00a0d390
 {
     void* m_data;
-    int __thiscall FUN_00a0d990(int arg);
+    int FUN_00a0d990(int arg);
 };
 struct FUN_00a1ebc0
 {
@@ -352,11 +352,11 @@ struct S00a0d7f0 : S00a0d390
         m_live = 0;
     }
 
-    void* __thiscall FUN_00a0d7f0(unsigned int flags);
+    void* FUN_00a0d7f0(unsigned int flags);
 };
 
 // @fnv 0x00a0d7f0
-void* __thiscall S00a0d7f0::FUN_00a0d7f0(unsigned int flags)
+void* S00a0d7f0::FUN_00a0d7f0(unsigned int flags)
 {
     m_vtbl = (int*)&DAT_01094e5c;
     reinterpret_cast<::AE91F0Map *>(this)->ClearAll();

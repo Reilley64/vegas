@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nirenderer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirenderer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -32,11 +33,11 @@ char const* const* __cdecl FUN_00a62b50()
 void __cdecl FUN_00a62b60();
 struct FUN_00a63230_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 // Calls FUN_00a62b60, then if flags has bit 1 set frees this with size 0x280, and returns this.
 // @fnv 0x00a63230
-void* __thiscall FUN_00a63230_shell::Destroy(unsigned int flags)
+void* FUN_00a63230_shell::Destroy(unsigned int flags)
 {
     FUN_00a62b60();
     if (flags & 1)
@@ -49,7 +50,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330 to the StrArr, growing its size when it is full.
 // @fnv 0x00a63260
-void __stdcall FUN_00a63260(StrArr* pkStrings)
+void FUN_00a63260(StrArr* pkStrings)
 {
     reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
     char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4758)));
@@ -70,8 +71,6 @@ struct CriticalSectionA62
     int m_spinCount;
 };
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(CriticalSectionA62* cs) throw();
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p) throw();
 
 class FUN_00a5d3d0
 {
@@ -259,7 +258,7 @@ class NiPoint3
 struct ThreeByThreeMatrix
 {
     float m[3][3];
-    void __thiscall FUN_004168a0(float angle, float x, float y, float z);
+    void FUN_004168a0(float angle, float x, float y, float z);
     void MakeAxisAngleRotation(float angle, const NiPoint3& axis)
     {
         FUN_004168a0(angle, axis.x, axis.y, axis.z);

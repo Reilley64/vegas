@@ -76,19 +76,19 @@ void FUN_00a93750_shell::FUN_00a93750()
         ::FUN_00aa10f0(m_pEntryData[i]);
     ::FUN_00aa10f0(m_pEntryData);
     m_pEntryData = 0;
-    ((void(__thiscall*)(void*))FUN_00a7b300)(this);
+    ((void(*)(void*))FUN_00a7b300)(this);
 }
 
 
 struct NiSwitchStringExtraData
 {
-    void* __thiscall FUN_00a938b0(unsigned int flags);
+    void* FUN_00a938b0(unsigned int flags);
 };
 
 
 // Calls FUN_00a93750, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a938b0
-void* __thiscall NiSwitchStringExtraData::FUN_00a938b0(unsigned int flags)
+void* NiSwitchStringExtraData::FUN_00a938b0(unsigned int flags)
 {
     static_cast<::FUN_00a93750_shell *>(nullptr)->FUN_00a93750();
     if (flags & 1)
@@ -104,10 +104,10 @@ struct S_00a918e0
 {
     void* f0;
     void* f4;
-    void* __thiscall FUN_00a918e0(unsigned int);
+    void* FUN_00a918e0(unsigned int);
 };
 // @fnv 0x00a918e0
-void* __thiscall S_00a918e0::FUN_00a918e0(unsigned int auiFlags)
+void* S_00a918e0::FUN_00a918e0(unsigned int auiFlags)
 {
     void* v = f4;
     f0 = (void*)&DAT_0109f9b4;

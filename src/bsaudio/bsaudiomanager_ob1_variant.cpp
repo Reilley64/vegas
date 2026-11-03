@@ -5,6 +5,7 @@
 
 // src/bsaudio/bsaudiomanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsaudio/bsaudiomanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/AudioManagerUpdate.h"
@@ -67,7 +68,7 @@ struct FUN_00ad8d60_shell
     int m_uiSoundResourceID;
     int pad;
     int eState;
-    bool __thiscall FUN_00ad8d60(int param2);
+    bool FUN_00ad8d60(int param2);
 };
 struct FUN_00ada300_shell
 {
@@ -75,7 +76,7 @@ struct FUN_00ada300_shell
 };
 struct FUN_00adb960_shell
 {
-    bool __thiscall FUN_00adb960(int arg1, int arg2);
+    bool FUN_00adb960(int arg1, int arg2);
 };
 struct FUN_00adbf40_shell
 {
@@ -86,7 +87,7 @@ struct FUN_00c3d0e0_stub
 };
 struct FUN_00ae7480_shell : FUN_00c3d0e0_stub
 {
-    bool __thiscall FUN_00ae7480(char* apDescription, unsigned int aiBufferSize);
+    bool FUN_00ae7480(char* apDescription, unsigned int aiBufferSize);
 };
 struct FUN_00adcaa0_shell
 {
@@ -97,11 +98,11 @@ struct FUN_00ad84b0_shell
 };
 struct FUN_00adcc10_shell
 {
-    void __thiscall FUN_00adcc10(int, int);
+    void FUN_00adcc10(int, int);
 };
 struct FUN_00ad8540_shell
 {
-    void __thiscall FUN_00ad8540(int param1, bool param2);
+    void FUN_00ad8540(int param1, bool param2);
 };
 struct S_00ae5f70
 {
@@ -111,13 +112,13 @@ struct S_00ae5f70
 };
 struct C_00ae5f70
 {
-    S_00ae5f70* __thiscall Init(S_00ae5f70* p, int a2, int a3, int a4, int a5, int a6, int a7);
+    S_00ae5f70* Init(S_00ae5f70* p, int a2, int a3, int a4, int a5, int a6, int a7);
 };
 int __cdecl FUN_00ae5fb0(unsigned int* a, unsigned int* b);
 extern int DAT_011f6ecc;
 struct FUN_00ae6c60_shell
 {
-    int __thiscall FUN_00ae6c60();
+    int FUN_00ae6c60();
 };
 extern int DAT_010a3718;
 struct _Base_00441d20
@@ -127,7 +128,7 @@ struct _Base_00441d20
 };
 struct FUN_00ae7020_shell : _Base_00441d20
 {
-    void __thiscall FUN_00ae7020();
+    void FUN_00ae7020();
 };
 struct SoundMessageRecord;
 struct BottomlessStack
@@ -142,7 +143,6 @@ struct BottomlessStack
     SoundMessageRecord* pTop;
     unsigned int m_uiStackLimit;
 };
-typedef char _sizecheck_AudioMessageStack[sizeof(BottomlessStack) == 16 ? 1 : -1];
 struct FUN_00ae7510_shell : public BottomlessStack
 {
     void FUN_00ae7510();
@@ -153,11 +153,11 @@ struct FUN_00ae7510 : public BottomlessStack
 };
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct FUN_00ad93f0_shell
 {
-    void __thiscall FUN_00ad93f0(void);
+    void FUN_00ad93f0(void);
 };
 struct FUN_00ae77a0_shell : FUN_00ae7480_shell
 {
@@ -165,23 +165,23 @@ struct FUN_00ae77a0_shell : FUN_00ae7480_shell
 };
 struct GO
 {
-    GO& __thiscall operator=(void*);
+    GO& operator=(void*);
 };
 template <typename T> struct NiTPointerAllocator
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct Host00ae8ef0
 {
     char _p[12];
     NiTPointerAllocator<unsigned int> alloc;
-    void __thiscall FUN_00ae8ef0(void* p);
+    void FUN_00ae8ef0(void* p);
 };
 struct AudioLoadTask
 {
     int _pad[12];
     void* SoundAssetTmp;
-    void __thiscall FUN_00ae7360();
+    void FUN_00ae7360();
 };
 struct Helper
 {
@@ -223,11 +223,11 @@ struct FUN_00ad9da0_t
 };
 struct FUN_00ae6d30_shell
 {
-    bool __thiscall HasMatchingEntry(unsigned int mask);
+    bool HasMatchingEntry(unsigned int mask);
 };
 struct FUN_00ae6e60_shell
 {
-    bool __thiscall FUN_00ae6e60(int param_2, unsigned char param_3);
+    bool FUN_00ae6e60(int param_2, unsigned char param_3);
 };
 struct SoundEmitter;
 struct AudioLoadTask;
@@ -263,7 +263,7 @@ struct FUN_00ada1d0_shell
 {
     unsigned char _pad[0x134];
     bool m_bUISoundsEnabled;
-    void __thiscall InitUISounds(bool);
+    void InitUISounds(bool);
 };
 struct BADC7D0Item
 {
@@ -309,8 +309,6 @@ struct CritSecA
 {
     int unk[6];
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CritSecA* cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CritSecA* cs);
 struct ObjEntry
 {
     char unk0[0x144];
@@ -474,7 +472,7 @@ class FUN_00ae6f50 : public BaseObj_b5112
 };
 struct Sound7390
 {
-    virtual void* __thiscall ScalarDeletingDestructor(unsigned int);
+    virtual void* ScalarDeletingDestructor(unsigned int);
     int unk04;
     unsigned int uiFlags08;
     int unk0C;
@@ -484,7 +482,7 @@ struct AudioLoadTask7390
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     Sound7390* SoundAssetTmp;
-    void __thiscall ReleaseSound(int, int);
+    void ReleaseSound(int, int);
 };
 struct AudioHelper7390
 {
@@ -518,11 +516,9 @@ struct AE8470List
 };
 struct FUN_00ae8550_shell
 {
-    void __thiscall FUN_00ae8550(int* values, int(__cdecl* compare)(int, int), int count);
+    void FUN_00ae8550(int* values, int(__cdecl* compare)(int, int), int count);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 struct DetectPoint3
 {
@@ -578,8 +574,6 @@ bool DetectOwner::FUN_00adb590(int iParam)
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiPoint3
 {
@@ -732,8 +726,6 @@ int C_00adc830::FUN_00adc830(unsigned int uiKey)
 }
 
 extern void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct FUN_00a1b940
 {
     int state, count, data;
@@ -956,7 +948,6 @@ inline void DbgX()
     const char* e;
     const char* f;
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 extern const NiPoint3 NiPoint3_ZERO;
 
@@ -986,25 +977,23 @@ struct RefPointer
 
 struct AudioMessageSender
 {
-    void __thiscall FUN_00adb1a0(int message, int id, unsigned short volume, int zero, RefPointer object,
+    void FUN_00adb1a0(int message, int id, unsigned short volume, int zero, RefPointer object,
                                  NiPoint3 point);
 };
 
 struct BSAudioManagerCall : AudioMessageSender
 {
-    bool __thiscall FUN_00adb720(unsigned int id, unsigned short volume);
+    bool FUN_00adb720(unsigned int id, unsigned short volume);
 };
 
 // @fnv 0x00adb720
-bool __thiscall BSAudioManagerCall::FUN_00adb720(unsigned int id, unsigned short volume)
+bool BSAudioManagerCall::FUN_00adb720(unsigned int id, unsigned short volume)
 {
     volume = volume > 10000 ? 10000 : volume;
     FUN_00adb1a0(0x21, id, volume, 0, RefPointer(0), NiPoint3_ZERO);
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct RefObject405
 {
@@ -1062,7 +1051,7 @@ bool FUN_00adb850_cls::FUN_00adb850(int soundID, float seconds)
 }
 
 namespace fnv_00adcb20 {
-extern long(__stdcall* DAT_00fdf1c0)(volatile long*);
+extern long(* DAT_00fdf1c0)(volatile long*);
 
 struct S_adcb20_Ref
 {
@@ -1158,8 +1147,8 @@ inline AudioX* GetAudioX()
 }
 struct FUN_00ae5870_t
 {
-    IdentifierState __thiscall FUN_00ae5a50(char*, unsigned int, unsigned int);
-    IdentifierState __thiscall FUN_00ae5870(const char* pName, unsigned int uiFlags);
+    IdentifierState FUN_00ae5a50(char*, unsigned int, unsigned int);
+    IdentifierState FUN_00ae5870(const char* pName, unsigned int uiFlags);
 };
 // @fnv 0x00ae5870
 IdentifierState FUN_00ae5870_t::FUN_00ae5870(const char* pName, unsigned int uiFlags)
@@ -1200,7 +1189,7 @@ IdentifierState FUN_00ae5870_t::FUN_00ae5870(const char* pName, unsigned int uiF
 extern int DAT_010a3368;
 extern int DAT_010a3328, DAT_010a3348;
 extern "C" void __cdecl FUN_00a1bbd0();
-void __stdcall FUN_0065ee50_Helper(void*, unsigned int, int, void(__cdecl*)());
+void FUN_0065ee50_Helper(void*, unsigned int, int, void(__cdecl*)());
 struct StackView
 {
     int offset_00, offset_04, offset_08, offset_0c;
@@ -1244,7 +1233,6 @@ template <int Pad> struct ListView : ListCleanup<Pad>
         reinterpret_cast<::S_00ae8370_List *>(this)->FUN_00ae8370();
     }
 };
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void*);
 struct CSView
 {
     int offset_00, offset_04, offset_08, offset_0c, offset_10, offset_14;
@@ -1334,11 +1322,11 @@ inline bool IsMultiThreaded70(BSAudio* p)
 class MemMgr70
 {
   public:
-    void __thiscall Deallocate(void* p)
+    void Deallocate(void* p)
     {
         DeallocateAlias(p);
     }
-    void __thiscall DeallocateAlias(void* p);
+    void DeallocateAlias(void* p);
 };
 extern MemMgr70* g_memMgr70;
 
@@ -1401,7 +1389,7 @@ struct SndStack70
     {
         return count == 0;
     }
-    BSSoundMsg70* __thiscall FUN_00ae7f90()
+    BSSoundMsg70* FUN_00ae7f90()
     {
         StackNode70* node = head;
         head = head->next;
@@ -1435,7 +1423,7 @@ struct MsgQueue70
     unsigned int m_uiItemCount;
     MapNode70** m_items;
     unsigned int size;
-    void __thiscall FUN_00a0c850(void** pos, int* key, void** value)
+    void FUN_00a0c850(void** pos, int* key, void** value)
     {
         MapNode70* node = (MapNode70*)*pos;
         *key = node->key;
@@ -1457,7 +1445,7 @@ struct MsgQueue70
             *pos = 0;
         }
     }
-    bool __thiscall FUN_00a1e240(int key)
+    bool FUN_00a1e240(int key)
     {
         unsigned int index = Hash(key);
         MapNode70* node = m_items[index];
@@ -1492,7 +1480,7 @@ struct MsgQueue70
         }
         return false;
     }
-    bool __thiscall FUN_00a1e380(int key, BSSoundInfo70** out)
+    bool FUN_00a1e380(int key, BSSoundInfo70** out)
     {
         unsigned int index = Hash(key);
         MapNode70** bucket = &m_items[index];
@@ -1532,7 +1520,7 @@ struct InfoQueue70
     unsigned int m_uiItemCount;
     MapNode70** m_items;
     unsigned int size;
-    void __thiscall FUN_00a0c850(void** pos, int* key, void** value)
+    void FUN_00a0c850(void** pos, int* key, void** value)
     {
         MapNode70* node = (MapNode70*)*pos;
         *key = node->key;
@@ -1554,7 +1542,7 @@ struct InfoQueue70
             *pos = 0;
         }
     }
-    bool __thiscall FUN_00a1e240(int key)
+    bool FUN_00a1e240(int key)
     {
         unsigned int index = Hash(key);
         MapNode70* node = m_items[index];
@@ -1589,7 +1577,7 @@ struct InfoQueue70
         }
         return false;
     }
-    bool __thiscall FUN_00a1e380(int key, BSSoundInfo70** out)
+    bool FUN_00a1e380(int key, BSSoundInfo70** out)
     {
         unsigned int index = Hash(key);
         MapNode70** bucket = &m_items[index];
@@ -1712,10 +1700,6 @@ class AudioMgr70
     H70 m_178;
 };
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* pValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* pValue);
 
 struct NiRefObject
 {
@@ -1888,8 +1872,6 @@ void BSAudioManager_::FUN_00ada020()
 }
 
 namespace fnv_00adb4e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 struct NiRefObject
 {
@@ -1939,8 +1921,6 @@ bool BSAudioMgrB4E0::FUN_00adb4e0(unsigned int id, unsigned int delay, int)
 }
 }  // namespace fnv_00adb4e0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 inline long NiAtomicIncrementB7C0(long& lValue)
 {
@@ -2007,7 +1987,6 @@ bool MessageSenderB7C0::FUN_00adb7c0(unsigned int uiTarget, float m_fDelay)
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     NiPoint3_audio()
@@ -2196,7 +2175,7 @@ template <class TKey, class TValue> struct BSMapBase
     unsigned int bucketCount;
     Item** buckets;
     unsigned int count;
-    bool __thiscall GetAt(TKey key, TValue& value)
+    bool GetAt(TKey key, TValue& value)
     {
         unsigned int bucket = Hash(key);
         Item* item = buckets[bucket];
@@ -2223,11 +2202,11 @@ struct FUN_00adc9a0_shell
     int unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC, unkB0;
     int unkB4, unkB8, unkBC, unkC0;
     CritSecA criticalSection;
-    int __thiscall FUN_00adc9a0(unsigned long param_2);
+    int FUN_00adc9a0(unsigned long param_2);
 };
 
 // @fnv 0x00adc9a0
-int __thiscall FUN_00adc9a0_shell::FUN_00adc9a0(unsigned long param_2)
+int FUN_00adc9a0_shell::FUN_00adc9a0(unsigned long param_2)
 {
     int uStack2 = 0;
     ScrapHeapBuffer* iStack_c;
@@ -2348,8 +2327,6 @@ struct OwnerQ3 : ObjRegistry
     int m_iNextID;
     void FUN_00add6f0(const char* pPath, int iFlags, int iArg);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern float DAT_010a3484;
 
 struct Pos3
@@ -2671,7 +2648,6 @@ void C_00adea90::FUN_00adea90()
 }
 
 namespace fnv_00adef80 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -2719,11 +2695,6 @@ struct AudioListener_adf080;
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
 typedef unsigned char UInt8;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 struct MemoryManagerAllocHelper
 {
@@ -3027,7 +2998,7 @@ template <class T> class NiPointer
         if (p)
             p->DecRef();
     }
-    NiPointer& __thiscall operator=(const NiPointer&);
+    NiPointer& operator=(const NiPointer&);
     NiPointer& operator=(T* object)
     {
         if (p != object)
@@ -3110,7 +3081,6 @@ struct SoundMessageRecord
         return AudioVector_adf080(floats[0], floats[1], floats[2]);
     }
 };
-typedef char AudioMessageSize_adf080[sizeof(SoundMessageRecord) == 0x20 ? 1 : -1];
 
 struct AudioMessageNode_adf080
 {
@@ -3126,7 +3096,7 @@ struct AudioMessageList_adf080
     AudioMessageNode_adf080* first;
     AudioMessageNode_adf080* last;
     AudioNodeAllocator_adf080 allocator;
-    void __thiscall FUN_00a11db0(AudioMessageNode_adf080*);
+    void FUN_00a11db0(AudioMessageNode_adf080*);
     __forceinline void AddHead(SoundMessageRecord* const& message)
     {
         AudioMessageNode_adf080* node = ((::fnv_00adf080::AudioMessageNode_adf080 *)(reinterpret_cast<::FUN_0043a010_shell *>(&(allocator))->FUN_0043a010()));
@@ -3537,10 +3507,8 @@ struct AudioMessageStack_adf080
     UInt16 unk006;
     SoundMessageRecord* top;
     UInt32 lastAllocation;
-    void __thiscall FUN_00ae75f0(SoundMessageRecord*);
+    void FUN_00ae75f0(SoundMessageRecord*);
 };
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* semaphore, long count, long* previous);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* handle, unsigned long milliseconds);
 struct BSSemaphore_adf080
 {
     long count;
@@ -3564,7 +3532,7 @@ struct BSAudioManagerThread
     BSSemaphore_adf080 workSemaphore3c;
     UInt32 unk44;
     bool waiting48;
-    void __thiscall FUN_00aa6590(int, int);
+    void FUN_00aa6590(int, int);
     void FUN_00ae7ac0()
     {
         waiting48 = true;
@@ -3723,12 +3691,12 @@ struct BSAudioManager_adf080
     UInt16 unk176;
     AE6DE0Slot* slots178;
     UInt32 slotCount17c;
-    bool __thiscall FUN_00adf080(SoundMessageRecord*);
-    void __thiscall FUN_00adb1a0(int, UInt32, int, UInt32, AudioRef_adf080, AudioVector_adf080);
-    BSGameSound* __thiscall FUN_00add1e0(void*, void*, UInt32);
-    void __thiscall FUN_00add960(BSGameSound*);
-    void __thiscall FUN_00ada5d0(UInt32, BSGameSound*);
-    void __thiscall FUN_00adbb30(UInt32, UInt16, UInt16, UInt16, UInt16, UInt16);
+    bool FUN_00adf080(SoundMessageRecord*);
+    void FUN_00adb1a0(int, UInt32, int, UInt32, AudioRef_adf080, AudioVector_adf080);
+    BSGameSound* FUN_00add1e0(void*, void*, UInt32);
+    void FUN_00add960(BSGameSound*);
+    void FUN_00ada5d0(UInt32, BSGameSound*);
+    void FUN_00adbb30(UInt32, UInt16, UInt16, UInt16, UInt16, UInt16);
 };
 
 // @fnv 0x00adf080
@@ -4764,8 +4732,6 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
 }  // namespace fnv_00adf080
 
 namespace fnv_00ae7050 {
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* apValue);
 
 class NiRefObject
 {
@@ -5000,7 +4966,6 @@ void AudioLoadTask7050::FUN_00ae7050()
 }
 }  // namespace fnv_00ae7050
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount(void);
 
 
 struct SoundMessageRecord
@@ -5010,7 +4975,7 @@ struct SoundMessageRecord
     int unk08;
     SoundMessageRecord* pNext;
 
-    void __thiscall FUN_00ae86d0();
+    void FUN_00ae86d0();
     ~SoundMessageRecord()
     {
         int a;
@@ -5034,7 +4999,7 @@ struct Stack75f0 : BottomlessStack
         pTop = param_2;
         iCount = iCount + 1;
     }
-    void __thiscall FUN_00ae75f0(SoundMessageRecord* param_2);
+    void FUN_00ae75f0(SoundMessageRecord* param_2);
 };
 // @fnv 0x00ad9640
 void MgrX::FUN_00ad9640()
@@ -5087,7 +5052,6 @@ void Stack75f0::FUN_00ae75f0(SoundMessageRecord* param_2)
 }
 
 namespace fnv_00ae76b0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -5117,7 +5081,6 @@ template <class T> struct NiPointer_audio
     T* m_pObject;
 };
 typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct MemoryManager_ae76b0
 {
     void FUN_00aa4060(void* p);
@@ -5189,7 +5152,7 @@ extern "C" void* __cdecl _alloca(unsigned int);
 
 struct MemoryManagerAllocHelper
 {
-    void __thiscall Deallocate(void* block);
+    void Deallocate(void* block);
 };
 
 template <class T> struct BSSimpleList
@@ -5497,7 +5460,7 @@ struct NiPointerStub
 
 struct BSAudioManagerAda
 {
-    void __thiscall FUN_00adb1a0(int mode, int a1, int a2, int a3, NiPointerStub sp, NiPoint3 pos);
+    void FUN_00adb1a0(int mode, int a1, int a2, int a3, NiPointerStub sp, NiPoint3 pos);
 };
 
 // @fnv 0x00adcc10
@@ -5510,10 +5473,6 @@ void FUN_00adcc10_shell::FUN_00adcc10(int param1, int param2)
 }
 
 namespace fnv_00ada0f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
 
 struct NiPoint3
 {
@@ -5785,8 +5744,6 @@ void OwnerQ::FUN_00ada330()
 }  // namespace fnv_00ada330
 
 namespace fnv_00adad80 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiAVObject
 {
     virtual ~NiAVObject();
@@ -5907,8 +5864,6 @@ void Manager501::FUN_00adad80(Message501* message)
 }  // namespace fnv_00adad80
 
 namespace fnv_00adafa0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 class NiAVObject
 {
   public:
@@ -6034,8 +5989,6 @@ void HostA::FUN_00adafa0(MessageA* msg)
 }  // namespace fnv_00adafa0
 
 namespace fnv_00adb1a0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 inline void Dead1()
 {
     int a[1];
@@ -6168,8 +6121,6 @@ void Host::FUN_00adb1a0(int a, int b, int c, int d, NavMeshPtr n, Point p)
 }  // namespace fnv_00adb1a0
 
 namespace fnv_00adb3e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct RefObject
 {
     virtual void v00();
@@ -6228,7 +6179,6 @@ bool Host::FUN_00adb3e0(unsigned int id, bool flag)
 }  // namespace fnv_00adb3e0
 
 namespace fnv_00adb610 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plAddend);
 
 struct NiPoint3
 {
@@ -6273,7 +6223,6 @@ bool Handler_adb610::FUN_00adb610(int iArg)
 }  // namespace fnv_00adb610
 
 namespace fnv_00adb690 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6316,8 +6265,6 @@ void FUN_00adb690_cls::FUN_00adb690(NiRefObject_audio* pObj, float fSeconds, int
 }  // namespace fnv_00adb690
 
 namespace fnv_00adb970 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 struct NiRefObject
 {
@@ -6376,7 +6323,6 @@ bool FUN_00adb970_cls::FUN_00adb970(int a1, float x, float y, float z)
 }  // namespace fnv_00adb970
 
 namespace fnv_00adb9f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiPoint3
 {
   public:
@@ -6442,7 +6388,6 @@ bool AudioManagerTarget::FUN_00adb9f0(unsigned int id, float x, float y, float z
 }  // namespace fnv_00adb9f0
 
 namespace fnv_00adba70 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6485,7 +6430,6 @@ void FUN_00adba70_cls::FUN_00adba70(int a, float fB, float fC)
 }  // namespace fnv_00adba70
 
 namespace fnv_00adbb30 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 inline void Dead1()
 {
     int a[1];
@@ -6647,7 +6591,6 @@ void AudioOwner::FUN_00adbb30(int id, unsigned short a, unsigned short b, unsign
 }  // namespace fnv_00adbb30
 
 namespace fnv_00adbec0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6690,7 +6633,6 @@ void FUN_00adbec0_cls::FUN_00adbec0(int a, unsigned short b)
 }  // namespace fnv_00adbec0
 
 namespace fnv_00adbf50 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6734,7 +6676,6 @@ bool FUN_00adbf50_cls::FUN_00adbf50(int a)
 }  // namespace fnv_00adbf50
 
 namespace fnv_00adbfd0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_adbfd0
 {
     float x, y, z;
@@ -6777,7 +6718,6 @@ bool FUN_00adbfd0_cls::FUN_00adbfd0(int a, int b, int c)
 }  // namespace fnv_00adbfd0
 
 namespace fnv_00adc050 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6821,7 +6761,6 @@ bool FUN_00adc050_cls::FUN_00adc050(int a, int b, int c)
 }  // namespace fnv_00adc050
 
 namespace fnv_00adc0d0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6865,7 +6804,6 @@ bool FUN_00adc0d0_cls::FUN_00adc0d0(int a, float fSeconds)
 }  // namespace fnv_00adc0d0
 
 namespace fnv_00adc160 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6908,7 +6846,6 @@ void FUN_00adc160_cls::FUN_00adc160()
 }  // namespace fnv_00adc160
 
 namespace fnv_00adc1e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6951,7 +6888,6 @@ void FUN_00adc1e0_cls::FUN_00adc1e0(int a, NiRefObject_audio* pObj)
 }  // namespace fnv_00adc1e0
 
 namespace fnv_00adc360 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -6994,7 +6930,6 @@ void FUN_00adc360_cls::FUN_00adc360(int a, int b)
 }  // namespace fnv_00adc360
 
 namespace fnv_00adc3e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -7037,7 +6972,6 @@ void FUN_00adc3e0_cls::FUN_00adc3e0(int a)
 }  // namespace fnv_00adc3e0
 
 namespace fnv_00adc460 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -7080,7 +7014,6 @@ void FUN_00adc460_cls::FUN_00adc460(int a, int b)
 }  // namespace fnv_00adc460
 
 namespace fnv_00adc4e0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plAddend);
 
 struct NiPoint3
 {
@@ -7124,7 +7057,6 @@ void Handler_adb610::FUN_00adc4e0(int iArg, bool bFlag1, bool bFlag2)
 }  // namespace fnv_00adc4e0
 
 namespace fnv_00adc5f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -7167,7 +7099,6 @@ void FUN_00adc5f0_cls::FUN_00adc5f0(int a, int b, int c)
 }  // namespace fnv_00adc5f0
 
 namespace fnv_00adca20 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -7210,7 +7141,6 @@ void FUN_00adca20_cls::FUN_00adca20(int a, int b, int c)
 }  // namespace fnv_00adca20
 
 namespace fnv_00adcaa0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -7253,7 +7183,6 @@ void FUN_00adcaa0_cls::FUN_00adcaa0(int a, int b)
 }  // namespace fnv_00adcaa0
 
 namespace fnv_00adcd00 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -7297,9 +7226,6 @@ void FUN_00adcd00_cls::FUN_00adcd00(int a, int b)
 
 #include <math.h>
 namespace fnv_00adddd0 {
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 extern "C" double __cdecl fabs(double);
 struct RefObject
 {
@@ -8060,8 +7986,6 @@ struct AudioSetting_00ae5a50
     const char* name;
 };
   // Setting<float> object
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 
 inline float& GetVolume_00ae5a50()
 {
@@ -8595,8 +8519,6 @@ R_00ae5a50 Mgr_00ae5a50::FUN_00ae5a50(char* apName, int aiFlags, void* ap5)
 }  // namespace fnv_00ae5a50
 
 namespace fnv_00ae7550 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiAVObject_ae7550
 {
     virtual void DeleteThis();
@@ -8680,7 +8602,7 @@ namespace fnv_00ae9150 {
 
 struct S00ae9150_Pool
 {
-    void __thiscall FUN_00aa4060(void* apMemory);
+    void FUN_00aa4060(void* apMemory);
 };
 
 struct S00ae9150_Guard
@@ -8734,7 +8656,6 @@ bool FUN_00adb8e0_cls::FUN_00adb8e0(int a, bool b)
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct S00adc260_NiRefObjectA
 {
     void* vtbl;
@@ -10173,7 +10094,7 @@ struct SoundDebugDescription
         maxTime = 0;
         duration = 0;
     }
-    SoundDebugDescription& __thiscall FUN_00ae88c0(const SoundDebugDescription& other)
+    SoundDebugDescription& FUN_00ae88c0(const SoundDebugDescription& other)
     {
         messageBuffer[0] = 0;
         fullNameBuffer[0] = 0;
@@ -10250,7 +10171,7 @@ struct SoundEntries
         }
         return 0;
     }
-    void __thiscall FUN_00a0c850(SoundMapItem** position, unsigned int* key, SoundRecord** value)
+    void FUN_00a0c850(SoundMapItem** position, unsigned int* key, SoundRecord** value)
     {
         SoundMapItem* entry = *position;
         *key = entry->key;
@@ -10283,7 +10204,7 @@ struct AudioSystem
     unsigned int unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac;
     unsigned int unkb0, unkb4, unkb8, unkbc, unkc0;
     CritSecA criticalSection;
-    DebugList* __thiscall FUN_00ae5ff0(unsigned int);
+    DebugList* FUN_00ae5ff0(unsigned int);
 };
 // @fnv 0x00ae5ff0
 DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)

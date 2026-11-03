@@ -116,7 +116,7 @@ class EscortActorPackageData
 
 // Calls FUN_0067d920, installs the vtable at DAT_010933c8, and zeroes fields at offsets 0x4 through 0x10 before returning thisPtr.
 // @fnv 0x009f27a0
-void* __fastcall InitEscortPackageData(void* thisPtr)
+void* InitEscortPackageData(void* thisPtr)
 {
     new ((void *)(reinterpret_cast<EscortActorPackageData*>(thisPtr))) ::ActorPackageData();
     *reinterpret_cast<void**>(thisPtr) = &DAT_010933c8;
@@ -235,7 +235,7 @@ bool FUN_009f2ba0_shell::InitPatrolPackage(Actor* apActor, TESPackage* apPackage
     {
         if ((*(PatrolActorPackageData**)((char*)this + 0x18))->IsPatrolling())
         {
-            SetPatrolPosition((*(const NiPoint3&(__thiscall**)(Actor*))(*(int*)apActor + 0x1f4))(apActor));
+            SetPatrolPosition((*(const NiPoint3&(**)(Actor*))(*(int*)apActor + 0x1f4))(apActor));
         }
     }
     return bvalid;

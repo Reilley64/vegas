@@ -1,5 +1,6 @@
 // bsshader/tileshader.cpp: TileShader, TileStandin, TileShaderS, PassShader (18 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -51,7 +52,7 @@ template <class T> class NiPointer
 
 
 // @fnv 0x00bcb180
-void __fastcall SelectGPUProgram(char* this_ptr, int, int arg)
+void SelectGPUProgram(char* this_ptr, int, int arg)
 {
     switch (arg)
     {
@@ -69,11 +70,11 @@ void __fastcall SelectGPUProgram(char* this_ptr, int, int arg)
 
 struct FUN_00bca500_shell
 {
-    void __thiscall FUN_00bca500(void* p);
+    void FUN_00bca500(void* p);
 };
 
 // @fnv 0x00bca500
-void __thiscall FUN_00bca500_shell::FUN_00bca500(void* p)
+void FUN_00bca500_shell::FUN_00bca500(void* p)
 {
     DAT_0126f74c = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c);
 }
@@ -87,7 +88,7 @@ void* __cdecl FUN_00bca6b0()
 
 // Sets byte at offset 8 of the objects at thisptr+0x84/0x88/0x8c based on whether a3 equals 0x24d, then calls vtable slot 0x24 on the object at thisptr+0x34.
 // @fnv 0x00bcb1d0
-void __fastcall SetFlagState(void* thisptr, int, int a3)
+void SetFlagState(void* thisptr, int, int a3)
 {
     char* obj84 = *(char**)((char*)thisptr + 0x84);
     char al;
@@ -105,7 +106,7 @@ void __fastcall SetFlagState(void* thisptr, int, int a3)
     *(char*)(*(char**)((char*)thisptr + 0x8c) + 8) = al;
     char* obj34 = *(char**)((char*)thisptr + 0x34);
     void** vtable = *(void***)obj34;
-    typedef void(__thiscall * VFunc)(void*);
+    typedef void(* VFunc)(void*);
     ((VFunc)vtable[0x24 / 4])(obj34);
 }
 
@@ -225,12 +226,10 @@ void TileStandin::FUN_00bca070()
 
 struct X
 {
-    void __thiscall FUN_00bca510();
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void FUN_00bca510();
+    void* DestroyIfFlagged(unsigned int);
 };
 namespace fnv_00bcaca0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct RefObj
 {
@@ -329,8 +328,6 @@ struct FUN_00bcaff0_shell : public TileShader
     void CreateShaderConstantMaps();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
@@ -410,8 +407,6 @@ void FUN_00bcaff0_shell::CreateShaderConstantMaps()
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct _D3DXMACRO
 {
     const char* Name;
@@ -551,7 +546,7 @@ bool FUN_00bca6c0_shell::FUN_00bca6c0()
         if (pObject)
         {
             if (InterlockedDecrement((volatile long*)((char*)pObject + 4)) == 0)
-                ((void(__thiscall*)(void*))(*(void***)pObject)[1])(pObject);
+                ((void(*)(void*))(*(void***)pObject)[1])(pObject);
             *(void**)((char*)this + 0x70 + i * 4) = 0;
         }
     }
@@ -561,7 +556,7 @@ bool FUN_00bca6c0_shell::FUN_00bca6c0()
         if (pObject)
         {
             if (InterlockedDecrement((volatile long*)((char*)pObject + 4)) == 0)
-                ((void(__thiscall*)(void*))(*(void***)pObject)[1])(pObject);
+                ((void(*)(void*))(*(void***)pObject)[1])(pObject);
             *(void**)((char*)this + 0x7c + i * 4) = 0;
         }
     }
@@ -1361,8 +1356,6 @@ void AddToCounterIfIdle(unsigned int uiValue, unsigned int uiIncrement)
     (*reinterpret_cast<unsigned long (*)[]>(&::DAT_011ff9d8))[idx] += uiIncrement;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiD3DGPUProgramCache
 {
@@ -1597,7 +1590,7 @@ struct FUN_00bca510 : FUN_00be0f10
 };
 // Calls FUN_00bca510, then if bit 0 of a1 is set frees this with _delete and returns this.
 // @fnv 0x00bcae60
-void* __thiscall X::DestroyIfFlagged(unsigned int auiFlags)
+void* X::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00bca510 *>(this)->FUN_00bca510::~FUN_00bca510();
     if (auiFlags & 1)

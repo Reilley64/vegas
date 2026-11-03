@@ -43,7 +43,7 @@ unsigned int FUN_004f9bf0_shell::FUN_004f9bf0()
 
 struct BGSConstructibleObject
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 struct FUN_004855a0
@@ -60,18 +60,18 @@ struct FUN_0048e370_obj
 };
 struct FUN_0047a240_shell
 {
-    void __thiscall FUN_0047a240(unsigned int);
+    void FUN_0047a240(unsigned int);
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void FUN_0048cca0();
 };
 struct S_00477f20
 {
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void FUN_00485e00();
 };
 struct FUN_00485680
 {
@@ -82,11 +82,11 @@ struct SoundH
 
 struct FUN_004f9a90_shell : BGSConstructibleObject
 {
-    void __thiscall FUN_004f9a90();
+    void FUN_004f9a90();
 };
 
 // @fnv 0x004f9a90
-void __thiscall FUN_004f9a90_shell::FUN_004f9a90()
+void FUN_004f9a90_shell::FUN_004f9a90()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x30))))->FUN_00487010();
@@ -476,7 +476,7 @@ struct FUN_004f9b80_cls
     unsigned int m_ac;
     unsigned int m_b0;
 
-    void __thiscall FUN_004f9b80(unsigned int a1);
+    void FUN_004f9b80(unsigned int a1);
 };
 
 // @fnv 0x004f9b80

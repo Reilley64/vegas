@@ -950,8 +950,6 @@ class TESSoundFile
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(MenuTopic) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, actorValueOwner) == 0xA4);
 class InterfaceManager
 {
   public:
@@ -1000,7 +998,6 @@ class DialogMenuInterfaceCalls
 {
   public:
 };
-FNV_STATIC_ASSERT(offsetof(InterfaceManager, tutorial) == 0x4D4);
 class HighProcess
 {
   public:

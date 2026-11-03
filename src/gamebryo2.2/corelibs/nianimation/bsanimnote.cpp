@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a44920
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -34,11 +35,11 @@ struct BSAnimNote
 {
     unsigned char m_b0[12];
     float fTime;
-    bool __thiscall FUN_00a44930(const TimedTextEntry* apTextKey);
+    bool FUN_00a44930(const TimedTextEntry* apTextKey);
 };
 
 // @fnv 0x00a44930
-bool __thiscall BSAnimNote::FUN_00a44930(const TimedTextEntry* apTextKey)
+bool BSAnimNote::FUN_00a44930(const TimedTextEntry* apTextKey)
 {
     fTime = apTextKey->m_fTime;
     return true;
@@ -76,11 +77,11 @@ struct TmpNote
     int _a[2];
     int eType;
     float fTime;
-    bool __thiscall Matches(NiObject* apObject);
+    bool Matches(NiObject* apObject);
 };
 // Returns true if apObject passes IsSameAs and its eType and fTime equal this object's eType and fTime.
 // @fnv 0x00a44880
-bool __thiscall TmpNote::Matches(NiObject* apObject)
+bool TmpNote::Matches(NiObject* apObject)
 {
     if (reinterpret_cast<::A5d470Class *>((apObject))->IsSameAs({}))
     {
@@ -150,10 +151,10 @@ struct BSAnimNotes : NiObject
 {
     NiObject** m_ppNotes;
     unsigned short m_usNumAnimNotes;
-    bool __thiscall FUN_00a448c0(NiStream&);
+    bool FUN_00a448c0(NiStream&);
 };
 // @fnv 0x00a448c0
-bool __thiscall BSAnimNotes::FUN_00a448c0(NiStream& arStream)
+bool BSAnimNotes::FUN_00a448c0(NiStream& arStream)
 {
     bool bret = true;
     int i;
@@ -225,15 +226,14 @@ void* BSAnimNotes::DestroyIfFlagged(unsigned int auiFlags)
 // The helper is declared here with a byte sized result because the original
 // only inspects AL.
 
-extern "C" unsigned char __stdcall MyHelper00a5d2f0(void* pObject);
+extern "C" unsigned char MyHelper00a5d2f0(void* pObject);
 
 // @fnv 0x00a84c70
-bool __stdcall FUN_00a84c70(void* pObject)
+bool FUN_00a84c70(void* pObject)
 {
     return MyHelper00a5d2f0(pObject);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plAddend);
 
 class CA449C0Object;
 

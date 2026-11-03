@@ -374,7 +374,6 @@ struct FnvTarget
     virtual void v36(int idx, FnvRefObj** slot);
 };
 
-extern "C" __declspec(dllimport) LONG __stdcall InterlockedDecrement(volatile LONG* p);
 
 struct FUN_00b66ad0_cls
 {

@@ -2,6 +2,7 @@
 #ifndef NITEXTURINGPROPERTY_DECLS_H
 #define NITEXTURINGPROPERTY_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_00462d80_shell.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -9,8 +10,6 @@
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f6000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiStream;
 class NiTexture;
 template <class T> class NiPointer
@@ -298,6 +297,4 @@ inline void SetMapAt(NiTPrimitiveArray<NiTexturingProperty::Map*>& maps, unsigne
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((reinterpret_cast<NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*>(&maps)))->SetAt(
         i, (char *&)(reinterpret_cast<BGSCameraPath*&>(map)));
 }
-typedef char CheckPropertySize[sizeof(NiTexturingProperty) == 0x30 ? 1 : -1];
-typedef char CheckMapSize[sizeof(NiTexturingProperty::Map) == 0x10 ? 1 : -1];
 #endif

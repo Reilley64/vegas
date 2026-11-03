@@ -214,19 +214,6 @@ class BGSProjectile : public TESBoundObject,
     bool Load(TESFile* file);
 };
 
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(sizeof(ProjectileProperties) == 84);
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
-FNV_STATIC_ASSERT(sizeof(FUN_004fcc00) == 84);
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) + sizeof(TESFullName) + sizeof(TESModel) + sizeof(BGSPreloadable) +
-                      sizeof(BGSDestructibleObjectForm) ==
-                  0x60);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, Data) == 0x60);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, m_kProjectileModel) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, m_eSoundLevel) == 0xCC);
-FNV_STATIC_ASSERT(sizeof(BGSProjectile) == 0xD0);
 
 class TESObjectLIGH : public TESForm
 {

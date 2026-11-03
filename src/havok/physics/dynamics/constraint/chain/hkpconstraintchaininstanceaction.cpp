@@ -30,11 +30,11 @@ void FnvCpu_FUN_00e063e0_CpuOwner::FUN_00e063e0(int arg0)
 }
 
 // @fnv 0x00e063c0
-void __stdcall FUN_00e063c0(int)
+void FUN_00e063c0(int)
 {}
 
 // @fnv 0x00e063d0
-int __stdcall FUN_00e063d0(int arg0, int arg1)
+int FUN_00e063d0(int arg0, int arg1)
 {
     return 0;
 }
@@ -81,7 +81,7 @@ struct hkpConstraintChainInstance
     FnvEntityArray entities;
 };
 // @fnv 0x00e063f0
-void __fastcall CopyEntityArray(hkpConstraintChainInstanceAction* self, void* unusedEdx, FnvEntityArray* output)
+void CopyEntityArray(hkpConstraintChainInstanceAction* self, void* unusedEdx, FnvEntityArray* output)
 {
     FnvEntityArray* source = &self->m_pConstraintChainInstance->entities;
     FnvAllocator* allocator = FUN_00c85750()->allocator;

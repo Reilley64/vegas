@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
@@ -108,7 +109,7 @@ struct FUN_00a8f080_Class {
 };
 struct SdmBase;
 struct FUN_00a8f730 {
-    void __thiscall Release();
+    void Release();
 };
 int __cdecl GetGlobalDataPtr();
 extern int DAT_011f5e44;
@@ -335,7 +336,7 @@ struct FUN_00a81bd0_class {
 struct Stub {
 };
 extern int DAT_0109f73c;
-extern int (__stdcall* DAT_00fdf1c4)(void*);
+extern int (* DAT_00fdf1c4)(void*);
 struct FUN_00a8f810_class {
     void FUN_00a8f810();
 };
@@ -365,7 +366,7 @@ struct FUN_00a90260_class
     void* m_vft;
     void* m_iWordAt04;
 
-    void* __thiscall FUN_00a90260(int flags);
+    void* FUN_00a90260(int flags);
 };
 struct FUN_00a5a390_shell {
     FUN_00a5a390_shell* FUN_00a950f0(bool bDel);
@@ -405,7 +406,7 @@ struct FUN_00a80580_cls {
     void FUN_00a80580();
 };
 struct FUN_00a80fc0_class {
-    void __thiscall FUN_00a80fc0();
+    void FUN_00a80fc0();
 };
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
@@ -531,8 +532,6 @@ struct FUN_00a84ca0_class {
 
     void FreeEntryResources();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct RefCountedObject {
     virtual void UnknownVirtual();
     virtual void DeleteThis();
@@ -652,7 +651,7 @@ struct FUN_00a88c60_Class {
     int unk40;
     int unk44;
 
-    int __thiscall FUN_00a88c60(FUN_00a88c60_Class* other);
+    int FUN_00a88c60(FUN_00a88c60_Class* other);
 };
 void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange, float* pfValues, unsigned int ItemUpdateArray);
 struct FUN_00a89760_base {
@@ -722,8 +721,8 @@ public:
 };
 extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
 struct FUN_00a8bdf0_cls {
-    void (__thiscall* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
-    void (__thiscall* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
+    void (* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
+    void (* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
     int m_08;
     int m_0c;
     void FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count);
@@ -837,7 +836,7 @@ struct NiParticleObject : NiParticleBase {
     NiParticleSubobject secondMember;
 };
 struct FUN_00a9b4a0_Class {
-    void __thiscall FUN_00a9b4a0();
+    void FUN_00a9b4a0();
 };
 extern unsigned short DAT_011f5f7e;
 extern unsigned short DAT_011f5f80;
@@ -1213,8 +1212,6 @@ struct FNVObj {
     ReferenceHandle handle;
     FNVObj* FUN_00a8fe70(const ReferenceHandle& src);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 struct HandleSlot
 {
     volatile long* value;
@@ -1238,14 +1235,12 @@ struct FUN_00a9bda0
 
     FUN_00a9bda0(unsigned int id, const ReferenceHandle* src);
 };
-extern int (__stdcall* DAT_00fdf1c4)(void*);
+extern int (* DAT_00fdf1c4)(void*);
 struct Pair {
     volatile unsigned int id;
     void* volatile value;
-    Pair* __thiscall Reset();
+    Pair* Reset();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class NiRefObjectA9F {
 public:
     virtual ~NiRefObjectA9F() throw();
@@ -1544,7 +1539,7 @@ public:
     StringHandle_a8f m_08;
 };
 struct FUN_00a923a0_class {
-    unsigned short __thiscall FUN_00a923a0();
+    unsigned short FUN_00a923a0();
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 #include <math.h>
@@ -1552,7 +1547,7 @@ extern "C" float epsilon;
 struct FUN_00a88970_q { float w, x, y, z;  };
 struct FUN_00a88970_v { void* m_pvVtbl; float x, y, z; };
 struct FUN_00a81a40_shell {
-    int __thiscall FUN_00a81a40(int ai);
+    int FUN_00a81a40(int ai);
 };
 struct FUN_00a8a620 {
     unsigned int m_uiSize;

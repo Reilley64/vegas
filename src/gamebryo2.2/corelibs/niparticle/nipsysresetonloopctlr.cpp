@@ -32,12 +32,12 @@ void __cdecl FUN_00a6d290();
 
 struct NiPSysResetOnLoopCtlr
 {
-    NiPSysResetOnLoopCtlr* __thiscall Destroy(unsigned int flags);
+    NiPSysResetOnLoopCtlr* Destroy(unsigned int flags);
 };
 
 // Calls FUN_00a6d290, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c28410
-NiPSysResetOnLoopCtlr* __thiscall NiPSysResetOnLoopCtlr::Destroy(unsigned int flags)
+NiPSysResetOnLoopCtlr* NiPSysResetOnLoopCtlr::Destroy(unsigned int flags)
 {
     FUN_00a6d290();
     if (flags & 1)
@@ -58,11 +58,11 @@ struct Obj_00c284f0
 };
 struct Cls_00c284f0
 {
-    bool __thiscall IsTargetOfType();
+    bool IsTargetOfType();
 };
 // Checks whether the object at offset 0x2c exists and its RTTI chain contains g_01202538_arg1, returning true if found.
 // @fnv 0x00c284f0
-bool __thiscall Cls_00c284f0::IsTargetOfType()
+bool Cls_00c284f0::IsTargetOfType()
 {
     Obj_00c284f0* pkTarget = *(Obj_00c284f0**)((char*)this + 0x2c);
     if (!pkTarget)
@@ -86,7 +86,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330(g_012026a8) to pkStrings, growing the array if the position is at or past its size.
 // @fnv 0x00c28520
-void __stdcall FUN_00c28520(StrArr* pkStrings)
+void FUN_00c28520(StrArr* pkStrings)
 {
     reinterpret_cast<::TCController *>((pkStrings))->FUN_00a6d830({});
     char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012026a8))));

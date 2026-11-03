@@ -203,7 +203,7 @@ void BGSRagdoll::InitItem()
 
 
 // @fnv 0x005ed760
-void* __fastcall FUN_005ed760(char* pThis)
+void* FUN_005ed760(char* pThis)
 {
     *pThis = 0;
     ::FUN_005ed790((float *)(void *)(pThis + 4));
@@ -214,7 +214,7 @@ void* __fastcall FUN_005ed760(char* pThis)
 
 // Fills the 15-element float/int block at pThis with constant values and returns pThis.
 // @fnv 0x005ed790
-void* __fastcall FUN_005ed790(float* pThis)
+void* FUN_005ed790(float* pThis)
 {
     pThis[0] = ::DAT_010177e8;
     pThis[1] = 0.8f;
@@ -269,7 +269,7 @@ FUN_005ed850::FUN_005ed850() : b0(0)
 
 // Sets the first seven floats of pThis to 0.0f and returns pThis.
 // @fnv 0x005ed8c0
-float* __fastcall FUN_005ed8c0(float* pThis)
+float* FUN_005ed8c0(float* pThis)
 {
     pThis[0] = 0.0f;
     pThis[1] = 0.0f;
@@ -356,7 +356,7 @@ FUN_005ed9f0::FUN_005ed9f0() : m_00(0)
 
 // Initializes the object's fields: three shorts to -1, a byte to 0, and floats to 0, 0, 0.1, 0, then returns pThis.
 // @fnv 0x005eda60
-void* __fastcall InitDefaults(char* pThis)
+void* InitDefaults(char* pThis)
 {
     *(short*)(pThis + 0x0) = -1;
     *(short*)(pThis + 0x2) = -1;
@@ -371,7 +371,7 @@ void* __fastcall InitDefaults(char* pThis)
 
 // Byte-swaps four consecutive 16-bit values starting at thisPtr via BSEndian.
 // @fnv 0x005ee510
-void __fastcall SwapEndianFourShorts(unsigned short* thisPtr)
+void SwapEndianFourShorts(unsigned short* thisPtr)
 {
     ::FUN_00407a90((short *)(thisPtr));
     ::FUN_00407a90((short *)(unsigned short *)(thisPtr + 1));

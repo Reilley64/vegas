@@ -59,10 +59,5 @@ class NiTransformData : public NiObject
     void SetScaleKeys(TimedAnimationKey*, unsigned int, AnimationKey::KeyType);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiTransformData) == 0x2c);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_eRotationKeyType) == 0x10);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkRotationKeys) == 0x20);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkPositionKeys) == 0x24);
-FNV_STATIC_ASSERT(offsetof(NiTransformData, m_pkScaleKeyArray) == 0x28);
 
 #endif

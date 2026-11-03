@@ -129,8 +129,8 @@ struct FNVGetVersionInfoLocals
     unsigned int dateTimeSize;
     char dateTime[260];
 };
-typedef void(__stdcall* FNVDateFunction)(char* output, unsigned int* size);
-typedef void(__stdcall* FNVSystemTimeFunction)(FNVSystemTime* time);
+typedef void(* FNVDateFunction)(char* output, unsigned int* size);
+typedef void(* FNVSystemTimeFunction)(FNVSystemTime* time);
 extern "C" FNVDateFunction g_fnvDateFunction;
 extern "C" FNVSystemTimeFunction g_fnvSystemTimeFunction;
 
@@ -223,9 +223,9 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
     }
     TaskQueueInterface::CopyStringToBuffer(pcPath, 260, ((char *)(::FUN_004dc110())));
     strcat_s(pcPath, 260, ::_DAT_011a2ff0);
-    ((int(__stdcall*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bb80())));
-    ((int(__stdcall*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bbd0())));
-    ((int(__stdcall*)(char*))DAT_00fdf0d4)(FUN_00c3bc20());
+    ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bb80())));
+    ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bbd0())));
+    ((int(*)(char*))DAT_00fdf0d4)(FUN_00c3bc20());
     if (FUN_00ecbf05(pcPath, 0) == -1)
     {
         char defaultIni[260];
@@ -508,7 +508,7 @@ struct IOManager;
 
 // Calls FUN_00c3e340 on DAT_01202d98, then calls FUN_006ebcd0 on the PathManager singleton.
 // @fnv 0x00850bf0
-void __fastcall FUN_00850bf0(int)
+void FUN_00850bf0(int)
 {
     reinterpret_cast<::FUN_00c3e340_cls *>((DAT_01202d98))->FUN_00c3e340();
     reinterpret_cast<::FUN_006ebcd0_shell *>((::GetPathManager()))->FUN_006ebcd0();
@@ -516,7 +516,7 @@ void __fastcall FUN_00850bf0(int)
 
 struct FUN_00765340_shell
 {
-    unsigned int __thiscall GetUnfilteredCount();
+    unsigned int GetUnfilteredCount();
 };
 
 // Returns the result of calling GetUnfilteredCount on the object at DAT_011da4f0 + 0x40, or 0 when DAT_011da4f0 is null.
@@ -533,17 +533,17 @@ unsigned int FUN_008510e0()
 
 struct FUN_00851d30_shell
 {
-    void __thiscall FUN_00851d30();
+    void FUN_00851d30();
 };
 
 // @fnv 0x00851d30
-void __thiscall FUN_00851d30_shell::FUN_00851d30()
+void FUN_00851d30_shell::FUN_00851d30()
 {
     ((unsigned char*)this)[0xf] = 1;
 }
 
 // @fnv 0x00851d50
-void __fastcall FUN_00851d50(void* apObject)
+void FUN_00851d50(void* apObject)
 {
     ((char*)apObject)[0x10] = 1;
 }
@@ -554,7 +554,7 @@ struct FUN_00851110_shell
 };
 
 // @fnv 0x00851110
-int __thiscall FUN_00851110_shell::GetConstant27()
+int FUN_00851110_shell::GetConstant27()
 {
     return 0x1b;
 }
@@ -676,7 +676,7 @@ struct FUN_00851bf0_shell
 
 struct FUN_00851cb0_shell
 {
-    unsigned int __thiscall GetField790();
+    unsigned int GetField790();
 };
 
 // Converts the player's total playing time into hours, minutes and seconds and writes them to output as a formatted string.
@@ -699,11 +699,11 @@ namespace fnv_00851cb0 {
 struct S00851cd0
 {
     int m_790;
-    int __thiscall GetField790();
+    int GetField790();
 };
 
 // @fnv 0x00851cb0
-int __thiscall S00851cd0::GetField790()
+int S00851cd0::GetField790()
 {
     reinterpret_cast<::S00851cd0 *>(this)->FUN_00851cd0();
     return ((int*)this)[0x1e4];

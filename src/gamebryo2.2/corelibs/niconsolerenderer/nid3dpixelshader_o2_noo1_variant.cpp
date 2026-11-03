@@ -110,7 +110,7 @@ struct S_00e89a40_Data
     void* unk1c;
 };
 
-typedef void(__stdcall* S_00e89a40_Callback)(void* object, void* source, void* destination, unsigned int stride);
+typedef void(* S_00e89a40_Callback)(void* object, void* source, void* destination, unsigned int stride);
 
 struct S_00e89a40_Shell : NiD3DPixelShader
 {
@@ -119,7 +119,7 @@ struct S_00e89a40_Shell : NiD3DPixelShader
 };
 
 // @fnv 0x00e89a40
-bool __thiscall S_00e89a40_Shell::FUN_00e89a40(S_00e89a40_Data* data, void* destination, unsigned int count,
+bool S_00e89a40_Shell::FUN_00e89a40(S_00e89a40_Data* data, void* destination, unsigned int count,
                                                unsigned int stride, const unsigned short* indices)
 {
     unsigned int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[data->unk14 & 0xff];
@@ -191,11 +191,11 @@ template <> struct ShaderDeviceSlots<0>
 
 struct ShaderConstantDevice : ShaderDeviceSlots<108>
 {
-    virtual long __stdcall SetPixelShaderConstantF(unsigned int, const float*, unsigned int) = 0;
-    virtual long __stdcall GetPixelShaderConstantF(unsigned int, float*, unsigned int) = 0;
-    virtual long __stdcall SetPixelShaderConstantI(unsigned int, const int*, unsigned int) = 0;
-    virtual long __stdcall GetPixelShaderConstantI(unsigned int, int*, unsigned int) = 0;
-    virtual long __stdcall SetPixelShaderConstantB(unsigned int, const int*, unsigned int) = 0;
+    virtual long SetPixelShaderConstantF(unsigned int, const float*, unsigned int) = 0;
+    virtual long GetPixelShaderConstantF(unsigned int, float*, unsigned int) = 0;
+    virtual long SetPixelShaderConstantI(unsigned int, const int*, unsigned int) = 0;
+    virtual long GetPixelShaderConstantI(unsigned int, int*, unsigned int) = 0;
+    virtual long SetPixelShaderConstantB(unsigned int, const int*, unsigned int) = 0;
 };
 
 struct ShaderConstantRenderState

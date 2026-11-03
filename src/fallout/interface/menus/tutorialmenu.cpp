@@ -234,7 +234,7 @@ struct TutorialMenuView
     MenuTileField* text38;
     int unk3c;
     MenuTileField* text40;
-    void __thiscall ApplyRecordToTiles(MenuRecord* record);
+    void ApplyRecordToTiles(MenuRecord* record);
 };
 // @fnv 0x007e9060
 void TutorialMenuView::ApplyRecordToTiles(MenuRecord* record)

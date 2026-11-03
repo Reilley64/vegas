@@ -55,7 +55,7 @@ bool NiPSysFieldAttenuationCtlr::FUN_00c2b290(NiObjectNET* pkTarget)
 }
 
 // Candidate for CreateFieldAttenuationController (0x00c2b240, 75 bytes, /MT /O2 /GS /EHsc /Gy)
-// __thiscall factory: allocates 0x40 bytes, runs the base ctor (0xc32d80),
+// factory: allocates 0x40 bytes, runs the base ctor (0xc32d80),
 // installs the NiPSysFieldAttenuationCtlr vtable, then hands the object to
 // this->FUN_00c32de0 along with the caller's NiObjectNET*. Returns the new
 // object, or null (passing null through) when allocation fails.
@@ -127,7 +127,7 @@ struct StrArr
 };
 // Appends the string returned by FUN_00a7d330(g_01202720) to the array, growing it if the index reaches capacity.
 // @fnv 0x00c2b2e0
-void __stdcall FUN_00c2b2e0(StrArr* array)
+void FUN_00c2b2e0(StrArr* array)
 {
     FUN_00c32f60(array);
     char* value = ::FUN_00a7d330(static_cast<char*>((*reinterpret_cast<void * *>(&::g_01202720))));

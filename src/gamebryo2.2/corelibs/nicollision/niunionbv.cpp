@@ -95,7 +95,7 @@ struct S
     S* FUN_00e9ee60(void*);
 };
 // @fnv 0x00e9efb0
-S* __fastcall FUN_00e9efb0(void* self)
+S* FUN_00e9efb0(void* self)
 {
     S* p = (S*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x18);
     if (p)

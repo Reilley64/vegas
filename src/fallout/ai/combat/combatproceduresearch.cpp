@@ -116,8 +116,8 @@ void __cdecl operator delete(void*);
 
 struct FUN_009d8c10_shell
 {
-    void __thiscall FUN_009d8c40();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_009d8c40();
+    void* Destroy(unsigned int flags);
 };
 
 // Calls FUN_009d8c40, frees this with operator delete when flags has bit 0 set, and returns this.
@@ -205,14 +205,14 @@ struct BGSSaveFormBuffer
 };
 struct FUN_009a5eb0_shell
 {
-    void __thiscall FUN_009a5eb0(BGSSaveFormBuffer*);
+    void FUN_009a5eb0(BGSSaveFormBuffer*);
 };
 struct CombatProcedureSaveGameShell
 {
 };
 struct CombatProcedureSearchSaveShell : CombatProcedureSearch
 {
-    void __thiscall FUN_009da5c0(BGSSaveFormBuffer*);
+    void FUN_009da5c0(BGSSaveFormBuffer*);
 };
 // Saves the combat procedure search state to the buffer: base data, a 4-byte field at 0x10, sub-objects at 0x2c/0x1c/0x14/0x24, and a pointer at 0x3c.
 // @fnv 0x009da5c0
@@ -277,10 +277,10 @@ struct FUN_009da6c0_holder
 {
     unsigned char _pad[0x3c];
     TESObjectREFR* m_pReference;
-    void __thiscall RevertAndResolveRef(BGSLoadFormBuffer* apLoadGameBuffer);
+    void RevertAndResolveRef(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x009da6c0
-void __thiscall FUN_009da6c0_holder::RevertAndResolveRef(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_009da6c0_holder::RevertAndResolveRef(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((unsigned int)apLoadGameBuffer);
     m_pReference =
@@ -304,7 +304,7 @@ struct CombatProcedureEngageTarget
 };
 struct FUN_009d8c60_shell : CombatProcedureEngageTarget
 {
-    void __thiscall UpdateEngageTarget();
+    void UpdateEngageTarget();
 };
 struct FUN_0098c780_shell
 {
@@ -315,7 +315,7 @@ struct FUN_009d8d20_Class
     int GetFieldEC();
 };
 // @fnv 0x009d8c60
-void __thiscall FUN_009d8c60_shell::UpdateEngageTarget()
+void FUN_009d8c60_shell::UpdateEngageTarget()
 {
     Actor* pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     EffectSetting* pcombatGroup = ((::EffectSetting *)(reinterpret_cast<::EffectSetting *>((void *)(((EffectSetting**)((char*)this + 4))[0]))->GetCastSound()));
@@ -446,7 +446,7 @@ struct FUN_009da550_cls
     int unk56;
     int unk57;
     FUN_009da550_val m_iE8;
-    FUN_009da550_val* __thiscall GetValue(FUN_009da550_val* apOut);
+    FUN_009da550_val* GetValue(FUN_009da550_val* apOut);
 };
 
 // @fnv 0x009da550

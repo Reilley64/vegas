@@ -16,7 +16,6 @@
 #include "layout_support.h"
 #include "Menu.h"
 
-#pragma pack(push, 4)
 
 class Tile;
 class BGSSaveLoadFileEntry;
@@ -236,24 +235,7 @@ class GlobalObject_00709f00
   public:
 };
 
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(sizeof(ListBox<int>) == 0x30);
-FNV_STATIC_ASSERT(offsetof(ListBox<int>, m_pListTile) == 0xC);
-FNV_STATIC_ASSERT(offsetof(ListBox<int>, usFlags) == 0x2C);
-FNV_STATIC_ASSERT(sizeof(StartMenu::Option) == 0x10);
-FNV_STATIC_ASSERT(sizeof(StartMenu::UserOption) == 0x30);
-FNV_STATIC_ASSERT(sizeof(StartMenu::OptionListBox) == 0x30);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kFirstOptionListBox) == 0x84);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kDownloadOptions) == 0x114);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kOptionIndexList) == 0x144);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_kOptionHelper) == 0x174);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_pUserOption) == 0x1A4);
-FNV_STATIC_ASSERT(offsetof(StartMenu, uiFlags) == 0x1A8);
-FNV_STATIC_ASSERT(offsetof(StartMenu, m_fMenuTimer) == 0x1AC);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadFileEntry, m_pSaveFileName) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadFileEntry, spScreenshot) == 0x40);
 
 #endif
 

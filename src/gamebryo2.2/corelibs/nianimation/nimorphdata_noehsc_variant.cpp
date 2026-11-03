@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
@@ -59,7 +60,7 @@ struct Object
     int field_04;
     volatile float field_08;
     int field_0c;
-    Object* __thiscall FUN_00a415f0();
+    Object* FUN_00a415f0();
 };
 extern void* DAT_00fdf1c4;
 struct GlobalMgr_b9415
@@ -71,7 +72,7 @@ struct RefItem_b9415
     virtual void Delete();
     int m_refs;
 };
-typedef int(__stdcall* ReleaseFn_b9415)(int p);
+typedef int(* ReleaseFn_b9415)(int p);
 class FUN_00a41610_cls
 {
   public:
@@ -426,8 +427,6 @@ template <class T> inline unsigned int FNVReadElements(FNVBinaryInput& stream, c
     return stream.Read(data, count * elementSize, &elementSize, 1);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiInStream;
 typedef unsigned int(__cdecl* NiBinReadFn)(NiInStream* pkStream, void* pvBuffer, unsigned int uiBytes,
                                            unsigned int* puiComponentSizes, unsigned int uiNumComponents);

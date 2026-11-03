@@ -85,7 +85,7 @@ struct FUN_0049ed90_shell : Flag512Receiver
 };
 
 // @fnv 0x0049ed90
-void __thiscall FUN_0049ed90_shell::FUN_0049ed90(bool bAlpha)
+void FUN_0049ed90_shell::FUN_0049ed90(bool bAlpha)
 {
     reinterpret_cast<::FUN_00633ba0_Class *>((this))->FUN_00633ba0(bAlpha, 1);
 }

@@ -108,5 +108,5 @@ FUN_00e0af50::FUN_00e0af50(const hkVec4f& aVec, int a, int b)
 }
 
 // @fnv 0x00e0af40
-void __stdcall FUN_00e0af40(int a, int b)
+void FUN_00e0af40(int a, int b)
 {}

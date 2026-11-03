@@ -98,11 +98,11 @@ struct S_Class
     int unk00;
     int unk04;
     S_Arr unk08;
-    void __thiscall FUN_00c64ad0(S_Stream* stream);
+    void FUN_00c64ad0(S_Stream* stream);
 };
 
 // @fnv 0x00c64ad0
-void __thiscall S_Class::FUN_00c64ad0(S_Stream* stream)
+void S_Class::FUN_00c64ad0(S_Stream* stream)
 {
     ::FUN_00a89af0((int)this);
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();

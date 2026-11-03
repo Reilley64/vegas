@@ -2,6 +2,7 @@
 // src/staging/blk_00b40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -120,7 +121,7 @@ int __cdecl PopNextInt()
 struct FUN_00b58110_Class
 {
     void FUN_00b57ff0();
-    void* __thiscall FUN_00b58110(int flags);
+    void* FUN_00b58110(int flags);
 };
 
 void __cdecl _delete(void* p, unsigned int size);
@@ -131,10 +132,10 @@ struct MemoryManager
 void __cdecl FUN_00b580a0(void);
 struct FUN_00b58400_class
 {
-    void* __thiscall FUN_00b58400(int flag);
+    void* FUN_00b58400(int flag);
 };
 // @fnv 0x00b58400
-void* __thiscall FUN_00b58400_class::FUN_00b58400(int flag)
+void* FUN_00b58400_class::FUN_00b58400(int flag)
 {
     FUN_00b580a0();
     if ((flag & 1))
@@ -165,11 +166,11 @@ extern char DAT_011f968c;
 
 struct FUN_00b5a3f0_Class
 {
-    int __thiscall FUN_00b5a3f0();
+    int FUN_00b5a3f0();
 };
 
 // @fnv 0x00b5a3f0
-int __thiscall FUN_00b5a3f0_Class::FUN_00b5a3f0()
+int FUN_00b5a3f0_Class::FUN_00b5a3f0()
 {
     if (*(float*)((char*)this + 0x6c) > 0.0f && DAT_011f968c)
         return 1;
@@ -221,12 +222,12 @@ void __cdecl FUN_00b5e5a0();
 
 struct FUN_00b5f980_class
 {
-    void* __thiscall FUN_00b5f980(bool flag);
+    void* FUN_00b5f980(bool flag);
 };
 
 // Calls FUN_00b5e5a0, then deletes this with size 0x200 when flag's low bit is set, and returns this.
 // @fnv 0x00b5f980
-void* __thiscall FUN_00b5f980_class::FUN_00b5f980(bool abDelete)
+void* FUN_00b5f980_class::FUN_00b5f980(bool abDelete)
 {
     FUN_00b5e5a0();
     if (abDelete & 1)
@@ -236,10 +237,10 @@ void* __thiscall FUN_00b5f980_class::FUN_00b5f980(bool abDelete)
 
 struct FUN_00b57fe0_class
 {
-    void __thiscall FUN_00b57fe0(int value);
+    void FUN_00b57fe0(int value);
 };
 // @fnv 0x00b57fe0
-void __thiscall FUN_00b57fe0_class::FUN_00b57fe0(int value)
+void FUN_00b57fe0_class::FUN_00b57fe0(int value)
 {
     *(int*)((char*)this + 0x84) = value;
 }
@@ -250,11 +251,11 @@ struct NodePoolView
 };
 struct FUN_00b58570_Class
 {
-    void* __thiscall FUN_00b58570(void* source);
+    void* FUN_00b58570(void* source);
 };
 // Allocates a node from the pool at this+8, links it after the current tail (this+4) or as the first node, and returns it.
 // @fnv 0x00b58570
-void* __thiscall FUN_00b58570_Class::FUN_00b58570(void* source)
+void* FUN_00b58570_Class::FUN_00b58570(void* source)
 {
     void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NodePoolView*)((char*)this + 8))))->FUN_0043a010()));
     *(void**)((char*)node + 8) = *(void**)source;
@@ -355,11 +356,11 @@ struct FUN_00b5a8d0_List
 {
     FUN_00b5a8d0_Node* m_pFirstNode;
     FUN_00b5a8d0_Node* m_pTail;
-    void __thiscall MoveBefore(FUN_00b5a8d0_Node* a, FUN_00b5a8d0_Node* b);
+    void MoveBefore(FUN_00b5a8d0_Node* a, FUN_00b5a8d0_Node* b);
 };
 // Unlinks node a from the list and reinserts it immediately before node b, updating head, tail and neighbour links.
 // @fnv 0x00b5a8d0
-void __thiscall FUN_00b5a8d0_List::MoveBefore(FUN_00b5a8d0_Node* pNodeToMove, FUN_00b5a8d0_Node* pInsertBefore)
+void FUN_00b5a8d0_List::MoveBefore(FUN_00b5a8d0_Node* pNodeToMove, FUN_00b5a8d0_Node* pInsertBefore)
 {
     if (pNodeToMove != pInsertBefore)
     {
@@ -414,7 +415,7 @@ void __cdecl FUN_00b4f540(unsigned int a, unsigned int b, unsigned int c, unsign
 }
 
 // @fnv 0x00b59d10
-int __fastcall FUN_00b59d10(char* p, int)
+int FUN_00b59d10(char* p, int)
 {
     if (*(float*)(p + 0x58) > 0.0f && DAT_011f968c)
         return 1;
@@ -518,7 +519,7 @@ int FUN_00b4f5c0()
 struct FUN_00b54620_This
 {
     int unk00;
-    void __thiscall FUN_00b54620();
+    void FUN_00b54620();
 };
 
 // @fnv 0x00b54620
@@ -654,11 +655,11 @@ struct S_00b57e70_Class
     int unk04;
     int unk08;
 
-    S_00b57e70_Class* __thiscall FUN_00b57e70();
+    S_00b57e70_Class* FUN_00b57e70();
 };
 
 // @fnv 0x00b57e70
-S_00b57e70_Class* __thiscall S_00b57e70_Class::FUN_00b57e70()
+S_00b57e70_Class* S_00b57e70_Class::FUN_00b57e70()
 {
     unk08 = 0;
     unk04 = 0;
@@ -906,7 +907,7 @@ class FUN_00b57ff0 : public B57FF0Base
     NiPointer<B57FF0RefObject> m_pReferencedObject;
 };
 // @fnv 0x00b58110
-void* __thiscall FUN_00b58110_Class::FUN_00b58110(int flags)
+void* FUN_00b58110_Class::FUN_00b58110(int flags)
 {
     reinterpret_cast<::FUN_00b57ff0 *>(this)->FUN_00b57ff0::~FUN_00b57ff0();
     if (flags & 1)
@@ -1029,8 +1030,6 @@ FUN_00b580a0::~FUN_00b580a0()
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct ReferenceObject
 {
@@ -1087,7 +1086,7 @@ struct FUN_00b58140_Class
     ReferenceObject* reference80;
     unsigned int copiedValue84;
     unsigned int copiedValue88;
-    void __thiscall CopyTo(FUN_00b58140_Class* destination, unsigned int flags);
+    void CopyTo(FUN_00b58140_Class* destination, unsigned int flags);
 };
 
 // @fnv 0x00b58140
@@ -1282,7 +1281,6 @@ void FUN_00b58530_cls::FUN_00b58530()
     m_04 = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class BB595B0Heap
 {
@@ -1545,7 +1543,7 @@ struct FUN_00ba37f0_Class
 };
 struct FUN_00b5a340_Class
 {
-    void __thiscall InitSubObjects(int arg);
+    void InitSubObjects(int arg);
 };
 // @fnv 0x00b5a340
 void FUN_00b5a340_Class::InitSubObjects(int arg)
@@ -1563,12 +1561,12 @@ void FUN_00b5a340_Class::InitSubObjects(int arg)
 
 struct PaletteFieldFlags
 {
-    unsigned int __thiscall GetPackedZeroFlags() const;
+    unsigned int GetPackedZeroFlags() const;
 };
 
 // Packs four zero-comparison results of bytes at offsets 0xe6-0xe9 into a 4-bit value, with 0xe6 as the lowest bit.
 // @fnv 0x00b5aa00
-unsigned int __thiscall PaletteFieldFlags::GetPackedZeroFlags() const
+unsigned int PaletteFieldFlags::GetPackedZeroFlags() const
 {
     const unsigned char* const fieldBytes = reinterpret_cast<const unsigned char*>(this);
 
@@ -1932,8 +1930,6 @@ FUN_00b54280::FUN_00b54280()
     DAT_011f91ac = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiObjectB587
 {
@@ -2243,7 +2239,7 @@ struct B59890Map : NiTMapBaseStub
                 return (B59890MapItem*)m_ppkHashTable[i];
         return 0;
     }
-    void __thiscall GetNext(B59890MapItem*& pkPos, unsigned int& key, void* volatile& value);
+    void GetNext(B59890MapItem*& pkPos, unsigned int& key, void* volatile& value);
 };
 extern int DAT_011f963c;
 // Iterates the map from its first position, deletes each stored value, then removes all entries and resets DAT_011f963c and DAT_011f9640 to zero.
@@ -2298,7 +2294,7 @@ FUN_00b5a410::FUN_00b5a410()
 }
 
 // @fnv 0x00b5a8c0
-void __stdcall FUN_00b5a8c0(int, int, int, int, int, int)
+void FUN_00b5a8c0(int, int, int, int, int, int)
 {}
 
 struct FUN_00b59c20 : FUN_00ba3d30
@@ -2315,7 +2311,7 @@ struct FUN_00b59c20 : FUN_00ba3d30
 
 // Deletes the first Param in params.values and resets the params container when it is non-null.
 // @fnv 0x00b59c20
-__thiscall FUN_00b59c20::~FUN_00b59c20()
+FUN_00b59c20::~FUN_00b59c20()
 {
     if (params.values[0])
     {

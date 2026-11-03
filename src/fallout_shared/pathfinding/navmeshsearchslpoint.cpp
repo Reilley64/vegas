@@ -23,7 +23,7 @@
 #include "fnv/symbols_006d2000.h"
 struct FUN_006ac1b0_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 struct PathingLocation
@@ -4674,7 +4674,7 @@ struct FUN_006ac1b0_cls : FUN_006ac1b0_base
 };
 // Calls FUN_006ac1b0, frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x006ac180
-void* __thiscall FUN_006ac1b0_shell::Destroy(unsigned int flags)
+void* FUN_006ac1b0_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_006ac1b0_cls *>(this)->FUN_006ac1b0_cls::~FUN_006ac1b0_cls();
     if (flags & 1)

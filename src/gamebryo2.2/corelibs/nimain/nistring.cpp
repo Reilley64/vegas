@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nistring.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nistring.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/symbols_00aa1000.h"
 struct StringPointerRecord
 {
@@ -54,7 +55,6 @@ MyStr& MyStr::AssignString(const char* acString)
     return *this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct S00a88bc0
 {
     char* m_kHandle;

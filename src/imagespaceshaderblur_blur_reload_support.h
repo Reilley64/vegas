@@ -21,7 +21,6 @@ class BSShaderManager
         D3DXMACRO kMacros[9];
     };
 };
-typedef char ShaderMacroSize[(sizeof(BSShaderManager::BSShaderMacro) == 76) ? 1 : -1];
 class NiD3DPass;
 template <class T> class NiPointer
 {
@@ -61,7 +60,6 @@ class ImageSpaceEffect
     NiTPrimitiveArray<ImageSpaceEffectInput*> pEffectInputs;
     NiTPrimitiveArray<int> pEffectOutput;
 };
-typedef char ImageSpaceEffectSizeCheck[sizeof(ImageSpaceEffect) == 88 ? 1 : -1];
 class Setting
 {
   public:
@@ -174,7 +172,6 @@ class BSShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68
 };
-typedef char BSShaderSizeCheck[sizeof(BSShader) == 108 ? 1 : -1];
 class ImageSpaceEffectShader : public BSShader, public ImageSpaceEffect
 {
   public:
@@ -186,5 +183,4 @@ class ImageSpaceEffectShader : public BSShader, public ImageSpaceEffect
     virtual void SetParameters();
     virtual bool SetupPasses();
 };
-typedef char ImageSpaceShaderSizeCheck[sizeof(ImageSpaceEffectShader) == 196 ? 1 : -1];
 #endif

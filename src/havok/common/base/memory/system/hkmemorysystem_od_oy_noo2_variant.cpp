@@ -6,13 +6,13 @@
 #include "fnv/decl/FUN_00537e90.h"
 #include "fnv/symbols_00cbb000.h"
 #include "fnv/symbols_01268000.h"
-int __stdcall FUN_00cbc440(int a, int b);
+int FUN_00cbc440(int a, int b);
 int __cdecl FUN_00cbbfd0();
 extern int DAT_010c8efc;
 struct FUN_00cbbfe0_This
 {
     int unk00;
-    void __thiscall FUN_00cbbfe0();
+    void FUN_00cbbfe0();
 };
 // FUN_00cbc450 - 10 bytes
 //   call 0xcbbfe0

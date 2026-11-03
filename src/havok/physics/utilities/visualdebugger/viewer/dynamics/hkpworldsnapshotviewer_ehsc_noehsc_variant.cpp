@@ -23,7 +23,7 @@ extern int DAT_010d1700;
 extern int DAT_010d1720;
 struct FUN_00d62fe0_cls
 {
-    void __thiscall FUN_00d62fe0();
+    void FUN_00d62fe0();
 };
 extern int DAT_01268fc0;
 extern int DAT_01268fc4;
@@ -102,7 +102,7 @@ struct FUN_00d62fa0_class
     SubObj m_subObj;
     Container* m_container;
 
-    void __thiscall ProcessContainerItems();
+    void ProcessContainerItems();
 };
 extern int DAT_010d1794;
 extern int DAT_010d1774;

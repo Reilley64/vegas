@@ -72,7 +72,7 @@
 extern int DAT_0109cb9c;
 struct FUN_00a6fae0_Class
 {
-    void __thiscall FUN_00a6fae0();
+    void FUN_00a6fae0();
 };
 // Lazily create the shader property for this geometry, picking the shader type by whether the geometry is skinned.
 class B9F30MemoryManager

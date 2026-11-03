@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -100,11 +101,11 @@
 #include "../../include/layout_support.h"
 struct FUN_00c3a090_Class
 {
-    char __thiscall FUN_00c3a090(void* arg);
+    char FUN_00c3a090(void* arg);
 };
 struct FUN_00c3a610_Class
 {
-    void* __thiscall FUN_00c3a610();
+    void* FUN_00c3a610();
 };
 struct P03MM
 {
@@ -116,29 +117,29 @@ struct FUN_00c3a640_Class
 };
 struct FUN_00c3b9e0_Class
 {
-    void* __thiscall GetGlobalPointer();
+    void* GetGlobalPointer();
 };
 struct FUN_00c3ba70_Class
 {
-    void* __thiscall FUN_00c3ba70();
+    void* FUN_00c3ba70();
 };
 int __cdecl FUN_00c3c200();
 extern const void* DAT_010c14e8;
 struct FUN_00c3c520_class
 {
     const void* vtbl;
-    void __thiscall FUN_00c3c520();
+    void FUN_00c3c520();
 };
 extern int DAT_010c1510;
 struct QueuedParents
 {
-    void __thiscall FUN_00c3c570();
+    void FUN_00c3c570();
 };
 extern int DAT_010c14fc;
 struct FUN_00c3d930_Class
 {
     void* vftable;
-    void __thiscall FUN_00c3d930();
+    void FUN_00c3d930();
 };
 struct FUN_00c3f6f0_Class
 {
@@ -150,11 +151,11 @@ struct FUN_00c3f710_Class
 };
 struct FUN_00c3f730_Class
 {
-    void __thiscall DecrementRefCount();
+    void DecrementRefCount();
 };
 struct FUN_00c3fc80_class
 {
-    void __thiscall CallSecondVirtualMethod(void* p);
+    void CallSecondVirtualMethod(void* p);
 };
 struct FUN_00c35980_Class
 {
@@ -162,36 +163,36 @@ struct FUN_00c35980_Class
 };
 struct FUN_00c3a080_Class
 {
-    void* __thiscall FUN_00c3a080(int arg);
+    void* FUN_00c3a080(int arg);
 };
 struct NiTPrimitiveArray_unsigned_int_
 {
 };
 struct FUN_00c3a0c0_Class
 {
-    void __thiscall AddFirstEmptyFromGlobal(unsigned int a);
+    void AddFirstEmptyFromGlobal(unsigned int a);
 };
 struct FUN_00c3a100_Class
 {
-    void __thiscall FUN_00c3a100(int);
+    void FUN_00c3a100(int);
 };
 struct FUN_00c3a110_Class
 {
-    void __thiscall FUN_00c3a110(int arg);
+    void FUN_00c3a110(int arg);
 };
 struct FUN_00c3a120_Class
 {
-    void __thiscall FUN_00c3a120(int);
+    void FUN_00c3a120(int);
 };
 struct FUN_00c3a130_Class
 {
-    char __thiscall FUN_00c3a130(void* arg);
+    char FUN_00c3a130(void* arg);
 };
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
 {
-    void __thiscall FUN_00c39770();
-    void* __thiscall FUN_00c3a140(unsigned int flags);
+    void FUN_00c39770();
+    void* FUN_00c3a140(unsigned int flags);
 };
 struct NiUpdateData
 {
@@ -201,7 +202,7 @@ struct NiNode
 };
 struct BSMultiBoundNode : NiNode
 {
-    void __thiscall FUN_00c3a5b0(NiUpdateData& data, unsigned int flags);
+    void FUN_00c3a5b0(NiUpdateData& data, unsigned int flags);
 };
 struct FUN_00c3a620_Class
 {
@@ -212,7 +213,7 @@ struct MemoryManager
 };
 struct FUN_00c3a6a0_Class
 {
-    void* __thiscall FUN_00c3a6a0(unsigned int flags);
+    void* FUN_00c3a6a0(unsigned int flags);
 };
 void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
 void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
@@ -226,34 +227,33 @@ struct MessageHandler
     const void* vtbl;
     bool bStatic;
     static MessageHandler* pHandler;
-    MessageHandler* __thiscall FUN_00c3bcf0(bool b);
+    MessageHandler* FUN_00c3bcf0(bool b);
 };
 MessageHandler* MessageHandler::pHandler;
 struct FUN_00c3c070_Class
 {
-    void* __thiscall FUN_00c3c070(int arg);
+    void* FUN_00c3c070(int arg);
 };
 extern "C" unsigned char DAT_011af49c;
 void __cdecl FUN_00c3c0c0();
 struct InputValues;
 struct FUN_00c3fca0_Class
 {
-    void __thiscall FUN_00c3fca0(void* p);
+    void FUN_00c3fca0(void* p);
 public:
     bool FUN_0044e050(::InputValues *);
 };
 struct FUN_00c3fe00_Class
 {
-    void* __thiscall FUN_00c3fe00(int a, int b, int c, int d);
+    void* FUN_00c3fe00(int a, int b, int c, int d);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c416a0(int a, int b, int c);
+    bool FUN_00c416a0(int a, int b, int c);
 };
 struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c3fe80(int a, int b, int c, void** out);
+    bool FUN_00c3fe80(int a, int b, int c, void** out);
 };
 typedef void*(__cdecl* PFN_00c3c100)(void*, void*, unsigned int);
 extern PFN_00c3c100 DAT_01202d5c;
@@ -301,8 +301,8 @@ extern char const g_01204388_arg0[];
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3ba80_Class
 {
-    void __thiscall FUN_00c3bab0();
-    void* __thiscall FUN_00c3ba80(unsigned int flags);
+    void FUN_00c3bab0();
+    void* FUN_00c3ba80(unsigned int flags);
     int a, b, c, d;
 };
 extern "C" unsigned char DAT_01202d55;
@@ -313,16 +313,16 @@ void* __cdecl FUN_00c3c1c0(void* a);
 struct GlobalObject_00c3bcf0
 {
     ~GlobalObject_00c3bcf0();
-    void* __thiscall DestroyAndFree(unsigned int flags);
+    void* DestroyAndFree(unsigned int flags);
 };
 struct QueuedParents;
 struct FUN_00c3d3b0_Class : QueuedParents
 {
-    void* __thiscall FUN_00c3d3b0(unsigned int flags);
+    void* FUN_00c3d3b0(unsigned int flags);
 };
 struct FUN_00c42f00_Class
 {
-    void* __thiscall FUN_00c3f130(unsigned int flags);
+    void* FUN_00c3f130(unsigned int flags);
 };
 int __cdecl FUN_00ec6130(int value);
 struct FUN_00c32fb0_cls
@@ -530,7 +530,7 @@ struct FUN_00c3a4b0_cls
     FUN_00c3a4b0_node* m_00;
     void* m_04;
     FUN_00c3a4b0_sub m_08;
-    unsigned int __thiscall FUN_00c3a4b0();
+    unsigned int FUN_00c3a4b0();
 };
 struct FUN_00c3a530_node
 {
@@ -608,9 +608,6 @@ struct S_00c3a5e0
     void FUN_00c3a5e0();
 };
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
-    const char* lpAppName, const char* lpKeyName, const char* lpDefault, char* lpReturnedString, unsigned long nSize,
-    const char* lpFileName);
 void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
 void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
 PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* name);
@@ -649,27 +646,19 @@ typedef long LPARAM;
 typedef void* HINSTANCE;
 typedef void* HHOOK;
 typedef void (*HOOKPROC)(int code, WPARAM wParam, LPARAM lParam);
-extern "C" __declspec(dllimport) DWORD __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) int __stdcall SetWindowsHookExA(int idHook, HOOKPROC lpfn, HINSTANCE hMod,
-                                                                 DWORD dwThreadId);
 extern int DAT_01202d70;
 void __cdecl FUN_00c3c250();
-extern "C" __declspec(dllimport) int __stdcall UnhookWindowsHookEx(void* hhk);
 void __cdecl FUN_00c3c280();
 extern "C" void* fnv_zlib_memset(void* pvDest, int iValue, int iSize);
 typedef void* C3C2B0HWND;
-extern int(__stdcall* g_pfnC3C2B0GetClassName)(C3C2B0HWND hWnd, char* pcClassName, int m_iMaximumCount);
-extern int(__stdcall* g_pfnC3C2B0GetWindowText)(C3C2B0HWND hWnd, char* pcString, int m_iMaximumCount);
+extern int(* g_pfnC3C2B0GetClassName)(C3C2B0HWND hWnd, char* pcClassName, int m_iMaximumCount);
+extern int(* g_pfnC3C2B0GetWindowText)(C3C2B0HWND hWnd, char* pcString, int m_iMaximumCount);
 int C3C2B0StrCmp(const char* pcA, const char* pcB);
-extern "C" __declspec(dllimport) int __stdcall CallNextHookEx(void* hhk, int code, unsigned int wParam, int lParam);
-extern "C" __declspec(dllimport) int __stdcall EnumChildWindows(void* parent, int(__stdcall* callback)(void*, int),
-                                                                int lParam);
-extern "C" __declspec(dllimport) int __stdcall SetWindowTextA(void* hwnd, const char* text);
 struct FUN_00c3c540_Class
 {
     int* unk00;
-    void __thiscall Resize(int a, int b);
-    int* __thiscall FUN_00c3c540();
+    void Resize(int a, int b);
+    int* FUN_00c3c540();
 };
 class C3CAE0Task
 {
@@ -720,7 +709,6 @@ class C3D3E0Palette
     ~C3D3E0Palette();
     C3D3E0Palette* FUN_00c3d3e0(unsigned int uiFlags);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObject
 {
     void* vtable;
@@ -734,7 +722,7 @@ struct Array
     RefObject** data;
     unsigned int size;
     unsigned int capacity;
-    void __thiscall Resize(unsigned int reserve, unsigned int count);
+    void Resize(unsigned int reserve, unsigned int count);
 };
 class FUN_00c3d870_cls
 {
@@ -797,7 +785,7 @@ struct FUN_00c3df40_Param1
 };
 struct FUN_00c3df40_Class
 {
-    void __thiscall FUN_00c3df40(FUN_00c3df40_Param1* a1, int a2);
+    void FUN_00c3df40(FUN_00c3df40_Param1* a1, int a2);
 };
 struct FUN_00c3f650_cls
 {
@@ -818,7 +806,7 @@ struct FUN_00c3f690_pair
 struct FUN_00c3f690_cls
 {
     int unk00;
-    void __thiscall CopyPair(FUN_00c3f690_pair p, FUN_00c3f690_pair* out);
+    void CopyPair(FUN_00c3f690_pair p, FUN_00c3f690_pair* out);
 };
 struct S_00c3f6b0_Class
 {
@@ -1274,8 +1262,6 @@ FUN_00c39640::FUN_00c39640()
     m_uiCC = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern const char* DAT_011af484[];
 void __cdecl BuildDataPath(char*, const char*, const char*);
 bool __cdecl FUN_00aa1a30(const char*, int);
@@ -1308,7 +1294,7 @@ struct TexturePtr
         if (object)
             object->DecRefCount();
     }
-    inline TexturePtr& __thiscall FUN_0066b0d0(TextureObject* other)
+    inline TexturePtr& FUN_0066b0d0(TextureObject* other)
     {
         if (object != other)
         {
@@ -1347,7 +1333,7 @@ class NiFixedString
 };
 struct TextureLoader
 {
-    void __thiscall FUN_00c3b5e0(const char* path);
+    void FUN_00c3b5e0(const char* path);
 };
 // @fnv 0x00c3b5e0
 void TextureLoader::FUN_00c3b5e0(const char* path)
@@ -1367,7 +1353,6 @@ void TextureLoader::FUN_00c3b5e0(const char* path)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
     return p;
@@ -1795,7 +1780,6 @@ Item_c3f530* Owner_c3f530::FUN_00c3f530(int i)
     return new Item_c3f530(this, &pElementBuffer[i * 3], &pElementBuffer[i * 3 + 1], &pElementBuffer[i * 3 + 2]);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* pl);
 struct RefX
 {
     virtual void v00();
@@ -3402,7 +3386,7 @@ struct FUN_00c3a3f0_cls
     FNVPointerListItem* m_pkTail;
     FNVPointerListBase::MapEntryCount m_kItemCount;
 
-    void* __thiscall FUN_00c3a3f0(void*& position);
+    void* FUN_00c3a3f0(void*& position);
 };
 
 // @fnv 0x00c3a3f0
@@ -3601,7 +3585,6 @@ FUN_00c3c620::~FUN_00c3c620()
     delete m_p24;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct MemMgr2
 {
 };
@@ -3779,8 +3762,6 @@ inline void Dead9()
 {
     int a[9];
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 struct RefObj
 {
     void* vtbl;
@@ -4050,12 +4031,12 @@ struct FUN_00c3d5e0_Class
     void* unk00;
     void** m_pBase;
     unsigned int m_uiSize;
-    void __thiscall FUN_0042fb60(void* dst, void* src, unsigned int count);
-    void __thiscall FUN_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray);
+    void FUN_0042fb60(void* dst, void* src, unsigned int count);
+    void FUN_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray);
 };
 
 // @fnv 0x00c3d5e0
-void __thiscall FUN_00c3d5e0_Class::FUN_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray)
+void FUN_00c3d5e0_Class::FUN_00c3d5e0(unsigned int uiStart, unsigned int ItemUpdateArray)
 {
     unsigned int i;
     unsigned int base;
@@ -4142,7 +4123,7 @@ int ArrayC3D6C0::FUN_00c3d6c0()
         if (cap == 0)
         {
             first = 4;
-            typedef void*(__thiscall * AllocFn)(void*, unsigned int);
+            typedef void*(* AllocFn)(void*, unsigned int);
             data = ((AllocFn)vtbl[1])(this, first);
             cap = first;
         }
@@ -4229,7 +4210,6 @@ inline void Dead19()
 {
     int a[19];
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern unsigned char DAT_01202dd8;
 struct Setting
 {
@@ -4348,7 +4328,6 @@ bool IOManager::FUN_00c3dbf0()
 }
 }  // namespace fnv_00c3dbf0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 inline int S00c3de80_Zero()
 {
@@ -4400,7 +4379,7 @@ struct S00c3de80_Obj
     int unk64;
     int unk68;
 
-    bool __thiscall FUN_00c3de80(S00c3de80_Key* object);
+    bool FUN_00c3de80(S00c3de80_Key* object);
 };
 
 // @fnv 0x00c3de80
@@ -4427,7 +4406,6 @@ bool S00c3de80_Obj::FUN_00c3de80(S00c3de80_Key* object)
     return true;
 }
 
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 struct IOQueue
 {
     virtual void v00();
@@ -4451,7 +4429,6 @@ struct IOManager
     }
     void FUN_00c3dfa0(int mode);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 extern long __cdecl FinishScriptRunLock(volatile long*);
 
@@ -4598,7 +4575,6 @@ struct QueueC3
     bool First(unsigned, void*, RefPtr_c3e1b0*);
     bool Next(unsigned, void*, RefPtr_c3e1b0*);
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct IOMgr_c3e1b0;
 struct QueueRegistryC3
 {
@@ -4768,7 +4744,7 @@ struct Owner
     {
         return reinterpret_cast<::FUN_00c3fe80_Class *>((node))->FUN_00c3fe80(node->q->v9(a, b), a, b, (void **)(c));
     }
-    bool __thiscall FUN_00c3f160(int a, int b, int c);
+    bool FUN_00c3f160(int a, int b, int c);
 };
 
 // @fnv 0x00c3f160
@@ -4897,7 +4873,7 @@ struct Spin360
 {
     int owner;
     int count;
-    inline void __thiscall Lock(const char* name)
+    inline void Lock(const char* name)
     {
         unsigned u0, u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11, u12, u13, u14, u15;
         unsigned u16, u17, u18, u19, u20, u21, u22, u23, u24, u25, u26, u27, u28, u29, u30, u31, u32, u33, u34, u35;
@@ -4976,11 +4952,11 @@ struct Obj360
     int unk18;
     int unk1c;
     Spin360 lock;
-    char __thiscall FUN_00c3f360(void* a, Ref360 b);
+    char FUN_00c3f360(void* a, Ref360 b);
 };
 
 // @fnv 0x00c3f360
-char __thiscall Obj360::FUN_00c3f360(void* a, Ref360 b)
+char Obj360::FUN_00c3f360(void* a, Ref360 b)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
     char r = ((char)(reinterpret_cast<::RemovalMapState *>((((Result360*)((void *)(reinterpret_cast<::FUN_00c3f750_Class *>((((Helper360*)this)))->FUN_00c3f750())))))->FUN_00c40680({}, {})));
@@ -5080,7 +5056,7 @@ struct FUN_00c3f7a0_Class
     int unk08;
     int unk0c;
     int* m_pValues10;
-    void* __thiscall FUN_00c3f7a0(int index);
+    void* FUN_00c3f7a0(int index);
 };
 
 
@@ -5124,7 +5100,6 @@ void* FUN_00c3f7a0_Class::FUN_00c3f7a0(int index)
     return new Item_00c3f7a0(this, m_pValues10 + index * 2, m_pValues10 + index * 2 + 1);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 
 struct ObjectC3
 {
@@ -5737,7 +5712,7 @@ struct F1f0Cls
     int unk18;
     int unk1c;
     F1f0Lock m_lock;
-    bool __thiscall FUN_00c3f1f0(int a1, int a2, int a3, bool a4);
+    bool FUN_00c3f1f0(int a1, int a2, int a3, bool a4);
 };
 
 // @fnv 0x00c3f1f0
@@ -5756,7 +5731,7 @@ struct SpinLockS
 {
     unsigned int owningThread;
     unsigned int lockCount;
-    void __thiscall FUN_0040fbf0(const char* name)
+    void FUN_0040fbf0(const char* name)
     {
         unsigned int threadID = FUN_0040fc90();
         if (owningThread == threadID)
@@ -5797,7 +5772,7 @@ struct ManagerS
     int unk18;
     int unk1C;
     SpinLockS lock;
-    bool __thiscall FUN_00c3f430(int a, int b, int c, int d, unsigned char e);
+    bool FUN_00c3f430(int a, int b, int c, int d, unsigned char e);
 };
 
 static __forceinline void Dead35()

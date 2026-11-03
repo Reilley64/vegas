@@ -1,5 +1,6 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -107,11 +108,11 @@ int __cdecl FUN_00e42940(int pObject)
 extern "C" void __cdecl FUN_00cb0a60();
 
 struct FUN_00e4e400_class {
-    FUN_00e4e400_class* __thiscall FUN_00e4e400();
+    FUN_00e4e400_class* FUN_00e4e400();
 };
 
 // @fnv 0x00e4e400
-FUN_00e4e400_class* __thiscall FUN_00e4e400_class::FUN_00e4e400()
+FUN_00e4e400_class* FUN_00e4e400_class::FUN_00e4e400()
 {
     FUN_00cb0a60();
     *(int*)((char*)this + 4) = 0;
@@ -164,29 +165,29 @@ float FUN_00e587c0_Class::GetFloatAt(int iIndex, int base) {
 
 struct GlobalObjectO2_00d472a0 { int x; };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c5b0
-void __stdcall FUN_00e5c5b0(int a)
+void FUN_00e5c5b0(int a)
 {
     FUN_00e5c540(a, &g_0126e600);
 }
 
-extern "C" void __stdcall FUN_00e5c540(int, int);
+extern "C" void FUN_00e5c540(int, int);
 
 struct GlobalObjectO2_00d472a0;
 
 // Calls FUN_00e5c540 with the argument a and the address of g_0126c5f0.
 // @fnv 0x00e5c5f0
-void __stdcall FUN_00e5c5f0(int aiValue)
+void FUN_00e5c5f0(int aiValue)
 {
     FUN_00e5c540(aiValue, (int)&::g_0126c5f0);
 }
 
 namespace fnv_00e5c610 {
 struct GlobalObjectO2_00d472a0;
-extern "C" void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+extern "C" void FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c610
-void __stdcall FUN_00e5c610(int aiValue)
+void FUN_00e5c610(int aiValue)
 {
     FUN_00e5c540(aiValue, &(*reinterpret_cast<::fnv_00e5c610::GlobalObjectO2_00d472a0 *>(&::g_0126e570)));
 }
@@ -194,9 +195,9 @@ void __stdcall FUN_00e5c610(int aiValue)
 
 namespace fnv_00e5c650 {
 struct GlobalObjectO2_00d472a0 {};
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c650
-void __stdcall FUN_00e5c650(int aiValue)
+void FUN_00e5c650(int aiValue)
 {
     FUN_00e5c540(aiValue, &(*reinterpret_cast<::fnv_00e5c650::GlobalObjectO2_00d472a0 *>(&::g_0126ea38)));
 }
@@ -204,11 +205,11 @@ void __stdcall FUN_00e5c650(int aiValue)
 
 namespace fnv_00e5c670 {
 struct GlobalObjectO2_00d472a0;
-extern "C" void* __stdcall FUN_00e5c540(void*, void*);
+extern "C" void* FUN_00e5c540(void*, void*);
 extern GlobalObjectO2_00d472a0 g_0126ea80;
 
 // @fnv 0x00e5c670
-void* __stdcall FUN_00e5c670(void* apArg)
+void* FUN_00e5c670(void* apArg)
 {
     return FUN_00e5c540(apArg, &g_0126ea80);
 }
@@ -237,11 +238,11 @@ void FUN_00e459c0_class::SetBitMaskFlags(int a, int b)
 }
 
 struct FUN_00e45a10_class {
-    void __thiscall ClearFlags(int a, int b);
+    void ClearFlags(int a, int b);
 };
 // If both masks are zero, clears the byte at offset 0x30; otherwise for each of 32 bits, clears the other mask's bits in the corresponding dword at 0x34 + i*4.
 // @fnv 0x00e45a10
-void __thiscall FUN_00e45a10_class::ClearFlags(int a, int b)
+void FUN_00e45a10_class::ClearFlags(int a, int b)
 {
     if (!a && !b)
     {
@@ -258,11 +259,11 @@ void __thiscall FUN_00e45a10_class::ClearFlags(int a, int b)
 }
 
 struct FUN_00e587b0_Class {
-    int* __thiscall FUN_00e587b0(int idx);
+    int* FUN_00e587b0(int idx);
 };
 
 // @fnv 0x00e587b0
-int* __thiscall FUN_00e587b0_Class::FUN_00e587b0(int idx)
+int* FUN_00e587b0_Class::FUN_00e587b0(int idx)
 {
     return *reinterpret_cast<int**>(this) + idx;
 }
@@ -272,7 +273,7 @@ struct FUN_00e58880_Class {
 };
 
 // @fnv 0x00e58880
-float __thiscall FUN_00e58880_Class::FUN_00e58880(int offset)
+float FUN_00e58880_Class::FUN_00e58880(int offset)
 {
     const float* base = *(const float**)this;
     return base[offset];
@@ -331,7 +332,7 @@ struct FUN_00e44280_struct {
 };
 
 // @fnv 0x00e44280
-FUN_00e44280_struct* __thiscall FUN_00e44280_struct::InitializeDefaults()
+FUN_00e44280_struct* FUN_00e44280_struct::InitializeDefaults()
 {
     m_08 = 1000.0f;
     m_0c = runtimeFloatSettingDefault132;
@@ -388,11 +389,11 @@ struct FUN_00e4ab50_class {
     int m_04;
     int* m_08;
     int m_0c;
-    void __thiscall ApplyToAll(int a);
+    void ApplyToAll(int a);
 };
 // Calls FUN_00e61480 with a on each of the m_0c objects pointed to by m_08.
 // @fnv 0x00e4ab50
-void __thiscall FUN_00e4ab50_class::ApplyToAll(int aiValue)
+void FUN_00e4ab50_class::ApplyToAll(int aiValue)
 {
     for (int i = 0; i < m_0c; i++)
         ((FUN_00e61480_class*)m_08[i])->FUN_00e61480(aiValue);
@@ -421,25 +422,25 @@ FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
 struct FUN_00e58b10_class {
     void FUN_00e58b10(int a, int b, int c);
 };
-void __stdcall FUN_00e5c540(int, int);
+void FUN_00e5c540(int, int);
 // @fnv 0x00e5c5d0
-void __stdcall FUN_00e5c5d0(int aiValue)
+void FUN_00e5c5d0(int aiValue)
 {
     FUN_00e5c540(aiValue, (int)&(*reinterpret_cast<const char *const *>(&::g_0126e5b8)));
 }
 
 struct GlobalObjectO2_00d472a0;
-void __stdcall FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
+void FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
 // @fnv 0x00e5c630
-void __stdcall FUN_00e5c630(int aiValue)
+void FUN_00e5c630(int aiValue)
 {
     FUN_00e5c540(aiValue, &::g_0126eb10);
 }
 
 struct GlobalObjectO2_00d472a0;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c690
-void __stdcall CallWithGlobalObject(int aiValue)
+void CallWithGlobalObject(int aiValue)
 {
     FUN_00e5c540(aiValue, &::g_0126eac8);
 }
@@ -1473,11 +1474,11 @@ float FUN_00e53580_cls::FUN_00e53580(int idx) {
 }
 
 struct S_00e53590_Foo {
-    int* __thiscall FUN_00e53590(int index);
+    int* FUN_00e53590(int index);
 };
 
 // @fnv 0x00e53590
-int* __thiscall S_00e53590_Foo::FUN_00e53590(int index) {
+int* S_00e53590_Foo::FUN_00e53590(int index) {
     return reinterpret_cast<int*>(this) + index;
 }
 
@@ -1769,12 +1770,12 @@ float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB)
 
 struct FUN_00e54ae0_class
 {
-    void __thiscall GetHelperValueAsFloat();
+    void GetHelperValueAsFloat();
 };
 
 struct FUN_00e532b0_class
 {
-    FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
+    FUN_00e54ae0_class* FUN_00e532b0(void* buffer, void* value);
 };
 
 // @fnv 0x00e54ba0
@@ -2650,7 +2651,7 @@ int FUN_00e5c9b0_cls::GetFloatAttribute(const char* name, bool log, float* out)
 // with a literal zero inserted as the third argument.
 
 struct FUN_00e5cdb0_class {
-    void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
+    void FUN_00e5cec0(int a, int b, int c, int d);
 };
 
 // @fnv 0x00e5cec0
@@ -2759,7 +2760,6 @@ float __cdecl FindMinFloat(int *param_1)
 namespace fnv_00e42960 {
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct MonEntry { const char* name; unsigned int ticks; int pad; };
 struct MonStream { int unk0; MonEntry* m_kRayEnd; int unk8; MonEntry* m_pRayCursor; };
 inline void TimerMark(const char* name)
@@ -3514,12 +3514,12 @@ struct FUN_00e46b80_class {
     int* unk30;
     FUN_00c905b0_class* unk34;
 
-    void __thiscall FUN_00e46b80();
+    void FUN_00e46b80();
 };
 
 // Assigns global addresses to the object's pointer fields, calls FUN_00c905b0 on unk34 if set, then reassigns the fields to other globals.
 // @fnv 0x00e46b80
-void __thiscall FUN_00e46b80_class::FUN_00e46b80()
+void FUN_00e46b80_class::FUN_00e46b80()
 {
     unk00 = &DAT_010e7874;
     unk08 = &DAT_010e7868;
@@ -3563,19 +3563,19 @@ struct E473C0Owner;
 struct E473C0Target {
     virtual void vf00();
     virtual void vf01();
-    virtual void __thiscall vf02(E473C0Owner* a1, int a2);
+    virtual void vf02(E473C0Owner* a1, int a2);
 };
 
 struct E473C0Owner {
     int unk00;
     unsigned short unk04;
 
-    E473C0Owner* __thiscall FUN_00e473c0(unsigned char flags);
+    E473C0Owner* FUN_00e473c0(unsigned char flags);
 };
 
 // Calls FUN_00e47020, then if bit 0 of flags is set, invokes vf02 on the allocator target with unk04, and returns this.
 // @fnv 0x00e473c0
-E473C0Owner* __thiscall E473C0Owner::FUN_00e473c0(unsigned char flags) {
+E473C0Owner* E473C0Owner::FUN_00e473c0(unsigned char flags) {
     reinterpret_cast<::fnv_00e47020::FUN_00e47020 *>(this)->fnv_00e47020::FUN_00e47020::~FUN_00e47020();
 
     if ((flags & 1) != 0) {
@@ -3730,7 +3730,7 @@ struct FUN_00e48db0_class {
     int m_08;
     int m_0c;
     int m_10;
-    FUN_00e48db0_class* __thiscall InitFromFloatAndPointer(float f, void* p);
+    FUN_00e48db0_class* InitFromFloatAndPointer(float f, void* p);
 };
 // Calls FUN_00dcd310 with f and p, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
 // @fnv 0x00e48db0
@@ -3851,7 +3851,7 @@ struct E58E80Object {
     void CopyFrom(int setting);
 };
 // @fnv 0x00e58e80
-E87E0Matrix* __fastcall FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right) {
+E87E0Matrix* FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right) {
     object->CopyFrom(setting);
     E87E0Matrix* matrix = reinterpret_cast<E87E0Matrix*>(object);
     matrix->FUN_00e587e0(right);
@@ -4400,7 +4400,7 @@ void BitLinks::SetLink(int aiIndexA, int aiIndexB)
 namespace se49080 {
 
 
-void __fastcall FUN_00c90510(void* pvObject);
+void FUN_00c90510(void* pvObject);
 
 struct Shape;
 
@@ -6999,7 +6999,7 @@ struct AllocatorHolder {
 };
 
 AllocatorHolder* FUN_00c85750();
-void __fastcall FUN_00c90510(void* pvObject);
+void FUN_00c90510(void* pvObject);
 
 template <class T> struct ObjectArray {
     T* m_pData;

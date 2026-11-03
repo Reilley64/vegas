@@ -17,7 +17,7 @@ void hkpPulleyConstraintData::FUN_00deef40(int a)
 
 // Writes 1 and 8 into b[1] and b[0] when a is nonzero, otherwise writes 0 into both.
 // @fnv 0x00deef60
-void __stdcall FUN_00deef60(char a, int* b)
+void FUN_00deef60(char a, int* b)
 {
     if (a)
     {

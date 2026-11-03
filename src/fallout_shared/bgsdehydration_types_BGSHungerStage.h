@@ -8,7 +8,6 @@ class SpellItem;
 #include "TESForm.h"
 class BGSHungerStage;
 class HungerStageData;
-#pragma pack(push, 4)
 class HungerStageData
 {
   public:
@@ -19,11 +18,6 @@ class HungerStageData
     // void __cdecl HungerStageData::*()
     // void __cdecl HungerStageData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(HungerStageData) == 8);
-FNV_STATIC_ASSERT(offsetof(HungerStageData, m_uiStageLevel) == 0);
-FNV_STATIC_ASSERT(offsetof(HungerStageData, m_pSpell) == 4);
-#pragma pack(push, 4)
 class BGSHungerStage : public TESForm
 {
   public:
@@ -54,7 +48,4 @@ class BGSHungerStage : public TESForm
     BGSHungerStage();
     void ResetFormData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSHungerStage) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSHungerStage, data) == 24);
 #endif

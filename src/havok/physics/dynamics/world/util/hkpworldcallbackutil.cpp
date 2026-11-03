@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldcallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldcallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00c91120.h"
 #include "fnv/decl/FUN_00c91140_Class.h"
 #include "fnv/decl/World_RemovePhantomBatch.h"
@@ -369,7 +370,6 @@ void KeepAlive_00d00320(FNV_SmallArray_00d00320* pArray)
 
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpAction;
 class hkpActionListener
@@ -531,7 +531,6 @@ void __cdecl NotifyActionAdded(World833* world, hkpAction* action)
 namespace fnv_00d00500 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpEntity;
 class hkpEntityListener
@@ -697,7 +696,6 @@ void __cdecl NotifyEntityAdded(World833* world, hkpEntity* entity)
 namespace fnv_00d006e0 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpEntity;
 class hkpEntityListener
@@ -863,7 +861,6 @@ void __cdecl NotifyEntitySetMotionType(World833* world, hkpEntity* entity)
 namespace fnv_00d00780 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class hkpPhantomListener
@@ -1334,7 +1331,6 @@ void __cdecl FUN_00d00ca0(D00CA0World* world, void* entity)
 namespace fnv_00d00d40 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class CollisionEvent;
 class NewCollisionListener
@@ -1921,7 +1917,6 @@ void __cdecl FUN_00d00e80(D00E80World* world)
 namespace fnv_00d00f30 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class WorldDeletionListener
@@ -2093,7 +2088,6 @@ void __cdecl NotifyWorldDeleted(World833* world)
 namespace fnv_00d01380 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class PostSimulationListener
@@ -2277,7 +2271,6 @@ void __cdecl FUN_00d01380(World833* world)
 namespace fnv_00d01440 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 class hkpPhantom;
 class PostIntegrationListener
@@ -3054,7 +3047,6 @@ void __cdecl FUN_00d01650(D01650World* world, void* pvEvent, void* pvContext)
     D01650CleanupNullPointers(listeners);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
 
 struct Listener
@@ -3546,7 +3538,6 @@ void __cdecl NotifyShapeSetListeners(D019B0World* world, D019B0Event* event)
     D019B0CleanupNullPointers(listeners);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
@@ -4391,7 +4382,6 @@ void __cdecl NotifyTargets(ProfOwner* pOwner, DWORD a2)
     FUN_00d00370(targets);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
@@ -4438,7 +4428,6 @@ void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned long DAT_0126835c;
 extern "C" char str_010ccaf8;
 extern "C" char str_010ccaec;
@@ -4820,7 +4809,6 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
@@ -4876,7 +4864,7 @@ void __cdecl FUN_00d01900(WorldD* world, RemovedEvent& event)
     FUN_00d00370(listen);
 }
 
-extern void*(__stdcall* DAT_00fdf044)(unsigned long);
+extern void*(* DAT_00fdf044)(unsigned long);
 struct ProfRecQ
 {
     const char* m_pName;
@@ -4934,7 +4922,7 @@ void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, unsigned long a2)
     int i = (int)state.arr->m_uiItemCount - 1;
     if (i >= 0)
     {
-        void*(__stdcall * getBuf)(unsigned long) = DAT_00fdf044;
+        void*(* getBuf)(unsigned long) = DAT_00fdf044;
         do
         {
             ListenerObjQ* pItem = state.arr->m_ppItems[i];

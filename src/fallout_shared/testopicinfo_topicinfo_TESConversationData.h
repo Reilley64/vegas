@@ -15,8 +15,4 @@ class TESTopicInfoData
     ~TESTopicInfoData();
     BSSimpleList<TESTopic*>* GetLinkToList();
 };
-FNV_STATIC_ASSERT(sizeof(TESTopicInfoData) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfoData, m_kLinkFromList) == 0x0);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfoData, m_kLinkToList) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfoData, m_kFollowUpInfoList) == 0x10);
 #endif

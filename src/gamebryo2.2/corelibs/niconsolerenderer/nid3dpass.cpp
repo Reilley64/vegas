@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp: NiD3DPass, Node, MyCls, Shader and more (53 functions)
 
+#include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ElemPtrArray.h"
@@ -125,7 +126,7 @@ void NiD3DPass::DestroyPass()
 {
     if (!m_bHasBeenApplied)
     {
-        typedef void(__thiscall * Destroy)(NiD3DPass*, unsigned int);
+        typedef void(* Destroy)(NiD3DPass*, unsigned int);
         reinterpret_cast<Destroy>(m_ppVirtualMethodTable[0])(this, 1);
         return;
     }
@@ -208,7 +209,7 @@ struct Self_00e7f000
 
 // Searches list1 then list2 for a node whose key matches, sets foundInSecond to indicate which list matched, and returns the node or null.
 // @fnv 0x00e7f000
-Node_00e7f000* __fastcall FindNodeByKey(Self_00e7f000* self, int, int key, bool& foundInSecond)
+Node_00e7f000* FindNodeByKey(Self_00e7f000* self, int, int key, bool& foundInSecond)
 {
     for (Node_00e7f000* pNode = self->list1; pNode; pNode = pNode->next)
     {
@@ -261,7 +262,7 @@ void __cdecl FreePointerArray(NiPointer<BeamStage>* pkElement)
 extern int DAT_010ef378;
 
 // @fnv 0x00e80020
-void* __fastcall FUN_00e80020(void* pThis, int, unsigned int uiMaxSize, unsigned int uiGrowBy)
+void* FUN_00e80020(void* pThis, int, unsigned int uiMaxSize, unsigned int uiGrowBy)
 {
     *(int**)pThis = &DAT_010ef35c;
     unsigned short usMaxSize = (unsigned short)uiMaxSize;
@@ -283,11 +284,11 @@ class NiMemObject
     static void __cdecl operator delete(void* pMem, size_t stElementSize);
 };
 
-void __fastcall FUN_00e7fea0(void* pThis);
+void FUN_00e7fea0(void* pThis);
 
 // Destroys an array of 0x68-byte elements, calling FUN_00e7fea0 on each and freeing the base block when flags has bit 1 set.
 // @fnv 0x00e80080
-void* __fastcall FUN_00e80080(char* pThis, int, unsigned int flags)
+void* FUN_00e80080(char* pThis, int, unsigned int flags)
 {
     if (flags & 2)
     {
@@ -346,7 +347,7 @@ struct NiTexture
 };
 // Returns the NiTexture at index idx from the array at obj+0xb0, falling back to a default texture based on the flag at obj+0x20.
 // @fnv 0x00c03230
-NiTexture* __stdcall GetTextureByIndex(char* apObject, int aiIndex)
+NiTexture* GetTextureByIndex(char* apObject, int aiIndex)
 {
     NiTexture* pTexture = (*(NiTexture***)(apObject + 0xb0))[aiIndex];
     if (!pTexture)
@@ -373,7 +374,7 @@ struct MemoryManager
 {
 };
 // @fnv 0x00e7e7a0
-void* __fastcall FUN_00e7e7a0(void* self, int edx, unsigned int flags)
+void* FUN_00e7e7a0(void* self, int edx, unsigned int flags)
 {
     reinterpret_cast<::fnv_00e7ec60::FUN_00e7ec60_cls *>((self))->FUN_00e7ec60();
     if (flags & 1)
@@ -388,7 +389,7 @@ struct MemoryManager
 };
 // Calls FUN_00e7f070 on self, then deallocates self via g_memoryManager when flags has bit 1 set, and returns self.
 // @fnv 0x00e7f050
-void* __fastcall FUN_00e7f050(void* self, int edx, unsigned int flags)
+void* FUN_00e7f050(void* self, int edx, unsigned int flags)
 {
     ::fnv_00e7f070::FUN_00e7f070(self);
     if (flags & 1)
@@ -402,7 +403,7 @@ struct MemoryManager
 {
 };
 // @fnv 0x00e7f070
-void __fastcall FUN_00e7f070(void* apList)
+void FUN_00e7f070(void* apList)
 {
     ::FUN_00aa1490(*(void**)apList, 0x10);
     void* next = ((void**)apList)[2];
@@ -420,7 +421,7 @@ struct PassLike
     void* m_p;
 };
 // @fnv 0x00e7f7d0
-unsigned int __fastcall FUN_00e7f7d0(PassLike* self, int edx, unsigned int uiPass)
+unsigned int FUN_00e7f7d0(PassLike* self, int edx, unsigned int uiPass)
 {
     if (self->m_p)
         reinterpret_cast<::Group00e7ef40 *>((self->m_p))->FUN_00e7ef40();
@@ -449,9 +450,9 @@ namespace fnv_00e7f900 {
 struct MemoryManager
 {
 };
-void __fastcall DestroyNode(void*);
+void DestroyNode(void*);
 // @fnv 0x00e7f900
-void* __fastcall FUN_00e7f900(void* self, int edx, unsigned int flags)
+void* FUN_00e7f900(void* self, int edx, unsigned int flags)
 {
     DestroyNode(self);
     if (flags & 1)
@@ -474,7 +475,7 @@ void __cdecl FUN_00e7f920(int pObject)
         {
             int obj = DAT_0126f720;
             int vtbl = *(int*)obj;
-            void(__stdcall * release)(int) = (void(__stdcall*)(int)) * ((int*)vtbl + 2);
+            void(* release)(int) = (void(*)(int)) * ((int*)vtbl + 2);
             release(obj);
         }
         DAT_0126f720 = state;
@@ -482,7 +483,7 @@ void __cdecl FUN_00e7f920(int pObject)
         {
             int obj = state;
             int vtbl = *(int*)obj;
-            void(__stdcall * addRef)(int) = (void(__stdcall*)(int)) * ((int*)vtbl + 1);
+            void(* addRef)(int) = (void(*)(int)) * ((int*)vtbl + 1);
             addRef(obj);
         }
         DAT_0126f728 = *(int*)((char*)DAT_0126f724 + 0x8b8);
@@ -493,7 +494,7 @@ void __cdecl FUN_00e7f920(int pObject)
         {
             int obj = DAT_0126f720;
             int vtbl = *(int*)obj;
-            void(__stdcall * release)(int) = (void(__stdcall*)(int)) * ((int*)vtbl + 2);
+            void(* release)(int) = (void(*)(int)) * ((int*)vtbl + 2);
             release(obj);
         }
         DAT_0126f720 = 0;
@@ -643,8 +644,6 @@ struct Outer_00e7ddf0
     Holder_00e89060* m10;
     void* FUN_00e7ddf0();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Holder00e7de30
 {
     int _0;
@@ -935,14 +934,14 @@ void FUN_00e7e8d0(int pObject)
         int pNewObject = *(int*)(pObject + 0x288);
         if (DAT_0126f6c0)
         {
-            typedef void(__stdcall * ReleaseFunction)(int);
+            typedef void(* ReleaseFunction)(int);
             ReleaseFunction release = (ReleaseFunction) * (int**)(*(int**)DAT_0126f6c0 + 2);
             release(DAT_0126f6c0);
         }
         DAT_0126f6c0 = pNewObject;
         if (pNewObject)
         {
-            typedef void(__stdcall * AddRefFunction)(int);
+            typedef void(* AddRefFunction)(int);
             AddRefFunction addRef = (AddRefFunction) * (int**)(*(int**)pNewObject + 1);
             addRef(pNewObject);
         }
@@ -952,7 +951,7 @@ void FUN_00e7e8d0(int pObject)
     {
         if (DAT_0126f6c0)
         {
-            typedef void(__stdcall * ReleaseFunction)(int);
+            typedef void(* ReleaseFunction)(int);
             ReleaseFunction release = (ReleaseFunction) * (int**)(*(int**)DAT_0126f6c0 + 2);
             release(DAT_0126f6c0);
         }
@@ -1225,8 +1224,6 @@ extern NiDSBListNode* DAT_0126f5d0;
 // The pool object and the critical section that guards the list.
 extern int DAT_0126f5d4;
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpCriticalSection);
 
 // Pool allocator: hands out a fresh, zeroed list node.
 
@@ -1468,11 +1465,11 @@ bool NiD3DPass::ApplyRenderStateChanges(bool force)
     reinterpret_cast<::PassState *>(this)->ApplyPassState();
     return true;
 }
-typedef void(__thiscall* DeviceStageFn)(void*, unsigned int, int, void*, int);
-typedef void(__thiscall* DeviceStateFn)(void*, unsigned int, int);
-typedef void(__thiscall* DeviceDisableFn)(void*, unsigned int, int, int, int);
-typedef int(__thiscall* ObjectQueryFn)(void*, void*, char*, char*, int*);
-typedef void(__stdcall* DeviceFinishFn)(void*, unsigned int, int, int);
+typedef void(* DeviceStageFn)(void*, unsigned int, int, void*, int);
+typedef void(* DeviceStateFn)(void*, unsigned int, int);
+typedef void(* DeviceDisableFn)(void*, unsigned int, int, int, int);
+typedef int(* ObjectQueryFn)(void*, void*, char*, char*, int*);
+typedef void(* DeviceFinishFn)(void*, unsigned int, int, int);
 // @fnv 0x00e7ea00
 void PassState::ApplyPassState()
 {
@@ -1963,7 +1960,7 @@ struct BloodSplatterHubStub
 
 
 // @fnv 0x00b7c7b0
-void __stdcall FUN_00b7c7b0(unsigned int param)
+void FUN_00b7c7b0(unsigned int param)
 {
     void* owner = (*reinterpret_cast<::fnv_00b7c7b0::RendererStub * *>(&::DAT_011f91e0))->unk0C;
     void** ownerVt = *(void***)owner;
@@ -1984,7 +1981,7 @@ void __stdcall FUN_00b7c7b0(unsigned int param)
     BloodSplatterHubStub* hub = (BloodSplatterHubStub*)(*reinterpret_cast<::fnv_00b7c7b0::BloodSplatterStub * *>(&::DAT_0126f74c))->unk5C;
     void* obj = hub->unk20;
     void** objVt = *(void***)obj;
-    ((void(__stdcall*)(void*, int, Vec3f*, int))objVt[0x178 / 4])(obj, 0x19, &out, 1);
+    ((void(*)(void*, int, Vec3f*, int))objVt[0x178 / 4])(obj, 0x19, &out, 1);
 }
 }  // namespace fnv_00b7c7b0
 
@@ -2014,7 +2011,7 @@ struct D3D9DeviceInterface
     virtual void v120(), v124(), v128(), v12C(), v130(), v134(), v138(), v13C();
     virtual void v140(), v144(), v148(), v14C(), v150(), v154(), v158(), v15C();
     virtual void v160(), v164(), v168(), v16C(), v170(), v174();
-    virtual long __stdcall SetVertexShaderConstantF(unsigned int auiStart, const float* apData, unsigned int auiCount);
+    virtual long SetVertexShaderConstantF(unsigned int auiStart, const float* apData, unsigned int auiCount);
 };
 
 struct BSDeviceHolder
@@ -2228,12 +2225,12 @@ class FUN_00e7dc90_Class
   public:
     unsigned int unknown00;
     int objectId;
-    void __thiscall SendDeviceCommands(bool enabled);
+    void SendDeviceCommands(bool enabled);
 };
 
 // If enabled and the device reports flags 4 without 8, sends two vfn_33 commands and eight pairs of vfn_1a codes starting at 0x80.
 // @fnv 0x00e7dc90
-void __thiscall FUN_00e7dc90_Class::SendDeviceCommands(bool enabled)
+void FUN_00e7dc90_Class::SendDeviceCommands(bool enabled)
 {
     if (!enabled)
         return;
@@ -2313,7 +2310,7 @@ struct DeviceStandIn
     virtual void va4();
     virtual void va8();
     virtual void vac();
-    virtual long __stdcall SetTexture(unsigned int uiStage, void* pTexture);
+    virtual long SetTexture(unsigned int uiStage, void* pTexture);
 };
 
 struct RendererStandIn
@@ -2435,7 +2432,7 @@ void SamplerStandIn::BindTexture()
 }  // namespace fnv_00e7e940
 
 
-typedef int(__stdcall* FnvInterlockedOperation)(void*);
+typedef int(* FnvInterlockedOperation)(void*);
 extern FnvInterlockedOperation DAT_00fdf1c0;
 extern FnvInterlockedOperation DAT_00fdf1c4;
 
@@ -2640,7 +2637,7 @@ extern float DAT_0126f70c;
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 // For modes 1–6, combines indexed floats from m and the block at DAT_0126f6c4, writes to DAT_0126f6d0–DAT_0126f70c, and returns false otherwise.
 // @fnv 0x00e7df90
-bool __stdcall FUN_00e7df90(int mode, float* m)
+bool FUN_00e7df90(int mode, float* m)
 {
     bool result = true;
     switch (mode)
@@ -3431,85 +3428,85 @@ struct D3DSURFACE_DESC_cf50
 };
 struct D3DSurface_cf50
 {
-    virtual HRESULT __stdcall QueryInterface(const void* riid, void** ppvObj);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual HRESULT __stdcall GetDevice(void** ppDevice);
-    virtual HRESULT __stdcall SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
+    virtual HRESULT QueryInterface(const void* riid, void** ppvObj);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual HRESULT GetDevice(void** ppDevice);
+    virtual HRESULT SetPrivateData(const void* refguid, const void* pData, unsigned long SizeOfData,
                                              unsigned long Flags);
-    virtual HRESULT __stdcall GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData);
-    virtual HRESULT __stdcall FreePrivateData(const void* refguid);
-    virtual unsigned long __stdcall SetPriority(unsigned long PriorityNew);
-    virtual unsigned long __stdcall GetPriority();
-    virtual void __stdcall PreLoad();
-    virtual D3DRESOURCETYPE_cf50 __stdcall GetType();
-    virtual HRESULT __stdcall GetContainer(const void* riid, void** ppContainer);
-    virtual HRESULT __stdcall GetDesc(D3DSURFACE_DESC_cf50* pDesc);
+    virtual HRESULT GetPrivateData(const void* refguid, void* pData, unsigned long* pSizeOfData);
+    virtual HRESULT FreePrivateData(const void* refguid);
+    virtual unsigned long SetPriority(unsigned long PriorityNew);
+    virtual unsigned long GetPriority();
+    virtual void PreLoad();
+    virtual D3DRESOURCETYPE_cf50 GetType();
+    virtual HRESULT GetContainer(const void* riid, void** ppContainer);
+    virtual HRESULT GetDesc(D3DSURFACE_DESC_cf50* pDesc);
 };
 struct D3DDevice_cf50
 {
-    virtual HRESULT __stdcall QueryInterface(const void* riid, void** ppvObj);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual HRESULT __stdcall TestCooperativeLevel();
-    virtual unsigned int __stdcall GetAvailableTextureMem();
-    virtual HRESULT __stdcall EvictManagedResources();
-    virtual HRESULT __stdcall GetDirect3D(void** ppD3D9);
-    virtual HRESULT __stdcall GetDeviceCaps(void* pCaps);
-    virtual HRESULT __stdcall GetDisplayMode(unsigned int iSwapChain, void* pMode);
-    virtual HRESULT __stdcall GetCreationParameters(void* pParameters);
-    virtual HRESULT __stdcall SetCursorProperties(unsigned int XHotSpot, unsigned int YHotSpot, void* pCursorBitmap);
-    virtual void __stdcall SetCursorPosition(int X, int Y, unsigned long Flags);
-    virtual BOOL __stdcall ShowCursor(BOOL bShow);
-    virtual HRESULT __stdcall CreateAdditionalSwapChain(void* pPresentationParameters, void** pSwapChain);
-    virtual HRESULT __stdcall GetSwapChain(unsigned int iSwapChain, void** pSwapChain);
-    virtual unsigned int __stdcall GetNumberOfSwapChains();
-    virtual HRESULT __stdcall Reset(void* pPresentationParameters);
-    virtual HRESULT __stdcall Present(const void* pSourceRect, const void* pDestRect, void* hDestWindowOverride,
+    virtual HRESULT QueryInterface(const void* riid, void** ppvObj);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual HRESULT TestCooperativeLevel();
+    virtual unsigned int GetAvailableTextureMem();
+    virtual HRESULT EvictManagedResources();
+    virtual HRESULT GetDirect3D(void** ppD3D9);
+    virtual HRESULT GetDeviceCaps(void* pCaps);
+    virtual HRESULT GetDisplayMode(unsigned int iSwapChain, void* pMode);
+    virtual HRESULT GetCreationParameters(void* pParameters);
+    virtual HRESULT SetCursorProperties(unsigned int XHotSpot, unsigned int YHotSpot, void* pCursorBitmap);
+    virtual void SetCursorPosition(int X, int Y, unsigned long Flags);
+    virtual BOOL ShowCursor(BOOL bShow);
+    virtual HRESULT CreateAdditionalSwapChain(void* pPresentationParameters, void** pSwapChain);
+    virtual HRESULT GetSwapChain(unsigned int iSwapChain, void** pSwapChain);
+    virtual unsigned int GetNumberOfSwapChains();
+    virtual HRESULT Reset(void* pPresentationParameters);
+    virtual HRESULT Present(const void* pSourceRect, const void* pDestRect, void* hDestWindowOverride,
                                       const void* pDirtyRegion);
-    virtual HRESULT __stdcall GetBackBuffer(unsigned int iSwapChain, unsigned int iBackBuffer, int Type,
+    virtual HRESULT GetBackBuffer(unsigned int iSwapChain, unsigned int iBackBuffer, int Type,
                                             void** ppBackBuffer);
-    virtual HRESULT __stdcall GetRasterStatus(unsigned int iSwapChain, void* pRasterStatus);
-    virtual HRESULT __stdcall SetDialogBoxMode(BOOL bEnableDialogs);
-    virtual void __stdcall SetGammaRamp(unsigned int iSwapChain, unsigned long Flags, const void* pRamp);
-    virtual void __stdcall GetGammaRamp(unsigned int iSwapChain, void* pRamp);
-    virtual HRESULT __stdcall CreateTexture(unsigned int Width, unsigned int Height, unsigned int Levels,
+    virtual HRESULT GetRasterStatus(unsigned int iSwapChain, void* pRasterStatus);
+    virtual HRESULT SetDialogBoxMode(BOOL bEnableDialogs);
+    virtual void SetGammaRamp(unsigned int iSwapChain, unsigned long Flags, const void* pRamp);
+    virtual void GetGammaRamp(unsigned int iSwapChain, void* pRamp);
+    virtual HRESULT CreateTexture(unsigned int Width, unsigned int Height, unsigned int Levels,
                                             unsigned long Usage, D3DFORMAT_cf50 Format, D3DPOOL_cf50 Pool,
                                             void** ppTexture, void** pSharedHandle);
-    virtual HRESULT __stdcall CreateVolumeTexture(unsigned int Width, unsigned int Height, unsigned int Depth,
+    virtual HRESULT CreateVolumeTexture(unsigned int Width, unsigned int Height, unsigned int Depth,
                                                   unsigned int Levels, unsigned long Usage, D3DFORMAT_cf50 Format,
                                                   D3DPOOL_cf50 Pool, void** ppVolumeTexture, void** pSharedHandle);
-    virtual HRESULT __stdcall CreateCubeTexture(unsigned int EdgeLength, unsigned int Levels, unsigned long Usage,
+    virtual HRESULT CreateCubeTexture(unsigned int EdgeLength, unsigned int Levels, unsigned long Usage,
                                                 D3DFORMAT_cf50 Format, D3DPOOL_cf50 Pool, void** ppCubeTexture,
                                                 void** pSharedHandle);
-    virtual HRESULT __stdcall CreateVertexBuffer(unsigned int Length, unsigned long Usage, unsigned long FVF,
+    virtual HRESULT CreateVertexBuffer(unsigned int Length, unsigned long Usage, unsigned long FVF,
                                                  D3DPOOL_cf50 Pool, void** ppVertexBuffer, void** pSharedHandle);
-    virtual HRESULT __stdcall CreateIndexBuffer(unsigned int Length, unsigned long Usage, D3DFORMAT_cf50 Format,
+    virtual HRESULT CreateIndexBuffer(unsigned int Length, unsigned long Usage, D3DFORMAT_cf50 Format,
                                                 D3DPOOL_cf50 Pool, void** ppIndexBuffer, void** pSharedHandle);
-    virtual HRESULT __stdcall CreateRenderTarget(unsigned int Width, unsigned int Height, D3DFORMAT_cf50 Format,
+    virtual HRESULT CreateRenderTarget(unsigned int Width, unsigned int Height, D3DFORMAT_cf50 Format,
                                                  D3DMULTISAMPLE_TYPE_cf50 MultiSample, unsigned long MultisampleQuality,
                                                  BOOL Lockable, D3DSurface_cf50** ppSurface, void** pSharedHandle);
-    virtual HRESULT __stdcall CreateDepthStencilSurface(unsigned int Width, unsigned int Height, D3DFORMAT_cf50 Format,
+    virtual HRESULT CreateDepthStencilSurface(unsigned int Width, unsigned int Height, D3DFORMAT_cf50 Format,
                                                         D3DMULTISAMPLE_TYPE_cf50 MultiSample,
                                                         unsigned long MultisampleQuality, BOOL Discard,
                                                         D3DSurface_cf50** ppSurface, void** pSharedHandle);
 };
 struct D3D_cf50
 {
-    virtual HRESULT __stdcall QueryInterface(const void* riid, void** ppvObj);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual HRESULT __stdcall RegisterSoftwareDevice(void* pInitializeFunction);
-    virtual unsigned int __stdcall GetAdapterCount();
-    virtual HRESULT __stdcall GetAdapterIdentifier(unsigned int Adapter, unsigned long Flags, void* pIdentifier);
-    virtual unsigned int __stdcall GetAdapterModeCount(unsigned int Adapter, D3DFORMAT_cf50 Format);
-    virtual HRESULT __stdcall EnumAdapterModes(unsigned int Adapter, D3DFORMAT_cf50 Format, unsigned int Mode,
+    virtual HRESULT QueryInterface(const void* riid, void** ppvObj);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual HRESULT RegisterSoftwareDevice(void* pInitializeFunction);
+    virtual unsigned int GetAdapterCount();
+    virtual HRESULT GetAdapterIdentifier(unsigned int Adapter, unsigned long Flags, void* pIdentifier);
+    virtual unsigned int GetAdapterModeCount(unsigned int Adapter, D3DFORMAT_cf50 Format);
+    virtual HRESULT EnumAdapterModes(unsigned int Adapter, D3DFORMAT_cf50 Format, unsigned int Mode,
                                                void* pMode);
-    virtual HRESULT __stdcall GetAdapterDisplayMode(unsigned int Adapter, void* pMode);
-    virtual HRESULT __stdcall CheckDeviceType(unsigned int Adapter, D3DDEVTYPE_cf50 DevType,
+    virtual HRESULT GetAdapterDisplayMode(unsigned int Adapter, void* pMode);
+    virtual HRESULT CheckDeviceType(unsigned int Adapter, D3DDEVTYPE_cf50 DevType,
                                               D3DFORMAT_cf50 AdapterFormat, D3DFORMAT_cf50 BackBufferFormat,
                                               BOOL bWindowed);
-    virtual HRESULT __stdcall CheckDeviceFormat(unsigned int Adapter, D3DDEVTYPE_cf50 DeviceType,
+    virtual HRESULT CheckDeviceFormat(unsigned int Adapter, D3DDEVTYPE_cf50 DeviceType,
                                                 D3DFORMAT_cf50 AdapterFormat, unsigned long Usage,
                                                 D3DRESOURCETYPE_cf50 RType, D3DFORMAT_cf50 CheckFormat);
 };
@@ -4078,7 +4075,7 @@ struct D3DDevice_b7e1
     virtual void v120(), v124(), v128(), v12C(), v130(), v134(), v138(), v13C();
     virtual void v140(), v144(), v148(), v14C(), v150(), v154(), v158(), v15C();
     virtual void v160(), v164(), v168(), v16C(), v170(), v174();
-    virtual long __stdcall SetVertexShaderConstantF(unsigned int start, const float* data, unsigned int count);
+    virtual long SetVertexShaderConstantF(unsigned int start, const float* data, unsigned int count);
 };
 struct Matrix4
 {
@@ -4302,7 +4299,7 @@ struct DeviceTable
     void* unk16C;
     void* unk170;
     void* unk174;
-    long(__stdcall* SetVertexShaderConstantF)(DeviceC*, unsigned int, const float*, unsigned int);
+    long(* SetVertexShaderConstantF)(DeviceC*, unsigned int, const float*, unsigned int);
 };
 struct DeviceC
 {

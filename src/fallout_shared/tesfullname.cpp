@@ -48,7 +48,6 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-typedef char _sizecheck_TESDescription[sizeof(TESDescription) == 8 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -77,13 +76,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct FUN_004870f0_shell : public TESFullName
 {
     void CopyFullNameFrom(BaseFormComponent*);

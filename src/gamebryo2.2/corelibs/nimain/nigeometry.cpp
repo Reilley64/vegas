@@ -235,7 +235,7 @@ struct DummyController
     {
         for (DummyController* pkCtrl = this; pkCtrl != 0; pkCtrl = *(DummyController**)((char*)pkCtrl + 0x30))
         {
-            (*(void(__thiscall**)(DummyController*))(*(int*)pkCtrl + 0xa8))(pkCtrl);
+            (*(void(**)(DummyController*))(*(int*)pkCtrl + 0xa8))(pkCtrl);
         }
     }
 };
@@ -277,7 +277,7 @@ void FUN_00a80650_shell::FUN_00a80650(NiRenderer* pkRenderer)
     void* pNode = *(void**)((char*)this + 0x0C);
     while (pNode)
     {
-        (*(void(__thiscall**)(void*))(*(int*)pNode + 0xA8))(pNode);
+        (*(void(**)(void*))(*(int*)pNode + 0xA8))(pNode);
         pNode = *(void**)((char*)pNode + 0x30);
     }
 }

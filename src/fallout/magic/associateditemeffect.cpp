@@ -66,11 +66,11 @@ struct InitLoadGameHelper
 struct AssociatedItemEffect : ActiveEffect
 {
     TESForm* m_pAssociatedForm;
-    void __thiscall FUN_00806e70(Actor* apActor);
+    void FUN_00806e70(Actor* apActor);
 };
 // Calls InitLoadGame on this, then replaces the TESForm pointer at offset 0x48 with the result of _ref_004839c0 if it is non-null.
 // @fnv 0x00806e70
-void __thiscall AssociatedItemEffect::FUN_00806e70(Actor* apActor)
+void AssociatedItemEffect::FUN_00806e70(Actor* apActor)
 {
     reinterpret_cast<::ActiveEffect805670 *>((((InitLoadGameHelper*)this)))->FUN_00805670((::Actor *)(apActor));
     TESForm* form = *(TESForm**)((char*)this + 0x48);
@@ -93,10 +93,10 @@ struct AssociatedItemEffect
 {
     unsigned char _pad[0x48];
     TESForm* m_pAssociatedForm;
-    void __thiscall FUN_00806de0(Actor* apActor);
+    void FUN_00806de0(Actor* apActor);
 };
 // @fnv 0x00806de0
-void __thiscall AssociatedItemEffect::FUN_00806de0(Actor* apActor)
+void AssociatedItemEffect::FUN_00806de0(Actor* apActor)
 {
     reinterpret_cast<::EffectSaveShell *>((((ActiveEffect_SaveGame_helper*)this)))->FUN_008050d0(apActor);
     unsigned int iformID = 0;

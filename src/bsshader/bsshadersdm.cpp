@@ -22,7 +22,7 @@ void BSShaderInitializer::InitializeMultiBounds()
 
 // Calls FUN_00bc2660 with a and b when flag is false, otherwise calls FUN_00bc1cc0 with a and c.
 // @fnv 0x00bc28b0
-void __stdcall DispatchFloatPair(float afFirst, float afSecond, float afThird, bool abUseThird)
+void DispatchFloatPair(float afFirst, float afSecond, float afThird, bool abUseThird)
 {
     if (!abUseThird)
     {
@@ -45,7 +45,7 @@ struct GlobalObjectO2_00a7b610
     const char* f0;
 };
 // @fnv 0x00bc28f0
-void __stdcall FUN_00bc28f0(StrArr* pStrArr)
+void FUN_00bc28f0(StrArr* pStrArr)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((pStrArr))->WriteToSettingArray({});
     char* pStr = ::FUN_00a7d330(::g_01201f68.f0);

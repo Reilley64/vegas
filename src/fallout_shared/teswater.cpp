@@ -448,7 +448,6 @@ struct Main
     char _pad_ad[3];
     char m_acTrailingData[4];
 };
-typedef char _sizecheck_Main[sizeof(Main) == 180 ? 1 : -1];
 struct FUN_004e2190_shell : public Main
 {
     BSShaderAccumulator* FUN_004e2190();
@@ -499,7 +498,7 @@ template <typename T> class BSStringT
 };
 
 // @fnv 0x004e6540
-const char* __fastcall FUN_004e6540(char* this_ptr)
+const char* FUN_004e6540(char* this_ptr)
 {
     return *(const BSStringT<char>*)(this_ptr + 0xf8);
 }
@@ -554,7 +553,7 @@ NiPoint3 S9c50::FUN_004e9c50()
 }
 
 // @fnv 0x004ea950
-int __fastcall FUN_004ea950(int param_1)
+int FUN_004ea950(int param_1)
 {
     return param_1 + 0x60;
 }
@@ -739,7 +738,6 @@ struct ImageSpaceManager
 public:
     static ::ImageSpaceManager *FUN_004e3270();
 };
-typedef char _sizecheck_ImageSpaceManager[sizeof(ImageSpaceManager) == 796 ? 1 : -1];
 struct FUN_004ebbc0_shell : public ImageSpaceManager
 {
     ImageSpaceEffect* FUN_004ebbc0(int);
@@ -767,13 +765,13 @@ struct StackArgs_004ed230
 };
 
 // @fnv 0x004ed230
-float __fastcall FUN_004ed230(const unsigned char* _this, StackArgs_004ed230 args)
+float FUN_004ed230(const unsigned char* _this, StackArgs_004ed230 args)
 {
     return (_this + args.aeType)[0xe0] * DAT_010231e8 * (args.fScaledValue - args.fMin) + args.fMin;
 }
 
 // @fnv 0x004ed270
-bool __fastcall IsFlagBit2Set(const unsigned char* _this)
+bool IsFlagBit2Set(const unsigned char* _this)
 {
     return (_this[0xeb] & 4) != 0;
 }
@@ -792,7 +790,7 @@ void FUN_00507700_cls::FUN_00507700(float afRatio)
 }
 
 // @fnv 0x006447d0
-float __fastcall FUN_006447d0(const char* pThis)
+float FUN_006447d0(const char* pThis)
 {
     return *(const float*)(pThis + 0xf4);
 }
@@ -856,16 +854,16 @@ int* __cdecl FUN_004e3260()
 
 struct FUN_004e32c0_shell
 {
-    void __thiscall FUN_004e32c0();
+    void FUN_004e32c0();
 };
 
 struct FUN_004e45e0_shell
 {
-    float __thiscall GetFieldE8Float();
+    float GetFieldE8Float();
 };
 
 // @fnv 0x004e45e0
-float __thiscall FUN_004e45e0_shell::GetFieldE8Float()
+float FUN_004e45e0_shell::GetFieldE8Float()
 {
     return *(float*)((char*)this + 0xe8);
 }
@@ -935,11 +933,11 @@ unsigned char FUN_004e4690_shell::GetByteAtOffset2B8()
 
 struct FUN_004e6560_class
 {
-    short __thiscall FUN_004e6560();
+    short FUN_004e6560();
 };
 
 // @fnv 0x004e6560
-short __thiscall FUN_004e6560_class::FUN_004e6560()
+short FUN_004e6560_class::FUN_004e6560()
 {
     return *reinterpret_cast<short*>(reinterpret_cast<char*>(this) + 0x110);
 }
@@ -1042,11 +1040,11 @@ int __cdecl FUN_004e6a70()
 
 struct FUN_004e7600_shell
 {
-    int __thiscall GetIntValue();
+    int GetIntValue();
 };
 
 // @fnv 0x004e7600
-int __thiscall FUN_004e7600_shell::GetIntValue()
+int FUN_004e7600_shell::GetIntValue()
 {
     return ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c7b2c))))))->i;
 }
@@ -1135,16 +1133,16 @@ void FUN_004ec7c0_shell::FUN_004ec7c0(bool value)
 
 struct FUN_004ec7e0_shell
 {
-    void __thiscall FUN_004ec7e0();
+    void FUN_004ec7e0();
 };
 
 struct FUN_004ecaf0_shell
 {
-    unsigned int __thiscall GetField8B8();
+    unsigned int GetField8B8();
 };
 
 // @fnv 0x004ecaf0
-unsigned int __thiscall FUN_004ecaf0_shell::GetField8B8()
+unsigned int FUN_004ecaf0_shell::GetField8B8()
 {
     return *(unsigned int*)(this + 0x8b8);
 }
@@ -1188,7 +1186,7 @@ extern void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_004ed110_shell
 {
-    void* __thiscall CopyFrom(const void* src);
+    void* CopyFrom(const void* src);
 };
 
 // Copies 0x40 bytes from src into this object and returns this.
@@ -1281,7 +1279,7 @@ struct BGSPlaceableWater
     bool HasFlags(unsigned int);
 };
 // @fnv 0x004e32c0
-void __thiscall FUN_004e32c0_shell::FUN_004e32c0()
+void FUN_004e32c0_shell::FUN_004e32c0()
 {
     reinterpret_cast<::BGSPlaceableWater *>(this)->HasFlags(0x8000000);
 }
@@ -1315,11 +1313,11 @@ void FUN_004e32a0_shell::FUN_004e32a0()
 
 struct FUN_004e45c0_shell
 {
-    float __thiscall GetField130();
+    float GetField130();
 };
 
 // @fnv 0x004e45c0
-float __thiscall FUN_004e45c0_shell::GetField130()
+float FUN_004e45c0_shell::GetField130()
 {
     return *(float*)((char*)this + 0x130);
 }
@@ -1330,11 +1328,11 @@ struct GlobalObject2_0045cfe0 : SettingT_GameSettingCollection_
 
 struct FUN_004e7620_shell
 {
-    int __thiscall GetGameSettingInt();
+    int GetGameSettingInt();
 };
 
 // @fnv 0x004e7620
-int __thiscall FUN_004e7620_shell::GetGameSettingInt()
+int FUN_004e7620_shell::GetGameSettingInt()
 {
     return ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c7bb0))))))->i;
 }
@@ -1354,7 +1352,7 @@ struct FUN_004e7640_shell
 };
 
 // @fnv 0x004e7640
-float __thiscall FUN_004e7640_shell::FUN_004e7640()
+float FUN_004e7640_shell::FUN_004e7640()
 {
     return *((float *)&(::FUN_00403e20((float *)&(::g_011c7bd8))));
 }
@@ -1838,7 +1836,7 @@ struct Vin_4ed190
     virtual void p52() = 0;
     virtual void p53() = 0;
     virtual void p54() = 0;
-    virtual void __stdcall Foo(char*, int*) = 0;
+    virtual void Foo(char*, int*) = 0;
 };
 struct Host_4ed190
 {

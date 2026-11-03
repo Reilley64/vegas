@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKXVERTEXBUFFERVERTEXDATA_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkxVertexBufferVertexData
 {
   public:
@@ -20,6 +19,4 @@ class hkxVertexBufferVertexData
     hkUint32 m_uiUInt16DataStride;     // +0x4C
     hkUint32 m_uiUInt8DataStride;      // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxVertexBufferVertexData[(sizeof(hkxVertexBufferVertexData) == 0x54) ? 1 : -1];
 #endif

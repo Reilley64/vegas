@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
 #include "fnv/decl/FUN_00d04390.h"
@@ -298,7 +299,7 @@ struct SYSTEM_INFO_D2D1
     unsigned short wProcessorLevel;
     unsigned short wProcessorRevision;
 };
-extern void(__stdcall* DAT_00fdf0f8)(SYSTEM_INFO_D2D1* pkInfo);
+extern void(* DAT_00fdf0f8)(SYSTEM_INFO_D2D1* pkInfo);
 
 struct hkHardwareInfoD2D1
 {
@@ -424,11 +425,6 @@ FUN_00d2d110::FUN_00d2d110(const hkCpuJobThreadPoolCinfoD2D1& kCi)
 }  // namespace fnv_00d2d110
 
 #include <xmmintrin.h>
-extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long dwTlsIndex, void* lpTlsValue);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
-extern "C" __declspec(dllimport) unsigned long __stdcall SetThreadIdealProcessor(void* hThread,
-                                                                                 unsigned long dwIdealProcessor);
 
 struct hkThreadLocalD2
 {

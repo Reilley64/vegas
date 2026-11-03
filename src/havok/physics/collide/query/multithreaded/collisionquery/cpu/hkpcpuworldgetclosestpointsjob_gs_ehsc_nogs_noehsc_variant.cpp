@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00d1b000.h"
 #include "fnv/symbols_00d1d000.h"
@@ -232,7 +233,6 @@ struct SiblingCls_df6a60 {
 struct FUN_00df6b30_cls {
     unsigned char* FUN_00df6b30(unsigned char* out, int a);
 };
-extern "C" __declspec(dllimport) long __stdcall DAT_00fdf1ec(long volatile*, long);
 struct CopyQuad { int x; int y; int z; int w; };
 struct __declspec(align(16)) QueryPoint { CopyQuad parts[7]; };
 struct QueryInput {
@@ -273,10 +273,10 @@ inline QueryPoint* allocateResults(PairCommand* command, const QueryCollector& c
 {
     {
         int hits = collector.count;
-        int start = DAT_00fdf1ec(command->sharedIndex, hits);
+        int start = InterlockedExchangeAdd(command->sharedIndex, hits);
         if (start + hits <= command->capacity)
             return command->results + start;
-        DAT_00fdf1ec(command->sharedIndex, -hits);
+        InterlockedExchangeAdd(command->sharedIndex, -hits);
         return 0;
     }
 }
@@ -1068,12 +1068,7 @@ char EofChar;
 char EvtChar;
 WORD wReserved1;
 }JIT_DEBUG_INFO,*LPJIT_DEBUG_INFO;
-__declspec(dllimport)
-LPVOID
-__stdcall
-TlsGetValue(
-DWORD dwTlsIndex
-);}
+}
 class PhysicsSimulationContext
 {
 public:

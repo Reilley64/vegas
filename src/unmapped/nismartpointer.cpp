@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/fnv_0044b010__FUN_0044b010_shell.h"
 #include "fnv/decl/fnv_0044b050__FUN_0044b050_shell.h"
 #include "fnv/decl/fnv_0044b0f0__FUN_0044b0f0_shell.h"
@@ -54,7 +55,6 @@ NiPointer_LoadedFile& NiPointer_LoadedFile::FUN_0044b220(LoadedFile* pObject)
     return *this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 struct TlsBlock_t
 {

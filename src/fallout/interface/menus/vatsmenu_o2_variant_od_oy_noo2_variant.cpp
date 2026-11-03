@@ -73,7 +73,7 @@ struct FUN_007ebd30_This
 {
     char pad[0x374];
     float fValue;
-    float __thiscall FUN_007ebd30();
+    float FUN_007ebd30();
 };
 struct ArrSI
 {
@@ -85,7 +85,7 @@ struct FUN_007ef710_This
 {
     char _pad[0xF8];
     bool m_bFirstFlag;
-    bool __thiscall HandleKey(int aiKey);
+    bool HandleKey(int aiKey);
 };
 struct Tile;
 struct FUN_0070ec70_This
@@ -97,7 +97,7 @@ struct FUN_007ef760_Owner
     virtual void vf1();
     virtual void vf2();
     virtual void vf3(int, int);
-    void __thiscall FUN_007ef760(int aiID, Tile* apTarget);
+    void FUN_007ef760(int aiID, Tile* apTarget);
 };
 struct Vec2Tmp
 {
@@ -291,7 +291,7 @@ struct Owner007f6af0
     unsigned char field_10e;
 };
 // @fnv 0x007f6af0
-bool __fastcall FUN_007f6af0(Owner007f6af0* self)
+bool FUN_007f6af0(Owner007f6af0* self)
 {
     if (self->field_10e)
         return false;

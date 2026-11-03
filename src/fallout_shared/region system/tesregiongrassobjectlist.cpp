@@ -10,8 +10,8 @@
 #include "fnv/symbols_00401000.h"
 struct FUN_004f5df0_shell
 {
-    void __thiscall FUN_004f5e20();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_004f5e20();
+    void* Destroy(unsigned int flags);
 };
 struct ListX
 {
@@ -24,7 +24,7 @@ struct FUN_004f5e20
     void ClearList();
 };
 // @fnv 0x004f5df0
-void* __thiscall FUN_004f5df0_shell::Destroy(unsigned int flags)
+void* FUN_004f5df0_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_004f5e20 *>(this)->FUN_004f5e20::~FUN_004f5e20();
     if (flags & 1)
@@ -151,7 +151,7 @@ struct IntOpsX
 
 struct FUN_004f5f80_cls
 {
-    FUN_004f5f80_obj* __thiscall FUN_004f5f80(int a1, int a2);
+    FUN_004f5f80_obj* FUN_004f5f80(int a1, int a2);
 };
 
 // Walks the list from this+4 and returns the first object whose unk04 equals a1 and whose unk0c matches a2 (or is null when a2 < 0).

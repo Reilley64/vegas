@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/ni2dbuffer.cpp: Ni2DBuffer, MyBuf, Fake, FakeBuffer (6 functions)
 
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -30,16 +31,15 @@ bool Ni2DBuffer::CreateRendererData(const NiPixelFormat& format, MultiSamplePref
 struct NiObject;
 
 
-bool __stdcall FUN_00a88a50(NiObject* pkObject);
+bool FUN_00a88a50(NiObject* pkObject);
 // @fnv 0x00a88a50
-bool __stdcall FUN_00a88a50(NiObject* pkObject)
+bool FUN_00a88a50(NiObject* pkObject)
 {
     if (reinterpret_cast<::A5d470Class *>((pkObject))->IsSameAs({}))
         return true;
     return false;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct NiRefObject
 {
     virtual ~NiRefObject();
@@ -71,7 +71,7 @@ struct Ni2DBufferStub : NiRefObject
     RDPtr rd;
 };
 // @fnv 0x00a8f330
-Ni2DBufferStub* __fastcall DestroyNi2DBuffer(Ni2DBufferStub* self, int unused, unsigned char flags)
+Ni2DBufferStub* DestroyNi2DBuffer(Ni2DBufferStub* self, int unused, unsigned char flags)
 {
     *(int**)self = &(*reinterpret_cast<int *>((void *)&::DAT_0109f4dc));
     self->rd.~RDPtr();

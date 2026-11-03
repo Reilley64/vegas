@@ -6,7 +6,6 @@
 #include "fnv/symbols_011d6000.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 
 class BGSLoadGameBuffer;
 
@@ -19,6 +18,5 @@ class ActorCause
   protected:
 };
 
-#pragma pack(pop)
 
 #endif

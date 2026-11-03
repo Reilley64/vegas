@@ -1220,7 +1220,7 @@ struct ShaderX
 unsigned int ShaderStandIn::FUN_00e7cc10(void* pkGeometry, void* pkSkin, void* pkRendererData, void* pkState,
                                          void* pkEffects, void* kWorld, void* kWorldBound)
 {
-    ((void(__thiscall*)(ShaderStandIn*))(*(void***)this)[59])(this);
+    ((void(*)(ShaderStandIn*))(*(void***)this)[59])(this);
     return reinterpret_cast<::ShaderX *>(this)->CreateShaderPass((::GeomX *)(pkGeometry), pkSkin, (::DataX *)(pkRendererData), (::StateX *)(pkState), pkEffects, kWorld, kWorldBound);
 }
 // @fnv 0x00e7cac0

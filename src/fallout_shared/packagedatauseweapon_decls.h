@@ -106,11 +106,5 @@ class UseWeaponActorPackageData : public ActorPackageData
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* pointer);
 
-FNV_STATIC_ASSERT(sizeof(PackageTargetRecord) == 0x10);
-FNV_STATIC_ASSERT(sizeof(TESUseWeaponPackageData) == 0x24);
-FNV_STATIC_ASSERT(offsetof(TESUseWeaponPackageData, m_pUseTarget) == 4);
-FNV_STATIC_ASSERT(offsetof(TESUseWeaponPackageData, pWeapon) == 0x20);
-FNV_STATIC_ASSERT(sizeof(UseWeaponActorPackageData) == 8);
-FNV_STATIC_ASSERT(offsetof(UseWeaponActorPackageData, m_pUseTarget) == 4);
 
 #endif

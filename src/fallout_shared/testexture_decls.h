@@ -6,7 +6,6 @@
 #include "fnv/symbols_0040a000.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class BaseFormComponent
 {
   public:
@@ -39,7 +38,6 @@ class TESTexture : public BaseFormComponent
     static const char* NormalizeTextureFilePath(BSStringT<char>& result, const char* path);
     static void ConvertTexturePath(const char* path, char* output);
 };
-#pragma pack(pop)
 
 
 #endif

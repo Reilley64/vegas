@@ -239,10 +239,10 @@ struct FUN_00d55160_Source
 class FUN_00d55160_StandIn : public hkpPlaneShape
 {
   public:
-    void __thiscall FUN_00d55160(FUN_00d55160_Source* source, float* destination);
+    void FUN_00d55160(FUN_00d55160_Source* source, float* destination);
 };
 // @fnv 0x00d55160
-void __thiscall FUN_00d55160_StandIn::FUN_00d55160(FUN_00d55160_Source* source, float* destination)
+void FUN_00d55160_StandIn::FUN_00d55160(FUN_00d55160_Source* source, float* destination)
 {
     float* output = destination;
     float* points = source->points;

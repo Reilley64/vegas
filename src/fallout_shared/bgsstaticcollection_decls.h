@@ -17,7 +17,6 @@ class TESModelTextureSwap;
 class TESFormList;
 class FileEntryList;
 class DistantTreeTextureInfo;
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -25,12 +24,6 @@ class TESObject : public TESForm
     TESObject* m_pPreviousObject;  // +0x1C, 4 bytes
     TESObject* m_pNextObject;      // +0x20, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -38,32 +31,17 @@ class ShortPoint3
     short y;  // +0x2, 2 bytes
     short z;  // +0x4, 2 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
     TESBoundObject__BOUND_DATA TESBoundObjectBounds;  // +0x24, 12 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -71,11 +49,6 @@ class FileEntryList
     unsigned char layoutPadding1[3];
     BSFileEntry** m_ppFileEntries;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -85,30 +58,18 @@ class TESModel : public BaseFormComponent
     unsigned char cFlags;              // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESModelTextureSwap : public TESModel
 {
   public:
     void InitItem(TESForm* form);
     BSSimpleList<DistantTreeTextureInfo*> TextureSwapNodeAccessor;  // +0x18, 8 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
-#pragma pack(push, 4)
 class BGSStaticCollection : public TESBoundObject, public TESModelTextureSwap
 {
   public:
     virtual bool Load(TESFile* file);
     virtual void InitItem();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSStaticCollection) == 80);
 enum BGSStaticCollectionModelChunkID
 {
     CHUNK_ID_NO_CHUNK = 0,

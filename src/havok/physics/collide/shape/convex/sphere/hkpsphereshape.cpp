@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/sphere/hkpsphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010c9000.h"
@@ -39,7 +40,7 @@ int __cdecl FUN_00cd8050()
 }
 
 // @fnv 0x00cd87f0
-int __stdcall FUN_00cd87f0(int a1, int a2)
+int FUN_00cd87f0(int a1, int a2)
 {
     return 0x20;
 }
@@ -104,7 +105,6 @@ void Shape_00cd8100_cls::GetAabb(const Vec_00cd8100* t, float afTolerance, Aabb_
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 struct hkMonitorStreamCD81
 {
@@ -184,7 +184,6 @@ extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" int _mm_movemask_ps(__m128);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 class RayMask
@@ -374,7 +373,6 @@ struct ProbeStream
     int reserved2;
     char* end;
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct ProbeSphere : hkpSphereShape
@@ -511,7 +509,7 @@ extern "C" __m128 _mm_setzero_ps(void);
 extern "C" void _mm_store_ps(float*, __m128);
 
 // @fnv 0x00cd8060
-void __stdcall FUN_00cd8060(int direction, float* vertexOut)
+void FUN_00cd8060(int direction, float* vertexOut)
 {
     __m128 zero = _mm_setzero_ps();
     _mm_store_ps(vertexOut, zero);
@@ -521,7 +519,7 @@ extern "C" void __movsd(unsigned long*, const unsigned long*, unsigned long);
 
 // Unpacks a count and destination pointer from packed, zeroes four floats at dst, then copies them forward over the following (count-1)*4 floats.
 // @fnv 0x00cd8080
-void __stdcall FUN_00cd8080(int aUnused, __int64 packed)
+void FUN_00cd8080(int aUnused, __int64 packed)
 {
     union
     {
@@ -557,7 +555,7 @@ struct __declspec(align(16)) CentreVectorCD80
 };
 
 // @fnv 0x00cd80c0
-CentreVectorCD80 __stdcall FUN_00cd80c0()
+CentreVectorCD80 FUN_00cd80c0()
 {
     CentreVectorCD80 result;
     result.zero();
@@ -591,7 +589,7 @@ void FUN_00cd8140_Obj::FUN_00cd8140(FUN_00cd8140_Result* result)
 }
 
 // @fnv 0x00cd80e0
-void __stdcall FUN_00cd80e0(float* output)
+void FUN_00cd80e0(float* output)
 {
     *reinterpret_cast<__m128*>(output) = _mm_setzero_ps();
 }

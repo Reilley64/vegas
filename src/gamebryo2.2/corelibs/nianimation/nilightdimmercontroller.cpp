@@ -19,7 +19,7 @@
 #include "fnv/symbols_01096000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
-char __stdcall FUN_00a4cf50(void* pThis)
+char FUN_00a4cf50(void* pThis)
 {
     return ((char)(reinterpret_cast<::StandIn *>((pThis))->FUN_00a57c10({}, {}))) != 0;
 }
@@ -93,7 +93,7 @@ template <typename T, typename A> struct NiTPrimitiveArray
     void SetAt(unsigned int, T&);
 };
 // @fnv 0x00a4d100
-void __stdcall FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     ::FUN_00a576c0(pkStrings);
     char* pszStr = FUN_00a7d330(*(const char**)&::g_011f3fa0);

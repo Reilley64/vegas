@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00d22590_Class.h"
 #include "fnv/decl/HK_ASSERT_OBJECT_SIZE_OK_FUNC_t.h"
@@ -210,7 +211,6 @@ void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out)
 extern "C" unsigned __int64 __rdtsc(void);
 #include <math.h>
 #include <xmmintrin.h>
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier();
 
 struct Vec

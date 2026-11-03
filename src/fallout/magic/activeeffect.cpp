@@ -430,13 +430,12 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_008041c0_shell : public ActiveEffect
 {
     void InitFromSource(TESBoundObject*);
 };
 
-int __fastcall _FNV_GetFormType(TESBoundObject*);
+int _FNV_GetFormType(TESBoundObject*);
 
 // Stores apSource and, if its form type is 0x18 or 0x1A, calls AddFlags with 0x100.
 // @fnv 0x008041c0
@@ -767,7 +766,7 @@ struct ActiveEffectUpdateShell : public ActiveEffect
 };
 
 // @fnv 0x00804cb0
-void __fastcall FUN_00804cb0(void* thisPtr, float value)
+void FUN_00804cb0(void* thisPtr, float value)
 {
     *(float*)((char*)thisPtr + 0x1c) = value;
 }
@@ -1137,7 +1136,7 @@ unsigned short FUN_00805810(void* pObject, void* pArg)
     result += 4;
     result += 1;
 
-    result += ((unsigned short(__thiscall*)(void*, void*))((*(void***)pObject)[4]))(pObject, pArg);
+    result += ((unsigned short(*)(void*, void*))((*(void***)pObject)[4]))(pObject, pArg);
 
     return result;
 }
@@ -1404,7 +1403,7 @@ struct EffSetting
 };
 struct Obj14
 {
-    AudioPlaybackHandle __thiscall PlaySoundByFormID(int a, int b, int c, int d);
+    AudioPlaybackHandle PlaySoundByFormID(int a, int b, int c, int d);
 };
 struct ObjC
 {
@@ -1552,7 +1551,7 @@ struct Obj80
 };
 struct AudioSys
 {
-    AudioPlaybackHandle __thiscall FUN_00ad73b0(int a, int b);
+    AudioPlaybackHandle FUN_00ad73b0(int a, int b);
 };
 struct Self
 {
@@ -1569,7 +1568,7 @@ struct Self
     int f028;
     int f02c;
     AudioPlaybackHandle sound30;
-    void __thiscall PlaySoundForEffect();
+    void PlaySoundForEffect();
 };
 // @fnv 0x008067b0
 void ActiveEffect::ApplyLoadBuffer(BGSLoadFormBuffer* buffer)
@@ -1732,7 +1731,7 @@ void FUN_00805760_shell::FUN_00805760(Actor* apActor)
 }
 
 // @fnv 0x00804cd0
-void __thiscall Self::PlaySoundForEffect()
+void Self::PlaySoundForEffect()
 {
     int var10_2;
     Obj14* var4;

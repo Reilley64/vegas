@@ -7,6 +7,7 @@
 
 // src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cb21e0_shell.h"
 #include "fnv/decl/FUN_00cfbd60_cls.h"
@@ -541,7 +542,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

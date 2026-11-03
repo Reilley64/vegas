@@ -173,8 +173,8 @@ namespace fnv_00724040 {
 struct AX
 {
     virtual ~AX();
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
-    AX* __thiscall FUN_00724040();
+    void FUN_006b3eb0(unsigned int, unsigned int);
+    AX* FUN_00724040();
 };
 
 // Sets the object's vtable pointer to DAT_01070404, calls FUN_006b3eb0 with 0, 0, and returns this.
@@ -190,8 +190,8 @@ AX* AX::FUN_00724040()
 
 struct FUN_00724140_shell
 {
-    void __thiscall FUN_00722880();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_00722880();
+    void* Destroy(unsigned int flags);
 };
 
 struct FUN_007a51c0_shell
@@ -219,12 +219,12 @@ struct FUN_007a62e0_shell
     int a;
     int b;
     char c;
-    FUN_007a62e0_shell* __thiscall FUN_007a62e0(int param2, int* param3);
+    FUN_007a62e0_shell* FUN_007a62e0(int param2, int* param3);
 };
 
 // Stores param2 in a, the first int pointed to by param3 in b, sets c to 0, and returns this.
 // @fnv 0x007a62e0
-FUN_007a62e0_shell* __thiscall FUN_007a62e0_shell::FUN_007a62e0(int param2, int* pSource)
+FUN_007a62e0_shell* FUN_007a62e0_shell::FUN_007a62e0(int param2, int* pSource)
 {
     a = param2;
     b = *pSource;
@@ -272,8 +272,8 @@ void* FUN_007d8e80_shell::FUN_007d8e80(unsigned int flags)
 
 struct FUN_007d8eb0_shell
 {
-    void __thiscall FUN_007d7d30();
-    void* __thiscall FUN_007d8eb0(unsigned int flags);
+    void FUN_007d7d30();
+    void* FUN_007d8eb0(unsigned int flags);
 };
 
 
@@ -284,7 +284,7 @@ struct BSSimpleList
 struct FUN_00721410_class
 {
     BSSimpleList list;
-    void __thiscall FUN_00721410(void* param);
+    void FUN_00721410(void* param);
 };
 
 namespace fnv_00722370 {
@@ -294,18 +294,18 @@ struct BSSimpleList
 
 struct FUN_00724f00_shell
 {
-    void __thiscall RefreshTiles();
+    void RefreshTiles();
 };
 
 struct FUN_00722370_shell
 {
     BSSimpleList m_kNode;
-    void __thiscall FUN_00722370(int* pParam);
+    void FUN_00722370(int* pParam);
 };
 
 // Sorts the BSSimpleList at offset 4 using the given compare function, then calls RefreshTiles on this object.
 // @fnv 0x00722370
-void __thiscall FUN_00722370_shell::FUN_00722370(int* pCompare)
+void FUN_00722370_shell::FUN_00722370(int* pCompare)
 {
     reinterpret_cast<::ItemChangeList *>((reinterpret_cast<BSSimpleList*>(reinterpret_cast<char*>(this) + 4)))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(int (*)(void *, void *))(reinterpret_cast<int(__cdecl*)(void*, void*)>(pCompare)));
     reinterpret_cast<FUN_00724f00_shell*>(this)->RefreshTiles();
@@ -318,19 +318,19 @@ struct BSSimpleList
 };
 struct FUN_007254d0_t
 {
-    void __thiscall FUN_007254d0();
+    void FUN_007254d0();
 };
 
 struct FUN_00722b20_shell
 {
     void* m_auiShapeKeys;
     BSSimpleList m_kNode;
-    void __thiscall FUN_00722b20(int(__cdecl* fp)(void*, void*));
+    void FUN_00722b20(int(__cdecl* fp)(void*, void*));
 };
 
 // Sorts the list using the given comparison function, then calls FUN_007254d0 on this object.
 // @fnv 0x00722b20
-void __thiscall FUN_00722b20_shell::FUN_00722b20(int(__cdecl* fp)(void*, void*))
+void FUN_00722b20_shell::FUN_00722b20(int(__cdecl* fp)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>(&(m_kNode))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(fp));
     reinterpret_cast<FUN_007254d0_t*>(this)->FUN_007254d0();
@@ -342,12 +342,12 @@ extern "C" char str_010703dc[];
 struct FUN_00723fa0_shell : AX
 {
     int* vtable;
-    FUN_00723fa0_shell* __thiscall FUN_00723fa0();
+    FUN_00723fa0_shell* FUN_00723fa0();
 };
 
 // Sets the vtable pointer to str_010703dc, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x00723fa0
-FUN_00723fa0_shell* __thiscall FUN_00723fa0_shell::FUN_00723fa0()
+FUN_00723fa0_shell* FUN_00723fa0_shell::FUN_00723fa0()
 {
     vtable = (int*)&str_010703dc;
     FUN_006b3eb0(0, 0);
@@ -383,7 +383,7 @@ void FUN_00724070_shell::FUN_00724070()
 
 struct FUN_007241d0_shell : FUN_00723f30_shell
 {
-    void* __thiscall FUN_007241d0(unsigned int flags);
+    void* FUN_007241d0(unsigned int flags);
 };
 
 // Calls the base cleanup, then frees this object with _Deallocate when flags has bit 0 set, and returns this.
@@ -398,7 +398,7 @@ void* FUN_007241d0_shell::FUN_007241d0(unsigned int flags)
 
 struct FUN_00724290_shell
 {
-    void* __thiscall FUN_00724290(unsigned int flags);
+    void* FUN_00724290(unsigned int flags);
 };
 
 // Calls FUN_00724070, then deallocates this when flags has bit 0 set, and returns this.
@@ -413,12 +413,12 @@ void* FUN_00724290_shell::FUN_00724290(unsigned int flags)
 
 struct FUN_007242c0_shell
 {
-    bool __thiscall FUN_007242c0(unsigned int flags);
+    bool FUN_007242c0(unsigned int flags);
 };
 
 // Returns whether the bit at position flags is set in the 16-bit value at offset 0x2c of this object.
 // @fnv 0x007242c0
-bool __thiscall FUN_007242c0_shell::FUN_007242c0(unsigned int uiFlagIndex)
+bool FUN_007242c0_shell::FUN_007242c0(unsigned int uiFlagIndex)
 {
     return (*(unsigned short*)((char*)this + 0x2c) & (1 << uiFlagIndex)) != 0;
 }
@@ -438,10 +438,10 @@ extern int DAT_011d8cdc;
 struct FUN_0071ae60_shell : VATSMenu
 {
     TGF* tile;
-    unsigned int __thiscall FUN_0071ae60();
+    unsigned int FUN_0071ae60();
 };
 // @fnv 0x0071ae60
-unsigned int __thiscall FUN_0071ae60_shell::FUN_0071ae60()
+unsigned int FUN_0071ae60_shell::FUN_0071ae60()
 {
     static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
     return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>(((*(TGF**)(this + 3))))->GetFloat(numFiltered);
@@ -451,8 +451,8 @@ void __cdecl FUN_00724930();
 struct FUN_00721bc0_shell
 {
     int x;
-    void __thiscall FUN_00721bc0(int(__cdecl* param)(void*, void*));
-    void __thiscall FUN_00724930();
+    void FUN_00721bc0(int(__cdecl* param)(void*, void*));
+    void FUN_00724930();
 };
 struct Tile
 {
@@ -484,11 +484,11 @@ struct FUN_00725aa0_shell
 struct FUN_00723310_shell
 {
     BSSimpleList list;
-    void __thiscall FUN_00723310(int(__cdecl* cmp)(void*, void*));
+    void FUN_00723310(int(__cdecl* cmp)(void*, void*));
 };
 // Sorts the list at offset 4 using the given comparator, then calls ProcessSlots on this object.
 // @fnv 0x00723310
-void __thiscall FUN_00723310_shell::FUN_00723310(int(__cdecl* cmp)(void*, void*))
+void FUN_00723310_shell::FUN_00723310(int(__cdecl* cmp)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>((((BSSimpleList*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     reinterpret_cast<::FUN_00725aa0_cls *>((((FUN_00725aa0_shell*)this)))->ProcessSlots();
@@ -496,11 +496,11 @@ void __thiscall FUN_00723310_shell::FUN_00723310(int(__cdecl* cmp)(void*, void*)
 
 struct FUN_00723ac0_shell
 {
-    void __thiscall FUN_00723ac0(void* param);
+    void FUN_00723ac0(void* param);
 };
 // Sorts the BSSimpleList at this+4 using the given comparison function, then calls FUN_00726090.
 // @fnv 0x00723ac0
-void __thiscall FUN_00723ac0_shell::FUN_00723ac0(void* pCompareFunc)
+void FUN_00723ac0_shell::FUN_00723ac0(void* pCompareFunc)
 {
     reinterpret_cast<::ItemChangeList *>((((BSSimpleList*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(int (*)(void *, void *))((int(__cdecl*)(void*, void*))pCompareFunc));
     reinterpret_cast<::FUN_00726090_cls *>(this)->FUN_00726090();
@@ -509,11 +509,11 @@ void __thiscall FUN_00723ac0_shell::FUN_00723ac0(void* pCompareFunc)
 struct FUN_00723f00_shell : AX
 {
     int* vtable;
-    FUN_00723f00_shell* __thiscall FUN_00723f00();
+    FUN_00723f00_shell* FUN_00723f00();
 };
 // Sets the vtable pointer, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x00723f00
-FUN_00723f00_shell* __thiscall FUN_00723f00_shell::FUN_00723f00()
+FUN_00723f00_shell* FUN_00723f00_shell::FUN_00723f00()
 {
     vtable = &DAT_010703b4;
     FUN_006b3eb0(0, 0);
@@ -522,11 +522,11 @@ FUN_00723f00_shell* __thiscall FUN_00723f00_shell::FUN_00723f00()
 
 struct FUN_00723fd0_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_00723fd0();
+    void FUN_00723fd0();
 };
 
 // @fnv 0x00723fd0
-void __thiscall FUN_00723fd0_shell::FUN_00723fd0()
+void FUN_00723fd0_shell::FUN_00723fd0()
 {
     *(char**)(void*)this = str_010703dc;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
@@ -534,29 +534,29 @@ void __thiscall FUN_00723fd0_shell::FUN_00723fd0()
 
 struct FUN_00724090_shell
 {
-    void* __thiscall FUN_00724090(unsigned int flags);
+    void* FUN_00724090(unsigned int flags);
 };
 
 struct FUN_00721920_shell
 {
-    void __thiscall FUN_00721920();
+    void FUN_00721920();
 };
 struct FUN_007240e0_shell
 {
-    void* __thiscall FUN_007240e0(unsigned int flags);
+    void* FUN_007240e0(unsigned int flags);
 };
 struct FUN_00724110_This
 {
-    void* __thiscall FUN_00724110(unsigned int flags);
+    void* FUN_00724110(unsigned int flags);
 };
 struct S_00724170
 {
-    void __thiscall FUN_00723070();
-    void* __thiscall FUN_00724170(unsigned int flags);
+    void FUN_00723070();
+    void* FUN_00724170(unsigned int flags);
 };
 struct FUN_007241a0_shell
 {
-    void* __thiscall FUN_007241a0(unsigned int flags);
+    void* FUN_007241a0(unsigned int flags);
 };
 struct Helper_00723fd0
 {
@@ -564,12 +564,12 @@ struct Helper_00723fd0
 
 struct FUN_00724230_shell
 {
-    void* __thiscall FUN_00724230(unsigned int flags);
+    void* FUN_00724230(unsigned int flags);
 };
 
 // Calls FUN_00723fd0 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00724230
-void* __thiscall FUN_00724230_shell::FUN_00724230(unsigned int flags)
+void* FUN_00724230_shell::FUN_00724230(unsigned int flags)
 {
     reinterpret_cast<::FUN_00723fd0_shell *>((((Helper_00723fd0*)this)))->FUN_00723fd0();
     if (flags & 1)
@@ -579,7 +579,7 @@ void* __thiscall FUN_00724230_shell::FUN_00724230(unsigned int flags)
 
 struct FUN_00724260_shell
 {
-    void* __thiscall FUN_00724260(unsigned int flags);
+    void* FUN_00724260(unsigned int flags);
 };
 // Calls FUN_00724020, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00724260
@@ -597,11 +597,11 @@ struct Member_007a8b10
 };
 struct FUN_007643c0_p07 : Member_007a8b10
 {
-    Member_007a8b10* __thiscall DestroySelf(unsigned int flags);
+    Member_007a8b10* DestroySelf(unsigned int flags);
 };
 // Runs the base destructor, then frees this object with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00764e10
-Member_007a8b10* __thiscall FUN_007643c0_p07::DestroySelf(unsigned int flags)
+Member_007a8b10* FUN_007643c0_p07::DestroySelf(unsigned int flags)
 {
     reinterpret_cast<::p07::FUN_007643c0 *>((this))->p07::FUN_007643c0::~FUN_007643c0();
     if (flags & 1)
@@ -612,15 +612,15 @@ Member_007a8b10* __thiscall FUN_007643c0_p07::DestroySelf(unsigned int flags)
 struct BSSimpleList;
 struct FUN_007a6480_shell
 {
-    void __thiscall FUN_007a6480();
+    void FUN_007a6480();
 };
 struct FUN_007a22a0_shell
 {
-    void __thiscall FUN_007a22a0(int(__cdecl* cmp)(void*, void*));
+    void FUN_007a22a0(int(__cdecl* cmp)(void*, void*));
 };
 // Sorts the BSSimpleList at offset 4 using cmp, then calls FUN_007a6480 on this.
 // @fnv 0x007a22a0
-void __thiscall FUN_007a22a0_shell::FUN_007a22a0(int(__cdecl* cmp)(void*, void*))
+void FUN_007a22a0_shell::FUN_007a22a0(int(__cdecl* cmp)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>((((BSSimpleList*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     ((FUN_007a6480_shell*)this)->FUN_007a6480();
@@ -628,12 +628,12 @@ void __thiscall FUN_007a22a0_shell::FUN_007a22a0(int(__cdecl* cmp)(void*, void*)
 
 struct FUN_007a30a0_Holder
 {
-    int* __thiscall FindNodeValue(int, unsigned char);
-    int __thiscall FUN_007a30a0(int, unsigned char);
+    int* FindNodeValue(int, unsigned char);
+    int FUN_007a30a0(int, unsigned char);
 };
 // Calls FindNodeValue with the given arguments and returns the pointed-to int, or 0 if the returned pointer is null.
 // @fnv 0x007a30a0
-int __thiscall FUN_007a30a0_Holder::FUN_007a30a0(int param1, unsigned char param2)
+int FUN_007a30a0_Holder::FUN_007a30a0(int param1, unsigned char param2)
 {
     int* p = FindNodeValue(param1, param2);
     return p ? *p : 0;
@@ -641,15 +641,15 @@ int __thiscall FUN_007a30a0_Holder::FUN_007a30a0(int param1, unsigned char param
 
 struct FUN_007a80e0_shell
 {
-    int* __thiscall InitSceneNodes();
+    int* InitSceneNodes();
 };
 struct FUN_007a5700_shell
 {
-    int* __thiscall FUN_007a5700(int(__cdecl* cmp)(void*, void*));
+    int* FUN_007a5700(int(__cdecl* cmp)(void*, void*));
 };
 // Sorts the BSSimpleList at offset 4 using cmp, then returns the result of InitSceneNodes on this object.
 // @fnv 0x007a5700
-int* __thiscall FUN_007a5700_shell::FUN_007a5700(int(__cdecl* cmp)(void*, void*))
+int* FUN_007a5700_shell::FUN_007a5700(int(__cdecl* cmp)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>((reinterpret_cast<BSSimpleList*>(reinterpret_cast<char*>(this) + 4)))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     return reinterpret_cast<FUN_007a80e0_shell*>(this)->InitSceneNodes();
@@ -661,10 +661,10 @@ struct FUN_007a1aa0_shell
 };
 struct FUN_007a6100_shell : FUN_007a1aa0_shell
 {
-    void* __thiscall FUN_007a6100(unsigned int flags);
+    void* FUN_007a6100(unsigned int flags);
 };
 // @fnv 0x007a6100
-void* __thiscall FUN_007a6100_shell::FUN_007a6100(unsigned int flags)
+void* FUN_007a6100_shell::FUN_007a6100(unsigned int flags)
 {
     FUN_007a1aa0();
     if (flags & 1)
@@ -674,10 +674,10 @@ void* __thiscall FUN_007a6100_shell::FUN_007a6100(unsigned int flags)
 
 struct FUN_007a6130_This
 {
-    void* __thiscall FUN_007a6130(unsigned int flags);
+    void* FUN_007a6130(unsigned int flags);
 };
 // @fnv 0x007a6130
-void* __thiscall FUN_007a6130_This::FUN_007a6130(unsigned int flags)
+void* FUN_007a6130_This::FUN_007a6130(unsigned int flags)
 {
     reinterpret_cast<::FUN_007a1d60_cls *>(this)->FUN_007a1d60_cls::~FUN_007a1d60_cls();
     if (flags & 1)
@@ -687,11 +687,11 @@ void* __thiscall FUN_007a6130_This::FUN_007a6130(unsigned int flags)
 
 struct FUN_007a6190Owner
 {
-    void* __thiscall FUN_007a6190(unsigned int flags);
+    void* FUN_007a6190(unsigned int flags);
 };
 // Calls FUN_007a37b0, then deallocates this when flags has bit 1 set, and returns this.
 // @fnv 0x007a6190
-void* __thiscall FUN_007a6190Owner::FUN_007a6190(unsigned int flags)
+void* FUN_007a6190Owner::FUN_007a6190(unsigned int flags)
 {
     reinterpret_cast<::FUN_007a37b0 *>(this)->FUN_007a37b0::~FUN_007a37b0();
     if (flags & 1)
@@ -706,11 +706,11 @@ struct FUN_007a86b0_Item
 };
 struct FUN_007a63b0_holder
 {
-    void __thiscall FUN_007a63b0(FUN_007a86b0_Item*, unsigned int);
+    void FUN_007a63b0(FUN_007a86b0_Item*, unsigned int);
 };
 // Calls FUN_007a86b0(0) on each of the count items in arr.
 // @fnv 0x007a63b0
-void __thiscall FUN_007a63b0_holder::FUN_007a63b0(FUN_007a86b0_Item* apItems, unsigned int count)
+void FUN_007a63b0_holder::FUN_007a63b0(FUN_007a86b0_Item* apItems, unsigned int count)
 {
     for (int i = 0; i < count; ++i)
         reinterpret_cast<::BSS *>(&(apItems[i]))->FUN_007a86b0(0);
@@ -718,25 +718,25 @@ void __thiscall FUN_007a63b0_holder::FUN_007a63b0(FUN_007a86b0_Item* apItems, un
 
 struct FUN_007a63f0_shell
 {
-    void __thiscall FUN_007a63f0(unsigned int requested, unsigned int savedSize);
+    void FUN_007a63f0(unsigned int requested, unsigned int savedSize);
 };
 struct FUN_007d9000_shell
 {
 };
 struct FUN_007d7a80_shell
 {
-    void __thiscall FUN_007d7a80(int a);
+    void FUN_007d7a80(int a);
 };
 void __cdecl UpdateSaveLoadList();
 struct FUN_007d8420_shell
 {
     BSSimpleList list;
-    void __thiscall SortList(int(__cdecl* cmp)(void*, void*));
-    void __thiscall UpdateSaveLoadList();
+    void SortList(int(__cdecl* cmp)(void*, void*));
+    void UpdateSaveLoadList();
 };
 // Sorts the list at offset 4 using the given comparison function, then calls UpdateSaveLoadList.
 // @fnv 0x007d8420
-void __thiscall FUN_007d8420_shell::SortList(int(__cdecl* cmp)(void*, void*))
+void FUN_007d8420_shell::SortList(int(__cdecl* cmp)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>((((BSSimpleList*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     reinterpret_cast<::fnv_007d9590::ListBox_SaveLoad *>(this)->UpdateSaveLoadList();
@@ -744,14 +744,14 @@ void __thiscall FUN_007d8420_shell::SortList(int(__cdecl* cmp)(void*, void*))
 
 struct FUN_007a6fa0_shell
 {
-    int* __thiscall FindNodeValue(int* a, unsigned char b);
+    int* FindNodeValue(int* a, unsigned char b);
 };
 struct FUN_007d86c0_shell
 {
-    int* __thiscall FUN_007d86c0(int* apItem, unsigned char apSelect);
+    int* FUN_007d86c0(int* apItem, unsigned char apSelect);
 };
 // @fnv 0x007d86c0
-int* __thiscall FUN_007d86c0_shell::FUN_007d86c0(int* apItem, unsigned char apSelect)
+int* FUN_007d86c0_shell::FUN_007d86c0(int* apItem, unsigned char apSelect)
 {
     FUN_007a6fa0_shell* result = (FUN_007a6fa0_shell*)((FUN_007a6fa0_shell*)this)->FindNodeValue(apItem, apSelect);
     return result ? *(int**)((char*)result + 4) : 0;
@@ -790,7 +790,7 @@ struct FUN_007a3cf0_shell
 {
     char pad[4];
     BSSimpleList m_kNode;
-    void __thiscall FUN_007a3cf0(int(__cdecl* compare)(void*, void*));
+    void FUN_007a3cf0(int(__cdecl* compare)(void*, void*));
 };
 
 struct FUN_007a7260_shell
@@ -798,7 +798,7 @@ struct FUN_007a7260_shell
 };
 
 // @fnv 0x007a3cf0
-void __thiscall FUN_007a3cf0_shell::FUN_007a3cf0(int(__cdecl* compare)(void*, void*))
+void FUN_007a3cf0_shell::FUN_007a3cf0(int(__cdecl* compare)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>(&(m_kNode))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(compare));
     reinterpret_cast<::q72::Menu *>((reinterpret_cast<FUN_007a7260_shell*>(this)))->FUN_007a7260();
@@ -931,11 +931,11 @@ struct Tile_Set_Helper
 };
 struct FUN_007d74f0_shell
 {
-    void __thiscall FUN_007d74f0(bool abVal);
+    void FUN_007d74f0(bool abVal);
 };
 // Sets the "_enabled" trait on the tile via the helper at this+0xc.
 // @fnv 0x007d74f0
-void __thiscall FUN_007d74f0_shell::FUN_007d74f0(bool abVal)
+void FUN_007d74f0_shell::FUN_007d74f0(bool abVal)
 {
     static int s_trait = ::FUN_00a00940("_enabled", -1);
     reinterpret_cast<::Tile *>((((Tile_Set_Helper*)*(char**)((char*)this + 0xc))))->Set(s_trait, abVal);
@@ -951,11 +951,11 @@ struct FUN_007d8810_shell
     void* m4;
     void* m8;
     TileSet* mC;
-    void __thiscall FUN_007d8810(bool abVal);
+    void FUN_007d8810(bool abVal);
 };
 // Sets the _enabled trait on the TileSet at mC to abVal using the cached trait ID.
 // @fnv 0x007d8810
-void __thiscall FUN_007d8810_shell::FUN_007d8810(bool abVal)
+void FUN_007d8810_shell::FUN_007d8810(bool abVal)
 {
     static int sTraitID = ::FUN_00a00940("_enabled", -1);
     reinterpret_cast<::Tile *>((mC))->Set(sTraitID, abVal);
@@ -967,10 +967,10 @@ struct FUN_00765340_shell : VATSMenu
 {
     int pad[3];
     TGF* tile;
-    unsigned int __thiscall GetUnfilteredCount();
+    unsigned int GetUnfilteredCount();
 };
 // @fnv 0x00765340
-unsigned int __thiscall FUN_00765340_shell::GetUnfilteredCount()
+unsigned int FUN_00765340_shell::GetUnfilteredCount()
 {
     static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
     return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(numFiltered);
@@ -1164,7 +1164,7 @@ struct FUN_00725c20_shell
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall UpdateHighlightTiles();
+    void UpdateHighlightTiles();
 };
 
 namespace fnv_007a43a0 {
@@ -1230,14 +1230,14 @@ struct FUN_007a6bd0_shell
 {
     char _base[0x0c];
     Tile* m_pListTile;
-    bool __thiscall FUN_007a6bd0();
+    bool FUN_007a6bd0();
 };
 
 struct FUN_007a79b0_shell
 {
     char _pad[12];
     Tile* m_pListTile;
-    bool __thiscall FUN_007a79b0();
+    bool FUN_007a79b0();
 };
 
 struct Tile_IsTrue_shell : Tile
@@ -1305,7 +1305,7 @@ struct FUN_00721440_class
     int unk0c;
     SelectedObject* selected;
 
-    bool __thiscall SelectObject(SelectedObject* object);
+    bool SelectObject(SelectedObject* object);
 };
 
 extern int DAT_010702ec;
@@ -1373,7 +1373,7 @@ namespace fnv_00721bf0 {
 const char* __cdecl FUN_00a00940(const char*, int);
 struct TileLink
 {
-    bool __thiscall IsTraitNonZero(const char*);
+    bool IsTraitNonZero(const char*);
 };
 struct TargetMenu
 {
@@ -1382,10 +1382,10 @@ struct TargetMenu
     int unk08;
     int unk0c;
     TileLink* selected;
-    bool __thiscall IsScrollBarTraitEnabled();
-    bool __thiscall ContainsKey(TileLink*);
-    void __thiscall UpdateTraitDisplay();
-    bool __thiscall FUN_00721bf0(TileLink*);
+    bool IsScrollBarTraitEnabled();
+    bool ContainsKey(TileLink*);
+    void UpdateTraitDisplay();
+    bool FUN_00721bf0(TileLink*);
 };
 // @fnv 0x00721bf0
 bool TargetMenu::FUN_00721bf0(TileLink* item)
@@ -1420,7 +1420,7 @@ class FUN_007220d0_cls
 };
 // Calls FUN_007220d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00724110
-void* __thiscall FUN_00724110_This::FUN_00724110(unsigned int flags)
+void* FUN_00724110_This::FUN_00724110(unsigned int flags)
 {
     reinterpret_cast<::FUN_007220d0_cls *>(this)->FUN_007220d0_cls::~FUN_007220d0_cls();
     if (flags & 1)
@@ -1552,7 +1552,7 @@ Member_00722880::~Member_00722880()
 
 struct Helper_007228f0
 {
-    void __thiscall Call();
+    void Call();
 };
 
 void Helper_007228f0::Call()
@@ -1566,7 +1566,7 @@ struct FUN_00722880
 };
 // Calls FUN_00722880, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00724140
-void* __thiscall FUN_00724140_shell::Destroy(unsigned int flags)
+void* FUN_00724140_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_00722880 *>(this)->FUN_00722880::~FUN_00722880();
     if (flags & 1)
@@ -1585,16 +1585,16 @@ FUN_00722880::~FUN_00722880()
 namespace fnv_00722b50 {
 struct Entry
 {
-    bool __thiscall IsTraitNonZero(void*);
+    bool IsTraitNonZero(void*);
 };
 struct Holder
 {
     int unk00, unk04, unk08, unk0c;
     Entry* selected;
-    bool __thiscall FUN_007255a0();
-    bool __thiscall ContainsKey(Entry*);
-    void __thiscall UpdateSpeechChallengeTrait();
-    bool __thiscall SelectEntry(Entry*);
+    bool FUN_007255a0();
+    bool ContainsKey(Entry*);
+    void UpdateSpeechChallengeTrait();
+    bool SelectEntry(Entry*);
 };
 extern "C" void* __cdecl FUN_00a00940(const void*, int);
 // @fnv 0x00722b50
@@ -1624,7 +1624,7 @@ struct FUN_00723070
 };
 // Calls FUN_00723070, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00724170
-void* __thiscall S_00724170::FUN_00724170(unsigned int flags)
+void* S_00724170::FUN_00724170(unsigned int flags)
 {
     reinterpret_cast<::FUN_00723070 *>(this)->FUN_00723070::~FUN_00723070();
     if (flags & 1)
@@ -1716,7 +1716,7 @@ class FUN_00723820_cls
 };
 // Calls FUN_00723820, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x007241a0
-void* __thiscall FUN_007241a0_shell::FUN_007241a0(unsigned int flags)
+void* FUN_007241a0_shell::FUN_007241a0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00723820_cls *>(this)->FUN_00723820_cls::~FUN_00723820_cls();
     if (flags & 1)
@@ -1824,11 +1824,11 @@ struct Owner_00724430
     int unk04;
     int unk08;
     Item_00724430* item;
-    bool __thiscall FUN_00724430();
+    bool FUN_00724430();
 };
 struct Obj00724930
 {
-    void __thiscall FUN_00700320(unsigned int a, int b);
+    void FUN_00700320(unsigned int a, int b);
 };
 
 struct Item00724930
@@ -1855,12 +1855,12 @@ struct FUN_00724930_cls
     unsigned short unk1e;
     float m_20;
 
-    void __thiscall UpdateTraitDisplay();
+    void UpdateTraitDisplay();
     void FUN_00724930();
 };
 // Sorts the BSSimpleList at offset 4 using the given comparison function, then calls FUN_00724930 on this object.
 // @fnv 0x00721bc0
-void __thiscall FUN_00721bc0_shell::FUN_00721bc0(int(__cdecl* param)(void*, void*))
+void FUN_00721bc0_shell::FUN_00721bc0(int(__cdecl* param)(void*, void*))
 {
     reinterpret_cast<::ItemChangeList *>((reinterpret_cast<BSSimpleList*>((char*)this + 4)))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(param));
     reinterpret_cast<::FUN_00724930_cls *>((this))->FUN_00724930();
@@ -2152,7 +2152,7 @@ struct Owner
 {
     int unk00;
     Node head;
-    int* __thiscall FindItemData(int* key);
+    int* FindItemData(int* key);
 };
 // Walks the head node list, comparing each item's key to *key, and returns the matching item's data pointer or 0.
 // @fnv 0x007a22d0
@@ -2300,10 +2300,10 @@ struct FUN_007a6310_cls
     int unk04;
     int unk08;
     int unk0C;
-    void __thiscall ConstructElements(int arr, unsigned int count);
+    void ConstructElements(int arr, unsigned int count);
 };
 // @fnv 0x007a63f0
-void __thiscall FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, unsigned int savedSize)
+void FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, unsigned int savedSize)
 {
     *(int*)((char*)this + 4) = 0;
     *(int*)((char*)this + 8) = 0;
@@ -2315,7 +2315,7 @@ void __thiscall FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, u
     if (uiRequestedSize > 0)
     {
         *(int*)((char*)this + 4) =
-            ((int(__thiscall*)(void*, unsigned int))(*(int**)(*(int*)this + 4)))((void*)this, uiRequestedSize);
+            ((int(*)(void*, unsigned int))(*(int**)(*(int*)this + 4)))((void*)this, uiRequestedSize);
         *(int*)((char*)this + 12) = uiRequestedSize;
     }
     if (savedSize > 0)
@@ -2338,7 +2338,7 @@ void FUN_007a6310_cls::ConstructElements(int apElements, unsigned int count)
 namespace fnv_007a6480 {
 struct FUN_00700320_shell
 {
-    void __thiscall FUN_00700320(unsigned int a, unsigned int b);
+    void FUN_00700320(unsigned int a, unsigned int b);
 };
 
 struct Inner
@@ -2402,7 +2402,7 @@ int __cdecl FUN_00a00940(const char*, int);
 
 struct FUN_00a01230_shell
 {
-    bool __thiscall IsTraitNonZero(int);
+    bool IsTraitNonZero(int);
 };
 // Returns true if the tile pointer is non-null and its _enabled trait evaluates to true.
 // @fnv 0x007a6bd0
@@ -2476,7 +2476,7 @@ struct FUN_007a6550_shell
     int unk08;
     FUN_00a01230_shell* target;
 
-    bool __thiscall FUN_007a6550();
+    bool FUN_007a6550();
 };
 
 // Returns true when target is non-null and its IsTraitNonZero check passes for the cached value from FUN_00a00940(str_01070244, -1).
@@ -2493,13 +2493,13 @@ struct TileValue
 };
 struct ListNode
 {
-    bool __thiscall FUN_008256d0();
+    bool FUN_008256d0();
 };
 struct ListOwner
 {
     int ownerData;
     ListNode firstNode;
-    int* __thiscall FindNodeValue(unsigned int requested, unsigned char byIndex);
+    int* FindNodeValue(unsigned int requested, unsigned char byIndex);
 };
 // Walks the node list by index or by matching trait 0xfac against requested, returning the node's value pointer or null.
 // @fnv 0x007a6fa0
@@ -2688,7 +2688,7 @@ struct HeightList
     int unk18;
     int unk1c;
     float totalHeight;
-    void __thiscall FUN_007d9460();
+    void FUN_007d9460();
 };
 // @fnv 0x007d9460
 void HeightList::FUN_007d9460()
@@ -4902,7 +4902,7 @@ struct Cls_764ef0
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall UpdateHighlightTile();
+    void UpdateHighlightTile();
 };
 
 // @fnv 0x00764ef0
@@ -5685,7 +5685,7 @@ struct ListBox_7a6600
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall FUN_007a6600();
+    void FUN_007a6600();
 };
 // @fnv 0x007a23e0
 bool FUN_007a23e0_cls::FUN_007a23e0(FUN_007a23e0_arg* arg)
@@ -5993,7 +5993,7 @@ class D7580ListBox
     bool FUN_007d7580();
 };
 // @fnv 0x007d7a80
-void __thiscall FUN_007d7a80_shell::FUN_007d7a80(int a)
+void FUN_007d7a80_shell::FUN_007d7a80(int a)
 {
     reinterpret_cast<::SelectionList *>((((FUN_007d9000_shell*)this)))->ApplySelectionAction((::SelectionTile *)(a), 0);
 }
@@ -6756,7 +6756,7 @@ EntryTile* LBH::FUN_007e1190(int data, const char* text, int comparator, const c
 }  // namespace fnv_007e1190
 
 struct ContNode;
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct N6815c0
 {
 };
@@ -7818,11 +7818,11 @@ extern int FUN_01070418[];
 struct FUN_007240c0_shell
 {
     int* vtable;
-    void* __thiscall FUN_007240c0();
+    void* FUN_007240c0();
 };
 
 // @fnv 0x007240c0
-void* __thiscall FUN_007240c0_shell::FUN_007240c0()
+void* FUN_007240c0_shell::FUN_007240c0()
 {
     vtable = FUN_01070418;
     return this;

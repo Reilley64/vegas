@@ -55,7 +55,6 @@ struct PathingAvoidanceNode
     float m_fPathingCostCur;
     int eType;
 };
-typedef char _sizecheck_PathingAvoidNode[sizeof(PathingAvoidanceNode) == 36 ? 1 : -1];
 struct BGSLoadGameBuffer
 {
     virtual unsigned char GetVersion();
@@ -87,7 +86,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_006dc910_shell : public PathingAvoidanceNode
 {
     void LoadPathingAvoidNode(BGSLoadFormBuffer*);

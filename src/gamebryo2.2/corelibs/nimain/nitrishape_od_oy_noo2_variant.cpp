@@ -11,8 +11,8 @@
 class NiTriGeom2
 {
   public:
-    void __thiscall FUN_0051d000(unsigned short a);
-    void __thiscall FUN_0051d020(unsigned short a, unsigned short b, unsigned short c);
+    void FUN_0051d000(unsigned short a);
+    void FUN_0051d020(unsigned short a, unsigned short b, unsigned short c);
 };
 
 // @fnv 0x0051d000

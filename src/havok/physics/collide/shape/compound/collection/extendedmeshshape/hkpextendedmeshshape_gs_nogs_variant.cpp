@@ -16,11 +16,11 @@
 struct FUN_00d554a0_class
 {
     int m_d0;
-    int __thiscall GetOrInitValue();
+    int GetOrInitValue();
 };
 struct FUN_00d56040_shell
 {
-    void __thiscall FUN_00d56040(void* first, float value, int last);
+    void FUN_00d56040(void* first, float value, int last);
 };
 struct hkMemoryAllocator;
 struct AudioMgr
@@ -383,7 +383,7 @@ struct FUN_00d55a90_cls
     Group* m_0c0;
     int m_0c4;
 
-    int __thiscall FUN_00d55a90(int a1, int a2);
+    int FUN_00d55a90(int a1, int a2);
 };
 struct __declspec(align(16)) S_00d55bd0_Vector4
 {
@@ -630,8 +630,8 @@ struct bhkShapeOwner
     int unk_b4;
     int GetShapeKey();
 };
-void __stdcall FUN_00d554e0(int a);
-void __stdcall FUN_00d554f0(int a0);
+void FUN_00d554e0(int a);
+void FUN_00d554f0(int a0);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];

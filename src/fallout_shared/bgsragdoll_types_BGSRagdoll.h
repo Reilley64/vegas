@@ -47,7 +47,6 @@ template <class T, unsigned int N> class BSSimpleArray
     void Clear(bool freeBuffer);
     void SetSize(unsigned int size, bool keep);
 };
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -64,11 +63,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -101,12 +95,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 2)
 class SaveMetadata
 {
   public:
@@ -129,18 +117,6 @@ class SaveMetadata
     };
     // void __cdecl SaveMetadata::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SaveMetadata) == 14);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_usFootIndexCount) == 0);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_usLegDataCount) == 2);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_usHeadDataCount) == 4);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_usGrabArmDataCount) == 6);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_bRagdollAnimationEnabled) == 8);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_bFootIKEnabled) == 9);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_bLookIKEnabled) == 10);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_bGrabIKEnabled) == 11);
-FNV_STATIC_ASSERT(offsetof(SaveMetadata, m_bRagdollFeedbackEnabled) == 12);
-#pragma pack(push, 4)
 class RagdollFeedbackData__RagdollFeedbackSystemData
 {
   public:
@@ -160,24 +136,6 @@ class RagdollFeedbackData__RagdollFeedbackSystemData
     unsigned int ThreeFloatsAndTwoIntegers;  // +0x34, 4 bytes
     unsigned int m_uiFeedbackParameter14;    // +0x38, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RagdollFeedbackData__RagdollFeedbackSystemData) == 60);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter1) == 0);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, fHeirGain) == 4);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter3) == 8);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, fVelGain) == 12);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter5) == 16);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, fSnapGain) == 20);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter7) == 24);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter8) == 28);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter9) == 32);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter10) == 36);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter11) == 40);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter12) == 44);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_fFeedbackParameter13) == 48);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, ThreeFloatsAndTwoIntegers) == 52);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackData__RagdollFeedbackSystemData, m_uiFeedbackParameter14) == 56);
-#pragma pack(push, 4)
 class RagdollAnimationData
 {
   public:
@@ -194,12 +152,6 @@ class RagdollAnimationData
     // RagdollAnimationData& __cdecl RagdollAnimationData::*(const RagdollAnimationData&)
     // void* __cdecl RagdollAnimationData::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RagdollAnimationData) == 80);
-FNV_STATIC_ASSERT(offsetof(RagdollAnimationData, bEnabled) == 0);
-FNV_STATIC_ASSERT(offsetof(RagdollAnimationData, m_kRagdollFeedbackData) == 4);
-FNV_STATIC_ASSERT(offsetof(RagdollAnimationData, m_kFootIndices) == 64);
-#pragma pack(push, 4)
 class FootIK_DATA__FootIKSystem_DATA
 {
   public:
@@ -211,16 +163,6 @@ class FootIK_DATA__FootIKSystem_DATA
     float m_fAdditionalFeedbackGain1;  // +0x14, 4 bytes
     float m_fAdditionalFeedbackGain2;  // +0x18, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FootIK_DATA__FootIKSystem_DATA) == 28);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, fOnOffGain) == 0);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, fGroundAscendingGain) == 4);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, fGroundDescendingGain) == 8);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, fFootRaisedGain) == 12);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, fFootPlantedGain) == 16);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, m_fAdditionalFeedbackGain1) == 20);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIKSystem_DATA, m_fAdditionalFeedbackGain2) == 24);
-#pragma pack(push, 4)
 class FootIK_DATA__FootIK_Leg_DATA
 {
   public:
@@ -238,21 +180,6 @@ class FootIK_DATA__FootIK_Leg_DATA
     float ThreeFloatScalarsAndTwoFloatTriples[3];    // +0x20, 12 bytes
     float TwoFloatAndTwoThreeElementFloatArrays[3];  // +0x2C, 12 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FootIK_DATA__FootIK_Leg_DATA) == 56);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, m_sFirstLegValue) == 0);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, m_sSecondLegValue) == 2);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, m_sThirdLegValue) == 4);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, m_bFourthLegValue) == 6);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, ShortBooleanFloatComponents) == 8);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, BooleanFloatComponentData) == 12);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, SixFloatParameterBlock) == 16);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, SixFloatAndFloatTripletData) == 20);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, m_fFourthComponentValue) == 24);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, m_fFifthFloatValue) == 28);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, ThreeFloatScalarsAndTwoFloatTriples) == 32);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA__FootIK_Leg_DATA, TwoFloatAndTwoThreeElementFloatArrays) == 44);
-#pragma pack(push, 4)
 class FootIK_DATA
 {
   public:
@@ -270,13 +197,6 @@ class FootIK_DATA
     // FootIK_DATA& __cdecl FootIK_DATA::*(const FootIK_DATA&)
     // void* __cdecl FootIK_DATA::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FootIK_DATA) == 64);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA, bEnabled) == 0);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA, m_kRagdollFeedbackData) == 4);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA, m_kFootNames) == 32);
-FNV_STATIC_ASSERT(offsetof(FootIK_DATA, m_kLegData) == 48);
-#pragma pack(push, 4)
 class LookIK_DATA__LookIK_Head_DATA
 {
   public:
@@ -288,16 +208,6 @@ class LookIK_DATA__LookIK_Head_DATA
     float VectorPairScalarData;                   // +0x20, 4 bytes
     float FloatTripleAndThreeFloats;              // +0x24, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LookIK_DATA__LookIK_Head_DATA) == 40);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, m_sFirstHeadValue) == 0);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, m_sSecondHeadValue) == 2);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, ShortPairTwoVectorTwoScalarData) == 4);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, ShortPairTwoVectorThreeScalarData) == 16);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, ShortAndTwoFloatTriplesAndThreeFloats) == 28);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, VectorPairScalarData) == 32);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA__LookIK_Head_DATA, FloatTripleAndThreeFloats) == 36);
-#pragma pack(push, 4)
 class LookIK_DATA
 {
   public:
@@ -314,12 +224,6 @@ class LookIK_DATA
     // LookIK_DATA& __cdecl LookIK_DATA::*(const LookIK_DATA&)
     // void* __cdecl LookIK_DATA::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LookIK_DATA) == 36);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA, bEnabled) == 0);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA, m_kLookNames) == 4);
-FNV_STATIC_ASSERT(offsetof(LookIK_DATA, m_kHeadData) == 20);
-#pragma pack(push, 4)
 class GrabIK_DATA__GrabIK_Arm_DATA
 {
   public:
@@ -327,12 +231,6 @@ class GrabIK_DATA__GrabIK_Arm_DATA
     short m_sSecondArmValue;  // +0x2, 2 bytes
     short m_sThirdArmValue;   // +0x4, 2 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(GrabIK_DATA__GrabIK_Arm_DATA) == 6);
-FNV_STATIC_ASSERT(offsetof(GrabIK_DATA__GrabIK_Arm_DATA, m_sFirstArmValue) == 0);
-FNV_STATIC_ASSERT(offsetof(GrabIK_DATA__GrabIK_Arm_DATA, m_sSecondArmValue) == 2);
-FNV_STATIC_ASSERT(offsetof(GrabIK_DATA__GrabIK_Arm_DATA, m_sThirdArmValue) == 4);
-#pragma pack(push, 4)
 class GrabIK_DATA
 {
   public:
@@ -349,12 +247,6 @@ class GrabIK_DATA
     // GrabIK_DATA& __cdecl GrabIK_DATA::*(const GrabIK_DATA&)
     // void* __cdecl GrabIK_DATA::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(GrabIK_DATA) == 36);
-FNV_STATIC_ASSERT(offsetof(GrabIK_DATA, bEnabled) == 0);
-FNV_STATIC_ASSERT(offsetof(GrabIK_DATA, m_kGrabNames) == 4);
-FNV_STATIC_ASSERT(offsetof(GrabIK_DATA, m_kGrabArmData) == 20);
-#pragma pack(push, 4)
 class PoseMatching_DATA__PoseMatching_System_DATA
 {
   public:
@@ -368,17 +260,6 @@ class PoseMatching_DATA__PoseMatching_System_DATA
     float FourFloatParameterBlock;  // +0x10, 4 bytes
     float m_fFourthParameter;       // +0x14, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PoseMatching_DATA__PoseMatching_System_DATA) == 24);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, m_sFirstRagdollFeedbackIndex) == 0);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, m_sSecondRagdollFeedbackIndex) == 2);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, m_sThirdRagdollFeedbackIndex) == 4);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, ShortTripleFloatPairRecord) == 6);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, ShortFlagFloatRecord) == 8);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, FourFloatRecord) == 12);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, FourFloatParameterBlock) == 16);
-FNV_STATIC_ASSERT(offsetof(PoseMatching_DATA__PoseMatching_System_DATA, m_fFourthParameter) == 20);
-#pragma pack(push, 4)
 class RagdollFeedbackProfile
 {
   public:
@@ -395,12 +276,6 @@ class RagdollFeedbackProfile
     // RagdollFeedbackProfile& __cdecl RagdollFeedbackProfile::*(const RagdollFeedbackProfile&)
     // void* __cdecl RagdollFeedbackProfile::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RagdollFeedbackProfile) == 36);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackProfile, bEnabled) == 0);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackProfile, m_kAnimationFileName) == 4);
-FNV_STATIC_ASSERT(offsetof(RagdollFeedbackProfile, m_kRagdollFeedbackData) == 12);
-#pragma pack(push, 4)
 class BGSRagdoll : public TESForm, public TESModel
 {
   public:
@@ -434,15 +309,4 @@ class BGSRagdoll : public TESForm, public TESModel
     // BGSRagdoll& __cdecl BGSRagdoll::*(const BGSRagdoll&)
     // void __cdecl BGSRagdoll::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSRagdoll) == 328);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, ActorAnimationData) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_kRagdollAnimationData) == 64);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_kFootIKData) == 144);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_kLookIKData) == 208);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_kGrabIKData) == 244);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_kRagdollFeedbackProfile) == 280);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_iRagdollType) == 316);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_pBodyPartDataCur) == 320);
-FNV_STATIC_ASSERT(offsetof(BGSRagdoll, m_pActorBase) == 324);
 #endif

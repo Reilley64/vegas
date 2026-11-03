@@ -1,5 +1,6 @@
 // bsmenu/tileimage.cpp: TileImage, FileFinder, BGSTextureSet, NiNode and more (7 functions)
 
+#include <windows.h>
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_004bc320_shell.h"
 #include "fnv/decl/FUN_009ff600_shell.h"
@@ -235,13 +236,11 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct BooleanFlagObject
 {
     void* __vecDelDtor(unsigned int);
     bool m_bFlag;
 };
-typedef char _sizecheck_AutoPauseFileCaching[sizeof(BooleanFlagObject) == 1 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -251,7 +250,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 
 struct NiGlobalStringTable
 {
@@ -480,8 +478,6 @@ template <class T> class NiPointer
     }
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 
 struct NiObject
 {

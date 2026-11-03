@@ -693,7 +693,7 @@ struct Obj
 struct Calc
 {
     __declspec(align(16)) F4 res;
-    void __thiscall mul(Obj* o, F4* v);
+    void mul(Obj* o, F4* v);
 };
 
 extern const __m128 g_mask;

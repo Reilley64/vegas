@@ -5,6 +5,7 @@
 
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/ArrayRecord.h"
 #include "fnv/decl/CriticalSectionOwner.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -862,7 +863,6 @@ struct D04A20World
 
     void QueueOperation(void* object, bool flag, int data);
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall TlsSetValue(unsigned long index, void* value);
 struct D05490Base
 {
     int m_i00;
@@ -1021,7 +1021,6 @@ struct hkQueue128
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" const char str_010ccd90[];
 static __forceinline short& Ref212(Registry* r, unsigned char sub)
 {
@@ -1069,7 +1068,6 @@ struct FUN_00d04bd0_cls : Owner
 {
     void AddJobBatch(ArrayOfJobs* jobs, int priority);
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
 struct S_00d05020_Job
 {
     int unk00;

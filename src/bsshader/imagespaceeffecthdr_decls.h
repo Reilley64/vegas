@@ -204,6 +204,4 @@ class NiRenderer
 extern const float DAT_011add48[];
 extern const float DAT_011add88[];
 extern const float DAT_011ade88[];
-typedef char shader_param_size[(sizeof(ImageSpaceShaderParam) == 0x88) ? 1 : -1];
-typedef char hdr_aniso_offset[(offsetof(HDRImageSpaceEffect, m_bUseLowResolutionPath) == 0x68) ? 1 : -1];
 #endif

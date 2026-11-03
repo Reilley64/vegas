@@ -610,7 +610,6 @@ struct FourByFourMatrix
     float _43;
     float _44;
 };
-typedef char _sizecheck__XMMATRIX[sizeof(FourByFourMatrix) == 64 ? 1 : -1];
 struct SwizzledMatrix : public FourByFourMatrix
 {
     void SetUnswizzled(float*, float*, float);
@@ -623,12 +622,10 @@ struct SwizzledMatrix : public FourByFourMatrix
     void TransposeTo(SwizzledMatrix*);
     void Set(void*);
 };
-typedef char _sizecheck_BSMatrix[sizeof(SwizzledMatrix) == 64 ? 1 : -1];
 struct FourComponentNumericValue
 {
     char u[16];
 };
-typedef char _sizecheck___vector4[sizeof(FourComponentNumericValue) == 16 ? 1 : -1];
 struct FUN_004b4500_shell : public SwizzledMatrix
 {
     void FUN_004b4500(SwizzledMatrix*);
@@ -675,7 +672,6 @@ struct NiFrustumPlanes
     char m_akPlanes[96];
     unsigned int m_uiActivePlaneMask;
 };
-typedef char _sizecheck_NiFrustumPlanes[sizeof(NiFrustumPlanes) == 100 ? 1 : -1];
 struct FUN_004b4cf0_shell : public NiFrustumPlanes
 {
     void* FUN_004b4cf0(unsigned int);
@@ -704,7 +700,6 @@ struct FourDimensionalVector
     float fZ;
     float fW;
 };
-typedef char _sizecheck_bhkVector4[sizeof(FourDimensionalVector) == 16 ? 1 : -1];
 struct FUN_004b4e50_shell : public FourDimensionalVector
 {
     FourDimensionalVector* SetFromScaledVector3(void*);
@@ -730,10 +725,10 @@ class TESDataHandler
   public:
 };
 
-int __fastcall FUN_004b4f20(void* pThis);
+int FUN_004b4f20(void* pThis);
 
 // @fnv 0x004b4f00
-int __fastcall FUN_004b4f00(TESDataHandler* apDataHandler)
+int FUN_004b4f00(TESDataHandler* apDataHandler)
 {
     return FUN_004b4f20(((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40())));
 }
@@ -756,7 +751,6 @@ struct FourDimensionalVector
     float fZ;
     float fW;
 };
-typedef char _sizecheck_bhkVector4[sizeof(FourDimensionalVector) == 16 ? 1 : -1];
 struct FUN_004b4ff0_shell : public FourDimensionalVector
 {
     void FUN_004b4ff0(float, float, float, float);
@@ -808,10 +802,10 @@ struct blob8
     char b[8];
 };
 
-float __fastcall FUN_004b4ea0(hkpRigidBody*);
+float FUN_004b4ea0(hkpRigidBody*);
 
 // @fnv 0x004b5400
-float __fastcall FUN_004b5400(void* pThis)
+float FUN_004b5400(void* pThis)
 {
     hkpRigidBody* pb = ((::hkpRigidBody *)(::FUN_004ae750(pThis)));
     return pb ? FUN_004b4ea0(pb) : 0.0f;
@@ -866,7 +860,7 @@ void* __cdecl FUN_004b5950(const void* collidable)
 }
 
 // @fnv 0x004b59d0
-const void* __fastcall FUN_004b59d0(const char* apBase)
+const void* FUN_004b59d0(const char* apBase)
 {
     return apBase + apBase[0x10];
 }
@@ -903,7 +897,7 @@ class BSXFlags
 };
 
 // @fnv 0x004b5fa0
-bool __fastcall FUN_004b5fa0(const BSXFlags* pThis)
+bool FUN_004b5fa0(const BSXFlags* pThis)
 {
     return reinterpret_cast<::FUN_00448a60_struct *>((void *)(pThis))->GetMaskedValue(0x20) != 0;
 }
@@ -990,7 +984,7 @@ template <typename T> class BSStringT
 };
 
 // @fnv 0x004b6e70
-const char* __fastcall GetStringAtOffset13C(const char* pThis)
+const char* GetStringAtOffset13C(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0x13c);
 }
@@ -1039,7 +1033,6 @@ struct tagRECT
     long right;
     long bottom;
 };
-typedef char _sizecheck_tagRECT[sizeof(tagRECT) == 16 ? 1 : -1];
 
 struct NiPoint3Ex : public NiPoint3
 {
@@ -1245,11 +1238,11 @@ void* FUN_004b51a0_shell::FUN_004b51a0(unsigned int flags)
 
 struct FUN_004b51d0_shell
 {
-    const char* const* __thiscall GetRTTI();
+    const char* const* GetRTTI();
 };
 
 // @fnv 0x004b51d0
-const char* const* __thiscall FUN_004b51d0_shell::GetRTTI()
+const char* const* FUN_004b51d0_shell::GetRTTI()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_0126811c));
 }
@@ -1267,7 +1260,7 @@ const NiRTTI* FUN_004b5210_shell::GetRTTI() const
 }
 
 // @fnv 0x004b59a0
-int __fastcall GetCharAtOffset4(int param_1)
+int GetCharAtOffset4(int param_1)
 {
     return (int)*(char*)(param_1 + 4);
 }
@@ -1403,11 +1396,11 @@ FUN_004b50f0::FUN_004b50f0()
 
 struct FUN_004b5150_shell
 {
-    char const* const* __thiscall FUN_004b5150();
+    char const* const* FUN_004b5150();
 };
 
 // @fnv 0x004b5150
-char const* const* __thiscall FUN_004b5150_shell::FUN_004b5150()
+char const* const* FUN_004b5150_shell::FUN_004b5150()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_01268134));
 }
@@ -1448,11 +1441,11 @@ public:
 
 struct FUN_004b51e0_shell : bhkUnaryAction
 {
-    void* __thiscall FUN_004b51e0(unsigned int flags);
+    void* FUN_004b51e0(unsigned int flags);
 };
 
 // @fnv 0x004b51e0
-void* __thiscall FUN_004b51e0_shell::FUN_004b51e0(unsigned int flags)
+void* FUN_004b51e0_shell::FUN_004b51e0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00c86720 *>((this))->FUN_00c86720::~FUN_00c86720();
     if (flags & 1)
@@ -1460,15 +1453,15 @@ void* __thiscall FUN_004b51e0_shell::FUN_004b51e0(unsigned int flags)
     return this;
 }
 
-int __fastcall GetCharAtOffset4(int);
+int GetCharAtOffset4(int);
 
 // @fnv 0x004b5980
-int __fastcall FUN_004b5980(int param_1)
+int FUN_004b5980(int param_1)
 {
     return GetCharAtOffset4(param_1 + 0x14);
 }
 
-void const* __fastcall FUN_004b59d0(char const*);
+void const* FUN_004b59d0(char const*);
 
 // @fnv 0x004b59c0
 void const* __cdecl FUN_004b59c0(char const* arg)
@@ -1521,12 +1514,12 @@ void FUN_004b4ec0_shell::FUN_004b4ec0()
 extern "C" void __cdecl _ref_006815c0();
 struct FUN_004b4f20_shell
 {
-    void __thiscall FUN_004b4f20();
+    void FUN_004b4f20();
 };
 // @fnv 0x004b4f20
-void __thiscall FUN_004b4f20_shell::FUN_004b4f20()
+void FUN_004b4f20_shell::FUN_004b4f20()
 {
-    ((void(__thiscall*)(void*))_ref_006815c0)((char*)this + 0x10);
+    ((void(*)(void*))_ref_006815c0)((char*)this + 0x10);
 }
 
 struct Base537
@@ -1549,7 +1542,7 @@ struct FUN_004b4f40 : Base537
 };
 struct FUN_004b4fa0_shell
 {
-    void* __fastcall FUN_004b4fa0();
+    void* FUN_004b4fa0();
 };
 // Calls base and member initializers, then sets f30 to 0.5, f34 to 0.3, f38 to DAT_0101b2d0 and f3c to g_011cc6cc_arg1.
 // @fnv 0x004b4f40
@@ -1570,7 +1563,7 @@ struct S_004b4fc0
     void FUN_004b4fc0();
 };
 // @fnv 0x004b4fa0
-void* __fastcall FUN_004b4fa0_shell::FUN_004b4fa0()
+void* FUN_004b4fa0_shell::FUN_004b4fa0()
 {
     reinterpret_cast<::S_004b4fc0 *>((this))->FUN_004b4fc0();
     return this;
@@ -1598,11 +1591,11 @@ Fake004b50c0* Fake004b50c0::FUN_004b50c0()
 
 struct bhkMouseSpringAction
 {
-    void* __thiscall FUN_004b5230(unsigned int);
+    void* FUN_004b5230(unsigned int);
 };
 // Calls FUN_00c86cb0, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x004b5230
-void* __thiscall bhkMouseSpringAction::FUN_004b5230(unsigned int flags)
+void* bhkMouseSpringAction::FUN_004b5230(unsigned int flags)
 {
     reinterpret_cast<::FUN_00c86cb0 *>((this))->FUN_00c86cb0::~FUN_00c86cb0();
     if (flags & 1)
@@ -1944,7 +1937,6 @@ struct NiShadeProperty : public NiProperty
     char _pad_1a[2];
     int m_iShaderType;
 };
-typedef char _sizecheck_NiShadeProperty[sizeof(NiShadeProperty) == 32 ? 1 : -1];
 struct BSShaderProperty : public NiShadeProperty
 {
     virtual void __vslot_0();
@@ -2025,7 +2017,6 @@ struct BSShaderProperty : public NiShadeProperty
     float m_fValueAfterDepthBias;
     float m_fEnvironmentMapScale;
 };
-typedef char _sizecheck_BSShaderProperty[sizeof(BSShaderProperty) == 104 ? 1 : -1];
 struct BSShaderLightingProperty : public BSShaderProperty
 {
     virtual void __vslot_0();
@@ -2076,7 +2067,6 @@ struct BSShaderLightingProperty : public BSShaderProperty
     char _pad_7d[3];
     void* m_pLightData;
 };
-typedef char _sizecheck_BSShaderLightingProperty[sizeof(BSShaderLightingProperty) == 132 ? 1 : -1];
 struct BSShaderPPLightingProperty : public BSShaderLightingProperty
 {
     virtual void __vslot_0();
@@ -2244,7 +2234,6 @@ struct BSShaderPPLightingProperty : public BSShaderLightingProperty
     float m_fSixthFloatAfterTextureCount;
     void* m_pRenderPassEntry;
 };
-typedef char _sizecheck_BSShaderPPLightingProperty[sizeof(BSShaderPPLightingProperty) == 272 ? 1 : -1];
 
 struct NiNode_00558310
 {

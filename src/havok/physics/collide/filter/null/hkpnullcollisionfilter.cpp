@@ -2,6 +2,7 @@
 // src/havok/physics/collide/filter/null/hkpnullcollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/filter/null/hkpnullcollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c3000.h"
 #include "fnv/symbols_010c4000.h"
@@ -121,16 +122,15 @@ struct S_00cfab30_this
     int unk30;
     void* unk34;
 
-    void __thiscall RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*);
+    void RecordAndDispatch(S_00cfab30_object*, S_00cfab30_arg*, void*, void*, void*);
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cc668[];
 
 // Records a start timestamp, stores arguments into fields, invokes target_call on arg08 with a local struct, then records an end timestamp.
 // @fnv 0x00cfab30
-void __thiscall S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, S_00cfab30_arg* arg0c, void* apContext,
+void S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, S_00cfab30_arg* arg0c, void* apContext,
                                                    void* arg14, void* arg18)
 {
     S_00cfab30_allocator* allocator;

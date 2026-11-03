@@ -670,7 +670,7 @@ struct CurveThreadMemory
     int unk0c;
     Allocator* m_pThreadAllocator;
 };
-extern "C" void* __fastcall FUN_00e48030(void* p);
+extern "C" void* FUN_00e48030(void* p);
 class ScalarLane
 {
     __m128 value;

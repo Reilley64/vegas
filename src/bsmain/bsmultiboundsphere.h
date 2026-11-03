@@ -3,7 +3,6 @@
 #define FNV_BSMULTIBOUNDSHERE_H
 
 
-#pragma pack(push, 4)
 
 class BSMultiBoundSphere
 {
@@ -15,6 +14,5 @@ class BSMultiBoundSphere
     float m_fSphereRadius;
 };
 
-#pragma pack(pop)
 
 #endif

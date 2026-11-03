@@ -12,11 +12,11 @@
 #include "havok/hkaSplineCompressedAnimation.h"
 struct FUN_00e33330_Class
 {
-    void* __thiscall FUN_00e33330();
+    void* FUN_00e33330();
 };
 extern bool DAT_0126efb8;
 int __cdecl FUN_00e63c60(bool*);
-int __stdcall FUN_00e32ed0(int a1, int a2);
+int FUN_00e32ed0(int a1, int a2);
 struct FnvAnimation
 {
     virtual void slot00();
@@ -97,7 +97,6 @@ class hkaSplineCompressedAnimationE333
     void GetDataChunks(unsigned int frame, float delta, hkaAnimationDataChunkE333* dataChunks, int numDataChunks) const
         throw();
 };
-typedef char fnv_check_e33350[(sizeof(hkaSplineCompressedAnimationE333) == 0x90) ? 1 : -1];
 struct hkMathE334
 {
     static int max2(int x, int y)

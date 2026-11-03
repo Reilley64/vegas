@@ -56,10 +56,10 @@ struct Cls_00de4e20
     Vec4_de4e20 m_p;
     Vec4_de4e20 m_kPointB;
     Vec4_de4e20 m_q;
-    void __thiscall FUN_00de4e20(Vec4_de4e20* out);
+    void FUN_00de4e20(Vec4_de4e20* out);
 };
 // @fnv 0x00de4e20
-void __thiscall Cls_00de4e20::FUN_00de4e20(Vec4_de4e20* out)
+void Cls_00de4e20::FUN_00de4e20(Vec4_de4e20* out)
 {
     Vec4_de4e20 cross;
     cross.setCross(m_kPointA, m_kPointB);
@@ -111,11 +111,11 @@ struct MatrixOwner
     __m128 unk70;
     __m128 unk80;
     __m128 unk90;
-    void __thiscall SetFromVectors(const __m128*, const __m128*, const __m128*, const __m128*);
+    void SetFromVectors(const __m128*, const __m128*, const __m128*, const __m128*);
 };
 // Stores *a, *c, *b and *d into unk60, unk70, unk80 and unk90 respectively.
 // @fnv 0x00de4ee0
-void __thiscall MatrixOwner::SetFromVectors(const __m128* a, const __m128* b, const __m128* c, const __m128* d)
+void MatrixOwner::SetFromVectors(const __m128* a, const __m128* b, const __m128* c, const __m128* d)
 {
     unk60 = *a;
     unk70 = *c;

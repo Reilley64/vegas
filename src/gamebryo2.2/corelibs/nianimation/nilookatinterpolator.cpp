@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4be10
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/CloneSourceA5d6.h"
@@ -43,13 +44,13 @@ void* __cdecl FUN_00a4be10()
 struct NiLookAtInterpolator
 {
     virtual ~NiLookAtInterpolator();
-    void* __thiscall FUN_00a4c5c0(unsigned int flags);
+    void* FUN_00a4c5c0(unsigned int flags);
 };
 
 extern "C" void __cdecl FUN_00a4be20();
 
 // @fnv 0x00a4c5c0
-void* __thiscall NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
+void* NiLookAtInterpolator::FUN_00a4c5c0(unsigned int flags)
 {
     FUN_00a4be20();
     if (flags & 1)
@@ -103,10 +104,10 @@ struct NiObject
 };
 struct Host_00a4bb80
 {
-    void __thiscall FUN_00a4bb80(CloningProcess&);
+    void FUN_00a4bb80(CloningProcess&);
 };
 // @fnv 0x00a4bb80
-void __thiscall Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
+void Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
 {
     bool bCloned;
     NiObject* pkClone;
@@ -164,14 +165,14 @@ struct ObjType
 };
 struct BaseInterp
 {
-    bool __thiscall FUN_00a81fe0(NiStream*);
+    bool FUN_00a81fe0(NiStream*);
 };
 struct MyInterp
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool FUN_00a4bbe0(NiStream*);
 };
 // @fnv 0x00a4bbe0
-bool __thiscall MyInterp::FUN_00a4bbe0(NiStream* kStream)
+bool MyInterp::FUN_00a4bbe0(NiStream* kStream)
 {
     unsigned int ui;
     if (!((BaseInterp*)this)->FUN_00a81fe0(kStream))
@@ -192,7 +193,7 @@ bool __thiscall MyInterp::FUN_00a4bbe0(NiStream* kStream)
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
-    void* __thiscall FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
+    void* FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0
 void* __cdecl FUN_00a4c5a0()
@@ -328,11 +329,11 @@ struct FakeInterp
 };
 struct Holder
 {
-    void __thiscall FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
 };
 // Calls the two-float virtual method on each of the three FakeInterp pointers stored at offset 0x38, skipping null entries.
 // @fnv 0x00a4b9f0
-void __thiscall Holder::FUN_00a4b9f0(float afValue1, float afValue2)
+void Holder::FUN_00a4b9f0(float afValue1, float afValue2)
 {
     unsigned int ui;
     for (ui = 0; ui < 3; ui++)
@@ -416,11 +417,11 @@ struct FUN_00a4b930_cls
     unsigned int unk34;
     FUN_00a4b930_item* m_pItems[3];
 
-    void __thiscall GetItemsRange(float* pStart, float* pEnd);
+    void GetItemsRange(float* pStart, float* pEnd);
 };
 
 // @fnv 0x00a4b930
-void __thiscall FUN_00a4b930_cls::GetItemsRange(float* pfMin, float* pfMax)
+void FUN_00a4b930_cls::GetItemsRange(float* pfMin, float* pfMax)
 {
     float a;
     float b;
@@ -451,8 +452,6 @@ void __thiscall FUN_00a4b930_cls::GetItemsRange(float* pfMin, float* pfMax)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* pTarget);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* pTarget);
 
 struct RegObj
 {
@@ -480,7 +479,7 @@ bool FUN_00a4bae0_cls::FUN_00a4bae0()
     if (p != 0)
     {
         void* pNewHandle = ((void *)(::NiGlobalStringTable::AddString((const char *)(p))));
-        long(__stdcall * pfnDecrement)(volatile long*) = InterlockedDecrement;
+        long(* pfnDecrement)(volatile long*) = InterlockedDecrement;
         if (m_hCur != pNewHandle)
         {
             if (pNewHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
@@ -739,8 +738,6 @@ void NiLookAtInterpolator::FUN_00eea6d0(const NiFixedString& kName)
 
 // LoadBinary: base interpolator data, flags, the linked object, the name, the transform and three linked interpolators.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class C630RefObject
 {
@@ -1335,12 +1332,12 @@ struct S_00a4ba30_Cls
     int unk30;
     int unk34;
     S_00a4ba30_Ptr unk38[3];
-    S_00a4ba30_Cls* __thiscall FUN_00a4ba30(float a, float b);
+    S_00a4ba30_Cls* FUN_00a4ba30(float a, float b);
 };
 
 // Calls FUN_00a57050 with the two floats, then assigns each non-null unk38[i] entry's v50 result to the corresponding entry in r.
 // @fnv 0x00a4ba30
-S_00a4ba30_Cls* __thiscall S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
+S_00a4ba30_Cls* S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
 {
     S_00a4ba30_Cls* pResult = ((::S_00a4ba30_Cls *)(::FUN_00a57050((int)this, a)));
     for (int i = 0; i < 3; i++)
@@ -1351,7 +1348,6 @@ S_00a4ba30_Cls* __thiscall S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
     return pResult;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 
 struct RefObj
@@ -1845,11 +1841,11 @@ struct S_00a4c4b0_Obj
     char* m_name;
     S_00a4c4b0_Xform m_kObjectTransform;
     S_00a4c4b0_Ptr m_ptr[3];
-    void __thiscall FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c);
+    void FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c);
 };
 // Copies flags, unk10, m_name, m_kObjectTransform, and m_ptr entries from this object to dest after calling FUN_00aa1000.
 // @fnv 0x00a4c4b0
-void __thiscall S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c)
+void S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c)
 {
     ::FUN_00aa1000();
     unsigned int f = m_flags.w;

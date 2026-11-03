@@ -199,7 +199,7 @@ struct Data
 
 // Records a profiler tick, then if pObj->v20() is 11 calls DispatchCollisionEvents once and FUN_00cfffb0 twice with a Data record, and records an end tick.
 // @fnv 0x00d0ae80
-void __stdcall FUN_00d0ae80(Params* p)
+void FUN_00d0ae80(Params* p)
 {
     PFN_TlsGetValue pfnTls = TlsGetValue;
     Data data;
@@ -320,7 +320,7 @@ struct S_00d0af60_Input
 
 // Between two profiler timers, if the shape's type is 11, builds an event and calls FUN_00d00de0 with a->unk8, then FUN_00d00060 for each entity.
 // @fnv 0x00d0af60
-void __stdcall FUN_00d0af60(S_00d0af60_Input* in)
+void FUN_00d0af60(S_00d0af60_Input* in)
 {
     S_00d0af60_Timer("TtCollLfUtil");
     S_00d0af60_Shape* shape = in->unkC;

@@ -303,7 +303,7 @@ struct __declspec(align(16)) PoseVector {
     }
 };
 struct PoseQuaternion {PoseVector vector; void FUN_00c66320(const PoseQuaternion&,const PoseQuaternion&);};
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 struct QuaternionProduct {__m128 quad;};
 __declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a,const PoseQuaternion& b) {
     unsigned int cookie=__security_cookie;
@@ -524,7 +524,7 @@ struct S_00ccbce0_Owner
     int unk10;
     S_00ccbce0_Ref* unk14;
 
-    void __thiscall FUN_00ccbce0(S_00ccbce0_Output* value);
+    void FUN_00ccbce0(S_00ccbce0_Output* value);
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 union hkVec4 { __m128 m_vComponents; char m_bytes[16]; };
@@ -901,7 +901,7 @@ public:
     int unk51c;
     int unk520;
 };
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj);
+void FUN_00cd3c20(S_00cd3c20_Obj* obj);
 struct ShapeVector
 {
     hkVec4 m_v;
@@ -1804,8 +1804,8 @@ struct FUN_00cc9d00 : RefCountedObject {
 struct OutputHandler {
     void FUN_00cca6f0(InitializePathingRequestFromPosition* request);
 };
-typedef void (__thiscall *OutputMethod)(OutputHandler*, void*);
-typedef void (__thiscall *RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
+typedef void (*OutputMethod)(OutputHandler*, void*);
+typedef void (*RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
 struct ThreadTlsBlock {
     unsigned int unk0000;
     unsigned int unk0004;
@@ -2235,7 +2235,7 @@ public:
  virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43();
  virtual void v44(); virtual void v45(); virtual void v46();
  virtual void v47(ParamSrc*);
- void __thiscall FUN_00ccd8c0(ParamSrc*);
+ void FUN_00ccd8c0(ParamSrc*);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 void* __cdecl FUN_00aa13e0(unsigned);
@@ -3045,7 +3045,7 @@ void* slot84;
 void* slot88;
 void* slot8c;
 void* slot90;
-Transform* (__thiscall *getTransform)(Motion*);
+Transform* (*getTransform)(Motion*);
 };
 struct Motion {
 MotionVtable* vtable;
@@ -3379,7 +3379,7 @@ __forceinline void transferScalar(float& destination, float source) {
     *static_cast<volatile float*>(&destination)=source;
 }
 // @fnv 0x00cd3cb0
-void __stdcall FUN_00cd3cb0(Motion* object) {
+void FUN_00cd3cb0(Motion* object) {
     float b,z;
     Step scale;
     StoredVector amount;
@@ -3537,7 +3537,7 @@ struct S00cd3fb0_MotionVtable {
     void* slot88;
     void* slot8c;
     void* slot90;
-    S00cd3fb0_MotionTransform* (__thiscall *GetResult)(S00cd3fb0_MotionObject*);
+    S00cd3fb0_MotionTransform* (*GetResult)(S00cd3fb0_MotionObject*);
 };
 struct S00cd3fb0_FUN_00c70550_class {  };
 struct S00cd3fb0_FUN_00c6cba0_class { void FUN_00c6cba0(); };
@@ -4085,7 +4085,7 @@ struct MotionVTable {
     void* slot34;
     void* slot35;
     void* slot36;
-    MotionData* (__thiscall *getMotionData)(MotionController*);
+    MotionData* (*getMotionData)(MotionController*);
 };
 struct MotionController {
     MotionVTable* vtable;
@@ -4455,7 +4455,7 @@ __forceinline __m128 invLength(__m128 value)
 }
 
 // @fnv 0x00cd4280
-void __stdcall FUN_00cd4280(MotionController* controller)
+void FUN_00cd4280(MotionController* controller)
 {
     if (controller->state != 11 && (controller->state == 0 || controller->state == 3)) {
         reinterpret_cast<::FUN_00c6cba0_class *>((controller))->FUN_00c6cba0();
@@ -4874,7 +4874,7 @@ static __forceinline float scalarDotValue(::__m128 a,::__m128 b) {float f;(::_mm
 static __forceinline void scalarDotStore(float& f,::__m128 a,::__m128 b){(::_mm_store_ss)(&f,rawDot(a,b));}
 
 // @fnv 0x00cd8d90
-extern "C" void __fastcall FUN_00cd8d90(NativeSolver* self,void*,const NativeInput& a,NativeOutput& out,NativePose& pose) {
+extern "C" void FUN_00cd8d90(NativeSolver* self,void*,const NativeInput& a,NativeOutput& out,NativePose& pose) {
     const NTransform& world=a.world;
     NTransform inverse;
     inverse.SetConjugate(world);
@@ -5022,7 +5022,6 @@ const NVector& offset=self->drift;
 }
 
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" {
 ::__m128 _mm_sub_ss(::__m128,::__m128);
 ::__m128 _mm_mul_ss(::__m128,::__m128);
@@ -5048,7 +5047,6 @@ extern "C" double __cdecl sqrt(double);
  // mask xyz
  // 1.0 splat
 
-extern "C" __declspec(dllimport) int __stdcall IsBadWritePtr(void*,unsigned int);
 static __forceinline void StoreTimer(DWORD& out) { DWORD stamp; __assume(!IsBadWritePtr(&stamp,sizeof(stamp)));
 __asm {
 rdtsc

@@ -24,7 +24,7 @@ struct D625A0CharArray
 extern char d_010d17d0;
 char* FUN_00d634d0();
 struct ItemSink;
-typedef void(__thiscall* ProcessFn)(ItemSink* apThis, void* apItem);
+typedef void(* ProcessFn)(ItemSink* apThis, void* apItem);
 struct ItemSinkVtbl
 {
     void* fn00;

@@ -244,7 +244,7 @@ struct FUN_005f7150_shell
 };
 
 // @fnv 0x005f7150
-void __thiscall FUN_005f7150_shell::SaveForm(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_005f7150_shell::SaveForm(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int i;
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)apSaveGameBuffer));
@@ -269,11 +269,11 @@ struct S_00487010
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0(void);
+    void FUN_00482cb0(void);
 };
 struct FUN_00480100_shell
 {
-    unsigned int __thiscall FUN_00480100(void*);
+    unsigned int FUN_00480100(void*);
 };
 struct FUN_00485680
 {
@@ -285,11 +285,11 @@ struct FUN_0048e370_obj
 
 struct FUN_005f6810_shell
 {
-    void __thiscall FUN_005f6810(void);
+    void FUN_005f6810(void);
 };
 
 // @fnv 0x005f6810
-void __thiscall FUN_005f6810_shell::FUN_005f6810(void)
+void FUN_005f6810_shell::FUN_005f6810(void)
 {
     char cAttribData[7];
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();

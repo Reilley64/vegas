@@ -13,11 +13,11 @@
 
 struct FUN_00cb8a90_class
 {
-    void __thiscall SetConstraintFlag(int cl);
+    void SetConstraintFlag(int cl);
 };
 
 // @fnv 0x00cb8a90
-void __thiscall FUN_00cb8a90_class::SetConstraintFlag(int aiBitIndex)
+void FUN_00cb8a90_class::SetConstraintFlag(int aiBitIndex)
 {
     ((char*)this)[0xd6] = (char)(1 << aiBitIndex);
 }
@@ -26,22 +26,22 @@ extern "C" void* __cdecl FUN_00d21a60(void* self, int a, int b);
 
 struct FUN_00cb8af0_cls
 {
-    void* __thiscall FUN_00cb8af0(int arg);
+    void* FUN_00cb8af0(int arg);
 };
 
 // @fnv 0x00cb8af0
-void* __thiscall FUN_00cb8af0_cls::FUN_00cb8af0(int arg)
+void* FUN_00cb8af0_cls::FUN_00cb8af0(int arg)
 {
     return FUN_00d21a60((char*)this + 0x10, 0xcc, arg);
 }
 
 struct FUN_00cb8b10Class
 {
-    void __thiscall FUN_00cb8b10(int* a1, int* a2);
+    void FUN_00cb8b10(int* a1, int* a2);
 };
 
 // @fnv 0x00cb8b10
-void __thiscall FUN_00cb8b10Class::FUN_00cb8b10(int* apUnused, int* a2)
+void FUN_00cb8b10Class::FUN_00cb8b10(int* apUnused, int* a2)
 {
     a2[1] = 8;
     a2[0] = 80;
@@ -49,10 +49,10 @@ void __thiscall FUN_00cb8b10Class::FUN_00cb8b10(int* apUnused, int* a2)
 
 struct FUN_00cb8a70_class
 {
-    void __thiscall FUN_00cb8a70(float v);
+    void FUN_00cb8a70(float v);
 };
 // @fnv 0x00cb8a70
-void __thiscall FUN_00cb8a70_class::FUN_00cb8a70(float v)
+void FUN_00cb8a70_class::FUN_00cb8a70(float v)
 {
     *(float*)((char*)this + 0xd8) = v;
 }
@@ -62,10 +62,10 @@ struct RefObj
 };
 struct FUN_00cb8ac0_class
 {
-    void __thiscall SetReferencedObject(RefObj* obj);
+    void SetReferencedObject(RefObj* obj);
 };
 // @fnv 0x00cb8ac0
-void __thiscall FUN_00cb8ac0_class::SetReferencedObject(RefObj* pObject)
+void FUN_00cb8ac0_class::SetReferencedObject(RefObj* pObject)
 {
     if (pObject)
         reinterpret_cast<::FUN_00c90510_class *>((pObject))->FUN_00c90510();
@@ -128,10 +128,10 @@ struct FUN_00cb8b40_class
     int m_0b4;
     int m_0b8;
     int m_0bc;
-    void __thiscall DestroyWorldReference();
+    void DestroyWorldReference();
 };
 // @fnv 0x00cb8b40
-void __thiscall FUN_00cb8b40_class::DestroyWorldReference()
+void FUN_00cb8b40_class::DestroyWorldReference()
 {
     DDCC60World* p = (DDCC60World*)*((int*)this + 44);
     *((int*)this) = (int)&DAT_010c89e4;
@@ -142,7 +142,7 @@ void __thiscall FUN_00cb8b40_class::DestroyWorldReference()
 
 // Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
 // @fnv 0x00cb8fe0
-void __fastcall FUN_00cb8fe0(char* self, int, int a, bool b)
+void FUN_00cb8fe0(char* self, int, int a, bool b)
 {
     self[0xa2] = b;
     self[0xb6] = !b;
@@ -183,11 +183,11 @@ struct FUN_00cb8ab0_class
     unsigned char m_byteD6;
     char padD7[0x1];
 
-    unsigned char __thiscall FUN_00cb8ab0();
+    unsigned char FUN_00cb8ab0();
 };
 
 // @fnv 0x00cb8ab0
-unsigned char __thiscall FUN_00cb8ab0_class::FUN_00cb8ab0()
+unsigned char FUN_00cb8ab0_class::FUN_00cb8ab0()
 {
     return m_byteD6 >> 1;
 }
@@ -689,14 +689,14 @@ struct HingeClass
     hkTransform_Havok m_kBodyALocalFrame;
     hkTransform_Havok m_kBodyBLocalFrame;
 
-    void __thiscall FUN_00cb8da0(const hkVector4_Havok& pivotA, const hkVector4_Havok& pivotB,
+    void FUN_00cb8da0(const hkVector4_Havok& pivotA, const hkVector4_Havok& pivotB,
                                  const hkVector4_Havok& axisA, const hkVector4_Havok& axisB,
                                  const hkVector4_Havok& axisAPerp, const hkVector4_Havok& axisBPerp);
 };
 
 // Sets the rotation and translation of m_kBodyALocalFrame and m_kBodyBLocalFrame from the given pivot and axis vectors.
 // @fnv 0x00cb8da0
-void __thiscall HingeClass::FUN_00cb8da0(const hkVector4_Havok& pivotA, const hkVector4_Havok& pivotB,
+void HingeClass::FUN_00cb8da0(const hkVector4_Havok& pivotA, const hkVector4_Havok& pivotB,
                                          const hkVector4_Havok& axisA, const hkVector4_Havok& axisB,
                                          const hkVector4_Havok& axisAPerp, const hkVector4_Havok& axisBPerp)
 {

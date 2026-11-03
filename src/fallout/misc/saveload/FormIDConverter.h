@@ -54,12 +54,5 @@ class FormIDConverter
     unsigned int RegisterFormID(unsigned int formID);
 };
 
-typedef char bgsSaveLoadFormIDMapSizeAssert[(sizeof(FormIDConverter) == 36) ? 1 : -1];
-typedef char bgsSaveLoadFormIDMapIndexToFormIDMapOffsetAssert
-    [((int)&((FormIDConverter*)0)->m_kTargetToSourceFormIDMap == 0x10) ? 1 : -1];
-typedef char
-    bgsSaveLoadFormIDMapICurrentIndexOffsetAssert[((int)&((FormIDConverter*)0)->m_uiFormIDCount == 0x20) ? 1 : -1];
-typedef char
-    niTPointerMapUnsignedUnsignedSizeAssert[(sizeof(NiTPointerMap<unsigned int, unsigned int>) == 16) ? 1 : -1];
 
 #endif

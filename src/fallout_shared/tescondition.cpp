@@ -217,12 +217,12 @@ struct FUN_005e9530_Obj
     void* vftable;
     unsigned char b4;
     unsigned char b5;
-    __thiscall FUN_005e9530_Obj();
+    FUN_005e9530_Obj();
 };
 
 // Sets the object's vftable to DAT_01046b48 and clears bytes b4 and b5, then returns the object.
 // @fnv 0x005e9530
-void* __fastcall FUN_005e9530(FUN_005e9530_Obj* pThis)
+void* FUN_005e9530(FUN_005e9530_Obj* pThis)
 {
     pThis->vftable = &DAT_01046b48;
     pThis->b4 = 0;
@@ -327,7 +327,7 @@ struct FUN_005ea2c0_cls
     void* FUN_005ea2c0(unsigned int flags);
 };
 
-extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_005ea2c0_cls::*callback)());
+extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_005ea2c0_cls::*callback)());
 
 
 // @fnv 0x005ea2c0

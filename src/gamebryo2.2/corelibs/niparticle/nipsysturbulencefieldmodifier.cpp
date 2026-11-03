@@ -33,11 +33,11 @@ struct NiPSysFieldModifier
 struct NiPSysTurbulenceFieldModifier : NiPSysFieldModifier
 {
     float m_fFrequency;
-    bool __thiscall FUN_00c27390(NiObject* pkObject);
+    bool FUN_00c27390(NiObject* pkObject);
 };
 
 // @fnv 0x00c27390
-bool __thiscall NiPSysTurbulenceFieldModifier::FUN_00c27390(NiObject* pkObject)
+bool NiPSysTurbulenceFieldModifier::FUN_00c27390(NiObject* pkObject)
 {
     NiPSysTurbulenceFieldModifier* pkDest;
     if (!reinterpret_cast<::C32060EmitterModifier *>(this)->FUN_00c32060((::C32060Object *)(pkObject)))
@@ -76,7 +76,7 @@ struct NiPSysFieldModifier_00c27670
     void FUN_00c32020(NiPSysParticle*, CloningProcess*);
 };
 // @fnv 0x00c27670
-NiPSysFieldModifier_00c27670* __fastcall CloneFieldModifier(NiPSysFieldModifier_00c27670* self, int,
+NiPSysFieldModifier_00c27670* CloneFieldModifier(NiPSysFieldModifier_00c27670* self, int,
                                                             CloningProcess* kCloning)
 {
     NiPSysFieldModifier_00c27670* pkObject = (NiPSysFieldModifier_00c27670*)BSFadeNode::operator new(0x3c);
@@ -189,11 +189,11 @@ struct FUN_00c27700_class
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
     float m_uiFilterValue, m_inverse;
-    void __thiscall ReadFloatAndComputeInverse(void* object);
+    void ReadFloatAndComputeInverse(void* object);
 };
 // Reads a float from the stream at object+0x24c and stores its reciprocal, or a fallback constant when the value is below DAT_01032980.
 // @fnv 0x00c27700
-void __thiscall FUN_00c27700_class::ReadFloatAndComputeInverse(void* object)
+void FUN_00c27700_class::ReadFloatAndComputeInverse(void* object)
 {
     reinterpret_cast<::FUN_00c32120_cls *>(this)->LoadFromStream((::StreamOwner *)(object));
     FieldReadState* stream = *(FieldReadState**)((char*)object + 0x24c);
@@ -544,7 +544,7 @@ struct NiPSysTurbulenceFieldModifierDerived
         return m_fInfluence;
     }
 
-    void __thiscall UpdateTurbulence(float fTime, NiPSysData* pkData);
+    void UpdateTurbulence(float fTime, NiPSysData* pkData);
 };
 
 inline float NiPoint3::Length() const
@@ -639,7 +639,7 @@ struct C273D0Modifier
 };
 // Applies random turbulence offsets to particle values based on distance from the field object, scaling by influence and attenuation.
 // @fnv 0x00c277b0
-void __thiscall NiPSysTurbulenceFieldModifierDerived::UpdateTurbulence(float fTime, NiPSysData* pkData)
+void NiPSysTurbulenceFieldModifierDerived::UpdateTurbulence(float fTime, NiPSysData* pkData)
 {
     if (fTime >= m_fFieldDistance && fTime < m_fFieldDistance + m_fFieldMagnitude)
         return;

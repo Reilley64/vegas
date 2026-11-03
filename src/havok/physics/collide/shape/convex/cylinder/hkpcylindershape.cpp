@@ -16,7 +16,7 @@ int __cdecl FUN_00d571b0()
     return 0x12;
 }
 
-// FUN_00d571a0: __thiscall getter returning the float at this+0x14,
+// FUN_00d571a0: getter returning the float at this+0x14,
 // which is hkpCylinderShape::m_fCylinderRadius in the pack's layout
 // (vptr 0x0, m_usMemSizeAndFlags 0x4, m_sReferenceCount 0x6, m_ulUserData 0x8,
 //  m_type 0xC, m_fSphereRadius 0x10, m_fCylinderRadius 0x14).
@@ -69,11 +69,11 @@ struct S00d57b20_Obj {
     int unk08;
     int unk0C;
 
-    S00d57b20_Obj* __thiscall FUN_00d57b20(int condition);
+    S00d57b20_Obj* FUN_00d57b20(int condition);
 };
 
 // @fnv 0x00d57b20
-S00d57b20_Obj* __thiscall S00d57b20_Obj::FUN_00d57b20(int condition)
+S00d57b20_Obj* S00d57b20_Obj::FUN_00d57b20(int condition)
 {
     unk00 = &(*reinterpret_cast<char *>(&::DAT_010305a8));
 

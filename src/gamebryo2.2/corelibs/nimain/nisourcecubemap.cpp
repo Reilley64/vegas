@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/ControllerA606.h"
@@ -35,7 +36,7 @@ extern "C"
 }
 
 // @fnv 0x00a60850
-bool __stdcall FUN_00a60850(NiStream& kStream)
+bool FUN_00a60850(NiStream& kStream)
 {
     return ((char)(reinterpret_cast<::sa5fa90::Owner *>((&kStream))->AttachToListener({})));
 }
@@ -85,13 +86,13 @@ struct NiObject;
 
 struct NiSourceCubeMapShell : NiSourceCubeMap
 {
-    bool __thiscall FUN_00a5fae0(NiObject*);
-    bool __thiscall FUN_00a60880(NiObject* pkObject);
+    bool FUN_00a5fae0(NiObject*);
+    bool FUN_00a60880(NiObject* pkObject);
 };
 
 // Calls FUN_00a5fae0 on pkObject, then compares four fields of this and pkObject and returns true only if all match.
 // @fnv 0x00a60880
-bool __thiscall NiSourceCubeMapShell::FUN_00a60880(NiObject* pkObject)
+bool NiSourceCubeMapShell::FUN_00a60880(NiObject* pkObject)
 {
     if (FUN_00a5fae0(pkObject))
     {
@@ -189,7 +190,7 @@ struct NiRenderer
     virtual void v78() = 0;
     virtual void v79() = 0;
     virtual void v80() = 0;
-    virtual bool __thiscall CreateCube(void*) = 0;
+    virtual bool CreateCube(void*) = 0;
     static NiRenderer* ms_pRenderer;
 };
 struct DelObj
@@ -198,10 +199,10 @@ struct DelObj
 };
 struct Thunk60800
 {
-    bool __thiscall CreateCubeOrRelease();
+    bool CreateCubeOrRelease();
 };
 // @fnv 0x00a60800
-bool __thiscall Thunk60800::CreateCubeOrRelease()
+bool Thunk60800::CreateCubeOrRelease()
 {
     NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
     if (pkRenderer)
@@ -253,8 +254,6 @@ void Host61480::AppendGlobalString(StrArr* pkStrings)
 
 namespace fnv_00a60ba0 {
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p) throw();
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p) throw();
 
 class NiRefObject
 {
@@ -602,8 +601,6 @@ struct SpawnedCubeShell : SpawnedBase
     unsigned int m_48;
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* addend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00a60f60
 SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner, unsigned int* pVals)
@@ -646,8 +643,6 @@ SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner
 }
 
 namespace fnv_00a61040 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 extern "C" void __cdecl FUN_00a76960(char** ppName, void* pExtra);
 
@@ -1371,8 +1366,6 @@ void* CubeCleanup::FUN_00a61250(unsigned int flags)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_00ec44d0(void*, const void*, unsigned int) throw();
 struct PixelFormat

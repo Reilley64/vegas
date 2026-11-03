@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/niparticlesystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/niparticlesystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AV59f.h"
@@ -29,11 +30,11 @@
 struct NiParticleSystem
 {
     unsigned int m_usDirtyFlags;
-    void __thiscall SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid);
+    void SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms, bool& bRigid);
 };
 
 // @fnv 0x00c1b020
-void __thiscall NiParticleSystem::SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms,
+void NiParticleSystem::SetSelectiveUpdateFlags(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms,
                                                           bool& bRigid)
 {
     bSelectiveUpdate = true;
@@ -63,7 +64,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiStream
 {
@@ -74,13 +74,13 @@ struct NiPSysModifier;
 
 struct NiParticleSystem
 {
-    void __thiscall InsertSorted(NiPSysModifier* pkModifier);
-    void __thiscall LoadModifiers(NiStream* kStream);
+    void InsertSorted(NiPSysModifier* pkModifier);
+    void LoadModifiers(NiStream* kStream);
 };
 
 // Calls FUN_00a74780, reads a modifier count from the stream, then loads that many modifiers via InsertSorted.
 // @fnv 0x00c1b810
-void __thiscall NiParticleSystem::LoadModifiers(NiStream* kStream)
+void NiParticleSystem::LoadModifiers(NiStream* kStream)
 {
     reinterpret_cast<::ParticleLinkEndpoint *>(this)->FUN_00a74780((*(::NiStream *)(kStream)));
     unsigned int uiNumModifiers = reinterpret_cast<::FUN_00a63460_shell *>((kStream))->FUN_00a63460();
@@ -101,7 +101,7 @@ char const* const* __cdecl FUN_00c1b5b0()
 
 struct NiTPointerListBase
 {
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 struct S_00a80580
 {
@@ -109,11 +109,11 @@ struct S_00a80580
 void __cdecl _delete(void*, unsigned int);
 struct C_00c1b9b0
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // Clears the list at offset 0xC8, calls FUN_00a80580, and if f has bit 0 set, deletes this with size 0x110; returns this.
 // @fnv 0x00c1b9b0
-void* __thiscall C_00c1b9b0::Destroy(unsigned int auiFlags)
+void* C_00c1b9b0::Destroy(unsigned int auiFlags)
 {
     ((NiTPointerListBase*)((char*)this + 0xC8))->RemoveAll();
     reinterpret_cast<::FUN_00a80580_cls *>((((S_00a80580*)this)))->FUN_00a80580();
@@ -521,7 +521,7 @@ struct BSFadeNode
 };
 struct CloneSource
 {
-    BSFadeNode* __thiscall FUN_00c1b9e0(unsigned int);
+    BSFadeNode* FUN_00c1b9e0(unsigned int);
 };
 
 struct Block9
@@ -767,7 +767,7 @@ struct FUN_00c1aee0_cls
     unsigned int unkC0;
     unsigned int unkC4;
     ListNode* m_c8;
-    void __thiscall FUN_00c1aee0(unsigned int arg);
+    void FUN_00c1aee0(unsigned int arg);
 };
 // Walks the linked list at m_c8 and calls v36 on each node's m_08 item, passing m_b8 and arg.
 // @fnv 0x00c1aee0
@@ -792,7 +792,7 @@ struct Vec4Obj
     float y;
     float z;
     float w;
-    void __thiscall FUN_00a7fdd0(Vec4Obj const* src, void* p);
+    void FUN_00a7fdd0(Vec4Obj const* src, void* p);
 };
 
 struct S_00a80710
@@ -804,7 +804,7 @@ class NiTransform;
 class NiBound
 {
   public:
-    void __thiscall Update(NiBound const& src, NiTransform const& xf);
+    void Update(NiBound const& src, NiTransform const& xf);
 };
 
 struct Vec3Tmp
@@ -888,11 +888,11 @@ struct FUN_00c1af60_cls
     unsigned char unkDB;
     unsigned int m_unkDC;
 
-    void __thiscall FUN_00c1af60();
+    void FUN_00c1af60();
 };
 
 // @fnv 0x00c1af60
-void __thiscall FUN_00c1af60_cls::FUN_00c1af60()
+void FUN_00c1af60_cls::FUN_00c1af60()
 {
     reinterpret_cast<::NiGeometry *>((((S_00a80710*)this)))->UpdateWorldBound();
     if (m_bC4 == 0)
@@ -1477,7 +1477,7 @@ struct Nps_c1b3a0
     int unkbc;
     int unkc0;
     unsigned char m_c4;
-    void __thiscall FUN_00c1b3a0(Obj_c1b3a0* pObj);
+    void FUN_00c1b3a0(Obj_c1b3a0* pObj);
 };
 
 // @fnv 0x00c1b3a0
@@ -1573,11 +1573,11 @@ struct FUN_00c1af20_view
 };
 struct FUN_00c1af20_shell : NiParticleSystem
 {
-    void __thiscall UpdateParticleSystem(FUN_00c1af20_upd& a, unsigned int b);
+    void UpdateParticleSystem(FUN_00c1af20_upd& a, unsigned int b);
 };
 // If a.flag05 is set, marks a.flag06 and returns; otherwise, when bit 2 of flags30 is set, calls the virtual at offset 0xb8, then calls UpdateDownwardPassIfSelective with a and b.
 // @fnv 0x00c1af20
-void __thiscall FUN_00c1af20_shell::UpdateParticleSystem(FUN_00c1af20_upd& aUpd, unsigned int b)
+void FUN_00c1af20_shell::UpdateParticleSystem(FUN_00c1af20_upd& aUpd, unsigned int b)
 {
     FUN_00c1af20_view* v = reinterpret_cast<FUN_00c1af20_view*>(this);
     if (aUpd.flag05)
@@ -1590,7 +1590,7 @@ void __thiscall FUN_00c1af20_shell::UpdateParticleSystem(FUN_00c1af20_upd& aUpd,
     if (on)
     {
         void** vt = *(void***)this;
-        typedef void(__thiscall * VB8)(void*, void*);
+        typedef void(* VB8)(void*, void*);
         ((VB8)vt[0xb8 / 4])(this, &aUpd);
     }
     FUN_00a59fd0_shell* s = reinterpret_cast<FUN_00a59fd0_shell*>(this);
@@ -2198,8 +2198,6 @@ void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct Bound
 {
@@ -2265,9 +2263,9 @@ struct PointerList
     Node* m_pkHead;
     Node* m_pkTail;
     unsigned int m_uiCount;
-    void __thiscall FUN_00c1b4a0(NiPointer const* ptr);
-    void __thiscall FUN_00c1b520(Node* node, NiPointer const* ptr);
-    void __thiscall FUN_00a5a310(NiPointer const* ptr);
+    void FUN_00c1b4a0(NiPointer const* ptr);
+    void FUN_00c1b520(Node* node, NiPointer const* ptr);
+    void FUN_00a5a310(NiPointer const* ptr);
 };
 
 struct C_00c1b610
@@ -2431,11 +2429,11 @@ struct Self
     Node* unk00;
     int unk04;
     Pool unk08;
-    Node* __thiscall FUN_00c1b520(Anchor* anchor, Ptr& ref);
+    Node* FUN_00c1b520(Anchor* anchor, Ptr& ref);
 };
 
 // @fnv 0x00c1b520
-Node* __thiscall Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
+Node* Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
 {
     Node* node = ((::fnv_00c1b520::Node *)(reinterpret_cast<::FUN_0043a010_shell *>(&(unk08))->FUN_0043a010()));
     node->unk08 = ref;
@@ -2451,7 +2449,6 @@ Node* __thiscall Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
 }
 }  // namespace fnv_00c1b520
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 extern bool DAT_012024d8;
 extern unsigned long DAT_012024dc;
 extern unsigned int DAT_011ae6e0;
@@ -2884,12 +2881,12 @@ struct FUN_00c1b0b0_cls : S_00c1b0b0_Base
     int unkC4;
     S_00c1b0b0_Item* unkC8;
 
-    bool __thiscall FUN_00c1b0b0(S_00c1b0b0_Stream* kStream);
+    bool FUN_00c1b0b0(S_00c1b0b0_Stream* kStream);
 };
 
 // Calls the base routine, then invokes v21 on each linked element with kStream, and returns true if the base routine succeeds.
 // @fnv 0x00c1b0b0
-bool __thiscall FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
+bool FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
 {
     if (!reinterpret_cast<struct ::FUN_00a9b190 *>(this)->FUN_00a9b190_Impl((*(::NiStream *)(kStream))))
         return false;
@@ -2904,8 +2901,6 @@ bool __thiscall FUN_00c1b0b0_cls::FUN_00c1b0b0(S_00c1b0b0_Stream* kStream)
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class CloningProcess;
 

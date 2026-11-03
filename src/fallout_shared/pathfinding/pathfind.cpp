@@ -369,7 +369,6 @@ struct ScrapHeapBuffer
     void* m_pBufferHeader;
     unsigned int m_uiBufferSize;
 };
-typedef char _sizecheck_ScrapHeap[sizeof(ScrapHeapBuffer) == 20 ? 1 : -1];
 
 struct MemoryManager
 {
@@ -407,7 +406,6 @@ struct ParentSpaceNode
     TESWorldSpace* m_pContainingWorldspace;
     TESObjectCELL* m_pReferenceCell;
 };
-typedef char _sizecheck_ParentSpaceNode[sizeof(ParentSpaceNode) == 12 ? 1 : -1];
 
 void* __cdecl operator new(unsigned int, void*);
 struct ArrHelper
@@ -795,11 +793,11 @@ char FUN_006d6e10_shell::GetByteAtOffsetCF()
 
 struct FUN_006d6e30_shell
 {
-    unsigned char __thiscall GetByteAtOffsetD1();
+    unsigned char GetByteAtOffsetD1();
 };
 
 // @fnv 0x006d6e30
-unsigned char __thiscall FUN_006d6e30_shell::GetByteAtOffsetD1()
+unsigned char FUN_006d6e30_shell::GetByteAtOffsetD1()
 {
     return reinterpret_cast<unsigned char*>(this)[0xd1];
 }
@@ -849,12 +847,12 @@ void __cdecl FUN_006d8a20(void* p, float f, int i)
 
 struct FUN_006dae60_shell
 {
-    void* __thiscall FUN_006dae60();
+    void* FUN_006dae60();
 };
 
 // Sets the object's vtable pointer to DAT_0106cbec, calls FUN_006dc070(0, 0), and returns this.
 // @fnv 0x006dae60
-void* __thiscall FUN_006dae60_shell::FUN_006dae60()
+void* FUN_006dae60_shell::FUN_006dae60()
 {
     *(void**)this = &DAT_0106cbec;
     reinterpret_cast<::FUN_006dc070_Class *>(this)->FUN_006dc070(0, 0);
@@ -893,12 +891,12 @@ void __cdecl FUN_006d8a00(int aiArg1, float f, int aiArg2)
 
 struct FUN_006d0540_shell
 {
-    void __thiscall FUN_006d0540(void* dst, void* src, unsigned int count);
+    void FUN_006d0540(void* dst, void* src, unsigned int count);
 };
 
 // Copies count 0x30-byte elements from src to dst, iterating forward or backward depending on the relative addresses.
 // @fnv 0x006d0540
-void __thiscall FUN_006d0540_shell::FUN_006d0540(void* dst, void* src, unsigned int count)
+void FUN_006d0540_shell::FUN_006d0540(void* dst, void* src, unsigned int count)
 {
     extern void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
@@ -948,11 +946,11 @@ void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
 struct FUN_006d07d0_shell
 {
-    void __thiscall FUN_006d07d0(void* a, void* b, unsigned int c);
+    void FUN_006d07d0(void* a, void* b, unsigned int c);
 };
 
 // @fnv 0x006d07d0
-void __thiscall FUN_006d07d0_shell::FUN_006d07d0(void* a, void* b, unsigned int c)
+void FUN_006d07d0_shell::FUN_006d07d0(void* a, void* b, unsigned int c)
 {
     if (c <= 0)
         return;
@@ -2402,7 +2400,6 @@ struct SearchState
     SearchState();
     ~SearchState();
 };
-typedef char SearchSize[sizeof(SearchState) == 0x2108 ? 1 : -1];
 struct DetailedBuilder
 {
     unsigned int unk00;

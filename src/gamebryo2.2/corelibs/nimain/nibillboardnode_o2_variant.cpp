@@ -120,7 +120,7 @@ void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     *(float*)((char*)this + 0xb0) = UpdateData.m_fTime;
     ::FUN_00a5e1f0((::NiNode *)(((BaseNode*)this)), (int)&(UpdateData), (*(::NiUpdateData *)(uFlags)), {});
-    ((void(__thiscall**)(void*)) * (void***)this)[47](this);
+    ((void(**)(void*)) * (void***)this)[47](this);
 }
 }  // namespace fnv_00a7dab0
 
@@ -356,7 +356,7 @@ struct NiCameraStandIn
 };
 
 // @fnv 0x00a7dc40
-bool __stdcall FUN_00a7dc40(NiCameraStandIn* pkCamera, const NiPoint3& kPos, NiPoint3& kWorldPosition, NiPoint3& kUp,
+bool FUN_00a7dc40(NiCameraStandIn* pkCamera, const NiPoint3& kPos, NiPoint3& kWorldPosition, NiPoint3& kUp,
                             NiPoint3& kRight)
 {
     NiPoint3 kDelta = pkCamera->m_kWorldTranslate - kPos;

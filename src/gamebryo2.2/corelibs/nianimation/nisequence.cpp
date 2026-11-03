@@ -21,11 +21,11 @@ void* __cdecl FUN_00a47a10()
 
 struct S
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00a478f0, then if bit 0 of flag is set deletes this with size 0x34, and returns this.
 // @fnv 0x00a47cc0
-void* __thiscall S::DestroyIfFlagged(unsigned int uiFlags)
+void* S::DestroyIfFlagged(unsigned int uiFlags)
 {
     reinterpret_cast<::FUN_00a478f0 *>(this)->FUN_00a478f0::~FUN_00a478f0();
     if (uiFlags & 1)
@@ -33,8 +33,6 @@ void* __thiscall S::DestroyIfFlagged(unsigned int uiFlags)
     return this;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct S_00a47ae0_Rc
 {
     virtual void vf0();

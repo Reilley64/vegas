@@ -8,7 +8,6 @@
 class TESForm;
 class MagicItemForm;
 
-#pragma pack(push, 4)
 class BGSTouchSpellForm : public BaseFormComponent
 {
   public:
@@ -19,6 +18,5 @@ class BGSTouchSpellForm : public BaseFormComponent
     unsigned short m_usTouchSpellType;
     unsigned char paddingA[2];
 };
-#pragma pack(pop)
 
 #endif

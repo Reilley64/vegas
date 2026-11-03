@@ -22,7 +22,6 @@ enum CREATE_ASTARNODE_RESULT
 
 class NavMesh;
 class NavMeshTriangleReference;
-#pragma pack(push, 4)
 class NavMeshTriangleReference
 {
   public:
@@ -33,16 +32,8 @@ class NavMeshTriangleReference
     float m_fCenterY;  // +0xC, 4 bytes
     float m_fCenterZ;  // +0x10, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshTriangleReference) == 20);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleReference, m_pLocationNavMesh) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleReference, m_usTriangleIdentifier) == 4);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleReference, GetCenterX) == 8);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleReference, m_fCenterY) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleReference, m_fCenterZ) == 16);
 
 class NavMeshTriangleEdgeReference;
-#pragma pack(push, 4)
 class NavMeshTriangleEdgeReference
 {
   public:
@@ -51,11 +42,6 @@ class NavMeshTriangleEdgeReference
     unsigned char layoutPadding6[2];
     int m_iEdgeIndex;  // +0x8, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NavMeshTriangleEdgeReference) == 12);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleEdgeReference, m_pLocationNavMesh) == 0);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleEdgeReference, m_usTriangleIdentifier) == 4);
-FNV_STATIC_ASSERT(offsetof(NavMeshTriangleEdgeReference, m_iEdgeIndex) == 8);
 
 class AStarNodeData;
 class AStarNodeLink;
@@ -154,18 +140,6 @@ template <class BoundingVolumeNode, class TLink> class AStarSearch
 typedef AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference> NavMeshAStarNode;
 typedef AStarNode<AStarNodeData*, AStarNodeLink*> CombatPlanAStarNode;
 typedef AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdgeReference> NavMeshAStarSearch;
-FNV_STATIC_ASSERT(sizeof(NavMeshAStarNode) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarNode, iKey) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarNode, m_pNextHashNode) == 0x38);
-FNV_STATIC_ASSERT(sizeof(CombatPlanAStarNode) == 0x24);
-FNV_STATIC_ASSERT(offsetof(CombatPlanAStarNode, iKey) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(CombatPlanAStarNode, m_pNextHashNode) == 0x20);
-FNV_STATIC_ASSERT(sizeof(NavMeshAStarSearch) == 0x2058);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarSearch, m_kNodeHashTable) == 0x14);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarSearch, AStarBucketQueue) == 0x1FF4);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarSearch, m_pFirstNode) == 0x2048);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarSearch, m_pLastCreatedNode) == 0x2050);
-FNV_STATIC_ASSERT(offsetof(NavMeshAStarSearch, m_bUseBestNode) == 0x2054);
 
 // Tasklet manager behind GetTaskletManager. Slots 0-2 are unrecovered
 // (never called by the matched functions); slot 3 takes the

@@ -195,8 +195,8 @@ struct RenderOwner
     void ApplyRenderState();
 };
 
-typedef void(__thiscall* ApplyState)(RenderOwner*, RenderBuffer*, RenderBuffer*, const void*, const void*, const void*);
-typedef void(__thiscall* CommitState)(RenderOwner*);
+typedef void(* ApplyState)(RenderOwner*, RenderBuffer*, RenderBuffer*, const void*, const void*, const void*);
+typedef void(* CommitState)(RenderOwner*);
 
 struct StateNode
 {
@@ -473,7 +473,7 @@ extern int DAT_011ae680;
 
 // Ensures the owner's group state exists and sets node values 0x34, 0x38, and 0x39 to 1, 4, and DAT_011ae680 respectively.
 // @fnv 0x00b8f2f0
-void __fastcall FUN_00b8f2f0(RenderOwner* owner)
+void FUN_00b8f2f0(RenderOwner* owner)
 {
     GroupState* group = owner->group;
     if (!group->state)
@@ -494,7 +494,7 @@ void __fastcall FUN_00b8f2f0(RenderOwner* owner)
 
 // If owner->group->state is null, assigns FUN_00e7f5d0() to it, then sets node values 14, 52, and 56.
 // @fnv 0x00b8f4b0
-void __fastcall FUN_00b8f4b0(RenderOwner* owner)
+void FUN_00b8f4b0(RenderOwner* owner)
 {
     GroupState* group = owner->group;
     if (!group->state)

@@ -12,15 +12,15 @@
 #include "fnv/symbols_00485000.h"
 struct FUN_0067c080_shell
 {
-    void __thiscall FUN_0067c080();
+    void FUN_0067c080();
 };
 
 void __cdecl FUN_0067c080_stub();
 
 struct FUN_0067c010_shell
 {
-    void __thiscall FUN_0067c080();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void FUN_0067c080();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 extern int DAT_01068988;
@@ -88,7 +88,7 @@ struct FUN_0067c080 : FUN_0067ad70_Base
     ~FUN_0067c080();
 };
 // @fnv 0x0067c010
-void* __thiscall FUN_0067c010_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_0067c010_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_0067c080 *>(this)->FUN_0067c080::~FUN_0067c080();
     if (flags & 1)
@@ -153,7 +153,7 @@ struct FUN_0067c110_shell : TESPackageData
 {
     FollowPackageField* m_04;
     float m_08;
-    void __thiscall FUN_0067c110(TESPackageData* other);
+    void FUN_0067c110(TESPackageData* other);
 };
 
 struct FUN_0067f030
@@ -166,7 +166,7 @@ struct FUN_0067f030
 
 // For a compatible source, copies m_08, deletes the old m_04, and allocates and initializes m_04 when the source has one.
 // @fnv 0x0067c110
-void __thiscall FUN_0067c110_shell::FUN_0067c110(TESPackageData* other)
+void FUN_0067c110_shell::FUN_0067c110(TESPackageData* other)
 {
     TESFollowPackageData* source = dynamic_cast<TESFollowPackageData*>(other);
     if (source)

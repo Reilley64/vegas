@@ -6,11 +6,11 @@
 // src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpWheelConstraintData.h"
-void __stdcall FUN_00d4e580(char a1, int* a2);
+void FUN_00d4e580(char a1, int* a2);
 void* __cdecl FUN_00d21a60(void* a, int b, int c);
 struct FUN_00d4e560
 {
-    void* __thiscall PopulateInfo(int ai);
+    void* PopulateInfo(int ai);
 };
 int __cdecl FUN_00d4e5b0();
 #include <xmmintrin.h>

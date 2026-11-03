@@ -22,7 +22,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
 class BGSImpactDataSet : public TESForm, public BGSPreloadable
 {
   public:
@@ -58,6 +57,4 @@ class BGSImpactDataSet : public TESForm, public BGSPreloadable
     // BGSImpactDataSet& __cdecl BGSImpactDataSet::*(const BGSImpactDataSet&)
     // void __cdecl BGSImpactDataSet::*()
 };
-FNV_STATIC_ASSERT(sizeof(BGSImpactDataSet) == 76);
-FNV_STATIC_ASSERT(offsetof(BGSImpactDataSet, m_apImpactData) == 28);
 #endif

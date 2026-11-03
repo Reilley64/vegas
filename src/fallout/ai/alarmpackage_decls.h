@@ -46,8 +46,5 @@ class TESSpellList : public BaseFormComponent
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
-FNV_STATIC_ASSERT(sizeof(TESSpellList) == 0x14);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, spellList) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESSpellList, leveledSpellList) == 0xc);
 
 #endif

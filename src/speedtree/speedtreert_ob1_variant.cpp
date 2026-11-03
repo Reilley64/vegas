@@ -5,6 +5,7 @@
 
 // src/speedtree/speedtreert.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/speedtreert.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Agent.h"
 #include "fnv/decl/B0E9Vec.h"
@@ -98,7 +99,7 @@ struct FUN_00b2bcf0_shell
 };
 struct FUN_00b071c0_Class
 {
-    void __thiscall SetField14(int param);
+    void SetField14(int param);
 };
 struct FUN_00b07390_class
 {
@@ -215,7 +216,7 @@ struct FUN_00b08500_shell
 };
 struct FUN_00b086f0_class
 {
-    unsigned short __thiscall GetLowWordAtOffset0x78();
+    unsigned short GetLowWordAtOffset0x78();
 };
 struct CSpeedTreeRT
 {
@@ -333,7 +334,7 @@ extern unsigned char DAT_011f8b78;
 void __cdecl _memmove(void* dst, const void* src, unsigned int size);
 struct CSpeedTreeRT_GetBoundingBox
 {
-    void __thiscall FUN_00b08c80(float* dst);
+    void FUN_00b08c80(float* dst);
 };
 struct FUN_00b0a260_Class
 {
@@ -360,7 +361,7 @@ struct FUN_00b0a260_Class
     void* m_50;
     void* m_54;
     void* m_58;
-    int __thiscall GetEntryCount();
+    int GetEntryCount();
 };
 struct FUN_00b02b70_shell
 {
@@ -434,7 +435,7 @@ struct FUN_00b02d40_class
     void* m_30;
     void* m_34;
     void* m_38;
-    void __thiscall ClearFields();
+    void ClearFields();
 };
 struct MemoryManager
 {
@@ -505,7 +506,7 @@ struct FUN_00b073f0_class
 struct FUN_00b07440_Class
 {
     void* m_p;
-    float __thiscall FUN_00b07440();
+    float FUN_00b07440();
 };
 namespace std {
 template <class _CharT> struct char_traits
@@ -519,7 +520,7 @@ template <class _CharT> struct allocator
 template <class _CharT, class _Traits, class _Alloc> class basic_string
 {
   public:
-    void __thiscall _Tidy(bool, unsigned int);
+    void _Tidy(bool, unsigned int);
 };
 }
 
@@ -528,13 +529,13 @@ struct FUN_0044d6f0_This
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void __thiscall FUN_00ec79a1();
+    void FUN_00ec79a1();
 };
 struct FUN_00b09780_class : FUN_0044d6f0_This
 {
     std::basic_string<char, std::char_traits<char>, std::allocator<char> > m_iThirdValue;
 
-    void __thiscall FUN_00b09780();
+    void FUN_00b09780();
 };
 extern int DAT_010a51e0;
 struct FUN_00b097b0_class
@@ -593,7 +594,7 @@ struct FUN_00b02ac0
 };
 struct FUN_00b08610_shell
 {
-    unsigned short __thiscall FUN_00b08610(float fLodLevel);
+    unsigned short FUN_00b08610(float fLodLevel);
 };
 struct std_string
 {
@@ -824,7 +825,7 @@ struct FUN_00b10430_Class
     int unk00;
     int unk04;
 
-    FUN_00b10430_Class* __thiscall FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range);
+    FUN_00b10430_Class* FUN_00b10430(unsigned int index, FUN_00b10430_Arg* range);
 };
 
 struct Mat
@@ -1187,8 +1188,6 @@ struct CritSecQ
 {
     int a, b, c, d, e, f;
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CritSecQ*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CritSecQ*);
 extern CritSecQ DAT_011f8bc4;
 struct InstListQ
 {
@@ -1981,7 +1980,7 @@ struct StrF
 };
 extern "C" int* __cdecl FUN_00ec85e3();
 extern "C" char* __cdecl FUN_00ecdb42(int);
-void __stdcall FUN_00ec7894(void* p, void* t);
+void FUN_00ec7894(void* p, void* t);
 extern char DAT_0116f904;
 struct CIdvException
 {
@@ -8053,7 +8052,7 @@ const short* SpeedTreeRTB0AA20::FUN_00b0aa20(short nLod) const
 
 struct Eng28
 {
-    void __thiscall SetLeafLodGeometry(void* block, unsigned short idx, float a, float b, float c);
+    void SetLeafLodGeometry(void* block, unsigned short idx, float a, float b, float c);
 };
 struct OutAd00
 {
@@ -8170,10 +8169,10 @@ struct SelfAd00
     int m3c;
     int m40;
     unsigned char m44;
-    void __thiscall FUN_00b0ad00(OutAd00* out, float param);
+    void FUN_00b0ad00(OutAd00* out, float param);
 };
 // @fnv 0x00b0ad00
-void __thiscall SelfAd00::FUN_00b0ad00(OutAd00* out, float param)
+void SelfAd00::FUN_00b0ad00(OutAd00* out, float param)
 {
     float asinRad;
     float t2;
@@ -13908,7 +13907,7 @@ struct TreeGeomQ
 
 struct MM
 {
-    void __thiscall FUN_00aa4060(void* object);
+    void FUN_00aa4060(void* object);
 };
 
 struct EmbeddedTex
@@ -13930,11 +13929,11 @@ struct TreeRuntimeQ
     EmbeddedTex* unk50;
     int unk54, unk58, unk5c;
     TreeGeomQ* unk60;
-    void __thiscall FUN_00b087d0();
+    void FUN_00b087d0();
 };
 
 // @fnv 0x00b087d0
-void __thiscall TreeRuntimeQ::FUN_00b087d0()
+void TreeRuntimeQ::FUN_00b087d0()
 {
     if (this->unk50 != 0)
     {
@@ -14251,8 +14250,8 @@ struct ErrorStringView
     }
 };
 
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 extern int DAT_011f8be8;
 extern int DAT_011f8bec;
 
@@ -14265,12 +14264,12 @@ struct LeafModeView
 
 struct FUN_00b10430_class
 {
-    void __thiscall FUN_00b10430(unsigned int node, void* tree);
+    void FUN_00b10430(unsigned int node, void* tree);
 };
 
 struct FUN_00b0ec20_class
 {
-    void __thiscall FUN_00b0ec20();
+    void FUN_00b0ec20();
 };
 
 struct FUN_00b0eca0_class

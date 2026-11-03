@@ -1,11 +1,10 @@
 // bsshader/geometrydecalshader_decls.h: declares NiMemObject, NiRefObject, NiD3DPixelShader, NiD3DVertexShader, NiD3DPass and more
 
+#include <windows.h>
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/symbols_00be0000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_010a1000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 class NiMemObject
 {

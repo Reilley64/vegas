@@ -71,7 +71,7 @@ struct FUN_00d68770_cls
 
     FUN_00d68770_cls* Construct(int aParam);
 };
-void* __stdcall FUN_00d687b0(char* a1);
+void* FUN_00d687b0(char* a1);
 struct FnvCpu_FUN_00d687c0_CpuBlock;
 struct FnvCpu_FUN_00d687c0_CpuAllocator
 {
@@ -112,7 +112,7 @@ struct FUN_00d68840_cls
 
     void* Init(int a);
 };
-void* __stdcall FUN_00d68880(void* pObject);
+void* FUN_00d68880(void* pObject);
 // FUN_00d688f0 : tiny global getter.
 // Reads the 4-byte global at DAT_0126900c and returns it in eax.
 int __cdecl FUN_00d688f0();
@@ -177,7 +177,7 @@ struct D6C180Command
     int unk08;
     int unk0C;
 };
-void __fastcall WriteCommand(D6C180Command** ppkCursor, unsigned char ucFlag);
+void WriteCommand(D6C180Command** ppkCursor, unsigned char ucFlag);
 struct Inner
 {
     void Tail();
@@ -271,7 +271,7 @@ struct D60590Object
 };
 struct FUN_00d60600_class
 {
-    void __thiscall FUN_00d60b20(int a, int b);
+    void FUN_00d60b20(int a, int b);
 };
 struct FUN_00d61470_Class
 {
@@ -330,7 +330,7 @@ struct FUN_00d61640_cls
 struct FUN_00d61680_Obj
 {
     int unk00;
-    void __thiscall FUN_00d61680(unsigned int param);
+    void FUN_00d61680(unsigned int param);
 };
 struct FUN_00d616a0_cls
 {
@@ -562,7 +562,7 @@ struct D62080_Object
     int m_uiItemCount;
     unsigned int m_pRayCursor;
 
-    void __thiscall FUN_00d62080(int param2, int param3);
+    void FUN_00d62080(int param2, int param3);
 };
 struct Router_d62100
 {
@@ -573,7 +573,7 @@ struct Router_d62100
 };
 struct FUN_00d62100_Class
 {
-    int __thiscall FUN_00d62100(int first, int second, int third);
+    int FUN_00d62100(int first, int second, int third);
 };
 struct SearchBase
 {
@@ -994,7 +994,7 @@ struct FUN_00d65250_cls
     unsigned char unk60;
     unsigned char unk61;
 
-    void __thiscall FUN_00d65250(unsigned char value);
+    void FUN_00d65250(unsigned char value);
 };
 struct FnvCpu_FUN_00d65260_CpuObject
 {

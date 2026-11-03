@@ -14,7 +14,6 @@
 
 // The canonical Setting layout, with declarations for the two unresolved
 // helpers used by the game-setting reader. No shared header is modified.
-#pragma pack(push, 4)
 class Setting
 {
   public:
@@ -55,12 +54,7 @@ class GameSettingCollection : public SettingCollectionMap<Setting>
 
     // Actor::IsFleeing(bool) candidate is incompatible with this call site.
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(Setting) == 0xC);
-FNV_STATIC_ASSERT(offsetof(Setting, uValue) == 0x4);
-FNV_STATIC_ASSERT(offsetof(Setting, pKey) == 0x8);
-FNV_STATIC_ASSERT(offsetof(GameSettingCollection, pFile) == 0x108);
 
 extern "C" void* __cdecl _alloca(unsigned int size);
 

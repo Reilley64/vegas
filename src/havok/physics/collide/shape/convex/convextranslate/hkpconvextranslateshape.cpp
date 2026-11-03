@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexTranslateShape.h"
@@ -37,11 +38,11 @@ struct Own_dd5e60
     int unk10;
     int unk14;
     Sub_dd5e60* m_sub;  // at +0x18
-    void __thiscall FUN_00dd5e60();
+    void FUN_00dd5e60();
 };
 
 // @fnv 0x00dd5e60
-void __thiscall Own_dd5e60::FUN_00dd5e60()
+void Own_dd5e60::FUN_00dd5e60()
 {
     m_sub->v2C();
 }
@@ -115,11 +116,11 @@ struct Own_dd5e70
     int unk14;
     void* m_sub;
 
-    void __thiscall AttachChildAndAttribute(Sub_dd5e70* object, int unused);
+    void AttachChildAndAttribute(Sub_dd5e70* object, int unused);
 };
 
 // @fnv 0x00dd5e70
-void __thiscall Own_dd5e70::AttachChildAndAttribute(Sub_dd5e70* object, int unused)
+void Own_dd5e70::AttachChildAndAttribute(Sub_dd5e70* object, int unused)
 {
     object->v0C("Child", m_sub, 0);
     reinterpret_cast<::FunctionContext *>(this)->FUN_00c90360(object, (void *)(&(*reinterpret_cast<int *>(&::g_01268940))));
@@ -181,7 +182,7 @@ struct ObjDD5F50
     virtual void v12();
     virtual void v13();
     virtual void v14();
-    virtual void __thiscall FUN_00dd5f50_v(const unsigned short* ids, int numIds, hkVector4D5F* verticesOut);
+    virtual void FUN_00dd5f50_v(const unsigned short* ids, int numIds, hkVector4D5F* verticesOut);
 };
 
 struct ClsDD5F50
@@ -196,7 +197,7 @@ struct ClsDD5F50
     int m_1c;
     hkVector4D5F m_vTranslation;  // +0x20
 
-    void __thiscall FUN_00dd5f50(const unsigned short* ids, int numIds, hkVector4D5F* verticesOut);
+    void FUN_00dd5f50(const unsigned short* ids, int numIds, hkVector4D5F* verticesOut);
 };
 
 // Calls the contained shape's virtual vertex generator, then adds m_vTranslation to each output vertex.
@@ -221,7 +222,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 } __m128;
 extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();
@@ -371,7 +371,7 @@ struct FNV_dd6060_Shape
 struct FNV_dd6060_Class : hkpConvexTranslateShape
 {
 
-    void __thiscall FUN_00dd6060(const hkRotation* rotation, float distance, __m128* output);
+    void FUN_00dd6060(const hkRotation* rotation, float distance, __m128* output);
 };
 
 // Calls the contained shape's v1C, then adds the translation rotated by the rotation columns to output[0] and output[1].

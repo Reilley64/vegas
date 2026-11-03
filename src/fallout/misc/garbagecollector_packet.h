@@ -2,6 +2,7 @@
 #ifndef FNV_GARBAGECOLLECTOR_PACKET_H
 #define FNV_GARBAGECOLLECTOR_PACKET_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_0040f6e0_class.h"
 #include "fnv/decl/FUN_004aaf10_shell.h"
 #include "fnv/decl/FUN_006bf8f0_Class.h"
@@ -22,7 +23,6 @@ class GarbageCollector
     static void ClearTempEffects();
     static void Update();
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 class GlobalObject_00869db0
 {
   public:

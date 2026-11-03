@@ -43,7 +43,7 @@ struct FUN_004fc380_shell : public BGSPlaceableWater
 };
 struct FUN_004fc990_t
 {
-    void __thiscall FUN_004fc990(int, bool);
+    void FUN_004fc990(int, bool);
 };
 struct FUN_004fc790_shell
 {

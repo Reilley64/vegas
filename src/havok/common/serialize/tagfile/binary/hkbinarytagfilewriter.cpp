@@ -97,7 +97,7 @@ struct UnkHolder
     int a;
     int b;
     int c;
-    void __thiscall FUN_00dbedb0(UnkRet*, int);
+    void FUN_00dbedb0(UnkRet*, int);
 };
 struct FUN_00dc0380
 {
@@ -150,7 +150,7 @@ struct Value
     __declspec(nothrow) ObjectHandle FUN_00dbacd0();
 };
 // @fnv 0x00dbeab0
-int __stdcall IsTruthy(Value* value)
+int IsTruthy(Value* value)
 {
     if (value->FUN_00dbac40() >= 16)
         return value->FUN_00dbacd0().FUN_00dbac00();
@@ -193,7 +193,7 @@ struct Receiver
 };
 struct Description
 {
-    void __thiscall FUN_009ba810(ResourceKey* key);
+    void FUN_009ba810(ResourceKey* key);
 };
 struct ResourceLookup
 {
@@ -206,7 +206,7 @@ struct AudioResourceState
     void* active;
     ResourceLookup lookup;
     SoundEntry** entries;
-    void* __thiscall ResolveSound(Receiver* receiver, Description* description);
+    void* ResolveSound(Receiver* receiver, Description* description);
 };
 struct hkMemoryAllocator
 {
@@ -465,10 +465,10 @@ struct FUN_00dc05b0_writer
     int unk50;
     int unk54;
     Dc0380Layout audio;
-    void __thiscall FUN_00dc0500(int, int);
-    void __thiscall WriteVarint(unsigned int, unsigned int);
-    void __thiscall FUN_00dbf450(int, int);
-    void __thiscall FUN_00dc00b0(int);
+    void FUN_00dc0500(int, int);
+    void WriteVarint(unsigned int, unsigned int);
+    void FUN_00dbf450(int, int);
+    void FUN_00dc00b0(int);
 };
 struct CallbackTarget
 {
@@ -486,7 +486,7 @@ struct CallbackTarget
     {}
 };
 // @fnv 0x00dc05b0
-int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source)
+int WriteAudioObject(int value, CallbackTarget* target, int source)
 {
     FUN_00dc05b0_writer writer;
     writer.FUN_00dc0500((int)target, source);
@@ -503,11 +503,11 @@ int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source)
 
 struct Obj
 {
-    void __thiscall WriteVarint(__int64);
+    void WriteVarint(__int64);
 };
 
 // @fnv 0x00dbe790
-void __thiscall Obj::WriteVarint(__int64 value)
+void Obj::WriteVarint(__int64 value)
 {
     unsigned __int64 u;
 
@@ -851,13 +851,13 @@ struct Rec_00dbf0d0
     unsigned char* unk00;  // data buffer
     int unk04;             // used size
     int unk08;             // capacity (low 30 bits) + flags
-    void __thiscall PackBitsToBytes(unsigned char* dest);
+    void PackBitsToBytes(unsigned char* dest);
 };
 
 void __cdecl fnv_memset_00ec61c0(void* dest, int ch, int count);
 
 // @fnv 0x00dbf0d0
-void __thiscall Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
+void Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
 {
     int oldSize = this->unk04;
     int newSize = (oldSize + 7) & 0xfffffff8;
@@ -1021,11 +1021,11 @@ struct S_dbf1a0_Handle
         ::FUN_00dba660();
     }
 
-    void __thiscall FUN_00dba650(void* p) throw();
-    void __thiscall FUN_00dba660() throw();
-    const char* __thiscall FUN_00dba680() const throw();
-    int __thiscall FUN_00dba690() const throw();
-    int __thiscall FUN_00dba6f0() const throw();
+    void FUN_00dba650(void* p) throw();
+    void FUN_00dba660() throw();
+    const char* FUN_00dba680() const throw();
+    int FUN_00dba690() const throw();
+    int FUN_00dba6f0() const throw();
 };
 
 struct S_dbf1a0_Elem
@@ -1444,7 +1444,7 @@ struct HkNodeE980
 };
 // Evaluates a node by dispatching on its type code and returning the corresponding boolean result.
 // @fnv 0x00dbe980
-int __stdcall EvaluateNode(HkNodeE980* node)
+int EvaluateNode(HkNodeE980* node)
 {
     if (reinterpret_cast<::fnv_00dba920::Target *>((node))->QueryAndWriteResult() >= 0x10)
     {
@@ -1499,8 +1499,8 @@ struct FUN_00dba650
     {
         ::FUN_00dba660();
     }
-    __declspec(nothrow) void __thiscall FUN_00dba660();
-    __declspec(nothrow) int __thiscall FUN_00dba730();
+    __declspec(nothrow) void FUN_00dba660();
+    __declspec(nothrow) int FUN_00dba730();
 };
 struct MyDesc
 {
@@ -1513,10 +1513,10 @@ struct MyDesc
     {
         reinterpret_cast<::DBA7F0Ref *>(this)->FUN_00dba7f0();
     }
-    __declspec(nothrow) void __thiscall FUN_00dba7f0();
-    __declspec(nothrow) ResourceKey __thiscall GetSourcePair();
-    __declspec(nothrow) FUN_00dba650 __thiscall GetObjectValue();
-    __declspec(nothrow) ResourceKey __thiscall FUN_00dba890(int id);
+    __declspec(nothrow) void FUN_00dba7f0();
+    __declspec(nothrow) ResourceKey GetSourcePair();
+    __declspec(nothrow) FUN_00dba650 GetObjectValue();
+    __declspec(nothrow) ResourceKey FUN_00dba890(int id);
 };
 struct AudioResourceState2
 {
@@ -1651,7 +1651,7 @@ struct ResourceWriter : FUN_00d607b0_s
     int unk5c, unk60, unk64, unk68, unk6c;
 
 
-    __declspec(nothrow) void __thiscall FUN_00dc00b0(MyDesc* input);
+    __declspec(nothrow) void FUN_00dc00b0(MyDesc* input);
 };
 // Dispatches on the wrapper's type value and writes values or packed member data to the host.
 // @fnv 0x00dbf930
@@ -1883,7 +1883,7 @@ void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
 }
 // Resolves a sound, writes a varint tag, handle, and per-item resource keys to the resource stream.
 // @fnv 0x00dc00b0
-void __thiscall ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
+void ResourceWriter::FUN_00dc00b0(MyDesc* apSoundDesc)
 {
     MyDesc desc = (*(::MyDesc *)(reinterpret_cast<::AudioResourceState *>(&(m_58))->ResolveSound((::Receiver *)(apSoundDesc), {})));
     if (((int)(reinterpret_cast<::FUN_00dba980_cls *>(&(desc))->FUN_00dba980())))
@@ -2177,7 +2177,7 @@ struct S00dbedb0_Callee : UnkHolder
 {
 };
 // @fnv 0x00dbedb0
-__declspec(noinline) void __thiscall UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
+__declspec(noinline) void UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
 {
     int needed = count + count;
     int capacity = 8;

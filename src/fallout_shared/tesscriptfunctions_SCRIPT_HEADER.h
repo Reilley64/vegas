@@ -13,13 +13,4 @@ class ScriptHeaderData
     bool m_bEffect;                // +0x11
     bool m_bCompiled;              // +0x12
 };
-FNV_STATIC_ASSERT(sizeof(ScriptHeaderData) == 0x14);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, variableCount) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, m_uiReferenceID) == 0x4);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, dataSize) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, m_uiDataOffset) == 0xC);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, m_bQuest) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, m_bEffect) == 0x11);
-FNV_STATIC_ASSERT(offsetof(ScriptHeaderData, m_bCompiled) == 0x12);
-FNV_STATIC_ASSERT(__alignof(ScriptHeaderData) == 4);
 #endif

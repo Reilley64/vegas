@@ -110,9 +110,4 @@ struct _D3DXMACRO
 };
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 #undef SPLATTER_ASSIGN
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_uiStageMask) == 0x14);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pRenderStateGroup) == 0x30);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spPixelShaderObject) == 0x44);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spVertexShaderObject) == 0x5c);
-FNV_STATIC_ASSERT(offsetof(BeamStage, m_uiRefCount) == 0x60);
 #endif

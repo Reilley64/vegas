@@ -7,6 +7,7 @@
 
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00df71c0_Value {
@@ -217,7 +218,7 @@ struct DF7230CastCollector {
 //   call 0xdf7230                     ; same class, this (ECX) forwarded
 //   ret 8
 //
-// CastAgainstCollidable is a __thiscall member of the same class with one 4-byte
+// CastAgainstCollidable is a member of the same class with one 4-byte
 // stack argument; it ends with `ret 4`, so it pops the pushed pointer
 // itself and our own epilogue only has to drop the two incoming arguments.
 //
@@ -918,8 +919,6 @@ m_path=path;
 m_fStartPointTolerance=path.length3();
 m_fScalar=tolerance;
 }
-extern "C" __declspec(dllimport) unsigned long __stdcall TlsAlloc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 class BusyWaitingSemaphore
 {
 public:

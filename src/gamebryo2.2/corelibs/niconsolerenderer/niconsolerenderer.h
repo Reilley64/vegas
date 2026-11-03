@@ -2,6 +2,7 @@
 #ifndef FNV_NICONSOLERENDERER_H
 #define FNV_NICONSOLERENDERER_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/symbols_00a29000.h"
@@ -55,12 +56,12 @@ bool GraphicsRenderer::BeginUsingRenderTargetGroup(NiRenderTargetGroup* group, u
         ::FUN_00a29680();
         return false;
     }
-    fnv_EnterCriticalSection(&m_acRendererDataC);
+    EnterCriticalSection(&m_acRendererDataC);
     bool result = ((NiConsoleRendererPacketVTable*)this)->BeginGroup(group, clear);
     if (result)
         m_bRendererFlagA = true;
     else
-        fnv_LeaveCriticalSection(&m_acRendererDataC);
+        LeaveCriticalSection(&m_acRendererDataC);
     return result;
 }
 // @fnv 0x00a6fa30

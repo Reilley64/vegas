@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ControllerOwner.h"
 #include "fnv/decl/FUN_00a3f990_shell.h"
@@ -91,8 +92,6 @@ void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, 
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 

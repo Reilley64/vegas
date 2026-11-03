@@ -7,6 +7,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c929e0_ThisClass.h"
 #include "fnv/decl/FUN_00d46d40_s.h"
@@ -35,7 +36,7 @@ struct D625A0CharArray {
 };
 char *FUN_00d634d0();
 struct ItemSink;
-typedef void (__thiscall* ProcessFn)(ItemSink* apThis, void* apItem);
+typedef void (* ProcessFn)(ItemSink* apThis, void* apItem);
 struct ItemSinkVtbl {
     void* fn00;
     ProcessFn Process;
@@ -501,7 +502,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

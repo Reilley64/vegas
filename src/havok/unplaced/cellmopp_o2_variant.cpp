@@ -5,6 +5,7 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CCA1B0Level2.h"
 #include "fnv/decl/FUN_00622490.h"
@@ -296,7 +297,7 @@ struct HC1Base
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall FUN_00ca4f40(NiStream* stream);
+    void FUN_00ca4f40(NiStream* stream);
 };
 // @fnv 0x00ca4f40
 void HC1Base::FUN_00ca4f40(NiStream* stream)
@@ -398,7 +399,7 @@ struct Interface
     virtual void slot0C() = 0;
     virtual void* GetObject() = 0;
 };
-typedef void(__thiscall* FinishObject)(Interface*);
+typedef void(* FinishObject)(Interface*);
 struct Owner
 {
     int unk00;
@@ -973,7 +974,6 @@ void FUN_00ca4fd0_cls::FUN_00ca4fd0(int first, int second)
     ((FUN_00ca4fd0_Value*)pValue)->Target(first, second);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 
 
 struct RefCounted
@@ -1687,7 +1687,7 @@ struct ValueOwner
         }
         return 0;
     }
-    bool __thiscall FUN_00ca5040(int a);
+    bool FUN_00ca5040(int a);
 };
 // @fnv 0x00ca5040
 bool ValueOwner::FUN_00ca5040(int a)

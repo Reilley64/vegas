@@ -275,12 +275,12 @@ void FUN_00503240_shell::SwapEndianFields()
 
 struct FUN_00504420_shell
 {
-    void __thiscall FUN_00504420(unsigned int aiFlags, unsigned int aiCurrentFlags);
+    void FUN_00504420(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 
 // Calls FUN_00484c50 on this and FUN_0048ea10 on the object at this+0x78, passing the same two flags.
 // @fnv 0x00504420
-void __thiscall FUN_00504420_shell::FUN_00504420(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_00504420_shell::FUN_00504420(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>(this)->FUN_00484c50(aiFlags, aiCurrentFlags);
     reinterpret_cast<::fnv_0048ea10::TESValueForm *>((((FUN_00504420_shell*)((char*)this + 0x78))))->FUN_0048ea10(aiFlags, aiCurrentFlags);
@@ -640,7 +640,7 @@ void AmmoSave::Save()
     reinterpret_cast<::Holder *>((reinterpret_cast<AmmoSaveCalls*>(this)))->FUN_00485680();
 }
 
-int __fastcall FNV_GetFormType(TESForm* pkForm);
+int FNV_GetFormType(TESForm* pkForm);
 
 struct AmmoEffectNode503
 {
@@ -650,7 +650,7 @@ struct AmmoEffectNode503
     void FUN_0063f7b0();
 };
 
-bool __fastcall FUN_008256d0(AmmoEffectNode503* pkNode);
+bool FUN_008256d0(AmmoEffectNode503* pkNode);
 
 struct AmmoString503
 {

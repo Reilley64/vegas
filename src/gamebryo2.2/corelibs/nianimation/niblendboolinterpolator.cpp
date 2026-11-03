@@ -33,7 +33,7 @@ struct FUN_00a565a0_shell : public NiBlendBoolInterpolator
 // @fnv 0x00a565a0
 bool FUN_00a565a0_shell::FUN_00a565a0(NiInterpolator* pkInterpolator)
 {
-    return (*(bool(__thiscall**)(NiInterpolator*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
+    return (*(bool(**)(NiInterpolator*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
 }
 
 class BSFadeNode
@@ -76,7 +76,7 @@ void FUN_00a568e0_shell::FUN_00a568e0(NiStream* kStream)
 
 // Constructs a NiBlendInterpolator with the given arguments, installs the vtable at DAT_0109a67c and sets byte 0x30 from DAT_0109a914.
 // @fnv 0x00a56560
-NiBlendInterpolator* __fastcall ConstructBlendInterpolator(NiBlendInterpolator* self, int unused, bool a, float b,
+NiBlendInterpolator* ConstructBlendInterpolator(NiBlendInterpolator* self, int unused, bool a, float b,
                                                            unsigned char c)
 {
     reinterpret_cast<::S_00a370b0_Class *>((self))->FUN_00a370b0(a, b, c);
@@ -113,7 +113,7 @@ void* __cdecl FUN_00a56620()
 
 // Calls DestroyInterpolatorArray on self, then if flags has bit 0 set calls __Dummy_00b6fef0 with self and 0x34, and returns self.
 // @fnv 0x00a56630
-void* __fastcall FUN_00a56630(void* self, int, unsigned int flags)
+void* FUN_00a56630(void* self, int, unsigned int flags)
 {
     ::DestroyInterpolatorArray((::NiBlendInterpolator *)(self), {});
     if (flags & 1)
@@ -131,7 +131,7 @@ struct M76Obj
 };
 // Allocates and initialises an M76Obj, passes it to self's FUN_00a37510 with cloning, copies self's m_bBoolValue into it and returns it.
 // @fnv 0x00a56650
-M76Obj* __fastcall FUN_00a56650(M76Obj* self, int, void* cloning)
+M76Obj* FUN_00a56650(M76Obj* self, int, void* cloning)
 {
     M76Obj* pkObject = new M76Obj;
     if (pkObject)
@@ -246,7 +246,7 @@ struct M76Obj
 };
 // Writes the object's base data via FUN_00a37ec0, then writes one byte at offset 0x30 through the stream's output bin.
 // @fnv 0x00a56920
-void __fastcall FUN_00a56920(M76Obj* self, int, M76Stream* stream)
+void FUN_00a56920(M76Obj* self, int, M76Stream* stream)
 {
     reinterpret_cast<::SBObject *>((self))->FUN_00a37ec0((*(::SBStream *)(stream)));
     M76Bin* __restrict out = stream->output;
@@ -283,7 +283,7 @@ struct M76Glob
 };
 // Calls FUN_00a38080, then appends the result of FUN_00a7d330 and the formatted "m_bBoolValue" string to pkStrings.
 // @fnv 0x00a56960
-void __fastcall AddBoolValueStrings(M76Obj* self, int, M76Arr* pkStrings)
+void AddBoolValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 {
     reinterpret_cast<::BlendSerializer *>((self))->FUN_00a38080((::NiStream *)(pkStrings));
     pkStrings->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<::fnv_00a56960::M76Glob * *>(&::g_011f407c)))));

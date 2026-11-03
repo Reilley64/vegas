@@ -107,7 +107,7 @@ extern "C" int DAT_011a558c;
 float ScaleCharToFloat(char arg);
 struct FUN_009a9f00_shell
 {
-    void __thiscall SetFieldE0(float value);
+    void SetFieldE0(float value);
 };
 struct BGSProjectile
 {
@@ -279,7 +279,7 @@ struct FUN_00966980_shell
 {
     char _pad[0x64];
     float _f64;
-    float __thiscall FUN_00966980();
+    float FUN_00966980();
 };
 struct A69C0Weapon
 {
@@ -2645,7 +2645,7 @@ struct Effect
 };
 struct CombatPlan
 {
-    bool __thiscall FUN_00981940(int a);
+    bool FUN_00981940(int a);
 };
 struct Ref;
 struct Holder
@@ -2923,7 +2923,7 @@ struct Ref
 };
 struct Mgr
 {
-    Holder* __thiscall FUN_009a4250(Ref* a);
+    Holder* FUN_009a4250(Ref* a);
 };
 struct Glob
 {

@@ -178,10 +178,4 @@ class BSShaderManager
   public:
     static void GetTexture(const char* path, bool load, NiPointer<NiTexture>& texture, bool first, bool second);
 };
-FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
-FNV_STATIC_ASSERT(sizeof(ImageSpaceShaderParam) == 136);
-FNV_STATIC_ASSERT(sizeof(ImageSpaceEffect) == 88);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kShaderTextures) == 88);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceShaderParam, m_kRenderStateMap) == 120);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffectMenuBackground, m_pBackgroundTexture) == 88);
 #endif

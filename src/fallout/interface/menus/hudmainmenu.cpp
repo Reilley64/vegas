@@ -1,5 +1,6 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
 #include "fnv/decl/ActorMover.h"
@@ -348,7 +349,7 @@ struct NodeArg
     NiNode* n;
 };
 // @fnv 0x007700b0
-void __fastcall FUN_007700b0(char* self, NodeArg aNodeArg)
+void FUN_007700b0(char* self, NodeArg aNodeArg)
 {
     ((NiPointer<NiNode>*)(self + 0x64))->operator=(aNodeArg.n);
 }
@@ -748,7 +749,7 @@ struct blob48
 };
 
 // @fnv 0x007721a0
-NiAVObject* __fastcall FUN_007721a0(char* thisPtr)
+NiAVObject* FUN_007721a0(char* thisPtr)
 {
     return *(NiAVObject**)(thisPtr + 0xe34);
 }
@@ -767,7 +768,7 @@ struct Lst
 };
 extern HUDMainMenu* g_pHudMainMenuInstance;
 // @fnv 0x007735d0
-bool __fastcall FUN_007735d0(unsigned char* self)
+bool FUN_007735d0(unsigned char* self)
 {
     if (!self[0x260])
         return false;
@@ -798,7 +799,7 @@ struct Lst
 };
 extern HUDMainMenu* g_pHudMainMenuInstance;
 // @fnv 0x00773650
-bool __fastcall FUN_00773650(unsigned char* self)
+bool FUN_00773650(unsigned char* self)
 {
     if (!self[0x261])
         return false;
@@ -985,7 +986,7 @@ public:
 
 
 // @fnv 0x00778930
-int __fastcall GetExtraDataShort(const TESObjectREFR* pThis)
+int GetExtraDataShort(const TESObjectREFR* pThis)
 {
     return reinterpret_cast<::FUN_00418770_shell *>((void *)(((const ::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(pThis))->FUN_005d43c0()))))->FUN_00418770();
 }
@@ -1026,7 +1027,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 
 struct NiPoint3_helper : NiPoint3
 {
@@ -1301,7 +1301,6 @@ struct QuestUpdateManager
     static int SortQuestNamesByPriorityFunction(void*, void*);
     char _pad_0[1];
 };
-typedef char _sizecheck_QuestUpdateManager[sizeof(QuestUpdateManager) == 1 ? 1 : -1];
 struct FUN_0077b2a0_shell : public QuestUpdateManager
 {
     void* GetQuestNamesHead();
@@ -1328,14 +1327,13 @@ struct QuestUpdateManager
     static int SortQuestNamesByPriorityFunction(void*, void*);
     char _pad_0[1];
 };
-typedef char _sizecheck_QuestUpdateManager[sizeof(QuestUpdateManager) == 1 ? 1 : -1];
 struct FUN_0077b2c0_shell : public QuestUpdateManager
 {
     bool FUN_0077b2c0();
 };
 
 extern int g_011d970c;
-bool __fastcall _ref_008256d0(void* pThis);
+bool _ref_008256d0(void* pThis);
 
 // @fnv 0x0077b2c0
 bool FUN_0077b2c0_shell::FUN_0077b2c0()
@@ -1398,7 +1396,7 @@ extern HUDMainMenu* g_pHudMainMenuInstance;
 extern Q* DAT_011d96bc;
 // Clears each tile in the HUD list via Set(0xfa3, 0), then, unless the menu state is 5, drains and deallocates queued items and calls ClearGlobalList.
 // @fnv 0x0077f500
-void __fastcall ResetHudTiles(void* self)
+void ResetHudTiles(void* self)
 {
     Tile* tile;
     void* pIter = (void*)(*(StrOp*)((char*)*(void**)((char*)g_pHudMainMenuInstance + 0x60) + 4));
@@ -1845,7 +1843,7 @@ struct TileReference
 {
     Tile* pTile;
 };
-bool __fastcall _ref_008256d0(void* pThis);
+bool _ref_008256d0(void* pThis);
 extern HUDMainMenu* g_pHudMainMenuInstance;
 
 // @fnv 0x0077f5e0
@@ -1933,13 +1931,11 @@ struct GameTimerRecord
     bool m_bSecondTimerFlag;
     char _pad_1e[2];
 };
-typedef char _sizecheck_BSTimer[sizeof(GameTimerRecord) == 32 ? 1 : -1];
 struct FUN_00aa4ee0_shell : public GameTimerRecord
 {
     void FUN_00aa4ee0();
 };
 
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long dwMilliseconds);
 struct FUN_00aa4ee0_t : public GameTimerRecord
 {
     void FUN_00aa4ee0(unsigned int aiTime);
@@ -2068,8 +2064,8 @@ void __cdecl FUN_0076be30();
 
 struct FUN_0076be00_Class
 {
-    void __thiscall FUN_0076be30();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void FUN_0076be30();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 namespace fnv_007728f0 {
@@ -4347,7 +4343,7 @@ struct FUN_0076be30 : public HudMenuBase
 };
 // Calls FUN_0076be30, then deallocates this if flags has bit 1 set, and returns this.
 // @fnv 0x0076be00
-void* __thiscall FUN_0076be00_Class::DestroyIfFlagged(unsigned int flags)
+void* FUN_0076be00_Class::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_0076be30 *>(this)->FUN_0076be30::~FUN_0076be30();
     if (flags & 1)

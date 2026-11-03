@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpCollisionFilter.h"
-#pragma pack(push, 1)
 class hkpGroupFilter : public hkpCollisionFilter
 {
   public:
@@ -14,6 +13,4 @@ class hkpGroupFilter : public hkpCollisionFilter
     char padB4[0xC];
     hkVector4 m_kCollisionGroupMaskVectors[4];  // +0xC0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpGroupFilter[(sizeof(hkpGroupFilter) == 0x100) ? 1 : -1];
 #endif

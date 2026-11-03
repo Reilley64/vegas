@@ -15,7 +15,7 @@
 #include "fnv/symbols_00a51000.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_011f4000.h"
-char __stdcall FUN_00a51210(char acValue)
+char FUN_00a51210(char acValue)
 {
     char r = ((char)(::FUN_00a50b10(acValue)));
     return r != 0;

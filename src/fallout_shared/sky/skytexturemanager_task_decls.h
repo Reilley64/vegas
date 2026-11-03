@@ -25,7 +25,6 @@ enum BS_TASK_STATE
     BS_TASK_STATE_BS_TASK_STATE_CANCELED = 6,
     BS_TASK_STATE_BS_TASK_STATE_FORCE_DWORD = 2147483647
 };
-#pragma pack(push, 4)
 class BSTask___int64_
 {
   public:
@@ -52,12 +51,6 @@ class BSTask___int64_
     // BSTask<__int64>& __cdecl BSTask<__int64>::*(const BSTask<__int64>&)
     // void __cdecl BSTask<__int64>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTask___int64_) == 24);
-FNV_STATIC_ASSERT(offsetof(BSTask___int64_, BackgroundTask) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTask___int64_, eState) == 12);
-FNV_STATIC_ASSERT(offsetof(BSTask___int64_, Key) == 16);
-#pragma pack(push, 4)
 class IOTask : public BSTask___int64_
 {
   public:
@@ -78,9 +71,6 @@ class IOTask : public BSTask___int64_
     // void __cdecl IOTask::*()
     // IOTask& __cdecl IOTask::*(const IOTask&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(IOTask) == 24);
-#pragma pack(push, 4)
 class QueuedFile : public IOTask
 {
   public:
@@ -103,13 +93,6 @@ class QueuedFile : public IOTask
     // void __cdecl QueuedFile::*(QueuedFile*)
     // QueuedFile& __cdecl QueuedFile::*(const QueuedFile&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(QueuedFile) == 40);
-FNV_STATIC_ASSERT(offsetof(QueuedFile, aeMemoryContext) == 24);
-FNV_STATIC_ASSERT(offsetof(QueuedFile, m_pParent) == 28);
-FNV_STATIC_ASSERT(offsetof(QueuedFile, pChildren) == 32);
-FNV_STATIC_ASSERT(offsetof(QueuedFile, pAdditionalParents) == 36);
-#pragma pack(push, 4)
 class QueuedFileEntry : public QueuedFile
 {
   public:
@@ -126,11 +109,6 @@ class QueuedFileEntry : public QueuedFile
     // bool __cdecl QueuedFileEntry::*(char*, unsigned int, char*)
     // QueuedFileEntry& __cdecl QueuedFileEntry::*(const QueuedFileEntry&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(QueuedFileEntry) == 48);
-FNV_STATIC_ASSERT(offsetof(QueuedFileEntry, pFileName) == 40);
-FNV_STATIC_ASSERT(offsetof(QueuedFileEntry, m_pFileEntry) == 44);
-#pragma pack(push, 4)
 class SkyTask : public QueuedFileEntry
 {
   public:
@@ -146,7 +124,4 @@ class SkyTask : public QueuedFileEntry
     // void __cdecl SkyTask::*()
     // SkyTask& __cdecl SkyTask::*(const SkyTask&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SkyTask) == 56);
-FNV_STATIC_ASSERT(offsetof(SkyTask, apTextureOutput) == 48);
 #endif

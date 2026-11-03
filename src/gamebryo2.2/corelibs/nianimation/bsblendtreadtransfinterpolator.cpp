@@ -25,12 +25,12 @@ struct BSFadeNode
     void* operator new(unsigned int);
 };
 extern int DAT_01097904;
-void __fastcall FUN_00a36890(void*);
+void FUN_00a36890(void*);
 struct CloneOwner
 {
     char _pad0[0x30];
     float m_fValueAtOffset30;
-    void* __thiscall Clone(void* kCloning);
+    void* Clone(void* kCloning);
 };
 // ---- stand-in for the undeclared NiInterpolator (vtable slot 46 = +0xb8) ----
 class NiInterpolator
@@ -88,7 +88,7 @@ public:
 };
 
 // @fnv 0x00a39100
-bool __stdcall FUN_00a39100(NiInterpolator* pkInterpolator)
+bool FUN_00a39100(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->IsCorrectType();
 }
@@ -379,7 +379,7 @@ class FUN_00a36890 : public InterpolatorStorage
     FUN_00a36890();
 };
 // @fnv 0x00a42ff0
-void* __thiscall CloneOwner::Clone(void* kCloning)
+void* CloneOwner::Clone(void* kCloning)
 {
     CloneOwner* pkObject;
     pkObject = (CloneOwner*)BSFadeNode::operator new(0x34);

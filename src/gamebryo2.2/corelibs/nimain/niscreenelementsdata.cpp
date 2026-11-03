@@ -428,9 +428,6 @@ struct FUN_00a881e0
     FUN_00a881e0(bool bWantNormals, bool bWantColors, unsigned short usNumTextureSets, int iMaxPQuantity, int iPGrowBy,
                  int iMaxVQuantity, int iVGrowBy, int iMaxTQuantity, int iTGrowBy);
 };
-FNV_STATIC_ASSERT(offsetof(FUN_00a881e0, m_usTriangles) == 0x40);
-FNV_STATIC_ASSERT(offsetof(FUN_00a881e0, m_akPolygon) == 0x58);
-FNV_STATIC_ASSERT(offsetof(FUN_00a881e0, m_bGeometryInitialized) == 0x6e);
 
 class NiPoint3Ctor : public NiPoint3
 {

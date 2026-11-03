@@ -2,6 +2,7 @@
 #ifndef FNV_TILE_H_DECLS_H
 #define FNV_TILE_H_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a0c190.h"
@@ -24,7 +25,6 @@ extern const char DAT_01093f80[];
 extern "C" int __cdecl _stricmp(const char*, const char*);
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 extern "C" int __cdecl tolower(int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class Tile
 {

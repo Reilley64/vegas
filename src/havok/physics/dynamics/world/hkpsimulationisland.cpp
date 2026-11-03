@@ -29,7 +29,7 @@ struct S_00d070c0
 
 
 // @fnv 0x00d070c0
-void __stdcall FUN_00d070c0(S_00d070c0* obj)
+void FUN_00d070c0(S_00d070c0* obj)
 {
     ::FUN_00cb3c80((int)(obj->unk14->unk08), (int)(obj));
 }
@@ -53,7 +53,7 @@ struct Owner
 
 
 // @fnv 0x00d070e0
-void __stdcall FUN_00d070e0(Owner* apOwner)
+void FUN_00d070e0(Owner* apOwner)
 {
     ::FUN_00cb3da0((::S_00cb3da0_Ctx *)(apOwner->m_pHolder->m_pFlagTarget), apOwner);
 }
@@ -322,7 +322,7 @@ GlobalObjectO2_00d472a0* FUN_00d078d0()
 // Sub-object pointer lives at +0x30 of the owner; flags byte at +0x12 of it.
 
 // @fnv 0x00d07100
-void __stdcall FUN_00d07100(char* owner, unsigned char bits)
+void FUN_00d07100(char* owner, unsigned char bits)
 {
     char* sub = *(char**)(owner + 0x30);
     *(unsigned char*)(sub + 0x12) |= bits;

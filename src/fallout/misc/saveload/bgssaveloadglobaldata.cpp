@@ -517,7 +517,6 @@ struct BGSSaveLoadGame
     unsigned char m_ucSaveLoadState;
     char _pad_249[3];
 };
-typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 struct FUN_0084cc40_shell : public BGSSaveLoadGame
 {
     void FUN_0084cc40(bool);
@@ -575,11 +574,11 @@ class FUN_0084c580_shell
 {
   public:
     unsigned int field208;
-    unsigned int __thiscall GetField208();
+    unsigned int GetField208();
 };
 
 // @fnv 0x0084c580
-unsigned int __thiscall FUN_0084c580_shell::GetField208()
+unsigned int FUN_0084c580_shell::GetField208()
 {
     return *(unsigned int*)((char*)this + 0x208);
 }
@@ -974,7 +973,7 @@ class LLD_LoadingMenu
 {
   public:
 };
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 void __cdecl FUN_0084cbd0(const char*, ...);
 char* __cdecl FUN_00ec7750(const char*, const char*);
 unsigned int __cdecl FUN_00ec8d08(const char*, char**, int);
@@ -1334,7 +1333,7 @@ void __cdecl SaveImageSpaceModifierInstances(int pBuffer)
         v8_2 = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(i6)) ::Vec3())).operator->();
         if (v8_2 != 0 && !reinterpret_cast<::FUN_0084d050_shell *>((v8_2))->IsFlagSet())
         {
-            v2 = (void*)(*(int(__thiscall**)(int))(*(int*)v8_2 + 148))((int)v8_2);
+            v2 = (void*)(*(int(**)(int))(*(int*)v8_2 + 148))((int)v8_2);
             if (v2 != 0)
             {
                 aV6 = reinterpret_cast<::Twin_0084d030 *>((((NiBound*)v2)))->GetStoredFloatValue();

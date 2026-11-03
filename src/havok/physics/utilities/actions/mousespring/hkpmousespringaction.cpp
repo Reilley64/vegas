@@ -21,16 +21,16 @@
 
 struct FUN_00d2b1f0
 {
-    void __thiscall EntityRemovedCallback(int);
+    void EntityRemovedCallback(int);
 };
 
 struct FUN_00cbb1c0 : FUN_00d2b1f0
 {
-    void __thiscall Method(int);
+    void Method(int);
 };
 
 // @fnv 0x00cbb1c0
-void __thiscall FUN_00cbb1c0::Method(int aiValue)
+void FUN_00cbb1c0::Method(int aiValue)
 {
     EntityRemovedCallback(aiValue);
     *(int*)((char*)this + 0x18) = 0;
@@ -40,7 +40,7 @@ struct FUN_00cbb1b0_Class
 {
     char pad0[0x48];
     hkReal m_fMaxRelativeForce;
-    void __thiscall FUN_00cbb1b0(hkReal a);
+    void FUN_00cbb1b0(hkReal a);
 };
 
 // @fnv 0x00cbb1b0
@@ -143,7 +143,7 @@ struct Ms_Body
     int u17;
     int u18;
     int u19;
-    void __thiscall FUN_00cd2d80(Ms_Sphere* s, Ms_Xf* x, int parent);
+    void FUN_00cd2d80(Ms_Sphere* s, Ms_Xf* x, int parent);
 };
 
 struct Ms_Input

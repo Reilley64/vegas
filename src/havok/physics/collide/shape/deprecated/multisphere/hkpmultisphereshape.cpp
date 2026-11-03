@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0104e000.h"
@@ -319,7 +320,6 @@ char* S00d2ab90_Shape::FUN_00d2ab90(char* ok, RayCtx* in, void* p3)
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010ce4f0[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" void _mm_store_ss(float*, __m128);

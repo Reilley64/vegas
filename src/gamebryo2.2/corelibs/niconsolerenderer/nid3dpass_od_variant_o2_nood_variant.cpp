@@ -121,7 +121,7 @@ class S00b7c750_Device
     virtual void vf16C();
     virtual void vf170();
     virtual void vf174();
-    virtual long __stdcall SetVertexShaderConstantF(unsigned int uiStart, const float* pVector4, unsigned int ItemUpdateArray);
+    virtual long SetVertexShaderConstantF(unsigned int uiStart, const float* pVector4, unsigned int ItemUpdateArray);
 };
 
 struct S00b7c750_Renderer

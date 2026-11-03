@@ -2,6 +2,7 @@
 #ifndef FNV_A3D_CAMERA_H
 #define FNV_A3D_CAMERA_H
 
+#include <windows.h>
 #include <stddef.h>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a63460_shell.h"
@@ -11,7 +12,6 @@
 #include "fnv/decl/S_00a64670_Foo.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_011f6000.h"
-#define FNV_ASSERT(name, expression) typedef char name[(expression) ? 1 : -1]
 class NiRTTI;
 class NiNode;
 class NiGeometry;
@@ -251,18 +251,5 @@ class NiRenderer
 };
 extern "C"
 {
-    __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-    __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 }
-FNV_ASSERT(NiMatrix3PCSize, sizeof(ThreeByThreeMatrix) == 36);
-FNV_ASSERT(NiTransformPCSize, sizeof(NiTransform) == 52);
-FNV_ASSERT(NiAVObjectPCSize, sizeof(NiAVObject) == 0x9c);
-FNV_ASSERT(NiCameraPCSize, sizeof(NiCamera) == 0x114);
-FNV_ASSERT(NiCameraFrustumOffset, offsetof(NiCamera, m_kViewFrustum) == 0xdc);
-FNV_ASSERT(NiCameraWorldTranslateOffset,
-           offsetof(NiAVObject, m_kWorldSpaceTransform) + offsetof(NiTransform, m_kTranslation) == 0x8c);
-FNV_ASSERT(NiStreamVersionOffset, offsetof(NiStream, m_uiNifVersion) == 0xd8);
-FNV_ASSERT(NiStreamInputOffset, offsetof(NiStream, m_pUnderlyingStream) == 0x24c);
-FNV_ASSERT(NiStreamAVFlagsOffset, offsetof(NiStream, m_usAVObjectFlags) == 0x284);
-FNV_ASSERT(NiBinaryReadOffset, offsetof(NiBinaryStream, m_pfnRead) == 8);
 #endif

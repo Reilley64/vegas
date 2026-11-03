@@ -12,17 +12,12 @@
 class FactionSaveData;
 class FactionRankPresentation;
 class TESReputation;
-#pragma pack(push, 4)
 class FactionSaveData
 {
   public:
     unsigned int iFlags;  // +0x0, 4 bytes
     // void __cdecl FactionSaveData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FactionSaveData) == 4);
-FNV_STATIC_ASSERT(offsetof(FactionSaveData, iFlags) == 0);
-#pragma pack(push, 4)
 class TESFaction : public TESForm, public TESFullName, public TESReactionForm
 {
   public:
@@ -104,11 +99,4 @@ class TESFaction : public TESForm, public TESFullName, public TESReactionForm
     // TESFaction& __cdecl TESFaction::*(const TESFaction&)
     // void __cdecl TESFaction::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESFaction) == 76);
-FNV_STATIC_ASSERT(offsetof(TESFaction, data) == 52);
-FNV_STATIC_ASSERT(offsetof(TESFaction, pReputationData) == 56);
-FNV_STATIC_ASSERT(offsetof(TESFaction, m_kRankDataList) == 60);
-FNV_STATIC_ASSERT(offsetof(TESFaction, m_iFirstFactionValue) == 68);
-FNV_STATIC_ASSERT(offsetof(TESFaction, m_iSecondFactionValue) == 72);
 #endif

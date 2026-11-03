@@ -103,7 +103,7 @@ FUN_00d68770_cls* FUN_00d68770_cls::Construct(int aParam)
 }
 
 // @fnv 0x00d687b0
-void* __stdcall FUN_00d687b0(char* a1)
+void* FUN_00d687b0(char* a1)
 {
     return a1 + 0x34;
 }
@@ -187,7 +187,7 @@ void* FUN_00d68840_cls::Init(int aiValue)
 //   00d68887  c2 04 00      ret 4
 
 // @fnv 0x00d68880
-void* __stdcall FUN_00d68880(void* pObject)
+void* FUN_00d68880(void* pObject)
 {
     return (void*)((char*)pObject + 0x28);
 }
@@ -411,7 +411,7 @@ struct D6C180Command
 
 
 // @fnv 0x00d6c180
-void __fastcall WriteCommand(D6C180Command** ppkCursor, unsigned char ucFlag)
+void WriteCommand(D6C180Command** ppkCursor, unsigned char ucFlag)
 {
     D6C180Command* pkCommand = *ppkCursor;
     pkCommand->m_ucFlag = ucFlag;
@@ -594,18 +594,18 @@ FUN_00d60860::FUN_00d60860(void* pData, unsigned char ucType)
 
 
 // @fnv 0x00d60900
-void __stdcall FUN_00d60900(char* p)
+void FUN_00d60900(char* p)
 {
     reinterpret_cast<::Archive *>((&p))->WriteSwapped((const void *)(2), 1, {});
 }
 
 struct FUN_00d60600_class
 {
-    void __thiscall FUN_00d60b20(int a, int b);
+    void FUN_00d60b20(int a, int b);
 };
 
 // @fnv 0x00d60b20
-void __thiscall FUN_00d60600_class::FUN_00d60b20(int a, int aiValue)
+void FUN_00d60600_class::FUN_00d60b20(int a, int aiValue)
 {
     reinterpret_cast<::Archive *>(this)->WriteSwapped((const void *)(a), 8, aiValue);
 }
@@ -787,13 +787,13 @@ int FUN_00d61640_cls::FindLastCharInRange(char c, int startIndex, int endIndex)
 struct FUN_00d61680_Obj
 {
     int unk00;
-    void __thiscall FUN_00d61680(unsigned int param);
+    void FUN_00d61680(unsigned int param);
 };
 
 int __cdecl FUN_00cb0fa0(int, int);
 
 // @fnv 0x00d61680
-void __thiscall FUN_00d61680_Obj::FUN_00d61680(unsigned int uiValue)
+void FUN_00d61680_Obj::FUN_00d61680(unsigned int uiValue)
 {
     FUN_00cb0fa0(unk00, uiValue);
 }
@@ -813,10 +813,10 @@ void FUN_00d616a0_cls::FUN_00d616a0(int iValue)
     CompareStringsCaseInsensitive(m_pOwnerObject, iValue);
 }
 
-int __stdcall FUN_00d61680(unsigned int value);
+int FUN_00d61680(unsigned int value);
 
 // @fnv 0x00d616e0
-int __stdcall FUN_00d616e0(unsigned int value)
+int FUN_00d616e0(unsigned int value)
 {
     return FUN_00d61680(value) == 0;
 }
@@ -1232,11 +1232,11 @@ struct D62080_Object
     int m_uiItemCount;
     unsigned int m_pRayCursor;
 
-    void __thiscall FUN_00d62080(int param2, int param3);
+    void FUN_00d62080(int param2, int param3);
 };
 
 // @fnv 0x00d62080
-void __thiscall D62080_Object::FUN_00d62080(int aData, int param3)
+void D62080_Object::FUN_00d62080(int aData, int param3)
 {
     if (param3 < 0)
         param3 = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(aData));
@@ -1275,7 +1275,7 @@ struct Router_d62100
 };
 struct FUN_00d62100_Class
 {
-    int __thiscall FUN_00d62100(int first, int second, int third);
+    int FUN_00d62100(int first, int second, int third);
 };
 struct SearchBase
 {
@@ -1429,7 +1429,7 @@ extern int DAT_010d16f0;
 
 // Calls FUN_00ddccb0 with aParam, then stores three global addresses and aValue into the object's fields and returns this.
 // @fnv 0x00d62ef0
-FUN_00d62ef0_cls* __thiscall FUN_00d62ef0_cls::FUN_00d62ef0(int aParam, unsigned char aValue)
+FUN_00d62ef0_cls* FUN_00d62ef0_cls::FUN_00d62ef0(int aParam, unsigned char aValue)
 {
     new ((void *)(((FUN_00ddccb0_Obj*)this))) ::FUN_00ddccb0_cls((*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)(aParam)));
     unk00 = &DAT_010d1720;
@@ -1914,11 +1914,11 @@ struct FUN_00d65250_cls
     unsigned char unk60;
     unsigned char unk61;
 
-    void __thiscall FUN_00d65250(unsigned char value);
+    void FUN_00d65250(unsigned char value);
 };
 
 // @fnv 0x00d65250
-void __thiscall FUN_00d65250_cls::FUN_00d65250(unsigned char value)
+void FUN_00d65250_cls::FUN_00d65250(unsigned char value)
 {
     unk61 = value;
 }

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -50,7 +51,6 @@ void FUN_00bd8a70_cls::FUN_00bd8a70()
     reinterpret_cast<::GeometryBounds *>((((FUN_00bd8750_cls*)this)))->UpdateBounds();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiRefObject
 {
@@ -205,9 +205,7 @@ FUN_00bd8f90::~FUN_00bd8f90()
 
 // No prior contributor candidate was supplied for this claim.
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 void* __cdecl FUN_00aa13e0(unsigned int);
 

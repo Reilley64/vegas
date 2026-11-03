@@ -183,7 +183,7 @@ void FUN_0067da20_shell::ResetValue(int arg)
 
 struct FUN_0067d990_shell
 {
-    void* __thiscall FUN_0067d990(unsigned int);
+    void* FUN_0067d990(unsigned int);
 };
 struct FUN_0067cfc0_shell : TESUseWeaponPackageData
 {
@@ -528,7 +528,7 @@ struct FUN_0067d9c0_cls
 };
 // Calls InitVTableAndInit, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0067d990
-void* __thiscall FUN_0067d990_shell::FUN_0067d990(unsigned int flags)
+void* FUN_0067d990_shell::FUN_0067d990(unsigned int flags)
 {
     reinterpret_cast<::FUN_0067d9c0_cls *>(this)->InitVTableAndInit();
     if (flags & 1)

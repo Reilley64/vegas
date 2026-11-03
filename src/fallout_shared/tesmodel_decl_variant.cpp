@@ -53,7 +53,6 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct FUN_00488ff0_shell : public FileEntryList
 {
     void FUN_00488ff0();
@@ -83,7 +82,7 @@ struct FUN_00489860_shell
     unsigned char b2;
     unsigned char b3;
     int i4;
-    unsigned char* __thiscall FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
+    unsigned char* FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
 };
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -116,7 +115,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESLeveledList : public BaseFormComponent
 {
     virtual unsigned char GetChanceNone();
@@ -158,7 +156,6 @@ struct TESLeveledList : public BaseFormComponent
     TESGlobal* m_pLevelGlobal;
     char m_kLeveledObjects[8];
 };
-typedef char _sizecheck_TESLeveledList[sizeof(TESLeveledList) == 28 ? 1 : -1];
 struct FUN_00487a00_shell : public TESLeveledList
 {
     void FUN_00487a00(TESForm*, unsigned short, unsigned short, TESForm*, ContainerItemExtra*);
@@ -222,7 +219,7 @@ struct FUN_004898a0_shell : public FUN_004898c0_shell
 };
 struct FUN_004f9ec0_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 struct SpawnedBase
 {

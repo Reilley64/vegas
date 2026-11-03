@@ -157,7 +157,7 @@ struct NiInterpolator
 
 // Returns whether the given NiInterpolator is a quaternion interpolator by calling its IsQuaternionInterpolator method.
 // @fnv 0x00a55450
-bool __stdcall FUN_00a55450(NiInterpolator* pkInterpolator)
+bool FUN_00a55450(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->IsQuaternionInterpolator();
 }

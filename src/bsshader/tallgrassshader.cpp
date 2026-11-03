@@ -1,5 +1,6 @@
 // bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
 
+#include <windows.h>
 #include "fnv/decl/AAF40Updater.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -220,7 +221,7 @@ void FUN_00ba91a0(Obj* pObj, int a, bool b)
 
 extern int DAT_010b8480;
 // @fnv 0x00ba9230
-void __fastcall FUN_00ba9230(void** self, int)
+void FUN_00ba9230(void** self, int)
 {
     void* p = self[1];
     self[0] = &DAT_010b8480;
@@ -248,10 +249,10 @@ struct FUN_00bac160_holder
     void ConfigureBeamPasses();
 };
 // @fnv 0x00bac8b0
-void __fastcall FUN_00bac8b0(FUN_00bac160_holder* self, int)
+void FUN_00bac8b0(FUN_00bac160_holder* self, int)
 {
     void** vt = *(void***)self;
-    ((void(__thiscall*)(void*))vt[79])(self);
+    ((void(*)(void*))vt[79])(self);
     self->ConfigureBeamPasses();
 }
 
@@ -273,7 +274,7 @@ struct S
     T* t;
 };
 // @fnv 0x00bac8d0
-void __stdcall FUN_00bac8d0(unsigned int k)
+void FUN_00bac8d0(unsigned int k)
 {
     S* g = (*reinterpret_cast<::S * *>(&::DAT_0126f74c));
     if ((k >= 0x1c && k <= 0x25) || k - 0x262 <= 9)
@@ -461,7 +462,7 @@ int Self::FUN_00bac950(Arg* arg)
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // Calls FUN_00baa570 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x1e0, and returns self.
 // @fnv 0x00baced0
-void* __fastcall FUN_00baced0(void* self, int, unsigned int flags)
+void* FUN_00baced0(void* self, int, unsigned int flags)
 {
     reinterpret_cast<::fnv_00baa570::FUN_00baa570 *>((self))->fnv_00baa570::FUN_00baa570::~FUN_00baa570();
     if (flags & 1)
@@ -483,8 +484,6 @@ void FUN_00bad4a0()
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObj_bacd00
 {
     virtual ~RefObj_bacd00();
@@ -1011,7 +1010,7 @@ struct ShaderVariableMap : RefObj_bacd00
     }
     virtual void Register(const void* name, unsigned int type, int a, int b, int c, const void* desc, int stride,
                           int count, const void* data, int optional);
-    typedef int(__thiscall* LookupFn)(ShaderVariableMap*, const void*);
+    typedef int(* LookupFn)(ShaderVariableMap*, const void*);
     int Lookup(const void* name)
     {
         return reinterpret_cast<LookupFn>((*reinterpret_cast<void***>(this))[28])(this, name);

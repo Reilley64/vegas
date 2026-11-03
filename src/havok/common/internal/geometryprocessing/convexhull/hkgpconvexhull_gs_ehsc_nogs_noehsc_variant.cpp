@@ -1,4 +1,5 @@
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/CC0280Writer.h"
@@ -77,13 +78,13 @@ struct FUN_00d75850_class {
     int m4;
     void FUN_00d75850();
 };
-int __stdcall FUN_00d76300(const int* p, int i);
+int FUN_00d76300(const int* p, int i);
 struct FUN_00d7c200_cls {  };
-struct FUN_00d7c250_cls { void __thiscall FlushQueuedElements(); };
+struct FUN_00d7c250_cls { void FlushQueuedElements(); };
 struct FUN_00d7c950_cls {
-    void __thiscall FUN_00d7c950();
+    void FUN_00d7c950();
 };
-int __stdcall FUN_00d752c0(int* arr, int idx);
+int FUN_00d752c0(int* arr, int idx);
 struct CpuScalar {
     unsigned int unk00;
     unsigned int unk04;
@@ -996,7 +997,7 @@ struct FUN_00d74e10_cls {
 struct FourFloatVector { int x,y,z,w; };
 struct FUN_00d74e20_class {
     void* m_00; void* m_04; char* m_08;
-    FourFloatVector __thiscall GetFieldAtD0();
+    FourFloatVector GetFieldAtD0();
 };
 struct Inner {
     int unk00;
@@ -2286,11 +2287,11 @@ static __forceinline float scalar(__m128 q) { float f; _mm_store_ss(&f,q); retur
 static __forceinline __m128 scaleBroadcast(float f) { __m128 q=_mm_load_ss(&f); return _mm_shuffle_ps(q,q,0); }
 struct Self {
     int unk00; int unk04; Impl* m_pClassImpl;
-    Box __thiscall FUN_00d75920(int index, float a2, float a3);
+    Box FUN_00d75920(int index, float a2, float a3);
 };
 
 // @fnv 0x00d75920
-Box __thiscall Self::FUN_00d75920(int index, float a2, float a3)
+Box Self::FUN_00d75920(int index, float a2, float a3)
 {
     int idx = index;
     Box* box = m_pClassImpl->boxes + idx;
@@ -4034,8 +4035,8 @@ struct D81340Dbg {
     void* unk00;
     int unk04;
     int unk08;
-    D81340Dbg* __thiscall FUN_00cc01c0(const char* fmt, int a, const char* b);
-    void __thiscall FUN_00cc01c0();
+    D81340Dbg* FUN_00cc01c0(const char* fmt, int a, const char* b);
+    void FUN_00cc01c0();
 };
 
 struct D81340Workspace {
@@ -4049,8 +4050,8 @@ struct D81340Workspace {
 };
 struct D81340Transform { D81340Vec4 c0,c1,c2,c3; };
 
-struct D81340F090 { float __thiscall FUN_00d7f090(const D81340Vec4& dir, void* b, void* c); };
-struct D81340F610 { int m_auiShapeKeys; float __thiscall FUN_00d7c610(const D81340Vec4& dir, float* b, float* c); };
+struct D81340F090 { float FUN_00d7f090(const D81340Vec4& dir, void* b, void* c); };
+struct D81340F610 { int m_auiShapeKeys; float FUN_00d7c610(const D81340Vec4& dir, float* b, float* c); };
 
 struct D81340Cls {
     int unk00;
@@ -4166,9 +4167,9 @@ struct D81340Cls {
     unsigned char m_1b5;
     unsigned char unk1b6;
     unsigned char unk1b7;
-    float __thiscall FUN_00d7c610(int, float*, float*);
-    float __thiscall FUN_00d7f090(int, D81340Vec4*, D81340Transform*);
-    void __thiscall FUN_00d81340(D81340Vec4& a0, D81340Transform& a1);
+    float FUN_00d7c610(int, float*, float*);
+    float FUN_00d7f090(int, D81340Vec4*, D81340Transform*);
+    void FUN_00d81340(D81340Vec4& a0, D81340Transform& a1);
 };
 
 struct SupportVector { __m128 q; };
@@ -4242,7 +4243,6 @@ float PlaneHull::FUN_00d75880(PlaneArgument point) {
     return best;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 
@@ -6089,7 +6089,6 @@ extern "C" __m128 _mm_add_ss(__m128,__m128);
 extern "C" void _mm_store_ss(float*,__m128);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 
 
@@ -8373,12 +8372,12 @@ const HullVec& position=*(const HullVec*)&workspace.current.position;
     }
 }
 
-__declspec(noinline) int __stdcall FUN_00d752c0(int* arr, int idx) { return arr[idx + 2]; }
+__declspec(noinline) int FUN_00d752c0(int* arr, int idx) { return arr[idx + 2]; }
 struct HullPlaneOwner {
     void FUN_00d75b80(__m128& out, const int* triangle);
 };
 // @fnv 0x00d75b80
-void __thiscall HullPlaneOwner::FUN_00d75b80(__m128& out, const int* triangle)
+void HullPlaneOwner::FUN_00d75b80(__m128& out, const int* triangle)
 {
     OffsetOwner* owner = (OffsetOwner*)this;
     __m128 p0 = *((::__m128 *)(::FUN_00d74ed0((::PayloadOwner *)(owner))));

@@ -60,7 +60,7 @@ struct NiBSBoneLODController : NiObject
 };
 struct FUN_00c53e00_shell
 {
-    GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00();
+    GlobalObjectO2_00a7b610* FUN_00c53e00();
 };
 class NiControllerManager
 {
@@ -140,7 +140,7 @@ struct BoneLODControllerSave : NiBSBoneLODController
     BoneEntryGroup** groupArray;
     unsigned short unk44;
     unsigned short groupCount;
-    void __thiscall FUN_00c536d0(NiStream*);
+    void FUN_00c536d0(NiStream*);
 };
 struct RefList
 {

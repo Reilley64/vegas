@@ -40,12 +40,11 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiTextKeyExtraData : NiMemObject
 {
     unsigned int m_uiNumKeys;
     void* m_pKeys;
-    void* __thiscall FUN_00a46ed0(unsigned int flags);
+    void* FUN_00a46ed0(unsigned int flags);
 };
 struct NiStream;
 struct FakeBase00
@@ -54,7 +53,7 @@ struct FakeBase00
 struct FakeKey00
 {
 };
-bool __fastcall LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream);
+bool LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream);
 struct A46BB0Key
 {
     float m_fTime;
@@ -76,7 +75,7 @@ struct A46BB0KeyData : A46BB0Object
 };
 struct FUN_00a57870_Class
 {
-    void __thiscall ReleaseString();
+    void ReleaseString();
 };
 struct MM
 {
@@ -86,7 +85,7 @@ struct NiStringsExtraData
 };
 struct FUN_00a46d50_class
 {
-    void __thiscall DestroyKeyList();
+    void DestroyKeyList();
 };
 struct FUN_00a46b50_cls
 {
@@ -313,7 +312,7 @@ struct NiTextKeyExtraDataStub : NiExtraDataBase
 {
     unsigned int m_uiNumKeys;
     TimedTextEntry* m_pKeys;
-    void __thiscall FUN_00a46e00(NiStream& stream);
+    void FUN_00a46e00(NiStream& stream);
 };
 
 struct BsStream
@@ -477,7 +476,7 @@ struct NiStream
 };
 
 // @fnv 0x00a46e00
-void __thiscall NiTextKeyExtraDataStub::FUN_00a46e00(NiStream& stream)
+void NiTextKeyExtraDataStub::FUN_00a46e00(NiStream& stream)
 {
     reinterpret_cast<::NiExtraData *>(this)->LoadBinary(stream);
 

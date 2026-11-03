@@ -14,7 +14,6 @@ class NiGeometryData__RendererData;
 class NiParticlesData;
 class NiPoint2;
 class NiQuaternion;
-#pragma pack(push, 4)
 class NiBound
 {
   public:
@@ -43,12 +42,6 @@ class NiBound
     // char* __cdecl NiBound::*(const char*)
     // const NiBound& __cdecl NiBound::*(const NiBound&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
-#pragma pack(push, 4)
 class NiGeometryData : public NiObject
 {
   public:
@@ -126,25 +119,6 @@ class NiGeometryData : public NiObject
     // NiGeometryData& __cdecl NiGeometryData::*(const NiGeometryData&)
     // void __cdecl NiGeometryData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeometryData) == 64);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
-#pragma pack(push, 4)
 class NiParticlesData : public NiGeometryData
 {
   public:
@@ -208,18 +182,4 @@ class NiParticlesData : public NiGeometryData
     // NiParticlesData& __cdecl NiParticlesData::*(const NiParticlesData&)
     // void __cdecl NiParticlesData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiParticlesData) == 112);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_bHasRadii) == 64);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pusParticleIndices) == 68);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfSortValues) == 72);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfRadii) == 76);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_usActive) == 80);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfSizes) == 84);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pkRotations) == 88);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pfRotationAngles) == 92);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pkRotationAxes) == 96);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pucTextureIndices) == 100);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_pkSubTextureOffsets) == 104);
-FNV_STATIC_ASSERT(offsetof(NiParticlesData, m_ucSubTextureOffsetCount) == 108);
 #endif

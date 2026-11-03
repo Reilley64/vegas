@@ -2,14 +2,13 @@
 #ifndef NISHADERCONSTANTMAP_DECLS_H
 #define NISHADERCONSTANTMAP_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f6000.h"
 class IMemoryHeap;
 #include "MemoryManager.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiGlobalStringTable
 {
   public:

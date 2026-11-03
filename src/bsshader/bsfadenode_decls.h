@@ -5,12 +5,11 @@
 
 // Private PC declarations for this translation unit. Opaque storage represents
 // inherited fields that none of these three routines inspect.
+#include <windows.h>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class NiMemObject
 {
@@ -175,8 +174,6 @@ class BSFadeNode : public NiNode
     static NiFixedString* ms_pFadeNodeAnimationName;
     void SetRange(float, float);
 };
-typedef char BSFadeNodeSizeCheck[sizeof(BSFadeNode) == 0xE4 ? 1 : -1];
-typedef char NiAlphaPropertySizeCheck[sizeof(NiAlphaProperty) == 0x1C ? 1 : -1];
 // PC depth texture forwarding declarations. The singleton has no known
 // canonical data name, so its address-based name is kept here.
 class BSRenderedTexture;

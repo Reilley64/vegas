@@ -29,7 +29,6 @@
 #include "TESFile.h"
 #include <malloc.h>
 
-#pragma pack(push, 4)
 class TESRegionData
 {
   public:
@@ -38,9 +37,7 @@ class TESRegionData
     unsigned char m_ucRegionPriority;
     unsigned char layoutPadding7[1];
 };
-#pragma pack(pop)
 
-#pragma pack(push, 4)
 class TESRegionDataMap : public TESRegionData
 {
   public:
@@ -50,7 +47,6 @@ class TESRegionDataMap : public TESRegionData
     virtual bool LoadRegionMapData(TESFile* apFile);
     virtual const char* GetRegionMapName();
 };
-#pragma pack(pop)
 
 // Reads the RDMP chunk from apFile into a buffer and stores it in the map string, returning true on success.
 // @fnv 0x004f3e90

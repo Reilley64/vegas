@@ -30,11 +30,11 @@ extern "C" void __cdecl __Dummy_00b6fef0(void* p, int size);
 
 struct FUN_00a4fb10_shell
 {
-    void* __thiscall FUN_00a4fb10(int p);
+    void* FUN_00a4fb10(int p);
 };
 
 // @fnv 0x00a4fb10
-void* __thiscall FUN_00a4fb10_shell::FUN_00a4fb10(int aiFlags)
+void* FUN_00a4fb10_shell::FUN_00a4fb10(int aiFlags)
 {
     FUN_00a572d0();
     if (aiFlags & 1)
@@ -72,7 +72,7 @@ struct Holder_00a55f80
 {
 };
 // @fnv 0x00a4fa70
-void* __stdcall FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
+void* FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
 {
     void* p = BSFadeNode::operator new(0x44);
     if (p)
@@ -96,10 +96,10 @@ struct Ctrl9
 {
     char _0[0x3c];
     Holder9* fld3c;
-    void* __thiscall FUN_00a4fb30(unsigned short);
+    void* FUN_00a4fb30(unsigned short);
 };
 // @fnv 0x00a4fb30
-void* __thiscall Ctrl9::FUN_00a4fb30(unsigned short usIndex)
+void* Ctrl9::FUN_00a4fb30(unsigned short usIndex)
 {
     void* mem = BSFadeNode::operator new(0x24);
     if (mem)
@@ -159,15 +159,15 @@ struct StrArr
 };
 struct Base57420
 {
-    void __thiscall FUN_00a57420(StrArr*);
+    void FUN_00a57420(StrArr*);
 };
 struct FUN_00a4fd90_shell : Base57420
 {
-    void __thiscall AppendString(StrArr*);
+    void AppendString(StrArr*);
 };
 // Appends the string returned by _FUN_00a7d330(g_011f3fdc) to pkStrings, growing the array if its size has reached its allocation.
 // @fnv 0x00a4fd90
-void __thiscall FUN_00a4fd90_shell::AppendString(StrArr* pkStrings)
+void FUN_00a4fd90_shell::AppendString(StrArr* pkStrings)
 {
     FUN_00a57420(pkStrings);
     char* pcString = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3fdc)));
@@ -230,7 +230,7 @@ struct InterpVT_00a4faa0
 
 // Calls IsCorrectType on the interpolator's vtable and returns the result, ignoring the index.
 // @fnv 0x00a4faa0
-bool __stdcall FUN_00a4faa0(NiInterpolator* pkInterpolator, unsigned short usIndex)
+bool FUN_00a4faa0(NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
     return reinterpret_cast<InterpVT_00a4faa0*>(pkInterpolator)->IsCorrectType();
 }

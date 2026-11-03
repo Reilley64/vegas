@@ -51,7 +51,7 @@ class BaseFormComponent
 
 // Initializes the BaseFormComponent base, sets the vtable pointer to DAT_0101aa14, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00479320
-void* __fastcall FUN_00479320(int* pFormComponent)
+void* FUN_00479320(int* pFormComponent)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pFormComponent)));
     *pFormComponent = (int)&DAT_0101aa14;
@@ -75,12 +75,12 @@ int __cdecl FUN_00479510(int aiIndex)
 namespace fnv_00479540 {
 struct FNStub
 {
-    const char* __thiscall GetFullName(void);
+    const char* GetFullName(void);
 };
 
 struct BGSMenuIcon
 {
-    const char* __thiscall GetFullName(void);
+    const char* GetFullName(void);
 };
 
 extern const char $SG5812[];
@@ -175,10 +175,10 @@ struct LookupObject
 };
 struct QueryObject
 {
-    bool __thiscall FUN_004793d0(int);
+    bool FUN_004793d0(int);
 };
 // @fnv 0x004793d0
-bool __thiscall QueryObject::FUN_004793d0(int argument)
+bool QueryObject::FUN_004793d0(int argument)
 {
     void* found = FUN_00ec43fb(argument, 0, (*reinterpret_cast<const char (*)[]>(&::DAT_01183040)), DAT_01183290, 0);
     if (found == 0)

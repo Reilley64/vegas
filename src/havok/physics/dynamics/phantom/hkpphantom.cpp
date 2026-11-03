@@ -87,7 +87,7 @@ public:
 };
 
 struct PhantomListeners : hkpPhantom {
-    void __thiscall RemoveListener(void* listener);
+    void RemoveListener(void* listener);
 };
 // @fnv 0x00d07c10
 void PhantomListeners::RemoveListener(void* listener) {
@@ -520,7 +520,7 @@ struct hkArr {
 struct Fun_cls {
     void* m_unk[38];
     hkArr m_lsn;
-    void __thiscall FUN_00d07b50();
+    void FUN_00d07b50();
 };
 struct LS_cls {
     virtual void vf0a();

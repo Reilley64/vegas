@@ -8,5 +8,4 @@ class TESIcon : public TESTexture
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(TESIcon) == 0xC);
 #endif

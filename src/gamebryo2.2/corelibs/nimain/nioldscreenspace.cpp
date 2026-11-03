@@ -133,7 +133,7 @@ struct NiScreenGeometry
 };
 
 // @fnv 0x00a90040
-void* __thiscall NiScreenGeometry::FUN_00a90040(unsigned int flags)
+void* NiScreenGeometry::FUN_00a90040(unsigned int flags)
 {
     *(int*)this = (int)&DAT_0109f81c;
     reinterpret_cast<::FUN_00a89760_cls *>((this))->FUN_00a89760_cls::~FUN_00a89760_cls();
@@ -194,10 +194,10 @@ struct HolderBase
     unsigned short _08;
     unsigned short m_usSize;
     unsigned short m_usExtra;
-    void __thiscall FUN_00a2e620();
+    void FUN_00a2e620();
 };
 // @fnv 0x00a2e620
-void __thiscall HolderBase::FUN_00a2e620()
+void HolderBase::FUN_00a2e620()
 {
     for (unsigned short i = 0; i < m_usSize; ++i)
     {
@@ -339,7 +339,7 @@ struct Caller74690
 };
 struct Outer913a0 : Caller74690
 {
-    void __thiscall AppendGlobalString(StrArr*);
+    void AppendGlobalString(StrArr*);
 };
 namespace fnv_00a91890 {
 struct StrArr
@@ -351,11 +351,11 @@ struct BaseCam
 };
 struct Cam : BaseCam
 {
-    void __thiscall FUN_00a91890(StrArr*);
+    void FUN_00a91890(StrArr*);
 };
 // Calls the base implementation, then appends the string returned by _FUN_00a7d330 to pkStrings, growing it if needed.
 // @fnv 0x00a91890
-void __thiscall Cam::FUN_00a91890(StrArr* pkStrings)
+void Cam::FUN_00a91890(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00a71920_shell *>(this)->FUN_00a71920((::StrArr *)(pkStrings));
     char* tmp = ::FUN_00a7d330(*(const char**)&::g_011f5e6c);
@@ -371,11 +371,11 @@ void __thiscall Cam::FUN_00a91890(StrArr* pkStrings)
 void __cdecl _delete(void*, unsigned int);
 struct NiScreenGeometryData
 {
-    void* __thiscall FUN_00a91910(unsigned int);
+    void* FUN_00a91910(unsigned int);
 };
 // Calls FUN_00a911d0, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a91910
-void* __thiscall NiScreenGeometryData::FUN_00a91910(unsigned int flags)
+void* NiScreenGeometryData::FUN_00a91910(unsigned int flags)
 {
     reinterpret_cast<::FUN_00a911d0 *>(this)->FUN_00a911d0::~FUN_00a911d0();
     if (flags & 1)
@@ -387,11 +387,11 @@ namespace fnv_00a91e60 {
 extern "C" void __cdecl _delete(void*, unsigned int);
 struct NiScreenSpaceCamera
 {
-    void __thiscall FUN_00a915d0();
-    void* __thiscall FUN_00a91e60(unsigned int flags);
+    void FUN_00a915d0();
+    void* FUN_00a91e60(unsigned int flags);
 };
 // @fnv 0x00a91e60
-void* __thiscall NiScreenSpaceCamera::FUN_00a91e60(unsigned int flags)
+void* NiScreenSpaceCamera::FUN_00a91e60(unsigned int flags)
 {
     FUN_00a915d0();
     if (flags & 1)
@@ -402,7 +402,7 @@ void* __thiscall NiScreenSpaceCamera::FUN_00a91e60(unsigned int flags)
 
 struct NiScreenSpaceCamera
 {
-    NiScreenSpaceCamera* __thiscall FUN_00a91d80();
+    NiScreenSpaceCamera* FUN_00a91d80();
 };
 
 // @fnv 0x00a91ee0
@@ -429,10 +429,10 @@ struct FUN_00a90560_host : NiRefObject
     void* m1;
     void* m2;
     void* m3;
-    void* __thiscall FUN_00a90560(unsigned int);
+    void* FUN_00a90560(unsigned int);
 };
 // @fnv 0x00a90560
-void* __thiscall FUN_00a90560_host::FUN_00a90560(unsigned int auiFlags)
+void* FUN_00a90560_host::FUN_00a90560(unsigned int auiFlags)
 {
     *(void**)this = (void*)&::DAT_0109f914;
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a90560::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(m1);
@@ -766,11 +766,11 @@ struct S_00a90100 : S_00a90100_Base
     int unk114;
     S_00a90100_Array m_kA;
     S_00a90100_Array m_kB;
-    void __thiscall LinkChildren(S_00a90100_Stream& kStream);
+    void LinkChildren(S_00a90100_Stream& kStream);
 };
 // Calls the base FUN_00a59ec0, then links every non-null child in m_kA and m_kB to kStream.
 // @fnv 0x00a90100
-void __thiscall S_00a90100::LinkChildren(S_00a90100_Stream& kStream)
+void S_00a90100::LinkChildren(S_00a90100_Stream& kStream)
 {
     reinterpret_cast<::fnv_00a59ec0::S59ec0 *>(this)->FUN_00a59ec0((::fnv_00a59ec0::CloningProcess &)(kStream));
     for (unsigned int i = 0; i < m_kA.GetSize(); i++)
@@ -1221,7 +1221,7 @@ struct ViewerStrings
 };
 // Appends the string returned by _FUN_00a7d330(g_011f5e5c) to pkStrings, growing the array by its grow amount when full.
 // @fnv 0x00a913a0
-void __thiscall Outer913a0::AppendGlobalString(StrArr* pkStrings)
+void Outer913a0::AppendGlobalString(StrArr* pkStrings)
 {
     reinterpret_cast<::fnv_00a74690::FUN_00a74690_shell *>(this)->FUN_00a74690((::fnv_00a74690::StrArr *)(pkStrings));
     char* psz = ::FUN_00a7d330(*(const char**)&::g_011f5e5c);
@@ -1499,13 +1499,13 @@ struct NiScreenSpaceCameraNew : NiScreenSpaceCamera
 
 struct FUN_00a91e90_cls
 {
-    void __thiscall FUN_00a916a0(NiScreenSpaceCamera* p, unsigned int a1);
-    NiScreenSpaceCamera* __thiscall CreateScreenSpaceCamera(unsigned int a1);
+    void FUN_00a916a0(NiScreenSpaceCamera* p, unsigned int a1);
+    NiScreenSpaceCamera* CreateScreenSpaceCamera(unsigned int a1);
 };
 
 // Allocates a NiScreenSpaceCameraNew, initialises it via FUN_00a91d80, passes it to FUN_00a916a0 with a1, and returns it (or 0 on allocation failure).
 // @fnv 0x00a91e90
-NiScreenSpaceCamera* __thiscall FUN_00a91e90_cls::CreateScreenSpaceCamera(unsigned int a1)
+NiScreenSpaceCamera* FUN_00a91e90_cls::CreateScreenSpaceCamera(unsigned int a1)
 {
     NiScreenSpaceCamera* p = new NiScreenSpaceCameraNew;
     NiScreenSpaceCamera* r = p ? ((::NiScreenSpaceCamera *)(new ((void *)(p)) ::FUN_00a91d80())) : 0;
@@ -1533,7 +1533,7 @@ struct Vec16
     ~Vec16();
 };
 
-void __stdcall FUN_00ec5fce(void* p, unsigned int size, unsigned int count, void (*ctor)());
+void FUN_00ec5fce(void* p, unsigned int size, unsigned int count, void (*ctor)());
 void FUN_00ba3a00();
 
 struct NodeBase
@@ -2124,7 +2124,7 @@ class A72BB0_DataStreamArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void __thiscall FUN_00ba3aa0(unsigned int uiIndex, A72BB0_DataStream* const& pkElement);
+    void FUN_00ba3aa0(unsigned int uiIndex, A72BB0_DataStream* const& pkElement);
     unsigned int GetSize() const
     {
         return m_usSize;
@@ -2193,7 +2193,7 @@ class A72BB0_DataStreamOwner
     int unk18;
     A72BB0_DataStreamArray m_kStreams;
 
-    bool __thiscall FUN_00a72bb0(unsigned int uiIndex, void* pvData, unsigned int uiSize, bool bCopy);
+    bool FUN_00a72bb0(unsigned int uiIndex, void* pvData, unsigned int uiSize, bool bCopy);
 };
 
 __declspec(noinline) void A72BB0_DataStreamArray::FUN_00ba3aa0(unsigned int index, A72BB0_DataStream* const& value)

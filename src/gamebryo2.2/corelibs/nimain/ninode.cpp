@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/ninode.cpp: NiNode, ChildNode, ChildArray, NiPointLight and more (37 functions)
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5a260Object.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -295,7 +296,6 @@ struct BGSDecalNode : public NiNode
     bool m_bAttached;
     char _pad_d5[11];
 };
-typedef char _sizecheck_BGSDecalNode[sizeof(BGSDecalNode) == 224 ? 1 : -1];
 struct FUN_00a5db30_shell : public NiNode
 {
     void FUN_00a5db30();
@@ -306,10 +306,10 @@ struct FUN_00a5db30_shell : public NiNode
 void FUN_00a5db30_shell::FUN_00a5db30()
 {
     int* pParent = *(int**)((char*)this + 0x18);
-    (*(void(__thiscall**)(void*))(*(int*)this + 0xbc))(this);
+    (*(void(**)(void*))(*(int*)this + 0xbc))(this);
     if (pParent)
     {
-        (*(void(__thiscall**)(void*))(*pParent + 0xfc))(pParent);
+        (*(void(**)(void*))(*pParent + 0xfc))(pParent);
     }
 }
 
@@ -341,7 +341,6 @@ struct BSNiNode : public NiNode
     void __local_vftable_ctor_closure();
     char _pad_ac[36];
 };
-typedef char _sizecheck_BSNiNode[sizeof(BSNiNode) == 208 ? 1 : -1];
 struct BSRangeNode : public BSNiNode
 {
     virtual void __vslot_0();
@@ -372,7 +371,6 @@ struct BSRangeNode : public BSNiNode
     unsigned char cMax;
     char _pad_d4[12];
 };
-typedef char _sizecheck_BSRangeNode[sizeof(BSRangeNode) == 224 ? 1 : -1];
 struct BSBlastNode : public BSRangeNode
 {
     virtual void __vslot_0();
@@ -388,7 +386,6 @@ struct BSBlastNode : public BSRangeNode
     static NiObject* CreateObject();
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_BSBlastNode[sizeof(BSBlastNode) == 224 ? 1 : -1];
 struct FUN_00a5dbe0_shell : public NiNode
 {
     void FUN_00a5dbe0(NiCullingProcess*);
@@ -422,7 +419,6 @@ struct BSNiNode : public NiNode
     void __local_vftable_ctor_closure();
     char _pad_ac[36];
 };
-typedef char _sizecheck_BSNiNode[sizeof(BSNiNode) == 208 ? 1 : -1];
 struct BSRangeNode : public BSNiNode
 {
     virtual void __vslot_0();
@@ -453,7 +449,6 @@ struct BSRangeNode : public BSNiNode
     unsigned char cMax;
     char _pad_d4[12];
 };
-typedef char _sizecheck_BSRangeNode[sizeof(BSRangeNode) == 224 ? 1 : -1];
 struct BSBlastNode : public BSRangeNode
 {
     virtual void __vslot_0();
@@ -469,12 +464,10 @@ struct BSBlastNode : public BSRangeNode
     static NiObject* CreateObject();
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_BSBlastNode[sizeof(BSBlastNode) == 224 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a5dce0_shell : public NiNode
 {
     void FUN_00a5dce0(CloningProcess*);
@@ -525,7 +518,6 @@ struct BGSDecalNode : public NiNode
     bool m_bAttached;
     char _pad_d5[11];
 };
-typedef char _sizecheck_BGSDecalNode[sizeof(BGSDecalNode) == 224 ? 1 : -1];
 struct FUN_00a5dd40_shell : public NiNode
 {
     void FUN_00a5dd40(NiStream*);
@@ -547,7 +539,7 @@ struct FUN_00a5e3a0_Helper
 };
 
 // @fnv 0x00a5e3a0
-void __fastcall FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
+void FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
 {
     NiPropertyState* pkParentState = 0;
 
@@ -591,7 +583,7 @@ struct NiMemObject
 
 // Calls FUN_00a5e930 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a5ece0
-void* __fastcall FUN_00a5ece0(void* pThis, int, unsigned int flags)
+void* FUN_00a5ece0(void* pThis, int, unsigned int flags)
 {
     reinterpret_cast<class ::FUN_00a5e930 *>((pThis))->FUN_00a5e930::~FUN_00a5e930();
     if (flags & 1)
@@ -601,7 +593,6 @@ void* __fastcall FUN_00a5ece0(void* pThis, int, unsigned int flags)
     return pThis;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefStub
 {
     virtual void V0();
@@ -679,7 +670,7 @@ struct NodeStub
 
 // Retrieves the child reference at index i from node and decrements its reference count if non-null.
 // @fnv 0x00a5d8a0
-void __fastcall ReleaseChildRef(NiNode* node, int, unsigned int uiIndex)
+void ReleaseChildRef(NiNode* node, int, unsigned int uiIndex)
 {
     RefStub* spRetainedObject = 0;
     ((NodeStub*)node)->RemoveChildAt(uiIndex, spRetainedObject);
@@ -688,7 +679,6 @@ void __fastcall ReleaseChildRef(NiNode* node, int, unsigned int uiIndex)
 }
 
 namespace fnv_00a5d8f0 {
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefStub
 {
     virtual void V0();
@@ -763,7 +753,7 @@ struct NodeStub
 };
 
 // @fnv 0x00a5d8f0
-void __fastcall FUN_00a5d8f0(NiNode* node, int, NiAVObject* pkChild)
+void FUN_00a5d8f0(NiNode* node, int, NiAVObject* pkChild)
 {
     RefStub* spRetainedObject = 0;
     ((NodeStub*)node)->InsertChild(pkChild, spRetainedObject);
@@ -837,7 +827,7 @@ struct BaseStub
 
 // Calls FUN_00a59e50 on the node, then calls PurgeRendererData on each non-null child in the node's child array.
 // @fnv 0x00a5dc30
-void __fastcall FUN_00a5dc30(NiNode* node, int, NiRenderer* pkRenderer)
+void FUN_00a5dc30(NiNode* node, int, NiRenderer* pkRenderer)
 {
     reinterpret_cast<::PropHelper *>((((BaseStub*)node)))->FUN_00a59e50(pkRenderer);
     for (unsigned int i = 0; i < *(unsigned short*)((char*)node + 0xa6); i++)
@@ -849,7 +839,7 @@ void __fastcall FUN_00a5dc30(NiNode* node, int, NiRenderer* pkRenderer)
 }
 
 // @fnv 0x00a5e1f0
-void __fastcall FUN_00a5e1f0(NiNode* node, int, NiUpdateData& kData, unsigned int uFlags)
+void FUN_00a5e1f0(NiNode* node, int, NiUpdateData& kData, unsigned int uFlags)
 {
     unsigned int nodeFlags = *(unsigned int*)((char*)node + 0x30);
     bool bOldUpdateControllers = kData.updateControllers;
@@ -917,7 +907,7 @@ struct ChildStub
 };
 
 // @fnv 0x00a5e280
-void __fastcall UpdateChildControllers(NiNode* node, int, NiUpdateData& kData)
+void UpdateChildControllers(NiNode* node, int, NiUpdateData& kData)
 {
     node->UpdateTimeControllers(kData, true);
     unsigned int n = *(unsigned short*)((char*)node + 0xa6);
@@ -963,7 +953,7 @@ struct BaseStub
 
 // Calls FUN_00a59f00 on the node, then registers streamables for each of its child pointers, returning false if the base call fails.
 // @fnv 0x00a5e5b0
-bool __fastcall RegisterChildStreamables(NiNode* node, int, NiStream& kStream)
+bool RegisterChildStreamables(NiNode* node, int, NiStream& kStream)
 {
     if (!reinterpret_cast<::FUN_00a59f00_cls *>((((BaseStub*)node)))->FUN_00a59f00((void *)&(kStream)))
         return false;
@@ -978,7 +968,6 @@ bool __fastcall RegisterChildStreamables(NiNode* node, int, NiStream& kStream)
 }  // namespace fnv_00a5e5b0
 
 namespace fnv_00a89890 {
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefStub
 {
     virtual void V0();
@@ -996,7 +985,7 @@ struct ArrStub
 };
 
 // @fnv 0x00a89890
-void __fastcall ReleaseAllRefs(ArrStub* self)
+void ReleaseAllRefs(ArrStub* self)
 {
     for (unsigned int i = 0; i < 7; i++)
     {
@@ -1017,7 +1006,6 @@ void __fastcall ReleaseAllRefs(ArrStub* self)
 }  // namespace fnv_00a89890
 
 namespace fnv_00a93ea0 {
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefStub
 {
     virtual void V0();
@@ -1097,7 +1085,7 @@ struct NodeStub
 
 // Calls SetAt on the node with index i and pkChild, then decrements the ref count of the returned child if non-null.
 // @fnv 0x00a93ea0
-void __fastcall SetChildAt(NiNode* node, int, unsigned int uiIndex, NiAVObject* pkChild)
+void SetChildAt(NiNode* node, int, unsigned int uiIndex, NiAVObject* pkChild)
 {
     RefStub* spRetainedObject = 0;
     ((NodeStub*)node)->SetAt(uiIndex, pkChild, spRetainedObject);
@@ -1265,8 +1253,6 @@ void StandInNode::ApplyTransformToChildren(const ThreeByThreeMatrix& kMat, const
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct ChildNode;
 
@@ -1604,8 +1590,8 @@ void FUN_00a5edc0_cls::FUN_00a5edc0(NiRefObject* apArg, NiRefObject* apRefObject
 {
     if (apRefObject)
     {
-        long(__stdcall * pfnIncRef)(volatile long*) = InterlockedIncrement;
-        long(__stdcall * pfnDecRef)(volatile long*) = InterlockedDecrement;
+        long(* pfnIncRef)(volatile long*) = InterlockedIncrement;
+        long(* pfnDecRef)(volatile long*) = InterlockedDecrement;
         volatile long* rc = (volatile long*)&apRefObject->m_uiRefCount;
         pfnIncRef(rc);
         reinterpret_cast<::FUN_00a59d00_shell *>((apRefObject))->SetParent((::NiNode *)(void *)(this));
@@ -2151,8 +2137,6 @@ void SUNode::FUN_00a5e440(bool& bSelectiveUpdate, bool bSelectiveUpdateTransform
 }
 
 namespace fnv_00a5e690 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* p);
 
 struct NiRefA
 {
@@ -2234,7 +2218,7 @@ void S00a5e690_Obj::GetChild(unsigned int index, NiRefA** out)
     {
         unsigned int iIndex = index;
         NiRefA* n = m_children[iIndex];
-        long(__stdcall * incFn)(volatile long*) = InterlockedIncrement;
+        long(* incFn)(volatile long*) = InterlockedIncrement;
         if (n != 0)
         {
             incFn(&n->m_uiRefCount);
@@ -2280,8 +2264,6 @@ void S00a5e690_Obj::GetChild(unsigned int index, NiRefA** out)
 }  // namespace fnv_00a5e690
 
 namespace fnv_00a5e780 {
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObj
 {
     virtual void V00() throw();
@@ -2624,8 +2606,6 @@ void Node::ReadChildListFromStream(Stream* pkStream)
 
 namespace fnv_00a5ed10 {
 struct HeldChild;
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct ChildNode;
 

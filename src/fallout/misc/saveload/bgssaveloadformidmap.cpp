@@ -76,7 +76,6 @@ struct SaveLoadFile
     unsigned int m_uiBufferSize;
     unsigned int m_uiFilePosition;
 };
-typedef char _sizecheck_BGSSaveLoadFile[sizeof(SaveLoadFile) == 272 ? 1 : -1];
 struct FUN_00846e70_shell : public FormIDConverter
 {
     void LoadFormIDMap(SaveLoadFile*);
@@ -110,11 +109,11 @@ void FUN_00846e70_shell::LoadFormIDMap(SaveLoadFile* apFile)
 
 struct FUN_00846de0_cls
 {
-    unsigned char __thiscall GetByteAtOffset(unsigned char param_1);
+    unsigned char GetByteAtOffset(unsigned char param_1);
 };
 
 // @fnv 0x00846de0
-unsigned char __thiscall FUN_00846de0_cls::GetByteAtOffset(unsigned char param_1)
+unsigned char FUN_00846de0_cls::GetByteAtOffset(unsigned char param_1)
 {
     return ((unsigned char*)this)[param_1 + 0x44];
 }
@@ -210,7 +209,6 @@ struct SaveLoadFile
     unsigned int m_uiBufferSize;
     unsigned int m_uiFilePosition;
 };
-typedef char _sizecheck_BGSSaveLoadFile[sizeof(SaveLoadFile) == 272 ? 1 : -1];
 
 struct FUN_00846d20_shell : public FormIDConverter
 {

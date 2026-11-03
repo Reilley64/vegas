@@ -97,7 +97,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void FUN_009ac170(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -107,7 +107,7 @@ struct Explosion
 struct NiRTTI;
 struct bhkLiquidAction
 {
-    const NiRTTI* __thiscall GetRTTI() const;
+    const NiRTTI* GetRTTI() const;
 };
 struct NavMesh;
 struct NavMeshPtr
@@ -120,7 +120,7 @@ struct FUN_009afc30_shell
 };
 struct BSOcclusionPlane
 {
-    int __thiscall IsNotCulled();
+    int IsNotCulled();
 };
 struct FUN_009afbb0_shell
 {
@@ -130,11 +130,11 @@ struct FUN_009afbb0_shell
 extern "C" void __cdecl FUN_009afbe0(void*);
 struct FUN_00621100_shell
 {
-    void __thiscall SetVtable(void);
+    void SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void FUN_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -425,7 +425,7 @@ struct FUN_00cbc550_class
 };
 struct FUN_00cbca20_class
 {
-    FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
+    FUN_00cbc550_class* FUN_00cbca20(int flags);
 };
 struct HavokAllocator
 {
@@ -788,12 +788,12 @@ struct Obj
     virtual void v123();
     virtual void v124();
     virtual NiPoint3* V1f4();
-    bool __thiscall FUN_004bae00();
-    void __thiscall Update(Upd* a);
+    bool FUN_004bae00();
+    void Update(Upd* a);
 };
 struct SoundFile
 {
-    char* __thiscall Get();
+    char* Get();
 };
 struct Proj
 {
@@ -977,7 +977,7 @@ struct This
     virtual void v123();
     virtual void v124();
     virtual NiPoint3* W1f4();
-    void __thiscall FUN_009ad670();
+    void FUN_009ad670();
 };
 struct SettingColl
 {
@@ -992,7 +992,7 @@ struct Eyes
 };
 struct Handler
 {
-    Eyes* __thiscall Get();
+    Eyes* Get();
 };
 struct TObj
 {
@@ -1071,7 +1071,7 @@ struct BigObj : BSFadeNode
     int unka4;
     int unka8;
     BigObj(int);
-    void* __thiscall FUN_00a5ecb0(int a);
+    void* FUN_00a5ecb0(int a);
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -1131,8 +1131,8 @@ struct BigObj : BSFadeNode
 };
 struct Rnd
 {
-    float __thiscall F();
-    float __thiscall F(float a);
+    float F();
+    float F(float a);
 };
 struct PathReq
 {
@@ -1145,8 +1145,8 @@ struct InitObj : BSFadeNode
     int unk0c;
     int unk10;
     InitObj(void*);
-    void* __thiscall Init(void* a);
-    void __thiscall FUN_00c6b980(void* a);
+    void* Init(void* a);
+    void FUN_00c6b980(void* a);
 };
 struct Sphere : BSFadeNode
 {
@@ -1156,7 +1156,7 @@ struct Sphere : BSFadeNode
     int unk0c;
     int unk10;
     Sphere(float, bool);
-    void* __thiscall Ctor(float a, int b);
+    void* Ctor(float a, int b);
 };
 struct __declspec(align(16)) Big
 {
@@ -1214,7 +1214,7 @@ struct __declspec(align(16)) Big
     int unkd8;
     int unkdc;
     Big();
-    void __thiscall FUN_0056f0f0(void* a);
+    void FUN_0056f0f0(void* a);
     ~Big();
 };
 struct FilterValue
@@ -1223,7 +1223,7 @@ struct FilterValue
 struct Temp622
 {
     int unk00;
-    FilterValue* __thiscall Ctor(int a, void* b, int c);
+    FilterValue* Ctor(int a, void* b, int c);
 };
 struct Body : BSFadeNode
 {
@@ -1235,8 +1235,8 @@ struct Body : BSFadeNode
     int unk14;
     int unk18;
     Body(Big*);
-    void* __thiscall FUN_0056d380(Big* a);
-    void __thiscall FUN_00c6b980(void* a);
+    void* FUN_0056d380(Big* a);
+    void FUN_00c6b980(void* a);
 };
 struct Acc : BSFadeNode
 {
@@ -1287,12 +1287,12 @@ struct Acc : BSFadeNode
     int unkb0;
     int unkb4;
     Acc();
-    void* __thiscall Ctor();
+    void* Ctor();
 };
 struct S1fc
 {
     int unk00;
-    void __thiscall Ctor();
+    void Ctor();
     void* m04;
     float fa, fb, fc, fd;
 };
@@ -1321,7 +1321,7 @@ struct A140 : BSFadeNode
     int unk38;
     int unk3c;
     A140(S1fc*);
-    void* __thiscall Ctor(S1fc* a);
+    void* Ctor(S1fc* a);
 };
 struct Upd
 {
@@ -1329,11 +1329,11 @@ struct Upd
     bool updateControllers;
     bool isMultithreaded;
     int flags;
-    void __thiscall Ctor(float a, int b, int c);
+    void Ctor(float a, int b, int c);
 };
 struct NodeU
 {
-    void __thiscall Update(Upd* a);
+    void Update(Upd* a);
 };
 bool __cdecl FUN_004bae00(void* a);
 struct Ctrl

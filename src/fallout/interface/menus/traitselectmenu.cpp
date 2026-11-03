@@ -35,11 +35,11 @@
 #include "fnv/symbols_011e0000.h"
 struct TraitSelectMenu
 {
-    int __thiscall FUN_007e7ac0();
+    int FUN_007e7ac0();
 };
 
 // @fnv 0x007e7ac0
-int __thiscall TraitSelectMenu::FUN_007e7ac0()
+int TraitSelectMenu::FUN_007e7ac0()
 {
     return 0x434;
 }
@@ -54,12 +54,12 @@ namespace fnv_007e8840 {
 class TraitSelectMenu
 {
   public:
-    void __thiscall HandleTraitSelection(int a1, int a2);
-    void __thiscall FUN_007e8840();
+    void HandleTraitSelection(int a1, int a2);
+    void FUN_007e8840();
 };
 
 // @fnv 0x007e8840
-void __thiscall TraitSelectMenu::FUN_007e8840()
+void TraitSelectMenu::FUN_007e8840()
 {
     HandleTraitSelection(-1, 0);
 }
@@ -73,7 +73,7 @@ struct FUN_007e7da0_shell
 };
 
 // @fnv 0x007e7da0
-bool __thiscall FUN_007e7da0_shell::FUN_007e7da0()
+bool FUN_007e7da0_shell::FUN_007e7da0()
 {
     for (int i = 0; i < 0x12; ++i)
     {
@@ -85,7 +85,7 @@ bool __thiscall FUN_007e7da0_shell::FUN_007e7da0()
 
 struct S_007e7b00
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct Menu_007a8b10
 {
@@ -93,11 +93,11 @@ struct Menu_007a8b10
 };
 struct Holder : Menu_007a8b10
 {
-    void __thiscall FUN_007e7b30();
+    void FUN_007e7b30();
 };
 // Calls FUN_007e7b30, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x007e7b00
-void* __thiscall S_007e7b00::DestroyIfFlagged(unsigned int flags)
+void* S_007e7b00::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::Holder *>(this)->FUN_007e7b30();
     if (flags & 1)
@@ -106,7 +106,7 @@ void* __thiscall S_007e7b00::DestroyIfFlagged(unsigned int flags)
 }
 // Sets the object's vtable pointer to DAT_01077abc, clears DAT_011db00c, then calls the base Menu_007a8b10 destructor.
 // @fnv 0x007e7b30
-void __thiscall Holder::FUN_007e7b30()
+void Holder::FUN_007e7b30()
 {
     *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_01077abc));
     DAT_011db00c = 0;
@@ -145,12 +145,12 @@ struct FUN_0070ec70_This
 };
 struct FUN_007e82b0_shell
 {
-    void __thiscall FUN_007e8310(float);
-    void __thiscall FUN_007e82b0(int, int);
+    void FUN_007e8310(float);
+    void FUN_007e82b0(int, int);
 };
 // Reads a value from FUN_004b7210 and calls FUN_007e8310 with 0.05f when it is negative or with runtimeFloatSettingDefault275 when it is positive.
 // @fnv 0x007e82b0
-void __thiscall FUN_007e82b0_shell::FUN_007e82b0(int, int)
+void FUN_007e82b0_shell::FUN_007e82b0(int, int)
 {
     if (((int)(reinterpret_cast<::FUN_0070ec70_class *>((((FUN_0070ec70_This*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0070ec70())) < 0)
         FUN_007e8310(0.05f);
@@ -170,10 +170,10 @@ struct FUN_007e7ad0_shell
 {
     char _pad[0x28];
     Tile* m_pTiles[18];
-    void __thiscall SetTileByID(int aiID, Tile* apTile);
+    void SetTileByID(int aiID, Tile* apTile);
 };
 // @fnv 0x007e7ad0
-void __thiscall FUN_007e7ad0_shell::SetTileByID(int aiID, Tile* apTile)
+void FUN_007e7ad0_shell::SetTileByID(int aiID, Tile* apTile)
 {
     if (aiID >= 0 && aiID < 0x12)
     {
@@ -186,10 +186,10 @@ struct TraitSelectMenuStandIn
 {
     char _pad[0x28];
     Tile* m_pTiles[18];
-    void __thiscall FUN_007e8280(int aiID, Tile* apTarget);
+    void FUN_007e8280(int aiID, Tile* apTarget);
 };
 // @fnv 0x007e8280
-void __thiscall TraitSelectMenuStandIn::FUN_007e8280(int aiID, Tile* apTarget)
+void TraitSelectMenuStandIn::FUN_007e8280(int aiID, Tile* apTarget)
 {
     if (apTarget == 0 && aiID >= 0 && aiID < 0x12)
         apTarget = m_pTiles[aiID];
@@ -200,7 +200,7 @@ struct FUN_007e7e30_shell
 {
     char _pad[0x28];
     Tile* m_pTiles[18];
-    void __thiscall FUN_007e7e30(int aiID, Tile* apTarget);
+    void FUN_007e7e30(int aiID, Tile* apTarget);
 };
 
 // @fnv 0x007e7e30
@@ -751,13 +751,13 @@ struct TraitSelectMenuCheckState
     int unk70;
     float m_fRatio;
     int m_iSelectedTrait;
-    void __thiscall FUN_007e8470(int aiID, bool abForce);
+    void FUN_007e8470(int aiID, bool abForce);
 };
 
 
 // Selects a trait tile by clearing the previous selection, marking the new one, and computing m_fRatio from the selected and initial setting values.
 // @fnv 0x007e8470
-void __thiscall TraitSelectMenuCheckState::FUN_007e8470(int aiID, bool abForce)
+void TraitSelectMenuCheckState::FUN_007e8470(int aiID, bool abForce)
 {
     Tile* settings;
     float selectedValue;

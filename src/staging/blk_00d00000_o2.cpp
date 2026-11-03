@@ -2,6 +2,7 @@
 // src/staging/blk_00d00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -573,11 +574,11 @@ struct FUN_00d07070_s : FUN_00d06f70_s
     int unk00;
     unsigned short unk04;
 
-    int __thiscall FUN_00d07070(unsigned char flag);
+    int FUN_00d07070(unsigned char flag);
 };
 
 // @fnv 0x00d07070
-int __thiscall FUN_00d07070_s::FUN_00d07070(unsigned char flag)
+int FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 {
     this->FUN_00d06f70();
 
@@ -645,11 +646,11 @@ FUN_00d081e0_ret* FUN_00d081e0_cls::FUN_00d081e0()
 }
 
 // @fnv 0x00d08370
-void __stdcall FUN_00d08370(int)
+void FUN_00d08370(int)
 {}
 
 // @fnv 0x00d0a2a0
-void __stdcall FUN_00d0a2a0(int)
+void FUN_00d0a2a0(int)
 {}
 
 // @fnv 0x00d10760
@@ -694,7 +695,7 @@ void __cdecl FUN_00d1fa10()
 {}
 
 // @fnv 0x00d043f0
-void __stdcall FUN_00d043f0(int)
+void FUN_00d043f0(int)
 {}
 
 inline void* operator new(unsigned int, void* address)
@@ -913,7 +914,7 @@ struct FUN_00d0bc20_Outer
 
 // Sets bit 0 of object->unk27, calls the virtual Method on object->unk14, and stores the negation of bit 3 of unk27 into result.
 // @fnv 0x00d0bc20
-unsigned char* __stdcall FUN_00d0bc20(unsigned char* result, FUN_00d0bc20_Outer* object, unsigned int value)
+unsigned char* FUN_00d0bc20(unsigned char* result, FUN_00d0bc20_Outer* object, unsigned int value)
 {
     object->unk27 |= 1;
     object->unk14->Method(object, value);
@@ -1165,7 +1166,6 @@ __m128 __cdecl FUN_00d1b280()
     return DAT_011b3810;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -1652,7 +1652,7 @@ HkRayBundle __cdecl FUN_00d1bb50(const HkVec4& from0, const HkVec4& to0, const H
     return HkRayBundle(bundleFrom, bundleTo, mask);
 }
 
-typedef void*(__stdcall* S00d1b9b0_TlsGet)(unsigned long dwTlsIndex);
+typedef void*(* S00d1b9b0_TlsGet)(unsigned long dwTlsIndex);
 
 // Records a TtqueryAabb timer, calls FUN_00d1b4d0 with the query AABB and count, then records an Et timer.
 // @fnv 0x00d1b9b0

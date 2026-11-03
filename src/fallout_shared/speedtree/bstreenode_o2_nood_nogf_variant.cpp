@@ -5,6 +5,7 @@
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_004b5020_shell.h"
@@ -58,12 +59,12 @@
 #include "fnv/symbols_01272000.h"
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int FUN_00622430();
 };
 struct NiRTTI;
 struct FUN_0066b5b0_shell
 {
-    const NiRTTI* __thiscall GetNiRTTI();
+    const NiRTTI* GetNiRTTI();
 };
 struct NiAVObject;
 class NiUpdateData;
@@ -76,12 +77,12 @@ public:
 };
 struct BSTreeNode : NiNode
 {
-    NiAVObject* __thiscall GetFirstChild();
+    NiAVObject* GetFirstChild();
 };
 struct NiCullingProcess;
 struct DummyNode
 {
-    void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
+    void FUN_0066bf50(NiCullingProcess* arCuller);
 };
 struct FUN_00c6c290_holder
 {
@@ -125,7 +126,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int FUN_0066d730() const;
 };
 struct FUN_0066da50_t
 {
@@ -143,7 +144,7 @@ struct Flt
 struct NiTriBasedGeom;
 struct FUN_0066b620_shell
 {
-    NiTriBasedGeom* __thiscall GetTriBasedGeom();
+    NiTriBasedGeom* GetTriBasedGeom();
 };
 struct FUN_0066d400_shell
 {
@@ -156,18 +157,18 @@ public:
 };
 struct BSTreeNodeVisibility : BSTreeNode
 {
-    bool __thiscall FUN_0066bc40(bool);
+    bool FUN_0066bc40(bool);
 };
 struct FUN_0066d3d0_shell
 {
 };
 struct FUN_0066d3a0_shell
 {
-    void* __thiscall FUN_0066d3a0(void*);
+    void* FUN_0066d3a0(void*);
 };
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void FUN_0056e120();
 };
 struct FUN_0066d550_shell
 {
@@ -179,11 +180,11 @@ struct FUN_00c8bed0_holder
 void __cdecl _delete(void*, unsigned int);
 struct bhkTransformShape
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 struct FUN_0066d740_owner
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 void __cdecl _delete(void* p, unsigned int size);
 struct FUN_0056e900_shell
@@ -194,7 +195,7 @@ struct FUN_006299a0_shell
 };
 struct FUN_0066d770_shell
 {
-    void* __thiscall FUN_0066d770();
+    void* FUN_0066d770();
 };
 struct NiObject
 {
@@ -305,12 +306,12 @@ struct FUN_0066bf80_vftable
     void* slot138;
     void* slot13C;
     void* slot140;
-    void(__thiscall* process)(void*, float);
+    void(* process)(void*, float);
 };
 struct FUN_0066bf80_owner
 {
     FUN_0066bf80_vftable* vtable;
-    void __thiscall FUN_0066bf80(struct FUN_0066bf80_data*, unsigned int);
+    void FUN_0066bf80(struct FUN_0066bf80_data*, unsigned int);
 };
 struct FUN_0066bf80_data
 {
@@ -1579,15 +1580,15 @@ struct FnvModelReference
 struct FnvObjectSlot
 {
     void* m_object;
-    void __thiscall FUN_0066b0d0(int type);
+    void FUN_0066b0d0(int type);
 };
 struct FnvElementCollection : S_0066b6c0_Base
 {
     FnvModelReference m_model;
     FnvObjectSlot* m_slots;
-    bool __thiscall SetSlotObject(unsigned short index, int type);
+    bool SetSlotObject(unsigned short index, int type);
 };
-typedef S_0066ba30_Node*(__thiscall* FnvNodeGetter)(FnvElementCollection*);
+typedef S_0066ba30_Node*(* FnvNodeGetter)(FnvElementCollection*);
 
 #include <xmmintrin.h>
 
@@ -1654,7 +1655,6 @@ struct NiTransformC8C
     float m_fScale;
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* pAddend);
 
 
 class NiFixedStringC8C

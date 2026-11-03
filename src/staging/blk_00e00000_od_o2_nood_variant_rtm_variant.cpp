@@ -965,7 +965,7 @@ struct FUN_00e11630_Params
 
 
 // @fnv 0x00e11630
-hkVector4 __stdcall FUN_00e11630(const FUN_00e11630_Params* p)
+hkVector4 FUN_00e11630(const FUN_00e11630_Params* p)
 {
     hkVector4 r;
     r.m_vComponents = _mm_add_ps(p->m_p0c->m_v10.m_vComponents, p->m_p08->m_v10.m_vComponents);

@@ -118,7 +118,7 @@ struct UnkHolder
     int a;
     int b;
     int c;
-    void __thiscall FUN_00dbedb0(UnkRet*, int);
+    void FUN_00dbedb0(UnkRet*, int);
 };
 struct FUN_00dc0380
 {
@@ -175,7 +175,7 @@ struct AudioResourceState
     void* active;
     ResourceLookup lookup;
     SoundEntry** entries;
-    void* __thiscall ResolveSound(Receiver* receiver, Description* description);
+    void* ResolveSound(Receiver* receiver, Description* description);
 };
 struct hkMemoryAllocator
 {
@@ -308,7 +308,7 @@ struct FUN_00dc05b0_writer
     int unk50;
     int unk54;
     Dc0380Layout audio;
-    void __thiscall FUN_00dc0500(int, int);
+    void FUN_00dc0500(int, int);
 };
 struct CallbackTarget
 {
@@ -325,10 +325,10 @@ struct CallbackTarget
     virtual void Complete()
     {}
 };
-int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source);
+int WriteAudioObject(int value, CallbackTarget* target, int source);
 struct Obj
 {
-    void __thiscall WriteVarint(__int64);
+    void WriteVarint(__int64);
 };
 struct FUN_00dbe8c0_cls
 {
@@ -480,7 +480,7 @@ struct Rec_00dbf0d0
     unsigned char* unk00;  // data buffer
     int unk04;             // used size
     int unk08;             // capacity (low 30 bits) + flags
-    void __thiscall PackBitsToBytes(unsigned char* dest);
+    void PackBitsToBytes(unsigned char* dest);
 };
 void __cdecl fnv_memset_00ec61c0(void* dest, int ch, int count);
 struct S_00dc0500_Flag
@@ -571,7 +571,7 @@ struct S_dbf1a0_Handle
         ::FUN_00dba660();
     }
 
-    void __thiscall FUN_00dba660() throw();
+    void FUN_00dba660() throw();
 };
 struct S_dbf1a0_Elem
 {

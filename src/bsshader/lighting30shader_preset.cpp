@@ -2,6 +2,7 @@
 // src/bsshader/lighting30shader_preset.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/lighting30shader_preset.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -15,8 +16,6 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_01200000.h"
 #include "fnv/symbols_01201000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct AtomicObject
 {

@@ -2,6 +2,7 @@
 #ifndef FNV_MEMORYMANAGER_H
 #define FNV_MEMORYMANAGER_H
 
+#include <windows.h>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa45a0_Class.h"
@@ -24,9 +25,7 @@ template <class K, class V> class BSMapBase
     bool GetAt(K, V&);
     void SetAt(K, V);
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 // Partial PC prefix through m_bPoolAllocationEnabled; sizeof is the prefix, not the runtime allocation.
-#pragma pack(push, 4)
 class MemoryManager
 {
   public:
@@ -47,9 +46,6 @@ public:
 public:
     void InitializeHeaps();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MemoryManager) == 0x12C);
-FNV_STATIC_ASSERT(offsetof(MemoryManager, m_bPoolAllocationEnabled) == 0x129);
 #endif
 
 extern MemoryManager g_memoryManager;

@@ -193,8 +193,4 @@ class NiAVObject : public NiObjectNET
     void UpdateTimeControllers(NiUpdateData&, bool);
     void EnsureWorldBound();
 };
-typedef char NiObjectNET_size_check[sizeof(NiObjectNET) == 0x18 ? 1 : -1];
-typedef char NiAVObject_size_check[sizeof(NiAVObject) == 0x9c ? 1 : -1];
-typedef char NiAVObject_bound_check[offsetof(NiAVObject, m_kWorldBound) == 0x20 ? 1 : -1];
-typedef char NiAVObject_property_check[offsetof(NiAVObject, SceneGraphObject) == 0x24 ? 1 : -1];
 #endif

@@ -62,11 +62,11 @@ void CombatProcedureAttackGrenade::FUN_009cafc0()
 
 struct FUN_009cb440_shell
 {
-    void __thiscall FUN_009cb440(unsigned char b);
+    void FUN_009cb440(unsigned char b);
 };
 
 // @fnv 0x009cb440
-void __thiscall FUN_009cb440_shell::FUN_009cb440(unsigned char b)
+void FUN_009cb440_shell::FUN_009cb440(unsigned char b)
 {
     *reinterpret_cast<unsigned char*>(this + 0x73) = b;
 }
@@ -74,7 +74,7 @@ void __thiscall FUN_009cb440_shell::FUN_009cb440(unsigned char b)
 
 struct FUN_009caeb0_shell
 {
-    void* __thiscall FUN_009caeb0(unsigned int flags);
+    void* FUN_009caeb0(unsigned int flags);
 };
 
 extern int DAT_010909bc;
@@ -87,7 +87,7 @@ struct FUN_009cafa0_shell
 };
 // Calls FUN_009cafa0, then frees this object with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x009caeb0
-void* __thiscall FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
+void* FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
 {
     reinterpret_cast<::FUN_009cafa0_shell *>(this)->FUN_009cafa0();
     if (flags & 1)
@@ -115,10 +115,10 @@ struct Helper_caae0
 };
 struct FUN_009cb830_shell
 {
-    void __thiscall FUN_009cb830(Projectile* apProjectile);
+    void FUN_009cb830(Projectile* apProjectile);
 };
 // @fnv 0x009cb830
-void __thiscall FUN_009cb830_shell::FUN_009cb830(Projectile* apProjectile)
+void FUN_009cb830_shell::FUN_009cb830(Projectile* apProjectile)
 {
     if (*(bool*)((char*)this + 0x30))
     {
@@ -137,17 +137,17 @@ struct BGSSaveFormBuffer
 };
 struct FUN_009a5eb0_shell
 {
-    void __thiscall FUN_009a5eb0(BGSSaveFormBuffer* p);
+    void FUN_009a5eb0(BGSSaveFormBuffer* p);
 };
 struct CombatProcedureSaveGameShell
 {
 };
 struct FUN_009cb9c0_shell
 {
-    void __thiscall FUN_009cb9c0(BGSSaveFormBuffer* p);
+    void FUN_009cb9c0(BGSSaveFormBuffer* p);
 };
 // @fnv 0x009cb9c0
-void __thiscall FUN_009cb9c0_shell::FUN_009cb9c0(BGSSaveFormBuffer* pBuffer)
+void FUN_009cb9c0_shell::FUN_009cb9c0(BGSSaveFormBuffer* pBuffer)
 {
     reinterpret_cast<::FUN_00996ed0_shell *>((((CombatProcedureSaveGameShell*)this)))->SaveToBuffer(pBuffer);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50((char*)this + 0x10, 4, 0);
@@ -166,7 +166,7 @@ struct CombatProcedure_LoadGame
 };
 struct TimeoutTimer
 {
-    void __thiscall LoadGame(BGSLoadFormBuffer* p);
+    void LoadGame(BGSLoadFormBuffer* p);
 public:
     float FUN_006b9130();
 public:
@@ -228,10 +228,10 @@ struct FUN_009cba50_shell
     int m_ax;
     int m_ay;
     int m_az;
-    void __thiscall FUN_009cba50(BGSLoadFormBuffer* buffer);
+    void FUN_009cba50(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x009cba50
-void __thiscall FUN_009cba50_shell::FUN_009cba50(BGSLoadFormBuffer* buffer)
+void FUN_009cba50_shell::FUN_009cba50(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_00996ef0_shell *>((((CombatProcedure_LoadGame*)this)))->FUN_00996ef0(buffer);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x10), 4);
@@ -247,7 +247,7 @@ struct NiPoint3
     float x;
     float y;
     float z;
-    void __thiscall FUN_006815c0();
+    void FUN_006815c0();
 public:
     static const ::NiPoint3 ZERO;
 };
@@ -1331,7 +1331,7 @@ struct Modifier
 
 struct FUN_009cb890_shell
 {
-    void __thiscall WriteDebugText(IDebugText* debugText, int location, int justify);
+    void WriteDebugText(IDebugText* debugText, int location, int justify);
 };
 
 // Writes debug lines for the state, targeted point, high-arc flag and blocked-timer values via debugText->Write.

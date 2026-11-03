@@ -305,7 +305,7 @@ struct BSWin32TaskletManager
 {
     bool GetTaskletValue(void*);
 };
-bool __fastcall FUN_006c08e0(void*);
+bool FUN_006c08e0(void*);
 
 // @fnv 0x006eabe0
 bool FUN_006eabe0_shell::FUN_006eabe0()
@@ -350,7 +350,6 @@ struct PathingTaskMessage
     int m_eMessageType;
     PathingTaskData* m_pPathingTaskData;
 };
-typedef char _sizecheck_PathingMessage[sizeof(PathingTaskMessage) == 8 ? 1 : -1];
 struct FUN_006eb7f0_shell : public PathManagerImpl
 {
     void DispatchPathingMessage(void*);
@@ -428,7 +427,7 @@ class NiAVObject
 
 // If the stored pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x14 of it.
 // @fnv 0x006ebf90
-void __fastcall FUN_006ebf90(char** apObjectPtr)
+void FUN_006ebf90(char** apObjectPtr)
 {
     if (*apObjectPtr)
         reinterpret_cast<::WaitableObject *>((((NiAVObject*)(*apObjectPtr + 0x14))))->FUN_00401970();
@@ -481,7 +480,7 @@ void FUN_006ea330_shell::FUN_006ea330()
 
 struct FUN_006eb390_shell
 {
-    bool __thiscall FUN_006eb390();
+    bool FUN_006eb390();
 };
 // @fnv 0x006ebc90
 bool FUN_006ebc90_shell::FUN_006ebc90()
@@ -490,7 +489,7 @@ bool FUN_006ebc90_shell::FUN_006ebc90()
 }
 
 // @fnv 0x006eb390
-bool __thiscall FUN_006eb390_shell::FUN_006eb390()
+bool FUN_006eb390_shell::FUN_006eb390()
 {
     return ((int*)this)[0xc24 / 4] == 2;
 }
@@ -582,11 +581,11 @@ struct FUN_006eb420_t
 struct FUN_006ebcb0_shell
 {
     FUN_006eb420_t* m0;
-    void __thiscall CallMemberFunction();
+    void CallMemberFunction();
 };
 
 // @fnv 0x006ebcb0
-void __thiscall FUN_006ebcb0_shell::CallMemberFunction()
+void FUN_006ebcb0_shell::CallMemberFunction()
 {
     reinterpret_cast<::FUN_006eb420_shell *>((m0))->IsFieldZero();
 }
@@ -594,11 +593,11 @@ void __thiscall FUN_006ebcb0_shell::CallMemberFunction()
 
 struct FUN_006ebdc0_shell
 {
-    void __thiscall SetVtable();
+    void SetVtable();
 };
 
 // @fnv 0x006ebdc0
-void __thiscall FUN_006ebdc0_shell::SetVtable()
+void FUN_006ebdc0_shell::SetVtable()
 {
     *(int*)this = (int)&DAT_0106d644;
 }
@@ -703,12 +702,12 @@ struct FUN_006ebdc0_shell
 
 struct FUN_006ebe60_shell
 {
-    void* __thiscall FUN_006ebe60(unsigned int flags);
+    void* FUN_006ebe60(unsigned int flags);
 };
 
 // Calls SetVtable on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006ebe60
-void* __thiscall FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
+void* FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
 {
     reinterpret_cast<::FUN_006ebdc0_shell *>((((FUN_006ebdc0_shell*)this)))->SetVtable();
     if (flags & 1)
@@ -796,7 +795,7 @@ S_006eaa00* S_006eaa00::FUN_006eaa00(S_006eaa00* apSource)
 }
 
 namespace fnv_006eac40 {
-void __fastcall FUN_006c09d0(void*);
+void FUN_006c09d0(void*);
 struct BSWin32TaskletManager
 {
 };
@@ -870,7 +869,7 @@ struct Holder_6eb850
 };
 struct Tmp_006eb890
 {
-    void* __thiscall FUN_006eb890(unsigned int);
+    void* FUN_006eb890(unsigned int);
 };
 // If ptr is non-null, calls FUN_006eb890(1) on it.
 // @fnv 0x006eb850
@@ -2497,7 +2496,7 @@ struct FUN_006eab30_cls : public BGSChangeFlags_6eab30
 };
 // Calls FUN_006eab30, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006eb890
-void* __thiscall Tmp_006eb890::FUN_006eb890(unsigned int flags)
+void* Tmp_006eb890::FUN_006eb890(unsigned int flags)
 {
     reinterpret_cast<::FUN_006eab30_cls *>(this)->FUN_006eab30_cls::~FUN_006eab30_cls();
     if (flags & 1)
@@ -2524,12 +2523,12 @@ struct FUN_006ea780_Obj
 
 struct FUN_006eb250_Class
 {
-    unsigned int __thiscall CallVirtualObjectMethod(int arg1, int arg2, int arg3, int arg4, bool arg5);
+    unsigned int CallVirtualObjectMethod(int arg1, int arg2, int arg3, int arg4, bool arg5);
 };
 
 // Calls vf2 on the object at this+0x1480; if it succeeds, forwards arg2-arg5 to RequestLocationStatus on the returned object, otherwise returns 2.
 // @fnv 0x006eb250
-unsigned int __thiscall FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, int arg2, int arg3, int arg4,
+unsigned int FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, int arg2, int arg3, int arg4,
                                                                     bool arg5)
 {
     int resultObject = 0;
@@ -5545,7 +5544,7 @@ struct Inner006eb440
 struct FUN_006ebcf0_cls
 {
     Inner006eb440* m0;
-    void __thiscall CallInner();
+    void CallInner();
 };
 
 struct ArrayElement_006ebd30
@@ -5862,7 +5861,7 @@ struct LockView
     int a;
 };
 extern const char taskName[];
-void __fastcall EnterTasks(void*);
+void EnterTasks(void*);
 // Existing pack declaration supplies the exit helper.
 struct DrainManager
 {

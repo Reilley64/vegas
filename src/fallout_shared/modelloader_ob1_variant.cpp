@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout_shared/modelloader.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/FG_00659100_cls.h"
@@ -904,8 +905,6 @@ bool TargetStream::FUN_00c3ac10()
 }
 
 namespace fnv_00c3afc0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct RttiY;
 struct RefY
 {
@@ -1413,7 +1412,6 @@ bool WalkY::FUN_00c3afc0(ObjY* pkObj)
 }
 }  // namespace fnv_00c3afc0
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 class Task
 {
   public:
@@ -1536,7 +1534,6 @@ bool Target::FUN_00c3fb50(Task* task)
 
 extern int DAT_010c1670;
 extern int DAT_010c1664;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct S00c3fce0_Iter
 {
     int* table;
@@ -1659,7 +1656,6 @@ void S00c3fce0_cls::FUN_00c3fce0()
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_010c13f4;
 class FUN_00a5d3a0

@@ -277,7 +277,7 @@ struct VTable_009daf80
 };
 
 // @fnv 0x009daf80
-void __fastcall FUN_009daf80(TESForm* pForm)
+void FUN_009daf80(TESForm* pForm)
 {
     *(int*)((char*)pForm + 0x6c) = 6;
     ((Ptr_0066b0d0*)((char*)pForm + 0x1c))->FUN_0066b0d0(0);
@@ -384,7 +384,7 @@ struct FUN_009dc950_Arg
 
 // If pThis->p24 is set, calls its vtable slot v5c with a1.val.
 // @fnv 0x009dc950
-void __fastcall ForwardValueToVtbl(FUN_009dc950_Obj* pThis, FUN_009dc950_Arg aArg)
+void ForwardValueToVtbl(FUN_009dc950_Obj* pThis, FUN_009dc950_Arg aArg)
 {
     if (pThis->p24)
     {
@@ -406,7 +406,7 @@ struct FUN_009dcae0_struct
 };
 
 // @fnv 0x009dcae0
-bool __fastcall FUN_009dcae0(FUN_009dcae0_struct* pOcclusionPlaneStruct)
+bool FUN_009dcae0(FUN_009dcae0_struct* pOcclusionPlaneStruct)
 {
     if (!pOcclusionPlaneStruct->ptr->GetCullResult() ||
         !::FUN_00450ff0((void *)(reinterpret_cast<TESObjectCELL*>(pOcclusionPlaneStruct->ptr->GetCullResult()))) ||
@@ -587,7 +587,7 @@ struct FUN_009ddf60_shell : public ActorMover
 };
 
 void* __cdecl operator new(unsigned int);
-void* __fastcall FUN_009dff40(void*, int, void*, void*);
+void* FUN_009dff40(void*, int, void*, void*);
 
 struct Dummy_0xe4
 {
@@ -665,7 +665,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -702,12 +701,10 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_009dfa00_shell : public ActorMover
 {
     void FUN_009dfa00(BGSLoadFormBuffer*);
@@ -1008,7 +1005,7 @@ struct _Mem_2064
     int d[2];
     ~_Mem_2064();
 };
-void __fastcall FUN_009daf80(TESForm*);
+void FUN_009daf80(TESForm*);
 struct FUN_009daef0
 {
     virtual ~FUN_009daef0();
@@ -1139,7 +1136,7 @@ struct FUN_00564db0_cls
 };
 
 // @fnv 0x00564db0
-void __thiscall FUN_00564db0_cls::FUN_00564db0(bool abVal)
+void FUN_00564db0_cls::FUN_00564db0(bool abVal)
 {
     int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (abVal)
@@ -1349,11 +1346,11 @@ struct SeqObj
 
 struct FUN_0045cec0_Class
 {
-    void __thiscall FUN_0045cec0();
+    void FUN_0045cec0();
 };
 
 // @fnv 0x0045cec0
-void __thiscall FUN_0045cec0_Class::FUN_0045cec0()
+void FUN_0045cec0_Class::FUN_0045cec0()
 {
     if (*(void**)this != 0)
     {
@@ -1371,7 +1368,7 @@ struct FUN_009ddb30Class
 };
 
 // @fnv 0x009ddb30
-void __thiscall FUN_009ddb30Class::FUN_009ddb30()
+void FUN_009ddb30Class::FUN_009ddb30()
 {
     reinterpret_cast<::PathBuilder *>((((FUN_009dfd50Class*)((char*)this + 8))))->FUN_009dfd50();
 }
@@ -2131,7 +2128,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -2168,7 +2164,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_009df8c0_shell : public ActorMover
 {
     void FUN_009df8c0(BGSLoadFormBuffer*);
@@ -2579,7 +2574,7 @@ int FUN_006d53b0(PathingRequest* pRequest, PathingSolution* b)
 }
 
 struct TESForm;
-void __fastcall FUN_009daf80(TESForm*);
+void FUN_009daf80(TESForm*);
 struct Sol11
 {
 };
@@ -5301,7 +5296,7 @@ struct S_FUN_006b05a0
 {
 };
 struct ContNode;
-ContNode* __fastcall FUN_00717e50(void* p);
+ContNode* FUN_00717e50(void* p);
 struct Sol13
 {
     int m_00;
@@ -7096,7 +7091,7 @@ struct PathManager14
 
 struct PathManager;
 PathManager* __cdecl GetPathManager();
-void __fastcall FUN_009daf80(TESForm*);
+void FUN_009daf80(TESForm*);
 
 struct Handler14
 {

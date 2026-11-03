@@ -33,7 +33,7 @@ struct FUN_00e012f0_class
 };
 
 extern "C" void __cdecl FUN_00e49f40();
-typedef void(__thiscall* InitialiseFunction)(FUN_00e012f0_class*);
+typedef void(* InitialiseFunction)(FUN_00e012f0_class*);
 extern "C" NotifyRoot* __cdecl FUN_00c85750();
 
 // Calls FUN_00e49f40 on this, then if flags has bit 0 set, notifies the target from FUN_00c85750 with this and m4, and returns this.

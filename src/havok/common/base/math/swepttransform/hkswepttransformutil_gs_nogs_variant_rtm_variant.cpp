@@ -462,7 +462,7 @@ struct Obj
 struct Calc
 {
     __declspec(align(16)) F4 res;
-    void __thiscall mul(Obj* o, F4* v);
+    void mul(Obj* o, F4* v);
 };
 __forceinline void normalize4(__m128& q)
 {

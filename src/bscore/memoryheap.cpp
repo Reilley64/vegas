@@ -1,5 +1,6 @@
 // bscore/memoryheap.cpp: MemoryHeap, FakeHeap (17 functions)
 
+#include <windows.h>
 #include "fnv/decl/AbstractHeapBlockInfo.h"
 #include "fnv/decl/AbstractHeapBuckets.h"
 #include "fnv/decl/AbstractHeapX.h"
@@ -38,7 +39,6 @@ unsigned int MemoryHeap::CommitRange(void* base, unsigned int offset, unsigned i
     return size;
 }
 
-__declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
 struct FUN_00aa7ab0_s
 {
     unsigned int FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize);
@@ -75,12 +75,12 @@ unsigned int FUN_00aa7a30_shell::FreeVirtualMemory(const void* apMemory)
 
 struct FUN_00aa7c00_shell
 {
-    unsigned int __thiscall FUN_00aa7c00(const void* apPointer);
+    unsigned int FUN_00aa7c00(const void* apPointer);
 };
 
 // Reads the low 28 bits of the word before apPointer, masks them, and returns that value plus 8.
 // @fnv 0x00aa7c00
-unsigned int __thiscall FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
+unsigned int FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
 {
     unsigned int offset = *(unsigned int*)((char*)apPointer - 4) & 0x0FFFFFFF;
     return offset + 8;
@@ -170,7 +170,7 @@ void* FakeHeap::FUN_00aa7e20(unsigned int flags)
 }
 
 // @fnv 0x00aa9d10
-void __fastcall FUN_00aa9d10(void* this_ptr)
+void FUN_00aa9d10(void* this_ptr)
 {}
 
 struct FUN_00b02710_Cls

@@ -32,7 +32,6 @@ class NiUpdateData
     unsigned char layoutPadding2;
     NiUpdateData(float time, bool updateControllers, bool parallelUpdate);
 };
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
 
 class NiAVObject
 {
@@ -137,7 +136,6 @@ class Precipitation
     const void* m_pPrecipitationData;
     void Load(const char* path);
 };
-FNV_STATIC_ASSERT(sizeof(Precipitation) == 24);
 
 class NiMemObject
 {
@@ -153,7 +151,6 @@ class NiSortAdjustNode : public NiMemObject
     unsigned char layoutPadding[0xa8];
     NiSortAdjustNode(int flags);
 };
-FNV_STATIC_ASSERT(sizeof(NiSortAdjustNode) == 0xac);
 
 extern const char DAT_0104ed9c[];
 

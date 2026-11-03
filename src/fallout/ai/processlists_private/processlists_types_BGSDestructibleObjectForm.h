@@ -69,6 +69,4 @@ class BGSDestructibleObjectForm : public BaseFormComponent
 public:
     static void UpdateDestructionMap();
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 #endif

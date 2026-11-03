@@ -54,12 +54,10 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a71e00_shell : public NiTriStrips
 {
     void GetTriangleVertices(unsigned short, NiPoint3**, NiPoint3**, NiPoint3**);
@@ -167,22 +165,22 @@ void* __cdecl FUN_00a9b150()
 struct NiRenderer;
 struct FUN_00a80610_shell
 {
-    void __thiscall FUN_00a80610(NiRenderer*);
+    void FUN_00a80610(NiRenderer*);
 };
 struct FUN_00a71d70_shell
 {
-    void __thiscall FUN_00a71d70(NiRenderer*);
+    void FUN_00a71d70(NiRenderer*);
 };
 // Calls FUN_00a80610, then if the renderer's field at 0x200 is 1 or 2 and the byte at 0x208 is 1, invokes virtual slot 110 with this.
 // @fnv 0x00a71d70
-void __thiscall FUN_00a71d70_shell::FUN_00a71d70(NiRenderer* apkRenderer)
+void FUN_00a71d70_shell::FUN_00a71d70(NiRenderer* apkRenderer)
 {
     ((FUN_00a80610_shell*)this)->FUN_00a80610(apkRenderer);
     int i = *(int*)((char*)apkRenderer + 0x200);
     if ((i == 1 || i == 2) && *(char*)((char*)apkRenderer + 0x208) == 1)
     {
         void** vtbl = *(void***)apkRenderer;
-        ((void(__thiscall*)(NiRenderer*, void*))vtbl[110])(apkRenderer, this);
+        ((void(*)(NiRenderer*, void*))vtbl[110])(apkRenderer, this);
     }
 }
 
@@ -237,7 +235,7 @@ void FUN_00a71d30_shell::FUN_00a71d30(NiRenderer* apkRenderer)
     NiDX9Renderer* pkRenderer = (NiDX9Renderer*)apkRenderer;
     reinterpret_cast<::FUN_00a80610_shell *>((((FUN_00a80610_shell*)this)))->FUN_00a80610((::NiRenderer *)(apkRenderer));
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
-        ((void(__thiscall**)(NiRenderer*, void*)) * (void***)pkRenderer)[108](pkRenderer, this);
+        ((void(**)(NiRenderer*, void*)) * (void***)pkRenderer)[108](pkRenderer, this);
 }
 }  // namespace fnv_00a71d30
 

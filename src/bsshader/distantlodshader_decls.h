@@ -2,9 +2,8 @@
 #ifndef DISTANTLODSHADER_DECLS_H
 #define DISTANTLODSHADER_DECLS_H
 
+#include <windows.h>
 #include "fnv/symbols_011fa000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class NiMemObject
 {

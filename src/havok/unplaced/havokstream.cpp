@@ -55,10 +55,10 @@ struct FUN_006264d0
 };
 struct HavokError
 {
-    void __thiscall FUN_00625650();
+    void FUN_00625650();
 };
 // @fnv 0x00625650
-void __thiscall HavokError::FUN_00625650()
+void HavokError::FUN_00625650()
 {
     reinterpret_cast<::FUN_00cb1a60_Class *>((((FUN_006264d0*)((char*)this + 0x14))))->FUN_006264d0();
 }
@@ -236,12 +236,12 @@ FUN_00625f80_class* FUN_00625f80_class::FUN_00625f80(unsigned int flags)
 
 struct FUN_00626030_class
 {
-    void __thiscall FUN_00626060();
-    void* __thiscall FUN_00626030(unsigned int flags);
+    void FUN_00626060();
+    void* FUN_00626030(unsigned int flags);
 };
 struct FUN_00626250_class
 {
-    void* __thiscall FUN_00626250(unsigned int flags);
+    void* FUN_00626250(unsigned int flags);
 };
 
 struct FUN_00626390_class
@@ -296,7 +296,7 @@ struct FUN_00626060 : FUN_0056d6c0_class
 };
 // Calls FUN_00626060, then if the low flag bit is set calls FUN_00538eb0 on this, and returns this.
 // @fnv 0x00626030
-void* __thiscall FUN_00626030_class::FUN_00626030(unsigned int flags)
+void* FUN_00626030_class::FUN_00626030(unsigned int flags)
 {
     reinterpret_cast<::FUN_00626060 *>(this)->FUN_00626060::~FUN_00626060();
     if (flags & 1)
@@ -319,7 +319,7 @@ struct FUN_00626280_shell : FUN_0056d6c0_class
 };
 // Calls FUN_00626280, then if bit 0 of flags is set calls FUN_00538eb0 on this, and returns this.
 // @fnv 0x00626250
-void* __thiscall FUN_00626250_class::FUN_00626250(unsigned int flags)
+void* FUN_00626250_class::FUN_00626250(unsigned int flags)
 {
     reinterpret_cast<::FUN_00626280_shell *>(this)->FUN_00626280_shell::~FUN_00626280_shell();
     if (flags & 1)
@@ -358,12 +358,12 @@ struct MessageHandler
 };
 struct FUN_00625a40_shell : HavokError
 {
-    void __thiscall ReportError(const char* apWhat, int aiID, const char* apDescription, const char* apFile,
+    void ReportError(const char* apWhat, int aiID, const char* apDescription, const char* apFile,
                                 int aiLine);
 };
 // Reports a Havok error by calling _FNV_Warning with the file, line, description and what text.
 // @fnv 0x00625a40
-void __thiscall FUN_00625a40_shell::ReportError(const char* apDescription, int aiID, const char* apWhat,
+void FUN_00625a40_shell::ReportError(const char* apDescription, int aiID, const char* apWhat,
                                                 const char* apFile, int aiLine)
 {
     MessageHandler::Handler();
@@ -374,7 +374,7 @@ void __thiscall FUN_00625a40_shell::ReportError(const char* apDescription, int a
 struct FUN_00625b40_class : HavokError
 {
     virtual ~FUN_00625b40_class();
-    void* __thiscall FUN_00625b10(unsigned int flags);
+    void* FUN_00625b10(unsigned int flags);
 };
 struct CalleeObj
 {
@@ -1105,7 +1105,7 @@ class FUN_00625b40 : public FUN_0056d6c0
     FUN_00625bd0 m_kRef;
 };
 // @fnv 0x00625b10
-void* __thiscall FUN_00625b40_class::FUN_00625b10(unsigned int flags)
+void* FUN_00625b40_class::FUN_00625b10(unsigned int flags)
 {
     reinterpret_cast<::FUN_00625b40 *>((this))->FUN_00625b40::~FUN_00625b40();
     if (flags & 1)

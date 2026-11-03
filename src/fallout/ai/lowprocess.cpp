@@ -2518,7 +2518,7 @@ struct FUN_00906dc0 : public FUN_008d0270
 };
 
 // @fnv 0x00906f60
-float* __fastcall FUN_00906f60(float* pThis)
+float* FUN_00906f60(float* pThis)
 {
     pThis[0] = 0.0f;
     pThis[1] = 0.0f;
@@ -5817,11 +5817,11 @@ void* FUN_00924080_shell::FUN_00924080(void* apActor, bool abSecondLoc)
     TESObjectREFR* pLocPack2;
     TESPackage* ppack7;
 
-    pLoc = ((LocationDescriptor * (__thiscall*)(void*))(*(void***)this)[0x22c / 4])(this);
+    pLoc = ((LocationDescriptor * (*)(void*))(*(void***)this)[0x22c / 4])(this);
     if (!pLoc)
         return 0;
     ppack7 = 0;
-    pLocPack2 = ((TESObjectREFR * (__thiscall*)(void*, void*, void*, bool))(*(void***)this)[0x814 / 4])(
+    pLocPack2 = ((TESObjectREFR * (*)(void*, void*, void*, bool))(*(void***)this)[0x814 / 4])(
         this, apActor, pLoc, abSecondLoc);
     if (!abSecondLoc)
         m_pReference40 = pLocPack2;

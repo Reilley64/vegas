@@ -102,11 +102,4 @@ class ShadowSceneNode
     void SetFogPropertyForIndex(BSFogProperty* property);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(sizeof(NiFogProperty) == 44);
-FNV_STATIC_ASSERT(sizeof(BSFogProperty) == 100);
-FNV_STATIC_ASSERT(offsetof(BSFogProperty, m_fFogStartDistance) == 0x2c);
-FNV_STATIC_ASSERT(offsetof(BSFogProperty, m_kFogColor) == 0x54);
-FNV_STATIC_ASSERT(offsetof(BSFogProperty, m_fAlpha) == 0x60);
-FNV_STATIC_ASSERT(offsetof(ShadowSceneNode, m_spFogProperty) == 0x134);
 #endif

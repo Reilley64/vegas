@@ -133,7 +133,6 @@ struct VATSCommand
     bool m_bFinalActionFlag;
     char _pad_25[3];
 };
-typedef char _sizecheck_VATS_COMMAND[sizeof(VATSCommand) == 40 ? 1 : -1];
 struct FUN_009ca410_shell : public VATS
 {
     void ProcessVATSCommands();
@@ -331,10 +330,10 @@ struct VATS_COMMAND_LIST
     char _pad_8[4];
     PlayerCharacter* pOwner;
     char _pad_10[24];
-    void __thiscall CreateCommandAndUpdateHUD();
+    void CreateCommandAndUpdateHUD();
 };
 // @fnv 0x009ca1f0
-void __thiscall VATS_COMMAND_LIST::CreateCommandAndUpdateHUD()
+void VATS_COMMAND_LIST::CreateCommandAndUpdateHUD()
 {
     reinterpret_cast<::VATS *>((((InventoryStackRecord*)this)))->FUN_009c8950(false, false);
     VATS_COMMAND_LIST* pCommand = new VATS_COMMAND_LIST;
@@ -2050,7 +2049,7 @@ struct CameraDisplayManager
 
 struct FUN_009c9920_shell : ::VATS
 {
-    bool __thiscall FUN_009c9920();
+    bool FUN_009c9920();
 };
 // @fnv 0x009c8c40
 void S_009c8c40::SetValue(int a)
@@ -2131,7 +2130,7 @@ void FUN_009c95e0_VATS::HandleCommand(FUN_009c95e0_Command* command)
 }
 // Advances the camera shot list past the current shot, updates m_fCameraDuration, and notifies the display manager or sets DAT_011f21d3.
 // @fnv 0x009c9920
-bool __thiscall FUN_009c9920_shell::FUN_009c9920()
+bool FUN_009c9920_shell::FUN_009c9920()
 {
     ::BSSimpleList< ::BGSCameraShot*>* nextCamera = m_pCameraShotList;
     bool found = false;

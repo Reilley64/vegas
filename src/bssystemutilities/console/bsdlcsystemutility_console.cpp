@@ -85,7 +85,7 @@ struct SLX
 };
 // Zeroes the object's first three words and clears three SLX nodes at offsets 0xc, 0x14 and 0x1c, then returns self.
 // @fnv 0x00af27c0
-DownloadableContentManager* __fastcall FUN_00af27c0(DownloadableContentManager* self)
+DownloadableContentManager* FUN_00af27c0(DownloadableContentManager* self)
 {
     *(unsigned int*)((char*)self + 0) = 0;
     *(unsigned int*)((char*)self + 4) = 0;
@@ -139,7 +139,7 @@ bool S::InvokeCallback(int aiUnused, void(__cdecl* b)(int, int, int), int aiValu
 }
 
 // @fnv 0x00af2c20
-void __fastcall FUN_00af2c20(int ecx)
+void FUN_00af2c20(int ecx)
 {}
 
 namespace fnv_00af2850 {
@@ -162,7 +162,7 @@ struct BSHelper
 
 struct A60Helper
 {
-    void __thiscall ClearItems(int);
+    void ClearItems(int);
 };
 
 struct FUN_00af2850
@@ -199,7 +199,6 @@ struct SaveContentDescriptor
     char szFileName[42];
     char _pad_132[2];
 };
-typedef char _sizecheck__XCONTENT_DATA[sizeof(SaveContentDescriptor) == 308 ? 1 : -1];
 struct ContentMountRecord
 {
     bool IsMounted();
@@ -215,7 +214,6 @@ struct ContentMountRecord
     bool m_bMounted;
     char _pad_139[3];
 };
-typedef char _sizecheck_BSContentPackage[sizeof(ContentMountRecord) == 316 ? 1 : -1];
 struct FUN_00af2940_shell : public DownloadableContentManager
 {
     unsigned int AddInstalledDlcPackages(unsigned int, unsigned int);

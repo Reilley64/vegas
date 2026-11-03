@@ -47,7 +47,7 @@ struct WatchdogState
 };
 
 // @fnv 0x00e48270
-void __stdcall NotifyWatchdogCallback(WatchdogState* pState, int unused)
+void NotifyWatchdogCallback(WatchdogState* pState, int unused)
 {
     reinterpret_cast<::FUN_00c91620_Class *>((pState->callback18))->ProcessTarget((unsigned char *)(void **)(reinterpret_cast<void**>(&pState)), (::FUN_00c91620_Target *)(*pState->value48));
 }

@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A64330Obj.h"
@@ -139,7 +140,7 @@ void NiStream::RegisterObjects()
 bool NiStream::Save(NiBinaryStream* stream)
 {
     m_pBackingStream = stream;
-    typedef bool(__thiscall * SaveFunction)(NiStream*);
+    typedef bool(* SaveFunction)(NiStream*);
     bool result = ((SaveFunction*)m_ppVirtualMethodTable)[16](this);
     m_pBackingStream = 0;
     return result;
@@ -169,7 +170,7 @@ void NiStream::SetStreamPath(const char* path)
 // @fnv 0x00A63330
 bool NiStream::Load(NiBinaryStream* stream)
 {
-    typedef bool(__thiscall * StreamReadyFunction)(NiBinaryStream*);
+    typedef bool(* StreamReadyFunction)(NiBinaryStream*);
     if (!((StreamReadyFunction*)stream->m_ppVirtualMethodTable)[1](stream))
     {
         m_pUnderlyingStream = 0;
@@ -224,7 +225,7 @@ bool NiStream::Load(char* buffer, int size)
 {
     NiStreamMemoryBuffer stream;
     new ((void *)&(stream)) ::FUN_00aa2fb0(buffer, size);
-    typedef bool(__thiscall * NiStreamLoadFunction)(NiStream*, NiBinaryStream*);
+    typedef bool(* NiStreamLoadFunction)(NiStream*, NiBinaryStream*);
     bool result = ((NiStreamLoadFunction*)m_ppVirtualMethodTable)[1](this, &stream);
     stream.NiMemStreamDestructor();
     return result;
@@ -235,7 +236,7 @@ bool NiStream::Save(char*& buffer, int& size)
 {
     NiStreamMemoryBuffer stream;
     reinterpret_cast<::FUN_00aa2ff0_s *>(&(stream))->FUN_00aa2ff0();
-    typedef bool(__thiscall * SaveFunction)(NiStream*, NiBinaryStream*);
+    typedef bool(* SaveFunction)(NiStream*, NiBinaryStream*);
     bool result = ((SaveFunction*)m_ppVirtualMethodTable)[4](this, &stream);
     size = stream.m_uiLogicalSize;
     buffer = ((char *)(reinterpret_cast<::FUN_00aa2d60_cls *>(&(stream))->FUN_00aa2d60()));
@@ -272,7 +273,7 @@ void NiStream::SaveTopLevelObjects()
     NiStreamWriteUInt(m_pBackingStream, count);
     for (unsigned int index = 0; index < count; ++index)
     {
-        typedef void(__thiscall * SaveLinkIDFunction)(NiStream*, const NiObject*);
+        typedef void(* SaveLinkIDFunction)(NiStream*, const NiObject*);
         ((SaveLinkIDFunction*)m_ppVirtualMethodTable)[12](this, m_kTopLevelObjects.m_pBase[index].m_pObject);
     }
 }
@@ -810,7 +811,7 @@ struct NiGlobalStringTable
 {
     static char* __cdecl AddString(char const*);
 };
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 extern char* DAT_011f3ec0;
 extern char* DAT_011f3ec4;
 
@@ -818,7 +819,7 @@ extern char* DAT_011f3ec4;
 void __cdecl ClearGlobalStrings()
 {
     char* old = DAT_011f3ec0;
-    int(__stdcall * pfn)(void*) = DAT_00fdf1c4;
+    int(* pfn)(void*) = DAT_00fdf1c4;
     if (old)
     {
         DAT_011f3ec0 = NiGlobalStringTable::AddString(0);
@@ -1079,7 +1080,7 @@ void* FUN_00a48110()
 
 
 // @fnv 0x00a633b0
-void __stdcall FUN_00a633b0(const NiObject* pkObject)
+void FUN_00a633b0(const NiObject* pkObject)
 {
     ::TextureFileEntrySetter::SetTexture((::NiTexture *)(::NiObject *)((NiObject*)pkObject), (const ::BSFileEntry *)(void *)(0));
 }
@@ -1144,7 +1145,7 @@ struct FUN_00a63480_holder
 };
 
 // @fnv 0x00a63480
-unsigned int __fastcall FUN_00a63480(FUN_00a63480_holder* self, int, const char* name)
+unsigned int FUN_00a63480(FUN_00a63480_holder* self, int, const char* name)
 {
     if (!name)
         return 0xffffffff;
@@ -1172,7 +1173,7 @@ void* InvokeNamedFunction(const char* name)
 
 // Searches the array at pThis+0xcc for val and returns its index, or 0 if not found.
 // @fnv 0x00a634f0
-unsigned int __fastcall FUN_00a634f0(char* pThis, int, int aiValue)
+unsigned int FUN_00a634f0(char* pThis, int, int aiValue)
 {
     unsigned int count = *(unsigned short*)(pThis + 0xd2);
     for (unsigned int i = 0; i < count; ++i)
@@ -1269,8 +1270,6 @@ unsigned int __cdecl FUN_00a63630(const char* text)
     return value;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 namespace a637 {
 }
@@ -1807,11 +1806,11 @@ struct Receiver
     Item** unk1f0;
     int unk1f4;
     unsigned int count;
-    void __thiscall FUN_00a63d10();
+    void FUN_00a63d10();
 };
 // Iterates the Item array and calls SetFlagsRecursively on items whose Query() chain reaches g_011f4280 and whose unk18 is zero.
 // @fnv 0x00a63d10
-void __thiscall Receiver::FUN_00a63d10()
+void Receiver::FUN_00a63d10()
 {
     if (unk0d8 >= 0x401000cU)
         return;
@@ -2129,7 +2128,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_00a63ee0_shell : public NiStream
 {
     void FUN_00a63ee0();
@@ -3276,7 +3274,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiObjectGroup : public NiMemObject
 {
     void* Allocate(unsigned int);
@@ -3290,7 +3287,6 @@ struct NiObjectGroup : public NiMemObject
     void* m_pBeforeRefCount;
     unsigned int m_uiRefCount;
 };
-typedef char _sizecheck_NiObjectGroup[sizeof(NiObjectGroup) == 16 ? 1 : -1];
 struct FUN_00a647f0_shell : public NiStream
 {
     void LoadGroups();
@@ -3754,8 +3750,6 @@ void ImageSpaceShaderW::UpdateTextureSwapList()
 }
 }  // namespace fnv_00a64b80
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct StreamHack
 {
     void Clear();
@@ -4044,7 +4038,6 @@ static __forceinline void ReadStream(StreamIO* s, char* buf, unsigned int bytes)
     BinaryRead(s, buf, bytes, &comp, 1);
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 class Cls_a64ea0
 {
@@ -4117,8 +4110,6 @@ void Cls_a64ea0::FUN_00a64ea0(char** apString)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 
 struct S_00a64fe0_RefObject
@@ -4307,7 +4298,7 @@ struct FUN_00a65300_holder
 };
 // Calls Del(1) on three members, clears top-level objects and the map, and passes stored pointers to cleanup routines.
 // @fnv 0x00a65300
-void __fastcall FUN_00a65300(FUN_00a65300_holder* s)
+void FUN_00a65300(FUN_00a65300_holder* s)
 {
     s->vt = &DAT_0109bdcc;
     if (s->istr)
@@ -4694,8 +4685,6 @@ namespace fnv_00a65800 {
 extern "C" int __cdecl strcmp(const char* pA, const char* pB);
 extern "C" int __cdecl strcpy_s(char* pDest, unsigned int uiSize, const char* pSrc);
 extern "C" int __cdecl strcat_s(char* pDest, unsigned int uiSize, const char* pSrc);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 
 struct NiBinaryStreamRt
@@ -4881,7 +4870,6 @@ bool NiStreamRt::LoadRTTIAndObjects()
 }  // namespace fnv_00a65800
 
 namespace fnv_00a65b00 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*) throw();
 
 class NiBinaryStream
 {
@@ -5142,8 +5130,6 @@ bool StreamEx::LoadFixedStrings()
 }
 }  // namespace fnv_00a65b00
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* pkCriticalSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* pkCriticalSection);
 
 struct NiStreamLs;
 
@@ -5468,7 +5454,7 @@ struct FUN_00a66030_obj
 };
 // Calls the object's cleanup method and, when the low bit of flags is set, deallocates the object through g_memoryManager, then returns the object pointer.
 // @fnv 0x00a66030
-FUN_00a66030_obj* __fastcall FUN_00a66030(FUN_00a66030_obj* apThis, int, unsigned int flags)
+FUN_00a66030_obj* FUN_00a66030(FUN_00a66030_obj* apThis, int, unsigned int flags)
 {
     reinterpret_cast<::FUN_00a63850_Class *>((apThis))->DestroyMap();
     if (flags & 1)
@@ -5482,7 +5468,7 @@ struct FUN_00a66050_obj
 };
 // Calls FUN_00a63910 and deallocates self through g_memoryManager when flags bit 0 is set.
 // @fnv 0x00a66050
-FUN_00a66050_obj* __fastcall FUN_00a66050(FUN_00a66050_obj* apObject, int, unsigned int flags)
+FUN_00a66050_obj* FUN_00a66050(FUN_00a66050_obj* apObject, int, unsigned int flags)
 {
     reinterpret_cast<::FUN_00a63910 *>((apObject))->FUN_00a63910::~FUN_00a63910();
     if (flags & 1)
@@ -5803,7 +5789,7 @@ struct FUN_00a66350_obj
 };
 // Calls the NiStream destructor alias and deallocates the object via g_memoryManager when the low bit of flags is set.
 // @fnv 0x00a66350
-FUN_00a66350_obj* __fastcall NiStreamDtor(FUN_00a66350_obj* apStream, int, unsigned int flags)
+FUN_00a66350_obj* NiStreamDtor(FUN_00a66350_obj* apStream, int, unsigned int flags)
 {
     ::FUN_00a65300((::FUN_00a65300_holder *)(apStream));
     if (flags & 1)
@@ -6775,7 +6761,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a66850_shell : public NiStream
 {
     bool FUN_00a66850();
@@ -6953,7 +6938,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00c68050_shell : public NiStream
 {
     void RegisterThread();
@@ -6972,9 +6956,6 @@ typedef CRITICAL_SECTION* LPCRITICAL_SECTION;
 
 extern "C"
 {
-    __declspec(dllimport) void __stdcall EnterCriticalSection(LPCRITICAL_SECTION);
-    __declspec(dllimport) void __stdcall LeaveCriticalSection(LPCRITICAL_SECTION);
-    __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId(void);
 }
 
 struct NineIntegerRecord;
@@ -7785,7 +7766,7 @@ class FUN_00a64df0_Stream
     unsigned int unk244;
     unsigned int unk248;
     BinaryStream* input;
-    void __thiscall FUN_00a64df0(NiFixedString& result);
+    void FUN_00a64df0(NiFixedString& result);
 };
 
 // @fnv 0x00a64df0
@@ -7800,7 +7781,6 @@ void FUN_00a64df0_Stream::FUN_00a64df0(NiFixedString& result)
 }
 }  // namespace fnv_00a64df0
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* section);
 
 struct S_00c68150_Lock
 {

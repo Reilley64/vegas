@@ -235,7 +235,7 @@ struct BSTreeModel
 {
     unsigned char m_auiShapeKeys[0x0c];
     CSpeedTreeRT* m_pTreeRuntime;
-    unsigned short __thiscall FUN_00669990();
+    unsigned short FUN_00669990();
 };
 
 // @fnv 0x00669990
@@ -2521,8 +2521,8 @@ struct FUN_00414430
     FUN_00414430();
     FUN_00414430(float fA, float fB, float fC, float fD);
 };
-unsigned int __fastcall FUN_0044edb0(void* pTree);
-void __fastcall FUN_00804cb0(void* pObject, float fValue);
+unsigned int FUN_0044edb0(void* pTree);
+void FUN_00804cb0(void* pObject, float fValue);
 class TESObjectREFR
 {
   public:

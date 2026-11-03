@@ -8,7 +8,7 @@
 
 // Writes 6 and 0x30 into a2[1] and a2[0] when a1 is nonzero, otherwise writes zeros to both.
 // @fnv 0x00d4e580
-void __stdcall FUN_00d4e580(char a1, int* a2)
+void FUN_00d4e580(char a1, int* a2)
 {
     if (a1)
     {
@@ -25,10 +25,10 @@ void __stdcall FUN_00d4e580(char a1, int* a2)
 void* __cdecl FUN_00d21a60(void* a, int b, int c);
 struct FUN_00d4e560
 {
-    void* __thiscall PopulateInfo(int ai);
+    void* PopulateInfo(int ai);
 };
 // @fnv 0x00d4e560
-void* __thiscall FUN_00d4e560::PopulateInfo(int aiIndex)
+void* FUN_00d4e560::PopulateInfo(int aiIndex)
 {
     return FUN_00d21a60((char*)this + 0x10, 0x124, aiIndex);
 }

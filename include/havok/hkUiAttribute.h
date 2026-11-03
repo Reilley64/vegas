@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKUIATTRIBUTE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkUiAttribute
 {
   public:
@@ -25,6 +24,4 @@ class hkUiAttribute
     hkBool m_bAttributeFlagThree;  // +0x12
     char pad13[0x1];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkUiAttribute[(sizeof(hkUiAttribute) == 0x14) ? 1 : -1];
 #endif

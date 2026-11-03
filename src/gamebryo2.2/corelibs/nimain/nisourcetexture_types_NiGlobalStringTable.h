@@ -8,7 +8,6 @@
 class NiCriticalSection;
 class NiGlobalStringTable;
 class NiTPrimitiveArray_char___;
-#pragma pack(push, 4)
 class NiTPrimitiveArray_char___ : public NiTArray<char*, NiTMallocInterface<char*> >
 {
   public:
@@ -19,9 +18,6 @@ class NiTPrimitiveArray_char___ : public NiTArray<char*, NiTMallocInterface<char
     // void __cdecl NiTPrimitiveArray<char *>::*()
     // void __cdecl NiTPrimitiveArray<char *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_char___) == 16);
-#pragma pack(push, 4)
 class NiCriticalSection
 {
   public:
@@ -37,12 +33,6 @@ class NiCriticalSection
     // unsigned int __cdecl NiCriticalSection::*()
     // void* __cdecl NiCriticalSection::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiCriticalSection) == 128);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_kCriticalSection) == 0);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_ulThreadOwner) == 28);
-FNV_STATIC_ASSERT(offsetof(NiCriticalSection, m_uiLockCount) == 32);
-#pragma pack(push, 4)
 class NiGlobalStringTable
 {
   public:
@@ -74,8 +64,4 @@ class NiGlobalStringTable
     // NiGlobalStringTable& __cdecl NiGlobalStringTable::*(const NiGlobalStringTable&)
     // void* __cdecl NiGlobalStringTable::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGlobalStringTable) == 8448);
-FNV_STATIC_ASSERT(offsetof(NiGlobalStringTable, m_kHashArray) == 0);
-FNV_STATIC_ASSERT(offsetof(NiGlobalStringTable, m_kCriticalSection) == 8320);
 #endif

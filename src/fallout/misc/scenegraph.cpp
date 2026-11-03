@@ -143,7 +143,7 @@ float FUN_008786b0_shell::FUN_008786b0()
 
 struct StandIn
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 extern int DAT_01083b5c;
 

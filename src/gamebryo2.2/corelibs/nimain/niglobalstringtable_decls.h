@@ -2,6 +2,7 @@
 #ifndef NIGLOBALSTRINGTABLE_DECLS_H
 #define NIGLOBALSTRINGTABLE_DECLS_H
 
+#include <windows.h>
 #include <string.h>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
@@ -22,9 +23,6 @@ class NiGlobalStringTable
 };
 extern "C" unsigned long __readfsdword(unsigned long);
 #pragma intrinsic(__readfsdword)
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 struct NiPlaybackStat
 {
     int pad[5];
@@ -66,8 +64,7 @@ class NiPlaybackFile
 };
 char* FUN_00ec6380(char*, const char*);
 int FUN_00ec923c(const char*, NiPlaybackStat*);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) void* __stdcall BinkOpen(const char*, unsigned);
+extern "C" __declspec(dllimport) void* BinkOpen(const char*, unsigned);
 #endif
 
 extern "C" void* fnv_zlib_memcpy(void*, const void*, unsigned);

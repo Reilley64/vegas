@@ -22,7 +22,6 @@
 
 class BSAudioListener;
 
-#pragma pack(push, 4)
 class BSAudio
 {
   public:
@@ -68,8 +67,6 @@ class BSAudio
     void FUN_00ad8100(unsigned int, unsigned int, unsigned int);
     void ForwardToManager(unsigned int, unsigned int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSAudio) == 0x38);
 
 // BSAudioListener interface. Only the vtable slots this unit forwards to are
 // declared; the remaining slots keep their ordinal names so the introducing

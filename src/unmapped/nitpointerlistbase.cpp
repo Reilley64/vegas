@@ -19,12 +19,12 @@ void __cdecl operator delete(void*);
 struct FUN_004edb30_t
 {
     void FUN_004edb30();
-    void* __thiscall FUN_004edd50(unsigned int flags);
+    void* FUN_004edd50(unsigned int flags);
 };
 
 // Calls FUN_004edb30, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x004edd50
-void* __thiscall FUN_004edb30_t::FUN_004edd50(unsigned int flags)
+void* FUN_004edb30_t::FUN_004edd50(unsigned int flags)
 {
     FUN_004edb30();
     if (flags & 1)
@@ -42,11 +42,11 @@ struct NiPointerListBase
 {
     void* p;
     void* q;
-    void __thiscall FUN_004edc60();
+    void FUN_004edc60();
 };
 
 // @fnv 0x004edc60
-void __thiscall NiPointerListBase::FUN_004edc60()
+void NiPointerListBase::FUN_004edc60()
 {
     p = &DAT_010232b4;
     ::FUN_004ede70((void**)q);
@@ -59,11 +59,11 @@ struct FUN_004edf70_t
 };
 struct FUN_004edc90_t
 {
-    void* __thiscall FUN_004edc90(int a, int b);
+    void* FUN_004edc90(int a, int b);
 };
 // Calls FUN_004edf70 with the two arguments, then stores the address of DAT_010232bc as the object's first field and returns this.
 // @fnv 0x004edc90
-void* __thiscall FUN_004edc90_t::FUN_004edc90(int a, int b)
+void* FUN_004edc90_t::FUN_004edc90(int a, int b)
 {
     new ((void *)(reinterpret_cast<FUN_004edf70_t*>(this))) ::FUN_004edf70(a, b);
     *reinterpret_cast<int**>(this) = &DAT_010232bc;
@@ -79,11 +79,11 @@ struct NiTMallocInterface
 struct FUN_004edcc0_t
 {
     void* m;
-    void __thiscall InitAndDeallocate();
+    void InitAndDeallocate();
 };
 // Sets m to the address of DAT_010232c4, then deallocates the pointer stored just past this via NiTMallocInterface::Deallocate.
 // @fnv 0x004edcc0
-void __thiscall FUN_004edcc0_t::InitAndDeallocate()
+void FUN_004edcc0_t::InitAndDeallocate()
 {
     m = &DAT_010232c4;
     ::FUN_004ede70(*(ActorCombatGroup***)(this + 1));
@@ -93,11 +93,11 @@ void __thiscall FUN_004edcc0_t::InitAndDeallocate()
 extern int DAT_010232cc;
 struct FUN_004edcf0_t
 {
-    int* __thiscall InitWithGlobal(int, int);
+    int* InitWithGlobal(int, int);
 };
 // Calls FUN_004edfe0 with the two arguments, stores the address of DAT_010232cc at the start of this object, and returns this.
 // @fnv 0x004edcf0
-int* __thiscall FUN_004edcf0_t::InitWithGlobal(int a, int b)
+int* FUN_004edcf0_t::InitWithGlobal(int a, int b)
 {
     new ((void *)this) ::fnv_004edfe0::FUN_004edfe0(a, b);
     *reinterpret_cast<int**>(this) = &DAT_010232cc;
@@ -117,10 +117,10 @@ struct MyMap
 };
 struct FUN_004eda30_t
 {
-    void __thiscall FUN_004eda30();
+    void FUN_004eda30();
 };
 // @fnv 0x004eda30
-void __thiscall FUN_004eda30_t::FUN_004eda30()
+void FUN_004eda30_t::FUN_004eda30()
 {
     *(int**)(void*)this = (int*)&DAT_01023254;
     reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)(void*)this)))->FUN_00438af0();
@@ -136,10 +136,10 @@ struct MyMap
 };
 struct FUN_004edc30_t
 {
-    void __thiscall ClearAndFreeMap();
+    void ClearAndFreeMap();
 };
 // @fnv 0x004edc30
-void __thiscall FUN_004edc30_t::ClearAndFreeMap()
+void FUN_004edc30_t::ClearAndFreeMap()
 {
     *(int**)this = (int*)&::DAT_01023294;
     reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
@@ -183,12 +183,12 @@ struct FUN_004ed960
     unsigned int size;
     void* data;
     unsigned int count;
-    void* __thiscall Init(unsigned int size);
+    void* Init(unsigned int size);
 };
 
 // Sets the vtable, stores sz in size, allocates size*4 bytes for data, zeroes them, and returns this.
 // @fnv 0x004ed960
-void* __thiscall FUN_004ed960::Init(unsigned int uiSize)
+void* FUN_004ed960::Init(unsigned int uiSize)
 {
     vtbl = (void*)&DAT_01023254;
     size = uiSize;
@@ -202,11 +202,11 @@ void* __thiscall FUN_004ed960::Init(unsigned int uiSize)
 extern int DAT_01023274;
 struct FUN_004eda60_t
 {
-    void* __thiscall FUN_004eda60(unsigned int count);
+    void* FUN_004eda60(unsigned int count);
 };
 // Sets the vtable, stores count, allocates count*4 bytes, zeroes the buffer, and returns this.
 // @fnv 0x004eda60
-void* __thiscall FUN_004eda60_t::FUN_004eda60(unsigned int count)
+void* FUN_004eda60_t::FUN_004eda60(unsigned int count)
 {
     unsigned int size;
     *(int*)this = (int)&DAT_01023274;
@@ -220,11 +220,11 @@ void* __thiscall FUN_004eda60_t::FUN_004eda60(unsigned int count)
 
 struct FUN_004edb60_t
 {
-    int* __thiscall FUN_004edb60(int size);
+    int* FUN_004edb60(int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes the buffer and returns this.
 // @fnv 0x004edb60
-int* __thiscall FUN_004edb60_t::FUN_004edb60(int size)
+int* FUN_004edb60_t::FUN_004edb60(int size)
 {
     int tmp;
     *(int*)this = (int)&DAT_01023294;
@@ -255,10 +255,10 @@ namespace fnv_004edd80 {
 void __cdecl operator delete(void*);
 struct FUN_004edc30_t
 {
-    void* __thiscall FUN_004edd80(unsigned int flags);
+    void* FUN_004edd80(unsigned int flags);
 };
 // @fnv 0x004edd80
-void* __thiscall FUN_004edc30_t::FUN_004edd80(unsigned int flags)
+void* FUN_004edc30_t::FUN_004edd80(unsigned int flags)
 {
     reinterpret_cast<::fnv_004edc30::FUN_004edc30_t *>(this)->ClearAndFreeMap();
     if (flags & 1)
@@ -269,7 +269,7 @@ void* __thiscall FUN_004edc30_t::FUN_004edd80(unsigned int flags)
 
 struct FUN_004eddb0_t
 {
-    void* __thiscall FUN_004eddb0(unsigned int flags);
+    void* FUN_004eddb0(unsigned int flags);
 };
 // @fnv 0x004eddb0
 void* FUN_004eddb0_t::FUN_004eddb0(unsigned int flags)
@@ -284,7 +284,7 @@ void __cdecl operator delete(void*);
 struct FUN_004ebb30_shell
 {
     void FUN_004ebb30();
-    void* __thiscall FUN_004edde0(unsigned int flags);
+    void* FUN_004edde0(unsigned int flags);
 };
 // Calls FUN_004ebb30, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x004edde0
@@ -298,12 +298,12 @@ void* FUN_004ebb30_shell::FUN_004edde0(unsigned int flags)
 
 struct FUN_004ebb50_shell
 {
-    void* __thiscall FUN_004ede10(unsigned int flags);
+    void* FUN_004ede10(unsigned int flags);
 public:
     void FUN_004ebb50();
 };
 // @fnv 0x004ede10
-void* __thiscall FUN_004ebb50_shell::FUN_004ede10(unsigned int flags)
+void* FUN_004ebb50_shell::FUN_004ede10(unsigned int flags)
 {
     reinterpret_cast<::fnv_004edcc0::FUN_004edcc0_t *>(this)->InitAndDeallocate();
     if (flags & 1)
@@ -315,11 +315,11 @@ namespace fnv_004ede40 {
 void __cdecl operator delete(void*);
 struct FUN_004ebb50_shell
 {
-    void* __thiscall FUN_004ede40(unsigned int flags);
+    void* FUN_004ede40(unsigned int flags);
 };
 // Calls FUN_004ebb50, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x004ede40
-void* __thiscall FUN_004ebb50_shell::FUN_004ede40(unsigned int flags)
+void* FUN_004ebb50_shell::FUN_004ede40(unsigned int flags)
 {
     reinterpret_cast<::FUN_004ebb50_shell *>(this)->FUN_004ebb50();
     if (flags & 1)
@@ -360,7 +360,7 @@ void FUN_00ae8bf0_t::AddItem(const void* element)
 
 struct FUN_004edd20_shell
 {
-    void* __thiscall FUN_004edd20(unsigned int flags);
+    void* FUN_004edd20(unsigned int flags);
 };
 // @fnv 0x004edd20
 void* FUN_004edd20_shell::FUN_004edd20(unsigned int flags)

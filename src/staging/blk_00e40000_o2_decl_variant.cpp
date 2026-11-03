@@ -15,7 +15,7 @@ int __cdecl FUN_00e42940(int p);
 extern "C" void __cdecl FUN_00cb0a60();
 struct FUN_00e4e400_class
 {
-    FUN_00e4e400_class* __thiscall FUN_00e4e400();
+    FUN_00e4e400_class* FUN_00e4e400();
 };
 void FUN_00e52860(const float* src, float* dst);
 void FUN_00e52ef0(const float* src, float* dst);
@@ -37,23 +37,23 @@ struct GlobalObjectO2_00d472a0
     int x;
 };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall FUN_00e5c5b0(int a);
-extern "C" void __stdcall FUN_00e5c540(int, int);
+void FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void FUN_00e5c5b0(int a);
+extern "C" void FUN_00e5c540(int, int);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
-void __stdcall FUN_00e5c5f0(int a);
+void FUN_00e5c5f0(int a);
 struct FUN_00e459c0_class
 {
     void SetBitMaskFlags(int a, int b);
 };
 struct FUN_00e45a10_class
 {
-    void __thiscall ClearFlags(int a, int b);
+    void ClearFlags(int a, int b);
 };
 struct FUN_00e587b0_Class
 {
-    int* __thiscall FUN_00e587b0(int idx);
+    int* FUN_00e587b0(int idx);
 };
 struct FUN_00e58880_Class
 {
@@ -110,7 +110,7 @@ struct FUN_00e4ab50_class
     int m_04;
     int* m_08;
     int m_0c;
-    void __thiscall ApplyToAll(int a);
+    void ApplyToAll(int a);
 };
 extern int DAT_010ec1fc;
 struct FUN_00cb0a70
@@ -133,16 +133,16 @@ struct FUN_00e58b10_class
     void FUN_00e58b10(int a, int b, int c);
 };
 extern const char* const g_0126c5f0_arg1;
-void __stdcall FUN_00e5c540(int, int);
-void __stdcall FUN_00e5c5d0(int a);
+void FUN_00e5c540(int, int);
+void FUN_00e5c5d0(int a);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
-void __stdcall FUN_00e5c630(int a);
+void FUN_00e5c540(int a, GlobalObjectO2_00d472a0* b);
+void FUN_00e5c630(int a);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
-void __stdcall CallWithGlobalObject(int a);
+void FUN_00e5c540(int, GlobalObjectO2_00d472a0*);
+void CallWithGlobalObject(int a);
 struct FUN_00e406d0_cls
 {
     int unk00;
@@ -699,7 +699,7 @@ struct FUN_00e53580_cls
 };
 struct S_00e53590_Foo
 {
-    int* __thiscall FUN_00e53590(int index);
+    int* FUN_00e53590(int index);
 };
 struct Vec4f
 {
@@ -780,11 +780,11 @@ double E54B50Dot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 struct FUN_00e54ae0_class
 {
-    void __thiscall GetHelperValueAsFloat();
+    void GetHelperValueAsFloat();
 };
 struct FUN_00e532b0_class
 {
-    FUN_00e54ae0_class* __thiscall FUN_00e532b0(void* buffer, void* value);
+    FUN_00e54ae0_class* FUN_00e532b0(void* buffer, void* value);
 };
 void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
 char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
@@ -1169,8 +1169,8 @@ class FUN_00e5c9b0_cls
 // with a literal zero inserted as the third argument.
 struct FUN_00e5cdb0_class
 {
-    void __thiscall SpliceArray(int a, int b, int c, int d, int e);
-    void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
+    void SpliceArray(int a, int b, int c, int d, int e);
+    void FUN_00e5cec0(int a, int b, int c, int d);
 };
 struct S_00e5cfb0_Object
 {
@@ -1191,7 +1191,7 @@ struct S_00e65ee0_Class
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_00e65ee0(int* buffer, int value);
+    void FUN_00e65ee0(int* buffer, int value);
 };
 void __cdecl FUN_00e5cfb0(S_00e5cfb0_Object* object, int value);
 extern float DAT_0104e148;
@@ -1512,7 +1512,7 @@ struct ActorEntry
         return m_pExtendedListeners;
     }
 
-    void __thiscall FUN_00c9c670(CListener* el);
+    void FUN_00c9c670(CListener* el);
 };
 template <typename T> struct HkArray
 {

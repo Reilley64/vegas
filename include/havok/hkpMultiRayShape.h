@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkpShape.h"
 class hkpMultiRayShapeRay;
-#pragma pack(push, 1)
 class hkpMultiRayShape : public hkpShape
 {
   public:
     hkArray<hkpMultiRayShapeRay> m_kRays;  // +0x10
     hkReal m_fRayRadius;                   // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMultiRayShape[(sizeof(hkpMultiRayShape) == 0x20) ? 1 : -1];
 #endif

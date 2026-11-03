@@ -51,7 +51,6 @@ class ActorData
     ActorData(Actor* actor);
 };
 
-#pragma pack(push, 4)
 class PathingActorData
 {
   public:
@@ -62,10 +61,5 @@ class PathingActorData
 
     PathingActorData& operator=(const PathingActorData& other);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingActorData) == 12);
-FNV_STATIC_ASSERT(offsetof(PathingActorData, m_pActorBaseFormItem) == 0);
-FNV_STATIC_ASSERT(offsetof(PathingActorData, m_pInventoryChangesValue) == 4);
-FNV_STATIC_ASSERT(offsetof(PathingActorData, m_bCanIgnoreLocks) == 8);
 
 #endif

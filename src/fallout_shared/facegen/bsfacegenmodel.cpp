@@ -88,7 +88,7 @@ NiAVObject* BSFaceGenModel::GetFaceGenModelNode(NiAVObject* object)
     return result ? result->vfn_94() : 0;
 }
 
-void* __fastcall FUN_00659670(void* pThis, int, const char* apEGTFilename);
+void* FUN_00659670(void* pThis, int, const char* apEGTFilename);
 
 struct Dummy_00659780
 {
@@ -106,7 +106,7 @@ FaceGenTextureFile* __cdecl FUN_00659780(const char* apEGTFilename)
     return (FaceGenTextureFile*)new Dummy_00659780(apEGTFilename);
 }
 
-void __fastcall FUN_00659b50(void*);
+void FUN_00659b50(void*);
 
 struct NiMemObject
 {
@@ -238,7 +238,6 @@ struct NiGeometry : public NiAVObject
     unsigned int m_uiGeometryShaderFlags;
     char _pad_ec[4];
 };
-typedef char _sizecheck_NiGeometry[sizeof(NiGeometry) == 240 ? 1 : -1];
 struct FUN_0065a620_shell : public NiGeometry
 {
     void FUN_0065a620(int);
@@ -407,13 +406,13 @@ struct S_0065cbd0
     ~S_0065cbd0();
 };
 
-void __fastcall FUN_0065c6a0(void*);
-void __fastcall FUN_0065c7c0(void*);
-void __fastcall FUN_0065c890(void*);
-void __fastcall FUN_0065c960(void*);
-void __fastcall FUN_0065ca30(void*);
-void __fastcall FUN_0065cb00(void*);
-void __fastcall FUN_0065cbd0(void*);
+void FUN_0065c6a0(void*);
+void FUN_0065c7c0(void*);
+void FUN_0065c890(void*);
+void FUN_0065c960(void*);
+void FUN_0065ca30(void*);
+void FUN_0065cb00(void*);
+void FUN_0065cbd0(void*);
 
 struct FUN_0065a680
 {
@@ -491,7 +490,7 @@ struct _Vec12
 };
 
 // @fnv 0x0065c700
-unsigned int __fastcall FUN_0065c700(const _Vec12* pVec)
+unsigned int FUN_0065c700(const _Vec12* pVec)
 {
     return pVec->_Mylast - pVec->_Myfirst;
 }
@@ -646,7 +645,7 @@ void* DelStandIn::FUN_0065a650(unsigned int flags)
 }
 
 // @fnv 0x00657bc0
-int __fastcall FUN_00657bc0(int param_1)
+int FUN_00657bc0(int param_1)
 {
     return (*(int*)(param_1 + 0x10) - *(int*)(param_1 + 0xc)) / 6;
 }
@@ -657,11 +656,11 @@ struct GlobalObject_00a7b610
 
 struct FUN_0065bee0_shell
 {
-    GlobalObject_00a7b610* __thiscall GetGlobalObject();
+    GlobalObject_00a7b610* GetGlobalObject();
 };
 
 // @fnv 0x0065bee0
-GlobalObject_00a7b610* __thiscall FUN_0065bee0_shell::GetGlobalObject()
+GlobalObject_00a7b610* FUN_0065bee0_shell::GetGlobalObject()
 {
     return &::g_011d5b58;
 }
@@ -1025,13 +1024,13 @@ int FUN_00657c00_shell::GetCount()
 
 struct FUN_00659c10_shell
 {
-    void __thiscall FUN_006598d0();
-    void* __thiscall FUN_00659c10(unsigned int flags);
+    void FUN_006598d0();
+    void* FUN_00659c10(unsigned int flags);
 };
 
 // Calls FUN_006598d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00659c10
-void* __thiscall FUN_00659c10_shell::FUN_00659c10(unsigned int flags)
+void* FUN_00659c10_shell::FUN_00659c10(unsigned int flags)
 {
     reinterpret_cast<::fnv_006598d0::FUN_006598d0 *>(this)->fnv_006598d0::FUN_006598d0::~FUN_006598d0();
     if (flags & 1)

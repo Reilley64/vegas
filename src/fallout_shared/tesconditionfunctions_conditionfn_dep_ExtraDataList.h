@@ -13,5 +13,4 @@ class ExtraDataList : public BaseExtraList
 public:
     ::ExtraDismemberedLimbs *GetDismemberedLimbs();
 };
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #endif

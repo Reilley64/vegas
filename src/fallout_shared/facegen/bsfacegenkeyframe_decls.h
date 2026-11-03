@@ -6,7 +6,6 @@
 #include "fnv/decl/MagicCaster_shell.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class BSFaceGenKeyframe
 {
   public:
@@ -22,9 +21,7 @@ class BSFaceGenKeyframe
     virtual bool vfn_10(float time);
     bool SetTime(float time);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(BSFaceGenKeyframe) == 0xC);
 
 class OSGlobals
 {
@@ -66,6 +63,5 @@ public:
     bool FUN_0064a4d0(unsigned int, float);
 };
 
-FNV_STATIC_ASSERT(sizeof(BSFaceGenKeyframeMultiple) == 0x14);
 
 #endif

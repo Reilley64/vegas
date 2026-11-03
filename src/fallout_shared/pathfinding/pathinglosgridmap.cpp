@@ -65,19 +65,19 @@ void FUN_006e0590_shell::FUN_006e0590()
 
 struct FUN_006a62f0_shell
 {
-    void __thiscall AddOffset(void*);
+    void AddOffset(void*);
 };
 
-void __thiscall FUN_006a62f0_shell::AddOffset(void* arg)
+void FUN_006a62f0_shell::AddOffset(void* arg)
 {}
 
 struct FUN_006e0ed0_shell
 {
-    void __thiscall FUN_006e0ed0(void*);
+    void FUN_006e0ed0(void*);
 };
 
 // @fnv 0x006e0ed0
-void __thiscall FUN_006e0ed0_shell::FUN_006e0ed0(void* arg)
+void FUN_006e0ed0_shell::FUN_006e0ed0(void* arg)
 {
     reinterpret_cast<FUN_006a62f0_shell*>(this)->AddOffset(arg);
 }
@@ -108,18 +108,18 @@ bool FUN_006e08f0_shell::FUN_006e08f0(NavMeshPtr& aArg)
 
 struct PathingLOSGridMap
 {
-    void* __thiscall FUN_006e0270(unsigned int);
+    void* FUN_006e0270(unsigned int);
 };
 namespace fnv_006e0480 {
 void __cdecl operator delete(void*);
 struct PathingLOSGridMap
 {
     void FUN_006e04b0();
-    void* __thiscall FUN_006e0480(unsigned int flags);
+    void* FUN_006e0480(unsigned int flags);
 };
 // Calls FUN_006e04b0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x006e0480
-void* __thiscall PathingLOSGridMap::FUN_006e0480(unsigned int flags)
+void* PathingLOSGridMap::FUN_006e0480(unsigned int flags)
 {
     FUN_006e04b0();
     if (flags & 1)
@@ -130,10 +130,10 @@ void* __thiscall PathingLOSGridMap::FUN_006e0480(unsigned int flags)
 
 struct FUN_006e0560_shell : FUN_006e0590_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // @fnv 0x006e0560
-void* __thiscall FUN_006e0560_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_006e0560_shell::DestroyIfFlagged(unsigned int flags)
 {
     FUN_006e0590();
     if (flags & 1)
@@ -160,10 +160,10 @@ struct FUN_006dfe90_shell
 };
 struct FUN_006e0bc0_shell
 {
-    bool __thiscall FUN_006e0bc0(BSAudio* aArg, bool aFlag);
+    bool FUN_006e0bc0(BSAudio* aArg, bool aFlag);
 };
 // @fnv 0x006e0bc0
-bool __thiscall FUN_006e0bc0_shell::FUN_006e0bc0(BSAudio* aArg, bool aFlag)
+bool FUN_006e0bc0_shell::FUN_006e0bc0(BSAudio* aArg, bool aFlag)
 {
     void* pTopic = ((void *)(reinterpret_cast<::MagicCaster_shell *>((aArg))->FUN_0044edb0()));
     if (!pTopic || ((FUN_006df760_shell*)aArg)->GetShortValueAtOffset24() == 0xFFFF)
@@ -176,20 +176,20 @@ bool __thiscall FUN_006e0bc0_shell::FUN_006e0bc0(BSAudio* aArg, bool aFlag)
 
 extern "C"
 {
-    void __declspec(dllimport) __stdcall vprintf(const char*, void*);
+    void __declspec(dllimport) vprintf(const char*, void*);
 }
 extern int DAT_0106cef8;
 struct AX
 {
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
+    void FUN_006b3eb0(unsigned int, unsigned int);
 };
 struct FUN_006e1020_shell : AX
 {
-    FUN_006e1020_shell* __thiscall FUN_006e1020();
+    FUN_006e1020_shell* FUN_006e1020();
 };
 // Sets the object's vtable pointer to DAT_0106cef8, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x006e1020
-FUN_006e1020_shell* __thiscall FUN_006e1020_shell::FUN_006e1020()
+FUN_006e1020_shell* FUN_006e1020_shell::FUN_006e1020()
 {
     *reinterpret_cast<unsigned int**>(this) = reinterpret_cast<unsigned int*>(&DAT_0106cef8);
     FUN_006b3eb0(0, 0);
@@ -227,12 +227,12 @@ struct PathingLOSGridMap
     int m_1C;
     unsigned char _pad1[0x24];
     float fRadius;
-    void __thiscall ClearMap();
-    void __thiscall FUN_006e0320(void* p, float f);
-    void __thiscall Reset();
+    void ClearMap();
+    void FUN_006e0320(void* p, float f);
+    void Reset();
 };
 // @fnv 0x006e05b0
-void __thiscall PathingLOSGridMap::Reset()
+void PathingLOSGridMap::Reset()
 {
     m_fCellSize = 0.0f;
     ClearMap();
@@ -305,7 +305,7 @@ struct MyMap
 };
 struct FUN_00aa62e0_shell
 {
-    void __thiscall FUN_00aa62e0();
+    void FUN_00aa62e0();
 };
 struct FUN_006e03e0_shell
 {
@@ -331,7 +331,7 @@ void FUN_006e03e0_shell::ClearMap()
 struct ArrSI
 {
     unsigned char pad[0x13];
-    void* __thiscall FUN_006e0ed0(unsigned int);
+    void* FUN_006e0ed0(unsigned int);
 };
 
 struct BGSSaveFormBuffer
@@ -340,7 +340,7 @@ struct BGSSaveFormBuffer
 
 struct BGSSaveGameBuffer : BGSSaveFormBuffer
 {
-    void __thiscall FUN_00865f60(unsigned int);
+    void FUN_00865f60(unsigned int);
 };
 
 struct FUN_006df9c0_shell
@@ -350,12 +350,12 @@ struct FUN_006df9c0_shell
     ArrSI m_aiIndexedValues;
     unsigned char pad2[0x14];
 
-    void __thiscall FUN_006df9c0(BGSSaveGameBuffer*);
+    void FUN_006df9c0(BGSSaveGameBuffer*);
 };
 
 // Saves the byte, a 4-byte value at offset 0x18, and, when m_byte is zero, the count and each element returned by FUN_006e0ed0.
 // @fnv 0x006df9c0
-void __thiscall FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
+void FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((void*)((char*)this + 0x18), 4, 0);
@@ -377,12 +377,12 @@ void __thiscall FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
 
 struct FUN_006e10c0_shell
 {
-    void __thiscall FUN_006e10c0(unsigned int, int);
+    void FUN_006e10c0(unsigned int, int);
 };
 
 struct FUN_006dfa70_index_shell
 {
-    char* __thiscall FUN_006e0ed0(void*);
+    char* FUN_006e0ed0(void*);
 };
 
 struct FormLoadEntry
@@ -392,12 +392,12 @@ struct FormLoadEntry
     FUN_006dfa70_index_shell index;
     unsigned char pad1[0x10];
 
-    void __thiscall LoadForm(BGSLoadFormBuffer*);
+    void LoadForm(BGSLoadFormBuffer*);
 };
 
 // Reads a byte and four bytes into the object, then, if the flag is unset, reads a count and that many single bytes into indexed entries.
 // @fnv 0x006dfa70
-void __thiscall FormLoadEntry::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
+void FormLoadEntry::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 1);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0x18), 4);
@@ -444,11 +444,11 @@ struct FUN_006e10c0_shell : BSSimpleArrayActor
     unsigned int size;
     unsigned int capacity;
 
-    void __thiscall FUN_006e10c0(unsigned int, bool);
+    void FUN_006e10c0(unsigned int, bool);
 };
 
 // @fnv 0x006e10c0
-void __thiscall FUN_006e10c0_shell::FUN_006e10c0(unsigned int uiNewSize, bool abShrinkCapacity)
+void FUN_006e10c0_shell::FUN_006e10c0(unsigned int uiNewSize, bool abShrinkCapacity)
 {
     if (uiNewSize == 0)
     {
@@ -529,7 +529,7 @@ struct FUN_006dfba0_shell
 
 struct FUN_006e05f0_shell
 {
-    bool __thiscall AddNavMeshes(ArrSI*);
+    bool AddNavMeshes(ArrSI*);
 };
 
 // @fnv 0x006e05f0
@@ -567,7 +567,7 @@ struct NavMeshKey;
 
 struct NavMeshLookup
 {
-    IndexList* __thiscall FUN_006911f0(unsigned int identifier);
+    IndexList* FUN_006911f0(unsigned int identifier);
 };
 
 struct NavMeshKey
@@ -583,7 +583,7 @@ struct NavMeshResults
     unsigned int size;
     unsigned int capacity;
     unsigned int flags;
-    signed char* __thiscall AddOffset(unsigned int index);
+    signed char* AddOffset(unsigned int index);
 };
 
 struct FUN_006df440_owner
@@ -596,7 +596,7 @@ struct FUN_006df440_owner
     NavMeshResults results;
     NavMeshLookup* lookup;
     unsigned int identifier;
-    bool __thiscall InitFromLookup(NavMeshLookup* value);
+    bool InitFromLookup(NavMeshLookup* value);
 };
 
 // Copies bytes indexed by the lookup's index list into results, clears valid if any byte is <=0 or 0x7f, and returns false on missing data.
@@ -1029,11 +1029,11 @@ struct FUN_006e0b50_cls
     unsigned char m_00[8];
     unsigned char m_08[0x10];
 
-    bool __thiscall FUN_006e0b50(void* aArg);
+    bool FUN_006e0b50(void* aArg);
 };
 
 // @fnv 0x006e0b50
-bool __thiscall FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
+bool FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
 {
     unsigned int value;
     void* pHolder = ((void *)(reinterpret_cast<::MagicCaster_shell *>((((FUN_0044edb0_shell*)aArg)))->FUN_0044edb0()));
@@ -1111,10 +1111,10 @@ struct Owner6df780
     NavMeshResults results;
     NavMeshLookup* lookup;
     unsigned int identifier;
-    bool __thiscall UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2);
+    bool UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2);
 };
 // @fnv 0x006df780
-bool __thiscall Owner6df780::UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2)
+bool Owner6df780::UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2)
 {
     NavMeshKey key;
     if (!reinterpret_cast<::NavMeshInfo *>((lookup))->ResolveNavMesh((*(::NavMeshPtr *)(&key))))
@@ -1223,11 +1223,11 @@ FUN_006e0730::FUN_006e0730(const FUN_006e0730& kOther)
 
 struct FUN_006a62f0_Class
 {
-    int __thiscall AddOffset(void*);
+    int AddOffset(void*);
 };
 
 // @fnv 0x006a62f0
-int __thiscall FUN_006a62f0_Class::AddOffset(void* arg)
+int FUN_006a62f0_Class::AddOffset(void* arg)
 {
     return reinterpret_cast<int*>(this)[1] + reinterpret_cast<int>(arg);
 }
@@ -1327,7 +1327,7 @@ struct LOSGridMapReal : LOSGridBase
 };
 // Calls FUN_006e02a0, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x006e0270
-void* __thiscall PathingLOSGridMap::FUN_006e0270(unsigned int flags)
+void* PathingLOSGridMap::FUN_006e0270(unsigned int flags)
 {
     reinterpret_cast<::LOSGridMapReal *>((this))->LOSGridMapReal::~LOSGridMapReal();
     if (flags & 1)

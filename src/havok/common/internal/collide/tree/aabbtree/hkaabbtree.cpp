@@ -31,7 +31,7 @@ struct FUN_00d9be30_class {
 struct FUN_00d9be20_cls {
 };
 struct FUN_00d9bed0_cls {
-    void __thiscall FUN_00d9bed0();
+    void FUN_00d9bed0();
 };
 struct Obj_d9be20 {
     int m0;
@@ -50,7 +50,7 @@ void FUN_00d9be30_class::FUN_00d9be30()
     m18 = 0;
 }
 // @fnv 0x00d9bed0
-void __thiscall FUN_00d9bed0_cls::FUN_00d9bed0()
+void FUN_00d9bed0_cls::FUN_00d9bed0()
 {
     reinterpret_cast<::Obj_d9be20 *>((((FUN_00d9be20_cls*)((char*)this + 0x1c))))->FUN_00d9be20();
     *(int*)((char*)this + 0x10) = 0;
@@ -401,7 +401,7 @@ struct RecordPool {
     int unk08;
     unsigned short* available;
     int count;
-    unsigned short __thiscall AddRecord(int first,int second,const Record20* item);
+    unsigned short AddRecord(int first,int second,const Record20* item);
 };
 // @fnv 0x00d9c210
 unsigned short RecordPool::AddRecord(int first,int second,const Record20* item) {
@@ -617,7 +617,7 @@ void D9C360Tree::TraverseTree(D9C360Node* node, void* context)
 
 struct BoundsNode { unsigned short m00,m02,m04,m06,m08,m0A,m0C,m0E,m10,m12; };
 struct FUN_00d9a4d0_cls {  };
-struct FUN_00d9b450_cls { int m00,m04,m08,m0C,m10,m14,m18; FUN_00d9a4d0_cls m1c; void __thiscall UpdateBoundsNode(BoundsNode* a1,unsigned short a2,unsigned short a3); };
+struct FUN_00d9b450_cls { int m00,m04,m08,m0C,m10,m14,m18; FUN_00d9a4d0_cls m1c; void UpdateBoundsNode(BoundsNode* a1,unsigned short a2,unsigned short a3); };
 // Sets a node's m12 to a3, then unless m10 has bit 0x8000 set, updates its two child nodes and recomputes the node's bounds from them.
 // @fnv 0x00d9b450
 void FUN_00d9b450_cls::UpdateBoundsNode(BoundsNode* pNode,unsigned short usValue,unsigned short usValue2) {
@@ -1032,11 +1032,11 @@ struct S_00d9af30 {
     int unk14;
     int unk18;
     S_00d9af30_Pool m_kNodePool;
-    void __thiscall MergeNode(S_00d9af30_Node* n, int a, int b);
+    void MergeNode(S_00d9af30_Node* n, int a, int b);
 };
 // Stores b in n->unk2c; for nonleaf nodes, updates child flags, recurses, and combines their bounds into n.
 // @fnv 0x00d9af30
-void __thiscall S_00d9af30::MergeNode(S_00d9af30_Node* apNode, int a, int b)
+void S_00d9af30::MergeNode(S_00d9af30_Node* apNode, int a, int b)
 {
     apNode->unk2c = b;
     if ((apNode->m_flags & 0x80000000) == 0) {

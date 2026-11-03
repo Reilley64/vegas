@@ -12,9 +12,9 @@ unsigned int __cdecl FUN_00a9c0a0(const char* name);
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f7c4;
 GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400();
-void __fastcall UpdateMatrix(void*);
-char* __fastcall FUN_00bc5c20(char* self);
-void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i);
+void UpdateMatrix(void*);
+char* FUN_00bc5c20(char* self);
+void* FUN_00e826c0(char* self, int unused, unsigned int i);
 struct FUN_00e82ac0_e
 {
     char pad[0xc];
@@ -27,10 +27,10 @@ struct FUN_00e82ac0_e
 extern unsigned char DAT_011f5fb4[];
 bool __cdecl LookupShaderConstantMapping(unsigned int, void*&);
 unsigned int __cdecl GetAttributeTypeForMapping(void*, unsigned int*, unsigned int*);
-unsigned int __stdcall UpdateEntryFromKey(FUN_00e82ac0_e* e);
-void __fastcall FUN_00e81c00(void*);
+unsigned int UpdateEntryFromKey(FUN_00e82ac0_e* e);
+void FUN_00e81c00(void*);
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
-void* __fastcall FUN_00e83630(void* self, int unused, unsigned int flags);
+void* FUN_00e83630(void* self, int unused, unsigned int flags);
 struct FUN_00e84b60_prog
 {
     virtual void Slot0();
@@ -64,8 +64,8 @@ struct FUN_00e84b60_prog
     virtual void Slot28();
     virtual bool SetConstant(void* entry, const void* data, unsigned int n);
 };
-const void* __stdcall GetConstantData(void*);
-unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass);
+const void* GetConstantData(void*);
+unsigned int FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass);
 extern char* EmptyFS;
 struct RMapEntry
 {
@@ -118,7 +118,7 @@ struct RArr
 {
     void FUN_00e86f40(unsigned int, void*);
 };
-unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char* name);
+unsigned int LookupAndReleaseEntry(RMap* self, int unused, const char* name);
 unsigned int __cdecl FUN_00a9bc16();
 unsigned int __cdecl FUN_00a9bc1c();
 int __cdecl FUN_00a9bc22();

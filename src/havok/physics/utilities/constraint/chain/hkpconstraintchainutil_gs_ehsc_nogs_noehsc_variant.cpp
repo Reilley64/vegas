@@ -416,7 +416,7 @@ struct ReporterVtable
     void* v00;
     void* v04;
     void* v08;
-    void(__thiscall* report)(Reporter*, int, unsigned int, const char*, const char*, int);
+    void(* report)(Reporter*, int, unsigned int, const char*, const char*, int);
 };
 struct Reporter
 {

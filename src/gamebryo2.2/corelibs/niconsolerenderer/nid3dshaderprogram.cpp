@@ -81,7 +81,7 @@ struct ComObj
 {
     virtual void F0();
     virtual void F1();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 // Sets the vtable, frees the two pointers at offsets 0x3C and 0x40, releases and clears the ComObj at 0x44, then calls FUN_00e89b70.
 // @fnv 0x00e971d0

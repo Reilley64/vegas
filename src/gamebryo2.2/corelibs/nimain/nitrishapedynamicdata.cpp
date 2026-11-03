@@ -21,7 +21,7 @@ struct NiTriShapeDynamicData
 };
 
 // @fnv 0x00a81730
-void __thiscall NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, const unsigned short*& pusStripLengths,
+void NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, const unsigned short*& pusStripLengths,
                                                     const unsigned short*& pusTriList, unsigned int& uiStripLengthSum)
 {
     usStrips = *(unsigned short*)((char*)this + 0x5a);
@@ -40,11 +40,11 @@ void* __cdecl FUN_00a81800()
 namespace fnv_00a81820 {
 struct NiTriShapeDynamicData
 {
-    void __thiscall FUN_00a81820(unsigned short usActiveTriangles);
+    void FUN_00a81820(unsigned short usActiveTriangles);
 };
 
 // @fnv 0x00a81820
-void __thiscall NiTriShapeDynamicData::FUN_00a81820(unsigned short usActiveTriangles)
+void NiTriShapeDynamicData::FUN_00a81820(unsigned short usActiveTriangles)
 {
     *(unsigned short*)((char*)this + 0x5a) = usActiveTriangles;
 }

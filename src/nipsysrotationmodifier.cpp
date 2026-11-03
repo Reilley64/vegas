@@ -642,7 +642,7 @@ struct NiPSysData
 
 // For each particle, adds (fTime minus m_fZValue) times its rotation speed to its angle, resetting it to 0 if above 10 pi, else reducing it to at most 2 pi.
 // @fnv 0x00c206b0
-void __stdcall UpdateRotationAngles(float fTime, NiPSysData* pkData)
+void UpdateRotationAngles(float fTime, NiPSysData* pkData)
 {
     float* pfRotationAngles = pkData->m_pfRotationAngles;
     if (pfRotationAngles)

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/dashpot/hkpdashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00cf4d80.h"
 #include "fnv/symbols_01013000.h"
@@ -32,7 +33,6 @@ FUN_00d4d980_Class* FUN_00d4d980_Class::FUN_00d4d980(int entityA, int entityB, i
 
 // FUN_00d4d9d0 - hkpDashpotAction clone-style factory (Havok)
 
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 unsigned long g_tlsIdx = 0;
 

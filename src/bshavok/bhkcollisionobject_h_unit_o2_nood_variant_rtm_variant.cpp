@@ -421,12 +421,12 @@ struct BodyVTable
     void* methodc8;
     void* methodcc;
     void* methodd0;
-    void(__thiscall* getPosition)(Body*, FourFloatVector*);
+    void(* getPosition)(Body*, FourFloatVector*);
     void* methodd8;
     void* methoddc;
     void* methode0;
     void* methode4;
-    void(__thiscall* SetGeometryTransform)(Body*, const FourFloatVector*, const HavokQuaternion*);
+    void(* SetGeometryTransform)(Body*, const FourFloatVector*, const HavokQuaternion*);
 };
 struct PhysicsLock
 {

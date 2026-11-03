@@ -246,7 +246,7 @@ bool FUN_0050dd90_shell::FUN_0050dd90()
 
 // Stores fQ at offset 0xf8 of the object and increments its revision ID.
 // @fnv 0x0050c690
-void __fastcall FUN_0050c690(NiDynamicEffect* this_ptr, float fQ)
+void FUN_0050c690(NiDynamicEffect* this_ptr, float fQ)
 {
     *(float*)((char*)this_ptr + 0xf8) = fQ;
     this_ptr->IncRevisionID();
@@ -264,7 +264,7 @@ struct FUN_0050dd50_arg
 };
 // Copies the color from a.c into the effect's field at offset 0xe0 and bumps the revision ID.
 // @fnv 0x0050dd50
-void __fastcall FUN_0050dd50(NiDynamicEffect* this_ptr, FUN_0050dd50_arg aColorArg)
+void FUN_0050dd50(NiDynamicEffect* this_ptr, FUN_0050dd50_arg aColorArg)
 {
     *(FUN_0050dd50_color*)((char*)this_ptr + 0xe0) = *aColorArg.c;
     this_ptr->IncRevisionID();
@@ -301,12 +301,12 @@ struct FUN_0048e9b0_stub
 
 struct FUN_0050e4f0_shell
 {
-    unsigned short __thiscall GetSize(unsigned int aiFlags);
+    unsigned short GetSize(unsigned int aiFlags);
 };
 
 // Returns the sum of the sizes reported by FUN_00484bf0 on this and FUN_0048e9b0 on the object at offset 0x8c, both called with aiFlags.
 // @fnv 0x0050e4f0
-unsigned short __thiscall FUN_0050e4f0_shell::GetSize(unsigned int aiFlags)
+unsigned short FUN_0050e4f0_shell::GetSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0_stub*)this)))->FUN_00484bf0(aiFlags);

@@ -7,8 +7,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkaRagdollInstance.h"
 extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
-void __stdcall FUN_00ce18d0(int a);
+void FUN_00ce1760(int, int, int);
+void FUN_00ce18d0(int a);
 struct FUN_00ce2430_Transform
 {
     unsigned char pad[0x30];

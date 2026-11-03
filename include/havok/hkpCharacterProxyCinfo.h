@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkpShapePhantom;
-#pragma pack(push, 1)
 class hkpCharacterProxyCinfo
 {
   public:
@@ -31,6 +30,4 @@ class hkpCharacterProxyCinfo
     hkBool m_bRefreshManifoldInCheckSupport;  // +0x70
     char pad71[0xF];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCharacterProxyCinfo[(sizeof(hkpCharacterProxyCinfo) == 0x80) ? 1 : -1];
 #endif

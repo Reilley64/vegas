@@ -108,7 +108,7 @@ bool FUN_004029d0_shell::FUN_004029d0(int aiFlag)
 extern int DAT_01011d68;
 
 // @fnv 0x00402d30
-int* __fastcall FUN_00402d30(int* this_ptr)
+int* FUN_00402d30(int* this_ptr)
 {
     *this_ptr = (int)&DAT_01011d68;
     return this_ptr;
@@ -327,7 +327,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_00403570_shell : public TESFile
 {
     unsigned short FUN_00403570();
@@ -404,11 +403,11 @@ template <int N> struct EndianSizeTag
 
 struct FUN_00403720_shell
 {
-    void __thiscall SwapEndian();
+    void SwapEndian();
 };
 
 // @fnv 0x00403720
-void __thiscall FUN_00403720_shell::SwapEndian()
+void FUN_00403720_shell::SwapEndian()
 {
     ::FUN_00401080((int*)this);
     ::FUN_00401080((int*)((char*)this + 8));

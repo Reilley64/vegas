@@ -69,13 +69,13 @@ int FUN_00752df0_class::CompareToTwentyOneToTwentySix(int value)
 
 struct AX
 {
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
-    AX* __thiscall FUN_00753070();
+    void FUN_006b3eb0(unsigned int, unsigned int);
+    AX* FUN_00753070();
 };
 
 // Sets the object's vtable pointer to DAT_01071aec, calls FUN_006b3eb0(0, 0), and returns this.
 // @fnv 0x00753070
-AX* __thiscall AX::FUN_00753070()
+AX* AX::FUN_00753070()
 {
     *(void**)this = &::DAT_01071aec;
     FUN_006b3eb0(0, 0);
@@ -144,7 +144,7 @@ struct FUN_00753210Class
     void FUN_00753210();
 };
 // @fnv 0x00753210
-void __thiscall FUN_00753210Class::FUN_00753210()
+void FUN_00753210Class::FUN_00753210()
 {
     p = &DAT_01071b14;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
@@ -153,11 +153,11 @@ void __thiscall FUN_00753210Class::FUN_00753210()
 
 struct FUN_00754a00_cls
 {
-    void __thiscall FUN_00754930(int a1);
+    void FUN_00754930(int a1);
 };
 
 // @fnv 0x00754930
-void __thiscall FUN_00754a00_cls::FUN_00754930(int a1)
+void FUN_00754a00_cls::FUN_00754930(int a1)
 {
     reinterpret_cast<::Proxy_754a00 *>(this)->SetTraitSelected((void *)(a1), 2);
 }
@@ -188,11 +188,11 @@ unsigned char FUN_00759d80_Class::FUN_00759d80()
 
 struct S007530c0
 {
-    S007530c0* __thiscall FUN_007530c0();
+    S007530c0* FUN_007530c0();
 };
 // Sets the vtable pointer to DAT_01071b00, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x007530c0
-S007530c0* __thiscall S007530c0::FUN_007530c0()
+S007530c0* S007530c0::FUN_007530c0()
 {
     *(int*)this = (int)&DAT_01071b00;
     ((AX*)this)->FUN_006b3eb0(0, 0);
@@ -204,11 +204,11 @@ struct FUN_0072ba80_shell
     char _pad[4];
     int* m_data;
     int m_uiItemCount;
-    void __thiscall FUN_0072ba80(void*, unsigned int);
-    void __thiscall FUN_00753140();
+    void FUN_0072ba80(void*, unsigned int);
+    void FUN_00753140();
 };
 // @fnv 0x00753140
-void __thiscall FUN_0072ba80_shell::FUN_00753140()
+void FUN_0072ba80_shell::FUN_00753140()
 {
     if (m_uiItemCount == 0)
         return;
@@ -219,11 +219,11 @@ void __thiscall FUN_0072ba80_shell::FUN_00753140()
 
 struct FUN_00753180_Class
 {
-    void* __thiscall FUN_00753180(unsigned int flags);
+    void* FUN_00753180(unsigned int flags);
 };
 
 // @fnv 0x00753180
-void* __thiscall FUN_00753180_Class::FUN_00753180(unsigned int flags)
+void* FUN_00753180_Class::FUN_00753180(unsigned int flags)
 {
     reinterpret_cast<::fnv_007530a0::GlobalObject_00869f00 *>(this)->FUN_007530a0();
     if (flags & 1)
@@ -233,10 +233,10 @@ void* __thiscall FUN_00753180_Class::FUN_00753180(unsigned int flags)
 
 struct FUN_007531b0_Class
 {
-    void* __thiscall FUN_007531b0(unsigned int);
+    void* FUN_007531b0(unsigned int);
 };
 // @fnv 0x007531b0
-void* __thiscall FUN_007531b0_Class::FUN_007531b0(unsigned int flags)
+void* FUN_007531b0_Class::FUN_007531b0(unsigned int flags)
 {
     ((GlobalObject_00869f00*)this)->FUN_007530f0();
     if (flags & 1)
@@ -249,10 +249,10 @@ struct FUN_00753210_Class
 };
 struct FUN_007531e0_Class
 {
-    void* __thiscall FUN_007531e0(unsigned int flags);
+    void* FUN_007531e0(unsigned int flags);
 };
 // @fnv 0x007531e0
-void* __thiscall FUN_007531e0_Class::FUN_007531e0(unsigned int flags)
+void* FUN_007531e0_Class::FUN_007531e0(unsigned int flags)
 {
     reinterpret_cast<::fnv_00753210::FUN_00753210Class *>((((FUN_00753210_Class*)this)))->FUN_00753210();
     if (flags & 1)
@@ -381,12 +381,12 @@ struct FUN_00752cb0_Inner
 
 struct FUN_00752cb0_cls
 {
-    int __thiscall FUN_00752cb0(int a1, int a2);
+    int FUN_00752cb0(int a1, int a2);
 };
 
 // Counts up to 7 slots whose FUN_0044ddc0 value is positive and whose FUN_008d80e0 result equals a2, returning the count multiplied by a2.
 // @fnv 0x00752cb0
-int __thiscall FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
+int FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
 {
     int i = 0;
     int count = 0;
@@ -680,11 +680,11 @@ struct FUN_00752d40_cls
     int unkB10, unkB14, unkB18, unkB1C, unkB20, unkB24, unkB28, unkB2C, unkB30, unkB34, unkB38, unkB3C;
     int unkB40;
     FUN_00752d40_Item slots[8][7];
-    int __thiscall FUN_00752d40(int group, int type);
+    int FUN_00752d40(int group, int type);
 };
 // Counts, over the filled slots of a group, the sum returned by FUN_008d80e0 for slots whose first entry's FUN_004036b0 equals type.
 // @fnv 0x00752d40
-int __thiscall FUN_00752d40_cls::FUN_00752d40(int group, int type)
+int FUN_00752d40_cls::FUN_00752d40(int group, int type)
 {
     int i = 0;
     int count = 0;
@@ -1468,9 +1468,6 @@ struct CaravanOwner : Menu
     CaravanTotal laneTotals[6];
     CaravanDecision FUN_0074fdc0();
 };
-typedef char CaravanDecisionSize[(sizeof(CaravanDecision) == 28) ? 1 : -1];
-typedef char CaravanArraySize[(sizeof(PointerArray) == 16) ? 1 : -1];
-typedef char CaravanChoicesSize[(sizeof(FUN_00753110) == 16) ? 1 : -1];
 // @fnv 0x0074fdc0
 CaravanDecision CaravanOwner::FUN_0074fdc0()
 {

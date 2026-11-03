@@ -198,7 +198,7 @@ struct ValueSource
 };
 
 extern "C" float __cdecl GetAngle();
-typedef float(__thiscall* ReadValue)(void*);
+typedef float(* ReadValue)(void*);
 
 // Returns 1 if state->mode is not 1, otherwise returns whether the larger absolute angle of first or second is at most state->threshold.
 // @fnv 0x00ce57c0

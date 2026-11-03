@@ -6,7 +6,6 @@
 // layout_support.h forward declarations (included first by pathfind_decls.h).
 #include "fnv/decl/NLLocation.h"
 #include "fnv/decl/TaskQueueInterface.h"
-#pragma pack(push, 4)
 class NavMeshPtr;
 template <class T> class NiPointer
 {
@@ -46,5 +45,4 @@ class PathingLocation
     PathingLocation& operator=(const PathingLocation&);        // out of line in the original (no rep movsd)
                                   // 0x005c3420
 };
-#pragma pack(pop)
 #endif

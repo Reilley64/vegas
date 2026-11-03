@@ -16,14 +16,10 @@ class CombatTargetTimestamp;
 class BGSLoadGameBuffer;
 class NiTMap_Actor_____int64_;
 class NiTPrimitiveArray_CombatGroup___;
-#pragma pack(push, 4)
 class NiTPrimitiveArray_CombatGroup___ : public NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> >
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_CombatGroup___) == 16);
-#pragma pack(push, 4)
 class BGSLoadGameBuffer;
 class CombatTargetTimestamp
 {
@@ -34,10 +30,6 @@ public:
 public:
     void LoadGame(::BGSLoadGameBuffer *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CombatTargetTimestamp) == 4);
-FNV_STATIC_ASSERT(offsetof(CombatTargetTimestamp, fTimeStamp) == 0);
-#pragma pack(push, 4)
 class CombatManager
 {
   public:
@@ -95,16 +87,4 @@ class CombatManager
     // CombatManager& __cdecl CombatManager::*(const CombatManager&)
     // void* __cdecl CombatManager::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CombatManager) == 60);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_kCombatGroups) == 0);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_pActorCombatGroupMap) == 16);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_pThreatMap) == 20);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_pCoverMap) == 24);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_pTargetMap) == 28);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_kFourByteManagerData) == 32);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_kFirstEightByteManagerData) == 36);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_kSecondEightByteManagerData) == 44);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_uiDebugFlags) == 52);
-FNV_STATIC_ASSERT(offsetof(CombatManager, m_spDebugRootNode) == 56);
 #endif

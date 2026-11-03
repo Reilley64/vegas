@@ -79,7 +79,7 @@ struct TLSGuard
 };
 
 // @fnv 0x00cf46e0
-void __stdcall FUN_00cf46e0(StrArr* array)
+void FUN_00cf46e0(StrArr* array)
 {
     TLSGuard guard;
     char* value = ::FUN_00a7d330((const char *)((*reinterpret_cast<::fnv_00cf46e0::GlobalObjectO2_00a7b610 * *>(&::g_01268740))));
@@ -427,7 +427,7 @@ struct CF4520Array
     }
 };
 // @fnv 0x00cf4520
-void __stdcall FUN_00cf4520(CF4520Array* array)
+void FUN_00cf4520(CF4520Array* array)
 {
     CF4520AllocTagScope tag(16);
     char* element = FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268738)));
@@ -600,7 +600,7 @@ void CAA010This::FUN_00caa010(CAA010Arr* array)
 }
 
 // @fnv 0x00cf4300
-void __stdcall FUN_00cf4300(CF4520Array* pkArray)
+void FUN_00cf4300(CF4520Array* pkArray)
 
 {
 

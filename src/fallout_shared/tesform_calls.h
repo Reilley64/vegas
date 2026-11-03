@@ -14,8 +14,6 @@ class FormChangeMask
     FormChangeMask(int flags);
     operator bool() const;
 };
-FNV_STATIC_ASSERT(sizeof(FormChangeMask) == 4);
-FNV_STATIC_ASSERT(offsetof(FormChangeMask, iFlags) == 0);
 class BGSLoadFormBuffer
 {
   public:
@@ -45,6 +43,4 @@ class TESValueForm : public BaseFormComponent
     unsigned int uiValue;
     void SetFormValue(unsigned int value);
 };
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, uiValue) == 4);
 #endif

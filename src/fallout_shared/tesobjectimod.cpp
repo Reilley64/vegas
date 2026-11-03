@@ -310,7 +310,7 @@ TESObjectIMOD::TESObjectIMOD()
 
 struct FUN_0051a5d0_shell
 {
-    void __thiscall FUN_0051a5d0(unsigned int, unsigned int);
+    void FUN_0051a5d0(unsigned int, unsigned int);
 };
 
 struct TESFormStub
@@ -321,7 +321,7 @@ struct TESValueFormStub
 };
 
 // @fnv 0x0051a5d0
-void __thiscall FUN_0051a5d0_shell::FUN_0051a5d0(unsigned int arg1, unsigned int arg2)
+void FUN_0051a5d0_shell::FUN_0051a5d0(unsigned int arg1, unsigned int arg2)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(arg1, arg2);
     reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x7c)))->FUN_0048ea10(arg1, arg2);
@@ -351,12 +351,12 @@ void FUN_0051a630_shell::LoadGame(BGSLoadFormBuffer* buffer)
 
 struct FUN_00519e40_shell : public TESObjectIMOD
 {
-    void* __thiscall FUN_00519e40(unsigned int flags);
+    void* FUN_00519e40(unsigned int flags);
 };
 
 struct FUN_00519e70_stub
 {
-    void __thiscall FUN_00519e70();
+    void FUN_00519e70();
 };
 
 struct FUN_00484bf0
@@ -369,12 +369,12 @@ struct FUN_0048e9b0
 
 struct FUN_0051a550_shell
 {
-    unsigned short __thiscall FUN_0051a550(unsigned int aiFlags);
+    unsigned short FUN_0051a550(unsigned int aiFlags);
 };
 
 // Returns the sum of the save sizes reported by this object and the object at offset 0x7c, both queried with aiFlags.
 // @fnv 0x0051a550
-unsigned short __thiscall FUN_0051a550_shell::FUN_0051a550(unsigned int aiFlags)
+unsigned short FUN_0051a550_shell::FUN_0051a550(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
@@ -388,11 +388,11 @@ struct FUN_0051b070_shell
 
 struct FUN_0051a5a0_shell
 {
-    void __thiscall FUN_0051a5a0(unsigned int aiFlags);
+    void FUN_0051a5a0(unsigned int aiFlags);
 };
 
 // @fnv 0x0051a5a0
-void __thiscall FUN_0051a5a0_shell::FUN_0051a5a0(unsigned int aiFlags)
+void FUN_0051a5a0_shell::FUN_0051a5a0(unsigned int aiFlags)
 {
     reinterpret_cast<::PC7d *>((reinterpret_cast<FUN_0051b070_shell*>(this)))->FUN_00484c20(aiFlags);
     reinterpret_cast<::fnv_0048e9e0::TESValueForm *>((reinterpret_cast<FUN_0051b070_shell*>(reinterpret_cast<char*>(this) + 0x7c)))->FUN_0048e9e0(aiFlags);
@@ -407,12 +407,12 @@ struct FUN_0048ea40_holder
 };
 struct FUN_0051a600_shell
 {
-    void __thiscall FUN_0051a600(BGSSaveFormBuffer* buffer);
+    void FUN_0051a600(BGSSaveFormBuffer* buffer);
 };
 
 // Calls SaveIfChanged on this and FUN_0048ea40 on the sub-object at offset 0x7c, passing the save buffer to both.
 // @fnv 0x0051a600
-void __thiscall FUN_0051a600_shell::FUN_0051a600(BGSSaveFormBuffer* buffer)
+void FUN_0051a600_shell::FUN_0051a600(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x7c)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
@@ -429,11 +429,11 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void FUN_0048cca0();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void FUN_00482cb0();
 };
 struct FUN_004855a0
 {
@@ -443,7 +443,7 @@ struct FUN_00485680
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void FUN_00485e00();
 };
 struct FUN_0047a240_holder
 {

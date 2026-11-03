@@ -1,6 +1,7 @@
 
 // gamebryo2.2/corelibs/nimain/nitextureeffect.cpp
 // NiTextureEffect: static texture-type string table init.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/EffectObject.h"
@@ -170,8 +171,6 @@ bool FUN_00a92a30_shell::FUN_00a92a30(NiStream& kStream)
 }
 
 namespace fnv_00a929d0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct NiObject
 {
     volatile long m_iObjectReferenceCount;
@@ -319,7 +318,7 @@ struct RegistrationManager
     void** vtable;
     void Deregister(void* object)
     {
-        typedef void(__thiscall * Function)(RegistrationManager*, void*);
+        typedef void(* Function)(RegistrationManager*, void*);
         Function callback = reinterpret_cast<Function>(vtable[62]);
         callback(this, object);
     }
@@ -333,7 +332,7 @@ struct RefCounted
     {
         if (InterlockedDecrement(&m_uiRefCount) == 0)
         {
-            typedef void(__thiscall * DeleteFunction)(RefCounted*);
+            typedef void(* DeleteFunction)(RefCounted*);
             reinterpret_cast<DeleteFunction>(vtable[1])(this);
         }
     }
@@ -797,8 +796,6 @@ void* __cdecl FUN_00a929b0()
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct TextureRef
 {
     virtual void Destroy();

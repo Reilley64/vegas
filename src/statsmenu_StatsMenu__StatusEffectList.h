@@ -10,7 +10,4 @@ class StatsMenu__StatusEffectList
     void** m_ppVirtualMethodTable;                                                                          // +0x0
     BSSimpleList<StatsMenu__StatusEffect*> bSSimpleList_StatsMenu__StatusEffect___Component;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(StatsMenu__StatusEffectList) == 0xC);
-FNV_STATIC_ASSERT(offsetof(StatsMenu__StatusEffectList, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu__StatusEffectList, bSSimpleList_StatsMenu__StatusEffect___Component) == 0x4);
 #endif

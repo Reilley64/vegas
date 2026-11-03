@@ -9758,19 +9758,19 @@ void* FUN_008699c0_shell::FUN_008699c0(unsigned int maxSize, unsigned int growBy
 struct FUN_00869b10_shell
 {
     void* m_vft;
-    void* __thiscall FUN_00869b10(void* a, void* b);
+    void* FUN_00869b10(void* a, void* b);
 };
 
 struct FUN_00869bf0_holder
 {
-    void __thiscall FUN_00869bf0(void* a, void* b);
+    void FUN_00869bf0(void* a, void* b);
 };
 
-void __thiscall FUN_00869bf0_holder::FUN_00869bf0(void* a, void* b)
+void FUN_00869bf0_holder::FUN_00869bf0(void* a, void* b)
 {}
 
 // @fnv 0x00869b10
-void* __thiscall FUN_00869b10_shell::FUN_00869b10(void* a, void* b)
+void* FUN_00869b10_shell::FUN_00869b10(void* a, void* b)
 {
     extern void* DAT_010827f8;
     new ((void *)(((FUN_00869bf0_holder*)this))) ::FUN_00869bf0((unsigned short)(a), (unsigned short)(b));
@@ -9863,7 +9863,7 @@ FUN_00709f80_Obj* FUN_00709f80_Obj::FUN_00709f80()
 
 struct FUN_00869e90
 {
-    virtual void __thiscall Dummy();
+    virtual void Dummy();
     FUN_00869e90(unsigned int, unsigned int);
 };
 struct FUN_00869db0 : FUN_00869e90

@@ -37,6 +37,6 @@ class SettingT_GameSettingCollection_
 };
 
 
-typedef ActorCombatGroup*(__thiscall* ActorGetCombatGroupProc)(Actor* actor);
+typedef ActorCombatGroup*(* ActorGetCombatGroupProc)(Actor* actor);
 
 #endif

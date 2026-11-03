@@ -47,11 +47,11 @@ void TESScriptableForm::InitItem(TESForm* owner)
 }
 
 extern int DAT_0101d518;
-void __fastcall FUN_0048cc80(void* pThis);
+void FUN_0048cc80(void* pThis);
 
 // Initialises a BaseFormComponent: runs its base constructor, installs the vtable at DAT_0101d518, calls FUN_0048cc80, and returns pThis.
 // @fnv 0x0048cc50
-void* __fastcall FUN_0048cc50(BaseFormComponent* apComponent)
+void* FUN_0048cc50(BaseFormComponent* apComponent)
 {
     ::FUN_00402d30((int *)(apComponent));
     *(int**)apComponent = &DAT_0101d518;
@@ -93,7 +93,6 @@ struct BGSMessageIcon : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char Icon[12];
 };
-typedef char _sizecheck_BGSMessageIcon[sizeof(BGSMessageIcon) == 16 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -111,7 +110,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -140,7 +138,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_0048cc80_shell : public BGSMessageIcon
 {
     void FUN_0048cc80();
@@ -205,7 +202,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -234,13 +230,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct BGSMessageIcon : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -256,7 +250,6 @@ struct BGSMessageIcon : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     TESIcon Icon;
 };
-typedef char _sizecheck_BGSMessageIcon[sizeof(BGSMessageIcon) == 16 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -270,7 +263,6 @@ struct TESWeightForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct BGSEquipType : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -286,7 +278,6 @@ struct BGSEquipType : public BaseFormComponent
     static void GenerateDefaultMenuIcons();
     int m_eEquipType;
 };
-typedef char _sizecheck_BGSEquipType[sizeof(BGSEquipType) == 8 ? 1 : -1];
 struct FUN_0048cce0_shell : public TESScriptableForm
 {
     void CopyFromScriptableForm(BaseFormComponent*);

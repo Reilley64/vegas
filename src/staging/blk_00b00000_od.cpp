@@ -2,6 +2,7 @@
 // src/staging/blk_00b00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -50,44 +51,44 @@ extern int DAT_010a47b3;
 
 struct FUN_00b008e0_class
 {
-    int* __thiscall FUN_00b008e0();
+    int* FUN_00b008e0();
 };
 
 // @fnv 0x00b008e0
-int* __thiscall FUN_00b008e0_class::FUN_00b008e0()
+int* FUN_00b008e0_class::FUN_00b008e0()
 {
     return &DAT_010a47b3;
 }
 
 struct FUN_00b00950
 {
-    void __thiscall DoWork();
+    void DoWork();
 };
 
 // @fnv 0x00b00950
-void __thiscall FUN_00b00950::DoWork()
+void FUN_00b00950::DoWork()
 {
     reinterpret_cast<::FUN_00aff090_cls *>(this)->CloseHandleWrapper();
 }
 
 struct FUN_00b01bc0_class
 {
-    bool __thiscall IsFlag2Clear(int flags, int unused);
+    bool IsFlag2Clear(int flags, int unused);
 };
 
 // @fnv 0x00b01bc0
-bool __thiscall FUN_00b01bc0_class::IsFlag2Clear(int flags, int unused)
+bool FUN_00b01bc0_class::IsFlag2Clear(int flags, int unused)
 {
     return (flags & 2) == 0;
 }
 
 struct FUN_00b01be0_Class
 {
-    bool __thiscall IsFlag4Clear(unsigned int flags, unsigned int unused);
+    bool IsFlag4Clear(unsigned int flags, unsigned int unused);
 };
 
 // @fnv 0x00b01be0
-bool __thiscall FUN_00b01be0_Class::IsFlag4Clear(unsigned int flags, unsigned int unused)
+bool FUN_00b01be0_Class::IsFlag4Clear(unsigned int flags, unsigned int unused)
 {
     return !(flags & 4);
 }
@@ -96,11 +97,11 @@ extern int DAT_010a48e8;
 
 struct FUN_00b029a0_class
 {
-    void __thiscall FUN_00b029a0();
+    void FUN_00b029a0();
 };
 
 // @fnv 0x00b029a0
-void __thiscall FUN_00b029a0_class::FUN_00b029a0()
+void FUN_00b029a0_class::FUN_00b029a0()
 {
     *(int**)(this) = &DAT_010a48e8;
 }
@@ -118,11 +119,11 @@ char FUN_00b18320_Class::GetByteAtOffset4C()
 
 struct FUN_00b008f0_class
 {
-    int* __thiscall FUN_00b008f0();
+    int* FUN_00b008f0();
 };
 
 // @fnv 0x00b008f0
-int* __thiscall FUN_00b008f0_class::FUN_00b008f0()
+int* FUN_00b008f0_class::FUN_00b008f0()
 {
     return 0;
 }
@@ -138,7 +139,7 @@ extern int DAT_011f8af4;
 extern int DAT_011f8b38[16];
 struct TaskletManager
 {
-    int* __thiscall FUN_00b00a00();
+    int* FUN_00b00a00();
 };
 // Appends param_1 to the DAT_011f8b38 queue when the manager's field at offset 8 is zero and the queue count is below 16, returning 1 on success and 0 otherwise.
 // @fnv 0x00b00da0
@@ -185,7 +186,7 @@ FUN_00b130a0::FUN_00b130a0()
 struct FUN_00b0cf90_class
 {
     float x, y, z;
-    float* __thiscall AddVector(float* pDest, const float* pSource);
+    float* AddVector(float* pDest, const float* pSource);
 };
 // Adds the object's x, y and z to the three components of pSource and writes the sums into pDest, returning pDest.
 // @fnv 0x00b0cf90
@@ -202,7 +203,7 @@ float* FUN_00b0cf90_class::AddVector(float* pDest, const float* pSource)
 
 struct FUN_00afeac0_shell
 {
-    int __thiscall OpenFile(int arg);
+    int OpenFile(int arg);
 };
 
 struct FUN_00b00900
@@ -233,7 +234,7 @@ struct FUN_00b00cf0_vt
 };
 struct FUN_00b00cf0_shell
 {
-    void __thiscall CallVirtualOnAllEntries();
+    void CallVirtualOnAllEntries();
 };
 // Iterates DAT_011f8b38 up to DAT_011f8af4 and calls vfn_1 on each non-null entry.
 // @fnv 0x00b00cf0
@@ -267,11 +268,11 @@ float* FUN_00b12b50_class::TransformVector(float* dst, const float* src) const
 struct FUN_00b008b0_t
 {
     int m0;
-    FUN_00b008b0_t* __thiscall FUN_00b008b0(int v);
+    FUN_00b008b0_t* FUN_00b008b0(int v);
 };
 
 // @fnv 0x00b008b0
-FUN_00b008b0_t* __thiscall FUN_00b008b0_t::FUN_00b008b0(int aiValue)
+FUN_00b008b0_t* FUN_00b008b0_t::FUN_00b008b0(int aiValue)
 {
     m0 = aiValue;
     return this;
@@ -288,7 +289,7 @@ struct FUN_00b00c90_vt
 
 // Iterates DAT_011f8af8 up to DAT_011f8af0 and calls vfn_1 on each non-null entry.
 // @fnv 0x00b00c90
-void __fastcall CallVfn1OnAllEntries(int param_1)
+void CallVfn1OnAllEntries(int param_1)
 {
     int iIndex;
     for (iIndex = 0; iIndex < DAT_011f8af0; iIndex = iIndex + 1)
@@ -335,8 +336,6 @@ FUN_00b01c20::~FUN_00b01c20()
 
 extern int DAT_010a4880;
 extern int DAT_010a48ac;
-extern "C" __declspec(dllimport) void __stdcall FreeLibrary(void*);
-extern "C" __declspec(dllimport) void __stdcall DestroyWindow(void*);
 
 struct FUN_00b01f00_class
 {
@@ -347,10 +346,10 @@ struct FUN_00b01f00_class
 void FUN_00b01f00_class::DestroyAndFreeLibraries()
 {
     *(int*)this = (int)&DAT_010a4880;
-    FreeLibrary(*(void**)((char*)this + 0x270));
-    DestroyWindow((void*)((char*)this + 0x54));
+    CloseHandle(*(void**)((char*)this + 0x270));
+    DeleteCriticalSection((void*)((char*)this + 0x54));
     *(int*)this = (int)&DAT_010a48ac;
-    FreeLibrary(*(void**)((char*)this + 0xc));
+    CloseHandle(*(void**)((char*)this + 0xc));
 }
 
 struct MemoryManager
@@ -382,7 +381,7 @@ struct FUN_00b0e7f0_class
     int m_nSize;
     int m_nCapacity;
 
-    void __thiscall Clear();
+    void Clear();
 };
 
 // Deallocates m_pBuffer through the memory manager if set, then resets m_pBuffer, m_nSize and m_nCapacity to zero.
@@ -487,7 +486,7 @@ class BSWin32TaskletManager
 
     unsigned char unk04;
 
-    bool __thiscall GetTaskletValue(void* result);
+    bool GetTaskletValue(void* result);
 };
 
 inline void BSWin32TaskletManager::vf00()
@@ -505,7 +504,7 @@ inline bool BSWin32TaskletManager::vf10(int&)
 
 // If unk04 is set, calls vf10 to obtain a value and stores it through result, returning the call's success; otherwise stores 0 and returns false.
 // @fnv 0x00b00a80
-bool __thiscall BSWin32TaskletManager::GetTaskletValue(void* result)
+bool BSWin32TaskletManager::GetTaskletValue(void* result)
 {
     bool operationSucceeded;
 
@@ -545,7 +544,7 @@ struct FUN_00b00ae0_class
     virtual void virtual4();
     virtual bool virtual5(void* value);
     bool enabled;
-    bool __thiscall FUN_00b00ae0(void** value);
+    bool FUN_00b00ae0(void** value);
 };
 // Returns true only if enabled is set and the pointed-to value is non-null and passes virtual5.
 // @fnv 0x00b00ae0
@@ -633,8 +632,6 @@ void B00C20Pool::ReleaseItem(B00C20Item*& rpkItem)
     }
 }
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount,
-                                                                long* lpPreviousCount);
 
 struct FUN_00b00df0_sub
 {
@@ -674,9 +671,6 @@ void FUN_00b00df0_cls::ReleaseAndSignal()
     vfn_9();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile* destination, long exchange,
-                                                                           long comparand);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds);
 
 extern int DAT_0106c800;
 extern int DAT_0106c814;
@@ -708,8 +702,6 @@ FUN_00b00ec0::~FUN_00b00ec0() throw()
     *(void* volatile*)this = (void*)&DAT_0106c814;
 }
 
-extern "C" __declspec(dllimport) int __stdcall FindFirstFileA(const char* pattern);
-extern "C" __declspec(dllimport) int __stdcall FindClose(int handle);
 
 struct FUN_00b01510_cls
 {
@@ -720,7 +712,7 @@ struct FUN_00b01510_cls
     virtual void vfn_4();
     virtual void vfn_5();
     virtual int vfn_6(char* data);
-    bool __thiscall FUN_00b01510(int arg);
+    bool FUN_00b01510(int arg);
 };
 
 // @fnv 0x00b01510
@@ -741,10 +733,8 @@ bool FUN_00b01510_cls::FUN_00b01510(int aiUnused)
     return ok;
 }
 
-extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* pkSection);
-extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* pkSection);
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount,
-                                                                long* plPreviousCount);
+extern "C" void(* fnv_EnterCriticalSection)(void* pkSection);
+extern "C" void(* fnv_LeaveCriticalSection)(void* pkSection);
 
 struct B02670Semaphore
 {
@@ -847,7 +837,7 @@ struct FUN_00b10490_class
 {
     int first;
     int second;
-    bool __thiscall FUN_00b10490(const FUN_00b10490_class* rhs);
+    bool FUN_00b10490(const FUN_00b10490_class* rhs);
 };
 // @fnv 0x00b0e510
 FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
@@ -894,7 +884,7 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
 
 // Calls FUN_00ec7c56 when first is zero or differs from rhs->first, then returns whether second differs from rhs->second.
 // @fnv 0x00b10490
-bool __thiscall FUN_00b10490_class::FUN_00b10490(const FUN_00b10490_class* rhs)
+bool FUN_00b10490_class::FUN_00b10490(const FUN_00b10490_class* rhs)
 {
     if (!((unsigned char)(int)(first != 0) && (unsigned char)(int)(first == rhs->first)))
     {
@@ -910,7 +900,7 @@ struct FUN_00b108e0_pool
 {
 };
 
-extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
+extern "C" void FUN_00ec7894(void* err2, const char* msg);
 
 struct FUN_00b108e0_err
 {
@@ -973,7 +963,7 @@ extern "C" double __cdecl cos(double);
 struct RotationMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void __thiscall SetRotationAxisAngle(float angle, float x, float y, float z);
+    void SetRotationAxisAngle(float angle, float x, float y, float z);
 };
 // Builds a 3x3 rotation matrix from an angle and axis components, storing the result in m00..m22.
 // @fnv 0x00b12ec0
@@ -1349,7 +1339,7 @@ void StripBuilder::BuildStripIndices(unsigned short ausStripId, StripDestination
     }
 }
 
-extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
+extern "C" void FUN_00ec7894(void* err2, const char* msg);
 
 // @fnv 0x00b16b00
 int* FUN_00b16b00(unsigned int count, int aiUnused)
@@ -1441,8 +1431,8 @@ struct DirectoryFindData
     char cFileName[260];
     char cAlternateFileName[14];
 };
-extern void*(__stdcall* DAT_00fdf070)(const char* pattern, DirectoryFindData* data);
-extern int(__stdcall* DAT_00fdf068)(void* handle, DirectoryFindData* data);
+extern void*(* DAT_00fdf070)(const char* pattern, DirectoryFindData* data);
+extern int(* DAT_00fdf068)(void* handle, DirectoryFindData* data);
 
 struct DirAllocator
 {
@@ -1625,7 +1615,7 @@ CopyElem12* __cdecl FUN_00b17b40(CopyElem12* src, CopyElem12* srcEnd, CopyElem12
 
 typedef void* HANDLE;
 typedef unsigned long DWORD;
-typedef DWORD(__stdcall* ThreadStartFn)(void*);
+typedef DWORD(* ThreadStartFn)(void*);
 struct CRITICAL_SECTION
 {
     void* DebugInfo;
@@ -1635,10 +1625,6 @@ struct CRITICAL_SECTION
     void* LockSemaphore;
     unsigned long SpinCount;
 };
-extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) HANDLE __stdcall CreateSemaphoreA(void*, long, long, const char*);
-extern "C" __declspec(dllimport) HANDLE
-    __stdcall CreateThread(void*, unsigned long, ThreadStartFn, void*, DWORD, DWORD*);
 
 struct BSSemaphoreStandIn
 {
@@ -1662,8 +1648,8 @@ struct TaskThreadPoolBase
     virtual ~TaskThreadPoolBase();
 };
 
-DWORD __stdcall WorkerThreadProc(void* param);
-DWORD __stdcall MainThreadProc(void* param);
+DWORD WorkerThreadProc(void* param);
+DWORD MainThreadProc(void* param);
 
 struct FUN_00b01d50 : TaskThreadPoolBase
 {
@@ -1734,12 +1720,12 @@ extern int DAT_010a48ac;
 
 struct FUN_00b02720_shell
 {
-    void* __thiscall Init();
+    void* Init();
 };
 
 // Initializes the object's vtable, zeroes two bytes, and creates a semaphore with initial count 0 and maximum count 1.
 // @fnv 0x00b02720
-void* __thiscall FUN_00b02720_shell::Init()
+void* FUN_00b02720_shell::Init()
 {
     *(int*)this = (int)&DAT_010a48ac;
     ((unsigned char*)this)[4] = 0;
@@ -1925,9 +1911,6 @@ struct _WIN32_FIND_DATAA
     char cFileName[260];
     char cAlternateFileName[14];
 };
-__declspec(dllimport) int __stdcall FindFirstFileA(const char*, _WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindNextFileA(int, _WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall CompareFileTime(const _FILETIME*, const _FILETIME*);
 struct FUN_00afd390_class
 {
     const char* text;
@@ -2008,8 +1991,8 @@ bool FUN_00b01b60(const char* path, DirFileTime* apOutTime)
     return false;
 }
 
-typedef int(__stdcall* FindFirstFileAFn)(const char* pattern, _WIN32_FIND_DATAA* findData);
-typedef int(__stdcall* FindFirstFileA1Fn)(const char* pattern);
+typedef int(* FindFirstFileAFn)(const char* pattern, _WIN32_FIND_DATAA* findData);
+typedef int(* FindFirstFileA1Fn)(const char* pattern);
 
 // Checks whether a file matching the given pattern exists by calling FindFirstFileA and closing the handle immediately.
 // @fnv 0x00b01af0
@@ -2034,16 +2017,14 @@ bool __cdecl FUN_00b01af0(const char* pattern)
 
 typedef long LONG;
 typedef void* HANDLE;
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct FUN_00b02920_class
 {
-    void __thiscall FUN_00b02920(int unused);
+    void FUN_00b02920(int unused);
 };
 
 // @fnv 0x00b02920
-void __thiscall FUN_00b02920_class::FUN_00b02920(int unused)
+void FUN_00b02920_class::FUN_00b02920(int unused)
 {
     if (*(int*)((char*)this + 0x38) != *(int*)((char*)this + 0x34))
     {

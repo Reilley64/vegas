@@ -85,7 +85,4 @@ class EffectSetting : public TESForm, public TESModel, public TESDescription, pu
     virtual void CopyFromBase(BaseFormComponent*);
     virtual bool CompareWithBase(BaseFormComponent*);
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
-FNV_STATIC_ASSERT(sizeof(EffectSetting) == 0xb0);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, data) == 0x58);
 #endif

@@ -1,5 +1,6 @@
 // bsshader/debugshader.cpp: BloodSplatterBeamShader, SpeedTreeFrondShaderX, DebugShaderLoader, DebugShaderInit and more (15 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -79,14 +80,14 @@ struct FUN_00bd2720_shell
 void FUN_00bd2720_shell::FUN_00bd2720()
 {
     void** v = *(void***)this;
-    ((void(__thiscall*)(void*))v[0x13c / 4])(this);
+    ((void(*)(void*))v[0x13c / 4])(this);
 }
 
 struct FUN_00bd3f80_shell
 {
     void FUN_00bd3f80();
 };
-typedef void(__thiscall* FUN_00bd3f80_Fn)(FUN_00bd3f80_shell*);
+typedef void(* FUN_00bd3f80_Fn)(FUN_00bd3f80_shell*);
 // Calls virtual slots 81 and 87 on this, and slot 88 when _fnv_particle_shader_renderer_level is at least 2.
 // @fnv 0x00bd3f80
 void FUN_00bd3f80_shell::FUN_00bd3f80()
@@ -107,7 +108,7 @@ void FUN_00bd2b40_class::CallVirtualWithMember()
 {
     void** vtbl = *(void***)this;
     void* arg = *(void**)((char*)this + 0x84);
-    typedef void(__thiscall * Fn)(void*, void*);
+    typedef void(* Fn)(void*, void*);
     ((Fn)vtbl[0x128 / 4])(this, arg);
 }
 
@@ -661,8 +662,6 @@ void FUN_00bd1940()
     static_cast<::DebugShaderLoader *>(nullptr)->LoadDebugShaders();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct RenderResource : NiRefObject
 {
@@ -781,12 +780,12 @@ struct DisplayTarget
     void** vtable;
     unsigned int GetWidth()
     {
-        typedef unsigned int(__thiscall * Function)(DisplayTarget*, int);
+        typedef unsigned int(* Function)(DisplayTarget*, int);
         return reinterpret_cast<Function>(vtable[0x8c / 4])(this, 0);
     }
     unsigned int GetHeight()
     {
-        typedef unsigned int(__thiscall * Function)(DisplayTarget*, int);
+        typedef unsigned int(* Function)(DisplayTarget*, int);
         return reinterpret_cast<Function>(vtable[0x90 / 4])(this, 0);
     }
 };
@@ -926,7 +925,7 @@ struct DisplayDevice
     unsigned char mode;
     DisplayTarget* GetScreen()
     {
-        typedef DisplayTarget*(__thiscall * Function)(DisplayDevice*);
+        typedef DisplayTarget*(* Function)(DisplayDevice*);
         return reinterpret_cast<Function>(vtable[0xc8 / 4])(this);
     }
     unsigned int GetStatus() const
@@ -939,13 +938,11 @@ struct DisplayDevice
     }
     void PrepareFrame(RenderRectangle* bounds)
     {
-        typedef void(__thiscall * Function)(DisplayDevice*, RenderRectangle*);
+        typedef void(* Function)(DisplayDevice*, RenderRectangle*);
         reinterpret_cast<Function>(vtable[0x190 / 4])(this, bounds);
     }
 };
 extern "C" double DAT_010760f0;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct RenderDestination
 {
@@ -1012,7 +1009,7 @@ struct RenderOwner
     }
     void DrawFrame(RenderContext* context)
     {
-        typedef void(__thiscall * Function)(RenderOwner*, RenderContext*);
+        typedef void(* Function)(RenderOwner*, RenderContext*);
         reinterpret_cast<Function>(vtable[0x50 / 4])(this, context);
     }
     void DrawSlots(void* destination);

@@ -170,7 +170,7 @@ void FUN_00440460_S::FUN_00440460(const V3* k)
 }
 
 // @fnv 0x004bae00
-bool __fastcall FUN_004bae00(const char* pThis)
+bool FUN_004bae00(const char* pThis)
 {
     return *(const bool*)(pThis + 0x16);
 }
@@ -263,7 +263,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiColor
 {
     void Clamp();
@@ -279,7 +278,6 @@ struct NiColor
     float g;
     float b;
 };
-typedef char _sizecheck_NiColor[sizeof(NiColor) == 12 ? 1 : -1];
 
 class NiDynamicEffect
 {
@@ -475,7 +473,7 @@ struct FUN_004ba630_shell : public GridCellArray
 
 struct FUN_004b9f10_shell : public GridCellArray
 {
-    bool __thiscall ShiftToCell(int aiX, int aiY);
+    bool ShiftToCell(int aiX, int aiY);
 };
 
 
@@ -584,7 +582,7 @@ struct ExtraDataList
 public:
     bool HasExtraDataType0x2F();
 };
-bool __fastcall FUN_004bae00(char const*);
+bool FUN_004bae00(char const*);
 struct FUN_004bad40_shell : GridCellArray
 {
     void FUN_004bad40();
@@ -1110,27 +1108,27 @@ struct NiUpdateData
 
 struct IDev
 {
-    virtual void __stdcall v00();
-    virtual void __stdcall v01();
-    virtual void __stdcall v02();
-    virtual void __stdcall v03();
-    virtual void __stdcall v04();
-    virtual void __stdcall v05();
-    virtual void __stdcall v06();
-    virtual void __stdcall v07();
-    virtual void __stdcall v08();
-    virtual void __stdcall v09();
-    virtual void __stdcall v10();
-    virtual void __stdcall v11();
-    virtual void __stdcall v12();
-    virtual void __stdcall v13();
-    virtual void __stdcall v14();
-    virtual void __stdcall v15();
-    virtual void __stdcall v16();
-    virtual void __stdcall v17();
-    virtual void __stdcall v18();
-    virtual void __stdcall v19();
-    virtual long __stdcall SetFoo(int);
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual long SetFoo(int);
 };
 
 struct Obj

@@ -94,11 +94,11 @@ bool FUN_00474a80_Class::FUN_00474a80()
 
 struct AmmoRecord
 {
-    int __thiscall FUN_00401170();
+    int FUN_00401170();
 };
 struct ComparisonInfo
 {
-    unsigned int __thiscall FUN_0084e3a0();
+    unsigned int FUN_0084e3a0();
 };
 extern const char str_0101a3c8[];
 extern const char str_0101a404[];
@@ -107,10 +107,10 @@ extern const char str_0101a444[];
 struct FUN_00474bc0_shell : BaseFormComponent
 {
     void* m_pAmmo;
-    void __thiscall CompareAmmo(BaseFormComponent*);
+    void CompareAmmo(BaseFormComponent*);
 };
 // @fnv 0x00474bc0
-void __thiscall FUN_00474bc0_shell::CompareAmmo(BaseFormComponent* apCompareFC)
+void FUN_00474bc0_shell::CompareAmmo(BaseFormComponent* apCompareFC)
 {
     if (m_pAmmo)
     {

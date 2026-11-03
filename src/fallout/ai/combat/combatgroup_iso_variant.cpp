@@ -199,7 +199,7 @@ struct FUN_009871c0_shell
 };
 struct FUN_009871e0_shell
 {
-    bool __thiscall IsModifierZero();
+    bool IsModifierZero();
 };
 struct ArrSI
 {
@@ -224,7 +224,7 @@ struct FUN_0098ebc0_obj
 };
 struct FUN_00988770_shell
 {
-    void __thiscall ForwardToMember(int a1);
+    void ForwardToMember(int a1);
 };
 struct BSSimpleArray_NavMeshSearchNode
 {
@@ -238,17 +238,17 @@ struct FUN_00988790_shell
 };
 struct ActorCombatGroup
 {
-    void* __thiscall FUN_009865d0(int);
-    unsigned char __thiscall GetByteAtOffset100(int);
+    void* FUN_009865d0(int);
+    unsigned char GetByteAtOffset100(int);
 };
-void* __thiscall ActorCombatGroup::FUN_009865d0(int)
+void* ActorCombatGroup::FUN_009865d0(int)
 {
     return 0;
 }
 struct FUN_0098a310_shell
 {
     int m_field;
-    int __thiscall GetFieldOrZero(int param);
+    int GetFieldOrZero(int param);
 };
 struct FUN_009865f0_stub
 {
@@ -257,12 +257,12 @@ struct FUN_009865f0_stub
 };
 struct FUN_009865f0_shell
 {
-    int __thiscall FUN_009865f0(int a1);
+    int FUN_009865f0(int a1);
 };
 
 struct FUN_0098a360_shell
 {
-    void __thiscall FUN_0098a360(int a1, int a2);
+    void FUN_0098a360(int a1, int a2);
 };
 struct BSSimpleArray
 {
@@ -281,11 +281,11 @@ struct FUN_0098ed30_class
 };
 struct FUN_0098efa0_shell
 {
-    void* __thiscall FUN_0098efa0(int count);
+    void* FUN_0098efa0(int count);
 };
 struct FUN_0098efd0_shell
 {
-    void* __thiscall FUN_0098efd0(void* a, unsigned int b);
+    void* FUN_0098efd0(void* a, unsigned int b);
 };
 struct BGSLoadFormBuffer
 {
@@ -304,11 +304,11 @@ struct BGSSaveFormBuffer
 };
 struct FUN_00985ae0_shell
 {
-    void __thiscall FUN_00985ae0(BGSSaveFormBuffer* buffer, int a1);
+    void FUN_00985ae0(BGSSaveFormBuffer* buffer, int a1);
 };
 struct FUN_00985b10_shell
 {
-    void __thiscall FUN_00985b10(BGSLoadFormBuffer* buffer, int a2);
+    void FUN_00985b10(BGSLoadFormBuffer* buffer, int a2);
 };
 struct CombatTarget
 {
@@ -318,7 +318,7 @@ struct BSSimpleArray_CombatTarget_1024
 {
     void* __pad;
     void* pBuffer;
-    unsigned int __thiscall FUN_0098eec0(const CombatTarget* aValue);
+    unsigned int FUN_0098eec0(const CombatTarget* aValue);
 public:
     void FUN_0098fab0(unsigned int, unsigned int);
 };
@@ -328,7 +328,7 @@ struct FUN_0098fbe0_shell
 struct FUN_0098eff0_shell
 {
     void* vtable;
-    void* __thiscall FUN_0098eff0();
+    void* FUN_0098eff0();
 };
 struct TESForm
 {
@@ -345,7 +345,7 @@ struct Actor : public TESForm
 struct Holder00985930
 {
     unsigned int m_data;
-    void __thiscall FUN_00985930(int a1, int a2);
+    void FUN_00985930(int a1, int a2);
 };
 struct FUN_0098f560
 {
@@ -370,15 +370,15 @@ struct FUN_00986950_shell
     float f8;
     float fc;
     void* p10;
-    void* __thiscall FUN_00986950(void* a1);
+    void* FUN_00986950(void* a1);
 };
 struct FUN_00986a80_shell : public FUN_009865f0_shell
 {
-    char __thiscall FUN_00986a80(int param);
+    char FUN_00986a80(int param);
 };
 struct FUN_009874b0_shell : ActorCombatGroup
 {
-    void __thiscall FUN_009874b0(int a1);
+    void FUN_009874b0(int a1);
 };
 struct S_009874f0
 {
@@ -387,7 +387,7 @@ struct S_009874f0
 };
 struct FUN_009874f0_obj
 {
-    void __thiscall DecrementField4A(int);
+    void DecrementField4A(int);
 };
 struct ThreeInts_00989010
 {
@@ -399,7 +399,7 @@ struct StandIn_00989010
 {
     ThreeInts_00989010 t;
     int v;
-    void __thiscall SetTripleAndValue(ThreeInts_00989010* src, int val);
+    void SetTripleAndValue(ThreeInts_00989010* src, int val);
 };
 class BGSLoadGameBuffer;
 struct CombatTargetTimestamp
@@ -424,14 +424,14 @@ struct FUN_009891d0_class
 {
     char _pad[0x28];
     int m28;
-    void __thiscall FUN_009891d0(TESAmmoInitCalls* p1, Calendar* p2);
+    void FUN_009891d0(TESAmmoInitCalls* p1, Calendar* p2);
 };
 struct Ref_997440
 {
 };
 struct S989970
 {
-    void __thiscall FUN_00989970(Ref_997440* p, float f);
+    void FUN_00989970(Ref_997440* p, float f);
 };
 struct B16
 {
@@ -442,7 +442,7 @@ struct B16
 };
 struct FUN_0098a340_shell
 {
-    int __thiscall FUN_0098a340(int a1);
+    int FUN_0098a340(int a1);
 };
 struct FUN_0098a410_shell
 {
@@ -463,7 +463,7 @@ struct BSSimpleArray_CombatMember_1024
     CombatClusterMember* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    unsigned int __thiscall AddCombatMember(const CombatClusterMember* aValue);
+    unsigned int AddCombatMember(const CombatClusterMember* aValue);
 public:
     void FUN_0098fbe0(unsigned int, unsigned int);
 };
@@ -476,12 +476,12 @@ struct FUN_00985bb0_Class
     char _pad[16];
     CTSHelper _ts;
     float _f18;
-    float __thiscall FUN_00985bb0();
+    float FUN_00985bb0();
 };
 struct FUN_00986560_shell
 {
     char pad[8];
-    void __thiscall FUN_00986560(int a1);
+    void FUN_00986560(int a1);
 };
 struct FUN_0098ef10_shell
 {
@@ -498,17 +498,17 @@ struct SearchNode
 };
 struct MyArr : ArrSI
 {
-    SearchNode* __thiscall FUN_006dad90(unsigned int) const;
+    SearchNode* FUN_006dad90(unsigned int) const;
 };
 struct C00986670
 {
     char pad[0x18];
     MyArr arr;
-    SearchNode* __thiscall FUN_00986670(unsigned int);
+    SearchNode* FUN_00986670(unsigned int);
 };
 struct FUN_00986b70_shell : ActorCombatGroup
 {
-    void __thiscall FUN_00986b70();
+    void FUN_00986b70();
 };
 struct FUN_00986b70_helper : ActorCombatGroup
 {
@@ -777,7 +777,7 @@ struct FUN_0098a2e0_shell
     char pad[0x14c];
     int m_kPointA;
     int m_kPointB;
-    bool __thiscall FUN_0098a2e0();
+    bool FUN_0098a2e0();
 };
 struct CombatGroup_GetCount
 {
@@ -789,13 +789,13 @@ struct MyNode_0098a3c0
 };
 struct MyArr_0098a3c0
 {
-    MyNode_0098a3c0* __thiscall FUN_006dad90(unsigned int) const;
+    MyNode_0098a3c0* FUN_006dad90(unsigned int) const;
 };
 struct FUN_0098a3c0_shell
 {
     char pad[0x18];
     MyArr_0098a3c0 arr;
-    void __thiscall FUN_0098a3c0();
+    void FUN_0098a3c0();
 };
 struct CombatSearchDoor
 {
@@ -812,7 +812,7 @@ struct FUN_0098c780_shell
 };
 struct FUN_0098ed60_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_0098ed60();
+    void FUN_0098ed60();
 };
 struct S0098a4d0
 {
@@ -822,7 +822,7 @@ struct FUN_00990500_host
     S0098a4d0* p0;
     char pad[16];
     float f14;
-    float __thiscall GetCachedValue();
+    float GetCachedValue();
 };
 struct BGSEncounterZone;
 struct ActorS
@@ -1056,7 +1056,7 @@ struct FUN_0098de30_class
 };
 struct FUN_009859c0_shell
 {
-    void __thiscall FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
+    void FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
 };
 struct SaveFormIDHelper
 {
@@ -1292,7 +1292,7 @@ struct FUN_009856e0_shell
     int m_field;
     char pad[0x60];
 
-    void __thiscall FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGroup* pGroup);
+    void FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGroup* pGroup);
 };
 struct FUN_00527ba0_Class
 {
@@ -1324,7 +1324,7 @@ struct FUN_00985800_shell
     char m64;
     char m65;
 
-    void __thiscall FUN_00985800(BGSLoadFormBuffer* pBuffer, ActorCombatGroup* pGroup);
+    void FUN_00985800(BGSLoadFormBuffer* pBuffer, ActorCombatGroup* pGroup);
 };
 double DAT_0101db88;
 struct ImageSpaceEffectParam
@@ -1505,13 +1505,13 @@ struct P3OperatorMinusHelper
 };
 struct FUN_00989eb0_shell
 {
-    void __thiscall FUN_00989eb0(NiPoint3* result);
+    void FUN_00989eb0(NiPoint3* result);
 };
 struct FUN_0098a390_shell
 {
     char pad[0x18];
     MyArr m_aiIndexedValues;
-    void __thiscall SetElementValue(unsigned int a1, unsigned int a2);
+    void SetElementValue(unsigned int a1, unsigned int a2);
 };
 struct PathingSolution
 {
@@ -1823,7 +1823,7 @@ struct FUN_0098ed80_shell : public AllocationBase
     unsigned int m_iElementCount;
     unsigned int m_pRayCursor;
 
-    void __thiscall FUN_0098ed80(unsigned int, bool);
+    void FUN_0098ed80(unsigned int, bool);
 };
 struct GlobalObject_0040e0b0
 {
@@ -1865,7 +1865,7 @@ struct Obj8
 };
 struct Walker8
 {
-    void __thiscall ConstructArray(Pair8* arr, unsigned int count);
+    void ConstructArray(Pair8* arr, unsigned int count);
 };
 struct EventVector
 {
@@ -1938,21 +1938,21 @@ struct CombatMemberData_985520
     unsigned char b64;
     unsigned char b65;
 
-    void __thiscall MergeCombatData(CombatMemberData_985520* pOther);
+    void MergeCombatData(CombatMemberData_985520* pOther);
 };
 struct TimeInput
 {
-    float __thiscall FUN_00527a40(FUN_00985bb0_Class* owner);
+    float FUN_00527a40(FUN_00985bb0_Class* owner);
 };
 extern float _DAT_0108d5a0;
 extern double _DAT_0108d598;
 struct CombatClock : FUN_00985bb0_Class
 {
-    float __thiscall GetAdjustedTime(TimeInput* timeInput);
+    float GetAdjustedTime(TimeInput* timeInput);
 };
 struct BSSimpleArrayForCall : BSSimpleArray
 {
-    void __thiscall CopyItemsTo(BSSimpleArrayForCall* other);
+    void CopyItemsTo(BSSimpleArrayForCall* other);
 };
 struct FUN_00986740_shell
 {
@@ -1960,9 +1960,9 @@ struct FUN_00986740_shell
     void* unk04;
     BSSimpleArrayForCall arr;
 
-    void __thiscall FUN_00986740(FUN_00986740_shell* other);
+    void FUN_00986740(FUN_00986740_shell* other);
 };
-void __thiscall BSSimpleArrayForCall::CopyItemsTo(BSSimpleArrayForCall* other)
+void BSSimpleArrayForCall::CopyItemsTo(BSSimpleArrayForCall* other)
 {}
 struct FUN_00986760_sub
 {
@@ -1974,7 +1974,7 @@ struct FUN_00986760_cls
 {
     char pad[8];
     FUN_00986760_sub m_08;
-    void __thiscall FUN_00986760(int a1);
+    void FUN_00986760(int a1);
 };
 struct Actor_987820;
 struct Ctrl_987820
@@ -7304,7 +7304,7 @@ struct CFUN98fb40Elem
 };
 struct CFUN98fb40Owner
 {
-    void __thiscall FUN_0098fb40(CombatClusterMember* pDest, unsigned int ItemUpdateArray);
+    void FUN_0098fb40(CombatClusterMember* pDest, unsigned int ItemUpdateArray);
 };
 struct ScoreValue
 {
@@ -7899,7 +7899,7 @@ struct AvoidArray9894 : PathingAvoidNodeArray
 };
 struct FUN_00989490_shell
 {
-    PathingAvoidNodeArray* __thiscall FUN_00989490(int a1, int a2, int a3, PathingAvoidNodeArray* apArray);
+    PathingAvoidNodeArray* FUN_00989490(int a1, int a2, int a3, PathingAvoidNodeArray* apArray);
 };
 
 struct FUN_0096a330_shell

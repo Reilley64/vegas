@@ -22,7 +22,7 @@ struct Buffer
         size = 0;
         if ((flags & 0x80000000u) == 0)
         {
-            typedef void(__thiscall * FreeFn)(void*, void*, unsigned int);
+            typedef void(* FreeFn)(void*, void*, unsigned int);
             FreeFn freeFn = (FreeFn) * (void**)((char*)*(void**)allocator + 0x10);
             freeFn(allocator, data, (flags & 0x3fffffffu) * 8);
         }

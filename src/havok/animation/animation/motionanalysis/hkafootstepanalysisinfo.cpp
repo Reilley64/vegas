@@ -170,7 +170,7 @@ struct hkReferencedObject
 {
 };
 struct Allocator;
-typedef void(__thiscall* FreeFunction)(Allocator*, void*, unsigned int);
+typedef void(* FreeFunction)(Allocator*, void*, unsigned int);
 struct AllocatorVTable
 {
     void* slot0;

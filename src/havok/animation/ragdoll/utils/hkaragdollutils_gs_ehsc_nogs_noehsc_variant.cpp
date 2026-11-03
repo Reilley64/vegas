@@ -153,7 +153,7 @@ struct Quaternion
     __declspec(noinline) void FUN_00c66320(const Quaternion*, const Quaternion*) throw();
 };
 
-extern "C" void __fastcall FUN_00ec408c(unsigned int);
+extern "C" void FUN_00ec408c(unsigned int);
 void Quaternion::FUN_00c66320(const Quaternion* first, const Quaternion* second) throw()
 {
     unsigned int cookie = ::__security_cookie;

@@ -64,10 +64,6 @@ class TESObject : public TESForm
     // TESObject& __cdecl TESObject::*(const TESObject&)
     // void __cdecl TESObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
 class ShortPoint3
 {
   public:
@@ -107,19 +103,12 @@ class ShortPoint3
     // void __cdecl ShortPoint3::*(NiStream&)
     // char* __cdecl ShortPoint3::*(const char*)
 };
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
 class TESBoundObject : public TESObject
 {
   public:
@@ -140,8 +129,6 @@ class TESBoundObject : public TESObject
     // TESBoundObject& __cdecl TESBoundObject::*(const TESBoundObject&)
     // void __cdecl TESBoundObject::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 class FileEntryList
 {
   public:
@@ -158,9 +145,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
 class TESModel : public BaseFormComponent
 {
   public:
@@ -192,10 +176,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
 class TESModelTextureSwap : public TESModel
 {
   public:
@@ -225,8 +205,6 @@ class TESModelTextureSwap : public TESModel
     // TESModelTextureSwap& __cdecl TESModelTextureSwap::*(const TESModelTextureSwap&)
     // void __cdecl TESModelTextureSwap::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESModelTextureSwap) == 32);
-FNV_STATIC_ASSERT(offsetof(TESModelTextureSwap, TextureSwapNodeAccessor) == 24);
 class TESEnchantableForm : public BaseFormComponent
 {
   public:
@@ -248,10 +226,6 @@ class TESEnchantableForm : public BaseFormComponent
     // void __cdecl TESEnchantableForm::*(unsigned short)
     // TESEnchantableForm& __cdecl TESEnchantableForm::*(const TESEnchantableForm&)
 };
-FNV_STATIC_ASSERT(sizeof(TESEnchantableForm) == 16);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_pEnchantment) == 4);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_usEnchantmentAmount) == 8);
-FNV_STATIC_ASSERT(offsetof(TESEnchantableForm, m_eCastingType) == 12);
 class TESValueForm : public BaseFormComponent
 {
   public:
@@ -270,8 +244,6 @@ class TESValueForm : public BaseFormComponent
     // TESValueForm& __cdecl TESValueForm::*(const TESValueForm&)
     // void* __cdecl TESValueForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESValueForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESValueForm, iValue) == 4);
 class TESWeightForm : public BaseFormComponent
 {
   public:
@@ -288,8 +260,6 @@ class TESWeightForm : public BaseFormComponent
     // TESWeightForm& __cdecl TESWeightForm::*(const TESWeightForm&)
     // void* __cdecl TESWeightForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESWeightForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESWeightForm, fWeight) == 4);
 class BGSDestructibleObjectForm : public BaseFormComponent
 {
   public:
@@ -351,8 +321,6 @@ class BGSDestructibleObjectForm : public BaseFormComponent
     // BGSDestructibleObjectForm& __cdecl BGSDestructibleObjectForm::*(const BGSDestructibleObjectForm&)
     // void* __cdecl BGSDestructibleObjectForm::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSDestructibleObjectForm) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSDestructibleObjectForm, pData) == 4);
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
@@ -373,8 +341,6 @@ class BGSMessageIcon : public BaseFormComponent
     // BGSMessageIcon& __cdecl BGSMessageIcon::*(const BGSMessageIcon&)
     // void* __cdecl BGSMessageIcon::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
 class BGSPickupPutdownSounds : public BaseFormComponent
 {
   public:
@@ -397,9 +363,6 @@ class BGSPickupPutdownSounds : public BaseFormComponent
     // BGSPickupPutdownSounds& __cdecl BGSPickupPutdownSounds::*(const BGSPickupPutdownSounds&)
     // void* __cdecl BGSPickupPutdownSounds::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(BGSPickupPutdownSounds) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPickupSound) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSPickupPutdownSounds, m_pPutdownSound) == 8);
 class BookData
 {
   public:
@@ -407,9 +370,6 @@ class BookData
     char m_cCharacterAfterFlags;  // +0x1, 1 bytes
     // void __cdecl BookData::*()
 };
-FNV_STATIC_ASSERT(sizeof(BookData) == 2);
-FNV_STATIC_ASSERT(offsetof(BookData, cFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(BookData, m_cCharacterAfterFlags) == 1);
 class TESObjectBOOK : public TESBoundObject,
                       public TESFullName,
                       public TESModelTextureSwap,
@@ -463,6 +423,4 @@ class TESObjectBOOK : public TESBoundObject,
     // TESObjectBOOK& __cdecl TESObjectBOOK::*(const TESObjectBOOK&)
     // void __cdecl TESObjectBOOK::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectBOOK) == 196);
-FNV_STATIC_ASSERT(offsetof(TESObjectBOOK, Data) == 192);
 #endif

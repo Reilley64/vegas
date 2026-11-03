@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShapeCollection.h"
 class hkpSimpleMeshShapeTriangle;
-#pragma pack(push, 1)
 class hkpSimpleMeshShape : public hkpShapeCollection
 {
   public:
@@ -17,6 +16,4 @@ class hkpSimpleMeshShape : public hkpShapeCollection
     hkUint8 m_eWeldingType;                                 // +0x40 (WeldingType)
     char pad41[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSimpleMeshShape[(sizeof(hkpSimpleMeshShape) == 0x44) ? 1 : -1];
 #endif

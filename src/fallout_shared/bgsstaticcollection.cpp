@@ -123,7 +123,7 @@ struct FUN_004fe520_shell
 
 // Calls M on this, then ProcessAndFreeData on the object at offset 0x30 with three tags, then M on this again.
 // @fnv 0x004fe520
-void __thiscall FUN_004fe520_shell::FUN_004fe520(void)
+void FUN_004fe520_shell::FUN_004fe520(void)
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x30))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);

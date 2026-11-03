@@ -5,6 +5,8 @@
 
 // src/fallout/interface/interfacemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/interfacemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <windows.h>
+#include <Xinput.h>
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
 #include "fnv/decl/FUN_004a4020_shell.h"
@@ -29,10 +31,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f9000.h"
 #include "interfacemanager_packet.h"
-extern "C" __declspec(dllimport) unsigned int __stdcall XInputGetState(unsigned int dwUserIndex, void* pState);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct NiBound
 {

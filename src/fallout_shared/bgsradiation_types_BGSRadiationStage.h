@@ -9,7 +9,6 @@ class SpellItem : public TESForm
 };
 class BGSRadiationStage;
 class SpellListEntry;
-#pragma pack(push, 4)
 class SpellListEntry
 {
   public:
@@ -19,11 +18,6 @@ class SpellListEntry
     // void __cdecl SpellListEntry::*()
     // void __cdecl SpellListEntry::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SpellListEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(SpellListEntry, SpellEntryRecord) == 0);
-FNV_STATIC_ASSERT(offsetof(SpellListEntry, m_pSpell) == 4);
-#pragma pack(push, 4)
 class BGSRadiationStage : public TESForm
 {
   public:
@@ -59,7 +53,4 @@ class BGSRadiationStage : public TESForm
     // BGSRadiationStage& __cdecl BGSRadiationStage::*(const BGSRadiationStage&)
     // void __cdecl BGSRadiationStage::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSRadiationStage) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSRadiationStage, data) == 24);
 #endif

@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a693f0
+#include <windows.h>
 #include "fnv/decl/CameraState4E9.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0043d450_Owner.h"
@@ -32,11 +33,11 @@ struct S694a0
     H74e10 _2c;
     char _pad[95];
     int _8c;
-    void __thiscall FUN_00a694a0(void*);
+    void FUN_00a694a0(void*);
 };
 // If _0c is set, copies seven ints from src into _10, calls SetFromFrustum on _10 and _0c+0x68, then sets _8c to 63.
 // @fnv 0x00a694a0
-void __thiscall S694a0::FUN_00a694a0(void* pSource)
+void S694a0::FUN_00a694a0(void* pSource)
 {
     if (_0c)
     {
@@ -55,7 +56,7 @@ struct NiBound
 };
 struct B_004b6100
 {
-    int __thiscall ClassifySphereAgainstPlane(NiPlane_004b6100*);
+    int ClassifySphereAgainstPlane(NiPlane_004b6100*);
 };
 struct S694a0;
 struct NiAVObject
@@ -122,7 +123,7 @@ struct WorkerS694a0
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     NiPlane_004b6100 planes[6];
     unsigned int flags;
-    void __thiscall FUN_00a694e0(NiAVObject* object);
+    void FUN_00a694e0(NiAVObject* object);
 };
 // @fnv 0x00a694e0
 void WorkerS694a0::FUN_00a694e0(NiAVObject* object)
@@ -210,7 +211,6 @@ FUN_00a69400::FUN_00a69400(void* pkCamera)
     m_iArrayLength = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObjView
 {
     virtual void vslot0();
@@ -260,14 +260,14 @@ struct GlobalMgr
 struct RefLookup
 {
     RefObjView* volatile obj;
-    void __thiscall FUN_0066b0d0(void*);
+    void FUN_0066b0d0(void*);
 };
 struct Handler
 {
 };
 struct Sub694a0 : S694a0
 {
-    void __thiscall ProcessWorkerWithHandler(void* worker, Handler* handler, void* temporary);
+    void ProcessWorkerWithHandler(void* worker, Handler* handler, void* temporary);
 };
 // @fnv 0x00a69570
 void Sub694a0::ProcessWorkerWithHandler(void* worker, Handler* handler, void* temporary)
@@ -324,7 +324,7 @@ struct ObjFlags : NiAVObject
 };
 struct WorkerA69640 : WorkerS694a0
 {
-    void __thiscall ProcessObject(NiAVObject* object);
+    void ProcessObject(NiAVObject* object);
 };
 // Checks bits 12, 20 and 11 of the object's flags and either invokes the object's callback or calls FUN_00a694e0 based on them and this->flags.
 // @fnv 0x00a69640

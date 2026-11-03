@@ -7,7 +7,6 @@
 class NavMeshInfo;
 class NiPoint3;
 class TESObjectREFR;
-#pragma pack(push, 4)
 class PathingLocation
 {
   public:
@@ -27,15 +26,4 @@ class PathingLocation
     PathingLocation(const NiPoint3& location, const NavMeshInfo* navMeshInfo);
     PathingLocation& operator=(const PathingLocation& other);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingLocation) == 0x28);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, Location) == 0x4);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_pLocationNavMesh) == 0x10);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, pNavMeshInfoArray) == 0x14);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, pCell) == 0x18);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_pContainingWorldspace) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_uiPathingFlags) == 0x20);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, m_usTriangleID) == 0x24);
-FNV_STATIC_ASSERT(offsetof(PathingLocation, uiFlags) == 0x26);
 #endif

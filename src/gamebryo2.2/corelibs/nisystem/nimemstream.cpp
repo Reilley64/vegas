@@ -13,11 +13,11 @@ struct NiBinaryStream
 
 struct NiMemStream : NiBinaryStream
 {
-    void __thiscall FUN_00aa2d70(int iNumBytes);
+    void FUN_00aa2d70(int iNumBytes);
 };
 
 // @fnv 0x00aa2d70
-void __thiscall NiMemStream::FUN_00aa2d70(int iNumBytes)
+void NiMemStream::FUN_00aa2d70(int iNumBytes)
 {
     int iValue = *(unsigned int*)((char*)this + 0x14) + iNumBytes;
     if (iValue >= 0 && iValue < *(unsigned int*)((char*)this + 0x1c))
@@ -30,7 +30,7 @@ void __thiscall NiMemStream::FUN_00aa2d70(int iNumBytes)
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00aa2dd0
-unsigned int __fastcall FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes)
+unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes)
 {
     if (*(unsigned char*)(pThis + 0x20))
         return 0;
@@ -149,7 +149,7 @@ void NiMemStream::SetSwapMode(bool bDoSwap)
 }  // namespace fnv_00aa2f80
 
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
-unsigned int __fastcall FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes);
+unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes);
 unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* pData, unsigned int uLen, void* pA, void* pB);
 
 unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, unsigned int uSize, void* pA, void* pB);

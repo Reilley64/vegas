@@ -78,11 +78,11 @@ const char* const* FUN_00682800_shell::GetRTTI() const
 
 struct FUN_006828e0_shell
 {
-    unsigned short __thiscall FUN_006828e0();
+    unsigned short FUN_006828e0();
 };
 
 // @fnv 0x006828e0
-unsigned short __thiscall FUN_006828e0_shell::FUN_006828e0()
+unsigned short FUN_006828e0_shell::FUN_006828e0()
 {
     unsigned short usSize = 0;
     usSize += 4;

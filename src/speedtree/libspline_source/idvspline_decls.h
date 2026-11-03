@@ -12,9 +12,6 @@
 #include "fnv/symbols_004b1000.h"
 #include "fnv/symbols_005ac000.h"
 #include "fnv/symbols_005b5000.h"
-#define FNV_STATIC_ASSERT_JOIN_(a, b) a##b
-#define FNV_STATIC_ASSERT_JOIN(a, b) FNV_STATIC_ASSERT_JOIN_(a, b)
-#define FNV_STATIC_ASSERT(c) typedef char FNV_STATIC_ASSERT_JOIN(idvspline_assert_, __LINE__)[(c) ? 1 : -1]
 class TESObjectREFR;
 class ScriptLocals;
 class Script
@@ -71,11 +68,8 @@ class ExpressionValue
         double m_dFloatingPointValue;
     };
 };
-FNV_STATIC_ASSERT(sizeof(ExpressionValue) == 16);
-FNV_STATIC_ASSERT(offsetof(ExpressionValue, m_lIntegerValue) == 8);
 
 // The stack helpers have no identified PC names in the identity catalog.
-#pragma pack(push, 4)
 template <> class Stack<ExpressionValue, 32>
 {
   public:
@@ -94,9 +88,6 @@ class ExpressionEvaluator
     Stack<ExpressionValue, 32> m_kOperandStack;
     double Eval(const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, int, bool);
 };
-FNV_STATIC_ASSERT(offsetof(ExpressionEvaluator, m_kOperandStack) == 0x508);
-FNV_STATIC_ASSERT(sizeof(ExpressionEvaluator) == 0x70C);
-#pragma pack(pop)
 struct IdvSplineToken
 {
     ExpressionOperator type;

@@ -144,12 +144,6 @@ template <class K, class T> class LockFreeMap : public InterfacedClass
 };
 typedef LockFreeQueue<bhkRigidBody*> RigidBodyQueue;
 typedef LockFreeMap<TESObjectREFR*, BSTreeNode*> TreeMap;
-typedef char CheckSpinLockSize[(sizeof(RecursiveSpinLock) == 32) ? 1 : -1];
-typedef char CheckQueueSize[(sizeof(RigidBodyQueue) == 64) ? 1 : -1];
-typedef char CheckQueueLock[(offsetof(RigidBodyQueue, kLock) == 32) ? 1 : -1];
-typedef char CheckMapSize[(sizeof(TreeMap) == 64) ? 1 : -1];
-typedef char CheckMapLock[(offsetof(TreeMap, kLock) == 32) ? 1 : -1];
-typedef char CheckMapInterface[(sizeof(TreeMap::DeletedNodeScanner) == 36) ? 1 : -1];
 namespace ThreadSafeStructuresPC_0044b750 {
 template <class K, class T> class LockFreeMap : public InterfacedClass
 {

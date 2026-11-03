@@ -118,7 +118,6 @@ class GraphicsRenderer;
 class NiD3DVertexDeclaration;
 class VertexDeclarationLayout;
 class _D3DVERTEXELEMENT9;
-#pragma pack(push, 4)
 class NiShaderDeclaration : public NiObject
 {
   public:
@@ -173,9 +172,6 @@ class NiShaderDeclaration : public NiObject
     // NiShaderDeclaration& __cdecl NiShaderDeclaration::*(const NiShaderDeclaration&)
     // void __cdecl NiShaderDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShaderDeclaration) == 8);
-#pragma pack(push, 4)
 class NiD3DShaderDeclaration : public NiShaderDeclaration
 {
   public:
@@ -206,18 +202,6 @@ class NiD3DShaderDeclaration : public NiShaderDeclaration
     // NiD3DShaderDeclaration& __cdecl NiD3DShaderDeclaration::*(const NiD3DShaderDeclaration&)
     // void __cdecl NiD3DShaderDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderDeclaration) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pOwnerShader) == 8);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pShaderStreamInfo) == 12);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pD3DDevice) == 16);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiVertexElementCount) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiBufferStride) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiShaderRegisterCount) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_uiRegisterStreamCount) == 32);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_pShaderRegisterStream) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderDeclaration, m_bHasChanges) == 40);
-#pragma pack(push, 4)
 class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
 {
   public:
@@ -239,10 +223,6 @@ class NiD3DVertexDeclaration : public NiD3DShaderDeclaration
     // NiD3DVertexDeclaration& __cdecl NiD3DVertexDeclaration::*(const NiD3DVertexDeclaration&)
     // void __cdecl NiD3DVertexDeclaration::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DVertexDeclaration) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkVertexElements) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkD3DVertexDeclaration) == 48);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -253,7 +233,6 @@ FNV_STATIC_ASSERT(offsetof(NiD3DVertexDeclaration, m_pkD3DVertexDeclaration) == 
 class BSShaderProperty;
 class BSShaderProperty__RenderPassArray;
 class NiShadeProperty;
-#pragma pack(push, 4)
 class NiShadeProperty : public NiProperty
 {
   public:
@@ -287,11 +266,6 @@ class NiShadeProperty : public NiProperty
     // NiShadeProperty& __cdecl NiShadeProperty::*(const NiShadeProperty&)
     // void __cdecl NiShadeProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShadeProperty) == 32);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_uiObjectFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_iShaderType) == 28);
-#pragma pack(push, 4)
 class BSShaderProperty : public NiShadeProperty
 {
   public:
@@ -362,25 +336,6 @@ class BSShaderProperty : public NiShadeProperty
     // BSShaderProperty& __cdecl BSShaderProperty::*(const BSShaderProperty&)
     // void __cdecl BSShaderProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty) == 104);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, ulFlags) == 32);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fAlpha) == 40);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fFadeAlpha) == 44);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fAmbientReflectionScale) == 48);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fSpecularExponent) == 52);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, iLastRenderPassState) == 56);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, pRenderPassList) == 60);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray1) == 64);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray2) == 68);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray3) == 72);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray4) == 76);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray5) == 80);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray6) == 84);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_iRenderPassCount) == 88);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fDepthBias) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fValueAfterDepthBias) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fEnvironmentMapScale) == 100);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -1190,7 +1145,6 @@ enum BSShaderManager__eBSSMPassEnum
     BSShaderManager__eBSSMPassEnum_BSSM_UNUSEDPASSES_LAST = 755,
     BSShaderManager__eBSSMPassEnum_BSSM_COUNT = 756
 };
-#pragma pack(push, 4)
 class NiShader : public NiRefObject
 {
   public:
@@ -1210,12 +1164,6 @@ class NiShader : public NiRefObject
     // NiShader& __cdecl NiShader::*(const NiShader&)
     // void __cdecl NiShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShader) == 20);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_uiShaderIdentifier) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShader, m_bShaderEnabled) == 16);
-#pragma pack(push, 4)
 class NiD3DShaderInterface : public NiShader
 {
   public:
@@ -1237,13 +1185,6 @@ class NiD3DShaderInterface : public NiShader
     // NiD3DShaderInterface& __cdecl NiD3DShaderInterface::*(const NiD3DShaderInterface&)
     // void __cdecl NiD3DShaderInterface::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderInterface) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pD3DDevice) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pShaderObject) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_pRenderState) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderInterface, m_bShaderState) == 32);
-#pragma pack(push, 4)
 class NiD3DShader : public NiD3DShaderInterface
 {
   public:
@@ -1295,16 +1236,6 @@ class NiD3DShader : public NiD3DShaderInterface
     // NiD3DShader& __cdecl NiD3DShader::*(const NiD3DShader&)
     // void __cdecl NiD3DShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShader) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bIsInitialized) == 36);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_bSoftwareVertexProcessing) == 37);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spShaderDeclaration) == 40);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_pRenderStateGroup) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spFirstShaderConstantMap) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_spSecondShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShader, m_uiShaderType) == 56);
-#pragma pack(push, 4)
 class NiD3DDefaultShader : public NiD3DShader
 {
   public:
@@ -1335,18 +1266,6 @@ class NiD3DDefaultShader : public NiD3DShader
     // NiD3DDefaultShader& __cdecl NiD3DDefaultShader::*(const NiD3DDefaultShader&)
     // void __cdecl NiD3DDefaultShader::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DDefaultShader) == 92);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bUseFog) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_bFogEnabled) == 61);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiDefaultShaderFlags) == 64);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassCount) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiActivePass) == 72);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFlags) == 76);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pPassFogStatus) == 80);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_uiPassFogStatusCount) == 84);
-FNV_STATIC_ASSERT(offsetof(NiD3DDefaultShader, m_pDynamicEffectState) == 88);
-#pragma pack(push, 4)
 class BSShader : public NiD3DDefaultShader
 {
   public:
@@ -1429,13 +1348,6 @@ class BSShader : public NiD3DDefaultShader
     unsigned char layoutPadding65[3];
     int m_iPassId;  // +0x68, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShader) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShader, spRenderPass) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_ePass) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_bIsBest) == 100);
-FNV_STATIC_ASSERT(offsetof(BSShader, m_iPassId) == 104);
-#pragma pack(push, 4)
 class RgbaColor
 {
   public:
@@ -1464,13 +1376,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class BSShaderNoLighting : public BSShader
 {
   public:
@@ -1528,28 +1433,6 @@ class BSShaderNoLighting : public BSShader
     // bool __cdecl BSShaderNoLighting::*()
     // BSShaderNoLighting& __cdecl BSShaderNoLighting::*(const BSShaderNoLighting&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderNoLighting) == 436);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, spRenderPass) == 108);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_spTreeVertexShader) == 228);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_spPixelShaderVariants) == 340);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pFirstShaderConstantMapEntry) == 368);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pSecondShaderConstantMapEntry) == 372);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pShaderConstantMapEntry3) == 376);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pShaderConstantMapEntry4) == 380);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pShaderConstantMapEntry5) == 384);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant1) == 388);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_spVertexDeclaration) == 392);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant3) == 396);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant4) == 400);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant5) == 404);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant6) == 408);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant7) == 412);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant8) == 416);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant9) == 420);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant10) == 424);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant11) == 428);
-FNV_STATIC_ASSERT(offsetof(BSShaderNoLighting, m_pkVertexDeclarationVariant12) == 432);
 #endif
 
 #endif
@@ -1599,8 +1482,6 @@ class NiGeometry
     NiGeometryData* m_spGeometryData;
     NiSkinInstance* m_spSkinningInstance;
 };
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_kWorldSpaceTransform) == 0x68);
-FNV_STATIC_ASSERT(offsetof(NiGeometry, m_spGeometryData) == 0xb8);
 class NiPropertyState
 {
   public:

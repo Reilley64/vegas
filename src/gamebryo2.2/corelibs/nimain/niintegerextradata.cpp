@@ -29,11 +29,11 @@ char const* const* __cdecl FUN_00a99c60()
 struct FUN_00a99c70_shell
 {
     int* m_val;
-    void __thiscall FUN_00a99c70();
+    void FUN_00a99c70();
 };
 
 // @fnv 0x00a99c70
-void __thiscall FUN_00a99c70_shell::FUN_00a99c70()
+void FUN_00a99c70_shell::FUN_00a99c70()
 {
     m_val = &DAT_010a0d24;
     static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
@@ -65,10 +65,10 @@ NiExtraData* FUN_00a99cd0()
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a99d00_shell
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // @fnv 0x00a99d00
-void* __thiscall FUN_00a99d00_shell::Destroy(unsigned int auiFlags)
+void* FUN_00a99d00_shell::Destroy(unsigned int auiFlags)
 {
     *(int**)this = &DAT_010a0d24;
     static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
@@ -98,7 +98,7 @@ struct A89C70Base
 
 struct FUN_00a99d70_shell
 {
-    void __thiscall FUN_00a99d70(A89C70StringArray*);
+    void FUN_00a99d70(A89C70StringArray*);
 };
 
 // Appends the base viewer strings plus a formatted "m_iValue" entry to the string array, growing it as needed.
@@ -129,7 +129,7 @@ struct ExtraDataOwner
     int unk04;
     int unk08;
     int m_iValue;
-    NiIntegerExtraData* __thiscall CreateIntegerExtraData(unsigned int);
+    NiIntegerExtraData* CreateIntegerExtraData(unsigned int);
 };
 // @fnv 0x00a99c80
 NiIntegerExtraData* ExtraDataOwner::CreateIntegerExtraData(unsigned int argument)

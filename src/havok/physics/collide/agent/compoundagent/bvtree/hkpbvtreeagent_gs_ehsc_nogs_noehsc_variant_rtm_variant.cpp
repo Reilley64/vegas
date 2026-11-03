@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_00d2f980.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -89,7 +90,7 @@ struct Global { int unk00; int unk04; int unk08; int unk0c; Allocator* allocator
 struct Built { int field00; short field04; int field08;  };
 extern "C" Global* __cdecl FUN_00c85750();
 // @fnv 0x00d315d0
-extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
+extern "C" void FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
@@ -162,9 +163,9 @@ struct S_00d2f8f0_ArgVtbl {
     void* unk00;
     void* unk04;
     void* unk08;
-    void (__thiscall *unk0c)(void*, char*, int, int);
+    void (*unk0c)(void*, char*, int, int);
     void* unk10;
-    void (__thiscall *unk14)(void*, int, char*, void*, int, void*);
+    void (*unk14)(void*, int, char*, void*, int, void*);
 };
 struct S_00d2f8f0_Arg {
     S_00d2f8f0_ArgVtbl* m_pVtbl;
@@ -753,7 +754,6 @@ found:;
 #include "fnv/symbols_simd.h"
 
 extern "C" {
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
 
 

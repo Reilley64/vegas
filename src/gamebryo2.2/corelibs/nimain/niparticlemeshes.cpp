@@ -90,7 +90,7 @@ void FUN_00a99090_shell::FUN_00a99090(NiRenderer* pkRenderer)
         void* pkMeshes = *(void**)((char*)pkPMData + 0x70);
         if (pkMeshes)
         {
-            typedef void(__thiscall * Fn)(void*, NiRenderer*);
+            typedef void(* Fn)(void*, NiRenderer*);
             ((Fn)(*(void***)pkMeshes)[54])(pkMeshes, pkRenderer);
         }
     }

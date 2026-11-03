@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPFIXEDRIGIDMOTION_H
 #include "hkBase.h"
 #include "hkpKeyframedRigidMotion.h"
-#pragma pack(push, 1)
 class hkpFixedRigidMotion : public hkpKeyframedRigidMotion
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpFixedRigidMotion[(sizeof(hkpFixedRigidMotion) == 0x120) ? 1 : -1];
 #endif

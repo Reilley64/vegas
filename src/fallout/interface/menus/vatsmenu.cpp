@@ -280,11 +280,11 @@ struct FUN_007ebd30_This
 {
     char pad[0x374];
     float fValue;
-    float __thiscall FUN_007ebd30();
+    float FUN_007ebd30();
 };
 
 // @fnv 0x007ebd30
-float __thiscall FUN_007ebd30_This::FUN_007ebd30()
+float FUN_007ebd30_This::FUN_007ebd30()
 {
     return fValue;
 }
@@ -323,16 +323,16 @@ struct ArrSI
 };
 struct Caller007efa10
 {
-    void __thiscall UpdateQueueEntry(int a1, int a2, int a3);
+    void UpdateQueueEntry(int a1, int a2, int a3);
 };
 struct FUN_007ef710_This
 {
     char _pad[0xF8];
     bool m_bFirstFlag;
-    bool __thiscall HandleKey(int aiKey);
+    bool HandleKey(int aiKey);
 };
 // @fnv 0x007ef710
-bool __thiscall FUN_007ef710_This::HandleKey(int aiKey)
+bool FUN_007ef710_This::HandleKey(int aiKey)
 {
     if (aiKey == 0x42 || aiKey == 0x62)
     {
@@ -353,11 +353,11 @@ struct FUN_007ef760_Owner
     virtual void vf1();
     virtual void vf2();
     virtual void vf3(int, int);
-    void __thiscall FUN_007ef760(int aiID, Tile* apTarget);
+    void FUN_007ef760(int aiID, Tile* apTarget);
 };
 // Calls FUN_0070ec70 on the object from FUN_004b7210 and invokes vf3 with 2 if that value divided by -120 equals 1, otherwise 3.
 // @fnv 0x007ef760
-void __thiscall FUN_007ef760_Owner::FUN_007ef760(int aiID, Tile* apTarget)
+void FUN_007ef760_Owner::FUN_007ef760(int aiID, Tile* apTarget)
 {
     if (((int)(reinterpret_cast<::FUN_0070ec70_class *>((((FUN_0070ec70_This*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0070ec70())) / -120 == 1)
         vf3(2, 0);
@@ -524,11 +524,11 @@ struct FUN_007ef8b0_This
     unsigned char flag;
     unsigned char pad2[4];
     int t;
-    void __thiscall FUN_007ef8b0(int aiID, Tile* apTarget);
+    void FUN_007ef8b0(int aiID, Tile* apTarget);
 };
 // For IDs 2 and 3, if the corresponding flag is unset, stores the current AnimIdle section into t and sets that flag.
 // @fnv 0x007ef8b0
-void __thiscall FUN_007ef8b0_This::FUN_007ef8b0(int aiID, Tile* apTarget)
+void FUN_007ef8b0_This::FUN_007ef8b0(int aiID, Tile* apTarget)
 {
     switch (aiID)
     {
@@ -553,11 +553,11 @@ struct FUN_007f4810_shell
 {
     char pad[0x2b4];
     char byte_0x2b4;
-    char __thiscall GetByteAtOffset();
+    char GetByteAtOffset();
 };
 
 // @fnv 0x007f4810
-char __thiscall FUN_007f4810_shell::GetByteAtOffset()
+char FUN_007f4810_shell::GetByteAtOffset()
 {
     return byte_0x2b4;
 }
@@ -717,12 +717,12 @@ struct BSFaceGenNiNode : public NiAVObject
 
 struct FUN_005df510_shell
 {
-    void __thiscall FUN_005df510(unsigned int, float*);
+    void FUN_005df510(unsigned int, float*);
 };
 
 struct FUN_007f51b0_shell
 {
-    void __thiscall FUN_007f51b0(FUN_005df510_shell*);
+    void FUN_007f51b0(FUN_005df510_shell*);
 };
 
 struct Pt
@@ -1874,7 +1874,7 @@ struct FUN_007f06d0_Node
 
 struct FUN_007f06d0_cls
 {
-    bool __thiscall FUN_007f06d0(FUN_007f06d0_Src* a1);
+    bool FUN_007f06d0(FUN_007f06d0_Src* a1);
 };
 
 // @fnv 0x007f06d0
@@ -1930,13 +1930,13 @@ struct ItemListElement
 };
 struct VATSLookupList
 {
-    bool __thiscall FUN_008256d0();
+    bool FUN_008256d0();
 };
 struct VATSLookup
 {
     int unk00;
     VATSLookupList items;
-    bool __thiscall FUN_007f7280(unsigned int index, bool byPosition);
+    bool FUN_007f7280(unsigned int index, bool byPosition);
 };
 extern const char DAT_01078e44[], DAT_01078e10[];
 struct PtrHolder
@@ -5664,15 +5664,15 @@ struct ActionData
 };
 struct FUN_007f6e50_This
 {
-    void __thiscall AssignActionTiles(TargetList* apTargets);
+    void AssignActionTiles(TargetList* apTargets);
 };
 struct VATSMenu_007ef7b0 : VATSMenu
 {
-    void __thiscall FUN_007ef7b0(int aiID, int aiArg);
+    void FUN_007ef7b0(int aiID, int aiArg);
 };
 
 // @fnv 0x007ef7b0
-void __thiscall VATSMenu_007ef7b0::FUN_007ef7b0(int aiID, int aiArg)
+void VATSMenu_007ef7b0::FUN_007ef7b0(int aiID, int aiArg)
 {
     ::fnv_004b7210::FUN_004b7210();
     if (::FUN_004b71d0())
@@ -6895,7 +6895,7 @@ BSSimpleList* FUN_007f3cf0_This::FindEntryForRef()
     return 0;
 }
 // @fnv 0x007f51b0
-void __thiscall FUN_007f51b0_shell::FUN_007f51b0(FUN_005df510_shell* a1)
+void FUN_007f51b0_shell::FUN_007f51b0(FUN_005df510_shell* a1)
 {
     NiPoint3 direction = ((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData()->GetWorldTranslation();
 
@@ -7225,7 +7225,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
 }
 // For each entry in apTargets, creates a tile via FUN_00a1ddb0 and sets it to a value chosen by the action's type.
 // @fnv 0x007f6e50
-void __thiscall FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
+void FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
 {
     void* pTileBuffer = ((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(((void *)(::FUN_00a09030(0x420)))), (const char *)(void *)(&UNK_01077eac))));
     BSSimpleList* pEntry = (BSSimpleList*)((char*)*((::ItemListContainer **)(new ((void *)(apTargets)) ::Vec3())) + 8);
@@ -8329,7 +8329,7 @@ struct ActorView7
 };
 struct FUN_007f3bf0_cls
 {
-    int __thiscall FUN_007f3bf0(int a1);
+    int FUN_007f3bf0(int a1);
 };
 // @fnv 0x007ec810
 void VATSMenuX::Update()

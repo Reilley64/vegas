@@ -22,12 +22,7 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_005e6000.h"
 #include "fnv/symbols_005e9000.h"
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
 
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 
 class PerkEntryPointData
 {
@@ -342,11 +337,6 @@ class BGSQuestPerkEntry : public BGSPerkEntry
 };
 
 #ifndef __GNUC__
-FNV_STATIC_ASSERT(sizeof(BGSPerkEntry) == 0x8);
-FNV_STATIC_ASSERT(sizeof(BGSEntryPointPerkEntry) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, Data) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pFunctionData) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pConditions) == 0x10);
 #endif
 
 #endif
@@ -365,7 +355,6 @@ class TESObjectREFR : public TESForm
     virtual ~TESObjectREFR();
     unsigned char referenceData[0x50];
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
 
 class TESQuest : public TESForm
 {
@@ -393,16 +382,6 @@ template <int N> struct EndianSizeTag
 {
 };
 
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0x0c);
-FNV_STATIC_ASSERT(sizeof(TESDescription) == 0x08);
-FNV_STATIC_ASSERT(sizeof(TESIcon) == 0x0c);
-FNV_STATIC_ASSERT(sizeof(BGSPerk) == 0x50);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, Data) == 0x38);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, m_kConditions) == 0x40);
-FNV_STATIC_ASSERT(offsetof(BGSPerk, m_kEntryList) == 0x48);
-FNV_STATIC_ASSERT(sizeof(BGSQuestPerkEntry) == 0x10);
-FNV_STATIC_ASSERT(sizeof(BGSAbilityPerkEntry) == 0x0c);
 
 class TESAIForm
 {

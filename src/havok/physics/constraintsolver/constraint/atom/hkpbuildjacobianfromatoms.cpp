@@ -1996,7 +1996,7 @@ extern "C"
     __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
     int _mm_movemask_ps(__m128 a);
 }
-extern long(__stdcall* DAT_00fdf1ec)(long volatile*, long);
+extern long(* DAT_00fdf1ec)(long volatile*, long);
 union __declspec(align(16)) V4
 {
     __m128& simd()
@@ -3262,7 +3262,7 @@ void __cdecl ComputeJacobian(const hkVec4* axis, const hkVec4* pivot, const Quer
 void __cdecl FUN_00dd03c0(MotorOutput* mout, const QueryIn* in, char* schemas, QueryOut* out);
 void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* queryIn, QueryOut* out);
 
-extern "C" int __stdcall bs_index(int handle, int flag);
+extern "C" int bs_index(int handle, int flag);
 static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const QueryIn* in, const hkTrans* baseA,
                                               const hkTrans* baseB, QueryOut* out)
 {

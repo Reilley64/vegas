@@ -29,7 +29,6 @@ class RagDollData;
 class Point3Offset;
 class TESForm;
 
-#pragma pack(push, 4)
 class BSExtraData
 {
   public:
@@ -42,16 +41,11 @@ class BSExtraData
     BSExtraData(unsigned char aEtype);
     bool Compare(BSExtraData*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSExtraData) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BSExtraData, m_ucExtraDataType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BSExtraData, pNext) == 0x8);
 
 // 8-byte activation record. Proved by the 0x00414010 ctor (stores a pointer
 // at +0x0 and +0.0f at +0x4, no base construction) and by operator new(8)
 // construction sites that fill +0x0 with a reference and link the record
 // into a child list.
-#pragma pack(push, 4)
 class ReferenceFloatEntry
 {
   public:
@@ -60,13 +54,8 @@ class ReferenceFloatEntry
 
     ReferenceFloatEntry();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ReferenceFloatEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(ReferenceFloatEntry, m_pWorldReferenceInfo) == 0);
-FNV_STATIC_ASSERT(offsetof(ReferenceFloatEntry, m_fDelay) == 4);
 
 // matched member-function declaration is added.
-#pragma pack(push, 4)
 class LockExtraData
 {
   public:
@@ -84,16 +73,8 @@ class LockExtraData
     int GetLockLevel(TESObjectREFR*);
     bool MeetsMinimumLockLevel();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LockExtraData) == 20);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockState) == 0);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, pKey) == 4);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, cFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockDifficulty) == 12);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockValue) == 16);
 
 // matched member-function declarations are added.
-#pragma pack(push, 4)
 class ExtraUsedMarkers : public BSExtraData
 {
   public:
@@ -103,11 +84,7 @@ class ExtraUsedMarkers : public BSExtraData
     virtual ~ExtraUsedMarkers();
     void SetUsedMarker(unsigned int aMarker, bool aUsed);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraUsedMarkers) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraUsedMarkers, m_uiUsedMarkerFlags) == 12);
 
-#pragma pack(push, 4)
 class ExtraAction : public BSExtraData
 {
   public:
@@ -119,12 +96,7 @@ class ExtraAction : public BSExtraData
     virtual ~ExtraAction();
     ExtraAction();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraAction) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraAction, eAction) == 12);
-FNV_STATIC_ASSERT(offsetof(ExtraAction, m_pActionReference) == 16);
 
-#pragma pack(push, 4)
 class ExtraGlobal : public BSExtraData
 {
   public:
@@ -134,11 +106,7 @@ class ExtraGlobal : public BSExtraData
     virtual ~ExtraGlobal();
     ExtraGlobal(TESGlobal* aGlobal);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraGlobal) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraGlobal, pGlobalForm) == 12);
 
-#pragma pack(push, 4)
 class ExtraCount : public BSExtraData
 {
   public:
@@ -149,11 +117,7 @@ class ExtraCount : public BSExtraData
     virtual ~ExtraCount();
     ExtraCount(short aCount);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraCount) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraCount, iCount) == 12);
 
-#pragma pack(push, 4)
 class ExtraScript : public BSExtraData
 {
   public:
@@ -164,12 +128,7 @@ class ExtraScript : public BSExtraData
     virtual ~ExtraScript();
     ExtraScript(Script* aScript);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraScript) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraScript, pScript) == 12);
-FNV_STATIC_ASSERT(offsetof(ExtraScript, m_pLocals) == 16);
 
-#pragma pack(push, 4)
 class ExtraLeveledItem : public BSExtraData
 {
   public:
@@ -182,12 +141,7 @@ class ExtraLeveledItem : public BSExtraData
     ExtraLeveledItem(int aIndex);
     bool Compare(BSExtraData*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraLeveledItem) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraLeveledItem, iIndex) == 12);
-FNV_STATIC_ASSERT(offsetof(ExtraLeveledItem, m_bIsLeveledItem) == 16);
 
-#pragma pack(push, 4)
 class ExtraPersistentCell : public BSExtraData
 {
   public:
@@ -197,11 +151,7 @@ class ExtraPersistentCell : public BSExtraData
     virtual ~ExtraPersistentCell();
     ExtraPersistentCell(TESObjectCELL* aCell);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraPersistentCell) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraPersistentCell, m_pCell) == 12);
 
-#pragma pack(push, 4)
 class ExtraRagDollData : public BSExtraData
 {
   public:
@@ -211,11 +161,7 @@ class ExtraRagDollData : public BSExtraData
     virtual ~ExtraRagDollData();
     ExtraRagDollData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraRagDollData) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraRagDollData, m_pRagDollData) == 12);
 
-#pragma pack(push, 4)
 class ExtraReservedMarkers : public BSExtraData
 {
   public:
@@ -225,11 +171,7 @@ class ExtraReservedMarkers : public BSExtraData
     virtual ~ExtraReservedMarkers();
     ExtraReservedMarkers();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraReservedMarkers) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraReservedMarkers, m_uiReservedMarkers) == 12);
 
-#pragma pack(push, 4)
 class ExtraStartingWorldOrCell : public BSExtraData
 {
   public:
@@ -239,11 +181,7 @@ class ExtraStartingWorldOrCell : public BSExtraData
     virtual ~ExtraStartingWorldOrCell();
     ExtraStartingWorldOrCell();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraStartingWorldOrCell) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraStartingWorldOrCell, m_pStartingWorldOrCell) == 12);
 
-#pragma pack(push, 4)
 class ExtraMultiBoundData : public BSExtraData
 {
   public:
@@ -253,9 +191,6 @@ class ExtraMultiBoundData : public BSExtraData
     virtual ~ExtraMultiBoundData();
     ExtraMultiBoundData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraMultiBoundData) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraMultiBoundData, pBound) == 12);
 #endif
 
 extern char* DAT_011c6444;

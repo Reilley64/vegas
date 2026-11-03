@@ -128,9 +128,9 @@ struct TargetInterface
     int unused90;
     int origin94;
 };
-typedef bool(__thiscall* TargetAvailable)(TargetInterface*);
-typedef int(__thiscall* TargetActive)(TargetInterface*);
-typedef bool(__thiscall* TargetDisabled)(TargetInterface*, int);
+typedef bool(* TargetAvailable)(TargetInterface*);
+typedef int(* TargetActive)(TargetInterface*);
+typedef bool(* TargetDisabled)(TargetInterface*, int);
 struct RangeManager
 {
 };

@@ -714,11 +714,11 @@ struct PoseVelocity_MyVector4
 struct PoseVelocity_MyQuaternion
 {
     PoseVelocity_MyVector4 m_vec;
-    inline void __thiscall FUN_00c66320(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
-    inline void __thiscall FUN_005611c0();
-    inline void __thiscall FUN_00c74ac0(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
-    inline void __thiscall FUN_00c74c90(PoseVelocity_MyVector4& axis);
-    inline float __thiscall GetAngle();
+    inline void FUN_00c66320(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
+    inline void FUN_005611c0();
+    inline void FUN_00c74ac0(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
+    inline void FUN_00c74c90(PoseVelocity_MyVector4& axis);
+    inline float GetAngle();
 
     __forceinline bool hasValidAxis() const
     {

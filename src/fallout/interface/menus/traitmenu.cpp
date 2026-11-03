@@ -156,7 +156,7 @@ extern int DAT_011daf74;
 struct Tile
 {
     void Set(int, int);
-    void __thiscall UpdateEffectChanges(Tile*);
+    void UpdateEffectChanges(Tile*);
 public:
     static float GetInterfaceScale();
 };

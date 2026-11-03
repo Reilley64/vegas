@@ -14,14 +14,14 @@ struct FUN_00dd74b0_cls
 };
 // Calls FUN_00dd74b0 with the four arguments and returns this.
 // @fnv 0x00dd7650
-void* __thiscall FUN_00dd74b0_cls::FUN_00dd7650(int a, int b, int c, int d)
+void* FUN_00dd74b0_cls::FUN_00dd7650(int a, int b, int c, int d)
 {
     reinterpret_cast<::fnv_00dd74b0::S00dd74b0_cls *>(this)->FUN_00dd74b0(a, b, c, d);
     return this;
 }
 
 // @fnv 0x00dd8a80
-void* __stdcall FUN_00dd8a80(void* p, void* apUnused)
+void* FUN_00dd8a80(void* p, void* apUnused)
 {
     return reinterpret_cast<char*>(reinterpret_cast<size_t*>(p)[-3] & 0xfffffffc) - 0x10;
 }
@@ -47,7 +47,7 @@ void hkLargeBlockAllocator::FUN_00dd91f0()
 
 // Returns the value at a[-3] with the low two bits cleared.
 // @fnv 0x00dd8a90
-int __stdcall FUN_00dd8a90(int* pValues, int iUnused)
+int FUN_00dd8a90(int* pValues, int iUnused)
 {
     return (pValues[-3] & 0xfffffffc);
 }
@@ -191,7 +191,7 @@ struct TreeChunk
 };
 
 // @fnv 0x00dd8310
-unsigned int __stdcall GetMaxChunkSize(TreeChunk* apTreeChunk, unsigned int maxSize)
+unsigned int GetMaxChunkSize(TreeChunk* apTreeChunk, unsigned int maxSize)
 {
     while (apTreeChunk)
     {

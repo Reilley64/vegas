@@ -7,14 +7,14 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkClassEnum_decl_hkclassenum.h"
 extern "C" int __cdecl FUN_00d86980();
-int __stdcall ReadSignedValueBySize(const void* p);
+int ReadSignedValueBySize(const void* p);
 struct hkCustomAttributes
 {
-    void* __thiscall getAttribute(void* arg);
+    void* getAttribute(void* arg);
 };
 struct FUN_00db76a0_Class
 {
-    void* __thiscall GetAttribute(void* arg);
+    void* GetAttribute(void* arg);
 };
 struct FUN_00db7860
 {

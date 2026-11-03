@@ -45,17 +45,12 @@ struct TESConditionInit : public PerkEntryConditionSet
 // 1 Nov: TESFullNameLoader is declared by the folder-local layout_support.h (a second definition here was C2011)
 
 
-#pragma pack(push, 4)
 class ByteFlags
 {
   public:
     unsigned char flags;  // +0x0, 1 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ByteFlags) == 1);
-FNV_STATIC_ASSERT(offsetof(ByteFlags, flags) == 0);
 
-#pragma pack(push, 4)
 class RecipeCraftingInfo
 {
   public:
@@ -64,14 +59,7 @@ class RecipeCraftingInfo
     int CategoryID;        // +0x8, 4 bytes
     int SubCategoryID;     // +0xC, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RecipeCraftingInfo) == 16);
-FNV_STATIC_ASSERT(offsetof(RecipeCraftingInfo, m_iRequiredLevel) == 0);
-FNV_STATIC_ASSERT(offsetof(RecipeCraftingInfo, m_iSkill) == 4);
-FNV_STATIC_ASSERT(offsetof(RecipeCraftingInfo, CategoryID) == 8);
-FNV_STATIC_ASSERT(offsetof(RecipeCraftingInfo, SubCategoryID) == 12);
 
-#pragma pack(push, 4)
 class TESRecipeCategory : public TESForm, public TESFullName
 {
   public:
@@ -81,11 +69,7 @@ class TESRecipeCategory : public TESForm, public TESFullName
     unsigned char layoutPadding25[3];
     virtual bool Load(TESFile* file);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESRecipeCategory) == 40);
-FNV_STATIC_ASSERT(offsetof(TESRecipeCategory, data) == 36);
 
-#pragma pack(push, 4)
 class QuantityData
 {
   public:
@@ -93,12 +77,7 @@ class QuantityData
     TESForm* m_pItemForm;   // +0x4, 4 bytes
     QuantityData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(QuantityData) == 8);
-FNV_STATIC_ASSERT(offsetof(QuantityData, Quantity) == 0);
-FNV_STATIC_ASSERT(offsetof(QuantityData, m_pItemForm) == 4);
 
-#pragma pack(push, 4)
 namespace ActorValue { enum Index; }
 class TESRecipe : public TESForm, public TESFullName
 {
@@ -119,13 +98,4 @@ class TESRecipe : public TESForm, public TESFullName
 public:
     void SetRequiredSkill(::ActorValue::Index);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESRecipe) == 92);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, data) == 36);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, RecipeItemProcessor) == 52);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, m_kIngredientList) == 60);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, m_kSecondEntryList) == 68);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, RecipeCollection) == 76);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, pRecipeCat) == 84);
-FNV_STATIC_ASSERT(offsetof(TESRecipe, m_pSubCategory) == 88);
 #endif

@@ -1,5 +1,6 @@
 // bsshader/bsshaderpplightingproperty.cpp: BSShaderPPLightingProperty, CopyProperty, Target, OwnerX and more (34 functions)
 
+#include <windows.h>
 #include "fnv/decl/BA97B0Owner.h"
 #include "fnv/decl/BBDF6C0Shader.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -60,7 +61,7 @@ void BSShaderPPLightingProperty::EnsureNormalMap()
 }
 
 // @fnv 0x00b67260
-int __fastcall FUN_00b67260(char* pThis, int, int idx1, int idx2)
+int FUN_00b67260(char* pThis, int, int idx1, int idx2)
 {
     return ((int**)(pThis + 0xAC))[idx1][idx2];
 }
@@ -82,11 +83,11 @@ struct SelfStub
 {
 };
 // @fnv 0x00b67610
-NewObj* __fastcall FUN_00b67610(SelfStub* self, int edx, int arg)
+NewObj* FUN_00b67610(SelfStub* self, int edx, int arg)
 {
     NewObj* pObj = new NewObj();
     reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(pObj), (void *)(arg));
-    (*(void(__thiscall***)(SelfStub*, NewObj*))self)[0x34](self, pObj);
+    (*(void(***)(SelfStub*, NewObj*))self)[0x34](self, pObj);
     return pObj;
 }
 
@@ -97,33 +98,31 @@ char const* const* __cdecl FUN_00b671b0()
 }
 
 // @fnv 0x00b671c0
-int __fastcall FUN_00b671c0(char* self, int)
+int FUN_00b671c0(char* self, int)
 {
     return *reinterpret_cast<int*>(self + 0xd8);
 }
 
 // @fnv 0x00b671d0
-void __fastcall FUN_00b671d0(char* self, int, int v)
+void FUN_00b671d0(char* self, int, int v)
 {
     *reinterpret_cast<int*>(self + 0xd8) = v;
 }
 
 // @fnv 0x00b671e0
-unsigned short __fastcall FUN_00b671e0(char* self, int)
+unsigned short FUN_00b671e0(char* self, int)
 {
     return *reinterpret_cast<unsigned short*>(self + 0xa8);
 }
 
 // @fnv 0x00b671f0
-unsigned short __fastcall FUN_00b671f0(char* self, int)
+unsigned short FUN_00b671f0(char* self, int)
 {
     return *reinterpret_cast<unsigned short*>(self + 0xc8);
 }
 
 extern "C"
 {
-    __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-    __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 }
 
 struct RefObject_00b67200
@@ -167,14 +166,14 @@ struct Container_00b67200
 
 // Assigns pObject into the smart-pointer array slot at [index1][index2], updating the reference count via SmartPtr assignment.
 // @fnv 0x00b67200
-void __fastcall SetArrayElement(Container_00b67200* this_ptr, int unused_edx, unsigned int index1, unsigned int index2,
+void SetArrayElement(Container_00b67200* this_ptr, int unused_edx, unsigned int index1, unsigned int index2,
                                 RefObject_00b67200* pObject)
 {
     this_ptr->m_apArray[index1][index2] = pObject;
 }
 
 // @fnv 0x00b67280
-int __fastcall FUN_00b67280(char* self, int)
+int FUN_00b67280(char* self, int)
 {
     return **reinterpret_cast<int**>(self + 0xac);
 }
@@ -191,11 +190,11 @@ struct ContainerClass
     ManagedObj** m_ppData;
 };
 
-extern int(__stdcall* DAT_00fdf1c4)(void*);
-extern void(__stdcall* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
+extern void(* DAT_00fdf1c0)(void*);
 
 // @fnv 0x00b67290
-void __fastcall SetManagedObjectAt(ContainerClass* pThis, int, int index, ManagedObj* pNew)
+void SetManagedObjectAt(ContainerClass* pThis, int, int index, ManagedObj* pNew)
 {
     ManagedObj** pSlot = &pThis->m_ppData[index];
     ManagedObj* pOld = *pSlot;
@@ -215,11 +214,11 @@ void __fastcall SetManagedObjectAt(ContainerClass* pThis, int, int index, Manage
 }
 
 namespace fnv_00b672e0 {
-extern int(__stdcall* DAT_00fdf1c4)(int*);
-extern void(__stdcall* DAT_00fdf1c0)(int*);
+extern int(* DAT_00fdf1c4)(int*);
+extern void(* DAT_00fdf1c0)(int*);
 
 // @fnv 0x00b672e0
-void __fastcall ReplaceArrayElement(void* pThis, int, int index, void* value)
+void ReplaceArrayElement(void* pThis, int, int index, void* value)
 {
     void** arr = *(void***)((char*)pThis + 0xb0);
     void** slot = &arr[index];
@@ -230,7 +229,7 @@ void __fastcall ReplaceArrayElement(void* pThis, int, int index, void* value)
         {
             if (DAT_00fdf1c4((int*)((char*)pCurrent + 4)) == 0)
             {
-                typedef void(__thiscall * DtorFn)(void*);
+                typedef void(* DtorFn)(void*);
                 ((DtorFn*)*(void**)pCurrent)[1](pCurrent);
             }
         }
@@ -249,12 +248,12 @@ struct RefObj
     unsigned int m_uiRef;
 };
 
-extern int(__stdcall* DAT_00fdf1c4)(unsigned int*);
-extern int(__stdcall* DAT_00fdf1c0)(unsigned int*);
+extern int(* DAT_00fdf1c4)(unsigned int*);
+extern int(* DAT_00fdf1c0)(unsigned int*);
 
 // Replaces the RefObj pointer at index idx in the array at self+0xb4, releasing the old object and retaining the new one.
 // @fnv 0x00b67330
-void __fastcall SetRefAt(void* self, int, int idx, RefObj* pValue)
+void SetRefAt(void* self, int, int idx, RefObj* pValue)
 {
     RefObj** arr = *(RefObj***)((char*)self + 0xb4);
     RefObj** slot = arr + idx;
@@ -275,7 +274,7 @@ void __fastcall SetRefAt(void* self, int, int idx, RefObj* pValue)
 
 // Calls FUN_00b66850 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0 with self and 0x14, and returns self.
 // @fnv 0x00b67580
-void* __fastcall FUN_00b67580(void* self, int, unsigned char flags)
+void* FUN_00b67580(void* self, int, unsigned char flags)
 {
     reinterpret_cast<::FUN_00b66850_class *>((self))->FUN_00b66850();
     if (flags & 1)
@@ -285,7 +284,7 @@ void* __fastcall FUN_00b67580(void* self, int, unsigned char flags)
 
 // Calls FUN_00b669f0 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0(self, 0x74), and returns self.
 // @fnv 0x00b675a0
-void* __fastcall FUN_00b675a0(void* self, int, unsigned char flags)
+void* FUN_00b675a0(void* self, int, unsigned char flags)
 {
     reinterpret_cast<struct ::FUN_00b669f0 *>((self))->FUN_00b669f0::~FUN_00b669f0();
     if (flags & 1)
@@ -342,7 +341,7 @@ struct TargetClass_00b683e0
 
 // Selects a renderer pointer based on particle shader settings, calls V40 with it, and returns the low 16 bits of the resulting local value.
 // @fnv 0x00b683e0
-unsigned short __fastcall FUN_00b683e0(TargetClass_00b683e0* this_ptr, int unused_edx, void* arg1)
+unsigned short FUN_00b683e0(TargetClass_00b683e0* this_ptr, int unused_edx, void* arg1)
 {
     unsigned int uiResult = 0;
     void* ebx;
@@ -355,10 +354,10 @@ unsigned short __fastcall FUN_00b683e0(TargetClass_00b683e0* this_ptr, int unuse
     return (unsigned short)uiResult;
 }
 
-void __fastcall FUN_00b67380(void*);
+void FUN_00b67380(void*);
 // Calls FUN_00b67380 on self, then if bit 0 of flags is set calls __Dummy_00b6fef0(self, 0x104), and returns self.
 // @fnv 0x00b68fb0
-void* __fastcall FUN_00b68fb0(void* self, int, unsigned char flags)
+void* FUN_00b68fb0(void* self, int, unsigned char flags)
 {
     FUN_00b67380(self);
     if (flags & 1)
@@ -367,8 +366,6 @@ void* __fastcall FUN_00b68fb0(void* self, int, unsigned char flags)
 }
 
 namespace fnv_00b675c0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct RefObj
 {
     virtual void u0() = 0;
@@ -2116,7 +2113,6 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct MemoryManagerAllocHelper
 {
@@ -2274,8 +2270,6 @@ FUN_00b66f50::FUN_00b66f50()
     valueec = 1.0f;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct Pool
 {
 };
@@ -2407,8 +2401,6 @@ void OwnerX::GrowArrays()
     m_usSize = 10;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObj
 {
     virtual void Unk00();

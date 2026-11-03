@@ -36,7 +36,7 @@ extern "C" int DAT_011a558c;
 float ScaleCharToFloat(char arg);
 struct FUN_009a9f00_shell
 {
-    void __thiscall SetFieldE0(float value);
+    void SetFieldE0(float value);
 };
 struct BGSProjectile
 {
@@ -58,18 +58,18 @@ public:
 };
 struct PtOp
 {
-    NiPoint3 __thiscall operator-(const NiPoint3& o) const;
+    NiPoint3 operator-(const NiPoint3& o) const;
 };
 struct Pt
 {
 };
 struct NiPoint3Ex
 {
-    NiPoint3 __thiscall operator+(const NiPoint3& o) const;
+    NiPoint3 operator+(const NiPoint3& o) const;
 };
 struct NiPoint3_helper
 {
-    NiPoint3 __thiscall operator*(float f) const;
+    NiPoint3 operator*(float f) const;
 };
 
 struct bhkFilter
@@ -77,7 +77,7 @@ struct bhkFilter
 };
 struct FUN_00931ed0_shell
 {
-    bhkFilter* __thiscall FUN_00931ed0(void* p);
+    bhkFilter* FUN_00931ed0(void* p);
 };
 struct TESObjectCELL;
 struct TESObjectREFR
@@ -91,15 +91,15 @@ public:
 };
 struct FUN_004a39f0_shell
 {
-    void __thiscall FUN_004a39f0(int a);
+    void FUN_004a39f0(int a);
 };
 struct FUN_0059ce80_shell
 {
-    void __thiscall FUN_0059ce80(unsigned int a);
+    void FUN_0059ce80(unsigned int a);
 };
 struct FUN_00966980_shell
 {
-    float __thiscall FUN_00966980();
+    float FUN_00966980();
 };
 struct PathingRequest
 {
@@ -118,23 +118,23 @@ struct SETTING_VALUE
 };
 struct GameSettingCollection
 {
-    SETTING_VALUE* __thiscall Bool();
+    SETTING_VALUE* Bool();
 };
 struct hkpAllRayHitCollector;
 struct FUN_004a3f70_shell
 {
-    void __thiscall FUN_004a3f70(int value);
+    void FUN_004a3f70(int value);
 };
 struct FUN_004a3fb0_shell
 {
-    void __thiscall FUN_004a3fb0(hkpAllRayHitCollector* p);
+    void FUN_004a3fb0(hkpAllRayHitCollector* p);
 };
 struct FUN_004a3da0_shell
 {
 };
 struct FUN_004a3eb0_shell
 {
-    void __thiscall FUN_004a3eb0(void* p);
+    void FUN_004a3eb0(void* p);
 };
 
 class FUN_004a3a70

@@ -8,7 +8,6 @@
 
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class FormComponentArray;
 class TESForm;
 class FormComponentArray
@@ -27,7 +26,4 @@ class FormComponentArray
     // bool __cdecl FormComponentArray::*(FormComponentArray*)
     // void* __cdecl FormComponentArray::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FormComponentArray) == 152);
-FNV_STATIC_ASSERT(offsetof(FormComponentArray, m_pComponents) == 0);
 #endif

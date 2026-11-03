@@ -16,7 +16,6 @@ class BeamStage;
 class NiD3DVertexShader;
 class NiD3DRenderStateGroup__NiD3DRSEntry;
 
-#pragma pack(push, 4)
 
 // A group of D3D render states owned either by a pass or by the renderer pool.
 class D3DRenderStateGroup
@@ -68,13 +67,6 @@ class NiD3DPass
     // destination blend states from it.
     void SetAlphaBlendMode(unsigned int uiSrcBlend, unsigned int uiDestBlend, bool bSrcAlpha);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(D3DRenderStateGroup) == 20);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_bHasBeenApplied) == 0);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_uiRenderStateEntryCount) == 4);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_pkRenderStateEntries) == 8);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_uiFreeEntryCount) == 12);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_pkFreeEntries) == 16);
 // @fnv 0x00b80040
 void NiD3DPass::SetAlphaBlendMode(unsigned int uiSrcBlend, unsigned int uiDestBlend, bool bSrcAlpha)
 {
@@ -85,27 +77,5 @@ void NiD3DPass::SetAlphaBlendMode(unsigned int uiSrcBlend, unsigned int uiDestBl
         m_pRenderStateGroup = D3DRenderStateGroup::GetCurrentRenderStateGroup();
     reinterpret_cast<::StateGroup *>((m_pRenderStateGroup))->SetNodeValue(0x14, uiDestBlend, true);
 }
-FNV_STATIC_ASSERT(sizeof(NiD3DPass) == 104);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_szName) == 4);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_uiStageMask) == 20);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_uiNumberOfStages) == 24);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_uiStageOffset) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_kStageArray) == 32);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pRenderStateGroup) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spFirstShaderConstantMap) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pcPixelShaderFile) == 56);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pcPixelShaderFunction) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pcPixelShaderProfile) == 64);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spPixelShaderObject) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spSecondShaderConstantMap) == 72);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_bUsesSecondShaderConstantMap) == 76);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pcVertexShaderFile) == 80);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pcVertexShaderFunction) == 84);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_pcVertexShaderProfile) == 88);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_spVertexShaderObject) == 92);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_bIsInitialized) == 96);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_bHasBeenApplied) == 97);
-FNV_STATIC_ASSERT(offsetof(NiD3DPass, m_uiRefCount) == 100);
 
 #endif

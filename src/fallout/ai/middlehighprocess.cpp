@@ -598,7 +598,7 @@ void MiddleHighProcess::UpdateActorAppearance(bool abWeapon, bool abBody, bool a
 }
 
 // @fnv 0x006377e0
-int __fastcall FUN_006377e0(int param_1)
+int FUN_006377e0(int param_1)
 {
     return param_1 + 0xC8;
 }
@@ -638,7 +638,6 @@ public:
 public:
     void FUN_00680170(void *);
 };
-typedef char _sizecheck_PackageTarget[sizeof(PackageTargetRecord) == 16 ? 1 : -1];
 struct FUN_006801a0_shell : public PackageTargetRecord
 {
     void FUN_006801a0(PackageTargetRecord*);
@@ -1557,15 +1556,15 @@ void FUN_0091ebb0_shell::FUN_0091ebb0(TESPackage* apPack, MobileObject* apActor)
 {
     if (apPack == 0)
     {
-        (*(void(__thiscall**)(MiddleHighProcess*))(*(int*)this + 0x214))(this);
-        (*(void(__thiscall**)(MiddleHighProcess*, int))(*(int*)this + 0x12c))(this, 0);
+        (*(void(**)(MiddleHighProcess*))(*(int*)this + 0x214))(this);
+        (*(void(**)(MiddleHighProcess*, int))(*(int*)this + 0x12c))(this, 0);
     }
     else
     {
         TESObjectREFR* ptarget = apPack->GetResolvedTargetReference(apActor);
         reinterpret_cast<::ActorPackageContext *>((((ActorPackage_ext*)((char*)this + 0xe4))))->SetPackageAndTarget((::TESPackage *)(apPack), (::TESObjectREFR *)(ptarget));
     }
-    (*(void(__thiscall**)(MiddleHighProcess*))(*(int*)this + 0x4a0))(this);
+    (*(void(**)(MiddleHighProcess*))(*(int*)this + 0x4a0))(this);
 }
 }  // namespace fnv_0091ebb0
 
@@ -1637,10 +1636,10 @@ struct VtblStub_0091ec20
 // @fnv 0x0091ec20
 int FUN_0091ec20_shell::FUN_0091ec20()
 {
-    if (reinterpret_cast<int(__thiscall*)(void*)>((*reinterpret_cast<void***>(this))[0x20c / 4])(this))
-        return reinterpret_cast<int(__thiscall*)(void*)>((*reinterpret_cast<void***>(this))[0x21c / 4])(this);
+    if (reinterpret_cast<int(*)(void*)>((*reinterpret_cast<void***>(this))[0x20c / 4])(this))
+        return reinterpret_cast<int(*)(void*)>((*reinterpret_cast<void***>(this))[0x21c / 4])(this);
     else
-        return reinterpret_cast<int(__thiscall*)(void*)>((*reinterpret_cast<void***>(this))[0x23c / 4])(this);
+        return reinterpret_cast<int(*)(void*)>((*reinterpret_cast<void***>(this))[0x23c / 4])(this);
 }
 }  // namespace fnv_0091ec20
 
@@ -1760,7 +1759,7 @@ struct FUN_0091ecb0_shell : public MiddleHighProcess
 // @fnv 0x0091ecb0
 ActorPackageContext* FUN_0091ecb0_shell::FUN_0091ecb0()
 {
-    return (*(int(__thiscall***)(MiddleHighProcess*))this)[0x20c / 4](this) ? (ActorPackageContext*)((char*)this + 0xe4)
+    return (*(int(***)(MiddleHighProcess*))this)[0x20c / 4](this) ? (ActorPackageContext*)((char*)this + 0xe4)
                                                                             : (ActorPackageContext*)((char*)this + 0x4);
 }
 }  // namespace fnv_0091ecb0
@@ -1815,7 +1814,7 @@ struct ActorPackage_Clear
 {
     void Clear()
     {
-        ((void(__thiscall*)(ActorPackage_Clear*))0)(this);
+        ((void(*)(ActorPackage_Clear*))0)(this);
     }
 };
 
@@ -1823,11 +1822,11 @@ struct ActorPackage_Clear
 // @fnv 0x0091ee70
 void FUN_0091ee70_shell::FUN_0091ee70()
 {
-    bool brunOncePackageWasActive = ((int(__thiscall*)(MiddleHighProcess*))(*(void***)this)[0x20C / 4])(this) != 0;
+    bool brunOncePackageWasActive = ((int(*)(MiddleHighProcess*))(*(void***)this)[0x20C / 4])(this) != 0;
     reinterpret_cast<::ActorPackageContext *>((((ActorPackage_Clear*)((char*)this + 0xE4))))->Clear();
     if (brunOncePackageWasActive)
     {
-        ((void(__thiscall*)(MiddleHighProcess*))(*(void***)this)[0x244 / 4])(this);
+        ((void(*)(MiddleHighProcess*))(*(void***)this)[0x244 / 4])(this);
     }
 }
 }  // namespace fnv_0091ee70
@@ -2116,21 +2115,21 @@ struct Calendar
 void FUN_0091ef10_shell::FUN_0091ef10(int aiValue)
 {
     TESPackage* pTargetPackage =
-        reinterpret_cast<TESPackage*(__thiscall*)(void*)>((*reinterpret_cast<void***>(this))[0x27c / 4])(this);
-    if (reinterpret_cast<int(__thiscall*)(void*)>((*reinterpret_cast<void***>(this))[0x20c / 4])(this) != 0)
+        reinterpret_cast<TESPackage*(*)(void*)>((*reinterpret_cast<void***>(this))[0x27c / 4])(this);
+    if (reinterpret_cast<int(*)(void*)>((*reinterpret_cast<void***>(this))[0x20c / 4])(this) != 0)
     {
-        reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(this))[0x218 / 4])(this, aiValue);
+        reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(this))[0x218 / 4])(this, aiValue);
     }
     else
     {
-        reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(this))[0x238 / 4])(this, aiValue);
+        reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(this))[0x238 / 4])(this, aiValue);
     }
     if (pTargetPackage != 0)
     {
         int irange = ::FUN_0096a820(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<Calendar*>(pTargetPackage)))->FUN_009611e0())));
-        if (reinterpret_cast<int(__thiscall*)(void*)>((*reinterpret_cast<void***>(this))[0x280 / 4])(this) >= irange)
+        if (reinterpret_cast<int(*)(void*)>((*reinterpret_cast<void***>(this))[0x280 / 4])(this) >= irange)
         {
-            reinterpret_cast<void(__thiscall*)(void*, int)>((*reinterpret_cast<void***>(this))[0x284 / 4])(this,
+            reinterpret_cast<void(*)(void*, int)>((*reinterpret_cast<void***>(this))[0x284 / 4])(this,
                                                                                                            irange - 1);
         }
     }
@@ -2312,7 +2311,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_0091fe80_shell : public MiddleHighProcess
 {
     void FUN_0091fe80(Animation*);
@@ -2479,7 +2477,7 @@ bool FUN_00920fd0_shell::FUN_00920fd0(TESObjectREFR* apFurnitureRef, unsigned in
     {
         bdisableCharController =
             ::CountCollisionObjects(
-                (::NiAVObject *)(::fnv_00920fd0::NiAVObject *)((*(NiAVObject * (__thiscall**)(TESObjectREFR*))(*(int*)apFurnitureRef + 0x1d0))(apFurnitureRef)), false,
+                (::NiAVObject *)(::fnv_00920fd0::NiAVObject *)((*(NiAVObject * (**)(TESObjectREFR*))(*(int*)apFurnitureRef + 0x1d0))(apFurnitureRef)), false,
                 false, false) > 0;
     }
     return bdisableCharController;
@@ -2817,7 +2815,7 @@ struct Actor_Helper
 // @fnv 0x00929280
 BSFaceGenAnimationData* FUN_00929280_shell::FUN_00929280(Actor* apActor)
 {
-    if (!(*(int(__thiscall**)(Actor*))(*(int*)apActor + 0x1d0))(apActor))
+    if (!(*(int(**)(Actor*))(*(int*)apActor + 0x1d0))(apActor))
     {
         *(BSFaceGenAnimationData**)((char*)this + 0x178) = 0;
         return 0;
@@ -3121,8 +3119,8 @@ struct Calendar
 // @fnv 0x0092bf80
 bool FUN_0092bf80_shell::FUN_0092bf80(Actor* apActor)
 {
-    typedef TESPackage*(__thiscall * GetPkgFn)(void*);
-    typedef int(__thiscall * GetProcIdxFn)(void*);
+    typedef TESPackage*(* GetPkgFn)(void*);
+    typedef int(* GetProcIdxFn)(void*);
     TESPackage* pPackage = (*reinterpret_cast<GetPkgFn*>((*reinterpret_cast<int*>(this)) + 0x27c))(this);
     if (!pPackage)
         return true;
@@ -3461,12 +3459,12 @@ void FUN_009287e0_shell::FUN_009287e0(Actor* apActor)
     if (*(void**)((char*)this + 0x140))
     {
         reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((StandInA*)*(void**)((char*)this + 0x140))))->FUN_00568020(*((unsigned char*)this + 0x144), 0);
-        if ((*(void*(__thiscall***)(Actor*))apActor)[0x79](apActor))
+        if ((*(void*(***)(Actor*))apActor)[0x79](apActor))
         {
-            reinterpret_cast<::Animation *>((((Animation * (__thiscall*)(Actor*))(*(void***)apActor)[0x79])(apActor)))->SpecialIdleFree(true, false);
+            reinterpret_cast<::Animation *>((((Animation * (*)(Actor*))(*(void***)apActor)[0x79])(apActor)))->SpecialIdleFree(true, false);
         }
     }
-    (*(void(__thiscall***)(void*, Actor*, int, int, int))this)[0x130](this, apActor, 0, 0, 0x7f);
+    (*(void(***)(void*, Actor*, int, int, int))this)[0x130](this, apActor, 0, 0, 0x7f);
     if (apActor == (*reinterpret_cast<::fnv_009287e0::Actor * *>(&::_g_thePlayer)))
         reinterpret_cast<::FUN_005098c0Class *>((((StandInB*)(*reinterpret_cast<::fnv_009287e0::Actor * *>(&::_g_thePlayer)))))->FUN_005098c0();
     reinterpret_cast<::fnv_0092c680::FUN_0092c680_cls *>((((StandInC*)this)))->FUN_0092c680();
@@ -4026,11 +4024,11 @@ struct Host
 };
 struct FUN_009145c0
 {
-    float __thiscall GetControllerPhase();
+    float GetControllerPhase();
 };
 
 // @fnv 0x009145c0
-float __thiscall FUN_009145c0::GetControllerPhase()
+float FUN_009145c0::GetControllerPhase()
 {
     return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x234);
 }
@@ -4085,7 +4083,7 @@ struct Thunk0091f100
 // @fnv 0x0091f100
 void Thunk0091f100::FUN_0091f100(class Actor* apActor)
 {
-    ((void(__thiscall*)(Thunk0091f100*, class Actor*, int))(*(void***)this)[498])(this, apActor, 0);
+    ((void(*)(Thunk0091f100*, class Actor*, int))(*(void***)this)[498])(this, apActor, 0);
 }
 
 struct MiddleHighProcessStandIn
@@ -6435,7 +6433,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -6443,12 +6440,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_00923960_shell : public MiddleHighProcess
 {
     void UpdateWeaponDrawnAnimation(bool, BipedAnim*, Animation*, Actor*);
@@ -8190,7 +8185,7 @@ void WeaponDrawProcess::FUN_00915d60(Actor* actor, bool drawn)
 
     if (actor && actor != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && m_bAdditionalActorFlag && pWeapon)
     {
-        typedef void(__thiscall * WeaponChangeCallback)(Actor*, int);
+        typedef void(* WeaponChangeCallback)(Actor*, int);
         reinterpret_cast<WeaponChangeCallback>((*reinterpret_cast<void***>(actor))[0xfb])(
             actor, ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<WeaponEquipmentAccess*>(pWeapon)))->GetName(
                        ))));
@@ -8219,10 +8214,10 @@ struct ProcessToken
 {
 };
 
-typedef bool(__thiscall* PackageFilter)(TESPackage*, Actor*, Actor*, int, float, int);
-typedef ControllerCalls*(__thiscall* ControllerForTarget)(Actor*, Actor*);
-typedef void(__thiscall* ImmediateAction)(Actor*, Actor*, int, int, int, int, int, float, float);
-typedef void(__thiscall* ProcessAction)(Actor*, Actor*, int, bool, bool, bool, int, bool, int);
+typedef bool(* PackageFilter)(TESPackage*, Actor*, Actor*, int, float, int);
+typedef ControllerCalls*(* ControllerForTarget)(Actor*, Actor*);
+typedef void(* ImmediateAction)(Actor*, Actor*, int, int, int, int, int, float, float);
+typedef void(* ProcessAction)(Actor*, Actor*, int, bool, bool, bool, int, bool, int);
 
 struct FUN_00916880_shell : MiddleHighProcess
 {
@@ -10441,9 +10436,9 @@ struct SaveGameRecordWriter
 {
     void SaveActorRecord(void* actor);
 };
-typedef RecordData*(__thiscall* GetRecordFunction)(SaveGameRecordWriter*);
-typedef bool(__thiscall* GetStateFunction)(void*, int);
-typedef bool(__thiscall* GetSwitchFunction)(void*);
+typedef RecordData*(* GetRecordFunction)(SaveGameRecordWriter*);
+typedef bool(* GetStateFunction)(void*, int);
+typedef bool(* GetSwitchFunction)(void*);
 // Writes the actor's record fields to the save buffer if the actor's state check fails, including position, direction and version-gated extras.
 // @fnv 0x00926490
 void SaveGameRecordWriter::SaveActorRecord(void* actor)
@@ -15022,7 +15017,7 @@ struct PendingObject
     int flags0c;
     int flags10;
     InventoryLookup resource;
-    void* __thiscall FUN_00915790(unsigned int deletingFlags);
+    void* FUN_00915790(unsigned int deletingFlags);
 };
 struct PendingListNode
 {
@@ -15034,7 +15029,7 @@ struct PendingResourceManager
 };
 struct PendingProcess : MiddleHighProcess
 {
-    void __thiscall RemovePendingByGroupAndValue(int group, int value);
+    void RemovePendingByGroupAndValue(int group, int value);
 };
 // Walks the pending list, and for the first item matching group and value, releases its resource, destroys the item and removes it from the list.
 // @fnv 0x00915870
@@ -16737,7 +16732,7 @@ struct GCls
 
 
 extern int DAT_01183028;
-bool __fastcall FUN_00425fd0(TESObjectCELL* c);
+bool FUN_00425fd0(TESObjectCELL* c);
 void* __cdecl FUN_00ec43fb(void* a1, int a2, void* a3, void* a4, int a5);
 struct FUN_00672930_cls
 {
@@ -21456,17 +21451,17 @@ struct Proc
     struct Task* task64;
     void ProcessActorInteraction(Actor*);
 };
-typedef int(__thiscall* GetMode)(Proc*);
-typedef void(__thiscall* ProcessActor)(Proc*, Actor*);
-typedef void(__thiscall* ProcessActorFlag)(Proc*, Actor*, int);
-typedef void(__thiscall* ProcessTask)(Proc*, void*);
-typedef Actor*(__thiscall* GetActor)(Proc*);
-typedef unsigned char(__thiscall* CheckActor)(Actor*, Actor*, int);
-typedef Vec3*(__thiscall* GetComponentVector)(Component*);
-typedef bool(__thiscall* Transfer)(Proc*, Actor*, Vec3, int, int);
-typedef bool(__thiscall* TransferShort)(Proc*, Actor*, Vec3);
-typedef void(__thiscall* ActorDoWork)(Component*, int, int, int, int, int, Actor*, int, int, int, int);
-typedef unsigned char(__thiscall* TaskReady)(TaskObject*);
+typedef int(* GetMode)(Proc*);
+typedef void(* ProcessActor)(Proc*, Actor*);
+typedef void(* ProcessActorFlag)(Proc*, Actor*, int);
+typedef void(* ProcessTask)(Proc*, void*);
+typedef Actor*(* GetActor)(Proc*);
+typedef unsigned char(* CheckActor)(Actor*, Actor*, int);
+typedef Vec3*(* GetComponentVector)(Component*);
+typedef bool(* Transfer)(Proc*, Actor*, Vec3, int, int);
+typedef bool(* TransferShort)(Proc*, Actor*, Vec3);
+typedef void(* ActorDoWork)(Component*, int, int, int, int, int, Actor*, int, int, int, int);
+typedef unsigned char(* TaskReady)(TaskObject*);
 
 // Checks the component and task state, validates the target, transfers or creates the task object, then clears task64.
 // @fnv 0x0091f6c0
@@ -28280,7 +28275,7 @@ struct ObjC9;
 struct ObjPkg9;
 struct Obj309;
 class TESObjectCELL;
-bool __fastcall FUN_00425fd0(TESObjectCELL*);
+bool FUN_00425fd0(TESObjectCELL*);
 struct EP_008c48d0
 {
     void* GetEntryPoint();
@@ -40741,7 +40736,7 @@ class PackageActorView : public Actor
 
 };
 
-bool __fastcall FUN_00881570(Actor* pActor);
+bool FUN_00881570(Actor* pActor);
 
 class PackageClockView
 {

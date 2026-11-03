@@ -20,7 +20,6 @@ enum FILE_CACHE_STATE
     FILE_CACHING_FINISHED = 4
 };
 
-#pragma pack(push, 4)
 class BSFileCache
 {
   public:
@@ -57,6 +56,5 @@ class BSFileCache
 public:
     static ::BSFileCache &GetRandomGenerator();
 };
-#pragma pack(pop)
 
 #endif

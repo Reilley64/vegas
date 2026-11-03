@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinetransforminterpolator.cpp: NiBSplineTransformInterpolator, SplineWork, BSplineTransformLoad (15 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A57E90Controller.h"
 #include "fnv/decl/BA58200Sequence.h"
@@ -35,7 +36,7 @@ void NiBSplineTransformInterpolator::LoadBinary(NiStream& stream)
 
 // Maps channel 0 to 3, 1 to 4 and 2 to 1, returning 0 for any other channel.
 // @fnv 0x00a4fde0
-unsigned int __stdcall FUN_00a4fde0(unsigned short usChannel)
+unsigned int FUN_00a4fde0(unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -51,7 +52,7 @@ unsigned int __stdcall FUN_00a4fde0(unsigned short usChannel)
 
 // Returns 3 for channels 0, 1 and 2, and 0 for any other channel value.
 // @fnv 0x00a4fe20
-unsigned int __stdcall FUN_00a4fe20(unsigned short usChannel)
+unsigned int FUN_00a4fe20(unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -74,7 +75,7 @@ struct FUN_00a4fe50_obj
 };
 // Returns the stored handle for channel 0, 1 or 2 (translation, rotation, scale), or 0xffff for any other channel.
 // @fnv 0x00a4fe50
-unsigned int __fastcall GetChannelHandle(FUN_00a4fe50_obj* self, int, unsigned short usChannel)
+unsigned int GetChannelHandle(FUN_00a4fe50_obj* self, int, unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -97,7 +98,7 @@ struct FUN_00a4fe80_obj
 };
 // Stores kControlHandle into the translation, rotation or scale control-point handle field selected by usChannel (0, 1 or 2).
 // @fnv 0x00a4fe80
-void __fastcall SetControlPointHandle(FUN_00a4fe80_obj* self, int, unsigned int kControlHandle,
+void SetControlPointHandle(FUN_00a4fe80_obj* self, int, unsigned int kControlHandle,
                                       unsigned short usChannel)
 {
     switch (usChannel)
@@ -182,7 +183,7 @@ struct FUN_00a50090_obj
 };
 // Returns true when the given channel has no control points and its stored value differs from _DAT_010241b0; false otherwise.
 // @fnv 0x00a50090
-bool __fastcall FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChannel)
+bool FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChannel)
 {
     switch (usChannel)
     {
@@ -224,7 +225,7 @@ struct FUN_00a50110_obj : public BSFadeNode
     void FUN_00a57fd0(FUN_00a50110_obj*, FUN_00a50110_proc&);
 };
 // @fnv 0x00a50110
-FUN_00a50110_obj* __fastcall FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* kCloning)
+FUN_00a50110_obj* FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* kCloning)
 {
     FUN_00a50110_obj* pkObject = new FUN_00a50110_obj(0, 0xffff, 0xffff, 0xffff, 0);
     self->FUN_00a57fd0(pkObject, *kCloning);
@@ -267,7 +268,7 @@ struct FUN_00a501b0_obj
 };
 // Returns true if the object passes FUN_00a57e90, its quaternion matches, and the trans, rot and scale CP handles all match the other object's.
 // @fnv 0x00a501b0
-bool __fastcall FUN_00a501b0(FUN_00a501b0_obj* self, int, FUN_00a501b0_obj* pkObject)
+bool FUN_00a501b0(FUN_00a501b0_obj* self, int, FUN_00a501b0_obj* pkObject)
 {
     if (reinterpret_cast<::A57E90Controller *>((self))->FUN_00a57e90((::A57E90Object *)(pkObject)) && reinterpret_cast<::T *>(&(self->m_kDefaultTransform))->Equals((*(const ::T *)(&pkObject->m_kDefaultTransform))) &&
         pkObject->m_kTransCPHandle == self->m_kTransCPHandle && pkObject->m_kRotCPHandle == self->m_kRotCPHandle &&
@@ -657,7 +658,7 @@ void BSplineTransformLoad::LoadBSplineTransform(NiStream& stream)
 }
 
 extern float g_fInitA;
-extern long(__stdcall* g_pfnInterlockedIncrement)(long volatile* value);
+extern long(* g_pfnInterlockedIncrement)(long volatile* value);
 
 struct FUN_00a57f20_base
 {
@@ -681,7 +682,7 @@ FUN_00a57f20_cls* FUN_00a57f20_cls::FUN_00a57f20(void* pFirst, void* pSecond)
 {
     new ((void *)(reinterpret_cast<FUN_00a57f20_base*>(this))) ::NiInterpolator();
     m_0c = g_fInitA;
-    long(__stdcall * pfnInterlockedIncrement)(long volatile*) = g_pfnInterlockedIncrement;
+    long(* pfnInterlockedIncrement)(long volatile*) = g_pfnInterlockedIncrement;
     m_10 = ::DAT_01015f5c;
     *(int**)this = &::DAT_0109ae8c;
     m_14 = pFirst;
@@ -697,8 +698,6 @@ FUN_00a57f20_cls* FUN_00a57f20_cls::FUN_00a57f20(void* pFirst, void* pSecond)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct FUN_00a57fd0_ref
 {

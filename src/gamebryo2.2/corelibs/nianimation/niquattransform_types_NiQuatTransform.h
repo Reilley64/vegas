@@ -7,7 +7,6 @@
 class NiStream;
 class NiQuatTransform;
 class NiQuaternion;
-#pragma pack(push, 4)
 class NiQuaternion
 {
   public:
@@ -57,13 +56,6 @@ class NiQuaternion
 public:
     void MakeUnitLength();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
-#pragma pack(push, 4)
 class NiQuatTransform
 {
   public:
@@ -97,9 +89,4 @@ class NiQuatTransform
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
 #endif

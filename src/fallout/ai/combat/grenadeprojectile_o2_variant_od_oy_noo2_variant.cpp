@@ -124,7 +124,7 @@ struct C009c58e0
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 #include <xmmintrin.h>

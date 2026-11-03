@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/sphere/hkpsphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_00cd8000.h"
 #include "fnv/symbols_010c4000.h"
@@ -16,7 +17,7 @@ struct FUN_00cd8160
     FUN_00cd8160(float radius);
 };
 int __cdecl FUN_00cd8050();
-int __stdcall FUN_00cd87f0(int a1, int a2);
+int FUN_00cd87f0(int a1, int a2);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -61,7 +62,6 @@ struct Shape_00cd8100_cls
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 struct hkMonitorStreamCD81
 {
     int unk00;
@@ -102,7 +102,6 @@ extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 extern "C" int _mm_movemask_ps(__m128);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 class RayMask
@@ -291,7 +290,6 @@ struct ProbeStream
     int reserved2;
     char* end;
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 struct ProbeSphere : hkpSphereShape
@@ -300,9 +298,9 @@ struct ProbeSphere : hkpSphereShape
 };
 extern "C" __m128 _mm_setzero_ps(void);
 extern "C" void _mm_store_ps(float*, __m128);
-void __stdcall FUN_00cd8060(int direction, float* vertexOut);
+void FUN_00cd8060(int direction, float* vertexOut);
 extern "C" void __movsd(unsigned long*, const unsigned long*, unsigned long);
-void __stdcall FUN_00cd8080(int a0, __int64 packed);
+void FUN_00cd8080(int a0, __int64 packed);
 extern "C" __m128 _mm_setzero_ps(void);
 struct __declspec(align(16)) CentreVectorCD80
 {
@@ -313,7 +311,7 @@ struct __declspec(align(16)) CentreVectorCD80
         m_vComponents = _mm_setzero_ps();
     }
 };
-CentreVectorCD80 __stdcall FUN_00cd80c0();
+CentreVectorCD80 FUN_00cd80c0();
 struct FUN_00cd8140_Result
 {
     int unk00;
@@ -331,7 +329,7 @@ struct FUN_00cd8140_Obj
 
     void FUN_00cd8140(FUN_00cd8140_Result* result);
 };
-void __stdcall FUN_00cd80e0(float* output);
+void FUN_00cd80e0(float* output);
 
 extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);

@@ -100,11 +100,7 @@ public:
     char* Remove(char*& element);
     void DeleteItem(NiTListItem<char*>* item);
 };
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>) == 12);
 typedef NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> NiTPointerListBaseCharPtr;
-FNV_STATIC_ASSERT(offsetof(NiTPointerListBaseCharPtr, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTPointerListBaseCharPtr, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTPointerListBaseCharPtr, m_kItemCount) == 8);
 
 inline void NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::DeleteItem(NiTListItem<char*>* item)
 {

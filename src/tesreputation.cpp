@@ -160,7 +160,7 @@ struct FNStub
 };
 struct TESModel
 {
-    unsigned int __thiscall GetModelLength(void) const;
+    unsigned int GetModelLength(void) const;
 };
 extern const char $SG5812[];
 
@@ -168,7 +168,7 @@ struct FUN_006166e0_shell
 {
     char pad[0x24];
     TESModel m_Model;
-    const char* __thiscall GetReputationName(void);
+    const char* GetReputationName(void);
 };
 
 // @fnv 0x006166e0
@@ -181,17 +181,17 @@ const char* FUN_006166e0_shell::GetReputationName()
 
 struct FUN_00484bf0
 {
-    unsigned short __thiscall GetSaveSize(unsigned int);
+    unsigned short GetSaveSize(unsigned int);
 };
 
 struct FUN_006165f0_shell
 {
-    unsigned short __thiscall FUN_006165f0(unsigned int aiFlags);
+    unsigned short FUN_006165f0(unsigned int aiFlags);
 };
 
 // Returns the save size: the result of GetSaveSize(aiFlags) plus 8 bytes.
 // @fnv 0x006165f0
-unsigned short __thiscall FUN_006165f0_shell::FUN_006165f0(unsigned int aiFlags)
+unsigned short FUN_006165f0_shell::FUN_006165f0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
@@ -232,7 +232,7 @@ struct FUN_0048e370_obj
 };
 struct FUN_0047a240_shell
 {
-    void __thiscall FUN_0047a240(unsigned int);
+    void FUN_0047a240(unsigned int);
 };
 struct FUN_00485e00_shell
 {
@@ -242,10 +242,10 @@ struct FUN_00485680
 };
 struct FUN_00616470_shell : public FUN_004855a0
 {
-    void __thiscall FUN_00616470(void);
+    void FUN_00616470(void);
 };
 // @fnv 0x00616470
-void __thiscall FUN_00616470_shell::FUN_00616470()
+void FUN_00616470_shell::FUN_00616470()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
@@ -309,12 +309,12 @@ struct FUN_00616660_shell
     char pad[0x44];
     unsigned int f0;
     unsigned int f1;
-    void __thiscall SaveToBuffer(BGSSaveFormBuffer* buffer);
+    void SaveToBuffer(BGSSaveFormBuffer* buffer);
 };
 
 // Calls SaveIfChanged on this, then saves the two 4-byte fields f0 and f1 to the buffer.
 // @fnv 0x00616660
-void __thiscall FUN_00616660_shell::SaveToBuffer(BGSSaveFormBuffer* buffer)
+void FUN_00616660_shell::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)buffer));
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&f0, 4, 0);
@@ -323,7 +323,7 @@ void __thiscall FUN_00616660_shell::SaveToBuffer(BGSSaveFormBuffer* buffer)
 
 struct StartMenu
 {
-    const char* __thiscall GetMenuTitle(void);
+    const char* GetMenuTitle(void);
 };
 
 struct TutorialState
@@ -412,7 +412,7 @@ struct ReputationLimit
 };
 struct ReputationTracker
 {
-    unsigned char __thiscall GetReputationRank(int kind);
+    unsigned char GetReputationRank(int kind);
 };
 // @fnv 0x00616950
 unsigned char ReputationTracker::GetReputationRank(int kind)
@@ -617,7 +617,7 @@ void Reputation::FUN_00615a00(int kind, float amount)
 
 struct ReputationSetting
 {
-    const char* __thiscall FUN_00403df0();
+    const char* FUN_00403df0();
 };
 struct ReputationPlayer
 {
@@ -631,7 +631,7 @@ struct ReputationUpdate : TESForm, ReputationFullName, TESIcon, BGSMessageIcon
     float m_fFirstReputationValue;
     float m_fSecondReputationValue;
     ReputationType m_eReputationType;
-    void __thiscall ApplyReputationChange(int type, int amount);
+    void ApplyReputationChange(int type, int amount);
 };
 // @fnv 0x00615c90
 void ReputationUpdate::ApplyReputationChange(int iReputationType, int amount)

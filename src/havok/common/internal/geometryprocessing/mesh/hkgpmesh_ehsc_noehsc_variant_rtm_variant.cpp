@@ -99,7 +99,7 @@ struct FUN_00e238e0_
 };
 struct FUN_00e24a80_Class
 {
-    void __thiscall FUN_00e24a80();
+    void FUN_00e24a80();
 };
 struct Subobject
 {
@@ -392,7 +392,7 @@ struct ErrorReporter
     virtual void unused2();
     virtual int Report(int, unsigned int, const char*, const char*, int);
 };
-bool __stdcall CheckError(bool report);
+bool CheckError(bool report);
 struct FUN_00e14fe0_node
 {
     FUN_00e14fe0_node* m_pNext;
@@ -821,7 +821,7 @@ struct Inputs_00e118e0
 };
 struct FUN_00e118e0_class
 {
-    void __thiscall FUN_00e118e0(const volatile Inputs_00e118e0*, void*, void*);
+    void FUN_00e118e0(const volatile Inputs_00e118e0*, void*, void*);
 };
 struct E12160Vertex
 {
@@ -953,7 +953,7 @@ struct S_00e13910_Edge
         return n;
     }
 };
-S_00e13910_Edge __stdcall FlipEdge(S_00e13910_Edge edge);
+S_00e13910_Edge FlipEdge(S_00e13910_Edge edge);
 // CreateTriangle (0x00e19cf0, 101 bytes)
 //
 //   push ebp / mov ebp,esp / and esp,-16 / sub esp,0x54
@@ -2888,7 +2888,7 @@ struct FUN_00c7f640_Obj
     int z;
     int w;
 
-    void __thiscall FUN_00c7f640(int value, S_00e11a90_Vec* data);
+    void FUN_00c7f640(int value, S_00e11a90_Vec* data);
 };
 struct S_00e11a90_Node
 {
@@ -2908,7 +2908,7 @@ struct S_00e11a90_Class
     S_00e11a90_Node* head;
 
     void ResetNodeVectors();
-    void __thiscall FUN_00e11a90(int value);
+    void FUN_00e11a90(int value);
 };
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_sqrt_ss(__m128 a);
@@ -5425,7 +5425,7 @@ void Vec::release(int elemSize)
     m_08 = (int)0x80000000;
 }
 // @fnv 0x00e1c940
-__declspec(noinline) Obj* __fastcall FUN_00e1c940(ThisCls* self, void*, float a, int n)
+__declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
 {
     Obj* obj = ((::Obj *)(reinterpret_cast<::S00e1c5e0_Mesh *>((self))->FUN_00e1c5e0()));
     InitA ia;

@@ -35,7 +35,6 @@ void BGSRadiationStage::ClearData()
     ClearStageData(this);
 }
 
-#pragma pack(push, 4)
 union RadiationLevelValue
 {
     __int64 value;
@@ -45,7 +44,6 @@ union RadiationLevelValue
         unsigned int high;
     } words;
 };
-#pragma pack(pop)
 
 // @fnv 0x00592220
 BGSRadiationStage* BGSRadiationStage::GetStageForLevel(float level)
@@ -73,7 +71,6 @@ BGSRadiationStage* BGSRadiationStage::GetStageForLevel(float level)
     return reinterpret_cast<BGSRadiationStage*>(searchState.result);
 }
 
-#pragma pack(push, 4)
 struct InsertStageLocals
 {
     BGSRadiationStage** oldArray;
@@ -89,7 +86,6 @@ struct InsertStageLocals
     unsigned char inserted;
     BGSRadiationStage** m_ppNewArray;
 };
-#pragma pack(pop)
 
 // Inserts stage into the global radiation stage array ordered by condition value, reallocating the array and updating the count.
 // @fnv 0x00592010
@@ -145,7 +141,6 @@ void BGSRadiationStage::InitItem()
     }
 }
 
-#pragma pack(push, 4)
 struct RemoveStageLocals
 {
     BGSRadiationStage** oldArray;
@@ -159,7 +154,6 @@ struct RemoveStageLocals
     unsigned int newCount;
     BGSDehydrationStage** replacement;
 };
-#pragma pack(pop)
 
 // Removes the given stage from the global stage array, rebuilding the array without it and updating the count.
 // @fnv 0x00592110
@@ -247,7 +241,7 @@ bool BGSRadiationStage::Load(TESFile* file)
 
 struct Unnamed_00591bf0
 {
-    void* __thiscall FUN_00591bf0(unsigned int);
+    void* FUN_00591bf0(unsigned int);
 };
 struct FUN_005e78f0_t
 {
@@ -312,7 +306,7 @@ class FUN_00591c20_ListForm : public B591C20Form
 };
 // Calls FUN_00591c20, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00591bf0
-void* __thiscall Unnamed_00591bf0::FUN_00591bf0(unsigned int flags)
+void* Unnamed_00591bf0::FUN_00591bf0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00591c20_ListForm *>(this)->FUN_00591c20_ListForm::~FUN_00591c20_ListForm();
     if (flags & 1)

@@ -15,7 +15,7 @@ unsigned char __cdecl FUN_00aa1d40()
 struct NiBinaryStream
 {
     virtual ~NiBinaryStream();
-    void* __thiscall Destroy(unsigned int fFree);
+    void* Destroy(unsigned int fFree);
 };
 
 extern void* __cdecl _DeallocateAlias(void*);
@@ -23,7 +23,7 @@ extern int DAT_010a24b8;
 
 // Sets the vtable pointer to DAT_010a24b8 and, if fFree has bit 0 set, deallocates this via g_memoryManager, returning this.
 // @fnv 0x00aa1db0
-void* __thiscall NiBinaryStream::Destroy(unsigned int fFree)
+void* NiBinaryStream::Destroy(unsigned int fFree)
 {
     *reinterpret_cast<void**>(this) = &DAT_010a24b8;
     if (fFree & 1)

@@ -256,11 +256,11 @@ struct FUN_00a59af0_Point
 
 struct FUN_00c2af80_Obj
 {
-    void __thiscall FUN_00c2af80(NiStream* stream);
+    void FUN_00c2af80(NiStream* stream);
 };
 
 // @fnv 0x00c2af80
-void __thiscall FUN_00c2af80_Obj::FUN_00c2af80(NiStream* stream)
+void FUN_00c2af80_Obj::FUN_00c2af80(NiStream* stream)
 {
     reinterpret_cast<::S_00c322b0 *>((reinterpret_cast<FUN_00c322b0_Obj*>(this)))->FUN_00c322b0((::S_00c322b0_Arr *)(stream));
 

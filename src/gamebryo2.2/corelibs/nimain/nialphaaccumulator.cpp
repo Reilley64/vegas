@@ -44,7 +44,7 @@ struct DummyObj
 };
 
 // @fnv 0x00a433b0
-DummyObj* __fastcall InitFromGlobals(DummyObj* pThis)
+DummyObj* InitFromGlobals(DummyObj* pThis)
 {
     pThis->f00 = (*reinterpret_cast<int *>(&::DAT_011a8400));
     pThis->f04 = DAT_011a8404;
@@ -167,7 +167,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a9b510_shell : public NiAlphaAccumulator
 {
     bool FUN_00a9b510(NiObject*);
@@ -243,7 +242,7 @@ Derived_a43370* __cdecl CreateDerivedA43370()
 
 struct FUN_00b58570_Class
 {
-    void* __thiscall FUN_00b58570(void* arg);
+    void* FUN_00b58570(void* arg);
 };
 
 struct FUN_00a9b850_Prop

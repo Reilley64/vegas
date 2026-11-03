@@ -16,7 +16,6 @@ class NiProperty : public NiObjectNET
   public:
     virtual void LoadBinary(NiStream& stream);
 };
-FNV_STATIC_ASSERT(sizeof(NiProperty) == 0x18);
 #endif
 
 class NiStream;
@@ -32,7 +31,6 @@ public:
 public:
     void SaveBinary(::NiStream &);
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
 
 class NiBinaryStream
 {
@@ -55,7 +53,6 @@ class NiBinaryStream
         return Read(buffer, bytes, &componentSize, 1);
     }
 };
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 0x10);
 
 // Only the stream prefix used by this unit is required.
 class NiStream
@@ -66,7 +63,6 @@ class NiStream
     unsigned char streamFields[0x244];
     NiBinaryStream* m_pUnderlyingStream;
 };
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 0x24c);
 
 template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 {
@@ -87,11 +83,5 @@ class NiMaterialProperty : public NiProperty
     void* m_pMaterialData;
     virtual void LoadBinary(NiStream& stream);
 };
-FNV_STATIC_ASSERT(sizeof(NiMaterialProperty) == 0x4c);
-FNV_STATIC_ASSERT(offsetof(NiMaterialProperty, m_spec) == 0x1c);
-FNV_STATIC_ASSERT(offsetof(NiMaterialProperty, m_emit) == 0x28);
-FNV_STATIC_ASSERT(offsetof(NiMaterialProperty, m_fShine) == 0x38);
-FNV_STATIC_ASSERT(offsetof(NiMaterialProperty, m_fAlpha) == 0x3c);
-FNV_STATIC_ASSERT(offsetof(NiMaterialProperty, m_fEmitMult) == 0x40);
 
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLESUSPENSIONSUSPENSIONWHEELPARAMETERS_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleSuspensionSuspensionWheelParameters
 {
   public:
@@ -13,7 +12,4 @@ class hkpVehicleSuspensionSuspensionWheelParameters
     hkReal m_fRestLength;                // +0x20
     char pad24[0xC];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleSuspensionSuspensionWheelParameters
-    [(sizeof(hkpVehicleSuspensionSuspensionWheelParameters) == 0x30) ? 1 : -1];
 #endif

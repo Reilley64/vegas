@@ -136,11 +136,11 @@
 
 struct FUN_00bb0e90_Class
 {
-    void* __thiscall FUN_00bb0e90();
+    void* FUN_00bb0e90();
 };
 
 // @fnv 0x00bb0e90
-void* __thiscall FUN_00bb0e90_Class::FUN_00bb0e90()
+void* FUN_00bb0e90_Class::FUN_00bb0e90()
 {
     return reinterpret_cast<void**>(this)[0x90 / 4];
 }
@@ -154,15 +154,15 @@ const char* const* __cdecl FUN_00bb35a0()
 
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 void __cdecl FUN_00ba0400();
 struct FUN_00ba1230_Class
 {
-    void* __thiscall FUN_00ba1230(bool flag);
+    void* FUN_00ba1230(bool flag);
 };
 // @fnv 0x00ba1230
-void* __thiscall FUN_00ba1230_Class::FUN_00ba1230(bool flag)
+void* FUN_00ba1230_Class::FUN_00ba1230(bool flag)
 {
     void* p = this;
     FUN_00ba0400();
@@ -174,15 +174,15 @@ void* __thiscall FUN_00ba1230_Class::FUN_00ba1230(bool flag)
 namespace fnv_00ba1750 {
 struct MemoryManager
 {
-    void* __thiscall Deallocate(void*);
+    void* Deallocate(void*);
 };
 void __cdecl FUN_00ba12d0();
 struct FUN_00ba1750_Class
 {
-    void* __thiscall FUN_00ba1750(char flag);
+    void* FUN_00ba1750(char flag);
 };
 // @fnv 0x00ba1750
-void* __thiscall FUN_00ba1750_Class::FUN_00ba1750(char flag)
+void* FUN_00ba1750_Class::FUN_00ba1750(char flag)
 {
     FUN_00ba12d0();
     if (flag & 1)
@@ -196,10 +196,10 @@ struct FUN_00ba3d10_Class
 {
     int m0;
     void* m1;
-    void __thiscall FUN_00ba3d10();
+    void FUN_00ba3d10();
 };
 // @fnv 0x00ba3d10
-void __thiscall FUN_00ba3d10_Class::FUN_00ba3d10()
+void FUN_00ba3d10_Class::FUN_00ba3d10()
 {
     void* p = m1;
     m0 = (int)&::DAT_010b9d24;
@@ -214,10 +214,10 @@ struct MemoryManager
 void __cdecl FUN_00ba3d30();
 struct FUN_00ba4170_Class
 {
-    void* __thiscall FUN_00ba4170(int);
+    void* FUN_00ba4170(int);
 };
 // @fnv 0x00ba4170
-void* __thiscall FUN_00ba4170_Class::FUN_00ba4170(int flag)
+void* FUN_00ba4170_Class::FUN_00ba4170(int flag)
 {
     FUN_00ba3d30();
     if (flag & 1)
@@ -229,15 +229,15 @@ void* __thiscall FUN_00ba4170_Class::FUN_00ba4170(int flag)
 namespace fnv_00ba46a0 {
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 void __cdecl FUN_00ba4190();
 struct FUN_00ba46a0_Class
 {
-    FUN_00ba46a0_Class* __thiscall FUN_00ba46a0(unsigned char flags);
+    FUN_00ba46a0_Class* FUN_00ba46a0(unsigned char flags);
 };
 // @fnv 0x00ba46a0
-FUN_00ba46a0_Class* __thiscall FUN_00ba46a0_Class::FUN_00ba46a0(unsigned char flags)
+FUN_00ba46a0_Class* FUN_00ba46a0_Class::FUN_00ba46a0(unsigned char flags)
 {
     FUN_00ba4190();
     if (flags & 1)
@@ -249,17 +249,17 @@ FUN_00ba46a0_Class* __thiscall FUN_00ba46a0_Class::FUN_00ba46a0(unsigned char fl
 namespace fnv_00ba4920 {
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct FUN_00ba4480_Class
 {
 };
 struct FUN_00ba4920_Class
 {
-    void* __thiscall FUN_00ba4920(int);
+    void* FUN_00ba4920(int);
 };
 // @fnv 0x00ba4920
-void* __thiscall FUN_00ba4920_Class::FUN_00ba4920(int a)
+void* FUN_00ba4920_Class::FUN_00ba4920(int a)
 {
     reinterpret_cast<::FUN_00ba4480 *>((((FUN_00ba4480_Class*)this)))->FUN_00ba4480::~FUN_00ba4480();
     if (a & 1)
@@ -274,11 +274,11 @@ void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00ba8270_Class
 {
-    void* __thiscall FUN_00ba8270(bool);
+    void* FUN_00ba8270(bool);
 };
 
 // @fnv 0x00ba8270
-void* __thiscall FUN_00ba8270_Class::FUN_00ba8270(bool b)
+void* FUN_00ba8270_Class::FUN_00ba8270(bool b)
 {
     FUN_00ba7df0();
     if (b & 1)
@@ -309,15 +309,15 @@ FUN_00baa160_Class::FUN_00baa160_Class()
 namespace fnv_00baa220 {
 struct MemoryManager
 {
-    void* __thiscall Deallocate(void*);
+    void* Deallocate(void*);
 };
 void* __cdecl FUN_00baa180();
 struct FUN_00baa220_Class
 {
-    void* __thiscall FUN_00baa220(int flag);
+    void* FUN_00baa220(int flag);
 };
 // @fnv 0x00baa220
-void* __thiscall FUN_00baa220_Class::FUN_00baa220(int flag)
+void* FUN_00baa220_Class::FUN_00baa220(int flag)
 {
     void* r = FUN_00baa180();
     if (flag & 1)
@@ -328,11 +328,11 @@ void* __thiscall FUN_00baa220_Class::FUN_00baa220(int flag)
 
 struct FUN_00baa640_Class
 {
-    void __thiscall FUN_00baa640(int a, char b);
+    void FUN_00baa640(int a, char b);
 };
 
 // @fnv 0x00baa640
-void __thiscall FUN_00baa640_Class::FUN_00baa640(int aiValue, char b)
+void FUN_00baa640_Class::FUN_00baa640(int aiValue, char b)
 {
     *(int*)((char*)this + 0x120) = aiValue;
     *(char*)((char*)this + 0x124) = b;
@@ -355,19 +355,19 @@ struct NiAVObject
 };
 struct FUN_00bae780_Class
 {
-    char __thiscall FUN_00bae780(NiAVObject* obj);
+    char FUN_00bae780(NiAVObject* obj);
 };
 void __cdecl FUN_00bb0de0();
 void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bb0ea0_Class
 {
-    void* __thiscall FUN_00bb0ea0(bool);
+    void* FUN_00bb0ea0(bool);
 };
 
 // Calls FUN_00bb0de0, then deletes this with size 0xa0 when flag bit 0 is set, and returns this.
 // @fnv 0x00bb0ea0
-void* __thiscall FUN_00bb0ea0_Class::FUN_00bb0ea0(bool abDelete)
+void* FUN_00bb0ea0_Class::FUN_00bb0ea0(bool abDelete)
 {
     FUN_00bb0de0();
     if (abDelete & 1)
@@ -380,12 +380,12 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00bb3140_Class
 {
     int m_vtbl;
-    void __thiscall FUN_00bb35b0();
-    void* __thiscall FUN_00bb3140(bool del);
+    void FUN_00bb35b0();
+    void* FUN_00bb3140(bool del);
 };
 // Resets the vtable pointer, calls FUN_00bb35b0, and if del has bit 0 set, frees this with operator delete before returning this.
 // @fnv 0x00bb3140
-void* __thiscall FUN_00bb3140_Class::FUN_00bb3140(bool abDelete)
+void* FUN_00bb3140_Class::FUN_00bb3140(bool abDelete)
 {
     m_vtbl = (int)&::DAT_010b9338;
     FUN_00bb35b0();
@@ -397,11 +397,11 @@ void* __thiscall FUN_00bb3140_Class::FUN_00bb3140(bool abDelete)
 
 struct FUN_00bb3220_Class
 {
-    void* __thiscall GetEntryValue();
+    void* GetEntryValue();
 };
 
 // @fnv 0x00bb3220
-void* __thiscall FUN_00bb3220_Class::GetEntryValue()
+void* FUN_00bb3220_Class::GetEntryValue()
 {
     void* entry = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x104);
     if (entry)
@@ -411,11 +411,11 @@ void* __thiscall FUN_00bb3220_Class::GetEntryValue()
 
 struct FUN_00bb3240_Class
 {
-    unsigned int __thiscall FUN_00bb3240();
+    unsigned int FUN_00bb3240();
 };
 
 // @fnv 0x00bb3240
-unsigned int __thiscall FUN_00bb3240_Class::FUN_00bb3240()
+unsigned int FUN_00bb3240_Class::FUN_00bb3240()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x104);
     if (p)
@@ -425,11 +425,11 @@ unsigned int __thiscall FUN_00bb3240_Class::FUN_00bb3240()
 
 struct FUN_00bb3260_Class
 {
-    void* __thiscall FUN_00bb3260(void* a, unsigned short b);
+    void* FUN_00bb3260(void* a, unsigned short b);
 };
 
 // @fnv 0x00bb3260
-void* __thiscall FUN_00bb3260_Class::FUN_00bb3260(void* apData, unsigned short ausValue)
+void* FUN_00bb3260_Class::FUN_00bb3260(void* apData, unsigned short ausValue)
 {
     void* p = *(void**)((char*)this + 0x104);
     if (p)
@@ -442,10 +442,10 @@ void* __thiscall FUN_00bb3260_Class::FUN_00bb3260(void* apData, unsigned short a
 
 struct FUN_00bb36d0_Class
 {
-    void* __thiscall GetThirdElement();
+    void* GetThirdElement();
 };
 // @fnv 0x00bb36d0
-void* __thiscall FUN_00bb36d0_Class::GetThirdElement()
+void* FUN_00bb36d0_Class::GetThirdElement()
 {
     void** p = *reinterpret_cast<void***>(reinterpret_cast<char*>(this) + 0x84);
     if (p)
@@ -455,11 +455,11 @@ void* __thiscall FUN_00bb36d0_Class::GetThirdElement()
 
 struct FUN_00bb36f0_Class
 {
-    int __thiscall FUN_00bb36f0();
+    int FUN_00bb36f0();
 };
 
 // @fnv 0x00bb36f0
-int __thiscall FUN_00bb36f0_Class::FUN_00bb36f0()
+int FUN_00bb36f0_Class::FUN_00bb36f0()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x84);
     if (p)
@@ -469,10 +469,10 @@ int __thiscall FUN_00bb36f0_Class::FUN_00bb36f0()
 
 struct FUN_00bb3710_Class
 {
-    void* __thiscall FUN_00bb3710(void* a, short b);
+    void* FUN_00bb3710(void* a, short b);
 };
 // @fnv 0x00bb3710
-void* __thiscall FUN_00bb3710_Class::FUN_00bb3710(void* apValue, short asValue)
+void* FUN_00bb3710_Class::FUN_00bb3710(void* apValue, short asValue)
 {
     void* p = *(void**)((char*)this + 0x84);
     if (p)
@@ -488,12 +488,12 @@ void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bb38e0_Class
 {
-    void* __thiscall FUN_00bb38e0(int);
+    void* FUN_00bb38e0(int);
 };
 
 // Calls FUN_00bb35b0, then deletes this with size 0x108 when flags has bit 0 set, and returns this.
 // @fnv 0x00bb38e0
-void* __thiscall FUN_00bb38e0_Class::FUN_00bb38e0(int flags)
+void* FUN_00bb38e0_Class::FUN_00bb38e0(int flags)
 {
     FUN_00bb35b0();
     if (flags & 1)
@@ -503,11 +503,11 @@ void* __thiscall FUN_00bb38e0_Class::FUN_00bb38e0(int flags)
 
 struct FUN_00bb3c90_Class
 {
-    void* __thiscall FUN_00bb3c90();
+    void* FUN_00bb3c90();
 };
 
 // @fnv 0x00bb3c90
-void* __thiscall FUN_00bb3c90_Class::FUN_00bb3c90()
+void* FUN_00bb3c90_Class::FUN_00bb3c90()
 {
     void* p = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x88);
     if (p)
@@ -519,11 +519,11 @@ extern "C" void __cdecl operator_delete_sized(void*, unsigned int);
 
 struct FUN_00bb4470_Class
 {
-    void* __thiscall FUN_00bb40c0();
-    void* __thiscall FUN_00bb4470(int flags);
+    void* FUN_00bb40c0();
+    void* FUN_00bb4470(int flags);
 };
 // @fnv 0x00bb4470
-void* __thiscall FUN_00bb4470_Class::FUN_00bb4470(int flags)
+void* FUN_00bb4470_Class::FUN_00bb4470(int flags)
 {
     FUN_00bb40c0();
     if (flags & 1)
@@ -537,12 +537,12 @@ extern int DAT_010b9910;
 struct FUN_00bb4650_Class
 {
     void* m_vft;
-    void* __thiscall FUN_00bb4650(unsigned char flags);
+    void* FUN_00bb4650(unsigned char flags);
 };
 
 // Sets the vtable pointer, calls FUN_00b67380 on this, and if flags bit 0 is set frees this with size 0x108; returns this.
 // @fnv 0x00bb4650
-void* __thiscall FUN_00bb4650_Class::FUN_00bb4650(unsigned char flags)
+void* FUN_00bb4650_Class::FUN_00bb4650(unsigned char flags)
 {
     m_vft = &DAT_010b9910;
     reinterpret_cast<struct ::FUN_00b67380 *>((this))->FUN_00b67380::~FUN_00b67380();
@@ -555,11 +555,11 @@ void __cdecl FUN_00bb7d70();
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00bb7f60_Class
 {
-    void __thiscall FUN_00bb7d70();
-    FUN_00bb7f60_Class* __thiscall FUN_00bb7f60(unsigned char flags);
+    void FUN_00bb7d70();
+    FUN_00bb7f60_Class* FUN_00bb7f60(unsigned char flags);
 };
 // @fnv 0x00bb7f60
-FUN_00bb7f60_Class* __thiscall FUN_00bb7f60_Class::FUN_00bb7f60(unsigned char flags)
+FUN_00bb7f60_Class* FUN_00bb7f60_Class::FUN_00bb7f60(unsigned char flags)
 {
     reinterpret_cast<::FUN_00bb7d70 *>(this)->FUN_00bb7d70::~FUN_00bb7d70();
     if (flags & 1)
@@ -570,7 +570,7 @@ FUN_00bb7f60_Class* __thiscall FUN_00bb7f60_Class::FUN_00bb7f60(unsigned char fl
 namespace fnv_00bb8990 {
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct MM
 {
@@ -579,11 +579,11 @@ struct MM
 void __cdecl FUN_00bb83d0();
 struct FUN_00bb8990_Class
 {
-    void* __thiscall FUN_00bb8990(int);
+    void* FUN_00bb8990(int);
 };
 // Calls FUN_00bb83d0, then deallocates this via the memory manager when bit 0 of a is set, and returns this.
 // @fnv 0x00bb8990
-void* __thiscall FUN_00bb8990_Class::FUN_00bb8990(int aiFlags)
+void* FUN_00bb8990_Class::FUN_00bb8990(int aiFlags)
 {
     FUN_00bb83d0();
     if (aiFlags & 1)
@@ -595,12 +595,12 @@ void* __thiscall FUN_00bb8990_Class::FUN_00bb8990(int aiFlags)
 struct FUN_00bb9540_Class
 {
     void* m_ppVirtualMethodTable;
-    void __thiscall CallVirtualSlots83And84();
+    void CallVirtualSlots83And84();
 };
 // @fnv 0x00bb9540
-void __thiscall FUN_00bb9540_Class::CallVirtualSlots83And84()
+void FUN_00bb9540_Class::CallVirtualSlots83And84()
 {
-    typedef void(__thiscall * Fn)(FUN_00bb9540_Class*);
+    typedef void(* Fn)(FUN_00bb9540_Class*);
     ((Fn*)m_ppVirtualMethodTable)[83](this);
     ((Fn*)m_ppVirtualMethodTable)[84](this);
 }
@@ -609,31 +609,31 @@ struct BeamStage
 {
 };
 // @fnv 0x00bb9640
-void __stdcall FUN_00bb9640(unsigned int pTarget, unsigned int pSource)
+void FUN_00bb9640(unsigned int pTarget, unsigned int pSource)
 {
-    unsigned int r = ((unsigned int(__thiscall*)(void*))(*(void***)pSource)[0xe0 / 4])((void*)pSource);
+    unsigned int r = ((unsigned int(*)(void*))(*(void***)pSource)[0xe0 / 4])((void*)pSource);
     reinterpret_cast<::E7DE90Owner *>((((BeamStage*)pTarget)))->ApplyPairToState(r);
 }
 
 struct FUN_00baa3c0_Class
 {
-    void __thiscall FUN_00baa3c0();
+    void FUN_00baa3c0();
 };
 
 // @fnv 0x00baa3c0
-void __thiscall FUN_00baa3c0_Class::FUN_00baa3c0()
+void FUN_00baa3c0_Class::FUN_00baa3c0()
 {
     for (int i = 0; i < 44; ++i)
-        ((void(__thiscall*)(FUN_00baa3c0_Class*, void*))(*(void***)this)[74])(this, *(void**)(this + 0x6c + i * 4));
+        ((void(*)(FUN_00baa3c0_Class*, void*))(*(void***)this)[74])(this, *(void**)(this + 0x6c + i * 4));
 }
 
 struct FUN_00bb1b20_Class
 {
-    void __thiscall FUN_00bb1b20(int a);
+    void FUN_00bb1b20(int a);
 };
 // If a is 0x3e or 0x3f, copies the int at this+0x384 or this+0x388 into DAT_0126f74c.
 // @fnv 0x00bb1b20
-void __thiscall FUN_00bb1b20_Class::FUN_00bb1b20(int a)
+void FUN_00bb1b20_Class::FUN_00bb1b20(int a)
 {
     if (a == 0x3e)
         DAT_0126f74c = *(int*)((char*)this + 0x384);
@@ -646,11 +646,11 @@ struct FUN_00ba3ce0_Class
 {
     void* m0;
     void* m1;
-    void* __thiscall FUN_00ba3ce0(bool flag);
+    void* FUN_00ba3ce0(bool flag);
 };
 // Sets m0 to DAT_010b9d24, frees m1 with NiFree, and if flag bit 0 is set deallocates this via g_memoryManager, returning this.
 // @fnv 0x00ba3ce0
-void* __thiscall FUN_00ba3ce0_Class::FUN_00ba3ce0(bool abFree)
+void* FUN_00ba3ce0_Class::FUN_00ba3ce0(bool abFree)
 {
     m0 = &::DAT_010b9d24;
     NiFree(m1);
@@ -677,16 +677,16 @@ struct FUN_00ba5100_Class
     char m_0x2c[0x7c - 0x2c];
     void* m_0x7c;
     void* m_0x80;
-    void __thiscall FUN_00ba5100();
+    void FUN_00ba5100();
 };
 // If m_0x28_flag is set, calls virtual methods 40 and 34 on m_0x7c and m_0x80, then calls FUN_00e814b0 on this.
 // @fnv 0x00ba5100
-void __thiscall FUN_00ba5100_Class::FUN_00ba5100()
+void FUN_00ba5100_Class::FUN_00ba5100()
 {
     if (m_0x28_flag)
     {
-        ((void(__thiscall*)(void*))(void*)((*reinterpret_cast<void***>(m_0x7c))[40]))(m_0x7c);
-        ((void(__thiscall*)(void*))(void*)((*reinterpret_cast<void***>(m_0x80))[34]))(m_0x80);
+        ((void(*)(void*))(void*)((*reinterpret_cast<void***>(m_0x7c))[40]))(m_0x7c);
+        ((void(*)(void*))(void*)((*reinterpret_cast<void***>(m_0x80))[34]))(m_0x80);
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>((((LodShaderBase*)this)))->FUN_00e814b0();
 }
@@ -705,10 +705,10 @@ struct FUN_00ba63a0_Class
     char b[0x74];
     NiD3DPass* m0;
     NiD3DPass* m1;
-    bool __thiscall FUN_00ba63a0();
+    bool FUN_00ba63a0();
 };
 // @fnv 0x00ba63a0
-bool __thiscall FUN_00ba63a0_Class::FUN_00ba63a0()
+bool FUN_00ba63a0_Class::FUN_00ba63a0()
 {
     if (!m0)
         ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(m0));
@@ -720,11 +720,11 @@ bool __thiscall FUN_00ba63a0_Class::FUN_00ba63a0()
 
 struct FUN_00bad4f0_Class
 {
-    void __thiscall FUN_00bad4f0(int a);
+    void FUN_00bad4f0(int a);
 };
 
 // @fnv 0x00bad4f0
-void __thiscall FUN_00bad4f0_Class::FUN_00bad4f0(int a)
+void FUN_00bad4f0_Class::FUN_00bad4f0(int a)
 {
     *(char*)((char*)this + 5) = 1;
     *(int*)((char*)this + 0x6c) = a;
@@ -769,20 +769,20 @@ struct FUN_00baf520_Class
     int m68;
     float m70;
     float m74;
-    void __thiscall CopyTo(FUN_00b66700_Class* dest);
+    void CopyTo(FUN_00b66700_Class* dest);
 };
 // @fnv 0x00baf520
-void __thiscall FUN_00baf520_Class::CopyTo(FUN_00b66700_Class* dest)
+void FUN_00baf520_Class::CopyTo(FUN_00b66700_Class* dest)
 {
     reinterpret_cast<::FUN_00b66700_class *>((dest))->SetClamped(*(float*)((char*)this + 0x58));
     *(int*)((char*)dest + 0xe4) = *(int*)((char*)this + 0x60);
     *(float*)((char*)dest + 0xe8) = *(float*)((char*)this + 0x74);
     *(float*)((char*)dest + 0xec) = *(float*)((char*)this + 0x70);
     if (*(int*)((char*)this + 0x64))
-        ((void(__thiscall*)(void*, FUN_00b66700_Class*))(*(void***)*(int*)((char*)this + 0x64))[0x26])(
+        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(int*)((char*)this + 0x64))[0x26])(
             (void*)*(int*)((char*)this + 0x64), dest);
     if (*(int*)((char*)this + 0x68))
-        ((void(__thiscall*)(void*, FUN_00b66700_Class*))(*(void***)*(int*)((char*)this + 0x68))[0x26])(
+        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(int*)((char*)this + 0x68))[0x26])(
             (void*)*(int*)((char*)this + 0x68), dest);
 }
 
@@ -799,10 +799,10 @@ void __cdecl FUN_00bb1390(float afValue1, float afValue2, float afDelta1, float 
 
 struct FUN_00bb36b0_Class
 {
-    void __thiscall FUN_00bb36b0(int a);
+    void FUN_00bb36b0(int a);
 };
 // @fnv 0x00bb36b0
-void __thiscall FUN_00bb36b0_Class::FUN_00bb36b0(int a)
+void FUN_00bb36b0_Class::FUN_00bb36b0(int a)
 {
     *(int*)((char*)this + 0x80) = a;
 }
@@ -817,11 +817,11 @@ struct BSShaderManager
 };
 struct FUN_00bb79e0_Class
 {
-    void __thiscall FUN_00bb79e0(int arg);
+    void FUN_00bb79e0(int arg);
 };
 // Calls FUN_00a5c6a0 on this, then if the pointer at offset 0x94 is set, calls BSShaderManager::GetTexture with it and the texture at offset 0x60.
 // @fnv 0x00bb79e0
-void __thiscall FUN_00bb79e0_Class::FUN_00bb79e0(int arg)
+void FUN_00bb79e0_Class::FUN_00bb79e0(int arg)
 {
     NiObjectNET_stub* p = (NiObjectNET_stub*)this;
     reinterpret_cast<::LinkObjectA5 *>((p))->FUN_00a5c6a0((*(::NiStream *)(arg)));
@@ -840,10 +840,10 @@ struct ImageSpaceTexture
 };
 struct FUN_00bb9010_Class
 {
-    void __thiscall FUN_00bb9010();
+    void FUN_00bb9010();
 };
 // @fnv 0x00bb9010
-void __thiscall FUN_00bb9010_Class::FUN_00bb9010()
+void FUN_00bb9010_Class::FUN_00bb9010()
 {
     void* p = *(void**)((char*)this + 0x2c);
     reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)*(NiTexture**)((char*)p + 4))))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(0));
@@ -858,10 +858,10 @@ struct FUN_00c072c0_Class
 };
 struct FUN_00bb9560_Class
 {
-    char __thiscall FUN_00bb9560();
+    char FUN_00bb9560();
 };
 // @fnv 0x00bb9560
-char __thiscall FUN_00bb9560_Class::FUN_00bb9560()
+char FUN_00bb9560_Class::FUN_00bb9560()
 {
     for (int i = 0; i < 0x70; ++i)
         ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(reinterpret_cast<void**>(&(*reinterpret_cast<int *>(&::DAT_01200ec0))) + i)));
@@ -880,11 +880,11 @@ struct FUN_00bae930_Class
 {
     char m0[0x80];
     RefCounted* m_0x80;
-    void __thiscall FUN_00bae930(RefCounted* apTexture);
+    void FUN_00bae930(RefCounted* apTexture);
 };
 // Releases the previous texture reference, stores apTexture in m_0x80 and increments its reference count if non-null.
 // @fnv 0x00bae930
-void __thiscall FUN_00bae930_Class::FUN_00bae930(RefCounted* apTexture)
+void FUN_00bae930_Class::FUN_00bae930(RefCounted* apTexture)
 {
     RefCounted* pOld = m_0x80;
     if (pOld != apTexture)
@@ -908,7 +908,7 @@ struct FUN_00bb7170_Class
 };
 struct FUN_00bb7300_Class
 {
-    FUN_00bb7170_Class* __thiscall CreateInstance();
+    FUN_00bb7170_Class* CreateInstance();
 };
 // Allocates and constructs a new FUN_00bb7170_Class object, returning the pointer.
 // @fnv 0x00bb7300
@@ -920,12 +920,12 @@ FUN_00bb7170_Class* FUN_00bb7300_Class::CreateInstance()
 struct GlobalObjectO2_00a7b610;
 struct StrArr
 {
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, char*&);
+    void SetSize(unsigned int);
+    void SetAt(unsigned int, char*&);
 };
 
 // @fnv 0x00bb74e0
-void __stdcall FUN_00bb74e0(StrArr* a)
+void FUN_00bb74e0(StrArr* a)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((a))->WriteToSettingArray({});
     char* p = ::FUN_00a7d330((const char *)(*(void**)&::g_011fa05c));
@@ -941,7 +941,7 @@ struct FUN_00ba4050_Class
 {
     int m_vft;
     void* m_obj;
-    void* __thiscall FUN_00ba4050(bool);
+    void* FUN_00ba4050(bool);
 };
 // Resets the vtable, frees m_obj via NiFreeAlias, and deallocates this when del is set.
 // @fnv 0x00ba4050
@@ -956,14 +956,14 @@ void* FUN_00ba4050_Class::FUN_00ba4050(bool del)
 
 struct FUN_00ba4580_Class
 {
-    void __thiscall FUN_00ba4580();
+    void FUN_00ba4580();
 };
 struct ImageSpaceTexture_ReturnRenderedTexture_H
 {
 };
 struct NiTPrimitiveArray_int___H
 {
-    void __thiscall SetAt(unsigned int, int&);
+    void SetAt(unsigned int, int&);
 };
 
 // @fnv 0x00ba4580
@@ -986,10 +986,10 @@ struct FUN_00ba52b0_Class
     char m0[0x74];
     void* m_0x74;
     void* m_0x78;
-    void __thiscall FUN_00ba52b0(int a);
+    void FUN_00ba52b0(int a);
 };
 // @fnv 0x00ba52b0
-void __thiscall FUN_00ba52b0_Class::FUN_00ba52b0(int a)
+void FUN_00ba52b0_Class::FUN_00ba52b0(int a)
 {
     if (a == 0x41)
         DAT_0126f74c = (int)m_0x78;
@@ -999,7 +999,7 @@ void __thiscall FUN_00ba52b0_Class::FUN_00ba52b0(int a)
 
 struct FUN_00ba6370_Class
 {
-    void* __thiscall FUN_00ba6370(bool flag);
+    void* FUN_00ba6370(bool flag);
 };
 // Calls FUN_00ba5740, then deletes this with size 0x12c if flag bit 0 is set, and returns this.
 // @fnv 0x00ba6370
@@ -1014,8 +1014,8 @@ void* FUN_00ba6370_Class::FUN_00ba6370(bool abDelete)
 extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00baa140_Class
 {
-    void __fastcall FUN_00baa0e0();
-    FUN_00baa140_Class* __thiscall FUN_00baa140(unsigned char flags);
+    void FUN_00baa0e0();
+    FUN_00baa140_Class* FUN_00baa140(unsigned char flags);
 };
 struct FUN_00bad560_Class
 {
@@ -1041,21 +1041,21 @@ const char* const* __cdecl FUN_00baec70()
 extern "C" void __cdecl _delete(void*, unsigned int);
 struct FUN_00baec90_Class
 {
-    void __thiscall FUN_00baec90();
+    void FUN_00baec90();
 };
 struct FUN_00baeeb0_Class : FUN_00baec90_Class
 {
-    void* __thiscall FUN_00baeeb0(unsigned char a);
+    void* FUN_00baeeb0(unsigned char a);
 };
 struct FUN_00bb1a70_Class
 {
     void* m_vft;
-    void __thiscall CallVirtualMethodWithField();
+    void CallVirtualMethodWithField();
 };
 // @fnv 0x00bb1a70
-void __thiscall FUN_00bb1a70_Class::CallVirtualMethodWithField()
+void FUN_00bb1a70_Class::CallVirtualMethodWithField()
 {
-    typedef void(__thiscall * Fn)(void*, void*);
+    typedef void(* Fn)(void*, void*);
     void* arg = *(void**)((char*)this + 0x384);
     Fn fn = (Fn)(*(void**)((char*)*(void**)((char*)this + 0) + 0x128));
     fn(this, arg);
@@ -1068,7 +1068,7 @@ struct FUN_00bb3070_Class
     int m_0x1c;
     char m_0x20[0x58 - 0x20];
     int m_0x58;
-    void* __thiscall FUN_00bb3070(int a);
+    void* FUN_00bb3070(int a);
 };
 struct FUN_00bb3400_Class
 {
@@ -1078,17 +1078,17 @@ struct FUN_00bb3400_Class
     int* m_ac;
     int* m_b0;
 
-    int __thiscall FUN_00bb3400(NiAVObject* a, int b, int c);
+    int FUN_00bb3400(NiAVObject* a, int b, int c);
 };
 
 struct FUN_00bb3790_Class
 {
-    void __thiscall FUN_00bb3790();
+    void FUN_00bb3790();
 };
 struct FUN_00bb3910_Class
 {
-    void __thiscall FUN_00bb3790();
-    FUN_00bb3910_Class* __thiscall FUN_00bb3910(unsigned char a);
+    void FUN_00bb3790();
+    FUN_00bb3910_Class* FUN_00bb3910(unsigned char a);
 };
 struct FUN_00bb39e0_shell
 {
@@ -1098,10 +1098,10 @@ struct FUN_00bb3cb0_Class
 {
     char m0[0x88];
     FUN_00bb39e0_shell* m_0x88;
-    void __thiscall FUN_00bb3cb0(const void* a, unsigned int b);
+    void FUN_00bb3cb0(const void* a, unsigned int b);
 };
 // @fnv 0x00bb3cb0
-void __thiscall FUN_00bb3cb0_Class::FUN_00bb3cb0(const void* apData, unsigned int b)
+void FUN_00bb3cb0_Class::FUN_00bb3cb0(const void* apData, unsigned int b)
 {
     if (m_0x88)
         m_0x88->FUN_00bb39e0(apData, b);
@@ -1246,12 +1246,12 @@ struct FUN_00bb3e30_Class
     virtual unsigned short v62();
     virtual void* v63();
 
-    FUN_00bb3ba0* __thiscall FUN_00bb3e30();
+    FUN_00bb3ba0* FUN_00bb3e30();
 };
 
 // Allocates a FUN_00bb3ba0 from v62(), v51() and v63(), passes m_0x7c to its v55, and returns it.
 // @fnv 0x00bb3e30
-FUN_00bb3ba0* __thiscall FUN_00bb3e30_Class::FUN_00bb3e30()
+FUN_00bb3ba0* FUN_00bb3e30_Class::FUN_00bb3e30()
 {
     FUN_00bb3ba0* result = new FUN_00bb3ba0(v62(), v51(), v63());
     result->v55(m_0x7c);
@@ -1261,8 +1261,8 @@ FUN_00bb3ba0* __thiscall FUN_00bb3e30_Class::FUN_00bb3e30()
 struct FUN_00bb3ee0_Class
 {
     void* m0[0x90 / 4];
-    void* __thiscall FUN_00bb3cd0();
-    void* __thiscall FUN_00bb3ee0(bool a);
+    void* FUN_00bb3cd0();
+    void* FUN_00bb3ee0(bool a);
 };
 
 struct NewObj
@@ -1284,7 +1284,7 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 struct BSFogProperty
 {
     void* m_vft;
-    BSFogProperty* __thiscall FUN_00bb8250(unsigned char flags);
+    BSFogProperty* FUN_00bb8250(unsigned char flags);
 };
 extern const void* vftable_BSFogProperty;
 // Sets the vftable, calls DestroyFogProperty on this, and if flags bit 0 is set deletes this with size 0x64, returning this.
@@ -1300,7 +1300,7 @@ BSFogProperty* BSFogProperty::FUN_00bb8250(unsigned char flags)
 
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
+    void SetSize(unsigned int);
     ~NiTPrimitiveArray_ImageSpaceTexture___();
 };
 
@@ -1340,14 +1340,14 @@ FUN_00bb8900_Class::FUN_00bb8900_Class()
 
 struct FUN_00bb8ea0_Class
 {
-    void __thiscall FUN_00bb8ea0();
+    void FUN_00bb8ea0();
 };
 struct FUN_00bb91e0_Class
 {
-    void* __thiscall FUN_00bb91e0(unsigned char flags);
+    void* FUN_00bb91e0(unsigned char flags);
 };
 // @fnv 0x00bb91e0
-void* __thiscall FUN_00bb91e0_Class::FUN_00bb91e0(unsigned char flags)
+void* FUN_00bb91e0_Class::FUN_00bb91e0(unsigned char flags)
 {
     FUN_00bb8ea0_Class* obj = (FUN_00bb8ea0_Class*)this;
     obj->FUN_00bb8ea0();
@@ -1359,13 +1359,13 @@ void* __thiscall FUN_00bb91e0_Class::FUN_00bb91e0(unsigned char flags)
 struct FUN_00bb9590_Class
 {
     void* m_vft;
-    void __thiscall FUN_00bb9590();
+    void FUN_00bb9590();
 };
 
 // @fnv 0x00bb9590
-void __thiscall FUN_00bb9590_Class::FUN_00bb9590()
+void FUN_00bb9590_Class::FUN_00bb9590()
 {
-    ((void(__thiscall*)(void*))(*(void***)((char*)m_vft + 0x148)))(this);
+    ((void(*)(void*))(*(void***)((char*)m_vft + 0x148)))(this);
     reinterpret_cast<::PassManager *>(this)->ConfigureAllPasses();
 }
 
@@ -1385,17 +1385,17 @@ void FUN_00bb9660_Class::FUN_00bb9660()
         {
             void* p = *(void**)((char*)(*reinterpret_cast<void * (*)[57]>(&::DAT_01200dd8)) + i);
             if (p)
-                (*(void(__thiscall**)(void*))(*(int*)p + 0xa0))(p);
+                (*(void(**)(void*))(*(int*)p + 0xa0))(p);
         }
     }
     for (unsigned int i = 0; i < 0xc8; i += 4)
     {
         void* p = *(void**)((char*)(*reinterpret_cast<void * (*)[50]>(&::DAT_01200c48)) + i);
         if (p)
-            (*(void(__thiscall**)(void*))(*(int*)p + 0x88))(p);
+            (*(void(**)(void*))(*(int*)p + 0x88))(p);
         p = *(void**)((char*)(*reinterpret_cast<void * (*)[50]>(&::DAT_01200d10)) + i);
         if (p)
-            (*(void(__thiscall**)(void*))(*(int*)p + 0x88))(p);
+            (*(void(**)(void*))(*(int*)p + 0x88))(p);
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
@@ -1403,7 +1403,7 @@ void FUN_00bb9660_Class::FUN_00bb9660()
 extern char DAT_01200863;
 
 // @fnv 0x00bb96d0
-void __stdcall FUN_00bb96d0(unsigned int)
+void FUN_00bb96d0(unsigned int)
 {
     DAT_01200863 = 0;
     DAT_012010bc[8] = 0;
@@ -1456,11 +1456,11 @@ struct FUN_00baff20_Class
     unsigned char m_0x4d[0x0a];
     unsigned char m_0x57;
 
-    void __thiscall AttachAlphaProperty(NiAVObject* target);
+    void AttachAlphaProperty(NiAVObject* target);
 };
 
 // @fnv 0x00baff20
-void __thiscall FUN_00baff20_Class::AttachAlphaProperty(NiAVObject* target)
+void FUN_00baff20_Class::AttachAlphaProperty(NiAVObject* target)
 {
     if ((m_0x38 != 0 || m_0x44 != 0) && m_0x57 == 0)
     {
@@ -1504,7 +1504,7 @@ extern float DAT_0120005c;
 
 struct FUN_00ba13b0_Class
 {
-    bool __thiscall UpdateScaledValue(int unused);
+    bool UpdateScaledValue(int unused);
 };
 
 // @fnv 0x00ba13b0
@@ -1555,7 +1555,7 @@ struct ISArray
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void __thiscall SetSize(unsigned int size);
+    void SetSize(unsigned int size);
 };
 
 struct ISEffectBase
@@ -1688,7 +1688,7 @@ struct FUN_00ba3750_Class
     unsigned char unk00;
     unsigned char unk01;
     unsigned char state02;
-    void __thiscall FUN_00ba3750(unsigned char state);
+    void FUN_00ba3750(unsigned char state);
 };
 // @fnv 0x00ba3750
 void FUN_00ba3750_Class::FUN_00ba3750(unsigned char state)
@@ -1743,7 +1743,7 @@ struct FnvOdbObject
     virtual void v5();
     virtual void v6();
     virtual void v7(void* a);
-    void __thiscall ProcessEntries(void* arg1, void* arg2, void* arg3, FnvOdbValue arg4);
+    void ProcessEntries(void* arg1, void* arg2, void* arg3, FnvOdbValue arg4);
 };
 
 // Calls v4(arg3), then for each flagged entry calls SetEffectParams, v7(arg3) and the entry's v1 with arg1, arg2, m_ppOther[i] and arg4, then v5().
@@ -1921,11 +1921,11 @@ void FUN_00ba4250_cls::FUN_00ba4250(int value)
 
 struct FUN_00ba4260_Class
 {
-    void __thiscall FUN_00ba4260(unsigned char value);
+    void FUN_00ba4260(unsigned char value);
 };
 
 // @fnv 0x00ba4260
-void __thiscall FUN_00ba4260_Class::FUN_00ba4260(unsigned char value)
+void FUN_00ba4260_Class::FUN_00ba4260(unsigned char value)
 {
     *reinterpret_cast<unsigned char*>(reinterpret_cast<int>(this) + 0x5c) = value;
 }
@@ -2437,7 +2437,7 @@ struct Obj_b10008
 
 struct FUN_00ba82a0_cls
 {
-    Obj_b10008* __thiscall FUN_00ba82a0(int arg);
+    Obj_b10008* FUN_00ba82a0(int arg);
 };
 
 // Allocates an Obj_b10008, initializes it via FUN_00ba8b10 with arg, and returns the new object.
@@ -2939,7 +2939,7 @@ class FUN_00ba8f60_cls
     int m_58;
     float m_5c;
 
-    void __thiscall CopyStateTo(FUN_00ba8f60_cls* dst);
+    void CopyStateTo(FUN_00ba8f60_cls* dst);
 };
 
 // Copies selected fields into dst, zeroes dst->m_38, and if m_0c is set copies it and calls v98 on the copy.
@@ -3019,7 +3019,7 @@ struct FUN_00ba96d0Owner
     int unk44;
     void* m_48;
 
-    void __thiscall EnsureAllocated(unsigned int a);
+    void EnsureAllocated(unsigned int a);
 };
 
 // If m_48 is null, allocates a new FUN_00ba94b0 with a and stores it in m_48.
@@ -3285,7 +3285,7 @@ void FUN_00baa210_cls::FUN_00baa210()
 
 struct S_00baa3f0_Class
 {
-    void __thiscall FUN_00baa3f0(unsigned int idx);
+    void FUN_00baa3f0(unsigned int idx);
 };
 
 // If idx is in 0x16..0x3d or 0x25c..0x287, stores the corresponding slot value into DAT_0126f74c.
@@ -3413,11 +3413,11 @@ struct FUN_00baa700_cls
     int m_18;
     FUN_00baa700_target* m_1c;
 
-    int __thiscall FUN_00baa700(int a1, int a2, int a3, FUN_00baa700_param* a4, int a5, int a6, int a7);
+    int FUN_00baa700(int a1, int a2, int a3, FUN_00baa700_param* a4, int a5, int a6, int a7);
 };
 
 // @fnv 0x00baa700
-int __thiscall FUN_00baa700_cls::FUN_00baa700(int a1, int a2, int a3, FUN_00baa700_param* pParam, int a5, int a6,
+int FUN_00baa700_cls::FUN_00baa700(int a1, int a2, int a3, FUN_00baa700_param* pParam, int a5, int a6,
                                               int a7)
 {
     m_1c->v09(pParam->m_10);
@@ -3800,7 +3800,7 @@ class FUN_00bae980_cls
     unsigned int m_088;
     unsigned int m_08c;
 
-    void __thiscall FUN_00bae980(FUN_00bae980_cls* arg1, unsigned int arg2);
+    void FUN_00bae980(FUN_00bae980_cls* arg1, unsigned int arg2);
 };
 
 // Copies ref-counted pointers m_080 and m_070, m_084, m_08c and m_07c from this object into arg1 after calling FUN_00ba8b10.
@@ -4156,7 +4156,7 @@ void* __cdecl FUN_00aa13e0(unsigned int aiSize);
 
 struct SpawnFactory
 {
-    SpawnedObject90* __thiscall FUN_00baedc0(int aiArg);
+    SpawnedObject90* FUN_00baedc0(int aiArg);
 };
 
 // @fnv 0x00baedc0
@@ -4702,7 +4702,6 @@ void FUN_00bafa80_cls::FUN_00bafa80(TargetObject_cls* apTarget)
 }
 }  // namespace fnv_00bafa80
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 const char* __cdecl FUN_00a5b690(const char* pcString);
 
@@ -5032,7 +5031,6 @@ FUN_00bb0d40::FUN_00bb0d40(int a1, float a2, Triple3* a3, Triple3* a4, Triple3* 
     m_98 = abFlag != 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class BB0DE0RefObject
 {
@@ -5252,7 +5250,7 @@ struct ShaderRenderCommand
     int unk08;
     int unk0c;
     int dirty;
-    void __thiscall FUN_00ba9ee0(void* source, unsigned int code, int active, int a, int b, int c, int d, int e);
+    void FUN_00ba9ee0(void* source, unsigned int code, int active, int a, int b, int c, int d, int e);
 };
 
 struct ShaderRenderState
@@ -5274,12 +5272,12 @@ struct ShaderRenderState
     unsigned int packedVersion;
     ShaderRenderCommand* command;
 
-    ShaderRenderCommand* __thiscall FUN_00bb0fc0(void* data, unsigned int version, int unused1, unsigned int variant,
+    ShaderRenderCommand* FUN_00bb0fc0(void* data, unsigned int version, int unused1, unsigned int variant,
                                                  int unused2, int FlushUsageData);
 };
 
 // @fnv 0x00bb0fc0
-ShaderRenderCommand* __thiscall ShaderRenderState::FUN_00bb0fc0(void* data, unsigned int version, int unused1,
+ShaderRenderCommand* ShaderRenderState::FUN_00bb0fc0(void* data, unsigned int version, int unused1,
                                                                 unsigned int variant, int unused2, int FlushUsageData)
 {
     ShaderThreadMarkerScope marker;
@@ -5590,7 +5588,7 @@ extern Vec3 DAT_01200628;
 extern float DAT_01200634;
 
 // @fnv 0x00bb1960
-void __stdcall UpdateLightDirection(LightOwner* owner, const Matrix44* matrix, float scale)
+void UpdateLightDirection(LightOwner* owner, const Matrix44* matrix, float scale)
 {
     Vec3 dir;
     dir.x = -(*reinterpret_cast<::Vec3 *>(&::DAT_011fa1f0)).x;
@@ -6626,8 +6624,8 @@ struct DataSize
 };
 struct ImageProvider
 {
-    typedef unsigned short(__thiscall* CountGetter)(ImageProvider*);
-    typedef void*(__thiscall* DataGetter)(ImageProvider*, DataSize, unsigned int);
+    typedef unsigned short(* CountGetter)(ImageProvider*);
+    typedef void*(* DataGetter)(ImageProvider*, DataSize, unsigned int);
     unsigned short getMaxLayers()
     {
         return reinterpret_cast<CountGetter>((*reinterpret_cast<void***>(this))[0x124 / 4])(this);
@@ -6638,10 +6636,10 @@ struct ImageProvider
         DataSize size = {length};
         return reinterpret_cast<DataGetter>(functions[0x120 / 4])(this, size, first);
     }
-    ImageBuffer* __thiscall FUN_00bb3280(ImageSource* source);
+    ImageBuffer* FUN_00bb3280(ImageSource* source);
 };
 // @fnv 0x00bb3280
-ImageBuffer* __thiscall ImageProvider::FUN_00bb3280(ImageSource* source)
+ImageBuffer* ImageProvider::FUN_00bb3280(ImageSource* source)
 {
     if (source != 0)
     {
@@ -6695,7 +6693,7 @@ struct FUN_00bb33a0_Class
     unsigned int unk7c;
     unsigned int unk80;
 
-    void __thiscall FUN_00bb33a0(int parameter);
+    void FUN_00bb33a0(int parameter);
 };
 
 // @fnv 0x00bb33a0
@@ -6704,8 +6702,6 @@ void FUN_00bb33a0_Class::FUN_00bb33a0(int parameter)
     unk80 = (parameter != 3) ? 3 : 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class BBB3500RefObject
 {
@@ -6834,7 +6830,7 @@ class FUN_00bb3500_cls : public BBB3500Base
 };
 // Calls FUN_00bb3500, sets the vtable to DAT_010b9338 and initializes m_0x58 to 4 and m_0x1c to 10, then returns this.
 // @fnv 0x00bb3070
-void* __thiscall FUN_00bb3070_Class::FUN_00bb3070(int a)
+void* FUN_00bb3070_Class::FUN_00bb3070(int a)
 {
     new ((void *)this) ::FUN_00bb3500_cls((::BBB3500RefObject *)(a));
     m_vft = (void*)&DAT_010b9338;
@@ -7447,7 +7443,7 @@ struct FUN_00bb3a50_sub
     unsigned int unk08;
     unsigned int unk0C;
     int m_10;
-    void __thiscall FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
+    void FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
 };
 
 struct FUN_00bb3a50_cls
@@ -7482,7 +7478,7 @@ struct FUN_00bb3a50_cls
     unsigned int unk6C;
     unsigned int unk70;
     unsigned char m_74;
-    void* __thiscall FUN_00bb3a50(int a1, int a2, unsigned short* a3, int a4, int a5, int a6);
+    void* FUN_00bb3a50(int a1, int a2, unsigned short* a3, int a4, int a5, int a6);
 };
 
 // @fnv 0x00bb3a50
@@ -7682,7 +7678,7 @@ class FUN_00bb3cd0 : public BB3CD0Base
 };
 // Calls FUN_00bb3cd0, then deletes this with size 0x90 if the low bit of a is set, and returns this.
 // @fnv 0x00bb3ee0
-void* __thiscall FUN_00bb3ee0_Class::FUN_00bb3ee0(bool abDelete)
+void* FUN_00bb3ee0_Class::FUN_00bb3ee0(bool abDelete)
 {
     reinterpret_cast<::FUN_00bb3cd0 *>(this)->FUN_00bb3cd0::~FUN_00bb3cd0();
     if (abDelete & 1)
@@ -7903,7 +7899,7 @@ FUN_00bb4540::FUN_00bb4540(SpawnArgIface* pSpawnArg) : SpawnBaseObj()
 extern int DAT_010b9910;
 
 // @fnv 0x00bb45b0
-void __fastcall FUN_00bb45b0(unsigned int* param_1)
+void FUN_00bb45b0(unsigned int* param_1)
 {
     *param_1 = reinterpret_cast<unsigned int>(&DAT_010b9910);
     reinterpret_cast<struct ::FUN_00b67380 *>((param_1))->FUN_00b67380::~FUN_00b67380();
@@ -8462,7 +8458,7 @@ struct FUN_00bb5fa0_cls
 
 
 // @fnv 0x00bb5fa0
-void __stdcall FUN_00bb5fa0(FUN_00bb5fa0_cls* self)
+void FUN_00bb5fa0(FUN_00bb5fa0_cls* self)
 {
     reinterpret_cast<::Target *>((self))->FUN_00b690d0({});
     char* local = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012007b0))));
@@ -8505,7 +8501,7 @@ struct FUN_00bb5ff0_Class
     int unk58;
     float unk5C;
 
-    bool __thiscall FUN_00bb5ff0(FUN_00a59d30_Class* a1);
+    bool FUN_00bb5ff0(FUN_00a59d30_Class* a1);
 };
 
 // @fnv 0x00bb5ff0
@@ -8875,7 +8871,6 @@ void FNVCaller::FUN_00bb8300(FNVArray* destination)
     destination->Append(FUN_00a7d550(gSecondName, value30));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefTexture
 {
     virtual void unused();
@@ -9118,7 +9113,6 @@ struct FUN_00bb9180_cls : SpawnedBase
 FUN_00bb9180_cls::FUN_00bb9180_cls() : m_28(4)
 {}
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 struct BA02F0TexArray
 {
@@ -9128,7 +9122,7 @@ struct BA02F0TexArray
     unsigned short m_iElementCount;
     unsigned short m_free;
     unsigned short m_growBy;
-    void __thiscall SetSize(unsigned int);
+    void SetSize(unsigned int);
     ~BA02F0TexArray();
 };
 
@@ -9276,7 +9270,7 @@ class ISKernelEffect
 namespace fnv_00ba63e0 {
 struct S_00ba63e0_MM
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 class NiObject
 {
@@ -9357,8 +9351,6 @@ FUN_00ba63e0::FUN_00ba63e0(unsigned short a, unsigned int auiCount)
 }
 }  // namespace fnv_00ba63e0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class NiNodeBA8;
 class NiAVObjectBA8
 {
@@ -9676,7 +9668,7 @@ struct FogInfo
     float density;
 };
 // @fnv 0x00baa430
-void __stdcall FUN_00baa430(int unused)
+void FUN_00baa430(int unused)
 {
     FogInfo* fog = ((::FogInfo *)(::FUN_00b55520(DAT_011f91c4)));
     if (fog)
@@ -10529,7 +10521,7 @@ struct FUN_00baf640_Class
     unsigned char fieldad;
     unsigned char fieldae;
     unsigned char fieldaf;
-    void __thiscall UpdateRenderFlags(FlagState* a, RenderInput* b);
+    void UpdateRenderFlags(FlagState* a, RenderInput* b);
 };
 
 // Sets or clears bits in the flag words from the object's byte fields and copies field8c into the float field.
@@ -10885,7 +10877,7 @@ struct NiGlobalStringTable
 {
     static char* __cdecl AddString(const char*);
 };
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 struct Getter08
 {
     virtual void v00();
@@ -11335,8 +11327,6 @@ FUN_00bb1c10::~FUN_00bb1c10()
         m_spPixelShaders[i] = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Resource
 {
     virtual void unused();
@@ -11881,7 +11871,6 @@ B30B0Pass* B30B0Shader::CreateDefaultPass()
     return new B30B0DefaultPass(GetState());
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plAddend);
 class CBB3B10MemoryManager
 {
   public:
@@ -12033,7 +12022,7 @@ class FUN_00bb3d80_cls
     int unk84;
     RefObj_b4622* m_088;
     unsigned short m_08c;
-    void __thiscall FUN_00bb3d80(FUN_00bb3d80_cls* arg1, unsigned int arg2);
+    void FUN_00bb3d80(FUN_00bb3d80_cls* arg1, unsigned int arg2);
 };
 // @fnv 0x00bb3d80
 void FUN_00bb3d80_cls::FUN_00bb3d80(FUN_00bb3d80_cls* arg1, unsigned int arg2)
@@ -12604,8 +12593,8 @@ struct WorkerSource
 
 struct BB3FC0ImageProvider
 {
-    typedef unsigned int(__thiscall* CountGetter)(BB3FC0ImageProvider*);
-    typedef void*(__thiscall* DataGetter)(BB3FC0ImageProvider*, DataSize, unsigned int);
+    typedef unsigned int(* CountGetter)(BB3FC0ImageProvider*);
+    typedef void*(* DataGetter)(BB3FC0ImageProvider*, DataSize, unsigned int);
     unsigned int getLayerCount()
     {
         return reinterpret_cast<CountGetter>((*reinterpret_cast<void***>(this))[0xd4 / 4])(this);
@@ -12702,7 +12691,7 @@ struct EffectCtx
     void** m_ppTextures;
     short unk30;
     unsigned short m_uiItemCount;
-    bool __thiscall FUN_00bb85e0(int a1);
+    bool FUN_00bb85e0(int a1);
 };
 
 extern int DAT_012007fc;
@@ -12756,7 +12745,7 @@ void __cdecl FUN_00ba8a80()
 }
 
 // @fnv 0x00ba8a90
-int __stdcall FUN_00ba8a90(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
+int FUN_00ba8a90(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
 {
     return 0;
 }
@@ -12851,12 +12840,12 @@ struct FUN_00baeee0_shell
     float blendValue;
     int unk88;
     int soType;
-    void __thiscall AppendToStringArray(StrArr* arr);
+    void AppendToStringArray(StrArr* arr);
 };
 
 // Appends formatted entries for SOType, blend texture, blend value, base texture and, when soType is 3, the blend color to the string array.
 // @fnv 0x00baeee0
-void __thiscall FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
+void FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
 {
     char buf[256];
     StrArrView* view = (StrArrView*)arr;
@@ -13028,11 +13017,11 @@ struct FUN_00bb1160_Class
     void* field90;
     unsigned int field94;
     unsigned int field98;
-    void __thiscall FUN_00bb1160(StrArr* array);
+    void FUN_00bb1160(StrArr* array);
 };
 // Appends formatted entries for DAT_012005fc, field60, field90 (via FUN_00c4bb40 or FUN_00a7d5a0), a disabled flag, and field98 to the array.
 // @fnv 0x00bb1160
-void __thiscall FUN_00bb1160_Class::FUN_00bb1160(StrArr* array)
+void FUN_00bb1160_Class::FUN_00bb1160(StrArr* array)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((array))->WriteToSettingArray({});
     ((FNVArray*)array)->Append(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012005fc)))));
@@ -13068,7 +13057,7 @@ union FogSlots_00bb1b50
 };
 // Reads the current FogInfo and stores its far/near distance, color and density into the two global FogVector4 values.
 // @fnv 0x00bb1b50
-void __stdcall FUN_00bb1b50(int unused)
+void FUN_00bb1b50(int unused)
 {
     FogInfo* src = ((::FogInfo *)(::FUN_00b55520(DAT_011f91c4)));
     if (src != 0)
@@ -13204,7 +13193,7 @@ struct FUN_00e7de90_Class
     int m8;
 };
 // @fnv 0x00bb66c0
-void __stdcall FUN_00bb66c0(unsigned int)
+void FUN_00bb66c0(unsigned int)
 {
     if ((*reinterpret_cast<void * *>(&::DAT_012007c4)))
     {
@@ -13237,20 +13226,20 @@ void NiMapBase::FUN_00bb7160(NiStream* pkStream)
 class FUN_00bbe650_Class
 {
   public:
-    void __thiscall FUN_00bbe650(int* args);
+    void FUN_00bbe650(int* args);
 };
 
 // Reads DAT_011f91e4 and, unless it is 0x1e0, 0x1e1, 0xe or 0xf, calls virtual slots 79 and 80 with that value and args[3], then slot 67.
 // @fnv 0x00bbe650
-void __thiscall FUN_00bbe650_Class::FUN_00bbe650(int* args)
+void FUN_00bbe650_Class::FUN_00bbe650(int* args)
 {
     int arg_c = args[3];
     int val = (*reinterpret_cast<int *>(&::DAT_011f91e4));
     if (val != 0x1e0 && val != 0x1e1 && val != 0xe && val != 0xf)
     {
-        ((void(__thiscall*)(void*, int, int))(*(void***)this)[79])(this, val, arg_c);
-        ((void(__thiscall*)(void*, int, int))(*(void***)this)[80])(this, val, arg_c);
-        ((void(__thiscall*)(void*))(*(void***)this)[67])(this);
+        ((void(*)(void*, int, int))(*(void***)this)[79])(this, val, arg_c);
+        ((void(*)(void*, int, int))(*(void***)this)[80])(this, val, arg_c);
+        ((void(*)(void*))(*(void***)this)[67])(this);
     }
 }
 
@@ -13275,7 +13264,7 @@ struct S00baa660_Tls
     }
 };
 
-typedef void(__thiscall* S00baa660_VFn)(S00baa660_Obj*);
+typedef void(* S00baa660_VFn)(S00baa660_Obj*);
 
 // If FUN_00e80570 returns true, calls virtual functions at offsets 0x12c, 0x134, and 0x130 on this object.
 // @fnv 0x00baa660
@@ -13597,7 +13586,7 @@ struct S00bafd50_Cls
     int unkAC;
     int unkB0;
     void* m_b4;
-    void __thiscall FUN_00bafd50(S00bafd50_Arg* argument);
+    void FUN_00bafd50(S00bafd50_Arg* argument);
 };
 // Gets a worker object, runs per-type setup on it (range, 21/22/4/13/19/7 variants), sets its shader from DAT_011ae5a8[type], and passes it to target.
 // @fnv 0x00bb0040
@@ -13662,8 +13651,8 @@ struct S00bafd50_Ptr
             DAT_00fdf1c4((char*)p - 8);
     }
 };
-typedef int(__thiscall* S00bafd50_GetFn)(void*, int);
-typedef void(__thiscall* S00bafd50_FinishFn)(void*, void*);
+typedef int(* S00bafd50_GetFn)(void*, int);
+typedef void(* S00bafd50_FinishFn)(void*, void*);
 
 // If m_a8 is set, passes the result of its vtable slot 35 (via FUN_00a5b690) to argument->m_74, then calls argument's vtable slot 52 with m_b4.
 // @fnv 0x00bafd50
@@ -14085,7 +14074,7 @@ static float bae560_maxf(float x, double d)
     return x;
 }
 
-// FUN_00baea50: /MT /O2 /GS /EHsc /Gy, 175 bytes, __thiscall with one stack argument.
+// FUN_00baea50: /MT /O2 /GS /EHsc /Gy, 175 bytes, with one stack argument.
 // Generated layout; see levers.md.
 
 struct FUN_00baea50_cls;
@@ -14553,8 +14542,6 @@ bool nbb::Owner::FUN_00bb12e0(Root248* apRoot)
 }
 
 namespace ShaderInit {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" void* FUN_00ec61c0(void*, int, unsigned int);
 extern const char DAT_010b9178[], DAT_010b9174[], DAT_010b915c[], DAT_010b914c[], DAT_010b9138[], DAT_010b9128[], DAT_010b9118[], DAT_010b8afc[];
 struct Macro
@@ -14982,10 +14969,10 @@ struct FUN_00a5a040_Class
     int unk94;
     int unk98;
     int unk9c;
-    void __thiscall FUN_00a5a040();
+    void FUN_00a5a040();
 };
 // @fnv 0x00bae780
-char __thiscall FUN_00bae780_Class::FUN_00bae780(NiAVObject* apObject)
+char FUN_00bae780_Class::FUN_00bae780(NiAVObject* apObject)
 {
     if ((*reinterpret_cast<char *>(&::DAT_011f941e)) && !((char*)apObject + 0x9c))
         reinterpret_cast<::FUN_00a5a040_Class *>((apObject))->FUN_00a5a040();
@@ -15037,7 +15024,7 @@ struct FUN_00bb3440_Class
     int unk74;
     int unk78;
     int m_7c;
-    int __thiscall FUN_00bb3440(FUN_00a5a040_Class* a1, int a2, int a3);
+    int FUN_00bb3440(FUN_00a5a040_Class* a1, int a2, int a3);
 };
 
 // Calls FUN_00a5a040 on a1 if &a1->unk9c is null, sets m_58 to 0 when m_7c is 0, and returns 0.
@@ -15151,7 +15138,7 @@ class FUN_00bb3790 : public ShaderBase_bb37
     Pointer_bb37<RefObject_bb37> m_spTexture1;
 };
 // @fnv 0x00bb3910
-FUN_00bb3910_Class* __thiscall FUN_00bb3910_Class::FUN_00bb3910(unsigned char a)
+FUN_00bb3910_Class* FUN_00bb3910_Class::FUN_00bb3910(unsigned char a)
 {
     reinterpret_cast<::FUN_00bb3790 *>((((FUN_00bb3790_Class*)this)))->FUN_00bb3790::~FUN_00bb3790();
     if (a & 1)
@@ -15201,7 +15188,7 @@ class LockMember_ba
     ~LockMember_ba()
     {
         Lock_ba* pLock = m_pLock;
-        if (pLock != 0 && !TryEnterCriticalSection(&pLock->cs))
+        if (pLock != 0 && !InterlockedDecrement(&pLock->cs))
         {
             pLock->v04();
         }
@@ -15275,8 +15262,8 @@ struct BufferDevice
     virtual void v40();
     virtual void v44();
     virtual void v48();
-    virtual int __stdcall Lock(unsigned int, Locked*, unsigned int, unsigned int);
-    virtual int __stdcall Unlock(unsigned int);
+    virtual int Lock(unsigned int, Locked*, unsigned int, unsigned int);
+    virtual int Unlock(unsigned int);
 };
 struct TextureObject
 {
@@ -15810,8 +15797,6 @@ void AAF40Updater::FUN_00baaf40(void* pUnused, AAF40Object* pkObject)
 }
 
 namespace ShaderDraw {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Vec3
 {
     float x, y, z;
@@ -16515,7 +16500,7 @@ struct DecalShaderProperty
     BSShaderProperty__RenderPassArray* m_pRenderPassArray;
 
 
-    BSShaderProperty__RenderPassArray* __thiscall UpdateRenderPasses(NiGeometry* geom, unsigned int pass, int a3,
+    BSShaderProperty__RenderPassArray* UpdateRenderPasses(NiGeometry* geom, unsigned int pass, int a3,
                                                                      int passType, int a5, int a6);
 };
 
@@ -17018,8 +17003,6 @@ void ISBlurEffect::SetupBlurPasses(TexSource* apTexSource, int unused)
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(apTexSource->unk08[idx + 0x4e]), (::ImageSpaceEffectParam *)(param), 0);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct BA01A0Owner;
 
@@ -17977,7 +17960,7 @@ struct MgrInner
     virtual void mv66();
     virtual void mv67();
     virtual void mv68();
-    virtual void __stdcall Call69(int, int, int);
+    virtual void Call69(int, int, int);
 };
 struct Mgr2 : MgrInner
 {
@@ -18247,7 +18230,7 @@ struct Badb90This
     char m_6a;
     char m_6b;
     FPair* m_6c;
-    void __thiscall FUN_00badb90(int a0, int a1, int a2, int a3);
+    void FUN_00badb90(int a0, int a1, int a2, int a3);
 };
 
 static __forceinline Node* PreparePass(PassArray*& renderSet, PassArray*& parameterSet, unsigned int index, IST* output,
@@ -18271,7 +18254,7 @@ static __forceinline int ClampLower(int x, int lo)
 }
 // Draws passes from the m_0c and m_1c node sets, repeatedly rendering to textures with width and height divided by 4 until both are 1, then draws final passes.
 // @fnv 0x00badb90
-void __thiscall Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
+void Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
 {
     IST texA;
     IST texB;
@@ -20672,7 +20655,7 @@ return21:
 }
 
 extern int DAT_010b7f00;
-extern HLOCAL(__stdcall* DAT_010b7f08)(HLOCAL);
+extern HLOCAL(* DAT_010b7f08)(HLOCAL);
 
 namespace LocalHeapCleanup {
 
@@ -20685,7 +20668,7 @@ struct Buffer
 };
 
 // @fnv 0x00ba11e0
-extern "C" Buffer* __fastcall FUN_00ba11e0(Buffer* buffer, void*, unsigned char acFlags)
+extern "C" Buffer* FUN_00ba11e0(Buffer* buffer, void*, unsigned char acFlags)
 {
     int value = buffer->m_04;
     buffer->m_vptr = (int)&DAT_010b7f00;

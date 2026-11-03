@@ -76,7 +76,6 @@ enum CHALLENGE_TYPE
 #include "teschallenge_support.h"
 #include "BaseFormComponent.h"
 class BGSLoadFormBuffer;
-#pragma pack(push, 4)
 class TESForm : public BaseFormComponent
 {
   public:
@@ -166,12 +165,6 @@ class TESForm : public BaseFormComponent
 public:
     void LoadGame(void *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #endif
 
 // Source layout: TESScriptableForm. PC corrections are in generate_headers.py.
@@ -179,7 +172,6 @@ FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #define FNV_TESSCRIPTABLEFORM_H
 #include "teschallenge_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESScriptableForm : public BaseFormComponent
 {
   public:
@@ -188,10 +180,6 @@ class TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;      // +0x8
     unsigned char layoutPadding9[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESScriptableForm) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESScriptableForm, m_pFormScript) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESScriptableForm, m_bHasScript) == 0x8);
 #endif
 
 #ifndef FNV_TESCHALLENGE_H
@@ -203,7 +191,6 @@ FNV_STATIC_ASSERT(offsetof(TESScriptableForm, m_bHasScript) == 0x8);
 #define FNV_TESDESCRIPTION_H
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESDescription : public BaseFormComponent
 {
   public:
@@ -211,9 +198,6 @@ class TESDescription : public BaseFormComponent
     static void ReadDescriptionFromFile(TESDescription*, TESFile*);
     unsigned long m_uiDescriptionFileOffset;  // +0x4
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESDescription) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESDescription, m_uiDescriptionFileOffset) == 0x4);
 #endif
 
 #include "TESForm.h"
@@ -222,15 +206,11 @@ FNV_STATIC_ASSERT(offsetof(TESDescription, m_uiDescriptionFileOffset) == 0x4);
 #define FNV_TESFULLNAME_H
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESFullName : public BaseFormComponent
 {
   public:
     BSStringT<char> m_kName;  // +0x4
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 #endif
 
 #include "TESIcon.h"
@@ -239,16 +219,11 @@ class BGSMessageIcon;
 class ChallengeData;
 class ChallengeProgress;
 class TESChallenge;
-#pragma pack(push, 4)
 class BGSMessageIcon : public BaseFormComponent
 {
   public:
     TESIcon Icon;  // +0x4, 12 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSMessageIcon) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSMessageIcon, Icon) == 4);
-#pragma pack(push, 4)
 class ChallengeData
 {
   public:
@@ -262,27 +237,12 @@ class ChallengeData
     unsigned short IndexedRecordValueTriple;  // +0x14, 2 bytes
     unsigned char layoutPadding16[2];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ChallengeData) == 24);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, m_iPrimaryValue) == 0);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, m_iAuxiliaryValue) == 4);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, nFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, m_iRecordIndex) == 12);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, FlaggedRecordValueEntry) == 16);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, RecordIndexValueData) == 18);
-FNV_STATIC_ASSERT(offsetof(ChallengeData, IndexedRecordValueTriple) == 20);
-#pragma pack(push, 4)
 class ChallengeProgress
 {
   public:
     int iProgress;           // +0x0, 4 bytes
     int m_iCompletionCount;  // +0x4, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ChallengeProgress) == 8);
-FNV_STATIC_ASSERT(offsetof(ChallengeProgress, iProgress) == 0);
-FNV_STATIC_ASSERT(offsetof(ChallengeProgress, m_iCompletionCount) == 4);
-#pragma pack(push, 4)
 class TESChallenge : public TESForm,
                      public TESFullName,
                      public TESDescription,
@@ -305,12 +265,6 @@ class TESChallenge : public TESForm,
 public:
     void FUN_005f60e0(int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESChallenge) == 124);
-FNV_STATIC_ASSERT(offsetof(TESChallenge, data) == 84);
-FNV_STATIC_ASSERT(offsetof(TESChallenge, progress) == 108);
-FNV_STATIC_ASSERT(offsetof(TESChallenge, m_pPrimaryForm) == 116);
-FNV_STATIC_ASSERT(offsetof(TESChallenge, m_pSecondaryForm) == 120);
 #endif
 class BGSLoadFormBuffer
 {

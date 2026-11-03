@@ -16,11 +16,9 @@ class bhkCharacterController
 };
 bhkCharacterController* CopyCharacterControllerVector(bhkCharacterController*, const NiPoint3&);
 
-#pragma pack(push, 1)
 struct MobileObjectRemovalState
 {
     unsigned char padding0, padding1, padding2;
     bool removed;
     bhkCharacterController* controller;
 };
-#pragma pack(pop)

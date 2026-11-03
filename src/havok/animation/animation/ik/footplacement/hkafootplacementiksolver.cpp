@@ -6,7 +6,7 @@
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_011f6000.h"
-void __stdcall FUN_00cd8800(unsigned char* out, int arg2, int arg3, int arg4, int arg5)
+void FUN_00cd8800(unsigned char* out, int arg2, int arg3, int arg4, int arg5)
 {
     *out = 0;
 }

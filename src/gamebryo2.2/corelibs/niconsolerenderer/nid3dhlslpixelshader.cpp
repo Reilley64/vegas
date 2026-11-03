@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_0043ba10_shell.h"
 #include "fnv/decl/FUN_00e898c0_shell.h"
 #include "fnv/decl/FakeShaderConstants.h"
@@ -17,17 +18,17 @@ struct BaseFake
 };
 struct CT
 {
-    virtual void __stdcall F0();
-    virtual void __stdcall F1();
-    virtual void __stdcall Release();
+    virtual void F0();
+    virtual void F1();
+    virtual void Release();
 };
 struct FUN_00e96cd0_shell : BaseFake
 {
     CT* m_pShaderConstantTable;
-    void __thiscall ReleaseAndReset();
+    void ReleaseAndReset();
 };
 // @fnv 0x00e96cd0
-void __thiscall FUN_00e96cd0_shell::ReleaseAndReset()
+void FUN_00e96cd0_shell::ReleaseAndReset()
 {
     if (m_pShaderConstantTable)
     {
@@ -45,12 +46,12 @@ struct _D3DXCONSTANTTABLE_DESC
 };
 struct FakeConstantTable00e96d10
 {
-    virtual long __stdcall F0();
-    virtual long __stdcall F1();
-    virtual long __stdcall F2();
-    virtual long __stdcall F3();
-    virtual long __stdcall F4();
-    virtual long __stdcall GetDesc(_D3DXCONSTANTTABLE_DESC* pDesc);
+    virtual long F0();
+    virtual long F1();
+    virtual long F2();
+    virtual long F3();
+    virtual long F4();
+    virtual long GetDesc(_D3DXCONSTANTTABLE_DESC* pDesc);
 };
 struct NiD3DHLSLPixelShader
 {
@@ -71,7 +72,7 @@ struct FUN_00e96d40_Class
 {
     char _pad00[0x38];
     void* m_pShaderConstantTable;
-    unsigned int __thiscall FUN_00e96d40(unsigned int a);
+    unsigned int FUN_00e96d40(unsigned int a);
 };
 
 struct FUN_00e96d40_Out
@@ -90,8 +91,8 @@ struct FUN_00e96d40_Out
     unsigned int u11;
 };
 
-typedef unsigned int(__thiscall* FNC_F20)(void*, void*, unsigned int, unsigned int);
-typedef long(__thiscall* FNC_F18)(void*, void*, unsigned int, unsigned int*, unsigned int&);
+typedef unsigned int(* FNC_F20)(void*, void*, unsigned int, unsigned int);
+typedef long(* FNC_F18)(void*, void*, unsigned int, unsigned int*, unsigned int&);
 
 // @fnv 0x00e96d40
 unsigned int FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
@@ -111,14 +112,14 @@ unsigned int FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
 
 struct FUN_00e898d0_shell
 {
-    void __thiscall FUN_00e898d0();
+    void FUN_00e898d0();
 };
 struct FUN_00e96d00_Class
 {
-    void __thiscall FUN_00e96d00();
+    void FUN_00e96d00();
 };
 // @fnv 0x00e96d00
-void __thiscall FUN_00e96d00_Class::FUN_00e96d00()
+void FUN_00e96d00_Class::FUN_00e96d00()
 {
     ((FUN_00e898d0_shell*)this)->FUN_00e898d0();
 }
@@ -168,17 +169,17 @@ struct ShaderConstantDesc
 
 struct ConstantTable
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
-    virtual long __stdcall GetDesc(void* pDesc);
-    virtual long __stdcall GetConstantDescription(const char* hConstant, ShaderConstantDesc* pDesc,
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
+    virtual long GetDesc(void* pDesc);
+    virtual long GetConstantDescription(const char* hConstant, ShaderConstantDesc* pDesc,
                                                   unsigned int* pCount);
-    virtual unsigned int __stdcall GetSamplerRegisterIndex(const char* hConstant);
-    virtual const char* __stdcall GetPlaneConstant(const char* hConstant, unsigned int uiIndex);
-    virtual const char* __stdcall FindConstantByName(const char* hConstant, const char* pName);
+    virtual unsigned int GetSamplerRegisterIndex(const char* hConstant);
+    virtual const char* GetPlaneConstant(const char* hConstant, unsigned int uiIndex);
+    virtual const char* FindConstantByName(const char* hConstant, const char* pName);
 };
 
 struct __declspec(align(16)) Matrix16
@@ -318,7 +319,7 @@ struct DeviceVTable
     void* unk1a8;
     void* unk1ac;
     void* unk1b0;
-    HRESULT(__stdcall* SetPixelShaderConstantF)(Device*, UINT, const float*, UINT);
+    HRESULT(* SetPixelShaderConstantF)(Device*, UINT, const float*, UINT);
 };
 struct Device
 {
@@ -1541,8 +1542,6 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
 }
 
 namespace fnv_00e96da0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 extern char DAT_010f13f0[];
 
@@ -1604,10 +1603,10 @@ struct Library
     virtual void v00c();
     virtual void v010();
     virtual void v014();
-    virtual void __stdcall GetInfo(int handle, SoundInfo* info, int* count);
+    virtual void GetInfo(int handle, SoundInfo* info, int* count);
     virtual void v01c();
     virtual void v020();
-    virtual int __stdcall Find(int flags, const char* name);
+    virtual int Find(int flags, const char* name);
 };
 
 struct Device
@@ -1721,7 +1720,7 @@ struct Device
     virtual void v1a8();
     virtual void v1ac();
     virtual void v1b0();
-    virtual long __stdcall Invoke(int id, SoundInfo* value, int extra);
+    virtual long Invoke(int id, SoundInfo* value, int extra);
 };
 
 struct Handler

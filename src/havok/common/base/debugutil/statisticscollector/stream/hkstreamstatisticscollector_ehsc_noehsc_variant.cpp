@@ -25,7 +25,7 @@ struct VirtualBase
 };
 struct FUN_00ddf020_Class
 {
-    void __thiscall FUN_00ddf020();
+    void FUN_00ddf020();
 };
 struct hkMemoryAllocator
 {
@@ -256,7 +256,7 @@ class ObjDDF9
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
 };
-void __stdcall ClearAllItems(int iUnused0, int iUnused1);
+void ClearAllItems(int iUnused0, int iUnused1);
 extern int DAT_010d8040;
 struct SubBase
 {

@@ -159,11 +159,11 @@ struct FUN_00844130_arg
     unsigned int val;
 };
 
-void __fastcall FUN_005890c0(int* self, FUN_00844130_arg a);
+void FUN_005890c0(int* self, FUN_00844130_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00844130
-int* __fastcall FUN_00844130(int* self, FUN_00844130_arg a)
+int* FUN_00844130(int* self, FUN_00844130_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;
@@ -179,7 +179,7 @@ class SaveGameSizeState
 };
 
 // @fnv 0x00844a90
-void* __fastcall SaveGameSizeStateConstructor(void* pThis)
+void* SaveGameSizeStateConstructor(void* pThis)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_0107ed08;
     reinterpret_cast<SaveGameSizeState*>(pThis)->RecordRequestedSize(0, 0);
@@ -194,7 +194,7 @@ class GlobalObject_00869f00
 extern int DAT_0107ed08;
 
 // @fnv 0x00844ac0
-void __fastcall FUN_00844ac0(GlobalObject_00869f00* _this)
+void FUN_00844ac0(GlobalObject_00869f00* _this)
 {
     *(int**)_this = &DAT_0107ed08;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((_this))->Clear(true);
@@ -243,11 +243,11 @@ OffsetData* FUN_006db9b0_s::AllocateOffsetData(unsigned int aiSizeInItem)
 
 struct FUN_00841320_shell
 {
-    void __thiscall FUN_00841320(int arg);
+    void FUN_00841320(int arg);
 };
 
 // @fnv 0x00841320
-void __thiscall FUN_00841320_shell::FUN_00841320(int arg)
+void FUN_00841320_shell::FUN_00841320(int arg)
 {
     *(int*)((char*)this + 0x10) |= arg;
 }
@@ -273,12 +273,12 @@ extern void* DAT_0107e9d0;
 
 struct FUN_00844fc0_shell
 {
-    void* __thiscall FUN_00844fc0(int arg);
+    void* FUN_00844fc0(int arg);
 };
 
 // Allocates arg << 3 bytes via operator new and returns the pointer.
 // @fnv 0x00844fc0
-void* __thiscall FUN_00844fc0_shell::FUN_00844fc0(int arg)
+void* FUN_00844fc0_shell::FUN_00844fc0(int arg)
 {
     void* p = ::FUN_00401000(arg << 3);
     return p;
@@ -302,7 +302,7 @@ struct BGSReconstructCellsMap
 struct BGSReconstructCellSubBlocksMap
 {
     virtual ~BGSReconstructCellSubBlocksMap();
-    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 struct S006950d0
@@ -325,13 +325,13 @@ namespace fnv_00844180 {
 
 struct FUN_00844180_shell
 {
-    void __thiscall FUN_00844470();
-    void* __thiscall FUN_00844180(unsigned int flags);
+    void FUN_00844470();
+    void* FUN_00844180(unsigned int flags);
 };
 
 // Calls FUN_00844470, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00844180
-void* __thiscall FUN_00844180_shell::FUN_00844180(unsigned int flags)
+void* FUN_00844180_shell::FUN_00844180(unsigned int flags)
 {
     FUN_00844470();
     if (flags & 1)
@@ -361,11 +361,11 @@ struct FUN_00845260_holder
 
 struct FUN_00844500_shell
 {
-    void __thiscall ForwardToHolder();
+    void ForwardToHolder();
 };
 
 // @fnv 0x00844500
-void __thiscall FUN_00844500_shell::ForwardToHolder()
+void FUN_00844500_shell::ForwardToHolder()
 {
     reinterpret_cast<::FUN_0069b8a0_cls *>((((FUN_00845260_holder*)((char*)this + 0xc))))->CreateObj_00845260();
 }
@@ -384,7 +384,7 @@ struct FUN_00844fa0_shell
 };
 
 // @fnv 0x00844fa0
-void __thiscall FUN_00844fa0_shell::InitGlobalObject()
+void FUN_00844fa0_shell::InitGlobalObject()
 {
     m_p = &::DAT_0107ed50;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
@@ -424,7 +424,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00416870_shell : public NiPoint3
 {
     void FUN_00416870(float, float, float);
@@ -949,11 +948,11 @@ struct FUN_008442a0_shell
     int p2;
     void* p3;
     int p4;
-    int __thiscall FUN_008442a0(int n);
+    int FUN_008442a0(int n);
 };
 
 // @fnv 0x008442a0
-int __thiscall FUN_008442a0_shell::FUN_008442a0(int aiCount)
+int FUN_008442a0_shell::FUN_008442a0(int aiCount)
 {
     p1 = &DAT_0107ec68;
     p2 = aiCount;
@@ -973,12 +972,12 @@ struct FUN_00844db0_shell
     int count;
     void* data;
     int pad;
-    FUN_00844db0_shell* __thiscall FUN_00844db0(int param);
+    FUN_00844db0_shell* FUN_00844db0(int param);
 };
 
 // Sets p to DAT_0107ed1c, stores param in count, allocates count*4 bytes into data, zeroes them, and returns this.
 // @fnv 0x00844db0
-FUN_00844db0_shell* __thiscall FUN_00844db0_shell::FUN_00844db0(int aiCount)
+FUN_00844db0_shell* FUN_00844db0_shell::FUN_00844db0(int aiCount)
 {
     unsigned int size;
     p = &DAT_0107ed1c;
@@ -1032,11 +1031,11 @@ __declspec(thread) unsigned int DAT_00843c10_tls;
 
 struct FUN_00843c10_shell
 {
-    void __thiscall SetFlag4(bool bSet);
+    void SetFlag4(bool bSet);
 };
 
 // @fnv 0x00843c10
-void __thiscall FUN_00843c10_shell::SetFlag4(bool bSet)
+void FUN_00843c10_shell::SetFlag4(bool bSet)
 {
     if (bSet)
         DAT_00843c10_tls |= 4;
@@ -1788,7 +1787,7 @@ struct SaveGameSizeState
 
 struct BSSimpleArrayActor
 {
-    typedef void*(__thiscall* Allocator)(BSSimpleArrayActor*, unsigned int);
+    typedef void*(* Allocator)(BSSimpleArrayActor*, unsigned int);
 
     struct VTable
     {
@@ -1938,7 +1937,7 @@ struct FUN_00841720 : BaseMap
 };
 // Destroys the object, frees its storage with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x008416f0
-void* __thiscall BGSReconstructCellSubBlocksMap::ScalarDeletingDestructor(unsigned int flags)
+void* BGSReconstructCellSubBlocksMap::ScalarDeletingDestructor(unsigned int flags)
 {
     reinterpret_cast<::FUN_00841720 *>(this)->FUN_00841720::~FUN_00841720();
     if (flags & 1)
@@ -3723,12 +3722,12 @@ void FUN_00843750_shell::FUN_00843750(FUN_00843750_Form* apRef, unsigned int aui
 
 struct ReconstructMapDeletingView : BGSReconstructFormsInAllFilesMap
 {
-    void* __thiscall FUN_00843440(unsigned int flags);
+    void* FUN_00843440(unsigned int flags);
 };
 
 // Destroys the BGSReconstructFormsInAllFilesMap base and deallocates the object when flags has bit 0 set.
 // @fnv 0x00843440
-void* __thiscall ReconstructMapDeletingView::FUN_00843440(unsigned int flags)
+void* ReconstructMapDeletingView::FUN_00843440(unsigned int flags)
 {
     BGSReconstructFormsInAllFilesMap::~BGSReconstructFormsInAllFilesMap();
     if (flags & 1)

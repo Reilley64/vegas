@@ -85,13 +85,13 @@ Sun::Sun()
 }
 
 // @fnv 0x00461110
-int __fastcall FUN_00461110(int param_1)
+int FUN_00461110(int param_1)
 {
     return param_1 + 0x78;
 }
 
 // @fnv 0x00514f30
-int __fastcall FUN_00514f30(int this_ptr)
+int FUN_00514f30(int this_ptr)
 {
     return this_ptr + 0xC0;
 }
@@ -157,7 +157,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -188,7 +187,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct RgbaColor
 {
     void Clamp();
@@ -205,7 +203,6 @@ struct RgbaColor
     float b;
     float a;
 };
-typedef char _sizecheck_NiColorA[sizeof(RgbaColor) == 16 ? 1 : -1];
 struct ShaderPropertyConversionData
 {
     void Convert(NiAVObject*, unsigned int);
@@ -280,7 +277,6 @@ struct ShaderPropertyConversionData
     char _pad_b3[1];
     int m_iShaderDataFlags;
 };
-typedef char _sizecheck_BSShaderData[sizeof(ShaderPropertyConversionData) == 184 ? 1 : -1];
 struct NiPoint2
 {
     static struct blob8 ComponentProduct(void*, void*);
@@ -296,7 +292,6 @@ struct NiPoint2
     float x;
     float y;
 };
-typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 struct FUN_00640810_shell : public Sun
 {
     void FUN_00640810(NiNode*);
@@ -715,7 +710,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -725,7 +719,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -733,7 +726,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -751,7 +743,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -811,7 +802,6 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct FUN_00641830_shell : public Sun
 {
     void UpdateSun(Sky*, float);

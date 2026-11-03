@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/symbols_00d3b000.h"
@@ -237,7 +238,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {
@@ -749,7 +750,6 @@ struct CapsulePointTransforms {
     }
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();
@@ -793,7 +793,7 @@ extern "C" hkResult __cdecl FUN_00cd6260(const CapsulePointVector* capsA, float 
 
 // Transforms two capsule endpoint pairs into world space, queries their contact point, and adds it to the collector on success.
 // @fnv 0x00d3baf0
-void __stdcall FUN_00d3baf0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpCdPointCollector& collector)
+void FUN_00d3baf0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input, hkpCdPointCollector& collector)
 {
     volatile unsigned int ticks;
     {

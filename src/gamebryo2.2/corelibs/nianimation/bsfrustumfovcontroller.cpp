@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a42e80
+#include <windows.h>
 #include "fnv/decl/FUN_00a57630.h"
 #include "fnv/decl/FUN_00a57640_shell.h"
 #include "fnv/decl/NiAlphaController.h"
@@ -59,7 +60,7 @@ struct NiObjectNET
 };
 // Walks pkTarget's NiRTTI chain and returns true if any entry matches g_011f5e6c_arg1, false otherwise or when pkTarget is null.
 // @fnv 0x00a42d90
-bool __stdcall FUN_00a42d90(NiObjectNET* pkTarget)
+bool FUN_00a42d90(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;
@@ -79,7 +80,7 @@ struct StrArr
 
 
 // @fnv 0x00a42f10
-void __stdcall FUN_00a42f10(StrArr* pkStrings)
+void FUN_00a42f10(StrArr* pkStrings)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pkStrings));
     char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f3ec8))));
@@ -93,8 +94,6 @@ void __stdcall FUN_00a42f10(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiIndex, pcString);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class A42D00Stream
 {

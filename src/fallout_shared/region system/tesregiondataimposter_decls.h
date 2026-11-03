@@ -45,7 +45,6 @@ class TESTopicInfoData
     BSSimpleList<TESTopic*>* GetLinkToList();
 };
 
-#pragma pack(push, 4)
 class TESRegionDataImposter
 {
   public:
@@ -56,7 +55,6 @@ class TESRegionDataImposter
     bool ReadRegionData(TESFile* file);
     void InitItem(TESForm* form);
 };
-#pragma pack(pop)
 
 class TESFile
 {

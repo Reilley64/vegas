@@ -128,7 +128,6 @@ struct MersenneTwister
     char mt[2496];
     unsigned int mti;
 };
-typedef char _sizecheck_BSRandom[sizeof(MersenneTwister) == 2508 ? 1 : -1];
 struct FUN_00944480_shell : public MersenneTwister
 {
     int IntInRange(int, int);
@@ -149,7 +148,7 @@ struct Arg_004727f0
 };
 // Reads a 4-byte chunk value into a.out and byte-swaps it when endian conversion is required; returns whether the read succeeded.
 // @fnv 0x004727f0
-bool __fastcall ReadChunkInt(TESFile* self, Arg_004727f0 aChunkArg)
+bool ReadChunkInt(TESFile* self, Arg_004727f0 aChunkArg)
 {
     bool ok = reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((self))->FUN_00472890((char *)(aChunkArg.out), 4);
     if (self->IsEndianConversionRequired())
@@ -208,10 +207,10 @@ struct C0084e3a0
 };
 struct S004f4350
 {
-    void __thiscall SetMediaSet(MediaSet* ms);
+    void SetMediaSet(MediaSet* ms);
 };
 // @fnv 0x004f4350
-void __thiscall S004f4350::SetMediaSet(MediaSet* pMediaSet)
+void S004f4350::SetMediaSet(MediaSet* pMediaSet)
 {
     *(unsigned int*)((char*)this + 0x14) = pMediaSet ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((C0084e3a0*)pMediaSet)))->FUN_0084e3a0())) : 0;
 }

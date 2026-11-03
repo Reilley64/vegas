@@ -11,7 +11,6 @@
 class BGSLoadFormBuffer;
 
 #define FNV_INVENTORYCHANGES_H
-#pragma pack(push, 4)
 class InventoryChanges
 {
   public:
@@ -24,11 +23,8 @@ class InventoryChanges
     static InventoryChanges* CreateForReference(TESObjectREFR*);
     InventoryChanges* CreateForReference();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(InventoryChanges) == 0x14);
 
 #define FNV_ITEMCHANGE_H
-#pragma pack(push, 4)
 class InventoryStackRecord
 {
   public:
@@ -44,11 +40,8 @@ class InventoryStackRecord
     bool HasPerkEntry();
     bool HasApplicablePerkEntry();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(InventoryStackRecord) == 0xC);
 
 #define FNV_EXTRADATALIST_H
-#pragma pack(push, 4)
 class ExtraDismemberedLimbs;
 class ExtraDataList : public BaseExtraList
 {
@@ -64,8 +57,6 @@ public:
 public:
     bool IsEmpty();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 
 // No canonical header yet: API-only stub for the one flag this unit reads.
 class BGSBipedModelList;

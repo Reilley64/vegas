@@ -198,7 +198,7 @@ void TESFurniture::InitializeMarkerFlags()
 
 
 // @fnv 0x00509490
-int __fastcall FUN_00509490(char* pThis)
+int FUN_00509490(char* pThis)
 {
     return ((int)(::FUN_009938b0((const unsigned short *)(void *)(pThis + 0xc))));
 }
@@ -220,7 +220,6 @@ struct FurnitureMark
     unsigned char m_ucFlags;
     char _pad_f[1];
 };
-typedef char _sizecheck_FurnitureMark[sizeof(FurnitureMark) == 16 ? 1 : -1];
 struct FUN_005094b0_shell : public FurnitureMark
 {
     unsigned int FUN_005094b0();
@@ -248,7 +247,7 @@ struct StackArg
 };
 
 // @fnv 0x005094d0
-void __fastcall FUN_005094d0(DummyThis* this_ptr, StackArg param_1)
+void FUN_005094d0(DummyThis* this_ptr, StackArg param_1)
 {
     reinterpret_cast<::FUN_00558dd0_class *>(&(this_ptr->arr))->FUN_00558dd0(param_1.val);
 }

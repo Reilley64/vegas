@@ -186,7 +186,7 @@ struct FUN_006b7d90_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006b7d90
-int* __fastcall FUN_006b7d90(int* self, FUN_006b7d90_arg aArg)
+int* FUN_006b7d90(int* self, FUN_006b7d90_arg aArg)
 {
     reinterpret_cast<::FUN_006b7eb0_t *>((self))->FUN_006b7eb0((*(int *)&(const ::FUN_006b7d90_arg &)(aArg)));
     *self = (int)&DAT_01031fac;
@@ -204,7 +204,7 @@ struct FUN_006b7dc0_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006b7dc0
-int* __fastcall FUN_006b7dc0(int* self, FUN_006b7dc0_arg aArg)
+int* FUN_006b7dc0(int* self, FUN_006b7dc0_arg aArg)
 {
     reinterpret_cast<::FUN_006b8060_class *>((self))->FUN_006b8060((*(int *)&(const ::fnv_006b7dc0::FUN_006b7dc0_arg &)(aArg)));
     *self = (int)&DAT_01031fac;
@@ -223,7 +223,7 @@ struct FUN_006b7df0_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006b7df0
-int* __fastcall FUN_006b7df0(int* self, FUN_006b7df0_arg aArg)
+int* FUN_006b7df0(int* self, FUN_006b7df0_arg aArg)
 {
     reinterpret_cast<::FUN_006b8160_class *>((self))->FUN_006b8160((*(int *)&(const ::fnv_006b7df0::FUN_006b7df0_arg &)(aArg)));
     *self = (int)&DAT_01031fac;
@@ -372,8 +372,8 @@ bool FUN_006b5d80_shell::LoadNavMeshInfoMap(TESFile* apFile)
 
 struct NavMeshInfoMapShell
 {
-    void* __thiscall FUN_006b5d00();
-    void* __thiscall FUN_006b5cd0(unsigned int flags);
+    void* FUN_006b5d00();
+    void* FUN_006b5cd0(unsigned int flags);
 };
 
 struct MapX
@@ -408,7 +408,7 @@ void FUN_006b68b0_shell::SetAlteredAndRevertNavMeshes(bool abVal)
     }
 }
 
-int __fastcall _FNV_GetFormType(TESForm* apForm);
+int _FNV_GetFormType(TESForm* apForm);
 struct FUN_00484020_shell
 {
 };
@@ -1001,7 +1001,7 @@ struct FUN_006b6b20_shell : public NavMeshInfoMap
     void ClearNavMeshInfoMaps();
 };
 // @fnv 0x006b5cd0
-void* __thiscall NavMeshInfoMapShell::FUN_006b5cd0(unsigned int flags)
+void* NavMeshInfoMapShell::FUN_006b5cd0(unsigned int flags)
 {
     reinterpret_cast<::FUN_006b5d00 *>(this)->FUN_006b5d00::~FUN_006b5d00();
     if (flags & 1)

@@ -550,7 +550,7 @@ struct NiTransformC9E
 
 
 // @fnv 0x00c9ec60
-void __stdcall FUN_00c9ec60(NiTransformC9E* pkOut)
+void FUN_00c9ec60(NiTransformC9E* pkOut)
 {
     hkTransformC9E kTransform;
     reinterpret_cast<::Owner00c9ec00 *>((&kTransform))->FUN_00c9ec00({});
@@ -719,7 +719,7 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
         FnvMat4 world;
         Transform converted;
         Transform relative;
-        ((void(__thiscall*)(SceneObject*, FnvMat4*))body->vtable[61])(body, &world);
+        ((void(*)(SceneObject*, FnvMat4*))body->vtable[61])(body, &world);
         ::FUN_00624ad0((::NiTransform *)(::fnv_00c88520::Transform *)(&converted), (::TopicH *)(::fnv_00c88520::FnvMat4 *)(&world));
         converted.scale = a1->unk98;
         ::AccumulateParentTransforms((::FNVTraversalNode *)(source), (::FNVTraversalNode *)(a1), (::FNVTraversalOutput *)(::fnv_00c88520::Transform *)(&relative));
@@ -735,7 +735,7 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
         rotation.m128_f32[3] = q.w;
         reinterpret_cast<::FUN_005611c0_t *>((reinterpret_cast<FourFloatVector*>(&rotation)))->FUN_005611c0();
         reinterpret_cast<::FUN_0040fbf0_shell *>((reinterpret_cast<LockObject*>(&(*reinterpret_cast<unsigned int *>(&::DAT_01267b80)))))->FUN_0040fbf0((char *)(0));
-        ((void(__thiscall*)(SceneObject*, FourFloatVector*, FourFloatVector*))destination->vtable[58])(
+        ((void(*)(SceneObject*, FourFloatVector*, FourFloatVector*))destination->vtable[58])(
             destination, reinterpret_cast<FourFloatVector*>(&position), reinterpret_cast<FourFloatVector*>(&rotation));
         if (--(*reinterpret_cast<unsigned int *>(&::DAT_01267b84)) == 0)
             (*reinterpret_cast<unsigned int *>(&::DAT_01267b80)) = 0;

@@ -1,6 +1,7 @@
 // src/havok/physics/collide/broadphase/hkpbroadphase.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/hkpbroadphase.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cf6d20_Class.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
 #include "fnv/decl/hkMultiThreadCheckCF6E.h"
@@ -36,7 +37,6 @@ InitObject* InitObject::FUN_00d97010()
     return this;
 }
 
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* apSection);
 
 struct FUN_00d97060_cls
 {
@@ -147,7 +147,6 @@ CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
 }
 }  // namespace fnv_00d97100
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* apSection);
 
 struct FUN_00d97050_cls
 {
@@ -166,7 +165,6 @@ void FUN_00d97050_cls::FUN_00d97050()
     EnterCriticalSection(m_pSection);
 }
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* apSection);
 
 struct FUN_00d970c0_cls
 {

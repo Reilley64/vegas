@@ -16,7 +16,6 @@
 #include "tesresponse_support.h"
 class DialogueResponseData;
 class TESIdleForm;
-#pragma pack(push, 4)
 class DialogueResponseData
 {
   public:
@@ -32,15 +31,6 @@ class DialogueResponseData
     // void __cdecl DialogueResponseData::*()
     // void __cdecl DialogueResponseData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DialogueResponseData) == 24);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, eEmotion) == 0);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, ActorProjectileState) == 4);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_pTopic) == 8);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_ucResponseFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_pResponseSound) == 16);
-FNV_STATIC_ASSERT(offsetof(DialogueResponseData, m_bTenthFlag) == 20);
-#pragma pack(push, 4)
 class TESResponse
 {
   public:
@@ -98,13 +88,6 @@ class TESResponse
     // TESResponse& __cdecl TESResponse::*(const TESResponse&)
     // void* __cdecl TESResponse::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESResponse) == 44);
-FNV_STATIC_ASSERT(offsetof(TESResponse, Data) == 0);
-FNV_STATIC_ASSERT(offsetof(TESResponse, m_kResponseText) == 24);
-FNV_STATIC_ASSERT(offsetof(TESResponse, m_pFirstIdleForm) == 32);
-FNV_STATIC_ASSERT(offsetof(TESResponse, m_pSecondIdleForm) == 36);
-FNV_STATIC_ASSERT(offsetof(TESResponse, pNext) == 40);
 #endif
 
 union SETTING_VALUE

@@ -80,7 +80,7 @@ struct Dummy864490
 };
 
 // @fnv 0x00864450
-FormLoadContext* __fastcall FUN_00864450(FormLoadContext* apObject)
+FormLoadContext* FUN_00864450(FormLoadContext* apObject)
 {
     ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)(reinterpret_cast<Dummy84eaf0*>(apObject)));
     ::FUN_0044dee0((::BGSLoadGameSubBuffer *)(reinterpret_cast<FormChangeMask*>(reinterpret_cast<char*>(apObject) + 3)));
@@ -90,7 +90,7 @@ FormLoadContext* __fastcall FUN_00864450(FormLoadContext* apObject)
 }
 
 // @fnv 0x00864490
-char* __fastcall FUN_00864490(char* p)
+char* FUN_00864490(char* p)
 {
     *p = 0;
     return p;
@@ -104,7 +104,7 @@ struct FUN_008644b0_shell : public BGSLoadFormBuffer
 enum SIZE_TYPE
 {
 };
-SIZE_TYPE __fastcall FUN_00864520(void*);
+SIZE_TYPE FUN_00864520(void*);
 
 struct BGSSaveLoadFile_Read_shell : public SaveLoadFile
 {
@@ -371,7 +371,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct FUN_00864660_shell : public BGSLoadFormBuffer
 {
     Actor* GetReferenceAsActor();

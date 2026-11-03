@@ -24,7 +24,7 @@ void __cdecl FUN_00e01410(int* p, int a);
 extern int DAT_010e99d8;
 struct FUN_00cb0a70
 {
-    void __thiscall m(int);
+    void m(int);
 };
 void FUN_00e01c30(void* b, void* c);
 extern int DAT_010c9314;
@@ -84,13 +84,13 @@ extern int DAT_010e8824;
 void __cdecl FUN_00e00810(int* p);
 struct FUN_00e00930_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 void __cdecl FUN_00e00930(FUN_00e00930_vt* p);
 void __cdecl FUN_00e00b40(int* p);
 struct FUN_00e00c70_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 void __cdecl FUN_00e00c70(FUN_00e00c70_vt* p);
 extern int DAT_010c63cc;
@@ -121,7 +121,7 @@ extern int DAT_010e9358;
 void FUN_00e01570(int* p);
 extern int DAT_010e93ac;
 void FUN_00e015b0(int** p);
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 void __cdecl FUN_00e01640(int* p);
 extern int DAT_010e943c;
 void __cdecl FUN_00e01660(int* p);
@@ -152,7 +152,7 @@ int __cdecl FUN_00e020e0(FUN_00e020e0_vt* c);
 extern int DAT_010e9ccc;
 void __cdecl FUN_00e02140(int* a, int b);
 void __cdecl FUN_00e02260(int** p);
-typedef int(__thiscall* FUN_00e02340_fn)(void*, int);
+typedef int(* FUN_00e02340_fn)(void*, int);
 int __cdecl FUN_00e02340(void* obj);
 extern int DAT_010e9e74;
 void __cdecl FUN_00e02360(int* p);
@@ -162,7 +162,7 @@ extern int DAT_010e9fa4;
 void FUN_00e02480(int* p);
 extern int DAT_010ea0a4;
 void __cdecl FUN_00e024c0(int* p);
-typedef int(__thiscall* VFunc0)(void*, int);
+typedef int(* VFunc0)(void*, int);
 int __cdecl FUN_00e024e0(void* p);
 extern int DAT_010e310c;
 void FUN_00e02500(int* a);
@@ -184,13 +184,13 @@ struct FUN_00e02720_vtbl
     virtual void m0(int);
 };
 void FUN_00e02720(FUN_00e02720_vtbl* p);
-typedef void(__thiscall* vt)(void*, int);
+typedef void(* vt)(void*, int);
 void __cdecl FUN_00e02760(void* p);
 struct FUN_00e0bf20_s
 {
     int a;
     int b;
-    void __thiscall FUN_00cb0a60();
+    void FUN_00cb0a60();
     FUN_00e0bf20_s();
 };
 struct FUN_00e11dc0_class
@@ -207,7 +207,7 @@ struct FUN_00e11dc0_class
     int m_24;
     int m_28;
     int m_2c;
-    void __thiscall FUN_00e11dc0();
+    void FUN_00e11dc0();
 };
 int __cdecl FUN_00e00100(void* p);
 void FUN_00e00160(FUN_00e000a0_vt* p);
@@ -232,13 +232,13 @@ struct FUN_00e00370_vt
 void __cdecl FUN_00e00370(FUN_00e00370_vt* p);
 struct FUN_00e00430_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 void __cdecl FUN_00e00430(FUN_00e00430_vt* p);
 extern int DAT_010c59f4;
 extern int DAT_010c6dc4;
 void __cdecl FUN_00e00450(void* p, int flag);
-typedef void(__thiscall* VFn)(void*, int);
+typedef void(* VFn)(void*, int);
 void __cdecl FUN_00e00550(void* p);
 struct FUN_00e005b0_vt
 {
@@ -252,7 +252,7 @@ struct FUN_00e00670_vt
 void __cdecl FUN_00e00670(FUN_00e00670_vt* p);
 struct FUN_00e00790_vt
 {
-    virtual void __thiscall m(int);
+    virtual void m(int);
 };
 void __cdecl FUN_00e00790(FUN_00e00790_vt* p);
 struct FUN_00e007f0_vt
@@ -268,7 +268,7 @@ void __cdecl FUN_00e00a20(FUN_00e00a20_vt* p);
 void __cdecl FUN_00e00ae0(FUN_00e00930_vt* p);
 struct FUN_00dcd380_cls
 {
-    void __thiscall FUN_00dcd380(int b);
+    void FUN_00dcd380(int b);
 };
 extern int DAT_010e8a90;
 extern int DAT_010e8ab0;
@@ -294,9 +294,9 @@ struct FUN_00e01380_vt
     virtual void m(int);
 };
 void __cdecl FUN_00e01380(FUN_00e01380_vt* p);
-typedef void(__thiscall* Fn0)(void*, int);
+typedef void(* Fn0)(void*, int);
 void __cdecl FUN_00e013f0(void* p);
-typedef int(__thiscall* Vfn)(void*, int);
+typedef int(* Vfn)(void*, int);
 int __cdecl FUN_00e01450(void* p);
 extern int DAT_0126e330;
 int* __cdecl FUN_00e01460();
@@ -324,14 +324,14 @@ struct FUN_00e01550_vt
 };
 void __cdecl FUN_00e01550(FUN_00e01550_vt* p);
 void __cdecl FUN_00e018c0(int* p);
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 void __cdecl FUN_00e019d0(void* p);
 struct FUN_00e01a10_vt
 {
     virtual void m0(int);
 };
 void __cdecl FUN_00e01a10(FUN_00e01a10_vt* p);
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 void __cdecl FUN_00e01af0(void* p);
 struct FUN_00e01c10_vt
 {
@@ -357,12 +357,12 @@ struct FUN_00cb0a70_00e02280
     int* vt;
     int pad;
     int pad2;
-    void __thiscall m(int);
+    void m(int);
 };
 void __cdecl FUN_00e02280(int* a, int b);
-typedef void(__thiscall* VFn)(void*, int);
+typedef void(* VFn)(void*, int);
 void __cdecl FUN_00e02380(void* p);
-typedef int(__thiscall* Vf0)(void*, int);
+typedef int(* Vf0)(void*, int);
 int __cdecl FUN_00e024a0(void* p);
 int* __cdecl FUN_00e02510();
 struct FUN_00e02560_vt
@@ -385,12 +385,12 @@ struct FUN_00e0bf30_s
     int a;
     int b;
     FUN_00cb0a70 c;
-    FUN_00e0bf30_s* __thiscall FUN_00e0bf30(int v);
+    FUN_00e0bf30_s* FUN_00e0bf30(int v);
 };
 void* __cdecl FUN_00e114a0();
 struct FUN_00d752e0_cls
 {
-    void __thiscall FUN_00d752e0();
+    void FUN_00d752e0();
 };
 void __cdecl FUN_00e114b0();
 struct FUN_00e11d60_class
@@ -408,7 +408,7 @@ struct FUN_00e11d60_class
     int m_28;
     int* m_2c;
     int m_30;
-    void __thiscall FUN_00e11d60(int val);
+    void FUN_00e11d60(int val);
 };
 struct AudioAllocator
 {
@@ -453,7 +453,7 @@ int __cdecl FUN_00e000b0();
 // Forward a value to the owner object when the owner pointer is present.
 struct FUN_00d50c00_cls
 {
-    void __thiscall FUN_00d50c00(int value);
+    void FUN_00d50c00(int value);
 };
 void __cdecl FUN_00e000c0(FUN_00d50c00_cls* pOwner, int value);
 struct CpuOpaque;
@@ -617,7 +617,7 @@ extern int DAT_0126dc28;
 int* __cdecl FUN_00e004a0();
 struct FUN_00e004f0_class
 {
-    void __thiscall FUN_00e004f0(int value);
+    void FUN_00e004f0(int value);
 };
 void __cdecl FUN_00e004b0(FUN_00e004f0_class* object, int value);
 extern int DAT_0126dc70;
@@ -628,7 +628,7 @@ extern int DAT_0126dcb8;
 void* __cdecl FUN_00e005c0();
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 void __cdecl FUN_00e005d0(Handler_cls* pHandler, int value);
 struct S_00e00610_P
@@ -866,7 +866,7 @@ extern int g_target_00e00a30;
 void* FUN_00e00a30();
 struct FUN_00e00a40_cls
 {
-    void __thiscall FUN_00e00a80(int a);
+    void FUN_00e00a80(int a);
 };
 void __cdecl FUN_00e00a40(FUN_00e00a40_cls* p, int a);
 class __declspec(novtable) BE00A80Base
@@ -979,7 +979,7 @@ extern int DAT_0126e018;
 int* __cdecl FUN_00e00d40();
 struct FUN_00d57b20_class
 {
-    void __thiscall FUN_00d57b20(int value);
+    void FUN_00d57b20(int value);
 };
 void __cdecl FUN_00e00d50(FUN_00d57b20_class* p, int value);
 extern int DAT_0126e060;
@@ -1012,7 +1012,7 @@ int* __cdecl FUN_00e00f60();
 // when that object is present.
 struct FUN_00e00f70_cls
 {
-    void __thiscall FUN_00e00fb0(int value);
+    void FUN_00e00fb0(int value);
 };
 void __cdecl FUN_00e00f70(FUN_00e00f70_cls* pObject, int value);
 extern int DAT_010305a8;
@@ -1153,7 +1153,7 @@ int __cdecl FUN_00e016d0();
 struct EffectSubObject
 {
     int unk00;
-    void __thiscall Release(int flags);
+    void Release(int flags);
 };
 struct EffectHolder
 {
@@ -1205,7 +1205,7 @@ int* __cdecl FUN_00e01e10();
 class FUN_00e01e20_cls
 {
   public:
-    void __thiscall Handle(int a1);
+    void Handle(int a1);
 };
 void __cdecl CallHandleIfNotNull(FUN_00e01e20_cls* pObject, int a1);
 extern int DAT_0126e768;
@@ -1228,7 +1228,7 @@ extern int DAT_010e9b7c;
 unsigned int __cdecl FUN_00e01f60();
 struct FUN_00e4ae80_Obj
 {
-    void __thiscall FUN_00e4ae80(int value);
+    void FUN_00e4ae80(int value);
 };
 void __cdecl FUN_00e020c0(FUN_00e4ae80_Obj* param_1, int param_2);
 extern int g_unk0126e7f8;
@@ -1438,7 +1438,7 @@ class FUN_00e114f0_cls
     int m_f8;
     int m_fc;
     unsigned char m_100;
-    void __thiscall FUN_00e114f0(int a1, int a2, int a3);
+    void FUN_00e114f0(int a1, int a2, int a3);
 };
 struct FlagObjectPad
 {
@@ -1515,7 +1515,7 @@ class FUN_00e11500_cls : public FlagObjectPad
 };
 struct FUN_00e11510_obj
 {
-    void __thiscall FUN_00e11510(int a, int b);
+    void FUN_00e11510(int a, int b);
 };
 struct FUN_00e11520_class
 {
@@ -3227,12 +3227,12 @@ struct FUN_00e00dd0_cls
     int unk18;
     int unk1C;
 
-    void __thiscall FUN_00e00dd0();
+    void FUN_00e00dd0();
 };
 void ReverseBytesInGroupsOfFour(unsigned char* pucData);
 struct S_e05_res
 {
-    char* __thiscall FUN_00d46d80(char* a, S_e05_res* b);
+    char* FUN_00d46d80(char* a, S_e05_res* b);
 };
 struct S_e05_obj
 {

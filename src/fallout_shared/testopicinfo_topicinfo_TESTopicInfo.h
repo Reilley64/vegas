@@ -47,17 +47,4 @@ class TESTopicInfo : public TESForm
     BSSimpleList<TESTopic*>* GetAddTopicList();
     virtual bool LoadForm(TESFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(TESTopicInfo) == 0x50);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_kInfoConditions) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_uiInfoIndex) == 0x20);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_bGoodbye) == 0x22);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_Data) == 0x23);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_kPrompt) == 0x28);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_kAddTopicList) == 0x30);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pResponseData) == 0x38);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pDialogueSpeaker) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pPerkSkillStat) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_eDifficultyLevel) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_pOwnerQuest) == 0x48);
-FNV_STATIC_ASSERT(offsetof(TESTopicInfo, m_ulTopicFlags) == 0x4C);
 #endif

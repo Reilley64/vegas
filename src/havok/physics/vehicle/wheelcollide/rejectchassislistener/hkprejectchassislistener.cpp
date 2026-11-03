@@ -34,7 +34,7 @@ void FUN_00e36100_StandIn::FUN_00e36100(int* pArg)
 }
 
 // @fnv 0x00e360e0
-void __stdcall FUN_00e360e0(int arg)
+void FUN_00e360e0(int arg)
 {}
 
 // FUN_00dfbd70: this-adjusting thunk {adjustor 8} for the virtual FunAdjust_Host::FUN_00dfbd70

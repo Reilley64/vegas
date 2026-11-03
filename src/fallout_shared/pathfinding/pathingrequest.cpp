@@ -168,7 +168,7 @@ void FUN_006db090_shell::FreeBuffer(void* apBuffer)
     ::FUN_00401030(apBuffer);
 }
 
-void __fastcall FUN_006e2620(void*);
+void FUN_006e2620(void*);
 
 struct FUN_006e25e0_impl
 {
@@ -424,11 +424,11 @@ PathingAvoidanceNode* BSSimpleArray_PathingAvoidNode_1024::AllocateBuffer(unsign
 
 struct FUN_006e3c40_shell
 {
-    void* __thiscall FUN_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem);
+    void* FUN_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem);
 };
 
 // @fnv 0x006e3c40
-void* __thiscall FUN_006e3c40_shell::FUN_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem)
+void* FUN_006e3c40_shell::FUN_006e3c40(void* apBuffer, unsigned int aiNewSizeInItem)
 {
     return ::Reallocate(apBuffer, aiNewSizeInItem * 0x24);
 }
@@ -439,7 +439,7 @@ struct FUN_006dad70_shell : public PathingRequest
 };
 
 // @fnv 0x006dad70
-void __thiscall FUN_006dad70_shell::DestroyPathingRequest()
+void FUN_006dad70_shell::DestroyPathingRequest()
 {
     reinterpret_cast<class ::FUN_006e2620 *>(this)->FUN_006e2620::~FUN_006e2620();
 }

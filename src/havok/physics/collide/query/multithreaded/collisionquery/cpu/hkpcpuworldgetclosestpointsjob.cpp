@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0108f000.h"
 struct S_00df6a30_Inner
@@ -326,7 +327,6 @@ unsigned char* FUN_00df6b30_cls::FUN_00df6b30(unsigned char* out, int a)
     return out;
 }
 
-extern "C" __declspec(dllimport) long __stdcall DAT_00fdf1ec(long volatile*, long);
 
 struct CopyQuad
 {
@@ -404,10 +404,10 @@ inline QueryPoint* allocateResults(PairCommand* command, const QueryCollector& c
 {
     {
         int hits = collector.count;
-        int start = DAT_00fdf1ec(command->sharedIndex, hits);
+        int start = InterlockedExchangeAdd(command->sharedIndex, hits);
         if (start + hits <= command->capacity)
             return command->results + start;
-        DAT_00fdf1ec(command->sharedIndex, -hits);
+        InterlockedExchangeAdd(command->sharedIndex, -hits);
         return 0;
     }
 }

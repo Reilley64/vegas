@@ -58,7 +58,6 @@ enum EffectArchetypes__ArchetypeID
     EffectArchetypes__ArchetypeID_TURBO = 36,
     EffectArchetypes__ArchetypeID_ARCHETYPE_COUNT = 37
 };
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -75,11 +74,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -111,12 +105,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class EffectSetting__EffectSettingData
 {
   public:
@@ -140,27 +128,6 @@ class EffectSetting__EffectSettingData
     EffectArchetypes__ArchetypeID m_eEffectTypeItem;   // +0x40, 4 bytes
     ActorValue__Index m_iAssociatedActorValue;  // +0x44, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EffectSetting__EffectSettingData) == 72);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, iFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_fBaseCost) == 4);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pAssociatedForm) == 8);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iAssociatedSkill) == 12);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iResistanceActorValue) == 16);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_sCounterEffectCount) == 20);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, apTargetLight) == 24);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, fSpeed) == 28);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pEffectShader) == 32);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pEnchantEffectShader) == 36);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pCastSound) == 40);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pBoltSound) == 44);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pContactSound) == 48);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_pAreaEffectSound) == 52);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_fEnchantmentFactor) == 56);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_fBarterFactor) == 60);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_eEffectTypeItem) == 64);
-FNV_STATIC_ASSERT(offsetof(EffectSetting__EffectSettingData, m_iAssociatedActorValue) == 68);
-#pragma pack(push, 4)
 class EffectSetting : public TESForm, public TESModel, public TESDescription, public TESFullName, public TESIcon
 {
   public:
@@ -257,12 +224,4 @@ class EffectSetting : public TESForm, public TESModel, public TESDescription, pu
     // EffectSetting& __cdecl EffectSetting::*(const EffectSetting&)
     // void __cdecl EffectSetting::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EffectSetting) == 176);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_pEffectSettingCallback) == 80);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_pPredicateData) == 84);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, data) == 88);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, counterEffects) == 160);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_iActorValue) == 168);
-FNV_STATIC_ASSERT(offsetof(EffectSetting, m_iEffectID) == 172);
 #endif

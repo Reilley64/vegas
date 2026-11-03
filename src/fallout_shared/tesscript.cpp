@@ -158,7 +158,7 @@ void ScriptLocals::Destroy()
 
 // Zeroes the 0x14-byte object at pThis, clears the int at offset 0 and offset 0x10, and returns pThis.
 // @fnv 0x005a8b80
-void* __fastcall FUN_005a8b80(void* apObject)
+void* FUN_005a8b80(void* apObject)
 {
     memset(apObject, 0, 0x14);
     *reinterpret_cast<int*>(apObject) = 0;
@@ -171,7 +171,7 @@ struct FUN_005a8bc0_shell : public ScriptLocals
     void FUN_005a8bc0();
 };
 
-void __fastcall FUN_005a8c00(void* pThis);
+void FUN_005a8c00(void* pThis);
 
 struct FUN_005a8c90_shell : public ScriptLocals
 {
@@ -268,7 +268,7 @@ struct FUN_005a9140_shell : public ScriptLocals
 
 extern int DAT_011cae50;
 
-bool __fastcall _ref_008256d0(unsigned int);
+bool _ref_008256d0(unsigned int);
 
 struct TLS_Data_005a9140
 {
@@ -476,7 +476,7 @@ class ActorTaskManager
 };
 
 
-bool __fastcall FUN_005aa8c0(BSFadeNode* fadeNode);
+bool FUN_005aa8c0(BSFadeNode* fadeNode);
 
 
 // @fnv 0x005aa720
@@ -562,7 +562,7 @@ char* __cdecl AllocateZeroed(unsigned int aNum, unsigned int aSize)
 }
 
 void* __cdecl operator new(unsigned int);
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 
 class SoundListEntry;
 class SoundListView
@@ -650,7 +650,7 @@ struct FUN_005abf60_shell : public Script
 };
 
 void* __cdecl operator new(unsigned int);
-void* __fastcall CopyVariableList(Script*);
+void* CopyVariableList(Script*);
 
 // Allocates a ScriptLocals, stores the result of CopyVariableList(this) at offset 0xc and this at offset 0, then returns it.
 // @fnv 0x005abf60
@@ -693,7 +693,7 @@ struct ScriptLocals_shell : public ScriptLocals
 {
 };
 
-bool __fastcall _ref_008256d0(void* pList);
+bool _ref_008256d0(void* pList);
 
 struct TLSData
 {
@@ -840,7 +840,7 @@ struct VarX
     char pad[0x14];
     Flt flt;
 };
-typedef char*(__thiscall* NameFn)(void*);
+typedef char*(* NameFn)(void*);
 // @fnv 0x005abed0
 char* FUN_005abed0_shell::FUN_005abed0(unsigned int auiID)
 {
@@ -896,7 +896,7 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
     return bretVal;
 }
 
-bool __fastcall _ref_008256d0(unsigned int);
+bool _ref_008256d0(unsigned int);
 __declspec(thread) void* g_tlsSlot;
 struct RefObj
 {
@@ -1115,19 +1115,19 @@ unsigned char FUN_005abd70_shell::FUN_005abd70(TESFile* apFile)
 
 struct FUN_00857ba0_class
 {
-    void __thiscall ReadFromStream(int a, int b, int c);
+    void ReadFromStream(int a, int b, int c);
 };
 
-void __thiscall FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
+void FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
 {}
 
 struct FUN_008586d0_class
 {
-    void __thiscall FUN_008586d0(int a, int b, int c);
+    void FUN_008586d0(int a, int b, int c);
 };
 
 // @fnv 0x008586d0
-void __thiscall FUN_008586d0_class::FUN_008586d0(int a, int b, int c)
+void FUN_008586d0_class::FUN_008586d0(int a, int b, int c)
 {
     reinterpret_cast<::FUN_00857ba0_shell *>((reinterpret_cast<FUN_00857ba0_class*>(this)))->ReadFromStream((::NiBinaryStream *)(a), (void *)(b), c);
 }
@@ -1254,7 +1254,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -1291,7 +1290,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_005a9f20_shell : public ScriptLocals
 {
     void FUN_005a9f20(BGSLoadFormBuffer*);
@@ -1844,7 +1842,7 @@ struct Formatter
 {
     unsigned int getItem(int item, unsigned int line, const char* text)
     {
-        typedef unsigned int(__thiscall * Callback)(Formatter*, int, unsigned int, const char*);
+        typedef unsigned int(* Callback)(Formatter*, int, unsigned int, const char*);
         Callback fn = *(Callback*)(*(char**)this + 0x130);
         return fn(this, item, line, text);
     }
@@ -1854,7 +1852,7 @@ struct ScriptLocalsExt : ScriptLocals
 {
 };
 // @fnv 0x005a94f0
-unsigned short __fastcall GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
+unsigned short GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
 {
     unsigned short bytes = 0;
     unsigned short original = bytes;
@@ -1896,7 +1894,7 @@ unsigned short __fastcall GetScriptLocalsSerializedSize(ScriptLocals* pLocals)
     return bytes;
 }
 
-void* __fastcall CopyVariableList(Script*);
+void* CopyVariableList(Script*);
 
 struct FUN_005a9d00_shell : public ScriptLocals
 {
@@ -2187,7 +2185,7 @@ struct FUN_005a8c00_list
 };
 
 // @fnv 0x005a8c00
-void __fastcall FUN_005a8c00(void* pThis)
+void FUN_005a8c00(void* pThis)
 {
     unsigned int v;
     void* arg;
@@ -2295,7 +2293,7 @@ void ThisX::WriteScriptLocals()
         if (formPtr)
         {
             pFmt = ((::Formatter *)(::FUN_004839c0((unsigned int)(*(void**)formPtr))));
-            typedef unsigned int(__thiscall * GetItemFn)(Formatter*);
+            typedef unsigned int(* GetItemFn)(Formatter*);
             ::FUN_0040fbe0();
         }
         else

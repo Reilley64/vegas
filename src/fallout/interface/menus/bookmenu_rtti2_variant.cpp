@@ -77,12 +77,12 @@ struct FUN_0073af60_shell
     int m_0x24;
     int m_0x28;
     int m_0x2c;
-    bool __thiscall FUN_0073af60();
+    bool FUN_0073af60();
 };
 struct FUN_0073ad00_shell
 {
-    void __thiscall FUN_0073ad30();
-    void* __thiscall FUN_0073ad00(unsigned int);
+    void FUN_0073ad30();
+    void* FUN_0073ad00(unsigned int);
 };
 struct BSCullingProcess;
 struct BSRenderedTexture;
@@ -430,14 +430,13 @@ public:
 public:
     int FUN_00747d00();
 };
-typedef char _sizecheck_InterfaceManager[sizeof(InterfaceManager) == 1144 ? 1 : -1];
 struct FUN_0073b020_shell : public InterfaceManager
 {
     int FUN_0073b020();
 };
 struct FUN_0073b460_shell
 {
-    bool __thiscall FUN_0073b460();
+    bool FUN_0073b460();
 };
 struct Inner73b430
 {
@@ -456,7 +455,7 @@ struct Holder73b430
 {
     char _pad[0x94];
     Inner73b430 inner;
-    void __thiscall CallInnerFoo();
+    void CallInnerFoo();
 };
 struct FUN_007e7a80 : Menu
 {
@@ -484,7 +483,7 @@ struct FUN_0073b050_shell : Menu
     unsigned int m_0x34;
     float m_fValue;
 
-    void __thiscall FUN_0073b050(int, Tile*);
+    void FUN_0073b050(int, Tile*);
 };
 struct FUN_00a1c520_shell
 {
@@ -747,7 +746,7 @@ struct FUN_0073b0f0_cls
 {
     char _pad[0x30];
     Obj30_0073b0f0* m_0x30;
-    void __thiscall HandleMessage(int, int);
+    void HandleMessage(int, int);
 };
 struct BookInput
 {

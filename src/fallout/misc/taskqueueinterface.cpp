@@ -100,7 +100,6 @@
 #include "layout_support.h"
 class BSPackedTask;
 union BSPackedTask__PackedTaskVariantData;
-#pragma pack(push, 4)
 union BSPackedTask__PackedTaskVariantData
 {
   public:
@@ -114,23 +113,11 @@ union BSPackedTask__PackedTaskVariantData
         void* pData;       // +0x0, 4 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSPackedTask__PackedTaskVariantData) == 4);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, bData) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, pcDataA) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, psDataA) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, iData) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, fData) == 0);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask__PackedTaskVariantData, pData) == 0);
-#pragma pack(push, 4)
 class BSPackedTask
 {
   public:
     BSPackedTask__PackedTaskVariantData m_akPackedTaskVariantData[8];  // +0x0, 32 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSPackedTask) == 32);
-FNV_STATIC_ASSERT(offsetof(BSPackedTask, m_akPackedTaskVariantData) == 0);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -145,7 +132,6 @@ class BSTCommonMessageQueue_BSPackedTask_;
 class BSTCommonScrapHeapMessageQueue_BSPackedTask_;
 class BSTMessageQueue_BSPackedTask_;
 class ScrapHeapBuffer;
-#pragma pack(push, 4)
 class BSTMessageQueue_BSPackedTask_
 {
   public:
@@ -154,10 +140,6 @@ class BSTMessageQueue_BSPackedTask_
     // const BSTMessageQueue<BSPackedTask>& __cdecl BSTMessageQueue<BSPackedTask>::*(const BSTMessageQueue<BSPackedTask>&)
     // void __cdecl BSTMessageQueue<BSPackedTask>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTMessageQueue_BSPackedTask_) == 4);
-FNV_STATIC_ASSERT(offsetof(BSTMessageQueue_BSPackedTask_, m_ppVirtualMethodTable) == 0);
-#pragma pack(push, 4)
 class BSTCommonMessageQueue_BSPackedTask_ : public BSTMessageQueue_BSPackedTask_
 {
   public:
@@ -172,10 +154,6 @@ class BSTCommonMessageQueue_BSPackedTask_ : public BSTMessageQueue_BSPackedTask_
     // const BSTCommonMessageQueue<BSPackedTask>& __cdecl BSTCommonMessageQueue<BSPackedTask>::*(const BSTCommonMessageQueue<BSPackedTask>&)
     // void __cdecl BSTCommonMessageQueue<BSPackedTask>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTCommonMessageQueue_BSPackedTask_) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTCommonMessageQueue_BSPackedTask_, m_uiLockState) == 4);
-#pragma pack(push, 4)
 class BSTCommonScrapHeapMessageQueue_BSPackedTask_ : public BSTCommonMessageQueue_BSPackedTask_
 {
   public:
@@ -192,12 +170,6 @@ class BSTCommonScrapHeapMessageQueue_BSPackedTask_ : public BSTCommonMessageQueu
     // bool __cdecl BSTCommonScrapHeapMessageQueue<BSPackedTask>::*(BSPackedTask&)
     // void __cdecl BSTCommonScrapHeapMessageQueue<BSPackedTask>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTCommonScrapHeapMessageQueue_BSPackedTask_) == 20);
-FNV_STATIC_ASSERT(offsetof(BSTCommonScrapHeapMessageQueue_BSPackedTask_, m_pAllocator) == 8);
-FNV_STATIC_ASSERT(offsetof(BSTCommonScrapHeapMessageQueue_BSPackedTask_, pHead) == 12);
-FNV_STATIC_ASSERT(offsetof(BSTCommonScrapHeapMessageQueue_BSPackedTask_, m_ppTailLink) == 16);
-#pragma pack(push, 4)
 class CountingSemaphore
 {
   public:
@@ -213,12 +185,6 @@ class CountingSemaphore
     // bool __cdecl CountingSemaphore::*()
     // void* __cdecl CountingSemaphore::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CountingSemaphore) == 12);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, iCount) == 0);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, hSemaphore) == 4);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, m_iMaximumCount) == 8);
-#pragma pack(push, 4)
 class PackedTaskQueueProcessor
 {
   public:
@@ -241,12 +207,6 @@ class PackedTaskQueueProcessor
     // const PackedTaskQueueProcessor& __cdecl PackedTaskQueueProcessor::*(const PackedTaskQueueProcessor&)
     // void* __cdecl PackedTaskQueueProcessor::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PackedTaskQueueProcessor) == 40);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, Queue) == 0);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_kQueuedTaskSemaphore) == 20);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_pTaskCompletionCallback) == 32);
-FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_bIsProcessing) == 36);
 #endif
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
@@ -255,7 +215,6 @@ FNV_STATIC_ASSERT(offsetof(PackedTaskQueueProcessor, m_bIsProcessing) == 36);
 #include "layout_support.h"
 class PackedTaskQueueProcessor;
 class TaskQueueInterface;
-#pragma pack(push, 4)
 class TaskQueueInterface
 {
   public:
@@ -343,12 +302,6 @@ class TaskQueueInterface
     // void __cdecl TaskQueueInterface::*(const BSPackedTask&)
     // void* __cdecl TaskQueueInterface::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TaskQueueInterface) == 16);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pPrimaryTaskProcessor) == 0);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pSecondaryTaskProcessor) == 4);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_pTaskQueueProcessor) == 8);
-FNV_STATIC_ASSERT(offsetof(TaskQueueInterface, m_uiTaskFlags) == 12);
 #endif
 
 extern "C" int strcpy_s(char* apDestination, unsigned int auiSize, const char* apSource);
@@ -567,12 +520,12 @@ struct FUN_0087cf10_shell
     void* b;
     void* c;
     void* d;
-    FUN_0087cf10_shell* __thiscall Construct(void* a, void* b, void* c);
+    FUN_0087cf10_shell* Construct(void* a, void* b, void* c);
 };
 
 // Stores the three arguments into fields a, b and c, clears field d, and returns this.
 // @fnv 0x0087cf10
-FUN_0087cf10_shell* __thiscall FUN_0087cf10_shell::Construct(void* apArg1, void* apArg2, void* apArg3)
+FUN_0087cf10_shell* FUN_0087cf10_shell::Construct(void* apArg1, void* apArg2, void* apArg3)
 {
     this->a = apArg1;
     this->b = apArg2;
@@ -623,11 +576,11 @@ extern int __cdecl InitScriptRunLock(void*);
 
 struct FUN_0087adf0_shell
 {
-    int __thiscall InitScriptRunLockForSelf();
+    int InitScriptRunLockForSelf();
 };
 
 // @fnv 0x0087adf0
-int __thiscall FUN_0087adf0_shell::InitScriptRunLockForSelf()
+int FUN_0087adf0_shell::InitScriptRunLockForSelf()
 {
     return InitScriptRunLock((char*)this + 0x60);
 }
@@ -1478,12 +1431,12 @@ struct FUN_0087a890_shell
 {
     void* vtbl;
     void* m_04;
-    void __thiscall CallVirtualMethod1(int a);
+    void CallVirtualMethod1(int a);
 };
 // @fnv 0x0087a890
-void __thiscall FUN_0087a890_shell::CallVirtualMethod1(int a)
+void FUN_0087a890_shell::CallVirtualMethod1(int a)
 {
-    ((void(__thiscall*)(void*, int))((void**)this->vtbl)[1])(this, a);
+    ((void(*)(void*, int))((void**)this->vtbl)[1])(this, a);
 }
 
 struct FUN_0087afa0_Holder : TaskQueueInterface

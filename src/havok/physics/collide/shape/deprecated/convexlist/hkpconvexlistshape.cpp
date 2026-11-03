@@ -27,7 +27,7 @@ int FUN_00d5e2e0_Class::GetNextKey(int key)
 
 // Iterates the objects in the array at offset 0x44 up to the count at 0x48, calling each object's virtual method at vtable offset 0x2c and summing the results.
 // @fnv 0x00d5e190
-int __fastcall SumVirtualResults(void* self)
+int SumVirtualResults(void* self)
 {
     int iTotal = 0;
     int i = 0;
@@ -37,7 +37,7 @@ int __fastcall SumVirtualResults(void* self)
         do
         {
             void* pObject = *(void**)(*(int*)(p + 0x44) + i * 4);
-            int(__fastcall * fn)(void*) = *(int(__fastcall**)(void*))(*(int*)pObject + 0x2c);
+            int(* fn)(void*) = *(int(**)(void*))(*(int*)pObject + 0x2c);
             iTotal += fn(pObject);
             i++;
         } while (i < *(int*)(p + 0x48));
@@ -46,7 +46,7 @@ int __fastcall SumVirtualResults(void* self)
 }
 
 // @fnv 0x00d5e2f0
-int __fastcall FUN_00d5e2f0(char* self, int edx, int key, int pad)
+int FUN_00d5e2f0(char* self, int edx, int key, int pad)
 {
     return ((int*)((int*)self)[0xc])[key];
 }
@@ -114,7 +114,7 @@ int __cdecl FUN_00d5e0d0()
 }
 
 // @fnv 0x00d5e0e0
-int __stdcall FUN_00d5e0e0(int)
+int FUN_00d5e0e0(int)
 {
     return 0;
 }
@@ -182,11 +182,11 @@ struct FUN_00d5e1c0_Collection
     int unk40;
     FUN_00d5e1c0_Shape** elements;
     int count;
-    void* __thiscall WriteToBuffer(void* destination);
+    void* WriteToBuffer(void* destination);
 };
 // Writes each element's data into destination, advancing the cursor by each element's element count times 16 bytes.
 // @fnv 0x00d5e1c0
-void* __thiscall FUN_00d5e1c0_Collection::WriteToBuffer(void* destination)
+void* FUN_00d5e1c0_Collection::WriteToBuffer(void* destination)
 {
     char* cursor = (char*)destination;
     for (int i = 0; i < count; ++i)

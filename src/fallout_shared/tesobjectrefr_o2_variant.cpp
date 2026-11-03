@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BC87850RefObject.h"
 #include "fnv/decl/C68CB0World.h"
 #include "fnv/decl/C8F670Object.h"
@@ -129,7 +130,7 @@ struct ProjectileListener
 // @fnv 0x00c876a0
 void ProjectileListener::FUN_00c876a0()
 {
-    typedef void(__thiscall * Fn)(void*, int);
+    typedef void(* Fn)(void*, int);
     if (m8 != 0)
         ((Fn)(*(void***)this)[0x8c / 4])(this, 0);
     ((Fn)(*(void***)this)[0xa4 / 4])(this, 1);
@@ -313,7 +314,7 @@ struct OutS
     float f4;
 };
 // @fnv 0x00c9fb70
-void __fastcall FUN_00c9fb70(MyObj* _this, int, OutS* _out)
+void FUN_00c9fb70(MyObj* _this, int, OutS* _out)
 {
     reinterpret_cast<::This *>((_this))->FUN_00c84e20((unsigned int *)(_out));
     if (_this && _this->p8)
@@ -384,10 +385,10 @@ struct bhkSphereShape
     virtual void f43();
     virtual void f44();
     virtual RetV* Target(char* p);
-    void __thiscall FUN_00ca0740(void* a, ArgB* b);
+    void FUN_00ca0740(void* a, ArgB* b);
 };
 // @fnv 0x00ca0740
-void __thiscall bhkSphereShape::FUN_00ca0740(void* a, ArgB* b)
+void bhkSphereShape::FUN_00ca0740(void* a, ArgB* b)
 {
     unsigned int tmp;
     RetV* r = Target((char*)&tmp + 3);
@@ -1622,7 +1623,7 @@ bool FUN_00c9f420_Class::FUN_00c9f420()
 
 struct ProjectileCreator
 {
-    Object_00c9f5a0* __thiscall FUN_00c9f640(int mode);
+    Object_00c9f5a0* FUN_00c9f640(int mode);
 };
 // @fnv 0x00c9f640
 Object_00c9f5a0* ProjectileCreator::FUN_00c9f640(int mode)
@@ -2067,7 +2068,7 @@ struct SphereScaleFields
 };
 struct SphereScalingMethod : bhkSphereShape
 {
-    void __thiscall FUN_00c9fea0(void* first, ArgB* second);
+    void FUN_00c9fea0(void* first, ArgB* second);
 };
 // @fnv 0x00c9fea0
 void SphereScalingMethod::FUN_00c9fea0(void* first, ArgB* second)
@@ -2866,8 +2867,6 @@ void FUN_00c9f970_cls::FUN_00c9f480(BC9F970StringArray* pkArray)
     pkArray->Add(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0126823c))));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct HkResult_c6b
 {
     int m_00;
@@ -5219,8 +5218,6 @@ FUN_00ca4da0::~FUN_00ca4da0()
     (*reinterpret_cast<int *>(&::CCA1B0Level2::ms_uiInstances))--;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 
 struct NiStream;

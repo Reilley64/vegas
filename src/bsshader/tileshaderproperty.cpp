@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00bb7d60
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a64160_cls.h"
 #include "fnv/decl/FUN_00a64ce0_shell.h"
@@ -62,8 +63,6 @@ BSShaderProperty::ShaderPassList* TallGrassShader::SetupGeometryGroup(NiGeometry
     return m_aiIndexedValues;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiTexture
 {
     virtual void F0()

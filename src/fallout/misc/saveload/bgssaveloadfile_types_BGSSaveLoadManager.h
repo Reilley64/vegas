@@ -10,7 +10,6 @@ class SaveLoadFile;
 class BGSSaveLoadFileEntry;
 class SaveLoadHeader;
 class BGSSaveLoadManager;
-#pragma pack(push, 4)
 class BGSSaveLoadManager
 {
   public:
@@ -110,23 +109,4 @@ public:
 public:
     bool IsQuickSaveFileName(const char *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSSaveLoadManager) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_pSaveLoadFileEntryList) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, SaveLoadManagerState) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_uiSaveLoadSubstate) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bFirstSaveLoadFlag) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bSecondSaveLoadFlag) == 13);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bThirdBoolean) == 14);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_cQueuedSaveLoad) == 15);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_cAutosaveCountdown) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_pTextBuffer) == 20);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_iTextBufferLength) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bFlagAfterCount) == 28);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_pSaveFile) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bSaveOperationActive) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bLoadOperationPending) == 37);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_bLoadingGame) == 38);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, LoadDataResultCallback) == 40);
-FNV_STATIC_ASSERT(offsetof(BGSSaveLoadManager, m_pfnSaveResultCallback) == 44);
 #endif

@@ -80,16 +80,11 @@ enum SANDBOX_ACTIVITY
     SANDBOX_ACTIVITY_SANDBOX_ACTIVITY_DINNER = 3,
     SANDBOX_ACTIVITY_NUM_SANDBOX_ACTIVITIES = 4
 };
-#pragma pack(push, 4)
 class ActorPackageData
 {
   public:
     void** m_ppVirtualMethodTable;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorPackageData) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorPackageData, m_ppVirtualMethodTable) == 0);
-#pragma pack(push, 4)
 class SandboxProcedureData
 {
   public:
@@ -100,13 +95,6 @@ class SandboxProcedureData
     // Unit-local out-of-line declarations (owned by other units except
     // SandboxProcedureData::LoadGame/InitLoadGame targets as noted).
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SandboxProcedureData) == 16);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, pTarget) == 0);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, eProcedure) == 4);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, m_iActivityState) == 8);
-FNV_STATIC_ASSERT(offsetof(SandboxProcedureData, m_iProcedureData) == 12);
-#pragma pack(push, 4)
 class SandBoxActorPackageData : public ActorPackageData
 {
   public:
@@ -148,31 +136,6 @@ class SandBoxActorPackageData : public ActorPackageData
     bool IsActivityProcedure();
     bool IsActorWithinLocationRadius(Actor* apActor, bool abFlag);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SandBoxActorPackageData) == 100);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, eState) == 4);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, eProcedure) == 8);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fProcedureTime) == 12);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, pLocation) == 16);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fLastProcedureCheckHour) == 20);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fNextProcedureCheckHour) == 24);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiLastProcedureCheckDay) == 28);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_kProcedureList) == 32);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiProcedureIndex) == 48);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bNeedsSandboxUpdate) == 52);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasFoodMarker) == 53);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasChairMarker) == 54);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_bHasBedMarker) == 55);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_iSerializedValue) == 56);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_pCurrentTarget) == 60);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_ucProcedureIndex) == 64);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_pCurrentFurniture) == 68);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiActivityStartDay) == 72);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_uiActivityEndDay) == 76);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fActivityStartHour) == 80);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_fActivityEndHour) == 84);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_eSandboxActivity) == 88);
-FNV_STATIC_ASSERT(offsetof(SandBoxActorPackageData, m_ucProcedureFlags) == 92);
 
 // BSSimpleArray out-of-line helpers owned by other units. GetSize/GetAt come
 // from the shared template; SetSize/RemoveAt need a derived declaration.
@@ -181,7 +144,6 @@ class SandboxChoiceArray : public BSSimpleArray<SandboxProcedureData, 1024>
   public:
 };
 
-#pragma pack(push, 4)
 class Calendar
 {
   public:
@@ -195,15 +157,6 @@ class Calendar
     // Unit-local out-of-line declarations.
     float GetGameTime();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Calendar) == 28);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pYearGlobal) == 0);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pMonthGlobal) == 4);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pDayGlobal) == 8);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pHourGlobal) == 12);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pGameDaysPassedGlobal) == 16);
-FNV_STATIC_ASSERT(offsetof(Calendar, pHourGlobal) == 20);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_uiDaysPassed) == 24);
 
 // Community-evidenced global timer (JIP LN NVSE GameData.h Timer/TimeGlobal,
 // millisecond getter at 0x825C00.

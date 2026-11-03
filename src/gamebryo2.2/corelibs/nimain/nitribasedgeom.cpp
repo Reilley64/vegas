@@ -36,7 +36,7 @@ struct StackByte
 };
 
 // @fnv 0x0051d060
-void __fastcall FUN_0051d060(DummyClass* _this, StackByte aByteValue)
+void FUN_0051d060(DummyClass* _this, StackByte aByteValue)
 {
     reinterpret_cast<::S_0051d080 *>((_this))->FUN_0051d080(aByteValue.v, 8);
 }
@@ -52,7 +52,7 @@ struct Dummy_0051d160
 {
     // Calls FUN_0051d1c0 on this, then frees this (0x38 bytes) via NiMemObject::operator delete when bit 0 of flags is set, returning this.
 // @fnv 0x0051d160
-    void* __thiscall FUN_0051d160(unsigned int flags)
+    void* FUN_0051d160(unsigned int flags)
     {
         reinterpret_cast<struct ::FUN_0051d1c0 *>((this))->FUN_0051d1c0::~FUN_0051d1c0();
         if ((flags & 1) != 0)
@@ -63,4 +63,4 @@ struct Dummy_0051d160
     }
 };
 
-static void* (__thiscall Dummy_0051d160::*p_0051d160)(unsigned int) = &Dummy_0051d160::FUN_0051d160;
+static void* (Dummy_0051d160::*p_0051d160)(unsigned int) = &Dummy_0051d160::FUN_0051d160;

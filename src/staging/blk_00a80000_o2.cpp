@@ -2,6 +2,7 @@
 // src/staging/blk_00a80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
@@ -184,14 +185,14 @@ void FUN_00a8f080_Class::SetValues(int aiValue, int aiOther)
 struct SdmBase;
 
 struct FUN_00a8f730 {
-    void __thiscall Release();
+    void Release();
 };
 
 // @fnv 0x00a8f730
-void __thiscall FUN_00a8f730::Release()
+void FUN_00a8f730::Release()
 {
     if (DAT_011f5e34)
-        reinterpret_cast<void(__thiscall*)(void*, int)>(reinterpret_cast<void***>(DAT_011f5e34)[0][0])(DAT_011f5e34, 1);
+        reinterpret_cast<void(*)(void*, int)>(reinterpret_cast<void***>(DAT_011f5e34)[0][0])(DAT_011f5e34, 1);
     DAT_011f5e34 = 0;
 }
 
@@ -752,7 +753,7 @@ void FUN_00a81bd0_class::FUN_00a81bd0()
 struct Stub {
 };
 extern int DAT_0109f73c;
-extern int (__stdcall* DAT_00fdf1c4)(void*);
+extern int (* DAT_00fdf1c4)(void*);
 
 struct FUN_00a8f810_class {
     void FUN_00a8f810();
@@ -817,11 +818,11 @@ struct FUN_00a90260_class
     void* m_vft;
     void* m_iWordAt04;
 
-    void* __thiscall FUN_00a90260(int flags);
+    void* FUN_00a90260(int flags);
 };
 
 // @fnv 0x00a90260
-void* __thiscall FUN_00a90260_class::FUN_00a90260(int flags)
+void* FUN_00a90260_class::FUN_00a90260(int flags)
 {
     void* p = m_iWordAt04;
     m_vft = DAT_0109f9a4;
@@ -952,11 +953,11 @@ void FUN_00a80580_cls::FUN_00a80580()
 void FUN_00a5d3d0();
 
 struct FUN_00a80fc0_class {
-    void __thiscall FUN_00a80fc0();
+    void FUN_00a80fc0();
 };
 
 // @fnv 0x00a80fc0
-void __thiscall FUN_00a80fc0_class::FUN_00a80fc0() {
+void FUN_00a80fc0_class::FUN_00a80fc0() {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_0109e174);
     FUN_00a5d3d0();
 }
@@ -1201,8 +1202,6 @@ void FUN_00a84ca0_class::FreeEntryResources()
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 struct RefCountedObject {
     virtual void UnknownVirtual();
@@ -1389,11 +1388,11 @@ struct FUN_00a88c60_Class {
     int unk40;
     int unk44;
 
-    int __thiscall FUN_00a88c60(FUN_00a88c60_Class* other);
+    int FUN_00a88c60(FUN_00a88c60_Class* other);
 };
 
 // @fnv 0x00a88c60
-int __thiscall FUN_00a88c60_Class::FUN_00a88c60(FUN_00a88c60_Class* other) {
+int FUN_00a88c60_Class::FUN_00a88c60(FUN_00a88c60_Class* other) {
     if (unk08 == other->unk08 && unk00 == other->unk00 && unk04 == other->unk04) {
         if (!reinterpret_cast<::NiPoint2_shell *>(&(unk0C))->FUN_0051c330((*(const ::NiPoint2 *)(&other->unk0C))) && unk44 == other->unk44) {
             if (!reinterpret_cast<::NiPoint2_shell *>(&(unk14))->FUN_0051c330((*(const ::NiPoint2 *)(&other->unk14)))) {
@@ -1576,8 +1575,8 @@ FUN_00a8bd20::FUN_00a8bd20() {
 extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
 
 struct FUN_00a8bdf0_cls {
-    void (__thiscall* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
-    void (__thiscall* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
+    void (* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
+    void (* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
     int m_08;
     int m_0c;
     void FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count);
@@ -1630,7 +1629,7 @@ void FUN_00a8f810_class::FUN_00a8f810()
     Stub* s = (Stub*)DAT_011f5e34;
     reinterpret_cast<::HashTableBase *>((s))->FUN_00aa0250((const unsigned int *)(void *)((char*)this + 8));
     void* p = *(void**)((char*)this + 8);
-    int (__stdcall* fn)(void*) = DAT_00fdf1c4;
+    int (* fn)(void*) = DAT_00fdf1c4;
     if (p != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
         fn((char*)p - 8);
     *(const void**)this = &(*reinterpret_cast<const void * *>(&::DAT_0101dce4));
@@ -1788,7 +1787,6 @@ void S_a91120::AppendItems(unsigned int n) {
 }  // namespace fnv_00a91120
 
 namespace fnv_00a98240 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" const void* DAT_010a08ac;
 void __cdecl NiFree(void*);
 struct NiRefObject {
@@ -1942,11 +1940,11 @@ NiParticleObject* __cdecl CreateNiParticleObject() {
 
 
 struct FUN_00a9b4a0_Class {
-    void __thiscall FUN_00a9b4a0();
+    void FUN_00a9b4a0();
 };
 
 // @fnv 0x00a9b4a0
-void __thiscall FUN_00a9b4a0_Class::FUN_00a9b4a0() {
+void FUN_00a9b4a0_Class::FUN_00a9b4a0() {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&(*reinterpret_cast<int *>(&::kVtbl_NiAlphaAccumulator)));
     static_cast<::C_00aa0dc0 *>(nullptr)->FUN_00aa0dc0();
 }
@@ -2040,7 +2038,7 @@ struct FUN_00a9fda0_pair {
 void DestroyPairArrays()
 {
     FUN_00a9fda0_pair* arr = DAT_011f602c;
-    int (__stdcall* fp)(void*) = DAT_00fdf1c4;
+    int (* fp)(void*) = DAT_00fdf1c4;
     if (arr != 0) {
         int i = ((int*)arr)[-1];
         FUN_00a9fda0_pair* p = arr + i;
@@ -2600,8 +2598,6 @@ FNVObj* FNVObj::FUN_00a8fe70(const ReferenceHandle& src) {
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 struct HandleSlot
 {
@@ -2637,16 +2633,16 @@ FUN_00a9bda0::FUN_00a9bda0(unsigned int id, const ReferenceHandle* src)
     handle = *src;
 }
 
-extern int (__stdcall* DAT_00fdf1c4)(void*);
+extern int (* DAT_00fdf1c4)(void*);
 
 struct Pair {
     volatile unsigned int id;
     void* volatile value;
-    Pair* __thiscall Reset();
+    Pair* Reset();
 };
 
 // @fnv 0x00a9bdf0
-Pair* __thiscall Pair::Reset()
+Pair* Pair::Reset()
 {
     value = (*reinterpret_cast<void * *>(&::DAT_0109b220));
     id = 0;
@@ -2659,8 +2655,6 @@ Pair* __thiscall Pair::Reset()
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectA9F {
 public:
@@ -2949,7 +2943,7 @@ void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int 
 
 // 0x00a85510  ret 0x20
 // @fnv 0x00a85510
-void __stdcall FUN_00a85510(int, int, int, int, int, int, int, int) {
+void FUN_00a85510(int, int, int, int, int, int, int, int) {
 }
 
 // @fnv 0x00a877d0
@@ -2972,7 +2966,7 @@ void __cdecl FUN_00a88a40()
 
 // 0x00a89af0  ret 4
 // @fnv 0x00a89af0
-void __stdcall FUN_00a89af0(int) {
+void FUN_00a89af0(int) {
 }
 
 struct S_00a8d8b0;
@@ -3171,11 +3165,11 @@ FUN_00a8f490::~FUN_00a8f490() {
 }
 
 struct FUN_00a923a0_class {
-    unsigned short __thiscall FUN_00a923a0();
+    unsigned short FUN_00a923a0();
 };
 
 // @fnv 0x00a923a0
-unsigned short __thiscall FUN_00a923a0_class::FUN_00a923a0()
+unsigned short FUN_00a923a0_class::FUN_00a923a0()
 {
     return *reinterpret_cast<unsigned short*>(this + 0x50);
 }
@@ -3202,12 +3196,12 @@ FUN_00a88970_q FUN_00a88970(const FUN_00a88970_v& v)
 }
 
 struct FUN_00a81a40_shell {
-    int __thiscall FUN_00a81a40(int ai);
+    int FUN_00a81a40(int ai);
 };
 
 // Reads the 16-byte slot at this+8+ai*16; returns 0 if its +8 value is -1, otherwise a difference built from its +4, +8 and +12 values.
 // @fnv 0x00a81a40
-int __thiscall FUN_00a81a40_shell::FUN_00a81a40(int ai)
+int FUN_00a81a40_shell::FUN_00a81a40(int ai)
 {
     char* pSlot = (char*)this + 8 + ai * 16;
     int value = *(int*)(pSlot + 8);
@@ -3405,10 +3399,10 @@ struct BitmapStreamVtable {
     void* unk04;
     void* unk08;
     void* unk0c;
-    void (__thiscall* seek)(NiBinaryStream*, int);
+    void (* seek)(NiBinaryStream*, int);
 };
-extern void (__stdcall* DAT_00fdf05c)(void*);
-extern void (__stdcall* DAT_00fdf100)(void*);
+extern void (* DAT_00fdf05c)(void*);
+extern void (* DAT_00fdf100)(void*);
 class NiPixelFormat {
 public:
     unsigned int unk00;
@@ -3843,7 +3837,7 @@ void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* norma
 
 extern int DAT_011f5e44;
 extern int DAT_011f5e4c;
-extern int (__stdcall* DAT_00fdf1c4)(void*);
+extern int (* DAT_00fdf1c4)(void*);
 
 
 struct MaterialLibraryView {
@@ -3875,7 +3869,7 @@ void MaterialLibraryView::FUN_00a8fdb0()
         } while (i < count);
     }
     int h = m_8;
-    int (__stdcall* fn)(void*) = DAT_00fdf1c4;
+    int (* fn)(void*) = DAT_00fdf1c4;
     if (h != (int)(*reinterpret_cast<void * *>(&::DAT_0109b220))) {
         fn((void*)(h - 8));
     }

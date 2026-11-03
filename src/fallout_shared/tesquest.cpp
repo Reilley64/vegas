@@ -814,13 +814,13 @@ void FUN_0060caf0_shell::FUN_0060caf0(bool abCompleted)
     {
         data.m_ucEntryType |= 0x40;
         data.m_ucEntryType |= 2;
-        ((void(__thiscall*)(void*, unsigned int))(*(void***)this)[18])(this, 2);
+        ((void(*)(void*, unsigned int))(*(void***)this)[18])(this, 2);
         ::fnv_0077a480::FUN_0077a480((::fnv_0077a480::TESQuest *)(void *)(this));
     }
     else if (!abCompleted && (data.m_ucEntryType & 0x40))
     {
         data.m_ucEntryType &= ~0x40;
-        ((void(__thiscall*)(void*, unsigned int))(*(void***)this)[18])(this, 2);
+        ((void(*)(void*, unsigned int))(*(void***)this)[18])(this, 2);
     }
 }
 
@@ -1396,7 +1396,7 @@ struct LocalsState
 {
     void* FUN_0041af70(unsigned int);
 };
-typedef unsigned int(__thiscall* TagMethod)(void*);
+typedef unsigned int(* TagMethod)(void*);
 struct QuestLoader : TESQuest
 {
     void LoadQuestData(unsigned int flags, unsigned int extra);

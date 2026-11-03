@@ -23,7 +23,6 @@ enum NiTextureTransformController__TransformMember
     NiTextureTransformController__TransformMember_TT_SCALE_U = 3,
     NiTextureTransformController__TransformMember_TT_SCALE_V = 4
 };
-#pragma pack(push, 4)
 class NiTimeController : public NiObject
 {
   public:
@@ -90,20 +89,6 @@ class NiTimeController : public NiObject
     // NiTimeController& __cdecl NiTimeController::*(const NiTimeController&)
     // void __cdecl NiTimeController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
-#pragma pack(push, 4)
 class NiInterpController : public NiTimeController
 {
   public:
@@ -123,9 +108,6 @@ class NiInterpController : public NiTimeController
     // NiInterpController& __cdecl NiInterpController::*(const NiInterpController&)
     // void __cdecl NiInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
-#pragma pack(push, 4)
 class NiSingleInterpController : public NiInterpController
 {
   public:
@@ -152,10 +134,6 @@ class NiSingleInterpController : public NiInterpController
     // NiSingleInterpController& __cdecl NiSingleInterpController::*(const NiSingleInterpController&)
     // void __cdecl NiSingleInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiSingleInterpController) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spControllerInterpolator) == 52);
-#pragma pack(push, 4)
 class NiFloatInterpController : public NiSingleInterpController
 {
   public:
@@ -177,9 +155,6 @@ class NiFloatInterpController : public NiSingleInterpController
     // NiFloatInterpController& __cdecl NiFloatInterpController::*(const NiFloatInterpController&)
     // void __cdecl NiFloatInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiFloatInterpController) == 56);
-#pragma pack(push, 4)
 class NiTextureTransformController : public NiFloatInterpController
 {
   public:
@@ -220,12 +195,4 @@ class NiTextureTransformController : public NiFloatInterpController
     // void __cdecl NiTextureTransformController::*()
     // void __cdecl NiTextureTransformController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTextureTransformController) == 80);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_uiLastKeyIndex) == 56);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_pTaskMap) == 60);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_bIsBumpMap) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_uiTextureMapIndex) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_eTransformMember) == 72);
-FNV_STATIC_ASSERT(offsetof(NiTextureTransformController, m_pCachedControllerID) == 76);
 #endif

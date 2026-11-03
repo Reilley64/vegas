@@ -65,7 +65,7 @@ struct FUN_00d74dd0_Class {
 void FUN_00d74dd0_Class::FUN_00d74dd0()
 {
     if (m_10) {
-        (*(void (__thiscall*)(void*, int))(*reinterpret_cast<void***>(*reinterpret_cast<void****>(m_10))))(m_10, 1);
+        (*(void (*)(void*, int))(*reinterpret_cast<void***>(*reinterpret_cast<void****>(m_10))))(m_10, 1);
     }
     m_10 = 0;
 }
@@ -81,18 +81,18 @@ struct FUN_00d75850_class {
     void FUN_00d75850();
 };
 // @fnv 0x00d76300
-int __stdcall FUN_00d76300(const int* pValues, int iIndex)
+int FUN_00d76300(const int* pValues, int iIndex)
 {
     return (pValues[iIndex + 5] & ~3);
 }
 
 struct FUN_00d7c200_cls {  };
-struct FUN_00d7c250_cls { void __thiscall FlushQueuedElements(); };
+struct FUN_00d7c250_cls { void FlushQueuedElements(); };
 struct FUN_00d7c950_cls {
-    void __thiscall FUN_00d7c950();
+    void FUN_00d7c950();
 };
 // @fnv 0x00d752c0
-int __stdcall FUN_00d752c0(int* arr, int idx)
+int FUN_00d752c0(int* arr, int idx)
 {
     return *(int*)((char*)arr + idx * 4 + 8);
 }
@@ -311,7 +311,7 @@ struct PayloadOwner {
 };
 
 // @fnv 0x00d74ed0
-int* __stdcall FUN_00d74ed0(PayloadOwner* apOwner)
+int* FUN_00d74ed0(PayloadOwner* apOwner)
 {
     return &apOwner->m_iPayload;
 }
@@ -537,7 +537,7 @@ int Owner::FUN_00d75070(Request* request) {
 }
 
 // @fnv 0x00d75120
-int __stdcall FUN_00d75120(int* p)
+int FUN_00d75120(int* p)
 {
     return *p;
 }
@@ -595,7 +595,7 @@ int* Owner::FUN_00d75140() { return unk08->unk3C; }
 }  // namespace fnv_00d75140
 
 // @fnv 0x00d75200
-int __stdcall FUN_00d75200(const int* value)
+int FUN_00d75200(const int* value)
 {
     return *value;
 }
@@ -1016,7 +1016,7 @@ struct S_00d7c200 {
     void FreeAll();
 };
 // @fnv 0x00d7c950
-void __thiscall FUN_00d7c950_cls::FUN_00d7c950()
+void FUN_00d7c950_cls::FUN_00d7c950()
 {
     reinterpret_cast<::S_00d7c200 *>((((FUN_00d7c200_cls*)((char*)this + 8))))->FreeAll();
     ((FUN_00d7c250_cls*)((char*)this + 0x20))->FlushQueuedElements();
@@ -1517,7 +1517,7 @@ int FUN_00d74e10_cls::FUN_00d74e10()
 struct FourFloatVector { int x,y,z,w; };
 struct FUN_00d74e20_class {
     void* m_00; void* m_04; char* m_08;
-    FourFloatVector __thiscall GetFieldAtD0();
+    FourFloatVector GetFieldAtD0();
 };
 // Returns the four-int value stored at offset 0xd0 from the pointer in m_08.
 // @fnv 0x00d74e20
@@ -1781,7 +1781,7 @@ struct FUN_00d76920_class {
 };
 
 // @fnv 0x00d76920
-void __thiscall FUN_00d76920_class::FUN_00d76920(float f, int i) {
+void FUN_00d76920_class::FUN_00d76920(float f, int i) {
     reinterpret_cast<::BevelHull *>((m_08))->FUN_00d7caa0(f, (*(::BevelArray *)(i)));
 }
 
@@ -3222,7 +3222,7 @@ struct FUN_00d74db0_cls {
     void* m_08;
     void* m_0c;
     void* m_10;
-    void* __thiscall FUN_00d74db0();
+    void* FUN_00d74db0();
 };
 
 // @fnv 0x00d74db0
@@ -3528,7 +3528,7 @@ struct D7Owner {
     int o1a4;
     int o1a8;
     int stamp1ac;
-    void __thiscall FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* out);
+    void FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* out);
 };
 static __forceinline void UnlinkNode(D7Head* head, D7ListNode* nxt, D7ListNode* prv)
 {
@@ -3539,7 +3539,7 @@ static __forceinline void UnlinkNode(D7Head* head, D7ListNode* nxt, D7ListNode* 
 }
 // Recursively visits adjacent pairs when Dist(arg1) is non-negative, unlinks and removes their nodes and elements, or copies the pair to out.
 // @fnv 0x00d7c3e0
-void __thiscall D7Owner::FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* apOutPair)
+void D7Owner::FUN_00d7c3e0(D7Node* arg1, D7Pair* pair, D7Pair* apOutPair)
 {
     if (!pair->node) return;
     if (pair->node->stamp40 == stamp1ac) return;
@@ -4076,14 +4076,14 @@ __declspec(align(16)) struct FUN_00d7ac40_cls {
     unsigned char m_1b5;
     int unk1b6;
 
-    void __thiscall FUN_00d7ac40(unsigned char flag);
+    void FUN_00d7ac40(unsigned char flag);
 };
 // @fnv 0x00d75850
 void FUN_00d75850_class::FUN_00d75850()
 {
     reinterpret_cast<::FUN_00d7ac40_cls *>((m2))->FUN_00d7ac40(0);
     if (m4) {
-        void (__thiscall *fn)(int, int) = *(void (__thiscall **)(int, int))*reinterpret_cast<void (__thiscall **)(int, int)>(m4);
+        void (*fn)(int, int) = *(void (**)(int, int))*reinterpret_cast<void (**)(int, int)>(m4);
         fn(m4, 1);
     }
     m4 = 0;
@@ -4194,7 +4194,7 @@ struct S_00d790d0_Arr {
 
 // Repeats the array traversal count times and replaces an item with two outputs when the result is 3 and both outputs are nonnull.
 // @fnv 0x00d790d0
-void __stdcall FUN_00d790d0(int aiSteps, S_00d790d0_Arr* apItems, float afParam) {
+void FUN_00d790d0(int aiSteps, S_00d790d0_Arr* apItems, float afParam) {
     __declspec(align(16)) S_00d790d0_V4 v;
     S_00d790d0_Pair vPair;
     S_00d790d0_Item* a;
@@ -4234,7 +4234,7 @@ struct Service {
         void* f0;
         void* f4;
         void* f8;
-        int (__thiscall *fC)(Service*,int,int,char*,const char*,int);
+        int (*fC)(Service*,int,int,char*,const char*,int);
     };
     VTable *vt;
 };

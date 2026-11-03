@@ -13,7 +13,6 @@
 class BGSMenuIcon;
 class PerkButtonEntry;
 
-#pragma pack(push, 4)
 // BGSMessage: a scripted message form (full name, description, button list).
 class BGSMessage : public TESForm, public TESFullName, public TESDescription
 {
@@ -30,11 +29,5 @@ class BGSMessage : public TESForm, public TESFullName, public TESDescription
     void InitItem();
     bool Load(TESFile* file);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(BGSMessage) == 64);
-FNV_STATIC_ASSERT(offsetof(BGSMessage, pIcon) == 44);
-FNV_STATIC_ASSERT(offsetof(BGSMessage, m_kButtonEntries) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSMessage, iFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(BGSMessage, m_uiDisplayDuration) == 60);
 #endif

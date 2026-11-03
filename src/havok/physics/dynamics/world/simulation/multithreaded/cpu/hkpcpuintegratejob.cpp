@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/CriticalSectionOwner.h"
@@ -817,8 +818,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
 }
 
 namespace fnv_00d95cf0 {
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-extern "C" int (__stdcall *DAT_00fdf04c)(unsigned long, void*);
+extern "C" int (*DAT_00fdf04c)(unsigned long, void*);
 
 typedef short sshort;
 typedef unsigned char byte;

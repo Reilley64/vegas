@@ -28,11 +28,11 @@ void* PathingRequestSafeStraightLine::FUN_006e5fd0(unsigned int flags)
 
 struct FUN_006e60c0_shell
 {
-    void __thiscall FUN_006e60c0(int);
+    void FUN_006e60c0(int);
 };
 
 // @fnv 0x006e60c0
-void __thiscall FUN_006e60c0_shell::FUN_006e60c0(int a1)
+void FUN_006e60c0_shell::FUN_006e60c0(int a1)
 {
     *(int*)((char*)this + 0xb8) = *(int*)((char*)this + 0xb8);
 }
@@ -42,10 +42,10 @@ struct BGSSaveFormBuffer
 };
 struct Host_006e60e0
 {
-    void __thiscall SaveToBuffer(BGSSaveFormBuffer*);
+    void SaveToBuffer(BGSSaveFormBuffer*);
 };
 // @fnv 0x006e60e0
-void __thiscall Host_006e60e0::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
+void Host_006e60e0::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::fnv_006e5f00::PathingRequestClosePoint *>(this)->FUN_006e5f00((::fnv_006e5f00::BGSSaveFormBuffer *)(apSaveGameBuffer));
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0xb8)), 0);
@@ -77,10 +77,10 @@ struct FUN_006e6080_cls
 {
     char _pad[0xB8];
     int pTarget;
-    void __thiscall FUN_006e6080(PathingRequest* apDest);
+    void FUN_006e6080(PathingRequest* apDest);
 };
 // @fnv 0x006e6080
-void __thiscall FUN_006e6080_cls::FUN_006e6080(PathingRequest* apDest)
+void FUN_006e6080_cls::FUN_006e6080(PathingRequest* apDest)
 {
     PathingRequestSafeStraightLine* pdest = (PathingRequestSafeStraightLine*)apDest;
     ((PathingRequest*)this)->CopyTo((PathingRequest*)pdest);
@@ -118,10 +118,10 @@ struct TESObjectREFR : TESForm
 };
 struct Holder_006e6140
 {
-    void __thiscall ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer);
+    void ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x006e6140
-void __thiscall Holder_006e6140::ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer)
+void Holder_006e6140::ResolveReference(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     *(TESObjectREFR**)((char*)this + 0xb8) = (*(TESObjectREFR**)((char*)this + 0xb8))
                                                  ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(

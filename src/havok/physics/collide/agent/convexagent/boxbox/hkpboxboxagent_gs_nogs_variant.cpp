@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/BoxAgent.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00db0920_cls.h"
@@ -96,18 +97,17 @@ public:
 };
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
 // @fnv 0x00d406a0
-extern "C" void __stdcall FUN_00d406a0(void* a, void* b, void* c, void* d) {
+extern "C" void FUN_00d406a0(void* a, void* b, void* c, void* d) {
     FUN_00d40470(a, b, c, d);
 }
 typedef void (__cdecl *FUN_00d406c0_fn4)(void*, void*, void*, void*);
-void __stdcall FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
+void FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
 
 #include <xmmintrin.h>
 inline void* operator new(unsigned int, void* p) { return p; }
 
 
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 struct TimerEntry70 {
     const char* name;

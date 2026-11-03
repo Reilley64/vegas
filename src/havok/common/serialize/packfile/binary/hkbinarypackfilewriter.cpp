@@ -254,7 +254,7 @@ union FUN_00dbc6f0_cls_word
 
 int __cdecl FUN_00cb10d0(void* apNode);
 
-typedef void(__thiscall* S_WriteFn)(FUN_00dbc6f0_cls_callee*, void*, int);
+typedef void(* S_WriteFn)(FUN_00dbc6f0_cls_callee*, void*, int);
 
 static inline void S_Swap(unsigned char& a, unsigned char& b)
 {
@@ -272,7 +272,7 @@ static inline int S_Rev(int v)
 }
 
 // @fnv 0x00dbc6f0
-void __stdcall WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
+void WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
 {
     int x = ((int)(reinterpret_cast<::FUN_00d47690_class *>((apSource))->ComputeSignature(0)));
     if (apOwner->m_byReverse != 0)
@@ -1880,7 +1880,7 @@ int S_00db8670_PatchManager::FUN_00db8670() throw()
     }
     return 0;
 }
-extern void __stdcall WriteSwapped(void* data, int elem, int bytes);
+extern void WriteSwapped(void* data, int elem, int bytes);
 struct Ctx
 {
     void* unk00;

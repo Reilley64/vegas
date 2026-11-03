@@ -41,7 +41,6 @@ template <class T> class NiPointer
     operator T*() const;
 };
 
-#pragma pack(push, 4)
 
 class BSFaceGenNiNode
 {
@@ -69,7 +68,6 @@ class BSFaceGenNiNode
     static const NiRTTI ms_kRTTI;
 };
 
-#pragma pack(pop)
 
 // @fnv 0x006629e0
 const NiRTTI* BSFaceGenNiNode::GetRTTI() const

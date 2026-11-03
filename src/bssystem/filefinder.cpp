@@ -1,5 +1,6 @@
 // bssystem/filefinder.cpp: FileFinder, Loader_S (12 functions)
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00446dc0_Class.h"
 #include "fnv/decl/FUN_00b01bc0_class.h"
@@ -176,7 +177,6 @@ int FUN_00afe220_shell::FUN_00afe220(char* apFilePath, unsigned int aiFlags, uns
     return 0;
 }
 
-__declspec(dllimport) int __stdcall SetWindowTextA(void*, const char*);
 struct IOManager_S
 {
     int CallInnerF3();

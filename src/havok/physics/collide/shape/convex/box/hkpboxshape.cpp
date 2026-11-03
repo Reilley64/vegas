@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/box/hkpboxshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c7000.h"
@@ -24,11 +25,11 @@ float __cdecl FUN_00c9e0f0(float a, float b)
 
 struct FUN_00c9db80_class
 {
-    void __thiscall FUN_00c9db80();
+    void FUN_00c9db80();
 };
 
 // @fnv 0x00c9db80
-void __thiscall FUN_00c9db80_class::FUN_00c9db80()
+void FUN_00c9db80_class::FUN_00c9db80()
 {
     *reinterpret_cast<void**>(this) = &::DAT_0102e388;
 }
@@ -71,9 +72,9 @@ void* FUN_00c9e1b0_class::FUN_00c9e1b0(unsigned char flags)
     return this;
 }
 
-// FUN_00c9e1a0: __stdcall stub returning constant 0x30 (two unused stack params).
+// FUN_00c9e1a0: stub returning constant 0x30 (two unused stack params).
 // @fnv 0x00c9e1a0
-int __stdcall FUN_00c9e1a0(int a1, int a2)
+int FUN_00c9e1a0(int a1, int a2)
 {
     return 0x30;
 }
@@ -91,12 +92,12 @@ void __cdecl ComputeAabbFromTransform(const hkTransform& transform, const hkVect
 
 struct FUN_00c9dc10_class : public hkpBoxShape
 {
-    void __thiscall GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const;
+    void GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const;
 };
 
 // Computes the shape's AABB by calling ComputeAabbFromTransform with the transform, the shape's half extents and tolerance added to a stored value.
 // @fnv 0x00c9dc10
-void __thiscall FUN_00c9dc10_class::GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const
+void FUN_00c9dc10_class::GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const
 {
     ComputeAabbFromTransform(transform, m_vHalfExtents, m_fSphereRadius + tolerance, out);
 }
@@ -148,11 +149,11 @@ extern float DAT_010c44d0[4];
 
 struct S00c9dc40_Box : public hkpBoxShape
 {
-    void __thiscall FUN_00c9dc40(const float* src, float* dst);
+    void FUN_00c9dc40(const float* src, float* dst);
 };
 
 // @fnv 0x00c9dc40
-void __thiscall S00c9dc40_Box::FUN_00c9dc40(const float* src, float* dst)
+void S00c9dc40_Box::FUN_00c9dc40(const float* src, float* dst)
 {
     hkVector4 e = m_vHalfExtents;
     __m128 v = _mm_and_ps(_mm_load_ps(src), _mm_load_ps(DAT_010c44d0));
@@ -164,7 +165,7 @@ void __thiscall S00c9dc40_Box::FUN_00c9dc40(const float* src, float* dst)
 }
 
 // @fnv 0x00c9dcb0
-extern "C" void __stdcall ZeroResult(__m128* result)
+extern "C" void ZeroResult(__m128* result)
 {
     *result = _mm_setzero_ps();
 }
@@ -248,12 +249,12 @@ void hkAabbUtilC9E1::ComputeAabbFromTransform(const hkTransformC9E1& kLocalToWor
 
 struct hkpBoxShape_Local : public hkpBoxShape
 {
-    void __thiscall SetHalfExtents(const hkVector4& halfExtents);
+    void SetHalfExtents(const hkVector4& halfExtents);
 };
 
 // Copies halfExtents into m_vHalfExtents and stores the minimum of x, y, and z into the w component.
 // @fnv 0x00c9db90
-void __thiscall hkpBoxShape_Local::SetHalfExtents(const hkVector4& halfExtents)
+void hkpBoxShape_Local::SetHalfExtents(const hkVector4& halfExtents)
 {
     *(__m128*)&m_vHalfExtents = *(__m128*)&halfExtents;
     m_vHalfExtents.w = (m_vHalfExtents.x < m_vHalfExtents.y) ? m_vHalfExtents.x : m_vHalfExtents.y;
@@ -318,7 +319,6 @@ extern "C"
     int _mm_movemask_ps(__m128);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 struct BRMonitorStream
 {

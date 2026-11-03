@@ -30,7 +30,7 @@ struct FUN_007ebd30_This
 {
     char pad[0x374];
     float fValue;
-    float __thiscall FUN_007ebd30();
+    float FUN_007ebd30();
 };
 extern int DAT_011db0d4;
 void __cdecl FUN_007f3bd0(int a1);
@@ -41,18 +41,18 @@ struct ArrSI
 extern int DAT_011f2250;
 struct Caller007efa10
 {
-    void __thiscall UpdateQueueEntry(int a1, int a2, int a3);
+    void UpdateQueueEntry(int a1, int a2, int a3);
 };
 struct FUN_007ef710_This
 {
     char _pad[0xF8];
     bool m_bFirstFlag;
-    bool __thiscall HandleKey(int aiKey);
+    bool HandleKey(int aiKey);
 };
 struct Tile;
 struct FUN_0070ec70_This
 {
-    int __thiscall FUN_0070ec70();
+    int FUN_0070ec70();
 };
 void* __cdecl FUN_004b7210();
 struct FUN_007ef760_Owner
@@ -61,7 +61,7 @@ struct FUN_007ef760_Owner
     virtual void vf1();
     virtual void vf2();
     virtual void vf3(int, int);
-    void __thiscall FUN_007ef760(int aiID, Tile* apTarget);
+    void FUN_007ef760(int aiID, Tile* apTarget);
 };
 struct Vec2Tmp
 {

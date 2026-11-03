@@ -54,7 +54,7 @@
 #include "shadowscenenode_local.h"
 struct FUN_00c5b5a0_cls
 {
-    int __thiscall FUN_00c5b5a0(int idx);
+    int FUN_00c5b5a0(int idx);
 };
 extern "C" char DAT_01070c70;
 struct Rect2180

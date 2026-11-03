@@ -62,13 +62,13 @@ bool FUN_00a864d0_Class::FUN_00a864d0(A46BB0Object* pkObject)
         return false;
     void* pData = *(void**)((char*)this + 8);
     void* pOtherData = *(void**)((char*)pkSkinInstance + 8);
-    if (!((bool(__thiscall*)(void*, void*))((void**)*(void**)pData)[0x5c / 4])(pData, pOtherData))
+    if (!((bool(*)(void*, void*))((void**)*(void**)pData)[0x5c / 4])(pData, pOtherData))
         return false;
     void* pThisPart = *(void**)((char*)this + 0xc);
     if (pThisPart)
     {
         void* pOtherPart = *(void**)((char*)pkSkinInstance + 0xc);
-        if (!((bool(__thiscall*)(void*, void*))((void**)*(void**)pThisPart)[0x5c / 4])(pThisPart, pOtherPart))
+        if (!((bool(*)(void*, void*))((void**)*(void**)pThisPart)[0x5c / 4])(pThisPart, pOtherPart))
             return false;
     }
     if (*(void**)((char*)this + 0xc) == 0 && *(void**)((char*)pkSkinInstance + 0xc) != 0)
@@ -88,7 +88,7 @@ struct SkinGraph
     bool FUN_00a5d2f0(NiStream&);
     bool VisitSkinGraphLinks(NiStream& stream);
 };
-typedef void(__thiscall* VisitStreamable)(NiObject*, NiStream&);
+typedef void(* VisitStreamable)(NiObject*, NiStream&);
 __forceinline void VisitLinkedObject(NiObject* object, NiStream& stream)
 {
     void** methods = *reinterpret_cast<void***>(object);

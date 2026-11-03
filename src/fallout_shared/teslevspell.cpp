@@ -23,8 +23,8 @@
 #include "fnv/symbols_01183000.h"
 struct FUN_0050b980_shell
 {
-    void __thiscall FUN_0050b9b0();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_0050b9b0();
+    void* Destroy(unsigned int flags);
 };
 
 struct TESForm
@@ -287,7 +287,7 @@ class FUN_0050b9b0 : public B9B0Form, public B9B0Component
 };
 // Calls FUN_0050b9b0, then frees this with Deallocate if flags has bit 1 set, and returns this.
 // @fnv 0x0050b980
-void* __thiscall FUN_0050b980_shell::Destroy(unsigned int flags)
+void* FUN_0050b980_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0050b9b0 *>(this)->FUN_0050b9b0::~FUN_0050b9b0();
     if (flags & 1)

@@ -54,7 +54,7 @@ int FUN_00e0c2c0(int aiDividend, int aiDivisor, int c, int aiSubtrahend, int aiO
 }
 
 // @fnv 0x00e0c2e0
-unsigned int __fastcall RoundUpToNextPowerOfTwo(unsigned int uiValue)
+unsigned int RoundUpToNextPowerOfTwo(unsigned int uiValue)
 {
     uiValue--;
     uiValue |= uiValue >> 1;
@@ -100,17 +100,17 @@ struct SubObject
     virtual void* unk04();
     virtual void* unk08();
     virtual void* unk0c();
-    virtual void __thiscall invoke(int* value, int mode);
+    virtual void invoke(int* value, int mode);
 };
 struct FUN_00cc01a0_class
 {
     int unk00;
     int unk04;
     SubObject* unk08;
-    FUN_00cc01a0_class* __thiscall InvokeSubObject(int value);
+    FUN_00cc01a0_class* InvokeSubObject(int value);
 };
 // @fnv 0x00cc01a0
-FUN_00cc01a0_class* __thiscall FUN_00cc01a0_class::InvokeSubObject(int value)
+FUN_00cc01a0_class* FUN_00cc01a0_class::InvokeSubObject(int value)
 {
     unk08->invoke(&value, 1);
     return this;
@@ -344,7 +344,7 @@ S_e0ce00_Bool S_e0ce00::AppendBlock(const char* begin, const char* end, const S_
 namespace fnv_00e0d0a0 {
 struct Entry
 {
-    void __thiscall FUN_00ddeff0(unsigned int flags);
+    void FUN_00ddeff0(unsigned int flags);
 };
 struct Device
 {
@@ -2623,7 +2623,7 @@ void __cdecl FUN_00e0fec0(int a0, void* pArray_, int a2, int a3, int a4, int a5,
 }
 }  // namespace fnv_00e0fec0
 
-// FUN_00e0cc90 - __thiscall member of a lookup table object.
+// FUN_00e0cc90 - member of a lookup table object.
 //
 // The object layout is taken from the original's disassembly:
 //   +0x00  int      unk00

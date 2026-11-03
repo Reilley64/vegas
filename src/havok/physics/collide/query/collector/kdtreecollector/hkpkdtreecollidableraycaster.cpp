@@ -226,17 +226,17 @@ struct S00d97bf0_Obj
     int m0C;
     int m10;
 
-    int __thiscall FUN_00d97bf0(int a0, int a1, int a2, int a3);
+    int FUN_00d97bf0(int a0, int a1, int a2, int a3);
 };
 
 // Records TtKdTreeCastRayIter and Et timing markers, stores a2 and a3, calls FUN_00d98ca0 and v2, then returns a0.
 // @fnv 0x00d97bf0
-int __thiscall S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
+int S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
 {
     extern void* DAT_00fdf044;
     extern const char str_010d406c[];
 
-    typedef S00d97bf0_Pool*(__stdcall * AllocFn)(unsigned long);
+    typedef S00d97bf0_Pool*(* AllocFn)(unsigned long);
     AllocFn alloc = (AllocFn)DAT_00fdf044;
 
     S00d97bf0_Pool* pool = alloc(DAT_0126835c);

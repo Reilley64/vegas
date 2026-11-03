@@ -3,11 +3,10 @@
 #define FNV_NIBLENDINTERPOLATOR_UNIT_DECLS_H
 
 
+#include <windows.h>
 class CloningProcess;
 class ShaderBufferRecord;
 extern "C" const float fnvNegMax;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 template <class T> class NiTStringPointerMap
 {

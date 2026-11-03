@@ -2,6 +2,7 @@
 // src/bsshader/imagespacetexture_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/imagespacetexture.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/E7DE90Owner.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
@@ -23,11 +24,11 @@
 
 struct FUN_00ba3770_struct
 {
-    int __thiscall FUN_00ba3770();
+    int FUN_00ba3770();
 };
 
 // @fnv 0x00ba3770
-int __thiscall FUN_00ba3770_struct::FUN_00ba3770()
+int FUN_00ba3770_struct::FUN_00ba3770()
 {
     if (reinterpret_cast<char*>(this)[1])
         return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4);
@@ -54,10 +55,10 @@ struct Holder00ba37f0
     bool b0;
     bool b1;
     Tex00ba37f0* pTileTexture;
-    void __thiscall FUN_00ba37f0(Tex00ba37f0* apTex);
+    void FUN_00ba37f0(Tex00ba37f0* apTex);
 };
 // @fnv 0x00ba37f0
-void __thiscall Holder00ba37f0::FUN_00ba37f0(Tex00ba37f0* apTex)
+void Holder00ba37f0::FUN_00ba37f0(Tex00ba37f0* apTex)
 {
     if (pTileTexture != apTex)
     {
@@ -140,8 +141,6 @@ void H_00ba39a0::FUN_00ba39a0()
     i2 = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 struct RefBase
 {
     virtual void vf0();
@@ -194,11 +193,11 @@ struct Holder
     RefObj* _4;
     int _8;
     int _c;
-    void __thiscall FUN_00ba38b0();
+    void FUN_00ba38b0();
 };
 
 // @fnv 0x00ba38b0
-void __thiscall Holder::FUN_00ba38b0()
+void Holder::FUN_00ba38b0()
 {
     RefObj* tmp = _4;
     if (tmp)

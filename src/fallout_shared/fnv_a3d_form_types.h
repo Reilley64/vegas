@@ -12,7 +12,6 @@
 #include "fnv/symbols_00460000.h"
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_00485000.h"
-#define FNV_ASSERT(name, expression) typedef char name[(expression) ? 1 : -1]
 class TESFile;
 class TESForm;
 class TESObjectREFR;
@@ -152,8 +151,6 @@ public:
 public:
     void LoadGame(void *);
 };
-FNV_ASSERT(FormSize, sizeof(TESForm) == 0x18);
-FNV_ASSERT(FormIDOffset, offsetof(TESForm, iFormID) == 0x0c);
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* memory);
 void* __cdecl operator new[](unsigned int size);

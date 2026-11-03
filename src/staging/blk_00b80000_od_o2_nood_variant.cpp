@@ -180,7 +180,7 @@ struct FUN_00a69400 : FUN_00a693e0
     {}
 };
 // @fnv 0x00b9c020
-unsigned char __stdcall FUN_00b9c020(FNVCuboid* p1, FNVCuboid* p2)
+unsigned char FUN_00b9c020(FNVCuboid* p1, FNVCuboid* p2)
 {
     unsigned char adjacency[8][2] = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 2}, {1, 3}, {2, 4}, {3, 4}};
     FNVPlaneArray first, second;

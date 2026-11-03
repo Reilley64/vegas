@@ -187,14 +187,14 @@ struct FUN_00ad89e0_shell : public SoundPlaybackHandle
     bool FUN_00ad89e0(float);
 };
 
-bool __fastcall FUN_00adc0d0(BSAudioManager*, int, unsigned int, float);
+bool FUN_00adc0d0(BSAudioManager*, int, unsigned int, float);
 
 // @fnv 0x00ad89e0
 bool FUN_00ad89e0_shell::FUN_00ad89e0(float aiNewVolume)
 {
     if (*(int*)this == -1)
         return false;
-    return ((bool(__thiscall*)(BSAudioManager*, unsigned int, float))FUN_00adc0d0)(&BSAudioManager::GetRandomGenerator(),
+    return ((bool(*)(BSAudioManager*, unsigned int, float))FUN_00adc0d0)(&BSAudioManager::GetRandomGenerator(),
                                                                                    *(unsigned int*)this, aiNewVolume);
 }
 
@@ -289,7 +289,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00ad8f20_shell : public SoundPlaybackHandle
 {
     void FUN_00ad8f20(NiAVObject*);
@@ -498,7 +497,7 @@ struct FakeMgr
 };
 // Returns 0 if the value pointed to by a1 is -1, otherwise forwards it to FUN_00adc830 on the BSAudioManager instance.
 // @fnv 0x00ad8b30
-int __fastcall FUN_00ad8b30(unsigned int* a1)
+int FUN_00ad8b30(unsigned int* a1)
 {
     if (*a1 == -1)
         return 0;

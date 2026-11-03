@@ -43,7 +43,7 @@ int __cdecl FUN_00d86980();
 
 // Stores v into p as a char, short or int depending on the size returned by FUN_00d86980.
 // @fnv 0x00d86bc0
-void __stdcall FUN_00d86bc0(int apTarget, int aiValue)
+void FUN_00d86bc0(int apTarget, int aiValue)
 {
     switch (FUN_00d86980())
     {
@@ -127,7 +127,7 @@ struct FUN_00d86bc0_Obj
 };
 
 // @fnv 0x00dc1bf0
-unsigned int __stdcall FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
+unsigned int FUN_00dc1bf0(int aiArg, int pMember, int pSource, int aiUnused)
 {
     FUN_00d86bc0_Obj* member = (FUN_00d86bc0_Obj*)pMember;
     unsigned int type = member->unk0C;

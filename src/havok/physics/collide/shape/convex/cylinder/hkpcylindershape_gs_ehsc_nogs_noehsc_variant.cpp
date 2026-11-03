@@ -12,7 +12,7 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpCylinderShape.h"
 int __cdecl FUN_00d571b0();
-// FUN_00d571a0: __thiscall getter returning the float at this+0x14,
+// FUN_00d571a0: getter returning the float at this+0x14,
 class hkpCylinderShapeGetCylRadius : public hkpCylinderShape {
 public:
     hkReal FUN_00d571a0();
@@ -39,7 +39,7 @@ struct S00d57b20_Obj {
     int unk08;
     int unk0C;
 
-    S00d57b20_Obj* __thiscall FUN_00d57b20(int condition);
+    S00d57b20_Obj* FUN_00d57b20(int condition);
 };
 
 #include <xmmintrin.h>
@@ -50,7 +50,7 @@ static __declspec(noinline) float FUN_00d571d0()
     return ::DAT_01030ff0;
 }
 
-static __declspec(noinline) void __stdcall SetValue(float value)
+static __declspec(noinline) void SetValue(float value)
 {
     ::DAT_011b5be8 = value;
 }
@@ -79,7 +79,7 @@ struct S00d57aa0_Obj {
     float unk38;
     float unk3c;
 
-    void* __thiscall FUN_00d57aa0(
+    void* FUN_00d57aa0(
         const float* a,
         const float* b,
         float c,
@@ -88,7 +88,7 @@ struct S00d57aa0_Obj {
 };
 
 // @fnv 0x00d57aa0
-void* __thiscall S00d57aa0_Obj::FUN_00d57aa0(
+void* S00d57aa0_Obj::FUN_00d57aa0(
     const float* a,
     const float* b,
     float c,

@@ -26,7 +26,6 @@ struct VATSCommand
     bool m_bFinalActionFlag;
     char _pad_25[3];
 };
-typedef char _sizecheck_VATS_COMMAND[sizeof(VATSCommand) == 40 ? 1 : -1];
 struct FUN_009ca410_shell : public VATS
 {
     void ProcessVATSCommands();

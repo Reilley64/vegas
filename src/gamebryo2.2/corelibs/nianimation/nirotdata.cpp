@@ -139,7 +139,7 @@ struct TimedRotationKey
 
 // Reads the rotation key data stored at offset 0x40 of the NiRotData and writes its key, count, key size and key array to the output pointers, or zeros if absent.
 // @fnv 0x00a49d00
-void __fastcall GetRotKeyData(NiRotData* pThis, int, TimedRotationKey** ppkKeysOut, int* piKeyOut, int* piCountOut,
+void GetRotKeyData(NiRotData* pThis, int, TimedRotationKey** ppkKeysOut, int* piKeyOut, int* piCountOut,
                               unsigned char* pKeySize)
 {
     TimedRotationKey* pkKey = *(TimedRotationKey**)((char*)pThis + 0x40);
@@ -283,7 +283,7 @@ struct S00b66600
 };
 // Calls FUN_00b70290 with the two int arguments, then invokes the virtual method v52 on the object with the second argument.
 // @fnv 0x00b66600
-void __fastcall FUN_00b66600(S00b66600* p, int aiFirst, int aiSecond)
+void FUN_00b66600(S00b66600* p, int aiFirst, int aiSecond)
 {
     ::FUN_00b70290((::Dummy_00b70290 *)(p), aiFirst, aiSecond);
     p->v52(aiSecond);
@@ -902,8 +902,8 @@ void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
 
 struct A48280Obj;
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct A48280Obj
 {
@@ -942,7 +942,7 @@ void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
     }
 
     A48280Obj* pOld = *ppRival;
-    int(__stdcall * releaseRef)(void*) = DAT_00fdf1c4;
+    int(* releaseRef)(void*) = DAT_00fdf1c4;
 
     if (pOld != pCopy)
     {

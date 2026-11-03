@@ -77,7 +77,7 @@ struct FUN_00dc8fc0_Class
 };
 struct FUN_00dc9540_class
 {
-    int __thiscall FUN_00dc9540(int a);
+    int FUN_00dc9540(int a);
 };
 struct FUN_00dc9550_Class
 {
@@ -90,7 +90,7 @@ struct FUN_00dc9550_Class
 };
 struct FUN_00dc9ab0_class
 {
-    int* __thiscall FUN_00dc9ab0(int a);
+    int* FUN_00dc9ab0(int a);
 };
 extern int DAT_010d707c;
 struct FUN_00dca1c0
@@ -110,7 +110,7 @@ struct FUN_00dca1f0
     int m4;
     int m8;
     int mc;
-    void __thiscall Set(char* a, char b);
+    void Set(char* a, char b);
 };
 struct FUN_00dca5d0_Class
 {
@@ -154,7 +154,7 @@ struct FUN_00dcb0d0_class
 };
 struct FUN_00dcb170_class
 {
-    int __thiscall FUN_00dcb170(int);
+    int FUN_00dcb170(int);
 };
 struct FUN_00dcb2b0_StandIn
 {
@@ -165,9 +165,9 @@ struct FUN_00dcb490_Class
     int m_04;
     int m_08;
     int m_0c;
-    int __thiscall FUN_00dcb490(int);
+    int FUN_00dcb490(int);
 };
-void __stdcall FUN_00dc72f0(int* p);
+void FUN_00dc72f0(int* p);
 struct FUN_00dc9530_StandIn
 {
     int m_00;
@@ -208,7 +208,7 @@ struct FUN_00dca2b0_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    __int64 __thiscall FUN_00dca2b0(int index);
+    __int64 FUN_00dca2b0(int index);
 };
 struct FUN_00dcb0c0_class
 {
@@ -234,13 +234,13 @@ struct FUN_00dcb190_Class
     void* m4;
     void* m8;
     FUN_00dcb190_Inner* m_iThirdValue;
-    void* __thiscall FUN_00dcb190(int index);
+    void* FUN_00dcb190(int index);
 };
 struct FUN_00dc6fd0_VTable
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void(__thiscall* m_8)(void*);
+    void(* m_8)(void*);
 };
 struct FUN_00dc6fd0_Intermediate
 {
@@ -351,7 +351,7 @@ struct FUN_00dc7030_StandIn
     FUN_00dc7030_Holder* m0c;
     unsigned char* m10;
 
-    void __thiscall FUN_00dc7030(float* values, int count);
+    void FUN_00dc7030(float* values, int count);
 };
 struct FUN_00dc7070_target
 {
@@ -414,9 +414,9 @@ struct FUN_00dc7090_class
     void* m_08;
     FUN_00dc7090_wrapper* m_0c;
     int m_10;
-    void __thiscall InvokeTargetMethod(int a, int b);
+    void InvokeTargetMethod(int a, int b);
 };
-typedef void(__thiscall* FUN_00dc7090_call)(void*, int, int);
+typedef void(* FUN_00dc7090_call)(void*, int, int);
 struct FUN_00dc70e0_Virtual
 {
     virtual void F0() = 0;
@@ -443,7 +443,7 @@ struct FUN_00dc70e0_class
     FUN_00dc70e0_Intermediate* m_0c;
     int m_10;
 
-    void __thiscall CallAtOffset(int offset, void* data);
+    void CallAtOffset(int offset, void* data);
 };
 struct FUN_00dc7110_Target
 {
@@ -514,7 +514,7 @@ struct FUN_00dc7180_class
     FUN_00dc7180_middle* m_middle;
     int m_uiFilterValue;
 
-    int __thiscall FUN_00dc7180(int a, int b);
+    int FUN_00dc7180(int a, int b);
 };
 struct FUN_00dc71b0_target
 {
@@ -557,7 +557,7 @@ struct FUN_00dc71b0_class
     void* m08;
     FUN_00dc71b0_inner* m0c;
     int m10;
-    int __thiscall GetOffsetValue(int);
+    int GetOffsetValue(int);
 };
 struct FUN_00dc7220_VirtualBase
 {
@@ -682,7 +682,7 @@ struct FUN_00dc7270_class
     void* m_08;
     FUN_00dc7270_manager* m_0c;
     int m_10;
-    void __thiscall DispatchOffsetCall(int, int);
+    void DispatchOffsetCall(int, int);
 };
 struct Receiver
 {
@@ -697,9 +697,9 @@ struct FUN_00dc72a0_class
     char m_00[8];
     FUN_00dc72a0_data* m_08;
 
-    void* __thiscall ForwardToReceiver(Receiver* m_pReceiver);
+    void* ForwardToReceiver(Receiver* m_pReceiver);
 };
-// FUN_00dcaaf0 placeholder: __thiscall member taking two pointer args (ret 8)
+// FUN_00dcaaf0 placeholder: member taking two pointer args (ret 8)
 struct FUN_00dcaaf0_Class
 {
 };
@@ -739,7 +739,7 @@ struct FUN_00dc89d0
     void* m18;
     void* m1c;
     FUN_00dc89d0_vt* m20;
-    int __thiscall getType();
+    int getType();
 };
 struct FUN_00dc8a00_Array
 {
@@ -827,7 +827,7 @@ struct FUN_00dc9a20_class
     void* m_p0;
     unsigned short m_iElementCount;
 
-    unsigned long* __thiscall FUN_00dc9a20(unsigned long flags);
+    unsigned long* FUN_00dc9a20(unsigned long flags);
 };
 struct FUN_00dc9ad0_class
 {
@@ -836,7 +836,7 @@ struct FUN_00dc9ad0_class
     char m_010[0x08];
     int m_18;
 
-    void __thiscall CopyRow(int multiplier, const float* source);
+    void CopyRow(int multiplier, const float* source);
 };
 struct FUN_00dca080_StandIn
 {
@@ -844,7 +844,7 @@ struct FUN_00dca080_StandIn
     int m_iWordAt04;
     int m_8;
     int* m_iThirdValue;
-    int __thiscall FUN_00dca080(int i);
+    int FUN_00dca080(int i);
 };
 extern int DAT_010d7114;
 struct FUN_00dca260_Class
@@ -864,7 +864,7 @@ struct FUN_00dca280_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    int __thiscall FUN_00dca280(int index);
+    int FUN_00dca280(int index);
 };
 struct FUN_00dca290_StandIn
 {
@@ -872,7 +872,7 @@ struct FUN_00dca290_StandIn
     void* m_04;
     void* m_08;
     __int64* m_0c;
-    void __thiscall FUN_00dca290(int index, int value);
+    void FUN_00dca290(int index, int value);
 };
 extern int DAT_010d71ac;
 struct FUN_00dca5a0_Class
@@ -917,7 +917,7 @@ struct FUN_00dcb120_Class
     void* m4;
     void* m8;
     FUN_00dcb120_Inner* m_iThirdValue;
-    int __thiscall HasMember(int member);
+    int HasMember(int member);
 };
 struct FUN_00dcb250_item
 {
@@ -1042,7 +1042,7 @@ struct FUN_00dcb3a0_class
     FUN_00dcb2b0_StandIn* m_iThirdValue;
     int m_10;
 
-    int __thiscall FUN_00dcb3a0(int index);
+    int FUN_00dcb3a0(int index);
 };
 struct FUN_00dcb3d0_virtual
 {
@@ -1071,7 +1071,7 @@ struct FUN_00dcb3d0_class
     void* m_08;
     FUN_00dcb2b0_StandIn* m_0c;
     int m_10;
-    __int64 __thiscall CallVirtualOnElement(int);
+    __int64 CallVirtualOnElement(int);
 };
 struct FUN_00dcb400_Target
 {
@@ -1096,7 +1096,7 @@ struct FUN_00dcb400_Class
     void* m_08;
     FUN_00dcb2b0_StandIn* m_0c;
     int m_10;
-    void __thiscall DispatchToIndexedTarget(int value);
+    void DispatchToIndexedTarget(int value);
 };
 struct FUN_00dcb6f0_Object
 {
@@ -1145,7 +1145,7 @@ struct FUN_00dcb6f0_Class
     void* m_p8;
     FUN_00dcb5d0_Class* m_iThirdValue;
     int m_10;
-    void __thiscall FUN_00dcb6f0(int, int);
+    void FUN_00dcb6f0(int, int);
 };
 struct FUN_00dcb790_Element;
 struct FUN_00dcb790_Pair
@@ -1183,12 +1183,12 @@ struct FUN_00dcb5d0_class
     void* m_8;
     FUN_00dcb790_Pair* m_iThirdValue;
 
-    __declspec(noinline) int __thiscall FUN_00dcb5d0(int a)
+    __declspec(noinline) int FUN_00dcb5d0(int a)
     {
         return 0;
     }
 };
-void __thiscall FUN_00dcb6f0_Class::FUN_00dcb6f0(int arg0, int arg1)
+void FUN_00dcb6f0_Class::FUN_00dcb6f0(int arg0, int arg1)
 {
     int index = reinterpret_cast<::FUN_00dcb5d0_class *>((m_iThirdValue))->FUN_00dcb5d0(arg0);
     m_iThirdValue->m_iThirdValue[index].m_p4->FUN_00dcb6f0_11(m_10, arg1);
@@ -1201,7 +1201,7 @@ struct FUN_00dcb790_class
     FUN_00dcb5d0_class* m_iThirdValue;
     int m_10;
 
-    void __thiscall DispatchToElement(int a, int b, int c);
+    void DispatchToElement(int a, int b, int c);
 };
 struct FUN_00dc6fe0_inner
 {
@@ -1561,7 +1561,7 @@ struct FUN_00dc73a0_Holder
     int unk00;
     int unk04;
     FUN_00dc92d0_Obj* unk08;
-    void __thiscall CallWithReset(int a, int* b);
+    void CallWithReset(int a, int* b);
 };
 struct FUN_00dc92d0_StandIn
 {
@@ -1698,7 +1698,7 @@ struct FUN_00dc7dc0_StandIn
     int m0;
     int m4;
     int m8;
-    void __thiscall FUN_00dc7dc0(int a, int b);
+    void FUN_00dc7dc0(int a, int b);
 };
 struct hkRefObjDC88
 {
@@ -1735,7 +1735,7 @@ struct FUN_00dc8fe0_class
 {
     FUN_00dc8fe0_entry* m_iWordAt00;
 
-    void __thiscall FUN_00dc8fe0(void* key, int* value);
+    void FUN_00dc8fe0(void* key, int* value);
 };
 struct hkMapPairDC90
 {
@@ -1777,7 +1777,7 @@ struct FUN_00dc97f0_Class : public FUN_00dc9710_Obj
     void* m_0c;
     void* m_10;
 
-    void __thiscall SetSlotValue(int index, void* value);
+    void SetSlotValue(int index, void* value);
 };
 struct FUN_00dc9830_Object
 {
@@ -1798,7 +1798,7 @@ struct FUN_00dc9830_Class
     void* m_0c;
     void* m_10;
 
-    void __thiscall AddObjectToSlot(int value, FUN_00dc9830_Object* obj);
+    void AddObjectToSlot(int value, FUN_00dc9830_Object* obj);
 };
 extern "C" char* __cdecl FUN_00cb1410(const char* pcString);
 struct hkResultDC98
@@ -2735,7 +2735,7 @@ struct FUN_00dcb690_Class
     void* m_p8;
     FUN_00dcb5d0_Class* m_iThirdValue;
     int m_10;
-    void __thiscall DispatchToIndexedObject(int a, int b);
+    void DispatchToIndexedObject(int a, int b);
 };
 struct FUN_00dcb6c0_Target
 {
@@ -2814,7 +2814,7 @@ struct FUN_00dcb6c0_Obj
     FUN_00dcb5d0_Obj* m_pC;
     int m_p10;
 
-    void __thiscall FUN_00dcb6c0(int a, int b);
+    void FUN_00dcb6c0(int a, int b);
 };
 class hkAccessorXdcb720
 {
@@ -2932,7 +2932,7 @@ struct FUN_00dcb7c0_Class
     void* m_p8;
     FUN_00dcb5d0_Class* m_iThirdValue;
     int m_10;
-    void __thiscall CallObjectVirtual(int arg0, int arg1);
+    void CallObjectVirtual(int arg0, int arg1);
 };
 class hkAccessorXdcb7f0
 {
@@ -3359,7 +3359,7 @@ struct hkDescDC82
     void* m_type;
     void* m_target;
 };
-hkObjDC82* __stdcall CreateAndRegisterObject(hkCtxDC82* ctx, hkDescDC82* desc);
+hkObjDC82* CreateAndRegisterObject(hkCtxDC82* ctx, hkDescDC82* desc);
 struct Src80
 {
     virtual void s00();
@@ -3421,7 +3421,7 @@ struct DC8A80
     int m_1c;
     int m_20;
     int m_24;
-    void __thiscall CopyFromSource(int a, Src80* src);
+    void CopyFromSource(int a, Src80* src);
 };
 class hkMemoryAllocatorDC8C
 {
@@ -3856,7 +3856,7 @@ struct FUN_00dca040_class
     int m10;
     int m14;
     int m18;
-    void* __thiscall Init(void* arg);
+    void* Init(void* arg);
 };
 class hkMemoryAllocatorDCA5;
 struct hkMemoryRouterDCA5
@@ -3957,7 +3957,7 @@ struct DCAAOwner
 {
     int unk00, unk04, unk08, unk0c;
     DCAAMap table;
-    void __thiscall FUN_00dcaaf0(void* volatile key, DCAAObject* object);
+    void FUN_00dcaaf0(void* volatile key, DCAAObject* object);
 };
 char* __cdecl StrDupDCAC(const char* pcString);
 struct hkBoolDCAC

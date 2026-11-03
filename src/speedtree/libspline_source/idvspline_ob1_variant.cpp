@@ -425,7 +425,7 @@ inline void Dead3()
     int d2;
 }
 unsigned int __cdecl FUN_00ec7c56();
-void __stdcall FUN_00ec7894(void* p, void* t);
+void FUN_00ec7894(void* p, void* t);
 struct FUN_0044a4c0
 {
     int m[7];
@@ -4438,7 +4438,7 @@ inline void Dead3()
     int d2;
 }
 unsigned int __cdecl FUN_00ec7c56();
-void __stdcall FUN_00ec7894(void* p, void* t);
+void FUN_00ec7894(void* p, void* t);
 struct FUN_0044a4c0
 {
     int m[7];

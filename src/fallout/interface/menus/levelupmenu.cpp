@@ -175,11 +175,11 @@ void* LBList::FindItemData(Tile* apTile)
 
 struct FUN_00784b80_shell
 {
-    int __thiscall FUN_00784b80();
+    int FUN_00784b80();
 };
 
 // @fnv 0x00784b80
-int __thiscall FUN_00784b80_shell::FUN_00784b80()
+int FUN_00784b80_shell::FUN_00784b80()
 {
     return 0x403;
 }
@@ -457,7 +457,7 @@ struct FUN_00787c40_shell
 
 struct FUN_00787c20_shell
 {
-    void __thiscall FUN_00787c20(unsigned int a);
+    void FUN_00787c20(unsigned int a);
 };
 
 namespace fnv_00786110 {
@@ -773,7 +773,7 @@ struct LevelValue
 };
 struct FUN_007879f0_helper
 {
-    unsigned int __thiscall FUN_007879f0();
+    unsigned int FUN_007879f0();
 };
 struct LevelMenuView
 {
@@ -786,7 +786,7 @@ struct LevelMenuView
     int unk18;
     int unk1c;
     float maximum20;
-    void __thiscall FUN_007880a0();
+    void FUN_007880a0();
 };
 struct ViewTile
 {
@@ -3777,12 +3777,12 @@ void FUN_00787760_shell::FUN_00787760(int aiValue)
     reinterpret_cast<::ListBox_int_ *>(this)->SetTileSelection((::Tile *)(aiValue), 0);
 }
 // @fnv 0x00787780
-void __thiscall FUN_00787c40_shell::FUN_00787780(int aiValue)
+void FUN_00787c40_shell::FUN_00787780(int aiValue)
 {
     reinterpret_cast<::ListBox_int_ *>(this)->SetTileSelection((::Tile *)(aiValue), 2);
 }
 // @fnv 0x00787c20
-void __thiscall FUN_00787c20_shell::FUN_00787c20(unsigned int a)
+void FUN_00787c20_shell::FUN_00787c20(unsigned int a)
 {
     reinterpret_cast<::ListBox_int_ *>(this)->SetTileSelection((::Tile *)(a), 1);
 }

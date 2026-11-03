@@ -43,7 +43,7 @@ struct SeenData_S
 struct FUN_008799c0_shell
 {
     SeenData_S mSeenData;  // +0x00
-    bool __thiscall IsValueSeen(void* arg1, unsigned int arg2);
+    bool IsValueSeen(void* arg1, unsigned int arg2);
 };
 
 // Computes an offset from arg1 and arg2 and forwards it to mSeenData.IsBitSet, returning its result.
@@ -57,11 +57,11 @@ bool FUN_008799c0_shell::IsValueSeen(void* pBase, unsigned int uiIndex)
 
 struct FUN_00878450_shell : FUN_00878430_shell
 {
-    void* __thiscall FUN_00878450(unsigned int flags);
+    void* FUN_00878450(unsigned int flags);
 };
 
 // @fnv 0x00878450
-void* __thiscall FUN_00878450_shell::FUN_00878450(unsigned int flags)
+void* FUN_00878450_shell::FUN_00878450(unsigned int flags)
 {
     FUN_00878430();
     if (flags & 1)
@@ -71,8 +71,8 @@ void* __thiscall FUN_00878450_shell::FUN_00878450(unsigned int flags)
 
 struct FUN_00878480_shell : FUN_00878450_shell
 {
-    void* __thiscall FUN_00878480(unsigned int flags);
-    void __thiscall FUN_008784d0();
+    void* FUN_00878480(unsigned int flags);
+    void FUN_008784d0();
 };
 struct FileSizeInfo
 {
@@ -83,11 +83,11 @@ struct MemoryManagerFile
 {
     int _pad;
     FileSizeInfo mFile;
-    int __thiscall Read(void* apData, unsigned int aSize);
+    int Read(void* apData, unsigned int aSize);
 };
 // Reads aSize bytes from mFile into apData and returns the number of bytes read.
 // @fnv 0x00878530
-int __thiscall MemoryManagerFile::Read(void* apData, unsigned int aSize)
+int MemoryManagerFile::Read(void* apData, unsigned int aSize)
 {
     unsigned __int64 uiBytesRead;
     reinterpret_cast<::FUN_008526d0_shell *>(&(mFile))->SetFromCall((int)(apData), aSize, (int)(&uiBytesRead), {});
@@ -103,7 +103,7 @@ struct MemoryManagerFile
 {
     int _0;
     FileInner _4;
-    int __thiscall Write(const void* apData, unsigned int aSize);
+    int Write(const void* apData, unsigned int aSize);
 };
 // Writes aSize bytes from apData through the inner file object and returns the number of bytes written.
 // @fnv 0x00878560
@@ -121,10 +121,10 @@ struct FileSizeInfo
 };
 struct FUN_00878590_shell : FileSizeInfo
 {
-    int __thiscall FUN_00878590();
+    int FUN_00878590();
 };
 // @fnv 0x00878590
-int __thiscall FUN_00878590_shell::FUN_00878590()
+int FUN_00878590_shell::FUN_00878590()
 {
     unsigned __int64 size;
     reinterpret_cast<::FileSizeInfo *>((((FileSizeInfo*)((char*)this + 4))))->FUN_0065c290((::_LARGE_INTEGER &)(size));
@@ -139,10 +139,10 @@ struct FUN_008785e0_holder
 };
 struct MemoryManagerFile
 {
-    void __thiscall FUN_008785b0(int aiPos);
+    void FUN_008785b0(int aiPos);
 };
 // @fnv 0x008785b0
-void __thiscall MemoryManagerFile::FUN_008785b0(int aiPos)
+void MemoryManagerFile::FUN_008785b0(int aiPos)
 {
     uint64 uipos;
     reinterpret_cast<::S_008785e0 *>((reinterpret_cast<FUN_008785e0_holder*>(reinterpret_cast<char*>(this) + 4)))->SetAndGetField0(aiPos, 0, (int)(&uipos), {});
@@ -172,7 +172,7 @@ class FUN_008784d0 : public FUN_00878430
 };
 // Calls FUN_008784d0, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00878480
-void* __thiscall FUN_00878480_shell::FUN_00878480(unsigned int flags)
+void* FUN_00878480_shell::FUN_00878480(unsigned int flags)
 {
     reinterpret_cast<::FUN_008784d0 *>(this)->FUN_008784d0::~FUN_008784d0();
     if (flags & 1)

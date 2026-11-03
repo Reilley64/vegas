@@ -25,20 +25,20 @@ extern void* DAT_0101772c;
 struct FUN_0044f600_class
 {
     void* vtbl;
-    void __thiscall FUN_0044f700();
-    void* __thiscall InitializeVtbl();
+    void FUN_0044f700();
+    void* InitializeVtbl();
 };
 struct FUN_00877a10_Class
 {
-    void __thiscall FUN_00877a10();
+    void FUN_00877a10();
 };
 struct FUN_0044f620_class
 {
-    void* __thiscall FUN_0044f620(unsigned int flags);
+    void* FUN_0044f620(unsigned int flags);
 };
 // Calls FUN_00877a10 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0044f620
-void* __thiscall FUN_0044f620_class::FUN_0044f620(unsigned int flags)
+void* FUN_0044f620_class::FUN_0044f620(unsigned int flags)
 {
     ((FUN_00877a10_Class*)this)->FUN_00877a10();
     if (flags & 1)
@@ -49,12 +49,12 @@ void* __thiscall FUN_0044f620_class::FUN_0044f620(unsigned int flags)
 namespace fnv_0044f6d0 {
 struct FUN_00877a10_Class
 {
-    void __thiscall FUN_0044f650();
-    void* __thiscall FUN_0044f6d0(unsigned int flags);
+    void FUN_0044f650();
+    void* FUN_0044f6d0(unsigned int flags);
 };
 // Calls FUN_0044f650, then deallocates this object if bit 0 of flags is set, and returns this.
 // @fnv 0x0044f6d0
-void* __thiscall FUN_00877a10_Class::FUN_0044f6d0(unsigned int flags)
+void* FUN_00877a10_Class::FUN_0044f6d0(unsigned int flags)
 {
     FUN_0044f650();
     if (flags & 1)
@@ -131,7 +131,7 @@ struct ArrSI
 
 struct DummyPointerMap
 {
-    bool __thiscall GetAt(unsigned int, unsigned int&);
+    bool GetAt(unsigned int, unsigned int&);
 };
 
 struct TESGlobalMap
@@ -145,11 +145,11 @@ struct SettingCollectionMap
 {
     void* padding[67];
 
-    void __thiscall AddSetting(Setting*);
+    void AddSetting(Setting*);
 };
 
 // @fnv 0x00404de0
-void __thiscall SettingCollectionMap::AddSetting(Setting* apSetting)
+void SettingCollectionMap::AddSetting(Setting* apSetting)
 {
     AutoMemHelper tempMemContext(9, true, ::str_01012220, 539);
 
@@ -301,7 +301,7 @@ class FUN_0044f700 : public FUN_00404d00_class
     virtual ~FUN_0044f700();
 };
 // @fnv 0x0044f600
-void* __thiscall FUN_0044f600_class::InitializeVtbl()
+void* FUN_0044f600_class::InitializeVtbl()
 {
     new ((void *)this) ::FUN_0044f700();
     vtbl = &DAT_0101772c;

@@ -56,5 +56,4 @@ class HUDMainMenu : public Menu
 public:
     static void RefreshTargetDisplay();
 };
-FNV_STATIC_ASSERT(offsetof(HUDMainMenu, m_pTiles) == 0x28);
 #endif

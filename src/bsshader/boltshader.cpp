@@ -64,11 +64,11 @@ public:
     void DestroyPass();
 };
 
-void __fastcall ConfigurePassRenderStates(char* pThis);
+void ConfigurePassRenderStates(char* pThis);
 
 // Ensures the NiD3DPass pointer at pThis+0x168 is set, then calls ConfigurePassRenderStates(pThis) and returns true.
 // @fnv 0x00bc1570
-bool __fastcall EnsurePassAndUpdate(char* pThis)
+bool EnsurePassAndUpdate(char* pThis)
 {
     NiPointer<NiD3DPass>& pass = *(NiPointer<NiD3DPass>*)(pThis + 0x168);
     if (!pass.m_pObject)
@@ -95,11 +95,11 @@ struct FUN_00bc1b90_shell
 {
     char pad[0x178];
     int m_178;
-    bool __thiscall FUN_00bc1b90(int value);
+    bool FUN_00bc1b90(int value);
 };
 
 // @fnv 0x00bc1b90
-bool __thiscall FUN_00bc1b90_shell::FUN_00bc1b90(int value)
+bool FUN_00bc1b90_shell::FUN_00bc1b90(int value)
 {
     m_178 = value;
     return 1;

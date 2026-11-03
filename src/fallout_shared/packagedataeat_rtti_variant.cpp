@@ -16,7 +16,7 @@ struct TESEatPackageData
 {
     virtual ~TESEatPackageData();  // the original class is polymorphic (rtti_variants.py)
     void* m_pPackageTarget;
-    void __thiscall FUN_0067bbb0();
+    void FUN_0067bbb0();
 };
 struct LocationDescriptor
 {
@@ -25,7 +25,7 @@ public:
 };
 struct FakeCls
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct BGSLoadFormBuffer
 {
@@ -39,7 +39,7 @@ struct TESEatPackageData_
 {
     unsigned char base[4];
     void* m_pPackageTarget;
-    void __thiscall Load(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Load(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 struct PkgLoc_b9420
 {
@@ -68,7 +68,7 @@ struct TESEatPackageData_StandIn
     unsigned char base[4];
     FUN_0067f600_Obj* m_pPackageTarget;
 
-    unsigned char __thiscall FUN_0067bb40(int arg);
+    unsigned char FUN_0067bb40(int arg);
 };
 
 extern "C" int __cdecl FUN_00ec43fb(int, int, int*, int*, int);
@@ -93,11 +93,11 @@ struct TESEatPackageData_Copy
 {
     int unk00;
     FUN_0067f030* m_pPackageTarget;
-    void __thiscall FUN_0067ba40(int flags);
+    void FUN_0067ba40(int flags);
 };
 
 // @fnv 0x0067ba40
-void __thiscall TESEatPackageData_Copy::FUN_0067ba40(int flags)
+void TESEatPackageData_Copy::FUN_0067ba40(int flags)
 {
     FUN_0067ba40_Result* result = (FUN_0067ba40_Result*)FUN_00ec43fb(flags, 0, &DAT_0119bdec, &DAT_0119be3c, 0);
     if (result)

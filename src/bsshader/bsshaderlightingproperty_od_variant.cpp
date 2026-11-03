@@ -15,11 +15,11 @@
 
 struct FUN_0076a3d0_Class
 {
-    void __thiscall FUN_0076a3d0(int);
+    void FUN_0076a3d0(int);
 };
 
 // @fnv 0x0076a3d0
-void __thiscall FUN_0076a3d0_Class::FUN_0076a3d0(int a)
+void FUN_0076a3d0_Class::FUN_0076a3d0(int a)
 {
     reinterpret_cast<::FUN_00700270_class *>(this)->operator==(a);
 }

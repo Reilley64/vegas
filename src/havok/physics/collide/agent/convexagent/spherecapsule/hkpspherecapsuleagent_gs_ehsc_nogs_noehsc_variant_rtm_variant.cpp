@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkpSphereCapsuleAgent.h"
 #include "fnv/symbols_00c85000.h"
@@ -243,7 +244,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

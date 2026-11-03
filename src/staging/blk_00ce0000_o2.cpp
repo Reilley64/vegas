@@ -2,6 +2,7 @@
 // src/staging/blk_00ce0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C89AC0_Owner.h"
@@ -122,7 +123,7 @@ struct FUN_00ce4a20_cls
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
-    int __thiscall FUN_00ce4a20(int a);
+    int FUN_00ce4a20(int a);
 };
 extern int DAT_0102e378;
 // @fnv 0x00cf69a0
@@ -137,12 +138,12 @@ struct FUN_00cf69c0_class
     int m_kPointA;
     int m_auiShapeKeys;
     int m_kPointB;
-    int __thiscall FUN_00cf69c0(int a);
+    int FUN_00cf69c0(int a);
 };
 
 
 // @fnv 0x00cf69c0
-int __thiscall FUN_00cf69c0_class::FUN_00cf69c0(int a)
+int FUN_00cf69c0_class::FUN_00cf69c0(int a)
 {
     FUN_00cf69c0_class* self = this;
     for (;;)
@@ -482,7 +483,7 @@ struct PacketSerializer
 struct SerializedObject
 {
     int base00, base04, base08, base0C, base10, word14, word18;
-    void __thiscall SerializeToStream(int source);
+    void SerializeToStream(int source);
 };
 // Writes word14 and word18 to the stream at source+0x250, accumulating bytesWritten, after calling FUN_00d86160.
 // @fnv 0x00cf4670
@@ -811,11 +812,11 @@ struct S_00cf4f00
     int unk48;
     int unk4c;
     unsigned int m_bits[1];
-    void __thiscall ClearBit(unsigned int idx);
+    void ClearBit(unsigned int idx);
 };
 // Clears bit idx in the m_bits array and increments the counter if the bit was set.
 // @fnv 0x00cf4f00
-void __thiscall S_00cf4f00::ClearBit(unsigned int auiBitIndex)
+void S_00cf4f00::ClearBit(unsigned int auiBitIndex)
 {
     unsigned int i = auiBitIndex >> 5;
     unsigned int old = m_bits[i];
@@ -996,8 +997,6 @@ void __cdecl FUN_00cf6b10()
 }  // namespace fnv_00cf6b10
 
 
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(int value);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(int value);
 
 struct S_00cf6b50_Foo
 {
@@ -1005,11 +1004,11 @@ struct S_00cf6b50_Foo
     short m_iWordAt04;
     unsigned short m_6;
 
-    void __thiscall UpdateState(int a);
+    void UpdateState(int a);
 };
 
 // @fnv 0x00cf6b50
-void __thiscall S_00cf6b50_Foo::UpdateState(int a)
+void S_00cf6b50_Foo::UpdateState(int a)
 {
     short flag = m_iWordAt04;
     flag = (short)((unsigned short)flag >> 15);
@@ -1022,19 +1021,19 @@ void __thiscall S_00cf6b50_Foo::UpdateState(int a)
 
     if (m_iWordAt00 == -63 || m_iWordAt00 == -31 || m_iWordAt00 == -15)
     {
-        FUN_00fdf05c(DAT_01268794);
+        EnterCriticalSection(DAT_01268794);
 
         m_iWordAt00 = (a == 1) ? -31 : -63;
     }
     else
     {
-        FUN_00fdf05c(DAT_01268794);
+        EnterCriticalSection(DAT_01268794);
     }
 
     m_6 <<= 1;
     ++m_iWordAt04;
 
-    FUN_00fdf100(DAT_01268794);
+    LeaveCriticalSection(DAT_01268794);
 }
 
 struct FUN_00cf6d50_cls
@@ -1663,8 +1662,6 @@ void hkObjCF46::SaveToArchive(hkArchiveCF46* ar)
     NiStreamSaveBinaryCF46(*ar->m_stream, m_kPointB);
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
 
 struct hkCriticalSectionCF6B
@@ -1714,8 +1711,6 @@ void hkMultiThreadCheckCF6B::MarkForRead()
     }
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
 
 struct hkCriticalSectionCF61
@@ -1763,8 +1758,6 @@ bool hkMultiThreadCheckCF61::IsCurrentThreadOwner()
     return false;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
 struct hkCriticalSectionCF6C
 {
@@ -1812,8 +1805,6 @@ void hkMultiThreadCheckCF6C::FUN_00cf6c60()
     }
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 
 struct hkCriticalSectionCF6D
 {
@@ -2046,7 +2037,7 @@ int __cdecl FUN_00cfb070(int a, int b, int c)
 }
 
 // @fnv 0x00cfc580
-void __stdcall FUN_00cfc580(int, int, int, int, int)
+void FUN_00cfc580(int, int, int, int, int)
 {}
 
 
@@ -2054,11 +2045,11 @@ struct FUN_00cfc590_class
 {
     int* vtable;
 
-    void __thiscall FUN_00cfc590();
+    void FUN_00cfc590();
 };
 
 // @fnv 0x00cfc590
-void __thiscall FUN_00cfc590_class::FUN_00cfc590()
+void FUN_00cfc590_class::FUN_00cfc590()
 {
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
@@ -2164,7 +2155,6 @@ struct CE0020Buffer
 };
 
 extern char DAT_010cb81c[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -3196,7 +3186,7 @@ const char* __cdecl GetConstraintTypeName(int eType)
 }
 
 // @fnv 0x00cf6d00
-void __stdcall FUN_00cf6d00(int)
+void FUN_00cf6d00(int)
 
 {}
 
@@ -3249,7 +3239,7 @@ FUN_00cf6f90::FUN_00cf6f90()
 }
 
 // @fnv 0x00cf8810
-void __stdcall FUN_00cf8810(int a)
+void FUN_00cf8810(int a)
 {}
 
 extern char DAT_010cc688[];
@@ -3819,7 +3809,7 @@ struct FUN_00ce0ca0_Quaternion
 {
     __m128 value;
 
-    void __thiscall FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs);
+    void FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs);
 };
 
 // Computes the Hamilton product of two quaternions using SSE intrinsics and stores the result in value.
@@ -4218,10 +4208,10 @@ struct MapperInitialization
     int unk58;
     int unk5C;
     unsigned char unk60;
-    void __thiscall FUN_00ce5310();
+    void FUN_00ce5310();
 };
 // @fnv 0x00ce4a20
-int __thiscall FUN_00ce4a20_cls::FUN_00ce4a20(int a)
+int FUN_00ce4a20_cls::FUN_00ce4a20(int a)
 {
     m_iThirdValue = 1;
     m_kPointA = (int)&DAT_010cb864;

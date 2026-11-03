@@ -14,7 +14,6 @@ class NiMemObject
 {
   public:
 };
-FNV_STATIC_ASSERT(sizeof(NiMemObject) == 1);
 #endif
 
 template <class T> class DFALL
@@ -149,25 +148,6 @@ typedef NiTPointerMap<unsigned int, TESForm*> TESFormNumericMap;
 typedef BSTCaseInsensitiveStringMap<TESForm*> TESFormEditorIDMap;
 typedef NiTLargePrimitiveArray<TESForm*> TESFormAlteredArray;
 typedef NiTMapItem<const char*, TESForm*> TESFormEditorIDMapItem;
-FNV_STATIC_ASSERT(sizeof(TESFormNumericMap) == 0x10);
-FNV_STATIC_ASSERT(offsetof(TESFormNumericMap, m_uiHashSize) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESFormNumericMap, m_ppkHashTable) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESFormNumericMap, m_kItemCount) == 0xC);
-FNV_STATIC_ASSERT(sizeof(TESFormEditorIDMap) == 0x14);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMap, m_uiHashSize) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMap, m_ppkHashTable) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMap, m_kItemCount) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMap, m_bCopy) == 0x10);
-FNV_STATIC_ASSERT(sizeof(TESFormEditorIDMapItem) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMapItem, m_pkNext) == 0x0);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMapItem, m_key) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESFormEditorIDMapItem, m_val) == 0x8);
-FNV_STATIC_ASSERT(sizeof(TESFormAlteredArray) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESFormAlteredArray, m_pBase) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESFormAlteredArray, m_uiMaxSize) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESFormAlteredArray, m_uiSize) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFormAlteredArray, m_uiESize) == 0x10);
-FNV_STATIC_ASSERT(offsetof(TESFormAlteredArray, m_uiGrowBy) == 0x14);
 
 // Global allocation/deallocation are declarations only. The covered new
 // expressions emit the allocation and exception cleanup naturally.

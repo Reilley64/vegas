@@ -6,6 +6,7 @@
 // src/fallout_shared/pathfinding/pathingdebuggeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingdebuggeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 // FUN_00574400 - TESObjectREFR method, /Od /Oy- frame 0x44
+#include <windows.h>
 #include "fnv/decl/ActorDeletionQueue.h"
 #include "fnv/decl/B572270Object.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -639,7 +640,6 @@ struct PoolJack
 {
 };
 extern ColorJack DAT_01203308, DAT_01203318;
-__declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct NameJack
 {
     char* p;

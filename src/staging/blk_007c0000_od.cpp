@@ -683,7 +683,7 @@ public:
 
 struct BSAudio
 {
-    SoundPlaybackHandle __thiscall GetSoundHandleByEditorID(char const* editorID, unsigned int flags);
+    SoundPlaybackHandle GetSoundHandleByEditorID(char const* editorID, unsigned int flags);
 };
 
 void __cdecl FUN_007c6120();

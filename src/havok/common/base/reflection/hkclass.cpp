@@ -40,7 +40,7 @@ struct FUN_00d47260_cls
 {
     char pad[0x24];
     FUN_00d46cf0_obj* m_pCustomAttributes;
-    void* __thiscall FUN_00d47260(const char* name) const;
+    void* FUN_00d47260(const char* name) const;
 };
 
 struct FUN_00d472a0
@@ -76,7 +76,7 @@ struct FUN_00d46f00_s
 {
     unsigned int m_uiCount;
     FUN_00d46f00_s* m_parent;
-    unsigned int __thiscall FUN_00d46f00() const;
+    unsigned int FUN_00d46f00() const;
 };
 
 // @fnv 0x00d46f00
@@ -192,16 +192,16 @@ struct FUN_00d470e0_Class
     virtual void vf00();
     int unk04;
     int unk08;
-    void __thiscall FUN_00d470e0(int value);
+    void FUN_00d470e0(int value);
 };
 
 // @fnv 0x00d470e0
-void __thiscall FUN_00d470e0_Class::FUN_00d470e0(int value)
+void FUN_00d470e0_Class::FUN_00d470e0(int value)
 {
     this->unk08 = value;
 }
 
-// 00d46d40: trivial __thiscall getter returning the first dword of the object
+// 00d46d40: trivial getter returning the first dword of the object
 // (m_name at offset 0 of the Havok class node).
 struct FnvClassNameNode
 {
@@ -285,7 +285,7 @@ int FnvCpu_FUN_00d470d0_CpuObject::FUN_00d470d0()
     return value;
 }
 
-// FUN_00d47120: 4-byte inline getter, __thiscall, reads this+0x2C.
+// FUN_00d47120: 4-byte inline getter, , reads this+0x2C.
 // Neighbours use hkClass layout (m_parent@0x04, declaredMembers@0x18, defaults@0x20,
 // sizeof == 0x30), so +0x2C is m_iDescribedVersion.
 
@@ -427,8 +427,8 @@ struct ClassRec
     int m_numEnums;
     MemberRec* m_members;
     int m_numMembers;
-    ClassRec* __thiscall FUN_00d46d50() const;
-    void __thiscall WriteToStream(void* stream) const;
+    ClassRec* FUN_00d46d50() const;
+    void WriteToStream(void* stream) const;
 };
 // @fnv 0x00d47490
 void ClassRec::WriteToStream(void* stream) const
@@ -723,7 +723,7 @@ class ResultPtr
 
 // Follows parent links, updating lastNode, then writes whether lastNode->unk0c is non-zero through out.p.
 // @fnv 0x00d470f0
-static __declspec(noinline) char* __stdcall GetLastNodeFlag(ZN0d46d50* apStartNode, ZN0d46d50* lastNode, ResultPtr out)
+static __declspec(noinline) char* GetLastNodeFlag(ZN0d46d50* apStartNode, ZN0d46d50* lastNode, ResultPtr out)
 {
     ZN0d46d50* next = FUN_00d46d50(apStartNode);
     while (next)
@@ -757,7 +757,7 @@ struct FUN_00d471c0_target
 };
 struct FUN_00d47130_class
 {
-    int __thiscall InvokeTarget(const char* name, FUN_00d471c0_target* target);
+    int InvokeTarget(const char* name, FUN_00d471c0_target* target);
 };
 class hkpEntityListenerD87
 {
@@ -889,11 +889,11 @@ struct DataS
 {
     void* p;
 };
-S00d47350_Res __fastcall FUN_00d47130(Zt* self, DataS obj, Outs r);
+S00d47350_Res FUN_00d47130(Zt* self, DataS obj, Outs r);
 
 // Uses the member returned by FUN_00d47130 to populate output according to the member's type.
 // @fnv 0x00d47350
-S00d47350_Res __fastcall FUN_00d47350(Zt* self, int, void* data, S00d47350_Out* output)
+S00d47350_Res FUN_00d47350(Zt* self, int, void* data, S00d47350_Out* output)
 {
     S00d47350_Member* holder;
     Outs r;
@@ -956,7 +956,7 @@ struct LookupNode
 };
 // Looks up name via FUN_00d47130 and, on success, calls target->vf10 with the index and p->FUN_00d86980().
 // @fnv 0x00d471c0
-int __thiscall FUN_00d47130_class::InvokeTarget(const char* name, FUN_00d471c0_target* target)
+int FUN_00d47130_class::InvokeTarget(const char* name, FUN_00d471c0_target* target)
 {
     int index;
     FUN_00d86980_class* p;
@@ -1108,7 +1108,7 @@ struct S_00e03240_Node;
 
 struct S_00e03240_Holder
 {
-    S_00e03240_Node* __thiscall FUN_00d46f20(int index);
+    S_00e03240_Node* FUN_00d46f20(int index);
 };
 
 struct S_00e03240_Node
@@ -1118,7 +1118,7 @@ struct S_00e03240_Node
     int unk08;
     char unk0c;
 
-    int __thiscall FUN_00d86940();
+    int FUN_00d86940();
 };
 
 static __declspec(noinline) int FUN_00e03100(S_00e03240_Node* node)

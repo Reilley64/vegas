@@ -5,6 +5,7 @@
 
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -276,7 +277,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 } __m128;
 extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cc678[];

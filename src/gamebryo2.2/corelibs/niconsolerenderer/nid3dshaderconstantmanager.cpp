@@ -5,13 +5,13 @@
 struct NiD3DShaderConstantManager
 {
     virtual ~NiD3DShaderConstantManager();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 void __cdecl FUN_00e989c0();
 
 // @fnv 0x00e98a70
-void* __thiscall NiD3DShaderConstantManager::Destroy(unsigned int flags)
+void* NiD3DShaderConstantManager::Destroy(unsigned int flags)
 {
     FUN_00e989c0();
     if (flags & 1)

@@ -23,7 +23,7 @@ class FnvVehicleDefaultVelocityDamper : public hkpVehicleDefaultVelocityDamper
 };
 
 // @fnv 0x00e43ae0
-void __thiscall FnvVehicleDefaultVelocityDamper::FUN_00e43ae0(float timeStep, const void* data)
+void FnvVehicleDefaultVelocityDamper::FUN_00e43ae0(float timeStep, const void* data)
 {
     const char* dataBase = reinterpret_cast<const char*>(data);
     const float* state = *reinterpret_cast<const float* const*>(dataBase + 0x18);

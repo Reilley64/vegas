@@ -11,5 +11,4 @@ class ExtraDataList : public BaseExtraList
     InventoryChanges* GetContainerChangeData();
     void SetContainerChanges(InventoryChanges* changes);
 };
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #endif

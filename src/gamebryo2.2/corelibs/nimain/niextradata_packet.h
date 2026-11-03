@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niextradata_packet.h: declares NiObject, NiFixedString, NiAccumulator, NiExtraData, NiBinaryStream and more
 
+#include <windows.h>
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
@@ -7,8 +8,6 @@
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_0109d000.h"
 #include "fnv/symbols_011f4000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* value);
 class NiStream;
 class NiObject
 {

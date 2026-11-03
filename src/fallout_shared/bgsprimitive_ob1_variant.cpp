@@ -138,12 +138,12 @@ struct Obj_0096a610
     unsigned int unk08;
     unsigned int unk0C;
 
-    unsigned int __thiscall GetSize()
+    unsigned int GetSize()
     {
         return unk08;
     }
 
-    void __thiscall FUN_0096a610(const unsigned int& value)
+    void FUN_0096a610(const unsigned int& value)
     {
         unsigned int index = GetSize();
         unsigned int temp = value;
@@ -174,12 +174,12 @@ struct C_00c36580
     int unk20;
     Obj_00a598f0 unk24;
 
-    void __thiscall FUN_00c36580(Obj_0096a610* value);
+    void FUN_00c36580(Obj_0096a610* value);
 };
 
 
 // @fnv 0x00c36580
-void __thiscall C_00c36580::FUN_00c36580(Obj_0096a610* value)
+void C_00c36580::FUN_00c36580(Obj_0096a610* value)
 {
     reinterpret_cast<::fnv_00c38220::FUN_00c38220_shell *>(this)->AddPropertyNames((::fnv_00c38220::NiTPrimitiveArray_unsigned_int_ *)((int)value));
 
@@ -1451,7 +1451,7 @@ struct C50380_Point
         float dz = z - other.z;
         return C50380_Point(dx, dy, dz);
     }
-    float __thiscall FUN_00457990()
+    float FUN_00457990()
     {
         float len = x * x + y * y + z * z;
         return len;
@@ -1466,11 +1466,11 @@ struct C50380_Sphere
     C50380_Point m_kCenter;
     float m_fBoundRadius;
 
-    bool __thiscall FUN_00c50380(C50380_Point* other);
+    bool FUN_00c50380(C50380_Point* other);
 };
 
 // @fnv 0x00c50380
-bool __thiscall C50380_Sphere::FUN_00c50380(C50380_Point* other)
+bool C50380_Sphere::FUN_00c50380(C50380_Point* other)
 {
     float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(const ::C50380_Point &)((*(::C50380_Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(other))->FUN_00439ef0((::NiPoint3 *)&(m_kCenter), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
     return (fDist < m_fBoundRadius) ? true : false;
@@ -1738,7 +1738,7 @@ Owner_c4f550::~Owner_c4f550()
 }  // namespace fnv_00c4f550
 
 namespace fnv_00c4f8e0 {
-extern int(__stdcall* DAT_00fdf1c0)(long*);
+extern int(* DAT_00fdf1c0)(long*);
 class FUN_00c335d0
 {
   public:

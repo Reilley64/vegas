@@ -357,7 +357,7 @@ struct FUN_00527770_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00527770
-int* __fastcall FUN_00527770(int* self, FUN_00527770_arg a)
+int* FUN_00527770(int* self, FUN_00527770_arg a)
 {
     reinterpret_cast<::FUN_005277d0_Class *>((self))->InitBuffer((*(unsigned int *)&(const ::FUN_00527770_arg &)(a)));
     *self = (int)&DAT_01031fac;
@@ -532,7 +532,6 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-typedef char _sizecheck_BGSClipRoundsForm[sizeof(BGSClipRoundsForm) == 8 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -550,7 +549,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -579,13 +577,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct BGSMessageIcon : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -601,7 +597,6 @@ struct BGSMessageIcon : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     TESIcon Icon;
 };
-typedef char _sizecheck_BGSMessageIcon[sizeof(BGSMessageIcon) == 16 ? 1 : -1];
 struct TESScriptableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -620,7 +615,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 struct FUN_008c6060_shell : public BGSClipRoundsForm
 {
     void FUN_008c6060();

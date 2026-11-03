@@ -350,13 +350,13 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
 
 struct FUN_009f41c0_shell
 {
-    void __thiscall ResetReference();
-    void __thiscall FUN_009f41c0();
+    void ResetReference();
+    void FUN_009f41c0();
 };
 
 // Calls ResetReference, then sets the byte at offset 0x34 and the int at offset 4 to 1.
 // @fnv 0x009f41c0
-void __thiscall FUN_009f41c0_shell::FUN_009f41c0()
+void FUN_009f41c0_shell::FUN_009f41c0()
 {
     ResetReference();
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x34) = 1;
@@ -784,8 +784,8 @@ FUN_009f3800::FUN_009f3800(TESObjectREFRHelper* pHelper, int b, int c)
 
 struct FUN_009f3a40_t
 {
-    void __thiscall FUN_009f3a70();
-    void* __thiscall FUN_009f3a40(unsigned int);
+    void FUN_009f3a70();
+    void* FUN_009f3a40(unsigned int);
 };
 struct DH
 {
@@ -810,10 +810,10 @@ struct TESObjectREFR_GetFlags_Helper
 extern int DAT_010935dc[];
 struct FUN_009f4640_holder
 {
-    int __thiscall GetFlagsMappedValue();
+    int GetFlagsMappedValue();
 };
 // @fnv 0x009f4640
-int __thiscall FUN_009f4640_holder::GetFlagsMappedValue()
+int FUN_009f4640_holder::GetFlagsMappedValue()
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)this)))->GetName())) == 0xffffffff
                ? -1
@@ -834,12 +834,12 @@ struct Host9f6340
 {
     int f00;
     Elem9f6340* f04;
-    unsigned int __thiscall AppendElement(Elem9f6340* p);
+    unsigned int AppendElement(Elem9f6340* p);
 public:
     void FUN_009f6460(int, int);
 };
 // @fnv 0x009f6340
-unsigned int __thiscall Host9f6340::AppendElement(Elem9f6340* apElement)
+unsigned int Host9f6340::AppendElement(Elem9f6340* apElement)
 {
     unsigned int uiIndex = ::FUN_006f31f0((::S5460 *)(((Arr16*)this)));
     reinterpret_cast<::Host9f6340 *>(this)->FUN_009f6460((int)(f04 + uiIndex), 1);
@@ -849,34 +849,34 @@ unsigned int __thiscall Host9f6340::AppendElement(Elem9f6340* apElement)
 
 struct FUN_009f45e0_shell
 {
-    bool __thiscall IsFlagBit0Clear();
+    bool IsFlagBit0Clear();
 };
 // @fnv 0x009f45e0
-bool __thiscall FUN_009f45e0_shell::IsFlagBit0Clear()
+bool FUN_009f45e0_shell::IsFlagBit0Clear()
 {
     return !(*(unsigned short*)((char*)this + 0x24) & 1) ? true : false;
 }
 
 struct FUN_009f4620_shell
 {
-    bool __thiscall FUN_009f4620();
+    bool FUN_009f4620();
 };
 // @fnv 0x009f4620
-bool __thiscall FUN_009f4620_shell::FUN_009f4620()
+bool FUN_009f4620_shell::FUN_009f4620()
 {
     return !(reinterpret_cast<unsigned short*>(this)[0x24 / sizeof(unsigned short)] & 0x10) ? true : false;
 }
 
 struct FUN_009f4680_shell
 {
-    void __thiscall ClearTargetReferences(void* b, void* c);
+    void ClearTargetReferences(void* b, void* c);
 };
 struct FUN_009f54b0_shell
 {
-    bool __thiscall IsFlag8Clear();
+    bool IsFlag8Clear();
 };
 // @fnv 0x009f54b0
-bool __thiscall FUN_009f54b0_shell::IsFlag8Clear()
+bool FUN_009f54b0_shell::IsFlag8Clear()
 {
     return (((unsigned short*)((char*)this + 0x24))[0] & 8) ? false : true;
 }
@@ -886,7 +886,7 @@ struct S006949d0
 };
 struct FUN_009f6190_shell : S006949d0
 {
-    void* __thiscall FUN_009f6190(int a);
+    void* FUN_009f6190(int a);
 };
 // Reads the sandbox actor package data fields from the load buffer, adjusts the timestamp against g_timeGlobal, and loads the choice array entries.
 // @fnv 0x009f5ca0
@@ -928,7 +928,7 @@ void SandBoxActorPackageData::LoadGame(BGSLoadFormBuffer* apBuffer)
     }
 }
 // @fnv 0x009f4680
-void __thiscall FUN_009f4680_shell::ClearTargetReferences(void* apArg1, void* apArg2)
+void FUN_009f4680_shell::ClearTargetReferences(void* apArg1, void* apArg2)
 {
     if (((unsigned int*)this)[15])
     {
@@ -944,7 +944,7 @@ void __thiscall FUN_009f4680_shell::ClearTargetReferences(void* apArg1, void* ap
     reinterpret_cast<::fnv_009f4700::SandBoxActorPackageData_ext *>(this)->SelectSandboxActivity((::Actor *)(apArg1), (::fnv_009f4700::TESPackage *)(apArg2));
 }
 // @fnv 0x009f6190
-void* __thiscall FUN_009f6190_shell::FUN_009f6190(int aiIndex)
+void* FUN_009f6190_shell::FUN_009f6190(int aiIndex)
 {
     return ((void *)(reinterpret_cast<::FUN_00558dd0_class *>(this)->FUN_00558dd0(aiIndex)));
 }
@@ -975,10 +975,10 @@ struct FUN_009f3e20_shell
     bool m_bHasBedMarker;
     unsigned char _pad2[0x58 - 0x38];
     int m_eSandboxActivity;
-    bool __thiscall FUN_009f3e20();
+    bool FUN_009f3e20();
 };
 // @fnv 0x009f3e20
-bool __thiscall FUN_009f3e20_shell::FUN_009f3e20()
+bool FUN_009f3e20_shell::FUN_009f3e20()
 {
     switch (m_eSandboxActivity)
     {
@@ -997,18 +997,18 @@ bool __thiscall FUN_009f3e20_shell::FUN_009f3e20()
 
 struct FUN_0072ba80_shell
 {
-    void __thiscall FUN_0072ba80(void*, unsigned int);
+    void FUN_0072ba80(void*, unsigned int);
 };
 struct FUN_006c8bd0_Class
 {
-    void __thiscall FUN_006c8bd0(const char*, const char*, unsigned int);
+    void FUN_006c8bd0(const char*, const char*, unsigned int);
 };
 struct FUN_009f63a0_shell
 {
     char* f00;
     char* f04;
     unsigned int f08;
-    void __thiscall FUN_009f63a0(char* apSrcAddr, unsigned int aiCount);
+    void FUN_009f63a0(char* apSrcAddr, unsigned int aiCount);
 };
 // @fnv 0x009f40c0
 void SandBoxActorPackageData::SetReferenceTarget(TESObjectREFR* apDeletedRef)
@@ -1146,7 +1146,7 @@ void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
     }
 }
 // @fnv 0x009f63a0
-void __thiscall FUN_009f63a0_shell::FUN_009f63a0(char* apSrcAddr, unsigned int aiCount)
+void FUN_009f63a0_shell::FUN_009f63a0(char* apSrcAddr, unsigned int aiCount)
 {
     unsigned int i = FUN_0042f5a0(f08 - (unsigned int)apSrcAddr - aiCount, aiCount);
     ((FUN_0072ba80_shell*)this)->FUN_0072ba80(f04 + (unsigned int)apSrcAddr * 16, aiCount);
@@ -1160,7 +1160,7 @@ struct SaveFormIDHelper
 
 struct BGSSaveGameBuffer
 {
-    void __thiscall FUN_00865f60(unsigned int);
+    void FUN_00865f60(unsigned int);
 };
 
 struct BGSSaveFormBuffer
@@ -1173,17 +1173,17 @@ struct Crime : public BSSimpleArray<class SandboxProcedureData, 1024>
 
 struct FUN_009f3850_shell
 {
-    void __thiscall FUN_009f3850(BGSSaveFormBuffer*);
+    void FUN_009f3850(BGSSaveFormBuffer*);
 };
 
 struct FUN_009f5a60_shell
 {
-    void __thiscall SaveCrimeData(BGSSaveFormBuffer*);
+    void SaveCrimeData(BGSSaveFormBuffer*);
 };
 
 // Serializes the crime record's fields, target references and per-crime entries into the save buffer.
 // @fnv 0x009f5a60
-void __thiscall FUN_009f5a60_shell::SaveCrimeData(BGSSaveFormBuffer* apSaveGameBuffer)
+void FUN_009f5a60_shell::SaveCrimeData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int i;
     int iprevTargetDelta3;
@@ -1306,14 +1306,14 @@ struct FalloffController
     float firstOutput;
     float secondOutput;
 
-    void __thiscall UpdateFalloff(float currentTime);
+    void UpdateFalloff(float currentTime);
 };
 
 float __cdecl FUN_004e44d0(float value);
 void __cdecl FUN_007f7a50(float first, float second);
 
 // @fnv 0x007f7970
-void __thiscall FalloffController::UpdateFalloff(float currentTime)
+void FalloffController::UpdateFalloff(float currentTime)
 {
     float elapsed = currentTime - startTime;
     if (elapsed > firstDuration && elapsed > secondDuration)
@@ -1332,7 +1332,7 @@ void __thiscall FalloffController::UpdateFalloff(float currentTime)
     }
 }
 
-// CheckTimerState: __thiscall, one out-param (unsigned char*), returns bool
+// CheckTimerState: , one out-param (unsigned char*), returns bool
 struct SandboxTimerGlobal
 {
 };
@@ -1408,7 +1408,7 @@ struct FUN_009f4600_cls
 {
     char m_pad00[0x24];
     unsigned short m_usFlags;
-    bool __thiscall IsFlag2Clear();
+    bool IsFlag2Clear();
 };
 // @fnv 0x009f4600
 bool FUN_009f4600_cls::IsFlag2Clear()
@@ -2130,7 +2130,7 @@ int __cdecl FUN_00ec7d40(int);
 
 struct FUN_009f41f0_owner
 {
-    float __thiscall FUN_009f41f0(float f1, float f2);
+    float FUN_009f41f0(float f1, float f2);
 };
 // Checks the current sandbox target and markers, clears stale flags, and returns whether a new target should be picked based on timers, state and hour difference.
 // @fnv 0x009f43c0
@@ -2203,7 +2203,7 @@ bool SandBoxActorPackageData::HasProcessTarget(Actor* apActor)
 }
 
 // @fnv 0x009f41f0
-float __thiscall FUN_009f41f0_owner::FUN_009f41f0(float f1, float f2)
+float FUN_009f41f0_owner::FUN_009f41f0(float f1, float f2)
 {
     char cA;
     char c2;
@@ -2512,7 +2512,7 @@ class FUN_009f3a70 : public SandboxListBase
     virtual ~FUN_009f3a70();
 };
 // @fnv 0x009f3a40
-void* __thiscall FUN_009f3a40_t::FUN_009f3a40(unsigned int flags)
+void* FUN_009f3a40_t::FUN_009f3a40(unsigned int flags)
 {
     reinterpret_cast<::FUN_009f3a70 *>(this)->FUN_009f3a70::~FUN_009f3a70();
     if (flags & 1)

@@ -196,7 +196,7 @@ bool TESCombatStyle::Load(TESFile* file)
     return true;
 }
 // @fnv 0x005053c0
-void __thiscall FUN_005053c0_shell::FUN_005053c0()
+void FUN_005053c0_shell::FUN_005053c0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     if (((bool)(::FUN_00401500())))

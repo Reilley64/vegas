@@ -206,7 +206,7 @@ bool FUN_00afbf60_shell::IsField158NonZero()
 }
 
 // @fnv 0x00afc410
-bool __fastcall FUN_00afc410(void* this_ptr)
+bool FUN_00afc410(void* this_ptr)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this_ptr) + 0x158) != 0;
 }
@@ -214,7 +214,7 @@ bool __fastcall FUN_00afc410(void* this_ptr)
 // @fnv 0x00aff9f0
 void __cdecl CallVirtualMethodAtOffset48(void* apObject, int aiArg1, int aiArg2)
 {
-    (*(void(__thiscall**)(void*, int, int))(*(char**)apObject + 0x48))(apObject, aiArg1, aiArg2);
+    (*(void(**)(void*, int, int))(*(char**)apObject + 0x48))(apObject, aiArg1, aiArg2);
 }
 
 struct FUN_00affa10_V
@@ -316,12 +316,12 @@ struct S_00aff2a0_Class
     int unk28;
     unsigned char unk2c;
 
-    unsigned char __thiscall FUN_00aff2a0(int);
+    unsigned char FUN_00aff2a0(int);
 };
 
 // If unk24 is already set returns 1; otherwise clears unk18, unk14 and unk20, stores a1 in unk24, calls FUN_00aff490 and returns unk2c.
 // @fnv 0x00aff2a0
-unsigned char __thiscall S_00aff2a0_Class::FUN_00aff2a0(int a1)
+unsigned char S_00aff2a0_Class::FUN_00aff2a0(int a1)
 {
     if ((bool)(int)(unk24 != 0))
     {

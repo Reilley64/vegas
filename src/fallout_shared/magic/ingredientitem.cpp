@@ -68,11 +68,11 @@ struct BipedModelForm
 
 struct FUN_0040a0f0_shell : BipedModelForm
 {
-    void __thiscall EndianAtOffset9C(void);
+    void EndianAtOffset9C(void);
 };
 
 // @fnv 0x0040a0f0
-void __thiscall FUN_0040a0f0_shell::EndianAtOffset9C(void)
+void FUN_0040a0f0_shell::EndianAtOffset9C(void)
 {
     reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x9c))))->FUN_00503210();
 }
@@ -111,15 +111,15 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void FUN_0048cca0();
 };
 struct FUN_00479350_shell
 {
-    void __thiscall FUN_00479350();
+    void FUN_00479350();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void FUN_00485e00();
 };
 struct FUN_0048e370_obj
 {
@@ -127,11 +127,11 @@ struct FUN_0048e370_obj
 
 struct FUN_00409c70_shell
 {
-    void __thiscall FUN_00409c70();
+    void FUN_00409c70();
 };
 
 // @fnv 0x00409c70
-void __thiscall FUN_00409c70_shell::FUN_00409c70()
+void FUN_00409c70_shell::FUN_00409c70()
 {
     reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x1c))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x3c))))->FUN_0048e370(0x4e4f4349);

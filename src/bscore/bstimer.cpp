@@ -1,5 +1,6 @@
 // bscore/bstimer.cpp: free functions (4 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00aa4ee0_t.h"
@@ -11,7 +12,6 @@
 // The engine tick-count helper lives outside this unit; the PC build resolves
 
 // kernel32 tick count, reached directly through the import address table.
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 // Decrements the reference count and, when it reaches zero, records elapsed tick counts for two timestamps.
 // @fnv 0x00aa5040

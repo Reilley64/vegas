@@ -65,11 +65,11 @@ struct FUN_00de4470_class
     float unk1C;
     EmbeddedState state;
     ResetField reset;
-    void* __thiscall InitializeDefaults();
+    void* InitializeDefaults();
 };
 // Resets the embedded state, then sets the float fields to fixed values and unk18 to 24, returning this.
 // @fnv 0x00de4470
-void* __thiscall FUN_00de4470_class::InitializeDefaults()
+void* FUN_00de4470_class::InitializeDefaults()
 {
     reinterpret_cast<::FUN_00e10a00_cls *>(&(reset))->FUN_00e10a00();
     unk08 = 0.25f;

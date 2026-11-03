@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_0104e000.h"
@@ -38,11 +39,11 @@ void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored)
 }
 
 // @fnv 0x00d213f0
-void __stdcall FUN_00d213f0(int, int)
+void FUN_00d213f0(int, int)
 {}
 
 // @fnv 0x00d21400
-void __stdcall FUN_00d21400(int a1)
+void FUN_00d21400(int a1)
 {}
 
 struct Allocator
@@ -67,12 +68,12 @@ struct Holder
     unsigned int userData;
     unsigned int shapeType;
     void* shapeVtable;
-    MemorySystem* __thiscall FUN_00c85750();
-    Holder* __thiscall Destroy(unsigned char flags);
+    MemorySystem* FUN_00c85750();
+    Holder* Destroy(unsigned char flags);
 };
 // Sets shapeVtable and vtable, then frees the object via the memory system allocator if the low bit of flags is set.
 // @fnv 0x00cf57e0
-Holder* __thiscall Holder::Destroy(unsigned char flags)
+Holder* Holder::Destroy(unsigned char flags)
 {
     shapeVtable = &(*reinterpret_cast<char *>(&::DAT_010c6fb0));
     vtable = &(*reinterpret_cast<char *>(&::DAT_0102e388));
@@ -84,7 +85,6 @@ Holder* __thiscall Holder::Destroy(unsigned char flags)
     return this;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned long DAT_0126835c;
@@ -252,7 +252,6 @@ hkBoolRet FUN_00d21450_Class::FUN_00d21450(const ShapeRayCastQuery& input, Shape
 }
 
 namespace fnv_00d217d0 {
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwIndex);
 
 extern "C" unsigned int DAT_0126835c;
 extern "C" char str_010ce1f8[];
@@ -430,7 +429,6 @@ void Owner_L::FUN_00d217d0(Arg0_L* arg0, Arg1_L* arg1, Arg2_L* arg2)
 }  // namespace fnv_00d217d0
 
 extern unsigned long DAT_0126835c;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010ce228[];
 
 struct S00d216e0_Rec

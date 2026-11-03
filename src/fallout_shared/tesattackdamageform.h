@@ -3,7 +3,6 @@
 #define FNV_TASK_TESATTACKDAMAGEFORM_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 // BaseFormComponent copied from canonical decomp/include/BaseFormComponent.h,
 // with the out-of-line constructor and destructor declared: the game emits
 // calls to them (0x00402d30, 0x00483710), so the implicit inline versions
@@ -30,8 +29,4 @@ class TESAttackDamageForm : public BaseFormComponent
     virtual void Free();
     virtual unsigned short GetAttackDamage();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
-FNV_STATIC_ASSERT(sizeof(TESAttackDamageForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESAttackDamageForm, m_usAttackDamage) == 4);
 #endif

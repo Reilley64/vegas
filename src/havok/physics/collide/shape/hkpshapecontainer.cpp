@@ -50,7 +50,7 @@ int FUN_00d1f210_cls::FUN_00d1f210(int a1, int a2)
 }
 
 // @fnv 0x00d1f1d0
-int __stdcall FUN_00d1f1d0(int)
+int FUN_00d1f1d0(int)
 {
     return 0;
 }

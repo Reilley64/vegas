@@ -1065,7 +1065,7 @@ public:
 
 // Looks up extra data of type 0x2e and returns the int stored at offset 0xc, or 0 if absent.
 // @fnv 0x004216f0
-int __fastcall FUN_004216f0(BaseExtraList* _this)
+int FUN_004216f0(BaseExtraList* _this)
 {
     BSExtraData* pextra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((_this))->FUN_00410220(0x2e);
     if (pextra)
@@ -1079,7 +1079,7 @@ struct FUN_00439f90_shell : public TESObjectREFR
 };
 
 class TESObjectSTAT;
-TESObjectSTAT* __fastcall _FNV_GetObjectReference(TESObjectREFR*);
+TESObjectSTAT* _FNV_GetObjectReference(TESObjectREFR*);
 
 // Returns true if _FNV_GetObjectReference(this) equals DAT_011ca230 or DAT_011ca238.
 // @fnv 0x00439f90
@@ -1339,7 +1339,6 @@ struct ModelLoader
     bool m_bLoadTexturesDegraded;
     char _pad_2d[3];
 };
-typedef char _sizecheck_ModelLoader[sizeof(ModelLoader) == 48 ? 1 : -1];
 struct FUN_004409e0_shell : public ModelLoader
 {
     void FUN_004409e0(TESObjectREFR*);
@@ -1381,14 +1380,13 @@ struct BGSLoadGameSubBuffer
     void RenderCopyData(BGSSaveFormBuffer*);
     char* pBuffer;
 };
-typedef char _sizecheck_BGSLoadGameSubBuffer[sizeof(BGSLoadGameSubBuffer) == 4 ? 1 : -1];
 struct FUN_0044dee0_shell : public BGSLoadGameSubBuffer
 {
     void FUN_0044dee0(char*);
 };
 
 // @fnv 0x0044dee0
-BGSLoadGameSubBuffer* __fastcall FUN_0044dee0(BGSLoadGameSubBuffer* pThis)
+BGSLoadGameSubBuffer* FUN_0044dee0(BGSLoadGameSubBuffer* pThis)
 {
     pThis->pBuffer = 0;
     return pThis;
@@ -1409,7 +1407,6 @@ struct PlayerTargetLocation
     TESObjectREFR* m_pFirstReference;
     TESObjectREFR* m_pSecondMapReference;
 };
-typedef char _sizecheck_PLAYER_TARGET_LOC[sizeof(PlayerTargetLocation) == 52 ? 1 : -1];
 struct FUN_00456540_shell : public PlayerTargetLocation
 {
     void FUN_00456540();
@@ -1420,12 +1417,12 @@ struct _NiPoint3_pod
     float x, y, z;
 };
 
-void __fastcall _ref_006815c0(void* pThis);
+void _ref_006815c0(void* pThis);
 extern _NiPoint3_pod _NiPoint3_ZERO;
 
 // Clears the location and angle vectors, world, cell, flag, and reference pointers, then returns pThis.
 // @fnv 0x00456540
-PlayerTargetLocation* __fastcall FUN_00456540(PlayerTargetLocation* pThis)
+PlayerTargetLocation* FUN_00456540(PlayerTargetLocation* pThis)
 {
     _ref_006815c0(pThis->Location);
     _ref_006815c0(pThis->Angle);
@@ -1486,7 +1483,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 
 
 struct bhkCharacterController
@@ -1632,13 +1628,12 @@ struct InventoryChanges
 public:
     ::InventoryChanges *CreateForReference();
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 struct FUN_004bffb0_shell : public InventoryChanges
 {
     TESContainer* FUN_004bffb0();
 };
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* FUN_0055d310(TESObjectREFR*);
 
 // Returns the container of pRef via FUN_0055d310, or null when pRef is null.
 // @fnv 0x004bffb0
@@ -1655,7 +1650,7 @@ public:
 };
 
 // @fnv 0x00541ae0
-void __fastcall FUN_00541ae0(char* this_ptr)
+void FUN_00541ae0(char* this_ptr)
 {
     ((RecursiveSpinLock*)(this_ptr + 0x80))->FUN_0040fba0();
 }
@@ -1667,17 +1662,16 @@ struct ReferenceIntersectionData
     char Intersect[12];
     char Normal[12];
 };
-typedef char _sizecheck_REF_DECAL_DATA[sizeof(ReferenceIntersectionData) == 28 ? 1 : -1];
 struct FUN_0055a400_shell : public ReferenceIntersectionData
 {
     void FUN_0055a400();
 };
 
-void __fastcall _ref_006815c0(void* pThis);
+void _ref_006815c0(void* pThis);
 
 // Calls _ref_006815c0 on the Intersect and Normal arrays and returns pThis.
 // @fnv 0x0055a400
-ReferenceIntersectionData* __fastcall FUN_0055a400(ReferenceIntersectionData* pThis)
+ReferenceIntersectionData* FUN_0055a400(ReferenceIntersectionData* pThis)
 {
     _ref_006815c0(pThis->Intersect);
     _ref_006815c0(pThis->Normal);
@@ -1829,7 +1823,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -1837,7 +1830,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -1855,7 +1847,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0055d420_shell : public TESObjectREFR
 {
     void FUN_0055d420(bool);
@@ -1975,7 +1966,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESActorBaseData : public BaseFormComponent
 {
     virtual void CopyFromTemplateForm(TESActorBase*);
@@ -2085,7 +2075,6 @@ public:
 public:
     float GetHealthRegeneration() const;
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct FUN_0055e200_shell : public TESActorBaseData
 {
     bool FUN_0055e200();
@@ -2093,7 +2082,7 @@ struct FUN_0055e200_shell : public TESActorBaseData
 
 // Returns true when flag bit 0x200 is not set on the actor base data.
 // @fnv 0x0055e200
-bool __fastcall FUN_0055e200(TESActorBaseData* pThis)
+bool FUN_0055e200(TESActorBaseData* pThis)
 {
     return !pThis->GetFlag(0x200);
 }
@@ -2102,7 +2091,6 @@ struct hkBool
 {
     char m_cBooleanValue;
 };
-typedef char _sizecheck_hkBool[sizeof(hkBool) == 1 ? 1 : -1];
 struct FUN_005609f0_shell : public hkBool
 {
     bool FUN_005609f0();
@@ -2152,11 +2140,11 @@ struct blob8
 };
 
 const hkVector4& __cdecl FUN_00458b20(void);
-hkpRigidBody* __fastcall FUN_004ae750(void*);
-const hkVector4& __fastcall FUN_00560dc0(hkpRigidBody*);
+hkpRigidBody* FUN_004ae750(void*);
+const hkVector4& FUN_00560dc0(hkpRigidBody*);
 
 // @fnv 0x00560d80
-const hkVector4& __fastcall FUN_00560d80(void* pThis)
+const hkVector4& FUN_00560d80(void* pThis)
 {
     hkpRigidBody* pb = ((::fnv_00560d80::hkpRigidBody *)(::FUN_004ae750(pThis)));
     return pb ? FUN_00560dc0(pb) : FUN_00458b20();
@@ -2176,7 +2164,7 @@ public:
 
 
 // @fnv 0x00560dc0
-int __fastcall FUN_00560dc0(TESDataHandler* apDataHandler)
+int FUN_00560dc0(TESDataHandler* apDataHandler)
 {
     return ((int)(reinterpret_cast<::FUN_0045c650_shell *>((((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40()))))->FUN_0045c650()));
 }
@@ -2339,7 +2327,6 @@ struct BGSSaveLoadGame
     unsigned char m_ucSaveLoadState;
     char _pad_249[3];
 };
-typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 struct FUN_005621d0_shell : public BGSSaveLoadGame
 {
     bool FUN_005621d0();
@@ -2399,7 +2386,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -2436,7 +2422,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00562d00_shell : public BGSLoadFormBuffer
 {
     bool FUN_00562d00();
@@ -2497,7 +2482,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -2534,12 +2518,10 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_005636e0_shell : public TESObjectREFR
 {
     void FUN_005636e0(BGSLoadFormBuffer*);
@@ -2574,9 +2556,9 @@ struct FakeExtra
 
 struct FakeREFR
 {
-    const ExtraDataList* __thiscall GetExtra() const;
-    TESForm* __thiscall _FNV_GetObjectReference();
-    void __thiscall FUN_00563d80(void*, const char*, float);
+    const ExtraDataList* GetExtra() const;
+    TESForm* _FNV_GetObjectReference();
+    void FUN_00563d80(void*, const char*, float);
 };
 
 // Loads a string from the buffer, stores it as extra data, swaps Open/Close via the task queue, and updates the sequence animation with a signed time.
@@ -2676,8 +2658,8 @@ void FUN_00564930_shell::FUN_00564930(bool abDeleted)
 }
 }  // namespace fnv_00564930
 
-void* __fastcall _FNV_GetObjectReference(void* _this);
-unsigned int __fastcall _FNV_GetFormType(void* _this);
+void* _FNV_GetObjectReference(void* _this);
+unsigned int _FNV_GetFormType(void* _this);
 
 struct TESObjectREFR_GetFlags_Helper
 {
@@ -2686,7 +2668,7 @@ struct TESObjectREFR_GetFlags_Helper
 
 // Returns true if _this has an object reference whose form type is not 0x1c and whose flags include 0x100.
 // @fnv 0x00564c10
-bool __fastcall FUN_00564c10(TESObjectREFR* apRefr)
+bool FUN_00564c10(TESObjectREFR* apRefr)
 {
     if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430())) && _FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRefr))->FUN_007af430()))) != 0x1c)
     {
@@ -2774,7 +2756,7 @@ struct VTable64
 
 
 // @fnv 0x00564cd0
-bool __fastcall FUN_00564cd0(VTable64* apObject)
+bool FUN_00564cd0(VTable64* apObject)
 {
     if (apObject->v64())
         return false;
@@ -2786,7 +2768,7 @@ bool __fastcall FUN_00564cd0(VTable64* apObject)
 }
 
 // @fnv 0x00564e40
-bool __fastcall FUN_00564e40(unsigned int* pThis)
+bool FUN_00564e40(unsigned int* pThis)
 {
     return (pThis[2] & 0x8000) ? true : false;
 }
@@ -3116,7 +3098,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005653d0_shell : public TESObjectREFR
 {
     bool FUN_005653d0();
@@ -3203,7 +3184,7 @@ ScriptLocals* FUN_005673e0_shell::FUN_005673e0()
 }
 
 // @fnv 0x00567470
-float __fastcall FUN_00567470(char* pThis)
+float FUN_00567470(char* pThis)
 {
     return *(float*)(pThis + 0x13c);
 }
@@ -3216,13 +3197,13 @@ struct bhkCharacterController_00567730
 };
 
 // @fnv 0x00567730
-float __fastcall FUN_00567730(const bhkCharacterController_00567730* pThis)
+float FUN_00567730(const bhkCharacterController_00567730* pThis)
 {
     return pThis->m_fValueAt550;
 }
 
 // @fnv 0x00567750
-float __fastcall FUN_00567750(const char* thisPtr)
+float FUN_00567750(const char* thisPtr)
 {
     return *(const float*)(thisPtr + 0x554);
 }
@@ -3239,7 +3220,7 @@ class ExtraDataList
   public:
 };
 
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR*);
+ExtraDataList* FUN_005d43c0(TESObjectREFR*);
 
 // @fnv 0x00567770
 TESForm* FUN_00567770_shell::FUN_00567770()
@@ -3281,7 +3262,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00567960_shell : public TESObjectREFR
 {
     TESGlobal* FUN_00567960();
@@ -3289,7 +3269,7 @@ struct FUN_00567960_shell : public TESObjectREFR
 
 class ExtraDataList;
 
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR* pThis);
+const ExtraDataList* FUN_005d43c0(const TESObjectREFR* pThis);
 
 // @fnv 0x00567960
 TESGlobal* FUN_00567960_shell::FUN_00567960()
@@ -3315,7 +3295,7 @@ TESGlobal* FUN_00567960_shell::FUN_00567960()
 }  // namespace fnv_00567960
 
 // @fnv 0x00567ab0
-int __fastcall FUN_00567ab0(char* pThis)
+int FUN_00567ab0(char* pThis)
 {
     return pThis[0x1c];
 }
@@ -3345,7 +3325,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00567dd0_shell : public TESObjectREFR
 {
     void FUN_00567dd0(BGSEncounterZone*);
@@ -3396,7 +3375,7 @@ struct BGSEncounterZone
 };
 
 // @fnv 0x00567ec0
-unsigned short __fastcall FUN_00567ec0(BGSEncounterZone* _this)
+unsigned short FUN_00567ec0(BGSEncounterZone* _this)
 {
     return _this->iCalcedLevel == 0 ? reinterpret_cast<::BGSEncounterZone *>((_this))->GetCalculatedLevel() : _this->iCalcedLevel;
 }
@@ -3407,8 +3386,8 @@ struct FUN_00568260_shell : public TESObjectREFR
     bool FUN_00568260(bool);
 };
 
-void* __fastcall _FNV_GetObjectReference(const void* self);
-int __fastcall _FNV_GetFormType(const void* self);
+void* _FNV_GetObjectReference(const void* self);
+int _FNV_GetFormType(const void* self);
 
 struct FUN_005682c0_caller
 {
@@ -3446,7 +3425,6 @@ struct FurnitureMark
     unsigned char m_ucFlags;
     char _pad_f[1];
 };
-typedef char _sizecheck_FurnitureMark[sizeof(FurnitureMark) == 16 ? 1 : -1];
 struct FUN_00568650_shell : public FurnitureMark
 {
     float FUN_00568650();
@@ -3476,7 +3454,6 @@ struct FurnitureMark
     unsigned char m_ucFlags;
     char _pad_f[1];
 };
-typedef char _sizecheck_FurnitureMark[sizeof(FurnitureMark) == 16 ? 1 : -1];
 struct FUN_00568ab0_shell : public FurnitureMark
 {
     void FUN_00568ab0(unsigned int);
@@ -3600,8 +3577,8 @@ struct FUN_00568bb0_shell : public TESObjectREFR
     void FUN_00568bb0(ExtraDataList*);
 };
 
-void __fastcall FUN_00411ec0(const ExtraDataList*, int, ExtraDataList*);
-const ExtraDataList* __fastcall GetExtra_005d43c0(TESObjectREFR*, int);
+void FUN_00411ec0(const ExtraDataList*, int, ExtraDataList*);
+const ExtraDataList* GetExtra_005d43c0(TESObjectREFR*, int);
 
 struct ExtraDataList_helper
 {
@@ -3627,7 +3604,7 @@ struct FUN_00569060_shell : public TESObjectREFR
 };
 
 class ExtraDataList;
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR*);
+ExtraDataList* FUN_005d43c0(TESObjectREFR*);
 
 // @fnv 0x00569060
 MapMarkerData* FUN_00569060_shell::FUN_00569060()
@@ -3665,7 +3642,6 @@ struct LockExtraData
     unsigned int m_uiLockDifficulty;
     unsigned int m_uiLockValue;
 };
-typedef char _sizecheck_REFR_LOCK[sizeof(LockExtraData) == 20 ? 1 : -1];
 class DoorCell;
 struct TeleportableReference
 {
@@ -3705,7 +3681,6 @@ struct TeleportableReference
 public:
     ::DoorCell *FUN_0043a2b0();
 };
-typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
 struct FUN_00569160_shell : public TESObjectREFR
 {
     LockExtraData* FUN_00569160();
@@ -3802,7 +3777,7 @@ public:
     void Unlock();
 };
 
-void __fastcall FUN_005789b0(void*);
+void FUN_005789b0(void*);
 
 // Gets the ExtraLock for this reference; if present, locks it and calls FUN_005789b0 on this reference.
 // @fnv 0x00569250
@@ -3829,7 +3804,7 @@ class ExtraLock
   public:
 };
 
-void __fastcall FUN_005789b0(TESObjectREFR* pThis);
+void FUN_005789b0(TESObjectREFR* pThis);
 
 // Gets the reference's ExtraLock; if present, unlocks it and calls FUN_005789b0 on this reference.
 // @fnv 0x005692a0
@@ -3850,7 +3825,7 @@ struct FUN_00569b80_shell : public TESObjectREFR
 };
 
 class ExtraDataList;
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR*);
+const ExtraDataList* FUN_005d43c0(const TESObjectREFR*);
 
 // @fnv 0x00569b80
 TESObjectREFR* FUN_00569b80_shell::FUN_00569b80()
@@ -3883,7 +3858,7 @@ bool FUN_0056a250_shell::FUN_0056a250()
 }  // namespace fnv_0056a250
 
 // @fnv 0x0056a880
-void* __fastcall FUN_0056a880(char* pThis)
+void* FUN_0056a880(char* pThis)
 {
     return *reinterpret_cast<void**>(pThis + 0x80) ? *reinterpret_cast<void**>(pThis + 0x80) : FUN_0056a8c0();
 }
@@ -3897,7 +3872,6 @@ struct WorldLocation
     char m_kWorldPosition[12];
     float m_fRotation;
 };
-typedef char _sizecheck_WORLD_LOCATION[sizeof(WorldLocation) == 20 ? 1 : -1];
 struct FUN_0056ad30_shell : public TESObjectREFR
 {
     TESWorldSpace* FUN_0056ad30();
@@ -3910,7 +3884,7 @@ struct TESObjectREFR_GetExtra_Helper
     const ExtraDataList* GetExtra() const;
 };
 
-int __fastcall _FNV_GetFormType(TESForm* pForm);
+int _FNV_GetFormType(TESForm* pForm);
 
 // Returns the extra data's form as a TESWorldSpace if it exists and has form type 0x41, otherwise null.
 // @fnv 0x0056ad30
@@ -3978,7 +3952,6 @@ struct RadioReferenceData
     float m_fValueBeforeRadioReference;
     TESObjectREFR* m_pRadioReference;
 };
-typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_0056b140_shell : public TESObjectREFR
 {
     TESObjectREFR* FUN_0056b140();
@@ -3992,7 +3965,7 @@ struct TESObjectREFR_Fake
 };
 
 // @fnv 0x0056b140
-TESObjectREFR* __fastcall FUN_0056b140(TESObjectREFR* pThis)
+TESObjectREFR* FUN_0056b140(TESObjectREFR* pThis)
 {
     TESObjectREFR* pretref = 0;
     RadioReferenceData* pdata = reinterpret_cast<::FUN_004182e0_shell *>((void *)(reinterpret_cast<TESObjectREFR_Fake*>(pThis)->GetExtra()))->FUN_004182e0();
@@ -4013,7 +3986,6 @@ struct RadioReferenceData
     float m_fValueBeforeRadioReference;
     TESObjectREFR* m_pRadioReference;
 };
-typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_0056b190_shell : public TESObjectREFR
 {
     float FUN_0056b190();
@@ -4050,7 +4022,6 @@ struct RadioReferenceData
     float m_fValueBeforeRadioReference;
     TESObjectREFR* m_pRadioReference;
 };
-typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_0056b210_shell : public TESObjectREFR
 {
     int FUN_0056b210();
@@ -4138,7 +4109,7 @@ void* Obj56d550::FUN_0056d550(unsigned int flags)
 
 
 // @fnv 0x0056d730
-void __fastcall FUN_0056d730(void* pThis)
+void FUN_0056d730(void* pThis)
 {
     reinterpret_cast<::FUN_0056d780_class *>((pThis))->FUN_0056d780();
 }
@@ -4158,13 +4129,12 @@ struct HavokTransformData
     char Rot[48];
     char Trans[16];
 };
-typedef char _sizecheck_bhkTransform[sizeof(HavokTransformData) == 64 ? 1 : -1];
 struct FUN_0056e120_shell : public HavokTransformData
 {
     void FUN_0056e120();
 };
 
-void __fastcall FUN_0056e140(void*);
+void FUN_0056e140(void*);
 
 // @fnv 0x0056e120
 void FUN_0056e120_shell::FUN_0056e120()
@@ -4173,10 +4143,10 @@ void FUN_0056e120_shell::FUN_0056e120()
     reinterpret_cast<::S_004b4fc0 *>((Trans))->FUN_004b4fc0();
 }
 
-void __fastcall FUN_0056e6c0(void* pThis);
+void FUN_0056e6c0(void* pThis);
 
 // @fnv 0x0056e690
-void* __fastcall FUN_0056e690(int* pObject)
+void* FUN_0056e690(int* pObject)
 {
     FUN_0056e6c0(pObject);
     *pObject = (int)&DAT_01030a24;
@@ -4185,12 +4155,12 @@ void* __fastcall FUN_0056e690(int* pObject)
 }
 
 // @fnv 0x0056e800
-unsigned int __fastcall FUN_0056e800(const void* pThis)
+unsigned int FUN_0056e800(const void* pThis)
 {
     return 0x20;
 }
 
-void __fastcall FUN_0056ea40(void*);
+void FUN_0056ea40(void*);
 
 struct _bhkSphereShape_vtbl_helper
 {
@@ -4249,7 +4219,7 @@ struct _hkSphereShapeCinfo_no_gs
 
 // Builds a sphere shape info with the given radius and passes it to the virtual method vb0.
 // @fnv 0x0056ea00
-void __fastcall FUN_0056ea00(_bhkSphereShape_vtbl_helper* pThis, float afRadius)
+void FUN_0056ea00(_bhkSphereShape_vtbl_helper* pThis, float afRadius)
 {
     _hkSphereShapeCinfo_no_gs si;
     FUN_0056ea40(&si);
@@ -4262,7 +4232,6 @@ struct hkSerializableCinfo
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_hkSerializableCinfo[sizeof(hkSerializableCinfo) == 1 ? 1 : -1];
 struct CollisionFilterConfiguration : public hkSerializableCinfo
 {
     CFilter* GetCFilter();
@@ -4273,30 +4242,26 @@ struct CollisionFilterConfiguration : public hkSerializableCinfo
     char _pad_9[3];
     char m_kProperties[12];
 };
-typedef char _sizecheck_hkWorldObjectCinfo[sizeof(CollisionFilterConfiguration) == 24 ? 1 : -1];
 struct PhantomCreationInfo : public CollisionFilterConfiguration
 {
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_hkPhantomCinfo[sizeof(PhantomCreationInfo) == 24 ? 1 : -1];
 struct ExtendedPhantomCreationInfo : public PhantomCreationInfo
 {
     void* __vecDelDtor(unsigned int);
     char _pad_18[8];
     char m_kMotionTransform[64];
 };
-typedef char _sizecheck_hkShapePhantomCinfo[sizeof(ExtendedPhantomCreationInfo) == 96 ? 1 : -1];
 struct DerivedPhantomCreationInfo : public ExtendedPhantomCreationInfo
 {
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_hkSimpleShapePhantomCinfo[sizeof(DerivedPhantomCreationInfo) == 96 ? 1 : -1];
 struct FUN_0056ea90_shell : public DerivedPhantomCreationInfo
 {
     void FUN_0056ea90();
 };
 
-void __fastcall FUN_0056d730(void*);
+void FUN_0056d730(void*);
 
 // @fnv 0x0056ea90
 void FUN_0056ea90_shell::FUN_0056ea90()
@@ -4310,7 +4275,7 @@ struct FilterArg_0056f0f0
 };
 
 // @fnv 0x0056f0f0
-void __fastcall FUN_0056f0f0(unsigned int* pThis, FilterArg_0056f0f0 aiFilter)
+void FUN_0056f0f0(unsigned int* pThis, FilterArg_0056f0f0 aiFilter)
 {
     pThis[0] = aiFilter.v;
     pThis[8] = aiFilter.v;
@@ -4321,7 +4286,7 @@ struct M36_0056fac0
 {
     float m[9];
 };
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 struct R_0056fac0
 {
     char pad[0x20];
@@ -4480,7 +4445,6 @@ struct BGSSaveLoadGame
     unsigned char m_ucSaveLoadState;
     char _pad_249[3];
 };
-typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 struct FUN_00570f00_shell : public BGSSaveLoadGame
 {
     bool FUN_00570f00();
@@ -4501,7 +4465,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00571080_shell : public TESObjectREFR
 {
     void FUN_00571080(NiAVObject*);
@@ -4514,7 +4477,7 @@ template <class T> class NiPointer
     NiPointer<T>& operator=(T*);
 };
 
-void __fastcall FUN_0057c300(TESObjectREFR*);
+void FUN_0057c300(TESObjectREFR*);
 
 // @fnv 0x00571080
 void FUN_00571080_shell::FUN_00571080(NiAVObject* ap3D)
@@ -4538,7 +4501,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiFixedString
 {
     bool Exists();
@@ -4553,7 +4515,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_00571530_shell : public TESObjectREFR
 {
     NiAVObject* FUN_00571530(NiAVObject*, NiFixedString*);
@@ -4569,7 +4530,7 @@ NiAVObject* FUN_00571530_shell::FUN_00571530(NiAVObject* apRoot, NiFixedString* 
 
 // Returns true if either of the two bool flags at offsets 0x64f and 0x64d in pThis is set.
 // @fnv 0x005721e0
-bool __fastcall FUN_005721e0(const bool* pThis)
+bool FUN_005721e0(const bool* pThis)
 {
     return (pThis[0x64f] || pThis[0x64d]) ? true : false;
 }
@@ -4681,12 +4642,10 @@ struct ReferenceLightData
     char m_pMenuLight[4];
     float m_fLightRadius;
 };
-typedef char _sizecheck_REFR_LIGHT[sizeof(ReferenceLightData) == 8 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_005728c0_shell : public TESObjectREFR
 {
     void FUN_005728c0(bool);
@@ -4887,7 +4846,7 @@ struct FUN_00572e30_shell : public TESObjectREFR
 
 class ExtraDataList;
 
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR* pThis);
+const ExtraDataList* FUN_005d43c0(const TESObjectREFR* pThis);
 
 // @fnv 0x00572e30
 TESObjectREFR* FUN_00572e30_shell::FUN_00572e30()
@@ -4906,19 +4865,19 @@ struct TempShell_005737e0
 };
 
 // @fnv 0x005737e0
-bool __fastcall FUN_005737e0(TempShell_005737e0* pThis)
+bool FUN_005737e0(TempShell_005737e0* pThis)
 {
     return pThis->val;
 }
 
 // @fnv 0x00573f20
-void __fastcall FUN_00573f20(char* pThis, float value)
+void FUN_00573f20(char* pThis, float value)
 {
     *(float*)(pThis + 0x544) = value;
 }
 
 // @fnv 0x00574900
-unsigned char __fastcall FUN_00574900(const unsigned char* _this)
+unsigned char FUN_00574900(const unsigned char* _this)
 {
     return _this[0x81];
 }
@@ -4933,7 +4892,7 @@ struct FUN_00575770_shell : public TESObjectREFR
 void FUN_00575770_shell::FUN_00575770(float afx)
 {
     *(float*)((char*)this + 0x24) = afx;
-    typedef void(__thiscall * VFn)(void*, unsigned int);
+    typedef void(* VFn)(void*, unsigned int);
     (*(VFn*)((*(char**)this) + 0x48))(this, 2);
 }
 
@@ -4948,9 +4907,9 @@ struct FUN_005757d0_shell : public TESObjectREFR
 void FUN_005757d0_shell::FUN_005757d0(float afz)
 {
     *(float*)((char*)this + 0x2c) = afz;
-    if ((*(bool(__thiscall**)(void*))(*(int*)this + 0x100))(this))
+    if ((*(bool(**)(void*))(*(int*)this + 0x100))(this))
         *(float*)((char*)this + 0x2c) = WrapAngle(*(float*)((char*)this + 0x2c));
-    (*(void(__thiscall**)(void*, int))(*(int*)this + 0x48))(this, 2);
+    (*(void(**)(void*, int))(*(int*)this + 0x48))(this, 2);
 }
 
 namespace fnv_00575d10 {
@@ -5020,7 +4979,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -5038,7 +4996,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_00575d10_shell : public TESObjectREFR
 {
     bool FUN_00575d10();
@@ -5156,7 +5113,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -5174,7 +5130,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -5203,7 +5158,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_00575d70_shell : public TESObjectREFR
 {
     TESWorldSpace* FUN_00575d70();
@@ -5347,7 +5301,6 @@ struct InventoryStackRecord
     int m_iCountChange;
     TESBoundObject* m_pItemObject;
 };
-typedef char _sizecheck_ItemChange[sizeof(InventoryStackRecord) == 12 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -5355,7 +5308,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESContainer : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -5393,7 +5345,6 @@ struct TESContainer : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char objectList[8];
 };
-typedef char _sizecheck_TESContainer[sizeof(TESContainer) == 12 ? 1 : -1];
 struct FUN_00576260_shell : public TESObjectREFR
 {
     InventoryStackRecord* FUN_00576260(TESBoundObject*, unsigned int);
@@ -6190,7 +6141,7 @@ struct FUN_005763f0_shell : public TESObjectREFR
 // @fnv 0x005763f0
 BSFaceGenAnimationData* FUN_005763f0_shell::FUN_005763f0(NiNode* apHeadNode)
 {
-    typedef BSFaceGenAnimationData*(__thiscall * VFunc)(void*, NiNode*);
+    typedef BSFaceGenAnimationData*(* VFunc)(void*, NiNode*);
     BSFaceGenAnimationData* result = ((*reinterpret_cast<VFunc**>(this))[0x1b0 / 4])(this, apHeadNode);
     return result;
 }
@@ -6476,18 +6427,18 @@ BSFaceGenAnimationData* FUN_00576420_shell::FUN_00576420(NiNode* apHeadNode)
 }
 }  // namespace fnv_00576420
 
-void* __fastcall FUN_005771f0(void* _this);
+void* FUN_005771f0(void* _this);
 
 // Calls FUN_005771f0 on _this, then FUN_005771d0 on the result if non-null, otherwise returns 0.
 // @fnv 0x00577190
-void* __fastcall FUN_00577190(void* _this)
+void* FUN_00577190(void* _this)
 {
     void* pc = FUN_005771f0(_this);
     return pc ? ((void *)(::fnv_005771d0::FUN_005771d0(pc))) : 0;
 }
 
 // @fnv 0x00577310
-float __fastcall FUN_00577310(char* pThis)
+float FUN_00577310(char* pThis)
 {
     return *(float*)(pThis + 0xe04);
 }
@@ -6594,7 +6545,7 @@ struct Dummy_00577bd0
 };
 
 // @fnv 0x00577bd0
-Dummy_00577bd0* __fastcall FUN_00577bd0(Dummy_00577bd0* thisPtr, float afValue)
+Dummy_00577bd0* FUN_00577bd0(Dummy_00577bd0* thisPtr, float afValue)
 {
     reinterpret_cast<::FUN_00ca9360_cls *>((thisPtr))->FUN_00ca9360(&afValue);
     return thisPtr;
@@ -6602,7 +6553,7 @@ Dummy_00577bd0* __fastcall FUN_00577bd0(Dummy_00577bd0* thisPtr, float afValue)
 
 
 // @fnv 0x00577bf0
-float __fastcall FUN_00577bf0(unsigned char* pByteIndex)
+float FUN_00577bf0(unsigned char* pByteIndex)
 {
     return DAT_010c7948[*pByteIndex];
 }
@@ -6663,7 +6614,7 @@ bool __cdecl FUN_005784b0(NiNode* apNode)
 }
 
 // @fnv 0x00578770
-bool __fastcall FUN_00578770(int param_1)
+bool FUN_00578770(int param_1)
 {
     return (*(unsigned int*)(param_1 + 0x34) & 0x200) ? true : false;
 }
@@ -6715,7 +6666,6 @@ struct TeleportableReference
     unsigned char cFlags;
     char _pad_1d[3];
 };
-typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
 struct FUN_005789b0_shell : public TESObjectREFR
 {
     void FUN_005789b0();
@@ -6776,13 +6726,13 @@ void FUN_005789b0_shell::FUN_005789b0()
 }  // namespace fnv_005789b0
 
 // @fnv 0x00579200
-bool __fastcall FUN_00579200(const char* pData)
+bool FUN_00579200(const char* pData)
 {
     return (bool)(pData[0x25] & 8);
 }
 
 // @fnv 0x00579670
-bool __fastcall FUN_00579670(char* pThis)
+bool FUN_00579670(char* pThis)
 {
     return *(int*)(pThis + 0x1ac) == 9 ? true : false;
 }
@@ -6792,7 +6742,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_0057a3c0_shell : public TESObjectREFR
 {
     void FUN_0057a3c0(bool);
@@ -6823,11 +6772,11 @@ struct BSExtraData
 
 struct FUN_0057a870_helper
 {
-    BSExtraData* __thiscall init(void* a2);
+    BSExtraData* init(void* a2);
 };
 
 // @fnv 0x0057a870
-BSExtraData* __thiscall FUN_0057a870_helper::init(void* a2)
+BSExtraData* FUN_0057a870_helper::init(void* a2)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((((BSExtraData*)this)))->init(0x6d);
     *(int**)this = &DAT_01030f14;
@@ -6864,7 +6813,7 @@ FUN_0057a960::FUN_0057a960()
 extern int DAT_0101fc80;
 
 // @fnv 0x0057a9d0
-void* __fastcall FUN_0057a9d0(void** pThis)
+void* FUN_0057a9d0(void** pThis)
 {
     *pThis = &DAT_0101fc80;
     return pThis;
@@ -6904,7 +6853,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_0057ace0_shell : public TESObjectREFR
 {
     void FUN_0057ace0(TESTopicInfo*);
@@ -6981,7 +6929,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -6999,7 +6946,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0057ad20_shell : public TESObjectREFR
 {
     void FUN_0057ad20(TESTopic*);
@@ -7014,7 +6960,7 @@ class ExtraDataList
 struct VTable_0057ad20
 {
     void* v[0x48 / 4];
-    void(__thiscall* vfn_18)(TESObjectREFR*, unsigned int);
+    void(* vfn_18)(TESObjectREFR*, unsigned int);
 };
 
 // @fnv 0x0057ad20
@@ -7088,7 +7034,7 @@ float FUN_0057b0a0_shell::FUN_0057b0a0()
 
 // Stores the result of FUN_004a3e90(afHeight) into the float field at offset 0x53c of pThis.
 // @fnv 0x0057b1d0
-void __fastcall FUN_0057b1d0(char* pThis, float afHeight)
+void FUN_0057b1d0(char* pThis, float afHeight)
 {
     *(float*)(pThis + 0x53c) = FUN_004a3e90(afHeight);
 }
@@ -7178,7 +7124,7 @@ void Dummy::FUN_0057bd60(MobileObject* apMobileObject)
 }  // namespace fnv_0057bd60
 
 void* __cdecl operator new(unsigned int);
-void* __fastcall FUN_0057c2a0(void*);
+void* FUN_0057c2a0(void*);
 
 struct MobileObjectCellAccess
 {
@@ -7211,7 +7157,7 @@ struct TempLoadedRefData
 };
 
 // @fnv 0x0057c180
-void __fastcall FUN_0057c180(char* this_ptr)
+void FUN_0057c180(char* this_ptr)
 {
     if (!*(TempLoadedRefData**)(this_ptr + 0x64))
     {
@@ -7285,13 +7231,13 @@ void FUN_0057c300_cls::FUN_0057c300()
 }
 
 // @fnv 0x005d9f90
-int __fastcall FUN_005d9f90(char* pThis)
+int FUN_005d9f90(char* pThis)
 {
     return *(int*)(pThis + 0x1b4);
 }
 
 // @fnv 0x006a9540
-void* __fastcall FUN_006a9540(char* pThis)
+void* FUN_006a9540(char* pThis)
 {
     return pThis + 0x34;
 }
@@ -7411,7 +7357,6 @@ struct PathingLocation
     unsigned char uiFlags;
     char _pad_27[1];
 };
-typedef char _sizecheck_PathingLocation[sizeof(PathingLocation) == 40 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -7419,7 +7364,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -7437,7 +7381,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -7466,16 +7409,15 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_006dcbb0_shell : public PathingLocation
 {
     void FUN_006dcbb0(void*);
 };
 
-void __fastcall _ref_006815c0(void* pThis);
+void _ref_006815c0(void* pThis);
 
 // @fnv 0x006dcbb0
-PathingLocation* __fastcall FUN_006dcbb0(PathingLocation* pThis)
+PathingLocation* FUN_006dcbb0(PathingLocation* pThis)
 {
     *(int**)pThis = &::DAT_0102583c;
     _ref_006815c0(pThis->Location);
@@ -7502,7 +7444,7 @@ struct Node_00837410
 
 // Deletes each node in the linked list after pThis, then resets m_item to 0.0f.
 // @fnv 0x00837410
-void __fastcall FUN_00837410(Node_00837410* pThis)
+void FUN_00837410(Node_00837410* pThis)
 {
     while (pThis->m_pkNext)
     {
@@ -7632,7 +7574,7 @@ class TES
   public:
 };
 
-int __fastcall FUN_00418250(const ExtraDataList*);
+int FUN_00418250(const ExtraDataList*);
 
 struct TESObjectREFR_Helper : public TESObjectREFR
 {
@@ -7641,7 +7583,7 @@ struct TESObjectREFR_Helper : public TESObjectREFR
 
 // Reads the extra data list via GetExtra and calls GetLogDate on the reference, discarding both results.
 // @fnv 0x0088b4e0
-void __fastcall FUN_0088b4e0(TESObjectREFR_Helper* pThis)
+void FUN_0088b4e0(TESObjectREFR_Helper* pThis)
 {
     int v1 = FUN_00418250(pThis->GetExtra());
     Sky* v2 = ((::fnv_0088b4e0::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pThis)))->GetBaseTexture()));
@@ -7656,7 +7598,7 @@ public:
 };
 
 // @fnv 0x008b3ad0
-void __fastcall FUN_008b3ad0(void* thisPtr)
+void FUN_008b3ad0(void* thisPtr)
 {
     (*(ActorMover**)((char*)thisPtr + 0x190))->ForceStopMoving();
 }
@@ -7765,7 +7707,7 @@ struct ActorValueOwnerVtbl
     void (*vfn_10)();
     void (*vfn_14)();
     void (*vfn_18)();
-    float(__thiscall* vfn_1c)(ActorValueOwner*);
+    float(* vfn_1c)(ActorValueOwner*);
 };
 
 struct DummyActor : public TESObjectREFR
@@ -7775,7 +7717,7 @@ struct DummyActor : public TESObjectREFR
 };
 
 // @fnv 0x008be4f0
-bool __fastcall FUN_008be4f0(DummyActor* pThis)
+bool FUN_008be4f0(DummyActor* pThis)
 {
     if (*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(pThis) + 0x68) &&
         ::FUN_00884920((int *)((*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(pThis) + 0x68)))))
@@ -8277,7 +8219,7 @@ struct VTable_008c13d0_1
 
 // Returns true when v214() is not 0, 4 or 9 and the log date's v4d4() buffer exists with byte 0xe at most 0x14.
 // @fnv 0x008c13d0
-bool __fastcall FUN_008c13d0(VTable_008c13d0_1* pThis)
+bool FUN_008c13d0(VTable_008c13d0_1* pThis)
 {
     bool bHasResultObj = false;
     if (pThis->v214() != 0 && pThis->v214() != 4 && pThis->v214() != 9)
@@ -8723,7 +8665,7 @@ template <typename T> class BSStringT
 
 
 // @fnv 0x00950b60
-const char* __fastcall FUN_00950b60(TESObjectREFR* apThis)
+const char* FUN_00950b60(TESObjectREFR* apThis)
 {
     if (!*(bool*)((char*)apThis + 0x64a) && (const char*)*(BSStringT<char>*)((char*)apThis + 0x694))
         return *(BSStringT<char>*)((char*)apThis + 0x694);
@@ -8753,7 +8695,6 @@ struct FurnitureMark
     unsigned char m_ucFlags;
     char _pad_f[1];
 };
-typedef char _sizecheck_FurnitureMark[sizeof(FurnitureMark) == 16 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -8784,7 +8725,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_0098ddd0_shell : public FurnitureMark
 {
     void FUN_0098ddd0(void*);
@@ -8798,7 +8738,7 @@ void FUN_0098ddd0_shell::FUN_0098ddd0(void* arPos)
 }
 }  // namespace fnv_0098ddd0
 
-unsigned int __fastcall _FNV_GetFormType(void*);
+unsigned int _FNV_GetFormType(void*);
 struct HealthForm
 {
     virtual void v0();
@@ -8861,7 +8801,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiFixedString
 {
     bool Exists();
@@ -8876,7 +8815,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 
 struct DummyPointerMap
 {
@@ -8905,7 +8843,7 @@ unsigned int Fn47a520::FUN_0047a520(NFSHelper* name)
 namespace fnv_0055d6d0 {
 struct FUN_00565090_shell;
 class TESObjectSTAT;
-TESObjectSTAT* __fastcall _FNV_GetObjectReference(FUN_00565090_shell*);
+TESObjectSTAT* _FNV_GetObjectReference(FUN_00565090_shell*);
 struct FUN_00565090_shell
 {
 };
@@ -8959,8 +8897,8 @@ void __cdecl FUN_0055d6d0(FUN_00565090_shell* ref, NodeObj* node)
 }  // namespace fnv_0055d6d0
 
 class TESObjectSTAT;
-TESObjectSTAT* __fastcall _FNV_GetObjectReference(TESObjectREFR*);
-unsigned int __fastcall _FNV_GetFormType(void*);
+TESObjectSTAT* _FNV_GetObjectReference(TESObjectREFR*);
+unsigned int _FNV_GetFormType(void*);
 struct ArrSI
 {
     unsigned int GetFlags();
@@ -8982,7 +8920,7 @@ bool Fn564ab0::FUN_00564ab0()
 }
 
 namespace fnv_005672c0 {
-unsigned int __fastcall _FNV_GetFormType(void*);
+unsigned int _FNV_GetFormType(void*);
 struct NiFixedString
 {
     operator char const*() const;
@@ -9158,8 +9096,8 @@ struct BaseExtraList
 {
 };
 class TESObjectSTAT;
-TESObjectSTAT* __fastcall _FNV_GetObjectReference(void*);
-unsigned int __fastcall _FNV_GetFormType(void*);
+TESObjectSTAT* _FNV_GetObjectReference(void*);
+unsigned int _FNV_GetFormType(void*);
 struct XActor
 {
     BaseExtraList* GetExtra() const;
@@ -9254,7 +9192,7 @@ bool FUN_00569410(NiAVObject* apObj)
         }
         else
         {
-            NiObjectNET* pnode = ((NiObjectNET * (__thiscall*)(void*))(*(void***)apObj)[3])(apObj);
+            NiObjectNET* pnode = ((NiObjectNET * (*)(void*))(*(void***)apObj)[3])(apObj);
             if (pnode)
             {
                 unsigned int icount = pnode->GetNumChildren();
@@ -9291,17 +9229,17 @@ struct M3
 {
     float a, b, c, d, e, f, g, h, i;
 };
-void __fastcall _ref_006815c0(void* pThis);
+void _ref_006815c0(void* pThis);
 struct NiMatrix3Helper
 {
 };
 // Builds a rotation matrix from the object's angles, using only the z angle when the virtual check at vtable slot 0x40 returns true.
 // @fnv 0x0056fa00
-M3 __fastcall FUN_0056fa00(char* pObject)
+M3 FUN_0056fa00(char* pObject)
 {
     M3 rot;
     _ref_006815c0(&rot);
-    if (((unsigned char(__thiscall*)(void*))(*(void***)pObject)[0x40])(pObject))
+    if (((unsigned char(*)(void*))(*(void***)pObject)[0x40])(pObject))
     {
         reinterpret_cast<::Matrix161 *>((((NiMatrix3Helper*)&rot)))->FUN_00a59540(0.0f, 0.0f, *(float*)(pObject + 0x2c));
     }
@@ -9331,7 +9269,7 @@ struct FUN_0050ea10_class
 };
 extern P3 _NiPoint3_ZERO;
 // @fnv 0x0056fb10
-P3 __fastcall FUN_0056fb10(RandHelper* self)
+P3 FUN_0056fb10(RandHelper* self)
 {
     NiAVObjectX* p3D = ((::fnv_0056fb10::NiAVObjectX *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((self))->FUN_0043fcd0()));
     if (p3D)
@@ -9384,7 +9322,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00572380_shell : public TESObjectREFR
 {
     float FUN_00572380(void*);
@@ -9443,7 +9380,7 @@ struct NiAdditionalGeometryData
 {
 };
 // @fnv 0x00572a50
-void __fastcall FUN_00572a50(XActor* self, BoolArg abUseAltExtra)
+void FUN_00572a50(XActor* self, BoolArg abUseAltExtra)
 {
     NP_0081c630* lightPtr = abUseAltExtra.v ? (NP_0081c630*)((::fnv_00572a50::fnv_005728c0::NameStr *)(reinterpret_cast<::FUN_00418280_Class *>((((fnv_005728c0::ExtraStub*)self->GetExtra())))->FUN_00418280()))
                                             : (NP_0081c630*)((::fnv_00572a50::ReferenceLightData *)(reinterpret_cast<::Holder *>((void *)((const ExtraDataList*)self->GetExtra()))->FUN_00418250()));
@@ -9731,7 +9668,6 @@ struct PathingLocation
     unsigned char uiFlags;
     char _pad_27[1];
 };
-typedef char _sizecheck_PathingLocation[sizeof(PathingLocation) == 40 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -9739,7 +9675,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -9757,7 +9692,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -9786,7 +9720,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_006dcd70_shell : public PathingLocation
 {
     void FUN_006dcd70(void*);
@@ -9815,11 +9748,11 @@ struct BSOcclusionPlane
 struct fnv_006dcbb0
 {
 };
-void __fastcall _ref_006815c0(void* pThis);
+void _ref_006815c0(void* pThis);
 extern TES* g_TES;
 extern PC7d* g_thePlayer;
 // @fnv 0x006dcd70
-PathingLocation* __fastcall FUN_006dcd70(PathingLocation* pPathingLocation, RefArg aRefArg)
+PathingLocation* FUN_006dcd70(PathingLocation* pPathingLocation, RefArg aRefArg)
 {
     *(int**)pPathingLocation = &::DAT_0102583c;
     _ref_006815c0((char*)pPathingLocation + 4);
@@ -9831,7 +9764,7 @@ PathingLocation* __fastcall FUN_006dcd70(PathingLocation* pPathingLocation, RefA
         if (pcell == 0)
             pworld = ((::fnv_006dcd70::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((g_TES))->GetHitSound()));
     }
-    reinterpret_cast<::SetupPathingLocation *>((pPathingLocation))->FUN_006dd280((*(const ::NiPoint3 *)(((void*(__thiscall*)(void*))(*(void***)aRefArg.p)[0x7d])(aRefArg.p))),
+    reinterpret_cast<::SetupPathingLocation *>((pPathingLocation))->FUN_006dd280((*(const ::NiPoint3 *)(((void*(*)(void*))(*(void***)aRefArg.p)[0x7d])(aRefArg.p))),
                                       (::TESObjectCELL *)(::fnv_006dcd70::TESObjectCELL *)((TESObjectCELL*)pcell), (::TESWorldSpace *)(pworld));
     return pPathingLocation;
 }
@@ -10061,7 +9994,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00575700_shell : public TESObjectREFR
 {
     void FUN_00575700(struct blob12);
@@ -11024,7 +10956,6 @@ struct BGSSaveLoadInitialDataPacket
     static TESForm* CreateReference(unsigned int, ReferencePlacementData*, TESForm*);
     char _pad_0[1];
 };
-typedef char _sizecheck_BGSSaveLoadInitialData[sizeof(BGSSaveLoadInitialDataPacket) == 1 ? 1 : -1];
 struct FormChangeMask
 {
     bool CheckFlagsExact(int);
@@ -11040,7 +10971,6 @@ struct FormChangeMask
     static struct blob4 CombineFlags(struct blob4, struct blob4, unsigned int, bool);
     int iFlags;
 };
-typedef char _sizecheck_BGSChangeFlags[sizeof(FormChangeMask) == 4 ? 1 : -1];
 
 
 struct DataHandler
@@ -11182,16 +11112,16 @@ struct ScriptX
 };
 struct FUN_00561800_
 {
-    void __thiscall FUN_00561800(int value);
+    void FUN_00561800(int value);
 };
 
 struct FUN_005617c0_
 {
-    void __thiscall FUN_005617c0(int value);
+    void FUN_005617c0(int value);
 };
 
 // @fnv 0x005617c0
-void __thiscall FUN_005617c0_::FUN_005617c0(int value)
+void FUN_005617c0_::FUN_005617c0(int value)
 {
     void* result = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (result)
@@ -11243,7 +11173,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -11254,7 +11183,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00562020_shell : public TESObjectREFR
 {
     void FUN_00562020();
@@ -11296,7 +11224,7 @@ struct F56_H
 };
 
 // @fnv 0x00562020
-void __fastcall FUN_00562020(TESObjectREFR* self)
+void FUN_00562020(TESObjectREFR* self)
 {
     MobileObject* pmob;
     CharCtl_S* pcon;
@@ -11305,7 +11233,7 @@ void __fastcall FUN_00562020(TESObjectREFR* self)
     pobj3D2 = (NiAVObject*)((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RA_H*)self)))->FUN_0043fcd0()));
     if (pobj3D2)
     {
-        if ((*(bool(__thiscall**)(void*))(*(char**)self + 0xfc))(self))
+        if ((*(bool(**)(void*))(*(char**)self + 0xfc))(self))
         {
             pmob = (MobileObject*)self;
             pcon = ((::fnv_00562020::CharCtl_S *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((S_00931f80*)pmob)))->FUN_009306d0()));
@@ -11473,7 +11401,7 @@ bool S3e60::FUN_0056d320(unsigned int index)
 
 
 // @fnv 0x0056e140
-void __fastcall FUN_0056e140(void* apObject)
+void FUN_0056e140(void* apObject)
 {
     reinterpret_cast<::S_004b4fc0 *>((apObject))->FUN_004b4fc0();
     reinterpret_cast<::S_004b4fc0 *>(((char*)apObject + 0x10))->FUN_004b4fc0();
@@ -11576,7 +11504,7 @@ struct FUN_0056e8a0
 
 // Sets the three float members m_f0, m_f4 and m_f8 to the given value.
 // @fnv 0x0056e8a0
-void __thiscall FUN_0056e8a0::SetAll(float value)
+void FUN_0056e8a0::SetAll(float value)
 {
     m_f0 = value;
     m_f4 = value;
@@ -11940,8 +11868,8 @@ struct hkVector4
 void* FUN_00560e10();
 struct FUN_00560de0_class
 {
-    void* __thiscall FUN_00560e10();
-    void __thiscall FUN_00560de0(void* arg);
+    void* FUN_00560e10();
+    void FUN_00560de0(void* arg);
 };
 namespace fnv_00569080 {
 struct FUN_004184c0_shell
@@ -11971,11 +11899,11 @@ struct FUN_0056a860_Class
 {
     char pad[0x80];
     int m_0x80;
-    bool __thiscall FUN_0056a860();
+    bool FUN_0056a860();
 };
 
 // @fnv 0x0056a860
-bool __thiscall FUN_0056a860_Class::FUN_0056a860()
+bool FUN_0056a860_Class::FUN_0056a860()
 {
     return m_0x80 != 0;
 }
@@ -12229,11 +12157,11 @@ struct Holder_0055ac40
 {
     char pad[0x84C];
     List_00905330 lst;
-    void __thiscall FUN_0055ac40(unsigned int);
+    void FUN_0055ac40(unsigned int);
 };
 // If a is non-zero, passes it to lst._ref_00905330.
 // @fnv 0x0055ac40
-void __thiscall Holder_0055ac40::FUN_0055ac40(unsigned int a)
+void Holder_0055ac40::FUN_0055ac40(unsigned int a)
 {
     if (a)
         reinterpret_cast<::ItemChangeListNode *>(&(lst))->FUN_00905330((::InventoryStackRecord *const &)(a));
@@ -12287,7 +12215,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -12324,7 +12251,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_005627c0_shell : public TESObjectREFR
 {
     void FUN_005627c0(BGSLoadFormBuffer*);
@@ -12543,7 +12469,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -12554,7 +12479,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00563d80_shell : public TESObjectREFR
 {
     bool FUN_00563d80(NiControllerManager*, char*, float);
@@ -12770,7 +12694,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00565870_shell : public TESObjectREFR
 {
     bool FUN_00565870();
@@ -12925,7 +12848,7 @@ struct XInv
 {
     static XInv* CreateForReference(void*);
 };
-void* __fastcall FUN_0055d310(void*);
+void* FUN_0055d310(void*);
 
 // @fnv 0x00565870
 bool FUN_00565870_shell::FUN_00565870()
@@ -13278,7 +13201,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00568cb0_shell : public TESObjectREFR
 {
     float FUN_00568cb0();
@@ -14626,7 +14548,6 @@ struct FurnitureMark
     unsigned char m_ucFlags;
     char _pad_f[1];
 };
-typedef char _sizecheck_FurnitureMark[sizeof(FurnitureMark) == 16 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -14634,7 +14555,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00568500_shell : public TESObjectREFR
 {
     bool FUN_00568500(int, FurnitureMark*);
@@ -14648,7 +14568,7 @@ struct StackArg
 {
     int i;
 };
-FurnitureMark* __fastcall FUN_005094d0(DummyThis*, StackArg);
+FurnitureMark* FUN_005094d0(DummyThis*, StackArg);
 struct Pt3
 {
     float x, y, z;
@@ -14673,9 +14593,9 @@ struct TESRecipe
 struct FUN_00568650_shell
 {
 };
-void* __fastcall _ref_006815c0(FurnitureMark*);
-void* __fastcall _FNV_GetObjectReference(void*);
-int __fastcall _FNV_GetFormType(void*);
+void* _ref_006815c0(FurnitureMark*);
+void* _FNV_GetObjectReference(void*);
+int _FNV_GetFormType(void*);
 struct VRef
 {
     virtual void* V0();
@@ -14862,7 +14782,7 @@ struct InventoryChanges
 };
 struct ResetInvContainerLookup
 {
-    static TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+    static TESContainer* FUN_0055d310(TESObjectREFR*);
 };
 struct FUN_008adc50_shell
 {
@@ -15531,7 +15451,7 @@ struct InventoryChanges
 {
     static InventoryChanges* __cdecl CreateForReference(TESObjectREFR*);
 };
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* FUN_0055d310(TESObjectREFR*);
 struct FUN_005754a0_Class
 {
     void* FUN_005754a0(int a1, unsigned char a2);
@@ -15554,7 +15474,7 @@ void* FUN_005754a0_Class::FUN_005754a0(int a1, unsigned char abUseDataHandler)
 }
 }  // namespace fnv_005754a0
 
-bool __fastcall FUN_00579200(char const*);
+bool FUN_00579200(char const*);
 class Character;
 class TESTopic;
 template <class> class BSSimpleList;
@@ -16630,8 +16550,8 @@ struct BeamEffect
     TESForm* FUN_00567790();
 };
 
-unsigned int __fastcall _FNV_GetFormType(TESForm* form);
-TESBoundObject* __fastcall _FNV_GetObjectReference(void* self);
+unsigned int _FNV_GetFormType(TESForm* form);
+TESBoundObject* _FNV_GetObjectReference(void* self);
 
 struct VirtualObject
 {
@@ -18345,12 +18265,12 @@ struct FUN_0055f5b0_Class
     int unk44;
     int unk48;
 
-    bool __thiscall FUN_0055f5b0();
+    bool FUN_0055f5b0();
 };
 
 // Returns true when unk48 is zero, otherwise false.
 // @fnv 0x0055f5b0
-bool __thiscall FUN_0055f5b0_Class::FUN_0055f5b0()
+bool FUN_0055f5b0_Class::FUN_0055f5b0()
 {
     return this->unk48 == 0 || this->unk48 == 0;
 }
@@ -18407,7 +18327,7 @@ struct FUN_00560e10_cls
     void* FUN_00560e10();
 };
 // @fnv 0x00560de0
-void __thiscall FUN_00560de0_class::FUN_00560de0(void* pDest)
+void FUN_00560de0_class::FUN_00560de0(void* pDest)
 {
     FUN_004a3970(*(NiPoint3_local*)pDest, *(const hkVector4*)reinterpret_cast<::FUN_00560e10_cls *>(this)->FUN_00560e10());
 }
@@ -19296,7 +19216,7 @@ struct FUN_00564c60_cls
     void FUN_00564c60(unsigned char flag);
 };
 
-int __fastcall FUN_00401170(void* p);
+int FUN_00401170(void* p);
 
 // If the object's value is not 0x1c, sets or clears bit 0x100 in the flags returned by FUN_0044ddc0 and applies them via FUN_00403550.
 // @fnv 0x00564c60
@@ -19550,8 +19470,8 @@ struct FUN_00569ba0_Extra
 
 struct FUN_00569ba0_Class
 {
-    FUN_00569ba0_Extra* __thiscall FUN_005d43c0(FUN_00569ba0_Ref* a1);
-    void __thiscall FUN_00569ba0(FUN_00569ba0_Ref* a1);
+    FUN_00569ba0_Extra* FUN_005d43c0(FUN_00569ba0_Ref* a1);
+    void FUN_00569ba0(FUN_00569ba0_Ref* a1);
 };
 
 // If a1 is null or its check returns true, gets the associated object via FUN_005d43c0 and calls FUN_0041e440 on it.
@@ -20105,7 +20025,7 @@ struct FUN_00571560_Class
     void FUN_00571560();
 };
 struct TESContainer;
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR* reference);
+TESContainer* FUN_0055d310(TESObjectREFR* reference);
 struct SelectedObject
 {
 };
@@ -23060,7 +22980,7 @@ struct EL
     N1c* FUN_0041e780();
     N1c* FUN_0041eda0();
 };
-EL* __fastcall FUN_005d43c0(Cls*);
+EL* FUN_005d43c0(Cls*);
 struct Obj28
 {
 };
@@ -24230,7 +24150,7 @@ struct InitSelection
 {
 };
 InitSelection* FUN_004bf220(InitReference*);
-void* __fastcall FUN_0055d310(InitReference*);
+void* FUN_0055d310(InitReference*);
 struct InitPending
 {
 };
@@ -26568,7 +26488,7 @@ struct Refr_s
     void FUN_00562230(BGSSaveFormBuffer* buf);
 };
 
-ExtraDataList_s* __fastcall GetExtraList(Refr_s* ref);
+ExtraDataList_s* GetExtraList(Refr_s* ref);
 InvChanges_s* GetOrAddInventoryChanges(Refr_s* ref);
 
 // @fnv 0x00562230
@@ -26650,7 +26570,7 @@ void FUN_00562de0_cls::FUN_00562de0(TargetRef* pTarget)
 
 class TESForm;
 
-int __fastcall FNV_GetFormType(TESForm* pForm);
+int FNV_GetFormType(TESForm* pForm);
 
 struct RefStub_00564360
 {
@@ -28581,7 +28501,7 @@ void Ref39::FUN_00568bd0(float afHealth)
     }
 }
 
-typedef int(__thiscall* FUN_005692d0_VSlot)(void* self, unsigned char value);
+typedef int(* FUN_005692d0_VSlot)(void* self, unsigned char value);
 
 class FUN_005692d0_item
 {
@@ -28974,7 +28894,7 @@ struct FNV_569BE0_Node
 
 struct FNV_569BE0_This : Unknown
 {
-    void __thiscall FUN_00569be0(int ignored);
+    void FUN_00569be0(int ignored);
 };
 
 // Gets the node, asks its inner object to process a temporary value, and if a nonzero result comes back, passes it to ConsumeResult.
@@ -29184,8 +29104,8 @@ struct FUN_0041eda0_shell
 struct NodeLink_a1e0
 {
 };
-bool __fastcall FUN_008256d0(void* node);
-void* __fastcall FUN_00726070(void* node);
+bool FUN_008256d0(void* node);
+void* FUN_00726070(void* node);
 
 struct Holder_a1e0
 {
@@ -33891,7 +33811,7 @@ struct Sub577
 {
 };
 
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR* pThis);
+const ExtraDataList* FUN_005d43c0(const TESObjectREFR* pThis);
 
 struct FUN_005549d0_obj : public TESObjectREFR
 {
@@ -34414,7 +34334,7 @@ bool __cdecl FUN_00578300(NiNode* pNode)
         if (0 != v4 && ((FUN_0048cee0_shell*)(v4 + 48))->FUN_0048cee0() != 0 &&
             reinterpret_cast<::FUN_00453470_shell *>((((FUN_00453470_shell*)pNode)))->FUN_00453470() != 0)
         {
-            (*(void(__thiscall**)(int, unsigned int))(*(int*)v4 + 0x150))(v4, 0);
+            (*(void(**)(int, unsigned int))(*(int*)v4 + 0x150))(v4, 0);
             reinterpret_cast<::FUN_00572160_shell *>((((FUN_00572160_shell*)pNode)))->FUN_00572160();
             v6 = true;
         }
@@ -34424,7 +34344,7 @@ bool __cdecl FUN_00578300(NiNode* pNode)
         v5 = (int)reinterpret_cast<::NiNode *>((((_FakeNiNode*)pNode)))->GetAt(b);
         if (0 != v5)
         {
-            v7 = (*(int(__thiscall**)(int))(*(int*)v5 + 12))((int)v5);
+            v7 = (*(int(**)(int))(*(int*)v5 + 12))((int)v5);
             if (v7 != 0)
             {
                 FUN_00578300((NiNode*)v7);
@@ -37080,7 +37000,7 @@ struct VirtualDispatcher
 };
 struct FUN_005616d0_Owner
 {
-    void __thiscall OnTrigger(TriggerContext* context);
+    void OnTrigger(TriggerContext* context);
 };
 // @fnv 0x00561690
 void S::FUN_00561690(int aiArg)
@@ -37132,14 +37052,14 @@ struct FUN_009d9f40_Virtual
 
 struct FUN_00561800_Class
 {
-    int __thiscall FUN_00560e50(float value);
-    void __thiscall FUN_00561800(FUN_00561730_Obj* object);
+    int FUN_00560e50(float value);
+    void FUN_00561800(FUN_00561730_Obj* object);
 };
 
 extern float DAT_01017d00;
 
 // @fnv 0x00561800
-void __thiscall FUN_00561800_Class::FUN_00561800(FUN_00561730_Obj* object)
+void FUN_00561800_Class::FUN_00561800(FUN_00561730_Obj* object)
 {
     if (((int)(reinterpret_cast<::S00561730_Vector *>((object))->FUN_00561730((const ::S00561730_Vector *)(this->FUN_00560e50(::AngularDashpotApplyD4DCB0::DAT_01017d00)), {}))) == 0)
     {
@@ -37826,14 +37746,14 @@ struct Inner
 };
 struct TypeObj
 {
-    int __thiscall FUN_00401170();
+    int FUN_00401170();
 };
 struct S00561df0
 {
     char _pad[0x40];
     void* field_40;
-    Inner* __thiscall FUN_005d43c0();
-    unsigned char __thiscall FUN_00561df0(Vec3* pOutA, Vec3* pOutB, void** ppOut, TypeObj* pOpt);
+    Inner* FUN_005d43c0();
+    unsigned char FUN_00561df0(Vec3* pOutA, Vec3* pOutB, void** ppOut, TypeObj* pOpt);
 };
 // Returns 0 if the base pointer or output object cannot be resolved; otherwise copies Vec3 values from offsets 0x0C and 0x18 and returns 1.
 // @fnv 0x00561df0
@@ -39753,7 +39673,7 @@ struct FUN_00568680_shell : public TESObjectREFR
     bool FUN_00568680();
 };
 
-void* __fastcall _FNV_GetObjectReference(void*);
+void* _FNV_GetObjectReference(void*);
 
 // @fnv 0x00568680
 bool FUN_00568680_shell::FUN_00568680()
@@ -39793,7 +39713,7 @@ struct FUN_005694c0_shell : public TESObjectREFR
 };
 
 class TESForm;
-void* __fastcall _FNV_GetObjectReference(void*);
+void* _FNV_GetObjectReference(void*);
 
 struct TESObjectREFR_Emittance : public TESObjectREFR
 {
@@ -39810,9 +39730,9 @@ bool FUN_005694c0_shell::FUN_005694c0()
         {
             bemits = true;
         }
-        else if (((void*(__fastcall*)(void*))(*(void***)this)[0x1d0 / 4])(this))
+        else if (((void*(*)(void*))(*(void***)this)[0x1d0 / 4])(this))
         {
-            bemits = ::FUN_00569410((::NiAVObject *)(void *)(((void*(__fastcall*)(void*))(*(void***)this)[0x1d0 / 4])(this)));
+            bemits = ::FUN_00569410((::NiAVObject *)(void *)(((void*(*)(void*))(*(void***)this)[0x1d0 / 4])(this)));
             if (!bemits && reinterpret_cast<::FUN_00569580_shell *>((((TESObjectREFR_Emittance*)this)))->GetOwnerForm())
             {
                 ::FUN_005b5e40(
@@ -41561,7 +41481,7 @@ class Calendar
 };
 
 extern PlayerCharacter* pPlayer;
-TESObjectREFR* __fastcall FUN_009ad610(void* this_ptr);
+TESObjectREFR* FUN_009ad610(void* this_ptr);
 
 struct NiAVObject_VTable
 {
@@ -41569,7 +41489,7 @@ struct NiAVObject_VTable
     void* v1;
     void* v2;
     void* v3;
-    void*(__thiscall* GetFadeNode)(void*);
+    void*(* GetFadeNode)(void*);
 };
 
 // Checks fade-node results while following successive pointers; for a resolved reference with object form type 0x29, recurses using the next pointer.
@@ -42461,7 +42381,7 @@ struct RefrStub
     FormStub* FUN_00572e50(FormStub* a);
 };
 
-MyExtraList* __fastcall GetExtraList5d43c0(RefrStub* r);
+MyExtraList* GetExtraList5d43c0(RefrStub* r);
 
 struct LevelStub
 {
@@ -42574,7 +42494,7 @@ struct E
 {
     bool FUN_0041dbd0();
 };
-bool __fastcall FUN_0041dbd0(E*);
+bool FUN_0041dbd0(E*);
 struct F
 {
     int FUN_00401170();
@@ -43869,7 +43789,7 @@ struct FUN_0057a2f0_shell : public TESObjectREFR
     bool FUN_0057a2f0();
 };
 
-void* __fastcall _FNV_GetObjectReference(void*);
+void* _FNV_GetObjectReference(void*);
 
 // @fnv 0x0057a2f0
 bool FUN_0057a2f0_shell::FUN_0057a2f0()
@@ -43931,7 +43851,7 @@ Ref9* Self9::FUN_0087e060(unsigned char flag)
     return r;
 }
 
-void* __fastcall _FNV_GetObjectReference(void*);
+void* _FNV_GetObjectReference(void*);
 
 // Returns false if FUN_00437b90 returns true, or if the form type is 0x1c and FUN_00477ba0 returns true; otherwise returns true.
 // @fnv 0x0057a370
@@ -44216,7 +44136,7 @@ struct FUN_0057b460_shell : public TESObjectREFR
     bool FUN_0057b460();
 };
 
-void* __fastcall _FNV_GetObjectReference(void*);
+void* _FNV_GetObjectReference(void*);
 
 // Returns true when the referenced form has type 0x1c and this reference has flag 0x100 set.
 // @fnv 0x0057b460
@@ -44239,7 +44159,7 @@ struct FUN_0057b4b0_shell : public TESObjectREFR
     bool FUN_0057b4b0();
 };
 
-void* __fastcall _FNV_GetObjectReference(void*);
+void* _FNV_GetObjectReference(void*);
 
 // @fnv 0x0057b4b0
 bool FUN_0057b4b0_shell::FUN_0057b4b0()
@@ -47465,7 +47385,7 @@ struct ExtraDataList
 {
 };
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* FUN_0055d310(TESObjectREFR*);
 
 struct C0055f780 : public TESObjectREFR
 {
@@ -48549,7 +48469,7 @@ struct FUN_0042ede0_shell
 {
 };
 
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR* refr);
+ExtraDataList* FUN_005d43c0(TESObjectREFR* refr);
 
 // @fnv 0x005790f0
 void __cdecl FUN_005790f0(unsigned int aiIndex)
@@ -48945,7 +48865,7 @@ struct InvChanges55F5 : InvBase55F5
     static InvChanges55F5* __cdecl CreateForReference(TESObjectREFR*);
 };
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* FUN_0055d310(TESObjectREFR*);
 
 struct VTable55F5
 {
@@ -49297,8 +49217,8 @@ struct OwnerTeleportReceiver
 struct RefH
 {
 };
-TESForm* __fastcall FNV_GetObjectReference(TESObjectREFR*);
-int __fastcall FNV_GetFormType(TESForm*);
+TESForm* FNV_GetObjectReference(TESObjectREFR*);
+int FNV_GetFormType(TESForm*);
 struct Zone81;
 struct FUN_00881c90_cls
 {
@@ -49536,7 +49456,7 @@ float HealthReferenceEntry::FUN_00568ad0()
 
 struct TESContainer;
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR* refr);
+TESContainer* FUN_0055d310(TESObjectREFR* refr);
 
 struct RefInventoryQuery
 {
@@ -49544,7 +49464,7 @@ struct RefInventoryQuery
 };
 
 // @fnv 0x00575450
-bool __thiscall RefInventoryQuery::FUN_00575450(unsigned int aId)
+bool RefInventoryQuery::FUN_00575450(unsigned int aId)
 {
     bool bHasResultObj;
     TESContainer* pCont = ((::TESContainer *)(reinterpret_cast<::s55d310::Owner *>(((TESObjectREFR*)this))->FUN_0055d310()));
@@ -50009,7 +49929,7 @@ struct ChildActivateExtraView
     void* FUN_005d43c0() const;
 };
 
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 
 struct Standin_41e9e0
 {

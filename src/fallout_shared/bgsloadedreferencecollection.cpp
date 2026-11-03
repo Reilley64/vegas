@@ -49,7 +49,7 @@ struct ExtraRadioData;
 struct TESObjectSTAT;
 
 
-unsigned int __fastcall _FNV_GetFormType(TESForm* object);
+unsigned int _FNV_GetFormType(TESForm* object);
 
 struct TESContainer
 {

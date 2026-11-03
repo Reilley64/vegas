@@ -56,12 +56,12 @@ void* __cdecl FUN_00a9af90()
 namespace fnv_00a9afc0 {
 struct NiBooleanExtraData
 {
-    void* __thiscall FUN_00a9afc0(unsigned int flags);
+    void* FUN_00a9afc0(unsigned int flags);
 };
 
 
 // @fnv 0x00a9afc0
-void* __thiscall NiBooleanExtraData::FUN_00a9afc0(unsigned int flags)
+void* NiBooleanExtraData::FUN_00a9afc0(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &(*reinterpret_cast<void * *>(&::DAT_010a112c));
     static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();

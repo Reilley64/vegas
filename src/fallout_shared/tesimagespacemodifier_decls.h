@@ -249,9 +249,6 @@ class TESImageSpaceModifier : public TESForm
     bool IsExpired(float);
     void InitializeModifierData();
 };
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifier::ImageSpaceModifierEffectData) == 0xf4);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_akFloatInterpolators) == 0x114);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pEffectEntryTable) == 0x654);
 extern float DAT_0118aba0[2];
 extern float DAT_0118aba8[2];
 

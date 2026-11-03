@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/symbols_00c85000.h"
@@ -45,7 +46,7 @@ struct NoteDispatcher {
 struct FUN_00d39930_class : ReceiverBase {
     NoteDispatcher* dispatcher;
     unsigned short receiverIds[3];
-    void __thiscall DispatchToReceivers(void* value);
+    void DispatchToReceivers(void* value);
 };
 struct CallbackState {
     const int* m_pIntegerValue;
@@ -224,7 +225,7 @@ struct Vt {
     void* f10; void* f14; void* f18; void* f1c;
     void* f20; void* f24; void* f28; void* f2c;
     void* f30; void* f34; void* f38; void* f3c;
-    int (__thiscall *fn)(void*, void*, void*, void*, void*, void*, void*, void*);
+    int (*fn)(void*, void*, void*, void*, void*, void*, void*, void*);
 };
 struct ShapeInterface {
     virtual void slot00();
@@ -275,7 +276,7 @@ struct Contact {
     __m128 normal;
     __m128 position;
     Contact& operator=(const Contact& c) { normal = c.normal; position = c.position; return *this; }
-    void __thiscall FUN_00caad60(void* arg);
+    void FUN_00caad60(void* arg);
 };
 static __forceinline void xform(const Xf& m, const __m128* src, __m128* dst, int hi)
 {
@@ -433,7 +434,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

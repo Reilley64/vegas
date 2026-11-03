@@ -7,11 +7,11 @@
 extern void __cdecl operator delete(void*);
 struct HKPCloseStrayHitCollector
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 // Calls FUN_0059cf00 on this, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x0059cf20
-void* __thiscall HKPCloseStrayHitCollector::Destroy(unsigned int flags)
+void* HKPCloseStrayHitCollector::Destroy(unsigned int flags)
 {
     ::FUN_0059cf00((void **)(void *)(this));
     if (flags & 1)

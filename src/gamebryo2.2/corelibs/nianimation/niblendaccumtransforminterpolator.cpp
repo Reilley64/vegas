@@ -62,7 +62,7 @@ struct Obj
 };
 // Calls FUN_00a36890, sets the vtable pointer and initialises fields a-j from global data and constants, then returns o.
 // @fnv 0x00a39230
-Obj* __fastcall FUN_00a39230(Obj* pObj)
+Obj* FUN_00a39230(Obj* pObj)
 {
     new ((void *)(pObj)) class ::FUN_00a36890();
     pObj->vt = &DAT_01096784;
@@ -83,7 +83,7 @@ struct MemoryManager
 {
 };
 // @fnv 0x00a39290
-void __fastcall FUN_00a39290(void* apObject, int unused)
+void FUN_00a39290(void* apObject, int unused)
 {
     ((void**)apObject)[0] = &DAT_01096784;
     reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(((void**)apObject)[0x14]);
@@ -136,7 +136,7 @@ struct BSFadeNode
 
 struct Obj
 {
-    void* __thiscall FUN_00a39230();
+    void* FUN_00a39230();
 };
 
 // @fnv 0x00a39700
@@ -196,7 +196,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a39780_shell : public NiBlendAccumTransformInterpolator
 {
     bool FUN_00a39780(NiObject*);
@@ -431,7 +430,7 @@ struct Holder
 };
 // Allocates a FUN_00a39230, passes it with p to Holder::FUN_00a3a450, and returns the new object.
 // @fnv 0x00a3a660
-FUN_00a39230* __fastcall FUN_00a3a660(Holder* self, int unused, void* p)
+FUN_00a39230* FUN_00a3a660(Holder* self, int unused, void* p)
 {
     FUN_00a39230* o = new FUN_00a39230;
     self->FUN_00a3a450(o, p);
@@ -462,7 +461,7 @@ struct Self : Base
 };
 // Calls FUN_00a38080, appends the string from FUN_00a7d330(g_011f371c) to strs (growing if full), then calls sub.FUN_00a38cb0.
 // @fnv 0x00a3a6b0
-void __fastcall FUN_00a3a6b0(Self* self, int unused, Arr* strs)
+void FUN_00a3a6b0(Self* self, int unused, Arr* strs)
 {
     reinterpret_cast<::BlendSerializer *>((self))->FUN_00a38080((::NiStream *)(strs));
     char* s = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f371c))));

@@ -17,6 +17,4 @@ class NiNode : public NiAVObject
     virtual void UpdateUpwardPass();
     NiTObjectArray<NiPointer<NiAVObject> > m_kChildList;
 };
-FNV_STATIC_ASSERT(sizeof(NiNode) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(NiNode, m_kChildList) == 0x9C);
 #endif

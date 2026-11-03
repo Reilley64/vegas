@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderinterface.cpp: NiD3DShaderInterface (11 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5d3a0.h"
 #include "fnv/decl/FUN_00a8f490.h"
@@ -38,14 +39,14 @@ void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
         ShaderPassRenderer* state = renderer->m_pCurrentRenderState;
         if (m_pRenderState)
         {
-            typedef void(__stdcall * ReleaseFunction)(ShaderPassRenderer*);
+            typedef void(* ReleaseFunction)(ShaderPassRenderer*);
             ReleaseFunction release = (ReleaseFunction)m_pRenderState->m_ppVirtualMethodTable[2];
             release(m_pRenderState);
         }
         m_pRenderState = state;
         if (state)
         {
-            typedef void(__stdcall * AddRefFunction)(ShaderPassRenderer*);
+            typedef void(* AddRefFunction)(ShaderPassRenderer*);
             AddRefFunction addRef = (AddRefFunction)state->m_ppVirtualMethodTable[1];
             addRef(state);
         }
@@ -56,7 +57,7 @@ void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
         m_pD3DDevice = 0;
         if (m_pRenderState)
         {
-            typedef void(__stdcall * ReleaseFunction)(ShaderPassRenderer*);
+            typedef void(* ReleaseFunction)(ShaderPassRenderer*);
             ReleaseFunction release = (ReleaseFunction)m_pRenderState->m_ppVirtualMethodTable[2];
             release(m_pRenderState);
         }
@@ -89,11 +90,10 @@ unsigned int NiD3DShaderInterface::InitializeShaderRenderer(GraphicsRenderer* re
 }
 
 extern int DAT_0109f584;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // Sets the vtable and clears fields of the object, increments the global counter, then assigns the second vtable and initializes the remaining fields.
 // @fnv 0x00a8f440
-void* __fastcall FUN_00a8f440(void* apObject)
+void* FUN_00a8f440(void* apObject)
 {
     *(int**)apObject = &::DAT_0101dce4;
     *((int*)apObject + 1) = 0;
@@ -106,13 +106,13 @@ void* __fastcall FUN_00a8f440(void* apObject)
 }
 
 // @fnv 0x00a8f1b0
-const char* const* __fastcall FUN_00a8f1b0(void* p, int)
+const char* const* FUN_00a8f1b0(void* p, int)
 {
     return &(*reinterpret_cast<const char *const *>(&::g_011f5d00));
 }
 
 // @fnv 0x00a8f480
-const char* const* __fastcall FUN_00a8f480(void* p, int)
+const char* const* FUN_00a8f480(void* p, int)
 {
     return &(*reinterpret_cast<const char *const *>(&::g_011f5d08));
 }
@@ -174,7 +174,7 @@ struct Rel
 {
     virtual void a();
     virtual void b();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long Release();
 };
 struct Obj
 {
@@ -186,7 +186,7 @@ struct Obj
 };
 // Sets the object's vtable, clears r and s, releases dev if set, nulls dev, then calls FUN_00a8f490.
 // @fnv 0x00e81a50
-void __fastcall FUN_00e81a50(Obj* pObj, int)
+void FUN_00e81a50(Obj* pObj, int)
 {
     *(int**)pObj = &DAT_010ef39c;
     Rel* d = pObj->dev;
@@ -203,7 +203,7 @@ struct Rel
 {
     virtual void a();
     virtual void b();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long Release();
 };
 struct Obj
 {
@@ -214,7 +214,7 @@ struct Obj
     int s;
 };
 // @fnv 0x00e81ab0
-Obj* __fastcall FUN_00e81ab0(Obj* o, int, unsigned int flags)
+Obj* FUN_00e81ab0(Obj* o, int, unsigned int flags)
 {
     *(int**)o = &::DAT_010ef39c;
     Rel* d = o->dev;
@@ -233,8 +233,8 @@ Obj* __fastcall FUN_00e81ab0(Obj* o, int, unsigned int flags)
 struct Rf
 {
     virtual void a();
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 // Stores r in DAT_0126fa2c and, if r is non-null, releases the old DAT_0126fa28 and AddRefs the object at r+0x288; otherwise releases and clears DAT_0126fa28.
 // @fnv 0x00e93f50

@@ -8,7 +8,7 @@ struct ID3DXConstantTable;
 
 
 // @fnv 0x00ee6e0a
-long __stdcall FUN_00ee6e0a(const char* pSrcData, unsigned int SrcDataLen, const D3DXMACRO* pDefines,
+long FUN_00ee6e0a(const char* pSrcData, unsigned int SrcDataLen, const D3DXMACRO* pDefines,
                             ID3DXInclude* pInclude, const char* pFunctionName, const char* pProfile,
                             unsigned long Flags, ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs,
                             ID3DXConstantTable** ppConstantTable)
@@ -17,25 +17,25 @@ long __stdcall FUN_00ee6e0a(const char* pSrcData, unsigned int SrcDataLen, const
                              ppErrorMsgs, ppConstantTable);
 }
 
-extern "C" __declspec(dllimport) void __stdcall D3DXCreateVolumeTextureFromFileInMemory();
+extern "C" __declspec(dllimport) void D3DXCreateVolumeTextureFromFileInMemory();
 // @fnv 0x00ee6e10
 void __cdecl FUN_00ee6e10()
 {
     D3DXCreateVolumeTextureFromFileInMemory();
 }
 
-__declspec(dllimport) long __stdcall D3DXCreateCubeTextureFromFileInMemory(void*, const void*, unsigned int, void**);
+__declspec(dllimport) long D3DXCreateCubeTextureFromFileInMemory(void*, const void*, unsigned int, void**);
 // @fnv 0x00ee6e16
-long __stdcall FUN_00ee6e16(void* device, const void* data, unsigned int size, void** texture)
+long FUN_00ee6e16(void* device, const void* data, unsigned int size, void** texture)
 {
     return D3DXCreateCubeTextureFromFileInMemory(device, data, size, texture);
 }
 
 struct D3DXIMAGE_INFO;
-extern "C" __declspec(dllimport) long __stdcall D3DXGetImageInfoFromFileInMemory(const void* source, unsigned int size,
+extern "C" __declspec(dllimport) long D3DXGetImageInfoFromFileInMemory(const void* source, unsigned int size,
                                                                                  D3DXIMAGE_INFO* info);
 // @fnv 0x00ee6e22
-long __stdcall FUN_00ee6e22(const void* source, unsigned int size, D3DXIMAGE_INFO* info)
+long FUN_00ee6e22(const void* source, unsigned int size, D3DXIMAGE_INFO* info)
 {
     return D3DXGetImageInfoFromFileInMemory(source, size, info);
 }
@@ -44,7 +44,7 @@ struct EE6E40ConstantTable;
 
 
 // @fnv 0x00ee6e40
-long __stdcall FUN_00ee6e40(const unsigned long* pFunction, EE6E40ConstantTable** ppConstantTable)
+long FUN_00ee6e40(const unsigned long* pFunction, EE6E40ConstantTable** ppConstantTable)
 {
     return ::FUN_00ee6e40(pFunction, ppConstantTable);
 }
@@ -56,7 +56,7 @@ struct ID3DXConstantTable;
 
 
 // @fnv 0x00ee6e46
-long __stdcall FUN_00ee6e46(const char* pSrcFile, const D3DXMACRO* pDefines, ID3DXInclude* pInclude,
+long FUN_00ee6e46(const char* pSrcFile, const D3DXMACRO* pDefines, ID3DXInclude* pInclude,
                             const char* pFunctionName, const char* pProfile, unsigned long Flags,
                             ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs, ID3DXConstantTable** ppConstantTable)
 {
@@ -65,22 +65,22 @@ long __stdcall FUN_00ee6e46(const char* pSrcFile, const D3DXMACRO* pDefines, ID3
 }
 
 // FUN_00ee6e1c: probe of the stdcall tail-jump form (args forwarded in place).
-extern "C" __declspec(dllimport) int __stdcall D3DXCreateTextureFromFileInMemory(void* pDevice, const void* pSrcData,
+extern "C" __declspec(dllimport) int D3DXCreateTextureFromFileInMemory(void* pDevice, const void* pSrcData,
                                                                                  unsigned int SrcDataSize,
                                                                                  void** ppTexture);
 
 // @fnv 0x00ee6e1c
-int __stdcall FUN_00ee6e1c(void* pDevice, const void* pSrcData, unsigned int SrcDataSize, void** ppTexture)
+int FUN_00ee6e1c(void* pDevice, const void* pSrcData, unsigned int SrcDataSize, void** ppTexture)
 {
     return D3DXCreateTextureFromFileInMemory(pDevice, pSrcData, SrcDataSize, ppTexture);
 }
 
 // FUN_00ee6e28: 6-byte 'jmp [IAT]' forwarder to d3dx9_38 D3DXGetPixelShaderProfile
 // (stdcall, 2 args: LPDIRECT3DDEVICE9, D3DX_SHADER_TYPE) returning HRESULT.
-extern "C" __declspec(dllimport) long __stdcall D3DXGetPixelShaderProfile(void* pDevice, int ShaderType);
+extern "C" __declspec(dllimport) long D3DXGetPixelShaderProfile(void* pDevice, int ShaderType);
 
 // @fnv 0x00ee6e28
-long __stdcall FUN_00ee6e28(void* pDevice, int ShaderType)
+long FUN_00ee6e28(void* pDevice, int ShaderType)
 {
     return D3DXGetPixelShaderProfile(pDevice, ShaderType);
 }
@@ -88,7 +88,7 @@ long __stdcall FUN_00ee6e28(void* pDevice, int ShaderType)
 // FUN_00ee6e4c: 6-byte 'jmp [IAT]' forwarder to d3dx9_38 D3DXAssembleShaderFromFileA (stdcall, 6 args).
 
 // @fnv 0x00ee6e4c
-long __stdcall FUN_00ee6e4c(const char* pSrcFile, const void* pDefines, void* pInclude, unsigned int Flags,
+long FUN_00ee6e4c(const char* pSrcFile, const void* pDefines, void* pInclude, unsigned int Flags,
                             void** ppShader, void** ppErrorMsgs)
 {
     return ::FUN_00ee6e4c(pSrcFile, pDefines, pInclude, Flags, ppShader, ppErrorMsgs);

@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -20,7 +21,7 @@ struct NiRefObject
 };
 extern int DAT_010be45c;
 extern int DAT_01069674;
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 struct Obj
 {
     virtual void u0();
@@ -35,8 +36,6 @@ struct S
     Obj* volatile _c;
     void Destroy();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Ref_00c258e0
 {
     virtual void F0();
@@ -60,7 +59,6 @@ struct Host_00c258e0
     void AssignRefAndValue(Ref_00c258e0* pkObject, float fNew);
 };
 extern unsigned char DAT_011f5b08;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct FakeSys
 {
     void** vtbl;
@@ -75,8 +73,6 @@ struct Task
     float tm;
     void ReleaseSysAndDispatch();
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct NiPSysUpdateTask
 {
 };
@@ -159,8 +155,8 @@ struct S_00c25be0
 struct S_00e7ec00
 {
 };
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 class FUN_00a5d3d0
 {
   public:

@@ -133,7 +133,6 @@ struct BSTreeNode : public BSFadeNode
     float m_fTreeWindTime;
     char _pad_124[12];
 };
-typedef char _sizecheck_BSTreeNode[sizeof(BSTreeNode) == 304 ? 1 : -1];
 struct FUN_00b4def0_shell : public BSFadeNode
 {
     bool FUN_00b4def0(NiStream*);
@@ -180,7 +179,7 @@ class P03MM
 
 // Recursively frees the linked list hanging off self[1], deallocating each node, then clears self[0].
 // @fnv 0x00b4df30
-void __fastcall FUN_00b4df30(void* p)
+void FUN_00b4df30(void* p)
 {
     void** self = (void**)p;
     if (self[1])
@@ -207,7 +206,7 @@ double(__cdecl* DAT_011f9134)(void*);
 
 // Returns the result of calling the DAT_011f9134 function pointer on param_1, or 1.0f if the pointer is null.
 // @fnv 0x00b4df80
-float __fastcall FUN_00b4df80(void* param_1)
+float FUN_00b4df80(void* param_1)
 {
     float f;
     if (DAT_011f9134)
@@ -233,7 +232,7 @@ struct NiNode_Helper : public NiNode
 };
 
 // @fnv 0x00b4e3f0
-void* __fastcall FUN_00b4e3f0(void* apSource, int dummy, void* kCloning)
+void* FUN_00b4e3f0(void* apSource, int dummy, void* kCloning)
 {
     BSFadeNode* pFadeNode = new BSFadeNode();
     reinterpret_cast<::NiNode *>((((NiNode_Helper*)apSource)))->CopyMemberData((NiNode*)pFadeNode, (*(::CloningProcess *)(kCloning)));

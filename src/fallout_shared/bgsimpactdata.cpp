@@ -107,7 +107,7 @@ struct FUN_005054b0_shell
 
 struct FUN_005932b0_decal
 {
-    void __thiscall FUN_005932b0(FUN_005932b0_decal* source);
+    void FUN_005932b0(FUN_005932b0_decal* source);
 };
 
 struct FUN_0058dd10_shell : public TESForm
@@ -138,11 +138,11 @@ struct FUN_0058dd10_shell : public TESForm
     void* unk50;
     FUN_005932b0_decal unk54;
 
-    void __thiscall FUN_0058dd10(int arg);
+    void FUN_0058dd10(int arg);
 };
 
 // @fnv 0x0058dd10
-void __thiscall FUN_0058dd10_shell::FUN_0058dd10(int arg)
+void FUN_0058dd10_shell::FUN_0058dd10(int arg)
 {
     FUN_0058dd10_shell* source =
         reinterpret_cast<FUN_0058dd10_shell*>(FUN_00ec43fb(arg, 0, (*reinterpret_cast<const char (*)[]>(&::DAT_01183028)), DAT_011862fc, 0));
@@ -175,7 +175,7 @@ struct FUN_0058dda0_shell : public BGSImpactData
 
 struct FUN_0058de80_class
 {
-    bool __thiscall IsFlagSet();
+    bool IsFlagSet();
 };
 // Returns true if apCompare is not BGSImpactData or a checked comparison reports a difference.
 // @fnv 0x0058dda0
@@ -201,7 +201,7 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
 }
 
 // @fnv 0x0058de80
-bool __thiscall FUN_0058de80_class::IsFlagSet()
+bool FUN_0058de80_class::IsFlagSet()
 {
     return (reinterpret_cast<unsigned char*>(this)[0x44] & 1) ? true : false;
 }

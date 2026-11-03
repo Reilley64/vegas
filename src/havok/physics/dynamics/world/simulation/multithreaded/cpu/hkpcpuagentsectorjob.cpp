@@ -17,10 +17,10 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
 struct FUN_00d93330 {
-    void __thiscall UpdateConstraint(int);
+    void UpdateConstraint(int);
 };
 // @fnv 0x00d93330
-void __thiscall FUN_00d93330::UpdateConstraint(int v)
+void FUN_00d93330::UpdateConstraint(int v)
 {
     ++(*(int*)((char*)this + 0x18));
     *(int*)((char*)this + 0x1c) = v;
@@ -31,7 +31,7 @@ struct FUN_00d93340_StandIn {
 };
 
 // @fnv 0x00d93340
-void __thiscall FUN_00d93340_StandIn::FUN_00d93340(int a)
+void FUN_00d93340_StandIn::FUN_00d93340(int a)
 {
     *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x18) - 1;
     *(int*)((char*)this + 0x1c) = a;

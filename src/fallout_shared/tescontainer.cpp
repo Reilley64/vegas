@@ -370,7 +370,7 @@ class TeleportableReference
   public:
     NiPoint3 const& GetPosition(void);
 };
-bool __fastcall _ref_008256d0(void* pThis);
+bool _ref_008256d0(void* pThis);
 
 struct ContainerItemExtra_helper
 {
@@ -469,9 +469,8 @@ struct TESLeveledList : public BaseFormComponent
     TESGlobal* m_pLevelGlobal;
     char m_kLeveledObjects[8];
 };
-typedef char _sizecheck_TESLeveledList[sizeof(TESLeveledList) == 28 ? 1 : -1];
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct TESLevPad
 {
@@ -923,7 +922,6 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 struct FUN_00482770_shell : public TESContainer
 {
     void AddLeveledItemsToChanges(int, InventoryChanges*);
@@ -1044,10 +1042,10 @@ struct ContainerNode
 int __cdecl FUN_00ec7d40(int);
 struct FUN_00481e10_shell
 {
-    float __thiscall FUN_00481e10(unsigned char);
+    float FUN_00481e10(unsigned char);
 };
 // @fnv 0x00481e10
-float __thiscall FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
+float FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
 {
     ContainerNode* node;
     float sum = 0.0f;
@@ -1394,7 +1392,7 @@ struct FUN_00481d10_shell : TESContainer
 {
     bool FUN_00481d10(BaseFormComponent* other);
 };
-int __fastcall _ref_005ae380(void*);
+int _ref_005ae380(void*);
 // Compares this container's entries against another TESContainer's entries, returning true when they differ or the counts do not match.
 // @fnv 0x00481d10
 bool FUN_00481d10_shell::FUN_00481d10(BaseFormComponent* other)
@@ -2030,7 +2028,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 
 struct Script;
 

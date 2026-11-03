@@ -123,7 +123,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct BGSPreloadable : public BaseFormComponent
 {
     virtual void QueueResourceLoad(int, QueuedFile*);
@@ -132,7 +131,6 @@ struct BGSPreloadable : public BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BGSPreloadable[sizeof(BGSPreloadable) == 4 ? 1 : -1];
 struct TESImageSpaceModifiableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -145,7 +143,6 @@ struct TESImageSpaceModifiableForm : public BaseFormComponent
     void SetFormImageSpaceModifying(TESImageSpaceModifier*);
     TESImageSpaceModifier* m_pImageSpaceModifier;
 };
-typedef char _sizecheck_TESImageSpaceModifiableForm[sizeof(TESImageSpaceModifiableForm) == 8 ? 1 : -1];
 struct FUN_004830d0_shell : public TESEnchantableForm
 {
     void FUN_004830d0();

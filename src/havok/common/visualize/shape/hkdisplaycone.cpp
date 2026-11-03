@@ -34,7 +34,7 @@ struct GeometryBuffers
 struct Allocator
 {
     virtual void unused();
-    virtual void* __thiscall Allocate(unsigned int);
+    virtual void* Allocate(unsigned int);
 };
 struct GlobalContext
 {
@@ -47,7 +47,7 @@ struct ForwardArg
     GeometryBuffers* value;
 };
 struct MeshBuilder;
-extern "C" void __fastcall FUN_00de54b0(MeshBuilder*, ForwardArg);
+extern "C" void FUN_00de54b0(MeshBuilder*, ForwardArg);
 struct MeshBuilder
 {
     int unk00;
@@ -77,11 +77,11 @@ struct MeshBuilder
     Vertex initialVertex;
     int unk70, unk74, unk78, unk7c;
     volatile int segmentCount;
-    void __thiscall InitializeGeometry();
+    void InitializeGeometry();
 };
 // Allocates GeometryBuffers, calls FUN_00de54b0, appends initialVertex to vertices, and fills edges with segmentCount entries.
 // @fnv 0x00de57a0
-void __thiscall MeshBuilder::InitializeGeometry()
+void MeshBuilder::InitializeGeometry()
 {
     GlobalContext* context = FUN_00c85750();
     Allocator* resourceAllocator = context->allocator;

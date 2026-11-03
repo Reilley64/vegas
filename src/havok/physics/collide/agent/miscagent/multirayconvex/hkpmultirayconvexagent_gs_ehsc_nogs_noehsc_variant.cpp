@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00c90000.h"
@@ -16,7 +17,7 @@
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00d37690_Class {
-    void __thiscall ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(int a, int b, int c, int d);
 };
 void FUN_00d378a0(int a, int b, int c, int d);
 struct FUN_00cfbbe0_Arg {
@@ -282,7 +283,6 @@ void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct Event378 { const char* tag; unsigned time; unsigned other; };
 struct Timer378 { int unused; Event378* current; int unknown; Event378* end; };
 inline void timer378(const char* tag) {
@@ -326,9 +326,9 @@ struct Contact378 {
     unsigned material;
     unsigned userData;
     unsigned other;
-    void __thiscall FUN_00c7f640(void*, void*);
+    void FUN_00c7f640(void*, void*);
 };
-struct Normal378 { __m128 v; void __thiscall FUN_00c7f700(void*, void*); };
+struct Normal378 { __m128 v; void FUN_00c7f700(void*, void*); };
 struct ContactBuffer378 { Contact378* current; int context; };
 struct ContactManager378 {
     virtual void slot0(); virtual void slot1(); virtual void slot2();
@@ -341,7 +341,7 @@ struct Agent378 {
     int unknown;
     ContactManager378* manager;
     unsigned short* indices;
-    void __thiscall FUN_00d378e0(Body378*, Body378*, void*, ContactBuffer378*);
+    void FUN_00d378e0(Body378*, Body378*, void*, ContactBuffer378*);
 };
 inline __m128 transform378(const Transform378& t, __m128 p) {
     return _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(p,p,0x55),t.y),_mm_mul_ps(_mm_shuffle_ps(p,p,0),t.x)),

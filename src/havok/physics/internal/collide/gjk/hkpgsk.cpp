@@ -3,6 +3,7 @@
 // src/havok/physics/internal/collide/gjk/hkpgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/hkpgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_009c1aa0_Class.h"
 #include "fnv/symbols_00d22000.h"
 #include "fnv/symbols_01012000.h"
@@ -2808,7 +2809,7 @@ struct CollisionPlanes
     int unk170;
     int lastSegment174;
     __declspec(noinline) int FUN_00da8500(const AlignedPoint* point, AlignedPoint* triangle, int mode);
-    int __thiscall FUN_00da9340(AlignedPoint* segment, AlignedPoint* polygon, int* volatile segmentCount,
+    int FUN_00da9340(AlignedPoint* segment, AlignedPoint* polygon, int* volatile segmentCount,
                                 int* polygonCount, char recomputeNormal, int segmentIndex);
 };
 
@@ -2854,7 +2855,7 @@ int CollisionPlanes::FUN_00da8500(const AlignedPoint* point, AlignedPoint* trian
 }
 // Tests a segment against a polygon plane, clipping or collapsing the polygon and updating counts based on the intersection mask.
 // @fnv 0x00da9340
-int __thiscall CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint* polygon, int* volatile segmentCount,
+int CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint* polygon, int* volatile segmentCount,
                                              int* polygonCount, char recomputeNormal, int segmentIndex)
 {
     AlignedPoint edgeA;
@@ -2981,7 +2982,6 @@ template <class T> struct S00daac40_RayArgument
     }
 };
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 extern "C" unsigned __int64 __rdtsc(void);
 

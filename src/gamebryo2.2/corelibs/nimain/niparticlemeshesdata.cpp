@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Candidate.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -269,8 +270,6 @@ struct StreamHelper543
 struct NiLinesData
 {
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct Holder00a98d60
 {
     char _pad[0x70];
@@ -303,8 +302,6 @@ struct Unk98dc0
 {
     void* DestroyIfFlagged(unsigned int);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class A98B10Node
 {
@@ -450,7 +447,6 @@ FUN_00a98b10::FUN_00a98b10() throw()
     m_bModifierActive = false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend) throw();
 
 struct A98BF0Object
 {
@@ -761,7 +757,7 @@ struct FUN_0096ad30_This
 };
 // Calls FUN_00a97420 on p, fetches an item via FUN_00a7d330, grows the container if count reaches capacity, then stores the item at index count.
 // @fnv 0x00a98de0
-void __stdcall FUN_00a98de0(FUN_0096ad30_This* pContainer)
+void FUN_00a98de0(FUN_0096ad30_This* pContainer)
 {
     reinterpret_cast<::NiParticlesDataViewer *>((pContainer))->FUN_00a97420({});
     void* item = ((void *)(::FUN_00a7d330((const char *)(*(void**)&::g_011f5f0c))));

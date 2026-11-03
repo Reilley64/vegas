@@ -67,7 +67,7 @@ struct _dummy_FUN_00984230
 };
 
 // @fnv 0x00984230
-void* __fastcall FUN_00984230(char* pThis)
+void* FUN_00984230(char* pThis)
 {
     return pThis + 0xB0;
 }

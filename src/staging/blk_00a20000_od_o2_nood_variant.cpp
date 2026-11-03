@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/A237F0Object.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -68,7 +69,6 @@ struct FUN_00a25d50_Class
 {
     unsigned int GetField14278();
 };
-extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char* dst, const char* src);
 char* __cdecl FUN_00a25e00(char* dst, char* src);
 struct FUN_00a24f10_Class
 {
@@ -228,7 +228,6 @@ struct FUN_00a26220_Class
 {
     unsigned int FUN_00a26220();
 };
-extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount();
 struct FUN_00a262d0_Class
 {
     unsigned int m_00;
@@ -260,21 +259,21 @@ struct FUN_00a23e10_Class : public FUN_00a24080_Class
 };
 struct InputDevice
 {
-    virtual unsigned long __stdcall QueryInterface() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual unsigned long __stdcall GetCapabilities() = 0;
-    virtual unsigned long __stdcall EnumObjects() = 0;
-    virtual unsigned long __stdcall GetProperty() = 0;
-    virtual unsigned long __stdcall SetProperty() = 0;
-    virtual unsigned long __stdcall Acquire() = 0;
-    virtual unsigned long __stdcall Unacquire() = 0;
+    virtual unsigned long QueryInterface() = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual unsigned long GetCapabilities() = 0;
+    virtual unsigned long EnumObjects() = 0;
+    virtual unsigned long GetProperty() = 0;
+    virtual unsigned long SetProperty() = 0;
+    virtual unsigned long Acquire() = 0;
+    virtual unsigned long Unacquire() = 0;
 };
 struct InputInterface
 {
-    virtual unsigned long __stdcall QueryInterface() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual unsigned long QueryInterface() = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 struct NiAllocator
 {
@@ -294,11 +293,8 @@ struct InputManagerClose
     unsigned int unk28;
     InputDevice* keyboard;
     InputDevice* mouse;
-    void __thiscall ShutdownInput();
+    void ShutdownInput();
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
-    const char* lpAppName, const char* lpKeyName, const char* lpDefault, char* lpReturnedString, unsigned long nSize,
-    const char* lpFileName);
 extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
@@ -306,7 +302,7 @@ struct ControlsIniLoader : public FUN_00a24f60_Class
 {
     void LoadControlsFromIni();
 };
-// FUN_00a232c0 : an empty __thiscall member function (an /Od build).
+// FUN_00a232c0 : an empty member function (an /Od build).
 struct FnvEmpty_00a232c0
 {
     void FUN_00a232c0();
@@ -3854,15 +3850,15 @@ struct InputHandler
 class SpawnedObject
 {
   public:
-    virtual void __stdcall v00();
-    virtual void __stdcall v04();
-    virtual void __stdcall v08();
-    virtual void __stdcall v0C();
-    virtual void __stdcall v10(int a0, void* a1, void* a2, int a3);
-    virtual void __stdcall v14();
-    virtual void __stdcall v18();
-    virtual void __stdcall v1C();
-    virtual void __stdcall v20();
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10(int a0, void* a1, void* a2, int a3);
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
 };
 struct FUN_00a252d0_cls
 {
@@ -4103,32 +4099,32 @@ extern Scratch DAT_011f35a8;
 extern Scratch DAT_011f35b8;
 struct PollingDevice
 {
-    virtual long __stdcall QueryInterface() = 0;
-    virtual long __stdcall AddRef() = 0;
-    virtual long __stdcall Release() = 0;
-    virtual long __stdcall GetCapabilities() = 0;
-    virtual long __stdcall EnumObjects() = 0;
-    virtual long __stdcall GetProperty() = 0;
-    virtual long __stdcall SetProperty() = 0;
-    virtual long __stdcall Acquire() = 0;
-    virtual long __stdcall Unacquire() = 0;
-    virtual long __stdcall GetDeviceState(unsigned int size, void* state) = 0;
-    virtual long __stdcall GetDeviceData() = 0;
-    virtual long __stdcall SetDataFormat() = 0;
-    virtual long __stdcall SetEventNotification() = 0;
-    virtual long __stdcall SetCooperativeLevel() = 0;
-    virtual long __stdcall GetObjectInfo() = 0;
-    virtual long __stdcall GetDeviceInfo() = 0;
-    virtual long __stdcall RunControlPanel() = 0;
-    virtual long __stdcall Initialize() = 0;
-    virtual long __stdcall CreateEffect() = 0;
-    virtual long __stdcall EnumEffects() = 0;
-    virtual long __stdcall GetEffectInfo() = 0;
-    virtual long __stdcall GetForceFeedbackState() = 0;
-    virtual long __stdcall SendForceFeedbackCommand() = 0;
-    virtual long __stdcall EnumCreatedEffectObjects() = 0;
-    virtual long __stdcall Escape() = 0;
-    virtual long __stdcall Poll() = 0;
+    virtual long QueryInterface() = 0;
+    virtual long AddRef() = 0;
+    virtual long Release() = 0;
+    virtual long GetCapabilities() = 0;
+    virtual long EnumObjects() = 0;
+    virtual long GetProperty() = 0;
+    virtual long SetProperty() = 0;
+    virtual long Acquire() = 0;
+    virtual long Unacquire() = 0;
+    virtual long GetDeviceState(unsigned int size, void* state) = 0;
+    virtual long GetDeviceData() = 0;
+    virtual long SetDataFormat() = 0;
+    virtual long SetEventNotification() = 0;
+    virtual long SetCooperativeLevel() = 0;
+    virtual long GetObjectInfo() = 0;
+    virtual long GetDeviceInfo() = 0;
+    virtual long RunControlPanel() = 0;
+    virtual long Initialize() = 0;
+    virtual long CreateEffect() = 0;
+    virtual long EnumEffects() = 0;
+    virtual long GetEffectInfo() = 0;
+    virtual long GetForceFeedbackState() = 0;
+    virtual long SendForceFeedbackCommand() = 0;
+    virtual long EnumCreatedEffectObjects() = 0;
+    virtual long Escape() = 0;
+    virtual long Poll() = 0;
 };
 struct DeviceStatePair
 {

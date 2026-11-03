@@ -39,7 +39,7 @@ struct FUN_00a86d30_shell : BSResizableTriShape
 };
 
 // @fnv 0x00a86d30
-NiBound* __thiscall FUN_00a86d30_shell::FUN_00a86d30()
+NiBound* FUN_00a86d30_shell::FUN_00a86d30()
 {
     return (NiBound*)((char*)this + 0xc8);
 }
@@ -75,17 +75,17 @@ public:
 };
 struct FUN_00a74600_shell
 {
-    void __thiscall FUN_00a74600(NiRenderer* apRenderer);
+    void FUN_00a74600(NiRenderer* apRenderer);
 };
 
 struct FUN_00a86e40_shell
 {
-    void __thiscall FUN_00a86e40(NiRenderer* apRenderer);
+    void FUN_00a86e40(NiRenderer* apRenderer);
 };
 
 // Copies four dwords from offsets 0xc8-0xd4 into the NiBound at this+0x20, then calls FUN_00a74600 with the renderer.
 // @fnv 0x00a86e40
-void __thiscall FUN_00a86e40_shell::FUN_00a86e40(NiRenderer* apRenderer)
+void FUN_00a86e40_shell::FUN_00a86e40(NiRenderer* apRenderer)
 {
     float fW = *(float*)(this + 0xd4);
     NiBound* pkDest = *(NiBound**)(this + 0x20);
@@ -123,10 +123,10 @@ struct FUN_00a744c0_holder
 };
 struct FUN_00a86e80_shell : BSResizableTriShape
 {
-    NiObject* __thiscall FUN_00a86e80(CloningProcess& kCloning);
+    NiObject* FUN_00a86e80(CloningProcess& kCloning);
 };
 // @fnv 0x00a86e80
-NiObject* __thiscall FUN_00a86e80_shell::FUN_00a86e80(CloningProcess& kCloning)
+NiObject* FUN_00a86e80_shell::FUN_00a86e80(CloningProcess& kCloning)
 {
     BSResizableTriShape* pkObject;
     pkObject = (BSResizableTriShape*)BSFadeNode::operator new(0xD8);
@@ -161,10 +161,10 @@ struct FUN_00a71d10_shell
 };
 struct FUN_00a86ed0_shell : BSResizableTriShape
 {
-    void __thiscall FUN_00a86ed0(NiStream&);
+    void FUN_00a86ed0(NiStream&);
 };
 // @fnv 0x00a86ed0
-void __thiscall FUN_00a86ed0_shell::FUN_00a86ed0(NiStream& stream)
+void FUN_00a86ed0_shell::FUN_00a86ed0(NiStream& stream)
 {
     ::FUN_00a71d10();
     NiBinaryStream* __restrict input = stream.m_pBackingStream;
@@ -191,11 +191,11 @@ struct FUN_00a86f10_shell : BaseX86f10
 {
     char _pad[0xc4];
     unsigned int m_val;
-    void __thiscall ReadValueFromStream(NiStream&);
+    void ReadValueFromStream(NiStream&);
 };
 // Calls FUN_00a98ea0, then reads 4 bytes from the stream's binary reader into m_val and advances the stream position.
 // @fnv 0x00a86f10
-void __thiscall FUN_00a86f10_shell::ReadValueFromStream(NiStream& stream)
+void FUN_00a86f10_shell::ReadValueFromStream(NiStream& stream)
 {
     ::FUN_00a98ea0();
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
@@ -250,11 +250,11 @@ struct WBHelper
 };
 struct FUN_00c1a4a0_Shape
 {
-    void __thiscall UpdateWorldBound();
+    void UpdateWorldBound();
 };
 // Allocates and initialises the world bound if absent, then updates it from the object's bound and transform.
 // @fnv 0x00c1a4a0
-void __thiscall FUN_00c1a4a0_Shape::UpdateWorldBound()
+void FUN_00c1a4a0_Shape::UpdateWorldBound()
 {
     NiBound* kBound;
     if (!*(NiBound**)((char*)this + 0x20))
@@ -292,7 +292,7 @@ struct FUN_00a86f50_shell : Caller74690
     unsigned char _00[0xc3];
     char* _c4;
 
-    void __thiscall FUN_00a86f50(StrArr* strings);
+    void FUN_00a86f50(StrArr* strings);
 };
 
 // @fnv 0x00a86f50
@@ -408,11 +408,11 @@ void __cdecl FUN_00a877f0()
 
 struct FUN_00a87190_shell : BSResizableTriShape
 {
-    void __thiscall FUN_00a87190(unsigned int value);
+    void FUN_00a87190(unsigned int value);
 };
 
 // @fnv 0x00a87190
-void __thiscall FUN_00a87190_shell::FUN_00a87190(unsigned int value)
+void FUN_00a87190_shell::FUN_00a87190(unsigned int value)
 {
     ::FUN_00a74500();
 }
@@ -495,11 +495,11 @@ struct S_00a86d50_Foo
     S_00a86d50_V3 unkC8;
     float unkD4;
 
-    void __thiscall SetBounds(S_00a86d50_V3 p, S_00a86d50_WR rw);
+    void SetBounds(S_00a86d50_V3 p, S_00a86d50_WR rw);
 };
 
 // @fnv 0x00a86d50
-void __thiscall S_00a86d50_Foo::SetBounds(S_00a86d50_V3 p, S_00a86d50_WR rw)
+void S_00a86d50_Foo::SetBounds(S_00a86d50_V3 p, S_00a86d50_WR rw)
 {
     this->unkD4 = rw.v;
     float t = rw.v;

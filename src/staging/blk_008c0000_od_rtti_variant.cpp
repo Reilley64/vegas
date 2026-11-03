@@ -137,14 +137,14 @@
 #include "../../include/layout_support.h"
 struct FUN_008c1be0_Class
 {
-    unsigned int __thiscall FUN_008c1be0(unsigned int mask);
+    unsigned int FUN_008c1be0(unsigned int mask);
 };
 struct AX
 {
 };
 struct PAVActor
 {
-    AX* __thiscall FUN_008c1c00();
+    AX* FUN_008c1c00();
 };
 struct BooleanFloatQuery
 {
@@ -152,7 +152,7 @@ struct BooleanFloatQuery
 };
 struct S_008c1c60
 {
-    void __thiscall FUN_008c1c60();
+    void FUN_008c1c60();
 };
 struct FlaggedData
 {
@@ -175,17 +175,17 @@ void ActorPackageContext::Clear()
 {}
 struct FUN_008c6c80_Class
 {
-    void __thiscall FUN_008c6c80(int a);
+    void FUN_008c6c80(int a);
 };
 extern int DAT_01085864;
 struct FUN_008ca740_class
 {
-    FUN_008ca740_class* __thiscall FUN_008ca740();
+    FUN_008ca740_class* FUN_008ca740();
 };
 struct FUN_008ca7a0_cls
 {
     void* vtbl;
-    void* __thiscall InitializeVtbl();
+    void* InitializeVtbl();
 };
 struct GlobalObject_0044fae0
 {
@@ -240,7 +240,7 @@ struct FUN_008d0240_Class
 };
 struct FUN_008d1160_Class
 {
-    void __thiscall FUN_008d1160();
+    void FUN_008d1160();
 };
 struct GlobalObject2_0096a2d0
 {
@@ -250,19 +250,19 @@ extern float DAT_011dfed8;
 void __cdecl FUN_008d1d10(float a, float b);
 struct FUN_008d5020_class
 {
-    void __thiscall FUN_008d5020();
+    void FUN_008d5020();
 };
-void __thiscall FUN_008d5020_class::FUN_008d5020()
+void FUN_008d5020_class::FUN_008d5020()
 {}
 struct FUN_008d4360_class
 {
-    FUN_008d4360_class* __thiscall FUN_008d4360();
+    FUN_008d4360_class* FUN_008d4360();
 };
 extern "C" void __cdecl FreeAndClear();
 struct FUN_008d4380_class
 {
-    void __thiscall FreeAndClear();
-    void __thiscall FUN_008d4380();
+    void FreeAndClear();
+    void FUN_008d4380();
 };
 struct FUN_008d5590_shell
 {
@@ -274,7 +274,7 @@ struct FUN_008d50e0_shell
 };
 struct FUN_008d5660_class
 {
-    void __thiscall ForwardToInner(int a);
+    void ForwardToInner(int a);
 };
 struct ActorValueUtility
 {
@@ -284,7 +284,7 @@ struct FUN_008d5720
 {
     char bFlag;
     int nValue;
-    void __thiscall Init(int);
+    void Init(int);
 };
 struct TaskQueueInterface
 {
@@ -300,15 +300,15 @@ struct FUN_006d2c00_shell
 };
 struct FUN_008df000_shell
 {
-    void __thiscall FUN_008df000();
+    void FUN_008df000();
 };
 struct FUN_008df020_class
 {
-    unsigned char __thiscall GetByteAt94();
+    unsigned char GetByteAt94();
 };
 struct FUN_008df1c0_Class
 {
-    void __thiscall SetByteAtA1(int a);
+    void SetByteAtA1(int a);
 };
 extern int DAT_0108583c;
 struct FUN_008ca800_Class
@@ -316,15 +316,15 @@ struct FUN_008ca800_Class
     int a;
     int b;
     int c;
-    FUN_008ca800_Class* __thiscall FUN_008ca800();
+    FUN_008ca800_Class* FUN_008ca800();
 };
 struct FUN_008c1c80_Class
 {
-    void* __thiscall FUN_008c1c80(unsigned int flags);
+    void* FUN_008c1c80(unsigned int flags);
 };
 struct FUN_008c4f90_Class
 {
-    void __thiscall FUN_008c4f90(int arg);
+    void FUN_008c4f90(int arg);
 };
 struct ScriptLocalsX
 {
@@ -344,11 +344,11 @@ struct FUN_008c5e20_Class
     int d;
     float e;
     int f;
-    void* __thiscall FUN_008c5e20();
+    void* FUN_008c5e20();
 };
 struct FUN_008c7790_Class
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 struct GlobalObject_0078d3b0
 {
@@ -371,18 +371,18 @@ struct FUN_008c7990_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __fastcall FUN_008c7990();
+    void FUN_008c7990();
 };
 struct FUN_008ca7c0_shell
 {
-    bool __thiscall FUN_008ca7c0(int a, int b);
+    bool FUN_008ca7c0(int a, int b);
 };
 struct FUN_008_Struct
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void* __thiscall FUN_008caa70(FUN_008_Struct* source);
+    void* FUN_008caa70(FUN_008_Struct* source);
 };
 struct BMobile_S
 {
@@ -425,17 +425,17 @@ struct FUN_008d0270_Class
     int m_24;
     int m_28;
     int m_2c;
-    FUN_008d0270_Class* __thiscall FUN_008d0270();
+    FUN_008d0270_Class* FUN_008d0270();
 };
 void __cdecl CallWithParam(int);
 struct FUN_008d1130_Class : FUN_008d1160_Class
 {
-    FUN_008d1130_Class* __thiscall FUN_008d1130(unsigned int flags);
+    FUN_008d1130_Class* FUN_008d1130(unsigned int flags);
 };
 extern int DAT_010867fc;
 struct FUN_008d15d0_Class
 {
-    void* __thiscall FUN_008d15d0();
+    void* FUN_008d15d0();
 };
 struct FUN_0087d4a0
 {
@@ -460,14 +460,14 @@ struct BGSSaveFormBuffer
 };
 struct FUN_008d56c0_class
 {
-    void __thiscall SaveToBuffer(int a);
+    void SaveToBuffer(int a);
 };
 struct BGSLoadFormBuffer
 {
 };
 struct FUN_008d56f0_Class
 {
-    void __thiscall FUN_008d56f0(BGSLoadFormBuffer* buffer);
+    void FUN_008d56f0(BGSLoadFormBuffer* buffer);
 };
 struct FUN_008d6000_Class
 {
@@ -475,7 +475,7 @@ struct FUN_008d6000_Class
     unsigned int m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
-    void __thiscall InitTiming(unsigned int a, unsigned int b);
+    void InitTiming(unsigned int a, unsigned int b);
 };
 struct NiNode
 {
@@ -507,8 +507,8 @@ struct FUN_008d6f50_Class
 };
 struct FUN_008df980_Class
 {
-    void __thiscall FUN_008df9b0();
-    void* __thiscall FUN_008df980(unsigned int flags);
+    void FUN_008df9b0();
+    void* FUN_008df980(unsigned int flags);
 };
 struct NiFixedStr
 {
@@ -860,7 +860,7 @@ struct CountingSemaphore
 };
 struct FUN_008c7250_Class
 {
-    FUN_008c7250_Class* __thiscall FUN_008c7250();
+    FUN_008c7250_Class* FUN_008c7250();
 };
 struct FUN_008c7270 : GlobalObject_0078d3b0
 {
@@ -872,11 +872,11 @@ struct FUN_008c7270_Class
 };
 struct FUN_008c8110_Class
 {
-    void __thiscall FUN_008c8110();
+    void FUN_008c8110();
     unsigned char m_00[0x18];
     FUN_008c7270_Class m_18;
 };
-void __stdcall FUN_0065ee50_Helper(void* p, unsigned int size, int count, void(__cdecl* cb)(void));
+void FUN_0065ee50_Helper(void* p, unsigned int size, int count, void(__cdecl* cb)(void));
 struct Date
 {
     ~Date();
@@ -893,7 +893,7 @@ struct FUN_008ca8d0_Class
     int m_iWordAt00;
     long volatile m_iWordAt04;
     int m_8;
-    void __thiscall FUN_008ca8d0(int* arg);
+    void FUN_008ca8d0(int* arg);
 };
 struct FUN_008caae0_Class
 {
@@ -901,7 +901,7 @@ struct FUN_008caae0_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    void* __thiscall FUN_008caae0();
+    void* FUN_008caae0();
 };
 struct FUN_008cc6f0_Class
 {
@@ -919,12 +919,12 @@ struct FUN_008d3f10_Class
     unsigned char pad[0x38];
     GO m_38;
 
-    void __thiscall FUN_008d3f10(int arg);
+    void FUN_008d3f10(int arg);
 };
 struct FUN_008d50a0_Class
 {
     void* m_p;
-    void __thiscall FreeAndClear();
+    void FreeAndClear();
 };
 struct FUN_008d5680_Class
 {
@@ -933,7 +933,7 @@ struct FUN_008d5680_Class
 };
 struct FUN_008d56a0_Class
 {
-    void __thiscall FUN_008d56a0(int value);
+    void FUN_008d56a0(int value);
 };
 class BaseProcess8C4
 {
@@ -1283,7 +1283,7 @@ struct SpawnedElemB
     unsigned int m_04;
     unsigned int m_08;
 };
-extern "C" void __stdcall SpawnedArrayCtor(void* pBase, unsigned int elemSize, unsigned int count, void (*ctor)(void*),
+extern "C" void SpawnedArrayCtor(void* pBase, unsigned int elemSize, unsigned int count, void (*ctor)(void*),
                                            void (*dtor)(void*));
 void SpawnedElemB_Ctor(void* p)
 {}
@@ -1318,7 +1318,7 @@ struct FUN_008c78c0_Class
 };
 // Callback slot in the game's global handler table: one int argument, and the
 // callee pops it (stdcall), so the call site has no stack cleanup.
-extern void(__stdcall* g_FNV_008c78c0_hook)(int);
+extern void(* g_FNV_008c78c0_hook)(int);
 struct FreeNode16
 {
     int unk00;
@@ -4170,7 +4170,7 @@ struct LiveCallback
     virtual void v257() = 0;
     virtual void v258() = 0;
     virtual int v259() = 0;
-    LiveCallback* __thiscall FUN_008d8520();
+    LiveCallback* FUN_008d8520();
 };
 struct SourceData
 {
@@ -4191,7 +4191,7 @@ struct TargetOwner
 struct CurrentState
 {
 };
-extern LiveCallback* __fastcall FUN_008d8520(LiveCallback*);
+extern LiveCallback* FUN_008d8520(LiveCallback*);
 extern LiveCallback* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 
 // @fnv 0x008d12e0

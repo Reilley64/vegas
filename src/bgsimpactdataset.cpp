@@ -275,7 +275,7 @@ struct FUN_0058f010_Item
 };
 // Deletes each of the 12 item pointers in the array and sets them to null.
 // @fnv 0x0058f010
-void __fastcall FUN_0058f010(FUN_0058f010_Item** apItems)
+void FUN_0058f010(FUN_0058f010_Item** apItems)
 {
     for (int i = 0; i < 12; i++)
     {

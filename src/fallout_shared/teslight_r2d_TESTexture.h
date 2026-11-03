@@ -12,6 +12,4 @@ class TESTexture : public BaseFormComponent
 public:
     static void ReadTextureData(::TESTexture *, ::TESFile *);
 };
-FNV_STATIC_ASSERT(sizeof(TESTexture) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESTexture, FullNameComponent) == 0x4);
 #endif

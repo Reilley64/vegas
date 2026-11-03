@@ -26,11 +26,11 @@ int __cdecl FUN_005ba8d0()
 
 struct FUN_00802a00_class
 {
-    int __thiscall GetZero(int a, int b);
+    int GetZero(int a, int b);
 };
 
 // @fnv 0x00802a00
-int __thiscall FUN_00802a00_class::GetZero(int a, int b)
+int FUN_00802a00_class::GetZero(int a, int b)
 {
     int result = 0;
     return result;
@@ -41,7 +41,7 @@ struct FUN_00802a20_class
 {
     int m_uiPageCount;
     unsigned char m_aucPageBuffer[4352];
-    int __thiscall FUN_00802a20(const char* apPage);
+    int FUN_00802a20(const char* apPage);
 };
 // Searches the page table for a case-insensitive name match and returns its index, or -1 if not found.
 // @fnv 0x00802a20
@@ -61,11 +61,11 @@ int FUN_00802a20_class::FUN_00802a20(const char* apPage)
 
 struct FUN_00802860_class
 {
-    int __thiscall ResetField();
+    int ResetField();
 };
 
 // @fnv 0x00802860
-int __thiscall FUN_00802860_class::ResetField()
+int FUN_00802860_class::ResetField()
 {
     *(int*)((char*)this + 0x40) = 0;
     return (int)this;
@@ -98,7 +98,7 @@ struct FUN_0043f220_cls
     int unk00;
     int unk04;
     FUN_00450f90_cls* unk08;
-    FUN_0043f220_cls* __thiscall GetEntryAt(int b);
+    FUN_0043f220_cls* GetEntryAt(int b);
 };
 
 struct FUN_00802260_cls
@@ -226,11 +226,11 @@ struct FUN_00802260_cls
     virtual void v78();
     virtual void v79();
     virtual FUN_0043f220_cls* v7a();
-    void __thiscall FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char a3);
+    void FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char a3);
 };
 
 // @fnv 0x00802260
-void __thiscall FUN_00802260_cls::FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char abFlag)
+void FUN_00802260_cls::FUN_00802260(FUN_00802260_cls* a1, int a2, unsigned char abFlag)
 {
     FUN_0043f220_cls* p = a1->v7a();
     if (p != 0)
@@ -419,7 +419,7 @@ struct FUN_008029c0_class
     int unk18;
     int unk1c;
 
-    bool __thiscall FUN_008029c0(const char* apPage, int value);
+    bool FUN_008029c0(const char* apPage, int value);
 };
 
 // @fnv 0x008029c0
@@ -504,7 +504,7 @@ struct ListObj
     virtual void tv37();
     virtual void tv38();
     virtual NiObj* tv39(const NiFixedString& fs);
-    unsigned int __thiscall FUN_0043b480();
+    unsigned int FUN_0043b480();
 };
 
 struct SkyObj;
@@ -888,11 +888,11 @@ struct This8022
     int m_234;
     int m_238;
     int m_23c;
-    void __thiscall FUN_008022c0();
+    void FUN_008022c0();
 };
 
 // @fnv 0x008022c0
-void __thiscall This8022::FUN_008022c0()
+void This8022::FUN_008022c0()
 {
     if (!m_004->tv64())
         return;

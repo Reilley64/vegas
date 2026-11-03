@@ -40,7 +40,7 @@ struct StrArr
 };
 // Grows pkStrings if full, then appends the string returned by _FUN_00a7d330(g_01202738) at index m_usSize.
 // @fnv 0x00c2b5d0
-void __stdcall FUN_00c2b5d0(StrArr* pkStrings)
+void FUN_00c2b5d0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* pcString = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_01202738)));
@@ -82,10 +82,10 @@ struct FUN_00c2b570_class : NiPSysEmitterPlanarAngleCtlr
     int unk34;
     int unk38;
     PlanarAngleControllerData* unk3C;
-    void __thiscall FUN_00c2b570(float fValue);
+    void FUN_00c2b570(float fValue);
 };
 // @fnv 0x00c2b570
-void __thiscall FUN_00c2b570_class::FUN_00c2b570(float fValue)
+void FUN_00c2b570_class::FUN_00c2b570(float fValue)
 {
     unk3C->unk28 = fValue;
 }
@@ -127,12 +127,12 @@ struct S_00c2b580_TargetObj : S_00c2b580_Base
 
 struct S_00c2b580
 {
-    void* __thiscall CreateTargetObj(void* arg);
+    void* CreateTargetObj(void* arg);
 };
 
 // Allocates a S_00c2b580_TargetObj, initializes it via FUN_00c32de0 with arg, and returns it.
 // @fnv 0x00c2b580
-void* __thiscall S_00c2b580::CreateTargetObj(void* arg)
+void* S_00c2b580::CreateTargetObj(void* arg)
 {
     S_00c2b580_TargetObj* obj = new S_00c2b580_TargetObj();
     reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(obj), (*(::CloningProcess *)(arg)));

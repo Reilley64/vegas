@@ -11,8 +11,8 @@ extern int DAT_01189c40;
 struct FUN_00404b10_class
 {
     void* m_p;
-    void __thiscall FUN_00404b90(int);
-    void* __thiscall Initialize();
+    void FUN_00404b90(int);
+    void* Initialize();
 };
 
 struct FUN_00404d00_class
@@ -85,14 +85,14 @@ struct NiTMapBase
     int m_uiHashSize;
     NiTMapItem** m_ppkHashTable;
     virtual ~NiTMapBase();
-    virtual unsigned int __thiscall GetHash(unsigned int key);
-    virtual bool __thiscall Matches(unsigned int key, unsigned int uiHash);
-    bool __thiscall FUN_00853130(unsigned int key, CombatThreatRecord*& value);
+    virtual unsigned int GetHash(unsigned int key);
+    virtual bool Matches(unsigned int key, unsigned int uiHash);
+    bool FUN_00853130(unsigned int key, CombatThreatRecord*& value);
 };
 
 // Looks up key in the hash table, returning true and setting value to the matching item's data, or false if not found.
 // @fnv 0x00853130
-bool __thiscall NiTMapBase::FUN_00853130(unsigned int key, CombatThreatRecord*& value)
+bool NiTMapBase::FUN_00853130(unsigned int key, CombatThreatRecord*& value)
 {
     NiTMapItem* item;
     unsigned int index = GetHash(key);
@@ -116,7 +116,7 @@ struct CombatThreatRecord
 };
 struct FUN_009a5270_class
 {
-    void __thiscall DeleteAllEntries();
+    void DeleteAllEntries();
 };
 
 struct SpawnedObj404a80
@@ -230,7 +230,7 @@ class FUN_00404b90 : public B90Base
 };
 // Calls FUN_00404b90 with DAT_01189c40, sets m_p to "@K@", and returns this.
 // @fnv 0x00404b10
-void* __thiscall FUN_00404b10_class::Initialize()
+void* FUN_00404b10_class::Initialize()
 {
     new ((void *)this) ::FUN_00404b90(DAT_01189c40);
     m_p = "@K@";
@@ -261,7 +261,7 @@ struct FUN_00438af0_Class
     FUN_00438af0_Item** unk08;
     int unk0C;
 
-    void __thiscall FUN_00438af0();
+    void FUN_00438af0();
 };
 
 // Empty virtual function body; does nothing.
@@ -281,7 +281,7 @@ inline void FUN_00438af0_Class::vf14()
 inline void FUN_00438af0_Class::vf18(FUN_00438af0_Item*)
 {}
 
-void __thiscall FUN_00438af0_Class::FUN_00438af0()
+void FUN_00438af0_Class::FUN_00438af0()
 {
     unsigned int index;
 
@@ -371,11 +371,11 @@ struct C6b7f20_Map
     virtual unsigned int GetBucket(unsigned int key);
     unsigned int bucketCount;
     C6b7f20_Node** buckets;
-    void __thiscall FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
+    void FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
 };
 // Iterates the container's entries, deletes each stored object, then removes all entries.
 // @fnv 0x009a5270
-void __thiscall FUN_009a5270_class::DeleteAllEntries()
+void FUN_009a5270_class::DeleteAllEntries()
 {
     void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(this)->GetFirstPos();
     while (position)
@@ -438,7 +438,7 @@ struct FUN_00844700_Class
     FUN_00844700_Node** nodes;
     int count;
 
-    void __thiscall FUN_00844700(unsigned int key, unsigned int value);
+    void FUN_00844700(unsigned int key, unsigned int value);
 };
 
 // Empty inline virtual method body; does nothing.
@@ -462,7 +462,7 @@ inline void* FUN_00844700_Class::vf14()
     return 0;
 }
 
-void __thiscall FUN_00844700_Class::FUN_00844700(unsigned int key, unsigned int value)
+void FUN_00844700_Class::FUN_00844700(unsigned int key, unsigned int value)
 {
     int counter = this->vf04(key);
     FUN_00844700_Node* node = this->nodes[counter];
@@ -652,7 +652,7 @@ bool RMapBase::FUN_00a1e240(unsigned int key)
 struct E60Val
 {
     int a, b;
-    void __thiscall FUN_006e5cc0(E60Val* src);
+    void FUN_006e5cc0(E60Val* src);
 };
 struct E60Item
 {

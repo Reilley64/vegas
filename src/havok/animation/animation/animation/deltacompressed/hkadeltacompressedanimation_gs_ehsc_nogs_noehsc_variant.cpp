@@ -5,6 +5,7 @@
 
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00e4e000.h"
 #include "fnv/symbols_00e4f000.h"
@@ -16,7 +17,7 @@ struct FUN_00e34b40_s
 {
     unsigned int FUN_00e34b40(unsigned int arg);
 };
-void __stdcall ZeroBuffer(int a, int b, unsigned int count, unsigned int* dst);
+void ZeroBuffer(int a, int b, unsigned int count, unsigned int* dst);
 struct FnvCpu_FUN_00e34990_CpuObject
 {
     unsigned int unk00;
@@ -162,11 +163,10 @@ struct S00e34c10_Cache
 };
 struct S00e34c10_Anim : hkaDeltaCompressedAnimation
 {
-    void __thiscall FUN_00e34c10(unsigned int frameIndex, int unused, S00e34c10_Cache* cache, int mode);
+    void FUN_00e34c10(unsigned int frameIndex, int unused, S00e34c10_Cache* cache, int mode);
 };
 // FUN_00e34d80 - hkaDeltaCompressedAnimation block decode launcher (Havok timer-wrapped)
 // Per-TU private conventions: anim arrives in eax; callee FUN_00e349c0 takes dst in eax.
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long tlsIndex);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern char DAT_010eb77c[];
@@ -427,7 +427,7 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
 #include "fnv/symbols_simd.h"
 
 // @fnv 0x00e34d30
-void __stdcall FUN_00e34d30(int a, int b, unsigned int count, unsigned int* target)
+void FUN_00e34d30(int a, int b, unsigned int count, unsigned int* target)
 {
     if (count > 0)
     {

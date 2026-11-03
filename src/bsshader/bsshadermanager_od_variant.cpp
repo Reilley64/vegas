@@ -2,6 +2,7 @@
 // src/bsshader/bsshadermanager_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/bsshadermanager.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/FUN_0046e8e0_This.h"
 #include "fnv/decl/FUN_0046eb00_Class.h"
 #include "fnv/decl/FUN_0046eb20_Class.h"
@@ -28,7 +29,6 @@
 #include "fnv/symbols_011f9000.h"
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
@@ -206,7 +206,6 @@ struct ImageSpaceManager
     char data[0x204];
     ImageSpaceTexture m_texture;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct PropHelper
 {
     virtual void vfn_0();

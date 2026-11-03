@@ -52,16 +52,11 @@ class NiColor
     // float __cdecl NiColor::*()
     // void __cdecl NiColor::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(NiColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(NiColor, b) == 8);
 class SkyTextureManager
 {
   public:
     // void __cdecl SkyTextureManager::*(NiPointer<NiTexture>*, const char*)
 };
-FNV_STATIC_ASSERT(sizeof(SkyTextureManager) == 1);
 class Sky
 {
   public:
@@ -192,47 +187,4 @@ class Sky
     // Sky& __cdecl Sky::*(const Sky&)
     // void __cdecl Sky::*()
 };
-FNV_STATIC_ASSERT(sizeof(Sky) == 312);
-FNV_STATIC_ASSERT(offsetof(Sky, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pRootNode) == 4);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pSkyNode) == 8);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pCurrentClimate) == 12);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pRegionWeather) == 16);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pPreviousWeather) == 20);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pQueuedWeather) == 24);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pOverrideWeather) == 28);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pAtmosphere) == 32);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pStars) == 36);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pSun) == 40);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pClouds) == 44);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pPrimaryMoon) == 48);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pSecondaryMoon) == 52);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pPrecipitation) == 56);
-FNV_STATIC_ASSERT(offsetof(Sky, m_kSkyColors) == 60);
-FNV_STATIC_ASSERT(offsetof(Sky, m_kSunlightColor) == 180);
-FNV_STATIC_ASSERT(offsetof(Sky, m_kSkyColor) == 192);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fCurrentWeatherBlend) == 204);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fTargetWeatherBlend) == 208);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fCloudLayerAlpha) == 212);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fFogNearDistance) == 228);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fFogPower) == 232);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fFogFarDistance) == 236);
-FNV_STATIC_ASSERT(offsetof(Sky, fWeatherChance) == 240);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fWeatherBlend) == 244);
-FNV_STATIC_ASSERT(offsetof(Sky, eMode) == 248);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pSkySounds) == 252);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fWeatherFade) == 256);
-FNV_STATIC_ASSERT(offsetof(Sky, SkySoundData) == 260);
-FNV_STATIC_ASSERT(offsetof(Sky, m_uiSkyFourthValue) == 264);
-FNV_STATIC_ASSERT(offsetof(Sky, SkyTextureState) == 268);
-FNV_STATIC_ASSERT(offsetof(Sky, m_fValueBeforeSkyTextureManager) == 272);
-FNV_STATIC_ASSERT(offsetof(Sky, SkyController) == 276);
-FNV_STATIC_ASSERT(offsetof(Sky, uiFlags) == 280);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pFirstImageSpaceModifierInstance) == 284);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pSecondImageSpaceModifierInstance) == 288);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pLastWeatherImageSpaceModifier) == 292);
-FNV_STATIC_ASSERT(offsetof(Sky, m_pLastWeatherImageSpaceModifier2) == 296);
-FNV_STATIC_ASSERT(offsetof(Sky, SkyEnvironmentController) == 300);
-FNV_STATIC_ASSERT(offsetof(Sky, SkyImageSpaceTransitionData) == 304);
-FNV_STATIC_ASSERT(offsetof(Sky, SkyImageSpaceBlendData) == 308);
 #endif

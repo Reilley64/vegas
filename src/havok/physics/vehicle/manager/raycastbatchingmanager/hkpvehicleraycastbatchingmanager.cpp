@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/D04B90World.h"
 #include "fnv/decl/VUC_StepInstance.h"
 #include "fnv/symbols_00c90000.h"
@@ -153,7 +154,6 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
  results.release();
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 struct VRMonitorStream
 {

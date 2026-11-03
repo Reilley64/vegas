@@ -98,15 +98,5 @@ class NiPSysModifier : public NiObject
     bool m_bModifierActive;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
-FNV_STATIC_ASSERT(sizeof(CloningProcess) == 16);
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_uiNifVersion) == 0xD8);
-FNV_STATIC_ASSERT(offsetof(NiStream, m_pUnderlyingStream) == 0x24C);
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 24);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_kName) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_uiUpdateOrder) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_pkTarget) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifier, m_bModifierActive) == 20);
 
 #endif

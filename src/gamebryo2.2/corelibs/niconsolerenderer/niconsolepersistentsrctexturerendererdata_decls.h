@@ -3,9 +3,9 @@
 #define FNV_NICONSOLEPERSISTENTSRCTEXTURERENDERERDATA_DECLS_H
 
 
+#include <windows.h>
 #include "fnv/symbols_0101d000.h"
 #include "fnv/symbols_010f0000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 extern void* __cdecl _NiMalloc(unsigned int size);
 extern "C" void* __cdecl fnv_zlib_memset(void* destination, int value, unsigned long size);
 

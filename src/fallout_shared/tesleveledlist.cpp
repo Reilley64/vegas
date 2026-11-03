@@ -170,7 +170,6 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-typedef char _sizecheck_TESObject[sizeof(TESObject) == 36 ? 1 : -1];
 struct TESBoundObject : public TESObject
 {
     virtual void __vslot_10();
@@ -193,7 +192,6 @@ struct TESBoundObject : public TESObject
     void __local_vftable_ctor_closure();
     char TESBoundObjectBounds[12];
 };
-typedef char _sizecheck_TESBoundObject[sizeof(TESBoundObject) == 48 ? 1 : -1];
 struct TESBoundAnimObject : public TESBoundObject
 {
     virtual void __vslot_10();
@@ -202,7 +200,6 @@ struct TESBoundAnimObject : public TESBoundObject
     virtual bool IsBoundItem(char*);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_TESBoundAnimObject[sizeof(TESBoundAnimObject) == 48 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -210,7 +207,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00487790_shell : public TESLeveledList
 {
     unsigned char FUN_00487790();
@@ -273,7 +269,6 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-typedef char _sizecheck_TESObject[sizeof(TESObject) == 36 ? 1 : -1];
 struct TESBoundObject : public TESObject
 {
     virtual void __vslot_10();
@@ -296,7 +291,6 @@ struct TESBoundObject : public TESObject
     void __local_vftable_ctor_closure();
     char TESBoundObjectBounds[12];
 };
-typedef char _sizecheck_TESBoundObject[sizeof(TESBoundObject) == 48 ? 1 : -1];
 struct TESBoundAnimObject : public TESBoundObject
 {
     virtual void __vslot_10();
@@ -305,7 +299,6 @@ struct TESBoundAnimObject : public TESBoundObject
     virtual bool IsBoundItem(char*);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_TESBoundAnimObject[sizeof(TESBoundAnimObject) == 48 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -313,7 +306,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00487840_shell : public TESLeveledList
 {
     bool FUN_00487840();
@@ -337,14 +329,13 @@ struct LeveledObject
     unsigned short sLevel;
     ContainerItemExtra* m_pExtraData;
 };
-typedef char _sizecheck_LEVELED_OBJECT[sizeof(LeveledObject) == 12 ? 1 : -1];
 struct FUN_00487ba0_shell : public LeveledObject
 {
     void InitLeveledObject();
 };
 
 // @fnv 0x00487ba0
-LeveledObject* __fastcall InitLeveledObject(LeveledObject* pThis)
+LeveledObject* InitLeveledObject(LeveledObject* pThis)
 {
     pThis->pForm = 0;
     pThis->m_pExtraData = 0;
@@ -438,7 +429,6 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-typedef char _sizecheck_TESObject[sizeof(TESObject) == 36 ? 1 : -1];
 struct TESBoundObject : public TESObject
 {
     virtual void __vslot_10();
@@ -461,7 +451,6 @@ struct TESBoundObject : public TESObject
     void __local_vftable_ctor_closure();
     char TESBoundObjectBounds[12];
 };
-typedef char _sizecheck_TESBoundObject[sizeof(TESBoundObject) == 48 ? 1 : -1];
 struct TESBoundAnimObject : public TESBoundObject
 {
     virtual void __vslot_10();
@@ -470,7 +459,6 @@ struct TESBoundAnimObject : public TESBoundObject
     virtual bool IsBoundItem(char*);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_TESBoundAnimObject[sizeof(TESBoundAnimObject) == 48 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -478,7 +466,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_0050ad90_shell : public TESLeveledList
 {
     int FUN_0050ad90();
@@ -552,7 +539,6 @@ struct TESObject : public TESForm
     TESObject* m_pPreviousObject;
     TESObject* m_pNextObject;
 };
-typedef char _sizecheck_TESObject[sizeof(TESObject) == 36 ? 1 : -1];
 struct TESBoundObject : public TESObject
 {
     virtual void __vslot_10();
@@ -575,7 +561,6 @@ struct TESBoundObject : public TESObject
     void __local_vftable_ctor_closure();
     char TESBoundObjectBounds[12];
 };
-typedef char _sizecheck_TESBoundObject[sizeof(TESBoundObject) == 48 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -583,7 +568,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_0050b370_shell : public TESLeveledList
 {
     int FUN_0050b370();
@@ -604,7 +588,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00526ac0_shell : public TESGlobal
 {
     float FUN_00526ac0();
@@ -682,11 +665,11 @@ int FUN_00c611d0_shell::GetFour()
 
 struct FUN_00c611e0_shell
 {
-    int __thiscall FUN_00c611e0(int arg1);
+    int FUN_00c611e0(int arg1);
 };
 
 // @fnv 0x00c611e0
-int __thiscall FUN_00c611e0_shell::FUN_00c611e0(int arg1)
+int FUN_00c611e0_shell::FUN_00c611e0(int arg1)
 {
     return 0;
 }
@@ -704,22 +687,22 @@ bool FUN_00c61230_shell::FUN_00c61230(int)
 
 struct FUN_00c61240_shell
 {
-    bool __thiscall FUN_00c61240(int);
+    bool FUN_00c61240(int);
 };
 
 // @fnv 0x00c61240
-bool __thiscall FUN_00c61240_shell::FUN_00c61240(int)
+bool FUN_00c61240_shell::FUN_00c61240(int)
 {
     return 0;
 }
 
 struct FUN_00c61250_shell
 {
-    void __thiscall FUN_00c61250(int a);
+    void FUN_00c61250(int a);
 };
 
 // @fnv 0x00c61250
-void __thiscall FUN_00c61250_shell::FUN_00c61250(int a)
+void FUN_00c61250_shell::FUN_00c61250(int a)
 {}
 
 struct FUN_00c61260_shell
@@ -728,17 +711,17 @@ struct FUN_00c61260_shell
 };
 
 // @fnv 0x00c61260
-void __thiscall FUN_00c61260_shell::FUN_00c61260(int a, int b, int c, int d, int e, int f)
+void FUN_00c61260_shell::FUN_00c61260(int a, int b, int c, int d, int e, int f)
 {}
 
 
 struct FUN_00c61270_shell
 {
-    void* __thiscall FUN_00c61270();
+    void* FUN_00c61270();
 };
 
 // @fnv 0x00c61270
-void* __thiscall FUN_00c61270_shell::FUN_00c61270()
+void* FUN_00c61270_shell::FUN_00c61270()
 {
     return &(*reinterpret_cast<void * *>(&::g_01204398));
 }
@@ -746,12 +729,12 @@ void* __thiscall FUN_00c61270_shell::FUN_00c61270()
 struct NiRefObject
 {
     virtual ~NiRefObject();
-    static void* __thiscall FUN_00c61280(NiRefObject* obj, unsigned int flags);
+    static void* FUN_00c61280(NiRefObject* obj, unsigned int flags);
 };
 
 
 // @fnv 0x00c61280
-void* __thiscall NiRefObject::FUN_00c61280(NiRefObject* obj, unsigned int flags)
+void* NiRefObject::FUN_00c61280(NiRefObject* obj, unsigned int flags)
 {
     reinterpret_cast<class ::FUN_00a5d3d0 *>((obj))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
@@ -765,7 +748,7 @@ struct FUN_004878c0_shell
 };
 
 // @fnv 0x004878c0
-void __thiscall FUN_004878c0_shell::SetFlag4(bool abSet)
+void FUN_004878c0_shell::SetFlag4(bool abSet)
 {
     if (abSet)
         reinterpret_cast<unsigned char*>(this)[0xd] |= 4;

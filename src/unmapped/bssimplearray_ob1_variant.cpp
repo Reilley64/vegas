@@ -45,11 +45,11 @@ struct FUN_006cf180
 };
 struct FUN_006cf250_Class
 {
-    void* __thiscall AllocateBuffer(unsigned int count);
+    void* AllocateBuffer(unsigned int count);
 };
 struct FUN_006cf280_Class
 {
-    void* __thiscall FUN_006cf280(void* p, unsigned int n);
+    void* FUN_006cf280(void* p, unsigned int n);
 };
 bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
 extern int DAT_0106b8c8;
@@ -72,7 +72,7 @@ struct FUN_006cfaa0
 };
 struct FUN_006e91e0_cls
 {
-    void* __thiscall AllocateBlock(int count);
+    void* AllocateBlock(int count);
 };
 struct FUN_006e9210
 {
@@ -100,7 +100,7 @@ struct BSSimpleArray_006e93c0
 };
 struct FUN_006e93f0
 {
-    void* __thiscall FUN_006e93f0_(void* p, int n);
+    void* FUN_006e93f0_(void* p, int n);
 };
 struct NiPoint3
 {
@@ -177,11 +177,11 @@ struct ParentSpaceNode
 };
 struct ArrHelper
 {
-    void __thiscall ConstructParentSpaceNodes(ParentSpaceNode* p, unsigned int count);
+    void ConstructParentSpaceNodes(ParentSpaceNode* p, unsigned int count);
 };
 struct S5460
 {
-    unsigned int __thiscall FUN_00978bc0();
+    unsigned int FUN_00978bc0();
 public:
     int GetNextPosition();
 };
@@ -210,29 +210,29 @@ struct ArrSI
 };
 struct FUN_006cf6a0_Class
 {
-    void* __thiscall CopyAndFreeBuffer(void* src, unsigned int size);
+    void* CopyAndFreeBuffer(void* src, unsigned int size);
 };
 struct FUN_006cf230_Class
 {
-    void* __thiscall FUN_006cf230();
+    void* FUN_006cf230();
 };
 struct FUN_006cfc80_Class
 {
-    void* __thiscall FUN_006cfc80(unsigned int flags);
+    void* FUN_006cfc80(unsigned int flags);
 };
 struct FUN_006cf340_Class
 {
-    void* __thiscall FUN_006cf340();
+    void* FUN_006cf340();
 };
 struct FUN_006cfcb0_Class
 {
-    void* __thiscall FUN_006cfcb0(unsigned int flags);
+    void* FUN_006cfcb0(unsigned int flags);
 };
 void __cdecl operator delete(void* p);
 struct FUN_006cfd40_Class
 {
-    void __thiscall FUN_006cf610();
-    void* __thiscall FUN_006cfd40(unsigned int flags);
+    void FUN_006cf610();
+    void* FUN_006cfd40(unsigned int flags);
 };
 struct FUN_006e9410_shell
 {
@@ -243,12 +243,12 @@ struct FUN_006e9530_shell
 };
 struct FUN_006e9410_class
 {
-    void __thiscall FUN_006e9410(void* arg);
+    void FUN_006e9410(void* arg);
 };
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_006dc6e0_Class
 {
-    void __thiscall FUN_006dc6e0(char* a, char* b, unsigned int count);
+    void FUN_006dc6e0(char* a, char* b, unsigned int count);
 };
 struct FUN_006cf820
 {
@@ -273,7 +273,7 @@ struct FUN_006dc590
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    void __thiscall FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
+    void FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
 };
 struct FUN_0072ba80_shell
 {
@@ -297,7 +297,7 @@ struct FUN_006e1280_Class
 };
 struct FUN_006cf520_Class
 {
-    int __thiscall FUN_006cf520(const unsigned char* aValue);
+    int FUN_006cf520(const unsigned char* aValue);
 };
 struct FUN_006d0450_Class
 {
@@ -364,7 +364,7 @@ struct BSScrapArray
     void* field08;
     void* field0c;
     ScrapHeapBuffer* m_pPoolBase;
-    void* __thiscall FUN_006cf670(unsigned int size);
+    void* FUN_006cf670(unsigned int size);
 };
 struct EH
 {
@@ -415,7 +415,7 @@ struct FUN_006e94d0 : FUN_006e9080
 };
 struct FUN_0042fb60_shell
 {
-    void __thiscall FUN_0042fb60(char* dst, char* src, unsigned int count);
+    void FUN_0042fb60(char* dst, char* src, unsigned int count);
 };
 struct FUN_006bf8f0_Class
 {
@@ -426,7 +426,7 @@ struct FUN_006bf8f0_Class
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void __thiscall FUN_006bf8f0(unsigned int aiIndex, bool abShrink);
+    void FUN_006bf8f0(unsigned int aiIndex, bool abShrink);
 };
 class PathingGraphNode
 {
@@ -476,7 +476,7 @@ struct FUN_009f6540_Helper
 };
 struct Host9f6340
 {
-    void __thiscall FUN_009f6460(int, int);
+    void FUN_009f6460(int, int);
 };
 struct FUN_009f6200_Class
 {
@@ -589,12 +589,12 @@ struct FUN_006d0540_shell
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
-    void __thiscall FUN_006a8500();
+    void FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
+    void FUN_006a8500();
 };
 struct FUN_006cfe70_Class : public FUN_006d0540_shell
 {
-    void __thiscall FUN_006cfe70(int value, int count);
+    void FUN_006cfe70(int value, int count);
 };
 void* __cdecl operator new(unsigned int size, void* place);
 void __cdecl operator delete(void* p, void* place);
@@ -871,7 +871,7 @@ struct ArrayElement
 };
 
 struct ArrayConstructor;
-typedef void*(__thiscall* ArrayAllocate)(ArrayConstructor*, unsigned int);
+typedef void*(* ArrayAllocate)(ArrayConstructor*, unsigned int);
 
 struct ArrayConstructor
 {

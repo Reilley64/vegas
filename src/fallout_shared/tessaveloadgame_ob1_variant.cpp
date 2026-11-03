@@ -78,7 +78,7 @@ FUN_00c3da50::FUN_00c3da50() : BaseListL(10, 1, 120)
 }
 
 extern "C" void FUN_0044dd60(void* p);
-extern "C" long __stdcall InterlockedCompareExchange(long volatile* dest, long exchange, long comparand);
+extern "C" long InterlockedCompareExchange(long volatile* dest, long exchange, long comparand);
 
 class BSSpinLockS
 {

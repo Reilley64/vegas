@@ -1,5 +1,6 @@
 // bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (17 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendOwner.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -46,8 +47,8 @@ struct SplatterFloat4
 BSShader* BSShaderBloodSplatter::CreateShader()
 {
     NiD3DVertexDeclaration* declaration = ::FUN_00e76700((::NiRenderer *)((*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508))), 2, 1);
-    typedef void(__thiscall * Method5)(void*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-    typedef void(__thiscall * Method0)(void*);
+    typedef void(* Method5)(void*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    typedef void(* Method0)(void*);
     reinterpret_cast<Method5>((*reinterpret_cast<void***>(declaration))[35])(declaration, 0, 0, 0, 2, 0);
     reinterpret_cast<Method5>((*reinterpret_cast<void***>(declaration))[35])(declaration, 1, 7, 5, 1, 0);
     reinterpret_cast<Method0>((*reinterpret_cast<void***>(declaration))[45])(declaration);
@@ -56,7 +57,7 @@ BSShader* BSShaderBloodSplatter::CreateShader()
     reinterpret_cast<Method0>((*reinterpret_cast<void***>(shader))[19])(shader);
     shader->InitializeShaderData();
     shader->ConfigureShaderPass();
-    typedef void(__thiscall * Method1)(void*, void*);
+    typedef void(* Method1)(void*, void*);
     reinterpret_cast<Method0>((*reinterpret_cast<void***>(shader))[71])(shader);
     reinterpret_cast<Method1>((*reinterpret_cast<void***>(shader))[48])(shader, declaration);
     return shader;
@@ -192,7 +193,7 @@ void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
     if (old != value)
     {
         if (old && InterlockedDecrement(reinterpret_cast<volatile long*>(&old->m_uiRefCount)) == 0)
-            reinterpret_cast<void(__thiscall*)(void*)>((*reinterpret_cast<void***>(old))[1])(old);
+            reinterpret_cast<void(*)(void*)>((*reinterpret_cast<void***>(old))[1])(old);
         *ppSlot = value;
         if (value)
             InterlockedIncrement(reinterpret_cast<volatile long*>(&value->m_uiRefCount));
@@ -201,11 +202,11 @@ void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 
 struct FUN_00b807c0_shell
 {
-    int __thiscall FUN_00b807c0(void* a, void* b);
+    int FUN_00b807c0(void* a, void* b);
 };
 
 // @fnv 0x00b807c0
-int __thiscall FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
+int FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x28);
 }
@@ -225,7 +226,7 @@ struct FUN_00b80380_shell
 // @fnv 0x00b80380
 void FUN_00b80380_shell::FUN_00b80380()
 {
-    typedef void(__thiscall * Fn)(void*, void*);
+    typedef void(* Fn)(void*, void*);
     void** p = (void**)((char*)this + 0x6c);
     int n = 2;
     do
@@ -251,8 +252,8 @@ bool FUN_00b80b20_shell::FUN_00b80b20()
 
 struct Standin00b80e40
 {
-    void __thiscall FUN_00b80650();
-    void* __thiscall FUN_00b80e40(unsigned int);
+    void FUN_00b80650();
+    void* FUN_00b80e40(unsigned int);
 };
 struct NiPoint3
 {
@@ -349,8 +350,6 @@ struct FUN_00b80f50_shell : public BSShaderBloodSplatter
     void CreateShaderConstantMaps();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern char $SG3295[];
 extern int DAT_011fedb4;
 extern float DAT_011feda4;
@@ -514,7 +513,7 @@ struct FUN_00b80650 : ShaderBase
 };
 // Calls FUN_00b80650, then deletes this with size 0x84 when bit 0 of a1 is set, and returns this.
 // @fnv 0x00b80e40
-void* __thiscall Standin00b80e40::FUN_00b80e40(unsigned int auiFlags)
+void* Standin00b80e40::FUN_00b80e40(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00b80650 *>(this)->FUN_00b80650::~FUN_00b80650();
     if (auiFlags & 1)

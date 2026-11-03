@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxVertexVectorDataChannel : public hkReferencedObject
 {
   public:
     hkArray<hkVector4> m_kVertexVectors;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxVertexVectorDataChannel[(sizeof(hkxVertexVectorDataChannel) == 0x14) ? 1 : -1];
 #endif

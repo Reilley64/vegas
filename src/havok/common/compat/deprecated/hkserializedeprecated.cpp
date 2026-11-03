@@ -8,7 +8,7 @@ struct hkStringPtr
     void operator=(const char*);
 };
 // @fnv 0x00dba5f0
-int __stdcall FUN_00dba5f0(int aiUnused1, int aiUnused2, int c)
+int FUN_00dba5f0(int aiUnused1, int aiUnused2, int c)
 {
     hkStringPtr* p = (hkStringPtr*)c;
     if (p)
@@ -21,7 +21,7 @@ int __stdcall FUN_00dba5f0(int aiUnused1, int aiUnused2, int c)
 
 // If c is non-null, writes error code 7 and a deprecation message string into it, then returns 0.
 // @fnv 0x00dba5d0
-int __stdcall ReportDeprecatedSerializeLoad(int aiUnused1, int aiUnused2, int pErrorOut)
+int ReportDeprecatedSerializeLoad(int aiUnused1, int aiUnused2, int pErrorOut)
 {
     if (pErrorOut)
     {
@@ -32,13 +32,13 @@ int __stdcall ReportDeprecatedSerializeLoad(int aiUnused1, int aiUnused2, int pE
 }
 
 // @fnv 0x00dba5b0
-int __stdcall FUN_00dba5b0(int a, int b, int c, int d, int e)
+int FUN_00dba5b0(int a, int b, int c, int d, int e)
 {
     return 1;
 }
 
 // @fnv 0x00dba5c0
-int __stdcall FUN_00dba5c0(int a)
+int FUN_00dba5c0(int a)
 {
     return 0;
 }

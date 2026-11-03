@@ -41,7 +41,7 @@ struct FUN_00ddac60_Obj
 
 
 // @fnv 0x00ddac60
-void __stdcall FUN_00ddac60(FUN_00ddac60_Obj* obj)
+void FUN_00ddac60(FUN_00ddac60_Obj* obj)
 {
     reinterpret_cast<::DD8FE0_Stream *>((obj))->FUN_00dd8fe0((void *)(4), 3, {});
     obj->unk0C = 0.0f;
@@ -64,11 +64,11 @@ struct BSAudio
 BSAudio* __cdecl FUN_00c85750();
 struct FUN_00ddacd0_shell
 {
-    void __thiscall FUN_00ddac00(void* output);
-    void __thiscall FUN_00ddacd0(ArrayPair* arrays);
+    void FUN_00ddac00(void* output);
+    void FUN_00ddacd0(ArrayPair* arrays);
 };
 // @fnv 0x00ddacd0
-void __thiscall FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
+void FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
 {
     {
         int firstCount;
@@ -210,7 +210,7 @@ void hkDisplaySerializeIStream::FUN_00ddac80(FUN_008cd6a0_Class* target)
 
 // Reads three 4-byte integers via FUN_00dd8fe0 and stores them sequentially into the output buffer.
 // @fnv 0x00ddac00
-__declspec(noinline) void __thiscall FUN_00ddacd0_shell::FUN_00ddac00(void* output)
+__declspec(noinline) void FUN_00ddacd0_shell::FUN_00ddac00(void* output)
 {
     int* dst = (int*)output;
     {

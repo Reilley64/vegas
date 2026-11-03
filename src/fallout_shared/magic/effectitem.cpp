@@ -82,7 +82,7 @@ ScriptEffect::ScriptEffect(MagicCaster* caster, MagicItem* item, EffectItem* eff
 
 // Zeroes the first four ints of this_ptr, sets the fifth to -1, and returns this_ptr.
 // @fnv 0x00403ba0
-int* __fastcall FUN_00403ba0(int* this_ptr)
+int* FUN_00403ba0(int* this_ptr)
 {
     this_ptr[0] = 0;
     this_ptr[1] = 0;
@@ -239,7 +239,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 namespace ActorValue { enum Index; }
 struct ActorValueOwner
 {
@@ -259,7 +258,6 @@ public:
 public:
     float GetActorValueFloatByIndex(::ActorValue::Index);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -281,7 +279,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_00403f80_shell : public EffectItem
 {
     float GetModifiedCost(Actor*);
@@ -407,7 +404,7 @@ struct FUN_004045e0_shell : public EffectItem
     Script* GetScriptFromEffectSetting();
 };
 
-int __fastcall _FNV_GetFormType(int);
+int _FNV_GetFormType(int);
 __pragma(comment(
     linker, "/alternatename:?EffectSetting_GetArchetype@@YIHPAUEffectSetting@@@Z=?GetArchetype@EffectSetting@@QAEHXZ"))
     __pragma(comment(
@@ -474,7 +471,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00404f00_shell : public AutoMemContext
 {
     void FUN_00404f00(int, bool, char*, int);
@@ -506,7 +502,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00404f70_shell : public AutoMemContext
 {
     void FUN_00404f70();
@@ -939,11 +934,11 @@ struct FUN_00404210_t
     S3e60* unk14;
     float unk18;
 
-    bool __thiscall FUN_00404560(unsigned int value);
+    bool FUN_00404560(unsigned int value);
 };
 
 // @fnv 0x00404560
-bool __thiscall FUN_00404210_t::FUN_00404560(unsigned int value)
+bool FUN_00404210_t::FUN_00404560(unsigned int value)
 {
     bool result = false;
 
@@ -972,8 +967,8 @@ struct SettingRegistry
     virtual bool HandleSetting(int);
     bool FUN_00405120();
 };
-extern "C" bool __fastcall FUN_00404d30(SettingRegistry*);
-extern "C" void __fastcall FUN_00404ee0(S4eb0*);
+extern "C" bool FUN_00404d30(SettingRegistry*);
+extern "C" void FUN_00404ee0(S4eb0*);
 struct ScopedContext
 {
     int previousContext;

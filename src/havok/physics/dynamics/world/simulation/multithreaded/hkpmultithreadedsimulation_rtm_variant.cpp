@@ -61,8 +61,8 @@ struct FUN_00d04300
     int* m_p;
     FUN_00d04300(bool del);
 };
-int __fastcall FUN_00d021e0(int self, int, int* out);
-void __fastcall FUN_00d021f0(void* this_, int, int* arg, int);
+int FUN_00d021e0(int self, int, int* out);
+void FUN_00d021f0(void* this_, int, int* arg, int);
 struct S_00d02020_Owner
 {
     virtual void v00();
@@ -103,7 +103,7 @@ struct S_00d02020_Pair
     S_00d02020_Handle* m_kPointA;
     S_00d02020_Handle* m_kPointB;
 };
-void __stdcall FUN_00d02020(S_00d02020_Pair* pair);
+void FUN_00d02020(S_00d02020_Pair* pair);
 struct CompareValue
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -378,7 +378,7 @@ struct SubNode
     int unk0c;
     signed char off10;  // +0x10  byte offset of the polymorphic object
 };
-void __stdcall FUN_00d01fc0(HandlePair* pHandlePair);
+void FUN_00d01fc0(HandlePair* pHandlePair);
 bool FUN_00d02160(int* apPairA, int* apPairB);
 struct PairEntry
 {
@@ -405,9 +405,9 @@ struct SortPair8
     int m_uiFilterValue;
 };
 typedef bool(__cdecl* SortPairLess)(const SortPair8* lhs, const SortPair8* rhs);
-void __stdcall FUN_00d020f0(S_00d02020_Pair* pair);
-void __stdcall FUN_00d02200(int);
-void __stdcall FUN_00d02210(int, int, int);
+void FUN_00d020f0(S_00d02020_Pair* pair);
+void FUN_00d02200(int);
+void FUN_00d02210(int, int, int);
 struct OwnerD020;
 class PhantomD020
 {
@@ -447,7 +447,7 @@ struct PairD020
     CollidableD020* m_pkA;
     CollidableD020* m_pkB;
 };
-void __stdcall NotifyPhantomCollision(PairD020* pkPair);
+void NotifyPhantomCollision(PairD020* pkPair);
 inline void* __cdecl operator new(unsigned int, void* p) throw()
 {
     return p;

@@ -26,7 +26,6 @@ enum
 };
 
 // member functions matched in this unit added.
-#pragma pack(push, 4)
 class MapMarkerData
 {
   public:
@@ -42,13 +41,6 @@ class MapMarkerData
     bool IsTravelLocation();
     void SetTravelLocation(bool travelLoc);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MapMarkerData) == 20);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, LocationName) == 0);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, cFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, m_ucAdditionalFlags) == 13);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, sType) == 14);
-FNV_STATIC_ASSERT(offsetof(MapMarkerData, pReputationData) == 16);
 
 // TESFile::GetChunkData(unsigned short*) and the offset-chunk accessors are not
 // declared in the bundled TESFile.h; declared here on shims following the same

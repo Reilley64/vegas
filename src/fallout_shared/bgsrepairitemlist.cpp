@@ -54,7 +54,7 @@ struct MyHolder
 extern int DAT_0101a4c4;
 
 // @fnv 0x0047b850
-void* __fastcall FUN_0047b850(void* pThis)
+void* FUN_0047b850(void* pThis)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;

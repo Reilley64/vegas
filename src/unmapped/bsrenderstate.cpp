@@ -15,14 +15,14 @@ void AddToTwoCounters(int aiIndexA, int aiIndexB, int aiAmount)
     int iCounterIndex = DAT_011ffa7c;
     if (DAT_011ff9d8[iCounterIndex] == 0)
     {
-        ((void(__thiscall*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
+        ((void(*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
             *(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8), 0x13, DAT_011ad8a8[aiIndexA], 0, 0);
     }
     DAT_011ff9d8[iCounterIndex] += aiAmount;
     iCounterIndex = DAT_011ffa80;
     if (DAT_011ff9d8[iCounterIndex] == 0)
     {
-        ((void(__thiscall*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
+        ((void(*)(void*, int, int, int, int))(*(void***)*(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8))[0x68 / 4])(
             *(void**)((char*)(*reinterpret_cast<void * *>(&::DAT_011f9508)) + 0x8b8), 0x14, DAT_011ad8a8[aiIndexB], 0, 0);
     }
     DAT_011ff9d8[iCounterIndex] += aiAmount;
@@ -659,14 +659,14 @@ void __cdecl FUN_00b980c0(int aiFirstIndex, int aiSecondIndex, int aiThirdIndex,
     {
         void* renderer = *(void* volatile*)&(*reinterpret_cast<void * *>(&::DAT_011f9508));
         DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
-        ((void(__thiscall*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
+        ((void(*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
             device, 0x35, DAT_011ad8a8[aiFirstIndex + 11], 0, 0);
     }
     if (DAT_011ff9d8[DAT_011ffb08] == 0)
     {
         void* renderer = *(void* volatile*)&(*reinterpret_cast<void * *>(&::DAT_011f9508));
         DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
-        ((void(__thiscall*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
+        ((void(*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
             device, 0x36, DAT_011ad8a8[aiSecondIndex + 11], 0, 0);
     }
     unsigned int index = DAT_011ffb0c;
@@ -674,7 +674,7 @@ void __cdecl FUN_00b980c0(int aiFirstIndex, int aiSecondIndex, int aiThirdIndex,
     {
         void* renderer = (*reinterpret_cast<void * *>(&::DAT_011f9508));
         DeviceView* device = *(DeviceView**)((char*)renderer + 0x8b8);
-        ((void(__thiscall*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
+        ((void(*)(DeviceView*, unsigned int, int, int, int))device->vtable[26])(
             device, 0x37, DAT_011ad8a8[aiThirdIndex + 11], 0, 0);
     }
     DAT_011ff9d8[index] += delta;

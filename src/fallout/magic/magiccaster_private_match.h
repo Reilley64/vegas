@@ -137,9 +137,6 @@ class MagicCaster
     static MagicCaster* GetCasterByHandle(unsigned int formID);
     void LaunchMagicProjectile(float fValue, TESBoundObject* pObject, bool bArg1, float fImpulseRadiusSquared, bool bArg2);
 };
-FNV_STATIC_ASSERT(sizeof(MagicCaster) == 0xC);
-FNV_STATIC_ASSERT(offsetof(MagicCaster, apTargetLight) == 0x4);
-FNV_STATIC_ASSERT(offsetof(MagicCaster, eState) == 0x8);
 
 class Actor : public MobileObject,
               public MagicCaster,

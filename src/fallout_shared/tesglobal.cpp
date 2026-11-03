@@ -86,7 +86,7 @@ struct FUN_005a63a0_shell
 
 // Calls Set on the BSStr at offset 0x18 with the given string and a length of 0, then returns true.
 // @fnv 0x005a63a0
-bool __thiscall FUN_005a63a0_shell::SetString(char const* apString)
+bool FUN_005a63a0_shell::SetString(char const* apString)
 {
     reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 0x18))))->FUN_004037f0(apString, 0);
     return 1;

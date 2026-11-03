@@ -47,7 +47,7 @@ int __cdecl FUN_00d22120(void* pNode, void* a, void* b)
 }
 
 // @fnv 0x00d21d00
-void __stdcall FUN_00d21d00(int, int, int, int, int, int)
+void FUN_00d21d00(int, int, int, int, int, int)
 {}
 
 struct FUN_00d21de0_cls
@@ -57,7 +57,7 @@ struct FUN_00d21de0_cls
     unsigned char unk08;
     unsigned char unk09;
     unsigned char unk0A;
-    FUN_00d21de0_cls* __thiscall FUN_00d21de0(int a);
+    FUN_00d21de0_cls* FUN_00d21de0(int a);
 };
 
 // @fnv 0x00d21de0
@@ -454,7 +454,7 @@ extern __m128 DAT_012689d0;
 
 // Copies two pairs of __m128 values from source1 and source2 into the global DAT_012689a0 through DAT_012689d0.
 // @fnv 0x00d21f10
-void __stdcall SetGlobalVectors(int, int, const __m128* source1, int, const __m128* source2)
+void SetGlobalVectors(int, int, const __m128* source1, int, const __m128* source2)
 {
     DAT_012689a0 = source1[0];
     DAT_012689b0 = source1[1];
@@ -479,11 +479,11 @@ struct Cls_00d21fc0
     int unk18;
     int unk1c;
     FUN_00d21fc0_n m_uiValueCount;
-    void __thiscall FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out);
+    void FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out);
 };
 // Computes d = dot3(a[1], m_uiValueCount), then subtracts (m_uiValueCount - d * m_uiValueCount) from the vector at out.
 // @fnv 0x00d21fc0
-void __thiscall Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out)
+void Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out)
 {
     __declspec(align(16)) FUN_00d21fc0_n n = m_uiValueCount;
     __m128 nv = _mm_load_ps(&n.x);

@@ -8,28 +8,28 @@ extern "C" void* g_011f3f68;
 void* __cdecl FUN_00a3dab0();
 struct FUN_00a3dae0_shell
 {
-    void* __thiscall FUN_00a3dae0(short idx);
+    void* FUN_00a3dae0(short idx);
 };
 struct FUN_00a3db10_shell
 {
-    int __thiscall GetValueByIndex(short arg);
+    int GetValueByIndex(short arg);
 };
 struct FUN_00a3db40_shell
 {
-    int __thiscall FUN_00a3db40(short arg);
+    int FUN_00a3db40(short arg);
 };
 struct FUN_00a3db70_shell
 {
-    char __thiscall FUN_00a3db70(unsigned short arg);
+    char FUN_00a3db70(unsigned short arg);
 };
 extern "C" void* g_011f3e48;
 void* __cdecl FUN_00a3dde0();
 struct FloatDataHelper
 {
-    void __thiscall FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a3cc40(float m_fStartTime, float m_fMaximumDistance);
 };
 struct NiPathInterpolator
 {
     void* m_pPathInterp;
-    void __thiscall FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
 };

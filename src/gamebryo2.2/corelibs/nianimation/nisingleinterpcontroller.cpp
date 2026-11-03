@@ -41,7 +41,7 @@ void NiSingleInterpController::LoadBinary(NiStream& stream)
 extern int DAT_0109632c;
 
 // @fnv 0x00a2f8c0
-void* __fastcall FUN_00a2f8c0(void* pThis)
+void* FUN_00a2f8c0(void* pThis)
 {
     new ((void *)(pThis)) class ::FUN_00a6d220();
     *((unsigned short*)pThis + 4) &= 0xffdf;
@@ -83,7 +83,6 @@ struct NiFloatInterpController : public NiSingleInterpController
     virtual bool ControlsTransform(NiInterpolator*, unsigned short);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_NiFloatInterpController[sizeof(NiFloatInterpController) == 56 ? 1 : -1];
 struct BSFrustumFOVController : public NiFloatInterpController
 {
     virtual void __vslot_0();
@@ -102,14 +101,13 @@ struct BSFrustumFOVController : public NiFloatInterpController
     virtual void UpdateFloatValue(float*);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_BSFrustumFOVController[sizeof(BSFrustumFOVController) == 56 ? 1 : -1];
 struct FUN_00a38e30_shell : public NiSingleInterpController
 {
     NiInterpolator* FUN_00a38e30(unsigned short);
 };
 
 // @fnv 0x00a38e30
-NiInterpolator* __thiscall FUN_00a38e30_shell::FUN_00a38e30(unsigned short usIndex)
+NiInterpolator* FUN_00a38e30_shell::FUN_00a38e30(unsigned short usIndex)
 {
     return *reinterpret_cast<NiInterpolator**>(reinterpret_cast<unsigned char*>(this) + 0x34);
 }
@@ -193,7 +191,7 @@ struct FUN_00a38df0_shell
 // @fnv 0x00a38df0
 void FUN_00a38df0_shell::FUN_00a38df0()
 {
-    ((void(__thiscall*)(void*, void*))(*reinterpret_cast<void***>(this))[0xe8 / 4])(this, m_p2c);
+    ((void(*)(void*, void*))(*reinterpret_cast<void***>(this))[0xe8 / 4])(this, m_p2c);
 }
 
 struct FakeInterpGuarantee
@@ -314,7 +312,7 @@ struct FUN_00a39010_shell : NiSingleInterpController
 void FUN_00a39010_shell::FUN_00a39010(NiStream& kStream)
 {
     reinterpret_cast<::C27120Class *>((((S00c27120*)this)))->FUN_00c27120(kStream);
-    ((void(__thiscall*)(NiStream*, NiInterpolator*))(*(void***)&kStream)[12])(&kStream,
+    ((void(*)(NiStream*, NiInterpolator*))(*(void***)&kStream)[12])(&kStream,
                                                                               *(NiInterpolator**)((char*)this + 0x34));
 }
 

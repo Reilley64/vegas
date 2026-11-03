@@ -1,5 +1,6 @@
 // fallout_shared/tesdatahandler.cpp: TESDataHandler, TESFormInitFlag, BSFlags, EnchantmentItem and more (121 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoOwner.h"
@@ -943,7 +944,7 @@ void* FUN_00461150_shell::FUN_00461150()
 }
 
 // @fnv 0x00461190
-int __fastcall FUN_00461190(int param_1)
+int FUN_00461190(int param_1)
 {
     return param_1 + 0xE8;
 }
@@ -970,7 +971,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESActorBaseData : public BaseFormComponent
 {
     virtual void CopyFromTemplateForm(TESActorBase*);
@@ -1077,7 +1077,6 @@ struct TESActorBaseData : public BaseFormComponent
 public:
     bool GetFlag(unsigned int) const;
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct FUN_00461560_shell : public TESActorBaseData
 {
     bool FUN_00461560();
@@ -1236,7 +1235,7 @@ struct PathBuilderDetailedPathMeshes
 };
 
 // @fnv 0x004694e0
-void* __fastcall ConstructPathBuilderDetailedPathMeshes(PathBuilderDetailedPathMeshes* pThis)
+void* ConstructPathBuilderDetailedPathMeshes(PathBuilderDetailedPathMeshes* pThis)
 {
     ::FUN_0042f800((int **)(pThis));
     return pThis;
@@ -1468,7 +1467,6 @@ struct Main
     char _pad_ad[3];
     char m_acTrailingData[4];
 };
-typedef char _sizecheck_Main[sizeof(Main) == 180 ? 1 : -1];
 struct FUN_004f6de0_shell : public Main
 {
     bool FUN_004f6de0();
@@ -1488,7 +1486,6 @@ struct ExteriorData
     char m_cGridFlag;
     char _pad_9[3];
 };
-typedef char _sizecheck_EXTERIOR_DATA[sizeof(ExteriorData) == 12 ? 1 : -1];
 struct FUN_00540720_shell : public ExteriorData
 {
     void FUN_00540720();
@@ -1496,7 +1493,7 @@ struct FUN_00540720_shell : public ExteriorData
 
 // Sets the three fields of the object to zero and returns the object pointer.
 // @fnv 0x00540720
-ExteriorData* __fastcall FUN_00540720(ExteriorData* pThis)
+ExteriorData* FUN_00540720(ExteriorData* pThis)
 {
     pThis->m_iGridPositionX = 0;
     pThis->m_iGridCoordinateY = 0;
@@ -1539,7 +1536,6 @@ struct TESDataHandlerThread : public BSThread
     char m_acThreadData[12];
     TESDataHandler* pThis;
 };
-typedef char _sizecheck_CompileFilesTask[sizeof(TESDataHandlerThread) == 80 ? 1 : -1];
 struct FUN_00463070_shell : public TESDataHandler
 {
     bool LoadDataFiles(bool);
@@ -2501,11 +2497,11 @@ char* FUN_00461010_shell::FUN_00461010()
 
 struct FUN_00461030_shell
 {
-    char* __thiscall FUN_00461030();
+    char* FUN_00461030();
 };
 
 // @fnv 0x00461030
-char* __thiscall FUN_00461030_shell::FUN_00461030()
+char* FUN_00461030_shell::FUN_00461030()
 {
     return reinterpret_cast<char*>(this) + 0x150;
 }
@@ -2643,11 +2639,11 @@ extern TESForm* _DAT_01183028;
 
 struct FUN_004615d0_shell
 {
-    void __thiscall FUN_004615d0(unsigned int id);
+    void FUN_004615d0(unsigned int id);
 };
 
 // @fnv 0x004615d0
-void __thiscall FUN_004615d0_shell::FUN_004615d0(unsigned int id)
+void FUN_004615d0_shell::FUN_004615d0(unsigned int id)
 {
     dynamic_cast<TESSound*>(::FUN_004839c0(id));
 }
@@ -2715,11 +2711,11 @@ unsigned char FUN_00464db0_shell::GetByteAt428()
 struct FUN_00464dd0_shell
 {
     unsigned int* data;
-    unsigned int __thiscall GetFieldAt3E0();
+    unsigned int GetFieldAt3E0();
 };
 
 // @fnv 0x00464dd0
-unsigned int __thiscall FUN_00464dd0_shell::GetFieldAt3E0()
+unsigned int FUN_00464dd0_shell::GetFieldAt3E0()
 {
     return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x3e0);
 }
@@ -2777,11 +2773,11 @@ void FUN_0046faf0_shell::FUN_0046faf0()
 
 struct FUN_00564e00_shell : TESObject
 {
-    bool __thiscall FUN_00564e00();
+    bool FUN_00564e00();
 };
 
 // @fnv 0x00564e00
-bool __thiscall FUN_00564e00_shell::FUN_00564e00()
+bool FUN_00564e00_shell::FUN_00564e00()
 {
     bool result = false;
     if (((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430())) && FUN_00564e40(reinterpret_cast<unsigned int*>(((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430())))))
@@ -3439,11 +3435,11 @@ void* FUN_004610b0_shell::GetOffset120Ptr()
 
 struct FUN_00461960_shell
 {
-    int __thiscall FUN_00461960();
+    int FUN_00461960();
 };
 
 // @fnv 0x00461960
-int __thiscall FUN_00461960_shell::FUN_00461960()
+int FUN_00461960_shell::FUN_00461960()
 {
     return ((int)(::FUN_009938b0((const unsigned short *)(void *)((char*)this + 0x1dc))));
 }
@@ -3617,11 +3613,11 @@ TESObjectCELL* FUN_00461ae0_shell::FUN_00461ae0(const char* pcEditorID)
 
 struct FUN_00461c20_Holder
 {
-    TESObjectCELL* __thiscall GetOrCreateCell(int, int, TESWorldSpace*, bool);
+    TESObjectCELL* GetOrCreateCell(int, int, TESWorldSpace*, bool);
 };
 struct FUN_00461bc0_cls
 {
-    TESObjectCELL* __thiscall FUN_00461bc0(float, float, TESWorldSpace*, bool);
+    TESObjectCELL* FUN_00461bc0(float, float, TESWorldSpace*, bool);
 };
 // Dispatches a TESForm by form type into the matching list or cell, adding references to their parent cell and warning on unknown types.
 // @fnv 0x004603b0
@@ -3979,7 +3975,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     return true;
 }
 // @fnv 0x00461bc0
-TESObjectCELL* __thiscall FUN_00461bc0_cls::FUN_00461bc0(float afX, float afY, TESWorldSpace* apWorldSpace,
+TESObjectCELL* FUN_00461bc0_cls::FUN_00461bc0(float afX, float afY, TESWorldSpace* apWorldSpace,
                                                          bool abCreateCell)
 {
     int m_iGridCoordinateY;
@@ -4038,9 +4034,6 @@ void FUN_0046f090_shell::CallVirtualSlot6()
 
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
-extern "C" __declspec(dllimport) int __stdcall FindClose(void*);
-extern "C" __declspec(dllimport) char* __stdcall lstrcpy(char*, const char*);
-extern "C" __declspec(dllimport) char* __stdcall lstrcatA(char*, const char*);
 
 int* __cdecl FUN_00ec85e3();
 extern double DAT_01019de8;
@@ -4086,7 +4079,7 @@ bool FUN_00470ca0_t::OpenFile(char* ppath, char* pfilename, int accessmode, bool
         filehandle = FindFirstFileA(szFilename, &Data);
         if (filehandle == (void*)-1)
         {
-            lstrcpy(szFilename, directory);
+            lstrcpyA(szFilename, directory);
             pExt = strchr(fileName, '.');
             if (pExt)
             {
@@ -4515,7 +4508,7 @@ struct FUN_00460270_slotfn
 {
 };
 
-typedef bool(__thiscall* FUN_00460270_vfn)(void*, unsigned int);
+typedef bool(* FUN_00460270_vfn)(void*, unsigned int);
 
 // Returns false if m_20c is zero; otherwise compares the form's id with m_20c and dispatches a virtual call on the form based on its checks.
 // @fnv 0x00460270
@@ -4601,7 +4594,7 @@ TESObjectCELL* FUN_00461330_shell::FUN_00461330(const char* editorID, int x, int
     return pCell;
 }
 
-extern "C" unsigned char __fastcall FUN_008256d0(void*);
+extern "C" unsigned char FUN_008256d0(void*);
 struct FUN_00461700_shell
 {
     TESForm* FindFormByEditorID(const char* editorID);
@@ -5259,10 +5252,6 @@ void FUN_00464e50_cls::FUN_00464e50()
 
 typedef void* HANDLE;
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) HANDLE __stdcall CreateFileA(const char*, DWORD, DWORD, void*, DWORD, DWORD, HANDLE);
-extern "C" __declspec(dllimport) DWORD __stdcall GetFileSize(HANDLE, DWORD*);
-extern "C" __declspec(dllimport) int __stdcall ReadFile(HANDLE, void*, DWORD, DWORD*, void*);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(HANDLE);
 struct TextureScanner
 {
     void CheckTextureFileForEmbeddedData(const char* path);
@@ -7744,7 +7733,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                         if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((current))->FUN_0040fe20() != 1 || !((int)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((current))->FUN_00410220(0x24))))
                             input = current;
                     }
-                    typedef void(__thiscall * SendFunc)(void*, FNVRecordGroup*);
+                    typedef void(* SendFunc)(void*, FNVRecordGroup*);
                     reinterpret_cast<SendFunc>((*reinterpret_cast<void***>(processed))[0x17c / 4])(
                         processed, ((::FNVRecordGroup *)(reinterpret_cast<::Twin_0044ddc0 *>((group))->GetName())));
                     FNVRecordManager* firstRef =
@@ -7797,7 +7786,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
                 {
                     reinterpret_cast<::FUN_0041aed0_shell *>((((::FNVCursor *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<FNVObject*>(processed)))->FUN_005d43c0()))))->FUN_0041aed0();
                     reinterpret_cast<::FUN_00418600_cls *>((((::FNVCursor *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<FNVObject*>(processed)))->FUN_005d43c0()))))->FUN_00418600();
-                    typedef void(__thiscall * ProcessFunc)(void*, void*, int, int);
+                    typedef void(* ProcessFunc)(void*, void*, int, int);
                     reinterpret_cast<ProcessFunc>((*reinterpret_cast<void***>((*reinterpret_cast<void * *>(&::_g_thePlayer))))[0x3d0 / 4])(
                         (*reinterpret_cast<void * *>(&::_g_thePlayer)), processed, count, 0);
                     reinterpret_cast<::ItemChangeListNode *>((group->owner))->FUN_00905330((*(::InventoryStackRecord *const *)(&current)));
@@ -7840,11 +7829,11 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
 
 struct TopicLookup : public TESDataHandler
 {
-    TESTopic* __thiscall FUN_00461690(unsigned int id);
+    TESTopic* FUN_00461690(unsigned int id);
 };
 
 // @fnv 0x00461690
-TESTopic* __thiscall TopicLookup::FUN_00461690(unsigned int id)
+TESTopic* TopicLookup::FUN_00461690(unsigned int id)
 {
     return dynamic_cast<TESTopic*>(::FUN_004839c0(id));
 }

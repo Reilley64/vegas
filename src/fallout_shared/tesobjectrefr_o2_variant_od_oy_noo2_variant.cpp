@@ -341,7 +341,7 @@ struct bhkSphereShape
     virtual void f43();
     virtual void f44();
     virtual RetV* Target(char* p);
-    void __thiscall FUN_00ca0740(void* a, ArgB* b);
+    void FUN_00ca0740(void* a, ArgB* b);
 };
 struct S_00cb3070
 {
@@ -1267,7 +1267,7 @@ struct FUN_00c9f420_Class
 };
 struct ProjectileCreator
 {
-    Object_00c9f5a0* __thiscall FUN_00c9f640(int mode);
+    Object_00c9f5a0* FUN_00c9f640(int mode);
 };
 struct TLSBlock
 {
@@ -1663,7 +1663,7 @@ struct SphereScaleFields
 };
 struct SphereScalingMethod : bhkSphereShape
 {
-    void __thiscall FUN_00c9fea0(void* first, ArgB* second);
+    void FUN_00c9fea0(void* first, ArgB* second);
 };
 struct Tls_ca0090
 {

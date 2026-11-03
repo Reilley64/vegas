@@ -13,8 +13,8 @@
 struct DAT_010c53b4_t
 {
     void* vtable;
-    void*(__thiscall* Alloc)(void*, unsigned int);
-    void(__thiscall* Free)(void*, void*);
+    void*(* Alloc)(void*, unsigned int);
+    void(* Free)(void*, void*);
 };
 
 

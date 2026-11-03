@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/transform/hkptransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cf5950_cls.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -203,7 +204,6 @@ class TransformShape_cf5a
 };
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010cc448[];
 struct CF5Mon
@@ -350,7 +350,6 @@ CF5Bool CF5Shape::FUN_00cf5b20(const CF5Input& in, CF5Output& out) const
     return hit;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 
 struct hkMonitorTimerCommand

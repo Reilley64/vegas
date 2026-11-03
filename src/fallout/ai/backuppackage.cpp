@@ -44,7 +44,7 @@ struct FUN_009ed010_shell
 };
 
 // @fnv 0x009ed010
-void __thiscall FUN_009ed010_shell::ForwardToBase(void* apBuffer)
+void FUN_009ed010_shell::ForwardToBase(void* apBuffer)
 {
     reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((int)(apBuffer));
 }
@@ -52,16 +52,16 @@ void __thiscall FUN_009ed010_shell::ForwardToBase(void* apBuffer)
 struct BackUpPackage
 {
     virtual ~BackUpPackage();
-    void __thiscall FUN_009ed330();
-    void* __thiscall DestroyOrFree(unsigned int flags);
+    void FUN_009ed330();
+    void* DestroyOrFree(unsigned int flags);
 };
 
-void __thiscall BackUpPackage::FUN_009ed330()
+void BackUpPackage::FUN_009ed330()
 {}
 
 // Calls FUN_009ed330, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x009ed0a0
-void* __thiscall BackUpPackage::DestroyOrFree(unsigned int flags)
+void* BackUpPackage::DestroyOrFree(unsigned int flags)
 {
     reinterpret_cast<::FUN_009ed330 *>(this)->FUN_009ed330::~FUN_009ed330();
     if (flags & 1)
@@ -82,11 +82,11 @@ struct BGSSaveFormBuffer
 
 struct FUN_009edb60_shell : public BackUpPackage
 {
-    void __thiscall FUN_009edb60(BGSSaveFormBuffer* apBuffer);
+    void FUN_009edb60(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x009edb60
-void __thiscall FUN_009edb60_shell::FUN_009edb60(BGSSaveFormBuffer* apBuffer)
+void FUN_009edb60_shell::FUN_009edb60(BGSSaveFormBuffer* apBuffer)
 {
     ((FUN_006797c0_shell*)this)->FUN_006797c0((::FUN_006797c0_arg *)(apBuffer));
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x80, 0xc, 0);
@@ -107,11 +107,11 @@ public:
 };
 struct BackUpPackageProxy : TESPackage
 {
-    void __thiscall LoadGameWithBackup(BGSLoadFormBuffer*);
+    void LoadGameWithBackup(BGSLoadFormBuffer*);
 };
 // Calls TESPackage::LoadGame on the buffer, then reads 12 bytes from the buffer into the object at offset 0x80.
 // @fnv 0x009edb90
-void __thiscall BackUpPackageProxy::LoadGameWithBackup(BGSLoadFormBuffer* apLoadGameBuffer)
+void BackUpPackageProxy::LoadGameWithBackup(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::Package6798c0 *>(this)->LoadPackage((::LoadBuffer6798c0 *)(apLoadGameBuffer));
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x80)), 12);
@@ -119,7 +119,7 @@ void __thiscall BackUpPackageProxy::LoadGameWithBackup(BGSLoadFormBuffer* apLoad
 
 struct GlobalObject_0045cf30
 {
-    unsigned char* __thiscall Bool();
+    unsigned char* Bool();
 };
 
 struct Saver
@@ -311,11 +311,11 @@ GlobalObject_0045cf30 g_011de4e8;
 
 struct FUN_009ed5f0_shell : public Saver
 {
-    unsigned short __thiscall FUN_009ed5f0();
+    unsigned short FUN_009ed5f0();
 };
 
 // @fnv 0x009ed5f0
-unsigned short __thiscall FUN_009ed5f0_shell::FUN_009ed5f0()
+unsigned short FUN_009ed5f0_shell::FUN_009ed5f0()
 {
     unsigned short usSaveSize = 0;
     unsigned short usOldSize;

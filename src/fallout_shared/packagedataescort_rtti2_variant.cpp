@@ -28,7 +28,7 @@ struct FUN_0067bc60_shell
     void* m_vtbl;
     int m_flags;
     TESForm* m_form;
-    FUN_0067bc60_shell* __thiscall ConstructFromForm(TESForm** pForm);
+    FUN_0067bc60_shell* ConstructFromForm(TESForm** pForm);
 };
 struct LocationDescriptor
 {
@@ -79,7 +79,7 @@ struct EscortComparison
     LocationDescriptor* m_pPackageTarget;
     int m_iValue;
 
-    bool __thiscall FUN_0067be40(TESPackageData* compare);
+    bool FUN_0067be40(TESPackageData* compare);
 };
 
 // @fnv 0x0067be40

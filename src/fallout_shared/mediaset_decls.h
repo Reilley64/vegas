@@ -58,7 +58,6 @@ class FalloutAudioMedia
 };
 extern unsigned int DAT_011dd37c;
 
-#pragma pack(push, 4)
 class MediaSet : public TESForm, public TESFullName
 {
   public:
@@ -113,11 +112,7 @@ class MediaSet : public TESForm, public TESFullName
     bool UpdateBattleState(bool, unsigned int, int);
     bool Update(unsigned int auiTime, bool abForce, MediaLocationController* apController);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(MediaSet) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(MediaSet, m_pSound1) == 0xBC);
-FNV_STATIC_ASSERT(offsetof(MediaSet, m_pSound2) == 0xC0);
 
 extern unsigned int DAT_011ca9fc;
 

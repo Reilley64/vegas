@@ -537,7 +537,7 @@ void __cdecl FUN_00df07c0(const unsigned char* pucLockedAxes, MotionArgument pkM
 }
 
 // @fnv 0x00df3120
-void __stdcall FUN_00df3120(__m128* dest, unsigned int index, __m128* src)
+void FUN_00df3120(__m128* dest, unsigned int index, __m128* src)
 {
     *(__m128*)((char*)dest + (index << 4)) = *src;
 }

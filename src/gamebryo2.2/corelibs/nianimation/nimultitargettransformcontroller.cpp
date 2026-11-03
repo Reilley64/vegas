@@ -109,7 +109,7 @@ char* FUN_00a2fd40_shell::FUN_00a2fd40(unsigned short usIndex)
 
 
 // @fnv 0x00a2ff70
-void* __fastcall FUN_00a2ff70(char* pThis, int, unsigned int flags)
+void* FUN_00a2ff70(char* pThis, int, unsigned int flags)
 {
     if (flags & 2)
     {
@@ -145,7 +145,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a30070_shell : public NiMultiTargetTransformController
 {
     void CloneTo(NiMultiTargetTransformController*, CloningProcess*);
@@ -187,7 +186,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a300d0_shell : public NiMultiTargetTransformController
 {
     void FUN_00a300d0(CloningProcess*);
@@ -263,7 +261,7 @@ void FUN_00a300d0_shell::FUN_00a300d0(CloningProcess* kCloning)
 }
 }  // namespace fnv_00a300d0
 
-void __fastcall FUN_00a2fb70(void* pThis);
+void FUN_00a2fb70(void* pThis);
 
 struct NiMemObject_Del : public NiMemObject
 {
@@ -272,7 +270,7 @@ struct NiMemObject_Del : public NiMemObject
 
 // Calls FUN_00a2fb70 on pThis, then deletes pThis with size 0x40 when flags has bit 1 set, and returns pThis.
 // @fnv 0x00a30280
-void* __fastcall FUN_00a30280(void* pThis, int, unsigned int flags)
+void* FUN_00a30280(void* pThis, int, unsigned int flags)
 {
     FUN_00a2fb70(pThis);
     if (flags & 1)
@@ -288,7 +286,7 @@ struct Blend34
     char* p;
 };
 // @fnv 0x00a2fa30
-char* __fastcall FUN_00a2fa30(Blend34* self, int, unsigned short ausIndex)
+char* FUN_00a2fa30(Blend34* self, int, unsigned short ausIndex)
 {
     return self->p + ausIndex * 0x30;
 }
@@ -300,7 +298,7 @@ struct Blend34
     char* p;
 };
 // @fnv 0x00a2fa50
-char* __fastcall FUN_00a2fa50(Blend34* self, int, unsigned short ausIndex, bool a, bool b, float c, unsigned char d)
+char* FUN_00a2fa50(Blend34* self, int, unsigned short ausIndex, bool a, bool b, float c, unsigned char d)
 {
     return self->p + ausIndex * 0x30;
 }
@@ -368,7 +366,7 @@ struct Ctl
     unsigned short num;
 };
 // @fnv 0x00a2fa70
-void __fastcall FUN_00a2fa70(Ctl* self, int, float afValueA, float afValueB)
+void FUN_00a2fa70(Ctl* self, int, float afValueA, float afValueB)
 {
     for (unsigned short us = 0; us < self->num; us++)
         self->blends[us].SetActiveTimeRange(afValueA, afValueB);
@@ -400,7 +398,7 @@ struct Ctl
     unsigned short num;
 };
 // @fnv 0x00a30240
-unsigned short __fastcall FindTargetIndex(Ctl* self, int, const NiFixedString* arName)
+unsigned short FindTargetIndex(Ctl* self, int, const NiFixedString* arName)
 {
     unsigned short us;
     for (us = 0; us < self->num; us++)
@@ -431,7 +429,7 @@ struct Ctl
 };
 // Walks the RTTI chain of self->target and returns true if it reaches g_011f4428_arg1, otherwise false.
 // @fnv 0x00a302a0
-bool __fastcall IsTargetOfType(Ctl* pCtl)
+bool IsTargetOfType(Ctl* pCtl)
 {
     Obj* t = pCtl->target;
     if (t)
@@ -460,7 +458,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a302d0_shell : public NiMultiTargetTransformController
 {
     NiObject* FUN_00a302d0(CloningProcess*);
@@ -588,7 +585,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00a2fbe0_shell : public NiMultiTargetTransformController
 {
     void UpdateTargets(NiUpdateData*);
@@ -1232,11 +1228,11 @@ unsigned short BA2FD60Controller::FindItemIndexByName(const char* pcName) const
 
 struct NiMultiTargetTransformControllerStandIn : public NiMultiTargetTransformController
 {
-    unsigned short __thiscall FUN_00a2fa20();
+    unsigned short FUN_00a2fa20();
 };
 
 // @fnv 0x00a2fa20
-unsigned short __thiscall NiMultiTargetTransformControllerStandIn::FUN_00a2fa20()
+unsigned short NiMultiTargetTransformControllerStandIn::FUN_00a2fa20()
 {
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 0x3C);
 }

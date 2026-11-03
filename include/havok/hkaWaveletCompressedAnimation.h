@@ -5,7 +5,6 @@
 #include "hkBase.h"
 #include "hkaAnimation.h"
 #include "hkaWaveletCompressedAnimationQuantizationFormat.h"
-#pragma pack(push, 1)
 class hkaWaveletCompressedAnimation : public hkaAnimation
 {
   public:
@@ -22,6 +21,4 @@ class hkaWaveletCompressedAnimation : public hkaAnimation
     hkUint32 m_uiNumDynamicTracks;                                          // +0x60
     hkArray<hkUint8> m_kCompressedData;                                     // +0x64
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkaWaveletCompressedAnimation[(sizeof(hkaWaveletCompressedAnimation) == 0x70) ? 1 : -1];
 #endif

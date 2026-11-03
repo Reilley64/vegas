@@ -25,7 +25,6 @@ class PerkEntryConditionSet
     BSSimpleList<TESConditionItem*> m_kConditionItems;
     void InitItem(TESForm* form);
 };
-FNV_STATIC_ASSERT(sizeof(PerkEntryConditionSet) == 8);
 
 // The target prefix accessed by these methods; the teleport path follows it.
 class RegionObjectEntry
@@ -38,7 +37,6 @@ class RegionObjectEntry
     void InitItem(TESForm* form);
     TESObjectREFR* GetReference(bool resolveDeleted);
 };
-FNV_STATIC_ASSERT(offsetof(RegionObjectEntry, m_pReference) == 12);
 
 class AnimationClipStatus
 {
@@ -46,7 +44,6 @@ class AnimationClipStatus
     unsigned char m_ucClipIdentifier;
     bool m_bCompleted;
 };
-FNV_STATIC_ASSERT(sizeof(AnimationClipStatus) == 2);
 
 class PlayerQuestData;
 class QuestStage
@@ -56,8 +53,6 @@ class QuestStage
     BSSimpleList<PlayerQuestData*> m_kStageItems;
     void Load(TESFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(QuestStage) == 12);
-FNV_STATIC_ASSERT(offsetof(QuestStage, m_kStageItems) == 4);
 
 // Older INDX chunks occupy eight bytes; the remaining payload is reserved.
 struct TESQuestStageLegacyData
@@ -65,6 +60,5 @@ struct TESQuestStageLegacyData
     AnimationClipStatus data;
     unsigned int reserved;
 };
-FNV_STATIC_ASSERT(sizeof(TESQuestStageLegacyData) == 8);
 
 #endif

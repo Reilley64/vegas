@@ -2,6 +2,7 @@
 #ifndef FNV_IMAGESPACEMANAGER_DECLS_H
 #define FNV_IMAGESPACEMANAGER_DECLS_H
 
+#include <windows.h>
 #include "NiFixedString.h"
 class NiGlobalStringTable;
 class NiScreenElementsData;
@@ -11,7 +12,6 @@ extern float DAT_010162c0;
 extern float DAT_0104a494;
 extern const char DAT_010b04ac[];
 void* Allocate(unsigned int size);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 class NiUpdateData
 {

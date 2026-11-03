@@ -539,7 +539,7 @@ void S_00d87f60::FUN_00d87f60(S_00d87f60_Arg* arg)
     }
 }
 
-typedef void(__thiscall* SlotFn)(void* self, void* arg);
+typedef void(* SlotFn)(void* self, void* arg);
 struct Sub_b1297
 {
 };

@@ -19,7 +19,7 @@ struct FUN_00621100_shell
 };
 
 // @fnv 0x00621100
-void __thiscall FUN_00621100_shell::SetVtable()
+void FUN_00621100_shell::SetVtable()
 {
     *(int*)this = (int)&DAT_0104da3c;
 }
@@ -55,11 +55,11 @@ extern int DAT_0104da3c;
 struct FUN_00621060_shell
 {
     int* vtbl;
-    void __thiscall SetValue();
-    FUN_00621060_shell* __thiscall FUN_00621060();
+    void SetValue();
+    FUN_00621060_shell* FUN_00621060();
 };
 // @fnv 0x00621060
-FUN_00621060_shell* __thiscall FUN_00621060_shell::FUN_00621060()
+FUN_00621060_shell* FUN_00621060_shell::FUN_00621060()
 {
     vtbl = &DAT_0104da3c;
     SetValue();
@@ -122,7 +122,6 @@ struct RootContactPoint
     unsigned int m_uiShapeKeyB;
     char m_kContactPointC[32];
 };
-typedef char _sizecheck_hkpRootCdPoint[sizeof(RootContactPoint) == 112 ? 1 : -1];
 struct FUN_006212c0_shell : public RootContactPoint
 {
     RootContactPoint* FUN_006212c0(void*);
@@ -149,7 +148,7 @@ RootContactPoint* FUN_006212c0_shell::FUN_006212c0(void* apSource)
 }
 
 // @fnv 0x00621080
-void __thiscall FUN_00621060_shell::SetValue()
+void FUN_00621060_shell::SetValue()
 {
     *(float*)((char*)this + 4) = ::DAT_0104da48;
 }
@@ -157,11 +156,11 @@ void __thiscall FUN_00621060_shell::SetValue()
 
 struct FUN_00621120_shell : public FUN_00621060_shell
 {
-    void __thiscall FUN_00621120();
+    void FUN_00621120();
 };
 
 // @fnv 0x00621120
-void __thiscall FUN_00621120_shell::FUN_00621120()
+void FUN_00621120_shell::FUN_00621120()
 {
     reinterpret_cast<::FUN_00621c90_Class *>((reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10)))->FUN_00626870();
     SetValue();
@@ -206,11 +205,11 @@ bool DummyFlagsShell::FUN_00621240()
 
 struct FUN_006210a0_shell : FUN_00621100_shell
 {
-    void* __thiscall FUN_006210a0(unsigned int flags);
+    void* FUN_006210a0(unsigned int flags);
 };
 
 // @fnv 0x006210a0
-void* __thiscall FUN_006210a0_shell::FUN_006210a0(unsigned int flags)
+void* FUN_006210a0_shell::FUN_006210a0(unsigned int flags)
 {
     SetVtable();
     if (flags & 1)

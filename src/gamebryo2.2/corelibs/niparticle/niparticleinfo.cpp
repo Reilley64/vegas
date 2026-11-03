@@ -18,12 +18,12 @@ struct Point3ParameterData
     float m_fZValue;
     unsigned short m_usFirstValue;
     unsigned short m_usSecondValue;
-    bool __thiscall Equals(const Point3ParameterData& kData);
+    bool Equals(const Point3ParameterData& kData);
 };
 
 // Compares every member of this object with kData and returns true only if all of them are equal.
 // @fnv 0x00c31e90
-bool __thiscall Point3ParameterData::Equals(const Point3ParameterData& kData)
+bool Point3ParameterData::Equals(const Point3ParameterData& kData)
 {
     if (m_kValue.x != kData.m_kValue.x || m_kValue.y != kData.m_kValue.y || m_kValue.z != kData.m_kValue.z ||
         m_fXValue != kData.m_fXValue || m_fYValue != kData.m_fYValue || m_fZValue != kData.m_fZValue ||

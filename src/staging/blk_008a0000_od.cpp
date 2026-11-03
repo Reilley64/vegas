@@ -132,11 +132,11 @@ float FUN_008ae480_Class::GetField1A8()
 
 struct FUN_008ae4a0_Class
 {
-    float __thiscall GetField1B8();
+    float GetField1B8();
 };
 
 // @fnv 0x008ae4a0
-float __thiscall FUN_008ae4a0_Class::GetField1B8()
+float FUN_008ae4a0_Class::GetField1B8()
 {
     return *(float*)((char*)this + 0x1b8);
 }
@@ -3177,7 +3177,7 @@ struct ActorX
     void FUN_008bfa40(RefObj* pSrc, int a2, int a3, int a4, TESForm* p5);
 };
 
-int __fastcall FNV_GetFormType(TESForm* p);
+int FNV_GetFormType(TESForm* p);
 
 // @fnv 0x008bfa40
 void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESForm* apForm)

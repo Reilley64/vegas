@@ -64,12 +64,12 @@ void FUN_007832e0_class::FUN_007832e0(float afFirst, float afSecond)
 
 struct FUN_00788330
 {
-    void* __thiscall Alloc(int a);
+    void* Alloc(int a);
 };
 
 // Allocates a block of a * 20 bytes via operator new and returns the pointer.
 // @fnv 0x00788330
-void* __thiscall FUN_00788330::Alloc(int a)
+void* FUN_00788330::Alloc(int a)
 {
     void* result = ::FUN_00401000(a * 20);
     return result;
@@ -106,11 +106,11 @@ void FUN_00792780_Class::SetByteAtOffset30(unsigned char aucValue)
 struct GlobalObject_00788300
 {
     ~GlobalObject_00788300();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 // Runs the destructor and, when flags has bit 0 set, frees the object with operator delete; returns this.
 // @fnv 0x00788360
-void* __thiscall GlobalObject_00788300::Destroy(unsigned int flags)
+void* GlobalObject_00788300::Destroy(unsigned int flags)
 {
     reinterpret_cast<::BSSimpleArrayActor *>(this)->FUN_00788390();
     if (flags & 1)
@@ -120,13 +120,13 @@ void* __thiscall GlobalObject_00788300::Destroy(unsigned int flags)
 
 struct FUN_0078d8d0_Class
 {
-    void* __thiscall FUN_0078d8d0(unsigned int flags);
+    void* FUN_0078d8d0(unsigned int flags);
 };
 
 
 // Calls FUN_0078d8b0, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x0078d8d0
-void* __thiscall FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
+void* FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
 {
     ::FUN_0078d8b0((::GlobalObject_00869f00 *)this);
     if (flags & 1)
@@ -136,12 +136,12 @@ void* __thiscall FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
 
 struct FUN_0078e090_class
 {
-    char __thiscall FUN_0078e090();
+    char FUN_0078e090();
 };
 
 // Checks the 16 int slots at offset 0x2c and returns 1 only if every one is non-zero, otherwise 0.
 // @fnv 0x0078e090
-char __thiscall FUN_0078e090_class::FUN_0078e090()
+char FUN_0078e090_class::FUN_0078e090()
 {
     for (int i = 0; i < 16; ++i)
     {
@@ -173,18 +173,18 @@ struct TileShaderProperty
 };
 struct FUN_0078cf10_Class
 {
-    void __thiscall SetAlphaRecursive(NiAVObject* object, float alpha);
+    void SetAlphaRecursive(NiAVObject* object, float alpha);
 };
 // Recursively applies alpha to the object's children and, if the object has a shader property, sets its alpha.
 // @fnv 0x0078cf10
-void __thiscall FUN_0078cf10_Class::SetAlphaRecursive(NiAVObject* object, float alpha)
+void FUN_0078cf10_Class::SetAlphaRecursive(NiAVObject* object, float alpha)
 {
     if (!object)
         return;
-    NiNode* node = ((NiNode * (__thiscall*)(void*))(*(void***)object)[3])(object);
+    NiNode* node = ((NiNode * (*)(void*))(*(void***)object)[3])(object);
     for (unsigned int i = 0; node && i < node->GetNumChildren(); ++i)
         SetAlphaRecursive(node->GetAt(i), alpha);
-    if (((int(__thiscall*)(void*))(*(void***)object)[6])(object))
+    if (((int(*)(void*))(*(void***)object)[6])(object))
     {
         TileShaderProperty* pShaderProp = (TileShaderProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)object)))->FUN_00a59d30(FUN_00438220())));
         if (pShaderProp)
@@ -1045,7 +1045,7 @@ bool C1540Menu::FUN_00791540(int iControl)
            reinterpret_cast<::HotkeyWheelDisplay *>((((::C1540InputManager *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::C1540OSGlobals * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(1, iControl);
 }
 
-extern int(__stdcall* DAT_00fdf1b0)(void*);
+extern int(* DAT_00fdf1b0)(void*);
 
 class CriticalSectionEntry
 {

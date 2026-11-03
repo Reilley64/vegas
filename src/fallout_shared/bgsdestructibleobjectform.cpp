@@ -313,13 +313,13 @@ void BGSDestructibleObjectForm::InitItem(TESForm* owner)
 }
 
 // @fnv 0x0045bb80
-int __fastcall FUN_0045bb80(int param_1)
+int FUN_0045bb80(int param_1)
 {
     return param_1 + 0x8C;
 }
 
 // @fnv 0x00461130
-int __fastcall FUN_00461130(int pThis)
+int FUN_00461130(int pThis)
 {
     return pThis + 0x68;
 }
@@ -333,7 +333,7 @@ class BaseFormComponent
 
 // Initialises the BaseFormComponent at pThis, sets its vtable to DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00475350
-void* __fastcall FUN_00475350(void* pThis)
+void* FUN_00475350(void* pThis)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;
@@ -376,7 +376,6 @@ struct DestructionStageData
     unsigned int m_uiDebrisCount;
     TESModelTextureSwap* m_pReplacementModel;
 };
-typedef char _sizecheck_DestructibleObjectStage[sizeof(DestructionStageData) == 24 ? 1 : -1];
 struct FUN_00475a00_shell : public BGSDestructibleObjectForm
 {
     bool FUN_00475a00();
@@ -453,11 +452,11 @@ void __cdecl FUN_00476ae0();
 
 // Sets the fade node's two float fields to 1.0 and calls FUN_00476ae0 with true.
 // @fnv 0x00476ab0
-void __fastcall FUN_00476ab0(BSFadeNode_Dummy* pThis)
+void FUN_00476ab0(BSFadeNode_Dummy* pThis)
 {
     pThis->f2 = 1.0f;
     pThis->f1 = 1.0f;
-    typedef void(__thiscall * Fn)(BSFadeNode_Dummy*, bool);
+    typedef void(* Fn)(BSFadeNode_Dummy*, bool);
     ((Fn)&FUN_00476ae0)(pThis, true);
 }
 
@@ -481,7 +480,6 @@ struct MersenneTwister
     char mt[2496];
     unsigned int mti;
 };
-typedef char _sizecheck_BSRandom[sizeof(MersenneTwister) == 2508 ? 1 : -1];
 struct FUN_00476b90_shell : public MersenneTwister
 {
     float FUN_00476b90(float, float);

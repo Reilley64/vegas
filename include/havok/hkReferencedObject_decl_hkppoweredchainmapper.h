@@ -6,7 +6,6 @@
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkReferencedObject : public hkBaseObject
 {
   public:
@@ -16,6 +15,4 @@ class hkReferencedObject : public hkBaseObject
     hkUint16 m_usMemSizeAndFlags;  // +0x4
     hkInt16 m_sReferenceCount;     // +0x6
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkReferencedObject[(sizeof(hkReferencedObject) == 0x8) ? 1 : -1];
 #endif

@@ -110,7 +110,7 @@ struct C009c58e0
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 #include <xmmintrin.h>
@@ -121,11 +121,11 @@ struct S_00561240
 struct S_00627920
 {
     __m128 unk00;
-    void __thiscall FUN_00627920(S_00561240* param);
+    void FUN_00627920(S_00561240* param);
 };
 
 // @fnv 0x00627920
-void __thiscall S_00627920::FUN_00627920(S_00561240* param)
+void S_00627920::FUN_00627920(S_00561240* param)
 {
     __m128 tmp;
     unk00 = _mm_mul_ps(*((::__m128 *)(reinterpret_cast<::S00561240_Vector *>((param))->FUN_00561240((::S00561240_Vector *)(::__m128 *)(&tmp)))), unk00);

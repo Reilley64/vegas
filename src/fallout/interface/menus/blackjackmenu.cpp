@@ -105,11 +105,11 @@ void FUN_007316f0_shell::ClearField()
 
 struct BlackJackMenu
 {
-    int __thiscall FUN_00731790();
+    int FUN_00731790();
 };
 
 // @fnv 0x00731790
-int __thiscall BlackJackMenu::FUN_00731790()
+int BlackJackMenu::FUN_00731790()
 {
     return 0x439;
 }
@@ -154,25 +154,25 @@ void FUN_007399d0_shell::FUN_007399d0()
 
 struct FUN_00734d30_shell
 {
-    int __thiscall HasFlag(int aFlag);
+    int HasFlag(int aFlag);
 };
 // @fnv 0x00734d30
-int __thiscall FUN_00734d30_shell::HasFlag(int aFlag)
+int FUN_00734d30_shell::HasFlag(int aFlag)
 {
     return (*(reinterpret_cast<int*>(this) + 0xdb0 / 4) & aFlag) != 0;
 }
 
 struct FUN_007317d0_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct Helper731800
 {
-    void __thiscall FUN_00731800();
+    void FUN_00731800();
 };
 // Calls FUN_00731800 on this, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x007317d0
-void* __thiscall FUN_007317d0_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_007317d0_shell::DestroyIfFlagged(unsigned int flags)
 {
     ((Helper731800*)this)->FUN_00731800();
     if (flags & 1)
@@ -248,12 +248,12 @@ FUN_00733f50_shell* FUN_00733f50_shell::FUN_00733f50()
 
 struct FUN_00733f90_shell
 {
-    char __thiscall FUN_00733f90();
+    char FUN_00733f90();
 };
 
 // Checks the ten int fields starting at offset 13 and returns 1 only if none of them is zero, otherwise 0.
 // @fnv 0x00733f90
-char __thiscall FUN_00733f90_shell::FUN_00733f90()
+char FUN_00733f90_shell::FUN_00733f90()
 {
     for (int i = 0; i < 10; ++i)
     {
@@ -265,7 +265,7 @@ char __thiscall FUN_00733f90_shell::FUN_00733f90()
 
 struct FUN_00738fb0_shell
 {
-    int __thiscall GetAdjustedValue(int a1);
+    int GetAdjustedValue(int a1);
 };
 // Returns 10 for inputs 9-11, 11 for input 12, and otherwise the input plus 2.
 // @fnv 0x00738fb0
@@ -294,11 +294,11 @@ struct FUN_00739ad0_Holder
 {
     char _pad[0xDB4];
     NiAVObject* m_pTreeNode;
-    void __thiscall HideArrowNodes();
+    void HideArrowNodes();
 };
 // Looks up the nodes "Hand1_Arrow:0" and "Hand1_Arrow:0@#2" by name and culls both.
 // @fnv 0x00739ad0
-void __thiscall FUN_00739ad0_Holder::HideArrowNodes()
+void FUN_00739ad0_Holder::HideArrowNodes()
 {
     NiAVObject* pavobj;
     pavobj = ::FUN_004aae30(m_pTreeNode, (::NiFixedString *)("Hand1_Arrow:0"));
@@ -311,11 +311,11 @@ struct FUN_00733fd0_shell
 {
     char _pad_0[0xf8];
     float m_fMinimum;  // +0xf8
-    void __thiscall FUN_00733fd0(float fMin);
+    void FUN_00733fd0(float fMin);
 };
 
 // @fnv 0x00733fd0
-void __thiscall FUN_00733fd0_shell::FUN_00733fd0(float fMin)
+void FUN_00733fd0_shell::FUN_00733fd0(float fMin)
 {
     m_fMinimum = fMin;
 }
@@ -456,7 +456,7 @@ struct FUN_00738270_shell
     NiAVObject* m_pCardObject2;
     NiAVObject* m_pCardObject3;
 
-    void __thiscall UncullCardObjects();
+    void UncullCardObjects();
 };
 
 // Builds card, card-back and shadow node names for indices 1-7 on three objects, un-culls each found node, then updates g_011d9098.
@@ -521,13 +521,13 @@ void FUN_00738270_shell::UncullCardObjects()
 
 struct StartMenu
 {
-    char const* __thiscall GetMenuTitle();
+    char const* GetMenuTitle();
 };
 
 
 struct FUN_00a01290_shell
 {
-    void __thiscall SetTraitAndReset(int, float);
+    void SetTraitAndReset(int, float);
 };
 
 struct P09TileS
@@ -540,7 +540,7 @@ struct Tile2
 
 struct FUN_00738c30_shell
 {
-    void __thiscall FUN_00738c30(int, float);
+    void FUN_00738c30(int, float);
 };
 
 struct BlackJackMenu_Layout
@@ -619,9 +619,9 @@ struct Padding16ByteBlock
 
 struct G2
 {
-    bool __thiscall _ref_008256d0();
-    void __thiscall _ref_00726c60(Padding16ByteBlock* const& value);
-    void __thiscall AddHead(Padding16ByteBlock* const& value);
+    bool _ref_008256d0();
+    void _ref_00726c60(Padding16ByteBlock* const& value);
+    void AddHead(Padding16ByteBlock* const& value);
 };
 
 struct SoundListView
@@ -639,7 +639,7 @@ struct FUN_007393f0_shell
     G2* _playerHand;
 
 
-    void __thiscall DealInitialCards();
+    void DealInitialCards();
 };
 
 namespace fnv_007395a0 {
@@ -661,11 +661,11 @@ struct FUN_007395a0_shell
     unsigned char _pad78[0xD94 - 0x78];
     BSSimpleList* m_pSimpleList;
 
-    bool __thiscall FUN_007395a0();
+    bool FUN_007395a0();
 };
 
 // @fnv 0x007395a0
-bool __thiscall FUN_007395a0_shell::FUN_007395a0()
+bool FUN_007395a0_shell::FUN_007395a0()
 {
     int numCards;
     BSSimpleList* clist;
@@ -709,7 +709,7 @@ bool __thiscall FUN_007395a0_shell::FUN_007395a0()
 namespace fnv_0073ab40 {
 struct StartMenu
 {
-    char const* __thiscall GetMenuTitle();
+    char const* GetMenuTitle();
 };
 
 struct GlobalObject_0040c150 : public StartMenu
@@ -729,7 +729,7 @@ struct FUN_0073ab40_shell
     unsigned char _pad[0x3C];
     TileHelper* m_tile;
 
-    void __thiscall UpdateTileText();
+    void UpdateTileText();
 };
 
 extern unsigned int _data_011c16bc;
@@ -1208,12 +1208,12 @@ struct This731
     char _pad_db8[0xc];
     NiNode* arrDC4[6];
     NiNode* arrDDC[6];
-    bool __thiscall LoadCardDeckResources();
+    bool LoadCardDeckResources();
 };
 
 // Loads deck model and card textures from DAT_011d9058, fills f60/f64/m_d9c/b_dac/m_db4/arrDC4/arrDDC and the cards array, and sets m_da0, arr84 and b80.
 // @fnv 0x00731d70
-bool __thiscall This731::LoadCardDeckResources()
+bool This731::LoadCardDeckResources()
 {
     if ((*reinterpret_cast<::fnv_00731d70::GlobObj731 * *>(&::DAT_011d9058)) != 0)
     {
@@ -1371,11 +1371,11 @@ struct FUN_007399f0_cls
     unsigned char _pad0[0xdb4];
     int m_db4;
 
-    void __thiscall FUN_007399f0();
+    void FUN_007399f0();
 };
 
 // @fnv 0x007399f0
-void __thiscall FUN_007399f0_cls::FUN_007399f0()
+void FUN_007399f0_cls::FUN_007399f0()
 {
     Local12_cls tmp;
     Node_cls* node;
@@ -4424,7 +4424,7 @@ struct OwnQ
     int FUN_00738ff0(Node129* pList);
 };
 // @fnv 0x007393f0
-void __thiscall FUN_007393f0_shell::DealInitialCards()
+void FUN_007393f0_shell::DealInitialCards()
 {
     int cardindex;
 

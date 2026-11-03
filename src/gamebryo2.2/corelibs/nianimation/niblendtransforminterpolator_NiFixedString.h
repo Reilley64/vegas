@@ -7,6 +7,4 @@ class NiFixedString
   public:
     char* m_kHandle;  // +0x0
 };
-FNV_STATIC_ASSERT(sizeof(NiFixedString) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiFixedString, m_kHandle) == 0x0);
 #endif

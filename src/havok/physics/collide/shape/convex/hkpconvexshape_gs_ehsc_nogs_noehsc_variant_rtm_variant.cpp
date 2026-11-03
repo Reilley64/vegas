@@ -12,7 +12,7 @@
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexShape.h"
-int __stdcall FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+int FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 struct FUN_00d1df70
 {
 };

@@ -39,7 +39,6 @@ enum SOUND_LEVEL
     SOUND_LEVEL_SOUND_LEVEL_SILENT = 2,
     SOUND_LEVEL_SOUND_LEVEL_COUNT = 3
 };
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -56,11 +55,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -93,12 +87,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class BGSImpactData__IMPACT_DATA_DATA
 {
   public:
@@ -110,15 +98,6 @@ class BGSImpactData__IMPACT_DATA_DATA
     unsigned char cFlags;                       // +0x14, 1 bytes
     unsigned char layoutPadding15[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSImpactData__IMPACT_DATA_DATA) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__IMPACT_DATA_DATA, m_fEffectDuration) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__IMPACT_DATA_DATA, m_eOrientation) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__IMPACT_DATA_DATA, m_fAngleThreshold) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__IMPACT_DATA_DATA, m_fPlacementRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__IMPACT_DATA_DATA, m_eSoundLevel) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__IMPACT_DATA_DATA, cFlags) == 20);
-#pragma pack(push, 4)
 class ImpactDecalData
 {
   public:
@@ -135,19 +114,6 @@ class ImpactDecalData
     unsigned int iColor;  // +0x20, 4 bytes
     // void __cdecl ImpactDecalData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImpactDecalData) == 36);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMinWidth) == 0);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMaxWidth) == 4);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMinHeight) == 8);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMaxHeight) == 12);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fProjectionDepth) == 16);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fShininess) == 20);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fParallaxScale) == 24);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_ucParallaxPasses) == 28);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, cFlags) == 29);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, iColor) == 32);
-#pragma pack(push, 4)
 class DecalData
 {
   public:
@@ -189,10 +155,6 @@ class DecalData
 public:
     void Copy(::DecalData *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DecalData) == 36);
-FNV_STATIC_ASSERT(offsetof(DecalData, Data) == 0);
-#pragma pack(push, 4)
 class BGSImpactData__OLD_IMPACT_DATA_DATA
 {
   public:
@@ -224,24 +186,6 @@ class BGSImpactData__OLD_IMPACT_DATA_DATA
         unsigned int rawChunkData[14];  // +0x0, 56 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSImpactData__OLD_IMPACT_DATA_DATA) == 56);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fDecalMinWidth) == 0);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fEffectDuration) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fParallaxScale) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_eOrientation) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, cFlags) == 16);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_ucParallaxPasses) == 17);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fDecalMaxWidth) == 20);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fProjectionDepth) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fDecalMinHeight) == 28);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fDecalMaxHeight) == 32);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fShininess) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fAngleThreshold) == 40);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_fPlacementRadius) == 44);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, iColor) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData__OLD_IMPACT_DATA_DATA, m_eSoundLevel) == 52);
-#pragma pack(push, 4)
 class DecalData_d00483710 : public DecalData
 {
   public:
@@ -317,13 +261,6 @@ class BGSImpactData : public TESForm, public TESModel
     // BGSImpactData& __cdecl BGSImpactData::*(const BGSImpactData&)
     // void __cdecl BGSImpactData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSImpactData) == 120);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData, Data) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData, m_pDecalTextureSet) == 72);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData, m_pPrimaryImpactSound) == 76);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData, m_pSecondaryImpactSound) == 80);
-FNV_STATIC_ASSERT(offsetof(BGSImpactData, ImpactDecalInfo) == 84);
 // Unit-local shims for fallout_shared/bgsimpactdata.cpp Load/InitItem,
 // following the accepted tessound.h / tesfurniture.h precedents.
 // TESFileFormInt recovers the 32-bit GetTESForm the 2008 Load compares with

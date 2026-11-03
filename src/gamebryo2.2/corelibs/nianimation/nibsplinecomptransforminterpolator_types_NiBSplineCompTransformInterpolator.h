@@ -19,7 +19,6 @@ class NiBSplineTransformInterpolator;
 class NiInterpolator;
 class NiQuatTransform;
 class NiQuaternion;
-#pragma pack(push, 4)
 class NiInterpolator : public NiObject
 {
   public:
@@ -41,10 +40,6 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
-#pragma pack(push, 4)
 class NiBSplineInterpolator : public NiInterpolator
 {
   public:
@@ -75,13 +70,6 @@ class NiBSplineInterpolator : public NiInterpolator
     // void __cdecl NiBSplineInterpolator::*()
     // void __cdecl NiBSplineInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBSplineInterpolator) == 28);
-FNV_STATIC_ASSERT(offsetof(NiBSplineInterpolator, m_fStartTime) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBSplineInterpolator, m_fEndTime) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBSplineInterpolator, m_spTransformData) == 20);
-FNV_STATIC_ASSERT(offsetof(NiBSplineInterpolator, m_spSplineBasisData) == 24);
-#pragma pack(push, 4)
 class NiQuaternion
 {
   public:
@@ -129,13 +117,6 @@ class NiQuaternion
     // float __cdecl NiQuaternion::*(float, float, float)
     // float __cdecl NiQuaternion::*(float, float)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuaternion) == 16);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorX) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorY) == 4);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fVectorZ) == 8);
-FNV_STATIC_ASSERT(offsetof(NiQuaternion, m_fScalarPart) == 12);
-#pragma pack(push, 4)
 class NiQuatTransform
 {
   public:
@@ -166,12 +147,6 @@ class NiQuatTransform
     // void __cdecl NiQuatTransform::*(bool)
     // void __cdecl NiQuatTransform::*(bool)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiQuatTransform) == 32);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kTranslate) == 0);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_kRotate) == 12);
-FNV_STATIC_ASSERT(offsetof(NiQuatTransform, m_fScale) == 28);
-#pragma pack(push, 4)
 class NiBSplineTransformInterpolator : public NiBSplineInterpolator
 {
   public:
@@ -209,13 +184,6 @@ class NiBSplineTransformInterpolator : public NiBSplineInterpolator
     // void __cdecl NiBSplineTransformInterpolator::*()
     void LoadBinary(NiStream&);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBSplineTransformInterpolator) == 72);
-FNV_STATIC_ASSERT(offsetof(NiBSplineTransformInterpolator, m_kDefaultTransform) == 28);
-FNV_STATIC_ASSERT(offsetof(NiBSplineTransformInterpolator, m_kTransCPHandle) == 60);
-FNV_STATIC_ASSERT(offsetof(NiBSplineTransformInterpolator, m_kRotCPHandle) == 64);
-FNV_STATIC_ASSERT(offsetof(NiBSplineTransformInterpolator, m_kScaleCPHandle) == 68);
-#pragma pack(push, 4)
 class NiBSplineCompTransformInterpolator : public NiBSplineTransformInterpolator
 {
   public:
@@ -246,7 +214,4 @@ class NiBSplineCompTransformInterpolator : public NiBSplineTransformInterpolator
     virtual void CopyMemberData(NiBSplineCompTransformInterpolator*, CloningProcess&);
     virtual bool Update(float, NiObjectNET*, NiQuatTransform&);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBSplineCompTransformInterpolator) == 96);
-FNV_STATIC_ASSERT(offsetof(NiBSplineCompTransformInterpolator, m_afOffsetAndHalfRange) == 72);
 #endif

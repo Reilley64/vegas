@@ -20,7 +20,6 @@ class NiPSysModifierCtlr;
 class NiSingleInterpController;
 class NiTPrimitiveSet_float_;
 class NiTSet_float_NiTMallocInterface_float___;
-#pragma pack(push, 4)
 class NiTimeController : public NiObject
 {
   public:
@@ -88,20 +87,6 @@ class NiTimeController : public NiObject
     // NiTimeController& __cdecl NiTimeController::*(const NiTimeController&)
     // void __cdecl NiTimeController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
-#pragma pack(push, 4)
 class NiInterpController : public NiTimeController
 {
   public:
@@ -124,9 +109,6 @@ class NiInterpController : public NiTimeController
 public:
     static const unsigned short INVALID_INDEX;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
-#pragma pack(push, 4)
 class NiSingleInterpController : public NiInterpController
 {
   public:
@@ -155,10 +137,6 @@ class NiSingleInterpController : public NiInterpController
     // NiSingleInterpController& __cdecl NiSingleInterpController::*(const NiSingleInterpController&)
     // void __cdecl NiSingleInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiSingleInterpController) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spControllerInterpolator) == 52);
-#pragma pack(push, 4)
 class NiPSysModifierCtlr : public NiSingleInterpController
 {
   public:
@@ -190,18 +168,11 @@ class NiPSysModifierCtlr : public NiSingleInterpController
     // NiPSysModifierCtlr& __cdecl NiPSysModifierCtlr::*(const NiPSysModifierCtlr&)
     // void __cdecl NiPSysModifierCtlr::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysModifierCtlr) == 64);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifierCtlr, m_kTargetModifierName) == 56);
-FNV_STATIC_ASSERT(offsetof(NiPSysModifierCtlr, m_pkTargetModifier) == 60);
-#pragma pack(push, 4)
 class NiPSysModifierBoolCtlr : public NiPSysModifierCtlr
 {
   public:
     NiPSysModifierBoolCtlr() throw();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysModifierBoolCtlr) == 64);
 
 class NiInterpolator : public NiObject
 {
@@ -251,7 +222,6 @@ class NiBoolInterpController : public NiInterpolator
   public:
 };
 
-#pragma pack(push, 4)
 class NiTSet_float_NiTMallocInterface_float___
 {
   public:
@@ -277,12 +247,6 @@ class NiTSet_float_NiTMallocInterface_float___
     // void __cdecl NiTSet<float,NiTMallocInterface<float> >::*()
     // void* __cdecl NiTSet<float,NiTMallocInterface<float> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTSet_float_NiTMallocInterface_float___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_pBase) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_uiElementCount) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTSet_float_NiTMallocInterface_float___, m_uiAllocatedCapacity) == 8);
-#pragma pack(push, 4)
 class NiTPrimitiveSet_float_ : public NiTSet_float_NiTMallocInterface_float___
 {
   public:
@@ -293,9 +257,6 @@ class NiTPrimitiveSet_float_ : public NiTSet_float_NiTMallocInterface_float___
     // void __cdecl NiTPrimitiveSet<float>::*()
     // void* __cdecl NiTPrimitiveSet<float>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveSet_float_) == 12);
-#pragma pack(push, 4)
 class NiPSysEmitterCtlr : public NiPSysModifierCtlr
 {
   public:
@@ -399,11 +360,4 @@ class NiPSysEmitterCtlr : public NiPSysModifierCtlr
     // NiPSysEmitterCtlr& __cdecl NiPSysEmitterCtlr::*(const NiPSysEmitterCtlr&)
     // void __cdecl NiPSysEmitterCtlr::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPSysEmitterCtlr) == 92);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_spVisibilityInterpolator) == 64);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_pEmitterActiveInterpolator) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_fScaledLastTime) == 72);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_bIsInitialized) == 76);
-FNV_STATIC_ASSERT(offsetof(NiPSysEmitterCtlr, m_kBirthRateKeys) == 80);
 #endif

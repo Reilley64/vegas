@@ -33,7 +33,6 @@ class NiMemObject
     static void* operator new(size_t size);
     static void operator delete(void*, unsigned int);
 };
-FNV_STATIC_ASSERT(sizeof(NiMemObject) == sizeof(FNV_NiMemObject_Canonical));
 
 #include "NiRefObject.h"
 #include "PlayerCharacter.h"

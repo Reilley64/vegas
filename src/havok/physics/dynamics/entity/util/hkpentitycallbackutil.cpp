@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/util/hkpentitycallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/util/hkpentitycallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00c9c860_Shell.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010cc000.h"
@@ -40,7 +41,6 @@ void CFF9B0CleanupListeners(CFF9B0SmallArray* a, CFF9B0SmallArray* b)
 
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 class ContactPointEvent;
 class ContactPointListener
 {
@@ -250,7 +250,6 @@ void __cdecl FUN_00cfff00(World833* world, ContactPointEvent* event)
 namespace fnv_00d00060 {
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 class ContactPointEvent;
 class ContactPointListener
 {
@@ -1014,7 +1013,6 @@ void __cdecl DeleteCallbacks(ProfOwner* pOwner)
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cca44[];

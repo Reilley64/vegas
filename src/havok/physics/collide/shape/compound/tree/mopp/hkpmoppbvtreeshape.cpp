@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/GridCell.h"
@@ -186,11 +187,11 @@ struct FUN_00d54350_Obj
     int unk10;
     void* unk14;
 
-    void __thiscall ForwardToTarget(int a, int b, float c, int d);
+    void ForwardToTarget(int a, int b, float c, int d);
 };
 
 // @fnv 0x00d54350
-void __thiscall FUN_00d54350_Obj::ForwardToTarget(int a, int b, float c, int d)
+void FUN_00d54350_Obj::ForwardToTarget(int a, int b, float c, int d)
 {
     FUN_00dd1bf0_Obj local;
     reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(local))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(unk14), (const ::ObbQueryDetail::ObbTransform *)(a), (const ::ObbQueryDetail::ObbVector *)(b), c, d);
@@ -387,7 +388,7 @@ struct S00d54440_Obj
 
 // Returns -1 unless m_14->m_2C is 0 and m_34->v6(a, 0x100) is within 0..0x100; otherwise stores it in m_38 and returns 0x40.
 // @fnv 0x00d54440
-int __thiscall S00d54440_Obj::FUN_00d54440(int a, int aiUnused)
+int S00d54440_Obj::FUN_00d54440(int a, int aiUnused)
 {
     unsigned char c = m_14->m_2C;
 
@@ -430,11 +431,11 @@ struct S00d54490_Obj
     int unk18;
     int unk1C;
     float unk20[4];
-    S00d54490_Obj* __thiscall FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2);
+    S00d54490_Obj* FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2);
 };
 // Initializes the object from a hkpMoppBvTreeShape, copying its data and calling FUN_00c90510 on the source.
 // @fnv 0x00d54490
-S00d54490_Obj* __thiscall S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2)
+S00d54490_Obj* S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2)
 {
     const hkpMoppBvTreeShape* src = &arg2;
     this->unk06 = 1;
@@ -457,7 +458,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
     float m128_f32[4];
     unsigned __int64 m128_u64[2];
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 struct S54520_Mon
@@ -597,7 +597,6 @@ S54520_Out* S54520_Owner::FUN_00d54520(S54520_Out* out, int p1, S54520_Params* p
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 extern "C" const char str_010d0df0[];
 
@@ -832,7 +831,7 @@ struct S00d54720_Monitor
     void* unk08;
     S00d54720_Record* end;
 };
-typedef S00d54720_Monitor*(__stdcall* S00d54720_GetFn)(unsigned long);
+typedef S00d54720_Monitor*(* S00d54720_GetFn)(unsigned long);
 struct S00d54720_Body
 {
     void* unk00;

@@ -23,12 +23,12 @@
 #include "fnv/symbols_0126f000.h"
 struct NiD3DPixelShader
 {
-    void* __thiscall DestroyPixelShader(unsigned int flags);
+    void* DestroyPixelShader(unsigned int flags);
 };
 
 
 // @fnv 0x00be0af0
-void* __thiscall NiD3DPixelShader::DestroyPixelShader(unsigned int flags)
+void* NiD3DPixelShader::DestroyPixelShader(unsigned int flags)
 {
     NiD3DPixelShader* p = this;
     static_cast<::S_00e89970 *>(nullptr)->FUN_00e89970();
@@ -125,11 +125,11 @@ void __cdecl FUN_00ee6e2e()
 struct NiD3DShaderProgramCreator;
 struct NiD3DShaderProgram
 {
-    void __thiscall FUN_00eea540(NiD3DShaderProgramCreator* pkCreator);
+    void FUN_00eea540(NiD3DShaderProgramCreator* pkCreator);
 };
 
 // @fnv 0x00eea540
-void __thiscall NiD3DShaderProgram::FUN_00eea540(NiD3DShaderProgramCreator* pkCreator)
+void NiD3DShaderProgram::FUN_00eea540(NiD3DShaderProgramCreator* pkCreator)
 {
     *reinterpret_cast<unsigned int*>(this + 0x1c) = reinterpret_cast<unsigned int>(pkCreator);
 }
@@ -138,12 +138,12 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00be0b70_shell
 {
-    void* __thiscall FUN_00be0b70(unsigned int flags);
+    void* FUN_00be0b70(unsigned int flags);
 };
 
 // Calls FUN_00e89b70, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00be0b70
-void* __thiscall FUN_00be0b70_shell::FUN_00be0b70(unsigned int flags)
+void* FUN_00be0b70_shell::FUN_00be0b70(unsigned int flags)
 {
     static_cast<::S *>(nullptr)->FUN_00e89b70();
     if (flags & 1)
@@ -155,12 +155,12 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct NiD3DHLSLPixelShader : NiD3DPixelShader
 {
-    void* __thiscall FUN_00e95cd0(unsigned int flags);
+    void* FUN_00e95cd0(unsigned int flags);
 };
 
 // Calls FUN_00e96c90, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00e95cd0
-void* __thiscall NiD3DHLSLPixelShader::FUN_00e95cd0(unsigned int flags)
+void* NiD3DHLSLPixelShader::FUN_00e95cd0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00e96c90_Class *>(this)->FUN_00e96c90();
     if (flags & 1)
@@ -174,11 +174,11 @@ struct NiD3DShaderProgram
     char _pad[0x14];
     unsigned int m_uiProgramCodeSize;
     void* m_pProgramCode;
-    void __thiscall SetShaderCode(unsigned int uiSize, void* pvCode);
+    void SetShaderCode(unsigned int uiSize, void* pvCode);
 };
 
 // @fnv 0x00be0ab0
-void __thiscall NiD3DShaderProgram::SetShaderCode(unsigned int uiSize, void* pvCode)
+void NiD3DShaderProgram::SetShaderCode(unsigned int uiSize, void* pvCode)
 {
     m_uiProgramCodeSize = uiSize;
     m_pProgramCode = pvCode;
@@ -216,11 +216,11 @@ void FUN_00e95cf0_Holder::FUN_00e95cf0(const char* pcEntryPoint)
 
 struct FUN_00e95d60_shell
 {
-    void __thiscall FUN_00e95d60(const char* pcShaderTarget);
+    void FUN_00e95d60(const char* pcShaderTarget);
 };
 // Frees the stored shader target string and replaces it with a newly allocated copy of pcShaderTarget, unless it is null, empty, or already stored.
 // @fnv 0x00e95d60
-void __thiscall FUN_00e95d60_shell::FUN_00e95d60(const char* pcShaderTarget)
+void FUN_00e95d60_shell::FUN_00e95d60(const char* pcShaderTarget)
 {
     char* pcNewShaderTarget;
     unsigned int uiLen;
@@ -239,19 +239,19 @@ void __thiscall FUN_00e95d60_shell::FUN_00e95d60(const char* pcShaderTarget)
 
 struct ID3DXConstantTable
 {
-    virtual void __stdcall QueryInterface();
-    virtual void __stdcall AddRef();
-    virtual void __stdcall Release();
+    virtual void QueryInterface();
+    virtual void AddRef();
+    virtual void Release();
 };
 struct HlslPixelShaderStandIn
 {
     char _pad[0x38];
     ID3DXConstantTable* m_pShaderConstantTable;
-    void __thiscall AssignTable(ID3DXConstantTable* pkTable);
+    void AssignTable(ID3DXConstantTable* pkTable);
 };
 // Releases the current table and stores pkTable, calling AddRef on it when it differs from the stored one.
 // @fnv 0x00e95dc0
-void __thiscall HlslPixelShaderStandIn::AssignTable(ID3DXConstantTable* pkTable)
+void HlslPixelShaderStandIn::AssignTable(ID3DXConstantTable* pkTable)
 {
     if (m_pShaderConstantTable != pkTable)
     {
@@ -265,10 +265,10 @@ void __thiscall HlslPixelShaderStandIn::AssignTable(ID3DXConstantTable* pkTable)
 
 struct NiD3DHLSLVertexShader
 {
-    void* __thiscall DestroyVertexShader(unsigned int);
+    void* DestroyVertexShader(unsigned int);
 };
 // @fnv 0x00e95e00
-void* __thiscall NiD3DHLSLVertexShader::DestroyVertexShader(unsigned int flags)
+void* NiD3DHLSLVertexShader::DestroyVertexShader(unsigned int flags)
 {
     reinterpret_cast<::S *>(this)->FUN_00e971d0();
     if (flags & 1)
@@ -282,11 +282,11 @@ struct NiD3DHLSLVertexShader
 {
     char _pad[0x3c];
     char* m_pcShaderEntryPoint;
-    void __thiscall FUN_00e95e20(const char* pcEntryPoint);
+    void FUN_00e95e20(const char* pcEntryPoint);
 };
 // Replaces the stored entry-point string with a copy of pcEntryPoint, freeing the old one and clearing it when the input is null or empty.
 // @fnv 0x00e95e20
-void __thiscall NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
+void NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
 {
     char* pcNewEntryPoint;
     unsigned int uiLen;
@@ -314,11 +314,11 @@ struct NiD3DHLSLVertexShader
 {
     char _pad[0x40];
     char* m_pcShaderProfile;
-    void __thiscall FUN_00e95e80(const char* pcShaderTarget);
+    void FUN_00e95e80(const char* pcShaderTarget);
 };
 // Frees the stored shader target string and, if a non-empty target is given, allocates and copies it into the field.
 // @fnv 0x00e95e80
-void __thiscall NiD3DHLSLVertexShader::FUN_00e95e80(const char* pcShaderTarget)
+void NiD3DHLSLVertexShader::FUN_00e95e80(const char* pcShaderTarget)
 {
     if (m_pcShaderProfile != pcShaderTarget)
     {
@@ -339,13 +339,13 @@ void __thiscall NiD3DHLSLVertexShader::FUN_00e95e80(const char* pcShaderTarget)
 namespace fnv_00e95ef0 {
 struct ID3DXConstantTable
 {
-    virtual int __stdcall QueryInterface();
-    virtual int __stdcall AddRef();
-    virtual int __stdcall Release();
+    virtual int QueryInterface();
+    virtual int AddRef();
+    virtual int Release();
 };
 struct NiD3DHLSLVertexShader : NiD3DVertexShader
 {
-    void __thiscall SetShaderTable(ID3DXConstantTable* pkTable);
+    void SetShaderTable(ID3DXConstantTable* pkTable);
 };
 // Replaces the COM-style table pointer at offset 0x44, releasing the old one and AddRef-ing the new one when it differs.
 // @fnv 0x00e95ef0
@@ -365,13 +365,13 @@ void NiD3DHLSLVertexShader::SetShaderTable(ID3DXConstantTable* pkTable)
 
 struct ID3DXBuffer
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
 };
-extern "C" long __stdcall D3DXCompileShader(const char* pSrcData, unsigned int SrcDataLen, const void* pDefines,
+extern "C" long D3DXCompileShader(const char* pSrcData, unsigned int SrcDataLen, const void* pDefines,
                                             void* pInclude, const char* pFunctionName, const char* pProfile,
                                             unsigned long Flags, ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs,
                                             ID3DXConstantTable** ppConstantTable);
@@ -495,7 +495,7 @@ struct FUN_00be0920_shell
     unsigned int m_uiValue1;
     unsigned int m_uiType;
     char* m_pcName;
-    void __thiscall FUN_00be0920(const char* pszName);
+    void FUN_00be0920(const char* pszName);
 };
 
 // Stores a copy of pszName in m_pcName, reallocating the buffer when the new name is longer, or frees it when the name is empty.
@@ -543,11 +543,11 @@ struct FUN_00be0ba0_Class
     int unk2C;
     unsigned int unk30;
 
-    void __thiscall FUN_00be0ba0(unsigned int value);
+    void FUN_00be0ba0(unsigned int value);
 };
 
 // @fnv 0x00be0ba0
-void __thiscall FUN_00be0ba0_Class::FUN_00be0ba0(unsigned int value)
+void FUN_00be0ba0_Class::FUN_00be0ba0(unsigned int value)
 {
     unk30 = value;
 }
@@ -580,9 +580,9 @@ struct S_00e58ea0_cls
 
 struct IUnk_e95
 {
-    virtual long __stdcall QueryInterface();
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface();
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 struct Shader_e95
@@ -630,7 +630,7 @@ struct Shader_e95
     virtual void SetShaderInterface(IUnk_e95* p);
 };
 
-long __stdcall FUN_00ee6e40(void* pvCode, IUnk_e95** ppTable);
+long FUN_00ee6e40(void* pvCode, IUnk_e95** ppTable);
 
 struct FUN_00e95c40_cls
 {
@@ -657,7 +657,7 @@ bool FUN_00e95c40_cls::AttachShaderFromCode(Shader_e95* pkShader)
 
 
 struct NiD3DRenderer;
-extern "C" const char* __stdcall D3DXGetPixelShaderProfile(void* pDevice);
+extern "C" const char* D3DXGetPixelShaderProfile(void* pDevice);
 
 class HLSLCreator;
 
@@ -872,7 +872,7 @@ MatResult __cdecl SolveMatrixColumns(void* solver, MatrixNm& x, MatrixNm& b, int
     return result;
 }
 
-extern "C" long __stdcall D3DXCompileShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
+extern "C" long D3DXCompileShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
                                                      const char* pFunctionName, const char* pProfile,
                                                      unsigned long Flags, ID3DXBuffer** ppShader,
                                                      ID3DXBuffer** ppErrorMsgs, ID3DXConstantTable** ppConstantTable);
@@ -1016,7 +1016,7 @@ struct FUN_00e587a0_Class
 };
 
 // @fnv 0x00e587a0
-int __thiscall FUN_00e587a0_Class::FUN_00e587a0()
+int FUN_00e587a0_Class::FUN_00e587a0()
 {
     return this->unk10;
 }
@@ -1038,7 +1038,7 @@ struct FUN_00e95d50_StandIn
     int unk30;
     unsigned int unk34;
 
-    unsigned int __thiscall FUN_00e95d50();
+    unsigned int FUN_00e95d50();
 };
 
 // @fnv 0x00e95d50
@@ -1110,7 +1110,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
     }
     if (pcShaderTarget == 0)
     {
-        pcShaderTarget = reinterpret_cast<const char*(__stdcall*)(void*)>(&FUN_00ee6e2e)(g_0126fa28);
+        pcShaderTarget = reinterpret_cast<const char*(*)(void*)>(&FUN_00ee6e2e)(g_0126fa28);
     }
 
     void* pvHandle = ::CreateVertexShaderChecked((void *)(this), ((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (unsigned int)((void*)&pcName),
@@ -1148,7 +1148,7 @@ struct NiMemObject
 {
     static void* operator new(unsigned int uiSize);
 };
-const char* __stdcall FUN_00ee6e28(void* pkDevice);
+const char* FUN_00ee6e28(void* pkDevice);
 
 struct HLSLPixelShader96 : NiMemObject
 {
@@ -1347,9 +1347,9 @@ done:
 
 struct ConstTableE95
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 class ShaderSrcE95
@@ -1404,7 +1404,7 @@ class ShaderSrcE95
     virtual void SetShaderInterface(ConstTableE95* pkTable);
 };
 
-long __stdcall FUN_00ee6e40(void* pvCode, ConstTableE95** ppkTable);
+long FUN_00ee6e40(void* pvCode, ConstTableE95** ppkTable);
 
 class ShaderMgrE95
 {
@@ -1438,12 +1438,12 @@ bool ShaderMgrE95::FUN_00e95ba0(ShaderSrcE95* pkShader)
 extern "C" void _ReadWriteBarrier();
 struct S00e96610_CT
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct D3DDeviceStandIn;
-const char* __stdcall FUN_00ee6e2e(void* pDevice);
+const char* FUN_00ee6e2e(void* pDevice);
 
 
 struct S00e96610_Creator;
@@ -1766,7 +1766,7 @@ int Dummy_00cc0760::FUN_00cc0760()
     return rows;
 }
 
-extern "C" long __stdcall D3DXGetShaderConstantTable(const unsigned long*, ID3DXConstantTable**);
+extern "C" long D3DXGetShaderConstantTable(const unsigned long*, ID3DXConstantTable**);
 
 struct BufferPixelShaderCreator : HLSLFileShaderCreator
 {

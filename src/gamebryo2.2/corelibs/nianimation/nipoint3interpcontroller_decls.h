@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nianimation/nipoint3interpcontroller_decls.h: declares NiKeyBasedInterpolator, NiBoolInterpController
+#include <windows.h>
 #include "fnv/symbols_0109a000.h"
 #include "fnv/symbols_011f4000.h"
 class NiStream;
@@ -13,7 +14,6 @@ class NiBoolInterpController
   public:
 };
 extern unsigned int DAT_0109a0b4;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 
 inline void* operator new(unsigned int, NiBoolInterpController& p)
 {

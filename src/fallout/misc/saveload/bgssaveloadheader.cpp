@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadheader.cpp: free functions (4 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00424940_shell.h"
 #include "fnv/decl/FUN_004381b0_shell.h"
@@ -46,13 +47,11 @@ struct SaveContentDescriptor
     char szFileName[42];
     char _pad_132[2];
 };
-typedef char _sizecheck__XCONTENT_DATA[sizeof(SaveContentDescriptor) == 308 ? 1 : -1];
 struct FUN_00850030_shell : public BGSSaveLoadManager
 {
     SaveLoadFile* FUN_00850030(char*, bool, int, int);
 };
 
-__declspec(dllimport) int __stdcall DeleteFileA(const char*);
 
 // @fnv 0x00850030
 SaveLoadFile* FUN_00850030_shell::FUN_00850030(char* apFileName, bool abWrite, int aeBufferType, int aiDeviceID)

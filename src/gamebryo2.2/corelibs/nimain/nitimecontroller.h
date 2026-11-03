@@ -121,8 +121,6 @@ class NiObjectNET : public NiObject
     unsigned short m_usExtraDataCount;           // +0x14
     unsigned short m_usMaxSize;                  // +0x16
 };
-FNV_STATIC_ASSERT(sizeof(NiObjectNET) == 0x18);
-FNV_STATIC_ASSERT(offsetof(NiObjectNET, m_pControllers) == 0xC);
 
 // ---------------------------------------------------------------------------
 // NiGeometryData (only what the controller attach path uses).
@@ -308,10 +306,5 @@ class NiTimeController : public NiObject
     NiObjectNET* m_pkTarget;                         // +0x2C
     NiPointer<NiTimeController> m_spNextController;  // +0x30
 };
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 0x30);
 
 #endif

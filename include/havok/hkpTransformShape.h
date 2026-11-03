@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShape.h"
 #include "hkpSingleShapeContainer.h"
-#pragma pack(push, 1)
 class hkpTransformShape : public hkpShape
 {
   public:
@@ -16,6 +15,4 @@ class hkpTransformShape : public hkpShape
     hkQuaternion m_rotation;         // +0x20
     hkTransform m_kMotionTransform;  // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpTransformShape[(sizeof(hkpTransformShape) == 0x70) ? 1 : -1];
 #endif

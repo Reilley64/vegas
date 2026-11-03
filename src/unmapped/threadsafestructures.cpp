@@ -60,11 +60,11 @@ void FUN_0044bbc0_Class::FUN_0044bbc0()
 
 struct FUN_0044c1c0_Class
 {
-    bool __thiscall IsGreaterOrEqual(unsigned int a, unsigned int b);
+    bool IsGreaterOrEqual(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x0044c1c0
-bool __thiscall FUN_0044c1c0_Class::IsGreaterOrEqual(unsigned int auiValue, unsigned int auiThreshold)
+bool FUN_0044c1c0_Class::IsGreaterOrEqual(unsigned int auiValue, unsigned int auiThreshold)
 {
     return auiValue >= auiThreshold;
 }
@@ -99,8 +99,8 @@ struct FUN_0044bd60_Class
     void* s;
     void* t;
     RecursiveSpinLock lock;
-    void* __thiscall FUN_00449f80(int* a, void* b);
-    bool __thiscall FUN_0044bd60(void* a, void* b);
+    void* FUN_00449f80(int* a, void* b);
+    bool FUN_0044bd60(void* a, void* b);
 };
 struct AutoMemHelper
 {
@@ -495,7 +495,7 @@ class C44C8E0Map
 };
 // Locks the object's lock, calls FUN_00449f80 with a and b, passes the result to LookupBucket, unlocks, and returns that bool.
 // @fnv 0x0044bd60
-bool __thiscall FUN_0044bd60_Class::FUN_0044bd60(void* a, void* b)
+bool FUN_0044bd60_Class::FUN_0044bd60(void* a, void* b)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
     bool r = ((bool)(reinterpret_cast<::C44C8E0Map *>((FUN_00449f80((int*)a, b)))->LookupBucket({}, {})));
@@ -784,7 +784,7 @@ struct FUN_0044f220_Queue
 {
     void* vtable;
     void* m_pData;
-    int __thiscall FUN_0044f3e0();
+    int FUN_0044f3e0();
 };
 
 struct FUN_0044f220_Node

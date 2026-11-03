@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkpSphereCapsuleAgent.h"
 #include "fnv/symbols_00c85000.h"
@@ -106,7 +107,6 @@ struct FUN_00d3f040_tmp
 
 #include <xmmintrin.h>
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" double __cdecl sqrt(double);
 extern "C" double __cdecl fabs(double);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -271,7 +271,7 @@ static inline void timerCommand(const char* name, volatile unsigned int& ticks)
 }
 
 // @fnv 0x00d3e850
-void __stdcall FUN_00d3e850(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
+void FUN_00d3e850(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
                             hkpCdPointCollector& collector)
 {
     union

@@ -41,11 +41,11 @@ struct FUN_00e39e60_class
 };
 struct FUN_00e3f340_Class
 {
-    void* __thiscall GetEntryByArg(int arg);
+    void* GetEntryByArg(int arg);
 };
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00e3f900(int a);
+    int FUN_00e3f900(int a);
 };
 struct S_00df8990_Obj;
 void __cdecl FUN_00e2ba90();
@@ -63,11 +63,11 @@ struct CB2FC0Object
 };
 struct FUN_00e3b4d0_Class
 {
-    void __thiscall ApplyToBothObjects(void* a, void* b);
+    void ApplyToBothObjects(void* a, void* b);
 };
 struct FUN_00e3ec30_Class
 {
-    int __thiscall FUN_00e3ec30(int arg);
+    int FUN_00e3ec30(int arg);
 };
 struct D481D0RefVariant
 {
@@ -1351,7 +1351,7 @@ struct FUN_00e3b060_Class
     int unk04;
     int unk08;
     LinkOwner links;
-    FUN_00e3b060_Class* __thiscall ReleaseLinks(ReleaseFlags flags);
+    FUN_00e3b060_Class* ReleaseLinks(ReleaseFlags flags);
 };
 struct S_00e3c5b0_Obj
 {
@@ -1446,7 +1446,7 @@ struct FUN_00e3ec00_Class
     FUN_00e3ec00_Class** unk28;
     int unk2c;
 
-    int __thiscall GetTotal();
+    int GetTotal();
 };
 struct S_00e3ed00_Foo;
 struct S_00e3ed00_Result
@@ -1478,7 +1478,7 @@ struct S_00e3ed00_Foo
     S_00e3ed00_Foo** children;
     int childCount;
 
-    int __thiscall AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
+    int AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
 };
 struct hkMemoryAllocator
 {
@@ -1694,7 +1694,7 @@ struct FUN_00e39e80_class
 };
 struct FUN_00e3df50_Class
 {
-    FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
+    FUN_00e3df50_Class* FUN_00e3df50(int param);
 };
 struct FNVTreeNode
 {
@@ -1711,7 +1711,7 @@ struct FNVTreeNode
     FNVTreeNode** children;
     int childCount;
 
-    FNVTreeNode* __thiscall FindChildByName(const char* name);
+    FNVTreeNode* FindChildByName(const char* name);
 };
 class Base
 {
@@ -1748,7 +1748,7 @@ struct E3F290Class
     int unk00;
     int unk04;
     E3F290Entry* unk08;
-    int __thiscall GetEntryValue(int index);
+    int GetEntryValue(int index);
 };
 struct FUN_00e3f370_handle
 {

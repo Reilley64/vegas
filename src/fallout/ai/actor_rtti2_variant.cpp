@@ -93,7 +93,7 @@ __if_not_exists(BGSEquipType::BGSEquipType)
 
 struct PickupSoundActorView : public Actor
 {
-    char* __thiscall FUN_008adcf0(::TESBoundObject*, bool, bool);
+    char* FUN_008adcf0(::TESBoundObject*, bool, bool);
 };
 
 struct PickupSoundVirtualView
@@ -182,9 +182,9 @@ struct PickupPutdownSoundView
 struct PickupAlchemySoundView
 {
 };
-int __fastcall _FNV_GetFormType(void* pThis);
+int _FNV_GetFormType(void* pThis);
 // @fnv 0x008adcf0
-char* __thiscall PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR, bool abPickUp, bool abUse)
+char* PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR, bool abPickUp, bool abUse)
 {
     const char* soundname;
     {

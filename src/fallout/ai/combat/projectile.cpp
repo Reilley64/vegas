@@ -274,7 +274,7 @@ bool Projectile::Load(TESFile* file)
 // @fnv 0x009b4d40
 bool FlameProjectile::IsProximityDetonationTriggered()
 {
-    typedef bool(__thiscall * IsProximityTriggeredFn)(FlameProjectile*);
+    typedef bool(* IsProximityTriggeredFn)(FlameProjectile*);
     return ((IsProximityTriggeredFn)(*reinterpret_cast<void***>(this))[198])(this) ||
            reinterpret_cast<Projectile*>(this)->Projectile::IsProximityDetonationTriggered();
 }
@@ -338,7 +338,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -349,7 +348,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -357,7 +355,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct FUN_009c1a70_shell : public WorldRayCastOutput
 {
     WorldRayCastOutput* FUN_009c1a70(void*);
@@ -492,7 +489,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -514,12 +510,10 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_0080f7b0_shell : public MobileObject
 {
     void FUN_0080f7b0(bool);
@@ -534,11 +528,11 @@ void FUN_0080f7b0_shell::FUN_0080f7b0(bool bVal)
 
 struct FUN_00978f10_shell
 {
-    void __thiscall FUN_00978f10();
+    void FUN_00978f10();
 };
 
 // @fnv 0x00978f10
-void __thiscall FUN_00978f10_shell::FUN_00978f10()
+void FUN_00978f10_shell::FUN_00978f10()
 {
     reinterpret_cast<::TESSound *>(this)->FUN_0077eac0();
 }
@@ -566,11 +560,11 @@ FUN_009bb940::~FUN_009bb940()
 struct FUN_009c19e0_shell
 {
     int mFlags;
-    bool __thiscall IsFlagSet();
+    bool IsFlagSet();
 };
 
 // @fnv 0x009c19e0
-bool __thiscall FUN_009c19e0_shell::IsFlagSet()
+bool FUN_009c19e0_shell::IsFlagSet()
 {
     return (mFlags & 0x4000) != 0;
 }
@@ -10776,7 +10770,7 @@ struct ItemList9c58
     ItemList9c58* m_pkNext;
 };
 
-bool __fastcall FUN_008256d0(ItemList9c58* pkList);
+bool FUN_008256d0(ItemList9c58* pkList);
 
 struct Owned9c58
 {

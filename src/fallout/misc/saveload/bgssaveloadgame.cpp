@@ -256,7 +256,6 @@ struct FormBufferContext
 public:
     char *FUN_00866390();
 };
-typedef char _sizecheck_BGSUnloadedFormBuffer[sizeof(FormBufferContext) == 4 ? 1 : -1];
 struct FUN_006665a0_shell : public FormBufferContext
 {
     void FUN_006665a0();
@@ -270,7 +269,7 @@ void FUN_006665a0_shell::FUN_006665a0()
 
 
 // @fnv 0x00847d50
-void* __fastcall ClearObject(void* apObject)
+void* ClearObject(void* apObject)
 {
     ::FUN_00403d30(apObject, 0, 0x6e);
     return apObject;
@@ -337,7 +336,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -374,7 +372,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00848dd0_shell : public BGSLoadFormBuffer
 {
     bool FUN_00848dd0();
@@ -413,13 +410,13 @@ void FUN_00849540_shell::SetFlag8(bool abValue)
 }
 
 // @fnv 0x00849590
-bool __fastcall FUN_00849590(int pObject)
+bool FUN_00849590(int pObject)
 {
     return (*(unsigned int*)(pObject + 0x28) & 0x10) ? true : false;
 }
 
 // @fnv 0x008495b0
-void __fastcall FUN_008495b0(char* pThis)
+void FUN_008495b0(char* pThis)
 {
     *reinterpret_cast<int*>(pThis + 0x68) = 5;
 }
@@ -536,7 +533,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -573,7 +569,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0084a810_shell : public BGSSaveLoadGame
 {
     void FUN_0084a810(int, BGSLoadFormBuffer*, TESForm*);
@@ -640,7 +635,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -677,7 +671,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_008665b0_shell : public BGSLoadFormBuffer
 {
     int FUN_008665b0();
@@ -742,7 +735,6 @@ struct SaveLoadFile
     unsigned int m_uiBufferSize;
     unsigned int m_uiFilePosition;
 };
-typedef char _sizecheck_BGSSaveLoadFile[sizeof(SaveLoadFile) == 272 ? 1 : -1];
 struct BGSLoadGameBuffer
 {
     virtual unsigned char GetVersion();
@@ -779,7 +771,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -816,7 +807,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     FormChangeMask m_cReservedBytes;
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FormIDConverter
 {
     void Clear();
@@ -831,7 +821,6 @@ struct FormIDConverter
     char m_kTargetToSourceFormIDMap[16];
     unsigned int m_uiFormIDCount;
 };
-typedef char _sizecheck_BGSSaveLoadFormIDMap[sizeof(FormIDConverter) == 36 ? 1 : -1];
 struct FUN_00849d00_shell : public BGSSaveLoadGame
 {
     unsigned int LoadFormData(SaveLoadFile*, BGSLoadFormBuffer*, FormIDConverter*);
@@ -1190,12 +1179,12 @@ struct FUN_00848d90_shell
 {
     unsigned int pad[10];  // 0x00 - 0x27
     unsigned int m_flags;  // 0x28 - 0x2B
-    void __thiscall FUN_00848d90(bool value);
+    void FUN_00848d90(bool value);
 };
 
 // Sets or clears bit 0 of m_flags according to value.
 // @fnv 0x00848d90
-void __thiscall FUN_00848d90_shell::FUN_00848d90(bool abSet)
+void FUN_00848d90_shell::FUN_00848d90(bool abSet)
 {
     if (abSet)
         m_flags |= 1;
@@ -1222,7 +1211,7 @@ void CreateSaveLoadGame()
 
 struct FUN_00847540_shell
 {
-    BGSSaveLoadGame* __thiscall FUN_00847540(int arg1);
+    BGSSaveLoadGame* FUN_00847540(int arg1);
 };
 
 // Calls FUN_00847540(1) on g_BGSSaveLoadGame if set, then clears g_BGSSaveLoadGame to null.
@@ -1278,11 +1267,11 @@ void FUN_00847590_shell::SaveCompiledFileList(void* apFile)
 
 struct FUN_00849ca0_shell
 {
-    void __thiscall FUN_00849ca0(int state);
+    void FUN_00849ca0(int state);
 };
 
 // @fnv 0x00849ca0
-void __thiscall FUN_00849ca0_shell::FUN_00849ca0(int state)
+void FUN_00849ca0_shell::FUN_00849ca0(int state)
 {
     reinterpret_cast<::fnv_00843330::ArrSI *>((((FUN_00849ca0_shell*)((char*)this + 0x10))))->GetElementAt(state);
 }
@@ -1609,7 +1598,7 @@ struct UnloadManager
 {
 };
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 int __cdecl FUN_0084eb80(UnloadFormBuffer*, TESForm*, UnloadFlags);
 
 struct SLGameShell : public BGSSaveLoadGame
@@ -2862,7 +2851,7 @@ struct FormRef_8495d0
 {
 };
 
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct SaveLoadGame_8495d0
 {
@@ -3643,7 +3632,7 @@ unsigned int FUN_0084aa90_shell::FUN_0084aa90(unsigned int aiOldFormID)
     return 0;
 }
 
-int __fastcall FNV_GetFormType(TESForm* form);
+int FNV_GetFormType(TESForm* form);
 
 static const char kRenumberedMsg[] =
     "FORMS: Form %08X with form type %i %s was re-numbered by BGSSaveLoadGame::ClearForm()";

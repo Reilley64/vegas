@@ -74,12 +74,12 @@ struct SummonCreatureEffect
 
 struct FUN_00828da0_shell
 {
-    int __thiscall GetZero(int a, int b, int c);
+    int GetZero(int a, int b, int c);
 };
 
 // Returns 0; the local variables are initialized to 0 and never used.
 // @fnv 0x00828da0
-int __thiscall FUN_00828da0_shell::GetZero(int a, int b, int c)
+int FUN_00828da0_shell::GetZero(int a, int b, int c)
 {
     int v1 = 0;
     int v2 = 0;
@@ -89,14 +89,14 @@ int __thiscall FUN_00828da0_shell::GetZero(int a, int b, int c)
 struct Actor;
 struct FUN_00806da0_shell
 {
-    unsigned short __thiscall FUN_00806da0(Actor*);
+    unsigned short FUN_00806da0(Actor*);
 };
 struct FUN_00829720_shell : public SummonCreatureEffect
 {
-    unsigned short __thiscall FUN_00829720(Actor* actor);
+    unsigned short FUN_00829720(Actor* actor);
 };
 // @fnv 0x00829720
-unsigned short __thiscall FUN_00829720_shell::FUN_00829720(Actor* actor)
+unsigned short FUN_00829720_shell::FUN_00829720(Actor* actor)
 {
     unsigned short isize = 0;
     isize += ((FUN_00806da0_shell*)this)->FUN_00806da0(actor);

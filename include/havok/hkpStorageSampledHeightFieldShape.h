@@ -5,14 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpSampledHeightFieldShape.h"
-#pragma pack(push, 1)
 class hkpStorageSampledHeightFieldShape : public hkpSampledHeightFieldShape
 {
   public:
     hkArray<hkReal> m_kStorage;  // +0x60
     char pad6C[0x14];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpStorageSampledHeightFieldShape[(sizeof(hkpStorageSampledHeightFieldShape) == 0x80) ? 1 : -1];
 #endif

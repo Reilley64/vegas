@@ -119,7 +119,7 @@ struct FUN_007e4fc0_shell
 };
 
 // @fnv 0x007e4fc0
-int __thiscall FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
+int FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) + aiIndex * 0x14;
 }
@@ -2290,7 +2290,7 @@ struct HostF
     void FUN_007e5ee0(int a1, int a2);
 };
 // @fnv 0x007e5ee0
-void __thiscall HostF::FUN_007e5ee0(int a1, int a2)
+void HostF::FUN_007e5ee0(int a1, int a2)
 {
     ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&g_011dade8)))))
         ->virt58(((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)&(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a1)])))));

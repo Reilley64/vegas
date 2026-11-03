@@ -23,11 +23,11 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct NiPSysFieldModifier
 {
-    NiPSysFieldModifier* __thiscall Destroy(unsigned int flags);
+    NiPSysFieldModifier* Destroy(unsigned int flags);
 };
 // Calls FUN_00c31750, then deletes this with size 48 if flags has bit 0 set, and returns this.
 // @fnv 0x00c32100
-NiPSysFieldModifier* __thiscall NiPSysFieldModifier::Destroy(unsigned int flags)
+NiPSysFieldModifier* NiPSysFieldModifier::Destroy(unsigned int flags)
 {
     reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
     if (flags & 1)
@@ -526,7 +526,7 @@ struct NiPSysFieldModifierImpl
     bool m_bEnableMaxDistance;
     float m_fDistanceLimit;
 
-    void __thiscall FUN_00c321f0(NiStream& kStream);
+    void FUN_00c321f0(NiStream& kStream);
 };
 
 // Calls FUN_00c31950, then writes the link ID and the float, float, bool and float fields to the stream.

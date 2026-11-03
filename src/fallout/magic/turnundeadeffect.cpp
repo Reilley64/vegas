@@ -350,9 +350,9 @@ void C::FUN_0082b530()
     int a;
     b = ((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((int)(reinterpret_cast<::MagicTarget *>((((O*)((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())))))->GetOwnerActor())) : 0;
     a = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((int)(reinterpret_cast<::MagicCaster *>((((O*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))))->GetCasterActor())) : 0;
-    if (b != 0 && a != 0 && (*(int(__thiscall**)(int))(*(int**)b + 266))(b) != 0)
+    if (b != 0 && a != 0 && (*(int(**)(int))(*(int**)b + 266))(b) != 0)
     {
-        reinterpret_cast<::FUN_008d0600_s *>((((O*)(*(int(__thiscall**)(int, int, int))(*(int**)b + 266))(b, a, 0))))->FUN_008d0600({}, {});
+        reinterpret_cast<::FUN_008d0600_s *>((((O*)(*(int(**)(int, int, int))(*(int**)b + 266))(b, a, 0))))->FUN_008d0600({}, {});
         *(char*)((char*)this + 72) = 1;
     }
 }

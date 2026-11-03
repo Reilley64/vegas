@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshpovsearch.cpp: NavMeshBounds, CircularArc, NavMeshPOVSearch, AngleSinCosArc_Helper and more (37 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A06F0Key.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
@@ -200,7 +201,7 @@ struct NTL
 };
 // Calls NiTLargePrimitiveArray(0, 1) on self, sets self's vtable pointer to DAT_010326fc, and returns self.
 // @fnv 0x006197c0
-void* __fastcall InitLargePrimitiveArray(void* self)
+void* InitLargePrimitiveArray(void* self)
 {
     new ((void *)(((NTL*)self))) ::FUN_0061bef0_class((void *)(0), (void *)(1));
     *(int**)self = &DAT_010326fc;
@@ -248,7 +249,7 @@ const char* _Dummy_0069e390::GetString() const
 }
 
 // @fnv 0x0069ef80
-float __fastcall GetFloatAtOffset68(const char* pThis)
+float GetFloatAtOffset68(const char* pThis)
 {
     return *(const float*)(pThis + 0x68);
 }
@@ -262,7 +263,7 @@ class NiBound
 
 
 // @fnv 0x006a0480
-void* __fastcall FUN_006a0480(void* pThis)
+void* FUN_006a0480(void* pThis)
 {
     ::FUN_006240d0((void *)(((NiBound*)pThis)));
     new ((void *)((char*)pThis + 0xC)) ::Vec3();
@@ -328,15 +329,15 @@ float FUN_006a0840_shell::FUN_006a0840()
     return FUN_004b5570(((float*)this)[1], ((float*)this)[0]);
 }
 
-void __stdcall compiler_vector_constructor_iterator(void*, unsigned int, int, void*(__fastcall*)(void*));
+void compiler_vector_constructor_iterator(void*, unsigned int, int, void*(*)(void*));
 
 struct Dummy_006a0870
 {
-    void* __thiscall Construct();
+    void* Construct();
 };
 
 // @fnv 0x006a0870
-void* __thiscall Dummy_006a0870::Construct()
+void* Dummy_006a0870::Construct()
 {
     compiler_vector_constructor_iterator((char*)this + 4, 0x14, 2, ((void *(&)(void *))::FUN_00588c50));
     return this;

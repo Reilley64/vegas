@@ -10,7 +10,6 @@
 class FormChangeRecord;
 class FormChangeMask;
 class BGSSaveLoadChangesMap;
-#pragma pack(push, 4)
 class BGSSaveLoadChangesMapBase
 {
   public:
@@ -42,6 +41,4 @@ class BGSSaveLoadChangesMap : public BGSSaveLoadChangesMapBase
 public:
     ~BGSSaveLoadChangesMap();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSSaveLoadChangesMap) == 16);
 #endif

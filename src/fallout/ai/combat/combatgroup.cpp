@@ -224,12 +224,12 @@ void FUN_009871c0_shell::FUN_009871c0(int state)
 
 struct FUN_009871e0_shell
 {
-    bool __thiscall IsModifierZero();
+    bool IsModifierZero();
 };
 
 // Returns whether the float at offset 0x5c of this object equals _gModifierZero.
 // @fnv 0x009871e0
-bool __thiscall FUN_009871e0_shell::IsModifierZero()
+bool FUN_009871e0_shell::IsModifierZero()
 {
     return (*(float*)((char*)this + 0x5c)) == ::_DAT_01012060;
 }
@@ -298,7 +298,7 @@ struct FUN_0098ebc0_obj
 
 struct FUN_00988770_shell
 {
-    void __thiscall ForwardToMember(int a1);
+    void ForwardToMember(int a1);
 };
 
 struct BSSimpleArray_NavMeshSearchNode
@@ -321,18 +321,18 @@ void FUN_00988790_shell::FUN_00988790(unsigned int auiIndex) const
 
 struct ActorCombatGroup
 {
-    void* __thiscall FUN_009865d0(int);
-    unsigned char __thiscall GetByteAtOffset100(int);
+    void* FUN_009865d0(int);
+    unsigned char GetByteAtOffset100(int);
 };
 
-void* __thiscall ActorCombatGroup::FUN_009865d0(int)
+void* ActorCombatGroup::FUN_009865d0(int)
 {
     return 0;
 }
 
 // Calls FUN_009865d0 with arg; if it returns non-null, returns byte at offset 0x64, otherwise 0.
 // @fnv 0x009891a0
-unsigned char __thiscall ActorCombatGroup::GetByteAtOffset100(int arg)
+unsigned char ActorCombatGroup::GetByteAtOffset100(int arg)
 {
     void* result = FUN_009865d0(arg);
     if (result)
@@ -343,7 +343,7 @@ unsigned char __thiscall ActorCombatGroup::GetByteAtOffset100(int arg)
 struct FUN_0098a310_shell
 {
     int m_field;
-    int __thiscall GetFieldOrZero(int param);
+    int GetFieldOrZero(int param);
 };
 
 struct FUN_009865f0_stub
@@ -354,11 +354,11 @@ struct FUN_009865f0_stub
 
 struct FUN_009865f0_shell
 {
-    int __thiscall FUN_009865f0(int a1);
+    int FUN_009865f0(int a1);
 };
 // Calls FUN_009865f0 with param and returns the resulting object's m_field, or 0 if the call returns null.
 // @fnv 0x0098a310
-int __thiscall FUN_0098a310_shell::GetFieldOrZero(int param)
+int FUN_0098a310_shell::GetFieldOrZero(int param)
 {
     FUN_009865f0_stub* result = ((::FUN_009865f0_stub *)(reinterpret_cast<::FUN_009865f0_shell *>((reinterpret_cast<FUN_009865f0_stub*>(this)))->FUN_009865f0(param)));
     if (result)
@@ -366,19 +366,19 @@ int __thiscall FUN_0098a310_shell::GetFieldOrZero(int param)
     return 0;
 }
 
-int __thiscall FUN_009865f0_shell::FUN_009865f0(int a1)
+int FUN_009865f0_shell::FUN_009865f0(int a1)
 {
     return 0;
 }
 
 struct FUN_0098a360_shell
 {
-    void __thiscall FUN_0098a360(int a1, int a2);
+    void FUN_0098a360(int a1, int a2);
 };
 
 // Calls FUN_009865f0 with a1; if it returns non-null, stores a2 at offset 4 of the result.
 // @fnv 0x0098a360
-void __thiscall FUN_0098a360_shell::FUN_0098a360(int a1, int a2)
+void FUN_0098a360_shell::FUN_0098a360(int a1, int a2)
 {
     int v1 = ((FUN_009865f0_shell*)this)->FUN_009865f0(a1);
     if (v1 != 0)
@@ -415,7 +415,7 @@ struct FUN_0098ed30_class
 
 struct FUN_0098efa0_shell
 {
-    void* __thiscall FUN_0098efa0(int count);
+    void* FUN_0098efa0(int count);
 };
 
 // Allocates a byte array of count * 0x68 bytes and returns the pointer.
@@ -428,11 +428,11 @@ void* FUN_0098efa0_shell::FUN_0098efa0(int count)
 
 struct FUN_0098efd0_shell
 {
-    void* __thiscall FUN_0098efd0(void* a, unsigned int b);
+    void* FUN_0098efd0(void* a, unsigned int b);
 };
 
 // @fnv 0x0098efd0
-void* __thiscall FUN_0098efd0_shell::FUN_0098efd0(void* a, unsigned int b)
+void* FUN_0098efd0_shell::FUN_0098efd0(void* a, unsigned int b)
 {
     return ::Reallocate(a, b * 0x68);
 }
@@ -492,12 +492,12 @@ struct BGSSaveFormBuffer
 
 struct FUN_00985ae0_shell
 {
-    void __thiscall FUN_00985ae0(BGSSaveFormBuffer* buffer, int a1);
+    void FUN_00985ae0(BGSSaveFormBuffer* buffer, int a1);
 };
 
 // Writes the object's first 0x10 bytes and the 4 bytes at offset 0x10 to the save buffer.
 // @fnv 0x00985ae0
-void __thiscall FUN_00985ae0_shell::FUN_00985ae0(BGSSaveFormBuffer* buffer, int aiUnused)
+void FUN_00985ae0_shell::FUN_00985ae0(BGSSaveFormBuffer* buffer, int aiUnused)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this, 0x10, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x10, 4, 0);
@@ -505,10 +505,10 @@ void __thiscall FUN_00985ae0_shell::FUN_00985ae0(BGSSaveFormBuffer* buffer, int 
 
 struct FUN_00985b10_shell
 {
-    void __thiscall FUN_00985b10(BGSLoadFormBuffer* buffer, int a2);
+    void FUN_00985b10(BGSLoadFormBuffer* buffer, int a2);
 };
 // @fnv 0x00985b10
-void __thiscall FUN_00985b10_shell::FUN_00985b10(BGSLoadFormBuffer* buffer, int aiUnused)
+void FUN_00985b10_shell::FUN_00985b10(BGSLoadFormBuffer* buffer, int aiUnused)
 {
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 0x10);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
@@ -523,7 +523,7 @@ struct BSSimpleArray_CombatTarget_1024
 {
     void* __pad;
     void* pBuffer;
-    unsigned int __thiscall FUN_0098eec0(const CombatTarget* aValue);
+    unsigned int FUN_0098eec0(const CombatTarget* aValue);
 public:
     void FUN_0098fab0(unsigned int, unsigned int);
 };
@@ -542,7 +542,7 @@ struct FUN_0098fbe0_shell
 struct FUN_0098eff0_shell
 {
     void* vtable;
-    void* __thiscall FUN_0098eff0();
+    void* FUN_0098eff0();
 };
 
 struct TESForm
@@ -560,10 +560,10 @@ struct Actor : public TESForm
 struct Holder00985930
 {
     unsigned int m_data;
-    void __thiscall FUN_00985930(int a1, int a2);
+    void FUN_00985930(int a1, int a2);
 };
 // @fnv 0x00985930
-void __thiscall Holder00985930::FUN_00985930(int a1, int aiUnused)
+void Holder00985930::FUN_00985930(int a1, int aiUnused)
 {
     *(Actor**)&m_data = m_data ? dynamic_cast<Actor*>(::FUN_004839c0(m_data)) : (Actor*)0;
 }
@@ -608,11 +608,11 @@ struct FUN_00990890_shell
 };
 struct FUN_009866d0_shell
 {
-    bool __thiscall FUN_009866d0(Actor* target);
+    bool FUN_009866d0(Actor* target);
 };
 // Iterates the actors in this collection and returns false as soon as one actor fails FUN_008b0670 on target; otherwise returns true.
 // @fnv 0x009866d0
-bool __thiscall FUN_009866d0_shell::FUN_009866d0(Actor* target)
+bool FUN_009866d0_shell::FUN_009866d0(Actor* target)
 {
     unsigned int count = reinterpret_cast<::FUN_00990890_shell *>((((FUN_00990890_shell*)this)))->FUN_00990890();
     for (unsigned int i = 0; i < count; ++i)
@@ -632,11 +632,11 @@ struct FUN_00986950_shell
     float f8;
     float fc;
     void* p10;
-    void* __thiscall FUN_00986950(void* a1);
+    void* FUN_00986950(void* a1);
 };
 // Stores a1 into p0 and resets a4 to 0, f8 and fc to -1.0, and p10 to null, then returns this.
 // @fnv 0x00986950
-void* __thiscall FUN_00986950_shell::FUN_00986950(void* a1)
+void* FUN_00986950_shell::FUN_00986950(void* a1)
 {
     p0 = a1;
     a4 = 0;
@@ -648,10 +648,10 @@ void* __thiscall FUN_00986950_shell::FUN_00986950(void* a1)
 
 struct FUN_00986a80_shell : public FUN_009865f0_shell
 {
-    char __thiscall FUN_00986a80(int param);
+    char FUN_00986a80(int param);
 };
 // @fnv 0x00986a80
-char __thiscall FUN_00986a80_shell::FUN_00986a80(int param)
+char FUN_00986a80_shell::FUN_00986a80(int param)
 {
     return (FUN_009865f0(param) != 0);
 }
@@ -671,10 +671,10 @@ struct FUN_008b0670_shell
 };
 struct FUN_00986aa0_shell : PathingSolution
 {
-    bool __thiscall FUN_00986aa0(Actor* actor);
+    bool FUN_00986aa0(Actor* actor);
 };
 // @fnv 0x00986aa0
-bool __thiscall FUN_00986aa0_shell::FUN_00986aa0(Actor* actor)
+bool FUN_00986aa0_shell::FUN_00986aa0(Actor* actor)
 {
     unsigned int count = ::FUN_005a4320((char *)this);
     for (unsigned int i = 0; i < count; ++i)
@@ -689,12 +689,12 @@ bool __thiscall FUN_00986aa0_shell::FUN_00986aa0(Actor* actor)
 
 struct FUN_009874b0_shell : ActorCombatGroup
 {
-    void __thiscall FUN_009874b0(int a1);
+    void FUN_009874b0(int a1);
 };
 
 // Calls FUN_009865d0 with a1 to get a CombatTarget and, if non-null, increments the ushort at offset 0x4a in its m_data.
 // @fnv 0x009874b0
-void __thiscall FUN_009874b0_shell::FUN_009874b0(int a1)
+void FUN_009874b0_shell::FUN_009874b0(int a1)
 {
     CombatTarget* pcombatTarget;
     pcombatTarget = (CombatTarget*)FUN_009865d0(a1);
@@ -709,11 +709,11 @@ struct S_009874f0
 };
 struct FUN_009874f0_obj
 {
-    void __thiscall DecrementField4A(int);
+    void DecrementField4A(int);
 };
 // Retrieves an object via FUN_009865d0 and, if non-null, decrements its f4A field.
 // @fnv 0x009874f0
-void __thiscall FUN_009874f0_obj::DecrementField4A(int a1)
+void FUN_009874f0_obj::DecrementField4A(int a1)
 {
     S_009874f0* p = (S_009874f0*)reinterpret_cast<ActorCombatGroup*>(this)->FUN_009865d0(a1);
     if (p)
@@ -730,11 +730,11 @@ struct StandIn_00989010
 {
     ThreeInts_00989010 t;
     int v;
-    void __thiscall SetTripleAndValue(ThreeInts_00989010* src, int val);
+    void SetTripleAndValue(ThreeInts_00989010* src, int val);
 };
 // Copies the three-int struct pointed to by src into t and stores val in v.
 // @fnv 0x00989010
-void __thiscall StandIn_00989010::SetTripleAndValue(ThreeInts_00989010* apTriple, int aiValue)
+void StandIn_00989010::SetTripleAndValue(ThreeInts_00989010* apTriple, int aiValue)
 {
     t = *apTriple;
     v = aiValue;
@@ -815,10 +815,10 @@ struct CoordinateTriple
 };
 struct CombatGroupStub
 {
-    bool __thiscall GetDetectedTargetLocation(Actor* apTarget, CoordinateTriple& arLastDetectedLocation);
+    bool GetDetectedTargetLocation(Actor* apTarget, CoordinateTriple& arLastDetectedLocation);
 };
 // @fnv 0x009890e0
-bool __thiscall CombatGroupStub::GetDetectedTargetLocation(Actor* apTarget, CoordinateTriple& arLastDetectedLocation)
+bool CombatGroupStub::GetDetectedTargetLocation(Actor* apTarget, CoordinateTriple& arLastDetectedLocation)
 {
     CombatTarget* pcombatTarget;
     pcombatTarget = (CombatTarget*)((ActorCombatGroup*)this)->FUN_009865d0((int)apTarget);
@@ -844,10 +844,10 @@ struct FUN_009891d0_class
 {
     char _pad[0x28];
     int m28;
-    void __thiscall FUN_009891d0(TESAmmoInitCalls* p1, Calendar* p2);
+    void FUN_009891d0(TESAmmoInitCalls* p1, Calendar* p2);
 };
 // @fnv 0x009891d0
-void __thiscall FUN_009891d0_class::FUN_009891d0(TESAmmoInitCalls* p1, Calendar* pCalendar)
+void FUN_009891d0_class::FUN_009891d0(TESAmmoInitCalls* p1, Calendar* pCalendar)
 {
     unsigned int v2;
     if (m28 != 0)
@@ -870,7 +870,7 @@ struct Ref_997440
 };
 struct S989970
 {
-    void __thiscall FUN_00989970(Ref_997440* p, float f);
+    void FUN_00989970(Ref_997440* p, float f);
 };
 struct B16
 {
@@ -881,7 +881,7 @@ struct B16
 };
 struct FUN_0098a340_shell
 {
-    int __thiscall FUN_0098a340(int a1);
+    int FUN_0098a340(int a1);
 };
 struct FUN_0098a410_shell
 {
@@ -921,7 +921,7 @@ struct BSSimpleArray_CombatMember_1024
     CombatClusterMember* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    unsigned int __thiscall AddCombatMember(const CombatClusterMember* aValue);
+    unsigned int AddCombatMember(const CombatClusterMember* aValue);
 public:
     void FUN_0098fbe0(unsigned int, unsigned int);
 };
@@ -934,11 +934,11 @@ struct FUN_00985bb0_Class
     char _pad[16];
     CTSHelper _ts;
     float _f18;
-    float __thiscall FUN_00985bb0();
+    float FUN_00985bb0();
 };
 // Returns the difference between the stored _f18 value and the elapsed time from _ts.
 // @fnv 0x00985bb0
-float __thiscall FUN_00985bb0_Class::FUN_00985bb0()
+float FUN_00985bb0_Class::FUN_00985bb0()
 {
     return _f18 - reinterpret_cast<::FUN_00435e00_t *>(&(_ts))->FUN_00435e00();
 }
@@ -946,11 +946,11 @@ float __thiscall FUN_00985bb0_Class::FUN_00985bb0()
 struct FUN_00986560_shell
 {
     char pad[8];
-    void __thiscall FUN_00986560(int a1);
+    void FUN_00986560(int a1);
 };
 struct FUN_0098ef10_shell
 {
-    void* __thiscall FUN_0098ef10(int a1);
+    void* FUN_0098ef10(int a1);
 };
 struct FUN_009926e0_shell
 {
@@ -964,17 +964,17 @@ struct SearchNode
 };
 struct MyArr : ArrSI
 {
-    SearchNode* __thiscall FUN_006dad90(unsigned int) const;
+    SearchNode* FUN_006dad90(unsigned int) const;
 };
 struct C00986670
 {
     char pad[0x18];
     MyArr arr;
-    SearchNode* __thiscall FUN_00986670(unsigned int);
+    SearchNode* FUN_00986670(unsigned int);
 };
 // Scans arr for the first SearchNode whose p->_ref_0084e3a0() equals a1 and returns it, or 0 if none match.
 // @fnv 0x00986670
-SearchNode* __thiscall C00986670::FUN_00986670(unsigned int a1)
+SearchNode* C00986670::FUN_00986670(unsigned int a1)
 {
     unsigned int i;
     for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName())); i++)
@@ -988,7 +988,7 @@ SearchNode* __thiscall C00986670::FUN_00986670(unsigned int a1)
 
 struct FUN_00986b70_shell : ActorCombatGroup
 {
-    void __thiscall FUN_00986b70();
+    void FUN_00986b70();
 };
 
 struct FUN_00986b70_helper : ActorCombatGroup
@@ -1257,7 +1257,7 @@ struct Actor_vfn
 
 // Iterates all entries via GetCount/GetIntAt and calls vfn_3fc(false) on each actor.
 // @fnv 0x00986b70
-void __thiscall FUN_00986b70_shell::FUN_00986b70()
+void FUN_00986b70_shell::FUN_00986b70()
 {
     unsigned int count = reinterpret_cast<::FUN_00990890_shell *>((((FUN_00986b70_helper*)this)))->FUN_00990890();
     for (unsigned int i = 0; i < count; ++i)
@@ -1297,11 +1297,11 @@ struct FUN_0098a2e0_shell
     char pad[0x14c];
     int m_kPointA;
     int m_kPointB;
-    bool __thiscall FUN_0098a2e0();
+    bool FUN_0098a2e0();
 };
 
 // @fnv 0x0098a2e0
-bool __thiscall FUN_0098a2e0_shell::FUN_0098a2e0()
+bool FUN_0098a2e0_shell::FUN_0098a2e0()
 {
     if (!m_kPointB && m_kPointA)
         return true;
@@ -1318,17 +1318,17 @@ struct MyNode_0098a3c0
 };
 struct MyArr_0098a3c0
 {
-    MyNode_0098a3c0* __thiscall FUN_006dad90(unsigned int) const;
+    MyNode_0098a3c0* FUN_006dad90(unsigned int) const;
 };
 struct FUN_0098a3c0_shell
 {
     char pad[0x18];
     MyArr_0098a3c0 arr;
-    void __thiscall FUN_0098a3c0();
+    void FUN_0098a3c0();
 };
 // Iterates over the array's nodes up to GetCount() and sets each node's m1 field to 0.
 // @fnv 0x0098a3c0
-void __thiscall FUN_0098a3c0_shell::FUN_0098a3c0()
+void FUN_0098a3c0_shell::FUN_0098a3c0()
 {
     MyNode_0098a3c0* pNode;
     unsigned int idx;
@@ -1393,10 +1393,10 @@ void FUN_0098c780_shell::ClearReservedFlag(int param)
 
 struct FUN_0098ed60_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_0098ed60();
+    void FUN_0098ed60();
 };
 // @fnv 0x0098ed60
-void __thiscall FUN_0098ed60_shell::FUN_0098ed60()
+void FUN_0098ed60_shell::FUN_0098ed60()
 {
     *(void**)this = &DAT_0108d6f4;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
@@ -1410,7 +1410,7 @@ struct FUN_00990500_host
     S0098a4d0* p0;
     char pad[16];
     float f14;
-    float __thiscall GetCachedValue();
+    float GetCachedValue();
 };
 struct BGSEncounterZone;
 struct ActorS
@@ -1684,14 +1684,14 @@ struct FUN_0098de30_class
 };
 struct FUN_009859c0_shell
 {
-    void __thiscall FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
+    void FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
 };
 struct SaveFormIDHelper
 {
 };
 // Saves the form ID, three 4-byte fields, and a byte derived from the object at offset 16 (0xFF if null) to the buffer.
 // @fnv 0x009859c0
-void __thiscall FUN_009859c0_shell::FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj)
+void FUN_009859c0_shell::FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj)
 {
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((SaveFormIDHelper*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)this), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 4, 4, 0);
@@ -2027,11 +2027,11 @@ struct FUN_009856e0_shell
     int m_field;
     char pad[0x60];
 
-    void __thiscall FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGroup* pGroup);
+    void FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGroup* pGroup);
 };
 
 // @fnv 0x009856e0
-void __thiscall FUN_009856e0_shell::FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGroup* pGroup)
+void FUN_009856e0_shell::FUN_009856e0(BGSSaveFormBuffer* pBuffer, ActorCombatGroup* pGroup)
 {
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((SaveFormIDHelper*)pBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pActor), 0);
 
@@ -2087,7 +2087,7 @@ struct FUN_00985800_shell
     char m64;
     char m65;
 
-    void __thiscall FUN_00985800(BGSLoadFormBuffer* pBuffer, ActorCombatGroup* pGroup);
+    void FUN_00985800(BGSLoadFormBuffer* pBuffer, ActorCombatGroup* pGroup);
 };
 
 // @fnv 0x00985800
@@ -2370,8 +2370,8 @@ struct P3OperatorMinusHelper
 
 struct FUN_00989eb0_shell
 {
-    void __thiscall UpdateBoundsFromActors(B006815c0* points, int index);
-    void __thiscall FUN_00989eb0(NiPoint3* result);
+    void UpdateBoundsFromActors(B006815c0* points, int index);
+    void FUN_00989eb0(NiPoint3* result);
 };
 
 // @fnv 0x00989eb0
@@ -2392,7 +2392,7 @@ struct FUN_0098a390_shell
 {
     char pad[0x18];
     MyArr m_aiIndexedValues;
-    void __thiscall SetElementValue(unsigned int a1, unsigned int a2);
+    void SetElementValue(unsigned int a1, unsigned int a2);
 };
 
 // @fnv 0x0098a390
@@ -2412,7 +2412,7 @@ struct ActorCombatGroup
 
 struct FUN_009871c0_shell
 {
-    S_009874f0* __thiscall FUN_009871c0(int index);
+    S_009874f0* FUN_009871c0(int index);
 };
 }
 
@@ -2759,7 +2759,7 @@ struct FUN_0098ed80_shell : public AllocationBase
     unsigned int m_iElementCount;
     unsigned int m_pRayCursor;
 
-    void __thiscall FUN_0098ed80(unsigned int, bool);
+    void FUN_0098ed80(unsigned int, bool);
 };
 
 struct GlobalObject_0040e0b0
@@ -2812,12 +2812,12 @@ struct Obj8
 
 struct Walker8
 {
-    void __thiscall ConstructArray(Pair8* arr, unsigned int count);
+    void ConstructArray(Pair8* arr, unsigned int count);
 };
 
 // Placement-constructs an Obj8 in each of the count elements of arr.
 // @fnv 0x00845300
-void __thiscall Walker8::ConstructArray(Pair8* apPairs, unsigned int count)
+void Walker8::ConstructArray(Pair8* apPairs, unsigned int count)
 {
     unsigned int i;
     for (i = 0; i < count; i++)
@@ -2923,7 +2923,7 @@ struct CombatMemberData_985520
     unsigned char b64;
     unsigned char b65;
 
-    void __thiscall MergeCombatData(CombatMemberData_985520* pOther);
+    void MergeCombatData(CombatMemberData_985520* pOther);
 };
 
 // Merges another member's combat data into this one: takes max iValue04, copies newer timestamps with their blocks, and accumulates w4A, b64 and b65.
@@ -2958,14 +2958,14 @@ void CombatMemberData_985520::MergeCombatData(CombatMemberData_985520* pOther)
 
 struct TimeInput
 {
-    float __thiscall FUN_00527a40(FUN_00985bb0_Class* owner);
+    float FUN_00527a40(FUN_00985bb0_Class* owner);
 };
 extern float _DAT_0108d5a0;
 extern double _DAT_0108d598;
 
 struct CombatClock : FUN_00985bb0_Class
 {
-    float __thiscall GetAdjustedTime(TimeInput* timeInput);
+    float GetAdjustedTime(TimeInput* timeInput);
 };
 // @fnv 0x00985b40
 float CombatClock::GetAdjustedTime(TimeInput* timeInput)
@@ -2984,7 +2984,7 @@ float CombatClock::GetAdjustedTime(TimeInput* timeInput)
 
 struct BSSimpleArrayForCall : BSSimpleArray
 {
-    void __thiscall CopyItemsTo(BSSimpleArrayForCall* other);
+    void CopyItemsTo(BSSimpleArrayForCall* other);
 };
 
 struct FUN_00986740_shell
@@ -2993,33 +2993,33 @@ struct FUN_00986740_shell
     void* unk04;
     BSSimpleArrayForCall arr;
 
-    void __thiscall FUN_00986740(FUN_00986740_shell* other);
+    void FUN_00986740(FUN_00986740_shell* other);
 };
 
-void __thiscall BSSimpleArrayForCall::CopyItemsTo(BSSimpleArrayForCall* other)
+void BSSimpleArrayForCall::CopyItemsTo(BSSimpleArrayForCall* other)
 {}
 
 // @fnv 0x00986740
-void __thiscall FUN_00986740_shell::FUN_00986740(FUN_00986740_shell* other)
+void FUN_00986740_shell::FUN_00986740(FUN_00986740_shell* other)
 {
     reinterpret_cast<::FUN_0098f580_class *>(&(other->arr))->CopyItemsTo((::FUN_0096a330_class *)(::BSSimpleArrayForCall *)(&arr));
 }
 
 struct FUN_00986760_sub
 {
-    void* __thiscall FUN_0096a2b0(int i);
+    void* FUN_0096a2b0(int i);
 };
 
 struct FUN_00986760_arg
 {
-    void __thiscall FUN_0047a110(int i, void* p);
+    void FUN_0047a110(int i, void* p);
 };
 
 struct FUN_00986760_cls
 {
     char pad[8];
     FUN_00986760_sub m_08;
-    void __thiscall FUN_00986760(int a1);
+    void FUN_00986760(int a1);
 };
 
 // Passes the result of FUN_0044ddc0(1) to the argument's FUN_006f2290, then forwards each indexed element from FUN_0096a2b0 to FUN_0047a110.
@@ -4258,7 +4258,7 @@ struct FUN_0098a4d0_class : FUN_0098a410_shell
 };
 // Returns f14, computing and storing it from p0->ComputeAverageRatio() first when f14 equals _gModifierZero.
 // @fnv 0x00990500
-float __thiscall FUN_00990500_host::GetCachedValue()
+float FUN_00990500_host::GetCachedValue()
 {
     if (f14 == ::_DAT_01012060)
         f14 = reinterpret_cast<::FUN_0098a4d0_class *>((p0))->ComputeAverageRatio();
@@ -5607,7 +5607,7 @@ class B98EBC0Array
     int* GetElementAt(int iIndex);
 };
 // @fnv 0x00988770
-void __thiscall FUN_00988770_shell::ForwardToMember(int a1)
+void FUN_00988770_shell::ForwardToMember(int a1)
 {
     reinterpret_cast<::B98EBC0Array *>((((FUN_0098ebc0_obj*)((char*)this + 0x110))))->GetElementAt(a1);
 }
@@ -5669,7 +5669,7 @@ struct RemovalArray : RemovalOperations
     void FUN_0098ef10(unsigned int first, unsigned int count);
 };
 // @fnv 0x00986560
-void __thiscall FUN_00986560_shell::FUN_00986560(int a1)
+void FUN_00986560_shell::FUN_00986560(int a1)
 {
     void* v = reinterpret_cast<FUN_0098ef10_shell*>(reinterpret_cast<char*>(this) + 8)->FUN_0098ef10(a1);
     reinterpret_cast<::fnv_009926e0::CombatBox *>((reinterpret_cast<FUN_009926e0_shell*>((*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->SwapAndDispatch((unsigned int)(this), (unsigned int)(*reinterpret_cast<void**>(v)));
@@ -5726,7 +5726,7 @@ class C98F840Allocator
     void FUN_0098f840(C98F840Element* pkElements, unsigned int ItemUpdateArray);
 };
 // @fnv 0x0098eec0
-unsigned int __thiscall BSSimpleArray_CombatTarget_1024::FUN_0098eec0(const CombatTarget* aValue)
+unsigned int BSSimpleArray_CombatTarget_1024::FUN_0098eec0(const CombatTarget* aValue)
 {
     unsigned int iElementIndex = reinterpret_cast<::FUN_0098f7b0_Class *>(this)->FUN_0098f7b0();
     reinterpret_cast<::C98F840Allocator *>(this)->FUN_0098f840((::C98F840Element *)(::CombatTarget *)((CombatTarget*)pBuffer + iElementIndex), 1);
@@ -5734,7 +5734,7 @@ unsigned int __thiscall BSSimpleArray_CombatTarget_1024::FUN_0098eec0(const Comb
     return iElementIndex;
 }
 // @fnv 0x0098ed80
-void __thiscall FUN_0098ed80_shell::FUN_0098ed80(unsigned int auiCount, bool abShrink)
+void FUN_0098ed80_shell::FUN_0098ed80(unsigned int auiCount, bool abShrink)
 {
     if (auiCount == 0)
     {
@@ -9440,7 +9440,7 @@ struct FourFloatVector
 };
 struct TimeoutTimer
 {
-    double __thiscall FUN_00527a40(int result);
+    double FUN_00527a40(int result);
 };
 struct CombatCondition
 {
@@ -9631,7 +9631,7 @@ struct CombatLogic
     unsigned int unk1bc;
     unsigned int unk1c0;
     CombatController* controller;
-    void __thiscall FUN_009a1280(bool update);
+    void FUN_009a1280(bool update);
 };
 // @fnv 0x009a1280
 void CombatLogic::FUN_009a1280(bool update)
@@ -9676,11 +9676,11 @@ struct CFUN98fb40Elem
 
 struct CFUN98fb40Owner
 {
-    void __thiscall FUN_0098fb40(CombatClusterMember* pDest, unsigned int ItemUpdateArray);
+    void FUN_0098fb40(CombatClusterMember* pDest, unsigned int ItemUpdateArray);
 };
 // Sets the vtable pointer to DAT_0108d708, calls FUN_0098fbe0 with 0, 0, and returns this.
 // @fnv 0x0098eff0
-void* __thiscall FUN_0098eff0_shell::FUN_0098eff0()
+void* FUN_0098eff0_shell::FUN_0098eff0()
 {
     vtable = (void*)&DAT_0108d708;
     reinterpret_cast<::BSSimpleArray_CombatMember_1024 *>((reinterpret_cast<FUN_0098fbe0_shell*>(this)))->FUN_0098fbe0(0, 0);
@@ -9688,7 +9688,7 @@ void* __thiscall FUN_0098eff0_shell::FUN_0098eff0()
 }
 // Appends a copy of the given combat member to the array and returns the index it was stored at.
 // @fnv 0x0098f180
-unsigned int __thiscall BSSimpleArray_CombatMember_1024::AddCombatMember(const CombatClusterMember* aValue)
+unsigned int BSSimpleArray_CombatMember_1024::AddCombatMember(const CombatClusterMember* aValue)
 {
     unsigned int iElementIndex = reinterpret_cast<::S5460 *>(this)->FUN_007881d0();
     reinterpret_cast<::CFUN98fb40Owner *>(this)->FUN_0098fb40(&pBuffer[iElementIndex], 1);
@@ -10226,7 +10226,7 @@ struct B9898B0Group
     B9897F0Ref* FindClosestRef(B9897F0Point* pkPoint, B9897F0Ref* pkExclude, float fRadius);
 };
 // @fnv 0x00989970
-void __thiscall S989970::FUN_00989970(Ref_997440* apRef, float afValue)
+void S989970::FUN_00989970(Ref_997440* apRef, float afValue)
 {
     B16 b;
     reinterpret_cast<::B9898B0Group *>(this)->FindClosestRef((::B9897F0Point *)(((int)(reinterpret_cast<::FUN_00575650_Class *>((apRef))->FUN_00575650((::FUN_00575650_Result *)(void *)(&b))))), {}, {});
@@ -10786,12 +10786,12 @@ struct AvoidArray9894 : PathingAvoidNodeArray
 struct FUN_00989490_shell
 {
     float GetBoundsSq(NiPoint3* apCenter);
-    PathingAvoidNodeArray* __thiscall FUN_00989490(int a1, int a2, int a3, PathingAvoidNodeArray* apArray);
+    PathingAvoidNodeArray* FUN_00989490(int a1, int a2, int a3, PathingAvoidNodeArray* apArray);
 };
 
 // Adds an avoidance node at the target center with a radius derived from the bounds square to the given pathing avoid node array.
 // @fnv 0x00989490
-PathingAvoidNodeArray* __thiscall FUN_00989490_shell::FUN_00989490(int aiUnused1, int aiUnused2, int aiUnused3,
+PathingAvoidNodeArray* FUN_00989490_shell::FUN_00989490(int aiUnused1, int aiUnused2, int aiUnused3,
                                                                    PathingAvoidNodeArray* apArray)
 {
     B006815c0 kTargetCenter;

@@ -74,16 +74,16 @@ int FUN_00e39e60_class::ComputeIndex(int aiOffset)
 
 struct FUN_00e3f340_Class
 {
-    void* __thiscall GetEntryByArg(int arg);
+    void* GetEntryByArg(int arg);
 };
 
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00e3f900(int a);
+    int FUN_00e3f900(int a);
 };
 
 // @fnv 0x00e3f900
-int __thiscall FUN_00e3f900_class::FUN_00e3f900(int a)
+int FUN_00e3f900_class::FUN_00e3f900(int a)
 {
     reinterpret_cast<::FUN_00cb0a70_Class *>(this)->FUN_00cb0a70(a);
     return (int)this;
@@ -138,7 +138,7 @@ struct FUN_00e34800
     int a;
     int b;
     int c;
-    void __thiscall m(int);
+    void m(int);
     FUN_00e34800(int x);
 };
 // @fnv 0x00e34800
@@ -153,11 +153,11 @@ struct CB2FC0Object
 };
 struct FUN_00e3b4d0_Class
 {
-    void __thiscall ApplyToBothObjects(void* a, void* b);
+    void ApplyToBothObjects(void* a, void* b);
 };
 // Calls FUN_00cb2d90 on the object at this+0x20 with a and on the object at this+0x50 with b.
 // @fnv 0x00e3b4d0
-void __thiscall FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
+void FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
 {
     reinterpret_cast<::RotationRows *>((((CB2FC0Object*)(this + 0x20))))->FUN_00cb2d90(a);
     reinterpret_cast<::RotationRows *>((((CB2FC0Object*)(this + 0x50))))->FUN_00cb2d90(b);
@@ -166,7 +166,7 @@ void __thiscall FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
 
 struct FUN_00e3ec30_Class
 {
-    int __thiscall FUN_00e3ec30(int arg);
+    int FUN_00e3ec30(int arg);
 };
 
 // @fnv 0x00e3ec30
@@ -1868,7 +1868,7 @@ struct FUN_00e3b060_Class
     int unk04;
     int unk08;
     LinkOwner links;
-    FUN_00e3b060_Class* __thiscall ReleaseLinks(ReleaseFlags flags);
+    FUN_00e3b060_Class* ReleaseLinks(ReleaseFlags flags);
 };
 // Sets the vtable and, depending on flags, releases the link owner's handle and/or the owner itself, then returns this.
 // @fnv 0x00e3b060
@@ -2092,12 +2092,12 @@ struct FUN_00e3ec00_Class
     FUN_00e3ec00_Class** unk28;
     int unk2c;
 
-    int __thiscall GetTotal();
+    int GetTotal();
 };
 
 // Returns unk2c plus the sum of GetTotal() over the unk2c elements of unk28.
 // @fnv 0x00e3ec00
-int __thiscall FUN_00e3ec00_Class::GetTotal()
+int FUN_00e3ec00_Class::GetTotal()
 {
     int total = unk2c;
     int i = 0;
@@ -2147,14 +2147,14 @@ struct S_00e3ed00_Foo
     S_00e3ed00_Foo** children;
     int childCount;
 
-    S_00e3ed00_Result* __thiscall FUN_00c85750();
-    int __thiscall AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
+    S_00e3ed00_Result* FUN_00c85750();
+    int AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
 };
 
 
 // Appends this node to param2's list, then recurses into children until param1 is found; returns 0 on match, 1 otherwise (rolling back the append).
 // @fnv 0x00e3ed00
-int __thiscall S_00e3ed00_Foo::AppendToTraversalList(S_00e3ed00_Foo* pTarget, S_00e3ed00_List* pList)
+int S_00e3ed00_Foo::AppendToTraversalList(S_00e3ed00_Foo* pTarget, S_00e3ed00_List* pList)
 {
     S_00e3ed00_Result* resultInfo = this->FUN_00c85750();
 
@@ -2560,7 +2560,7 @@ struct FUN_00e3f230_cls
     int FindEntryByKey(int arg);
 };
 // @fnv 0x00e3f340
-void* __thiscall FUN_00e3f340_Class::GetEntryByArg(int arg)
+void* FUN_00e3f340_Class::GetEntryByArg(int arg)
 {
     int index = reinterpret_cast<::FUN_00e3f230_cls *>(this)->FindEntryByKey(arg);
     if (index != -1)
@@ -2668,7 +2668,7 @@ float FUN_00e39e80_class::FUN_00e39e80()
 
 struct FUN_00e3df50_Class
 {
-    FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
+    FUN_00e3df50_Class* FUN_00e3df50(int param);
 };
 
 // @fnv 0x00e3df50
@@ -2699,11 +2699,11 @@ struct FNVTreeNode
     FNVTreeNode** children;
     int childCount;
 
-    FNVTreeNode* __thiscall FindChildByName(const char* name);
+    FNVTreeNode* FindChildByName(const char* name);
 };
 // Searches children recursively for a node whose tagged name string matches name, returning the first match or 0.
 // @fnv 0x00e3ec90
-FNVTreeNode* __thiscall FNVTreeNode::FindChildByName(const char* pcName)
+FNVTreeNode* FNVTreeNode::FindChildByName(const char* pcName)
 {
     if (pcName == 0)
         return 0;
@@ -2798,7 +2798,7 @@ struct E3F290Class
     int unk00;
     int unk04;
     E3F290Entry* unk08;
-    int __thiscall GetEntryValue(int index);
+    int GetEntryValue(int index);
 };
 
 // @fnv 0x00e3f290
@@ -3146,7 +3146,7 @@ struct FUN_00e39e50_cls
 {
     __m128 m_v0;
     __m128 m_v1;
-    FUN_00e39e50_cls* __thiscall FUN_00e39e50();
+    FUN_00e39e50_cls* FUN_00e39e50();
 };
 
 // @fnv 0x00e39e50
@@ -3386,7 +3386,7 @@ template <class T> struct hkRefPtr_e3e8
 
 // Finds an object by name with FindWorldByKey and returns it if expected is null or their FUN_00d46d40 strings match case-insensitively, otherwise returns null.
 // @fnv 0x00e3e8e0
-Resource_e3e8* __stdcall FUN_00e3e8e0(const char* name, Resource_e3e8* expected)
+Resource_e3e8* FUN_00e3e8e0(const char* name, Resource_e3e8* expected)
 {
     if (!name)
         return 0;
@@ -3412,8 +3412,8 @@ struct S_00e3f280_Class
     int unk04;
     S_00e3f280_Entry* unk08;
 
-    int __thiscall FUN_00e3f280(int index);
-    int __thiscall GetEntryValue(int index);
+    int FUN_00e3f280(int index);
+    int GetEntryValue(int index);
 };
 
 // @fnv 0x00e3f280

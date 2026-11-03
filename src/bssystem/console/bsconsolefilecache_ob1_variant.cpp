@@ -1,6 +1,7 @@
 
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/B02670Task.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00b00cf0_shell.h"
@@ -11,8 +12,6 @@
 #include "fnv/symbols_00b02000.h"
 #include "fnv/symbols_011f6000.h"
 #include "bsconsolefilecache_decls.h"
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FUN_00b02310_shell
 {
     bool FUN_00b02310(unsigned char* param);
@@ -26,10 +25,6 @@ struct FUN_00b02360_shell
 {
     void DeleteIfNotNull(DelObj* p);
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long dwExitCode);
 struct Inner_00b023b0
 {
     long cnt;
@@ -40,11 +35,9 @@ struct Outer_00b023b0
     char pad[8];
     Inner_00b023b0 inner;
 };
-extern "C" __declspec(dllimport) void __stdcall ExitThread(unsigned long);
 struct Unk00b023f0
 {
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
 struct FUN_00b02420_Data
 {
     unsigned char pad[0x1C];
@@ -67,23 +60,14 @@ struct FUN_00b02130_shell
 {
     bool QueueItem(void* p);
 };
-extern "C" __declspec(dllimport) void __stdcall ReleaseSemaphore(void* hSemaphore, long cReleaseCount,
-                                                                 long* lPreviousCount);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 struct FUN_00b020a0_shell
 {
     char FUN_00b020a0(void* p);
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForMultipleObjects(unsigned long nCount,
-                                                                                const void* const* lpHandles,
-                                                                                int bWaitAll,
-                                                                                unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 struct FUN_00b01f50_shell
 {
     void FUN_00b01f50();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile*, long, long);
 struct Lock_00b02220
 {
     int m_debugInfo;
@@ -166,14 +150,6 @@ bool Owner_b02010::FUN_00b02010(Spawned_b02010** out)
     return v != 0;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) void __stdcall ReleaseSemaphore(void*, long, long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct CritSection
 {
     void* DebugInfo;

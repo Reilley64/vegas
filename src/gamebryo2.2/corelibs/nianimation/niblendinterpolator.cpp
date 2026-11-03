@@ -301,7 +301,7 @@ struct InterpArrayItem_Temp
 
 // Sets the vtable pointer, destroys each element of the array at offset 0x14, frees it, then calls FUN_00a57010.
 // @fnv 0x00a37170
-void __fastcall DestroyInterpolatorArray(NiBlendInterpolator* pThis, int)
+void DestroyInterpolatorArray(NiBlendInterpolator* pThis, int)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_0109697c;
     InterpArrayItem_Temp* pArray = *reinterpret_cast<InterpArrayItem_Temp**>(reinterpret_cast<char*>(pThis) + 0x14);
@@ -560,7 +560,7 @@ struct BlendInterpS : InterpS
     InterpS* m_pSingleInterpolator;
 };
 // @fnv 0x00a36dc0
-void __fastcall CollapseAllInterps(BlendInterpS* self, int)
+void CollapseAllInterps(BlendInterpS* self, int)
 {
     if (self->m_ucInterpCount == 1)
     {
@@ -650,7 +650,7 @@ struct BlendInterpS : InterpS
     InterpS* m_pSingleInterpolator;
 };
 // @fnv 0x00a36e10
-void __fastcall FUN_00a36e10(BlendInterpS* self, int, float m_fStartTime, float m_fMaximumDistance)
+void FUN_00a36e10(BlendInterpS* self, int, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_ucInterpCount == 1)
     {
@@ -737,7 +737,7 @@ struct BlendInterpS : InterpS
 };
 // Registers the base streamables, then registers each item's interpolator when the flag bit is clear; returns false if the base call fails.
 // @fnv 0x00a36f80
-bool __fastcall FUN_00a36f80(BlendInterpS* self, int, StreamS& kStream)
+bool FUN_00a36f80(BlendInterpS* self, int, StreamS& kStream)
 {
     if (!self->FUN_00a81fe0(kStream))
         return false;
@@ -810,7 +810,7 @@ struct BlendS
     float m_fSingleInterpolatorTime;
 };
 // @fnv 0x00a36fd0
-bool __fastcall FUN_00a36fd0(BlendS* self, int, ObjS* pkObject)
+bool FUN_00a36fd0(BlendS* self, int, ObjS* pkObject)
 {
     if (!reinterpret_cast<::FUN_00ba87d0_Class *>((self))->FUN_00ba87d0((::NiObj_s *)(pkObject)))
         return false;
@@ -847,7 +847,7 @@ struct FUN_00a370a0_obj
     int field0;
 };
 // @fnv 0x00a370a0
-FUN_00a370a0_obj* __fastcall FUN_00a370a0(FUN_00a370a0_obj* self, int)
+FUN_00a370a0_obj* FUN_00a370a0(FUN_00a370a0_obj* self, int)
 {
     self->field0 = 0;
     return self;

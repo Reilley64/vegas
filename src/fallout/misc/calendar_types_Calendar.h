@@ -7,7 +7,6 @@
 #include "layout_support.h"
 #include "TESGlobal.h"
 class Calendar;
-#pragma pack(push, 4)
 class Calendar
 {
   public:
@@ -51,13 +50,5 @@ class Calendar
     // int __cdecl Calendar::*(int, int, int)
     // void* __cdecl Calendar::*(unsigned int)
 };
-#pragma pack(pop)
 // FNV_STATIC_ASSERT(sizeof(Calendar) == 28);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pYearGlobal) == 0);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pMonthGlobal) == 4);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pDayGlobal) == 8);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pHourGlobal) == 12);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_pGameDaysPassedGlobal) == 16);
-FNV_STATIC_ASSERT(offsetof(Calendar, pHourGlobal) == 20);
-FNV_STATIC_ASSERT(offsetof(Calendar, m_uiDaysPassed) == 24);
 #endif

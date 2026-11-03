@@ -177,8 +177,8 @@ class BSThread
   public:
 };
 
-RegionPoint*& __fastcall _ref_006815c0(void* pThis);
-void __fastcall _ref_0063f7b0(void* pThis);
+RegionPoint*& _ref_006815c0(void* pThis);
+void _ref_0063f7b0(void* pThis);
 
 // @fnv 0x004f7dd0
 void FUN_004f7dd0_shell::FUN_004f7dd0()
@@ -224,8 +224,8 @@ bool FUN_004f81e0_shell::FUN_004f81e0(bool abMinPointsTest)
 }
 }  // namespace fnv_004f81e0
 
-RegionPoint*& __fastcall _ref_006815c0(void* pThis);
-void __fastcall _ref_0063f7b0(void* pThis);
+RegionPoint*& _ref_006815c0(void* pThis);
+void _ref_0063f7b0(void* pThis);
 
 class TESRegionPointDist : public RegionPoint
 {
@@ -243,8 +243,8 @@ struct FUN_004f7e80_shell : public RegionPointList
     float FUN_004f7e80();
 };
 
-RegionPoint*& __fastcall _ref_006815c0(void* pThis);
-float __fastcall FUN_006a7f50(RegionPoint* pPoint);
+RegionPoint*& _ref_006815c0(void* pThis);
+float FUN_006a7f50(RegionPoint* pPoint);
 
 // @fnv 0x004f7e80
 float FUN_004f7e80_shell::FUN_004f7e80()
@@ -498,8 +498,8 @@ void FUN_004f77c0_shell::FUN_004f77c0()
 
 typedef BSSimpleList<RegionPoint*> RegionPointNode;
 
-RegionPoint*& __fastcall _ref_006815c0(void* pThis);
-float __fastcall FUN_006a7f50(void* pThis);
+RegionPoint*& _ref_006815c0(void* pThis);
+float FUN_006a7f50(void* pThis);
 
 struct FUN_004f7f10_cls : public RegionPointList
 {

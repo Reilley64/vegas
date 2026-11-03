@@ -63,9 +63,9 @@ struct FUN_009b4c70_shell : public Projectile
 struct BGSLoadFormBuffer;
 struct C009c58e0
 {
-    void __thiscall FUN_009c58e0(BGSLoadFormBuffer*);
+    void FUN_009c58e0(BGSLoadFormBuffer*);
 };
 struct S009b4d10 : public FUN_009b3fa0
 {
-    void __thiscall FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer);
 };

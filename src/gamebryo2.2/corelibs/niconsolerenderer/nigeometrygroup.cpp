@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nigeometrygroup.cpp: NiGeometryGroup, NiGeometryBufferData, StandIn (6 functions)
 
+#include <windows.h>
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00fdf000.h"
 #include "fnv/symbols_010f0000.h"
@@ -20,7 +21,7 @@ void NiGeometryGroup::RemoveObject(NiGeometryBufferData* data)
     unsigned int count = data->m_uiRegisterStreamCount;
     data->m_pkOwnerGroup = 0;
     for (unsigned int i = 0; i < count; ++i)
-        ((void(__thiscall*)(NiGeometryGroup*, NiGeometryBufferData*, unsigned int))m_ppVirtualMethodTable[7])(this, data, i);
+        ((void(*)(NiGeometryGroup*, NiGeometryBufferData*, unsigned int))m_ppVirtualMethodTable[7])(this, data, i);
     data->ReleaseBuffers();
 }
 
@@ -51,10 +52,9 @@ NiGeometryBufferData::NiGeometryBufferData()
     m_pusIndexArray = 0;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // @fnv 0x00e98730
-void __fastcall FUN_00e98730(int pObject, int, int pArg)
+void FUN_00e98730(int pObject, int, int pArg)
 {
     InterlockedIncrement((long volatile*)(pObject + 4));
     *(int*)(pArg + 8) = pObject;
@@ -64,7 +64,7 @@ struct FakeDevice
 {
     virtual void F0();
     virtual void F1();
-    virtual unsigned long __stdcall Release();
+    virtual unsigned long Release();
 };
 struct StandIn
 {
@@ -85,7 +85,7 @@ void* StandIn::Destroy(unsigned int auiFlags)
 
 // FUN_00e98710 : installs the NiGeometryGroup vtable into the group object
 // and, when a D3D device is attached, releases that device through the
-// device's third virtual (the __stdcall Release slot).
+// device's third virtual (the Release slot).
 
 struct FUN_00e98710_cls
 {

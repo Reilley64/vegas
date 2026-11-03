@@ -251,15 +251,15 @@ char FUN_006f6520_shell::GetByteAtOffset()
 
 struct BGSDistantObjectBlockLoadTask
 {
-    void __thiscall FUN_006f6fe0();
-    void* __thiscall FUN_006f6fb0(unsigned int flags);
+    void FUN_006f6fe0();
+    void* FUN_006f6fb0(unsigned int flags);
 };
 
 
 namespace fnv_006f71a0 {
 struct BGSDistantObjectBlockLoadTask
 {
-    void __thiscall RunOnce(void* apTaskState, void* apTaskOwner);
+    void RunOnce(void* apTaskState, void* apTaskOwner);
 };
 
 // If the byte at offset 0x50 is unset, sets it to 1 and calls FUN_00c3cb70 with the task state and owner; otherwise does nothing.
@@ -329,12 +329,12 @@ struct Flt
 
 struct FUN_006f5800_shell
 {
-    unsigned int __thiscall GetSelectedValue(bool abFlag);
+    unsigned int GetSelectedValue(bool abFlag);
 };
 
 // Returns the value at offset 0x10 when abFlag is set, otherwise the value at offset 8.
 // @fnv 0x006f5800
-unsigned int __thiscall FUN_006f5800_shell::GetSelectedValue(bool abFlag)
+unsigned int FUN_006f5800_shell::GetSelectedValue(bool abFlag)
 {
     Flt* pFlt = abFlag ? (Flt*)((char*)this + 0x10) : (Flt*)((char*)this + 8);
     return *pFlt;
@@ -390,12 +390,12 @@ void __cdecl FUN_006f5840(void)
 namespace fnv_006f6090 {
 struct SoundListView
 {
-    void __thiscall AddTail(char* const&);
+    void AddTail(char* const&);
 };
 
 struct GlobalObject2_0096a2d0
 {
-    void __thiscall AddTail(char* const&);
+    void AddTail(char* const&);
 };
 
 
@@ -439,7 +439,7 @@ struct _Ref905330_shell
 };
 struct FUN_006f6100_shell
 {
-    bool __thiscall IsInCellList();
+    bool IsInCellList();
 };
 // Repeatedly calls IsInCellList and, while it returns true, passes this to _ref_00905330 via g_011d8524.
 // @fnv 0x006f60c0
@@ -452,7 +452,7 @@ void FUN_006f60c0_shell::RunLoop()
 }
 // Walks the g_011d8524 list and returns true if this object is found among the cells it references.
 // @fnv 0x006f6100
-bool __thiscall FUN_006f6100_shell::IsInCellList()
+bool FUN_006f6100_shell::IsInCellList()
 {
     GlobalObject2_0096a2d0* iter = &::g_011d8524;
     while (iter)
@@ -472,7 +472,7 @@ struct BGSDistantObjectBlockLoadTask
     int iX;
     int iY;
     int iLevel;
-    bool __thiscall GetDescription(char*, unsigned int);
+    bool GetDescription(char*, unsigned int);
 };
 
 
@@ -1352,10 +1352,10 @@ struct FUN_006f5ca0_cls
     void FUN_006f5ca0();
 };
 
-// FUN_006f6250: __thiscall (this in ecx), callee pops 4 bytes (1 stack parameter)
+// FUN_006f6250: (this in ecx), callee pops 4 bytes (1 stack parameter)
 struct FUN_006e5cc0_shell
 {
-    void __thiscall FUN_006e5cc0(void* apObject);
+    void FUN_006e5cc0(void* apObject);
 };
 
 struct FUN_006f6250_shell

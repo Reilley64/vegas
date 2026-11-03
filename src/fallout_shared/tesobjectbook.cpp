@@ -260,12 +260,12 @@ struct FUN_0048e9b0
 
 struct TESObjectBOOK_GetSaveSize
 {
-    unsigned short __thiscall FUN_00515220(unsigned int aiFlags);
+    unsigned short FUN_00515220(unsigned int aiFlags);
 };
 
 // Sums the save sizes of the base and the sub-object at offset 0x84, adding 1 when flags bit 0x20 is set, and returns the total.
 // @fnv 0x00515220
-unsigned short __thiscall TESObjectBOOK_GetSaveSize::FUN_00515220(unsigned int aiFlags)
+unsigned short TESObjectBOOK_GetSaveSize::FUN_00515220(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);

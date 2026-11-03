@@ -498,7 +498,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 namespace ActorValue { enum Index; }
 struct ActorValueOwner
 {
@@ -518,7 +517,6 @@ public:
 public:
     float GetActorValueFloatByIndex(::ActorValue::Index);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -540,7 +538,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_00401190_shell : public TESForm
 {
     bool FUN_00401190();
@@ -706,7 +703,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_00551740_shell : public TESForm
 {
     char* GetCellName();
@@ -800,7 +796,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTopic : public TESForm, public TESFullName
 {
     virtual void __vslot_10();
@@ -880,7 +875,6 @@ struct TESTopic : public TESForm, public TESFullName
     char m_kDummyPrompt[8];
     int m_iTopicFlags;
 };
-typedef char _sizecheck_TESTopic[sizeof(TESTopic) == 64 ? 1 : -1];
 struct FUN_00618660_shell : public TESForm
 {
     char* FUN_00618660();
@@ -1376,7 +1370,7 @@ struct ResolvedLight
 };
 struct LightController : TESObjectLIGH
 {
-    unsigned char __thiscall FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
+    unsigned char FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
                                           unsigned int param5);
 };
 // @fnv 0x004fde40

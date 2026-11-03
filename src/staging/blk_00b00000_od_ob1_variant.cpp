@@ -5,6 +5,7 @@
 
 // src/staging/blk_00b00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -53,24 +54,24 @@ struct FUN_00b00860_shell
 extern int DAT_010a47b3;
 struct FUN_00b008e0_class
 {
-    int* __thiscall FUN_00b008e0();
+    int* FUN_00b008e0();
 };
 struct FUN_00b00950
 {
-    void __thiscall DoWork();
+    void DoWork();
 };
 struct FUN_00b01bc0_class
 {
-    bool __thiscall IsFlag2Clear(int flags, int unused);
+    bool IsFlag2Clear(int flags, int unused);
 };
 struct FUN_00b01be0_Class
 {
-    bool __thiscall IsFlag4Clear(unsigned int flags, unsigned int unused);
+    bool IsFlag4Clear(unsigned int flags, unsigned int unused);
 };
 extern int DAT_010a48e8;
 struct FUN_00b029a0_class
 {
-    void __thiscall FUN_00b029a0();
+    void FUN_00b029a0();
 };
 struct FUN_00b18320_Class
 {
@@ -78,7 +79,7 @@ struct FUN_00b18320_Class
 };
 struct FUN_00b008f0_class
 {
-    int* __thiscall FUN_00b008f0();
+    int* FUN_00b008f0();
 };
 extern int DAT_011f8250;
 void FUN_00b00970(int value);
@@ -86,7 +87,7 @@ extern int DAT_011f8af4;
 extern int DAT_011f8b38[16];
 struct TaskletManager
 {
-    int* __thiscall FUN_00b00a00();
+    int* FUN_00b00a00();
 };
 struct FUN_00b12af0_shell
 {
@@ -100,11 +101,11 @@ struct FUN_00b130a0
 struct FUN_00b0cf90_class
 {
     float x, y, z;
-    float* __thiscall AddVector(float* pDest, const float* pSource);
+    float* AddVector(float* pDest, const float* pSource);
 };
 struct FUN_00afeac0_shell
 {
-    int __thiscall OpenFile(int arg);
+    int OpenFile(int arg);
 };
 struct FUN_00b00900
 {
@@ -122,7 +123,7 @@ struct FUN_00b00cf0_vt
 };
 struct FUN_00b00cf0_shell
 {
-    void __thiscall CallVirtualOnAllEntries();
+    void CallVirtualOnAllEntries();
 };
 struct FUN_00b12b50_class
 {
@@ -131,7 +132,7 @@ struct FUN_00b12b50_class
 struct FUN_00b008b0_t
 {
     int m0;
-    FUN_00b008b0_t* __thiscall FUN_00b008b0(int v);
+    FUN_00b008b0_t* FUN_00b008b0(int v);
 };
 extern int DAT_011f8af0;
 extern int DAT_011f8af8[];
@@ -152,8 +153,6 @@ struct FUN_00b01c20 : public FUN_00b01020
 };
 extern int DAT_010a4880;
 extern int DAT_010a48ac;
-extern "C" __declspec(dllimport) void __stdcall FreeLibrary(void*);
-extern "C" __declspec(dllimport) void __stdcall DestroyWindow(void*);
 struct FUN_00b01f00_class
 {
     void DestroyAndFreeLibraries();
@@ -203,7 +202,7 @@ class BSWin32TaskletManager
 
     unsigned char unk04;
 
-    bool __thiscall GetTaskletValue(void* result);
+    bool GetTaskletValue(void* result);
 };
 inline void BSWin32TaskletManager::vf00()
 {}
@@ -226,7 +225,7 @@ struct FUN_00b00ae0_class
     virtual void virtual4();
     virtual bool virtual5(void* value);
     bool enabled;
-    bool __thiscall FUN_00b00ae0(void** value);
+    bool FUN_00b00ae0(void** value);
 };
 class FUN_00b00b40_cls
 {
@@ -264,8 +263,6 @@ class B00C20Pool
 
     void ReleaseItem(B00C20Item*& rpkItem);
 };
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount,
-                                                                long* lpPreviousCount);
 struct FUN_00b00df0_sub
 {
     long m_00;
@@ -291,9 +288,6 @@ class FUN_00b00df0_cls
     FUN_00b00df0_sub m_08;
     void ReleaseAndSignal();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile* destination, long exchange,
-                                                                           long comparand);
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds);
 extern int DAT_0106c800;
 extern int DAT_0106c814;
 struct FUN_00b00ec0
@@ -306,8 +300,6 @@ struct FUN_00b00ec0
 
     ~FUN_00b00ec0() throw();
 };
-extern "C" __declspec(dllimport) int __stdcall FindFirstFileA(const char* pattern);
-extern "C" __declspec(dllimport) int __stdcall FindClose(int handle);
 struct FUN_00b01510_cls
 {
     virtual void vfn_0();
@@ -317,12 +309,10 @@ struct FUN_00b01510_cls
     virtual void vfn_4();
     virtual void vfn_5();
     virtual int vfn_6(char* data);
-    bool __thiscall FUN_00b01510(int arg);
+    bool FUN_00b01510(int arg);
 };
-extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* pkSection);
-extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* pkSection);
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount,
-                                                                long* plPreviousCount);
+extern "C" void(* fnv_EnterCriticalSection)(void* pkSection);
+extern "C" void(* fnv_LeaveCriticalSection)(void* pkSection);
 struct B02670Semaphore
 {
     long m_lCount;
@@ -401,12 +391,12 @@ struct FUN_00b10490_class
 {
     int first;
     int second;
-    bool __thiscall FUN_00b10490(const FUN_00b10490_class* rhs);
+    bool FUN_00b10490(const FUN_00b10490_class* rhs);
 };
 struct FUN_00b108e0_pool
 {
 };
-extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
+extern "C" void FUN_00ec7894(void* err2, const char* msg);
 struct FUN_00b108e0_err
 {
     void* m_vptr;
@@ -429,7 +419,7 @@ extern double DAT_010a4d90;
 struct RotationMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void __thiscall SetRotationAxisAngle(float angle, float x, float y, float z);
+    void SetRotationAxisAngle(float angle, float x, float y, float z);
 };
 struct Vec3f
 {
@@ -565,11 +555,9 @@ struct StripBuilder
     unsigned int baseIndex;
     void BuildStripIndices(unsigned short id, StripDestination* destination);
 };
-extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
+extern "C" void FUN_00ec7894(void* err2, const char* msg);
 int* FUN_00b16b00(unsigned int count, int zero);
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* cs);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* h);
 struct ThreadBaseE8
 {
     virtual ~ThreadBaseE8()
@@ -3188,7 +3176,7 @@ struct VecB0
     int* _Myfirst;
     int* _Mylast;
     int* _Myend;
-    inline int* __thiscall FUN_00b167e0(int* p, unsigned int n, const int& value)
+    inline int* FUN_00b167e0(int* p, unsigned int n, const int& value)
     {
         fouter(p, n, value, _Alval);
         return p + n;
@@ -3217,7 +3205,7 @@ struct VecB0
     {
         b0destroy(firstArg, lastArg, _Alval);
     }
-    void __thiscall FUN_00b0f410(int unused, int* _Where, unsigned int _Count, const int& _Val);
+    void FUN_00b0f410(int unused, int* _Where, unsigned int _Count, const int& _Val);
 };
 
 // @fnv 0x00b0f410
@@ -8173,11 +8161,11 @@ inline void UninitializedFill(_FwdIt _First, _Diff _Count, const _Tval& _Val, _A
 struct ByteFillHost
 {
     FillAllocator allocator;
-    char* __thiscall FUN_00b0f3c0(char* _Ptr, unsigned int _Count, const char& _Val);
+    char* FUN_00b0f3c0(char* _Ptr, unsigned int _Count, const char& _Val);
 };
 
 // @fnv 0x00b0f3c0
-char* __thiscall ByteFillHost::FUN_00b0f3c0(char* _Ptr, unsigned int _Count, const char& _Val)
+char* ByteFillHost::FUN_00b0f3c0(char* _Ptr, unsigned int _Count, const char& _Val)
 {
     UninitializedFill(_Ptr, _Count, _Val, allocator);
     return _Ptr + _Count;

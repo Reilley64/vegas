@@ -20,7 +20,7 @@
 #include "fnv/symbols_011de000.h"
 struct BGSAcousticSpaceListener
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 
@@ -211,11 +211,11 @@ struct FUN_0061f6e0_shell
 {
     unsigned char pad[0x14];
     bool m_ucState;
-    bool __thiscall CheckAcousticSpaceEntered(RootContactPoint*);
+    bool CheckAcousticSpaceEntered(RootContactPoint*);
 };
 
 // @fnv 0x0061f6e0
-bool __thiscall FUN_0061f6e0_shell::CheckAcousticSpaceEntered(RootContactPoint* pPoint)
+bool FUN_0061f6e0_shell::CheckAcousticSpaceEntered(RootContactPoint* pPoint)
 {
     TESObjectREFR* pAcousticSpaceRef = 0;
 
@@ -270,7 +270,7 @@ struct FUN_0061f5d0_cls : FUN_0061f5d0_base
 };
 // Calls FUN_0061f5d0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0061f5a0
-void* __thiscall BGSAcousticSpaceListener::Destroy(unsigned int flags)
+void* BGSAcousticSpaceListener::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0061f5d0_cls *>(this)->FUN_0061f5d0_cls::~FUN_0061f5d0_cls();
     if (flags & 1)

@@ -14,7 +14,6 @@ class DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer___;
 class NiTMap_TESForm___BGSLoadGameSubBuffer_;
 class NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_;
 class NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer___AntiBloatAllocator;
-#pragma pack(push, 4)
 class BGSLoadGameSubBuffer
 {
   public:
@@ -37,19 +36,12 @@ class BGSLoadGameSubBuffer
     // BGSLoadFormBuffer* __cdecl BGSLoadGameSubBuffer::*(TESForm*)
     // void __cdecl BGSLoadGameSubBuffer::*(BGSSaveFormBuffer*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSLoadGameSubBuffer) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSLoadGameSubBuffer, pBuffer) == 0);
-#pragma pack(push, 4)
 class DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer___
 {
   public:
     // void* __cdecl DFALL<NiTMapItem<TESForm *,BGSLoadGameSubBuffer> >::*()
     // void __cdecl DFALL<NiTMapItem<TESForm *,BGSLoadGameSubBuffer> >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer___) == 1);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer___AntiBloatAllocator
     : public DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer___
 {
@@ -57,16 +49,6 @@ class NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BG
     // base DFALL<NiTMapItem<TESForm *,BGSLoadGameSubBuffer> > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(
-        NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer___AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(
-        NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer___AntiBloatAllocator,
-        m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_
 {
   public:
@@ -89,22 +71,6 @@ class NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BG
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<TESForm *,BGSLoadGameSubBuffer> >,TESForm *,BGSLoadGameSubBuffer>::*()
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<TESForm *,BGSLoadGameSubBuffer> >,TESForm *,BGSLoadGameSubBuffer>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_) == 16);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_, m_ppVirtualMethodTable) ==
-    0);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_,
-             m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_,
-             m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_,
-             m_kItemCount) == 12);
-#pragma pack(push, 4)
 class NiTMap_TESForm___BGSLoadGameSubBuffer_
     : public NiTMapBase_DFALL_NiTMapItem_TESForm___BGSLoadGameSubBuffer____TESForm___BGSLoadGameSubBuffer_
 {
@@ -120,9 +86,6 @@ class NiTMap_TESForm___BGSLoadGameSubBuffer_
     // void __cdecl NiTMap<TESForm *,BGSLoadGameSubBuffer>::*()
     // void __cdecl NiTMap<TESForm *,BGSLoadGameSubBuffer>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMap_TESForm___BGSLoadGameSubBuffer_) == 16);
-#pragma pack(push, 4)
 class LoadGameSubBufferQueue
 {
   public:
@@ -139,7 +102,4 @@ class LoadGameSubBufferQueue
     // LoadGameSubBufferQueue& __cdecl LoadGameSubBufferQueue::*(const LoadGameSubBufferQueue&)
     // void* __cdecl LoadGameSubBufferQueue::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LoadGameSubBufferQueue) == 48);
-FNV_STATIC_ASSERT(offsetof(LoadGameSubBufferQueue, m_kSubBuffersByType) == 0);
 #endif

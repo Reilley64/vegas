@@ -112,7 +112,7 @@ void FUN_00ba89e0_shell::FUN_00ba89e0(int aiType, char* apFilename)
 }
 
 // @fnv 0x00ba87e0
-int __fastcall FUN_00ba87e0(int* self, int unused, int index)
+int FUN_00ba87e0(int* self, int unused, int index)
 {
     return self[index * 2 + 2];
 }

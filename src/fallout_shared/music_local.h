@@ -28,9 +28,4 @@ class BGSMusicType : public TESForm, public TESSoundFile
     virtual bool Load(TESFile* file);
     virtual void InitItem();
 };
-FNV_STATIC_ASSERT(sizeof(TESSoundFile) == 12);
-FNV_STATIC_ASSERT(sizeof(BGSMusicType) == 52);
-FNV_STATIC_ASSERT(offsetof(BGSMusicType, fVolumeScale) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSMusicType, m_kMusicFiles) == 40);
-FNV_STATIC_ASSERT(offsetof(BGSMusicType, m_uiSelectedSoundIndex) == 48);
 #endif

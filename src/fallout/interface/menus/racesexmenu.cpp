@@ -217,11 +217,11 @@
 #include "fnv/symbols_01202000.h"
 struct RaceSexMenu
 {
-    int __thiscall FUN_007ac4f0();
+    int FUN_007ac4f0();
 };
 
 // @fnv 0x007ac4f0
-int __thiscall RaceSexMenu::FUN_007ac4f0()
+int RaceSexMenu::FUN_007ac4f0()
 {
     return 0x40c;
 }
@@ -238,7 +238,7 @@ struct FUN_007b2550_shell
 };
 
 // @fnv 0x007b2550
-void __thiscall FUN_007b2550_shell::SetByteAtOffsetE4(unsigned char ucValue)
+void FUN_007b2550_shell::SetByteAtOffsetE4(unsigned char ucValue)
 {
     ((unsigned char*)this)[0xe4] = ucValue;
 }
@@ -343,20 +343,20 @@ void* FUN_007ac530_shell::FUN_007ac530(unsigned int flags)
 
 struct FUN_007b3af0_shell
 {
-    void __thiscall FUN_007b3af0();
+    void FUN_007b3af0();
 };
 struct FUN_007ac700_shell
 {
-    void* __thiscall FUN_007ac700(unsigned int flags);
+    void* FUN_007ac700(unsigned int flags);
 };
 namespace fnv_007acb30 {
 struct FUN_007acb30_shell
 {
-    void* __thiscall FUN_007acb30(unsigned int flags);
+    void* FUN_007acb30(unsigned int flags);
 };
 // Calls FUN_007fed10, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x007acb30
-void* __thiscall FUN_007acb30_shell::FUN_007acb30(unsigned int flags)
+void* FUN_007acb30_shell::FUN_007acb30(unsigned int flags)
 {
     reinterpret_cast<::FUN_007fed10 *>(this)->FUN_007fed10::~FUN_007fed10();
     if (flags & 1)
@@ -421,7 +421,7 @@ struct Tile_Set_Helper
 struct TileValueAccessor
 {
     Tile* m_tile;
-    void __thiscall FUN_007b3890(int aiLow, int aiHigh);
+    void FUN_007b3890(int aiLow, int aiHigh);
 };
 namespace fnv_007b3970 {
 struct Tile_Set_Helper
@@ -444,10 +444,10 @@ void FUN_007b3970_shell::SetTileEnabled(bool abEnabled)
 struct S007b39b0
 {
     TGF* m_iWordAt00;
-    int __thiscall GetPosition();
+    int GetPosition();
 };
 // @fnv 0x007b39b0
-int __thiscall S007b39b0::GetPosition()
+int S007b39b0::GetPosition()
 {
     return (int)reinterpret_cast<::TileListBoxCalls *>((m_iWordAt00))->GetFloat(::FUN_00a00940("_position", -1));
 }
@@ -1140,7 +1140,7 @@ struct FUN_007ad940_Holder
     void* m_d8;
 };
 
-int __fastcall FUN_005f0cc0(void* self);
+int FUN_005f0cc0(void* self);
 
 // @fnv 0x007ad940
 unsigned char __cdecl FUN_007ad940(int aiValue)
@@ -2507,7 +2507,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
 
 struct Trait
 {
-    void __thiscall FUN_00a0a270(float value, unsigned int update);
+    void FUN_00a0a270(float value, unsigned int update);
 };
 struct TileFor3760
 {
@@ -2515,10 +2515,10 @@ struct TileFor3760
 struct MenuOptionFor3760
 {
     TileFor3760* tile;
-    bool __thiscall FUN_007b3760(int value);
+    bool FUN_007b3760(int value);
 };
 // @fnv 0x007b3890
-void __thiscall TileValueAccessor::FUN_007b3890(int aiLow, int aiHigh)
+void TileValueAccessor::FUN_007b3890(int aiLow, int aiHigh)
 {
     if (m_tile)
     {
@@ -2895,7 +2895,7 @@ void B7AF450RaceMenu::PopulateEyesList()
     reinterpret_cast<::FUN_007adc60_shell *>(this)->FUN_007adc60(1, false);
 }
 // @fnv 0x007ac700
-void* __thiscall FUN_007ac700_shell::FUN_007ac700(unsigned int flags)
+void* FUN_007ac700_shell::FUN_007ac700(unsigned int flags)
 {
     reinterpret_cast<::FUN_007b3af0 *>((((FUN_007b3af0_shell*)this)))->FUN_007b3af0::~FUN_007b3af0();
     if (flags & 1)
@@ -7031,7 +7031,7 @@ void Menu7::HandleOptionSelection()
 }
 }  // namespace fnv_007b4b50
 
-HairResult* __fastcall FUN_004ac110(void* self);
+HairResult* FUN_004ac110(void* self);
 // Returns 1 if p is non-null, its FUN_0044ddc0 result is non-zero, and the holder's m_d8 hair result equals that value; otherwise 0.
 // @fnv 0x007ad7f0
 char __cdecl IsHairMatching(Obj0* p)

@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -23,8 +24,6 @@ extern int DAT_011a9414;
 extern int DAT_011a941c;
 extern NiGeomMorpherUpdateTask** DAT_011a940c;
 extern int DAT_011f4180;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FreeStore
 {
 };
@@ -134,7 +133,7 @@ struct NiRefObject
     virtual void Unk_04();
     int m_ref;
 };
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 extern int DAT_01069674;
 struct S_00a56c10
 {
@@ -145,7 +144,7 @@ struct S_00a56c10
     NiRefObject* _10;
     void ReleaseRefObjects();
 };
-extern int(__stdcall* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c0)(void*);
 struct S_00a56c60 : S_00a56c10
 {
     void SetRefObjects(NiRefObject* nextFirst, NiRefObject* nextSecond);

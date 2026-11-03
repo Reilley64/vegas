@@ -164,7 +164,7 @@ struct TESActorBaseData
 
 // Returns the byte at pThis+0x12d, adding the scaled level from the actor base data when it matches the PC level.
 // @fnv 0x005f8f70
-unsigned char __fastcall FUN_005f8f70(char* pThis)
+unsigned char FUN_005f8f70(char* pThis)
 {
     unsigned char ucLevel = static_cast<unsigned char>(pThis[0x12d]);
     if (reinterpret_cast<::FUN_00461560_shell *>((reinterpret_cast<TESActorBaseData*>(pThis + 0x30)))->FUN_00461560())

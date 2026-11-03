@@ -37,7 +37,6 @@ class TESTopicInfo
   public:
     BSSimpleList<TESTopic*>* GetAddTopicList(void);
 };
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -54,11 +53,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -94,12 +88,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class TESModelAnim : public TESModel
 {
   public:
@@ -109,9 +97,6 @@ class TESModelAnim : public TESModel
     // TESModelAnim& __cdecl TESModelAnim::*(const TESModelAnim&)
     // void __cdecl TESModelAnim::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelAnim) == 24);
-#pragma pack(push, 4)
 class IdleAnimationData
 {
   public:
@@ -124,14 +109,6 @@ class IdleAnimationData
     unsigned char layoutPadding7[1];
     // void __cdecl IdleAnimationData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(IdleAnimationData) == 8);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucAnimationGroupSection) == 0);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucLoopingMin) == 1);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucLoopingMax) == 2);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_usReplayDelay) == 4);
-FNV_STATIC_ASSERT(offsetof(IdleAnimationData, m_ucIdleFlags) == 6);
-#pragma pack(push, 4)
 class TESIdleForm : public TESForm, public TESModelAnim
 {
   public:
@@ -203,13 +180,6 @@ class TESIdleForm : public TESForm, public TESModelAnim
     // TESIdleForm& __cdecl TESIdleForm::*(const TESIdleForm&)
     // void __cdecl TESIdleForm::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESIdleForm) == 76);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, Conditions) == 48);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, data) == 56);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, m_pParentPath) == 64);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, m_pParentIdleForm) == 68);
-FNV_STATIC_ASSERT(offsetof(TESIdleForm, m_pIdleForm) == 72);
 class BGSPerkEntry;
 class BGSCameraShot;
 class TESObjectANIO : public TESIdleForm

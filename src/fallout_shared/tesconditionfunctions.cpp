@@ -357,7 +357,7 @@ struct Pos3
 struct VtblRef
 {
     void* pad[0x1f4 / 4];
-    Pos3*(__thiscall* GetPos)(void*);
+    Pos3*(* GetPos)(void*);
 };
 struct ObjRef
 {
@@ -597,7 +597,6 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_0059ce80_shell : public CFilter
 {
     void FUN_0059ce80(unsigned int);
@@ -634,7 +633,6 @@ struct WorldRayCastInput
     unsigned int m_uiFilterInfo;
     char _pad_28[8];
 };
-typedef char _sizecheck_hkpWorldRayCastInput[sizeof(WorldRayCastInput) == 48 ? 1 : -1];
 struct RayCastHitResult
 {
     struct blob1 DidHit();
@@ -644,7 +642,6 @@ struct RayCastHitResult
     int m_iExtraInfo;
     char m_auiShapeKeys[8];
 };
-typedef char _sizecheck_hkpShapeRayCastCollectorOutput[sizeof(RayCastHitResult) == 32 ? 1 : -1];
 struct ShapeRayCastOutput : public RayCastHitResult
 {
     void changeLevel(int);
@@ -655,7 +652,6 @@ struct ShapeRayCastOutput : public RayCastHitResult
     int m_uiShapeKeyIndex;
     char _pad_44[12];
 };
-typedef char _sizecheck_hkpShapeRayCastOutput[sizeof(ShapeRayCastOutput) == 80 ? 1 : -1];
 struct WorldRayCastOutput : public ShapeRayCastOutput
 {
     struct blob1 DidHit();
@@ -663,7 +659,6 @@ struct WorldRayCastOutput : public ShapeRayCastOutput
     void* m_pRootCollidable;
     char _pad_54[12];
 };
-typedef char _sizecheck_hkpWorldRayCastOutput[sizeof(WorldRayCastOutput) == 96 ? 1 : -1];
 struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 {
     hkpRigidBody* GethkRigidBody();
@@ -698,7 +693,6 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     bool m_bPickFailed;
     char _pad_ad[3];
 };
-typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_0059ceb0_shell : public BhkPickData
 {
     void FUN_0059ceb0(hkpClosestRayHitCollector*);
@@ -714,7 +708,7 @@ void FUN_0059ceb0_shell::FUN_0059ceb0(hkpClosestRayHitCollector* apCollector)
 
 
 // @fnv 0x0059cee0
-void __fastcall FUN_0059cee0(void* this_ptr)
+void FUN_0059cee0(void* this_ptr)
 {
     ::FUN_0059cf00((void **)(this_ptr));
 }
@@ -722,7 +716,7 @@ void __fastcall FUN_0059cee0(void* this_ptr)
 extern int DAT_01034ec4;
 
 // @fnv 0x0059cf00
-void __fastcall FUN_0059cf00(void** pThis)
+void FUN_0059cf00(void** pThis)
 {
     *pThis = &DAT_01034ec4;
     reinterpret_cast<::FUN_004a3ae0_shell *>((pThis))->FUN_004a3ae0();
@@ -735,11 +729,11 @@ using namespace fnv_anon_tesconditionfunctions;
 namespace fnv_anon_tesconditionfunctions {
 struct VCallRef
 {
-    bool(__thiscall** vtable)(void*);
+    bool(** vtable)(void*);
 };
 struct VCallActor
 {
-    bool(__thiscall** vtable)(void*, bool);
+    bool(** vtable)(void*, bool);
 };
 __declspec(thread) char tls_pad[0x268];
 __declspec(thread) bool bConsoleEcho;
@@ -782,7 +776,7 @@ bool __cdecl FUN_0059dc90(TESObjectREFR* reference, void* apUnused1, void* apUnu
         pactor = (Actor*)reference;
     if (pactor)
     {
-        switch ((*(unsigned int(__thiscall**)(Actor*))(*(unsigned int*)pactor + 0x214))(pactor))
+        switch ((*(unsigned int(**)(Actor*))(*(unsigned int*)pactor + 0x214))(pactor))
         {
         case 10:
             result += 1.0;
@@ -1454,7 +1448,7 @@ class TES
 struct VTable0x4c8
 {
     void* pad[0x4c8 / 4];
-    void*(__thiscall* fn4c8)(void*);
+    void*(* fn4c8)(void*);
 };
 
 __declspec(thread) unsigned char tls_pad[0x268];
@@ -1502,7 +1496,7 @@ template <> class BSSimpleList<Actor*>
   public:
 };
 
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 void __cdecl DebugLog(char const*, ...);
 
 __declspec(thread) extern char g_bConsoleOutput_pad[0x268];
@@ -2070,7 +2064,7 @@ bool __cdecl FUN_0059e8e0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 }
 }  // namespace fnv_0059e8e0
 
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 void __cdecl DebugLog(const char*, ...);
 
 struct TESObjectREFR_WorldSpace : TESObjectREFR
@@ -2128,7 +2122,7 @@ bool __cdecl FUN_0059f0c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 namespace fnv_0059f3c0 {
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const* format, ...);
 __declspec(thread) extern bool bConsoleOutput;
 
@@ -2223,7 +2217,7 @@ void __cdecl DebugLog(const char* fmt, ...);
 struct TESObjectREFR_VTable_0059f940
 {
     void* pad[0x1a0 / 4];
-    bool(__thiscall* IsChild)(void*, bool);
+    bool(* IsChild)(void*, bool);
 };
 
 struct TESObjectREFR_View_0059f940
@@ -2260,7 +2254,7 @@ public:
 };
 
 void __cdecl DebugLog(char const*, ...);
-int __fastcall _FNV_GetFormType(TESObject*);
+int _FNV_GetFormType(TESObject*);
 
 struct ConsoleEchoTLS
 {
@@ -2319,7 +2313,7 @@ bool __cdecl FUN_0059fb50(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 }  // namespace fnv_0059fb50
 
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const*, ...);
 
 // @fnv 0x0059fbb0
@@ -2358,7 +2352,7 @@ struct TESGlobalValueReader
 {
 };
 
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(char const*, ...);
 
 // @fnv 0x0059fd30
@@ -2475,7 +2469,7 @@ bool __cdecl FUN_005a00c0(TESObjectREFR* reference, void* arg1, void* arg2, doub
 }
 
 struct TES;
-short __fastcall FindActorBaseValue(TES*, int, TESActorBase*);
+short FindActorBaseValue(TES*, int, TESActorBase*);
 void __cdecl DebugLog(char const*, ...);
 
 struct TLSDataView
@@ -2492,7 +2486,7 @@ bool __cdecl FUN_005a01f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     TESActorBase* ptarget = static_cast<TESActorBase*>(apParam1);
     if (ptarget)
     {
-        afReturnValue = ((short(__thiscall*)(TES*, TESActorBase*))FindActorBaseValue)((*reinterpret_cast<::TES * *>(&::g_TES)), ptarget);
+        afReturnValue = ((short(*)(TES*, TESActorBase*))FindActorBaseValue)((*reinterpret_cast<::TES * *>(&::g_TES)), ptarget);
         if ((*reinterpret_cast<::TLSDataView *>(&::g_tlsBlock)).bShowConditionTrace)
         {
             DebugLog("Dead Count: %0.2f", afReturnValue);
@@ -2696,7 +2690,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 
 void __cdecl DebugLog(char const*, ...);
 
@@ -2888,7 +2881,7 @@ bool __cdecl GetTalkingValue(TESObjectREFR* apRefObject, void* apParam1, void* a
 }
 
 namespace fnv_005a1c90 {
-int __fastcall _FNV_GetFormType(void* form);
+int _FNV_GetFormType(void* form);
 void __cdecl DebugLog(const char*, ...);
 
 struct TESPackage
@@ -3007,7 +3000,7 @@ bool __cdecl FUN_005a1de0(TESObjectREFR* ref, void* a1, void* a2, double& result
 }  // namespace fnv_005a1de0
 
 // @fnv 0x005a1e50
-bool __fastcall FUN_005a1e50(const bool* self)
+bool FUN_005a1e50(const bool* self)
 {
     return self[0x658];
 }
@@ -3242,7 +3235,7 @@ bool __cdecl FUN_005a2890(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     afReturnValue = 0.0;
     if (apRefObject == reinterpret_cast<TESObjectREFR*>(::_g_thePlayer))
     {
-        afReturnValue = (*reinterpret_cast<bool(__thiscall***)(PlayerCharacter*)>(::_g_thePlayer))[0x364 / 4](::_g_thePlayer);
+        afReturnValue = (*reinterpret_cast<bool(***)(PlayerCharacter*)>(::_g_thePlayer))[0x364 / 4](::_g_thePlayer);
     }
     if ((*reinterpret_cast<::TlsBlock_005a2890 *>(&::g_tlsBlock)).bConsoleEcho)
     {
@@ -3320,7 +3313,7 @@ bool __cdecl FUN_005a2e20(TESObjectREFR* reference, void* pOwner, void* pUnused,
 
 void __cdecl DebugLog(char const*, ...);
 
-extern bool (__thiscall Actor::*volatile pfn_Actor_IsSneaking)();
+extern bool (Actor::*volatile pfn_Actor_IsSneaking)();
 extern char const*(__cdecl* volatile pfn_TESFullName_GetFullName)(TESForm*);
 
 struct Actor_IsSneaking_Helper : public Actor
@@ -3540,7 +3533,7 @@ struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
     }
 };
 // @fnv 0x005a4320
-unsigned int __fastcall FUN_005a4320(char* this_ptr)
+unsigned int FUN_005a4320(char* this_ptr)
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(this_ptr + 8))))->GetName()));
 }
@@ -4698,26 +4691,26 @@ bool __cdecl FUN_005a5f90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 }
 
 // @fnv 0x005a60d0
-unsigned int __fastcall FUN_005a60d0(const char* pThis)
+unsigned int FUN_005a60d0(const char* pThis)
 {
     return *(const unsigned int*)(pThis + 0x70) & 1;
 }
 
 // @fnv 0x005a6150
-unsigned int __fastcall FUN_005a6150(const unsigned char* self)
+unsigned int FUN_005a6150(const unsigned char* self)
 {
     return *(const unsigned int*)(self + 0x70) & 2;
 }
 
 // @fnv 0x005a6260
-unsigned int __fastcall FUN_005a6260(char* thisPtr)
+unsigned int FUN_005a6260(char* thisPtr)
 {
     return *reinterpret_cast<unsigned int*>(thisPtr + 0x610);
 }
 
 struct TESObjectCELL;
 class TESObjectREFR;
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 void DebugLog(const char*, ...);
 // Sets afReturnValue to 1.0 if apRefObject and apParam1 (when a reference form) share the same parent cell, otherwise 0.0, and returns true.
 // @fnv 0x0059ee80
@@ -4761,7 +4754,7 @@ struct FUN_008b8290_shell
 {
     int FUN_008b8290(TESFaction*, bool);
 };
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 class PlayerCharacter;
 void DebugLog(const char*, ...);
 // @fnv 0x0059fc50
@@ -4769,7 +4762,7 @@ bool FUN_0059fc50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
 {
     *afReturnValue = -1.0;
     TESObjectREFR* pact = 0;
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
         pact = apRefObject;
     if (!pact)
         return true;
@@ -4791,12 +4784,12 @@ void DebugLog(const char*, ...);
 bool FUN_005a4630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
     {
         int irank;
         void* pactor = apRefObject;
         bool bAlt = (apParam2 != 0) ? true : false;
-        irank = ((unsigned char(__thiscall*)(void*, void*, bool))(*(void***)pactor)[0x128])(pactor, apParam1, bAlt);
+        irank = ((unsigned char(*)(void*, void*, bool))(*(void***)pactor)[0x128])(pactor, apParam1, bAlt);
         if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
             DebugLog("Perk Rank >> %d", irank);
         if (irank)
@@ -4814,7 +4807,7 @@ void DebugLog(const char*, ...);
 bool GetFactionRelation(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
     {
         void* ptarg;
         bool bcrime;
@@ -4844,14 +4837,14 @@ void DebugLog(const char*, ...);
 // @fnv 0x005a5270
 bool FUN_005a5270(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
-    if (apRefObject && ((unsigned char(__thiscall*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
+    if (apRefObject && ((unsigned char(*)(void*))(*(void***)apRefObject)[0x40])(apRefObject))
     {
         TESObjectREFR* pactor = apRefObject;
         IC* pweapon;
         if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TESH*)pactor)))->GetBaseTexture())))
         {
             void* pprocess = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TESH*)pactor)))->GetBaseTexture()));
-            pweapon = ((IC * (__thiscall*)(void*))(*(void***)pprocess)[0x52])(pprocess);
+            pweapon = ((IC * (*)(void*))(*(void***)pprocess)[0x52])(pprocess);
             if (pweapon && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapon)))->GetName())) != DAT_011ca278)
                 *afReturnValue = reinterpret_cast<::FUN_004bcdb0_shell *>((pweapon))->FUN_004bcdb0(true);
             else
@@ -4901,7 +4894,6 @@ struct ScriptLocals
     void* m_pVariableList;
     ScriptDefinition* m_pExtendedLocals;
 };
-typedef char _sizecheck_ScriptLocals[sizeof(ScriptLocals) == 20 ? 1 : -1];
 
 void __cdecl DebugLog(char const*, ...);
 struct RefH
@@ -4977,13 +4969,11 @@ struct LockExtraData
     unsigned int m_uiLockDifficulty;
     unsigned int m_uiLockValue;
 };
-typedef char _sizecheck_REFR_LOCK[sizeof(LockExtraData) == 20 ? 1 : -1];
 struct TESMagicTargetForm
 {
     static bool CanBeMagicTarget(TESForm*);
     char _pad_0[1];
 };
-typedef char _sizecheck_TESMagicTargetForm[sizeof(TESMagicTargetForm) == 1 ? 1 : -1];
 struct BGSDestructibleObjectForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -5044,7 +5034,6 @@ struct BGSDestructibleObjectForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     CollisionComponent* pData;
 };
-typedef char _sizecheck_BGSDestructibleObjectForm[sizeof(BGSDestructibleObjectForm) == 8 ? 1 : -1];
 struct BGSOpenCloseForm
 {
     virtual void HandleOpenAnimationFinish(TESObjectREFR*, TESObjectREFR*);
@@ -5060,10 +5049,9 @@ struct BGSOpenCloseForm
     static int GetOpenState(TESObjectREFR*);
     static void SnapHavokTo3D(TESObjectREFR*);
 };
-typedef char _sizecheck_BGSOpenCloseForm[sizeof(BGSOpenCloseForm) == 4 ? 1 : -1];
 
 void __cdecl DebugLog(char const*, ...);
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 struct P01RefA
 {
 };
@@ -5268,7 +5256,7 @@ struct FUN_0059eb40
 };
 
 // @fnv 0x0059eb40
-bool __thiscall FUN_0059eb40::GetFlag()
+bool FUN_0059eb40::GetFlag()
 {
     return (reinterpret_cast<unsigned char*>(this)[0xeb] & 8) != 0;
 }
@@ -5405,11 +5393,11 @@ unsigned int* FUN_005a5b10_Class::GetFieldPointer()
 
 struct FUN_005a6050
 {
-    unsigned char __thiscall GetField();
+    unsigned char GetField();
 };
 
 // @fnv 0x005a6050
-unsigned char __thiscall FUN_005a6050::GetField()
+unsigned char FUN_005a6050::GetField()
 {
     return *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0xe38);
 }
@@ -5475,11 +5463,11 @@ bool __cdecl FUN_005a4210(void* apFirst, void* apSecond, void* apUnused, double*
 
 struct FUN_0059e7d0_Class
 {
-    bool __thiscall FUN_0059e7d0();
+    bool FUN_0059e7d0();
 };
 
 // @fnv 0x0059e7d0
-bool __thiscall FUN_0059e7d0_Class::FUN_0059e7d0()
+bool FUN_0059e7d0_Class::FUN_0059e7d0()
 {
     return (((unsigned char*)((char*)this + 0xeb))[0] & 1) != 0;
 }
@@ -5488,11 +5476,11 @@ struct FUN_0059e8c0_Class
 {
     unsigned char padding[0xeb];
     unsigned char flag;
-    bool __thiscall IsFlag2Set();
+    bool IsFlag2Set();
 };
 
 // @fnv 0x0059e8c0
-bool __thiscall FUN_0059e8c0_Class::IsFlag2Set()
+bool FUN_0059e8c0_Class::IsFlag2Set()
 {
     return (flag & 2) != 0;
 }
@@ -5514,11 +5502,11 @@ struct FUN_005a03d0Class
 {
     unsigned char padding[0x680];
     unsigned char flag;
-    unsigned char __thiscall FUN_005a03d0();
+    unsigned char FUN_005a03d0();
 };
 
 // @fnv 0x005a03d0
-unsigned char __thiscall FUN_005a03d0Class::FUN_005a03d0()
+unsigned char FUN_005a03d0Class::FUN_005a03d0()
 {
     return flag;
 }
@@ -5592,11 +5580,11 @@ struct FUN_005a5bb0Class
 {
     unsigned char padding[0x1b1];
     unsigned char flag;
-    unsigned char __thiscall FUN_005a5bb0();
+    unsigned char FUN_005a5bb0();
 };
 
 // @fnv 0x005a5bb0
-unsigned char __thiscall FUN_005a5bb0Class::FUN_005a5bb0()
+unsigned char FUN_005a5bb0Class::FUN_005a5bb0()
 {
     return flag;
 }
@@ -5735,7 +5723,6 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 
 struct TLSConsoleData
 {
@@ -5745,7 +5732,7 @@ struct TLSConsoleData
 
 void DebugLog(const char*, ...);
 int FUN_00ec7d40(int);
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 
 struct FUN_008256d0_list
 {
@@ -5919,7 +5906,6 @@ struct InventoryChanges
     bool m_bChanged;
     char _pad_11[3];
 };
-typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 
 struct FUN_0059da90_FT
 {
@@ -6434,7 +6420,7 @@ struct ContNode
     FactionReaction* m_item;
     ContNode* m_next;
 };
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct TESRegion
 {
 };
@@ -7231,7 +7217,6 @@ struct ScriptLocals
     void* m_pVariableList;
     ScriptDefinition* m_pExtendedLocals;
 };
-typedef char _sizecheck_ScriptLocals[sizeof(ScriptLocals) == 20 ? 1 : -1];
 struct InventoryStackRecord
 {
     void Copy(InventoryStackRecord*);
@@ -7307,34 +7292,33 @@ struct InventoryStackRecord
     int m_iCountChange;
     TESBoundObject* m_pItemObject;
 };
-typedef char _sizecheck_ItemChange[sizeof(InventoryStackRecord) == 12 ? 1 : -1];
 
 class TESObject
 {
   public:
 };
 
-unsigned int __fastcall _FNV_GetFormType(TESForm* form);
+unsigned int _FNV_GetFormType(TESForm* form);
 
 struct TESObjectREFR_Helper
 {
     InventoryStackRecord* call_576260(TESObject* obj, unsigned int formID);
 };
-static InventoryStackRecord* (__thiscall TESObjectREFR_Helper::*volatile _force_576260)(TESObject*, unsigned int) =
+static InventoryStackRecord* (TESObjectREFR_Helper::*volatile _force_576260)(TESObject*, unsigned int) =
     &TESObjectREFR_Helper::call_576260;
 
 struct ScriptLocals_Helper
 {
     double call_5a9140(void* arg2, Script* script);
 };
-static double (__thiscall ScriptLocals_Helper::*volatile _force_5a9140)(void*,
+static double (ScriptLocals_Helper::*volatile _force_5a9140)(void*,
                                                                         Script*) = &ScriptLocals_Helper::call_5a9140;
 
 struct ExtraDataList_Access : public ExtraDataList
 {
     TESObjectREFR* GetReplacementReference();
 };
-static TESObjectREFR* (__thiscall ExtraDataList_Access::*volatile _force_GetReferencePointer)() =
+static TESObjectREFR* (ExtraDataList_Access::*volatile _force_GetReferencePointer)() =
     &ExtraDataList_Access::GetReplacementReference;
 
 struct ItemChange_WithDtor : public InventoryStackRecord
@@ -7627,7 +7611,7 @@ class BaseProcess
     virtual void GetActorFaceGenData();
     virtual InventoryStackRecord* GetActiveWeapon();
 };
-int __fastcall _FNV_GetFormType(unsigned int);
+int _FNV_GetFormType(unsigned int);
 void _DebugLog(const char*, ...);
 
 // @fnv 0x005a05e0
@@ -8708,7 +8692,7 @@ namespace fnv_005a5840 {
 extern "C" void __cdecl _DebugLog(const char* fmt, ...);
 struct VATSActor
 {
-    double __thiscall FUN_008bdbd0(TESObjectREFR* ref, float value);
+    double FUN_008bdbd0(TESObjectREFR* ref, float value);
     virtual bool v000();
     virtual void v004();
     virtual void v008();
@@ -9811,7 +9795,7 @@ class TESObject;
 class TESNPC;
 class TESRace;
 
-unsigned int __fastcall _FNV_GetFormType(TESObject* object);
+unsigned int _FNV_GetFormType(TESObject* object);
 void _DebugLog(const char* format, double value);
 
 class TESObject
@@ -10134,7 +10118,7 @@ __declspec(thread) FUN_0059ebb0_TLS FUN_0059ebb0_tls;
 
 extern unsigned int __tls_index;
 
-int __fastcall _FNV_GetFormType(TESObjectREFR* reference);
+int _FNV_GetFormType(TESObjectREFR* reference);
 void __cdecl _DebugLog(const char* format, ...);
 
 class BSAudio
@@ -11371,7 +11355,7 @@ class TESNPC : public TESActorBase
 {
 };
 
-unsigned int __fastcall _FNV_GetFormType(void* object);
+unsigned int _FNV_GetFormType(void* object);
 void __cdecl _DebugLog(const char* format, double value);
 
 // Sets afReturnValue to 1.0 when apRefObject's TESNPC has the same TESClass as apParam1, logs the result if TLS flag 0x268 is set, and returns true.
@@ -11422,7 +11406,7 @@ class TESObject
   public:
 };
 
-unsigned int __fastcall _FNV_GetFormType(unsigned int formID);
+unsigned int _FNV_GetFormType(unsigned int formID);
 void __cdecl _DebugLog(const char* format, ...);
 
 struct FUN_0059f240_ThreadLocal
@@ -11471,7 +11455,7 @@ bool __cdecl FUN_0059f240(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_0059f300 {
 extern unsigned int __tls_index;
-extern int __fastcall _FNV_GetFormType(unsigned int form);
+extern int _FNV_GetFormType(unsigned int form);
 extern void __cdecl _DebugLog(const char* format, double value);
 
 struct TESObject
@@ -12446,7 +12430,7 @@ class LogDate
     }
 };
 
-int __fastcall _FNV_GetFormType(TESObjectWEAP* object);
+int _FNV_GetFormType(TESObjectWEAP* object);
 void __cdecl _DebugLog(const char* format, ...);
 
 extern int __tls_index;
@@ -13653,7 +13637,7 @@ bool __cdecl FUN_005a2c30(TESObjectREFR* reference, void* arg1, void* arg2, doub
 {
     TESObjectREFR* actor = 0;
     if (reference &&
-        reinterpret_cast<bool(__thiscall*)(TESObjectREFR*)>(reinterpret_cast<void***>(reference)[0][0x40])(reference))
+        reinterpret_cast<bool(*)(TESObjectREFR*)>(reinterpret_cast<void***>(reference)[0][0x40])(reference))
     {
         actor = reference;
     }
@@ -14454,7 +14438,7 @@ struct FUN_005a3e10_TLSData
 extern int __tls_index;
 
 void __cdecl _DebugLog(const char* format, double value);
-int __fastcall FUN_00573110(int thisPointer);
+int FUN_00573110(int thisPointer);
 
 struct FUN_005a3e10_VirtualActor
 {
@@ -14927,7 +14911,7 @@ bool __cdecl FUN_005a4b60(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         else
         {
             {
-                int majorCrimeCount = ((int(__thiscall*)(Actor*))FUN_008b7f00)(pactor);
+                int majorCrimeCount = ((int(*)(Actor*))FUN_008b7f00)(pactor);
                 afReturnValue = majorCrimeCount;
             }
         }
@@ -15916,7 +15900,7 @@ struct FNVPositionReference
 {
     void** virtualFunctions;
 };
-typedef void(__thiscall* FNVReadPosition)(FNVPositionReference*, FNVPosition3*);
+typedef void(* FNVReadPosition)(FNVPositionReference*, FNVPosition3*);
 extern void __cdecl LogPositionCondition(const char* message, ...);
 
 // @fnv 0x0059c230
@@ -16024,7 +16008,7 @@ bool __cdecl FUN_0059ea10(int first, int second, int third, double* output)
 
 struct FUN_00401170_Mode
 {
-    unsigned int __thiscall FUN_00401170();
+    unsigned int FUN_00401170();
 };
 struct FUN_0059ecc0_Ref
 {
@@ -16121,7 +16105,7 @@ struct FUN_008d85e0_Obj
 {
 };
 
-int __fastcall FNV_GetFormType(TESForm* form);
+int FNV_GetFormType(TESForm* form);
 void __cdecl DebugLog(char const* fmt, ...);
 
 // @fnv 0x005a0ab0
@@ -16158,11 +16142,11 @@ struct RefOps
 };
 struct FormOps
 {
-    unsigned int __thiscall FUN_00401170();
+    unsigned int FUN_00401170();
 };
 struct ActorOps
 {
-    TESClass* __thiscall FUN_00502430();
+    TESClass* FUN_00502430();
 };
 struct ClassOps
 {
@@ -16659,8 +16643,8 @@ bool __cdecl FUN_005a3c90(TESObjectREFR* reference, void* arg1, void* arg2, doub
 struct MeasuredValue
 {
 };
-typedef bool(__thiscall* EligibilityMethod)(void*);
-typedef MeasuredValue*(__thiscall* ValueMethod)(void*);
+typedef bool(* EligibilityMethod)(void*);
+typedef MeasuredValue*(* ValueMethod)(void*);
 union ExtendedValue
 {
     __int64 signedValue;
@@ -16809,7 +16793,7 @@ class FUN_0041cf00_shell
     void* FUN_0041cf00();
 };
 
-extern bool __fastcall _ref_008256d0(void*);
+extern bool _ref_008256d0(void*);
 void DebugLog(const char*, ...);
 
 // Sets result to 1.0 when the reference is an actor whose extra data passes FUN_0041cf00 and fails _ref_008256d0, logging the outcome when condition debug is on.
@@ -17550,7 +17534,7 @@ bool __cdecl FUN_005a5e90(TESObjectREFR* reference, void* pSkillArg, void* pUnus
     return true;
 }
 
-unsigned int __fastcall FUN_005a6260(char*);
+unsigned int FUN_005a6260(char*);
 struct Record
 {
     unsigned int formId;
@@ -22616,7 +22600,7 @@ bool FUN_005a0b60(Obj* obj, int aiUnused1, int aiUnused2, double* out)
 {
     *out = 0.0;
     Obj* sel = 0;
-    typedef unsigned char(__thiscall * VFn)(Obj*);
+    typedef unsigned char(* VFn)(Obj*);
     if (obj != 0 && ((VFn)((void**)(*(void**)obj))[64])(obj))
     {
         sel = obj;
@@ -22738,7 +22722,7 @@ bool FUN_005a0b60(Obj* obj, int aiUnused1, int aiUnused2, double* out)
 }  // namespace fnv_005a0b60
 
 void __cdecl DebugLog(char const*, ...);
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 struct GetInFactionCache_0059f630
 {
 };

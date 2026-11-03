@@ -42,7 +42,7 @@ struct FUN_00b5a9a0_List
     FUN_00b5a9a0_Node* m_pHead;
     FUN_00b5a9a0_Node* m_pTail;
     unsigned int m_uiCount;
-    void __thiscall FUN_00b5a9a0(FUN_00b5a9a0_Node* node);
+    void FUN_00b5a9a0(FUN_00b5a9a0_Node* node);
 };
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 void* __cdecl _fnv_zlib_memset(void* ptr, int value, unsigned int count);

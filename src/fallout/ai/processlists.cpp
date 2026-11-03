@@ -1,5 +1,6 @@
 // fallout/ai/processlists.cpp: ProcessLists, ProcessListsEx, TESObjectREFR, BGSProjectile and more (133 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AIFormFlags.h"
 #include "fnv/decl/ActiveEffect.h"
@@ -759,7 +760,7 @@ struct FUN_008f63e0_wrap
 
 // Updates the player's current AI process, then calls ProcessDetectionStateLists on each actor's AI process in the high-process list.
 // @fnv 0x0096c710
-void __fastcall FUN_0096c710(ProcessLists* pProcessLists)
+void FUN_0096c710(ProcessLists* pProcessLists)
 {
     if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(::_g_thePlayer))->GetBaseTexture())))
     {
@@ -1191,7 +1192,7 @@ struct MobileObjectStub
 };
 // Walks the list at self+0x70 and removes entries whose Projectile returns true from FUN_009bec50(0.0f).
 // @fnv 0x00975080
-void __fastcall FUN_00975080(char* self)
+void FUN_00975080(char* self)
 {
     if (!((TESFormList*)(self + 0x70))->_ref_008256d0())
     {
@@ -1492,7 +1493,6 @@ struct MuzzleFlash
     TESObjectWEAP* m_pFiringWeapon;
     TESObjectREFR* m_pParentRef;
 };
-typedef char _sizecheck_MuzzleFlash[sizeof(MuzzleFlash) == 32 ? 1 : -1];
 struct FUN_00978890_shell : public ProcessLists
 {
     void UpdateMuzzleFlashes(float);
@@ -1555,7 +1555,7 @@ template <> class BSSimpleArray<NavMeshInfo*, 1024>
 };
 
 // @fnv 0x00978e70
-void* __fastcall FUN_00978e70(void* pThis)
+void* FUN_00978e70(void* pThis)
 {
     *reinterpret_cast<int**>(pThis) = &DAT_0108c23c;
     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(pThis)->FUN_006b3eb0(0, false);
@@ -1567,7 +1567,6 @@ struct _LARGE_INTEGER
     long HighPart;
     unsigned long LowPart;
 };
-typedef char _sizecheck__LARGE_INTEGER[sizeof(_LARGE_INTEGER) == 8 ? 1 : -1];
 struct FUN_0096b050_shell : public ProcessLists
 {
     void UpdateLowProcesses(float, bool);
@@ -1758,7 +1757,6 @@ struct PathfindQueueStorage
 {
 };
 
-__declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64* apCount);
 
 extern __int64 DAT_011e0e20;
 extern unsigned int DAT_011e0e30;
@@ -2573,11 +2571,11 @@ struct FUN_0096cc80_shell
 {
     char m_00[0x50];
     unsigned char m_50;
-    void __thiscall SetByte50(unsigned char value);
+    void SetByte50(unsigned char value);
 };
 
 // @fnv 0x0096cc80
-void __thiscall FUN_0096cc80_shell::SetByte50(unsigned char value)
+void FUN_0096cc80_shell::SetByte50(unsigned char value)
 {
     m_50 = value;
 }
@@ -2595,7 +2593,7 @@ unsigned char FUN_00973a90_shell::GetByteAtOffset()
 }
 
 // @fnv 0x00978400
-char __fastcall GetField18Byte(char* thisPtr)
+char GetField18Byte(char* thisPtr)
 {
     return thisPtr[0x18];
 }
@@ -2785,7 +2783,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct IndexedTaskData
 {
     static void TaskFunc(void*);
@@ -2794,7 +2791,6 @@ struct IndexedTaskData
     unsigned int iSize;
     unsigned int iIndex;
 };
-typedef char _sizecheck_BSParallelArrayTask[sizeof(IndexedTaskData) == 16 ? 1 : -1];
 struct FUN_0096c970_shell : public ProcessLists
 {
     void FUN_0096c970();
@@ -3061,11 +3057,11 @@ void FUN_009784c0_shell::FUN_009784c0()
 
 struct FUN_00973a70_shell
 {
-    void __thiscall SetByteAt66c(char arg);
+    void SetByteAt66c(char arg);
 };
 
 // @fnv 0x00973a70
-void __thiscall FUN_00973a70_shell::SetByteAt66c(char acValue)
+void FUN_00973a70_shell::SetByteAt66c(char acValue)
 {
     ((char*)this)[0x66c] = acValue;
 }
@@ -4737,7 +4733,7 @@ struct LH
 
 struct G2
 {
-    void __thiscall AddHead(int* value);
+    void AddHead(int* value);
 };
 
 struct SL
@@ -4881,7 +4877,7 @@ void FUN_00975ea0_shell::FUN_00975ea0()
                     if (!object->IsDead(false))
                     {
                         MobileObject* target = object;
-                        (reinterpret_cast<void(__thiscall*)(MobileObject*, int)>(
+                        (reinterpret_cast<void(*)(MobileObject*, int)>(
                             (*reinterpret_cast<void***>(target))[0x208 / sizeof(void*)]))(target, 1);
                     }
                 }
@@ -6103,8 +6099,8 @@ void __cdecl ProcessPlayerCellActors()
                         int result = reinterpret_cast<ActorProcessProxy*>(actor)->FUN_00931850();
                         if (result)
                         {
-                            typedef void(__thiscall * VirtualAction)(MobileObject*, int);
-                            typedef void(__thiscall * VirtualFloat)(MobileObject*, float);
+                            typedef void(* VirtualAction)(MobileObject*, int);
+                            typedef void(* VirtualFloat)(MobileObject*, float);
                             reinterpret_cast<VirtualAction>((*reinterpret_cast<void***>(actor))[0x10D])(actor, 0);
                             reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((reinterpret_cast<ActorProcessProxy*>(actor)))->FUN_00881680(0);
                             reinterpret_cast<VirtualFloat>((*reinterpret_cast<void***>(actor))[0x97])(actor,

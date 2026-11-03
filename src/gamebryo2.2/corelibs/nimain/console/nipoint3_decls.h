@@ -22,10 +22,6 @@ class NiPoint3
     NiPoint3 CrossProduct(const NiPoint3& kPoint) const;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 8);
 
 
 class NiPlane

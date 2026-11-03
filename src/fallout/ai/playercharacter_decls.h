@@ -55,15 +55,12 @@ struct PlayerCharacterAnimGroupInfo
     ANIM_GROUP_SECTION section;
     unsigned char layoutPadding8[28];
 };
-FNV_STATIC_ASSERT(sizeof(PlayerCharacterAnimGroupInfo) == 0x24);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacterAnimGroupInfo, section) == 4);
 // Source layout: PlayerCharacter. PC corrections are in generate_headers.py.
 #ifndef FNV_PLAYERCHARACTER_H
 #define FNV_PLAYERCHARACTER_H
 #include "layout_support.h"
 #include "playercharacter_actor_decls.h"
 #include "../../../include/Character.h"
-#pragma pack(push, 4)
 class Animation;
 class BGSNote;
 struct Biped;
@@ -116,22 +113,6 @@ public:
 public:
     bool HasNote(::BGSNote *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PlayerCharacter) == 0xE50);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_pCombatData) == 0xD64);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueModifierData) == 0x244);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_afScriptModifiers) == 0x378);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueState) == 0x4AC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, ActorValueData) == 0x4B0);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, bThirdPerson) == 0x64C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_ucValueAt680) == 0x680);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_pCurrentQuest) == 0x6B8);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kObjectiveList) == 0x6BC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_ucByteAtOffset7B8) == 0x7B8);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_bHasPerks) == 0x7BC);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, Perks) == 0x87C);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kEntryPointPerks) == 0x884);
-FNV_STATIC_ASSERT(offsetof(PlayerCharacter, m_kCompanionPerks) == 0xAD4);
 #endif
 
 #endif

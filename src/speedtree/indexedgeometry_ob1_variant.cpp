@@ -225,7 +225,7 @@ struct K
     int fC;
     int f10;
     int f14;
-    void __thiscall FUN_00b331c0();
+    void FUN_00b331c0();
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct InnerVec

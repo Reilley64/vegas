@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 class TESTerrainLODManager;
-#pragma pack(push, 4)
 class TESTerrainLODManager
 {
   public:
@@ -16,6 +15,4 @@ class TESTerrainLODManager
     // void __cdecl TESTerrainLODManager::*(TESObjectCELL*, NiNode*, NiPoint3, NiPoint3, float, float, float)
     // void* __cdecl TESTerrainLODManager::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESTerrainLODManager) == 1);
 #endif

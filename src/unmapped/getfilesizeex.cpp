@@ -1,9 +1,9 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 extern "C"
 {
-    __declspec(dllimport) int __stdcall GO(unsigned int id, void* out);
 }
 
 struct FUN_00aff000_tbl
@@ -20,7 +20,7 @@ unsigned int FUN_00aff000_tbl::GetValue(unsigned int* param)
     unsigned int res;
     unsigned __int64 local;
 
-    if (GO(this->m10, &local))
+    if (GetFileSizeEx(this->m10, &local))
     {
         *(unsigned __int64*)param = local;
         res = 0;

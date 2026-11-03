@@ -366,7 +366,7 @@ struct Owner
 };
 // If the owner at +0xc has type other than 11, calls CallA with the +0x10 offsets of the pointers at +0x14 and +0x18, and passes a nonzero result to CallB.
 // @fnv 0x00e46e30
-void __stdcall FUN_00e46e30(void* p)
+void FUN_00e46e30(void* p)
 {
     Owner* owner = *reinterpret_cast<Owner**>(reinterpret_cast<char*>(p) + 0xc);
     if (owner->getType() != 11)
@@ -381,7 +381,7 @@ void __stdcall FUN_00e46e30(void* p)
 }
 
 // @fnv 0x00e46e70
-void __stdcall FUN_00e46e70(int a)
+void FUN_00e46e70(int a)
 {}
 
 // Adjustor thunk for FUN_00dffb30: "sub ecx, 8; jmp FUN_00dffb00".

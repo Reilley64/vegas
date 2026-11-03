@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/list/hkplistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/list/hkplistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/fnv_00cf4fb0__ShapeCollection.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
@@ -15,10 +16,10 @@
 
 struct hkPListShape
 {
-    void __thiscall SetChildShape(int index, void* shape);
+    void SetChildShape(int index, void* shape);
 };
 // @fnv 0x00cf50a0
-void __thiscall hkPListShape::SetChildShape(int index, void* shape)
+void hkPListShape::SetChildShape(int index, void* shape)
 {
     *(void**)((char*)*(int*)((char*)this + 0x18) + (index << 4) + 4) = shape;
 }
@@ -37,7 +38,7 @@ void* FUN_00cf5070_class::GetShapeAt(int index, void* buffer)
 
 struct hkPListShape2
 {
-    int __thiscall GetElementAt(int index);
+    int GetElementAt(int index);
 };
 
 // @fnv 0x00cf5080
@@ -647,7 +648,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <string.h>
 #include "fnv/symbols_simd.h"
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010cc398[];
 
 struct S00cf5140_Bool

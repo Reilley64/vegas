@@ -1,5 +1,6 @@
 // fallout/ai/ailineartaskthreadmanager.cpp: AIThreadManager (21 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BGSDestructibleObjectForm.h"
 #include "fnv/decl/DetectionLists.h"
@@ -112,7 +113,6 @@ class ActorMover
   public:
     unsigned int GetCurrentMoveModeType();
 };
-extern "C" __declspec(dllimport) void* __stdcall CreateEventA(void*, int, int, const char*);
 extern "C" unsigned int gPreferredMoveMode;
 
 // @fnv 0x008c7290
@@ -188,7 +188,7 @@ struct FUN_008c7490_this
 };
 
 // @fnv 0x008c7490
-void __fastcall FUN_008c7490(FUN_008c7490_this* pThis)
+void FUN_008c7490(FUN_008c7490_this* pThis)
 {
     reinterpret_cast<::SemaphoreWaitReceiver *>(&(pThis->sem))->FUN_004424e0();
 }
@@ -282,7 +282,6 @@ struct TaskQueueInterface
 public:
     static ::TaskQueueInterface *GetSingleton();
 };
-typedef char _sizecheck_TaskQueueInterface[sizeof(TaskQueueInterface) == 16 ? 1 : -1];
 
 class GlobalObject2_0040c150
 {
@@ -431,8 +430,6 @@ void __cdecl FUN_008c80d0()
     ::fnv_008c80b0::FUN_008c80b0();
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) int __stdcall SetEvent(void*);
 struct FUN_008c79e0_shell
 {
     void* apThreads[3];
@@ -452,8 +449,6 @@ void FUN_008c79e0_shell::SignalThreadEvent(int aiIndex, int aiEvent)
     }
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) int __stdcall SetEvent(void*);
 struct FUN_008c7a70_shell
 {
     char pad[0x8c];
@@ -529,7 +524,6 @@ void FUN_00991500_shell::FUN_00991500(bool abFlag)
     }
 }
 
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 
 
 struct TaskThreadStandin

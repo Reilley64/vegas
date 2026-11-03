@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/gamebryo2.2/corelibs/nimain/niintegersextradata.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
 #include "fnv/decl/FUN_00a7b330_shell.h"
@@ -42,18 +43,18 @@ struct FUN_00c543e0_shell : NiAVObject
 };
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* FUN_00c54d60();
 };
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int FUN_00c54030(int param_1);
 };
 struct FUN_00a7b290_shell
 {
 };
 struct FUN_00c54150_shell
 {
-    void __thiscall FUN_00c54150(int param_1);
+    void FUN_00c54150(int param_1);
 };
 struct C00c541e0
 {
@@ -66,7 +67,7 @@ struct NiColor
     float r;
     float g;
     float b;
-    void __thiscall SaveBinary(NiStream&);
+    void SaveBinary(NiStream&);
 public:
     void LoadBinary(::NiStream &);
 };
@@ -75,14 +76,14 @@ struct FUN_00c54660_shell
     NiColor color;
     unsigned short fldC;
     unsigned char fldE;
-    void __thiscall FUN_00c54660(NiStream&);
+    void FUN_00c54660(NiStream&);
 };
 struct S_FUN_00c53fa0
 {
 };
 struct S_FUN_00c547e0
 {
-    void* __thiscall FUN_00c547e0(unsigned int);
+    void* FUN_00c547e0(unsigned int);
 };
 struct MM
 {
@@ -91,7 +92,7 @@ struct S
 {
     void* vtbl;
     void* ptr;
-    void __thiscall FUN_00c54810();
+    void FUN_00c54810();
 };
 struct NiStream;
 struct NiExtraDataSaveHelper : NiExtraData
@@ -133,7 +134,7 @@ struct S_00c54550_Foo
     int unk08;
     unsigned short unk0c;
 
-    void __thiscall FUN_00c54550(float param_1);
+    void FUN_00c54550(float param_1);
 };
 class NiStream;
 struct FUN_00c545d0_cls
@@ -141,7 +142,7 @@ struct FUN_00c545d0_cls
     unsigned int baseData[3];
     unsigned short fldC;
     unsigned short fldE;
-    void __thiscall FUN_00c545d0(NiStream& s);
+    void FUN_00c545d0(NiStream& s);
 };
 struct FUN_00c54b70_cls
 {
@@ -163,7 +164,7 @@ struct FUN_00c54c50_shell
     unsigned short fldC;
     unsigned short fldE;
 
-    FUN_00c54c50_shell* __thiscall FUN_00c54c50(unsigned short param_1, unsigned short param_2);
+    FUN_00c54c50_shell* FUN_00c54c50(unsigned short param_1, unsigned short param_2);
 };
 void* __cdecl FUN_00c54bc0(unsigned int);
 struct FUN_00c54cc0_cls
@@ -173,12 +174,11 @@ struct FUN_00c54cc0_cls
     float m_08;
     unsigned short m_0c;
     unsigned char m_0e;
-    bool __thiscall FUN_00c54cc0(FUN_00c54cc0_cls* other);
+    bool FUN_00c54cc0(FUN_00c54cc0_cls* other);
 };
 
 // Deletes the global NiFixedString instance and clears the pointer; the fixed string's inline
 // destructor releases its global-string-table handle unless it is the shared null handle.
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 struct NiFixedStringD
 {
@@ -571,7 +571,7 @@ struct NiIntStreamColorC
 
 struct NiIntStreamMemoryC
 {
-    void* __thiscall Allocate(unsigned int stSize);
+    void* Allocate(unsigned int stSize);
 };
 struct NiIntStreamEntryC
 {

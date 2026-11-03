@@ -3,7 +3,6 @@
 #ifndef FNV_HAVOK_HKPWHEELCONSTRAINTDATAATOMS_H
 #define FNV_HAVOK_HKPWHEELCONSTRAINTDATAATOMS_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpWheelConstraintDataAtoms
 {
   public:
@@ -16,6 +15,4 @@ class hkpWheelConstraintDataAtoms
     };
     char pad0[0x130];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpWheelConstraintDataAtoms[(sizeof(hkpWheelConstraintDataAtoms) == 0x130) ? 1 : -1];
 #endif

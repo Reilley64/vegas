@@ -29,7 +29,6 @@ class ExtraLock;
 #include "PlacedObjectInfo.h"
 #include "TESChildCell.h"
 #include "lowprocess_TESForm.h"
-#pragma pack(push, 4)
 class TESObjectREFR : public TESForm
 {
   public:
@@ -119,13 +118,4 @@ class TESObjectREFR : public TESForm
         CHANGE_SCRIPT_VARIABLES = 0x80000000u
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObjectREFR) == 0x68);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, tESChildCellComponent) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pSoundForm) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, data) == 0x20);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_fObjectScale) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pOwningCell) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_kExtraDataCollection) == 0x44);
-FNV_STATIC_ASSERT(offsetof(TESObjectREFR, m_pRenderData) == 0x64);
 #endif

@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/D04B90World.h"
 #include "fnv/decl/VUC_StepInstance.h"
 #include "fnv/symbols_00c85000.h"
@@ -14,15 +15,15 @@
 #include "havok/hkpVehicleLinearCastBatchingManager.h"
 struct FUN_00e42fe0
 {
-    int __thiscall GetCount();
+    int GetCount();
 };
 struct FUN_00e43060
 {
-    void __thiscall DoWork(int a, int b, int* out);
+    void DoWork(int a, int b, int* out);
 };
 struct FUN_00e43010
 {
-    int __thiscall ConvertReferences(int numVehicles);
+    int ConvertReferences(int numVehicles);
 };
 struct FUN_00e42fe0_counted
 {
@@ -52,12 +53,11 @@ struct FUN_00e42fe0_impl
     FUN_00e42fe0_vehicle** vehicles;
     int count;
 
-    int __thiscall FUN_00e42fe0();
+    int FUN_00e42fe0();
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 struct ProfRec
 {
 	const char *m_pName;
@@ -203,7 +203,6 @@ struct S00e43320_Mgr
 	void FUN_00e43320(void* param1, void* param2, void* param3);
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -443,7 +442,7 @@ struct E430B0Mgr
 	E430B0Vehicle** vehicles;
 	int count;
 
-	int __thiscall FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer);
+	int FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer);
 };
 
 static inline void E430B0Timer(E430B0Mon* mon, const char* name)
@@ -463,7 +462,7 @@ static inline void E430B0Timer(E430B0Mon* mon, const char* name)
 }
 
 // @fnv 0x00e430b0
-int __thiscall E430B0Mgr::FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer)
+int E430B0Mgr::FUN_00e430b0(E430B0World* world, int filterSize, int numJobs, FUN_00d04b90_class* jobQueue, void* semaphore, void* buffer)
 {
 
 	E430B0Timer((E430B0Mon*)TlsGetValue(DAT_0126835c), "TtBuildAndAddLinearCastJobs");

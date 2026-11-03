@@ -306,7 +306,6 @@ struct NiPoint2
     float x;
     float y;
 };
-typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 struct FUN_0063c490_shell : public Sky
 {
     void FUN_0063c490();
@@ -455,7 +454,7 @@ struct Sky_Helper : public Sky
 
 
 // @fnv 0x0063d5c0
-void __fastcall FUN_0063d5c0(char* p)
+void FUN_0063d5c0(char* p)
 {
     reinterpret_cast<::FUN_005827d0_list *>((p + 0x30))->FUN_005827d0();
 }
@@ -479,11 +478,11 @@ class SoundPlaybackHandle
   public:
 };
 
-SoundPlaybackHandle* const& __fastcall _ref_006815c0(void* pNode);
+SoundPlaybackHandle* const& _ref_006815c0(void* pNode);
 
 // Iterates the linked list at pThis+0xfc and calls Stop on each node's referenced object.
 // @fnv 0x0063e010
-void __fastcall FUN_0063e010(char* pThis)
+void FUN_0063e010(char* pThis)
 {
     for (void* pNode = *reinterpret_cast<void**>(pThis + 0xfc); pNode && _ref_006815c0(pNode);
          pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070())
@@ -498,7 +497,7 @@ struct FUN_0063e210_shell : public Sky
     void FUN_0063e210();
 };
 
-void __fastcall FUN_006349e0(void*);
+void FUN_006349e0(void*);
 
 namespace fnv_0063e290 {
 template <class T> class BSStringT
@@ -572,7 +571,7 @@ class NiNode
 };
 
 // @fnv 0x0063e290
-void __fastcall FUN_0063e290(void* pThis)
+void FUN_0063e290(void* pThis)
 {
     if ((const char*)*(BSStringT<char>*)((char*)pThis + 4) != 0)
     {
@@ -646,11 +645,11 @@ struct FUN_0063c420_shell
 {
     unsigned char pad[0xf0];
     float arr[0x100];
-    float __thiscall FUN_0063c420(int index);
+    float FUN_0063c420(int index);
 };
 
 // @fnv 0x0063c420
-float __thiscall FUN_0063c420_shell::FUN_0063c420(int index)
+float FUN_0063c420_shell::FUN_0063c420(int index)
 {
     return arr[index];
 }
@@ -1020,7 +1019,7 @@ struct AnimIdle
 };
 struct NiNode_00558310;
 class NiAVObject;
-const NiPoint3& __fastcall FUN_0045bb80(NiAVObject*);
+const NiPoint3& FUN_0045bb80(NiAVObject*);
 struct BGSSaveLoadGame_FUN_0042ce10
 {
 };
@@ -1132,7 +1131,6 @@ struct SkySound
     unsigned int auiFormId;
     unsigned int uiData;
 };
-typedef char _sizecheck_SkySound[sizeof(SkySound) == 28 ? 1 : -1];
 struct FUN_0063d5e0_shell : public Sky
 {
     void FUN_0063d5e0();

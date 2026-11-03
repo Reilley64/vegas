@@ -157,7 +157,7 @@ struct Node_00b98e20
 };
 
 // @fnv 0x00b98e20
-void __fastcall FUN_00b98e20(Node_00b98e20* pThis, int, const unsigned short* pItem)
+void FUN_00b98e20(Node_00b98e20* pThis, int, const unsigned short* pItem)
 {
     if (*pItem)
     {
@@ -183,7 +183,7 @@ template <> class NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>
 
 // Appends a new node holding *elem to the list, reusing a free node from self[3] or allocating one, and updates head, tail and count.
 // @fnv 0x00b99840
-void __fastcall FUN_00b99840(int* self, int, const int* pElement)
+void FUN_00b99840(int* self, int, const int* pElement)
 {
     int* node = (int*)self[3];
     if (!node)
@@ -271,13 +271,13 @@ struct FUN_00b99630_Arg
     void(__cdecl* fn)();
 };
 
-void __fastcall SortList(void*, FUN_00b99630_Arg);
+void SortList(void*, FUN_00b99630_Arg);
 
 extern char DAT_011ffe35;
 extern int DAT_011ffe38;
 
 // @fnv 0x00b99a10
-void __fastcall FUN_00b99a10(char* this_ptr, int, int param_1, char param_2)
+void FUN_00b99a10(char* this_ptr, int, int param_1, char param_2)
 {
     DAT_011ffe38 = param_1;
     DAT_011ffe35 = param_2;
@@ -293,7 +293,7 @@ struct PassGroup_Layout
 };
 
 // @fnv 0x00b99a50
-void __fastcall ClearPassGroups(PassGroup_Layout* pThis, int, bool)
+void ClearPassGroups(PassGroup_Layout* pThis, int, bool)
 {
     for (int j = 0; j < 5; ++j)
     {
@@ -377,7 +377,7 @@ struct BSBatchRenderer_View_00b99bc0
 
 // Iterates the map, clears each group's pass lists and resets its counter, then removes all entries from kList.
 // @fnv 0x00b99bc0
-void __fastcall ClearAllGroups(BSBatchRenderer_View_00b99bc0* pThis, int, int unusedArg)
+void ClearAllGroups(BSBatchRenderer_View_00b99bc0* pThis, int, int unusedArg)
 {
     BSBatchRenderer_MapItem_00b99bc0* pItem = pThis->kMap.GetFirstPos();
     while (pItem)
@@ -616,7 +616,7 @@ struct FUN_00b99890_List
 };
 // Takes a node from the free list or pool, stores the value, and links it at the head of the list, updating tail when empty.
 // @fnv 0x00b99890
-void __fastcall PushFront(FUN_00b99890_List* list, int, unsigned int* value)
+void PushFront(FUN_00b99890_List* list, int, unsigned int* value)
 {
     FUN_00b99890_Node* node = list->freeList;
     if (!node)
@@ -656,7 +656,7 @@ FUN_00b998e0::FUN_00b998e0()
 }
 
 // @fnv 0x00b99b70
-BSBatchRenderer__PassList* __fastcall DestroyPassList(BSBatchRenderer__PassList* p, int, unsigned int flags)
+BSBatchRenderer__PassList* DestroyPassList(BSBatchRenderer__PassList* p, int, unsigned int flags)
 {
     ::FUN_00b656b0((::BSBatchRenderer__PassList *)(p), {});
     if (flags & 1)
@@ -754,7 +754,7 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList*, int);
 
 // If flags bit 0 is set, forwards arg to ClearPassList on passList; otherwise notifies owner with (1, 0x2f1, arg); then clears owner's list and resets count to 0.
 // @fnv 0x00b9a4d0
-void __fastcall FUN_00b9a4d0(FUN_00b9a4d0_Obj* self, int unused, int arg)
+void FUN_00b9a4d0(FUN_00b9a4d0_Obj* self, int unused, int arg)
 {
     if ((self->flags & 1) > 0)
         ClearPassList(&self->passList, arg);
@@ -882,7 +882,7 @@ struct FUN_00b9a5b0 : public BSFadeNode
 };
 
 // @fnv 0x00b9abc0
-void __fastcall DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
+void DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
 {
     unsigned char* pBytes = (unsigned char*)pThis;
     if ((pBytes[0] & 1u) > 0)
@@ -1751,7 +1751,7 @@ static inline AlphaNode* PoolCreateNode()
     return pkNode;
 }
 // @fnv 0x00b9ac80
-void __fastcall AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bool bFlag1,
+void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bool bFlag1,
                                SortCamera* pCamera, bool bFlag2)
 {
     if (pRenderer->m_iActiveGroupCount == 0 && pCamera != 0)
@@ -2845,7 +2845,7 @@ struct Thing
     void AddNode(int index, int value);
 };
 
-extern "C" Node* __fastcall FUN_0043a010(void* alloc);
+extern "C" Node* FUN_0043a010(void* alloc);
 
 // Allocates or reuses a free node, stores value, and prepends it to the entry's linked list, updating counts.
 // @fnv 0x00b99a90
@@ -2904,7 +2904,7 @@ struct Thing
     void AppendNode(int index, int value);
 };
 
-extern "C" Node* __fastcall FUN_0043a010(void* alloc);
+extern "C" Node* FUN_0043a010(void* alloc);
 
 // Allocates or reuses a Node, sets its value, and appends it to the linked list at the given index.
 // @fnv 0x00b99b00

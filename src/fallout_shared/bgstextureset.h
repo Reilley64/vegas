@@ -22,7 +22,6 @@ class TESBoundObject__BOUND_DATA;
 class TESFormList;
 class QueuedFile;
 
-#pragma pack(push, 4)
 class ShortPoint3
 {
   public:
@@ -30,25 +29,14 @@ class ShortPoint3
     short y;  // +0x2, 2 bytes
     short z;  // +0x4, 2 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ShortPoint3) == 6);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, y) == 2);
-FNV_STATIC_ASSERT(offsetof(ShortPoint3, z) == 4);
 
-#pragma pack(push, 4)
 class TESBoundObject__BOUND_DATA
 {
   public:
     ShortPoint3 m_kBoundMin;  // +0x0, 6 bytes
     ShortPoint3 m_kBoundMax;  // +0x6, 6 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject__BOUND_DATA) == 12);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMin) == 0);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject__BOUND_DATA, m_kBoundMax) == 6);
 
-#pragma pack(push, 4)
 class TESObject : public TESForm
 {
   public:
@@ -57,13 +45,7 @@ class TESObject : public TESForm
     TESObject* m_pPreviousObject;  // +0x1C, 4 bytes
     TESObject* m_pNextObject;      // +0x20, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESObject) == 36);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pOwningList) == 24);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pPreviousObject) == 28);
-FNV_STATIC_ASSERT(offsetof(TESObject, m_pNextObject) == 32);
 
-#pragma pack(push, 4)
 class TESBoundObject : public TESObject
 {
   public:
@@ -72,11 +54,7 @@ class TESBoundObject : public TESObject
 
     TESBoundObject();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 48);
-FNV_STATIC_ASSERT(offsetof(TESBoundObject, TESBoundObjectBounds) == 36);
 
-#pragma pack(push, 4)
 class BSTextureSet : public NiObject
 {
   public:
@@ -84,8 +62,6 @@ class BSTextureSet : public NiObject
     BSTextureSet();
     virtual const char* GetTextureFilePath(int aeTextureType);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSTextureSet) == 8);
 
 // TESTexture has a non-trivial constructor/destructor (0x0048e270/0x0048e2e0)
 // and a texture-name getter (0x00408da0) not declared in the bundled
@@ -100,7 +76,6 @@ struct BGSTESTexture : public TESTexture
 };
 
 // Texture slots on PC (see note above).
-#pragma pack(push, 4)
 class BGSTextureSet : public TESBoundObject, public BSTextureSet
 {
   public:
@@ -122,15 +97,8 @@ class BGSTextureSet : public TESBoundObject, public BSTextureSet
 
     static BGSTextureSet* s_pNullTextureSet;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSTextureSet) == 0xA0);
-FNV_STATIC_ASSERT(offsetof(BGSTextureSet, pTextures) == 56);
-FNV_STATIC_ASSERT(offsetof(BGSTextureSet, m_pDecalData) == 128);
-FNV_STATIC_ASSERT(offsetof(BGSTextureSet, iFlags) == 132);
-FNV_STATIC_ASSERT(offsetof(BGSTextureSet, m_ppTextureFileEntries) == 136);
 
 // DecalData::`scalar deleting destructor' (0x007b3fa0); layout copied
-#pragma pack(push, 4)
 class ImpactDecalData
 {
   public:
@@ -146,27 +114,11 @@ class ImpactDecalData
     unsigned char layoutPadding1E[2];
     unsigned int iColor;  // +0x20, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImpactDecalData) == 36);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMinWidth) == 0);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMaxWidth) == 4);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMinHeight) == 8);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fDecalMaxHeight) == 12);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fProjectionDepth) == 16);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fShininess) == 20);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_fParallaxScale) == 24);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, m_ucParallaxPasses) == 28);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, cFlags) == 29);
-FNV_STATIC_ASSERT(offsetof(ImpactDecalData, iColor) == 32);
-#pragma pack(push, 4)
 class DecalData
 {
   public:
     ImpactDecalData Data;  // +0x0, 36 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DecalData) == 36);
-FNV_STATIC_ASSERT(offsetof(DecalData, Data) == 0);
 struct DecalDataDeleter : public DecalData
 {
     void* DeleteThis(int aiFlag);

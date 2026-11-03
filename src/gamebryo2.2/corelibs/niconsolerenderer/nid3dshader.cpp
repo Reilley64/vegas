@@ -108,14 +108,14 @@ NiDX9AdditionalDepthStencilBufferData* NiDX9AdditionalDepthStencilBufferData::Cr
     if (hr < 0)
     {
         ((void(__cdecl*)(const char*, ...)) & ((void (&)(const char *))::FUN_00a29680))(&DAT_010ef1f0, ::GetHResultName(hr));
-        ((void(__thiscall*)(NiDX9AdditionalDepthStencilBufferData*, unsigned int))data->vtable[0])(data, 1);
+        ((void(*)(NiDX9AdditionalDepthStencilBufferData*, unsigned int))data->vtable[0])(data, 1);
         return 0;
     }
     DepthDesc desc;
     hr = data->surface->GetDesc(&desc);
     if (hr < 0)
     {
-        ((void(__thiscall*)(NiDX9AdditionalDepthStencilBufferData*, unsigned int))data->vtable[0])(data, 1);
+        ((void(*)(NiDX9AdditionalDepthStencilBufferData*, unsigned int))data->vtable[0])(data, 1);
         return 0;
     }
     data->format = ((::NiPixelFormat *)(::CreatePixelFormat(desc.format)));
@@ -235,7 +235,7 @@ struct FakeRenderer008
     virtual unsigned int V8(void*, void*, void*, void*, void*, void*, void*, int);
 };
 // @fnv 0x00e805b0
-unsigned int __stdcall FUN_00e805b0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
+unsigned int FUN_00e805b0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     return ((FakeRenderer008*)DAT_0126f74c)->V8(a1, a2, a3, a4, a5, a6, a7, 0);
 }
@@ -2491,11 +2491,11 @@ struct DeviceQ
     virtual void v97();
     virtual void v98();
     virtual void v99();
-    virtual long __stdcall SetStreamSource(unsigned int, void*, unsigned int, unsigned int);
+    virtual long SetStreamSource(unsigned int, void*, unsigned int, unsigned int);
     virtual void v101();
     virtual void v102();
     virtual void v103();
-    virtual long __stdcall SetIndices(void*);
+    virtual long SetIndices(void*);
 };
 
 struct ShaderPrepQ : public NiD3DShader

@@ -117,7 +117,7 @@ struct Built
 };
 extern "C" Global* __cdecl FUN_00c85750();
 // @fnv 0x00d315d0
-extern "C" void __stdcall FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
+extern "C" void FUN_00d315d0(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d31110(arg0, arg1, arg2, arg3);
 }
@@ -214,9 +214,9 @@ struct S_00d2f8f0_ArgVtbl
     void* unk00;
     void* unk04;
     void* unk08;
-    void(__thiscall* unk0c)(void*, char*, int, int);
+    void(* unk0c)(void*, char*, int, int);
     void* unk10;
-    void(__thiscall* unk14)(void*, int, char*, void*, int, void*);
+    void(* unk14)(void*, int, char*, void*, int, void*);
 };
 struct S_00d2f8f0_Arg
 {

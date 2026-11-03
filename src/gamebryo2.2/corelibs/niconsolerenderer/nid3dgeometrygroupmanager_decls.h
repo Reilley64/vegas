@@ -11,7 +11,7 @@ class Direct3DDeviceInterface
 {
   public:
     virtual void slot0() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
+    virtual unsigned long AddRef() = 0;
 };
 class VertexDeclarationLayout;
 class NiGeometryGroup

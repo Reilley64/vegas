@@ -134,11 +134,11 @@ void __cdecl AppendNormalMapSuffix(const char* source, char* dest)
 
 struct FUN_00487400_shell
 {
-    const char* __thiscall FUN_00487400();
+    const char* FUN_00487400();
 };
 
 // @fnv 0x00487400
-const char* __thiscall FUN_00487400_shell::FUN_00487400()
+const char* FUN_00487400_shell::FUN_00487400()
 {
     return "Textures";
 }
@@ -149,11 +149,11 @@ struct FNStub
 
 struct FUN_0048e580_shell : FNStub
 {
-    const char* __thiscall FUN_0048e580(BSStringT<char>& result);
+    const char* FUN_0048e580(BSStringT<char>& result);
 };
 
 // @fnv 0x0048e580
-const char* __thiscall FUN_0048e580_shell::FUN_0048e580(BSStringT<char>& result)
+const char* FUN_0048e580_shell::FUN_0048e580(BSStringT<char>& result)
 {
     return TESTexture::NormalizeTextureFilePath(result, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((this))->FUN_00408da0())));
 }

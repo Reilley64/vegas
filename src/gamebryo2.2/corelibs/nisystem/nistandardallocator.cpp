@@ -31,7 +31,7 @@ struct P03MM
 };
 
 // @fnv 0x00aa3370
-void __stdcall FUN_00aa3370(void* apBlock, int e, unsigned int s)
+void FUN_00aa3370(void* apBlock, int e, unsigned int s)
 {
     if (apBlock)
     {
@@ -90,7 +90,7 @@ struct SmallAlloc
 };
 unsigned int __cdecl ReadUInt32(void* p);
 // @fnv 0x00aa3150
-void __stdcall FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
+void FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int stSizeInBytes)
 {
     if (pvMemory)
     {
@@ -110,7 +110,7 @@ void __stdcall FUN_00aa3150(void* pvMemory, int aiAllocationType, unsigned int s
 }
 
 // Stand-ins for the two callees of the original function.
-//   0x00aa3810 : __thiscall member, one 4-byte stack argument, returns a pointer.
+//   0x00aa3810 : member, one 4-byte stack argument, returns a pointer.
 //   0x00aa1130 : __cdecl, two 4-byte arguments (count, type), returns a pointer.
 // The names are deliberately different from the ones in the unit file so that the
 // checker binds the call relocations to the addresses found in the original bytes.
@@ -131,7 +131,7 @@ union Pun
 // 0x00aa30c0: writes a 4-byte count into a buffer obtained from the memory
 // manager, when the record is a 4-byte type and the caller's flag is clear.
 // @fnv 0x00aa30c0
-unsigned char* __stdcall FUN_00aa30c0(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
+unsigned char* FUN_00aa30c0(unsigned int* pCount, int* pType, int eType, unsigned char bFlag, int a4, int a5,
                                       int a6)
 {
     bool bWriteCount = false;
@@ -432,7 +432,7 @@ void* _fnv_zlib_memset(void* pvDest, int iValue, int iCount);
 
 // Allocates memory via the memory manager, applying alignment for type 0xe and zeroing the returned block.
 // @fnv 0x00aa33a0
-void* __stdcall FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, int iType, int iUnk,
+void* FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, int iType, int iUnk,
                              int iUnkCur, int iUnkValue, int iNewUnk, int iTmpUnk)
 {
     void* pNewMem;
@@ -492,7 +492,7 @@ struct MMHeap
 
 // Allocates and zeroes a block, applying the requested alignment when iType is 0xd.
 // @fnv 0x00aa3300
-void* __stdcall FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
+void* FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
                              int iUnkValue, int iNewUnk)
 {
     MMHeap* pkHeap = (MMHeap*)&(*reinterpret_cast<::MM *>(&::g_memoryManager));

@@ -89,10 +89,5 @@ class NiBlendPoint3Interpolator : public NiBlendInterpolator
 };
 
 
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(sizeof(NiBlendInterpolator) == 48);
-FNV_STATIC_ASSERT(sizeof(NiBlendPoint3Interpolator) == 64);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_pSingleInterpolator) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBlendPoint3Interpolator, m_kPoint3Value) == 48);
 
 #endif

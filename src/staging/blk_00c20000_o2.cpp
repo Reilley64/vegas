@@ -129,7 +129,7 @@ FUN_00c32d80* __cdecl FUN_00c2a050()
 namespace fnv_00c2a870 {
 struct BSFadeNode
 {
-    void* __thiscall FUN_00c32d80();
+    void* FUN_00c32d80();
     static void* __cdecl operator new(unsigned int);
 };
 
@@ -971,13 +971,13 @@ NiPSysModifierC2D* CreateNiPSysModC2D()
 
 struct FUN_00c2e550_StandIn
 {
-    unsigned int __thiscall FUN_00c2e550(unsigned char flags);
+    unsigned int FUN_00c2e550(unsigned char flags);
 };
 
 void __cdecl FUN_00aa1460(void* object, unsigned int size);
 
-extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
-extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
+extern "C" void(* DAT_00fdf1c0)(void*);
+extern "C" void(* DAT_00fdf1c4)(void*);
 
 struct NiStringBaseHelper
 {
@@ -1240,7 +1240,7 @@ struct PositionState : NiObject_Helper
     void FUN_00c31750();
 };
 // @fnv 0x00c2e550
-unsigned int __thiscall FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
+unsigned int FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if ((flags & 1) != 0)
@@ -1260,7 +1260,7 @@ void PositionState::FUN_00c31750()
     reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
-typedef int(__stdcall* HostRefFn)(void*);
+typedef int(* HostRefFn)(void*);
 
 struct Host_refobj
 {

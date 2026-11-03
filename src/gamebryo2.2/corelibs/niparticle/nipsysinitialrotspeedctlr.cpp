@@ -23,11 +23,11 @@ struct StrArr
 };
 struct NiPSysInitialRotSpeedCtlr
 {
-    void __thiscall AppendString(StrArr* pkStrings);
+    void AppendString(StrArr* pkStrings);
 };
 // Appends a string obtained from FUN_00a7d330(g_012026e0) to pkStrings, growing the array by its growth step when full.
 // @fnv 0x00c2a000
-void __thiscall NiPSysInitialRotSpeedCtlr::AppendString(StrArr* pkStrings)
+void NiPSysInitialRotSpeedCtlr::AppendString(StrArr* pkStrings)
 {
     ::FUN_00c32f60((::StrArr *)this);
     char* p = (char*)((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_012026e0))))));

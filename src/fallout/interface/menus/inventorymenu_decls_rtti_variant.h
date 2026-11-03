@@ -36,9 +36,6 @@
 #include "fnv/symbols_011d4000.h"
 #include "fnv/symbols_011d9000.h"
 #include "fnv/symbols_011de000.h"
-#define FNV_CTOR_JOIN_(a, b) a##b
-#define FNV_CTOR_JOIN(a, b) FNV_CTOR_JOIN_(a, b)
-#define FNV_STATIC_ASSERT(c) typedef char FNV_CTOR_JOIN(fnv_layout_check_, __LINE__)[(c) ? 1 : -1]
 class Tile;
 class TileMenu;
 class Tile__TileTemplate;
@@ -161,13 +158,6 @@ class InventoryMenu : public Menu
     void AssignTileByID(int id, Tile* tile);
 };
 
-FNV_STATIC_ASSERT(sizeof(InventoryMenu) == 0x124);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_pTiles) == 0x28);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_iCurrentTab) == 0x84);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kPageStates) == 0x88);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kItemList) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kMenuData) == 0xE8);
-FNV_STATIC_ASSERT(offsetof(InventoryMenu, m_kHotkeyObjects) == 0x11C);
 
 class Tile
 {

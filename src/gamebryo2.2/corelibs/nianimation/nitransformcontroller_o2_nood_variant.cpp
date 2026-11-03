@@ -44,7 +44,7 @@ NiObject* __cdecl FUN_00a36810()
 
 
 // @fnv 0x00a360b0
-bool __stdcall FUN_00a360b0(void* pObject)
+bool FUN_00a360b0(void* pObject)
 {
     return ((unsigned char)(reinterpret_cast<::FUN_00a39030_cls *>((pObject))->IsCompatibleWith({})));
 }
@@ -134,7 +134,7 @@ struct FUN_00a367c0_helper
 };
 
 // @fnv 0x00a367c0
-ObjectA36810* __fastcall FUN_00a367c0(ObjectA36810* pThis, void*, CloningProcess& cloning)
+ObjectA36810* FUN_00a367c0(ObjectA36810* pThis, void*, CloningProcess& cloning)
 {
     ObjectA36810* pNewInstance = new ObjectA36810;
     reinterpret_cast<::FUN_00a38ef0_Class *>((((FUN_00a367c0_helper*)pThis)))->FUN_00a38ef0((::FUN_00a38ef0_Class *)(pNewInstance), cloning);

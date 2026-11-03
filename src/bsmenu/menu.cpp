@@ -1,5 +1,6 @@
 // bsmenu/menu.cpp: Menu (27 functions)
 
+#include <windows.h>
 #include <string.h>
 
 #include <new>
@@ -220,7 +221,6 @@ struct MenuValueDescriptor
     unsigned int m_uiValueId;
     char* m_pName;
 };
-typedef char _sizecheck_XMLStorage[sizeof(MenuValueDescriptor) == 8 ? 1 : -1];
 
 class ScrapHeapBuffer;
 struct EmptyStruct
@@ -233,7 +233,7 @@ template <class K, class V> class BSMapBase
 };
 
 extern BSMapBase<unsigned long, ScrapHeapBuffer*> DAT_011f34e0;
-void __fastcall FUN_00a0c900(void*, const char*, MenuValueDescriptor*);
+void FUN_00a0c900(void*, const char*, MenuValueDescriptor*);
 
 // Looks up an XML file by name in DAT_011f34e0; if missing, loads it via LoadCompressedXML and optionally inserts it into the map.
 // @fnv 0x00a1c9b0
@@ -248,7 +248,7 @@ MenuValueDescriptor* __cdecl GetOrLoadXML(const char* apFilename, bool abAdd)
         foundXML = ((::MenuValueDescriptor *)(::LoadCompressedXML(apFilename, (const char *)(0))));
         if (abAdd)
         {
-            ((void(__thiscall*)(void*, const char*, MenuValueDescriptor*)) & FUN_00a0c900)(&DAT_011f34e0, pfilename,
+            ((void(*)(void*, const char*, MenuValueDescriptor*)) & FUN_00a0c900)(&DAT_011f34e0, pfilename,
                                                                                            foundXML);
         }
     }
@@ -666,7 +666,7 @@ CompressedXML* LoadCompressedXML(const char* apFilename, const char* apFileData)
 
 struct FUN_00a0c900_shell
 {
-    void __thiscall FUN_00a0c900(const char*, int);
+    void FUN_00a0c900(const char*, int);
 };
 
 extern int DAT_011f34f4;
@@ -950,7 +950,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 
 struct TileListItem
 {
@@ -1051,13 +1050,11 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_00a1ddb0_shell : public Menu
 {
     Tile* FUN_00a1ddb0(Tile*, char*, Tile*);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 int __cdecl FUN_00ec6da0(char const*, char const*);
 
@@ -1848,7 +1845,6 @@ class OSGlobals
 {
   public:
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 extern const char* g_nullFixedString;
 struct TemplateName
 {

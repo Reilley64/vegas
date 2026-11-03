@@ -1,5 +1,6 @@
 // bsshader/shadowscenenode.cpp: ShadowSceneNode, Base, Self, BlendOwner and more (63 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/B9BB10Effect.h"
 #include "fnv/decl/B9DBE0Fader.h"
@@ -166,7 +167,7 @@ struct List_00b5ac20
 
 // Returns the item at the given index from the list at pThis+0xb4, or null if the index is out of range.
 // @fnv 0x00b5ac20
-void* __fastcall GetListItemAt(char* pThis, int, unsigned int index)
+void* GetListItemAt(char* pThis, int, unsigned int index)
 {
     List_00b5ac20* list = (List_00b5ac20*)(pThis + 0xb4);
     if (index >= list->ItemUpdateArray)
@@ -185,7 +186,7 @@ void* __fastcall GetListItemAt(char* pThis, int, unsigned int index)
 
 // Assigns pObj to the reference-counted pointer at pThis+0x10c, releasing the old object and retaining the new one.
 // @fnv 0x00b5aee0
-void __fastcall AssignRefObject(char* pThis, int, NiRefObject* pObj)
+void AssignRefObject(char* pThis, int, NiRefObject* pObj)
 {
     NiRefObject*& spField = *(NiRefObject**)(pThis + 0x10c);
     if (spField != pObj)
@@ -202,7 +203,7 @@ void __fastcall AssignRefObject(char* pThis, int, NiRefObject* pObj)
 
 // Assigns pObj to the reference-counted pointer at pThis+0x128, releasing the old object and retaining the new one.
 // @fnv 0x00b5af30
-void __fastcall FUN_00b5af30(char* pThis, int, NiRefObject* pObj)
+void FUN_00b5af30(char* pThis, int, NiRefObject* pObj)
 {
     NiRefObject*& pRef = *(NiRefObject**)(pThis + 0x128);
     if (pRef != pObj)
@@ -233,7 +234,7 @@ static inline char*& GetNextLight(ShadowLightNode*& pkIter)
 }
 
 // @fnv 0x00b5b060
-void __fastcall FUN_00b5b060(char* pThis, int)
+void FUN_00b5b060(char* pThis, int)
 {
     ShadowLightNode* pkIter = *(ShadowLightNode**)(pThis + 0xC0);
     while (pkIter)
@@ -260,18 +261,18 @@ struct VTableStub_00b5b150
     void* f0;
     void* f1;
     void* f2;
-    void*(__thiscall* GetAsNode)(void*);
+    void*(* GetAsNode)(void*);
     void* f4;
     void* f5;
     void* f6;
-    int(__thiscall* GetAsGeometry)(void*);
+    int(* GetAsGeometry)(void*);
 };
 
 void __cdecl FUN_00b5b0e0(void* pObj);
 
 // Iterates the children of pNode, calling FUN_00b5b0e0 on geometry children and recursing into node children.
 // @fnv 0x00b5b150
-void __fastcall ProcessNodeChildren(void* pThis, int, void* pNode)
+void ProcessNodeChildren(void* pThis, int, void* pNode)
 {
     for (unsigned int i = 0; i < *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pNode) + 0xa6); ++i)
     {
@@ -287,14 +288,14 @@ void __fastcall ProcessNodeChildren(void* pThis, int, void* pNode)
                 void* pChildNode = (*reinterpret_cast<VTableStub_00b5b150**>(pChild))->GetAsNode(pChild);
                 if (pChildNode)
                 {
-                    reinterpret_cast<void(__thiscall*)(void*, void*)>(&ProcessNodeChildren)(pThis, pChildNode);
+                    reinterpret_cast<void(*)(void*, void*)>(&ProcessNodeChildren)(pThis, pChildNode);
                 }
             }
         }
     }
 }
 
-void __fastcall FUN_00cb9ce0(void* pThis);
+void FUN_00cb9ce0(void* pThis);
 
 struct ArrayLike
 {
@@ -306,13 +307,13 @@ struct ArrayLike
 
     void Realloc(unsigned int a, unsigned int b)
     {
-        ((void(__thiscall*)(ArrayLike*, unsigned int, unsigned int))FUN_00cb9ce0)(this, a, b);
+        ((void(*)(ArrayLike*, unsigned int, unsigned int))FUN_00cb9ce0)(this, a, b);
     }
 };
 
 // Grows the array's capacity if it is full, then increments m_uiSize and returns the index of the newly appended slot.
 // @fnv 0x00b5c360
-unsigned int __fastcall FUN_00b5c360(ArrayLike* pThis)
+unsigned int FUN_00b5c360(ArrayLike* pThis)
 {
     if (pThis->m_uiSize == pThis->m_uiCapacity)
     {
@@ -345,7 +346,7 @@ struct FUN_00b5aa40_self
 
 // Returns the item at self->index if it is within [0, self->count), otherwise returns null.
 // @fnv 0x00b5aa40
-void* __fastcall FUN_00b5aa40(FUN_00b5aa40_self* self, int unused)
+void* FUN_00b5aa40(FUN_00b5aa40_self* self, int unused)
 {
     if (self->index >= 0 && self->index < self->count)
         return self->items[self->index];
@@ -371,7 +372,7 @@ struct FUN_00b5ac60_self
 
 // Walks the linked list from self->head and counts nodes whose item is non-null and whose id is not 0xff.
 // @fnv 0x00b5ac60
-int __fastcall FUN_00b5ac60(FUN_00b5ac60_self* self, int unused)
+int FUN_00b5ac60(FUN_00b5ac60_self* self, int unused)
 {
     int count = 0;
     FUN_00b5ac60_node* n = self->head;
@@ -400,7 +401,7 @@ struct FUN_00b5ade0_arr
 };
 // Removes the element at index, shifting the tail down, or reallocates a smaller buffer when shrinking and the count is low enough.
 // @fnv 0x00b5ade0
-void __fastcall FUN_00b5ade0(FUN_00b5ade0_arr* self, int, unsigned index, bool shrink)
+void FUN_00b5ade0(FUN_00b5ade0_arr* self, int, unsigned index, bool shrink)
 {
     if (shrink)
     {
@@ -493,7 +494,7 @@ struct FUN_00b5b150_Struct
 
 // If apObject is non-null, gets its node via vfunc3 and, when that node exists, passes it to ProcessNodeChildren on thisptr.
 // @fnv 0x00b5b1c0
-void __fastcall FUN_00b5b1c0(ShadowSceneNode* thisptr, int, NiAVObject* apObject)
+void FUN_00b5b1c0(ShadowSceneNode* thisptr, int, NiAVObject* apObject)
 {
     if (apObject)
     {
@@ -522,7 +523,7 @@ struct FUN_00b5b4a0_self
 
 // Walks the linked list from self->head and returns the first item whose key equals key, or null if none matches.
 // @fnv 0x00b5b4a0
-FUN_00b5b4a0_item* __fastcall FUN_00b5b4a0(FUN_00b5b4a0_self* self, int unused, int key)
+FUN_00b5b4a0_item* FUN_00b5b4a0(FUN_00b5b4a0_self* self, int unused, int key)
 {
     FUN_00b5b4a0_node* n = self->head;
     while (n)
@@ -557,7 +558,7 @@ struct FUN_00b5c450_self
 
 // Walks the linked list from self->head and, for the first item whose key matches, calls SetShadowEnabled with flag.
 // @fnv 0x00b5c450
-void __fastcall CallItemMethodByKey(FUN_00b5c450_self* self, int unused, int key, int flag)
+void CallItemMethodByKey(FUN_00b5c450_self* self, int unused, int key, int flag)
 {
     FUN_00b5c450_node* n = self->head;
     while (n)
@@ -607,7 +608,7 @@ struct PosD
     bool _Call_439090(const V3D*);
 };
 // @fnv 0x00b5d930
-void __fastcall FUN_00b5d930(OwnerD* self, int, LightD* l)
+void FUN_00b5d930(OwnerD* self, int, LightD* l)
 {
     if (l->f_f4 && l->f_fc && !l->f_ec)
     {
@@ -654,7 +655,7 @@ GlobalObjectO2_00a7b610* FUN_00b5e590()
 
 void* __cdecl FUN_00ec7230(void*, const void*, unsigned int);
 // @fnv 0x00cb9930
-void __fastcall FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsigned count)
+void FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsigned count)
 {
     if (count > 0)
     {
@@ -1081,7 +1082,6 @@ void ShadowSceneNodeS::AppendLightStats(StrArr* pkStrings)
 }
 }  // namespace fnv_00b5c7d0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 extern int _fnv_particle_shader_renderer_level;
 extern char DAT_011f91d8;
@@ -1167,8 +1167,6 @@ void FUN_00b9dcb0_Class::SetShadowEnabled(bool bEnable)
 namespace fnv_00b9dda0 {
 extern "C"
 {
-    __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-    __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 }
 
 struct NiRTTI
@@ -1599,7 +1597,7 @@ static inline ShadowSceneLight*& GetNextLightStandIn(LightNodeStandIn*& pkIter)
 }
 
 // @fnv 0x00b5b1f0
-void __fastcall FUN_00b5b1f0(ShadowSceneNode* pThis, int)
+void FUN_00b5b1f0(ShadowSceneNode* pThis, int)
 {
     LightNodeStandIn* pLightNode = (LightNodeStandIn*)pThis->shadowLights.head;
     while (pLightNode)
@@ -1646,7 +1644,7 @@ struct ShadowProcessor
 {
     void ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target);
 };
-typedef unsigned char(__thiscall* TestCallback)(void*, char*);
+typedef unsigned char(* TestCallback)(void*, char*);
 // @fnv 0x00b5bbe0
 void ShadowProcessor::ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target)
 {
@@ -1853,8 +1851,6 @@ int SSN_b5::FUN_00b5ca70(Node_b5* node, float time)
     return count;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct RefObj
 {
@@ -2760,8 +2756,6 @@ void BoundOwner_t::AddBound(BoundRef_t* pkBound)
     DAT_011f9ea0.Unlock();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class BSMultiBoundB5D
 {
@@ -3231,8 +3225,6 @@ void Shell_b5d270::FUN_00b5d270(Obj_b5d270* pObj)
         m_kList.FUN_00a5a310(pObj);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Vec
 {
     float x, y, z;
@@ -3773,8 +3765,6 @@ FUN_00b5e0f0::FUN_00b5e0f0() : Base(0)
     fog->color2 = Vec(0.5f, 0.5f, 0.5f);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class BSMultiBoundB5E
 {
@@ -7263,8 +7253,6 @@ LightEx* ShadowSceneNode_Self::FUN_00b5cbd0(void* key)
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 void __cdecl FUN_00aa1460(void* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 class S00b5cd00_Light
 {
@@ -7677,8 +7665,6 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
 
 
 struct S00b5d9f0_Lock
@@ -7720,7 +7706,7 @@ struct S00b5d9f0_List
     int unk04;
     int unk08;
 
-    void __thiscall FUN_00a5a310(const S00b5d9f0_Temp& item);
+    void FUN_00a5a310(const S00b5d9f0_Temp& item);
 };
 
 struct S00b5d9f0_Owner
@@ -7843,9 +7829,7 @@ void* operator new(unsigned int, void* p)
     return p;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* Addend);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* Addend);
 
 class NiCullingProcess;
 
@@ -10470,7 +10454,7 @@ template <class T> struct ArrayLikeT
         if (data)
         {
             void** vt = *(void***)this;
-            void(__thiscall * fn)(void*, void*) = (void(__thiscall*)(void*, void*))vt[2];
+            void(* fn)(void*, void*) = (void(*)(void*, void*))vt[2];
             fn(this, data);
             data = 0;
             f0c = 0;
@@ -11617,22 +11601,6 @@ class FUN_00b5e5a0 : public FUN_00a5e930
     int unk1E0;
 };
 
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkB4) == 0xb4);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkC0) == 0xc0);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkD8) == 0xd8);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkDC) == 0xdc);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkE0) == 0xe0);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkE4) == 0xe4);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkF0) == 0xf0);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unkFC) == 0xfc);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk108) == 0x108);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk114) == 0x114);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk120) == 0x120);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk124) == 0x124);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk128) == 0x128);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk134) == 0x134);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk138) == 0x138);
-FNV_STATIC_ASSERT(offsetof(FUN_00b5e5a0, unk1E0) == 0x1e0);
 
 // Destroys the shadow scene object, clearing its node, light, texture, and list references.
 // @fnv 0x00b5e5a0

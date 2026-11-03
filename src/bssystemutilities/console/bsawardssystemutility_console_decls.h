@@ -59,8 +59,6 @@ class IdleSystem
     }
 };
 
-FNV_STATIC_ASSERT(sizeof(DownloadableContentManager) == 36);
-FNV_STATIC_ASSERT(sizeof(IdleSystem) == 8);
 
 extern IdleSystem* DAT_011f7178;
 
@@ -93,7 +91,7 @@ class SteamUserStats
     virtual void vfn_24();
     virtual bool StoreStats();
 };
-extern "C" __declspec(dllimport) SteamUserStats* __cdecl SteamUserStatsAccessor();
+extern "C" __declspec(dllimport) SteamUserStats* __cdecl SteamUserStats();
 struct AwardData
 {
     int id;

@@ -24,7 +24,7 @@
 #include "fnv/symbols_011b7000.h"
 #include "fnv/symbols_01269000.h"
 #include "fnv/symbols_0126c000.h"
-void __stdcall GetPunctuationChars(char** apOutString, int* apiLength)
+void GetPunctuationChars(char** apOutString, int* apiLength)
 {
     *apOutString = "!\"#$%";
     *apiLength = 5;
@@ -44,8 +44,8 @@ void __cdecl RegisterObjectInspectionProcess()
 
 struct hkInspectProcessStandIn
 {
-    void __thiscall WriteObjectHeader(void* object, int type, int flags);
-    void __thiscall RemovePair(void* object);
+    void WriteObjectHeader(void* object, int type, int flags);
+    void RemovePair(void* object);
 };
 
 // If addObject is set, calls WriteObjectHeader with object, type and flags; otherwise calls RemovePair with object.

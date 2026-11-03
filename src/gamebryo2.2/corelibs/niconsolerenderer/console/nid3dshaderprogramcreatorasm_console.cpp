@@ -7,14 +7,14 @@
 #include "fnv/symbols_0126f000.h"
 struct ID3DXBuffer
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual void* __stdcall GetBufferPointer() = 0;
-    virtual unsigned long __stdcall GetBufferSize() = 0;
+    virtual long QueryInterface(const void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual void* GetBufferPointer() = 0;
+    virtual unsigned long GetBufferSize() = 0;
 };
 
-extern "C" long __stdcall D3DXAssembleShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
+extern "C" long D3DXAssembleShaderFromFileA(const char* pSrcFile, const void* pDefines, void* pInclude,
                                                       unsigned long Flags, ID3DXBuffer** ppShader,
                                                       ID3DXBuffer** ppErrorMsgs);
 
@@ -95,7 +95,7 @@ bool ShaderLoader::AssembleShaderFile(const char* pcFile, void** ppvBytecode, un
     return false;
 }
 
-extern "C" long __stdcall FUN_00ee6e52(const char*, unsigned int, const void*, void*, unsigned int, ID3DXBuffer**,
+extern "C" long FUN_00ee6e52(const char*, unsigned int, const void*, void*, unsigned int, ID3DXBuffer**,
                                        ID3DXBuffer**);
 extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
 

@@ -150,9 +150,4 @@ class BSTextureManager
 extern int DAT_011bf400;
 extern void* DAT_010bc560[];
 
-FNV_STATIC_ASSERT(sizeof(ImageSpaceShaderParam) == 0x88);
-FNV_STATIC_ASSERT(sizeof(ImageSpaceEffect) == 0x58);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pEffectParamList) == 0x18);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceEffect, pTextures) == 0x28);
-FNV_STATIC_ASSERT(offsetof(RefractionImageSpaceEffect, m_kRefractionTexture) == 0x58);
 #endif

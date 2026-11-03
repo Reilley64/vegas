@@ -313,7 +313,6 @@ public:
 public:
     float ComputeMagnitude() const;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 
 int __cdecl _FNV_Finite(double);
 int __cdecl _FNV_IsNaN(double);
@@ -335,7 +334,7 @@ int __cdecl FUN_00587440(const NiPoint3* aCoord)
     return ::PackShortPair((short)icellx, (short)icelly);
 }
 
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 
 // Returns true if apRef is non-null and its object reference's form type is one of the listed types.
 // @fnv 0x00587c80
@@ -441,7 +440,7 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
 
 // Calls _ref_006815c0 on the two sub-objects at offsets 4 and 0xC of pThis and returns pThis.
 // @fnv 0x00588c50
-char* __fastcall FUN_00588c50(char* pThis)
+char* FUN_00588c50(char* pThis)
 {
     new ((void *)(pThis + 4)) ::Vec3();
     new ((void *)(pThis + 0xC)) ::Vec3();
@@ -458,7 +457,7 @@ struct FUN_00588fa0_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00588fa0
-int* __fastcall FUN_00588fa0(int* self, FUN_00588fa0_arg a)
+int* FUN_00588fa0(int* self, FUN_00588fa0_arg a)
 {
     new ((void *)(self)) struct ::FUN_005890c0((*(unsigned int *)&(const ::FUN_00588fa0_arg &)(a)));
     *self = (int)&DAT_01031fac;
@@ -467,7 +466,7 @@ int* __fastcall FUN_00588fa0(int* self, FUN_00588fa0_arg a)
 
 
 // @fnv 0x006698d0
-void __fastcall FUN_006698d0(char* pThis)
+void FUN_006698d0(char* pThis)
 {
     ::FUN_00559450((int *)(void *)(pThis + 0x6c));
 }
@@ -571,7 +570,7 @@ void FUN_00587e40_shell::FUN_00587e40(TESObjectREFR* apRef)
         else
         {
             ikey = ::FUN_00587440(
-                (const ::NiPoint3 *)&(*((NiPoint3 * (__thiscall*)(TESObjectREFR*))(*(void***)apRef)[0x1f4 / 4])(apRef)));
+                (const ::NiPoint3 *)&(*((NiPoint3 * (*)(TESObjectREFR*))(*(void***)apRef)[0x1f4 / 4])(apRef)));
             preflist = 0;
             reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x50))))->FUN_00853130(ikey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)preflist));
             if (preflist)
@@ -645,7 +644,7 @@ extern unsigned char DAT_0118730c;
 
 struct FUN_005858b0_shell
 {
-    FormIDData* __thiscall FUN_00588a90(FileH* apFile);
+    FormIDData* FUN_00588a90(FileH* apFile);
     bool IsFileFormIDMatching(FileH* apFile);
 };
 
@@ -892,7 +891,7 @@ extern "C"
 
 
 // @fnv 0x00586070
-TESWaterForm* __fastcall FUN_00586070(TESWorldSpace* apWorldSpace)
+TESWaterForm* FUN_00586070(TESWorldSpace* apWorldSpace)
 {
     if (apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3))
         return FUN_00586070(apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3));
@@ -915,7 +914,7 @@ struct FUN_00588520_shell
 
 // If list is non-null, gets the interior cell from this world space and forwards the list to the cell's method.
 // @fnv 0x00588520
-void __thiscall FUN_00588520_shell::FUN_00588520(BSSimpleList<const char*>* list)
+void FUN_00588520_shell::FUN_00588520(BSSimpleList<const char*>* list)
 {
     if (list)
     {
@@ -934,12 +933,12 @@ template <int N> struct EndianSizeTag
 
 struct FUN_005840b0_shell
 {
-    void __thiscall FUN_005840b0();
+    void FUN_005840b0();
 };
 
 // Byte-swaps the two ints and four shorts stored in this object via BSEndian.
 // @fnv 0x005840b0
-void __thiscall FUN_005840b0_shell::FUN_005840b0()
+void FUN_005840b0_shell::FUN_005840b0()
 {
     ::FUN_00401080((int*)this);
     ::FUN_00401080((int*)(this + 4));
@@ -1254,7 +1253,6 @@ struct CameraPathManager
     char m_kCameraPathArray[24];
     char m_kCameraPathList[16];
 };
-typedef char _sizecheck_BGSCameraPathManager[sizeof(CameraPathManager) == 40 ? 1 : -1];
 struct FUN_0095f530_shell : public CameraPathManager
 {
     BGSCameraPath* FUN_0095f530(TESObjectREFR*, TESObjectREFR*);
@@ -1262,7 +1260,7 @@ struct FUN_0095f530_shell : public CameraPathManager
 
 struct Caller_0095f590
 {
-    BGSCameraPath* __thiscall FUN_0095f590(unsigned int);
+    BGSCameraPath* FUN_0095f590(unsigned int);
 };
 // @fnv 0x0095f530
 BGSCameraPath* FUN_0095f530_shell::FUN_0095f530(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)

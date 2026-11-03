@@ -199,7 +199,7 @@ struct __declspec(align(16)) SpringVector
     {
         q = v;
     }
-    void __thiscall FUN_00c7f640(const void* transform, const hkVector4* local);
+    void FUN_00c7f640(const void* transform, const hkVector4* local);
 };
 struct SpringMotion
 {
@@ -240,7 +240,7 @@ class hkpEntity
     SpringMotion motion;
     unsigned unkE4, unkE8, unkEC;
     hkTransform transform;
-    void __thiscall FUN_00ca0c40(const SpringVector* point, SpringVector* velocity);
+    void FUN_00ca0c40(const SpringVector* point, SpringVector* velocity);
     void ApplyForceAtPoint(float dt, const hkVector4& force, const SpringVector& point)
     {
         reinterpret_cast<::hkpEntityC9C *>(this)->FUN_00c9c1d0();
@@ -253,7 +253,7 @@ struct SpringStep
 };
 struct SpringAction : hkpSpringAction
 {
-    void __thiscall FUN_00d4d530(const SpringStep& step);
+    void FUN_00d4d530(const SpringStep& step);
 };
 static __m128 dot3(__m128 a, __m128 b)
 {

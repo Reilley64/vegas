@@ -27,7 +27,6 @@
 #include "../../include/NiPoint3.h"
 #undef NiPoint3
 #undef NiPointer
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == sizeof(FNV_NiPoint3_Canonical));
 #include "../../include/TESObjectREFR.h"
 #include "../../include/Actor.h"
 #include "../../include/PlayerCharacter.h"

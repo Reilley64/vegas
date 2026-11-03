@@ -114,7 +114,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void FUN_009ac170(ActorCause* apActorCause);
 };
 struct Explosion
 {
@@ -124,7 +124,7 @@ struct Explosion
 struct NiRTTI;
 struct bhkLiquidAction
 {
-    const NiRTTI* __thiscall GetRTTI() const;
+    const NiRTTI* GetRTTI() const;
 };
 struct NavMesh;
 struct NavMeshPtr
@@ -142,7 +142,7 @@ struct FUN_009afc30_shell
 };
 struct BSOcclusionPlane
 {
-    int __thiscall IsNotCulled();
+    int IsNotCulled();
 };
 struct FUN_009afbb0_shell
 {
@@ -152,11 +152,11 @@ struct FUN_009afbb0_shell
 extern "C" void __cdecl FUN_009afbe0(void*);
 struct FUN_00621100_shell
 {
-    void __thiscall SetVtable(void);
+    void SetVtable(void);
 };
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void FUN_009afc10();
 };
 struct FUN_009afc50_shell
 {
@@ -167,15 +167,15 @@ struct FUN_009afc50_shell
 void __cdecl FUN_009ac940(void*);
 struct FUN_009ac910_shell
 {
-    void __thiscall FUN_009ac940();
-    void* __thiscall FUN_009ac910(unsigned int flags);
+    void FUN_009ac940();
+    void* FUN_009ac910(unsigned int flags);
 };
 struct FUN_00cbc920_shell
 {
 };
 struct StandIn
 {
-    void* __thiscall FUN_009ae250(unsigned int);
+    void* FUN_009ae250(unsigned int);
 };
 struct Twin_0084d030
 {
@@ -402,7 +402,7 @@ struct S009afc70
 {
     char m_auiShapeKeys[0x14];
     NavMeshPtr m_navMeshPtr;
-    void* __thiscall FUN_009afc70(void*);
+    void* FUN_009afc70(void*);
 };
 class BGSRagdoll;
 template <typename T> class BSSimpleList
@@ -458,8 +458,8 @@ struct TESDataHandler
 };
 struct FUN_009b0d30_shell
 {
-    void __thiscall FUN_00c9c1d0();
-    void __thiscall FUN_009b0d30(int);
+    void FUN_00c9c1d0();
+    void FUN_009b0d30(int);
 };
 struct RetObj
 {
@@ -519,7 +519,7 @@ struct BGSExplosion : Standin77900
 {
     char _pad[0xA0];
     float m_fSphereRadius;
-    float __thiscall GetScaledValue();
+    float GetScaledValue();
 };
 struct FUN_009ae0f0
 {
@@ -939,7 +939,7 @@ struct FUN_009ae140_cls : Ae140Base
 struct VectorHolder
 {
     unsigned int handle;
-    void __thiscall FUN_006815c0();
+    void FUN_006815c0();
     VectorHolder()
     {
         FUN_006815c0();
@@ -949,7 +949,7 @@ struct BaseObject
 {
     virtual ~BaseObject();
     unsigned int unk04;
-    void __thiscall FUN_00621060();
+    void FUN_00621060();
     BaseObject()
     {
         FUN_00621060();
@@ -966,7 +966,7 @@ struct FUN_009afaf0 : BaseObject
 };
 struct FUN_009afca0_holder
 {
-    void __thiscall InvokeCallback(void* param);
+    void InvokeCallback(void* param);
 };
 struct EntryRecord
 {
@@ -2310,7 +2310,7 @@ struct Node00cbd500
 };
 
 // @fnv 0x00cbd500
-void __stdcall FUN_00cbd500(Node00cbd500* p)
+void FUN_00cbd500(Node00cbd500* p)
 {
     p->unk08 = 0;
     reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
@@ -2325,7 +2325,7 @@ struct LiquidVec
 
     float x, y, z;
 
-    bool __thiscall FUN_004390c0(const LiquidVec&);
+    bool FUN_004390c0(const LiquidVec&);
 
 
     bool operator==(LiquidVec v) const
@@ -2573,7 +2573,7 @@ struct LiquidConstraintData
     unsigned unk10, unk14, unk18, unk1c, unk20, unk24;
     LiquidContactArray* contactData;
 
-    unsigned short __thiscall FUN_00cbc8f0(int);
+    unsigned short FUN_00cbc8f0(int);
 };
 
 struct LiquidConstraint
@@ -2803,17 +2803,17 @@ struct LiquidRigid
 
     LiquidFour velocity;
 
-    void __thiscall OnTrigger(const LiquidFour&);
+    void OnTrigger(const LiquidFour&);
 
-    void __thiscall FUN_00c9c1d0();
+    void FUN_00c9c1d0();
 
 
 };
 
 struct LiquidWorld
 {
-    void __thiscall OnTrigger(const LiquidFour&);
-    void __thiscall FUN_00c9c1d0();
+    void OnTrigger(const LiquidFour&);
+    void FUN_00c9c1d0();
 };
 
 struct LiquidBody
@@ -2964,7 +2964,7 @@ struct LiquidActionCandidate
     LiquidVec position, normal;
     unsigned char pending;
 
-    void __thiscall FUN_00cbcbd0(LiquidLink*);
+    void FUN_00cbcbd0(LiquidLink*);
 
     __forceinline LiquidLink* GetLink()
     {

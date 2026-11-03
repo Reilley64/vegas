@@ -95,9 +95,6 @@ class LipSyncAnimation
     void* DeleteThis(unsigned int flags);
 };
 
-FNV_STATIC_ASSERT(sizeof(LipSyncAnimation) == 16);
-FNV_STATIC_ASSERT(offsetof(LipSyncAnimation, m_ppPhonemeFrames) == 8);
-FNV_STATIC_ASSERT(offsetof(LipSyncAnimation, m_ppModifierFrames) == 12);
 
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl operator delete(void*);

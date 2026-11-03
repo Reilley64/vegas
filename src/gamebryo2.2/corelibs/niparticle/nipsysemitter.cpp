@@ -44,11 +44,11 @@ void NiPSysEmitter::LoadBinary(NiStream& stream)
 
 struct FUN_00c220a0_shell
 {
-    void* __thiscall FUN_00c220a0(unsigned int flags);
+    void* FUN_00c220a0(unsigned int flags);
 };
 
 // @fnv 0x00c220a0
-void* __thiscall FUN_00c220a0_shell::FUN_00c220a0(unsigned int flags)
+void* FUN_00c220a0_shell::FUN_00c220a0(unsigned int flags)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flags & 1)
@@ -63,7 +63,7 @@ struct FUN_00c21fd0_shell : public NiPSysEmitter
 
 
 // @fnv 0x00c21fd0
-void* __thiscall FUN_00c21fd0_shell::FUN_00c21fd0()
+void* FUN_00c21fd0_shell::FUN_00c21fd0()
 {
     return (void*)&(*reinterpret_cast<const char *const *>(&::g_01202540));
 }
@@ -230,7 +230,7 @@ bool FUN_00c226a0_cls::Equals(FUN_00c226a0_cls* other)
 }
 
 // @fnv 0x00d070a0
-void __stdcall FUN_00d070a0(int, int)
+void FUN_00d070a0(int, int)
 {}
 
 extern int __cdecl FUN_00ecadb8();

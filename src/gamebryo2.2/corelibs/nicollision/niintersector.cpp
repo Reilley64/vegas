@@ -7,12 +7,12 @@
 #include "fnv/symbols_011f6000.h"
 struct VTableObject
 {
-    virtual void __fastcall Query(int value);
-    virtual void __fastcall AddRef(int value);
-    virtual void __fastcall Release(int value);
+    virtual void Query(int value);
+    virtual void AddRef(int value);
+    virtual void Release(int value);
 };
 // @fnv 0x00eae6e0
-void __fastcall FUN_00eae6e0(VTableObject* object, int value)
+void FUN_00eae6e0(VTableObject* object, int value)
 {
     object->Release(value);
 }

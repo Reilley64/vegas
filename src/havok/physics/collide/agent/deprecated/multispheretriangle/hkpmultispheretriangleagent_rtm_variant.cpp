@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/symbols_00d37000.h"
 #include "fnv/symbols_00d38000.h"
 #include "fnv/symbols_0104d000.h"
@@ -254,7 +255,6 @@ void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, 
                           CollisionDistanceInfo& result, void* featureOut);
 
 extern "C" {
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 void _ReadWriteBarrier(void);
 unsigned __int64 __rdtsc(void);
 __m128 _mm_load_ss(const float*);
@@ -401,7 +401,6 @@ __m128 _mm_add_ps(__m128, __m128);
 }
 }
 extern "C" {
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
 
 template<class T> class ProcessValue {

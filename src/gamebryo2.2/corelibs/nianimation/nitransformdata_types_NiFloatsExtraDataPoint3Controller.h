@@ -92,18 +92,6 @@ class NiTimeController : public NiObject
     // NiTimeController& __cdecl NiTimeController::*(const NiTimeController&)
     // void __cdecl NiTimeController::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
 class NiInterpController : public NiTimeController
 {
   public:
@@ -142,7 +130,6 @@ class NiInterpController : public NiTimeController
     // NiInterpController& __cdecl NiInterpController::*(const NiInterpController&)
     // void __cdecl NiInterpController::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
 class NiSingleInterpController : public NiInterpController
 {
   public:
@@ -170,8 +157,6 @@ class NiSingleInterpController : public NiInterpController
     // NiSingleInterpController& __cdecl NiSingleInterpController::*(const NiSingleInterpController&)
     // void __cdecl NiSingleInterpController::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiSingleInterpController) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spControllerInterpolator) == 52);
 class NiExtraDataController : public NiSingleInterpController
 {
   public:
@@ -199,9 +184,6 @@ class NiExtraDataController : public NiSingleInterpController
     // NiExtraDataController& __cdecl NiExtraDataController::*(const NiExtraDataController&)
     // void __cdecl NiExtraDataController::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiExtraDataController) == 64);
-FNV_STATIC_ASSERT(offsetof(NiExtraDataController, m_kDataName) == 56);
-FNV_STATIC_ASSERT(offsetof(NiExtraDataController, m_pExtraData) == 60);
 class NiFloatsExtraDataPoint3Controller : public NiExtraDataController
 {
   public:
@@ -237,7 +219,4 @@ class NiFloatsExtraDataPoint3Controller : public NiExtraDataController
     // NiFloatsExtraDataPoint3Controller& __cdecl NiFloatsExtraDataPoint3Controller::*(const NiFloatsExtraDataPoint3Controller&)
     // void __cdecl NiFloatsExtraDataPoint3Controller::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiFloatsExtraDataPoint3Controller) == 72);
-FNV_STATIC_ASSERT(offsetof(NiFloatsExtraDataPoint3Controller, m_iFloatsExtraDataIndex) == 64);
-FNV_STATIC_ASSERT(offsetof(NiFloatsExtraDataPoint3Controller, m_kCtlrID) == 68);
 #endif

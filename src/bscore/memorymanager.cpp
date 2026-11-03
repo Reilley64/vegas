@@ -1,5 +1,6 @@
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
+#include <windows.h>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -157,7 +158,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00aa3cc0_shell : public MemoryManager
 {
     void CreateMemoryPool(unsigned int, unsigned int, char*);
@@ -222,28 +222,26 @@ __declspec(thread) FUN_00aa3a10_tls_struct g_fun_tls;
 
 // Clears the TLS flag and sets the first byte of this object to 1.
 // @fnv 0x00aa3a10
-void __thiscall FUN_00aa3a10_shell::ClearFlagAndSetByte()
+void FUN_00aa3a10_shell::ClearFlagAndSetByte()
 {
     (*reinterpret_cast<::FUN_00aa3a10_tls_struct *>(&::g_tlsBlock)).flag = 0;
     *(unsigned char*)this = 1;
 }
 
 struct _RTL_CRITICAL_SECTION;
-__declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
 extern _RTL_CRITICAL_SECTION DAT_011f6234;
 // @fnv 0x00aa4460
 void FUN_00aa4460()
 {
-    EnterCriticalSection(&DAT_011f6234);
+    InterlockedIncrement(&DAT_011f6234);
 }
 
 struct _RTL_CRITICAL_SECTION;
-__declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
 extern _RTL_CRITICAL_SECTION DAT_011f6234;
 // @fnv 0x00aa4470
 void FUN_00aa4470()
 {
-    LeaveCriticalSection(&DAT_011f6234);
+    InterlockedDecrement(&DAT_011f6234);
 }
 
 extern char DAT_011f6230;

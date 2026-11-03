@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifier.cpp: NiPSysModifier, MyIsEqual, ParticleModifierBinary, ParticleModifier (8 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
@@ -205,8 +206,8 @@ void ParticleModifierBinary::FUN_00c31950(OutputStream& stream)
     BooleanWrite(stream.m_pBackingStream, active);
 }
 
-extern "C" void(__stdcall* DAT_00fdf1c0)(char*);
-extern "C" void(__stdcall* DAT_00fdf1c4)(char*);
+extern "C" void(* DAT_00fdf1c0)(char*);
+extern "C" void(* DAT_00fdf1c4)(char*);
 struct ParticleModifier
 {
     void* vtable;
@@ -215,10 +216,10 @@ struct ParticleModifier
     unsigned int order;
     void* target;
     bool active;
-    ParticleModifier* __thiscall FUN_00c316a0(char* volatile* newName, unsigned int newOrder);
+    ParticleModifier* FUN_00c316a0(char* volatile* newName, unsigned int newOrder);
 };
 // @fnv 0x00c316a0
-ParticleModifier* __thiscall ParticleModifier::FUN_00c316a0(char* volatile* newName, unsigned int newOrder)
+ParticleModifier* ParticleModifier::FUN_00c316a0(char* volatile* newName, unsigned int newOrder)
 {
     new ((void *)this) struct ::FUN_00a5d3a0();
     vtable = &DAT_010c09cc;
@@ -272,7 +273,6 @@ void FUN_00c319e0_cls::FUN_00c319e0(StrArr* apViewerStrings)
     apViewerStrings->Add(FUN_00a7d370("Active", active));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 namespace c318 {
 }

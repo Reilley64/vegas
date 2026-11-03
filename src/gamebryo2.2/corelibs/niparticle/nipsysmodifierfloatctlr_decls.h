@@ -2,9 +2,8 @@
 #ifndef NIPSYSMODIFIERFLOATCTLR_DECLS_H
 #define NIPSYSMODIFIERFLOATCTLR_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_00a57630.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class NiMemObject
 {
   public:

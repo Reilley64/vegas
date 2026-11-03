@@ -62,17 +62,17 @@ struct FUN_00d75850_class
     int m4;
     void FUN_00d75850();
 };
-int __stdcall FUN_00d76300(const int* p, int i);
+int FUN_00d76300(const int* p, int i);
 struct FUN_00d7c200_cls
 {
 };
 struct FUN_00d7c250_cls
 {
-    void __thiscall FlushQueuedElements();
+    void FlushQueuedElements();
 };
 struct FUN_00d7c950_cls
 {
-    void __thiscall FUN_00d7c950();
+    void FUN_00d7c950();
 };
 struct CpuScalar
 {
@@ -1080,7 +1080,7 @@ struct FUN_00d74e20_class
     void* m_00;
     void* m_04;
     char* m_08;
-    FourFloatVector __thiscall GetFieldAtD0();
+    FourFloatVector GetFieldAtD0();
 };
 struct Inner
 {

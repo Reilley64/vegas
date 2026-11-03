@@ -252,10 +252,10 @@ struct FUN_005e78f0_t
 };
 struct BGSHungerStage_copy
 {
-    void __thiscall CopyFromForm(TESForm* source);
+    void CopyFromForm(TESForm* source);
 };
 // @fnv 0x00401bf0
-void __thiscall BGSHungerStage_copy::CopyFromForm(TESForm* source)
+void BGSHungerStage_copy::CopyFromForm(TESForm* source)
 {
     BGSHungerStage* copy = dynamic_cast<BGSHungerStage*>(source);
     if (!copy)

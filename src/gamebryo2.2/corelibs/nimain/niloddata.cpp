@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/niloddata.cpp: NiLODData (5 functions)
+#include <windows.h>
 #include "fnv/decl/FUN_00a5d3d0.h"
 #include "fnv/symbols_011f6000.h"
 #include "niloddata_packet.h"
@@ -18,7 +19,6 @@ const char* __cdecl FUN_00aa09e0()
     return (const char*)&(*reinterpret_cast<const char *const *>(&::g_011f6050));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern long volatile DAT_011f4400;
 extern int DAT_0109b4f4;
 struct NiRefObject
@@ -55,7 +55,7 @@ struct NiObject : public NiRefObject
 extern void __cdecl operator delete(void*, size_t);
 struct NiLODData_shell : public NiObject
 {
-    void* __thiscall FUN_00aa09f0(int flags);
+    void* FUN_00aa09f0(int flags);
 };
 // @fnv 0x00aa09f0
 void* NiLODData_shell::FUN_00aa09f0(int flags)
@@ -69,7 +69,7 @@ void* NiLODData_shell::FUN_00aa09f0(int flags)
 }  // namespace fnv_00aa09f0
 
 // @fnv 0x00aa09d0
-char __stdcall FUN_00aa09d0(char)
+char FUN_00aa09d0(char)
 {
     return 1;
 }

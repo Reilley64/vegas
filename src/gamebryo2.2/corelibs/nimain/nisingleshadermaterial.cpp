@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nisingleshadermaterial.cpp: NiDepthStencilBuffer, StandInUnload (8 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Dummy_00cc0760.h"
 #include "fnv/decl/FUN_00a62660_cls.h"
@@ -57,7 +58,7 @@ struct NiSingleShaderMaterial
 
 struct FUN_00aa0770_shell : NiSingleShaderMaterial
 {
-    bool __thiscall MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
+    bool MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
                                           const NiSkinInstance* pkSkinInstance, const NiPropertyState* pkPropertyState,
                                           const NiDynamicEffectState* pkDynamicEffectState,
                                           unsigned int uiMaterialExtraData);
@@ -65,7 +66,7 @@ struct FUN_00aa0770_shell : NiSingleShaderMaterial
 
 // Returns true if pkShader is non-null and its filename string equals the string stored at this+0x0C; otherwise false.
 // @fnv 0x00aa0770
-bool __thiscall FUN_00aa0770_shell::MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
+bool FUN_00aa0770_shell::MatchesShaderFilename(NiShader* pkShader, const NiGeometry* pkGeometry,
                                                           const NiSkinInstance* pkSkinInstance,
                                                           const NiPropertyState* pkPropertyState,
                                                           const NiDynamicEffectState* pkDynamicEffectState,
@@ -76,7 +77,6 @@ bool __thiscall FUN_00aa0770_shell::MatchesShaderFilename(NiShader* pkShader, co
     return false;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct ShaderForUnload
 {
     virtual void f0();
@@ -137,7 +137,6 @@ struct FUN_00aa06f0_shell
     FUN_00aa06f0_shell* FUN_00aa06f0(void*, char const*, bool);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 // @fnv 0x00aa06f0
 FUN_00aa06f0_shell* FUN_00aa06f0_shell::FUN_00aa06f0(void* arg1, char const* apcString, bool abCreateShader)
@@ -255,7 +254,6 @@ S_00aa07a0_Obj* S_00aa07a0_Class::FUN_00aa07a0(int aiArg1, int aiArg2, int aiArg
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern int DAT_010a21dc;
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
@@ -276,7 +274,7 @@ struct FUN_00aa0870_cls
 // @fnv 0x00aa0870
 FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
 {
-    long(__stdcall * pfnRelease)(long volatile*) = InterlockedDecrement;
+    long(* pfnRelease)(long volatile*) = InterlockedDecrement;
     *(int volatile*)&m_vptr = (int)&DAT_010a21dc;
     ShaderForUnload* sp = *(ShaderForUnload* volatile*)&m_sp;
     if (sp != 0)

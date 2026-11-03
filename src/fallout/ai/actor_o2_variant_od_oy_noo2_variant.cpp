@@ -5,6 +5,7 @@
 
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/B441420Owner.h"
@@ -303,15 +304,15 @@ struct bhkRagdollController
 void* __cdecl FUN_00c7fa60();
 struct FUN_00c7fa70_Class
 {
-    void* __thiscall FUN_00c7fa70(int);
+    void* FUN_00c7fa70(int);
 };
 struct FUN_00cb9900_cls
 {
-    void __thiscall FUN_00cb9900();
+    void FUN_00cb9900();
 };
 struct FUN_00cda4b0_cls
 {
-    void __thiscall FUN_00cda4b0();
+    void FUN_00cda4b0();
 };
 struct FUN_00cda8d0_class
 {
@@ -320,7 +321,7 @@ struct FUN_00cda8d0_class
 struct StateResetPart;
 struct FUN_00cdb290
 {
-    void* __thiscall GetPlus4();
+    void* GetPlus4();
 public:
     ::StateResetPart *FUN_00cdb0a0();
 };
@@ -340,7 +341,7 @@ struct Outer
 {
     int _0;
     unsigned short _4;
-    Outer* __thiscall FUN_00c7e970(unsigned int);
+    Outer* FUN_00c7e970(unsigned int);
 };
 struct MyNode
 {
@@ -443,8 +444,6 @@ struct FUN_00c6ffc0_Class
 {
     void FUN_00c6ffc0();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct FixedStr
 {
     char* h;

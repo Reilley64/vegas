@@ -1,6 +1,7 @@
 // src/bsshader/lighting30shaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/lighting30shaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/symbols_00a75000.h"
@@ -24,7 +25,7 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
-void* __fastcall FUN_00a75650(void*);
+void* FUN_00a75650(void*);
 
 // @fnv 0x00a756d0
 void* __cdecl FUN_00a756d0()
@@ -35,7 +36,6 @@ void* __cdecl FUN_00a756d0()
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 extern long DAT_011aa070;
 
@@ -64,7 +64,7 @@ struct ObjectWithFloats
 };
 
 // @fnv 0x00a75650
-void* __fastcall FUN_00a75650(void* self)
+void* FUN_00a75650(void* self)
 {
     ObjectWithFloats* p = (ObjectWithFloats*)self;
     new ((void *)(self)) struct ::FUN_00a5c200();

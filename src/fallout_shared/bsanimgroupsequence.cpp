@@ -194,11 +194,11 @@ struct FUN_00a344f0_shell
 
 struct FUN_004eec20_shell
 {
-    NiObject* __thiscall FUN_004eec20(CloningProcess* arCloneData);
+    NiObject* FUN_004eec20(CloningProcess* arCloneData);
 };
 
 // @fnv 0x004eec20
-NiObject* __thiscall FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
+NiObject* FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
 {
     return ((::NiObject *)(reinterpret_cast<::FUN_00a344f0_cls *>((((FUN_00a344f0_shell*)this)))->FUN_00a344f0((unsigned int)(arCloneData))));
 }
@@ -227,7 +227,7 @@ void FUN_004eec40_shell::FUN_004eec40(NiTPrimitiveArray_char_ptr* pkStrings)
 
 struct TaskQueueInterface
 {
-    void __thiscall FUN_004ef970(bool);
+    void FUN_004ef970(bool);
 };
 
 // @fnv 0x004ef970
@@ -301,11 +301,11 @@ unsigned short __cdecl FUN_004efaa0();
 
 struct FUN_004efb10_shell
 {
-    unsigned short __thiscall FUN_004efb10();
+    unsigned short FUN_004efb10();
 };
 
 // @fnv 0x004efb10
-unsigned short __thiscall FUN_004efb10_shell::FUN_004efb10()
+unsigned short FUN_004efb10_shell::FUN_004efb10()
 {
     return FUN_004efaa0();
 }
@@ -351,7 +351,7 @@ struct FUN_004efc90_shell
 
 // Adds value to m_0x48 and saves the sum, m_0x44, m_0x34, m_0x38 and m_0x54 into the save buffer.
 // @fnv 0x004efc90
-void __thiscall FUN_004efc90_shell::FUN_004efc90(BGSSaveFormBuffer* buffer, float value)
+void FUN_004efc90_shell::FUN_004efc90(BGSSaveFormBuffer* buffer, float value)
 {
     float temp = this->m_0x48 + value;
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&temp, 4, 0);

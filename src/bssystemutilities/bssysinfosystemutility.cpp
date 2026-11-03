@@ -29,7 +29,7 @@ struct FUN_00af3b50_holder
 
 struct FUN_00af3ba0_shell
 {
-    void* __thiscall FUN_00af3ba0(unsigned int flags);
+    void* FUN_00af3ba0(unsigned int flags);
 };
 
 // @fnv 0x00af3ba0

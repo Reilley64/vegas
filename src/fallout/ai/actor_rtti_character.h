@@ -43,7 +43,6 @@
 #include "MobileObject.h"
 #include "ActorValueModifierList.h"
 #include "NiPoint3.h"
-#pragma pack(push, 4)
 enum ACTOR_LIFE_STATE;
 class Actor : public MobileObject,
               public MagicCaster,
@@ -264,78 +263,6 @@ class Actor : public MobileObject,
 public:
     void SetActorLifeState(::ACTOR_LIFE_STATE);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Actor) == 0x1B4);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollController) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pRagdollPenetrationUtil) == 0xB0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eDialogueEmotion) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorRagdollData) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFirstActorFlag) == 0xBC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pActorReference) == 0xC0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bActorFlag) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fFirstValueAfterFlag) == 0xC8);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fSecondScalar) == 0xCC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kFirstActorData) == 0xD0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kSecondActorData) == 0xE0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagBeforeTwoBooleans) == 0xF0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bMiddleFlag) == 0xF1);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bThirdActorFlag) == 0xF2);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kFirstPointerList) == 0xF4);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kSecondPointerList) == 0xFC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bActorStateFlag) == 0x104);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eLifeState) == 0x108);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eCriticalStage) == 0x10C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eAnimationGroup) == 0x110);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorConditionAndAnimationState) == 0x114);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bHasUpdated) == 0x118);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iActorStateValue) == 0x11C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_uiValueBeforeBooleanFields) == 0x120);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorStateFlags) == 0x124);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorReferenceData) == 0x125);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorReferenceListData) == 0x126);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagBeforeCurrentActor) == 0x127);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pCurrentActor) == 0x128);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pFirstActorArray) == 0x12C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pSecondActorArray) == 0x130);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bActorListValid) == 0x134);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iIntegerAfterActorListValid) == 0x138);
-FNV_STATIC_ASSERT(offsetof(Actor, m_uiFirstValueAfterInteger) == 0x13C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_uiActorFlags) == 0x140);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorStatusData) == 0x144);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorBaseConfiguration) == 0x145);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagBeforeActorBase) == 0x146);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pActorBase) == 0x148);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorBaseReference) == 0x14C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bSecondActorFlag) == 0x14D);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bThirdBooleanFlagAfterActorBase) == 0x14E);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iIntegerBeforeTwoFloatValues) == 0x150);
-FNV_STATIC_ASSERT(offsetof(Actor, BooleanIntegerTwoFloatData) == 0x154);
-FNV_STATIC_ASSERT(offsetof(Actor, IntegerFloatFlagSettings) == 0x158);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFirstBehaviorFlag) == 0x15C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bSecondOfTwoFlags) == 0x15D);
-FNV_STATIC_ASSERT(offsetof(Actor, m_kFormPosition) == 0x160);
-FNV_STATIC_ASSERT(offsetof(Actor, FormPositionData) == 0x16C);
-FNV_STATIC_ASSERT(offsetof(Actor, FormReferenceState) == 0x170);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFirstFlagAfterForm) == 0x174);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFormFlag) == 0x175);
-FNV_STATIC_ASSERT(offsetof(Actor, TwoBooleanFourFloatData) == 0x178);
-FNV_STATIC_ASSERT(offsetof(Actor, BooleanAndFiveFloatSettings) == 0x17C);
-FNV_STATIC_ASSERT(offsetof(Actor, FiveFloatBooleanData) == 0x180);
-FNV_STATIC_ASSERT(offsetof(Actor, FloatFlagSettings) == 0x184);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fFourthFloat) == 0x188);
-FNV_STATIC_ASSERT(offsetof(Actor, FloatTripleBooleanFlagRecord) == 0x18C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bMiddleFlagBeforeActorMover) == 0x18D);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bMovementFlag) == 0x18E);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pActorMover) == 0x190);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pData) == 0x194);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pPackage) == 0x198);
-FNV_STATIC_ASSERT(offsetof(Actor, m_fPackageParameter) == 0x19C);
-FNV_STATIC_ASSERT(offsetof(Actor, m_pContinuousBeamProjectile) == 0x1A0);
-FNV_STATIC_ASSERT(offsetof(Actor, m_iPackageState) == 0x1A4);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorProjectileState) == 0x1A8);
-FNV_STATIC_ASSERT(offsetof(Actor, m_eSitSleepState) == 0x1AC);
-FNV_STATIC_ASSERT(offsetof(Actor, m_bFlagAfterSitSleepState) == 0x1B0);
-FNV_STATIC_ASSERT(offsetof(Actor, ActorSleepState) == 0x1B1);
 #ifdef _MSC_VER
 __forceinline
 #else

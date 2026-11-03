@@ -93,7 +93,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a39780_shell : public NiBlendAccumTransformInterpolator
 {
     bool FUN_00a39780(NiObject*);

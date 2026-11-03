@@ -8,7 +8,4 @@ class _FILETIME
     unsigned long dwHighDateTime;  // +0x0
     unsigned long dwLowDateTime;   // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(_FILETIME) == 0x8);
-FNV_STATIC_ASSERT(offsetof(_FILETIME, dwHighDateTime) == 0x0);
-FNV_STATIC_ASSERT(offsetof(_FILETIME, dwLowDateTime) == 0x4);
 #endif

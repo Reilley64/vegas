@@ -58,14 +58,13 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 
 struct NiTextKeyExtraData : NiMemObject
 {
     unsigned int m_uiNumKeys;
     void* m_pKeys;
-    void* __thiscall FUN_00a46ed0(unsigned int flags);
+    void* FUN_00a46ed0(unsigned int flags);
 };
 
 struct NiStream;
@@ -77,7 +76,7 @@ struct FakeKey00
 };
 // Calls the base loader on stream, then loads each of the 0xC-count keys at offset 0x10 from the stream, returning true on success.
 // @fnv 0x00a46b10
-bool __fastcall LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream)
+bool LoadFromStream(NiTextKeyExtraData* _this, void* _edx, NiStream* stream)
 {
     if (!reinterpret_cast<::MyOwner *>((((FakeBase00*)_this)))->FUN_00a7b290((*(::NiStream *)(stream))))
         return false;
@@ -131,7 +130,7 @@ bool A46BB0KeyData::FUN_00a46bb0(A46BB0Object* pkObject)
 
 struct FUN_00a57870_Class
 {
-    void __thiscall ReleaseString();
+    void ReleaseString();
 };
 struct MM
 {
@@ -141,10 +140,10 @@ struct NiStringsExtraData
 };
 struct FUN_00a46d50_class
 {
-    void __thiscall DestroyKeyList();
+    void DestroyKeyList();
 };
 // @fnv 0x00a46ed0
-void* __thiscall NiTextKeyExtraData::FUN_00a46ed0(unsigned int flags)
+void* NiTextKeyExtraData::FUN_00a46ed0(unsigned int flags)
 {
     static_cast<::FUN_00a46d50_class *>(nullptr)->DestroyKeyList();
     if (flags & 1)

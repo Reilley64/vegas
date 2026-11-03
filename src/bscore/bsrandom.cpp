@@ -95,7 +95,7 @@ unsigned int MersenneTwister::GetRandomUInt(unsigned int bound)
 
 struct ProcessLists
 {
-    unsigned char* __thiscall GetLifeStateControlFlag(void);
+    unsigned char* GetLifeStateControlFlag(void);
 };
 
 

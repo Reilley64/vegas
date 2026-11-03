@@ -792,25 +792,25 @@ NiShaderAttributeDesc_AttributeType __cdecl GetAttributeTypeForMapping(unsigned 
 }
 
 // @fnv 0x00a9bd60
-unsigned int __stdcall FUN_00a9bd60(const char*, unsigned int, unsigned int, const char*)
+unsigned int FUN_00a9bd60(const char*, unsigned int, unsigned int, const char*)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd70
-int __stdcall FUN_00a9bd70(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j)
+int FUN_00a9bd70(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd80
-int __stdcall FUN_00a9bd80(int a, int b, int c, int d, int e, int f)
+int FUN_00a9bd80(int a, int b, int c, int d, int e, int f)
 {
     return 0x30;
 }
 
 // @fnv 0x00a9bd90
-unsigned int __stdcall FUN_00a9bd90(const char* pszKey, unsigned int uiShaderRegister, const char* pszVariableName,
+unsigned int FUN_00a9bd90(const char* pszKey, unsigned int uiShaderRegister, const char* pszVariableName,
                                     unsigned int uiObjectIndex, int eObjectType)
 {
     return 0x30;

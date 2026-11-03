@@ -298,11 +298,11 @@ struct FUN_008681c0_shell
 {
     int m_00;
     unsigned char m_04;
-    FUN_008681c0_shell* __thiscall InitFlags(int, const char*);
+    FUN_008681c0_shell* InitFlags(int, const char*);
 };
 // Stores a in m_00, locks the garbage collector with b, sets m_04 from the overlap of DAT_011de804 and a, then ORs a into DAT_011de804.
 // @fnv 0x008681c0
-FUN_008681c0_shell* __thiscall FUN_008681c0_shell::InitFlags(int aiFlags, const char* apName)
+FUN_008681c0_shell* FUN_008681c0_shell::InitFlags(int aiFlags, const char* apName)
 {
     m_00 = aiFlags;
     ::LockGlobalObject(apName);
@@ -315,7 +315,7 @@ struct S_00868ce0
 {
     int m_00;
     int m_04;
-    void __thiscall FUN_00868ce0();
+    void FUN_00868ce0();
 };
 // @fnv 0x00868850
 void GarbageCollector::Update()
@@ -434,7 +434,7 @@ void GarbageCollector::Update()
 }
 // Clears bit 30 of m_04 and passes the result to FUN_00868770 along with the address of m_04.
 // @fnv 0x00868ce0
-void __thiscall S_00868ce0::FUN_00868ce0()
+void S_00868ce0::FUN_00868ce0()
 {
     FUN_00868770(&m_04, m_04 & 0xBFFFFFFF);
 }
@@ -443,11 +443,11 @@ struct FUN_008693c0_shell
 {
     unsigned char _00[10];
     unsigned short m_0A;
-    void __thiscall FUN_008693c0(int a);
+    void FUN_008693c0(int a);
 };
 // Forwards the value to FUN_00869640 together with the field at offset 0x0A.
 // @fnv 0x008693c0
-void __thiscall FUN_008693c0_shell::FUN_008693c0(int aiValue)
+void FUN_008693c0_shell::FUN_008693c0(int aiValue)
 {
     reinterpret_cast<::FUN_00869640_StrArr *>(this)->FUN_00869640(m_0A, (*(char * *)(aiValue)));
 }

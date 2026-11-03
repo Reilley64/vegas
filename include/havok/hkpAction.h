@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPACTION_H
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpAction : public hkReferencedObject
 {
   public:
@@ -13,6 +12,4 @@ class hkpAction : public hkReferencedObject
     hkUlong m_ulUserData;              // +0x10
     hkStringPtr m_name;                // +0x14
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpAction[(sizeof(hkpAction) == 0x18) ? 1 : -1];
 #endif

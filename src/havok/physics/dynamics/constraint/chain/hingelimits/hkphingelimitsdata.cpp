@@ -7,10 +7,10 @@
 
 struct hkPhingeLimitsData
 {
-    void __thiscall FUN_00d52f10(int arg);
+    void FUN_00d52f10(int arg);
 };
 // @fnv 0x00d52f10
-void __thiscall hkPhingeLimitsData::FUN_00d52f10(int arg)
+void hkPhingeLimitsData::FUN_00d52f10(int arg)
 {
     ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x84, (::GenericConstraintAtomScheme *)(arg));
 }
@@ -22,7 +22,7 @@ struct hkHingeLimitsData
 };
 
 // @fnv 0x00d52f30
-void __stdcall InitHingeLimitsData(const char* a, hkHingeLimitsData* pHingeLimitsData)
+void InitHingeLimitsData(const char* a, hkHingeLimitsData* pHingeLimitsData)
 {
     pHingeLimitsData->m_fMaxAngle = 3;
     pHingeLimitsData->m_fMinAngle = 0x1c;

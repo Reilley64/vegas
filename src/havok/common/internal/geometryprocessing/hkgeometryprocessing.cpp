@@ -19,11 +19,11 @@ extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
-    __thiscall FUN_00dee620(int testFlag);
+    FUN_00dee620(int testFlag);
 };
 
 // @fnv 0x00dee620
-__thiscall FUN_00dee620::FUN_00dee620(int aiFlags)
+FUN_00dee620::FUN_00dee620(int aiFlags)
 {
     m_pVTable = &DAT_010d9fc4;
     if (aiFlags & 1)

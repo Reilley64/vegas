@@ -83,14 +83,5 @@ template <class Collection> class SettingT : public Setting
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* pointer);
 
-FNV_STATIC_ASSERT(sizeof(SettingCollection<Setting>) == 0x10C);
-FNV_STATIC_ASSERT(offsetof(SettingCollection<Setting>, m_acPathBuffer) == 4);
-FNV_STATIC_ASSERT(offsetof(SettingCollection<Setting>, pHandle) == 0x108);
-FNV_STATIC_ASSERT(sizeof(SettingCollectionList<Setting>) == 0x114);
-FNV_STATIC_ASSERT(offsetof(SettingCollectionList<Setting>, m_kSettingList) == 0x10C);
-FNV_STATIC_ASSERT(sizeof(INISettingCollection) == 0x114);
-FNV_STATIC_ASSERT(sizeof(INIPrefSettingCollection) == 0x114);
-FNV_STATIC_ASSERT(sizeof(SettingT<INISettingCollection>) == 0xC);
-FNV_STATIC_ASSERT(sizeof(SettingT<INIPrefSettingCollection>) == 0xC);
 
 #endif

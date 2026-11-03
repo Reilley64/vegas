@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -445,8 +446,6 @@ bool NiBoneLODControllerA53::FUN_00a53d00(NiStream& kStream)
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObject
 {
     virtual void UnknownVirtual();
@@ -602,7 +601,6 @@ bool LODManager::FUN_00a541f0(int desiredLOD)
 struct MemoryAllocator
 {
 };
-extern "C" long __declspec(dllimport) __stdcall InterlockedDecrement(volatile long* addend);
 
 struct RefCounter
 {
@@ -1853,8 +1851,8 @@ struct A54440SourceLink
     void* source;
     RefObject* ref;
 };
-typedef RefObject*(__thiscall* A54440CopyRef)(RefObject*, A54440Remap*);
-typedef void(__thiscall* A54440FinishRef)(RefObject*, A54440Remap*);
+typedef RefObject*(* A54440CopyRef)(RefObject*, A54440Remap*);
+typedef void(* A54440FinishRef)(RefObject*, A54440Remap*);
 static RefObject* A54440Copy(RefObject* ref, A54440Remap* ctx)
 {
     return ((A54440Clonable*)ref)->MakeClone(ctx);
@@ -2019,8 +2017,6 @@ void A54440Manager::CloneFrom(A54440Remap* remap)
 }
 
 namespace fnv_00a53d70 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiStream
 {

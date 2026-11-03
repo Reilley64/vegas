@@ -1,4 +1,5 @@
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BooleanKey.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -101,7 +102,6 @@ void __cdecl CreateHLSLShaderProgramCreator()
     NiD3DShaderProgramFactory::RegisterCreator("hlsl", DAT_0126fa3c);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct MemoryManager
 {
 };
@@ -130,7 +130,7 @@ void __cdecl ReleaseObjectArray(Obj00a47600** apObjects)
 }
 
 // @fnv 0x00e902f0
-void __fastcall FUN_00e902f0(char* self, int, bool v)
+void FUN_00e902f0(char* self, int, bool v)
 {
     *reinterpret_cast<bool*>(self + 0x70) = v;
 }
@@ -179,53 +179,53 @@ void FUN_00e90db0_shell::CopyFieldValues()
 }
 
 // @fnv 0x00e90df0
-bool __fastcall FUN_00e90df0(char* self, int)
+bool FUN_00e90df0(char* self, int)
 {
     return *reinterpret_cast<bool*>(self + 0x1114);
 }
 
-typedef int(__thiscall* Fn_00e90e50)(void*, int, int);
+typedef int(* Fn_00e90e50)(void*, int, int);
 // @fnv 0x00e90e50
-int __fastcall CallVirtualSlot35(char* pObject, int)
+int CallVirtualSlot35(char* pObject, int)
 {
     return reinterpret_cast<Fn_00e90e50*>(*reinterpret_cast<void***>(pObject))[35](
         pObject, *reinterpret_cast<int*>(pObject + 0x10e4), 0);
 }
 
 // @fnv 0x00e90f20
-void* __fastcall GetPointerIfNotFlagged(char* pObject, int)
+void* GetPointerIfNotFlagged(char* pObject, int)
 {
     if (pObject[0x1100])
         return 0;
     return *reinterpret_cast<void**>(pObject + 0x1104);
 }
 
-typedef int(__thiscall* Fn_00e90f40)(void*, int, int);
+typedef int(* Fn_00e90f40)(void*, int, int);
 // @fnv 0x00e90f40
-int __fastcall CallVtableSlot39WithField1108(char* self, int)
+int CallVtableSlot39WithField1108(char* self, int)
 {
     return reinterpret_cast<Fn_00e90f40*>(*reinterpret_cast<void***>(self))[39](
         self, *reinterpret_cast<int*>(self + 0x1108), 0);
 }
 
 // @fnv 0x00e91020
-void* __fastcall FUN_00e91020(char* self, int)
+void* FUN_00e91020(char* self, int)
 {
     if (self[0x1100])
         return *reinterpret_cast<void**>(self + 0x110c);
     return 0;
 }
 
-typedef int(__thiscall* Fn_00e91040)(void*, int, int);
+typedef int(* Fn_00e91040)(void*, int, int);
 // @fnv 0x00e91040
-int __fastcall CallVirtualSlot43(char* self, int)
+int CallVirtualSlot43(char* self, int)
 {
     return reinterpret_cast<Fn_00e91040*>(*reinterpret_cast<void***>(self))[43](
         self, *reinterpret_cast<int*>(self + 0x1110), 0);
 }
 
 // @fnv 0x00e91710
-char __stdcall FUN_00e91710(int a)
+char FUN_00e91710(int a)
 {
     return ((char)(reinterpret_cast<::fnv_00a98170::NiPersistentSrcTextureRendererData *>((a))->FUN_00a98170(*(::NiStream *)nullptr))) != 0;
 }
@@ -239,11 +239,11 @@ GlobalObjectO2_00a7b610* FUN_00e91740()
 
 struct FUN_00e90e40_Class
 {
-    int __thiscall FUN_00e90e40();
+    int FUN_00e90e40();
 };
 
 // @fnv 0x00e90e40
-int __thiscall FUN_00e90e40_Class::FUN_00e90e40()
+int FUN_00e90e40_Class::FUN_00e90e40()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x10e0);
 }
@@ -276,7 +276,7 @@ struct FUN_00e90560_shell
 
 // Sets the vtable, clears DAT_0126f74c, calls FUN_00e806c0, and frees this with _delete when param1 has bit 0 set.
 // @fnv 0x00e90560
-void* __thiscall FUN_00e90560_shell::FUN_00e90560(int aiFlags)
+void* FUN_00e90560_shell::FUN_00e90560(int aiFlags)
 {
     *(int*)this = (int)&::DAT_010f0764;
     ::DAT_0126f74c = 0;
@@ -411,7 +411,7 @@ void* Mid_00e90080::FUN_00e90080(unsigned int flags)
     void* p = m60;
     int a = m8;
     *(void**)this = (void*)&DAT_010f049c;
-    ((void(__thiscall*)(void*, int))(*(void***)p)[86])(p, a);
+    ((void(*)(void*, int))(*(void***)p)[86])(p, a);
     reinterpret_cast<::S_00e8fd80 *>(this)->FUN_00e8fd80();
     if (flags & 1)
         _delete(this, 0x70);
@@ -423,10 +423,10 @@ void __cdecl _delete(void*, unsigned int);
 struct H00e90300
 {
 };
-typedef void(__thiscall* Fn00e90300)(void*, int);
+typedef void(* Fn00e90300)(void*, int);
 struct S00e90300
 {
-    void* __thiscall FUN_00e90300(unsigned int);
+    void* FUN_00e90300(unsigned int);
 };
 struct NiD3DShader
 {
@@ -437,11 +437,10 @@ struct NiDX9ErrorShader : NiD3DShader
     bool FUN_00e90a50();
 };
 extern int DAT_010f086c;
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Dev00e90a80
 {
-    virtual long __stdcall f0();
-    virtual long __stdcall AddRef();
+    virtual long f0();
+    virtual long AddRef();
 };
 struct S00e90a80
 {
@@ -590,7 +589,7 @@ void FUN_00e90e00_shell::SetValue(int aiValue, bool abCopyCurrent)
     if (f10E0 == aiValue)
         return;
     f10E0 = aiValue;
-    typedef void(__thiscall * T)(Helper*, Helper*, int);
+    typedef void(* T)(Helper*, Helper*, int);
     return ((T)p10F8->vtbl->e[92])(p10F8, p10F8, aiValue);
 }
 
@@ -605,7 +604,7 @@ struct Inner
     virtual void v60(), v61(), v62(), v63(), v64(), v65(), v66(), v67(), v68(), v69();
     virtual void v70(), v71(), v72(), v73(), v74(), v75(), v76(), v77(), v78(), v79();
     virtual void v80(), v81(), v82(), v83(), v84(), v85(), v86(), v87(), v88();
-    virtual void __stdcall Foo(void*);
+    virtual void Foo(void*);
 };
 struct S
 {
@@ -649,7 +648,7 @@ void FUN_00e90f60_Holder::FUN_00e90f60(void* pTarget)
     {
         void* v = *(void**)((char*)this + 0x10F8);
         *(int*)((char*)this + 0x1104) = 2;
-        ((void(__stdcall*)(void*, int))(*(void***)v)[89])(v, 2);
+        ((void(*)(void*, int))(*(void***)v)[89])(v, 2);
     }
     if (*(void**)((char*)this + 0x1108) == pTarget)
         *(int*)((char*)this + 0x1108) = 2;
@@ -658,94 +657,94 @@ void FUN_00e90f60_Holder::FUN_00e90f60(void* pTarget)
 namespace fnv_00e90fc0 {
 struct Inner
 {
-    virtual void __stdcall v0() = 0;
-    virtual void __stdcall v1() = 0;
-    virtual void __stdcall v2() = 0;
-    virtual void __stdcall v3() = 0;
-    virtual void __stdcall v4() = 0;
-    virtual void __stdcall v5() = 0;
-    virtual void __stdcall v6() = 0;
-    virtual void __stdcall v7() = 0;
-    virtual void __stdcall v8() = 0;
-    virtual void __stdcall v9() = 0;
-    virtual void __stdcall v10() = 0;
-    virtual void __stdcall v11() = 0;
-    virtual void __stdcall v12() = 0;
-    virtual void __stdcall v13() = 0;
-    virtual void __stdcall v14() = 0;
-    virtual void __stdcall v15() = 0;
-    virtual void __stdcall v16() = 0;
-    virtual void __stdcall v17() = 0;
-    virtual void __stdcall v18() = 0;
-    virtual void __stdcall v19() = 0;
-    virtual void __stdcall v20() = 0;
-    virtual void __stdcall v21() = 0;
-    virtual void __stdcall v22() = 0;
-    virtual void __stdcall v23() = 0;
-    virtual void __stdcall v24() = 0;
-    virtual void __stdcall v25() = 0;
-    virtual void __stdcall v26() = 0;
-    virtual void __stdcall v27() = 0;
-    virtual void __stdcall v28() = 0;
-    virtual void __stdcall v29() = 0;
-    virtual void __stdcall v30() = 0;
-    virtual void __stdcall v31() = 0;
-    virtual void __stdcall v32() = 0;
-    virtual void __stdcall v33() = 0;
-    virtual void __stdcall v34() = 0;
-    virtual void __stdcall v35() = 0;
-    virtual void __stdcall v36() = 0;
-    virtual void __stdcall v37() = 0;
-    virtual void __stdcall v38() = 0;
-    virtual void __stdcall v39() = 0;
-    virtual void __stdcall v40() = 0;
-    virtual void __stdcall v41() = 0;
-    virtual void __stdcall v42() = 0;
-    virtual void __stdcall v43() = 0;
-    virtual void __stdcall v44() = 0;
-    virtual void __stdcall v45() = 0;
-    virtual void __stdcall v46() = 0;
-    virtual void __stdcall v47() = 0;
-    virtual void __stdcall v48() = 0;
-    virtual void __stdcall v49() = 0;
-    virtual void __stdcall v50() = 0;
-    virtual void __stdcall v51() = 0;
-    virtual void __stdcall v52() = 0;
-    virtual void __stdcall v53() = 0;
-    virtual void __stdcall v54() = 0;
-    virtual void __stdcall v55() = 0;
-    virtual void __stdcall v56() = 0;
-    virtual void __stdcall v57() = 0;
-    virtual void __stdcall v58() = 0;
-    virtual void __stdcall v59() = 0;
-    virtual void __stdcall v60() = 0;
-    virtual void __stdcall v61() = 0;
-    virtual void __stdcall v62() = 0;
-    virtual void __stdcall v63() = 0;
-    virtual void __stdcall v64() = 0;
-    virtual void __stdcall v65() = 0;
-    virtual void __stdcall v66() = 0;
-    virtual void __stdcall v67() = 0;
-    virtual void __stdcall v68() = 0;
-    virtual void __stdcall v69() = 0;
-    virtual void __stdcall v70() = 0;
-    virtual void __stdcall v71() = 0;
-    virtual void __stdcall v72() = 0;
-    virtual void __stdcall v73() = 0;
-    virtual void __stdcall v74() = 0;
-    virtual void __stdcall v75() = 0;
-    virtual void __stdcall v76() = 0;
-    virtual void __stdcall v77() = 0;
-    virtual void __stdcall v78() = 0;
-    virtual void __stdcall v79() = 0;
-    virtual void __stdcall v80() = 0;
-    virtual void __stdcall v81() = 0;
-    virtual void __stdcall v82() = 0;
-    virtual void __stdcall v83() = 0;
-    virtual void __stdcall v84() = 0;
-    virtual void __stdcall v85() = 0;
-    virtual void __stdcall v86() = 0;
-    virtual void __stdcall Set(void*) = 0;
+    virtual void v0() = 0;
+    virtual void v1() = 0;
+    virtual void v2() = 0;
+    virtual void v3() = 0;
+    virtual void v4() = 0;
+    virtual void v5() = 0;
+    virtual void v6() = 0;
+    virtual void v7() = 0;
+    virtual void v8() = 0;
+    virtual void v9() = 0;
+    virtual void v10() = 0;
+    virtual void v11() = 0;
+    virtual void v12() = 0;
+    virtual void v13() = 0;
+    virtual void v14() = 0;
+    virtual void v15() = 0;
+    virtual void v16() = 0;
+    virtual void v17() = 0;
+    virtual void v18() = 0;
+    virtual void v19() = 0;
+    virtual void v20() = 0;
+    virtual void v21() = 0;
+    virtual void v22() = 0;
+    virtual void v23() = 0;
+    virtual void v24() = 0;
+    virtual void v25() = 0;
+    virtual void v26() = 0;
+    virtual void v27() = 0;
+    virtual void v28() = 0;
+    virtual void v29() = 0;
+    virtual void v30() = 0;
+    virtual void v31() = 0;
+    virtual void v32() = 0;
+    virtual void v33() = 0;
+    virtual void v34() = 0;
+    virtual void v35() = 0;
+    virtual void v36() = 0;
+    virtual void v37() = 0;
+    virtual void v38() = 0;
+    virtual void v39() = 0;
+    virtual void v40() = 0;
+    virtual void v41() = 0;
+    virtual void v42() = 0;
+    virtual void v43() = 0;
+    virtual void v44() = 0;
+    virtual void v45() = 0;
+    virtual void v46() = 0;
+    virtual void v47() = 0;
+    virtual void v48() = 0;
+    virtual void v49() = 0;
+    virtual void v50() = 0;
+    virtual void v51() = 0;
+    virtual void v52() = 0;
+    virtual void v53() = 0;
+    virtual void v54() = 0;
+    virtual void v55() = 0;
+    virtual void v56() = 0;
+    virtual void v57() = 0;
+    virtual void v58() = 0;
+    virtual void v59() = 0;
+    virtual void v60() = 0;
+    virtual void v61() = 0;
+    virtual void v62() = 0;
+    virtual void v63() = 0;
+    virtual void v64() = 0;
+    virtual void v65() = 0;
+    virtual void v66() = 0;
+    virtual void v67() = 0;
+    virtual void v68() = 0;
+    virtual void v69() = 0;
+    virtual void v70() = 0;
+    virtual void v71() = 0;
+    virtual void v72() = 0;
+    virtual void v73() = 0;
+    virtual void v74() = 0;
+    virtual void v75() = 0;
+    virtual void v76() = 0;
+    virtual void v77() = 0;
+    virtual void v78() = 0;
+    virtual void v79() = 0;
+    virtual void v80() = 0;
+    virtual void v81() = 0;
+    virtual void v82() = 0;
+    virtual void v83() = 0;
+    virtual void v84() = 0;
+    virtual void v85() = 0;
+    virtual void v86() = 0;
+    virtual void Set(void*) = 0;
 };
 struct S
 {
@@ -790,7 +789,7 @@ void FUN_00e910a0_shell::FUN_00e910a0(int a1, int aiIndex, int aiValue, int aiUn
         *p = aiValue;
         void* dev = *(void**)((char*)this + 0x10F8);
         void** vt = *(void***)dev;
-        void(__stdcall * fn)(void*, int, int, int) = (void(__stdcall*)(void*, int, int, int))vt[69];
+        void(* fn)(void*, int, int, int) = (void(*)(void*, int, int, int))vt[69];
         fn(dev, a1, aiIndex, aiValue);
     }
 }
@@ -806,7 +805,7 @@ void FUN_00e91120_shell::FUN_00e91120(int a1, int a2)
     unsigned short idx = DAT_0126f92c[a2];
     if (idx >= 5)
         return;
-    ((void(__thiscall*)(void*, int, int, int, int))(*(int***)this)[51])(
+    ((void(*)(void*, int, int, int, int))(*(int***)this)[51])(
         this, a1, a2, *(int*)((char*)this + 0xe24 + (a1 * 5 + idx) * 8), 0);
 }
 
@@ -817,11 +816,11 @@ extern int DAT_010f088c;
 struct FUN_00e91160_shell
 {
     void* m_p;
-    void* __thiscall FUN_00e91160(int arg);
+    void* FUN_00e91160(int arg);
 };
 
 // @fnv 0x00e91160
-void* __thiscall FUN_00e91160_shell::FUN_00e91160(int aiFlags)
+void* FUN_00e91160_shell::FUN_00e91160(int aiFlags)
 {
     m_p = &DAT_010f088c;
     static_cast<::fnv_00e88b00::FUN_00e88b00_Class *>(nullptr)->FUN_00e88b00();
@@ -846,8 +845,8 @@ void FUN_00e91190_Holder::SetFlag(bool b)
         return;
     void* p2 = *(void**)((char*)this + 0x10F8);
     *(unsigned char*)((char*)this + 0x1114) = (unsigned char)b;
-    ((void(__stdcall*)(void*, int)) * (void**)((char*)*(void**)p2 + 0x134))(p2, b);
-    ((void(__thiscall*)(void*, int)) * (void**)((char*)*(void**)this + 0x98))(this, *(int*)((char*)this + 0x10E0));
+    ((void(*)(void*, int)) * (void**)((char*)*(void**)p2 + 0x134))(p2, b);
+    ((void(*)(void*, int)) * (void**)((char*)*(void**)this + 0x98))(this, *(int*)((char*)this + 0x10E0));
 }
 
 namespace fnv_00e916d0 {
@@ -874,11 +873,11 @@ void __cdecl _delete(void*, int);
 struct FUN_00e91750_shell
 {
     void* m_pvt;
-    void* __thiscall FUN_00e91750(int flags);
+    void* FUN_00e91750(int flags);
 };
 // Sets m_pvt to DAT_010f099c, calls FUN_00a98240, and if flags has bit 1 set, deletes this with size 0x94; returns this.
 // @fnv 0x00e91750
-void* __thiscall FUN_00e91750_shell::FUN_00e91750(int flags)
+void* FUN_00e91750_shell::FUN_00e91750(int flags)
 {
     m_pvt = &DAT_010f099c;
     static_cast<::fnv_00a98240::NiObjectShell *>(nullptr)->FUN_00a98240();
@@ -928,7 +927,7 @@ struct StrArr
 };
 // Calls AppendToStrings, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
 // @fnv 0x00e91a90
-void __stdcall FUN_00e91a90(StrArr* pkStrings)
+void FUN_00e91a90(StrArr* pkStrings)
 {
     reinterpret_cast<::ViewerData *>((pkStrings))->AppendToStrings({});
     char* psz = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_0126f9f8)));
@@ -984,7 +983,7 @@ FnvTextureData* FnvTextureData::AllocateData(FnvTextureReference* texture)
     map3->m_ppVirtualMethodTable = reinterpret_cast<void**>(&(*reinterpret_cast<unsigned char *>(&::DAT_010f02d0)));
 
     m_pkTexture = texture;
-    reinterpret_cast<void(__stdcall*)(FnvTextureReference*)>(texture->m_ppVirtualMethodTable[1])(texture);
+    reinterpret_cast<void(*)(FnvTextureReference*)>(texture->m_ppVirtualMethodTable[1])(texture);
     m_u0c = 0;
     m_u10 = 0;
     m_u14 = 0;
@@ -1010,9 +1009,9 @@ void* S00e90a80::FUN_00e90a80(void* p)
 extern int DAT_010efb7c;
 struct Tex00
 {
-    virtual long __stdcall Q(void*, void*);
-    virtual unsigned long __stdcall A();
-    virtual unsigned long __stdcall Release();
+    virtual long Q(void*, void*);
+    virtual unsigned long A();
+    virtual unsigned long Release();
 };
 struct Rnd00
 {
@@ -1085,17 +1084,17 @@ void S_00e8fd80::FUN_00e8fd80()
     void* v0 = *(void**)((char*)this + 0x60);
     int v1 = *(int*)((char*)this + 8);
     *(void**)this = (void*)&DAT_010f02fc;
-    ((void(__thiscall*)(void*, int))(*(void***)v0)[0x15c / 4])(v0, v1);
+    ((void(*)(void*, int))(*(void***)v0)[0x15c / 4])(v0, v1);
     void* v2 = *(void**)((char*)this + 0x6c);
     if (v2)
     {
-        ((unsigned long(__stdcall*)(void*))(*(void***)v2)[2])(v2);
+        ((unsigned long(*)(void*))(*(void***)v2)[2])(v2);
         *(void**)((char*)this + 0x6c) = 0;
     }
     return reinterpret_cast<::S_00e8a2b0 *>(this)->FUN_00e8a2b0();
 }
 // @fnv 0x00e90300
-void* __thiscall S00e90300::FUN_00e90300(unsigned int auiFlags)
+void* S00e90300::FUN_00e90300(unsigned int auiFlags)
 {
     void* o = *(void**)((char*)this + 0x60);
     int a = *(int*)((char*)this + 8);
@@ -1215,9 +1214,9 @@ struct R
 };
 struct T
 {
-    virtual void __stdcall u0();
-    virtual void __stdcall u1();
-    virtual void __stdcall u2();
+    virtual void u0();
+    virtual void u1();
+    virtual void u2();
 };
 struct BaseUnk
 {
@@ -1231,10 +1230,10 @@ struct Host00
     R* _60;
     char _64[8];
     T* _6c;
-    void* __thiscall FUN_00e8fdc0(unsigned int);
+    void* FUN_00e8fdc0(unsigned int);
 };
 // @fnv 0x00e8fdc0
-void* __thiscall Host00::FUN_00e8fdc0(unsigned int auiFlags)
+void* Host00::FUN_00e8fdc0(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_010f02fc;
     _60->At15C(_08);
@@ -1324,7 +1323,7 @@ void Dummy_00e90e70::ClearIfMatches(void* pValue)
     {
         void* p = f10F8;
         f10E0 = 0;
-        typedef void(__stdcall * Fn)(void*, int);
+        typedef void(* Fn)(void*, int);
         ((Fn*)(*(void***)p))[92](p, 0);
     }
     if (f10E4 == pValue)
@@ -1463,9 +1462,9 @@ struct FUN_00e8a260 : BSFadeNode
 extern int DAT_01101014;
 struct RTD_Tex
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct RTD_Obj : FUN_00e8a260
 {
@@ -1475,9 +1474,9 @@ struct RTD_Obj : FUN_00e8a260
     }
     int FUN_00e8fe10(unsigned int, unsigned int);
 };
-typedef void(__thiscall* RTD_DelFn)(void*, unsigned int);
-typedef RTD_Tex*(__thiscall* RTD_TexFn)(void*);
-typedef void*(__thiscall* RTD_BufFn)(void*);
+typedef void(* RTD_DelFn)(void*, unsigned int);
+typedef RTD_Tex*(* RTD_TexFn)(void*);
+typedef void*(* RTD_BufFn)(void*);
 
 // Allocates an RTD_Obj, initializes it, queries IDirect3DTexture9, creates the buffer data, and releases the object on failure.
 // @fnv 0x00e8ff60
@@ -1549,7 +1548,7 @@ bool NiD3DVertexDeclaration::FUN_00e90970()
         if (pOld)
         {
             if (InterlockedDecrement((long*)((char*)pOld + 4)) == 0)
-                (*(void(__thiscall**)(NiD3DVertexDeclaration*))(*(int*)pOld + 4))(pOld);
+                (*(void(**)(NiD3DVertexDeclaration*))(*(int*)pOld + 4))(pOld);
         }
         *(NiD3DVertexDeclaration**)((char*)this + 0x28) = pNew;
         if (pNew)
@@ -1557,7 +1556,7 @@ bool NiD3DVertexDeclaration::FUN_00e90970()
     }
 
     NiD3DVertexDeclaration* p = *(NiD3DVertexDeclaration**)((char*)this + 0x28);
-    (*(void(__thiscall**)(NiD3DVertexDeclaration*, int, int, int, int, int))(*(int*)p + 0x8c))(p, 0, 0, 0, 2, 0);
+    (*(void(**)(NiD3DVertexDeclaration*, int, int, int, int, int))(*(int*)p + 0x8c))(p, 0, 0, 0, 2, 0);
 
     return true;
 }
@@ -1578,7 +1577,7 @@ struct NiShader
     unsigned char padding[0x3c];
     NiShaderData* shaderData;
 
-    void __thiscall SetRandomColorRenderStates(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    void SetRandomColorRenderStates(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                                                unsigned int, unsigned int);
 };
 
@@ -1672,9 +1671,9 @@ void NiShader::SetRandomColorRenderStates(unsigned int arg1, unsigned int arg2, 
 
 struct CachedResource
 {
-    virtual long __stdcall query();
-    virtual long __stdcall addRef();
-    virtual long __stdcall release();
+    virtual long query();
+    virtual long addRef();
+    virtual long release();
 };
 struct CacheEntry
 {
@@ -1893,7 +1892,7 @@ struct FUN_00e90ac0_Sub
 {
     virtual void v00();
     virtual void v01();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 
 struct FUN_00e90ac0_cls
@@ -2065,7 +2064,7 @@ TexRecord* __cdecl CreateDynamicTexture(TexOwner* owner)
         if (pRecord != 0)
         {
             void** vt = *(void***)pRecord;
-            ((void(__thiscall*)(void*, int))vt[0])(pRecord, 1);
+            ((void(*)(void*, int))vt[0])(pRecord, 1);
         }
         return 0;
     }
@@ -2134,8 +2133,6 @@ struct _RTL_CRITICAL_SECTION_S
     int unk10;
     int unk14;
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION_S*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION_S*);
 
 
 struct CritLock
@@ -2410,8 +2407,6 @@ void* FUN_00e90b10_shell::GetTextureData(Texture* pkTexture, bool* pbChanged, bo
 
 namespace fnv_00e91590 {
 void* memcpy(void* dst, const void* src, unsigned int size) throw();
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct RefObj
 {
@@ -3733,8 +3728,6 @@ Renderer_e91590* __cdecl CreateRenderer(int adapter, CreateDesc* desc, bool zena
 }  // namespace fnv_00e91590
 
 namespace fnv_00e90c70 {
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* section);
 
 struct FnvData;
 
@@ -4499,32 +4492,32 @@ struct CubeSurface;
 class Device
 {
   public:
-    virtual void __stdcall slot0();
-    virtual void __stdcall slot1();
-    virtual void __stdcall slot2();
-    virtual void __stdcall slot3();
-    virtual void __stdcall slot4();
-    virtual void __stdcall slot5();
-    virtual void __stdcall slot6();
-    virtual void __stdcall slot7();
-    virtual void __stdcall slot8();
-    virtual void __stdcall slot9();
-    virtual void __stdcall slot10();
-    virtual void __stdcall slot11();
-    virtual void __stdcall slot12();
-    virtual void __stdcall slot13();
-    virtual void __stdcall slot14();
-    virtual void __stdcall slot15();
-    virtual void __stdcall slot16();
-    virtual void __stdcall slot17();
-    virtual void __stdcall slot18();
-    virtual void __stdcall slot19();
-    virtual void __stdcall slot20();
-    virtual void __stdcall slot21();
-    virtual void __stdcall slot22();
-    virtual void __stdcall slot23();
-    virtual void __stdcall slot24();
-    virtual int __stdcall CreateCubeTexture(unsigned int edge, unsigned int levels, unsigned int usage,
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual void slot4();
+    virtual void slot5();
+    virtual void slot6();
+    virtual void slot7();
+    virtual void slot8();
+    virtual void slot9();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual int CreateCubeTexture(unsigned int edge, unsigned int levels, unsigned int usage,
                                             unsigned int format, unsigned int pool, CubeSurface** surface,
                                             void* shared);
 };
@@ -5157,37 +5150,37 @@ struct IDirect3DTexture9;
 struct IDirect3DSurface9;
 struct IDirect3DDevice9
 {
-    virtual HRESULT __stdcall QueryInterface();
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual HRESULT __stdcall TestCooperativeLevel();
-    virtual unsigned int __stdcall GetAvailableTextureMem();
-    virtual HRESULT __stdcall EvictManagedResources();
-    virtual HRESULT __stdcall GetDirect3D();
-    virtual HRESULT __stdcall GetDeviceCaps();
-    virtual HRESULT __stdcall GetDisplayMode();
-    virtual HRESULT __stdcall GetCreationParameters();
-    virtual HRESULT __stdcall SetCursorProperties();
-    virtual void __stdcall SetCursorPosition();
-    virtual int __stdcall ShowCursor();
-    virtual HRESULT __stdcall CreateAdditionalSwapChain();
-    virtual HRESULT __stdcall GetSwapChain();
-    virtual unsigned int __stdcall GetNumberOfSwapChains();
-    virtual HRESULT __stdcall Reset();
-    virtual HRESULT __stdcall Present();
-    virtual HRESULT __stdcall GetBackBuffer();
-    virtual HRESULT __stdcall GetRasterStatus();
-    virtual HRESULT __stdcall SetDialogBoxMode();
-    virtual void __stdcall SetGammaRamp();
-    virtual void __stdcall GetGammaRamp();
-    virtual HRESULT __stdcall CreateTexture(unsigned int Width, unsigned int Height, unsigned int Levels,
+    virtual HRESULT QueryInterface();
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual HRESULT TestCooperativeLevel();
+    virtual unsigned int GetAvailableTextureMem();
+    virtual HRESULT EvictManagedResources();
+    virtual HRESULT GetDirect3D();
+    virtual HRESULT GetDeviceCaps();
+    virtual HRESULT GetDisplayMode();
+    virtual HRESULT GetCreationParameters();
+    virtual HRESULT SetCursorProperties();
+    virtual void SetCursorPosition();
+    virtual int ShowCursor();
+    virtual HRESULT CreateAdditionalSwapChain();
+    virtual HRESULT GetSwapChain();
+    virtual unsigned int GetNumberOfSwapChains();
+    virtual HRESULT Reset();
+    virtual HRESULT Present();
+    virtual HRESULT GetBackBuffer();
+    virtual HRESULT GetRasterStatus();
+    virtual HRESULT SetDialogBoxMode();
+    virtual void SetGammaRamp();
+    virtual void GetGammaRamp();
+    virtual HRESULT CreateTexture(unsigned int Width, unsigned int Height, unsigned int Levels,
                                             unsigned long Usage, D3DFORMAT Format, D3DPOOL Pool,
                                             IDirect3DTexture9** ppTexture, void* pSharedHandle);
-    virtual HRESULT __stdcall CreateVolumeTexture();
-    virtual HRESULT __stdcall CreateCubeTexture();
-    virtual HRESULT __stdcall CreateVertexBuffer();
-    virtual HRESULT __stdcall CreateIndexBuffer();
-    virtual HRESULT __stdcall CreateRenderTarget(unsigned int Width, unsigned int Height, D3DFORMAT Format,
+    virtual HRESULT CreateVolumeTexture();
+    virtual HRESULT CreateCubeTexture();
+    virtual HRESULT CreateVertexBuffer();
+    virtual HRESULT CreateIndexBuffer();
+    virtual HRESULT CreateRenderTarget(unsigned int Width, unsigned int Height, D3DFORMAT Format,
                                                  D3DMULTISAMPLE_TYPE MultiSample, unsigned long MultisampleQuality,
                                                  int Lockable, IDirect3DSurface9** ppSurface, void* pSharedHandle);
 };
@@ -5807,30 +5800,30 @@ struct TextureSurface;
 
 struct TextureDeviceView
 {
-    virtual void __stdcall v00();
-    virtual void __stdcall v01();
-    virtual void __stdcall v02();
-    virtual void __stdcall v03();
-    virtual void __stdcall v04();
-    virtual void __stdcall v05();
-    virtual void __stdcall v06();
-    virtual void __stdcall v07();
-    virtual void __stdcall v08();
-    virtual void __stdcall v09();
-    virtual void __stdcall v10();
-    virtual void __stdcall v11();
-    virtual void __stdcall v12();
-    virtual void __stdcall v13();
-    virtual void __stdcall v14();
-    virtual void __stdcall v15();
-    virtual void __stdcall v16();
-    virtual void __stdcall v17();
-    virtual void __stdcall v18();
-    virtual void __stdcall v19();
-    virtual void __stdcall v20();
-    virtual void __stdcall v21();
-    virtual void __stdcall v22();
-    virtual long __stdcall CreateTexture(unsigned int width, unsigned int height, unsigned int levels,
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual long CreateTexture(unsigned int width, unsigned int height, unsigned int levels,
                                          unsigned long usage, TextureSurfaceFormat format, TextureSurfacePool pool,
                                          TextureSurface** texture, void** sharedHandle);
 };
@@ -6574,7 +6567,7 @@ struct FnvD3dDevice
     virtual void v7();
     virtual void v8();
     virtual void v9();
-    virtual long __stdcall CreateTexture(unsigned a, unsigned b, unsigned c, int d, int e, int source);
+    virtual long CreateTexture(unsigned a, unsigned b, unsigned c, int d, int e, int source);
 };
 extern "C" unsigned char DAT_010ed37c;
 

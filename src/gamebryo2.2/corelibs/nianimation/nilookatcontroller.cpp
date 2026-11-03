@@ -46,7 +46,7 @@ void __cdecl FUN_00a6d290();
 
 // Calls FUN_00a6d290, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a4cd40
-void* __thiscall NiLookAtController::FUN_00a4cd40(unsigned int flags)
+void* NiLookAtController::FUN_00a4cd40(unsigned int flags)
 {
     FUN_00a6d290();
     if (flags & 1)
@@ -148,10 +148,10 @@ struct S00a4c860
 {
     char _p[0x38];
     FakeAV* m;
-    bool __thiscall FUN_00a4c860(NiStream&);
+    bool FUN_00a4c860(NiStream&);
 };
 // @fnv 0x00a4c860
-bool __thiscall S00a4c860::FUN_00a4c860(NiStream& s)
+bool S00a4c860::FUN_00a4c860(NiStream& s)
 {
     if (!::FUN_00a6d0f0((::TCReg *)(((TCReg*)this)), (int)&(s), *(::NiStream *)nullptr))
         return false;
@@ -758,7 +758,7 @@ Clone_a4c* Clone_a4c::FUN_00a4cd60(void* pkCloning)
 }
 
 extern int DAT_01098c14;
-void __fastcall FUN_00a6d220(void*) throw();
+void FUN_00a6d220(void*) throw();
 
 struct Base4c : BSFaceGenMorphData
 {

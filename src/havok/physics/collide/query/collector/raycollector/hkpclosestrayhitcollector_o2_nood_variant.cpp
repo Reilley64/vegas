@@ -10,7 +10,7 @@
 extern void __cdecl operator delete(void*);
 struct HKPCloseStrayHitCollector
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 #include <xmmintrin.h>

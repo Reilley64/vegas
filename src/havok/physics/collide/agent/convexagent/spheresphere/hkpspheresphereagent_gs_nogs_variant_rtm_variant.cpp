@@ -7,10 +7,11 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
-void __stdcall FUN_00d3fcc0(void* a, void* c, void* b, void* d);
+void FUN_00d3fcc0(void* a, void* c, void* b, void* d);
 struct S_00d3f660_Owner
 {
     virtual void v0();
@@ -135,7 +136,6 @@ struct S_00d3f780_Obj
 // the game's globals
 // ---------------------------------------------------------------------------
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" double __cdecl sqrt(double);
 
 // ---------------------------------------------------------------------------
@@ -245,7 +245,6 @@ void S_00d3f780_Obj::FUN_00d3f780(S_00d3f780_In* a, S_00d3f780_In* b, S_00d3f780
 namespace fnv_00d3f980 {
 #include <xmmintrin.h>
 #include <math.h>
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern char DAT_010cf1a4[];
@@ -315,7 +314,7 @@ struct Monitor
     Event* end;
 };
 // @fnv 0x00d3f980
-void __stdcall FUN_00d3f980(const Body* a, const Body* b, const Input* input, Collector* collector)
+void FUN_00d3f980(const Body* a, const Body* b, const Input* input, Collector* collector)
 {
     ScalarScratch scratch;
     {

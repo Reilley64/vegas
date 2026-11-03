@@ -89,11 +89,11 @@ void FUN_00dc8fc0_Class::Reset()
 
 struct FUN_00dc9540_class
 {
-    int __thiscall FUN_00dc9540(int a);
+    int FUN_00dc9540(int a);
 };
 
 // @fnv 0x00dc9540
-int __thiscall FUN_00dc9540_class::FUN_00dc9540(int aiIndex)
+int FUN_00dc9540_class::FUN_00dc9540(int aiIndex)
 {
     int* p = *(int**)((char*)this + 0x10);
     return p[aiIndex * 4];
@@ -119,11 +119,11 @@ void FUN_00dc9550_Class::FUN_00dc9550(void** out, int aiIndex)
 
 struct FUN_00dc9ab0_class
 {
-    int* __thiscall FUN_00dc9ab0(int a);
+    int* FUN_00dc9ab0(int a);
 };
 
 // @fnv 0x00dc9ab0
-int* __thiscall FUN_00dc9ab0_class::FUN_00dc9ab0(int aiIndex)
+int* FUN_00dc9ab0_class::FUN_00dc9ab0(int aiIndex)
 {
     return *(int**)((char*)this + 0xc) + *(int*)((char*)this + 0x18) * aiIndex;
 }
@@ -159,11 +159,11 @@ struct FUN_00dca1f0
     int m4;
     int m8;
     int mc;
-    void __thiscall Set(char* a, char b);
+    void Set(char* a, char b);
 };
 
 // @fnv 0x00dca1f0
-void __thiscall FUN_00dca1f0::Set(char* pcBuffer, char cValue)
+void FUN_00dca1f0::Set(char* pcBuffer, char cValue)
 {
     pcBuffer[mc] = cValue;
 }
@@ -233,7 +233,7 @@ struct FUN_00dcb0d0_class
     void FUN_00dcb0d0(int* p);
 };
 // @fnv 0x00dcb0d0
-void __thiscall FUN_00dcb0d0_class::FUN_00dcb0d0(int* pOut)
+void FUN_00dcb0d0_class::FUN_00dcb0d0(int* pOut)
 {
     *pOut = (int)this;
     pOut[1] = 0;
@@ -241,11 +241,11 @@ void __thiscall FUN_00dcb0d0_class::FUN_00dcb0d0(int* pOut)
 
 struct FUN_00dcb170_class
 {
-    int __thiscall FUN_00dcb170(int);
+    int FUN_00dcb170(int);
 };
 
 // @fnv 0x00dcb170
-int __thiscall FUN_00dcb170_class::FUN_00dcb170(int a)
+int FUN_00dcb170_class::FUN_00dcb170(int a)
 {
     int* p = *(int**)((char*)this + 0xc);
     int r = 0;
@@ -263,11 +263,11 @@ struct FUN_00dcb490_Class
     int m_04;
     int m_08;
     int m_0c;
-    int __thiscall FUN_00dcb490(int);
+    int FUN_00dcb490(int);
 };
 
 // @fnv 0x00dc72f0
-void __stdcall FUN_00dc72f0(int* p)
+void FUN_00dc72f0(int* p)
 {
     *p = 1;
 }
@@ -343,7 +343,7 @@ struct FUN_00dca2b0_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    __int64 __thiscall FUN_00dca2b0(int index);
+    __int64 FUN_00dca2b0(int index);
 };
 
 // @fnv 0x00dca2b0
@@ -386,7 +386,7 @@ struct FUN_00dcb190_Class
     void* m4;
     void* m8;
     FUN_00dcb190_Inner* m_iThirdValue;
-    void* __thiscall FUN_00dcb190(int index);
+    void* FUN_00dcb190(int index);
 };
 
 // Returns the m0 pointer of the element at the given index in the inner object's m_data array.
@@ -400,7 +400,7 @@ struct FUN_00dc6fd0_VTable
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void(__thiscall* m_8)(void*);
+    void(* m_8)(void*);
 };
 
 struct FUN_00dc6fd0_Intermediate
@@ -534,7 +534,7 @@ struct FUN_00dc7030_StandIn
     FUN_00dc7030_Holder* m0c;
     unsigned char* m10;
 
-    void __thiscall FUN_00dc7030(float* values, int count);
+    void FUN_00dc7030(float* values, int count);
 };
 
 // @fnv 0x00dc7030
@@ -619,13 +619,13 @@ struct FUN_00dc7090_class
     void* m_08;
     FUN_00dc7090_wrapper* m_0c;
     int m_10;
-    void __thiscall InvokeTargetMethod(int a, int b);
+    void InvokeTargetMethod(int a, int b);
 };
 
-typedef void(__thiscall* FUN_00dc7090_call)(void*, int, int);
+typedef void(* FUN_00dc7090_call)(void*, int, int);
 
 // @fnv 0x00dc7090
-void __thiscall FUN_00dc7090_class::InvokeTargetMethod(int aiOffset, int b)
+void FUN_00dc7090_class::InvokeTargetMethod(int aiOffset, int b)
 {
     FUN_00dc7090_call fn = reinterpret_cast<FUN_00dc7090_call>(reinterpret_cast<void**>(m_0c->m_20->m_ppVirtualMethodTable)[9]);
 
@@ -660,12 +660,12 @@ struct FUN_00dc70e0_class
     FUN_00dc70e0_Intermediate* m_0c;
     int m_10;
 
-    void __thiscall CallAtOffset(int offset, void* data);
+    void CallAtOffset(int offset, void* data);
 };
 
 // Forwards the sum of m_10 and offset, with data, to the Call method of the object reached through m_0c->m_20.
 // @fnv 0x00dc70e0
-void __thiscall FUN_00dc70e0_class::CallAtOffset(int offset, void* data)
+void FUN_00dc70e0_class::CallAtOffset(int offset, void* data)
 {
     m_0c->m_20->Call(m_10 + offset, data);
 }
@@ -750,11 +750,11 @@ struct FUN_00dc7180_class
     FUN_00dc7180_middle* m_middle;
     int m_uiFilterValue;
 
-    int __thiscall FUN_00dc7180(int a, int b);
+    int FUN_00dc7180(int a, int b);
 };
 
 // @fnv 0x00dc7180
-int __thiscall FUN_00dc7180_class::FUN_00dc7180(int aiOffset, int b)
+int FUN_00dc7180_class::FUN_00dc7180(int aiOffset, int b)
 {
     return m_middle->m_callee->FUN_00dc7180(m_uiFilterValue + aiOffset, b);
 }
@@ -802,11 +802,11 @@ struct FUN_00dc71b0_class
     void* m08;
     FUN_00dc71b0_inner* m0c;
     int m10;
-    int __thiscall GetOffsetValue(int);
+    int GetOffsetValue(int);
 };
 
 // @fnv 0x00dc71b0
-int __thiscall FUN_00dc71b0_class::GetOffsetValue(int aiOffset)
+int FUN_00dc71b0_class::GetOffsetValue(int aiOffset)
 {
     return m0c->m20->m48(m10 + aiOffset);
 }
@@ -941,12 +941,12 @@ struct FUN_00dc7270_class
     void* m_08;
     FUN_00dc7270_manager* m_0c;
     int m_10;
-    void __thiscall DispatchOffsetCall(int, int);
+    void DispatchOffsetCall(int, int);
 };
 
 // Forwards m_10 + a and b to the virtual call on m_0c->m_20.
 // @fnv 0x00dc7270
-void __thiscall FUN_00dc7270_class::DispatchOffsetCall(int aiOffset, int b)
+void FUN_00dc7270_class::DispatchOffsetCall(int aiOffset, int b)
 {
     m_0c->m_20->FUN_00dc7270_virtual_call(m_10 + aiOffset, b);
 }
@@ -966,7 +966,7 @@ struct FUN_00dc72a0_class
     char m_00[8];
     FUN_00dc72a0_data* m_08;
 
-    void* __thiscall ForwardToReceiver(Receiver* m_pReceiver);
+    void* ForwardToReceiver(Receiver* m_pReceiver);
 };
 
 // @fnv 0x00dc72a0
@@ -982,7 +982,7 @@ struct Receiver
 };
 
 // @fnv 0x00dc72c0
-void* __stdcall DispatchToReceiver(void* pObject, void** pValue)
+void* DispatchToReceiver(void* pObject, void** pValue)
 {
     Receiver* m_pReceiver = static_cast<Receiver*>(pObject);
     reinterpret_cast<::DataObjectHandle *>((m_pReceiver))->FUN_00dba760((::RefObj *)(*pValue));
@@ -990,7 +990,7 @@ void* __stdcall DispatchToReceiver(void* pObject, void** pValue)
 }
 }  // namespace fnv_00dc72c0
 
-// FUN_00dcaaf0 placeholder: __thiscall member taking two pointer args (ret 8)
+// FUN_00dcaaf0 placeholder: member taking two pointer args (ret 8)
 struct FUN_00dcaaf0_Class
 {
 };
@@ -1034,7 +1034,7 @@ struct FUN_00dc89d0
     void* m18;
     void* m1c;
     FUN_00dc89d0_vt* m20;
-    int __thiscall getType();
+    int getType();
 };
 // @fnv 0x00dc89d0
 int FUN_00dc89d0::getType()
@@ -1156,12 +1156,12 @@ struct FUN_00dc9a20_class
     void* m_p0;
     unsigned short m_iElementCount;
 
-    void __thiscall FUN_00dc96a0();
-    unsigned long* __thiscall FUN_00dc9a20(unsigned long flags);
+    void FUN_00dc96a0();
+    unsigned long* FUN_00dc9a20(unsigned long flags);
 };
 
 // @fnv 0x00dc9a20
-unsigned long* __thiscall FUN_00dc9a20_class::FUN_00dc9a20(unsigned long flags)
+unsigned long* FUN_00dc9a20_class::FUN_00dc9a20(unsigned long flags)
 {
     FUN_00dc96a0();
 
@@ -1181,12 +1181,12 @@ struct FUN_00dc9ad0_class
     char m_010[0x08];
     int m_18;
 
-    void __thiscall CopyRow(int multiplier, const float* source);
+    void CopyRow(int multiplier, const float* source);
 };
 
 // Copies m_18 floats from source into the row at index multiplier of the float array m_p0c.
 // @fnv 0x00dc9ad0
-void __thiscall FUN_00dc9ad0_class::CopyRow(int aiRowIndex, const float* source)
+void FUN_00dc9ad0_class::CopyRow(int aiRowIndex, const float* source)
 {
     for (int i = 0; i < m_18; ++i)
         m_p0c[aiRowIndex * m_18 + i] = source[i];
@@ -1340,11 +1340,11 @@ struct FUN_00dca080_StandIn
     int m_iWordAt04;
     int m_8;
     int* m_iThirdValue;
-    int __thiscall FUN_00dca080(int i);
+    int FUN_00dca080(int i);
 };
 
 // @fnv 0x00dca080
-int __thiscall FUN_00dca080_StandIn::FUN_00dca080(int i)
+int FUN_00dca080_StandIn::FUN_00dca080(int i)
 {
     return m_iThirdValue[i];
 }
@@ -1378,10 +1378,10 @@ struct FUN_00dca280_Class
     int m_iWordAt04;
     int m_8;
     __int64* m_iThirdValue;
-    int __thiscall FUN_00dca280(int index);
+    int FUN_00dca280(int index);
 };
 // @fnv 0x00dca280
-int __thiscall FUN_00dca280_Class::FUN_00dca280(int index)
+int FUN_00dca280_Class::FUN_00dca280(int index)
 {
     return (int)m_iThirdValue[index];
 }
@@ -1392,7 +1392,7 @@ struct FUN_00dca290_StandIn
     void* m_04;
     void* m_08;
     __int64* m_0c;
-    void __thiscall FUN_00dca290(int index, int value);
+    void FUN_00dca290(int index, int value);
 };
 
 // @fnv 0x00dca290
@@ -1566,7 +1566,7 @@ extern FUN_00dcb0e0_Router* __cdecl _D1A0E0GetMemoryRouter();
 
 struct FUN_00dcb0e0_class
 {
-    void* __thiscall FUN_00dcb0e0(void* arg);
+    void* FUN_00dcb0e0(void* arg);
 };
 
 void* FUN_00dcb0e0_class::FUN_00dcb0e0(void* arg)
@@ -1605,7 +1605,7 @@ struct FUN_00dcb120_Class
     void* m4;
     void* m8;
     FUN_00dcb120_Inner* m_iThirdValue;
-    int __thiscall HasMember(int member);
+    int HasMember(int member);
 };
 
 // Interns the given member name via a virtual call, then scans the inner array of up to m_10 entries for a matching id and returns 1 if found, else 0.
@@ -1613,7 +1613,7 @@ struct FUN_00dcb120_Class
 int FUN_00dcb120_Class::HasMember(int member)
 {
     FUN_00dcb120_InternedString internedName;
-    ((void(__thiscall*)(FUN_00dcb120_Class*, FUN_00dcb120_InternedString*, int)) *
+    ((void(*)(FUN_00dcb120_Class*, FUN_00dcb120_InternedString*, int)) *
      (void**)((char*)m0 + 0x60))(this, &internedName, member);
     FUN_00dcb120_Inner* inner = m_iThirdValue;
     int count = inner->m_10;
@@ -1782,7 +1782,7 @@ struct FUN_00dcb3a0_class
     FUN_00dcb2b0_StandIn* m_iThirdValue;
     int m_10;
 
-    int __thiscall FUN_00dcb3a0(int index);
+    int FUN_00dcb3a0(int index);
 };
 
 struct FUN_00dcb3d0_virtual
@@ -1813,7 +1813,7 @@ struct FUN_00dcb3d0_class
     void* m_08;
     FUN_00dcb2b0_StandIn* m_0c;
     int m_10;
-    __int64 __thiscall CallVirtualOnElement(int);
+    __int64 CallVirtualOnElement(int);
 };
 
 struct FUN_00dcb400_Target
@@ -1840,7 +1840,7 @@ struct FUN_00dcb400_Class
     void* m_08;
     FUN_00dcb2b0_StandIn* m_0c;
     int m_10;
-    void __thiscall DispatchToIndexedTarget(int value);
+    void DispatchToIndexedTarget(int value);
 };
 
 struct FUN_00dcb6f0_Object
@@ -1893,7 +1893,7 @@ struct FUN_00dcb6f0_Class
     void* m_p8;
     FUN_00dcb5d0_Class* m_iThirdValue;
     int m_10;
-    void __thiscall FUN_00dcb6f0(int, int);
+    void FUN_00dcb6f0(int, int);
 };
 
 struct FUN_00dcb790_Element;
@@ -1935,12 +1935,12 @@ struct FUN_00dcb5d0_class
     void* m_8;
     FUN_00dcb790_Pair* m_iThirdValue;
 
-    __declspec(noinline) int __thiscall FUN_00dcb5d0(int a)
+    __declspec(noinline) int FUN_00dcb5d0(int a)
     {
         return 0;
     }
 };
-void __thiscall FUN_00dcb6f0_Class::FUN_00dcb6f0(int arg0, int arg1)
+void FUN_00dcb6f0_Class::FUN_00dcb6f0(int arg0, int arg1)
 {
     int index = reinterpret_cast<::FUN_00dcb5d0_class *>((m_iThirdValue))->FUN_00dcb5d0(arg0);
     m_iThirdValue->m_iThirdValue[index].m_p4->FUN_00dcb6f0_11(m_10, arg1);
@@ -1954,11 +1954,11 @@ struct FUN_00dcb790_class
     FUN_00dcb5d0_class* m_iThirdValue;
     int m_10;
 
-    void __thiscall DispatchToElement(int a, int b, int c);
+    void DispatchToElement(int a, int b, int c);
 };
 
 // @fnv 0x00dcb790
-void __thiscall FUN_00dcb790_class::DispatchToElement(int a, int b, int aiUnused)
+void FUN_00dcb790_class::DispatchToElement(int a, int b, int aiUnused)
 {
     int index = m_iThirdValue->FUN_00dcb5d0(a);
     m_iThirdValue->m_iThirdValue[index].m_iWordAt04->f9(m_10, b);
@@ -1969,7 +1969,7 @@ struct FUN_00d1a0e0_vtable
 {
     void* m_00;
     void* m_04;
-    void(__thiscall* m_08)(void* self, void* object, unsigned short size);
+    void(* m_08)(void* self, void* object, unsigned short size);
 };
 
 struct FUN_00d1a0e0_memory
@@ -1990,11 +1990,11 @@ struct StructArrayImplementation
     void* m_00;
     unsigned short m_04;
     void FUN_00dcb890();
-    void* __thiscall FUN_00dcb960(unsigned int flags);
+    void* FUN_00dcb960(unsigned int flags);
 };
 
 // @fnv 0x00dcb960
-void* __thiscall StructArrayImplementation::FUN_00dcb960(unsigned int flags)
+void* StructArrayImplementation::FUN_00dcb960(unsigned int flags)
 {
     FUN_00dcb890();
 
@@ -2552,7 +2552,7 @@ struct FUN_00dc73a0_Holder
     int unk00;
     int unk04;
     FUN_00dc92d0_Obj* unk08;
-    void __thiscall CallWithReset(int a, int* b);
+    void CallWithReset(int a, int* b);
 };
 
 struct FUN_00dc92d0_StandIn
@@ -2714,7 +2714,7 @@ struct FUN_00dc7dc0_StandIn
     int m0;
     int m4;
     int m8;
-    void __thiscall FUN_00dc7dc0(int a, int b);
+    void FUN_00dc7dc0(int a, int b);
 };
 namespace fnv_00dc8030 {
 struct FUN_00dc8030_Allocator
@@ -2737,11 +2737,11 @@ struct FUN_00dc8030_Class
     void** vtable;
     unsigned short allocationSize, refCount;
     FUN_00dc7fd0_Class* owned;
-    FUN_00dc8030_Class* __thiscall FUN_00dc8030();
+    FUN_00dc8030_Class* FUN_00dc8030();
 };
 // Sets refCount to 1 and the vtable, then allocates 0x88 bytes and stores the constructed object in owned.
 // @fnv 0x00dc8030
-FUN_00dc8030_Class* __thiscall FUN_00dc8030_Class::FUN_00dc8030()
+FUN_00dc8030_Class* FUN_00dc8030_Class::FUN_00dc8030()
 {
     refCount = 1;
     vtable = DAT_010d7510;
@@ -3153,7 +3153,7 @@ struct FUN_00dc8fe0_class
     FUN_00dc8fe0_entry* m_iWordAt00;
 
     void FUN_00dcb4b0(void* key, int index);
-    void __thiscall FUN_00dc8fe0(void* key, int* value);
+    void FUN_00dc8fe0(void* key, int* value);
 };
 
 
@@ -3313,7 +3313,7 @@ struct FUN_00dc97f0_Class : public FUN_00dc9710_Obj
     void* m_0c;
     void* m_10;
 
-    void __thiscall SetSlotValue(int index, void* value);
+    void SetSlotValue(int index, void* value);
 };
 
 struct FUN_00dc9830_Object
@@ -3337,7 +3337,7 @@ struct FUN_00dc9830_Class
     void* m_0c;
     void* m_10;
 
-    void __thiscall AddObjectToSlot(int value, FUN_00dc9830_Object* obj);
+    void AddObjectToSlot(int value, FUN_00dc9830_Object* obj);
 };
 
 extern "C" char* __cdecl FUN_00cb1410(const char* pcString);
@@ -4023,11 +4023,11 @@ struct FUN_00dca190_class : public FUN_00dca190_Base
     void* m00;
     unsigned short m04;
 
-    void* __thiscall FUN_00dca190(unsigned char flags);
+    void* FUN_00dca190(unsigned char flags);
 };
 
 // @fnv 0x00dca190
-void* __thiscall FUN_00dca190_class::FUN_00dca190(unsigned char flags)
+void* FUN_00dca190_class::FUN_00dca190(unsigned char flags)
 {
     reinterpret_cast<::fnv_00dca0f0::FUN_00dca0f0 *>(this)->fnv_00dca0f0::FUN_00dca0f0::~FUN_00dca0f0();
 
@@ -5329,10 +5329,10 @@ struct FUN_00dcb690_Class
     void* m_p8;
     FUN_00dcb5d0_Class* m_iThirdValue;
     int m_10;
-    void __thiscall DispatchToIndexedObject(int a, int b);
+    void DispatchToIndexedObject(int a, int b);
 };
 // @fnv 0x00dcb690
-void __thiscall FUN_00dcb690_Class::DispatchToIndexedObject(int arg0, int arg1)
+void FUN_00dcb690_Class::DispatchToIndexedObject(int arg0, int arg1)
 {
     int index = reinterpret_cast<::FUN_00dcb5d0_class *>((m_iThirdValue))->FUN_00dcb5d0(arg0);
     reinterpret_cast<FUN_00dcb690_Object*>(m_iThirdValue->m_iThirdValue[index].m_p4)->vf21(m_10, arg1);
@@ -5419,12 +5419,12 @@ struct FUN_00dcb6c0_Obj
     FUN_00dcb5d0_Obj* m_pC;
     int m_p10;
 
-    void __thiscall FUN_00dcb6c0(int a, int b);
+    void FUN_00dcb6c0(int a, int b);
 };
 
 // Looks up an index from m_pC, gets the target element at that index, and calls its FUN_00dcb650 with m_p10 and b.
 // @fnv 0x00dcb6c0
-void __thiscall FUN_00dcb6c0_Obj::FUN_00dcb6c0(int a, int b)
+void FUN_00dcb6c0_Obj::FUN_00dcb6c0(int a, int b)
 {
     int index = reinterpret_cast<::FUN_00dcb5d0_class *>((m_pC))->FUN_00dcb5d0(a);
     FUN_00dcb6c0_Target* target = (&m_pC->m_pC->m_p4)[index].m_p0;
@@ -5571,10 +5571,10 @@ struct FUN_00dcb7c0_Class
     void* m_p8;
     FUN_00dcb5d0_Class* m_iThirdValue;
     int m_10;
-    void __thiscall CallObjectVirtual(int arg0, int arg1);
+    void CallObjectVirtual(int arg0, int arg1);
 };
 // @fnv 0x00dcb7c0
-void __thiscall FUN_00dcb7c0_Class::CallObjectVirtual(int arg0, int aiValue)
+void FUN_00dcb7c0_Class::CallObjectVirtual(int arg0, int aiValue)
 {
     int index = reinterpret_cast<::FUN_00dcb5d0_class *>((m_iThirdValue))->FUN_00dcb5d0(arg0);
     reinterpret_cast<FUN_00dcb7c0_Object*>(m_iThirdValue->m_iThirdValue[index].m_p4)->FUN_00dcb7c0_17(m_10, (signed char)aiValue);
@@ -6379,7 +6379,7 @@ struct hkDescDC82
 
 // Creates an object from desc->m_type, sets its target, and registers it in ctx->m_registry under desc->m_key.
 // @fnv 0x00dc8210
-hkObjDC82* __stdcall CreateAndRegisterObject(hkCtxDC82* ctx, hkDescDC82* desc)
+hkObjDC82* CreateAndRegisterObject(hkCtxDC82* ctx, hkDescDC82* desc)
 {
     unsigned int flags = desc->m_flags;
     void* owner;
@@ -6463,11 +6463,11 @@ struct DC8A80
     int m_1c;
     int m_20;
     int m_24;
-    void __thiscall CopyFromSource(int a, Src80* src);
+    void CopyFromSource(int a, Src80* src);
 };
 // Copies m_24 elements from src into m_0c using the setter matching src's type, and stores m_24 * a in m_1c.
 // @fnv 0x00dc8a80
-void __thiscall DC8A80::CopyFromSource(int a, Src80* src)
+void DC8A80::CopyFromSource(int a, Src80* src)
 {
     m_1c = m_24 * a;
     int type = src->GetType();
@@ -7159,7 +7159,7 @@ struct FUN_00dca040_class
     int m10;
     int m14;
     int m18;
-    void* __thiscall Init(void* arg);
+    void* Init(void* arg);
 };
 
 // @fnv 0x00dca040
@@ -7305,13 +7305,13 @@ struct DCAAMapEntry
 struct DCAAMap
 {
     DCAAMapEntry* entries;
-    void __thiscall FUN_00dcb4b0(void* key, int index);
+    void FUN_00dcb4b0(void* key, int index);
 };
 struct DCAAOwner
 {
     int unk00, unk04, unk08, unk0c;
     DCAAMap table;
-    void __thiscall FUN_00dcaaf0(void* volatile key, DCAAObject* object);
+    void FUN_00dcaaf0(void* volatile key, DCAAObject* object);
 };
 char* __cdecl StrDupDCAC(const char* pcString);
 
@@ -7645,13 +7645,13 @@ class TableB2B0
     ContextB2B0* m_pkContext;
 };
 // @fnv 0x00dcb490
-int __thiscall FUN_00dcb490_Class::FUN_00dcb490(int a)
+int FUN_00dcb490_Class::FUN_00dcb490(int a)
 {
     int i = reinterpret_cast<::TableB2B0 *>((((FUN_00dcb2b0_StandIn*)this)))->FUN_00dcb2b0((const char *)(a));
     return ((int*)m_0c)[i * 2 + 1];
 }
 // @fnv 0x00dcb3a0
-int __thiscall FUN_00dcb3a0_class::FUN_00dcb3a0(int index)
+int FUN_00dcb3a0_class::FUN_00dcb3a0(int index)
 {
     int result = reinterpret_cast<::TableB2B0 *>((m_iThirdValue))->FUN_00dcb2b0((const char *)(index));
 
@@ -7663,7 +7663,7 @@ int __thiscall FUN_00dcb3a0_class::FUN_00dcb3a0(int index)
 }
 // Looks up the element at index via m_0c, fetches the object pointer from the element array, and calls its virtual slot 16 with m_10.
 // @fnv 0x00dcb3d0
-__int64 __thiscall FUN_00dcb3d0_class::CallVirtualOnElement(int index)
+__int64 FUN_00dcb3d0_class::CallVirtualOnElement(int index)
 {
     int element = reinterpret_cast<::TableB2B0 *>((m_0c))->FUN_00dcb2b0((const char *)(index));
     void** elements = *reinterpret_cast<void***>(reinterpret_cast<char*>(m_0c) + 0x0c);
@@ -7673,7 +7673,7 @@ __int64 __thiscall FUN_00dcb3d0_class::CallVirtualOnElement(int index)
 }
 // Looks up an index via m_0c, fetches a target pointer from the table at that index, and calls its target method with m_10.
 // @fnv 0x00dcb400
-void __thiscall FUN_00dcb400_Class::DispatchToIndexedTarget(int value)
+void FUN_00dcb400_Class::DispatchToIndexedTarget(int value)
 {
     int index = reinterpret_cast<::TableB2B0 *>((m_0c))->FUN_00dcb2b0((const char *)(value));
 
@@ -8043,7 +8043,7 @@ struct Node_dc7c : RefCounted_dc7c
     }
     const char* getName()
     {
-        return ((const char*(__thiscall*)(Node_dc7c*))((void**)m_vtbl)[2])(this);
+        return ((const char*(*)(Node_dc7c*))((void**)m_vtbl)[2])(this);
     }
 };
 
@@ -8516,7 +8516,7 @@ struct S00dc9950_cls
     int m_8;
     int m_iThirdValue;
     char* m_10;
-    void __thiscall FUN_00dc9950(int a, int b, int c);
+    void FUN_00dc9950(int a, int b, int c);
 };
 struct S00dc9950_9710
 {
@@ -10147,7 +10147,7 @@ void FUN_00dcb890_cls::FUN_00dcb890()
             r->Destroy(1);
     }
     int base = unk18->Lookup()->unk08;
-    int key = ((int(__thiscall*)(FUN_00dcb890_cls*))((void**)unk00)[6])(this);
+    int key = ((int(*)(FUN_00dcb890_cls*))((void**)unk00)[6])(this);
     FUN_00dcb890_Table* tbl = reinterpret_cast<FUN_00dcb890_Table*>(base + 0x6c);
     int idx = ((int)(::LookupWithDefault((::HashEntryTable *)(tbl), key, {})));
     if (idx != -1)
@@ -10676,11 +10676,11 @@ struct S00dcbd40_Destination
 
     S00dcbd40_Array entries;
 
-    S00dcbd40_Result __thiscall FUN_00dc9710(S00dcbd40_Handle ref, int flags) throw();
+    S00dcbd40_Result FUN_00dc9710(S00dcbd40_Handle ref, int flags) throw();
 
-    S00dcbd40_Result __thiscall FUN_00dcba40(S00dcbd40_Handle key, int flags) throw();
+    S00dcbd40_Result FUN_00dcba40(S00dcbd40_Handle key, int flags) throw();
 
-    void __thiscall FUN_00dcbd40(int target, S00dcbd40_Id* id) throw();
+    void FUN_00dcbd40(int target, S00dcbd40_Id* id) throw();
 };
 // @fnv 0x00dc97f0
 void FUN_00dc97f0_Class::SetSlotValue(int index, void* value)
@@ -10698,7 +10698,7 @@ void FUN_00dc97f0_Class::SetSlotValue(int index, void* value)
 }
 // Increments obj's counter, calls obj->vf04(), runs FUN_00dc9710 with value and result|0x10, then stores obj in m_10 at the slot indexed by local.unk04.
 // @fnv 0x00dc9830
-void __thiscall FUN_00dc9830_Class::AddObjectToSlot(int value, FUN_00dc9830_Object* pObject)
+void FUN_00dc9830_Class::AddObjectToSlot(int value, FUN_00dc9830_Object* pObject)
 {
     ++*(int*)((char*)pObject + 8);
 
@@ -10721,7 +10721,7 @@ void FUN_00dc98d0_StandIn::SetValueAt(int index, float value)
 }
 // Calls FUN_00dc9710, allocates c*4 bytes, copies b there, and stores the pointer through m_10 at an indexed offset.
 // @fnv 0x00dc9950
-void __thiscall S00dc9950_cls::FUN_00dc9950(int a, int apSource, int aiCount)
+void S00dc9950_cls::FUN_00dc9950(int a, int apSource, int aiCount)
 {
     S00dc9950_pair out;
     reinterpret_cast<::S00dcbd40_Destination *>((((S00dc9950_9710*)this)))->FUN_00dc9710((::S00dcbd40_Handle)(&out), a);
@@ -10835,7 +10835,7 @@ struct DictWriteAccessDC97
     void* extra;
     LookupDC97* finder;
     EntryArrayDC97 entries;
-    FindResultDC97* __thiscall FUN_00dc9710(FindResultDC97* result, int key, int option);
+    FindResultDC97* FUN_00dc9710(FindResultDC97* result, int key, int option);
 };
 // If the finder returns a node, searches entries, copies its type into a match or appends one; otherwise returns index -1.
 // @fnv 0x00dc9710

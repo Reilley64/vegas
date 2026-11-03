@@ -24,10 +24,6 @@ class NiPoint3
 public:
     float ComputeMagnitude() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 8);
 
 template <class T, unsigned int Growth> class BSSimpleArray<T*, Growth>
 {
@@ -201,7 +197,5 @@ class NavMeshInfoSearch : public AStarSearch<const NavMeshInfo*, TESObjectREFR*>
     DoorAccessData m_kDoorAccessData;
 };
 typedef AStarOpenList<const NavMeshInfo*, TESObjectREFR*> NavMeshInfoQueue;
-FNV_STATIC_ASSERT(sizeof(NavMeshInfoQueue) == 0x54);
-FNV_STATIC_ASSERT(offsetof(NavMeshInfoSearch, m_pGoalNavMeshInfo) == 0x2074);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 #endif

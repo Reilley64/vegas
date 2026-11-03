@@ -100,10 +100,10 @@ class hkpTyremarksWheel
     int m_iMaxNumTyremarks;
     int m_numTyremarks;
     hkpTyremark* m_data;
-    hkpTyremark* __thiscall ComputeIndex(int index);
+    hkpTyremark* ComputeIndex(int index);
 };
 
-__declspec(noinline) hkpTyremark* __thiscall hkpTyremarksWheel::ComputeIndex(int index)
+__declspec(noinline) hkpTyremark* hkpTyremarksWheel::ComputeIndex(int index)
 {
     return &m_data[(m_iMaxNumTyremarks + index) % m_numTyremarks];
 }
@@ -123,11 +123,11 @@ struct S00e39e90_Info
     int unk0C;
     hkArrayWheel m_kTyremarksWheels;
 
-    void __thiscall FUN_00e39e90(int arg1, int wheelIndex, hkpTyremark* out);
+    void FUN_00e39e90(int arg1, int wheelIndex, hkpTyremark* out);
 };
 
 // @fnv 0x00e39e90
-void __thiscall S00e39e90_Info::FUN_00e39e90(int arg1, int wheelIndex, hkpTyremark* out)
+void S00e39e90_Info::FUN_00e39e90(int arg1, int wheelIndex, hkpTyremark* out)
 {
     hkpTyremarksWheel* wheel = m_kTyremarksWheels.m_data[wheelIndex];
     int n = wheel->m_numTyremarks;

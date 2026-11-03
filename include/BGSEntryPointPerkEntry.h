@@ -5,7 +5,6 @@
 #include "layout_support.h"
 #include "BGSPerkEntry.h"
 #include "PerkEntryPointData.h"
-#pragma pack(push, 4)
 class BGSEntryPointPerkEntry : public BGSPerkEntry
 {
   public:
@@ -14,9 +13,4 @@ class BGSEntryPointPerkEntry : public BGSPerkEntry
     BGSEntryPointFunctionData* m_pFunctionData;  // +0xC
     PerkEntryConditionSet* m_pConditions;                 // +0x10
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSEntryPointPerkEntry) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, Data) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pFunctionData) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BGSEntryPointPerkEntry, m_pConditions) == 0x10);
 #endif

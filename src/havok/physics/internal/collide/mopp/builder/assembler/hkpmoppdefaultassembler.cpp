@@ -22,12 +22,12 @@ extern "C" void __cdecl GrowBuffer();
 
 struct FUN_00e06780_class
 {
-    void __thiscall AppendChar(char b);
+    void AppendChar(char b);
 };
 
 // Writes character b at the current write position, advances the offset, and calls GrowBuffer when the offset reaches the capacity.
 // @fnv 0x00e06780
-void __thiscall FUN_00e06780_class::AppendChar(char acValue)
+void FUN_00e06780_class::AppendChar(char acValue)
 {
     char* p = *(char**)((char*)this + 0x10) - *(int*)((char*)this + 0xc);
     int base = *(int*)((char*)this + 8);
@@ -165,7 +165,7 @@ void ByteSink::PutBytePair(char acFirst, char acSecond)
     PutByte(acFirst);
 }
 
-typedef void(__thiscall* FlushFunction)(void*);
+typedef void(* FlushFunction)(void*);
 struct BufferWriter
 {
     int unknown00;
@@ -304,7 +304,7 @@ struct Node
 };
 // Walks the linked list from node, marking each node's unk39 flag until one is already set or the list ends.
 // @fnv 0x00e06b20
-void __stdcall FUN_00e06b20(Node* node)
+void FUN_00e06b20(Node* node)
 {
     while (node)
     {
@@ -335,7 +335,7 @@ struct Limits
 };
 // Copies second->unk34 into third->unk34, then compares unk38/unk24 thresholds and may overwrite third->unk34 with first->unk24.
 // @fnv 0x00e06b50
-void __stdcall AdjustLimits(Limits* first, Limits* second, Limits* third)
+void AdjustLimits(Limits* first, Limits* second, Limits* third)
 {
     third->unk34 = second->unk34;
     unsigned int value = third->unk38 - second->unk34 + first->unk24;
@@ -434,7 +434,7 @@ template <class T> inline T S_00e07040_Min(T a, T b)
 {
     return a < b ? a : b;
 }
-int __stdcall FUN_00e07040(S_00e07040_A* a, S_00e07040_B* b)
+int FUN_00e07040(S_00e07040_A* a, S_00e07040_B* b)
 {
     int n = b->unk08 - 8;
     if (n <= 0)
@@ -665,7 +665,7 @@ struct Allocator
 {
     virtual void* unk00(void* p);
     virtual void* unk04(void* p);
-    virtual void __thiscall ReleaseBlock(void* p, unsigned short size);
+    virtual void ReleaseBlock(void* p, unsigned short size);
 };
 struct Router
 {
@@ -680,7 +680,7 @@ struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
     unsigned short unk04;
-    FUN_00e09640_class* __thiscall FUN_00e09640(int flags);
+    FUN_00e09640_class* FUN_00e09640(int flags);
 };
 struct FUN_00e06800_cls
 {
@@ -690,11 +690,11 @@ struct FUN_00e06800_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall FUN_00e06800(char a, int v);
+    void FUN_00e06800(char a, int v);
 };
 
 // @fnv 0x00e06800
-void __thiscall FUN_00e06800_cls::FUN_00e06800(char acByte, int aiValue)
+void FUN_00e06800_cls::FUN_00e06800(char acByte, int aiValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
@@ -721,12 +721,12 @@ struct FUN_00e06880_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall FUN_00e06880(char a, int v);
+    void FUN_00e06880(char a, int v);
 };
 
 // Writes the low three bytes of v and then a into the buffer from the end, flushing whenever the buffer fills.
 // @fnv 0x00e06880
-void __thiscall FUN_00e06880_cls::FUN_00e06880(char acTrailingByte, int aiValue)
+void FUN_00e06880_cls::FUN_00e06880(char acTrailingByte, int aiValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
@@ -757,7 +757,7 @@ struct FUN_00e069a0_cls
     int m_uiItemCount;
     char* m_buf;
 
-    void __thiscall FUN_00e069a0(char a, unsigned int v);
+    void FUN_00e069a0(char a, unsigned int v);
 };
 // @fnv 0x00e06c20
 int E06C20Object::FUN_00e06c20(void* data)
@@ -768,7 +768,7 @@ int E06C20Object::FUN_00e06c20(void* data)
 
 // Writes the four bytes of v and then a into m_buf from the end backwards, flushing whenever the buffer fills.
 // @fnv 0x00e069a0
-void __thiscall FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
+void FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)auValue;
     m_uiItemCount++;
@@ -808,11 +808,11 @@ struct FUN_00e06a60_cls
     int unk0c;
     int unk10;
 
-    void __thiscall FillWithPattern(int count);
+    void FillWithPattern(int count);
 };
 
 // @fnv 0x00e06a60
-void __thiscall FUN_00e06a60_cls::FillWithPattern(int count)
+void FUN_00e06a60_cls::FillWithPattern(int count)
 {
     if (count <= 0)
         return;
@@ -830,7 +830,7 @@ void __thiscall FUN_00e06a60_cls::FillWithPattern(int count)
     } while (n != 0);
 }
 
-// FUN_00e06af0 - a small __thiscall member that fills in a result flag.
+// FUN_00e06af0 - a small member that fills in a result flag.
 //
 // The original code is exactly:
 //     00e06af0  8b 44 24 08        mov eax, dword ptr [esp + 8]
@@ -879,7 +879,7 @@ struct FUN_00e06780_owner : public FUN_00e06780_class
     int unk10;
     int unk14;
     int unk18;  // +0x18
-    char* __thiscall FUN_00e06af0(char* out, FUN_00e06780_actor* actor, int* value);
+    char* FUN_00e06af0(char* out, FUN_00e06780_actor* actor, int* value);
 };
 
 // Writes 1 to out if actor->unk08 is below 0x16 or *value exceeds this->unk18, otherwise writes 0, and returns out.
@@ -929,11 +929,11 @@ struct FUN_00e06c40_class
     char pad[0x10];
     Stream* m_stream;
 
-    int __thiscall FUN_00e06c40(int a1, int a2);
+    int FUN_00e06c40(int a1, int a2);
 };
 
 // @fnv 0x00e06c40
-int __thiscall FUN_00e06c40_class::FUN_00e06c40(int a1, int a2)
+int FUN_00e06c40_class::FUN_00e06c40(int a1, int a2)
 {
     m_stream->AppendChar((char)a2);
     m_stream->AppendChar((char)(a2 >> 8));
@@ -979,12 +979,12 @@ class FUN_00e06cb0_cls
     int unk0c;
     Sink* m_pSink;
 
-    void __thiscall WritePacket(const Pkt* p);
+    void WritePacket(const Pkt* p);
 };
 
 // Writes four bytes of the packet (m_b10, m_b0c, m_b08, m_b04) into the sink buffer, flushing when it fills.
 // @fnv 0x00e06cb0
-void __thiscall FUN_00e06cb0_cls::WritePacket(const Pkt* p)
+void FUN_00e06cb0_cls::WritePacket(const Pkt* p)
 {
     {
         Sink* s = m_pSink;
@@ -1114,7 +1114,7 @@ extern const double g_thresholdB;
 
 // Compares the x, y and z components of a Vec3 against g_thresholdA and g_thresholdB and returns a code from 0 to 12 identifying the region.
 // @fnv 0x00e06f20
-int __stdcall ClassifyVec3Region(const Vec3* pVec)
+int ClassifyVec3Region(const Vec3* pVec)
 {
     int r;
     if ((double)pVec->x > ::DAT_0101ffa0)
@@ -1202,7 +1202,7 @@ struct S_00e07070_Result
 
 
 // @fnv 0x00e07070
-void __stdcall FUN_00e07070(S_00e07070_Object* a, S_00e07070_Object* b, S_00e07070_Result* out)
+void FUN_00e07070(S_00e07070_Object* a, S_00e07070_Object* b, S_00e07070_Result* out)
 {
     int n = ::FUN_00e07040((::S_00e07040_A *)(a), (::S_00e07040_B *)(b));
     out->ok = 0;
@@ -1303,7 +1303,7 @@ struct Handler
 {
     int unk00, unk04, unk08, unk0c;
     Entry* unk10;
-    int __thiscall FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
+    int FUN_00e07ca0(Entry*, Entry*, Entry*, char*);
 };
 
 struct S_00e07da0_Bounds
@@ -1457,7 +1457,7 @@ struct FUN_00e09450_cls
     void DestroyAudioBuffer();
 };
 // @fnv 0x00e09640
-FUN_00e09640_class* __thiscall FUN_00e09640_class::FUN_00e09640(int flags)
+FUN_00e09640_class* FUN_00e09640_class::FUN_00e09640(int flags)
 {
     reinterpret_cast<::FUN_00e09450_cls *>(this)->DestroyAudioBuffer();
     if (flags & 1)
@@ -1621,7 +1621,7 @@ class FUN_00e095d0_cls
     unsigned int unk40;
     unsigned int unk44;
 
-    FUN_00e095d0_cls* __thiscall FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
+    FUN_00e095d0_cls* FUN_00e095d0(FUN_00e095d0_cls* src, unsigned int a2, unsigned int a3);
 };
 
 // @fnv 0x00e095d0
@@ -2016,7 +2016,7 @@ struct FUN_00e07550_cls
     int unk08;
     int unk0c;
     BufWriter* m_10;
-    void __thiscall FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
+    void FUN_00e07550(Arg1Flags* a1, Arg2Layout* a2);
 };
 // @fnv 0x00e07c50
 int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
@@ -2032,7 +2032,7 @@ int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
     return r;
 }
 // @fnv 0x00e07ca0
-int __thiscall Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, char* flag)
+int Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, char* flag)
 {
     Entry* originalFirst = first;
     ::FUN_00e06b20((::Node *)this);
@@ -2178,12 +2178,12 @@ struct MyTree
     int unk5c;
     float f60[3];
 
-    int __thiscall Recurse(KdNode* n, KdCtx* a, KdCtx* c);
+    int Recurse(KdNode* n, KdCtx* a, KdCtx* c);
 };
 
 // Recursively returns a shift level for n: a value from f3c, f58 and f60 for a leaf, else the minimum over its children, setting bb on some nodes.
 // @fnv 0x00e07160
-int __thiscall MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
+int MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
 {
     int lo = c->shift;
     if (apNode->leaf)
@@ -2301,7 +2301,7 @@ struct FUN_00e07b90_vector
 };
 // Stores the minimum corner of bounds into result and sets result->w to a scale factor derived from the largest axis extent.
 // @fnv 0x00e07b90
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result)
+void FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result)
 {
     __m128 minCorner = _mm_setr_ps(bounds->minimumX, bounds->minimumY, bounds->minimumZ, 0.0f);
     _mm_store_ps(&result->x, minCorner);
@@ -3183,12 +3183,12 @@ struct S_00e08470_Class
     int unk0c;
     S_00e08470_Data* unk10;
 
-    int __thiscall FUN_00e08470(S_00e08470_Context*);
+    int FUN_00e08470(S_00e08470_Context*);
 };
 
 // Calls FUN_00e06c20 with context->unk40, records the new pointer and unk40 in a vector entry, and returns its difference from the old pointer.
 // @fnv 0x00e08470
-int __thiscall S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
+int S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
 {
     void* saved = this->unk10->unk0c;
 
@@ -3419,7 +3419,7 @@ struct Tree : public FUN_00e09640_class
 
 };
 
-typedef void(__thiscall* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
+typedef void(* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
 
 // Sets up MyBounds and MyRegion state for node, then writes node data into streams via m_pAssemblerHelper if present, else calls FUN_00e08040.
 // @fnv 0x00e08cc0

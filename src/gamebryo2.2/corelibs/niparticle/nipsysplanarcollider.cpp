@@ -466,7 +466,7 @@ struct Vector3f
 };
 struct CollisionHelper
 {
-    int __thiscall FUN_00c29900(float, unsigned int, unsigned int, unsigned int, unsigned int, float, float, Vector3f,
+    int FUN_00c29900(float, unsigned int, unsigned int, unsigned int, unsigned int, float, float, Vector3f,
                                 Vector3f);
 };
 extern CollisionHelper* __cdecl FUN_00aa13e0(unsigned int);
@@ -873,7 +873,7 @@ struct DummyTransform
 
 // Calls the base initializer, stores the collider object and axis vectors, initializes plane and matrix data, and resets two transforms.
 // @fnv 0x00c29900
-void* __fastcall FUN_00c29900(void* this_ptr, int, float fBounce, int bSpawnOnCollide, int bDieOnCollide,
+void* FUN_00c29900(void* this_ptr, int, float fBounce, int bSpawnOnCollide, int bDieOnCollide,
                               void* pkSpawnModifier, void* pkColliderObj, float m_fGlyphWidthInPixels, float m_fGlyphExtent, NiPoint3 kXAxis,
                               NiPoint3 kYAxis)
 {

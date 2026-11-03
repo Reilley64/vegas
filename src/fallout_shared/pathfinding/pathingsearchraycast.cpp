@@ -6,12 +6,12 @@
 #include "fnv/symbols_00401000.h"
 struct PathingSearchRayCast
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Calls FUN_006e62b0, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x006e6280
-void* __thiscall PathingSearchRayCast::Destroy(unsigned int flags)
+void* PathingSearchRayCast::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_006e62b0_Class *>(this)->FUN_006e62b0_Class::~FUN_006e62b0_Class();
     if (flags & 1)

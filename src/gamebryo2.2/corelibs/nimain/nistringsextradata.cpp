@@ -59,10 +59,10 @@ struct NiStringsExtraData
     void* m_auiShapeKeys;
     unsigned int m_uiItemCount;
     void** m_ppData;
-    void __thiscall FreeStrings();
+    void FreeStrings();
 };
 // @fnv 0x00a94830
-void __thiscall NiStringsExtraData::FreeStrings()
+void NiStringsExtraData::FreeStrings()
 {
     m_vtbl = &DAT_010a0134;
     for (unsigned int i = 0; i < m_uiItemCount; ++i)
@@ -77,11 +77,11 @@ void __cdecl operator delete(void*, unsigned int);
 struct NiStringsExtraData : NiExtraData
 {
     ~NiStringsExtraData();
-    void* __thiscall FUN_00a94970(unsigned int flags);
+    void* FUN_00a94970(unsigned int flags);
 };
 // Calls FreeStrings, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a94970
-void* __thiscall NiStringsExtraData::FUN_00a94970(unsigned int flags)
+void* NiStringsExtraData::FUN_00a94970(unsigned int flags)
 {
     static_cast<::NiStringsExtraData *>(nullptr)->FreeStrings();
     if (flags & 1)
@@ -98,7 +98,7 @@ struct FUN_00a94880_shell
     unsigned int m_uiSize;
     char** m_ppcValue;
 
-    void __thiscall CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning);
+    void CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning);
 };
 
 struct NiExtraDataFUN_00a7b330_shell
@@ -110,7 +110,7 @@ int __cdecl _strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
 
 // @fnv 0x00a94880
-void __thiscall FUN_00a94880_shell::CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning)
+void FUN_00a94880_shell::CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning)
 {
     unsigned int i;
     unsigned int uiLen;

@@ -214,7 +214,7 @@ ExplosionEffectSettings* BGSExplosion::FUN_004fadc0()
 }
 
 // @fnv 0x004faa00
-ExplosionEffectSettings* __fastcall FUN_004faa00(ExplosionEffectSettings* pThis)
+ExplosionEffectSettings* FUN_004faa00(ExplosionEffectSettings* pThis)
 {
     ::InitExplosionData((::BGSExplosionData_init *)(pThis));
     return pThis;
@@ -239,7 +239,7 @@ struct BGSExplosionData_init
 
 // Zeroes the float and int fields of the explosion data and sets i12 to 1.
 // @fnv 0x004faa20
-void __fastcall InitExplosionData(BGSExplosionData_init* pThis)
+void InitExplosionData(BGSExplosionData_init* pThis)
 {
     pThis->f0 = 0.0f;
     pThis->f1 = 0.0f;
@@ -742,11 +742,11 @@ struct EffectSetting_shell : EffectSetting
 };
 struct BGSExplosion_shell : BGSExplosion
 {
-    void __thiscall FUN_004fb5a0(TESForm* apCopy);
+    void FUN_004fb5a0(TESForm* apCopy);
 };
 // Copies explosion data from apCopy into this, including base fields, a 0x34-byte block, and the associated light.
 // @fnv 0x004fb5a0
-void __thiscall BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
+void BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
 {
     BGSExplosion* pcopy = dynamic_cast<BGSExplosion*>(apCopy);
     if (!pcopy)

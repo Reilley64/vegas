@@ -122,7 +122,7 @@ struct FUN_00a40560_shell : public NiBlendFloatInterpolator
 struct Vtable_00a40560
 {
     char pad[0xa8];
-    bool(__thiscall* fn)(void*);
+    bool(* fn)(void*);
 };
 
 // Calls the function pointer at offset 0xa8 in pkInterpolator's vtable and returns its bool result.
@@ -214,7 +214,7 @@ struct M76Obj
     void FUN_00a408b0(M76Stream*);
 };
 // @fnv 0x00a408b0
-void __fastcall FUN_00a408b0(M76Obj* self, int, M76Stream* stream)
+void FUN_00a408b0(M76Obj* self, int, M76Stream* stream)
 {
     reinterpret_cast<::SBObject *>((self))->FUN_00a37ec0((*(::SBStream *)(stream)));
     M76Bin* __restrict out = stream->output;
@@ -251,7 +251,7 @@ struct M76Glob
 };
 // Calls FUN_00a38080 on self, then appends the result of FUN_00a7d330(g_011f3e58) and a formatted "m_fFloatValue" string to pkStrings.
 // @fnv 0x00a408f0
-void __fastcall AppendFloatValueStrings(M76Obj* self, int, M76Arr* pkStrings)
+void AppendFloatValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 {
     reinterpret_cast<::BlendSerializer *>((self))->FUN_00a38080((::NiStream *)(pkStrings));
     pkStrings->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<::fnv_00a408f0::M76Glob * *>(&::g_011f3e58)))));
@@ -268,7 +268,7 @@ struct CopyMembersArguments
 
 struct BlendFloatSource : NiBlendFloatInterpolator
 {
-    NiBlendFloatInterpolator* __thiscall FUN_00a405f0(void* cloning);
+    NiBlendFloatInterpolator* FUN_00a405f0(void* cloning);
 };
 
 // Allocates a NiBlendFloatInterpolator, initialises it, copies members from this via FUN_00a37510, and returns the clone.

@@ -36,7 +36,7 @@ struct SummonCreatureEffect
 };
 struct FUN_00828da0_shell
 {
-    int __thiscall GetZero(int a, int b, int c);
+    int GetZero(int a, int b, int c);
 };
 
 struct NiPoint3

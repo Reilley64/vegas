@@ -29,7 +29,7 @@ struct FUN_009a5eb0_shell
 {
     float m_fStartTime;
     float field_4;
-    void __thiscall FUN_009a5eb0(BGSSaveFormBuffer* apSaveGameBuffer);
+    void FUN_009a5eb0(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // @fnv 0x009a5eb0

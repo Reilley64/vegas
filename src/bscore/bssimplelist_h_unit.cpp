@@ -417,7 +417,7 @@ struct FUN_008d1560_list
     void _ref_0063f7b0();
 };
 
-typedef void(__thiscall* FUN_008d1560_fn)(void*);
+typedef void(* FUN_008d1560_fn)(void*);
 
 // Loops while g_011dfe14._ref_008256d0() is false, calling a virtual slot on each element from _ref_006815c0() and then _ref_0063f7b0().
 // @fnv 0x008d1560

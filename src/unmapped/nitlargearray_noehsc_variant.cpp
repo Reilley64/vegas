@@ -4,12 +4,11 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_00a63000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f6000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* lpAddend);
 typedef char* GlobalStringHandle;
 struct NiGlobalStringTable
 {

@@ -186,11 +186,11 @@ struct NiRTTI;
 
 struct FUN_0068acb0_shell
 {
-    NiRTTI* __thiscall GetRTTI();
+    NiRTTI* GetRTTI();
 };
 
 // @fnv 0x0068acb0
-NiRTTI* __thiscall FUN_0068acb0_shell::GetRTTI()
+NiRTTI* FUN_0068acb0_shell::GetRTTI()
 {
     return &(*reinterpret_cast<::NiRTTI *>(&::g_011d6bf0));
 }

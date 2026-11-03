@@ -3,7 +3,7 @@
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/visualize/shape/hkdisplaycylinder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
-void __stdcall FUN_00d58500(int, int);
+void FUN_00d58500(int, int);
 #include <xmmintrin.h>
 struct DE1F50Vector4
 {

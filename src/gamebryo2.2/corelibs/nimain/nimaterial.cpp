@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a8f860
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a9ba90_cls.h"
 #include "fnv/decl/HashTableBase.h"
@@ -19,7 +20,6 @@ char const* const* __cdecl FUN_00a8f860()
     return &(*reinterpret_cast<const char *const *>(&::g_011f5e38));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Handler
 {
     virtual void slot00();
@@ -99,7 +99,6 @@ found:
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 
 

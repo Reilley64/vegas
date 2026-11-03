@@ -23,7 +23,6 @@ class Tile
 #include "StatsMenu__HealingOption.h"
 #include "StatsMenu__NamedEffectsList.h"
 #include "StatsMenu__StatusEffectList.h"
-#pragma pack(push, 4)
 class StatsMenu : public Menu
 {
   public:
@@ -56,24 +55,6 @@ class StatsMenu : public Menu
     int GetClass();
     void AssignTileByID(int, Tile*);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(StatsMenu) == 0x2A4);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kHealingOptions) == 0x28);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kNamedEffectsList) == 0x68);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex0) == 0x74);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex1) == 0x78);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex2) == 0x7C);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pStatusEffectAtIndex3) == 0x80);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kStatusEffectEntries) == 0x84);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_pTiles) == 0x90);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kPrimaryActorValueList) == 0x180);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kSecondaryActorValueList) == 0x1B0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kPerkRankList) == 0x1E0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kMiscStatList) == 0x210);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kStatusEffectList) == 0x240);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_kReputationList) == 0x270);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_bUpdateOption) == 0x2A0);
-FNV_STATIC_ASSERT(offsetof(StatsMenu, m_bStatUpdatePending) == 0x2A1);
 #endif
 
 extern "C" void* __cdecl memset(void*, int, unsigned int) throw(...);

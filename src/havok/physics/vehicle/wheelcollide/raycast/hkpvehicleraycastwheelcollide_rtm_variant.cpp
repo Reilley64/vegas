@@ -291,7 +291,7 @@ struct S00e41f30_impl
     S00e41f30_listener m_kChassisRejectionListener;
     int unk20;
 
-    void __thiscall CreateWheelPhantom(S00e41f30_arg* arg);
+    void CreateWheelPhantom(S00e41f30_arg* arg);
 };
 namespace fnvc_adapt {
 FUN_00c85750_host* __cdecl FUN_00c85750();
@@ -379,7 +379,7 @@ struct CollisionDetectionWheelOutputE423
 };
 struct hkpVehicleRayCastWheelCollideE423
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE423* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE423& kCdInfo);
 };
 class hkReferencedObjectE42
@@ -444,7 +444,7 @@ struct __declspec(align(16)) FUN_00e41eb0_Input
 };
 struct FUN_00e41eb0_Host : public hkpVehicleRayCastWheelCollide
 {
-    void __thiscall FUN_00e41eb0(const void* source, void* output);
+    void FUN_00e41eb0(const void* source, void* output);
 };
 struct hkpVehicleDataE420
 {
@@ -619,7 +619,7 @@ struct FUN_00e42010_self
     void* unk44;
     FUN_00e42010_item* unk48;
 };
-void __stdcall FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb);
+void FUN_00e42010(FUN_00e42010_self* self, hkAabb* aabb);
 struct S00e42460_Vec4
 {
     __m128 m_vComponents;
@@ -942,7 +942,7 @@ __forceinline void PointVelocity(const MotionData& motion, const VecWork& point,
     out.add(motion.linearVelocity);
 }
 // @fnv 0x00e42190
-void __stdcall FUN_00e42190(VObj* a, unsigned char idx, Src* src, Dst* dst)
+void FUN_00e42190(VObj* a, unsigned char idx, Src* src, Dst* dst)
 {
     float* table = a->f34->f08;
     float slotA = table[idx * 12 + 8];

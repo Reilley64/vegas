@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPCONSTRAINTINSTANCESMALLARRAYSERIALIZEOVERRIDETYPE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpConstraintInstanceSmallArraySerializeOverrideType
 {
   public:
@@ -12,7 +11,4 @@ class hkpConstraintInstanceSmallArraySerializeOverrideType
     hkUint16 m_iElementCount;            // +0x4
     hkUint16 m_iCapacityState;  // +0x6
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConstraintInstanceSmallArraySerializeOverrideType
-    [(sizeof(hkpConstraintInstanceSmallArraySerializeOverrideType) == 0x8) ? 1 : -1];
 #endif

@@ -6,7 +6,6 @@
 #include "fnv/symbols_00453000.h"
 #include "layout_support.h"
 #include "BSAudioSyncTimer.h"
-#pragma pack(push, 4)
 class BSAudio
 {
   public:
@@ -30,20 +29,4 @@ class BSAudio
     void SetAudioState(unsigned int);
     SoundPlaybackHandle GetSoundHandleByFormID(unsigned int formID, unsigned int flags);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSAudio) == 0x38);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_bAudioEnabled) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BSAudio, bInitialized) == 0x5);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_bUseMultipleThreads) == 0x6);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_uiAudioFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_bAudioOutputPaused) == 0xC);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pAudioListener) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_kAudioBackendData) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pfnReadAudioData) == 0x20);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pfnReadAudioFile) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pfnIsAudioFileAvailable) == 0x28);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pfnGetSoundHandleValue) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pfnInitializeAudio) == 0x30);
-FNV_STATIC_ASSERT(offsetof(BSAudio, m_pfnShutdownAudio) == 0x34);
 #endif

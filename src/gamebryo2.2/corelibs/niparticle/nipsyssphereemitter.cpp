@@ -80,10 +80,10 @@ struct Base00c1fde0
 struct Holder00c1fde0 : Base00c1fde0
 {
     float m_fCylinderRadius;
-    bool __thiscall FUN_00c1fde0(void* pkObject);
+    bool FUN_00c1fde0(void* pkObject);
 };
 // @fnv 0x00c1fde0
-bool __thiscall Holder00c1fde0::FUN_00c1fde0(void* pkObject)
+bool Holder00c1fde0::FUN_00c1fde0(void* pkObject)
 {
     Holder00c1fde0* pkDest = (Holder00c1fde0*)pkObject;
     if (!reinterpret_cast<::FUN_00c31b80_This *>(this)->FUN_00c31b80(pkObject))
@@ -173,12 +173,12 @@ struct Emitter00c200c0
 {
     char pad[0x58];
     float m_f58;
-    void __thiscall AppendTwoValues(FUN_00c200c0_Arr* p);
+    void AppendTwoValues(FUN_00c200c0_Arr* p);
 };
 
 // Appends a value derived from DAT_01202510 and a value computed from m_f58 into the array p, growing it when full.
 // @fnv 0x00c200c0
-void __thiscall Emitter00c200c0::AppendTwoValues(FUN_00c200c0_Arr* p)
+void Emitter00c200c0::AppendTwoValues(FUN_00c200c0_Arr* p)
 {
     reinterpret_cast<::FUN_00c31db0_cls *>((p))->FUN_00c31db0({});
     unsigned int uiValue = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_01202510))))));

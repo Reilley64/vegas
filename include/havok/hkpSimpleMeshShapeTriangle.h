@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPSIMPLEMESHSHAPETRIANGLE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpSimpleMeshShapeTriangle
 {
   public:
@@ -14,6 +13,4 @@ class hkpSimpleMeshShapeTriangle
     hkUint16 m_kWeldingInfo;  // +0xC
     char padE[0x2];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSimpleMeshShapeTriangle[(sizeof(hkpSimpleMeshShapeTriangle) == 0x10) ? 1 : -1];
 #endif

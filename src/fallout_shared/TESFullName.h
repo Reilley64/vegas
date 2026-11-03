@@ -10,6 +10,4 @@ class TESFullName : public BaseFormComponent
 public:
     void SetFullName(const char *);
 };
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 #endif

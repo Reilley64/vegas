@@ -2,6 +2,7 @@
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -141,11 +142,11 @@ void __cdecl FUN_00cc58c0();
 
 struct FUN_00c7fa70_Class
 {
-    void* __thiscall FUN_00c7fa70(int);
+    void* FUN_00c7fa70(int);
 };
 
 // @fnv 0x00c7fa70
-void* __thiscall FUN_00c7fa70_Class::FUN_00c7fa70(int flags)
+void* FUN_00c7fa70_Class::FUN_00c7fa70(int flags)
 {
     FUN_00cc58c0();
     if (flags & 1)
@@ -157,11 +158,11 @@ extern "C" void __cdecl FUN_0062d4b0();
 
 struct FUN_00cb9900_cls
 {
-    void __thiscall FUN_00cb9900();
+    void FUN_00cb9900();
 };
 
 // @fnv 0x00cb9900
-void __thiscall FUN_00cb9900_cls::FUN_00cb9900()
+void FUN_00cb9900_cls::FUN_00cb9900()
 {
     *(int*)this = (int)&DAT_01084e54;
     FUN_0062d4b0();
@@ -171,14 +172,14 @@ void __cdecl FUN_00cd9fe0();
 
 struct FUN_00cda4b0_cls
 {
-    void __thiscall FUN_00cda4b0();
+    void FUN_00cda4b0();
 };
 
 // @fnv 0x00cda4b0
-void __thiscall FUN_00cda4b0_cls::FUN_00cda4b0()
+void FUN_00cda4b0_cls::FUN_00cda4b0()
 {
     static_cast<::fnv_00cda340::SkeletonPoseData *>(nullptr)->FUN_00cda340();
-    ((void(__thiscall*)(void*))FUN_00cd9fe0)(this);
+    ((void(*)(void*))FUN_00cd9fe0)(this);
 }
 
 struct FUN_00cda8d0_class
@@ -196,12 +197,12 @@ void* FUN_00cda8d0_class::FUN_00cda8d0()
 struct StateResetPart;
 struct FUN_00cdb290
 {
-    void* __thiscall GetPlus4();
+    void* GetPlus4();
 public:
     ::StateResetPart *FUN_00cdb0a0();
 };
 // @fnv 0x00cdb290
-void* __thiscall FUN_00cdb290::GetPlus4()
+void* FUN_00cdb290::GetPlus4()
 {
     reinterpret_cast<::hkaPoseCDA *>(this)->FUN_00cda690();
     return (char*)this + 4;
@@ -223,8 +224,8 @@ struct Outer
 {
     int _0;
     unsigned short _4;
-    void __thiscall FUN_00c7dc40();
-    Outer* __thiscall FUN_00c7e970(unsigned int);
+    void FUN_00c7dc40();
+    Outer* FUN_00c7e970(unsigned int);
 };
 struct MyNode
 {
@@ -363,8 +364,6 @@ void FUN_00c6ffc0_Class::FUN_00c6ffc0()
     *(unsigned int*)((char*)this + 0x414) &= 0xffff7fff;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct FixedStr
 {
     char* h;
@@ -699,7 +698,7 @@ void FUN_00c7d890_cls::FUN_00c7d890()
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 
 // @fnv 0x00c7f900
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count)
+void FUN_00c7f900(char* dst, char* src, unsigned int count)
 {
     if (count <= 0)
         return;
@@ -1302,7 +1301,7 @@ void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
     ::fnv_00c9b470::ApplyCollisionEffect((::fnv_00c9b470::Scene *)(pkObj), f);
 }
 
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
+void FUN_00c7f900(char* dst, char* src, unsigned int count);
 class FUN_00c7f970_cls
 {
   public:
@@ -1329,7 +1328,7 @@ void FUN_00c7f970_cls::FUN_00c7f970(unsigned int uiNew, unsigned int uiOld)
         else
         {
             char* pNew = Alloc(uiNew);
-            ((void(__thiscall*)(void*, char*, char*, unsigned int))FUN_00c7f900)(this, pNew, m_pData, uiOld);
+            ((void(*)(void*, char*, char*, unsigned int))FUN_00c7f900)(this, pNew, m_pData, uiOld);
             Free(m_pData);
             m_pData = pNew;
         }
@@ -3145,7 +3144,7 @@ struct S
     float* arr2c;  // 0x2c
 };
 // @fnv 0x00cda110
-void __fastcall FUN_00cda110(S* s)
+void FUN_00cda110(S* s)
 {
     int i;
     ::FUN_00cb1260(s->p04, s->a->p24, s->a->count * 0x30);
@@ -3540,7 +3539,7 @@ class __declspec(novtable) FUN_00c7dc40 : public Base
     virtual ~FUN_00c7dc40();
 };
 // @fnv 0x00c7e970
-Outer* __thiscall Outer::FUN_00c7e970(unsigned int a)
+Outer* Outer::FUN_00c7e970(unsigned int a)
 {
     reinterpret_cast<::FUN_00c7dc40 *>(this)->FUN_00c7dc40::~FUN_00c7dc40();
     if (a & 1)

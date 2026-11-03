@@ -94,16 +94,16 @@ public:
 };
 struct TelekinesisEffect : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_0082b190(Actor* apActor);
+    unsigned short FUN_0082b190(Actor* apActor);
 };
 struct FUN_008df040_shell
 {
-    unsigned char __thiscall FUN_008df040();
+    unsigned char FUN_008df040();
 };
 
 // Returns the effect's save size: base size from FUN_00802d90 plus 4, plus 8 more when the save version is at least 0x40.
 // @fnv 0x0082b190
-unsigned short __thiscall TelekinesisEffect::FUN_0082b190(Actor* apActor)
+unsigned short TelekinesisEffect::FUN_0082b190(Actor* apActor)
 {
     unsigned short uiSaveSize = 0;
     uiSaveSize += reinterpret_cast<::FUN_00802d90_shell *>(this)->FUN_00802d90(apActor);
@@ -151,7 +151,7 @@ void TelekinesisEffect::LoadFromSave(Actor* apActor)
 
 struct FUN_0082a670_shell
 {
-    void __thiscall FUN_0082a670();
+    void FUN_0082a670();
 };
 
 
@@ -166,7 +166,7 @@ struct FUN_0082aa90_shell
 };
 
 // @fnv 0x0082aa90
-unsigned int __thiscall FUN_0082aa90_shell::GetFloatAsUInt()
+unsigned int FUN_0082aa90_shell::GetFloatAsUInt()
 {
     return ((Flt*)((char*)this + 0x634))->operator unsigned int();
 }
@@ -174,7 +174,7 @@ unsigned int __thiscall FUN_0082aa90_shell::GetFloatAsUInt()
 
 struct FUN_0082aeb0_shell
 {
-    void* __thiscall FUN_0082aeb0();
+    void* FUN_0082aeb0();
 };
 
 struct GO
@@ -213,11 +213,11 @@ struct Calendar
 };
 struct FUN_0082aee0_shell
 {
-    unsigned int __thiscall FUN_0082aee0();
+    unsigned int FUN_0082aee0();
 };
 // Calls FUN_0082aee0 and passes its result to FUN_004b5a80, returning that value.
 // @fnv 0x0082aeb0
-void* __thiscall FUN_0082aeb0_shell::FUN_0082aeb0()
+void* FUN_0082aeb0_shell::FUN_0082aeb0()
 {
     void* result = ((void *)(reinterpret_cast<::FUN_0082aee0_shell *>(this)->FUN_0082aee0()));
     return FUN_004b5a80(result);
@@ -231,10 +231,10 @@ unsigned int FUN_0082aee0_shell::FUN_0082aee0()
 
 struct FUN_0082af20_shell
 {
-    unsigned int __thiscall GetField63C();
+    unsigned int GetField63C();
 };
 // @fnv 0x0082af20
-unsigned int __thiscall FUN_0082af20_shell::GetField63C()
+unsigned int FUN_0082af20_shell::GetField63C()
 {
     return *(unsigned int*)((char*)this + 0x63c);
 }
@@ -259,10 +259,10 @@ struct FUN_00974a50_shell
 };
 struct FUN_0082af60_shell
 {
-    void __thiscall FUN_0082af60();
+    void FUN_0082af60();
 };
 // @fnv 0x0082af60
-void __thiscall FUN_0082af60_shell::FUN_0082af60()
+void FUN_0082af60_shell::FUN_0082af60()
 {
     reinterpret_cast<::TelekinesisEffectT *>((((FUN_0082afa0_shell*)this)))->FUN_0082afa0();
     reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>((((FUN_00974a50_shell*)(&(*reinterpret_cast<int *>(&::g_011e0e80))))))->FUN_00974a50((::TESObjectREFR *)(*(void**)((char*)this + 0x58)), ((void *)(reinterpret_cast<::FUN_00407820_shell *>((((::TESChallenge *)(((ActiveEffect*)this)->GetEffectSetting()))))->FUN_00407820())));
@@ -563,7 +563,7 @@ struct TelekinesisStartEffect
 };
 // Calls FUN_0082c000, stores the result of FUN_00703390 at offset 0x58, calls StartTelekinesisEffect, and clears the byte at offset 0x5d.
 // @fnv 0x0082a670
-void __thiscall FUN_0082a670_shell::FUN_0082a670()
+void FUN_0082a670_shell::FUN_0082a670()
 {
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     *(void**)((char*)this + 0x58) = ::fnv_00703390::FUN_00703390();

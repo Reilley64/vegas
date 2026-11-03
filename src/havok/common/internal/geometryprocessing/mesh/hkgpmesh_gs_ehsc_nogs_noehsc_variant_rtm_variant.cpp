@@ -70,7 +70,7 @@ struct FUN_00e238e0_
 };
 struct FUN_00e24a80_Class
 {
-    void __thiscall FUN_00e24a80();
+    void FUN_00e24a80();
 };
 struct Subobject
 {
@@ -363,7 +363,7 @@ struct ErrorReporter
     virtual void unused2();
     virtual int Report(int, unsigned int, const char*, const char*, int);
 };
-bool __stdcall CheckError(bool report);
+bool CheckError(bool report);
 struct FUN_00e14fe0_node
 {
     FUN_00e14fe0_node* m_pNext;
@@ -792,7 +792,7 @@ struct Inputs_00e118e0
 };
 struct FUN_00e118e0_class
 {
-    void __thiscall FUN_00e118e0(const volatile Inputs_00e118e0*, void*, void*);
+    void FUN_00e118e0(const volatile Inputs_00e118e0*, void*, void*);
 };
 struct E12160Vertex
 {
@@ -924,7 +924,7 @@ struct S_00e13910_Edge
         return n;
     }
 };
-S_00e13910_Edge __stdcall FlipEdge(S_00e13910_Edge edge);
+S_00e13910_Edge FlipEdge(S_00e13910_Edge edge);
 // CreateTriangle (0x00e19cf0, 101 bytes)
 //
 //   push ebp / mov ebp,esp / and esp,-16 / sub esp,0x54

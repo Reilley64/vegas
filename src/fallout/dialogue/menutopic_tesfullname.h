@@ -5,13 +5,9 @@
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESFullName : public BaseFormComponent
 {
   public:
     BSStringT<char> m_kName;  // +0x4
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 #endif

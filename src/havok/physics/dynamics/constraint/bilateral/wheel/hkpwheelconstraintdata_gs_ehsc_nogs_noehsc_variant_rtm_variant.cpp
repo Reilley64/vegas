@@ -11,10 +11,10 @@
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_01267000.h"
 #include "havok/hkpWheelConstraintData.h"
-void __stdcall FUN_00d4e580(char a1, int* a2);
+void FUN_00d4e580(char a1, int* a2);
 struct FUN_00d4e560
 {
-    void* __thiscall PopulateInfo(int ai);
+    void* PopulateInfo(int ai);
 };
 int __cdecl FUN_00d4e5b0();
 #include <xmmintrin.h>
@@ -175,7 +175,7 @@ struct WheelAngleScalar
     }
 };
 // @fnv 0x00d4e480
-void __fastcall FUN_00d4e480(hkpWheelConstraintData* self, void*, float angle)
+void FUN_00d4e480(hkpWheelConstraintData* self, void*, float angle)
 {
     WheelSteeringView& wheel = *reinterpret_cast<WheelSteeringView*>(self);
     float s = sinf(angle);

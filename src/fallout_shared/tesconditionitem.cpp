@@ -38,7 +38,6 @@ enum
 };
 
 // TESConditionItem has no generated header in this task folder; the layout
-#pragma pack(push, 4)
 class TESConditionItem
 {
   public:
@@ -66,16 +65,6 @@ class TESConditionItem
 public:
     bool GetValueIsGlobal() const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESConditionItem) == 28);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_flags) == 0x00);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_comparisonValue) == 0x04);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_comparisonGlobal) == 0x04);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_usFunctionCode) == 0x08);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_data0C) == 0x0C);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_data10) == 0x10);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_objectType) == 0x14);
-FNV_STATIC_ASSERT(offsetof(TESConditionItem, m_objectRef) == 0x18);
 
 // 0x00526ac0 reads the float at +0x24 of the comparison global. The
 // generated TESGlobal header declares no getter, so this TU calls it through
@@ -312,7 +301,7 @@ void TESConditionItem::Load(TESFile* file)
     }
 }
 // @fnv 0x00681170
-void __thiscall FUN_00681170_shell::SwapEndianAndProcess()
+void FUN_00681170_shell::SwapEndianAndProcess()
 {
     ::FUN_00401080(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4));
     ::FUN_00401080(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18));

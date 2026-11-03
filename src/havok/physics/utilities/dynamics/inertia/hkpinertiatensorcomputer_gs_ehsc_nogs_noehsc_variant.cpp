@@ -464,8 +464,8 @@ __declspec(align(16)) struct Solver
     float unk60;
     float unk64;
     float unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88;
-    void __thiscall FUN_00ced390(State* self, float* a);
-    void __thiscall FUN_00cec6b0(float value, float ratio, float* vec, float* mat);
+    void FUN_00ced390(State* self, float* a);
+    void FUN_00cec6b0(float value, float ratio, float* vec, float* mat);
 };
 
 __declspec(align(16)) struct Work

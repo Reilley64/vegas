@@ -10,10 +10,10 @@
 
 // Calls two virtual functions on self: one with a pointer to g_0126955c_arg0, then one with no arguments.
 // @fnv 0x00d9fb50
-void __stdcall FUN_00d9fb50(void* self, int aiUnused)
+void FUN_00d9fb50(void* self, int aiUnused)
 {
-    (*(void(__thiscall**)(void*, char*))(*(char**)self + 0x18))(self, &(*reinterpret_cast<char *>((void *)&::g_0126955c_arg0)));
-    (*(void(__thiscall**)(void*))(*(char**)self + 0x1c))(self);
+    (*(void(**)(void*, char*))(*(char**)self + 0x18))(self, &(*reinterpret_cast<char *>((void *)&::g_0126955c_arg0)));
+    (*(void(**)(void*))(*(char**)self + 0x1c))(self);
 }
 
 extern int DAT_010d4310;
@@ -82,7 +82,7 @@ void* FUN_00d9fc30Class::AllocateMemory(int, int, FUN_00d9fc30Arg* pInfo)
 namespace fnv_00d9fc70 {
 struct FUN_00d9fc70_MemoryManager;
 
-typedef void(__thiscall* FUN_00d9fc70_Callback)(FUN_00d9fc70_MemoryManager*, void*, unsigned short);
+typedef void(* FUN_00d9fc70_Callback)(FUN_00d9fc70_MemoryManager*, void*, unsigned short);
 
 struct FUN_00d9fc70_MemoryManager
 {
@@ -101,14 +101,14 @@ struct FUN_00d9fc70_Class
     void* vtable;
     unsigned short value;
 
-    void* __thiscall FUN_00d9fc70(unsigned char flag);
+    void* FUN_00d9fc70(unsigned char flag);
 };
 
 FUN_00d9fc70_Router* _D1A0E0GetMemoryRouter();
 
 // Calls FUN_00d9fb30, then if flag bit 0 is set, invokes the memory manager's vtable[2] callback with this and value, and returns this.
 // @fnv 0x00d9fc70
-void* __thiscall FUN_00d9fc70_Class::FUN_00d9fc70(unsigned char flag)
+void* FUN_00d9fc70_Class::FUN_00d9fc70(unsigned char flag)
 {
     reinterpret_cast<::FUN_00d9fb30_Stub *>(this)->FUN_00d9fb30();
 
@@ -144,7 +144,7 @@ int* __cdecl FUN_00d9fc60()
 }
 
 // @fnv 0x00d9fb80
-int __stdcall FUN_00d9fb80(int arg0)
+int FUN_00d9fb80(int arg0)
 {
     return 0;
 }

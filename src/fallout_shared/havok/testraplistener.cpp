@@ -112,7 +112,7 @@ struct FUN_0062dee0_shell
 
 // Walks the linked list at this+0x20 and returns true if any node's _ref_0084e3a0() equals arg.
 // @fnv 0x0062dee0
-bool __thiscall FUN_0062dee0_shell::FUN_0062dee0(int arg)
+bool FUN_0062dee0_shell::FUN_0062dee0(int arg)
 {
     CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
     while (p)
@@ -197,7 +197,7 @@ struct FUN_0062e230_shell
 };
 // Calls FUN_004a4960 with the three arguments and returns this.
 // @fnv 0x0062e230
-void* __thiscall FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b, unsigned int c)
+void* FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b, unsigned int c)
 {
     reinterpret_cast<::FUN_004a4960_class *>(this)->FUN_004a4960((void *)(a), (void *)(b), c);
     return this;
@@ -413,10 +413,10 @@ struct FUN_0057c400_shell
 };
 struct FUN_0062df60_shell
 {
-    void __thiscall FUN_0062df60(unsigned int a);
+    void FUN_0062df60(unsigned int a);
 };
 // @fnv 0x0062df60
-void __thiscall FUN_0062df60_shell::FUN_0062df60(unsigned int a)
+void FUN_0062df60_shell::FUN_0062df60(unsigned int a)
 {
     reinterpret_cast<::Holder0057c400 *>((((FUN_0057c400_shell*)this)))->FUN_0057c400(a);
 }
@@ -771,7 +771,7 @@ struct FUN_0062dfa0_shell
 
 // Sets the vtable pointer and clears the three pointer fields at offsets 4, 8 and 12, then returns this.
 // @fnv 0x0062dfa0
-void* __thiscall FUN_0062dfa0_shell::FUN_0062dfa0()
+void* FUN_0062dfa0_shell::FUN_0062dfa0()
 {
     *(void**)this = &DAT_0104e3f4;
     *(int**)((char*)this + 0xc) = 0;
@@ -896,7 +896,7 @@ bool FUN_0062dc80_shell::FUN_0062dc80(RootContactPoint* arPoint)
     TESObjectREFR* m_pReference = 0;
     ptrapRef = FUN_0062b4e0(arPoint->m_p48);
     m_pReference = FUN_0062b4e0(arPoint->m_p20);
-    if (ptrapRef && m_pReference && ((bool(__thiscall*)(void*))(*(void***)m_pReference)[0x40])(m_pReference))
+    if (ptrapRef && m_pReference && ((bool(*)(void*))(*(void***)m_pReference)[0x40])(m_pReference))
     {
         ZoneEntry* ptrap =
             (ZoneEntry*)((void *)(reinterpret_cast<::ImpactManager620 *>((((FUN_00620340_shell*)((char*)this - 8))))->FUN_00620340((::CollisionInfo620 *)(arPoint), ptrapRef, m_pReference, (void *)(0), 1)));

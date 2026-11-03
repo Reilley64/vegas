@@ -148,19 +148,19 @@ struct WeatherEntry;
 
 struct BSSimpleList_WeatherEntry
 {
-    void __thiscall Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*)) const;
+    void Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*)) const;
 };
 
 struct FUN_0072b580_shell
 {
     int m_auiShapeKeys;
     BSSimpleList_WeatherEntry m_kNode;
-    void __thiscall FUN_0072b580(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
+    void FUN_0072b580(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 
 // Sorts the weather entry list using the given comparison function, then calls FUN_0072c700.
 // @fnv 0x0072b580
-void __thiscall FUN_0072b580_shell::FUN_0072b580(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
+void FUN_0072b580_shell::FUN_0072b580(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
 {
     reinterpret_cast<::ItemChangeList *>((void *)&(m_kNode))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     reinterpret_cast<::FUN_0072c700_cls *>(this)->FUN_0072c700();
@@ -188,7 +188,7 @@ void FUN_0072ba80_shell::FUN_0072ba80(void* apFirstAddr, unsigned int aiCount)
 
 struct RecipeMenu_00726f20
 {
-    void* __thiscall FUN_00726f20(unsigned int flags);
+    void* FUN_00726f20(unsigned int flags);
 };
 
 extern int DAT_011d8e90;
@@ -196,7 +196,7 @@ extern char DAT_011d8ea4;
 
 struct FUN_00727680_shell
 {
-    void __thiscall PopulateChallengeList(int, int);
+    void PopulateChallengeList(int, int);
 };
 
 // If abNow is set, calls PopulateChallengeList on DAT_011d8e90 when non-null and clears DAT_011d8ea4; otherwise sets DAT_011d8ea4 to 1.
@@ -270,22 +270,22 @@ struct FUN_00729970_shell
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    void __thiscall FUN_00729970(int aiParam);
+    void FUN_00729970(int aiParam);
 };
 // @fnv 0x00729970
-void __thiscall FUN_00729970_shell::FUN_00729970(int aiParam)
+void FUN_00729970_shell::FUN_00729970(int aiParam)
 {
     FUN_00ec6f20(m_kPointB, m_iThirdValue, 4, aiParam);
 }
 
 struct FUN_00729fb0_shell
 {
-    void __thiscall BuildMenuEntries();
-    void __thiscall FUN_00729fb0(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
+    void BuildMenuEntries();
+    void FUN_00729fb0(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 // Sorts the WeatherEntry list at this+4 using cmp, then calls BuildMenuEntries.
 // @fnv 0x00729fb0
-void __thiscall FUN_00729fb0_shell::FUN_00729fb0(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
+void FUN_00729fb0_shell::FUN_00729fb0(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
 {
     reinterpret_cast<::ItemChangeList *>((void *)(((const BSSimpleList_WeatherEntry*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     BuildMenuEntries();
@@ -294,13 +294,13 @@ void __thiscall FUN_00729fb0_shell::FUN_00729fb0(int(__cdecl* cmp)(WeatherEntry*
 struct WeatherEntry;
 struct BSSimpleList
 {
-    void __thiscall Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
+    void Sort(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 struct FUN_0072add0_shell
 {
     int m_auiShapeKeys;
     BSSimpleList m_kNode;
-    void __thiscall FUN_0072add0(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
+    void FUN_0072add0(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
 };
 struct FUN_0072c130_shell
 {
@@ -308,22 +308,22 @@ struct FUN_0072c130_shell
 void __cdecl FUN_0072a890(void*);
 struct FUN_0072b9f0_shell
 {
-    void __thiscall FUN_0072a890();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void FUN_0072a890();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 void __cdecl FUN_0072b2e0(void*);
 
 struct FUN_0072ba20_shell
 {
-    void __thiscall FUN_0072b2e0();
-    void* __thiscall FUN_0072ba20(unsigned int flags);
+    void FUN_0072b2e0();
+    void* FUN_0072ba20(unsigned int flags);
 };
 
 struct FUN_0072ba50_shell
 {
     void* m_vt;
     int m_auiShapeKeys;
-    void __thiscall FUN_0072ba50();
+    void FUN_0072ba50();
 };
 struct Unk_7879c0
 {
@@ -372,17 +372,17 @@ struct FUN_0072bab0_shell
     int m_pAuxiliaryObject;
     int m_pad3;
     TGF* m_tile;
-    int __thiscall GetFilteredCount();
+    int GetFilteredCount();
 };
 // Calls the virtual function at vtable slot 5 with this and the value returned by GetFilteredCount(0) minus one.
 // @fnv 0x0072ba50
-void __thiscall FUN_0072ba50_shell::FUN_0072ba50()
+void FUN_0072ba50_shell::FUN_0072ba50()
 {
-    ((void(__thiscall*)(void*, int))(*(int**)this)[5])(this, reinterpret_cast<::FUN_0072bab0_shell *>(this)->GetFilteredCount() - 1);
+    ((void(*)(void*, int))(*(int**)this)[5])(this, reinterpret_cast<::FUN_0072bab0_shell *>(this)->GetFilteredCount() - 1);
 }
 // Returns the VATS menu's count minus the float value read from m_tile for the _num_filtered setting.
 // @fnv 0x0072bab0
-int __thiscall FUN_0072bab0_shell::GetFilteredCount()
+int FUN_0072bab0_shell::GetFilteredCount()
 {
     static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
     return ::GetRaceCount((char *)(((VATSMenu*)this))) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((m_tile))->GetFloat(numFiltered);
@@ -573,12 +573,12 @@ struct FUN_0072bc30_shell
     int m_auiShapeKeys[3];
     Tile* m_tile;
 
-    bool __thiscall FUN_0072bc30();
+    bool FUN_0072bc30();
 };
 
 // Returns true if m_tile is set and its enabled check passes for the cached "_enabled" trait index.
 // @fnv 0x0072bc30
-bool __thiscall FUN_0072bc30_shell::FUN_0072bc30()
+bool FUN_0072bc30_shell::FUN_0072bc30()
 {
     static int trait = ::FUN_00a00940("_enabled", -1);
 
@@ -595,7 +595,7 @@ struct Tile_Set_shell
 
 struct FUN_00728a70_shell
 {
-    void __thiscall FUN_00728a70();
+    void FUN_00728a70();
 };
 
 void __cdecl FUN_005330e0(float& value, float minimum, float maximum);
@@ -744,7 +744,7 @@ struct FUN_00726f50_cls : RecipeBase_b4821
     virtual ~FUN_00726f50_cls();
 };
 // @fnv 0x00726f20
-void* __thiscall RecipeMenu_00726f20::FUN_00726f20(unsigned int flags)
+void* RecipeMenu_00726f20::FUN_00726f20(unsigned int flags)
 {
     reinterpret_cast<::FUN_00726f50_cls *>(this)->FUN_00726f50_cls::~FUN_00726f50_cls();
     if (flags & 1)
@@ -762,7 +762,7 @@ FUN_00726f50_cls::~FUN_00726f50_cls()
 
 struct FNVVirtualTarget
 {
-    bool(__thiscall** vtable)(FNVVirtualTarget*, int);
+    bool(** vtable)(FNVVirtualTarget*, int);
 };
 struct FNVAuxController
 {
@@ -885,7 +885,7 @@ struct Object
     int unk08;
     int unk0c;
     Item* current;
-    bool __thiscall SetCurrentItem(Item* input);
+    bool SetCurrentItem(Item* input);
 };
 
 extern void* DAT_01070610[];
@@ -937,7 +937,7 @@ class FUN_0072a890_cls
 };
 // Calls FUN_0072a890, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x0072b9f0
-void* __thiscall FUN_0072b9f0_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_0072b9f0_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_0072a890_cls *>(this)->FUN_0072a890_cls::~FUN_0072a890_cls();
     if (flags & 1)
@@ -980,7 +980,7 @@ bool SelectionManager::FUN_0072b5b0(SelectedOption* option)
 
 struct MenuEntryItem
 {
-    void __thiscall FUN_00700320(int action, unsigned int index);
+    void FUN_00700320(int action, unsigned int index);
 };
 struct MenuEntry
 {
@@ -1036,7 +1036,7 @@ struct FUN_0072c130_cls
 };
 // Sorts the list at offset 4 using the given comparator, then calls ProcessSlots on this object.
 // @fnv 0x0072add0
-void __thiscall FUN_0072add0_shell::FUN_0072add0(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
+void FUN_0072add0_shell::FUN_0072add0(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
 {
     reinterpret_cast<::ItemChangeList *>((((BSSimpleList*)((char*)this + 4))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(cmp));
     reinterpret_cast<::FUN_0072c130_cls *>((((FUN_0072c130_shell*)this)))->ProcessSlots();
@@ -2491,7 +2491,7 @@ struct HLListItem
 };
 // If the object is ready and the input passes the checks, stores input as current, calls RefreshHighlight and returns true; otherwise returns false.
 // @fnv 0x0072a250
-bool __thiscall Object::SetCurrentItem(Item* pItem)
+bool Object::SetCurrentItem(Item* pItem)
 {
     if (reinterpret_cast<::FUN_0072bc30_shell *>(this)->FUN_0072bc30() && (!pItem || (reinterpret_cast<::ListOwner *>(this)->ContainsKey((int)(pItem)) && reinterpret_cast<::FUN_00a01230_shell *>((pItem))->IsTraitNonZero(::FUN_00a00940((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::kListBoxEnabled))), -1)))))
     {
@@ -2854,7 +2854,7 @@ class FUN_0072b2e0
 };
 // Calls FUN_0072b2e0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0072ba20
-void* __thiscall FUN_0072ba20_shell::FUN_0072ba20(unsigned int flags)
+void* FUN_0072ba20_shell::FUN_0072ba20(unsigned int flags)
 {
     reinterpret_cast<::FUN_0072b2e0 *>(this)->FUN_0072b2e0::~FUN_0072b2e0();
     if (flags & 1)
@@ -3375,7 +3375,7 @@ RecipeEntry* RecipePanel::FUN_00729ae0(int selection, int updateChoice, int aiRe
 }
 // Resets the entry count and value, then for each enabled entry assigns an action and index, adds its item, and calls the two finalize methods.
 // @fnv 0x0072bb60
-void __thiscall FUN_00729fb0_shell::BuildMenuEntries()
+void FUN_00729fb0_shell::BuildMenuEntries()
 {
     ((MenuBody*)this)->m_uiItemCount = 0;
     ((MenuBody*)this)->m_uiFilterValue = 0.0f;

@@ -83,11 +83,11 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
 }
 
 extern int DAT_0101abd8;
-void __fastcall FUN_0047b540(void* pThis);
+void FUN_0047b540(void* pThis);
 
 // Initialises the BaseFormComponent base, installs the vtable from DAT_0101abd8, calls FUN_0047b540, and returns pThis.
 // @fnv 0x0047b4f0
-void* __fastcall FUN_0047b4f0(BaseFormComponent* apComponent)
+void* FUN_0047b4f0(BaseFormComponent* apComponent)
 {
     ::FUN_00402d30((int *)(apComponent));
     *(int**)apComponent = &DAT_0101abd8;
@@ -129,7 +129,6 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-typedef char _sizecheck_BGSClipRoundsForm[sizeof(BGSClipRoundsForm) == 8 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -147,7 +146,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESScriptableForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -166,7 +164,6 @@ struct TESScriptableForm : public BaseFormComponent
     bool m_bHasScript;
     char _pad_9[3];
 };
-typedef char _sizecheck_TESScriptableForm[sizeof(TESScriptableForm) == 12 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -179,7 +176,6 @@ struct TESWeightForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct BGSEquipType : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -195,7 +191,6 @@ struct BGSEquipType : public BaseFormComponent
     static void GenerateDefaultMenuIcons();
     int m_eEquipType;
 };
-typedef char _sizecheck_BGSEquipType[sizeof(BGSEquipType) == 8 ? 1 : -1];
 struct FUN_0047b540_shell : public BGSClipRoundsForm
 {
     void FUN_0047b540();

@@ -81,12 +81,12 @@ struct Character : MagicTarget
 
 struct BoundItemEffect
 {
-    bool __thiscall IsTargetCharacter(MagicTarget* apTarget);
+    bool IsTargetCharacter(MagicTarget* apTarget);
 };
 
 // Returns true if apTarget is a Character, using a dynamic_cast to check the type.
 // @fnv 0x008099c0
-bool __thiscall BoundItemEffect::IsTargetCharacter(MagicTarget* apTarget)
+bool BoundItemEffect::IsTargetCharacter(MagicTarget* apTarget)
 {
     Character* pActor = dynamic_cast<Character*>(apTarget);
     return pActor != 0;
@@ -94,8 +94,8 @@ bool __thiscall BoundItemEffect::IsTargetCharacter(MagicTarget* apTarget)
 
 struct FUN_00807eb0_shell : BoundItemEffect
 {
-    void* __thiscall FUN_00807eb0(unsigned int flags);
-    void __thiscall FUN_00807ee0();
+    void* FUN_00807eb0(unsigned int flags);
+    void FUN_00807ee0();
 };
 struct MagicCaster;
 struct MagicItem;
@@ -279,7 +279,7 @@ struct FUN_00807ee0 : BaseEffectS
 };
 // Calls FUN_00807ee0, then frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00807eb0
-void* __thiscall FUN_00807eb0_shell::FUN_00807eb0(unsigned int flags)
+void* FUN_00807eb0_shell::FUN_00807eb0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00807ee0 *>(this)->FUN_00807ee0::~FUN_00807ee0();
     if (flags & 1)
@@ -1045,7 +1045,7 @@ class TESSaveLoadGame
   public:
 
 
-    FormIDEntry* __thiscall GetCurrentFormHeader();
+    FormIDEntry* GetCurrentFormHeader();
 };
 
 
@@ -1053,7 +1053,7 @@ struct GlobalObject_0045cf30
 
 {
 
-    unsigned char* __thiscall Bool();
+    unsigned char* Bool();
 };
 
 
@@ -1105,11 +1105,11 @@ struct BoundItemEffectSaveSizeLayout
 
     EffectItem* effectItems[20];
 
-    unsigned short __thiscall FUN_00809a00(Actor* apActor);
+    unsigned short FUN_00809a00(Actor* apActor);
 };
 
 // @fnv 0x00809a00
-unsigned short __thiscall BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apActor)
+unsigned short BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apActor)
 
 {
 
@@ -1212,7 +1212,7 @@ struct Obj12
     int f00, f04, f08;
 
 
-    int __thiscall FUN_004459e0(int a);
+    int FUN_004459e0(int a);
 };
 
 struct Sound
@@ -1382,7 +1382,7 @@ struct TESSound
 struct FUN_008579e0_shell
 {
 
-    void __thiscall FUN_008579e0(void* buf, unsigned int n);
+    void FUN_008579e0(void* buf, unsigned int n);
 };
 
 struct TimeGlobal : FUN_008579e0_shell
@@ -1432,7 +1432,7 @@ struct This
     unsigned char fA8;
 
 
-    void __thiscall FUN_00809e60(Actor* param);
+    void FUN_00809e60(Actor* param);
 };
 
 // @fnv 0x00809e60
@@ -3217,11 +3217,11 @@ struct BoundSlotItem
 struct BoundItemEffectX : ActiveEffect
 {
     BoundSlotItem* slots[20];
-    TESForm* __thiscall FUN_006733e0();
+    TESForm* FUN_006733e0();
 };
 struct EffectNode
 {
-    bool __thiscall FUN_008256d0();
+    bool FUN_008256d0();
 };
 struct MagicTargetX
 {

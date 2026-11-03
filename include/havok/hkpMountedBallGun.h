@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpBallGun.h"
-#pragma pack(push, 1)
 class hkpMountedBallGun : public hkpBallGun
 {
   public:
     hkVector4 m_vContactPosition;  // +0x60
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMountedBallGun[(sizeof(hkpMountedBallGun) == 0x70) ? 1 : -1];
 #endif

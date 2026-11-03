@@ -49,22 +49,22 @@ void FUN_00c543e0_shell::FUN_00c543e0()
 
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* FUN_00c54d60();
 };
 
 // @fnv 0x00c54d60
-int* __thiscall FUN_00c54d60_shell::FUN_00c54d60()
+int* FUN_00c54d60_shell::FUN_00c54d60()
 {
     return &(*reinterpret_cast<int *>(&::g_012031c4));
 }
 
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int FUN_00c54030(int param_1);
 };
 
 // @fnv 0x00c54030
-int __thiscall FUN_00c54030_shell::FUN_00c54030(int param_1)
+int FUN_00c54030_shell::FUN_00c54030(int param_1)
 {
     return (int)this;
 }
@@ -74,10 +74,10 @@ struct FUN_00a7b290_shell
 };
 struct FUN_00c54150_shell
 {
-    void __thiscall FUN_00c54150(int param_1);
+    void FUN_00c54150(int param_1);
 };
 // @fnv 0x00c54150
-void __thiscall FUN_00c54150_shell::FUN_00c54150(int param_1)
+void FUN_00c54150_shell::FUN_00c54150(int param_1)
 {
     reinterpret_cast<::MyOwner *>((((FUN_00a7b290_shell*)this)))->FUN_00a7b290((*(::NiStream *)(param_1)));
 }
@@ -101,7 +101,7 @@ struct NiColor
     float r;
     float g;
     float b;
-    void __thiscall SaveBinary(NiStream&);
+    void SaveBinary(NiStream&);
 public:
     void LoadBinary(::NiStream &);
 };
@@ -110,10 +110,10 @@ struct FUN_00c54660_shell
     NiColor color;
     unsigned short fldC;
     unsigned char fldE;
-    void __thiscall FUN_00c54660(NiStream&);
+    void FUN_00c54660(NiStream&);
 };
 // @fnv 0x00c54660
-void __thiscall FUN_00c54660_shell::FUN_00c54660(NiStream& aStream)
+void FUN_00c54660_shell::FUN_00c54660(NiStream& aStream)
 {
     color.SaveBinary(aStream);
     ::fnv_00a303a0::FUN_00a303a0((::fnv_00a303a0::Stream *)&(aStream), &fldC);
@@ -126,11 +126,11 @@ struct S_FUN_00c53fa0
 };
 struct S_FUN_00c547e0
 {
-    void* __thiscall FUN_00c547e0(unsigned int);
+    void* FUN_00c547e0(unsigned int);
 };
 // Calls FUN_00c53fa0 on this, then frees this with _delete when bit 0 of flags is set, and returns this.
 // @fnv 0x00c547e0
-void* __thiscall S_FUN_00c547e0::FUN_00c547e0(unsigned int flags)
+void* S_FUN_00c547e0::FUN_00c547e0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00c53fa0_Class *>((reinterpret_cast<S_FUN_00c53fa0*>(this)))->FUN_00c53fa0_Class::~FUN_00c53fa0_Class();
     if (flags & 1)
@@ -145,11 +145,11 @@ struct S
 {
     void* vtbl;
     void* ptr;
-    void __thiscall FUN_00c54810();
+    void FUN_00c54810();
 };
 // Sets the object's vtable pointer to DAT_010c2b2c and deallocates its ptr through g_memoryManager.
 // @fnv 0x00c54810
-void __thiscall S::FUN_00c54810()
+void S::FUN_00c54810()
 {
     *(int*)this = (int)&::FNV_vtbl_NiTArrayBase;
     void* p1 = ptr;
@@ -229,11 +229,11 @@ struct S_00c54550_Foo
     int unk08;
     unsigned short unk0c;
 
-    void __thiscall FUN_00c54550(float param_1);
+    void FUN_00c54550(float param_1);
 };
 
 // @fnv 0x00c54550
-void __thiscall S_00c54550_Foo::FUN_00c54550(float param_1)
+void S_00c54550_Foo::FUN_00c54550(float param_1)
 {
     while (param_1 < ::_DAT_01012060)
         param_1 += ::runtimeInitializationFloat4222;
@@ -253,7 +253,7 @@ struct FUN_00c545d0_cls
     unsigned int baseData[3];
     unsigned short fldC;
     unsigned short fldE;
-    void __thiscall FUN_00c545d0(NiStream& s);
+    void FUN_00c545d0(NiStream& s);
 };
 
 // @fnv 0x00c545d0
@@ -395,12 +395,12 @@ struct FUN_00c54c50_shell
     unsigned short fldC;
     unsigned short fldE;
 
-    FUN_00c54c50_shell* __thiscall FUN_00c54c50(unsigned short param_1, unsigned short param_2);
+    FUN_00c54c50_shell* FUN_00c54c50(unsigned short param_1, unsigned short param_2);
 };
 
 
 // @fnv 0x00c54c50
-FUN_00c54c50_shell* __thiscall FUN_00c54c50_shell::FUN_00c54c50(unsigned short param_1, unsigned short param_2)
+FUN_00c54c50_shell* FUN_00c54c50_shell::FUN_00c54c50(unsigned short param_1, unsigned short param_2)
 {
     int unk04;
     int unk08;
@@ -430,7 +430,7 @@ struct FUN_00c54cc0_cls
     float m_08;
     unsigned short m_0c;
     unsigned char m_0e;
-    bool __thiscall FUN_00c54cc0(FUN_00c54cc0_cls* other);
+    bool FUN_00c54cc0(FUN_00c54cc0_cls* other);
 };
 
 // Compares m_00, m_04, m_08, m_0e and m_0c against another instance and returns whether all match.
@@ -446,7 +446,7 @@ static const char* dummy = "";
 struct NiPoint3
 {
     float x, y, z;
-    char* __thiscall FUN_00a59af0(char const*);
+    char* FUN_00a59af0(char const*);
 };
 
 struct Entry_00c542a0

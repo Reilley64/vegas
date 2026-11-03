@@ -96,7 +96,7 @@ extern int DAT_0101a4c4;
 
 // Initialises the BaseFormComponent at pThis, installs the vtable from DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x00474d10
-void* __fastcall FUN_00474d10(void* pThis)
+void* FUN_00474d10(void* pThis)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;
@@ -109,11 +109,11 @@ struct FUN_00474d60_shell
 {
     int _pad;
     TESForm* m_pForm;
-    void __thiscall FUN_00474d60();
+    void FUN_00474d60();
 };
 
 // @fnv 0x00474d60
-void __thiscall FUN_00474d60_shell::FUN_00474d60()
+void FUN_00474d60_shell::FUN_00474d60()
 {
     if (m_pForm)
     {

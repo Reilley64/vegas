@@ -39,7 +39,7 @@ struct FUN_0048e9b0
 };
 struct FUN_0051b020_shell
 {
-    unsigned short __thiscall FUN_0051b020(unsigned int aiFlags);
+    unsigned short FUN_0051b020(unsigned int aiFlags);
 };
 struct TESFormStub
 {

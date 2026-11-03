@@ -127,11 +127,11 @@ extern int DAT_010ce31c;
 extern int DAT_010cfb34;
 struct FUN_00d4b250_class
 {
-    void __thiscall FUN_00d4b250(int);
+    void FUN_00d4b250(int);
 };
 struct FUN_00d4b250_vt
 {
-    virtual void __thiscall FUN_00d4b250(int);
+    virtual void FUN_00d4b250(int);
 };
 void __cdecl FUN_00d4b250(FUN_00d4b250_vt* p);
 struct FUN_00d4be50_vt
@@ -157,7 +157,7 @@ struct FUN_00d48330_vt
 };
 struct FUN_00d4b1f0_vt
 {
-    virtual void __thiscall FUN_00d4b1f0(int);
+    virtual void FUN_00d4b1f0(int);
 };
 void __cdecl FUN_00d4b1f0(FUN_00d4b1f0_vt* p);
 struct FUN_00d4b320_vt
@@ -176,11 +176,11 @@ struct FUN_00d4fe40_cls
     bool b0;
     char pad2[0xb2 - 0xa3];
     bool b1;
-    void __thiscall FUN_00d4fe40(void* a, bool b);
+    void FUN_00d4fe40(void* a, bool b);
 };
 struct FUN_00d532a0_cls
 {
-    void __thiscall ApplyToAllEntries(int arg);
+    void ApplyToAllEntries(int arg);
 };
 // CreateSpawnObject: cdecl factory. Allocates one of two object sizes through the
 // global allocator holder. A non-zero flag selects the large object (0x80 bytes,
@@ -258,7 +258,7 @@ struct S_00d48300_Foo
     S_00d48300_Callee unk00;
     S_00d48300_Callee unk04;
 
-    S_00d48300_Foo* __thiscall FUN_00d48300(volatile int);
+    S_00d48300_Foo* FUN_00d48300(volatile int);
 };
 void* __cdecl FUN_00d48340();
 extern int DAT_010cf9a4;
@@ -632,7 +632,7 @@ struct S_00d532f0_Class
     int unk04;
     S_00d532f0_Data* unk08;
 
-    bool __thiscall CompareData(S_00d532f0_Class* p);
+    bool CompareData(S_00d532f0_Class* p);
 };
 class D53360BinaryStream
 {
@@ -1385,15 +1385,15 @@ class hkBlockD46E
 
     int SumLinkedValues() const;
 };
-int __stdcall FUN_00d46e00(int arg0);
-int __stdcall FUN_00d46e10(int arg0);
+int FUN_00d46e00(int arg0);
+int FUN_00d46e10(int arg0);
 struct FUN_00d46e20_cls
 {
     void* unk00;
     void* unk04;
     void* unk08;
     int unk0C;
-    int __thiscall FUN_00d46e20();
+    int FUN_00d46e20();
 };
 struct hkListNodeD46E
 {
@@ -1456,7 +1456,7 @@ struct Sh00cb0c00
 void __cdecl FUN_00d47fa0(void* obj);
 struct FUN_00d47fe0_cls
 {
-    void __thiscall Destroy(int value);
+    void Destroy(int value);
 };
 void __cdecl FUN_00d47fd0(FUN_00d47fe0_cls* object);
 struct hkFinishLoadedObjectFlagD483
@@ -1486,11 +1486,11 @@ void FUN_00d4b370();
 void FUN_00d4bef0();
 struct FUN_00c89920_cls
 {
-    void __thiscall InvokeRefTarget(int);
+    void InvokeRefTarget(int);
 };
 struct FUN_00d53290_cls
 {
-    void __thiscall FUN_00d53290(int a);
+    void FUN_00d53290(int a);
 };
 class hkMemoryAllocatorD539;
 struct hkMemoryRouterD539
@@ -1636,7 +1636,7 @@ struct FUN_00d54dc0_cls
     int unk10;
     float unk14;
 
-    void __thiscall FUN_00d54dc0(float value);
+    void FUN_00d54dc0(float value);
 };
 void __cdecl FUN_00d55510();
 typedef unsigned int D57Uint32;
@@ -1655,7 +1655,7 @@ static __forceinline void D57MemCpy16NonEmpty(void* dst, const void* src, int nu
     } while (--numQuads > 0);
 }
 void FUN_00d57150();
-int __stdcall FUN_00d584f0(int iUnused0, int iUnused1);
+int FUN_00d584f0(int iUnused0, int iUnused1);
 struct FUN_00d58ce0_DisplayObj
 {
     virtual void vf00();
@@ -1667,14 +1667,14 @@ struct FUN_00d58ce0_Class
     int unk00;
     unsigned short unk04;
 
-    int __thiscall FUN_00d58ce0(unsigned char flag);
+    int FUN_00d58ce0(unsigned char flag);
 };
 extern double DAT_010229c0;
 struct FUN_00d5d660_cls
 {
     int m_i00;
     int m_i04;
-    void __thiscall NextFloat4(float* pOut);
+    void NextFloat4(float* pOut);
 };
 class hkMemoryAllocatorD5E0
 {
@@ -1764,7 +1764,7 @@ struct FUN_00d5e0c0_Obj
     int unk3c;
     unsigned char unk40;
 
-    unsigned char __thiscall FUN_00d5e0c0();
+    unsigned char FUN_00d5e0c0();
 };
 struct FUN_00d5f740_cls
 {
@@ -1772,7 +1772,7 @@ struct FUN_00d5f740_cls
     int m_24;
     char pad2[0xc0 - 0x28];
     int m_c0;
-    void __thiscall SetValue(int a);
+    void SetValue(int a);
 };
 struct D46E50Node
 {
@@ -1843,7 +1843,7 @@ struct Hk48fc0_Bool
 struct Hk48fc0_String
 {
     char* m_pText;
-    void __thiscall FUN_00cb0a60();
+    void FUN_00cb0a60();
 };
 struct Hk48fc0_Magic
 {
@@ -1865,15 +1865,15 @@ struct Hk48fc0_Stream
     virtual void v00();
     virtual void v04();
     virtual void v08();
-    virtual Hk48fc0_Bool __thiscall IsStreamValid();
+    virtual Hk48fc0_Bool IsStreamValid();
 };
 struct Hk48fc0_Factory
 {
     virtual void v00();
     virtual void v04();
     virtual void v08();
-    virtual void* __thiscall getLoader();
-    virtual void* __thiscall getAllocator();
+    virtual void* getLoader();
+    virtual void* getAllocator();
 };
 struct Hk48fc0_Loader
 {
@@ -1883,19 +1883,19 @@ struct Hk48fc0_Loader
     virtual void v0c();
     virtual void v10();
     virtual void v14();
-    virtual void* __thiscall load(void* pStream, Hk48fc0_Format* pFormat, void* pError);
+    virtual void* load(void* pStream, Hk48fc0_Format* pFormat, void* pError);
 };
 struct Hk48fc0_Contents
 {
     void* m_pData;
-    void __thiscall FUN_00dba0d0(void* pArg1, void* pArg2);
+    void FUN_00dba0d0(void* pArg1, void* pArg2);
 };
 struct Hk48fc0_Data
 {
     void* m_pVtbl;
     void* m_pData;
     int m_nRef;
-    void __thiscall FUN_00dc8030();
+    void FUN_00dc8030();
 };
 int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
 void __cdecl FUN_00dc5d50(void* pArg1, void* pArg2, void* pArg3);
@@ -2299,7 +2299,7 @@ struct FUN_00d54ed0_Obj
 };
 struct FNVMemoryManager
 {
-    void __thiscall FUN_00d54ed0(FUN_00d54ed0_Obj*);
+    void FUN_00d54ed0(FUN_00d54ed0_Obj*);
 };
 struct D47180Cls
 {
@@ -2356,7 +2356,7 @@ struct S_00d49660_Foo
     float unk6c;
     unsigned char unk70;
 
-    S_00d49660_Foo* __thiscall FUN_00d49660(int, int, float);
+    S_00d49660_Foo* FUN_00d49660(int, int, float);
 };
 extern int DAT_010cfb34;
 int __cdecl FUN_00ec62c0();
@@ -2456,7 +2456,7 @@ struct D502D0_Owner
 {
     unsigned int m_unk00, m_unk04, m_flag08;
     D502D0_RefData* m_pData;
-    D502D0_RefData* __thiscall EnsureReference(bool* created);
+    D502D0_RefData* EnsureReference(bool* created);
 };
 inline void* operator new(unsigned int, void* p)
 {

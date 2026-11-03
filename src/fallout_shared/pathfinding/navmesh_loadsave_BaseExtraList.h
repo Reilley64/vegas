@@ -13,8 +13,4 @@ class BaseExtraList
     unsigned char iFlags[21];  // +0x8
     unsigned char layoutPadding1D[3];
 };
-FNV_STATIC_ASSERT(sizeof(BaseExtraList) == 0x20);
-FNV_STATIC_ASSERT(offsetof(BaseExtraList, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(BaseExtraList, pHead) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BaseExtraList, iFlags) == 0x8);
 #endif

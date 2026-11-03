@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPSPHEREMOTION_H
 #include "hkBase.h"
 #include "hkpMotion.h"
-#pragma pack(push, 1)
 class hkpSphereMotion : public hkpMotion
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSphereMotion[(sizeof(hkpSphereMotion) == 0x120) ? 1 : -1];
 #endif

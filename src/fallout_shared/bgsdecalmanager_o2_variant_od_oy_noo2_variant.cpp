@@ -32,7 +32,7 @@
 struct AlignedVector
 {
     __m128 value;
-    void __thiscall FUN_004a3f10(const AlignedVector& source);
+    void FUN_004a3f10(const AlignedVector& source);
 };
 // @fnv 0x004a3f10
 void AlignedVector::FUN_004a3f10(const AlignedVector& source)

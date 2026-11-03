@@ -110,7 +110,7 @@ struct NiMemObject_DeleteHelper : public NiMemObject
 
 // Calls FUN_00a57f80 on pThis, then frees pThis with the delete helper when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a50e50
-void* __fastcall FUN_00a50e50(void* pThis, int, unsigned int flags)
+void* FUN_00a50e50(void* pThis, int, unsigned int flags)
 {
     reinterpret_cast<::FUN_00a57f80_cls *>((pThis))->FUN_00a57f80();
     if (flags & 1)

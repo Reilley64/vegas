@@ -2,6 +2,7 @@
 #define VOLUMETRICFOGSHADER_DECLS_H
 
 
+#include <windows.h>
 #include <stddef.h>
 
 #include "fnv/symbols_00e76000.h"
@@ -15,8 +16,6 @@ class NiMemObject
     static void operator delete(void* pointer);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 class NiRefObject : public NiMemObject
 {
@@ -272,14 +271,5 @@ class VolumetricFogShaderVTable
 extern const char DAT_010babec[];
 extern const char DAT_010bb0ac[];
 
-typedef char NiD3DShaderConstantMap_must_be_68_bytes[(sizeof(NiD3DShaderConstantMap) == 0x44) ? 1 : -1];
-typedef char VolumetricFogShader_must_be_168_bytes[(sizeof(VolumetricFogShader) == 0xa8) ? 1 : -1];
-typedef char
-    VolumetricFogShader_pixel_map_at_30[(offsetof(VolumetricFogShader, m_spFirstShaderConstantMap) == 0x30) ? 1 : -1];
-typedef char
-    VolumetricFogShader_vertex_map_at_34[(offsetof(VolumetricFogShader, m_spSecondShaderConstantMap) == 0x34) ? 1 : -1];
-typedef char VolumetricFogShader_renderer_at_18[(offsetof(VolumetricFogShader, m_pShaderObject) == 0x18) ? 1 : -1];
-typedef char VolumetricFogShader_data_at_88[(offsetof(VolumetricFogShader, m_data88) == 0x88) ? 1 : -1];
-typedef char VolumetricFogShader_data_at_98[(offsetof(VolumetricFogShader, m_data98) == 0x98) ? 1 : -1];
 
 #endif

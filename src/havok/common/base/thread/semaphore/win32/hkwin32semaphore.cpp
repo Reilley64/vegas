@@ -2,16 +2,15 @@
 // src/havok/common/base/thread/semaphore/win32/hkwin32semaphore.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/semaphore/win32/hkwin32semaphore.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Tree_d978.h"
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* h, unsigned long ms);
 
 // @fnv 0x00d04380
-int __fastcall FUN_00d04380(void* h, int)
+int FUN_00d04380(void* h, int)
 {
     return WaitForSingleObject(*(void**)h, (unsigned long)-1);
 }
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* h, long releaseCount, long* previousCount);
 struct FUN_00d04390
 {
     void* handle;

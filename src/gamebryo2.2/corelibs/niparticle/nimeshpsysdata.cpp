@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
@@ -39,75 +40,75 @@ struct NiPSysData
 };
 struct NiMeshPSysData : NiPSysData
 {
-    void __thiscall FUN_00c309d0();
-    void* __thiscall FUN_00c30bd0(unsigned int);
+    void FUN_00c309d0();
+    void* FUN_00c30bd0(unsigned int);
 };
 
 void __cdecl operator delete(void* p, unsigned int size);
 
 struct Mesh308
 {
-    virtual void __thiscall a00();
-    virtual void __thiscall a01();
-    virtual void __thiscall a02();
-    virtual void __thiscall a03();
-    virtual void __thiscall a04();
-    virtual void __thiscall a05();
-    virtual void __thiscall a06();
-    virtual void __thiscall a07();
-    virtual void __thiscall a08();
-    virtual void __thiscall a09();
-    virtual void __thiscall a10();
-    virtual void __thiscall a11();
-    virtual void __thiscall a12();
-    virtual void __thiscall a13();
-    virtual void __thiscall a14();
-    virtual void __thiscall a15();
-    virtual void __thiscall a16();
-    virtual void __thiscall a17();
-    virtual void __thiscall a18();
-    virtual void __thiscall a19();
-    virtual void __thiscall a20();
-    virtual void __thiscall a21();
-    virtual void __thiscall a22();
-    virtual void __thiscall a23();
-    virtual void __thiscall a24();
-    virtual void __thiscall a25();
-    virtual void __thiscall a26();
-    virtual void __thiscall a27();
-    virtual void __thiscall a28();
-    virtual void __thiscall a29();
-    virtual void __thiscall a30();
-    virtual void __thiscall a31();
-    virtual void __thiscall a32();
-    virtual void __thiscall a33();
-    virtual void __thiscall a34();
-    virtual void __thiscall a35();
-    virtual void __thiscall a36();
-    virtual void __thiscall a37();
-    virtual void __thiscall a38();
-    virtual void __thiscall a39();
-    virtual void __thiscall a40();
-    virtual void __thiscall a41();
-    virtual void __thiscall a42();
-    virtual void __thiscall a43();
-    virtual void __thiscall a44();
-    virtual void __thiscall a45();
-    virtual void __thiscall a46();
-    virtual void __thiscall a47();
-    virtual void __thiscall a48();
-    virtual void __thiscall a49();
-    virtual void __thiscall a50();
-    virtual void __thiscall a51();
-    virtual void __thiscall a52();
-    virtual void __thiscall a53();
-    virtual void __thiscall a54();
-    virtual void __thiscall a55();
-    virtual void __thiscall a56();
-    virtual void __thiscall a57();
-    virtual void __thiscall a58();
-    virtual void __thiscall a59();
-    virtual void __thiscall T(unsigned int);
+    virtual void a00();
+    virtual void a01();
+    virtual void a02();
+    virtual void a03();
+    virtual void a04();
+    virtual void a05();
+    virtual void a06();
+    virtual void a07();
+    virtual void a08();
+    virtual void a09();
+    virtual void a10();
+    virtual void a11();
+    virtual void a12();
+    virtual void a13();
+    virtual void a14();
+    virtual void a15();
+    virtual void a16();
+    virtual void a17();
+    virtual void a18();
+    virtual void a19();
+    virtual void a20();
+    virtual void a21();
+    virtual void a22();
+    virtual void a23();
+    virtual void a24();
+    virtual void a25();
+    virtual void a26();
+    virtual void a27();
+    virtual void a28();
+    virtual void a29();
+    virtual void a30();
+    virtual void a31();
+    virtual void a32();
+    virtual void a33();
+    virtual void a34();
+    virtual void a35();
+    virtual void a36();
+    virtual void a37();
+    virtual void a38();
+    virtual void a39();
+    virtual void a40();
+    virtual void a41();
+    virtual void a42();
+    virtual void a43();
+    virtual void a44();
+    virtual void a45();
+    virtual void a46();
+    virtual void a47();
+    virtual void a48();
+    virtual void a49();
+    virtual void a50();
+    virtual void a51();
+    virtual void a52();
+    virtual void a53();
+    virtual void a54();
+    virtual void a55();
+    virtual void a56();
+    virtual void a57();
+    virtual void a58();
+    virtual void a59();
+    virtual void T(unsigned int);
 };
 struct This308
 {
@@ -117,11 +118,11 @@ struct This308
     unsigned short m50;
     char _52[0x2A];
     Mesh308* m7c;
-    void __thiscall FUN_00c308d0(unsigned short);
+    void FUN_00c308d0(unsigned short);
 };
 // Calls T on m7c for each slot from usActive up to m50, then sets m50 to the smaller of usActive and m08.
 // @fnv 0x00c308d0
-void __thiscall This308::FUN_00c308d0(unsigned short usStartIndex)
+void This308::FUN_00c308d0(unsigned short usStartIndex)
 {
     unsigned short us;
     for (us = usStartIndex; us < m50; us++)
@@ -137,7 +138,7 @@ void __thiscall This308::FUN_00c308d0(unsigned short usStartIndex)
 struct NiStream;
 struct NiPSysData_Helper
 {
-    bool __thiscall RegisterStreamables(NiStream&);
+    bool RegisterStreamables(NiStream&);
 };
 struct NiNodeHelper
 {
@@ -162,11 +163,11 @@ struct NiNodeHelper
     virtual void f18();
     virtual void f19();
     virtual void f20();
-    virtual void __thiscall RegisterStreamables(NiStream&);
+    virtual void RegisterStreamables(NiStream&);
 };
 struct FUN_00c30940_shell
 {
-    bool __thiscall FUN_00c30940(NiStream&);
+    bool FUN_00c30940(NiStream&);
 };
 // Registers the streamables of this object and of the NiNodeHelper stored at offset 0x7c, returning false if the first registration fails.
 // @fnv 0x00c30940
@@ -194,13 +195,13 @@ struct S_00c30a90
     unsigned short us78;
     unsigned short us7a;
     FakeNode00c30a90* sp;
-    void __thiscall FUN_00c30a90();
+    void FUN_00c30a90();
 };
 struct BaseCall00c30a90
 {
 };
 // @fnv 0x00c30a90
-void __thiscall S_00c30a90::FUN_00c30a90()
+void S_00c30a90::FUN_00c30a90()
 {
     unsigned short us;
     NiAVObject* pkMesh;
@@ -221,14 +222,14 @@ struct BSFadeNode
 };
 struct Hc00
 {
-    NiMeshPSysData* __thiscall FUN_00c30c00();
+    NiMeshPSysData* FUN_00c30c00();
 };
 struct Hae0
 {
 };
 struct Holder_00c30c50
 {
-    NiObject* __thiscall FUN_00c30c50(CloningProcess&);
+    NiObject* FUN_00c30c50(CloningProcess&);
 };
 struct StrArr
 {
@@ -237,10 +238,10 @@ struct StrArr
     unsigned short m_usSize;
     unsigned short _pad2;
     unsigned short m_usGrow;
-    void __thiscall SetAt(unsigned int, char*&);
+    void SetAt(unsigned int, char*&);
 };
 // @fnv 0x00c31210
-void __stdcall FUN_00c31210(StrArr* pkStrings)
+void FUN_00c31210(StrArr* pkStrings)
 {
     reinterpret_cast<::Source08 *>((pkStrings))->FUN_00c255b0({});
     char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_012027c0)));
@@ -293,7 +294,7 @@ struct NiMeshPSysData_00c30920 : NiObject
 {
     char _pad[0x7c - 4];
     NiNode_00c30920* m_pMeshNode;
-    void __thiscall FUN_00c30920(CloningProcess& kCloning);
+    void FUN_00c30920(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c30920
@@ -308,7 +309,7 @@ struct FUN_00c309a0_shell
     void* vftable;
     void* data;
 
-    void* __thiscall Destroy(unsigned char deallocate);
+    void* Destroy(unsigned char deallocate);
 };
 
 struct MemoryManager
@@ -319,7 +320,7 @@ extern int DAT_010c07e0;
 
 
 // @fnv 0x00c309a0
-void* __thiscall FUN_00c309a0_shell::Destroy(unsigned char deallocate)
+void* FUN_00c309a0_shell::Destroy(unsigned char deallocate)
 {
     void* p = data;
     vftable = reinterpret_cast<void*>(&DAT_010c07e0);
@@ -347,37 +348,37 @@ NiMeshPSysData* __cdecl CreateNiMeshPSysData()
 
 struct Mesh308Compat
 {
-    virtual void __thiscall a00();
-    virtual void __thiscall a01();
-    virtual void __thiscall a02();
-    virtual void __thiscall a03();
-    virtual void __thiscall a04();
-    virtual void __thiscall a05();
-    virtual void __thiscall a06();
-    virtual void __thiscall a07();
-    virtual void __thiscall a08();
-    virtual void __thiscall a09();
-    virtual void __thiscall a10();
-    virtual void __thiscall a11();
-    virtual void __thiscall a12();
-    virtual void __thiscall a13();
-    virtual void __thiscall a14();
-    virtual void __thiscall a15();
-    virtual void __thiscall a16();
-    virtual void __thiscall a17();
-    virtual void __thiscall a18();
-    virtual void __thiscall a19();
-    virtual void __thiscall a20();
-    virtual void __thiscall a21();
-    virtual void __thiscall a22();
-    virtual char __thiscall a23(Mesh308*);
+    virtual void a00();
+    virtual void a01();
+    virtual void a02();
+    virtual void a03();
+    virtual void a04();
+    virtual void a05();
+    virtual void a06();
+    virtual void a07();
+    virtual void a08();
+    virtual void a09();
+    virtual void a10();
+    virtual void a11();
+    virtual void a12();
+    virtual void a13();
+    virtual void a14();
+    virtual void a15();
+    virtual void a16();
+    virtual void a17();
+    virtual void a18();
+    virtual void a19();
+    virtual void a20();
+    virtual void a21();
+    virtual void a22();
+    virtual char a23(Mesh308*);
 };
 struct DerivedThis308 : This308
 {
-    char __thiscall FUN_00c30970(This308*);
+    char FUN_00c30970(This308*);
 };
 // @fnv 0x00c30970
-char __thiscall DerivedThis308::FUN_00c30970(This308* other)
+char DerivedThis308::FUN_00c30970(This308* other)
 {
     if (!((char)(reinterpret_cast<::PSDataEqStand *>(this)->FUN_00c24de0((::PSDataEqStand *)(other)))))
         return 0;
@@ -386,8 +387,6 @@ char __thiscall DerivedThis308::FUN_00c30970(This308* other)
     return thisMesh->a23(otherMesh) != 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
 
 struct C30AE0CloningProcess;
 
@@ -518,10 +517,10 @@ struct NiMeshPSysData308
 {
     char _0[0x7c];
     NiObject* m_pMeshNode;
-    void __thiscall FUN_00c30b70(NiStream& kStream);
+    void FUN_00c30b70(NiStream& kStream);
 };
 // @fnv 0x00c30b70
-void __thiscall NiMeshPSysData308::FUN_00c30b70(NiStream& kStream)
+void NiMeshPSysData308::FUN_00c30b70(NiStream& kStream)
 {
     ::FUN_00a7b7d0();
     NiObject* pkNode = ((NiStreamStandIn*)&kStream)->GetLoadedObject();
@@ -789,7 +788,6 @@ void MeshSave::WriteToStream(SaveStream& stream)
     stream.SaveLink(particleMeshes);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 struct NiRefBase
 {
@@ -803,7 +801,7 @@ struct SlotEntry
     unsigned char _00[8];
     unsigned short m_08;
     unsigned short m_0a;
-    void __thiscall FUN_004afc50(NiRefBase** pp);
+    void FUN_004afc50(NiRefBase** pp);
 };
 
 struct FUN_00c30df0_cls
@@ -813,11 +811,11 @@ struct FUN_00c30df0_cls
     unsigned short m_90;
     unsigned short m_92;
 
-    void __thiscall ReleaseSlotRef(unsigned int idx, NiRefBase* p);
+    void ReleaseSlotRef(unsigned int idx, NiRefBase* p);
 };
 
 // @fnv 0x00c30df0
-void __thiscall FUN_00c30df0_cls::ReleaseSlotRef(unsigned int uiIndex, NiRefBase* pRef)
+void FUN_00c30df0_cls::ReleaseSlotRef(unsigned int uiIndex, NiRefBase* pRef)
 {
     if (uiIndex >= m_92)
     {
@@ -848,7 +846,6 @@ void __thiscall FUN_00c30df0_cls::ReleaseSlotRef(unsigned int uiIndex, NiRefBase
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectC30
 {
@@ -937,7 +934,7 @@ class FUN_00c309d0 : public BaseC30
 };
 // Calls FUN_00c309d0, then deletes this with size 0x98 when bit 0 of flags is set, and returns this.
 // @fnv 0x00c30bd0
-void* __thiscall NiMeshPSysData::FUN_00c30bd0(unsigned int flags)
+void* NiMeshPSysData::FUN_00c30bd0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00c309d0 *>(this)->FUN_00c309d0::~FUN_00c309d0();
     if (flags & 1)
@@ -1040,7 +1037,7 @@ class FUN_00c30c00_cls : public BC30C00Base
     BC30C00ObjectArray m_kArray;
 };
 // @fnv 0x00c30c50
-NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
+NiObject* Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
 {
     NiMeshPSysData* pkObject;
     void* pMemory = BSFadeNode::operator new(0x98);
@@ -1057,8 +1054,6 @@ NiObject* __thiscall Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
 FUN_00c30c00_cls::FUN_00c30c00_cls() throw() : m_pkTarget(0)
 {}
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 
 struct NiAVObjectSI
 {

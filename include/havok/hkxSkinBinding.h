@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkxMesh;
-#pragma pack(push, 1)
 class hkxSkinBinding : public hkReferencedObject
 {
   public:
@@ -16,6 +15,4 @@ class hkxSkinBinding : public hkReferencedObject
     char pad24[0xC];
     hkMatrix4 m_kBindPose;  // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxSkinBinding[(sizeof(hkxSkinBinding) == 0x70) ? 1 : -1];
 #endif

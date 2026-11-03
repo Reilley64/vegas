@@ -5,6 +5,7 @@
 
 // src/fallout_shared/globalfunc_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/globalfunc.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BC87850RefObject.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -98,7 +99,7 @@ struct OutBa
     char _0[0xc];
     InBa* fC;
 };
-void __stdcall FUN_00ba6240(OutBa* a1);
+void FUN_00ba6240(OutBa* a1);
 class NiObject;
 struct NiStream
 {
@@ -208,7 +209,7 @@ struct FUN_00c75460_S
     SkelHolder_S* pHolder;
     bool FUN_00c75460();
 };
-void __stdcall FUN_00ba5de0(OutBa* a1, int unused);
+void FUN_00ba5de0(OutBa* a1, int unused);
 struct CallTarget_00ba5320
 {
 };
@@ -463,7 +464,7 @@ struct FUN_00c86d20_Class
 {
     int unk00, unk04;
     InnerData* inner;
-    void __thiscall FUN_00c86d20(OutputData* dest);
+    void FUN_00c86d20(OutputData* dest);
 };
 struct FUN_00c871c0_tls
 {
@@ -745,7 +746,7 @@ struct InBaFull
     int f10C;
 };
 int __cdecl GetTableValue(int);
-void __stdcall FUN_00ba5e60(OutBa* a1);
+void FUN_00ba5e60(OutBa* a1);
 struct C69EE0Properties
 {
     int unk;
@@ -759,8 +760,6 @@ static inline unsigned int C69EE0IsEnabled(NiAVObject* pkObject)
     return pkProps ? (pkProps->m_uiValue1 & 2) : 0;
 }
 extern void (*DAT_011afe8c)(NiCollisionObject*, CollisionObjectCountContext*);
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile const*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile const*);
 struct StageReturn
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;

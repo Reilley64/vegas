@@ -36,7 +36,7 @@
 struct Vec3
 {
     float x, y, z;
-    Vec3 __thiscall ApplyScaled(float f);
+    Vec3 ApplyScaled(float f);
 };
 
 struct __declspec(align(16)) Vec4
@@ -118,7 +118,7 @@ struct WorldObj
     virtual void slot3b();
     virtual void slot3c();
     virtual void GetTransform(EObj*);
-    Filter __thiscall FUN_0043b4f0();
+    Filter FUN_0043b4f0();
 };
 
 struct CollObj
@@ -134,7 +134,7 @@ struct EObj
     };
     RawVector storage[4];
     EObj();
-    void __thiscall FUN_00cb2240(void* g, void* f);
+    void FUN_00cb2240(void* g, void* f);
 };
 
 struct GObj
@@ -187,7 +187,7 @@ struct Shape
 class NiAVObject;
 struct NiNode
 {
-    unsigned int __thiscall FUN_0043b480();
+    unsigned int FUN_0043b480();
 public:
     ::NiAVObject *GetAt(unsigned int);
 };

@@ -4,6 +4,7 @@
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/BC6C330HavokCollision.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -58,12 +59,12 @@
 #include "fnv/symbols_01272000.h"
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int FUN_00622430();
 };
 struct NiRTTI;
 struct FUN_0066b5b0_shell
 {
-    const NiRTTI* __thiscall GetNiRTTI();
+    const NiRTTI* GetNiRTTI();
 };
 struct NiAVObject;
 struct NiNode
@@ -71,12 +72,12 @@ struct NiNode
 };
 struct BSTreeNode : NiNode
 {
-    NiAVObject* __thiscall GetFirstChild();
+    NiAVObject* GetFirstChild();
 };
 struct NiCullingProcess;
 struct DummyNode
 {
-    void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
+    void FUN_0066bf50(NiCullingProcess* arCuller);
 };
 struct FUN_00c6c290_holder
 {
@@ -119,7 +120,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int FUN_0066d730() const;
 };
 struct FUN_0066da50_t
 {
@@ -137,7 +138,7 @@ struct Flt
 struct NiTriBasedGeom;
 struct FUN_0066b620_shell
 {
-    NiTriBasedGeom* __thiscall GetTriBasedGeom();
+    NiTriBasedGeom* GetTriBasedGeom();
 };
 struct FUN_0066d400_shell
 {
@@ -229,12 +230,11 @@ struct H_00c8c810
 {
     char _p[8];
     S_00c8c810_C* p;
-    void __thiscall FUN_00c8c770();
-    void __thiscall FUN_00c8c810(bool);
+    void FUN_00c8c770();
+    void FUN_00c8c810(bool);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 // @fnv 0x00c8c810
-void __thiscall H_00c8c810::FUN_00c8c810(bool b)
+void H_00c8c810::FUN_00c8c810(bool b)
 {
     if (b)
     {
@@ -374,10 +374,10 @@ struct S00cb7750
     int _08;
     int _0C;
     Inner00cb7750* m_10;
-    void __thiscall FUN_00cb7750();
+    void FUN_00cb7750();
 };
 // @fnv 0x00cb7750
-void __thiscall S00cb7750::FUN_00cb7750()
+void S00cb7750::FUN_00cb7750()
 {
     if (m_10 && m_10->m_08)
     {
@@ -1590,7 +1590,7 @@ S_00caaf40_Obj* S_00caaf40::FUN_00caaf40(int a)
 namespace fnv_00cab000 {
 // FUN_00cab000 - bhkCapsuleShape::FUN_00cab000 (vtable slot 46 of .?AVbhkCapsuleShape@@)
 //
-// The function is a __thiscall member with one 4-byte stack argument (a bool* out flag).
+// The function is a member with one 4-byte stack argument (a bool* out flag).
 // It runs under the per-thread recursion guard that lives in the thread-local block at
 // offset +0x2b4, allocates a 0x30 byte object from the memory manager on first use,
 // fills in the object's matrix area and then hands the object to FUN_00caade0.
@@ -2504,7 +2504,7 @@ struct FUN_00cb7790_class
     FUN_00cb7790_node* node;
     unsigned int unk0C;
     FUN_00cb7790_receiver* receiver;
-    void __thiscall FUN_00cb7790();
+    void FUN_00cb7790();
 };
 
 // @fnv 0x00cb7790
@@ -3569,11 +3569,11 @@ struct FUN_00cb8010_cls
     virtual void vB0();
     virtual OwnerB* v45(unsigned char* pFlag);
 
-    void __thiscall FUN_00cb8010(A1Owner* a1);
+    void FUN_00cb8010(A1Owner* a1);
 };
 
 // @fnv 0x00cb8010
-void __thiscall FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
+void FUN_00cb8010_cls::FUN_00cb8010(A1Owner* a1)
 {
     unsigned int flagSlot;
     OwnerB* p = this->v45((unsigned char*)&flagSlot);
@@ -3686,7 +3686,7 @@ struct CObj
     int unk04;
     CLevel1* unk08;
 
-    bool __thiscall FUN_00c8c3d0(int value);
+    bool FUN_00c8c3d0(int value);
 };
 
 
@@ -3709,7 +3709,7 @@ inline bool Walk(CObj* o, int v, bool r)
     return r;
 }
 // @fnv 0x00c8c3d0
-bool __thiscall CObj::FUN_00c8c3d0(int value)
+bool CObj::FUN_00c8c3d0(int value)
 {
     bool r = ((bool)(::FUN_00c84ec0((void*)value)));
     if (r)
@@ -4274,9 +4274,8 @@ void C8C260Shader::FUN_00c8c260(C8C260Renderer* pkRenderer)
     C8C260Prepare(pkBlock, pkRenderer);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
-typedef void(__thiscall* ReleaseFn_t)(S_00c8c810_A* apObj);
+typedef void(* ReleaseFn_t)(S_00c8c810_A* apObj);
 
 // @fnv 0x00c8c770
 void H_00c8c810::FUN_00c8c770()
@@ -4847,11 +4846,11 @@ struct CollisionStreamLoader : NiCollisionObject
 
 struct LegacyCollisionLoader : CollisionStreamLoader
 {
-    void __thiscall FUN_00c87f60(NiStream& stream);
+    void FUN_00c87f60(NiStream& stream);
 };
 
 // @fnv 0x00c87f60
-void __thiscall LegacyCollisionLoader::FUN_00c87f60(NiStream& stream)
+void LegacyCollisionLoader::FUN_00c87f60(NiStream& stream)
 {
     if (stream.version >= 0x15)
     {

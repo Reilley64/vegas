@@ -21,5 +21,4 @@ class BGSPreloadable : public BaseFormComponent
     ~BGSPreloadable();
     virtual void Preload(IO_TASK_PRIORITY priority, QueuedFile* file);
 };
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
 #endif

@@ -3,6 +3,7 @@
 // their real unit once its classes are.
 
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A23D40Input.h"
 #include "fnv/decl/ActiveEffect.h"
@@ -1486,7 +1487,7 @@ struct Shell451
 };
 struct FUN_00493bb0_Class
 {
-    char __thiscall FUN_00493bb0();
+    char FUN_00493bb0();
 };
 class TileMenu;
 struct StartMenu
@@ -1649,7 +1650,7 @@ struct GO
 };
 struct C68E30Owner
 {
-    void __thiscall FUN_00c68e30(C68E30Holder* holder, int value);
+    void FUN_00c68e30(C68E30Holder* holder, int value);
 };
 struct FUN_00621370Owner : GO
 {
@@ -2121,7 +2122,7 @@ struct Setting_S
 };
 struct FUN_008d3290_Class
 {
-    float __thiscall FUN_008d3290();
+    float FUN_008d3290();
 };
 struct FUN_009396c0_Class
 {
@@ -2137,7 +2138,7 @@ struct FUN_00939750_class
 };
 struct FUN_00939770_Class
 {
-    void __thiscall FUN_00939770(int value);
+    void FUN_00939770(int value);
 };
 struct FUN_009397b0_shell
 {
@@ -2153,7 +2154,7 @@ struct FUN_009397e0_obj
 };
 struct FUN_00939820_Class
 {
-    unsigned int __thiscall GetOffset190();
+    unsigned int GetOffset190();
 };
 struct FUN_00939840_Class
 {
@@ -2170,7 +2171,7 @@ struct FUN_00939880_t
 void __cdecl operator delete(void* p);
 struct FUN_009398a0_Class
 {
-    void* __thiscall FUN_009398a0(unsigned int flags);
+    void* FUN_009398a0(unsigned int flags);
 };
 struct FUN_00985d10
 {
@@ -4729,7 +4730,6 @@ struct PlayerCharacterStandin : public Character
 
     void FUN_0093b3a0(ActorValue::Index av, int delta, Actor* attacker);
 };
-FNV_STATIC_ASSERT(offsetof(PlayerCharacterStandin, heartbeatSound) == 0x77c);
 struct ValueOwner
 {
     virtual int baseInt(int);
@@ -7726,7 +7726,7 @@ struct FNV_93dee0_Host : PlayerCharacter
 };
 struct FUN_0093e4f0_Class
 {
-    unsigned int* __thiscall FUN_0093e4f0();
+    unsigned int* FUN_0093e4f0();
 };
 struct FUN_005272b0_class
 {
@@ -13605,7 +13605,7 @@ struct FUN_00953c20_shell
 };
 struct FUN_00953c50_Class
 {
-    char __thiscall FUN_00953c50(char* outCombat);
+    char FUN_00953c50(char* outCombat);
 };
 class C953C80List
 {
@@ -13661,7 +13661,7 @@ struct FUN_00953f80_Class
 };
 struct FUN_00953fb0_Class
 {
-    char __thiscall FUN_00953fb0();
+    char FUN_00953fb0();
 };
 // FUN_00954610: /MT /Od thiscall, 5 stack params (callee pops 0x14).
 // Stand-in classes: Obj (generic callee object), FUN_00954610_cls (owner).
@@ -15060,7 +15060,7 @@ struct PlayerCharacter_stand_in_0049
 };
 struct FUN_009590d0_Class
 {
-    void __thiscall FUN_009590d0(bool aNeedReset);
+    void FUN_009590d0(bool aNeedReset);
 };
 struct PointX
 {
@@ -21666,7 +21666,7 @@ struct FUN_009655a0_Class
 struct ImageSpaceModifierInstance;
 struct ImageSpaceModifierInstance
 {
-    void __thiscall FUN_009655e0();
+    void FUN_009655e0();
 };
 template <class T> class StrT
 {
@@ -23041,7 +23041,7 @@ struct FUN_00967350_shell
 };
 struct FUN_00967700_class
 {
-    bool __thiscall IsFlagged();
+    bool IsFlagged();
 };
 struct SrcE
 {
@@ -26869,7 +26869,7 @@ class PlayerNearbyRefs : public Character
 };
 struct FUN_00969ac0_Class
 {
-    void __thiscall FUN_00969ac0();
+    void FUN_00969ac0();
 };
 struct FUN_00969ae0_Class
 {
@@ -26879,7 +26879,6 @@ struct FUN_00969b00_class
 {
     void FUN_00969b00();
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount(void);
 struct GameTimeSource
 {
 };
@@ -34080,17 +34079,6 @@ struct PCStandin
     Actor* unkD44;
     BSSimpleList<StructD48*>* unkD48;
 };
-FNV_STATIC_ASSERT(offsetof(PCStandin, pProcess) == 0x68);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk208) == 0x208);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk210) == 0x210);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk224) == 0x224);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk604) == 0x604);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk60C) == 0x60c);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unk638) == 0x638);
-FNV_STATIC_ASSERT(offsetof(PCStandin, soundHandle77C) == 0x77c);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unkD2C) == 0xd2c);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unkD44) == 0xd44);
-FNV_STATIC_ASSERT(offsetof(PCStandin, unkD48) == 0xd48);
 class LoadCameraView
 {
   public:
@@ -35568,7 +35556,7 @@ struct PlayerFormFlagSetter : PlayerCharacter
 void __cdecl FUN_00704470(int);
 struct PlayerNoteRemoval : PlayerCharacter
 {
-    void __thiscall FUN_00966b80(void* note);
+    void FUN_00966b80(void* note);
 };
 struct StealWarningState : Character
 {

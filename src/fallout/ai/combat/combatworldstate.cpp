@@ -76,10 +76,10 @@ CombatWorldStateListNode* CombatWorldStateListNode::GetNext()
 
 struct FUN_009aad60_shell
 {
-    CombatWorldStateListNode* __thiscall FUN_009aad60(int index);
+    CombatWorldStateListNode* FUN_009aad60(int index);
 };
 // @fnv 0x009aad60
-CombatWorldStateListNode* __thiscall FUN_009aad60_shell::FUN_009aad60(int index)
+CombatWorldStateListNode* FUN_009aad60_shell::FUN_009aad60(int index)
 {
     return (CombatWorldStateListNode*)((char*)this + index * 8 + 0x1ac);
 }
@@ -93,10 +93,10 @@ BSSimpleList<CombatAction*>* FUN_009957f0(int index)
 
 struct FUN_009aad00Class
 {
-    void __thiscall FUN_009aad00(int index, int value);
+    void FUN_009aad00(int index, int value);
 };
 // @fnv 0x009aad00
-void __thiscall FUN_009aad00Class::FUN_009aad00(int index, int value)
+void FUN_009aad00Class::FUN_009aad00(int index, int value)
 {
     ((int*)this)[index] = value;
 }
@@ -115,11 +115,11 @@ struct CombatStateArray
 {
     char _00[0x50];
     char _50[0x0C];
-    void __thiscall CopyFrom(CombatStateArray* apWorldStateArray);
+    void CopyFrom(CombatStateArray* apWorldStateArray);
 };
 // Copies 0x50 bytes from apWorldStateArray into this, then 0xC bytes into this+0x50 from apWorldStateArray+0x50.
 // @fnv 0x009aad80
-void __thiscall CombatStateArray::CopyFrom(CombatStateArray* apWorldStateArray)
+void CombatStateArray::CopyFrom(CombatStateArray* apWorldStateArray)
 {
     __memcpy(this, apWorldStateArray, 0x50);
     __memcpy((char*)this + 0x50, (char*)apWorldStateArray + 0x50, 0xC);
@@ -129,10 +129,10 @@ struct FUN_009aad20_shell
 {
     char gap[0x3FFF8];
     CombatWorldStateListNode* items[1];
-    void __thiscall SetItem(int index, CombatWorldStateListNode* value);
+    void SetItem(int index, CombatWorldStateListNode* value);
 };
 // @fnv 0x009aad20
-void __thiscall FUN_009aad20_shell::SetItem(int index, CombatWorldStateListNode* value)
+void FUN_009aad20_shell::SetItem(int index, CombatWorldStateListNode* value)
 {
     items[index] = value;
 }
@@ -500,7 +500,7 @@ struct IntSetting
 };
 struct WorldStateManager
 {
-    void __thiscall UpdateWorldState(Context* context);
+    void UpdateWorldState(Context* context);
 };
 // @fnv 0x009aa4e0
 void WorldStateManager::UpdateWorldState(Context* context)

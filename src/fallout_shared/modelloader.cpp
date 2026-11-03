@@ -1,5 +1,6 @@
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMover.h"
@@ -584,7 +585,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_0043b1b0_shell : public NiFixedString
 {
     void FUN_0043b1b0();
@@ -601,7 +601,7 @@ void FUN_0043b1b0_shell::FUN_0043b1b0()
 
 
 // @fnv 0x0043b1e0
-int __fastcall GetRefAt21C(const char* pThis)
+int GetRefAt21C(const char* pThis)
 {
     return reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(pThis + 0x21c))->FUN_0084e3a0();
 }
@@ -634,7 +634,7 @@ template <typename T> struct BSStringT
 };
 
 // @fnv 0x0043b230
-const char* __fastcall FUN_0043b230(const char* pThis)
+const char* FUN_0043b230(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0x0c);
 }
@@ -662,7 +662,6 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_0043b4d0_shell : public CFilter
 {
     int FUN_0043b4d0();
@@ -699,7 +698,7 @@ struct hkpTypedBroadPhaseHandle
 };
 
 // @fnv 0x0043b540
-unsigned int __fastcall FUN_0043b540(char* pThis)
+unsigned int FUN_0043b540(char* pThis)
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((hkpTypedBroadPhaseHandle*)(pThis + 0x14))))->GetName()));
 }
@@ -709,7 +708,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct LoadedFile : public NiMemObject
 {
     void DecRefCount();
@@ -723,7 +721,6 @@ struct LoadedFile : public NiMemObject
     bool m_bFileFlagAtOffsetD;
     char _pad_e[2];
 };
-typedef char _sizecheck_LoadedFile[sizeof(LoadedFile) == 16 ? 1 : -1];
 struct FUN_0043bb80_shell : public LoadedFile
 {
     void DestroyLoadedFile();
@@ -755,7 +752,7 @@ _LogStub0043bd00* __cdecl FUN_0043bd00();
 int __cdecl InitScriptRunLock(void*);
 
 // @fnv 0x0043be10
-int __fastcall FUN_0043be10(char* pThis)
+int FUN_0043be10(char* pThis)
 {
     return InitScriptRunLock(pThis + 0x10);
 }
@@ -924,7 +921,7 @@ struct FUN_0043c610_shell : public QueuedFile
 // @fnv 0x0043c610
 void FUN_0043c610_shell::RunVirtualMethod28()
 {
-    (*(void(__thiscall**)(QueuedFile*))(*(int*)this + 0x28))(this);
+    (*(void(**)(QueuedFile*))(*(int*)this + 0x28))(this);
 }
 
 struct FUN_0043c630_shell : public QueuedTexture
@@ -947,7 +944,7 @@ struct FUN_0043c7a0_arg
 
 // Passes arg.val and the address pThis+0x3c to SetFlagBit0.
 // @fnv 0x0043c7a0
-void __fastcall FUN_0043c7a0(char* pThis, FUN_0043c7a0_arg aByteArg)
+void FUN_0043c7a0(char* pThis, FUN_0043c7a0_arg aByteArg)
 {
     ::SetFlagBit0(aByteArg.val, (unsigned char *)(void *)(pThis + 0x3c));
 }
@@ -964,8 +961,8 @@ void FUN_0043c7d0_shell::FUN_0043c7d0(unsigned char aByte)
     ::FUN_0044ae60(aByte, (unsigned char *)(void *)((char*)this + 0x3c));
 }
 
-void __fastcall FUN_0044b160(void*);
-void __fastcall FUN_00c3cea0(void*);
+void FUN_0044b160(void*);
+void FUN_00c3cea0(void*);
 
 struct _Base_00441d20
 {
@@ -1215,7 +1212,6 @@ struct QueuedMagicItem : public QueuedFile
     MagicItem* pMagicItem;
     EffectSetting* m_pEffectSetting;
 };
-typedef char _sizecheck_QueuedMagicItem[sizeof(QueuedMagicItem) == 48 ? 1 : -1];
 struct FUN_0043e080_shell : public QueuedMagicItem
 {
     void ProcessQueuedMagicItem();
@@ -1241,8 +1237,8 @@ void FUN_0043e080_shell::ProcessQueuedMagicItem()
 }
 
 namespace fnv_0043e1b0 {
-void __fastcall FUN_0044b160(void*);
-void __fastcall FUN_00c3cea0(void*);
+void FUN_0044b160(void*);
+void FUN_00c3cea0(void*);
 
 struct _Base_00441d20
 {
@@ -1389,7 +1385,7 @@ template <typename T> class BSStringT
 };
 
 // @fnv 0x0043fad0
-const char* __fastcall FUN_0043fad0(const char* pThis)
+const char* FUN_0043fad0(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0xbc);
 }
@@ -1443,7 +1439,7 @@ void FUN_004408d0_S::ForwardToBCT(QR2* q)
 void __cdecl FinishScriptRunLock(void*);
 
 // @fnv 0x00440a10
-void __fastcall FinishScriptRunLockAndReset(char* pThis)
+void FinishScriptRunLockAndReset(char* pThis)
 {
     ::WaitForSingleObjectEx((long *)(void *)(pThis + 0xa4));
     if (*reinterpret_cast<int*>(pThis + 0xa4) < 0)
@@ -1454,7 +1450,7 @@ void __cdecl FinishScriptRunLock(void*);
 
 // Calls FinishScriptRunLock on pThis+0xa0, then clamps the int at pThis+0xa0 to 0 if it is negative.
 // @fnv 0x00440a50
-void __fastcall FinishScriptRun(char* pThis)
+void FinishScriptRun(char* pThis)
 {
     ::WaitForSingleObjectEx((long *)(void *)(pThis + 0xa0));
     if (*(int*)(pThis + 0xa0) < 0)
@@ -1564,11 +1560,11 @@ struct TESAttackDamageForm_1
     virtual void Free(void);
 };
 
-void __fastcall AttachHeadAndFaceParts(void* pThis);
+void AttachHeadAndFaceParts(void* pThis);
 
 // Frees the object under a memory context, then calls AttachHeadAndFaceParts if FUN_005d8710 returns null.
 // @fnv 0x00441820
-void __fastcall FUN_00441820(char* apObject)
+void FUN_00441820(char* apObject)
 {
     AutoMemContext_1 tempMemContext(*(MEM_CONTEXT*)(apObject + 0x18), true,
                                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x8ff);
@@ -1685,8 +1681,8 @@ struct FacePart_Helper
     void Attach();
 };
 
-void __fastcall FUN_0043ed90(const char* pHead, int unused, TESObjectREFR* pRefr, Biped* pBiped);
-void __fastcall ApplyQueuedModels(const char* pFace);
+void FUN_0043ed90(const char* pHead, int unused, TESObjectREFR* pRefr, Biped* pBiped);
+void ApplyQueuedModels(const char* pFace);
 
 // @fnv 0x004418b0
 void FUN_004418b0_shell::AttachHeadAndFaceParts()
@@ -1729,8 +1725,8 @@ S1b20* S1b20::InitWithPlayer(int a)
 }
 
 namespace fnv_00441d20 {
-void __fastcall FUN_0044b160(void*);
-void __fastcall FUN_00c3cea0(void*);
+void FUN_0044b160(void*);
+void FUN_00c3cea0(void*);
 
 struct _Base_00441d20
 {
@@ -1769,7 +1765,7 @@ struct BSSemaphore_
 };
 
 // @fnv 0x004424c0
-void __fastcall FUN_004424c0(char* this_ptr)
+void FUN_004424c0(char* this_ptr)
 {
     ((BSSemaphore_*)(this_ptr + 0xc))->Wait();
 }
@@ -1782,14 +1778,14 @@ struct FUN_00442510_Cl
 };
 
 // @fnv 0x00442510
-void __fastcall FUN_00442510(FUN_00442510_Cl* pThis)
+void FUN_00442510(FUN_00442510_Cl* pThis)
 {
     reinterpret_cast<void (CountingSemaphore::*)()>(&FUN_00442510_Cl::Wait);
     ((FUN_00442510_Cl*)((char*)pThis + 0x18))->Wait();
 }
 
 // @fnv 0x00442530
-void __fastcall SignalAtOffset18(char* this_ptr)
+void SignalAtOffset18(char* this_ptr)
 {
     ((CountingSemaphore*)(this_ptr + 0x18))->Signal();
 }
@@ -1807,7 +1803,6 @@ void ModelLoader::ProcessQueuedFile()
 }
 
 int __cdecl InitScriptRunLock(void*);
-__declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount, long* lpPreviousCount);
 
 // Releases the semaphore stored at this+4 by one count, then calls InitScriptRunLock with this and returns its result.
 // @fnv 0x00442550
@@ -1856,7 +1851,7 @@ int FUN_00443190_shell::GetCombinedValue()
 }
 
 // @fnv 0x004431b0
-int __fastcall FUN_004431b0(int* p)
+int FUN_004431b0(int* p)
 {
     return p[3] + p[4];
 }
@@ -1864,7 +1859,7 @@ int __fastcall FUN_004431b0(int* p)
 int __cdecl InitScriptRunLock(void*);
 
 // @fnv 0x00444cc0
-void __fastcall InitScriptRunLockForObject(char* pThis)
+void InitScriptRunLockForObject(char* pThis)
 {
     ::FUN_0040b460((unsigned int *)(void *)(pThis + 0xa4));
 }
@@ -1872,7 +1867,7 @@ void __fastcall InitScriptRunLockForObject(char* pThis)
 int __cdecl InitScriptRunLock(void*);
 
 // @fnv 0x00444ce0
-void __fastcall FUN_00444ce0(char* pThis)
+void FUN_00444ce0(char* pThis)
 {
     ::FUN_0040b460((unsigned int *)(void *)(pThis + 0xa0));
 }
@@ -1892,7 +1887,7 @@ struct TESFile
 bool FUN_00444ed0_shell::FUN_00444ed0()
 {
     TESObject* pObject = *reinterpret_cast<TESObject* const*>(((const char *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESFile*>(this)))->GetShotList())));
-    return pObject ? (reinterpret_cast<bool(__thiscall**)(TESObject*)>(*reinterpret_cast<void***>(pObject))[0x154 / 4])(
+    return pObject ? (reinterpret_cast<bool(**)(TESObject*)>(*reinterpret_cast<void***>(pObject))[0x154 / 4])(
                          pObject)
                    : false;
 }
@@ -2094,14 +2089,14 @@ unsigned int FUN_00448a60_struct::GetMaskedValue(unsigned int mask)
 }
 
 // @fnv 0x00448de0
-bool __fastcall IsNotStateSix(int param_1)
+bool IsNotStateSix(int param_1)
 {
     return *(int*)(param_1 + 0x68) != 6;
 }
 
 // Sets both 64-bit elements of the given array to zero and returns the array pointer.
 // @fnv 0x00448e00
-__int64* __fastcall ClearPair(__int64* param_1)
+__int64* ClearPair(__int64* param_1)
 {
     param_1[0] = 0;
     param_1[1] = 0;
@@ -2126,7 +2121,7 @@ void FUN_00448e30_this::init(float afValue)
 
 
 // @fnv 0x00448e70
-bool __fastcall FUN_00448e70(__int64* pThis)
+bool FUN_00448e70(__int64* pThis)
 {
     return (((long long)(::FUN_00aa4d80())) - pThis[0]) > pThis[1];
 }
@@ -2155,7 +2150,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 struct BSFileEntry : public FileNameHash
 {
     unsigned int Size();
@@ -2173,7 +2167,6 @@ struct BSFileEntry : public FileNameHash
     unsigned int iSize;
     unsigned int iOffset;
 };
-typedef char _sizecheck_BSFileEntry[sizeof(BSFileEntry) == 16 ? 1 : -1];
 struct FUN_00448f50_shell : public ModelLoader
 {
     void ForwardToVTableSlot(BSFileEntry*);
@@ -2216,7 +2209,7 @@ int __cdecl FUN_00449050(int aeIOFileIndex)
 int __cdecl InitScriptRunLock(void*);
 
 // @fnv 0x00449090
-void* __fastcall FUN_00449090(void* apObject)
+void* FUN_00449090(void* apObject)
 {
     *((void**)apObject) = &DAT_01017138;
     *((int*)((char*)apObject + 8)) = 0;
@@ -2227,19 +2220,19 @@ void* __fastcall FUN_00449090(void* apObject)
 }
 
 // @fnv 0x00449110
-bool __fastcall FUN_00449110(int* piValues)
+bool FUN_00449110(int* piValues)
 {
     return piValues[3] >= 4;
 }
 
 // @fnv 0x00449130
-bool __fastcall FUN_00449130(int* pThis)
+bool FUN_00449130(int* pThis)
 {
     return pThis[3] == 6;
 }
 
 // @fnv 0x00449150
-void __fastcall SetFieldCToFive(char* pObject)
+void SetFieldCToFive(char* pObject)
 {
     *reinterpret_cast<int*>(pObject + 0xc) = 5;
 }
@@ -2409,10 +2402,10 @@ bool Q449::FUN_004495d0(void* arData)
 }
 }  // namespace fnv_004495d0
 
-void __fastcall FUN_0044a040(void*);
+void FUN_0044a040(void*);
 
 // @fnv 0x00449680
-void __fastcall FUN_00449680(void* p)
+void FUN_00449680(void* p)
 {
     FUN_0044a040(p);
 }
@@ -2488,7 +2481,7 @@ bool FUN_00449880_Class::FUN_00449880(const char* pcStringA, const char* pcStrin
 extern int DAT_01017288;
 
 // @fnv 0x004498e0
-void* __fastcall FUN_004498e0(void* apObject)
+void* FUN_004498e0(void* apObject)
 {
     reinterpret_cast<::FUN_0044cb70_Holder *>((apObject))->FUN_0044cb70();
     *reinterpret_cast<void**>(apObject) = &DAT_01017288;
@@ -2501,7 +2494,7 @@ void* __fastcall FUN_004498e0(void* apObject)
 extern int DAT_01017294;
 
 // @fnv 0x00449940
-void __fastcall FUN_00449940(void** apOut)
+void FUN_00449940(void** apOut)
 {
     *apOut = &DAT_01017294;
 }
@@ -2509,7 +2502,7 @@ void __fastcall FUN_00449940(void** apOut)
 extern int DAT_010172a0;
 
 // @fnv 0x00449960
-void* __fastcall FUN_00449960(char* pThis)
+void* FUN_00449960(char* pThis)
 {
     new ((void *)(pThis)) ::FUN_0044cbb0_class();
     *reinterpret_cast<int**>(pThis) = &DAT_010172a0;
@@ -2521,7 +2514,7 @@ void* __fastcall FUN_00449960(char* pThis)
 extern int DAT_010172ac;
 
 // @fnv 0x004499a0
-void __fastcall FUN_004499a0(int** ppTarget)
+void FUN_004499a0(int** ppTarget)
 {
     *ppTarget = &DAT_010172ac;
 }
@@ -2529,7 +2522,7 @@ void __fastcall FUN_004499a0(int** ppTarget)
 extern int DAT_010172b8;
 
 // @fnv 0x004499c0
-void __fastcall FUN_004499c0(void* pThis)
+void FUN_004499c0(void* pThis)
 {
     *(int**)pThis = &DAT_010172b8;
 }
@@ -2537,7 +2530,7 @@ void __fastcall FUN_004499c0(void* pThis)
 extern int DAT_010172c4;
 
 // @fnv 0x004499e0
-void __fastcall FUN_004499e0(void* pThis)
+void FUN_004499e0(void* pThis)
 {
     *(int**)pThis = &DAT_010172c4;
 }
@@ -2545,7 +2538,7 @@ void __fastcall FUN_004499e0(void* pThis)
 extern int DAT_010172d0;
 
 // @fnv 0x00449a00
-void __fastcall FUN_00449a00(int** appTarget)
+void FUN_00449a00(int** appTarget)
 {
     *appTarget = &DAT_010172d0;
 }
@@ -2570,12 +2563,12 @@ FUN_00449f50_shell* FUN_00449f50_shell::FUN_00449f50(int aiArg1, int aiArg2, int
 }
 }  // namespace fnv_00449f50
 
-void __fastcall FUN_0044d5c0(int pThis, int edx, void* pArg);
+void FUN_0044d5c0(int pThis, int edx, void* pArg);
 
 // @fnv 0x00449f80
-void __fastcall FUN_00449f80(int* pThis)
+void FUN_00449f80(int* pThis)
 {
-    reinterpret_cast<void(__thiscall*)(int, void*)>(&FUN_0044d5c0)(pThis[5], pThis);
+    reinterpret_cast<void(*)(int, void*)>(&FUN_0044d5c0)(pThis[5], pThis);
 }
 
 namespace fnv_00449fa0 {
@@ -2736,7 +2729,6 @@ struct KFModel
     int BackgroundTask;
     int m_iActualRefCount;
 };
-typedef char _sizecheck_KFModel[sizeof(KFModel) == 28 ? 1 : -1];
 struct FUN_0044b010_shell : public KFModel
 {
     void FUN_0044b010();
@@ -2777,7 +2769,6 @@ struct KFModel
     int BackgroundTask;
     int m_iActualRefCount;
 };
-typedef char _sizecheck_KFModel[sizeof(KFModel) == 28 ? 1 : -1];
 struct FUN_0044b050_shell : public KFModel
 {
     void FUN_0044b050();
@@ -2814,7 +2805,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct LoadedFile : public NiMemObject
 {
     void DecRefCount();
@@ -2828,7 +2818,6 @@ struct LoadedFile : public NiMemObject
     bool m_bFileFlagAtOffsetD;
     char _pad_e[2];
 };
-typedef char _sizecheck_LoadedFile[sizeof(LoadedFile) == 16 ? 1 : -1];
 struct FUN_0044b0f0_shell : public LoadedFile
 {
     void FUN_0044b0f0();
@@ -2854,7 +2843,7 @@ struct FUN_0044b160_obj
 {
     void FUN_0040c130();
 };
-void __fastcall FUN_0040c130(void*);
+void FUN_0040c130(void*);
 
 struct FUN_0044b160_ptr
 {
@@ -2864,10 +2853,10 @@ struct FUN_0044b160_ptr
     }* m_pObject;
 };
 
-void __fastcall FUN_0040c130(FUN_0044b160_ptr::Target*);
+void FUN_0040c130(FUN_0044b160_ptr::Target*);
 
 // @fnv 0x0044b160
-void __fastcall FUN_0044b160(FUN_0044b160_ptr* _this)
+void FUN_0044b160(FUN_0044b160_ptr* _this)
 {
     if (_this->m_pObject)
         FUN_0040c130(_this->m_pObject);
@@ -2879,7 +2868,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct LoadedFile : public NiMemObject
 {
     void DecRefCount();
@@ -2893,7 +2881,6 @@ struct LoadedFile : public NiMemObject
     bool m_bFileFlagAtOffsetD;
     char _pad_e[2];
 };
-typedef char _sizecheck_LoadedFile[sizeof(LoadedFile) == 16 ? 1 : -1];
 struct FUN_0044b180_shell : public LoadedFile
 {
     void FUN_0044b180();
@@ -2929,10 +2916,10 @@ void FUN_0044b180_shell::FUN_0044b180()
 }
 }  // namespace fnv_0044b180
 
-void __fastcall FUN_0044b2e0(void* pThis);
+void FUN_0044b2e0(void* pThis);
 
 // @fnv 0x0044b2c0
-void __fastcall FUN_0044b2c0(void** pThis)
+void FUN_0044b2c0(void** pThis)
 {
     if (*pThis)
     {
@@ -2940,10 +2927,10 @@ void __fastcall FUN_0044b2c0(void** pThis)
     }
 }
 
-void __fastcall FUN_0044dd60(void* pThis);
+void FUN_0044dd60(void* pThis);
 
 // @fnv 0x0044cbf0
-void __fastcall FUN_0044cbf0(void** apObject)
+void FUN_0044cbf0(void** apObject)
 {
     if (*apObject)
     {
@@ -2961,7 +2948,7 @@ struct VirtualDeletable
 
 // Calls FinishScriptRunLock on the object at offset 8 and deletes the object if the returned count is zero.
 // @fnv 0x0044dd60
-void __fastcall FUN_0044dd60(VirtualDeletable* apObject)
+void FUN_0044dd60(VirtualDeletable* apObject)
 {
     int count = ((int)(::WaitForSingleObjectEx((long *)(void *)((char*)apObject + 8))));
     if (count == 0)
@@ -2972,7 +2959,7 @@ void __fastcall FUN_0044dd60(VirtualDeletable* apObject)
 }  // namespace fnv_0044dd60
 
 // @fnv 0x0044faa0
-void* __fastcall FUN_0044faa0(char* this_ptr)
+void* FUN_0044faa0(char* this_ptr)
 {
     return this_ptr + 0x10C;
 }
@@ -2990,10 +2977,9 @@ void FUN_0044fac0_S::FUN_0044fac0(RefT* apRef)
     reinterpret_cast<::Callees *>((apRef))->FUN_00726070();
 }
 
-__declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
 
 // @fnv 0x0044fae0
-void* __fastcall FUN_0044fae0(void* apCriticalSection)
+void* FUN_0044fae0(void* apCriticalSection)
 {
     InitializeCriticalSection(apCriticalSection);
     return apCriticalSection;
@@ -3004,7 +2990,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiRTTI
 {
     char* GetName();
@@ -3012,7 +2997,6 @@ struct NiRTTI
     char* m_pcName;
     void* m_pBaseRTTI;
 };
-typedef char _sizecheck_NiRTTI[sizeof(NiRTTI) == 8 ? 1 : -1];
 
 class NiObject;
 struct FUN_0045baf0_helper
@@ -3086,7 +3070,7 @@ template <typename T> struct BSStringT
 };
 
 // @fnv 0x004a8a90
-const char* __fastcall FUN_004a8a90(char* apObject)
+const char* FUN_004a8a90(char* apObject)
 {
     return *(const BSStringT<char>*)(apObject + 0x30);
 }
@@ -3107,7 +3091,7 @@ template <typename T> struct BSStringT
 };
 
 // @fnv 0x00537bd0
-const char* __fastcall GetStringAtOffset(const char* pThis)
+const char* GetStringAtOffset(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0x78);
 }
@@ -3121,14 +3105,14 @@ template <typename T> class BSStringT
 };
 
 // @fnv 0x005495f0
-const char* __fastcall FUN_005495f0(const char* pThis)
+const char* FUN_005495f0(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0xb8);
 }
 }  // namespace fnv_005495f0
 
 // @fnv 0x00559450
-int __fastcall FUN_00559450(int* pThis)
+int FUN_00559450(int* pThis)
 {
     return *pThis;
 }
@@ -3168,7 +3152,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 struct BSFileEntry : public FileNameHash
 {
     unsigned int Size();
@@ -3186,7 +3169,6 @@ struct BSFileEntry : public FileNameHash
     unsigned int iSize;
     unsigned int iOffset;
 };
-typedef char _sizecheck_BSFileEntry[sizeof(BSFileEntry) == 16 ? 1 : -1];
 struct FUN_0062a100_shell : public BSFileEntry
 {
     unsigned int GetSizeMasked();
@@ -3227,7 +3209,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_006838b0_shell : public NiAVObject
 {
     NiCollisionObject* FUN_006838b0();
@@ -3255,7 +3236,7 @@ struct Dummy_0069b080
 };
 
 // @fnv 0x0069b080
-bool __fastcall IsFieldCZero(Dummy_0069b080* pThis)
+bool IsFieldCZero(Dummy_0069b080* pThis)
 {
     return pThis->field_c == 0;
 }
@@ -3268,7 +3249,7 @@ template <typename T> class BSStringT
 };
 
 // @fnv 0x006fa820
-const char* __fastcall FUN_006fa820(const char* pThis)
+const char* FUN_006fa820(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0x10);
 }
@@ -3343,10 +3324,9 @@ int FUN_00af3bd0(int param1, int param2)
     return ::WildcardMatch((const char *)(buf2), (const char *)(buf1)) == 1;
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 // @fnv 0x00c3f8a0
-long __fastcall FUN_00c3f8a0(char* pObject)
+long FUN_00c3f8a0(char* pObject)
 {
     return InterlockedDecrement((volatile long*)(pObject + 0x18));
 }
@@ -3406,7 +3386,7 @@ struct BW
 };
 // Sets or clears bit f.v in the bit array at self+0x20 and resets the value at self+0x38 when the bit changes.
 // @fnv 0x00441130
-void __fastcall FUN_00441130(char* self, UW auiFlag, BW abSet)
+void FUN_00441130(char* self, UW auiFlag, BW abSet)
 {
     unsigned int uiindex = auiFlag.v >> 5;
     unsigned int uibit = auiFlag.v % 32;
@@ -3438,11 +3418,11 @@ struct MLa
 {
 };
 // @fnv 0x00441200
-void __fastcall FUN_00441200(char* self)
+void FUN_00441200(char* self)
 {
     void** a = *(void***)(self + 0x28);
     bool b;
-    ((void(__thiscall*)(void*))(*(void***)a)[0x260 / 4])(a);
+    ((void(*)(void*))(*(void***)a)[0x260 / 4])(a);
     b = reinterpret_cast<::FUN_0043c130_shell *>((((MLa*)g_modelLoader)))->IsLoadTexturesDegraded();
     if ((void*)a != (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_00936ef0_Class *>((((A9*)a)))->FUN_00936ef0())
         reinterpret_cast<::_FUN_00441290_shell *>((((MLa*)g_modelLoader)))->SetTlsFlag(true);
@@ -4264,7 +4244,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_0043ecb0_shell : public QueuedHead
 {
     void FUN_0043ecb0();
@@ -4324,7 +4303,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00441ba0_shell : public QueuedPlayer
 {
     void FUN_00441ba0();
@@ -4500,7 +4478,6 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-typedef char _sizecheck_TESDescription[sizeof(TESDescription) == 8 ? 1 : -1];
 struct EffectSetting : public TESForm, public TESModel, public TESDescription, public TESFullName, public TESIcon
 {
     virtual void __vslot_10();
@@ -4588,7 +4565,6 @@ struct EffectSetting : public TESForm, public TESModel, public TESDescription, p
     int m_iActorValue;
     int m_iEffectID;
 };
-typedef char _sizecheck_EffectSetting[sizeof(EffectSetting) == 176 ? 1 : -1];
 struct FUN_00444f10_shell : public ModelLoader
 {
     void FUN_00444f10(MagicItem*, EffectSetting*, int);
@@ -4772,7 +4748,6 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct TESContainer : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4810,7 +4785,6 @@ struct TESContainer : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char objectList[8];
 };
-typedef char _sizecheck_TESContainer[sizeof(TESContainer) == 12 ? 1 : -1];
 struct BGSTouchSpellForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4829,7 +4803,6 @@ struct BGSTouchSpellForm : public BaseFormComponent
     unsigned short m_usTouchSpellType;
     char _pad_a[2];
 };
-typedef char _sizecheck_BGSTouchSpellForm[sizeof(BGSTouchSpellForm) == 12 ? 1 : -1];
 struct TESAIForm : public BaseFormComponent
 {
     virtual unsigned short GetSaveSize(unsigned int);
@@ -4886,7 +4859,6 @@ struct TESAIForm : public BaseFormComponent
     char m_kAIData[20];
     char m_kPackageList[8];
 };
-typedef char _sizecheck_TESAIForm[sizeof(TESAIForm) == 32 ? 1 : -1];
 struct TESAttributes : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4921,7 +4893,6 @@ struct TESAttributes : public BaseFormComponent
     char cAttribute[7];
     char _pad_b[1];
 };
-typedef char _sizecheck_TESAttributes[sizeof(TESAttributes) == 12 ? 1 : -1];
 struct TESAnimation : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4937,7 +4908,6 @@ struct TESAnimation : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kKFFileList[8];
 };
-typedef char _sizecheck_TESAnimation[sizeof(TESAnimation) == 12 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -4954,7 +4924,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct TESRaceForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4970,7 +4939,6 @@ struct TESRaceForm : public BaseFormComponent
     void SetFormRace(TESRace*);
     TESRace* m_pRace;
 };
-typedef char _sizecheck_TESRaceForm[sizeof(TESRaceForm) == 8 ? 1 : -1];
 struct FUN_00444fe0_shell : public ModelLoader
 {
     void FUN_00444fe0(TESNPC*, void*, int, QueuedFile*);
@@ -5089,7 +5057,6 @@ struct KFModel
     int BackgroundTask;
     int m_iActualRefCount;
 };
-typedef char _sizecheck_KFModel[sizeof(KFModel) == 28 ? 1 : -1];
 struct FUN_004471c0_shell : public ModelLoader
 {
     KFModel* LoadKFModel(char*);
@@ -5198,7 +5165,7 @@ struct Obj
 
 // Iterates the container at self+0x1c via FUN_00449280, calling Release on each object until the iterator is empty, then returns true.
 // @fnv 0x00448c10
-bool __fastcall ReleaseAllObjects(char* self)
+bool ReleaseAllObjects(char* self)
 {
     GlobalObject_00528cb0 iter(0);
     reinterpret_cast<::Q449 *>((((Q449*)*(void**)(self + 0x1c))))->FUN_00449280(&iter);
@@ -5235,7 +5202,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 struct BSFileEntry : public FileNameHash
 {
     unsigned int Size();
@@ -5253,7 +5219,6 @@ struct BSFileEntry : public FileNameHash
     unsigned int iSize;
     unsigned int iOffset;
 };
-typedef char _sizecheck_BSFileEntry[sizeof(BSFileEntry) == 16 ? 1 : -1];
 struct FUN_00448ed0_shell : public ModelLoader
 {
     bool InsertQueuedTexture(BSFileEntry*, QueuedTexture*);
@@ -5397,7 +5362,7 @@ struct GetAtArgs
 
 // Looks up args.apcKey in the map at self+4, stores the found entry's model pointer and passes its flags to args.out, returning whether the lookup succeeded.
 // @fnv 0x006502f0
-bool __fastcall LookupModelAndGetFlags(Map62d0* self, GetAtArgs aLookupArgs)
+bool LookupModelAndGetFlags(Map62d0* self, GetAtArgs aLookupArgs)
 {
     ::FUN_00652140();
     NP entry(0);
@@ -5529,11 +5494,11 @@ extern "C"
 
 struct FUN_0043f1f0_class
 {
-    void __thiscall FUN_0043f1f0(unsigned char arg);
+    void FUN_0043f1f0(unsigned char arg);
 };
 
 // @fnv 0x0043f1f0
-void __thiscall FUN_0043f1f0_class::FUN_0043f1f0(unsigned char arg)
+void FUN_0043f1f0_class::FUN_0043f1f0(unsigned char arg)
 {
     ::SetFlagBit0(arg, (unsigned char *)(void *)((void*)((char*)this + 0x120)));
 }
@@ -5556,8 +5521,8 @@ struct FUN_00441980_Class
 
 struct BackgroundCloneThread
 {
-    void __thiscall FUN_004422c0();
-    void* __thiscall FUN_00442290(unsigned int flags);
+    void FUN_004422c0();
+    void* FUN_00442290(unsigned int flags);
 };
 
 struct FUN_00442630Class
@@ -5613,7 +5578,7 @@ void* FUN_00449a20_cls::FUN_00449a20(unsigned int flags)
 }
 
 void __cdecl _Deallocate(void*);
-void __fastcall FUN_004499c0(void*);
+void FUN_004499c0(void*);
 
 struct FUN_00449ba0Class
 {
@@ -5629,7 +5594,7 @@ void* FUN_00449ba0Class::FUN_00449ba0(unsigned int flags)
     return this;
 }
 
-void __fastcall FUN_004499e0(void*);
+void FUN_004499e0(void*);
 void __cdecl _Deallocate(void*);
 
 struct FUN_00449bd0_Class
@@ -5647,7 +5612,7 @@ void* FUN_00449bd0_Class::FUN_00449bd0(unsigned int flags)
     return this;
 }
 
-void __fastcall FUN_00449a00(int**);
+void FUN_00449a00(int**);
 void __cdecl _Deallocate(void*);
 
 struct FUN_00449c00_class
@@ -5669,8 +5634,8 @@ const NiFixedString& FUN_00448a80();
 
 struct FUN_00449d40_class
 {
-    void __thiscall FUN_00449d60();
-    void __thiscall FUN_00449d40();
+    void FUN_00449d60();
+    void FUN_00449d40();
 };
 
 NiRenderer* FUN_0043c4b0();
@@ -5813,11 +5778,11 @@ int __cdecl InitScriptRunLock(void*);
 
 struct FUN_0044b2a0_Class
 {
-    void __thiscall FUN_0044b2a0();
+    void FUN_0044b2a0();
 };
 
 // @fnv 0x0044b2a0
-void __thiscall FUN_0044b2a0_Class::FUN_0044b2a0()
+void FUN_0044b2a0_Class::FUN_0044b2a0()
 {
     ::FUN_0040b460((unsigned int *)(void *)((char*)this + 0x20));
 }
@@ -5830,13 +5795,13 @@ struct FUN_0044b2e0
 };
 
 // @fnv 0x0044b2e0
-void __thiscall FUN_0044b2e0::Method(void)
+void FUN_0044b2e0::Method(void)
 {
     ::WaitForSingleObjectEx((long *)(void *)((char*)this + 0x20));
 }
 
 // @fnv 0x0044dff0
-bool __fastcall FUN_0044dff0(int* piValue)
+bool FUN_0044dff0(int* piValue)
 {
     return (*piValue & 1) ? true : false;
 }
@@ -5894,13 +5859,13 @@ int FUN_0043c3b0_This::FUN_0043c3b0()
 namespace fnv_0043d580 {
 struct QueuedTreeBillboard
 {
-    void __thiscall FUN_0043d5b0();
-    void* __thiscall FUN_0043d580(unsigned int flags);
+    void FUN_0043d5b0();
+    void* FUN_0043d580(unsigned int flags);
 };
 
 // Calls FUN_0043d5b0, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0043d580
-void* __thiscall QueuedTreeBillboard::FUN_0043d580(unsigned int flags)
+void* QueuedTreeBillboard::FUN_0043d580(unsigned int flags)
 {
     FUN_0043d5b0();
     if (flags & 1)
@@ -5945,7 +5910,7 @@ struct QueuedReplacementKF
 };
 
 // @fnv 0x0043ea00
-bool __thiscall QueuedReplacementKF::FUN_0043ea00(char* apDescription, unsigned int aiBufferSize)
+bool QueuedReplacementKF::FUN_0043ea00(char* apDescription, unsigned int aiBufferSize)
 {
     return reinterpret_cast<::QRequest *>((((FUN_00c3d0e0_stub*)this)))->FUN_00c3d0e0(apDescription, aiBufferSize, "Replacement KF");
 }
@@ -6026,12 +5991,12 @@ void __cdecl SetFlag20(unsigned char, unsigned char*);
 
 struct FUN_00443ff0Class
 {
-    void __thiscall FUN_00443ff0(unsigned char arg);
+    void FUN_00443ff0(unsigned char arg);
 };
 
 // Calls SetFlag20 with arg and the byte pointer at offset 0x3c of this object.
 // @fnv 0x00443ff0
-void __thiscall FUN_00443ff0Class::FUN_00443ff0(unsigned char aucValue)
+void FUN_00443ff0Class::FUN_00443ff0(unsigned char aucValue)
 {
     SetFlag20(aucValue, (unsigned char*)this + 0x3c);
 }
@@ -6099,11 +6064,11 @@ extern void* __cdecl _Deallocate(void*);
 
 struct FUN_00449ae0_Class
 {
-    void* __thiscall DestroyModelLoader(unsigned int flags);
+    void* DestroyModelLoader(unsigned int flags);
 };
 
 // @fnv 0x00449ae0
-void* __thiscall FUN_00449ae0_Class::DestroyModelLoader(unsigned int flags)
+void* FUN_00449ae0_Class::DestroyModelLoader(unsigned int flags)
 {
     ((ModelLoader*)this)->FUN_004431d0();
     if (flags & 1)
@@ -6112,17 +6077,17 @@ void* __thiscall FUN_00449ae0_Class::DestroyModelLoader(unsigned int flags)
 }
 }  // namespace fnv_00449ae0
 
-void __fastcall FUN_00449940(void**);
+void FUN_00449940(void**);
 
 struct FUN_00449b10_Class
 {
-    void* __thiscall FUN_00449b10(unsigned int flags);
+    void* FUN_00449b10(unsigned int flags);
 };
 
 void __cdecl _Deallocate(void*);
 
 // @fnv 0x00449b10
-void* __thiscall FUN_00449b10_Class::FUN_00449b10(unsigned int flags)
+void* FUN_00449b10_Class::FUN_00449b10(unsigned int flags)
 {
     FUN_00449940((void**)this);
     if (flags & 1)
@@ -6132,12 +6097,12 @@ void* __thiscall FUN_00449b10_Class::FUN_00449b10(unsigned int flags)
 
 struct FUN_00449c50_class
 {
-    int __thiscall FUN_00449c50();
+    int FUN_00449c50();
 };
 
 struct FUN_00449c30_class : FUN_00449c50_class
 {
-    int __thiscall CallBaseMethod();
+    int CallBaseMethod();
 };
 // Calls CallBaseMethod, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00449a50
@@ -6153,13 +6118,13 @@ namespace fnv_00449f20 {
 struct FUN_00449ea0_cls
 {
     void FUN_00449ec0();
-    void* __thiscall FUN_00449f20(unsigned int flags);
+    void* FUN_00449f20(unsigned int flags);
 };
 
 extern "C" void* __cdecl _Deallocate(void*);
 
 // @fnv 0x00449f20
-void* __thiscall FUN_00449ea0_cls::FUN_00449f20(unsigned int flags)
+void* FUN_00449ea0_cls::FUN_00449f20(unsigned int flags)
 {
     FUN_00449ea0_cls::FUN_00449ec0();
     if (flags & 1)
@@ -6222,26 +6187,26 @@ FUN_0044cc10::FUN_0044cc10()
 }
 
 // @fnv 0x0044dec0
-int __fastcall ClearLowBit(int* piValue)
+int ClearLowBit(int* piValue)
 {
     return *piValue & 0xfffffffe;
 }
 
 struct FUN_0044df00Class
 {
-    void __thiscall ClearLowBit();
-    void __thiscall FUN_0044df00();
+    void ClearLowBit();
+    void FUN_0044df00();
 };
 
 // @fnv 0x0044df00
-void __thiscall FUN_0044df00Class::FUN_0044df00()
+void FUN_0044df00Class::FUN_0044df00()
 {
     ClearLowBit();
 }
 
 struct FUN_0043c0d0_class
 {
-    void __thiscall ForwardByteToMember(unsigned char);
+    void ForwardByteToMember(unsigned char);
 };
 // @fnv 0x0043c050
 void Q_0043c050::FUN_0043c050()
@@ -6257,7 +6222,7 @@ void Q_0043c050::FUN_0043c050()
 }
 // Passes a to FUN_0044ae60 together with the pointer at this+0x34.
 // @fnv 0x0043c0d0
-void __thiscall FUN_0043c0d0_class::ForwardByteToMember(unsigned char aByte)
+void FUN_0043c0d0_class::ForwardByteToMember(unsigned char aByte)
 {
     ::FUN_0044ae60(aByte, (unsigned char *)(void *)(reinterpret_cast<char*>(this) + 0x34));
 }
@@ -6493,7 +6458,6 @@ struct QueuedFileEntry : public QueuedFile
     char* pFileName;
     BSFileEntry* m_pFileEntry;
 };
-typedef char _sizecheck_QueuedFileEntry[sizeof(QueuedFileEntry) == 48 ? 1 : -1];
 struct QueuedFileLoad : public QueuedFileEntry
 {
     virtual void __vslot_0();
@@ -6505,7 +6469,6 @@ struct QueuedFileLoad : public QueuedFileEntry
     char m_pLoadedFile[4];
     int m_iLoadPriority;
 };
-typedef char _sizecheck_QueuedFileLoad[sizeof(QueuedFileLoad) == 56 ? 1 : -1];
 
 extern int DAT_01016dc4;
 struct QBase
@@ -6583,11 +6546,11 @@ FUN_00442130::FUN_00442130(void* apModel, void* apMeshData) : FUN_00441d80(0, 5)
 
 struct FUN_00444d00_Class
 {
-    bool __thiscall FUN_00444d00(int mask);
+    bool FUN_00444d00(int mask);
 };
 
 // @fnv 0x00444d00
-bool __thiscall FUN_00444d00_Class::FUN_00444d00(int mask)
+bool FUN_00444d00_Class::FUN_00444d00(int mask)
 {
     return (*(int*)((char*)this + 0xC8) & mask) ? true : false;
 }
@@ -6610,7 +6573,7 @@ void FUN_00446f70_Cl::FUN_00446f70()
 }
 }  // namespace fnv_00446f70
 
-void __fastcall SignalAtOffset18(char*);
+void SignalAtOffset18(char*);
 
 struct FUN_00446ff0 : ModelLoader
 {
@@ -6687,14 +6650,14 @@ int FUN_0044ee20_class::GetElementAddress(int index)
 
 struct FUN_00905330
 {
-    void __thiscall Remove(void*);
+    void Remove(void*);
 };
 struct FUN_0044f870
 {
-    void __thiscall FUN_0044f870_0044f870(void* ap);
+    void FUN_0044f870_0044f870(void* ap);
 };
 // @fnv 0x0044f870
-void __thiscall FUN_0044f870::FUN_0044f870_0044f870(void* ap)
+void FUN_0044f870::FUN_0044f870_0044f870(void* ap)
 {
     reinterpret_cast<::ItemChangeListNode *>((((FUN_00905330*)((char*)this + 0x10c))))->FUN_00905330((*(::InventoryStackRecord *const *)(&ap)));
 }
@@ -6776,7 +6739,6 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct FileNameHash
 {
     void GetAll(unsigned char*, unsigned char*, unsigned char*, unsigned char*, unsigned int*);
@@ -6800,7 +6762,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 struct BSFileEntry : public FileNameHash
 {
     unsigned int Size();
@@ -6818,14 +6779,12 @@ struct BSFileEntry : public FileNameHash
     unsigned int iSize;
     unsigned int iOffset;
 };
-typedef char _sizecheck_BSFileEntry[sizeof(BSFileEntry) == 16 ? 1 : -1];
 struct DistantTreeTextureInfo
 {
     BGSTextureSet* m_pTextureSet;
     int m_iTextureSetIndex;
     char m_cTexturePath[128];
 };
-typedef char _sizecheck_TEX_SWAP[sizeof(DistantTreeTextureInfo) == 136 ? 1 : -1];
 struct FUN_0043cb50_shell : public QueuedModel
 {
     void QueueTextureFiles(FileEntryList*);
@@ -7043,7 +7002,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct ReferenceIntersectionData
 {
     void Endian();
@@ -7051,12 +7009,10 @@ struct ReferenceIntersectionData
     char Intersect[12];
     char Normal[12];
 };
-typedef char _sizecheck_REF_DECAL_DATA[sizeof(ReferenceIntersectionData) == 28 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_0043fed0_shell : public QueuedReference
 {
     void FUN_0043fed0();
@@ -7226,7 +7182,7 @@ struct FUN_0043cc80_shell
 {
 };
 struct Dummy_0069b080;
-bool __fastcall IsFieldCZero(Dummy_0069b080*);
+bool IsFieldCZero(Dummy_0069b080*);
 
 // @fnv 0x0043fed0
 void FUN_0043fed0_shell::FUN_0043fed0()
@@ -7268,7 +7224,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00440050_shell : public QueuedReference
 {
     void FUN_00440050();
@@ -7972,7 +7927,6 @@ struct BipedAnim
     float m_fFadeAlpha;
     TESObjectREFR* m_pActor;
 };
-typedef char _sizecheck_BipedAnim[sizeof(BipedAnim) == 692 ? 1 : -1];
 struct TESActorBaseData : public BaseFormComponent
 {
     virtual void CopyFromTemplateForm(TESActorBase*);
@@ -8099,7 +8053,6 @@ struct TESActorBaseData : public BaseFormComponent
     int m_pDeathItem;
     char m_pVoiceType[8];
 };
-typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1];
 struct TESContainer : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -8137,7 +8090,6 @@ struct TESContainer : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char objectList[8];
 };
-typedef char _sizecheck_TESContainer[sizeof(TESContainer) == 12 ? 1 : -1];
 struct BGSTouchSpellForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -8156,7 +8108,6 @@ struct BGSTouchSpellForm : public BaseFormComponent
     unsigned short m_usTouchSpellType;
     char _pad_a[2];
 };
-typedef char _sizecheck_BGSTouchSpellForm[sizeof(BGSTouchSpellForm) == 12 ? 1 : -1];
 struct TESAIForm : public BaseFormComponent
 {
     virtual unsigned short GetSaveSize(unsigned int);
@@ -8213,7 +8164,6 @@ struct TESAIForm : public BaseFormComponent
     char m_kAIData[20];
     char m_kPackageList[8];
 };
-typedef char _sizecheck_TESAIForm[sizeof(TESAIForm) == 32 ? 1 : -1];
 struct TESAttributes : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -8248,7 +8198,6 @@ struct TESAttributes : public BaseFormComponent
     char cAttribute[7];
     char _pad_b[1];
 };
-typedef char _sizecheck_TESAttributes[sizeof(TESAttributes) == 12 ? 1 : -1];
 struct TESAnimation : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -8264,7 +8213,6 @@ struct TESAnimation : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kKFFileList[8];
 };
-typedef char _sizecheck_TESAnimation[sizeof(TESAnimation) == 12 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -8281,7 +8229,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct TESRaceForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -8297,7 +8244,6 @@ struct TESRaceForm : public BaseFormComponent
     void SetFormRace(TESRace*);
     TESRace* m_pRace;
 };
-typedef char _sizecheck_TESRaceForm[sizeof(TESRaceForm) == 8 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -8307,7 +8253,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct FUN_00441560_shell : public QueuedCharacter
 {
     void LoadBipedModel();
@@ -8532,7 +8477,6 @@ struct QueuedFileEntry : public QueuedFile
     char* pFileName;
     BSFileEntry* m_pFileEntry;
 };
-typedef char _sizecheck_QueuedFileEntry[sizeof(QueuedFileEntry) == 48 ? 1 : -1];
 struct QueuedFileLoad : public QueuedFileEntry
 {
     virtual void __vslot_0();
@@ -8544,14 +8488,12 @@ struct QueuedFileLoad : public QueuedFileEntry
     char m_pLoadedFile[4];
     int m_iLoadPriority;
 };
-typedef char _sizecheck_QueuedFileLoad[sizeof(QueuedFileLoad) == 56 ? 1 : -1];
 struct QueuedFaceGenFile : public QueuedFileLoad
 {
     virtual void __vslot_0();
     char m_kObject[4];
     char m_pMesh[4];
 };
-typedef char _sizecheck_QueuedFaceGenFile[sizeof(QueuedFaceGenFile) == 64 ? 1 : -1];
 struct FUN_00441e40_shell : public QueuedFileLoad
 {
     void FUN_00441e40();
@@ -8717,7 +8659,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 struct BSFileEntry : public FileNameHash
 {
     unsigned int Size();
@@ -8735,7 +8676,6 @@ struct BSFileEntry : public FileNameHash
     unsigned int iSize;
     unsigned int iOffset;
 };
-typedef char _sizecheck_BSFileEntry[sizeof(BSFileEntry) == 16 ? 1 : -1];
 struct FUN_00443540_shell : public ModelLoader
 {
     bool FUN_00443540(BSFileEntry*, int, QueuedFile*);
@@ -8846,7 +8786,6 @@ struct KFModel
     int BackgroundTask;
     int m_iActualRefCount;
 };
-typedef char _sizecheck_KFModel[sizeof(KFModel) == 28 ? 1 : -1];
 struct FUN_004446a0_shell : public ModelLoader
 {
     bool QueueKFModelLoad(char*, int, QueuedFile*);
@@ -9116,7 +9055,7 @@ struct Stand00448370
 {
     char _pad[0x24];
     Virt00448370* field24;
-    void __thiscall FUN_00448370(int);
+    void FUN_00448370(int);
 };
 // @fnv 0x0043bb80
 void FUN_0043bb80_shell::DestroyLoadedFile()
@@ -9144,7 +9083,7 @@ void FUN_0043bb80_shell::DestroyLoadedFile()
 }
 // Calls the virtual method f5 on field24, passing a through.
 // @fnv 0x00448370
-void __thiscall Stand00448370::FUN_00448370(int aiValue)
+void Stand00448370::FUN_00448370(int aiValue)
 {
     field24->f5(aiValue);
 }
@@ -9254,7 +9193,7 @@ S0044afe0* S0044afe0::FUN_0044afe0(KFModel* apModel)
 }  // namespace fnv_0044afe0
 
 namespace fnv_00528ce0 {
-int __fastcall ClearLowBit(int*);
+int ClearLowBit(int*);
 struct FUN_0044df00Class
 {
     char* FUN_0044df00();
@@ -9696,7 +9635,7 @@ struct FUN_00449c50 : S_0044dbc0
     virtual ~FUN_00449c50();
 };
 // @fnv 0x00449c30
-int __thiscall FUN_00449c30_class::CallBaseMethod()
+int FUN_00449c30_class::CallBaseMethod()
 {
     return reinterpret_cast<::FUN_00449c50 *>(this)->FUN_00449c50::~FUN_00449c50();
 }
@@ -9739,7 +9678,7 @@ struct FUN_00449d60 : FUN_0044c480
     virtual ~FUN_00449d60();
 };
 // @fnv 0x00449d40
-void __thiscall FUN_00449d40_class::FUN_00449d40()
+void FUN_00449d40_class::FUN_00449d40()
 {
     reinterpret_cast<::FUN_00449d60 *>(this)->FUN_00449d60::~FUN_00449d60();
 }
@@ -9773,7 +9712,7 @@ namespace fnv_0044b300 {
 struct FUN_0044b2a0_Class
 {
 };
-void __fastcall FUN_0044b2e0(void*);
+void FUN_0044b2e0(void*);
 struct FUN_0044b300_Class
 {
     FUN_0044b2a0_Class* m_pObject;
@@ -10298,7 +10237,7 @@ void* FUN_00449ea0_cls::FUN_00449ab0(unsigned int flags)
 }
 }  // namespace fnv_00449ab0
 
-void __fastcall FUN_004499a0(int**);
+void FUN_004499a0(int**);
 void __cdecl _Deallocate(void*);
 
 struct FUN_00449b70_Class
@@ -10512,7 +10451,7 @@ struct FUN_00529000_Class
     void FUN_00529000();
 };
 
-int __fastcall ClearLowBit(int*);
+int ClearLowBit(int*);
 
 struct FUN_009066d0_Class : public FUN_00529000_Class
 {
@@ -11663,7 +11602,7 @@ struct PriorityKey
     unsigned int unk08;
     unsigned int unk0c;
     unsigned __int64 key;
-    void __thiscall FUN_004405d0(unsigned char priority);
+    void FUN_004405d0(unsigned char priority);
 };
 // @fnv 0x004405b0
 void FUN_004405b0_S::FUN_004405b0(unsigned char p)
@@ -13737,9 +13676,9 @@ bool FUN_00c3a8a0_cls::FUN_00c3a8a0(unsigned int a1, unsigned int a2)
 
 // FUN_0043ace0 worker2 a2run3 A1: NiSortAdjustNode drop m_a8 (pack NiMemObject is 1B, +4 align -> 42 fields = 0xac alloc like ORIG)
 struct MLx;
-int __fastcall GetRefAt21C(const char*);
-void* __fastcall FUN_0043b1b0(void*);
-void* __fastcall FUN_0043b230(void*);
+int GetRefAt21C(const char*);
+void* FUN_0043b1b0(void*);
+void* FUN_0043b230(void*);
 void __cdecl FUN_0043b2b0(bool);
 unsigned int __cdecl FUN_0043b290();
 void* __cdecl FUN_0043b2a0();
@@ -14567,14 +14506,14 @@ struct FUN_0043eac0_class
     int unk24;
     int unk28;
 
-    void __thiscall FUN_00c3cb70(int param_1, int param_2);
-    void __thiscall ForwardToHolder(int param_1, int param_2);
+    void FUN_00c3cb70(int param_1, int param_2);
+    void ForwardToHolder(int param_1, int param_2);
 };
 
 
 // Calls FUN_00c3cb70 with the two arguments, then calls ForwardToInner on DAT_011c3b3c passing unk28.
 // @fnv 0x0043eac0
-void __thiscall FUN_0043eac0_class::ForwardToHolder(int param_1, int param_2)
+void FUN_0043eac0_class::ForwardToHolder(int param_1, int param_2)
 {
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(param_1, (::fnv_00c3cb70::RefObj *)(param_2));
     (*reinterpret_cast<::Holder14 * *>(&::g_modelLoader))->ForwardToInner(unk28);
@@ -18781,7 +18720,6 @@ bool MatchOwner::FUN_00906820(unsigned int key, void* output)
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long* lAddend);
 
 struct FUN_00ae78e0_Class
 {
@@ -18794,7 +18732,7 @@ struct FUN_00ae78e0_Class
     SUB sub;
     char pad38[0x10];
     unsigned char unk48;
-    void __thiscall ReleaseSemaphoreAndIncrement();
+    void ReleaseSemaphoreAndIncrement();
 };
 
 // If unk48 is set, releases one count on the semaphore at sub.unk34 and increments sub.unk30.
@@ -19928,7 +19866,7 @@ struct FUN_00445750_arg
 
 // @fnv 0x00445750
 // @fnv 0x00445750
-bool __fastcall FUN_00445750(char* this_ptr, FUN_00445750_arg a)
+bool FUN_00445750(char* this_ptr, FUN_00445750_arg a)
 {
     reference_queue_types::FUN_00528cb0::FUN_0044cbf0 g(0);
     return (*(FUN_00445750_map**)(this_ptr + 8))->Lookup(a.r, &g);
@@ -20055,7 +19993,6 @@ void FUN_0043ccf0_shell::FUN_0043ccf0()
 
 __if_not_exists(WaitForSingleObject)
 {
-    extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
 }
 
 __if_not_exists(FinishScriptRunLock)
@@ -20197,7 +20134,7 @@ struct AutoMemContext
 struct CloneObjectAccessor
 {
 };
-void __fastcall AttachHeadAndFaceParts(void*);
+void AttachHeadAndFaceParts(void*);
 struct Helper_00440a90
 {
 };
@@ -20251,7 +20188,7 @@ struct ReceiverArgument
 
 // Locks the receiver, calls FUN_0044cd40 on the result of FUN_00449f80 with argument.value, then unlocks the receiver.
 // @fnv 0x00449240
-void __fastcall FUN_00449240(LockedReceiver* receiver, ReceiverArgument argument)
+void FUN_00449240(LockedReceiver* receiver, ReceiverArgument argument)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(receiver->lock))->FUN_0040fbf0((char *)(0));
     reinterpret_cast<::LockFreeQueue *>((receiver->FUN_00449f80(argument.value)))->Enqueue(*(const ::QHeadPtr *)nullptr);

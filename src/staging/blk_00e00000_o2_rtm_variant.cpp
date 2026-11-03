@@ -58,7 +58,7 @@ extern int DAT_010ce25c;
 extern int DAT_010e99d8;
 struct FUN_00cb0a70
 {
-    void __thiscall m(int);
+    void m(int);
 };
 int IsInRange(int aiValue, int aiLowerBound, int aiUpperBound);
 void FUN_00e04a60(void* pData);
@@ -102,11 +102,11 @@ extern int DAT_010cc41c;
 extern int DAT_010e8824;
 struct FUN_00e00930_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 struct FUN_00e00c70_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 extern int DAT_010c63cc;
 extern int DAT_010e8d8c;
@@ -118,7 +118,7 @@ extern int DAT_010c6ff8;
 extern int DAT_010e9300;
 extern int DAT_010e9358;
 extern int DAT_010e93ac;
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 extern int DAT_010e943c;
 extern int DAT_010e9494;
 struct FUN_00e017d0_vt
@@ -138,12 +138,12 @@ struct FUN_00e020e0_vt
 };
 int __cdecl FUN_00e020e0(FUN_00e020e0_vt* c);
 extern int DAT_010e9ccc;
-typedef int(__thiscall* FUN_00e02340_fn)(void*, int);
+typedef int(* FUN_00e02340_fn)(void*, int);
 extern int DAT_010e9e74;
 extern int DAT_010e9f48;
 extern int DAT_010e9fa4;
 extern int DAT_010ea0a4;
-typedef int(__thiscall* VFunc0)(void*, int);
+typedef int(* VFunc0)(void*, int);
 extern int DAT_010e310c;
 extern int DAT_010ea10c;
 extern int DAT_010ea154;
@@ -157,7 +157,7 @@ struct FUN_00e02720_vtbl
 {
     virtual void m0(int);
 };
-typedef void(__thiscall* vt)(void*, int);
+typedef void(* vt)(void*, int);
 struct FUN_00e0bf20_s
 {
     int a;
@@ -178,7 +178,7 @@ struct FUN_00e11dc0_class
     int m_24;
     int m_28;
     int m_2c;
-    void __thiscall FUN_00e11dc0();
+    void FUN_00e11dc0();
 };
 struct FUN_00e001a0_vt
 {
@@ -195,9 +195,9 @@ struct FUN_00e00370_vt
 };
 struct FUN_00e00430_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
-typedef void(__thiscall* VFn)(void*, int);
+typedef void(* VFn)(void*, int);
 struct FUN_00e005b0_vt
 {
     virtual void m(int);
@@ -208,7 +208,7 @@ struct FUN_00e00670_vt
 };
 struct FUN_00e00790_vt
 {
-    virtual void __thiscall m(int);
+    virtual void m(int);
 };
 struct FUN_00e007f0_vt
 {
@@ -238,8 +238,8 @@ struct FUN_00e01380_vt
 {
     virtual void m(int);
 };
-typedef void(__thiscall* Fn0)(void*, int);
-typedef int(__thiscall* Vfn)(void*, int);
+typedef void(* Fn0)(void*, int);
+typedef int(* Vfn)(void*, int);
 int* __cdecl FUN_00e01460();
 extern int DAT_010e929c;
 struct FUN_00e01470_s
@@ -261,12 +261,12 @@ struct FUN_00e01550_vt
 {
     virtual void m0(int);
 };
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 struct FUN_00e01a10_vt
 {
     virtual void m0(int);
 };
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 struct FUN_00e01c10_vt
 {
     virtual void m(int);
@@ -286,10 +286,10 @@ struct FUN_00cb0a70_00e02280
     int* vt;
     int pad;
     int pad2;
-    void __thiscall m(int);
+    void m(int);
 };
-typedef void(__thiscall* VFn)(void*, int);
-typedef int(__thiscall* Vf0)(void*, int);
+typedef void(* VFn)(void*, int);
+typedef int(* Vf0)(void*, int);
 struct FUN_00e02560_vt
 {
     virtual int m(int);
@@ -308,7 +308,7 @@ struct FUN_00e0bf30_s
     int a;
     int b;
     FUN_00cb0a70 c;
-    FUN_00e0bf30_s* __thiscall FUN_00e0bf30(int v);
+    FUN_00e0bf30_s* FUN_00e0bf30(int v);
 };
 struct FUN_00d752e0_cls
 {
@@ -329,7 +329,7 @@ struct FUN_00e11d60_class
     int m_28;
     int* m_2c;
     int m_30;
-    void __thiscall FUN_00e11d60(int val);
+    void FUN_00e11d60(int val);
 };
 struct AudioAllocator
 {
@@ -519,14 +519,14 @@ struct S_00e00490_vt
 int* __cdecl FUN_00e004a0();
 struct FUN_00e004f0_class
 {
-    void __thiscall FUN_00e004f0(int value);
+    void FUN_00e004f0(int value);
 };
 int* __cdecl FUN_00e00560();
 extern int DAT_010c749c;
 void* __cdecl FUN_00e005c0();
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 struct S_00e00610_P
 {
@@ -872,7 +872,7 @@ int* __cdecl FUN_00e00f60();
 // when that object is present.
 struct FUN_00e00f70_cls
 {
-    void __thiscall FUN_00e00fb0(int value);
+    void FUN_00e00fb0(int value);
 };
 class FUN_00e00fb0
 {
@@ -1020,7 +1020,7 @@ int* __cdecl FUN_00e01e10();
 class FUN_00e01e20_cls
 {
   public:
-    void __thiscall Handle(int a1);
+    void Handle(int a1);
 };
 int* __cdecl FUN_00e01e70();
 extern int DAT_010e9acc;
@@ -1215,7 +1215,7 @@ class FUN_00e114f0_cls
     int m_f8;
     int m_fc;
     unsigned char m_100;
-    void __thiscall FUN_00e114f0(int a1, int a2, int a3);
+    void FUN_00e114f0(int a1, int a2, int a3);
 };
 struct FlagObjectPad
 {
@@ -1292,7 +1292,7 @@ class FUN_00e11500_cls : public FlagObjectPad
 };
 struct FUN_00e11510_obj
 {
-    void __thiscall FUN_00e11510(int a, int b);
+    void FUN_00e11510(int a, int b);
 };
 struct FUN_00e11520_class
 {
@@ -2986,7 +2986,7 @@ struct FUN_00e00dd0_cls
     int unk18;
     int unk1C;
 
-    void __thiscall FUN_00e00dd0();
+    void FUN_00e00dd0();
 };
 void ReverseBytesInGroupsOfFour(unsigned char* pucData);
 struct S_e05_res
@@ -3259,7 +3259,7 @@ struct VecList113
     VecNode113* head;
     __m128* FUN_00e11570(__m128* __restrict out, const __m128* direction);
 };
-int __stdcall FUN_00e16e20(int a, int b, float c);
+int FUN_00e16e20(int a, int b, float c);
 struct ExportPlacement;
 inline void* operator new(unsigned int, ExportPlacement* address)
 {

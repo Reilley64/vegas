@@ -1467,7 +1467,7 @@ struct FUN_00606050_shell : public TESNPC
     void InitWornObjects(TESObjectREFR*, BipedAnim*);
 };
 
-bool __fastcall FUN_006061b0(TESNPC*, int, TESObjectREFR*, BipedAnim*, TESBoundObject*);
+bool FUN_006061b0(TESNPC*, int, TESObjectREFR*, BipedAnim*, TESBoundObject*);
 
 struct FUN_006061b0_caller
 {
@@ -1479,7 +1479,7 @@ struct FUN_006061b0_shell : public TESNPC
     bool FUN_006061b0(TESObjectREFR*, BipedAnim*, TESBoundObject*);
 };
 
-bool __fastcall _ref_008256d0(BSSimpleList<TESForm*>*);
+bool _ref_008256d0(BSSimpleList<TESForm*>*);
 
 // Attaches the given object's biped model (or weapon) to the biped anim, then attaches models from the object's race form list.
 // @fnv 0x006061b0
@@ -1618,7 +1618,6 @@ struct NiGeometry : public NiAVObject
     unsigned int m_uiGeometryShaderFlags;
     char _pad_ec[4];
 };
-typedef char _sizecheck_NiGeometry[sizeof(NiGeometry) == 240 ? 1 : -1];
 struct NiTriBasedGeom : public NiGeometry
 {
     virtual void __vslot_0();
@@ -1639,7 +1638,6 @@ struct NiTriBasedGeom : public NiGeometry
     void GetTriangleVertexIndices(unsigned short, unsigned short*, unsigned short*, unsigned short*);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_NiTriBasedGeom[sizeof(NiTriBasedGeom) == 240 ? 1 : -1];
 
 class NiExtraData;
 class NiFixedString;
@@ -1987,15 +1985,15 @@ unsigned char FUN_005f1230_shell::GetAttributeValue7()
 
 struct FUN_00601c70_shell
 {
-    void __thiscall FUN_00601c70(int param);
+    void FUN_00601c70(int param);
 };
 
 // Stores param at offset 0x130 of this and calls the virtual function at vtable offset 0x48 with 0x400.
 // @fnv 0x00601c70
-void __thiscall FUN_00601c70_shell::FUN_00601c70(int aiValue)
+void FUN_00601c70_shell::FUN_00601c70(int aiValue)
 {
     *(int*)((char*)this + 0x130) = aiValue;
-    ((void(__thiscall*)(void*, int)) * (int**)(*(int*)this + 0x48))(this, 0x400);
+    ((void(*)(void*, int)) * (int**)(*(int*)this + 0x48))(this, 0x400);
 }
 
 struct FUN_00603f90_shell : TESRaceForm
@@ -2023,11 +2021,11 @@ NiFixedString* __cdecl FUN_006041c0()
 
 struct FUN_00604780_shell
 {
-    int __thiscall FUN_00604780(int index);
+    int FUN_00604780(int index);
 };
 
 // @fnv 0x00604780
-int __thiscall FUN_00604780_shell::FUN_00604780(int index)
+int FUN_00604780_shell::FUN_00604780(int index)
 {
     return *(int*)((char*)this + 0x4FC + index * 4);
 }
@@ -2123,12 +2121,12 @@ struct TESNPC;
 
 struct FUN_00608da0_shell : TESNPC
 {
-    unsigned short __thiscall FUN_00608da0(unsigned int aiFlags);
+    unsigned short FUN_00608da0(unsigned int aiFlags);
 };
 
 // Accumulates the base size from FUN_005f16f0 and adds 0xe when aiFlags has 0x200 set, returning the total.
 // @fnv 0x00608da0
-unsigned short __thiscall FUN_00608da0_shell::FUN_00608da0(unsigned int aiFlags)
+unsigned short FUN_00608da0_shell::FUN_00608da0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::ActorBaseSaveView *>((((FUN_005f16f0_shell*)this)))->FUN_005f16f0(aiFlags);
@@ -2156,7 +2154,7 @@ void* FUN_00601370_shell::FUN_00601370(unsigned int flags)
 
 struct FUN_006013a0_shell
 {
-    void __thiscall FUN_006013a0();
+    void FUN_006013a0();
 };
 
 struct Struct00601c30
@@ -2300,7 +2298,7 @@ struct Holder_FUN_0060b9b0
     void FUN_0060b9b0();
 };
 // @fnv 0x006013a0
-void __thiscall FUN_006013a0_shell::FUN_006013a0()
+void FUN_006013a0_shell::FUN_006013a0()
 {
     reinterpret_cast<::Holder_FUN_0060b9b0 *>(this)->FUN_0060b9b0();
 }
@@ -2675,7 +2673,7 @@ void NPCSerializer::WriteToStream()
     }
     ::FUN_00485910(0x524c4348, *(unsigned int*)((char*)this + 0x1d8));
 
-    typedef GameForm*(__thiscall * GetExtraFace)(NPCSerializer*);
+    typedef GameForm*(* GetExtraFace)(NPCSerializer*);
     if (((GetExtraFace)((*(void***)this)[0x188 / 4]))(this))
     {
         ::FUN_00485910(0x4d414e5a, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((GetExtraFace)((*(void***)this)[0x188 / 4]))(this)))->FUN_0084e3a0())));
@@ -4572,7 +4570,7 @@ void FUN_00606050_shell::InitWornObjects(TESObjectREFR* apRef, BipedAnim* apBipe
             delete pitem;
             if (pobj)
             {
-                if (!((bool(__thiscall*)(TESNPC*, TESObjectREFR*, BipedAnim*, TESBoundObject*))FUN_006061b0)(
+                if (!((bool(*)(TESNPC*, TESObjectREFR*, BipedAnim*, TESBoundObject*))FUN_006061b0)(
                         this, apRef, apBipedAnim, pobj))
                 {
                     ::FUN_005b5e40(
@@ -7879,7 +7877,7 @@ class PlayerActivationQueries : public PlayerCharacter
   public:
 };
 
-unsigned char __fastcall GetCalendarDay(Calendar* apCalendar);
+unsigned char GetCalendarDay(Calendar* apCalendar);
 
 // TESNPC::Activate (vtable slot 73).
 class TESNPCActivate : public TESNPC

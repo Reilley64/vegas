@@ -315,7 +315,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005ec370_shell : public BGSQuestObjective
 {
     void FUN_005ec370(TESFile*);

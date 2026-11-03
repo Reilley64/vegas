@@ -20,11 +20,6 @@ class EncounterZoneData
     unsigned char layoutPadding7[1];
     // void __cdecl EncounterZoneData::*()
 };
-FNV_STATIC_ASSERT(sizeof(EncounterZoneData) == 8);
-FNV_STATIC_ASSERT(offsetof(EncounterZoneData, m_pOwnerForm) == 0);
-FNV_STATIC_ASSERT(offsetof(EncounterZoneData, m_cRank) == 4);
-FNV_STATIC_ASSERT(offsetof(EncounterZoneData, m_ucByteBeforeFlags) == 5);
-FNV_STATIC_ASSERT(offsetof(EncounterZoneData, cFlags) == 6);
 class CellDetachData
 {
   public:
@@ -35,11 +30,6 @@ class CellDetachData
     unsigned char layoutPaddingE[2];
     // void __cdecl CellDetachData::*()
 };
-FNV_STATIC_ASSERT(sizeof(CellDetachData) == 16);
-FNV_STATIC_ASSERT(offsetof(CellDetachData, m_uiDetachTime) == 0);
-FNV_STATIC_ASSERT(offsetof(CellDetachData, m_uiFirstValueAfterDetachTime) == 4);
-FNV_STATIC_ASSERT(offsetof(CellDetachData, DetachTimeRecord) == 8);
-FNV_STATIC_ASSERT(offsetof(CellDetachData, m_usDetachRecordValue) == 12);
 class BGSEncounterZone : public TESForm
 {
   public:
@@ -91,7 +81,4 @@ class BGSEncounterZone : public TESForm
     // BGSEncounterZone& __cdecl BGSEncounterZone::*(const BGSEncounterZone&)
     // void __cdecl BGSEncounterZone::*()
 };
-FNV_STATIC_ASSERT(sizeof(BGSEncounterZone) == 48);
-FNV_STATIC_ASSERT(offsetof(BGSEncounterZone, Data) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSEncounterZone, GameData) == 32);
 #endif

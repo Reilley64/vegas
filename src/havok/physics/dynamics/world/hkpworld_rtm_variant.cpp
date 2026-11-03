@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Big.h"
 #include "fnv/decl/C66A00This.h"
@@ -133,7 +134,7 @@
 struct FUN_00cf7c10 {
 };
 struct FUN_00c91120 {
-    void __thiscall ExecutePendingOperations();
+    void ExecutePendingOperations();
 };
 struct FUN_00c91180_Class {
     void EnterTlsGuard();
@@ -144,12 +145,12 @@ struct FUN_00c91250_Class {
     void FUN_00c91250();
 };
 struct FUN_00cf6d20_Class {
-    void __thiscall FUN_00cf6d20();
+    void FUN_00cf6d20();
 };
 struct FUN_00cf6d30_Class {
 };
 struct FUN_00c91280_Class {
-    void __thiscall FUN_00c91280(int);
+    void FUN_00c91280(int);
 };
 struct NiBinaryStream {
     void* m_vtbl;
@@ -355,7 +356,7 @@ struct FUN_00caa840_shell {
     Data_00caa840* m_data;
     void WriteToStream(Ctx_00caa840* ctx);
 };
-void __stdcall FUN_00c90e40(void* self, int arg);
+void FUN_00c90e40(void* self, int arg);
 struct FUN_00cf86e0_class {
     void FUN_00cf86e0(float);
 };
@@ -427,20 +428,19 @@ struct S_00cf7540_Ref {
     void* m_p;
 };
 struct S_00cf7540 {
-    void __thiscall AddEntry(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
+    void AddEntry(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 struct FUN_00c91170_Class {
     void FUN_00c91170(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 void __cdecl FUN_00c904e0();
 struct FUN_00c91190_Class {
-    void __thiscall FUN_00c91190();
+    void FUN_00c91190();
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 struct FUN_00c911d0_Class {
-    void __thiscall EnterLock(void*);
+    void EnterLock(void*);
 };
-extern void (__stdcall *DAT_00fdf05c)(void*);
+extern void (*DAT_00fdf05c)(void*);
 struct FUN_00c911f0_Class {
     void FUN_00c911f0(void*);
 };
@@ -476,7 +476,7 @@ struct FUN_00c92b50_Class {
     char pad[0x28];
     void* m_data;   // +0x28
     int m_iElementCount;     // +0x2c
-    void __thiscall ComputeMemoryUsage(hkpWorld_MemUsageOut* out);
+    void ComputeMemoryUsage(hkpWorld_MemUsageOut* out);
 };
 struct CA8B80Command {
     unsigned char m_bType;
@@ -491,15 +491,11 @@ struct FUN_00c97f50_Class {
 };
 struct FUN_00c98350_Class {
     void* m_p;
-    void* __thiscall InitAndMaybeFree(int);
+    void* InitAndMaybeFree(int);
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FUN_00c983e0_Class {
     void ForEachCall(int a, int b, int c, int d, int e);
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct FUN_00c984a0_Class {
     unsigned int unk00;
     unsigned int unk04;
@@ -512,10 +508,6 @@ struct FUN_00c984a0_Class {
 struct FUN_00c98540_Class {
     void CallAllWithArgs(int a, int b, int c);
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpCriticalSection);
 struct FUN_00c98600_Class {
     unsigned int unk00;
     unsigned int unk04;
@@ -528,16 +520,12 @@ struct FUN_00c98600_Class {
 struct FUN_00c990b0_Class {
     void FUN_00c990b0(int a, int b, int c, int d);
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(void*);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(void*);
 struct FUN_00c995f0_Class {
     void FUN_00c995f0();
 };
 struct FUN_00c90f30_Class {
     int unk00;
-    void* __thiscall FUN_00c90f30();
+    void* FUN_00c90f30();
 };
 struct CpuScalar {
     unsigned int unk00;
@@ -559,7 +547,7 @@ struct FUN_00c91060_Class {
     void* m_iWordAt00;
     void* m_iWordAt04;
     FUN_00cf86f0_Class* m_8;
-    void __thiscall FUN_00c91060();
+    void FUN_00c91060();
 };
 struct Inner
 {
@@ -604,7 +592,7 @@ struct FnvCpu_FUN_00c91090_CpuOwner {
 struct PendingOperations {
 };
 struct WorldWithPending : hkpWorld {
-    void __thiscall FUN_00c91160();
+    void FUN_00c91160();
 };
 struct Target
 {
@@ -645,10 +633,10 @@ struct FUN_00c98250_Class {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void* __thiscall FUN_00c98250(int, int, int);
+    void* FUN_00c98250(int, int, int);
 };
-void __stdcall FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);
-void __stdcall FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+void FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);
+void FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 extern __declspec(thread) int g_tlsMemContext;
 struct ScopedMemContext {
     int m_saved;
@@ -804,9 +792,9 @@ struct bhkWorld {
 
     bool StepSimulation();
 };
-extern void (__stdcall *DAT_00fdf100)(void*);
+extern void (*DAT_00fdf100)(void*);
 struct FUN_00c91230_World : hkpWorld {
-    void __thiscall FUN_00c91230(void* param);
+    void FUN_00c91230(void* param);
 };
 struct FUN_00c912c0_Class : hkpWorld {
     unsigned int FUN_00c912c0();
@@ -905,7 +893,7 @@ struct QueuedOp
 struct SimVtbl
 {
     void* slot[12];
-    void (__thiscall* invoke)(void*, int, int, void*, int);   // +0x30
+    void (* invoke)(void*, int, int, void*, int);   // +0x30
 };
 struct Sim
 {
@@ -918,7 +906,7 @@ struct WorldQ
     char pad_c[0x94 - 0xc];
     int m_iCriticalOperationsLockCount;               // +0x94
 
-    void __thiscall DispatchOp(int a0, int a1, int a2);
+    void DispatchOp(int a0, int a1, int a2);
 };
 class hkpWorldC914;
 class hkpMotionC914;
@@ -1595,7 +1583,7 @@ static __forceinline void SaveBlob(ObjectWriter* writer,char* name,void* address
     reinterpret_cast<::FUN_00d06fb0_cls *>((writer))->DispatchWithMode(name,address,length,0);
 }
 struct WorldWatchDogHolder : hkpWorld {
-    void* __thiscall FUN_00c93570();
+    void* FUN_00c93570();
 };
 inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 inline void __cdecl operator delete(void*, void*) { }
@@ -1788,7 +1776,6 @@ public:
 
     void FUN_00c980d0(const hkpPhysicsSystemC980* pkSys) throw();
 };
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 class hkListenerC984 {
 public:
     virtual void v00();
@@ -1806,8 +1793,8 @@ public:
 
     void DispatchEvent(int a, int b, int c, int d, int e);
 };
-extern void(__stdcall* DAT_00fdf05c)(void* pvSection);
-extern void(__stdcall* DAT_00fdf100)(void* pvSection);
+extern void(* DAT_00fdf05c)(void* pvSection);
+extern void(* DAT_00fdf100)(void* pvSection);
 class hkCriticalSectionC985 {
 public:
     int m_kCriticalSection[6];
@@ -1890,8 +1877,6 @@ public:
 // 0x00c98720  unit_74447a602ec8.cpp  /MT /O2 /GS /EHsc /Gy
 // thiscall, 6 stack args (ret 0x18): lock pointer at this+0x14, walk the array at
 // this+8 for this->count0c elements, call vtable slot 0x28 with the six args, unlock.
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct Listener00c98720 {
     virtual void s00();
     virtual void s04();
@@ -1950,8 +1935,6 @@ struct ListenerManager {
 
     void FUN_00c99100(void* a1, void* a2, void* a3, void* a4, void* a5);
 };
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(void*);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(void*);
 struct FUN_00c99160_Dispatch {
     virtual void fn00();
     virtual void fn04();
@@ -1994,7 +1977,7 @@ struct FUN_00c991c0_Interface {
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void __thiscall slot38(int, int, int, int);
+    virtual void slot38(int, int, int, int);
 };
 struct FUN_00c991c0_Class {
     void* m_iWordAt00;
@@ -2004,10 +1987,10 @@ struct FUN_00c991c0_Class {
     void* m_10;
     void* m_14;
 
-    void __thiscall DispatchToSlots(int, int, int, int);
+    void DispatchToSlots(int, int, int, int);
 };
-extern void (__stdcall *DAT_00fdf05c)(void*);
-extern void (__stdcall *DAT_00fdf100)(void*);
+extern void (*DAT_00fdf05c)(void*);
+extern void (*DAT_00fdf100)(void*);
 struct HavokHelper {
     void FUN_00c99870(const hkQuaternion& a1, float a2, int a3, int a4);
 };
@@ -2066,7 +2049,7 @@ struct FUN_00ca8420_Class {
     void* unk04;
     FUN_00ca8420_Target* unk08;
 
-    void __thiscall FUN_00ca8420(int param2, int param3, int param4);
+    void FUN_00ca8420(int param2, int param3, int param4);
 };
 struct hkVector3CA8A {
     float x;
@@ -2190,7 +2173,7 @@ struct Guard9 {
 struct Node9 { void* vtable; int value; int references; int previous; int next; };
 struct Class9 {
     void* unk00; void* unk04; int callbackFlag; int* data;
-    int* __thiscall GetOrCreateData(unsigned char* wasEmpty);
+    int* GetOrCreateData(unsigned char* wasEmpty);
 };
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 typedef unsigned int (__cdecl* ReadFn)(NiBinaryStream* pThis, void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);
@@ -2726,7 +2709,7 @@ struct FUN_00c91000_Class
     __m128 m_iWordAt00;
     __m128 m_10;
 
-    void __thiscall FUN_00c91000(const __m128* value);
+    void FUN_00c91000(const __m128* value);
 };
 struct FUN_00c91620_Target;
 struct FUN_00c91620_Args {
@@ -3115,7 +3098,6 @@ struct hkpWorldHelper : hkpWorld {
 };
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
 extern const char str_010c64b8[];
 extern void* DAT_010c6488;
 struct TimerEntry { const char* name; unsigned int ticks; unsigned int unk08; };
@@ -3567,7 +3549,6 @@ struct CriticalSectionDataC93 {
     void* LockSemaphore;
     unsigned long SpinCount;
 };
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(CriticalSectionDataC93* pkSection);
 struct CriticalSectionC93 {
     __forceinline void operator delete(void* p) throw() { if (p) GetMemoryRouterC93().heap().ReleaseBlock(p, sizeof(CriticalSectionC93)); }
     __forceinline ~CriticalSectionC93() throw() { DeleteCriticalSection(&m_kCriticalSection); }
@@ -4251,18 +4232,18 @@ struct C97E80Owner {
 struct C97E80PendingShell {
 };
 struct C97E80RemoveShell {
-    void __thiscall FUN_00c97510(void* owner);
+    void FUN_00c97510(void* owner);
 };
 struct C97E80ActionChangeShell {
 };
 struct C97E80ReleaseShell {
 };
 struct C97E80CleanupShell {
-    void __thiscall FUN_00c91120();
+    void FUN_00c91120();
 };
 struct C97E80Return { bool m_iResultCode; };
 struct C97E80World : hkpWorld {
-    C97E80Return __thiscall FUN_00c97e80(C97E80Action* action);
+    C97E80Return FUN_00c97e80(C97E80Action* action);
 };
 struct __declspec(align(16)) FUN_00c987e0_Pose {
     hkVector4 translation;
@@ -4281,8 +4262,8 @@ struct __declspec(align(16)) EC98BE0Vector {
     float w;
 };
 struct EC98BE0Owner {
-    void __thiscall FUN_00c98b60(EC98BE0Vector* position, float scalar, int a, int b, int c);
-    void __thiscall FUN_00c98be0(int x, int y, float scalar, int a, int b, int c);
+    void FUN_00c98b60(EC98BE0Vector* position, float scalar, int a, int b, int c);
+    void FUN_00c98be0(int x, int y, float scalar, int a, int b, int c);
 };
 struct __declspec(align(16)) FUN_00c7f640_Class {
     void FUN_00c7f640(const void* m, const void* p);
@@ -4291,8 +4272,6 @@ struct FUN_00c98c30_Class {
     void FUN_00c98b60(const void* p, float c, int d, int e, int f);
     void FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f);
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 template <class T>
 class hkArrayC995 {
 public:
@@ -4474,7 +4453,7 @@ static void RegisterContactMgrFactories(CFB240Dispatcher* dispatcher, void* worl
 void c912e0_caller(CFB240Dispatcher* d, void* w);
 struct Shape64 {};
 struct Container64 {
-    void __thiscall AddShape(Shape64* shape);
+    void AddShape(Shape64* shape);
 };
 struct Shape64List {
     Shape64** data;
@@ -5658,7 +5637,7 @@ struct MatchWorld {
     void** phantoms;
     int phantomCount;
     MatchPhantoms* FUN_00c91110();
-    void __thiscall AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems);
+    void AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems);
 };
 struct FUN_00d065e0Value { FUN_00d065e0* p; };
 MatchStatus __cdecl AddBodiesToSystem(MatchWorld*, FUN_00d065e0*);
@@ -5679,7 +5658,6 @@ static __declspec(noinline) void FUN_00c92950(MatchWorld* world, FUN_00d065e0* s
 }
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
 extern const char str_010c6758[];
 extern const char str_010c6734[];
 extern const char str_010c6720[];
@@ -5807,13 +5785,13 @@ struct MyPendingQueue {
 struct FUN_00cf70f0_Class {
 };
 struct FUN_00d01a80_Class {
-    void __thiscall FreeStorage() throw();
+    void FreeStorage() throw();
 };
 struct FUN_00c905b0_Class {
 };
 struct MyExecPending {
-    void __thiscall ExecutePendingOperations() throw();
-    void __thiscall FUN_00c91120() throw();
+    void ExecutePendingOperations() throw();
+    void FUN_00c91120() throw();
 };
 struct MyExecBodyPending {
 };
@@ -6082,7 +6060,7 @@ MatchWorld* volatile g_matchWorld;
 FUN_00d065e0* volatile g_matchSystem;
 volatile unsigned char g_matchResult;
 void CallMatchSystem();
-void __stdcall FUN_00c982d0(unsigned char* out, int a2, int a3);
+void FUN_00c982d0(unsigned char* out, int a2, int a3);
 struct S96_BoolResult {char value;};
 extern const char str_010c6908[];
 struct S96_TimerEntry {const char* name; unsigned tick; unsigned unk08;};
@@ -8437,7 +8415,7 @@ struct ActionObj {
 struct FUN_00cac980_Holder {
 };
 struct FUN_00cac910_shell : FUN_00cac980_Holder {
-    const SavedPosition& __thiscall FUN_00cac910();
+    const SavedPosition& FUN_00cac910();
     void* unk00;
     void* unk04;
     void* unk08;
@@ -8471,7 +8449,7 @@ struct HostClass : NiObject {
         }
         return *result;
     }
-    bool __thiscall FUN_00c6d3f0(ArgClass* a1, int a2);
+    bool FUN_00c6d3f0(ArgClass* a1, int a2);
 };
 struct hkThreadMemoryQ {
     int unk00;
@@ -8611,7 +8589,7 @@ struct __declspec(align(16)) Vec_00c98780 {
     __m128 q;
 };
 struct Cls_00c98780 {
-    void __thiscall FUN_00c98780(const hkTransform& tr, const hkVector4& a, const hkVector4& b, int x, int y, int z);
+    void FUN_00c98780(const hkTransform& tr, const hkVector4& a, const hkVector4& b, int x, int y, int z);
 };
 struct Vec_00c98c80 {
     __m128 m_vComponents;
@@ -8885,7 +8863,7 @@ struct PendingOp {
 };
 
 struct WorldHelper : public hkpWorld {
-    void __thiscall FUN_00c91120() throw();
+    void FUN_00c91120() throw();
 
     void FUN_00c954e0(hkpPhantom* const* phantomBatch, int numPhantoms) throw();
 };
@@ -9179,35 +9157,35 @@ struct ObjectCtor;
 union WordCtor { int i; float f; ObjectCtor* p; void* raw; };
 struct ObjectVtableCtor {
 
-    void (__thiscall* vf00)(ObjectCtor*);
-    void (__thiscall* vf04)(ObjectCtor*);
-    void (__thiscall* vf08)(ObjectCtor*);
-    void (__thiscall* vf0c)(ObjectCtor*, WorldCtor*);
-    void (__thiscall* vf10)(ObjectCtor*);
-    void (__thiscall* vf14)(ObjectCtor*);
-    void (__thiscall* vf18)(ObjectCtor*);
-    void (__thiscall* vf1c)(ObjectCtor*);
-    void (__thiscall* vf20)(ObjectCtor*);
-    void (__thiscall* vf24)(ObjectCtor*);
-    void (__thiscall* vf28)(ObjectCtor*);
-    void (__thiscall* vf2c)(ObjectCtor*);
-    void (__thiscall* vf30)(ObjectCtor*);
-    void (__thiscall* vf34)(ObjectCtor*);
-    void (__thiscall* vf38)(ObjectCtor*);
-    void (__thiscall* vf3c)(ObjectCtor*);
-    void (__thiscall* vf40)(ObjectCtor*);
-    void (__thiscall* vf44)(ObjectCtor*);
-    void (__thiscall* vf48)(ObjectCtor*);
-    void (__thiscall* vf4c)(ObjectCtor*);
-    void (__thiscall* vf50)(ObjectCtor*);
-    void (__thiscall* vf54)(ObjectCtor*);
-    void (__thiscall* vf58)(ObjectCtor*);
-    void (__thiscall* vf5c)(ObjectCtor*);
-    void (__thiscall* vf60)(ObjectCtor*);
-    void (__thiscall* vf64)(ObjectCtor*);
-    void (__thiscall* vf68)(ObjectCtor*);
-    void (__thiscall* vf6c)(ObjectCtor*);
-    void (__thiscall* vf70)(ObjectCtor*,::hkQuadReal*,::hkQuadReal*,::hkQuadReal*);
+    void (* vf00)(ObjectCtor*);
+    void (* vf04)(ObjectCtor*);
+    void (* vf08)(ObjectCtor*);
+    void (* vf0c)(ObjectCtor*, WorldCtor*);
+    void (* vf10)(ObjectCtor*);
+    void (* vf14)(ObjectCtor*);
+    void (* vf18)(ObjectCtor*);
+    void (* vf1c)(ObjectCtor*);
+    void (* vf20)(ObjectCtor*);
+    void (* vf24)(ObjectCtor*);
+    void (* vf28)(ObjectCtor*);
+    void (* vf2c)(ObjectCtor*);
+    void (* vf30)(ObjectCtor*);
+    void (* vf34)(ObjectCtor*);
+    void (* vf38)(ObjectCtor*);
+    void (* vf3c)(ObjectCtor*);
+    void (* vf40)(ObjectCtor*);
+    void (* vf44)(ObjectCtor*);
+    void (* vf48)(ObjectCtor*);
+    void (* vf4c)(ObjectCtor*);
+    void (* vf50)(ObjectCtor*);
+    void (* vf54)(ObjectCtor*);
+    void (* vf58)(ObjectCtor*);
+    void (* vf5c)(ObjectCtor*);
+    void (* vf60)(ObjectCtor*);
+    void (* vf64)(ObjectCtor*);
+    void (* vf68)(ObjectCtor*);
+    void (* vf6c)(ObjectCtor*);
+    void (* vf70)(ObjectCtor*,::hkQuadReal*,::hkQuadReal*,::hkQuadReal*);
 };
 struct ObjectCtor {
     ObjectVtableCtor* vtable;
@@ -10203,7 +10181,7 @@ struct Vec_c99210 {
 
 
 // @fnv 0x00c99210
-void __stdcall FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, const ::hkVector4_S& vertexC, unsigned int color)
+void FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, const ::hkVector4_S& vertexC, unsigned int color)
 {
     const Vec_c99210& a = reinterpret_cast<const Vec_c99210&>(vertexA);
     const Vec_c99210& b = reinterpret_cast<const Vec_c99210&>(vertexB);

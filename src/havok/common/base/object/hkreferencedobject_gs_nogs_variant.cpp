@@ -5,6 +5,7 @@
 
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/fnv_00cc49b0__FUN_00cc49b0_class.h"
 #include "fnv/symbols_00c85000.h"
@@ -272,9 +273,6 @@ struct Mgr
     }
 };
 void CreateAndInitObj();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
-extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long index, void* value);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
 extern int DAT_012681d8;
 struct FUN_00c90490_state
 {
@@ -286,10 +284,6 @@ struct FUN_00c90490_state
     int unk14;
     int unk18;
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long dwTlsIndex, void* pvValue);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* pkSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* pkSection);
 struct hkCriticalSectionDataC905
 {
     void* m_debugInfo;
@@ -425,7 +419,7 @@ struct HeapLessE3EE
 };
 struct Ref_00c89b60
 {
-    void __thiscall FUN_00c90510();
+    void FUN_00c90510();
 };
 struct Tls_00c89b60
 {
@@ -625,7 +619,7 @@ struct Obj_00c89b60
     int unk0C;
     int unk10;
     Ref_00c89b60* m_pReference;
-    void __thiscall FUN_00c89b60(Ref_00c89b60* r);
+    void FUN_00c89b60(Ref_00c89b60* r);
 };
 class hkMemoryAllocatorC904
 {
@@ -709,10 +703,10 @@ struct FUN_00c90510_class
     void FUN_00c90510();
 };
 extern int DAT_012681d8;
-extern int(__stdcall* DAT_00fdf044)(int);
-extern int(__stdcall* DAT_00fdf04c)(int, int);
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern int(* DAT_00fdf044)(int);
+extern int(* DAT_00fdf04c)(int, int);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 class NiBinaryStreamCC4
 {
   public:

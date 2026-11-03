@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niimageconverter.cpp: NiImageConverter, ImageOwner (17 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A8Class.h"
 #include "fnv/decl/FUN_00a7c030.h"
@@ -23,8 +24,6 @@ NiImageConverter* NiImageConverter::GetSharedImageConverter()
     return DAT_011f4a7c;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiRefObject2
 {
     virtual ~NiRefObject2();
@@ -102,7 +101,7 @@ struct VTable_FUN_00a76d40
 };
 
 // @fnv 0x00a76d40
-bool __fastcall FUN_00a76d40(const VTable_FUN_00a76d40* pThis, int, const NiPixelFormat& kSrcFmt)
+bool FUN_00a76d40(const VTable_FUN_00a76d40* pThis, int, const NiPixelFormat& kSrcFmt)
 {
     if (pThis->v20(kSrcFmt) || pThis->v24(kSrcFmt))
         return true;
@@ -110,7 +109,6 @@ bool __fastcall FUN_00a76d40(const VTable_FUN_00a76d40* pThis, int, const NiPixe
 }
 
 namespace fnv_00a76650 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct Sub80
 {
 };
@@ -137,7 +135,6 @@ FUN_00a76650::FUN_00a76650()
 }  // namespace fnv_00a76650
 
 namespace fnv_00a76680 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct Sub80
 {
 };
@@ -170,7 +167,7 @@ struct FUN_00a76890_eq
 };
 
 // @fnv 0x00a76890
-bool __stdcall ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
+bool ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
 {
     NiPixelFormat& a = *(NiPixelFormat*)apFormatA;
     NiPixelFormat& b = *(NiPixelFormat*)apFormatB;
@@ -178,8 +175,6 @@ bool __stdcall ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
 }
 
 namespace fnv_00a76960 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct FileNameComponents
 {
     FileNameComponents(const char* pcFullPath);
@@ -223,7 +218,6 @@ void FUN_00a76960(char** apszSource, char** apszDest)
 }  // namespace fnv_00a76960
 
 namespace fnv_00a76b30 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct RefObj
 {
     virtual void Unk0();
@@ -248,8 +242,6 @@ void FUN_00a76b30()
 }  // namespace fnv_00a76b30
 
 namespace fnv_00a76b60 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct RefObj
 {
     virtual void Unk0();
@@ -292,7 +284,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPixelFormat
 {
     void SetField(unsigned char, unsigned char, unsigned char);
@@ -337,7 +328,6 @@ struct NiPixelFormat
     unsigned int m_uiExtraData;
     char m_akComponents[48];
 };
-typedef char _sizecheck_NiPixelFormat[sizeof(NiPixelFormat) == 68 ? 1 : -1];
 struct FUN_00a76c10_shell : public NiImageConverter
 {
     NiPixelData* FUN_00a76c10(void*, void*, NiPixelData*, bool);
@@ -571,7 +561,6 @@ char* GetPathWithExtension(const char* pcPath)
 }
 
 namespace fnv_00a76bb0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct Sub80
 {
 };

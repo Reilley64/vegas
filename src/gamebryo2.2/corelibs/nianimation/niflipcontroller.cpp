@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_004dc540_shell.h"
 #include "fnv/decl/FUN_0060c120_cls.h"
@@ -56,7 +57,7 @@ struct BSFadeNode
 
 struct NiFlipController
 {
-    void* __thiscall FUN_00a4f820();
+    void* FUN_00a4f820();
 };
 
 // @fnv 0x00a4f970
@@ -70,11 +71,11 @@ void* __cdecl CreateNiFlipController()
 
 struct FUN_00a4f320_Holder
 {
-    const char* __thiscall GetFormattedValue();
+    const char* GetFormattedValue();
 };
 // Returns the cached string at offset 0x50, lazily formatting the integer at offset 0x4c into a 15-byte buffer with "%d" if it is null.
 // @fnv 0x00a4f320
-const char* __thiscall FUN_00a4f320_Holder::GetFormattedValue()
+const char* FUN_00a4f320_Holder::GetFormattedValue()
 {
     char* pcFormattedValue = *(char**)((char*)this + 0x50);
     if (!pcFormattedValue)
@@ -100,7 +101,7 @@ struct NiObjectNET
 };
 // Walks pkTarget's NiRTTI base chain and returns true if it reaches g_011f49a4, false for a null target or RTTI.
 // @fnv 0x00a4f5e0
-bool __stdcall FUN_00a4f5e0(NiObjectNET* pkTarget)
+bool FUN_00a4f5e0(NiObjectNET* pkTarget)
 {
     if (!pkTarget)
         return false;
@@ -118,22 +119,22 @@ bool __stdcall FUN_00a4f5e0(NiObjectNET* pkTarget)
 
 struct Proxy570
 {
-    void __thiscall FUN_00a4f570();
+    void FUN_00a4f570();
 };
 struct Proxy880
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct CloningProcess
 {
 };
 struct NiAlphaController
 {
-    void __thiscall CopyMemberData(NiAlphaController*, CloningProcess&);
+    void CopyMemberData(NiAlphaController*, CloningProcess&);
 };
 struct FlipCopy : NiAlphaController
 {
-    void __thiscall FUN_00a4f8a0(void*, unsigned int);
+    void FUN_00a4f8a0(void*, unsigned int);
     void* GetSrc(unsigned int i)
     {
         unsigned short cnt = *(unsigned short*)((char*)this + 0x42);
@@ -142,11 +143,11 @@ struct FlipCopy : NiAlphaController
             return arr[i];
         return 0;
     }
-    void __thiscall FUN_00a4f920(NiAlphaController*, CloningProcess&);
+    void FUN_00a4f920(NiAlphaController*, CloningProcess&);
 };
 // Calls the base copy, copies the int at offset 0x4c to dst, then copies each source entry via GetSrc and FUN_00a4f8a0.
 // @fnv 0x00a4f920
-void __thiscall FlipCopy::FUN_00a4f920(NiAlphaController* dst, CloningProcess& proc)
+void FlipCopy::FUN_00a4f920(NiAlphaController* dst, CloningProcess& proc)
 {
     NiAlphaController::CopyMemberData(dst, proc);
     *(int*)((char*)dst + 0x4c) = *(int*)((char*)this + 0x4c);
@@ -165,7 +166,7 @@ struct FUN_00a40520 : BSFadeNode
     __declspec(nothrow) FUN_00a40520(bool, float, unsigned char);
 };
 // @fnv 0x00a4f2c0
-FUN_00a40520* __stdcall FUN_00a4f2c0(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
+FUN_00a40520* FUN_00a4f2c0(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
                                      float fWeightThreshold, unsigned char ucArraySize)
 {
     FUN_00a40520* pkInterp = new FUN_00a40520(bManagerControlled, fWeightThreshold, ucArraySize);
@@ -197,14 +198,14 @@ struct NiTexture
     virtual void v18();
     virtual void v19();
     virtual void v20();
-    virtual bool __thiscall RegisterStreamables(NiStream&);
+    virtual bool RegisterStreamables(NiStream&);
 };
 struct BaseA
 {
 };
 struct ProxyFlip : BaseA
 {
-    bool __thiscall FUN_00a4f350(NiStream& kStream);
+    bool FUN_00a4f350(NiStream& kStream);
 };
 // @fnv 0x00a4f350
 bool ProxyFlip::FUN_00a4f350(NiStream& kStream)
@@ -259,7 +260,7 @@ struct FUN_00a4f270_cls
     unsigned int unk0044;
     unsigned int m_48;
 
-    void __thiscall GetFloatValue(float* out);
+    void GetFloatValue(float* out);
 };
 
 // @fnv 0x00a4f270
@@ -291,7 +292,7 @@ struct FUN_00a4f290_class
     int unk48;
     int unk4c;
 
-    unsigned char __thiscall FUN_00a4f290(FUN_00a4f290_class*);
+    unsigned char FUN_00a4f290(FUN_00a4f290_class*);
 };
 
 // Returns 0 if FUN_00a57c10 fails, otherwise returns whether unk4c equals param->unk4c.
@@ -340,11 +341,11 @@ struct FNVBaseController
 };
 struct FNVFlipController : FNVBaseController
 {
-    void __thiscall SaveToStream(FNVStream*);
+    void SaveToStream(FNVStream*);
 };
 // Calls the base save, writes the field at 0x4c and a count, then saves each of the count objects from the array at 0x3c via the stream.
 // @fnv 0x00a4f4e0
-void __thiscall FNVFlipController::SaveToStream(FNVStream* stream)
+void FNVFlipController::SaveToStream(FNVStream* stream)
 {
     ::FUN_00a57c00();
     FNVWriter* writer = *(FNVWriter**)((char*)stream + 0x250);
@@ -696,7 +697,6 @@ void NiFlipControllerF::UpdateFlipController(NiUpdateDataF& kUpdate)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* plCount);
 
 struct F570RefObject
 {
@@ -764,7 +764,7 @@ struct FUN_00a4f570 : F570Base
 };
 // Calls FUN_00a4f570 on this, then if bit 0 of a1 is set frees this with _delete and returns this.
 // @fnv 0x00a4f880
-void* __thiscall Proxy880::DestroyIfFlagged(unsigned int auiFlags)
+void* Proxy880::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00a4f570 *>((((Proxy570*)this)))->FUN_00a4f570::~FUN_00a4f570();
     if (auiFlags & 1)
@@ -781,8 +781,6 @@ FUN_00a4f570::~FUN_00a4f570() throw()
 }
 
 struct NiStream;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long* lpAddend);
 
 struct StreamIo
 {
@@ -804,7 +802,7 @@ struct NiStream
     unsigned int m_d8;
     char m_dc[0x170];
     StreamIo* m_io;
-    unsigned int __thiscall FUN_00a64670();
+    unsigned int FUN_00a64670();
 public:
     ::NiObject *GetLoadedObject();
 };
@@ -843,7 +841,7 @@ struct NiFloatData : FUN_00a5d3a0
         m_10Type = 0;
         m_14TypeByte = 0;
     }
-    void __thiscall FUN_00a3cdc0(void* keys, unsigned int count, int type);
+    void FUN_00a3cdc0(void* keys, unsigned int count, int type);
 };
 
 struct NiFloatInterpolator : FUN_00a5d3a0
@@ -935,12 +933,12 @@ struct CtrlA4F610
     int m_44;
     int m_48;
     int m_4c;
-    void __thiscall LoadFromStream(NiStream* stream);
+    void LoadFromStream(NiStream* stream);
 };
 
 // Reads a float range and step from the stream, builds a NiFloatData key array and a NiFloatInterpolator, and stores it in m_34Interp.
 // @fnv 0x00a4f610
-void __thiscall CtrlA4F610::LoadFromStream(NiStream* stream)
+void CtrlA4F610::LoadFromStream(NiStream* stream)
 {
     reinterpret_cast<::fnv_00a57c70::FUN_00a57c70 *>((stream))->LoadBinary(*(::fnv_00a57c70::NiStream *)nullptr);
     stream->m_io->Read4(&m_4c);
@@ -1027,7 +1025,7 @@ struct FUN_00a4f8a0_Obj
 
 // Grows the array if needed, increments the reference count of p, stores a copy of p in the array slot, then decrements the count and releases if zero.
 // @fnv 0x00a4f8a0
-void __thiscall FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
+void FlipCopy::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
 {
     FUN_00a4f8a0_Obj* pObj = (FUN_00a4f8a0_Obj*)this;
     if (pObj->arr.unk0a <= aiIndex)
@@ -1085,7 +1083,7 @@ struct A4F990Base
 
 struct A4F990Flip : A4F990Base
 {
-    void __thiscall FUN_00a4f990(A4F990Stream& kStream) throw();
+    void FUN_00a4f990(A4F990Stream& kStream) throw();
 };
 
 // Calls FUN_00a57630, then, when unk2C is nonnull, reads a count and stores that many F570RefObject pointers in m_kTextureSwapList.

@@ -162,7 +162,7 @@ struct FUN_0097ae90_Class
 };
 
 // @fnv 0x0097ae90
-int __fastcall GetFieldBC(FUN_0097ae90_Class* pThis)
+int GetFieldBC(FUN_0097ae90_Class* pThis)
 {
     return pThis->field_bc;
 }
@@ -389,18 +389,18 @@ FUN_0097cfe0::FUN_0097cfe0(CombatAction::COMBAT_ACTION aeType) : CombatAction(ae
 }
 
 // @fnv 0x0097b050
-unsigned int __fastcall GetFieldValue(unsigned int* pThis)
+unsigned int GetFieldValue(unsigned int* pThis)
 {
     return pThis[0x39];
 }
 
 struct FUN_0097d110_shell
 {
-    int __thiscall GetAt(int index);
+    int GetAt(int index);
 };
 
 // @fnv 0x0097d110
-int __thiscall FUN_0097d110_shell::GetAt(int index)
+int FUN_0097d110_shell::GetAt(int index)
 {
     return *(int*)((int)this + index * 4 + 0x1a4);
 }
@@ -830,7 +830,7 @@ struct IMH
 {
 };
 
-unsigned int __fastcall GetFieldValue(unsigned int*);
+unsigned int GetFieldValue(unsigned int*);
 
 struct FUN_00980250_shell
 {
@@ -1006,7 +1006,7 @@ struct IMH
 {
 };
 
-unsigned int __fastcall GetFieldValue(unsigned int*);
+unsigned int GetFieldValue(unsigned int*);
 
 struct FUN_00980250_shell
 {
@@ -1295,7 +1295,7 @@ struct BSFaceGenNiNode
 {
 };
 
-unsigned int __fastcall GetFieldValue(unsigned int*);
+unsigned int GetFieldValue(unsigned int*);
 
 struct FUN_009d6030
 {
@@ -1414,7 +1414,7 @@ struct IMH
 {
 };
 
-unsigned int __fastcall GetFieldValue(unsigned int*);
+unsigned int GetFieldValue(unsigned int*);
 
 struct FUN_00980250_shell
 {

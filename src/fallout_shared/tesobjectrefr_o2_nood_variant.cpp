@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/fallout_shared/tesobjectrefr.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/CB2FC0Object.h"
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/decl/FUN_00a59c60_cls.h"
@@ -223,7 +224,6 @@ struct StringHeader
     volatile long refs;
     unsigned int length;
 };
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 StringHeader* __cdecl FUN_00a5b690(const char*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_00aa1400(void*);

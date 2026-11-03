@@ -11,7 +11,7 @@
 #include "havok/hkaAnimation.h"
 
 // @fnv 0x00e2f270
-void __stdcall FUN_00e2f270(int)
+void FUN_00e2f270(int)
 {}
 
 struct FUN_00cb0c30_s

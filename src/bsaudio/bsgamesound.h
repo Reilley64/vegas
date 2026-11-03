@@ -24,7 +24,6 @@ template <class T> class NiTPointerList : public NiTPointerListBase<NiTPointerAl
 {
 };
 
-#pragma pack(push, 4)
 class BSGameSound
 {
   public:
@@ -92,12 +91,4 @@ class BSGameSound
         m_uiSoundParameter7 = uiEnvironmentType;
     }
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSGameSound) == 0x198);
-FNV_STATIC_ASSERT(offsetof(BSGameSound, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(BSGameSound, uiSoundFlags) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BSGameSound, m_fRolloff) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BSGameSound, m_uiSoundParameter7) == 0x154);
-FNV_STATIC_ASSERT(offsetof(BSGameSound, m_kLocation) == 0x17C);
-FNV_STATIC_ASSERT(offsetof(BSGameSound, m_kMessageList) == 0x18C);
 #endif

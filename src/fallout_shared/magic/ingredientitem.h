@@ -6,7 +6,6 @@
 
 class TESForm;
 
-#pragma pack(push, 4)
 
 class MagicItemObject
 {
@@ -70,7 +69,6 @@ class IngredientItem : public MagicItemObject,
     void InitializeComponent();
 };
 
-#pragma pack(pop)
 
 #include "ingredientitem_tesclass.h"
 

@@ -4,6 +4,7 @@
 
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/ArrayRecord.h"
 #include "fnv/decl/FUN_00d04390.h"
 #include "fnv/decl/JobDispatcher.h"
@@ -671,7 +672,6 @@ struct D04A20World {
 
     void QueueOperation(void* object, bool flag, int data);
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall TlsSetValue(unsigned long index, void* value);
 struct D05490Base
 {
     int m_i00;
@@ -828,7 +828,6 @@ struct hkQueue128
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" const char str_010ccd90[];
 static __forceinline short& Ref212(Registry* r,unsigned char sub){return reinterpret_cast<short*>(r)[sub];}
 struct LunaOwner : Owner
@@ -869,7 +868,6 @@ struct ArrayOfJobs {
 struct FUN_00d04bd0_cls : Owner {
     void AddJobBatch(ArrayOfJobs* jobs, int priority);
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
 struct S_00d05020_Job {
     int unk00;
     int unk04;
@@ -1053,18 +1051,15 @@ struct JobFetchView {
 struct Dispatcher : FUN_00d05490 {
     int FUN_00d051b0();
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
 struct QueueLockView : Owner
 {
     Registry* FUN_00d04400(RequestContext* storage);
 };
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* section);
 struct CriticalSectionOwner {
     void FUN_00d04420(Registry* data);
 };
 
 extern const char str_010ccd70[];
-__declspec(dllimport) void* __stdcall TlsGetValue(int index);
 struct MonEntry { void* name; int tick; int unk08; };
 struct MonStream { int unk00; MonEntry* m_cur; int unk08; MonEntry* m_kRayEnd; };
 static __forceinline void CaptureMarker(void* marker)

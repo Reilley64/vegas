@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niuvcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niuvcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00a66960_cls.h"
@@ -27,12 +28,12 @@ struct FUN_00a45a90_shell
 {
     // +0x48
     void* m_pSomePtr;
-    int __thiscall GetSomeValues(int* a, int* b, char* c);
+    int GetSomeValues(int* a, int* b, char* c);
 };
 
 // Reads fields at offsets 0x20, 0x28, 0x4a and 0x24 from the pointer at this+0x48 into the out params and returns the 0x24 value, or zeros if null.
 // @fnv 0x00a45a90
-int __thiscall FUN_00a45a90_shell::GetSomeValues(int* piValue1, int* piValue2, char* c)
+int FUN_00a45a90_shell::GetSomeValues(int* piValue1, int* piValue2, char* c)
 {
     void* p = *(void**)((char*)this + 0x48);
     if (p)
@@ -60,11 +61,11 @@ int* __cdecl FUN_00a45b30()
 
 struct FUN_00a459f0_shell
 {
-    int __thiscall GetDataFromMember(int* a, int* b, char* c);
+    int GetDataFromMember(int* a, int* b, char* c);
 };
 
 // @fnv 0x00a459f0
-int __thiscall FUN_00a459f0_shell::GetDataFromMember(int* piValue1, int* piValue2, char* c)
+int FUN_00a459f0_shell::GetDataFromMember(int* piValue1, int* piValue2, char* c)
 {
     void* p = *(void**)((char*)this + 0x48);
     if (p)
@@ -88,12 +89,12 @@ struct FUN_00a45ae0_shell
 {
     // +0x48
     void* m_pSomePtr;
-    int __thiscall GetSomePtrValues(int* a, int* b, char* c);
+    int GetSomePtrValues(int* a, int* b, char* c);
 };
 
 // Reads three ints and a byte from the object at this+0x48 into the out params and returns another int, or zeroes them if that pointer is null.
 // @fnv 0x00a45ae0
-int __thiscall FUN_00a45ae0_shell::GetSomePtrValues(int* piValue1, int* piValue2, char* c)
+int FUN_00a45ae0_shell::GetSomePtrValues(int* piValue1, int* piValue2, char* c)
 {
     void* p = *(void**)((char*)this + 0x48);
     if (p)
@@ -117,12 +118,12 @@ struct FUN_00a45a40_shell
 {
     // +0x48
     void* m_pSomePtr;
-    int __thiscall GetSomeData(int* a, int* b, char* c);
+    int GetSomeData(int* a, int* b, char* c);
 };
 
 // Reads fields from the object at this+0x48 (offset 0x14) into the three out-params and returns q[1], or zeroes them and returns 0 when that pointer is null.
 // @fnv 0x00a45a40
-int __thiscall FUN_00a45a40_shell::GetSomeData(int* piFirst, int* piSecond, char* c)
+int FUN_00a45a40_shell::GetSomeData(int* piFirst, int* piSecond, char* c)
 {
     void* p = *(void**)((char*)this + 0x48);
     if (p)
@@ -145,12 +146,12 @@ int __thiscall FUN_00a45a40_shell::GetSomeData(int* piFirst, int* piSecond, char
 void __cdecl _delete(void* p, unsigned int flags);
 struct FUN_00a45b60_shell
 {
-    int __thiscall FUN_00a45b60();
+    int FUN_00a45b60();
 };
 struct FUN_00a46000_shell
 {
-    int __thiscall FUN_00a45b60();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    int FUN_00a45b60();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 struct MyOstr
 {
@@ -264,10 +265,10 @@ struct BasePad
 struct NiUVController : BasePad
 {
     NiUVData* m_pData;
-    bool __thiscall FUN_00a45970(NiStream&);
+    bool FUN_00a45970(NiStream&);
 };
 // @fnv 0x00a45970
-bool __thiscall NiUVController::FUN_00a45970(NiStream& kStream)
+bool NiUVController::FUN_00a45970(NiStream& kStream)
 {
     if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
         return false;
@@ -304,8 +305,6 @@ void NiUVController::FUN_00a45cf0(NiUpdateData& UpdateData)
 }
 }  // namespace fnv_00a45cf0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RefObj_00a45fa0
 {
     virtual void F0();
@@ -330,7 +329,7 @@ struct Holder_00a45fa0
     int m40;
     int _pad1;
     RefObj_00a45fa0* m48;
-    void __thiscall AssignRefObj(RefObj_00a45fa0* p);
+    void AssignRefObj(RefObj_00a45fa0* p);
 };
 namespace fnv_00a45910 {
 struct NiObject;
@@ -426,7 +425,7 @@ struct HolderF
     int unk16;
     int unk17;
     RefObjF* m48;
-    void __thiscall ResetRefObject();
+    void ResetRefObject();
 };
 
 // @fnv 0x00a45b40
@@ -440,7 +439,6 @@ void HolderF::ResetRefObject()
     reinterpret_cast<::NiTimeController *>(this)->SetTarget({});
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct RefObject
 {
@@ -502,7 +500,7 @@ struct FUN_00a45b60 : BaseController
 };
 // Calls FUN_00a45b60, then if bit 0 of flags is set deletes this with size 0x50, and returns this.
 // @fnv 0x00a46000
-void* __thiscall FUN_00a46000_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00a46000_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00a45b60 *>(this)->FUN_00a45b60::~FUN_00a45b60();
     if (flags & 1)
@@ -711,7 +709,7 @@ bool A59A0Node::FUN_00a459a0(A59A0Base* pkObject)
 struct CloneableObj
 {
     void* m_pVTable;
-    void __thiscall FUN_00a6cfe0(void* pObject);
+    void FUN_00a6cfe0(void* pObject);
 };
 
 struct Base106
@@ -770,14 +768,14 @@ struct MyNiUVController
     unsigned short unk46;
     RefObj_00a45fa0* m48;
 
-    void __thiscall FUN_00a6cfe0(void* pObject, unsigned int flags);
-    unsigned int* __thiscall CloneUVData(unsigned int flags);
+    void FUN_00a6cfe0(void* pObject, unsigned int flags);
+    unsigned int* CloneUVData(unsigned int flags);
 };
 
 
 // Allocates a MyUVData, initialises it via FUN_00a6cfe0, copies m34/m38/m3C/m40/m44 and the m48 reference, and returns it.
 // @fnv 0x00a460c0
-unsigned int* __thiscall MyNiUVController::CloneUVData(unsigned int flags)
+unsigned int* MyNiUVController::CloneUVData(unsigned int flags)
 {
     MyUVData* pUVData = new MyUVData;
 
@@ -846,11 +844,11 @@ struct Holder
     int unk44;
     ChanObj* m48;
 
-    void __thiscall FUN_00a45bc0();
+    void FUN_00a45bc0();
 };
 // Releases the old m48 reference, stores p with an incremented refcount, resets m34/m38/m3c/m40, then calls FUN_00a45bc0.
 // @fnv 0x00a45fa0
-void __thiscall Holder_00a45fa0::AssignRefObj(RefObj_00a45fa0* apRefObj)
+void Holder_00a45fa0::AssignRefObj(RefObj_00a45fa0* apRefObj)
 {
     if (m48 != apRefObj)
     {
@@ -869,7 +867,7 @@ void __thiscall Holder_00a45fa0::AssignRefObj(RefObj_00a45fa0* apRefObj)
 
 // Initialises m14/m18 from two globals, then for each of the four channel arrays in m48 takes the first element as a minimum and the last element as a maximum.
 // @fnv 0x00a45bc0
-void __thiscall Holder::FUN_00a45bc0()
+void Holder::FUN_00a45bc0()
 {
     m14 = DAT_01016970;
     m18 = DAT_01015f5c;

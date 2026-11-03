@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_0078d200_cls.h"
 struct RecursiveSpinLock
 {
@@ -17,7 +18,6 @@ void FUN_008691b0::Lock()
     reinterpret_cast<::FUN_0078d200_cls *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0078d200();
 }
 
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long ms);
 // @fnv 0x0040fca0
 void FUN_0040fca0(unsigned long ms)
 {

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleEngine.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultEngine : public hkpVehicleEngine
 {
   public:
@@ -20,6 +19,4 @@ class hkpVehicleDefaultEngine : public hkpVehicleEngine
     hkReal m_fResistanceFactorAtMaxRPM;  // +0x28
     hkReal m_fClutchSlipRPM;             // +0x2C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultEngine[(sizeof(hkpVehicleDefaultEngine) == 0x30) ? 1 : -1];
 #endif

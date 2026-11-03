@@ -35,7 +35,7 @@ void __cdecl FUN_00a44830();
 
 // Calls FUN_00a44830, then frees this with _delete when flags has bit 1 set, and returns this.
 // @fnv 0x00a44360
-void* __thiscall FUN_00a44360_shell::Destroy(unsigned int flags)
+void* FUN_00a44360_shell::Destroy(unsigned int flags)
 {
     FUN_00a44830();
     if (flags & 1)
@@ -104,7 +104,7 @@ struct BSAnimNote_shell
 
 struct FUN_00a43f10_shell : BSAnimNote_shell
 {
-    bool __thiscall FUN_00a43f10(NiStream&);
+    bool FUN_00a43f10(NiStream&);
 };
 
 // @fnv 0x00a43f10
@@ -321,11 +321,11 @@ struct S_00a44530_Class
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall LoadFromStream(S_00a44530_Stream* stream);
+    void LoadFromStream(S_00a44530_Stream* stream);
 };
 // Calls ReadBinaryFields, then reads three 4-byte values from the stream into unk10, unk14 and unk18.
 // @fnv 0x00a44530
-void __thiscall S_00a44530_Class::LoadFromStream(S_00a44530_Stream* stream)
+void S_00a44530_Class::LoadFromStream(S_00a44530_Stream* stream)
 {
     reinterpret_cast<::LoadObj *>(this)->ReadBinaryFields((::LoadStream *)(stream));
     S_00a44530_Load(stream, &unk10);

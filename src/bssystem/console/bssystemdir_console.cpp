@@ -1,5 +1,6 @@
 // bssystem/console/bssystemdir_console.cpp: DirectoryIterator (3 functions)
 
+#include <windows.h>
 #include "bssystemdir_console_decls.h"
 
 // @fnv 0x00b00720
@@ -23,7 +24,6 @@ BSSystemFile__ErrorCode DirectoryIterator::NextEntry(bool& finished)
     return m_eErrorCode;
 }
 
-extern "C" __declspec(dllimport) int __stdcall FindClose(void*);
 struct FUN_00b007d0_shell
 {
     int FUN_00b007d0();
@@ -37,7 +37,6 @@ int FUN_00b007d0_shell::FUN_00b007d0()
     return *(int*)((char*)this + 0x248);
 }
 
-extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(const char*, void*);
 // @fnv 0x00b00800
 int __cdecl CreateDirectoryChecked(const char* apcPath)
 {

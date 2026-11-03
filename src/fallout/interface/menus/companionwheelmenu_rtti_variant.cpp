@@ -109,11 +109,11 @@
 #include "companionwheelmenu_decls.h"
 struct FUN_00754bf0_shell
 {
-    int __thiscall GetClass();
+    int GetClass();
 };
 struct FUN_00884480_shell
 {
-    bool __thiscall FUN_00884480(void);
+    bool FUN_00884480(void);
 };
 struct Actor
 {
@@ -124,15 +124,15 @@ public:
 };
 int __cdecl FUN_00755260();
 float FUN_00755660(float value);
-void __fastcall FUN_00756960(int thisPtr);
+void FUN_00756960(int thisPtr);
 struct FUN_00755680_shell
 {
-    bool __thiscall FUN_00755680();
+    bool FUN_00755680();
 };
 struct MyStandin754c30
 {
-    void __thiscall FUN_00754c60();
-    void* __thiscall FUN_00754c30(unsigned int);
+    void FUN_00754c60();
+    void* FUN_00754c30(unsigned int);
 };
 struct Tile
 {
@@ -144,7 +144,7 @@ struct Unk00755d90
 {
     char _pad[0x4C];
     Tile* _tile;
-    void __thiscall SetTileText(char const*);
+    void SetTileText(char const*);
 };
 struct FUN_008a7760_holder
 {
@@ -153,7 +153,7 @@ struct FUN_00756930_shell
 {
     char _pad[0x68];
     Actor* m_pDialogueActor;
-    void __thiscall FUN_00756930();
+    void FUN_00756930();
 };
 struct TESForm
 {
@@ -170,7 +170,7 @@ struct Tile2
 };
 struct FUN_007560c0_shell
 {
-    void __thiscall ToggleFollowersTacticsDistance();
+    void ToggleFollowersTacticsDistance();
 };
 struct MagicCaster
 {
@@ -201,7 +201,7 @@ struct InterfaceH
 };
 struct FUN_007552e0_shell
 {
-    void __thiscall FUN_007552e0(int, Tile*);
+    void FUN_007552e0(int, Tile*);
 
     unsigned char _pad[0x28];
     Tile* m_pTiles[64];
@@ -219,7 +219,7 @@ struct FUN_00755480_shell
     char _pad2[0x1C];
     unsigned int m_uiCurrentItemIndex;
 
-    void __thiscall UpdateTileTimerAndInputAngle();
+    void UpdateTileTimerAndInputAngle();
 };
 struct MenuFactory
 {
@@ -240,7 +240,7 @@ struct WheelHost
 {
     char unk00[0x28];
     int m_aiIndexedValues[16];
-    void __thiscall FUN_00755760(int a, int b);
+    void FUN_00755760(int a, int b);
 };
 bool __cdecl FUN_00702450(int);
 struct InteractionActor;
@@ -1074,7 +1074,7 @@ struct CRelatedActor_757690
 };
 struct CInterface_757690
 {
-    unsigned char* __thiscall FUN_00408d60();
+    unsigned char* FUN_00408d60();
 };
 struct CRandom_757690
 {
@@ -1082,7 +1082,7 @@ struct CRandom_757690
 unsigned __cdecl FUN_00ec6130(int);
 struct CWheelMenu_757690
 {
-    void __thiscall SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
+    void SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
 };
 namespace ScriptAnimation {
 struct Reference;
@@ -2258,7 +2258,7 @@ struct WheelMenuV
     int unk20;
     int unk24;
     Tile* tiles[16];
-    void __thiscall FUN_00755c50(float angle);
+    void FUN_00755c50(float angle);
 };
 
 // @fnv 0x00755c50

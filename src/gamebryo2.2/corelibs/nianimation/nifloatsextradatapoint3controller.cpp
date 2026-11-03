@@ -228,7 +228,7 @@ int FUN_00a4eb50_cls::BuildAndDispatchVec12(int unused)
 }
 
 extern "C" int DAT_0109917c;
-extern "C" void (__stdcall* DAT_00fdf1c4)(void*);
+extern "C" void (* DAT_00fdf1c4)(void*);
 void __cdecl FUN_00aa1460(void* ptr, unsigned int size);
 
 struct FUN_00a4ed10_cls {
@@ -340,12 +340,12 @@ void Ctlr4edd::UpdateController(const float& fTime)
 extern "C" double __cdecl fabs(double);
 struct D3DVERTEXBUFFER_DESC { unsigned Format, Type, Usage, Pool, Size, FVF; };
 struct IDirect3DVertexBuffer9 {
-    virtual void __stdcall v00(); virtual void __stdcall v04(); virtual void __stdcall v08();
-    virtual void __stdcall v0c(); virtual void __stdcall v10(); virtual void __stdcall v14();
-    virtual void __stdcall v18(); virtual void __stdcall v1c(); virtual void __stdcall v20();
-    virtual void __stdcall v24(); virtual void __stdcall v28(); virtual void __stdcall v2c();
-    virtual int __stdcall Unlock();
-    virtual int __stdcall GetDesc(D3DVERTEXBUFFER_DESC*);
+    virtual void v00(); virtual void v04(); virtual void v08();
+    virtual void v0c(); virtual void v10(); virtual void v14();
+    virtual void v18(); virtual void v1c(); virtual void v20();
+    virtual void v24(); virtual void v28(); virtual void v2c();
+    virtual int Unlock();
+    virtual int GetDesc(D3DVERTEXBUFFER_DESC*);
 };
 
 extern const char DAT_010efe14[];

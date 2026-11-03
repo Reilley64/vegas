@@ -30,7 +30,7 @@ struct E02A40StreamWriter
 
 // Calls writer->write with buf and nbytes and returns nonzero if the number of bytes written differs from nbytes.
 // @fnv 0x00e02a40
-int __stdcall WriteAllOrFail(E02A40StreamWriter* writer, const void* buf, int aiNumBytes)
+int WriteAllOrFail(E02A40StreamWriter* writer, const void* buf, int aiNumBytes)
 {
     return writer->write(buf, aiNumBytes) != aiNumBytes;
 }

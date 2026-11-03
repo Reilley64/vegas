@@ -97,7 +97,7 @@ extern int DAT_0101a4c4;
 
 // Runs the BaseFormComponent constructor, installs the vtable pointer from DAT_0101a4c4, calls FUN_008c6060, and returns pThis.
 // @fnv 0x0048eac0
-void* __fastcall FUN_0048eac0(void* pThis)
+void* FUN_0048eac0(void* pThis)
 {
     ::FUN_00402d30((int *)(((BaseFormComponent*)pThis)));
     *(int**)pThis = &DAT_0101a4c4;

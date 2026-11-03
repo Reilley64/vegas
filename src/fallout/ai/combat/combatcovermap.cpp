@@ -31,8 +31,8 @@
 #include "fnv/symbols_011f1000.h"
 struct CombatCoverMap
 {
-    void* __thiscall FUN_00983100(unsigned int flags);
-    void __thiscall FUN_00983130();
+    void* FUN_00983100(unsigned int flags);
+    void FUN_00983130();
 };
 
 struct FUN_00983400_shell
@@ -49,10 +49,10 @@ void FUN_00983400_shell::SetByteAtOffset(unsigned char param)
 
 struct FUN_00983250_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 // @fnv 0x00983250
-void* __thiscall FUN_00983250_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00983250_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00982d10 *>(this)->FUN_00982d10::~FUN_00982d10();
     if (flags & 1)
@@ -69,17 +69,17 @@ struct Calendar
 struct TESWorldSpace;
 struct FUN_00983280_holder
 {
-    void __thiscall FUN_00983280(int, StageHolder*);
+    void FUN_00983280(int, StageHolder*);
 };
 struct FUN_009a0510_shell
 {
     char _pad[0x1c4];
     int m_1c4;
-    void __thiscall FUN_009a0510(StageHolder*);
+    void FUN_009a0510(StageHolder*);
 };
 // If a1 is non-null and not done, calls FUN_00983280 with m_1c4 and a1 on the object returned by GetDaysPassed.
 // @fnv 0x009a0510
-void __thiscall FUN_009a0510_shell::FUN_009a0510(StageHolder* pStage)
+void FUN_009a0510_shell::FUN_009a0510(StageHolder* pStage)
 {
     if (pStage && !reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
         ((FUN_00983280_holder*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)::BGSSaveLoadGlobalDataWorldspacePtr)))->FUN_009611e0())))
@@ -95,16 +95,16 @@ struct Calendar
 };
 struct FUN_00983420_shell
 {
-    bool __thiscall GetOrCreateCoverItem(int, StageHolder*);
+    bool GetOrCreateCoverItem(int, StageHolder*);
 };
 struct TESWorldSpace;
 struct FUN_009a0560_shell
 {
-    bool __thiscall FUN_009a0560(StageHolder*);
+    bool FUN_009a0560(StageHolder*);
 };
 // Returns true if the stage holder is null or done, otherwise delegates to GetOrCreateCoverItem with the days passed and the holder.
 // @fnv 0x009a0560
-bool __thiscall FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
+bool FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
 {
     if (pStageHolder && !reinterpret_cast<::FUN_005dc960_shell *>((pStageHolder))->FUN_005dc960())
         return ((FUN_00983420_shell*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_009611e0())))
@@ -119,7 +119,7 @@ struct StageHolder
 };
 struct FUN_00983520_obj
 {
-    void __thiscall FUN_00983520(int, StageHolder*);
+    void FUN_00983520(int, StageHolder*);
 };
 struct Calendar
 {
@@ -128,11 +128,11 @@ struct FUN_009a05b0_shell
 {
     unsigned char pad[0x1c4];
     int fld1c4;
-    void __thiscall FUN_009a05b0(StageHolder*);
+    void FUN_009a05b0(StageHolder*);
 };
 // If a1 is non-null and done, passes fld1c4 and a1 to FUN_00983520 via the worldspace save-load global's days-passed object.
 // @fnv 0x009a05b0
-void __thiscall FUN_009a05b0_shell::FUN_009a05b0(StageHolder* pStage)
+void FUN_009a05b0_shell::FUN_009a05b0(StageHolder* pStage)
 {
     if (pStage && reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
     {
@@ -184,7 +184,7 @@ struct FUN_009836d0_class
     int unk04;
     int unk08;
     int unk0C;
-    FUN_009836d0_class* __thiscall FUN_009836d0();
+    FUN_009836d0_class* FUN_009836d0();
     FUN_009836d0_class()
     {
         FUN_009836d0();

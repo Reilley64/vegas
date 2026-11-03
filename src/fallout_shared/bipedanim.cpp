@@ -536,7 +536,7 @@ void BipedAnim::ClearBipedObject(BipedAnimObject* apObj, bool abClear, TESForm* 
 }
 
 // @fnv 0x004abf80
-int __fastcall FUN_004abf80(unsigned char* pThis)
+int FUN_004abf80(unsigned char* pThis)
 {
     return pThis[0x14] & 0xe;
 }
@@ -630,7 +630,7 @@ struct FUN_004ad1d0_Obj
 
 // Deletes the two objects pointed to by p0 and p4.
 // @fnv 0x004ad1d0
-void __fastcall FUN_004ad1d0(FUN_004ad1d0_Obj* pThis)
+void FUN_004ad1d0(FUN_004ad1d0_Obj* pThis)
 {
     delete pThis->p0;
     delete pThis->p4;
@@ -654,10 +654,10 @@ void FUN_004ad240_c::SetScale(float afScale)
     x = afScale;
 }
 
-void __fastcall FUN_004ad1d0(void*);
+void FUN_004ad1d0(void*);
 
 // @fnv 0x004ad270
-void __fastcall FUN_004ad270(void* p)
+void FUN_004ad270(void* p)
 {
     FUN_004ad1d0(p);
 }
@@ -713,7 +713,7 @@ struct StackArg
 };
 
 // @fnv 0x004addc0
-void __fastcall FUN_004addc0(DummyThis* this_ptr, StackArg aStackArg)
+void FUN_004addc0(DummyThis* this_ptr, StackArg aStackArg)
 {
     this_ptr->arr.FUN_00558dd0(aStackArg.val);
 }
@@ -727,7 +727,7 @@ void __cdecl FUN_004ade00(int a1, int a2)
 
 
 // @fnv 0x004ade20
-void __fastcall FUN_004ade20(void* pThis)
+void FUN_004ade20(void* pThis)
 {
     reinterpret_cast<struct ::FUN_004afc20 *>((pThis))->Init();
 }
@@ -751,7 +751,7 @@ struct Dummy_004ae6c0
 
 // Calls FUN_004ae700 to get a BSStringT<char> and returns its character buffer, or null if the string pointer is null.
 // @fnv 0x004ae6c0
-const char* __fastcall GetStringCStr(Dummy_004ae6c0* pThis)
+const char* GetStringCStr(Dummy_004ae6c0* pThis)
 {
     BSStringT<char>* str = pThis->FUN_004ae700();
     return str ? (const char*)*str : 0;
@@ -782,13 +782,13 @@ SrcList* FUN_004ae700_S::FUN_004ae700()
 
 // Returns the result of GetReferenceFlags on p when p is non-null, otherwise returns 0.
 // @fnv 0x004ae750
-int __fastcall FUN_004ae750(void* p)
+int FUN_004ae750(void* p)
 {
     return p ? ((int)(reinterpret_cast<::FUN_00620b80_shell *>((p))->GetReferenceFlags())) : 0;
 }
 
 // @fnv 0x004ae8f0
-int __fastcall FUN_004ae8f0(unsigned char* p)
+int FUN_004ae8f0(unsigned char* p)
 {
     return p[0x14] & 1;
 }
@@ -903,7 +903,7 @@ struct BSStringT_layout
 
 // If m_data is set, calls FUN_004afb00 on it with m_dataLen + 1 as the size.
 // @fnv 0x004afad0
-void __fastcall FUN_004afad0(BSStringT_layout* thisPtr)
+void FUN_004afad0(BSStringT_layout* thisPtr)
 {
     if (thisPtr->m_data)
     {
@@ -1143,11 +1143,11 @@ struct FUN_004afb80_struct
 struct FUN_004aaef0_shell
 {
     FUN_004afb80_struct* m_p;
-    void __thiscall CallContainedObject();
+    void CallContainedObject();
 };
 
 // @fnv 0x004aaef0
-void __thiscall FUN_004aaef0_shell::CallContainedObject()
+void FUN_004aaef0_shell::CallContainedObject()
 {
     reinterpret_cast<::FUN_004afb80_shell *>((m_p))->LockAtOffset();
 }
@@ -1198,7 +1198,7 @@ void Host0087b360::FUN_0087b360(int aiFirst, int aiSecond)
 
 struct FUN_004aaf10_shell
 {
-    void __thiscall FUN_004aaf10();
+    void FUN_004aaf10();
 };
 // @fnv 0x004aae70
 void BipedAnim::CompleteModelLoadTask()
@@ -1215,18 +1215,18 @@ void BipedAnim::CompleteModelLoadTask()
 }
 
 // @fnv 0x004aaf10
-void __thiscall FUN_004aaf10_shell::FUN_004aaf10()
+void FUN_004aaf10_shell::FUN_004aaf10()
 {
     reinterpret_cast<::fnv_004afba0::FUN_004afba0_class *>((reinterpret_cast<FUN_004aaf10_shell*>(*reinterpret_cast<int*>(this))))->UnlockAtOffset();
 }
 
 struct FUN_004ab730_shell
 {
-    bool __thiscall IsFlagSet();
+    bool IsFlagSet();
 };
 
 // @fnv 0x004ab730
-bool __thiscall FUN_004ab730_shell::IsFlagSet()
+bool FUN_004ab730_shell::IsFlagSet()
 {
     return reinterpret_cast<unsigned char*>(this)[0x100] & 0x10;
 }

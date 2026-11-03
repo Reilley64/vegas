@@ -31,11 +31,11 @@
 
 struct FUN_00c5b5a0_cls
 {
-    int __thiscall FUN_00c5b5a0(int idx);
+    int FUN_00c5b5a0(int idx);
 };
 
 // @fnv 0x00c5b5a0
-int __thiscall FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
+int FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
 {
     int* p = *(int**)((char*)this + 0x40) + idx;
     int result = *p;

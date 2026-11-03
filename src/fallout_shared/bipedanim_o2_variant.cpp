@@ -335,7 +335,7 @@ static __forceinline SceneNode* FindAttachParent(SceneNode* obj, SceneNode* root
 }
 
 // @fnv 0x00c89050
-void __stdcall FUN_00c89050(void* a1, AttachInfo a2, SceneNode* root, bool a4)
+void FUN_00c89050(void* a1, AttachInfo a2, SceneNode* root, bool a4)
 {
     SceneNode* obj = ((::SceneNode *)(::FUN_00c4b310((::ObjQ *)(root), "Weapon", 0)));
     SceneNode* parent = FindAttachParent(obj, root);

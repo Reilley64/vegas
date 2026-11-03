@@ -157,11 +157,11 @@
 
 
 struct FUN_00533260_holder {
-    void __thiscall FUN_00533260();
+    void FUN_00533260();
 };
 
 struct FUN_00533210_class {
-    void* __thiscall FUN_00533210(unsigned int flags);
+    void* FUN_00533210(unsigned int flags);
 };
 
 struct CellH {
@@ -388,8 +388,8 @@ NiPoint3 FUN_00535b30_class::FUN_00535b30(int block)
 
 
 struct FUN_00537100_Class {
-    void __thiscall FUN_00537130();
-    void* __thiscall FUN_00537100(unsigned int flags);
+    void FUN_00537130();
+    void* FUN_00537100(unsigned int flags);
 };
 
 
@@ -434,11 +434,11 @@ void FUN_00540800_Class::FUN_00537ce0()
 
 
 struct FUN_00537d00_Class {
-    void* __thiscall FUN_00537d00();
+    void* FUN_00537d00();
 };
 
 // @fnv 0x00537d00
-void* __thiscall FUN_00537d00_Class::FUN_00537d00()
+void* FUN_00537d00_Class::FUN_00537d00()
 {
     return &(*reinterpret_cast<void * *>(&::g_011f4aac));
 }
@@ -486,10 +486,10 @@ struct FUN_00538e30_class {
 extern int DAT_0102e378;
 struct FUN_00538e10_class {
     int* m_vtbl;
-    void __fastcall FUN_00538e10();
+    void FUN_00538e10();
 };
 // @fnv 0x00538e10
-void __fastcall FUN_00538e10_class::FUN_00538e10()
+void FUN_00538e10_class::FUN_00538e10()
 {
     m_vtbl = &DAT_0102e378;
     ::SetVtable((::FUN_00538e30_class *)(((FUN_00538e30_class*)this)));
@@ -497,10 +497,10 @@ void __fastcall FUN_00538e10_class::FUN_00538e10()
 
 namespace fnv_00538e50 {
 struct FUN_00538e30_class {
-    void* __thiscall FUN_00538e50(unsigned int flags);
+    void* FUN_00538e50(unsigned int flags);
 };
 // @fnv 0x00538e50
-void* __thiscall FUN_00538e30_class::FUN_00538e50(unsigned int flags)
+void* FUN_00538e30_class::FUN_00538e50(unsigned int flags)
 {
     ::SetVtable((::FUN_00538e30_class *)this);
     if (flags & 1)
@@ -551,11 +551,11 @@ FUN_00538f20::FUN_00538f20()
 }
 
 struct FUN_00538f80 {
-    void __thiscall FUN_00538fb0();
-    void* __thiscall DeleteThis(unsigned int flags);
+    void FUN_00538fb0();
+    void* DeleteThis(unsigned int flags);
 };
 // @fnv 0x00538f80
-void* __thiscall FUN_00538f80::DeleteThis(unsigned int flags)
+void* FUN_00538f80::DeleteThis(unsigned int flags)
 {
     FUN_00538fb0();
     if (flags & 1)
@@ -629,15 +629,15 @@ struct FUN_0053a000 {
 };
 
 struct FUN_00539fd0 : public FUN_0053a000 {
-    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 struct FUN_0053a070_Class {
-    void __thiscall FUN_0053a070(int a, int b);
+    void FUN_0053a070(int a, int b);
 };
 
 // @fnv 0x0053a070
-void __thiscall FUN_0053a070_Class::FUN_0053a070(int a, int b)
+void FUN_0053a070_Class::FUN_0053a070(int a, int b)
 {
     *(int*)((char*)this + 0x10) = a;
     *(int*)((char*)this + 0xc) = b;
@@ -705,7 +705,7 @@ void FUN_0053a760_Class::FUN_0053a760(unsigned char a, unsigned short b, int c)
 }
 
 struct FUN_0053ae30_class {
-    float __thiscall FUN_0053ae30(unsigned char type, unsigned short id);
+    float FUN_0053ae30(unsigned char type, unsigned short id);
 };
 struct GlobalObject_0044f440 {
 };
@@ -740,11 +740,11 @@ struct Owner
     bool FUN_0053d2e0(int, int, int);
 };
 struct FUN_0053df00_Class {
-    int __thiscall FUN_0053df00();
+    int FUN_0053df00();
 };
 
 // @fnv 0x0053df00
-int __thiscall FUN_0053df00_Class::FUN_0053df00()
+int FUN_0053df00_Class::FUN_0053df00()
 {
     return *(int*)((char*)this + 0x28) ? *(int*)((char*)*(int*)((char*)this + 0x28) + 8) : 0;
 }
@@ -803,12 +803,12 @@ struct LandscapeColorData {
  int m00; int m04; int m08; int m0C; int m10; int m14; int m18; int m1C;
  int m20; int m24; int m28; int m2C; int m30; int m34; int m38; int m3C;
  int m40; int m44; int m48; int m4C;
- void __thiscall FUN_0053a510();
+ void FUN_0053a510();
 };
 struct TESObjectLAND {
- bool __thiscall FUN_0053b550(LandscapeColorData*, const NiPoint3*, int);
- NiGeometry* __thiscall FUN_0053f120(LandscapeColorData*);
- NiGeometry* __thiscall FUN_0053f0e0(const NiPoint3&);
+ bool FUN_0053b550(LandscapeColorData*, const NiPoint3*, int);
+ NiGeometry* FUN_0053f120(LandscapeColorData*);
+ NiGeometry* FUN_0053f0e0(const NiPoint3&);
 };
 // @fnv 0x0053f0e0
 NiGeometry* TESObjectLAND::FUN_0053f0e0(const NiPoint3& coord)
@@ -839,11 +839,11 @@ NiAVObject* FUN_0053f120_Holder::FUN_0053f120(FUN_0053f120_Param* a)
 struct LandscapeColorData
 {
     int m00,m04,m08,m0C,m10,m14,m18,m1C,m20,m24,m28,m2C,m30,m34,m38,m3C,m40,m44,m48,m4C;
-    void __thiscall FUN_0053a510();
+    void FUN_0053a510();
 };
 struct TESObjectLAND
 {
-    bool __thiscall FUN_0053f180(const LandscapeColorData&, float&);
+    bool FUN_0053f180(const LandscapeColorData&, float&);
 };
 namespace fnv_0053fa10 {
 struct RgbaColor { float r, g, b, a; };
@@ -1198,7 +1198,7 @@ struct FUN_00537130 {
     ~FUN_00537130();
 };
 // @fnv 0x00537100
-void* __thiscall FUN_00537100_Class::FUN_00537100(unsigned int flags)
+void* FUN_00537100_Class::FUN_00537100(unsigned int flags)
 {
     reinterpret_cast<::FUN_00537130 *>(this)->FUN_00537130::~FUN_00537130();
     if (flags & 1)
@@ -1567,7 +1567,7 @@ public:
     void* m_pResource;
 };
 // @fnv 0x00539fd0
-void* __thiscall FUN_00539fd0::ScalarDeletingDestructor(unsigned int flags)
+void* FUN_00539fd0::ScalarDeletingDestructor(unsigned int flags)
 {
     reinterpret_cast<::FUN_0053a000_cls *>((reinterpret_cast<FUN_0053a000*>(this)))->FUN_0053a000_cls::~FUN_0053a000_cls();
     if (flags & 1)
@@ -2337,7 +2337,7 @@ struct FUN_00533260 : LandFormBase, LandChildCell {
     virtual ~FUN_00533260();
 };
 // @fnv 0x00533210
-void* __thiscall FUN_00533210_class::FUN_00533210(unsigned int flags)
+void* FUN_00533210_class::FUN_00533210(unsigned int flags)
 {
     reinterpret_cast<::FUN_00533260 *>((((FUN_00533260_holder*)this)))->FUN_00533260::~FUN_00533260();
     if (flags & 1)
@@ -3193,14 +3193,14 @@ struct FUN_00538c00_Class
 
 {
 
-    char __thiscall FUN_00538c00(const void* source, unsigned int size, Output538c00** result);
+    char FUN_00538c00(const void* source, unsigned int size, Output538c00** result);
 
 };
 
 
 
 // @fnv 0x00538c00
-char __thiscall FUN_00538c00_Class::FUN_00538c00(
+char FUN_00538c00_Class::FUN_00538c00(
     const void* source, unsigned int size, Output538c00** result)
 {
     unsigned char success = 0;
@@ -3870,7 +3870,7 @@ struct LandStandIn {
     bool FUN_0053f1e0(LandCoord& coord, float& height);
 };
 // @fnv 0x0053f180
-bool __thiscall TESObjectLAND::FUN_0053f180(const LandscapeColorData& a, float& b)
+bool TESObjectLAND::FUN_0053f180(const LandscapeColorData& a, float& b)
 {
     LandscapeColorData tmp;
     new ((void *)&(tmp)) ::FUN_0053a510();
@@ -5609,7 +5609,7 @@ void Land::FUN_0053aeb0()
     }
 }
 
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 struct RefPersistsH {  };
 struct CellS {
     virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();

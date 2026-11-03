@@ -18,7 +18,7 @@
 #include "fnv/symbols_011b7000.h"
 #include "fnv/symbols_01269000.h"
 #include "fnv/symbols_0126c000.h"
-void __stdcall GetPunctuationChars(char** pOut, int* pLen);
+void GetPunctuationChars(char** pOut, int* pLen);
 struct hkInspectProcess;
 struct hkProcess;
 extern hkInspectProcess* DAT_01269cd4;

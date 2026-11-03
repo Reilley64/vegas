@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkpSphereCapsuleAgent.h"
 #include "fnv/symbols_00d23000.h"
@@ -138,7 +139,7 @@ void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiVal
 
 
 // @fnv 0x00d3e510
-void __stdcall FUN_00d3e510(int a, int b, int c, int d)
+void FUN_00d3e510(int a, int b, int c, int d)
 {
     ::FUN_00d3e330((*(const ::S_00d3ef70_CdBody *)(a)), (*(const ::S_00d3ef70_CdBody *)(b)), (*(const ::S_00d3ef70_Input *)(c)), (*(::S_00d3ef70_Collector *)(d)));
 }
@@ -193,7 +194,6 @@ extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ss(float* p, __m128 a);
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 

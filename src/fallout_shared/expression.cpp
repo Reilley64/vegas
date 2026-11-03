@@ -24,7 +24,7 @@ ExpressionEvaluator::ExpressionEvaluator()
 }
 
 // @fnv 0x00594b60
-void* __fastcall FUN_00594b60(void* pThis)
+void* FUN_00594b60(void* pThis)
 {
     *(int*)((char*)pThis + 0x100) = -1;
     return pThis;
@@ -34,17 +34,17 @@ struct Dummy_00594c60
 {
     char pad[0x200];
     int top;
-    Dummy_00594c60* __thiscall ctor();
+    Dummy_00594c60* ctor();
 };
 
-__declspec(noinline) Dummy_00594c60* __thiscall Dummy_00594c60::ctor()
+__declspec(noinline) Dummy_00594c60* Dummy_00594c60::ctor()
 {
     this->top = -1;
     return this;
 }
 
 // @fnv 0x00594c60
-int __fastcall InitStack(Dummy_00594c60* _this)
+int InitStack(Dummy_00594c60* _this)
 {
     _this->top = -1;
     return (int)_this;

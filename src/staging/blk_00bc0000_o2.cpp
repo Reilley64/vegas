@@ -2,6 +2,7 @@
 // src/staging/blk_00bc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShader.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -220,11 +221,11 @@ FUN_00bc3350_Class* FUN_00bc3350_Class::FUN_00bc3350(int aiFlags)
 
 struct FUN_00bc34a0_class
 {
-    void* __thiscall FUN_00bc34a0(float* out);
+    void* FUN_00bc34a0(float* out);
 };
 
 // @fnv 0x00bc34a0
-void* __thiscall FUN_00bc34a0_class::FUN_00bc34a0(float* out)
+void* FUN_00bc34a0_class::FUN_00bc34a0(float* out)
 {
     *out = *(float*)((char*)*(void**)((char*)this + 0x2c) + 0xe0);
     return *(void**)((char*)this + 0x2c);
@@ -244,10 +245,10 @@ struct NiColorA_SaveHelper
 };
 struct FUN_00bc3780_Class
 {
-    void __thiscall FUN_00bc3780(NiStream& stream);
+    void FUN_00bc3780(NiStream& stream);
 };
 // @fnv 0x00bc3780
-void __thiscall FUN_00bc3780_Class::FUN_00bc3780(NiStream& stream)
+void FUN_00bc3780_Class::FUN_00bc3780(NiStream& stream)
 {
     reinterpret_cast<::FUN_00ba9380_cls *>(this)->FUN_00ba9380((void *)&(stream));
     reinterpret_cast<::FUN_00a698a0_class *>((((NiColorA_SaveHelper*)((char*)this + 0x60))))->FUN_00a698a0((void *)&(stream));
@@ -259,10 +260,10 @@ extern int DAT_010bab28;
 struct FUN_00bc3800_Class
 {
     void* m_p;
-    void* __thiscall FUN_00bc3800(int flags);
+    void* FUN_00bc3800(int flags);
 };
 // @fnv 0x00bc3800
-void* __thiscall FUN_00bc3800_Class::FUN_00bc3800(int flags)
+void* FUN_00bc3800_Class::FUN_00bc3800(int flags)
 {
     m_p = &DAT_010bab28;
     reinterpret_cast<class ::FUN_00baa0e0 *>((this))->FUN_00baa0e0::~FUN_00baa0e0();
@@ -273,11 +274,11 @@ void* __thiscall FUN_00bc3800_Class::FUN_00bc3800(int flags)
 
 struct FUN_00bc4980_class
 {
-    void __thiscall FUN_00bc4980(void* p, char c);
+    void FUN_00bc4980(void* p, char c);
 };
 
 // @fnv 0x00bc4980
-void __thiscall FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
+void FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
 {
     *(void**)((char*)this + 0x6c) = p;
     *(char*)((char*)this + 0x64) = c;
@@ -289,11 +290,11 @@ extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00bc5980_cls
 {
-    void* __thiscall FUN_00bc5980(int flags);
+    void* FUN_00bc5980(int flags);
 };
 
 // @fnv 0x00bc5980
-void* __thiscall FUN_00bc5980_cls::FUN_00bc5980(int flags)
+void* FUN_00bc5980_cls::FUN_00bc5980(int flags)
 {
     FUN_00bc5320();
     if (flags & 1)
@@ -305,18 +306,18 @@ extern "C" void __cdecl _delete(void*, unsigned int);
 
 struct FUN_00bd0440_class
 {
-    void __thiscall FUN_00bcf920();
-    void* __thiscall FUN_00bd0440(int);
+    void FUN_00bcf920();
+    void* FUN_00bd0440(int);
 };
 
 void __cdecl FUN_00bd2c40();
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00bd2fd0_class
 {
-    void* __thiscall FUN_00bd2fd0(int flags);
+    void* FUN_00bd2fd0(int flags);
 };
 // @fnv 0x00bd2fd0
-void* __thiscall FUN_00bd2fd0_class::FUN_00bd2fd0(int flags)
+void* FUN_00bd2fd0_class::FUN_00bd2fd0(int flags)
 {
     FUN_00bd2c40();
     if (flags & 1)
@@ -326,19 +327,19 @@ void* __thiscall FUN_00bd2fd0_class::FUN_00bd2fd0(int flags)
 
 struct FUN_00bd4570_t
 {
-    void __thiscall FUN_00bd4570();
+    void FUN_00bd4570();
 };
 
 void __cdecl operator delete(void* p, size_t n);
 
 struct FUN_00bd4d00_class
 {
-    FUN_00bd4d00_class* __thiscall FUN_00bd4d00(int flag);
+    FUN_00bd4d00_class* FUN_00bd4d00(int flag);
 };
 
 // Calls FUN_00bd4570 on this, frees this with operator delete when flag has bit 0 set, and returns this.
 // @fnv 0x00bd4d00
-FUN_00bd4d00_class* __thiscall FUN_00bd4d00_class::FUN_00bd4d00(int aiFlags)
+FUN_00bd4d00_class* FUN_00bd4d00_class::FUN_00bd4d00(int aiFlags)
 {
     ((FUN_00bd4570_t*)this)->FUN_00bd4570();
     if (aiFlags & 1)
@@ -370,12 +371,12 @@ void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bd8480_Class
 {
-    void* __thiscall FUN_00bd8480(int flags);
+    void* FUN_00bd8480(int flags);
 };
 
 // Calls FUN_00bd74a0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00bd8480
-void* __thiscall FUN_00bd8480_Class::FUN_00bd8480(int flags)
+void* FUN_00bd8480_Class::FUN_00bd8480(int flags)
 {
     FUN_00bd74a0();
     if (flags & 1)
@@ -395,9 +396,9 @@ void FUN_00bc0970_class::FUN_00bc0970()
 {
     if (*(int*)((char*)this + 0x28))
     {
-        void(__thiscall * f1)(void*) = (void(__thiscall*)(void*))(*(int**)(*(int*)((char*)this + 0x18c)))[0x28];
+        void(* f1)(void*) = (void(*)(void*))(*(int**)(*(int*)((char*)this + 0x18c)))[0x28];
         f1(*(void**)((char*)this + 0x18c));
-        void(__thiscall * f2)(void*) = (void(__thiscall*)(void*))(*(int**)(*(int*)((char*)this + 0x190)))[0x22];
+        void(* f2)(void*) = (void(*)(void*))(*(int**)(*(int*)((char*)this + 0x190)))[0x22];
         f2(*(void**)((char*)this + 0x190));
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
@@ -408,11 +409,11 @@ extern int DAT_010ba730;
 
 struct FUN_00bc2bd0_class
 {
-    int* __thiscall FUN_00bc2bd0();
+    int* FUN_00bc2bd0();
 };
 
 // @fnv 0x00bc3040
-void __fastcall FUN_00bc3040(void* self, int, float* out)
+void FUN_00bc3040(void* self, int, float* out)
 {
     *out = *(float*)((char*)*(int**)((char*)self + 0x2c) + 0x40);
 }
@@ -425,7 +426,7 @@ struct GlobalObjectO2_00a7b610
     char* pData;
 };
 // @fnv 0x00bc31f0
-void __stdcall FUN_00bc31f0(StrArr* pStrArr)
+void FUN_00bc31f0(StrArr* pStrArr)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
     char* p = ::FUN_00a7d330(::g_01201f90.pData);
@@ -437,7 +438,7 @@ void __stdcall FUN_00bc31f0(StrArr* pStrArr)
 }
 
 // @fnv 0x00bd9150
-void __fastcall FUN_00bd9150(void* p)
+void FUN_00bd9150(void* p)
 {
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(*(void**)p);
 }
@@ -585,7 +586,7 @@ struct StrArr_00bc3450
 {
 };
 // @fnv 0x00bc3450
-void __stdcall FUN_00bc3450(StrArr_00bc3450* pArray)
+void FUN_00bc3450(StrArr_00bc3450* pArray)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(::StrArr *)((StrArr*)pArray));
     char* s = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_2 *>(&::g_01201f9c)).pData);
@@ -597,7 +598,7 @@ void __stdcall FUN_00bc3450(StrArr_00bc3450* pArray)
 
 // Adds a pass (0x1e5 or 0x1e6 depending on a and type) to pPasses, or increments count when type is not 1; clears out and returns 0.
 // @fnv 0x00bd9e60
-int __fastcall FUN_00bd9e60(Shader_00bd9540* self, int edx, NiGeometry* geom, unsigned short* count, unsigned char type,
+int FUN_00bd9e60(Shader_00bd9540* self, int edx, NiGeometry* geom, unsigned short* count, unsigned char type,
                             bool* pbOut, bool a)
 {
     if (!a)
@@ -954,7 +955,7 @@ int FUN_00bc0c70_class::CallVirtual128WithField168()
 {
     void** vt = *(void***)this;
     void* e = *(void**)((char*)this + 0x168);
-    return ((int(__thiscall*)(void*, void*))vt[0x128 / 4])(this, e);
+    return ((int(*)(void*, void*))vt[0x128 / 4])(this, e);
 }
 
 struct FUN_00bc1c70_class
@@ -1005,12 +1006,12 @@ struct FUN_00bc1cc0_class
     int m_i184;
     int m_i188;
 
-    void __thiscall FUN_00bc1cc0(float f1, float f2);
+    void FUN_00bc1cc0(float f1, float f2);
 };
 
 // Advances m_i78 by a remainder derived from f1 and m_i188/m_f70, clamps it, decrements m_i184 and adds f1*f2 to m_f180.
 // @fnv 0x00bc1cc0
-void __thiscall FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
+void FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
 {
     float fProduct = f1 * f2;
     int iValue = (int)(f1 * (m_i188 / m_f70));
@@ -1055,7 +1056,7 @@ struct GlobalObjectO2_00a7b610_3
 };
 
 // @fnv 0x00bc3700
-void __stdcall FUN_00bc3700(StrArr* pStrArr)
+void FUN_00bc3700(StrArr* pStrArr)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
     char* p = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_3 *>(&::g_01201fa8)).pData);
@@ -1107,14 +1108,14 @@ struct FUN_00bc4810_class
 // @fnv 0x00bc4810
 void FUN_00bc4810_class::CallVtblSlot74WithFieldB4()
 {
-    ((void(__thiscall*)(void*, int))(vtbl[74]))(this, *(int*)((char*)this + 0xb4));
+    ((void(*)(void*, int))(vtbl[74]))(this, *(int*)((char*)this + 0xb4));
 }
 
 void __cdecl FUN_00bcd4a0();
 
 struct FUN_00bce7d0_class
 {
-    FUN_00bce7d0_class* __thiscall FUN_00bce7d0(int flags);
+    FUN_00bce7d0_class* FUN_00bce7d0(int flags);
 };
 
 // @fnv 0x00bce7d0
@@ -1126,7 +1127,6 @@ FUN_00bce7d0_class* FUN_00bce7d0_class::FUN_00bce7d0(int flags)
     return this;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiShader
 {
@@ -1147,7 +1147,7 @@ struct NiD3DPass
     char m_auiShapeKeys[0x64];
     int m_iObjectReferenceCount;
 
-    void __thiscall DestroyPass();
+    void DestroyPass();
 public:
     bool ApplyRenderStateChanges(bool);
 public:
@@ -1354,7 +1354,7 @@ struct ISTex
     void* GetTexture();
 };
 // @fnv 0x00bd9230
-int __fastcall FUN_00bd9230(ISTex* p, int)
+int FUN_00bd9230(ISTex* p, int)
 {
     return !((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)p + 0x58))))->FUN_00ba3780())) ? 0 : 1;
 }
@@ -1365,12 +1365,12 @@ struct FUN_00bd9d00_class
     char pad[0x3c];
     BSShaderProperty::ShaderPassList* pPasses;
 
-    int __thiscall FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type, bool* enabled, bool flag);
+    int FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type, bool* enabled, bool flag);
 };
 
 // Adds a pass to pPasses for type 1 (0x24f when flag is set, else 0x24e), otherwise increments *count, and clears *enabled; returns 0.
 // @fnv 0x00bd9d00
-int __thiscall FUN_00bd9d00_class::FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type,
+int FUN_00bd9d00_class::FUN_00bd9d00(NiGeometry* geom, unsigned short* count, unsigned char type,
                                                 bool* enabled, bool flag)
 {
     if (flag)
@@ -1408,12 +1408,12 @@ struct FUN_00bdc030_class
     char pad[0x3c];
     BSShaderProperty::ShaderPassList* pPasses;
 
-    int __thiscall FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type, bool* out, bool flag);
+    int FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type, bool* out, bool flag);
 };
 
 // Adds geometry to pPasses with pass id 0x251 or 0x250 when type is 1, otherwise increments count; always clears out and returns 0.
 // @fnv 0x00bdc030
-int __thiscall FUN_00bdc030_class::FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type,
+int FUN_00bdc030_class::FUN_00bdc030(NiGeometry* geometry, unsigned short* count, unsigned char type,
                                                 bool* out, bool flag)
 {
     if (flag)
@@ -1594,7 +1594,7 @@ void BC0500Effect::ReleaseTextures()
 
 struct S_00bc0920_Class;
 
-typedef void(__thiscall* S_00bc0920_FN)(S_00bc0920_Class*);
+typedef void(* S_00bc0920_FN)(S_00bc0920_Class*);
 
 struct S_00bc0920_VTable
 {
@@ -2192,7 +2192,7 @@ struct FUN_00bc2540_class
     int unk34;
     int unk38;
     FUN_00bc2540_passes* m_pPassList;
-    FUN_00bc2540_passes* __thiscall FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C);
+    FUN_00bc2540_passes* FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C);
 };
 // @fnv 0x00bc2540
 FUN_00bc2540_passes* FUN_00bc2540_class::FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C)
@@ -2407,7 +2407,7 @@ struct S_00bc2ae0_Foo
 
 
 // @fnv 0x00bc2ae0
-void __stdcall FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
+void FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
 {
     S_00bc2ae0_Target* target = pFoo->unkC4;
 
@@ -2478,12 +2478,12 @@ struct FUN_00bc2c50_class
     unsigned char unkBC;
 
 
-    void __thiscall CopyTailFields(FUN_00bc2c50_class* destination, int value);
+    void CopyTailFields(FUN_00bc2c50_class* destination, int value);
 };
 
 // Calls ForwardToBase, then copies unkAC through unkBC from this object into destination.
 // @fnv 0x00bc2c50
-void __thiscall FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, int value)
+void FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, int value)
 {
     reinterpret_cast<::FUN_00c5fb60_class *>(this)->ForwardToBase((::S_00a953b0_Node *)(destination), (void *)(value));
 
@@ -2690,7 +2690,7 @@ struct StrListOwner
 
 // Walks the linked list returned by the object's v2() and returns true if it reaches the sentinel node, false otherwise or when pObj is null.
 // @fnv 0x00bc3260
-bool __stdcall ContainsSentinelNode(void* apListOwner)
+bool ContainsSentinelNode(void* apListOwner)
 {
     if (apListOwner == 0)
         return false;
@@ -3141,8 +3141,6 @@ void Prop_bc3960::AppendStrings(StrArr_bc3960* pkStrings)
     pkStrings->Add(reinterpret_cast<::RgbaColor *>(&(m_kColor60))->ToString(DAT_010babec));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 class NiPoint3
 {
   public:
@@ -3155,7 +3153,7 @@ public:
     static const ::NiPoint3 ZERO;
 };
 // @fnv 0x00bc2bd0
-int* __thiscall FUN_00bc2bd0_class::FUN_00bc2bd0()
+int* FUN_00bc2bd0_class::FUN_00bc2bd0()
 {
     FUN_00c5f570();
     *(int**)(char*)this = &DAT_010ba730;
@@ -3788,7 +3786,7 @@ class SomeObj
 
 // Calls ProbeObj on obj, queries key 0xa, and applies the value if it is nonzero; returns the probe result.
 // @fnv 0x00bc45d0
-unsigned char __stdcall ProbeAndApply(SomeObj* obj)
+unsigned char ProbeAndApply(SomeObj* obj)
 {
     unsigned char result = ((unsigned char)(reinterpret_cast<::SelfObj *>((obj))->FUN_00b67a40({})));
     unsigned int value = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(0xa)));
@@ -3971,7 +3969,6 @@ void FUN_00bc4640_cls::FUN_00bc4640()
 }
 
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct BeamDesc
 {
     const char* file;
@@ -4069,7 +4066,6 @@ void TargetBeam::FUN_00bc4680()
 }
 
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct CountedRef
 {
     virtual void unused();
@@ -4428,11 +4424,11 @@ struct FUN_00bc52f0_class
     int field70;
     int field74;
 
-    void __thiscall FUN_00bc52f0();
+    void FUN_00bc52f0();
 };
 
 // @fnv 0x00bc52f0
-void __thiscall FUN_00bc52f0_class::FUN_00bc52f0()
+void FUN_00bc52f0_class::FUN_00bc52f0()
 {
     int* p = &field6c;
     int count = 3;
@@ -4891,11 +4887,11 @@ struct FUN_00bcc570_class
     virtual void V85() = 0;
     virtual void V86() = 0;
 
-    void __thiscall CallV81ThenV86();
+    void CallV81ThenV86();
 };
 
 // @fnv 0x00bcc570
-void __thiscall FUN_00bcc570_class::CallV81ThenV86()
+void FUN_00bcc570_class::CallV81ThenV86()
 {
     V81();
     return V86();
@@ -4990,8 +4986,6 @@ void S_00bcce10::FUN_00bcce10()
         vf74((*reinterpret_cast<int (*)[33]>(&::DAT_01202230))[i]);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 
 struct RefObj_bcd
 {
@@ -5559,7 +5553,7 @@ struct FUN_00bcf920 : ShaderBase
 };
 // Calls FUN_00bcf920, then deletes this with size 0x128 when bit 0 of a is set, and returns this.
 // @fnv 0x00bd0440
-void* __thiscall FUN_00bd0440_class::FUN_00bd0440(int aiFlags)
+void* FUN_00bd0440_class::FUN_00bd0440(int aiFlags)
 {
     reinterpret_cast<::FUN_00bcf920 *>(this)->FUN_00bcf920::~FUN_00bcf920();
     if (aiFlags & 1)
@@ -5924,7 +5918,6 @@ extern const char str_010bbb1c[];
 extern const char str_010bbb08[];
 extern const char str_010bbaf8[];
 extern const char str_010bbae8[];
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 void* __cdecl FUN_00ec61c0(void* dst, int val, unsigned int n);
 
 struct Elem540
@@ -6369,12 +6362,12 @@ class FUN_00bd0cb0_class : public FUN_00bd0cb0_base
 {
   public:
     virtual void v74(int) = 0;
-    void __thiscall CallVirtualOnGlobalRange();
+    void CallVirtualOnGlobalRange();
 };
 
 // Calls v74 on this for each int in the global range from DAT_011fdff8 up to DAT_011fe000.
 // @fnv 0x00bd0cb0
-void __thiscall FUN_00bd0cb0_class::CallVirtualOnGlobalRange()
+void FUN_00bd0cb0_class::CallVirtualOnGlobalRange()
 {
     int* p = &(*reinterpret_cast<int *>(&::fnv_00b7a730::DAT_011fdff8));
     int* end = &DAT_011fe000;
@@ -6480,8 +6473,6 @@ void* __cdecl FUN_00bd2c30()
     return &(*reinterpret_cast<int *>(&::g_0120233c));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 struct ShaderRefObject
 {
@@ -6742,8 +6733,6 @@ void BD4000Renderer::RegisterAllShaders()
 }
 
 namespace fnv_00bd4030 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct RefObj
 {
     virtual void v0();
@@ -6988,7 +6977,6 @@ void* __cdecl FUN_00bd4560()
 }
 
 namespace fnv_00bd4570 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct ShaderRef
 {
     virtual void v00();
@@ -7120,12 +7108,12 @@ struct FUN_00bd46a0_cls
     FUN_00bd46a0_Obj* m_slots[30];
     FUN_00bd46a0_Obj* m_slots2[10];
 
-    bool __thiscall ClearAllReferences();
+    bool ClearAllReferences();
 };
 
 
 // @fnv 0x00bd46a0
-bool __thiscall FUN_00bd46a0_cls::ClearAllReferences()
+bool FUN_00bd46a0_cls::ClearAllReferences()
 {
     int i;
     FUN_00bd46a0_Obj* obj;
@@ -7182,7 +7170,7 @@ struct S_00bd6150_Foo
     float* m_kFloatData;
     int* m_intData;
 
-    void __thiscall FUN_00bd5e40();
+    void FUN_00bd5e40();
     void ResetEntries();
 };
 
@@ -7200,7 +7188,6 @@ void S_00bd6150_Foo::ResetEntries()
     FUN_00bd5e40();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 
 struct CallbackOwner;
 struct ReleaseCallback
@@ -7552,7 +7539,6 @@ FUN_00bd7120_Class::FUN_00bd7120_Class()
     ::FUN_00b8bc20((char *)this, {});
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 struct RefObj_bd74a0
 {
@@ -7865,7 +7851,7 @@ struct NiGeometry;
 struct ShadowSceneLight;
 struct PassArray9840
 {
-    void __thiscall FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
+    void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
                                  ShadowSceneLight*, ShadowSceneLight*);
 };
 struct Shader9840
@@ -7886,7 +7872,7 @@ struct Shader9840
     void* field34;
     void* field38;
     PassArray9840* passes;
-    int __thiscall FUN_00bd9840(NiGeometry*, ShadowSceneLight*, unsigned short*, unsigned char, bool&, bool, bool, bool,
+    int FUN_00bd9840(NiGeometry*, ShadowSceneLight*, unsigned short*, unsigned char, bool&, bool, bool, bool,
                                 bool);
 };
 // Chooses a pass index from the boolean flags and type, calls the pass array for type 1 or increments count otherwise, then clears out and returns 0.
@@ -8074,7 +8060,7 @@ int ShaderPassSelection::AddAdditionalPass(NiGeometry* geometry, unsigned int un
 
 struct FUN_00ba9ee0_Class
 {
-    void __thiscall FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
+    void FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
 };
 
 struct FUN_00bda060_Class
@@ -8082,11 +8068,11 @@ struct FUN_00bda060_Class
     char pad[0x44];
     FUN_00ba9ee0_Class* m_44;
 
-    void __thiscall FUN_00bda060(int a, bool b, bool c);
+    void FUN_00bda060(int a, bool b, bool c);
 };
 
 // @fnv 0x00bda060
-void __thiscall FUN_00bda060_Class::FUN_00bda060(int a, bool abUseMode8, bool abUseMode7)
+void FUN_00bda060_Class::FUN_00bda060(int a, bool abUseMode8, bool abUseMode7)
 {
     if (abUseMode8)
     {
@@ -8860,7 +8846,6 @@ FUN_00bc0360::~FUN_00bc0360()
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 class FUN_00bc0940_obj
 {
@@ -9123,7 +9108,6 @@ void FUN_00bc3540_class::SetInterpolatorFromValue(void* value)
 
 extern "C" void _ReadWriteBarrier();
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct EffectRef
 {
     virtual ~EffectRef();
@@ -9512,7 +9496,6 @@ void FUN_00bc5050_class::FUN_00bc5050()
 }
 
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct ShaderRef_bc5070 : RefObject
 {
     void IncRefCount()
@@ -9880,8 +9863,6 @@ FUN_00bcd4a0::~FUN_00bcd4a0()
 }
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct PixelRef
 {
     virtual void Destroy();
@@ -10525,9 +10506,7 @@ struct FeatureObject
     volatile long references;
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
@@ -10597,7 +10576,7 @@ struct FeatureManager
     int unkec;
     int unkf0;
     FeatureObject* features[13];
-    void __thiscall LoadAllFeatures();
+    void LoadAllFeatures();
 };
 
 // Builds 13 feature descriptors and, when DAT_011f91c0 >= 2, loads each named feature into the features array with reference counting.
@@ -11059,7 +11038,6 @@ FUN_00bd0ce0::~FUN_00bd0ce0()
     unk060 = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Ref1090
 {
     virtual void vf00();
@@ -12294,8 +12272,6 @@ void FUN_00bd4d30_class::InitShaderConstantMaps()
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct Ref
 {
@@ -15758,7 +15734,7 @@ void __cdecl FUN_00bc4600()
 
 struct FUN_00bcd380_class
 {
-    int __thiscall FUN_00bcd380(int, int);
+    int FUN_00bcd380(int, int);
 };
 // @fnv 0x00bcd380
 int FUN_00bcd380_class::FUN_00bcd380(int, int)
@@ -15768,10 +15744,10 @@ int FUN_00bcd380_class::FUN_00bcd380(int, int)
 
 struct FUN_00bd0420_StandIn
 {
-    int __fastcall FUN_00bd0420(int edx, void* a, void* b);
+    int FUN_00bd0420(int edx, void* a, void* b);
 };
 // @fnv 0x00bd0420
-int __fastcall FUN_00bd0420_StandIn::FUN_00bd0420(int edx, void* a, void* apUnused)
+int FUN_00bd0420_StandIn::FUN_00bd0420(int edx, void* a, void* apUnused)
 {
     if (*(int*)((char*)a + 0xbc))
         return *(int*)((char*)this + 0x70);
@@ -16373,7 +16349,7 @@ struct ShaderPassList
     int unk08;
     int unk0c;
     int unk10;
-    void __thiscall FUN_00ba9ee0(NiGeometry* geometry, unsigned short pass, bool enabled, unsigned char lightCount,
+    void FUN_00ba9ee0(NiGeometry* geometry, unsigned short pass, bool enabled, unsigned char lightCount,
                                  ShadowSceneLight* light0, ShadowSceneLight* light1, ShadowSceneLight* light2,
                                  ShadowSceneLight* light3);
 };
@@ -16383,7 +16359,7 @@ struct ShaderPassController
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44;
     ShaderPassList* passes;
-    void __thiscall SetPassEnabled(NiGeometry* geometry, bool alternate, bool enabled);
+    void SetPassEnabled(NiGeometry* geometry, bool alternate, bool enabled);
 };
 // If the first pass has no unk10 set, applies pass 0x1ee when enabled, else 0x1ec or 0x1ed depending on alternate.
 // @fnv 0x00bde170
@@ -16614,8 +16590,6 @@ void hkObjBCE8::FUN_00bce8f0()
 }
 
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern const char DAT_010bb95c;
 extern const char DAT_010aeb34;
 extern const char DAT_010aeb54;
@@ -17024,7 +16998,7 @@ class ObjBD3F
 
 // Gets the type-3 property of pkObj, uses it only if m_iShaderType is 10, sets m_i58 to 4, calls vf9C(pkObj) and always returns true.
 // @fnv 0x00bd3fc0
-bool __stdcall FUN_00bd3fc0(ObjBD3F* pkObj)
+bool FUN_00bd3fc0(ObjBD3F* pkObj)
 {
     PropBD3F* pkProp = ((::PropBD3F *)(reinterpret_cast<::FUN_00a59d30_C *>((pkObj))->FUN_00a59d30(3)));
     PropBD3F* pkShader = (pkProp ? pkProp->m_iShaderType == 10 : false) ? pkProp : 0;
@@ -17444,7 +17418,7 @@ struct PassSinkBdaf10
     int unk08;
     int unk0c;
     int m_10;
-    void __thiscall FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
+    void FUN_00ba9ee0(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*,
                                  ShadowSceneLight*, ShadowSceneLight*);
 };
 
@@ -17681,13 +17655,13 @@ struct ShaderBdaf10
     int unkc4;
     unsigned short m_c8;
     short unk_ca;
-    void __thiscall EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
+    void EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
                                      unsigned char type, bool* out, bool flag6);
 };
 
 // Emits shadow rendering passes for geom and light into m_3c, or increments *count when type is not 1.
 // @fnv 0x00bdaf10
-void __thiscall ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
+void ShaderBdaf10::EmitShadowPasses(NiGeometry* geom, ShadowSceneLight* light, unsigned short* count,
                                                unsigned char type, bool* out, bool flag6)
 {
     GeomInfo* info = ((::GeomInfo *)(reinterpret_cast<::FUN_00a59d30_C *>((geom))->FUN_00a59d30(3)));
@@ -17850,13 +17824,13 @@ struct BDBF60_Shader
     int unk34;
     int unk38;
     BSShaderProperty::ShaderPassList* pPasses;
-    int __thiscall FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
+    int FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
                                 unsigned short* count, unsigned char type, bool* enabled, bool sharedPass,
                                 bool useAlternatePass, bool useSpecialPass);
 };
 // If type is 1, adds a pass to pPasses for geom, with the pass id and light chosen by the flags; otherwise increments *count.
 // @fnv 0x00bdbf60
-int __thiscall BDBF60_Shader::FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
+int BDBF60_Shader::FUN_00bdbf60(NiGeometry* geom, ShadowSceneLight* light, ShadowSceneLight* alternateLight,
                                            unsigned short* count, unsigned char type, bool* enabled, bool sharedPass,
                                            bool useAlternatePass, bool useSpecialPass)
 {
@@ -17920,14 +17894,14 @@ struct ShaderPassOwner
     unsigned int unk38;
     BSShaderProperty::ShaderPassList* pPasses;
     typedef BSShaderProperty::ShaderPassList RPA;
-    int __thiscall AddShadowPass(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, ShadowSceneLight* l2,
+    int AddShadowPass(NiGeometry* geom, ShadowSceneLight* l0, ShadowSceneLight* l1, ShadowSceneLight* l2,
                                  unsigned short* count, bool flag, bool* out, bool b8, bool b9, bool b10, bool b11,
                                  bool b12, bool b13, bool b14);
 };
 extern "C" void _ReadWriteBarrier();
 // Picks a pass id (233-250) from the b8-b14 flags and adds it to pPasses with the lights when flag is true, else increments *count; always clears *out.
 // @fnv 0x00bdc530
-int __thiscall ShaderPassOwner::AddShadowPass(NiGeometry* apGeometry, ShadowSceneLight* apLight0,
+int ShaderPassOwner::AddShadowPass(NiGeometry* apGeometry, ShadowSceneLight* apLight0,
                                               ShadowSceneLight* apLight1, ShadowSceneLight* apLight2,
                                               unsigned short* count, bool flag, bool* out, bool b8, bool b9, bool b10,
                                               bool b11, bool b12, bool b13, bool b14)
@@ -18518,7 +18492,7 @@ struct TargetHolder
 
 // If the event's source has a texture, stores it in the target at *DAT_0126f74c->m_ppkTarget, calls ApplyPairToState with the source flags, then FUN_00e7eb00(0).
 // @fnv 0x00bc8d40
-void __stdcall OnTextureEvent(Event* pkEvent)
+void OnTextureEvent(Event* pkEvent)
 {
     Target* pkTarget = *(*reinterpret_cast<::sbc8d40::TargetHolder * *>(&::DAT_0126f74c))->m_ppkTarget;
     if (pkTarget)
@@ -19859,7 +19833,6 @@ struct Renderer_bd7620
     int unk204;
     bool unk208;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 struct NiMemObject_bd7620
 {
 };
@@ -21519,7 +21492,7 @@ struct RendererCountTable
     void* slot_0f4;
     void* slot_0f8;
     void* sphere;
-    void(__thiscall* count)(SphereRenderer*, unsigned short);
+    void(* count)(SphereRenderer*, unsigned short);
 };
 struct RendererCountView
 {
@@ -21892,8 +21865,6 @@ FUN_00bc0f80::~FUN_00bc0f80()
 }  // namespace fnv_00bc0f80
 
 namespace fnv_00bcf7f0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct ShaderRefObject
 {

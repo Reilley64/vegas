@@ -10,7 +10,7 @@ extern int DAT_010d9fc4;
 struct FUN_00dee620
 {
     void* m_pVTable;
-    __thiscall FUN_00dee620(int testFlag);
+    FUN_00dee620(int testFlag);
 };
 extern "C" void __cdecl FUN_00dedf10(void*, void*, void*, void*, int, int);
 void __cdecl FUN_00dee5f0(void* first, void* second, void* third, void* fourth);

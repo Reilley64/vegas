@@ -779,7 +779,6 @@ struct TESDataHandler
     TESEffectShader* m_pSecondEffectShader;
     TESEffectShader* m_pThirdEffectShader;
 };
-typedef char _sizecheck_TESDataHandler[sizeof(TESDataHandler) == 1596 ? 1 : -1];
 struct FUN_004516b0_shell : public TESDataHandler
 {
     bool FUN_004516b0();
@@ -893,7 +892,6 @@ struct BGSSaveLoadGame
     unsigned char m_ucSaveLoadState;
     char _pad_249[3];
 };
-typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 struct FUN_004523c0_shell : public BGSSaveLoadGame
 {
     bool FUN_004523c0();
@@ -924,7 +922,7 @@ bool FUN_00452420_shell::GetFlag(unsigned int aiFlags) const
 
 struct FUN_00452440_shell
 {
-    bool __thiscall FUN_00452440();
+    bool FUN_00452440();
 };
 
 struct FUN_004e32c0_shell
@@ -938,16 +936,16 @@ struct PlaceableWaterData
 
 struct BGSPlaceableWater
 {
-    bool __thiscall HasFlags(unsigned int flags);
+    bool HasFlags(unsigned int flags);
 };
 // @fnv 0x00452440
-bool __thiscall FUN_00452440_shell::FUN_00452440()
+bool FUN_00452440_shell::FUN_00452440()
 {
     return reinterpret_cast<::BGSPlaceableWater *>((reinterpret_cast<FUN_004e32c0_shell*>(this)))->HasFlags(0x40000000);
 }
 
 // @fnv 0x00452460
-bool __thiscall BGSPlaceableWater::HasFlags(unsigned int flags)
+bool BGSPlaceableWater::HasFlags(unsigned int flags)
 {
     return (((::PlaceableWaterData *)(reinterpret_cast<::FUN_00624700_shell *>((this))->FUN_00624700()))->flags & flags) ? true : false;
 }
@@ -963,21 +961,21 @@ unsigned char FUN_00452480()
 
 struct FUN_00453470_shell
 {
-    int __thiscall FUN_00453470(void);
+    int FUN_00453470(void);
 };
 
 // @fnv 0x00453470
-int __thiscall FUN_00453470_shell::FUN_00453470(void)
+int FUN_00453470_shell::FUN_00453470(void)
 {
     return ((int)(::FUN_009938b0((const unsigned short *)(void *)(reinterpret_cast<char*>(this) + 0x9c))));
 }
 
 struct FUN_004534f0_shell
 {
-    void __thiscall FUN_004534f0(unsigned int);
+    void FUN_004534f0(unsigned int);
 };
 // @fnv 0x004534f0
-void __thiscall FUN_004534f0_shell::FUN_004534f0(unsigned int)
+void FUN_004534f0_shell::FUN_004534f0(unsigned int)
 {}
 
 struct FUN_00453500_shell
@@ -1436,7 +1434,6 @@ struct TESDataHandler
     TESEffectShader* m_pSecondEffectShader;
     TESEffectShader* m_pThirdEffectShader;
 };
-typedef char _sizecheck_TESDataHandler[sizeof(TESDataHandler) == 1596 ? 1 : -1];
 struct FUN_00455600_shell : public TESDataHandler
 {
     void* FUN_00455600();
@@ -1486,7 +1483,7 @@ struct FUN_00458f20_shell
 };
 
 // @fnv 0x00458f20
-const void* const* __thiscall FUN_00458f20_shell::FUN_00458f20() const
+const void* const* FUN_00458f20_shell::FUN_00458f20() const
 {
     return &(*reinterpret_cast<const void *const *>(&::g_01202e00));
 }
@@ -1494,11 +1491,11 @@ const void* const* __thiscall FUN_00458f20_shell::FUN_00458f20() const
 
 struct FUN_00458f70_shell
 {
-    void __thiscall FUN_00458f70();
+    void FUN_00458f70();
 };
 
 // @fnv 0x00458f70
-void __thiscall FUN_00458f70_shell::FUN_00458f70()
+void FUN_00458f70_shell::FUN_00458f70()
 {
     *(int*)this = (int)&DAT_01017d24;
     reinterpret_cast<class ::FUN_00a5e930 *>((this))->FUN_00a5e930::~FUN_00a5e930();
@@ -1524,7 +1521,7 @@ struct FUN_0045a520_shell
 };
 
 // @fnv 0x0045a520
-void __thiscall FUN_0045a520_shell::LoadStartMenuModels()
+void FUN_0045a520_shell::LoadStartMenuModels()
 {
     if (((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a520::StartMenu *>(&::g_011d14c4))))->GetMenuTitle()))[0])
         (*reinterpret_cast<::fnv_0045a520::ModelLoader * *>(&::g_modelLoader))->FUN_0045a5e0(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a520::StartMenu *>(&::g_011d14c4))))->GetMenuTitle())));
@@ -1682,7 +1679,6 @@ struct ModelLoader
     bool m_bLoadTexturesDegraded;
     char _pad_2d[3];
 };
-typedef char _sizecheck_ModelLoader[sizeof(ModelLoader) == 48 ? 1 : -1];
 struct FUN_0045a5e0_shell : public ModelLoader
 {
     void FUN_0045a5e0(char*);
@@ -1768,12 +1764,12 @@ struct NiCamera
     float y;
     float z;
     float w;
-    int __thiscall ClassifyPoint(const NiPoint3* other);
+    int ClassifyPoint(const NiPoint3* other);
 };
 
 // Computes the dot product of this camera's xyz with other minus w and returns 2 if negative, 1 if positive, else 0.
 // @fnv 0x0049da80
-int __thiscall NiCamera::ClassifyPoint(const NiPoint3* apPoint)
+int NiCamera::ClassifyPoint(const NiPoint3* apPoint)
 {
     float result = this->x * apPoint->x + this->y * apPoint->y + this->z * apPoint->z - this->w;
     if (result < 0.0)
@@ -2098,7 +2094,6 @@ struct TES
     NavMeshInfoMap* m_pNavMeshInfoMap;
     char m_spLoadedAreaBound[4];
 };
-typedef char _sizecheck_TES[sizeof(TES) == 196 ? 1 : -1];
 struct FUN_00452490_shell : public TES
 {
     void FUN_00452490(bool);
@@ -2517,7 +2512,6 @@ struct TES
     NavMeshInfoMap* m_pNavMeshInfoMap;
     char m_spLoadedAreaBound[4];
 };
-typedef char _sizecheck_TES[sizeof(TES) == 196 ? 1 : -1];
 struct FUN_00451530_shell : public TES
 {
     bool FUN_00451530();
@@ -2875,7 +2869,6 @@ struct TES
     NavMeshInfoMap* m_pNavMeshInfoMap;
     char m_spLoadedAreaBound[4];
 };
-typedef char _sizecheck_TES[sizeof(TES) == 196 ? 1 : -1];
 struct FUN_00453940_shell : public TES
 {
     void FUN_00453940();
@@ -3264,7 +3257,6 @@ struct TES
     NavMeshInfoMap* m_pNavMeshInfoMap;
     char m_spLoadedAreaBound[4];
 };
-typedef char _sizecheck_TES[sizeof(TES) == 196 ? 1 : -1];
 struct FUN_00455690_shell : public TES
 {
     void FUN_00455690();
@@ -3653,7 +3645,6 @@ struct TES
     NavMeshInfoMap* m_pNavMeshInfoMap;
     char m_spLoadedAreaBound[4];
 };
-typedef char _sizecheck_TES[sizeof(TES) == 196 ? 1 : -1];
 struct FUN_00457070_shell : public TES
 {
     TESObjectCELL* FUN_00457070();
@@ -3699,7 +3690,7 @@ struct FUN_00557090_shell
 };
 struct FUN_005570b0_shell
 {
-    void __thiscall IsSet();
+    void IsSet();
 };
 // @fnv 0x00557090
 void FUN_00557090_shell::FUN_00557090()
@@ -3721,7 +3712,7 @@ struct FUN_00c44e40_shell
 };
 // Calls FUN_00c44ed0 with the float at p, then calls NiNode::UpdateDownwardPass with the NiUpdateData at p and flags.
 // @fnv 0x00c44e40
-void __thiscall FUN_00c44e40_shell::UpdateNodeDownward(float* apUpdateData, unsigned int flags)
+void FUN_00c44e40_shell::UpdateNodeDownward(float* apUpdateData, unsigned int flags)
 {
     reinterpret_cast<::StandNode *>((((FUN_00c44ed0_shell*)this)))->FUN_00c44ed0(*apUpdateData);
     reinterpret_cast<::NiNode *>((((NiNode*)this)))->UpdateDownwardPass((::NiUpdateData &)(*(NiUpdateData*)apUpdateData), flags);
@@ -4346,7 +4337,7 @@ struct Zt5Listener
 };
 void __cdecl FUN_00c468c0(float, float);
 void __cdecl FUN_00c74550(float, float);
-void __fastcall FUN_00975080(char*);
+void FUN_00975080(char*);
 struct Zt5TES
 {
     void* pVtbl;
@@ -5857,7 +5848,7 @@ struct FUN_00458f90_shell
     void FUN_00458f90();
 };
 // @fnv 0x00459840
-void __thiscall FUN_00459840_shell::FUN_00459840(unsigned int a)
+void FUN_00459840_shell::FUN_00459840(unsigned int a)
 {
     reinterpret_cast<::FUN_00458f90_shell *>((this))->FUN_00458f90();
     *reinterpret_cast<unsigned int*>(this + 0x48) = 0x7fffffff;

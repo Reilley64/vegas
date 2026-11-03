@@ -67,7 +67,7 @@ NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRot
 
 // Compares the four floats of pThis with those of q and returns 1 only if all four are exactly equal.
 // @fnv 0x00a92660
-int __fastcall FUN_00a92660(const float* pThis, int, const float* q)
+int FUN_00a92660(const float* pThis, int, const float* q)
 {
     return pThis[0] == q[0] && pThis[1] == q[1] && pThis[2] == q[2] && pThis[3] == q[3];
 }

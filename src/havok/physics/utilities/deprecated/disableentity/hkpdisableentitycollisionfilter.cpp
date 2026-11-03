@@ -7,25 +7,25 @@
 #include "havok/hkpDisableEntityCollisionFilter.h"
 
 // @fnv 0x00e467b0
-void __stdcall FUN_00e467b0(char* flag, int a, int b)
+void FUN_00e467b0(char* flag, int a, int b)
 {
     *flag = 1;
 }
 
 // @fnv 0x00e46780
-void __stdcall FUN_00e46780(unsigned char* flag, int p2, int p3, int p4, int p5, int p6)
+void FUN_00e46780(unsigned char* flag, int p2, int p3, int p4, int p5, int p6)
 {
     *flag = 1;
 }
 
 // @fnv 0x00e46790
-void __stdcall FUN_00e46790(char* flag, int a, int b, int c, int d)
+void FUN_00e46790(char* flag, int a, int b, int c, int d)
 {
     *flag = 1;
 }
 
 // @fnv 0x00e467a0
-void __stdcall FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+void FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     *flag = 1;
 }
@@ -71,7 +71,7 @@ void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
 
 // Empty function that takes an unsigned int argument and does nothing.
 // @fnv 0x00e467c0
-void __stdcall FUN_00e467c0(unsigned int a1)
+void FUN_00e467c0(unsigned int a1)
 {}
 
 struct hkBoolE467

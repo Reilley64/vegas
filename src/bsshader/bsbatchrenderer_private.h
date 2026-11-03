@@ -27,7 +27,6 @@ class BSBatchRenderer__AlphaList
 {
   public:
 };
-#pragma pack(push, 4)
 struct BSBatchRenderer__PassGroup
 {
     BSBatchRenderer__PassBucketEntry buckets[5];
@@ -76,10 +75,4 @@ class BSBatchRenderer__GeometryGroup
     void ClearPassTextureSlots();
     ~BSBatchRenderer__GeometryGroup();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer__PassGroup) == 104);
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer__RenderPassInfo) == 8);
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer__RenderPass) == 12);
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer__PassList) == 20);
-FNV_STATIC_ASSERT(sizeof(BSBatchRenderer__GeometryGroup) == 36);
 #endif

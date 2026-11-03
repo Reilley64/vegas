@@ -645,7 +645,7 @@ struct ActorVTable
     void* unk1e8;
     void* unk1ec;
     void* unk1f0;
-    void*(__thiscall* get)(TargetActor*, TargetActor*, float);
+    void*(* get)(TargetActor*, TargetActor*, float);
 };
 struct TargetActor
 {
@@ -1118,7 +1118,7 @@ struct Table052
     void* unk1e8;
     void* unk1ec;
     void* unk1f0;
-    Point052&(__thiscall* position)(Actor052*);
+    Point052&(* position)(Actor052*);
 };
 struct Request052
 {

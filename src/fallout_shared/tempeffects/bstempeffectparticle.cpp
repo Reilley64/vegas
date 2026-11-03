@@ -123,7 +123,7 @@ struct FUN_00688f80_shell
 };
 
 // @fnv 0x00688f80
-const NiRTTI* __thiscall FUN_00688f80_shell::GetRTTI() const
+const NiRTTI* FUN_00688f80_shell::GetRTTI() const
 {
     return &::g_011d6b84;
 }
@@ -191,14 +191,14 @@ struct FUN_0068a8d0_shell
 {
     char pad[0x58];
     void* m_58;
-    void __thiscall FUN_0068a8d0(void* a);
+    void FUN_0068a8d0(void* a);
 };
 
 // @fnv 0x0068a8d0
-void __thiscall FUN_0068a8d0_shell::FUN_0068a8d0(void* pValue)
+void FUN_0068a8d0_shell::FUN_0068a8d0(void* pValue)
 {
     m_58 = pValue;
-    ((void(__thiscall*)(void*))InitLoopSounds)(this);
+    ((void(*)(void*))InitLoopSounds)(this);
 }
 
 struct NiFixedString
@@ -444,7 +444,7 @@ struct GlobalState
 };
 struct LoggingFlag
 {
-    unsigned char* __thiscall FUN_00408d60();
+    unsigned char* FUN_00408d60();
 };
 struct LoggingObject
 {
@@ -460,10 +460,10 @@ struct ParticleEffect
     unsigned int m_f;
     DataHandle handle;
     char const* filename;
-    unsigned short __thiscall FUN_00689b20();
+    unsigned short FUN_00689b20();
 };
 extern char DAT_01069d20[];
-typedef void*(__thiscall* LogMethod)(LoggingObject*);
+typedef void*(* LogMethod)(LoggingObject*);
 // @fnv 0x00689b20
 unsigned short ParticleEffect::FUN_00689b20()
 {
@@ -840,11 +840,11 @@ struct ArrQ
 };
 struct ThisT
 {
-    void __thiscall CollectUniqueChildValues(NiNode* a0, ArrQ* a1, int* a2);
+    void CollectUniqueChildValues(NiNode* a0, ArrQ* a1, int* a2);
 };
 
 // @fnv 0x0068a8f0
-void __thiscall ThisT::CollectUniqueChildValues(NiNode* apNode, ArrQ* apValues, int* apiCount)
+void ThisT::CollectUniqueChildValues(NiNode* apNode, ArrQ* apValues, int* apiCount)
 {
     if (apNode)
     {

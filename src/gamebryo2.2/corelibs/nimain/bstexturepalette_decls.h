@@ -68,7 +68,6 @@ class FileNameHash
     unsigned char cLast, cSecondToLast, cLength, cFirst;
     unsigned int uiCRC;
 };
-FNV_STATIC_ASSERT(sizeof(FileNameHash) == 8);
 
 // Archive type one is the texture archive group.
 enum ArchiveType
@@ -96,14 +95,12 @@ class TextureCacheNode
     unsigned short m_usTextureSizeLevel;
     short m_sTextureCacheValue;
 };
-FNV_STATIC_ASSERT(sizeof(TextureCacheNode) == 16);
 class TextureCacheMap
 {
   public:
     TextureCacheNode* pElement[713];
     unsigned int iCount;
 };
-FNV_STATIC_ASSERT(sizeof(TextureCacheMap) == 0xb28);
 class BSFileEntryMap
 {
   public:

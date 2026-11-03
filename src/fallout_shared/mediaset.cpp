@@ -139,7 +139,7 @@ struct FUN_00597850_Class
 
 // Clears the string, then sets m_f08 to runtimeFloatSettingDefault313 and m_f0c to 100.0f.
 // @fnv 0x00597850
-void __fastcall FUN_00597850(FUN_00597850_Class* pThis)
+void FUN_00597850(FUN_00597850_Class* pThis)
 {
     reinterpret_cast<::TextString *>(&(pThis->m_str))->FUN_004037f0(0, 0);
     pThis->m_f08 = runtimeFloatSettingDefault313;
@@ -147,7 +147,7 @@ void __fastcall FUN_00597850(FUN_00597850_Class* pThis)
 }
 
 // @fnv 0x007d9ec0
-void __fastcall FUN_007d9ec0(BSStringT<char>* apString)
+void FUN_007d9ec0(BSStringT<char>* apString)
 {
     apString->BSStringT<char>::~BSStringT<char>();
 }
@@ -355,7 +355,7 @@ bool MediaSetLoad::FUN_00598bc0(TESFile* apFile)
 
 struct FUN_00598000_shell
 {
-    int __thiscall FUN_00598000();
+    int FUN_00598000();
 };
 // Selects an incidental media layer for the controller based on scale and layer percentages, then starts or stops playback and updates cached state.
 // @fnv 0x00597a60
@@ -496,7 +496,7 @@ bool MediaSet::UpdateLayerLocation(unsigned int time, bool force, MediaLocationC
 }
 
 // @fnv 0x00598000
-int __thiscall FUN_00598000_shell::FUN_00598000()
+int FUN_00598000_shell::FUN_00598000()
 {
     return (*(int*)((char*)this + 0x6c) >> 4) & 3;
 }
@@ -510,7 +510,7 @@ struct UnnamedStr
 {
     int _00;
     int _04;
-    void __thiscall AssignFromString(const UnnamedStr&);
+    void AssignFromString(const UnnamedStr&);
 };
 struct FUN_00599780
 {
@@ -821,7 +821,7 @@ struct LayerInfo
     float Attenuation;
     float Percent;
 
-    bool __thiscall FUN_00599a50(LayerInfo other);
+    bool FUN_00599a50(LayerInfo other);
 };
 // @fnv 0x00599a50
 bool LayerInfo::FUN_00599a50(LayerInfo other)

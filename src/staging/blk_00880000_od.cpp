@@ -92,7 +92,7 @@ void Actor::FUN_00884c60()
 
 struct FUN_00885a30_Class
 {
-    bool __thiscall IsFlag20000000Set();
+    bool IsFlag20000000Set();
 };
 
 // @fnv 0x00885a30
@@ -116,12 +116,12 @@ void FUN_00888a20_Class::SetFloats(float afFirst, float afSecond)
 
 struct FUN_00888a70_class
 {
-    void __thiscall FUN_00888a70(float* a, float* b);
+    void FUN_00888a70(float* a, float* b);
 };
 
 // Reads the two floats at offsets 0x19c and 0x1a0 of this object and writes them to the output pointers.
 // @fnv 0x00888a70
-void __thiscall FUN_00888a70_class::FUN_00888a70(float* a, float* b)
+void FUN_00888a70_class::FUN_00888a70(float* a, float* b)
 {
     *a = *(float*)((char*)this + 0x19c);
     *b = *(float*)((char*)this + 0x1a0);
@@ -155,17 +155,17 @@ void FUN_00891130_class::FUN_00891130(unsigned char aValue)
 
 struct TESObject
 {
-    unsigned int __thiscall FNV_GetFormType();
+    unsigned int FNV_GetFormType();
 };
 
 struct FUN_008859e0_Class
 {
-    bool __thiscall FUN_008859e0(TESObject* a);
+    bool FUN_008859e0(TESObject* a);
 };
 
 // Returns true unless the next form's type is 0x15, 0x27 or 0x30, in which case it returns the result of IsFlag20000000Set on that form.
 // @fnv 0x008859e0
-bool __thiscall FUN_008859e0_Class::FUN_008859e0(TESObject* pObject)
+bool FUN_008859e0_Class::FUN_008859e0(TESObject* pObject)
 {
     bool result = true;
     switch (((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pObject))->FUN_007af430()))->FNV_GetFormType())
@@ -946,11 +946,11 @@ struct FUN_008885a0_Class
     virtual void d120();
     virtual FUN_004939d0_Class* FUN_008885a0_Get();
 
-    void __thiscall FUN_008885a0();
+    void FUN_008885a0();
 };
 
 // @fnv 0x008885a0
-void __thiscall FUN_008885a0_Class::FUN_008885a0()
+void FUN_008885a0_Class::FUN_008885a0()
 {
     FUN_004939d0_Class* result = FUN_008885a0_Get();
     if (result)
@@ -2321,11 +2321,11 @@ struct Refr
     virtual void fn62();
     virtual void fn63();
     virtual bool fn64();
-    void __thiscall FUN_008855f0(float* a, float b, float c);
+    void FUN_008855f0(float* a, float b, float c);
 };
 
 // @fnv 0x008855f0
-void __thiscall Refr::FUN_008855f0(float* pfValue, float b, float c)
+void Refr::FUN_008855f0(float* pfValue, float b, float c)
 {
     TargetInfo* tInfoX = ((::TargetInfo *)(reinterpret_cast<::FUN_009344a0_shell *>(this)->FUN_009344a0()));
     Refr* obj3 = ((::Refr *)(reinterpret_cast<::FUN_00881650_shell *>(this)->FUN_00881650()));

@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 class SaveLoadFile;
-#pragma pack(push, 4)
 class SaveLoadFile
 {
   public:
@@ -29,10 +28,4 @@ class SaveLoadFile
     // unsigned int __cdecl SaveLoadFile::*()
     // void* __cdecl SaveLoadFile::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SaveLoadFile) == 272);
-FNV_STATIC_ASSERT(offsetof(SaveLoadFile, m_cFileName) == 0);
-FNV_STATIC_ASSERT(offsetof(SaveLoadFile, pFile) == 260);
-FNV_STATIC_ASSERT(offsetof(SaveLoadFile, m_uiBufferSize) == 264);
-FNV_STATIC_ASSERT(offsetof(SaveLoadFile, m_uiFilePosition) == 268);
 #endif

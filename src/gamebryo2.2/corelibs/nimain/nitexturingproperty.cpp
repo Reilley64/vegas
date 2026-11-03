@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (44 functions)
 
+#include <windows.h>
 #include "fnv/decl/EqBase.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00462d80_shell.h"
@@ -229,14 +230,14 @@ class NiDynamicEffect
 };
 
 // @fnv 0x00a69030
-void __fastcall DestroyDynamicEffect(NiDynamicEffect* apEffect)
+void DestroyDynamicEffect(NiDynamicEffect* apEffect)
 {
     apEffect->~NiDynamicEffect();
 }
 
 
 // @fnv 0x00a6c680
-bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
+bool FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
 {
     if (!reinterpret_cast<::SkinGraph *>((pThis))->VisitSkinGraphLinks((*(::NiStream *)(edx))))
         return false;
@@ -249,7 +250,6 @@ const char* const* FUN_00a69060()
     return &(*reinterpret_cast<const char *const *>(&::g_011f4988));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct FUN_00a69e00
 {
     unsigned short m_usFlags;
@@ -294,7 +294,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a6c610_shell : public NiTexturingProperty
 {
     NiObject* CloneTexturingProperty(CloningProcess*);
@@ -334,7 +333,7 @@ struct EqObj
 };
 // Returns true if the base comparison passes, the counts match, and every element's a, b and c fields are equal.
 // @fnv 0x00a6c6a0
-bool __fastcall FUN_00a6c6a0(EqObj* self, int, EqObj* other)
+bool FUN_00a6c6a0(EqObj* self, int, EqObj* other)
 {
     if (!reinterpret_cast<::FUN_00a864d0_Class *>((self))->FUN_00a864d0((::A46BB0Object *)(other)))
         return false;
@@ -493,7 +492,7 @@ void MyThis::LoadMapBinary(NiStream& stream)
 struct FakeVT
 {
     void* _p[37];
-    long(__stdcall* SetTexture)(void*, unsigned int, void*);
+    long(* SetTexture)(void*, unsigned int, void*);
 };
 struct FakeDev
 {
@@ -1453,7 +1452,7 @@ bool A9E60Desc::IsEquivalent(const A9E60Desc& kOther) const
 extern int DAT_0109c514;
 // Sets the vtable, deletes the texture array elements and the second array, frees the base array and runs the NiProperty destructor.
 // @fnv 0x00a6a0b0
-void __fastcall NiTexturingPropertyDestructor(NiTexturingProperty* pThis)
+void NiTexturingPropertyDestructor(NiTexturingProperty* pThis)
 {
     *reinterpret_cast<void**>(pThis) = &DAT_0109c514;
     for (unsigned int i = 0; i < pThis->m_kStringArray.m_usSize; ++i)

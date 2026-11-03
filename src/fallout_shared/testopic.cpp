@@ -185,7 +185,7 @@ void FUN_00619010_shell::FUN_00619010(char* apPrompt)
 }
 
 // @fnv 0x00619410
-bool __fastcall FUN_00619410(const char* pFlags)
+bool FUN_00619410(const char* pFlags)
 {
     return (bool)(pFlags[0x25] & 2);
 }
@@ -196,7 +196,7 @@ struct FUN_006195d0_shell : public TESTopic
 };
 
 void* __cdecl operator new(unsigned int);
-QuestDialogueInfo* __fastcall FUN_00619740(void*);
+QuestDialogueInfo* FUN_00619740(void*);
 
 struct QuestInfoStub : public QuestDialogueInfo
 {
@@ -597,7 +597,7 @@ TESTopic* __cdecl FindTopicByInfo(TESTopicInfo* pTopicInfo)
 }  // namespace fnv_0061a310
 
 bool __cdecl FUN_0061a450(TESTopic* pMenuTopicEntry, TESTopic* apTopic, bool abUsePriority);
-bool __fastcall _ref_008256d0(void* p);
+bool _ref_008256d0(void* p);
 
 struct SoundListView
 {
@@ -681,7 +681,7 @@ TESTopicInfo* FUN_0061a760_shell::GetTopicInfo(bool& deferred, TESObjectREFR* sp
 }
 
 // @fnv 0x0061aed0
-bool __fastcall IsFlag20Set(char* pThis)
+bool IsFlag20Set(char* pThis)
 {
     return (bool)(pThis[0x25] & 0x20);
 }
@@ -695,7 +695,7 @@ __int64 __cdecl GetTime64(__int64* pTime)
 }
 
 // @fnv 0x0061b9f0
-int __fastcall GetSignedByteAtOffset36(signed char* pThis)
+int GetSignedByteAtOffset36(signed char* pThis)
 {
     return pThis[0x24];
 }
@@ -755,7 +755,7 @@ struct Dummy_0061bf20
 
 // Sets the object's vtable to DAT_0104d458, calls FUN_006b3f40(0, 0), and returns the object.
 // @fnv 0x0061bf20
-Dummy_0061bf20* __fastcall ConstructDummy(Dummy_0061bf20* apObject)
+Dummy_0061bf20* ConstructDummy(Dummy_0061bf20* apObject)
 {
     apObject->vtable = &DAT_0104d458;
     reinterpret_cast<::FUN_006b3f40_Class *>((apObject))->FUN_006b3f40(0, 0);
@@ -1010,7 +1010,7 @@ struct FUN_00619a90_shell
 
 // Retrieves a list for param, then for each entry calls FUN_00619b20 and, if true and IsNew, calls FUN_0061f280.
 // @fnv 0x00619a90
-void __thiscall FUN_00619a90_shell::ProcessTopicInfoList(unsigned int param)
+void FUN_00619a90_shell::ProcessTopicInfoList(unsigned int param)
 {
     unsigned int* list = ((FUN_00619f70_shell*)this)->FindQuestInfoArray(param);
     if (list)
@@ -1285,7 +1285,7 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
 struct FUN_00484020_shell
 {
 };
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 struct FUN_00619430_shell : TESTopic
 {
     bool FUN_00619430(TESForm* apForm);
@@ -1384,7 +1384,7 @@ struct VATSCommand;
 struct VATS_CommandList
 {
 };
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 struct TopicSort_0061a5a0
 {
 };

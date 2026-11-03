@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/DummyStruct_00631820.h"
@@ -267,8 +268,6 @@ void FUN_00c89cf0_cls::DispatchToTarget(void* apArg)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 class NiRefObjectA47
 {
@@ -420,9 +419,9 @@ struct S_00e87690_Obj
 
 struct S_00e87690_Com
 {
-    virtual long __stdcall v0() throw();
-    virtual long __stdcall v1() throw();
-    virtual long __stdcall Release() throw();
+    virtual long v0() throw();
+    virtual long v1() throw();
+    virtual long Release() throw();
 };
 
 
@@ -592,7 +591,6 @@ int FUN_00e87920_cls::FUN_00e87920(NiRefObj* apObj)
 }
 }  // namespace fnv_00e87920
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 
 struct NiPoint2
 {
@@ -1170,8 +1168,6 @@ void S_00e98aa0_Holder::SetObject(S_00e98aa0_RefObj* apRefObj)
     m_sp4 = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 class NiRefObjectX
 {
@@ -1326,7 +1322,7 @@ struct MaterialDeviceMethods
     void* MultiplyTransform;
     void* SetViewport;
     void* GetViewport;
-    long(__stdcall* SetMaterial)(MaterialDeviceView* device, const void* material);
+    long(* SetMaterial)(MaterialDeviceView* device, const void* material);
 };
 
 struct MaterialDeviceView

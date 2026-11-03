@@ -23,7 +23,7 @@ void NiPSysAirFieldAirFrictionCtlr::CopyMemberData(NiPSysAirFieldAirFrictionCtlr
 extern int DAT_010c0d2c;
 
 // @fnv 0x00c32b60
-void* __fastcall FUN_00c32b60(void* pThis)
+void* FUN_00c32b60(void* pThis)
 {
     reinterpret_cast<::CtlrStandin *>((pThis))->FUN_00c31260();
     *(int**)pThis = &DAT_010c0d2c;
@@ -37,12 +37,12 @@ struct BSFadeNode
 
 struct Dummy_00a532d0
 {
-    void* __thiscall FUN_00a532d0(bool bValue);
+    void* FUN_00a532d0(bool bValue);
 };
 
-static void* (__thiscall Dummy_00a532d0::*const pfn_00a532d0)(bool) = &Dummy_00a532d0::FUN_00a532d0;
+static void* (Dummy_00a532d0::*const pfn_00a532d0)(bool) = &Dummy_00a532d0::FUN_00a532d0;
 
-void* __fastcall FUN_00a532d0(void* p, int, bool bValue);
+void* FUN_00a532d0(void* p, int, bool bValue);
 
 struct Wrap_00a532d0
 {
@@ -53,35 +53,35 @@ struct Wrap_00a532d0
     }
     Wrap_00a532d0(bool bValue)
     {
-        ((void*(__thiscall*)(void*, bool))FUN_00a532d0)(this, bValue);
+        ((void*(*)(void*, bool))FUN_00a532d0)(this, bValue);
     }
 };
 
 // Reads a bool via virtual call at offset 0xf0, allocates a 0x18-byte BSFadeNode, and constructs it with that bool, returning null on allocation failure.
 // @fnv 0x00c32b80
-void* __fastcall FUN_00c32b80(void* pThis, int, unsigned short usUnused)
+void* FUN_00c32b80(void* pThis, int, unsigned short usUnused)
 {
     bool bValue;
-    (*(void(__thiscall**)(void*, bool*))(*(int*)pThis + 0xf0))(pThis, &bValue);
+    (*(void(**)(void*, bool*))(*(int*)pThis + 0xf0))(pThis, &bValue);
     void* p = BSFadeNode::operator new(0x18);
     if (p)
-        return ((void*(__thiscall*)(void*, bool))FUN_00a532d0)(p, bValue);
+        return ((void*(*)(void*, bool))FUN_00a532d0)(p, bValue);
     return 0;
 }
 
 // @fnv 0x00c32bc0
-bool __fastcall FUN_00c32bc0(const void* pThis, int, void* pkInterpolator, unsigned short usIndex)
+bool FUN_00c32bc0(const void* pThis, int, void* pkInterpolator, unsigned short usIndex)
 {
-    return (*(bool(__thiscall**)(void*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
+    return (*(bool(**)(void*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
 }
 
 struct FUN_00c29d50_shell
 {
-    void __thiscall FUN_00c29d50(char* pOut);
+    void FUN_00c29d50(char* pOut);
 };
 
 // @fnv 0x00c29d50
-void __thiscall FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
+void FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
 {
     *pOut = *(char*)(*(int*)((char*)this + 0x3c) + 0x14);
 }
@@ -132,10 +132,10 @@ struct NiPSysModifierBoolCtlr
 };
 struct NiPSysModifierActiveCtlr : NiPSysModifierBoolCtlr
 {
-    void __thiscall FUN_00c29e00(StrArr*);
+    void FUN_00c29e00(StrArr*);
 };
 // @fnv 0x00c29e00
-void __thiscall NiPSysModifierActiveCtlr::FUN_00c29e00(StrArr* pArray)
+void NiPSysModifierActiveCtlr::FUN_00c29e00(StrArr* pArray)
 {
     reinterpret_cast<::fnv_00c32d30::NiPSysModifierBoolCtlr *>(this)->FUN_00c32d30((::fnv_00c32d30::StrArr *)(pArray));
     char* p = (char*)((void *)(::FUN_00a7d330((const char *)(const void *)((const void*)*(void**)(void*)&::g_012026d0))));

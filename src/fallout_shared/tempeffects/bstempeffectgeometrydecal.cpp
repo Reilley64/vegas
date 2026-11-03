@@ -2,6 +2,7 @@
 // src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tempeffects/bstempeffectgeometrydecal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -100,7 +101,7 @@ struct BSTempEffectGeometryDecal
 };
 
 // @fnv 0x006838a0
-const NiRTTI* __thiscall BSTempEffectGeometryDecal::FUN_006838a0() const
+const NiRTTI* BSTempEffectGeometryDecal::FUN_006838a0() const
 {
     return &(*reinterpret_cast<const ::NiRTTI *>(&::g_011d6b04));
 }
@@ -148,14 +149,14 @@ GlobalObjectO2_00a7b610* FUN_00688590_shell::GetRTTI() const
 
 struct BSDismemberSkinInstance
 {
-    void* __thiscall FUN_006885e0(unsigned int);
-    void __thiscall FUN_00688610();
+    void* FUN_006885e0(unsigned int);
+    void FUN_00688610();
 };
 
 
 // Calls FUN_00688610, then if bit 0 of flags is set calls __Dummy_00b6fef0 with this and 0x40, and returns this.
 // @fnv 0x006885e0
-void* __thiscall BSDismemberSkinInstance::FUN_006885e0(unsigned int flags)
+void* BSDismemberSkinInstance::FUN_006885e0(unsigned int flags)
 {
     FUN_00688610();
     if (flags & 1)
@@ -165,11 +166,11 @@ void* __thiscall BSDismemberSkinInstance::FUN_006885e0(unsigned int flags)
 
 struct FUN_00685e60_shell
 {
-    void __thiscall FUN_00685e60(unsigned int, unsigned int);
+    void FUN_00685e60(unsigned int, unsigned int);
 };
 
 // @fnv 0x00685e60
-void __thiscall FUN_00685e60_shell::FUN_00685e60(unsigned int a, unsigned int b)
+void FUN_00685e60_shell::FUN_00685e60(unsigned int a, unsigned int b)
 {
     *(unsigned int*)(this + 0x0C) = a;
     *(unsigned int*)(this + 0x08) = b;
@@ -177,7 +178,7 @@ void __thiscall FUN_00685e60_shell::FUN_00685e60(unsigned int a, unsigned int b)
 
 struct NiSkinInstance
 {
-    void* __thiscall FUN_006885a0(unsigned int flags);
+    void* FUN_006885a0(unsigned int flags);
 };
 // Calls FUN_00a85580, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x006885a0
@@ -192,12 +193,12 @@ void* NiSkinInstance::FUN_006885a0(unsigned int flags)
 void __cdecl FUN_00688770();
 struct FUN_006838d0_shell
 {
-    void __thiscall FUN_00688770();
-    void* __thiscall FUN_006838d0(unsigned int flags);
+    void FUN_00688770();
+    void* FUN_006838d0(unsigned int flags);
 };
 // Calls FUN_00688770 on this, then deletes this with size 100 when flags has bit 0 set, and returns this.
 // @fnv 0x006838d0
-void* __thiscall FUN_006838d0_shell::FUN_006838d0(unsigned int flags)
+void* FUN_006838d0_shell::FUN_006838d0(unsigned int flags)
 {
     this->FUN_00688770();
     if (flags & 1)
@@ -207,12 +208,12 @@ void* __thiscall FUN_006838d0_shell::FUN_006838d0(unsigned int flags)
 
 struct FUN_00685d40_shell
 {
-    void* __thiscall ResetToZero();
+    void* ResetToZero();
 };
 
 // Sets the four floats at offsets 0x0, 0x4, 0x8 and 0xc of this object to 0.0f and returns this.
 // @fnv 0x00685d40
-void* __thiscall FUN_00685d40_shell::ResetToZero()
+void* FUN_00685d40_shell::ResetToZero()
 {
     *(float*)((char*)this + 0xc) = 0.0f;
     *(float*)((char*)this + 0x8) = 0.0f;
@@ -223,7 +224,7 @@ void* __thiscall FUN_00685d40_shell::ResetToZero()
 
 struct TESActorBaseData
 {
-    unsigned short __thiscall GetFatigue() const;
+    unsigned short GetFatigue() const;
 };
 struct BSThread
 {
@@ -233,11 +234,11 @@ struct RefObj
 };
 struct Class87d40
 {
-    void __thiscall ForwardActorBaseData(void*, int, int, int, int, int);
+    void ForwardActorBaseData(void*, int, int, int, int, int);
 };
 // Calls FUN_00a855f0 with the object reference, thread ID and fatigue obtained from a1, plus a2 through a6.
 // @fnv 0x00687d40
-void __thiscall Class87d40::ForwardActorBaseData(void* apObject, int aiArg2, int aiArg3, int aiArg4, int aiArg5,
+void Class87d40::ForwardActorBaseData(void* apObject, int aiArg2, int aiArg3, int aiArg4, int aiArg5,
                                                  int aiArg6)
 {
     reinterpret_cast<::SkinInstance *>(this)->FUN_00a855f0((const ::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)apObject)))->FUN_007af430()))), (const ::NiPoint3 *)(reinterpret_cast<::ActorMover *>((((BSThread*)apObject)))->GetCurrentMoveModeType()),
@@ -252,11 +253,11 @@ struct FUN_00688430_shell
 {
     char _pad[0x68];
     NineDwords688430 data;
-    void __thiscall FUN_00688430(NineDwords688430* src);
+    void FUN_00688430(NineDwords688430* src);
 };
 // Copies the nine dwords from src into the data member at offset 0x68.
 // @fnv 0x00688430
-void __thiscall FUN_00688430_shell::FUN_00688430(NineDwords688430* apSource)
+void FUN_00688430_shell::FUN_00688430(NineDwords688430* apSource)
 {
     data = *apSource;
 }
@@ -264,13 +265,13 @@ void __thiscall FUN_00688430_shell::FUN_00688430(NineDwords688430* apSource)
 extern int DAT_01069a84;
 struct FUN_00688470_shell
 {
-    void* __thiscall FUN_006884c0(int a, int b, int c);
-    void* __thiscall ConstructShell(int a, int b, int c, int d, int e);
+    void* FUN_006884c0(int a, int b, int c);
+    void* ConstructShell(int a, int b, int c, int d, int e);
 };
 extern int DAT_01069a84;
 
 // @fnv 0x00688610
-void __thiscall BSDismemberSkinInstance::FUN_00688610()
+void BSDismemberSkinInstance::FUN_00688610()
 {
     *reinterpret_cast<int**>(this) = &DAT_01069a84;
     if (*reinterpret_cast<void***>(reinterpret_cast<char*>(this) + 0x38))
@@ -362,8 +363,8 @@ struct DtorOwner00685e80
 {
     void FUN_00a81bd0();
 };
-typedef void (__thiscall DtorOwner00685e80::*DtorMemberPointer)();
-extern void __stdcall FUN_0065ee50_Helper(void* object, unsigned int size, int count, DtorMemberPointer destructor);
+typedef void (DtorOwner00685e80::*DtorMemberPointer)();
+extern void FUN_0065ee50_Helper(void* object, unsigned int size, int count, DtorMemberPointer destructor);
 void __cdecl operator delete(void* p);
 struct FUN_00685e80_Class
 {
@@ -432,11 +433,11 @@ struct FUN_00685e20_cls
 {
     int m_base;
     int m_iElementIndex;
-    void __thiscall GetCellAt(int index, Cell4* out);
+    void GetCellAt(int index, Cell4* out);
 };
 
 // @fnv 0x00685e20
-void __thiscall FUN_00685e20_cls::GetCellAt(int index, Cell4* out)
+void FUN_00685e20_cls::GetCellAt(int index, Cell4* out)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(index);
     Cell4* p = (Cell4*)(m_base + index * m_iElementIndex);
@@ -484,7 +485,7 @@ struct FUN_006884c0 : SpawnBase
 };
 // Calls FUN_006884c0 with a, b, c, then sets the vtable, stores e at +0x34 and d at +0x38, sets the byte at +0x3c to 1, and returns this.
 // @fnv 0x00688470
-void* __thiscall FUN_00688470_shell::ConstructShell(int aiArg1, int aiArg2, int aiArg3, int aiValue38, int aiValue34)
+void* FUN_00688470_shell::ConstructShell(int aiArg1, int aiArg2, int aiArg3, int aiValue38, int aiValue34)
 {
     new ((void *)this) ::FUN_006884c0(aiArg1, aiArg2, aiArg3);
     *(int*)this = (int)&DAT_01069a84;
@@ -762,13 +763,13 @@ struct GlobalRuntime
 
 struct FeatureState
 {
-    unsigned char* __thiscall FUN_00408d60();
+    unsigned char* FUN_00408d60();
 };
 
 extern char str_01069ba0;
 
 
-typedef unsigned int(__fastcall* VirtualQuery)(void* object);
+typedef unsigned int(* VirtualQuery)(void* object);
 
 struct RuntimeController
 {
@@ -1195,7 +1196,6 @@ float __cdecl DecalPower(float, int);
 float __cdecl FloatAbs(float);
 void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete[](void*);
-extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 struct DDecal
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;

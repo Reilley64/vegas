@@ -6,7 +6,7 @@
 class MemoryManager
 {
   public:
-    void* __thiscall Allocate(unsigned int size, const char* file, const int line, const char* function);
+    void* Allocate(unsigned int size, const char* file, const int line, const char* function);
 };
 
 // Allocates size bytes by calling the plain Allocate overload, ignoring the file, line and function arguments.

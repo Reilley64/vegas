@@ -129,12 +129,12 @@ struct ValueModifierEffect
 
 struct AbsorbEffect : ValueModifierEffect
 {
-    void __thiscall InitBoltEffect();
-    void __thiscall FUN_00803d00(Actor* apActor);
+    void InitBoltEffect();
+    void FUN_00803d00(Actor* apActor);
 };
 
 // @fnv 0x00803d00
-void __thiscall AbsorbEffect::FUN_00803d00(Actor* apActor)
+void AbsorbEffect::FUN_00803d00(Actor* apActor)
 {
     reinterpret_cast<::LoadedValueEffect *>(this)->FUN_0082cd10((::Actor *)(apActor));
     InitBoltEffect();
@@ -178,7 +178,7 @@ void ValueModifierEffect_LoadGame_Helper::FUN_00802dd0(Actor* apActor)
 struct AbsorbEffect
 {
     void FUN_00802e20();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 
@@ -209,10 +209,10 @@ struct ActiveEffect_GetSaveSize_Helper
 };
 struct FUN_00802d90_shell : ValueModifierEffect
 {
-    unsigned short __thiscall FUN_00802d90(Actor* apActor);
+    unsigned short FUN_00802d90(Actor* apActor);
 };
 // @fnv 0x00802d90
-unsigned short __thiscall FUN_00802d90_shell::FUN_00802d90(Actor* apActor)
+unsigned short FUN_00802d90_shell::FUN_00802d90(Actor* apActor)
 {
     return reinterpret_cast<::FUN_00804f80_shell *>((((ActiveEffect_GetSaveSize_Helper*)this)))->FUN_00804f80(apActor);
 }
@@ -365,7 +365,7 @@ struct FUN_00802e20 : FUN_0080d930
 };
 // Calls FUN_00802e20 on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x00802df0
-void* __thiscall AbsorbEffect::Destroy(unsigned int flags)
+void* AbsorbEffect::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_00802e20 *>((this))->FUN_00802e20::~FUN_00802e20();
     if (flags & 1)

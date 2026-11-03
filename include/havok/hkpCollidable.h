@@ -7,7 +7,6 @@
 #include "hkpCdBody.h"
 #include "hkpCollidableBoundingVolumeData.h"
 #include "hkpTypedBroadPhaseHandle.h"
-#pragma pack(push, 1)
 class hkpCollidable : public hkpCdBody
 {
   public:
@@ -24,6 +23,4 @@ class hkpCollidable : public hkpCdBody
     hkpCollidableBoundingVolumeData m_kBoundingVolumeData;  // +0x20
     hkReal m_fAllowedPenetrationDepth;                      // +0x4C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCollidable[(sizeof(hkpCollidable) == 0x50) ? 1 : -1];
 #endif

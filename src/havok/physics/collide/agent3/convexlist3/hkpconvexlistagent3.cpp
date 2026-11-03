@@ -188,7 +188,7 @@ void FUN_00d33210_cls::FUN_00d33210()
 //	8b 40 10        mov eax, dword ptr [eax+0x10]
 //	ff e0           jmp eax
 //
-// A __thiscall member of a wrapper class: it loads the polymorphic
+// A member of a wrapper class: it loads the polymorphic
 // sub-object pointer at +0xc, then tail-jumps to the sub-object's
 // virtual at vtable offset 0x10 (the fifth virtual), forwarding the
 // incoming 4-byte stack argument in place (that is what puts the jump
@@ -261,7 +261,7 @@ struct Self
 };
 
 // @fnv 0x00d33240
-void __fastcall FUN_00d33240(Self* self, int unused, int arg)
+void FUN_00d33240(Self* self, int unused, int arg)
 {
     self->unk0c->vfn18(arg);
 }

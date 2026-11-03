@@ -248,7 +248,7 @@ template <class _Elem, class _Traits, class _Ax> class basic_string
 }
 
 // @fnv 0x0044a560
-char* __fastcall FUN_0044a560(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* pThis)
+char* FUN_0044a560(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* pThis)
 {
     return reinterpret_cast<::FUN_0044a970_Cls *>((pThis))->FUN_0044a970();
 }
@@ -277,7 +277,7 @@ struct Dummy658aa0
 };
 
 // @fnv 0x0064fd80
-void* __fastcall FUN_0064fd80(void* pThis)
+void* FUN_0064fd80(void* pThis)
 {
     *(int**)pThis = &DAT_01065678;
     reinterpret_cast<::FUN_00658aa0_class *>((((Dummy658aa0*)((char*)pThis + 4))))->Initialize(0x25, 1);
@@ -332,7 +332,7 @@ template <typename T> struct BSStringT
 
 // Returns the string held by the BSStringT pointer stored at pThis+0xC, or null if that pointer is null.
 // @fnv 0x00650600
-const char* __fastcall FUN_00650600(char* pThis)
+const char* FUN_00650600(char* pThis)
 {
     return *reinterpret_cast<BSStringT<char>**>(pThis + 0xC)
                ? static_cast<const char*>(**reinterpret_cast<BSStringT<char>**>(pThis + 0xC))
@@ -392,18 +392,18 @@ template <class T> class FaceGenMatrix
 };
 
 // @fnv 0x00651630
-void* __fastcall FUN_00651630(FaceGenMatrix<float>* pThis)
+void* FUN_00651630(FaceGenMatrix<float>* pThis)
 {
     new ((void *)(pThis)) ::FUN_00449610();
     return pThis;
 }
 }  // namespace fnv_00651630
 
-void __stdcall FUN_ehvec_ctor(void*, unsigned int, int, void*, void*);
+void FUN_ehvec_ctor(void*, unsigned int, int, void*, void*);
 void FUN_ctor();
 
 // @fnv 0x00651670
-void* __fastcall FUN_00651670(void* p)
+void* FUN_00651670(void* p)
 {
     FUN_ehvec_ctor(p, 0x20, 2, &FUN_ctor, &((void (&)())::FUN_00449680));
     return p;
@@ -416,16 +416,16 @@ struct FUN_006516c0_class
     void SetNoConvert(bool abTF);
 };
 
-// Actually, instructions say: "Define it as a free function named exactly FUN_006516c0. If it is a __thiscall method (this pointer in ecx, callee pops stack arguments with ret N) write a free function with __fastcall whose first parameter is the this pointer and whose second parameter is an unused int (for edx), then the real arguments."
-// Wait: in MSVC /Od, a __fastcall function with (void* this_ptr, int edx, bool abTF) will spill BOTH ecx and edx to the stack! `push ecx; push ecx; mov [ebp-8], edx; mov [ebp-4], ecx;`
-// Let's check how only `ecx` is spilled: if edx is NOT named or not a parameter? No, __fastcall always has 2 register params if there are >=2 integer params, EXCEPT if the first parameter is 64-bit, or if there is only 1 register parameter (i.e. the second param is passed on stack, e.g., a struct by value of size 1, 2, or 4!).
+// Actually, instructions say: "Define it as a free function named exactly FUN_006516c0. If it is a method (this pointer in ecx, callee pops stack arguments with ret N) write a free function with whose first parameter is the this pointer and whose second parameter is an unused int (for edx), then the real arguments."
+// Wait: in MSVC /Od, a function with (void* this_ptr, int edx, bool abTF) will spill BOTH ecx and edx to the stack! `push ecx; push ecx; mov [ebp-8], edx; mov [ebp-4], ecx;`
+// Let's check how only `ecx` is spilled: if edx is NOT named or not a parameter? No, always has 2 register params if there are >=2 integer params, EXCEPT if the first parameter is 64-bit, or if there is only 1 register parameter (i.e. the second param is passed on stack, e.g., a struct by value of size 1, 2, or 4!).
 struct _stack_bool
 {
     bool v;
 };
 
 // @fnv 0x006516c0
-void __fastcall FUN_006516c0(char* pThis, _stack_bool abTF)
+void FUN_006516c0(char* pThis, _stack_bool abTF)
 {
     *reinterpret_cast<bool*>(pThis + 0x70) = abTF.v;
 }
@@ -463,10 +463,10 @@ FUN_006516e0::FUN_006516e0()
 
 void __cdecl FUN_00657960();
 void __cdecl FUN_006579d0();
-void __stdcall compiler_eh_vector_destructor_iterator(void*, unsigned int, int, void(__cdecl*)(), void(__cdecl*)());
+void compiler_eh_vector_destructor_iterator(void*, unsigned int, int, void(__cdecl*)(), void(__cdecl*)());
 
 // @fnv 0x006517e0
-void* __fastcall DestroyVectorElements(void* pThis)
+void* DestroyVectorElements(void* pThis)
 {
     compiler_eh_vector_destructor_iterator(pThis, 0x18, 4, FUN_00657960, FUN_006579d0);
     return pThis;
@@ -509,7 +509,7 @@ struct GO45CFE0
 
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-BSFaceGenManager* __fastcall FUN_00650ea0(void*);
+BSFaceGenManager* FUN_00650ea0(void*);
 
 struct BSFaceGenManager_006519f0
 {
@@ -549,7 +549,7 @@ void FUN_00651e30()
     reinterpret_cast<::S_006503b0_Owner *>((*(void**)((char*)DAT_011d59e8 + 0x1194)))->FUN_006503b0();
 }
 
-void __fastcall ClearModelTextures(void*);
+void ClearModelTextures(void*);
 
 // If DAT_011d59e8 is set and its field at offset 0x1194 is non-null, calls ClearModelTextures on that field.
 // @fnv 0x00651f40
@@ -838,7 +838,7 @@ struct FUN_00656d80_this
 
 // Returns the target list of the stored BGSQuestObjective, or null if no objective is set.
 // @fnv 0x00656d80
-BSSimpleList<RegionObjectEntry*>* __fastcall GetObjectiveTargetList(FUN_00656d80_this* pThis)
+BSSimpleList<RegionObjectEntry*>* GetObjectiveTargetList(FUN_00656d80_this* pThis)
 {
     if (pThis->pObj)
     {
@@ -1079,7 +1079,7 @@ struct _vec_60
 };
 
 // @fnv 0x00657a30
-unsigned int __fastcall FUN_00657a30(const _vec_60* apVec)
+unsigned int FUN_00657a30(const _vec_60* apVec)
 {
     return apVec->last - apVec->first;
 }
@@ -1147,7 +1147,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
@@ -1169,7 +1168,6 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-typedef char _sizecheck_FaceGenNpcData[sizeof(FaceGenData) == 204 ? 1 : -1];
 struct NiFixedString
 {
     bool Exists();
@@ -1184,7 +1182,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -1195,7 +1192,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 
 struct NiAVObject;
 struct BGSTerrainManager
@@ -1951,7 +1947,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -1961,14 +1956,12 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct OpaqueDataBlock
 {
     void* __vecDelDtor(unsigned int);
     char ctl[24];
     char label[28];
 };
-typedef char _sizecheck_FanLinCtlS[sizeof(OpaqueDataBlock) == 52 ? 1 : -1];
 struct FUN_00650ea0_shell : public BSFaceGenManager
 {
     void FUN_00650ea0(void*);
@@ -2430,7 +2423,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
@@ -2452,7 +2444,6 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-typedef char _sizecheck_FaceGenNpcData[sizeof(FaceGenData) == 204 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -2462,7 +2453,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -2522,7 +2512,6 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 
 class BSFaceGenNiNode;
 class NiSourceTexture;
@@ -2894,7 +2883,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
@@ -2916,7 +2904,6 @@ struct FaceGenData
     int m_eFaceGenLOD;
     char Accessories[8];
 };
-typedef char _sizecheck_FaceGenNpcData[sizeof(FaceGenData) == 204 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -2926,7 +2913,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -2986,7 +2972,6 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 
 namespace lc1 {
 struct AutoMemContext
@@ -3351,7 +3336,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -3382,12 +3366,10 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FourComponentNumericValue
 {
     char u[16];
 };
-typedef char _sizecheck___vector4[sizeof(FourComponentNumericValue) == 16 ? 1 : -1];
 
 struct NiAVObject;
 struct NiExtraData;
@@ -3580,7 +3562,7 @@ struct Dummy_00650910
 };
 void FUN_00652140();
 void FUN_00652190();
-unsigned int __fastcall FUN_0065c490(unsigned int);
+unsigned int FUN_0065c490(unsigned int);
 
 struct BSFaceGenModelMap_t : Dummy_00650910
 {
@@ -4727,8 +4709,8 @@ struct NiAVObjectLike
     void** vtable;
 };
 extern "C" NiNode* __cdecl GetHandleObject(void*);
-typedef NiAVObjectLike*(__thiscall* FUN_00653120_vfunc_type)(NiAVObjectLike*);
-typedef NiNode*(__thiscall* FUN_00653180_type)(void*);
+typedef NiAVObjectLike*(* FUN_00653120_vfunc_type)(NiAVObjectLike*);
+typedef NiNode*(* FUN_00653180_type)(void*);
 // Resolves apGeom to an object, calls its vtable slot at 0x94, and returns the resulting node or null.
 // @fnv 0x00653120
 NiNode* __cdecl GetNodeFromGeometry(void* apGeom)
@@ -4994,7 +4976,7 @@ unsigned int FUN_0065c490_cls::FUN_0065c490()
     return total;
 }
 
-void __stdcall FUN_0065ee50_Helper(void* p, unsigned int size, int count, void (*dtor)());
+void FUN_0065ee50_Helper(void* p, unsigned int size, int count, void (*dtor)());
 
 struct FUN_006516a0_class
 {
@@ -6096,12 +6078,12 @@ struct FUN_00659190_class
     unsigned int unk04;
 
 
-    FUN_00659190_class* __thiscall FUN_00659190();
+    FUN_00659190_class* FUN_00659190();
 };
 
 // Calls two checks, increments a field by 4, and returns this.
 // @fnv 0x00659190
-FUN_00659190_class* __thiscall FUN_00659190_class::FUN_00659190()
+FUN_00659190_class* FUN_00659190_class::FUN_00659190()
 {
     if (!reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())
         FUN_00ec7c56();

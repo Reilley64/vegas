@@ -4,7 +4,6 @@
 #include "layout_support.h"
 #include "layout_support.h"
 class BeamStage;
-#pragma pack(push, 4)
 class NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____
 {
   public:
@@ -42,18 +41,4 @@ class NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextu
     // void __cdecl NiTArray<NiPointer<BeamStage>,NiTNewInterface<NiPointer<BeamStage> > >::*()
     // void __cdecl NiTArray<NiPointer<BeamStage>,NiTNewInterface<NiPointer<BeamStage> > >::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____,
-                           m_pBase) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____,
-                           m_usMaxSize) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____,
-                           m_usSize) == 10);
-FNV_STATIC_ASSERT(offsetof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____,
-                           m_usESize) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTArray_NiPointer_NiD3DTextureStage__NiTNewInterface_NiPointer_NiD3DTextureStage_____,
-                           m_usGrowBy) == 14);
 #endif

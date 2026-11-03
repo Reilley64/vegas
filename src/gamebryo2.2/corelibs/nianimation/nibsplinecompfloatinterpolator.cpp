@@ -29,11 +29,11 @@ int* __cdecl FUN_00a51520()
 struct FUN_00a52d20_shell
 {
     int* m_p;
-    int __thiscall FUN_00a52d20(int* b, int* c, char* d);
+    int FUN_00a52d20(int* b, int* c, char* d);
 };
 
 // @fnv 0x00a52d20
-int __thiscall FUN_00a52d20_shell::FUN_00a52d20(int* b, int* c, char* d)
+int FUN_00a52d20_shell::FUN_00a52d20(int* b, int* c, char* d)
 {
     int* p = *(int**)((char*)this + 0x10);
     if (p)
@@ -55,11 +55,11 @@ struct FUN_00a57f20_shell
 extern int DAT_010997f4;
 struct FUN_00a509f0_shell
 {
-    FUN_00a509f0_shell* __thiscall FUN_00a509f0(int a, int b, int c);
+    FUN_00a509f0_shell* FUN_00a509f0(int a, int b, int c);
 };
 // Calls FUN_00a57f20 with a and c, sets the vtable pointer to DAT_010997f4, stores b at offset 0x20, and returns this.
 // @fnv 0x00a509f0
-FUN_00a509f0_shell* __thiscall FUN_00a509f0_shell::FUN_00a509f0(int aiArg1, int b, int aiArg2)
+FUN_00a509f0_shell* FUN_00a509f0_shell::FUN_00a509f0(int aiArg1, int b, int aiArg2)
 {
     reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)this)))->FUN_00a57f20((void *)(aiArg1), (void *)(aiArg2));
     *(int*)this = (int)&DAT_010997f4;
@@ -81,11 +81,11 @@ struct BaseX
 };
 struct FUN_00a516e0_shell : BaseX
 {
-    void __thiscall AppendString(StrArr*);
+    void AppendString(StrArr*);
 };
 // Calls the base handler, gets a string from g_011f401c, grows pkStrings if full, and stores the string at the next free index.
 // @fnv 0x00a516e0
-void __thiscall FUN_00a516e0_shell::AppendString(StrArr* pkStrings)
+void FUN_00a516e0_shell::AppendString(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00a50d30_shell *>(this)->SerializeToStrings(pkStrings);
     char* pszString = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_011f401c)));
@@ -105,10 +105,10 @@ struct FUN_00a514e0_shell
 {
     unsigned char _pad[0x24];
     float m_afOffsetAndHalfRange[2];
-    bool __thiscall Equals(void* pkObject);
+    bool Equals(void* pkObject);
 };
 // @fnv 0x00a514e0
-bool __thiscall FUN_00a514e0_shell::Equals(void* pkObject)
+bool FUN_00a514e0_shell::Equals(void* pkObject)
 {
     FUN_00a514e0_shell* pkDest;
     unsigned int iIndex;
@@ -137,10 +137,10 @@ struct FUN_00a516a0_shell
 {
     int _pad[9];
     int m_data[2];
-    void __thiscall WriteToStream(void* kStream);
+    void WriteToStream(void* kStream);
 };
 // @fnv 0x00a516a0
-void __thiscall FUN_00a516a0_shell::WriteToStream(void* kStream)
+void FUN_00a516a0_shell::WriteToStream(void* kStream)
 {
     reinterpret_cast<::FUN_00a50c70_cls *>((((BaseShell*)this)))->LoadFloatInterpolator((*(::NiStream *)(kStream)));
     BinaryOutputStream* __restrict pkOstr = *(BinaryOutputStream**)((char*)kStream + 0x250);
@@ -220,7 +220,7 @@ struct FObj : FBase
         pfScalars[1] = kMaxCompScalar;
     }
     virtual void LoadBinary(NiStream&);
-    FObj* __thiscall FUN_00a515c0(int arg);
+    FObj* FUN_00a515c0(int arg);
 };
 
 struct FUN_00a50aa0_shell
@@ -228,7 +228,7 @@ struct FUN_00a50aa0_shell
 };
 
 // @fnv 0x00a515c0
-FObj* __thiscall FObj::FUN_00a515c0(int arg)
+FObj* FObj::FUN_00a515c0(int arg)
 {
     FObj* p = (FObj*)FUN_00aa13e0(0x2c);
     if (p)

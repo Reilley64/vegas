@@ -2,6 +2,7 @@
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D338e0Owner.h"
@@ -81,11 +82,11 @@ extern int DAT_010ce930;
 struct FUN_00d2f220_class
 {
     int* p;
-    int __thiscall InitializeWithGlobal(int a);
+    int InitializeWithGlobal(int a);
 };
 
 // @fnv 0x00d2f220
-int __thiscall FUN_00d2f220_class::InitializeWithGlobal(int aiValue)
+int FUN_00d2f220_class::InitializeWithGlobal(int aiValue)
 {
     new ((void *)(aiValue)) struct ::FUN_00d2f980({});
     p = &DAT_010ce930;
@@ -265,7 +266,7 @@ void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValu
 }
 
 struct FUN_00d27f50_Obj {
-    void __thiscall FUN_00d27f50(int param_1, int param_2);
+    void FUN_00d27f50(int param_1, int param_2);
 };
 
 struct FUN_00d27f70 {
@@ -285,7 +286,7 @@ FUN_00d27f70::FUN_00d27f70(int** indices, int numIndices)
         (*m_ppIndices)[i] = -1;
 }
 
-struct FUN_00d27ff0_class {int** values; void __thiscall UnionFindMerge(int first, int second);};
+struct FUN_00d27ff0_class {int** values; void UnionFindMerge(int first, int second);};
 // @fnv 0x00d27ff0
 void FUN_00d27ff0_class::UnionFindMerge(int first, int second)
 {
@@ -733,7 +734,7 @@ struct FUN_00d36b20_Class {
     int unk14;
     int unk18;
 
-    FUN_00d36b20_Class* __thiscall FUN_00d36b20(int param1, int param2, int* param3, int param4);
+    FUN_00d36b20_Class* FUN_00d36b20(int param1, int param2, int* param3, int param4);
 };
 
 // @fnv 0x00d36b20
@@ -764,7 +765,7 @@ struct FUN_00d36be0_cls
 {
     void* unk00;
     unsigned short m_04;
-    void __thiscall FUN_00d36b20(int a, int b, int c, int d);
+    void FUN_00d36b20(int a, int b, int c, int d);
 };
 
 struct Allocator
@@ -798,11 +799,11 @@ void* __cdecl FUN_00d36be0(int a1, int a2, int a3, int a4)
 }  // namespace fnv_00d36be0
 
 struct FUN_00d36cc0_Obj {
-    void __thiscall FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
+    void FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4);
 };
 
 // @fnv 0x00d36cc0
-void __thiscall FUN_00d36cc0_Obj::FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4) {
+void FUN_00d36cc0_Obj::FUN_00d36cc0(int param_1, int param_2, int param_3, int param_4) {
     reinterpret_cast<::FUN_00d368c0_cls *>((this))->FUN_00d368c0((void *)(param_2), (void *)(param_1), (void *)(param_3), (void *)(param_4));
 }
 
@@ -853,13 +854,13 @@ struct FUN_00d36f50_Obj
     int unk14;
     int unk18;
 
-    FUN_00d36f50_Obj* __thiscall FUN_00d36f50(unsigned char flag);
+    FUN_00d36f50_Obj* FUN_00d36f50(unsigned char flag);
 };
 
 void* __cdecl FUN_00c85750();
 
 // @fnv 0x00d36f50
-FUN_00d36f50_Obj* __thiscall FUN_00d36f50_Obj::FUN_00d36f50(unsigned char flag)
+FUN_00d36f50_Obj* FUN_00d36f50_Obj::FUN_00d36f50(unsigned char flag)
 {
     FUN_00d36f50_manager* manager = (FUN_00d36f50_manager*)FUN_00c85750();
     FUN_00d36f50_allocator* allocator = manager->unk10;
@@ -1619,11 +1620,11 @@ struct FUN_00d219e0_cls
     int unk0C;
     FUN_00d219e0_node* unk10;
     int unk14;
-    void __thiscall SetLists(FUN_00d219e0_node* a, FUN_00d219e0_node* b);
+    void SetLists(FUN_00d219e0_node* a, FUN_00d219e0_node* b);
 };
 // Walks both linked lists to their tails, stores each tail and the head's unk04 in the object, and sets unk04 to 1.
 // @fnv 0x00d219e0
-void __thiscall FUN_00d219e0_cls::SetLists(FUN_00d219e0_node* pFirstList, FUN_00d219e0_node* pSecondList)
+void FUN_00d219e0_cls::SetLists(FUN_00d219e0_node* pFirstList, FUN_00d219e0_node* pSecondList)
 {
     FUN_00d219e0_node* pTail = pFirstList;
     while (pTail->unk0C)
@@ -1736,7 +1737,7 @@ FUN_00d277f0_node* __cdecl FUN_00d277f0(FUN_00d277f0_arg* a)
 
 struct FUN_00d61840_class {
     int m_iWordAt00;
-    int __thiscall FUN_00d61c10(int a);
+    int FUN_00d61c10(int a);
 };
 // @fnv 0x00d2b330
 int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj)
@@ -1749,7 +1750,7 @@ int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj)
 struct PathHelper {
     char* m_data;
 
-    void __thiscall FUN_00d61c10(const char* s);
+    void FUN_00d61c10(const char* s);
 };
 
 // @fnv 0x00d2b360
@@ -1799,10 +1800,10 @@ struct FUN_00d2cd80_Obj
     int unk00;
     FUN_00d04350_Obj unk04;
 
-    FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
+    FUN_00d2cd80_Obj* FUN_00d2cd80();
 };
 // @fnv 0x00d2cd80
-FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80_Obj::FUN_00d2cd80()
+FUN_00d2cd80_Obj* FUN_00d2cd80_Obj::FUN_00d2cd80()
 {
     FUN_00d2cd80_Obj* self = this;
     reinterpret_cast<::FUN_00d04350_cls *>(&(self->unk04))->Create(0, 6);
@@ -1885,10 +1886,10 @@ struct FUN_00d34aa0_Obj {
     virtual void vf18();
     virtual void vf1C();
 
-    virtual void __thiscall FUN_00d34aa0(int a, int b, int c, int d);
+    virtual void FUN_00d34aa0(int a, int b, int c, int d);
 };
 // @fnv 0x00d34aa0
-void __thiscall FUN_00d34aa0_Obj::FUN_00d34aa0(int param_1, int param_2, int param_3, int param_4)
+void FUN_00d34aa0_Obj::FUN_00d34aa0(int param_1, int param_2, int param_3, int param_4)
 {
     reinterpret_cast<::D338e0Owner *>(this)->FUN_00d338e0(param_2, param_1, param_3, param_4);
 }
@@ -2486,7 +2487,7 @@ struct hkSmallArrayE {
     void Insert(int i, const E48* a, int numtoinsert);
 };
 // @fnv 0x00d27f50
-void __thiscall FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, int aSecond) {
+void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, int aSecond) {
     reinterpret_cast<::hkSmallArrayE *>((this))->Insert(aFirst, (const ::E48 *)(aSecond), 1);
 }
 
@@ -3730,7 +3731,7 @@ struct D22260_Object
     D22260_Math m_quaternion1;
     D22260_Math m_quaternion2;
 
-    void __thiscall FUN_00d22260(
+    void FUN_00d22260(
         int ReportDiagnostic,
         int unused1,
         D22260_Matrix* matrix1,
@@ -3741,7 +3742,7 @@ struct D22260_Object
 
 // Transforms m_quaternion1/2 by the matrices' rows, crosses each result with the vector's second field, and adds the product to its first field.
 // @fnv 0x00d22260
-void __thiscall D22260_Object::FUN_00d22260(
+void D22260_Object::FUN_00d22260(
     int ReportDiagnostic,
     int unused1,
     D22260_Matrix* matrix1,
@@ -3761,9 +3762,9 @@ void __thiscall D22260_Object::FUN_00d22260(
 }  // namespace fnv_00d22260
 #include "fnv/symbols_simd.h"
 
-// FUN_00d24650 - __stdcall function, callee pops 4 bytes (1 stack parameter)
+// FUN_00d24650 - function, callee pops 4 bytes (1 stack parameter)
 // @fnv 0x00d24650
-void __stdcall FUN_00d24650(int _param) {
+void FUN_00d24650(int _param) {
 }
 
 class hkpCdBody;
@@ -3800,7 +3801,6 @@ template<> void hkpSymmetricAgent<hkpListAgent>::FUN_00d36d20(
     hkpListAgent::FUN_00d36b00(b, a, input, collector);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 

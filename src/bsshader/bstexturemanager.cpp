@@ -1,5 +1,6 @@
 // bsshader/bstexturemanager.cpp: free functions (3 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/S_004a0e10.h"
@@ -148,8 +149,6 @@ void FUN_004a0dd0_cls::FUN_004a0dd0(int a1)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 template <class T> struct StubMallocIf
 {

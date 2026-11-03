@@ -37,7 +37,7 @@ extern "C" unsigned int __cdecl strlen(const char*);
 
 // Allocates a string sized from pcPrefix and formats it as "<pcPrefix> = <mode name>" based on eMode, returning the buffer.
 // @fnv 0x00eacef0
-char* __stdcall FUN_00eacef0(const char* pcPrefix, unsigned int eMode)
+char* FUN_00eacef0(const char* pcPrefix, unsigned int eMode)
 {
     char* pString;
     unsigned int uiBufferSize;
@@ -150,12 +150,12 @@ struct FUN_00eaceb0_shell
     void* m_20;
     void* m_24;
     void* m_28;
-    void __thiscall AssignFromSource(void*);
+    void AssignFromSource(void*);
 };
 // @fnv 0x00eaceb0
-void __thiscall FUN_00eaceb0_shell::AssignFromSource(void* pSource)
+void FUN_00eaceb0_shell::AssignFromSource(void* pSource)
 {
-    ((void(__thiscall*)(void*, void*))(*(void***)this)[35])(this, *(void**)pSource);
+    ((void(*)(void*, void*))(*(void***)this)[35])(this, *(void**)pSource);
     m_24 = *(void**)((char*)pSource + 4);
     if (*(int*)((char*)pSource + 8))
     {
@@ -421,7 +421,7 @@ void NiCollisionData::FUN_00ead870(StrArr* pkStrings)
 
 
 // @fnv 0x00eacd00
-bool __stdcall FUN_00eacd00(void* pStream)
+bool FUN_00eacd00(void* pStream)
 {
     return ((unsigned char)(reinterpret_cast<::MyColl *>((pStream))->FUN_00a81010(*(::NiStream *)nullptr)));
 }
@@ -776,7 +776,7 @@ struct FUN_00ead2b0_cls
     int m_24;
     int m_28;
     FUN_00ead2b0_cls* m_2c;
-    bool __thiscall MatchesOther(FUN_00ead2b0_cls* other);
+    bool MatchesOther(FUN_00ead2b0_cls* other);
 };
 
 // Checks Probe(other), a node list for g_0126fab4, equal m_28/m_24, and equal m_2c unk0c values; returns true on match, false otherwise.
@@ -1616,17 +1616,17 @@ void* __cdecl FUN_00aa13e0(unsigned int);
 
 struct FUN_00eacd60_shell
 {
-    void* __thiscall FUN_00eacd60();
+    void* FUN_00eacd60();
 };
 
 struct FUN_00eada20_cls
 {
-    void __thiscall CloneCollisionData(void* a, void* b);
-    void* __thiscall FUN_00eada20(void* arg);
+    void CloneCollisionData(void* a, void* b);
+    void* FUN_00eada20(void* arg);
 };
 
 // @fnv 0x00eada20
-void* __thiscall FUN_00eada20_cls::FUN_00eada20(void* arg)
+void* FUN_00eada20_cls::FUN_00eada20(void* arg)
 {
     void* result;
     void* mem = FUN_00aa13e0(0x50);
@@ -1868,7 +1868,7 @@ void* __cdecl FUN_00aa1070(unsigned int size);
 
 // Obtains a buffer sized from name length and formats name into it using the mode-selected format string.
 // @fnv 0x00eacfd0
-char* __stdcall FormatName(const char* name, int mode)
+char* FormatName(const char* name, int mode)
 {
     unsigned int len = strlen(name);
     char* buf = (char*)FUN_00aa1070(len + 0x20);

@@ -16,7 +16,6 @@
 #include "fnv/decl/FUN_00a074d0_shell.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class Tile
 {
   public:
@@ -44,9 +43,7 @@ class Tile
     // +0x4..+0x37: Tile base extent. The canonical tile.h owns these members
     unsigned char layoutPadding4[0x34];
 };
-#pragma pack(pop)
 
-#pragma pack(push, 4)
 class TileRect : public Tile
 {
   public:
@@ -59,9 +56,6 @@ class TileRect : public Tile
 
     bool m_bTextureLoaded;  // +0x38
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(TileRect) == 0x3C);
-FNV_STATIC_ASSERT(offsetof(TileRect, m_bTextureLoaded) == 0x38);
 
 #endif

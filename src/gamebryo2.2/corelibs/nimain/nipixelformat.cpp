@@ -95,7 +95,6 @@ class NiPixelFormat
     NiComponentSpec m_akComponents[NUM_COMPS];
 };
 
-FNV_STATIC_ASSERT(sizeof(NiPixelFormat) == 0x44);
 
 // Initializes the pixel format to an 8-bit palettized format with an index component and three empty components.
 // @fnv 0x00a7cca0

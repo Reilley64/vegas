@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00bb0540
+#include <windows.h>
 #include "fnv/decl/BSShader.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
@@ -31,7 +32,7 @@ void* __cdecl FUN_00bb0d10()
 
 struct FUN_00bb0d20_shell
 {
-    void* __thiscall FUN_00bb0d20();
+    void* FUN_00bb0d20();
 };
 
 // @fnv 0x00bb0d20
@@ -42,11 +43,11 @@ void* FUN_00bb0d20_shell::FUN_00bb0d20()
 
 struct FUN_00bb0d30_shell
 {
-    void __thiscall FUN_00bb0d30(int value);
+    void FUN_00bb0d30(int value);
 };
 
 // @fnv 0x00bb0d30
-void __thiscall FUN_00bb0d30_shell::FUN_00bb0d30(int value)
+void FUN_00bb0d30_shell::FUN_00bb0d30(int value)
 {
     *(int*)((char*)this + 0x94) = value;
 }
@@ -55,10 +56,10 @@ void* __cdecl FUN_00bb0550();
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00bb0a50_shell
 {
-    void* __thiscall DestroyIfFlagged(int flags);
+    void* DestroyIfFlagged(int flags);
 };
 // @fnv 0x00bb0a50
-void* __thiscall FUN_00bb0a50_shell::DestroyIfFlagged(int flags)
+void* FUN_00bb0a50_shell::DestroyIfFlagged(int flags)
 {
     FUN_00bb0550();
     if (flags & 1)
@@ -297,8 +298,6 @@ void* __cdecl FUN_00bb0660()
     return pObj;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 struct ShaderProgram
 {
@@ -417,8 +416,6 @@ bool __cdecl FUN_00bb0770()
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 void __cdecl CmFree(void* pvMem);
@@ -559,7 +556,7 @@ struct FUN_00bb0cf0_cls
     int unk8C;
     int unk90;
     int m_94;
-    void __thiscall FUN_00bb0cf0(int value);
+    void FUN_00bb0cf0(int value);
 };
 
 // @fnv 0x00bb0cf0
@@ -568,7 +565,6 @@ void FUN_00bb0cf0_cls::FUN_00bb0cf0(int value)
     m_94 = (value != 3) ? 3 : 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiRefObject
 {

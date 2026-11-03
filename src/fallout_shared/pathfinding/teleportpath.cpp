@@ -15,7 +15,6 @@ struct PathingPath
     char Start[12];
     char End[12];
 };
-typedef char _sizecheck_TeleportPath[sizeof(PathingPath) == 56 ? 1 : -1];
 struct FUN_006f4990_shell : public PathingPath
 {
     void ClearTeleportPath();

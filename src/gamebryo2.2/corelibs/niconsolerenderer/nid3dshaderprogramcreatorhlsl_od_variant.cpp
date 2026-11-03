@@ -9,7 +9,7 @@
 #include "fnv/symbols_0126f000.h"
 struct NiD3DPixelShader
 {
-    void* __thiscall DestroyPixelShader(unsigned int flags);
+    void* DestroyPixelShader(unsigned int flags);
 };
 struct COMUnknownInterface;
 struct NiD3DVertexShader
@@ -39,7 +39,7 @@ extern void(__cdecl* DAT_fdf3f0)();
 struct NiD3DShaderProgramCreator;
 struct NiD3DShaderProgram
 {
-    void __thiscall FUN_00eea540(NiD3DShaderProgramCreator* pkCreator);
+    void FUN_00eea540(NiD3DShaderProgramCreator* pkCreator);
 };
 
 struct ID3DXConstantTable;

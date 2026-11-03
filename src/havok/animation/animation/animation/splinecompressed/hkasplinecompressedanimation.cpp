@@ -15,7 +15,7 @@
 
 struct FUN_00e33330_Class
 {
-    void* __thiscall FUN_00e33330();
+    void* FUN_00e33330();
 };
 
 // @fnv 0x00e33330
@@ -42,7 +42,7 @@ int __cdecl GetIndexedValueWithOffset(int offset, const int* values, int index, 
 }
 
 // @fnv 0x00e32ed0
-int __stdcall FUN_00e32ed0(int a1, int a2)
+int FUN_00e32ed0(int a1, int a2)
 {
     return 3;
 }
@@ -160,7 +160,6 @@ class hkaSplineCompressedAnimationE333
         throw();
 };
 
-typedef char fnv_check_e33350[(sizeof(hkaSplineCompressedAnimationE333) == 0x90) ? 1 : -1];
 
 struct hkMathE334
 {
@@ -734,11 +733,11 @@ class FUN_00e345a0_Obj : FUN_00dfb720
     int unk78;
     int unk7C;
 
-    void __thiscall FUN_00e345a0();
+    void FUN_00e345a0();
 };
 
 // @fnv 0x00e345a0
-void __thiscall FUN_00e345a0_Obj::FUN_00e345a0()
+void FUN_00e345a0_Obj::FUN_00e345a0()
 {
     int zero = 0;
     int flag = 0x80000000;

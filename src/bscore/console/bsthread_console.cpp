@@ -1,5 +1,6 @@
 // bscore/console/bsthread_console.cpp: BSThread (8 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
@@ -61,7 +62,7 @@ void BSThread::SetThreadPriority(int priority)
 }
 
 // @fnv 0x00aa64d0
-unsigned long __stdcall RunThreadProc(void* thread)
+unsigned long RunThreadProc(void* thread)
 {
     return static_cast<BSThreadEntryPC*>(thread)->ThreadProc();
 }
@@ -70,9 +71,6 @@ struct CRITSEC
 {
     int a[6];
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITSEC*);
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITSEC*);
 struct FUN_00aa64f0_t
 {
     int vt;

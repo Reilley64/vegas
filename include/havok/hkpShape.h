@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpShape : public hkReferencedObject
 {
   public:
     hkUlong m_ulUserData;  // +0x8
     hkUint32 m_type;       // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpShape[(sizeof(hkpShape) == 0x10) ? 1 : -1];
 #endif

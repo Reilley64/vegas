@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/DataA38.h"
@@ -34,7 +35,7 @@ void* __cdecl FUN_00a4be10();
 struct NiLookAtInterpolator
 {
     virtual ~NiLookAtInterpolator();
-    void* __thiscall FUN_00a4c5c0(unsigned int flags);
+    void* FUN_00a4c5c0(unsigned int flags);
 };
 class NiAVObject;
 struct NiFixedString
@@ -66,7 +67,7 @@ struct NiObject
 };
 struct Host_00a4bb80
 {
-    void __thiscall FUN_00a4bb80(CloningProcess&);
+    void FUN_00a4bb80(CloningProcess&);
 };
 class NiObject;
 struct NiStream
@@ -113,7 +114,7 @@ struct BaseInterp
 };
 struct MyInterp
 {
-    bool __thiscall FUN_00a4bbe0(NiStream*);
+    bool FUN_00a4bbe0(NiStream*);
 };
 struct BSFadeNode
 {
@@ -229,7 +230,7 @@ struct FakeInterp
 };
 struct Holder
 {
-    void __thiscall FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a4b9f0(float m_fStartTime, float m_fMaximumDistance);
 };
 extern "C" const float g_01098b04;
 struct FUN_00a4b930_item
@@ -302,10 +303,8 @@ struct FUN_00a4b930_cls
     unsigned int unk34;
     FUN_00a4b930_item* m_pItems[3];
 
-    void __thiscall GetItemsRange(float* pStart, float* pEnd);
+    void GetItemsRange(float* pStart, float* pEnd);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* pTarget);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* pTarget);
 struct RegObj
 {
     int m_i00;
@@ -451,8 +450,6 @@ struct FUN_00a4c780_cls
     void FUN_00a4c780(Arg_b9286* a);
 };
 // LoadBinary: base interpolator data, flags, the linked object, the name, the transform and three linked interpolators.
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class C630RefObject
 {
   public:

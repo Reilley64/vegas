@@ -199,7 +199,7 @@ struct FUN_00d2bb60_cls
 };
 
 // @fnv 0x00d2bb60
-int __fastcall FUN_00d2bb60(FUN_00d2bb60_cls* self, int unused, int value)
+int FUN_00d2bb60(FUN_00d2bb60_cls* self, int unused, int value)
 {
     self->m_pObject->v9(value);
     return value;

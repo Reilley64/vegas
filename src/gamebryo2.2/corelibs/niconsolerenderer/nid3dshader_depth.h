@@ -29,7 +29,7 @@ struct DepthSurface
     virtual void vfn_24();
     virtual void vfn_28();
     virtual void vfn_2c();
-    virtual int __stdcall GetDesc(DepthDesc*);
+    virtual int GetDesc(DepthDesc*);
 };
 struct DepthDesc
 {
@@ -48,7 +48,7 @@ struct DepthDevice
     virtual void vfn_1c();
     virtual void vfn_20();
     virtual void vfn_24();
-    virtual int __stdcall CheckDeviceFormat(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual int CheckDeviceFormat(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                                             unsigned int);
     virtual void vfn_2c();
     virtual void vfn_30();
@@ -68,7 +68,7 @@ struct DepthDevice
     virtual void vfn_68();
     virtual void vfn_6c();
     virtual void vfn_70();
-    virtual int __stdcall CreateDepthStencilSurface(unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual int CreateDepthStencilSurface(unsigned int, unsigned int, unsigned int, unsigned int,
                                                     unsigned int, unsigned int, DepthSurface**, void*);
 };
 class NiRenderer

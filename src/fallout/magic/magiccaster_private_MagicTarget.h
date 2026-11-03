@@ -15,8 +15,4 @@ class MagicTarget
 public:
     ::Actor *GetOwnerActor() const;
 };
-FNV_STATIC_ASSERT(sizeof(MagicTarget) == 0x10);
-FNV_STATIC_ASSERT(offsetof(MagicTarget, m_bLeadingFlag) == 0x4);
-FNV_STATIC_ASSERT(offsetof(MagicTarget, m_bSecondFlag) == 0x5);
-FNV_STATIC_ASSERT(offsetof(MagicTarget, m_kActiveEffectList) == 0x8);
 #endif

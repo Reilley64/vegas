@@ -54,7 +54,7 @@ void NiFloatInterpolator::LoadBinary(NiStream& kStream)
 }
 
 // @fnv 0x00a3c3c0
-int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
+int FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 {
     void* pData = *(void**)((char*)thisPtr + 0x10);
     if (!pData)
@@ -63,7 +63,7 @@ int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 }
 
 // @fnv 0x00a3c3d0
-unsigned char __fastcall FUN_00a3c3d0(const void* self, int, unsigned short)
+unsigned char FUN_00a3c3d0(const void* self, int, unsigned short)
 {
     const char* p = *(const char**)((const char*)self + 0x10);
     if (!p)
@@ -93,7 +93,7 @@ struct FloatInterpView
 
 // If m_spFloatData is set, forwards the two float arguments to its FUN_00a3cc40 method.
 // @fnv 0x00a3c540
-void __fastcall FUN_00a3c540(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
+void FUN_00a3c540(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_spFloatData)
         reinterpret_cast<::S00a3cc40 *>((self->m_spFloatData))->FUN_00a3cc40(m_fStartTime, m_fMaximumDistance);
@@ -118,7 +118,7 @@ void FUN_00a3c500_shell::SetFloatValue(float value)
 
 extern char DAT_01096f34;
 
-extern void(__stdcall* FUN_00fdf1c0)(int);
+extern void(* FUN_00fdf1c0)(int);
 
 struct S_00a3c340_Class
 {

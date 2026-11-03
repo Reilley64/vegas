@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a52d70
+#include <windows.h>
 #include "fnv/decl/FUN_00a536d0_cls.h"
 #include "fnv/decl/NiBoolInterpolatorA536.h"
 #include "fnv/decl/S_00a53280_Foo.h"
@@ -77,7 +78,6 @@ struct FUN_00a52f30_shell
     char _pad2[12];
     void* ReleaseRef(unsigned int);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // Decrements the reference count of m_ptr and calls F1 when it reaches zero, then calls FUN_00a3ca30 and frees this if flag bit 0 is set.
 // @fnv 0x00a52f30
 void* FUN_00a52f30_shell::ReleaseRef(unsigned int auiFlags)
@@ -277,8 +277,6 @@ bool Timeline::EvaluateBoolAtTime(float time, void*, bool& out)
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plAddend);
 
 class A53480RefObject
 {

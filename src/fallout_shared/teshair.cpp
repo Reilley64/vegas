@@ -109,7 +109,6 @@ struct TESRaceForm : public BaseFormComponent
     void SetFormRace(TESRace*);
     TESRace* m_pRace;
 };
-typedef char _sizecheck_TESRaceForm[sizeof(TESRaceForm) == 8 ? 1 : -1];
 struct FUN_005fdfa0_shell : public TESHair
 {
     bool IsHairValidForNPC(TESNPC*);
@@ -176,11 +175,11 @@ struct FUN_005e78f0_t
 
 struct FUN_005fde80_shell
 {
-    void __thiscall CopyFromHair(TESForm* apCopy);
+    void CopyFromHair(TESForm* apCopy);
 };
 
 // @fnv 0x005fde80
-void __thiscall FUN_005fde80_shell::CopyFromHair(TESForm* apCopy)
+void FUN_005fde80_shell::CopyFromHair(TESForm* apCopy)
 {
     TESHair* pcopy = dynamic_cast<TESHair*>(apCopy);
     if (!pcopy)

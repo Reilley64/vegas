@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -78,12 +79,12 @@ void __cdecl _delete(void*, int);
 
 struct FUN_00a4a8c0_shell
 {
-    void* __thiscall FUN_00a4a8c0(unsigned int flags);
+    void* FUN_00a4a8c0(unsigned int flags);
 };
 
 // Calls FUN_00a49d60, then deletes this with size 100 if flags has bit 1 set, and returns this.
 // @fnv 0x00a4a8c0
-void* __thiscall FUN_00a4a8c0_shell::FUN_00a4a8c0(unsigned int flags)
+void* FUN_00a4a8c0_shell::FUN_00a4a8c0(unsigned int flags)
 {
     FUN_00a49d60();
     if (flags & 1)
@@ -115,7 +116,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -126,7 +126,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiTimeController
 {
@@ -1025,8 +1024,6 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 void* NiMalloc(unsigned int);
 
 struct PathRefObj

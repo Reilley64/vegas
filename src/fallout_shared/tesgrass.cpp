@@ -164,12 +164,12 @@ struct FUN_00509bd0_shell
 {
     char pad[0x64];
     char m_64;  // +0x64
-    void __thiscall SetFlag2(bool value);
+    void SetFlag2(bool value);
 };
 
 // Sets or clears bit 2 of the byte at offset 0x64 according to value.
 // @fnv 0x00509bd0
-void __thiscall FUN_00509bd0_shell::SetFlag2(bool abSet)
+void FUN_00509bd0_shell::SetFlag2(bool abSet)
 {
     abSet ? m_64 |= 2 : m_64 &= ~2;
 }
@@ -292,7 +292,7 @@ float FUN_009d1b50_shell::GetField54Float()
 
 struct FUN_00508140_shell
 {
-    void __thiscall FUN_00508140(float a, float b, float c, unsigned char d);
+    void FUN_00508140(float a, float b, float c, unsigned char d);
 };
 struct PathingRequest
 {
@@ -302,7 +302,7 @@ struct FUN_005082b0_shell
 {
 };
 // @fnv 0x00508140
-void __thiscall FUN_00508140_shell::FUN_00508140(float a, float b, float c, unsigned char d)
+void FUN_00508140_shell::FUN_00508140(float a, float b, float c, unsigned char d)
 {
     reinterpret_cast<::Envelope *>((reinterpret_cast<FUN_005082b0_shell*>(this)))->UpdateEnvelope(
         a, b, c, d, reinterpret_cast<FUN_009d1b50_shell*>(this)->GetField54Float(),
@@ -777,7 +777,7 @@ struct Argument
 
 // Returns true if the form is not TESGrass, base comparison reports a difference, or any compared accessor differs.
 // @fnv 0x0050a2a0
-bool __fastcall FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apCompare)
+bool FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apCompare)
 {
     ::TESGrass* pCompareGrass = dynamic_cast< ::TESGrass*>(apCompare.form);
     if (pCompareGrass == 0)

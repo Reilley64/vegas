@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00c90000.h"
@@ -122,7 +123,7 @@ TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apA
 
 extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
 // @fnv 0x00d32170
-void __stdcall FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
+void FUN_00d32170(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
     FUN_00d319e0(apArg1, apArg2, apArg3, apArg4);
 }
 
@@ -231,14 +232,14 @@ void Owner::NotifyAndClear(int value) {
 extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
-extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
+extern "C" void FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 
 extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
-extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
+extern "C" void FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     FUN_00d317d0(arg0, arg1, arg2, arg3);
 }
@@ -328,7 +329,6 @@ extern const char DAT_010cea54[];
 extern const char DAT_010cea48[];
 extern const char str_010cea1c[];
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 struct MonitorCommand {
     const char* name;

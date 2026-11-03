@@ -24,7 +24,7 @@ struct S_00d62650_B3
 };
 struct S_00d62650_Arg
 {
-    void __thiscall FUN_00c93920(S_00d62650_B3* p);
+    void FUN_00c93920(S_00d62650_B3* p);
 };
 struct S_00d62650_B2
 {

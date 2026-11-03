@@ -386,11 +386,11 @@ void FUN_0092c890_class::FUN_0092c890()
 
 struct bhkCharacterController
 {
-    int __fastcall FUN_005c0880(char*);
+    int FUN_005c0880(char*);
 };
-int __fastcall FUN_005c0880(char*);
+int FUN_005c0880(char*);
 // @fnv 0x009306b0
-bool __fastcall FUN_009306b0(bhkCharacterController* self)
+bool FUN_009306b0(bhkCharacterController* self)
 {
     return FUN_005c0880(reinterpret_cast<char*>(self)) == 5;
 }
@@ -515,16 +515,16 @@ void TaskQueueInterface::SetEnabledFlag(bool enabled)
 
 struct FUN_0093a5d0_class
 {
-    unsigned char __thiscall GetByteAt798();
+    unsigned char GetByteAt798();
 };
 // @fnv 0x0093a5d0
-unsigned char __thiscall FUN_0093a5d0_class::GetByteAt798()
+unsigned char FUN_0093a5d0_class::GetByteAt798()
 {
     return ((unsigned char*)this)[0x798];
 }
 
 // @fnv 0x0093a640
-char __fastcall FUN_0093a640(int param_1)
+char FUN_0093a640(int param_1)
 {
     return *(char*)(param_1 + 0x799);
 }
@@ -619,7 +619,7 @@ void FUN_00936ac0(int aiFormId, bool b)
 {
     int iFormId = aiFormId;
     TESForm* p = ::FUN_004839c0(iFormId);
-    if (p && ((bool(__thiscall*)(TESForm*))(*(void***)p)[63])(p))
+    if (p && ((bool(*)(TESForm*))(*(void***)p)[63])(p))
     {
         TESForm* q = p;
         if (q)
@@ -646,12 +646,12 @@ FUN_00937030_Class::~FUN_00937030_Class()
 
 struct FUN_0055a2b0_Class
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 // Calls FUN_006208d0, then deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x0093a5a0
-void* __thiscall FUN_0055a2b0_Class::DestroyIfFlagged(unsigned int flags)
+void* FUN_0055a2b0_Class::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_006208d0_cls *>(this)->FUN_006208d0_cls::~FUN_006208d0_cls();
     if (flags & 1)
@@ -664,7 +664,7 @@ struct TESResponse
 };
 // Returns 0 for a null response, otherwise counts the response and its chained GetNext() responses.
 // @fnv 0x009369d0
-int __fastcall GetResponseCount(TESResponse* apResponse)
+int GetResponseCount(TESResponse* apResponse)
 {
     if (!apResponse)
         return 0;
@@ -777,7 +777,7 @@ struct FUN_008e56b0_cls
 };
 
 // @fnv 0x00930870
-bool __fastcall FUN_00930870(Actor* pActor)
+bool FUN_00930870(Actor* pActor)
 {
     bool result;
     NiAVObject* anim;
@@ -789,7 +789,7 @@ bool __fastcall FUN_00930870(Actor* pActor)
             ((FUN_008e56b0_cls*)*(void**)((char*)pActor + 0x68))->ClearNode();
         }
     }
-    result = (*(bool(__thiscall*)(Actor*))((*(void***)pActor)[0x2a0 / 4]))(pActor);
+    result = (*(bool(*)(Actor*))((*(void***)pActor)[0x2a0 / 4]))(pActor);
     anim = (NiAVObject*)((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((P09H*)pActor)))->FUN_0043fcd0()));
     if (anim != 0)
     {
@@ -804,7 +804,7 @@ struct FUN_00cbc510
 };
 struct FUN_00933810
 {
-    int __thiscall Method();
+    int Method();
 };
 // Calls Call on the object stored at this+0x3ec, passing the value at this+0x3f0, and returns its result.
 // @fnv 0x00933810
@@ -997,7 +997,7 @@ struct FUN_00986500_shell
 };
 struct FUN_0093a660_class
 {
-    void __thiscall FUN_0093a660(int apActor);
+    void FUN_0093a660(int apActor);
 };
 // If the pointer at this+0xd64 is non-null, forwards apActor to its RemoveByTarget method.
 // @fnv 0x0093a660

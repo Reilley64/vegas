@@ -2370,21 +2370,21 @@ void FUN_00869a20_class::FUN_00869a20()
 
 struct FUN_00869b70_Class
 {
-    void __thiscall FUN_00869b70();
+    void FUN_00869b70();
 };
 
 // @fnv 0x00869b70
-void __thiscall FUN_00869b70_Class::FUN_00869b70()
+void FUN_00869b70_Class::FUN_00869b70()
 {
     reinterpret_cast<::FUN_00869b90_cls *>(this)->InitializeAndReleaseNext();
 }
 
 struct FUN_00869e10_class
 {
-    void __thiscall FUN_00869e10();
+    void FUN_00869e10();
 };
 // @fnv 0x00869e10
-void __thiscall FUN_00869e10_class::FUN_00869e10()
+void FUN_00869e10_class::FUN_00869e10()
 {
     reinterpret_cast<::FUN_00869e30_class *>(this)->FUN_00869e30();
 }

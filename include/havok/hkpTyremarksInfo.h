@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkReferencedObject.h"
 class hkpTyremarksWheel;
-#pragma pack(push, 1)
 class hkpTyremarksInfo : public hkReferencedObject
 {
   public:
@@ -14,6 +13,4 @@ class hkpTyremarksInfo : public hkReferencedObject
     hkReal m_fMaxTyremarkPointDistance;              // +0xC
     hkArray<hkpTyremarksWheel*> m_kTyremarksWheels;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpTyremarksInfo[(sizeof(hkpTyremarksInfo) == 0x1C) ? 1 : -1];
 #endif

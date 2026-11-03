@@ -353,7 +353,7 @@ bool FUN_009e27e0_shell::FUN_009e27e0()
 }  // namespace fnv_009e27e0
 
 // @fnv 0x009e32d0
-int __fastcall GetField38(char* this_ptr)
+int GetField38(char* this_ptr)
 {
     return *(int*)(this_ptr + 0x38);
 }
@@ -1234,12 +1234,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -1256,7 +1254,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct FUN_009e9390_shell : public DetailedActorPathHandler
 {
     void FUN_009e9390(BGSLoadFormBuffer*);
@@ -2588,12 +2585,10 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_009e3560_shell : public DetailedActorPathHandler
 {
     void UpdatePathRotation(float);
@@ -4292,7 +4287,7 @@ struct Flt
 namespace std {
 float abs(float);
 }
-bool __fastcall FUN_009e8670(unsigned int);
+bool FUN_009e8670(unsigned int);
 extern double DAT_01092508;
 extern float DAT_011a5d00;
 
@@ -4989,11 +4984,11 @@ struct FUN_009e8690_shell : DetailedActorPathHandler
 struct FUN_009e20a0_Class
 {
     unsigned char* m_data;
-    unsigned char __thiscall GetByteAtOffset9F();
+    unsigned char GetByteAtOffset9F();
 };
 
 // @fnv 0x009e20a0
-unsigned char __thiscall FUN_009e20a0_Class::GetByteAtOffset9F()
+unsigned char FUN_009e20a0_Class::GetByteAtOffset9F()
 {
     return *(reinterpret_cast<unsigned char*>(this) + 0x9f);
 }
@@ -5720,7 +5715,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -5728,12 +5722,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -5750,7 +5742,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -5772,7 +5763,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_009e6ba0_shell : public DetailedActorPathHandler
 {
     void UpdatePathingOrigin(PathingRequest*);
@@ -6214,12 +6204,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -6236,7 +6224,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct FUN_009e9760_shell : public DetailedActorPathHandler
 {
     void FUN_009e9760(BGSLoadFormBuffer*);

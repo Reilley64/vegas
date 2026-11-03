@@ -73,11 +73,11 @@ struct Unk65
 
 struct Unk65a
 {
-    Unk65* __thiscall FUN_007ab230(Unk65* other);
+    Unk65* FUN_007ab230(Unk65* other);
 };
 
 // @fnv 0x007ab230
-Unk65* __thiscall Unk65a::FUN_007ab230(Unk65* other)
+Unk65* Unk65a::FUN_007ab230(Unk65* other)
 {
     other->FUN_0065de30((int)this);
     return other;
@@ -124,15 +124,15 @@ AX* AX::FUN_007ab610()
 
 struct GlobalObject_00869f00
 {
-    void __thiscall Clear(bool);
-    void __thiscall FUN_007ab670();
+    void Clear(bool);
+    void FUN_007ab670();
 };
 
-void __thiscall GlobalObject_00869f00::Clear(bool)
+void GlobalObject_00869f00::Clear(bool)
 {}
 
 // @fnv 0x007ab670
-void __thiscall GlobalObject_00869f00::FUN_007ab670()
+void GlobalObject_00869f00::FUN_007ab670()
 {
     *(int*)this = (int)&DAT_010757a8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
@@ -151,11 +151,11 @@ void FUN_007adcc0_class::SetAllow(bool abAllow)
 
 struct FUN_007b8f10_Class
 {
-    unsigned int __thiscall GetField630();
+    unsigned int GetField630();
 };
 
 // @fnv 0x007b8f10
-unsigned int __thiscall FUN_007b8f10_Class::GetField630()
+unsigned int FUN_007b8f10_Class::GetField630()
 {
     return *(unsigned int*)((char*)this + 0x630);
 }
@@ -163,7 +163,7 @@ unsigned int __thiscall FUN_007b8f10_Class::GetField630()
 struct GlobalObject_007ab590
 {
     ~GlobalObject_007ab590();
-    void* __thiscall FUN_007ab5c0(unsigned int flags);
+    void* FUN_007ab5c0(unsigned int flags);
 };
 
 void __cdecl FUN_00730490(char*, int);
@@ -172,11 +172,11 @@ struct FUN_007b52a0_class
 {
     char* m_ptr;
     unsigned short m_uiItemCount;
-    void __thiscall FUN_007b52a0();
+    void FUN_007b52a0();
 };
 
 // @fnv 0x007b52a0
-void __thiscall FUN_007b52a0_class::FUN_007b52a0()
+void FUN_007b52a0_class::FUN_007b52a0()
 {
     if (m_ptr)
         FUN_00730490(m_ptr, m_uiItemCount + 1);
@@ -263,7 +263,7 @@ BSS* BSS::FUN_007a86b0(unsigned int flags)
 
 struct BSSimpleArrayActor
 {
-    void __thiscall Clear(bool);
+    void Clear(bool);
 };
 void* __cdecl DAT_01075794;
 
@@ -274,7 +274,7 @@ struct FUN_007ab5f0_class : BSSimpleArrayActor
 };
 // Runs the destructor and, if flags has bit 0 set, frees the object with operator delete, then returns this.
 // @fnv 0x007ab5c0
-void* __thiscall GlobalObject_007ab590::FUN_007ab5c0(unsigned int flags)
+void* GlobalObject_007ab590::FUN_007ab5c0(unsigned int flags)
 {
     reinterpret_cast<::FUN_007ab5f0_class *>(this)->FUN_007ab5f0();
     if (flags & 1)
@@ -434,12 +434,12 @@ struct FUN_007a6220_class
     virtual void FUN_007a6220_v6(int value);
 
 
-    void __thiscall FUN_007a6220();
+    void FUN_007a6220();
 };
 
 // Calls GetUnfilteredCount with 0, subtracts 1 from the result, and passes it to FUN_007a6220_v6.
 // @fnv 0x007a6220
-void __thiscall FUN_007a6220_class::FUN_007a6220()
+void FUN_007a6220_class::FUN_007a6220()
 {
     FUN_007a6220_v6(((int)(reinterpret_cast<::fnv_007a6a50::FUN_007a6a50_shell *>(this)->GetUnfilteredCount())) - 1);
 }
@@ -709,12 +709,12 @@ struct FUN_0049fa80_Result
 
 struct FUN_007b5330_Class
 {
-    void __thiscall FUN_007b5330(int arg1, int* arg2);
+    void FUN_007b5330(int arg1, int* arg2);
 };
 
 // Gets a result object, stores the int pointed to by arg2 into its unk08 field, then passes it with arg1 to InsertBefore.
 // @fnv 0x007b5330
-void __thiscall FUN_007b5330_Class::FUN_007b5330(int arg1, int* arg2)
+void FUN_007b5330_Class::FUN_007b5330(int arg1, int* arg2)
 {
     FUN_0049fa80_Result* result = ((::FUN_0049fa80_Result *)(reinterpret_cast<::ScriptPool *>((this))->FUN_0049fa80()));
     result->unk08 = *arg2;

@@ -24,10 +24,10 @@
 #include "fnv/symbols_010ca000.h"
 struct FUN_00cd06c0_t
 {
-    void __thiscall FUN_00cd06c0(int v);
+    void FUN_00cd06c0(int v);
 };
 // @fnv 0x00cd06c0
-void __thiscall FUN_00cd06c0_t::FUN_00cd06c0(int v)
+void FUN_00cd06c0_t::FUN_00cd06c0(int v)
 {
     *(int*)((char*)this + 4) = v;
     *(int*)((char*)this + 0x18) = v;
@@ -105,10 +105,10 @@ struct FUN_00cd0940_iface
 };
 struct FUN_00cd0940_shell
 {
-    void __thiscall ResetRecordState(int* param, unsigned char mode);
+    void ResetRecordState(int* param, unsigned char mode);
 };
 // @fnv 0x00cd0940
-void __thiscall FUN_00cd0940_shell::ResetRecordState(int* aiParams, unsigned char mode)
+void FUN_00cd0940_shell::ResetRecordState(int* aiParams, unsigned char mode)
 {
     FUN_00cd0940_record* record = (FUN_00cd0940_record*)((unsigned char*)this + aiParams[8] * 0x138 + 0xc6c);
     if ((mode & 2) != 0)

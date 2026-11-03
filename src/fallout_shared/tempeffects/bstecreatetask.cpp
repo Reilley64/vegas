@@ -18,8 +18,8 @@ char const* const* FUN_00682480_shell::GetArg1Ptr()
 
 struct FUN_00682490_shell
 {
-    void __thiscall FUN_006824c0();
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void FUN_006824c0();
+    void* DestroyIfFlagged(unsigned int flags);
 };
 struct NiTask
 {
@@ -52,7 +52,7 @@ class FUN_006824c0 : public C0NiObject
 };
 // Calls FUN_006824c0, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00682490
-void* __thiscall FUN_00682490_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00682490_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_006824c0 *>((this))->FUN_006824c0::~FUN_006824c0();
     if (flags & 1)

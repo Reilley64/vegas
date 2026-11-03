@@ -398,9 +398,9 @@ struct OtherNode
     virtual void UnknownVirtual130();
     virtual GameNode* GetSecondary();
 };
-typedef GameNode*(__thiscall* NodeGetter)(void*);
-typedef void(__thiscall* VectorSetter)(GameNode*, Vec3*);
-typedef GameNode*(__thiscall* SecondaryGetter)(void*);
+typedef GameNode*(* NodeGetter)(void*);
+typedef void(* VectorSetter)(GameNode*, Vec3*);
+typedef GameNode*(* SecondaryGetter)(void*);
 struct ProjectileObject
 {
     void UpdateProjectileNode();

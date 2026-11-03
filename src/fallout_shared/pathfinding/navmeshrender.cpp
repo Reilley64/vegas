@@ -98,7 +98,7 @@ struct Dummy0042f800
 };
 
 // @fnv 0x0049f1c0
-void* __fastcall FUN_0049f1c0(int** pThis)
+void* FUN_0049f1c0(int** pThis)
 {
     *pThis = &DAT_010159d4;
     reinterpret_cast<::FUN_0049f990_class *>((reinterpret_cast<Dummy0042f800*>(pThis)))->FUN_0049f990(0, 0);
@@ -163,7 +163,6 @@ struct NavMeshTriangle
     char Triangles[6];
     unsigned int m_uiTriangleFlags;
 };
-typedef char _sizecheck_NavMeshTriangle[sizeof(NavMeshTriangle) == 16 ? 1 : -1];
 struct FUN_006a5ec0_shell : public NavMeshTriangle
 {
     bool FUN_006a5ec0();
@@ -185,7 +184,7 @@ struct FUN_006a5b30_shell
 
 // Copies the three short fields of this object into the three output pointers.
 // @fnv 0x006a5b30
-void __thiscall FUN_006a5b30_shell::GetTripleShorts(short* pFirst, short* pSecond, short* pThird)
+void FUN_006a5b30_shell::GetTripleShorts(short* pFirst, short* pSecond, short* pThird)
 {
     *pFirst = this->m_uiX;
     *pSecond = this->m_uiY;

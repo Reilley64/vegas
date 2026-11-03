@@ -97,11 +97,11 @@ struct FUN_00508510_shell
 };
 struct FUN_00508dc0_shell
 {
-    void* __thiscall FUN_00508dc0(unsigned int flags);
+    void* FUN_00508dc0(unsigned int flags);
 };
 // Calls FUN_00508510 on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00508dc0
-void* __thiscall FUN_00508dc0_shell::FUN_00508dc0(unsigned int flags)
+void* FUN_00508dc0_shell::FUN_00508dc0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00508510_Activator *>((((FUN_00508510_shell*)this)))->FUN_00508510_Activator::~FUN_00508510_Activator();
     if (flags & 1)

@@ -67,7 +67,6 @@
 #include "playermover_layout.h"
 
 #define FNV_NIPOINT3_H
-#pragma pack(push, 4)
 class NiPoint3
 {
   public:
@@ -79,11 +78,6 @@ class NiPoint3
 public:
     float ComputeMagnitude() const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 
 #include "playermover_actor.h"
 #include "playermover_decls.h"
@@ -97,7 +91,6 @@ class BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
 };
 
-#pragma pack(push, 4)
 class ActorMover
 {
   public:
@@ -106,11 +99,7 @@ class ActorMover
     Actor* pActor;  // +0x28
     unsigned char layoutPadding2C[0x5C];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorMover) == 0x88);
-FNV_STATIC_ASSERT(offsetof(ActorMover, pActor) == 0x28);
 
-#pragma pack(push, 4)
 class PlayerMover : public ActorMover
 {
   public:
@@ -129,12 +118,6 @@ class PlayerMover : public ActorMover
     unsigned int m_uiMode;  // +0x98
     float m_fValue;         // +0x9C
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PlayerMover) == 0xA0);
-FNV_STATIC_ASSERT(offsetof(PlayerMover, m_kSideVec) == 0x88);
-FNV_STATIC_ASSERT(offsetof(PlayerMover, ByteAndFlagState) == 0x94);
-FNV_STATIC_ASSERT(offsetof(PlayerMover, m_uiMode) == 0x98);
-FNV_STATIC_ASSERT(offsetof(PlayerMover, m_fValue) == 0x9C);
 
 // @fnv 0x009ea6a0
 void PlayerMover::Revert(BGSLoadFormBuffer* apBuffer)

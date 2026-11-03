@@ -3,6 +3,7 @@
 // say /MT /O2 /GS /EHsc /Gy (unit src/fallout/ai/actor.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -131,7 +132,7 @@ union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; 
 struct __declspec(align(16)) BlendQuat {
     float x, y, z, w;
     BlendQuat& operator=(const BlendQuat& other) { *(__m128*)&x=*(const __m128*)&other.x; return *this; }
-    void __thiscall FUN_00cb2850(const BlendQuat&, const BlendQuat&, float);
+    void FUN_00cb2850(const BlendQuat&, const BlendQuat&, float);
 };
 struct BlendTransform { BlendQuat rotation; BlendQuat translation; BlendQuat scale; };
 struct BlendSkeleton {
@@ -192,7 +193,7 @@ struct BlendRagdoll {
 };
 struct BlendState { int unk00,unk04,unk08,unk0c; int source,dest; BlendRagdoll* ragdoll; };
 struct BlendAccess {
-    int* __thiscall FUN_00cda4b0();
+    int* FUN_00cda4b0();
     int sourceValue() {return *((int *)(reinterpret_cast<::FUN_00cda8d0_class *>(this)->FUN_00cda8d0()));}
     int valueA() {return *FUN_00cda4b0();}
     int valueB() {return *((int *)(reinterpret_cast<::FUN_00cdb290 *>(this)->GetPlus4()));}
@@ -387,15 +388,13 @@ struct BlendController {
 
     __int64 duration;
 
-    void __thiscall FUN_00c7c870();
+    void FUN_00c7c870();
 };
 union __declspec(align(16)) PackedVector { __m128 vector; unsigned char lanes[16]; };
 struct InternedHeader { long references; unsigned int length; };
 
 
 // Interned names and intrusive scene-object references.
-__declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 
 __forceinline void RetainString(char* text) {
@@ -1849,9 +1848,9 @@ struct GameForm {
     GameForm* getLinked();
     GameForm* getChildNamed();
     struct VTable;
-    typedef int (__fastcall *TypeQuery)(GameForm*,VTable*);
+    typedef int (*TypeQuery)(GameForm*,VTable*);
     struct VTable { void* f0; void* f1; void* f2; TypeQuery canUse; };
-    struct NativeQuery { virtual void f0(); virtual void f1(); virtual void f2(); virtual int __fastcall queryType(VTable*)=0; };
+    struct NativeQuery { virtual void f0(); virtual void f1(); virtual void f2(); virtual int queryType(VTable*)=0; };
     VTable* vtable;
     int unk004;
     int unk008;
@@ -2192,7 +2191,7 @@ struct ParticleTable {
     int unk2a0;
     Table* table;
     void* getContext() { return context; }
-    void __thiscall FUN_00c7c3a0(FNVInput* incoming);
+    void FUN_00c7c3a0(FNVInput* incoming);
 };
 
 static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>(FUN_00c85750()); }
@@ -2222,7 +2221,7 @@ __forceinline void EntryArray::resize(int size) {
     count=size;
 }
 // @fnv 0x00c7c3a0
-void __thiscall ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
+void ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
     FNVInput* input=incoming;
     unsigned count=incoming->count;
     if (!count || !enabled) return;
@@ -2732,7 +2731,7 @@ struct TempArray {
     TempArray():vtable(&DAT_010c4db8),data(0),size(0),capacity(0){}
     ~TempArray();
 };
-typedef void (__thiscall *FreeTemp)(TempArray*,unsigned int);
+typedef void (*FreeTemp)(TempArray*,unsigned int);
 TempArray::~TempArray() { vtable=&DAT_010c4db8; if(data) DAT_010c4dc0(this,data); }
 struct ConstructorBase { virtual ~ConstructorBase(); };
 struct LastArray { unsigned int data,size,capacity,extra; LastArray():data(0),size(0),capacity(0),extra(0){} };
@@ -2994,7 +2993,6 @@ extern ::__m128 _mm_add_ss(::__m128, ::__m128);
 extern ::__m128 _mm_unpackhi_ps(::__m128, ::__m128);
 extern ::__m128 _mm_rsqrt_ps(::__m128);
 extern void _mm_prefetch(char const*, int);
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
 
 typedef ::__m128 hkQuadReal;

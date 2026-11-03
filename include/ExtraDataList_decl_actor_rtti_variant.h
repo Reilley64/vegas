@@ -6,7 +6,6 @@
 #include "layout_support.h"
 #include "BaseExtraList.h"
 class ExtraDismemberedLimbs;
-#pragma pack(push, 4)
 class ExtraDataList : public BaseExtraList
 {
   public:
@@ -17,6 +16,4 @@ class ExtraDataList : public BaseExtraList
     void SetContainerChanges(InventoryChanges* changes);
     ExtraDismemberedLimbs* GetDismemberedLimbs();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #endif

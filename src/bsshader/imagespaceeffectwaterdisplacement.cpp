@@ -2,6 +2,7 @@
 // src/bsshader/imagespaceeffectwaterdisplacement.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectwaterdisplacement.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BSRenderStateManager.h"
 #include "fnv/decl/FUN_004bc320_shell.h"
@@ -258,8 +259,6 @@ struct NiScreenElements : public NiMemObject
     NiScreenElements(NiScreenElementsData*);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 template <class T> struct NiPointer
 {

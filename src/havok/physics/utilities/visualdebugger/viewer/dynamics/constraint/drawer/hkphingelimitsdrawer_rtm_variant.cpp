@@ -89,7 +89,7 @@ struct T
 };
 
 
-typedef void(__thiscall* DrawFn)(Visitor*, void*, void*, int, int, int);
+typedef void(* DrawFn)(Visitor*, void*, void*, int, int, int);
 
 // @fnv 0x00de6d80
 void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)

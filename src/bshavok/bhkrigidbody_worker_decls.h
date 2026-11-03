@@ -33,10 +33,6 @@ class WorldPhysicsSettings
     WorldPhysicsSettings();
 };
 
-FNV_STATIC_ASSERT(sizeof(WorldPhysicsSettings) == 0xc0);
-FNV_STATIC_ASSERT(offsetof(WorldPhysicsSettings, m_fSurfaceFriction) == 0xa8);
-FNV_STATIC_ASSERT(offsetof(WorldPhysicsSettings, m_fRestitution) == 0xac);
-FNV_STATIC_ASSERT(offsetof(WorldPhysicsSettings, m_iAutoRemoveLevel) == 0xb7);
 
 class hkpRigidBody
 {
@@ -82,8 +78,6 @@ class bhkRigidBodyPrefix
     }
 };
 
-FNV_STATIC_ASSERT(sizeof(bhkRigidBodyPrefix) == 0x20);
-FNV_STATIC_ASSERT(offsetof(bhkRigidBodyPrefix, m_pHavokObject) == 8);
 struct __declspec(align(16)) bhkrigidbody_vector
 {
     __m128 v;

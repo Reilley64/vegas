@@ -28,7 +28,7 @@ struct FUN_00835f80_shell
 };
 
 // @fnv 0x00835f80
-void __thiscall FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
+void FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->ReadFormIdentifier(this);
     apBuffer->ReadTypedData(&this->_1c, 1);
@@ -81,7 +81,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864720_shell : public BGSLoadGameBuffer
 {
     unsigned char FUN_00864720();
@@ -145,7 +144,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_008647f0_shell : public BGSLoadGameBuffer
 {
     void FUN_008647f0(char*, unsigned int, unsigned int);
@@ -206,7 +204,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864980_shell : public BGSLoadGameBuffer
 {
     void FUN_00864980(NiQuaternion*, unsigned int);
@@ -249,7 +246,6 @@ struct SandboxProcedureData
     int m_iActivityState;
     int m_iProcedureData;
 };
-typedef char _sizecheck_SandBoxChoiceListItem[sizeof(SandboxProcedureData) == 16 ? 1 : -1];
 struct BGSLoadGameBuffer
 {
     virtual unsigned char GetVersion();
@@ -286,7 +282,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_009f38b0_shell : public SandboxProcedureData
 {
     void FUN_009f38b0(BGSLoadFormBuffer*);
@@ -376,7 +371,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864820_shell : public BGSLoadGameBuffer
 {
     void LoadRawData(void*, unsigned int);
@@ -486,7 +480,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_008646f0_shell : public BGSLoadGameBuffer
 {
     void FUN_008646f0();
@@ -512,7 +505,7 @@ struct FUN_00864740_shell
     char* pBuffer;
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
-    int __thiscall ReadAndVerifySize(SaveLoadFile* apFile);
+    int ReadAndVerifySize(SaveLoadFile* apFile);
 };
 struct SaveLoadFile
 {
@@ -526,7 +519,7 @@ struct FUN_00864790_shell
     int ReadFromFile(SaveLoadFile* file, unsigned int n);
 };
 // @fnv 0x00864740
-int __thiscall FUN_00864740_shell::ReadAndVerifySize(SaveLoadFile* apFile)
+int FUN_00864740_shell::ReadAndVerifySize(SaveLoadFile* apFile)
 {
     ::ReadFileIntoBuffer(apFile, &m_uiReadOffset, 4);
     int result = reinterpret_cast<::FUN_00864790_shell *>((((S_00864540*)this)))->ReadFromFile((::SaveLoadFile *)((int)apFile), m_uiReadOffset);
@@ -592,7 +585,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct PackedFormID
 {
     unsigned int GetNumericID();
@@ -602,7 +594,6 @@ struct PackedFormID
     unsigned char m_ucIDByte1;
     unsigned char m_ucIDByte2;
 };
-typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
 struct FUN_008648a0_shell : public BGSLoadGameBuffer
 {
     bool FUN_008648a0(unsigned int*);
@@ -611,7 +602,7 @@ struct FUN_008648a0_shell : public BGSLoadGameBuffer
 struct Dummy84eaf0
 {
 };
-unsigned int __fastcall FUN_00853500(void*);
+unsigned int FUN_00853500(void*);
 struct FUN_00864820_wrap
 {
 };
@@ -676,7 +667,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct PackedFormID
 {
     unsigned int GetNumericID();
@@ -686,7 +676,6 @@ struct PackedFormID
     unsigned char m_ucIDByte1;
     unsigned char m_ucIDByte2;
 };
-typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
 struct FUN_008648e0_shell : public BGSLoadGameBuffer
 {
     bool FUN_008648e0(unsigned int*);
@@ -695,8 +684,8 @@ struct FUN_008648e0_shell : public BGSLoadGameBuffer
 struct Dummy84eaf0
 {
 };
-unsigned int __fastcall FUN_00853500(void*);
-bool __fastcall FUN_00864940(void*);
+unsigned int FUN_00853500(void*);
+bool FUN_00864940(void*);
 struct FUN_00864820_t
 {
 };
@@ -771,7 +760,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_008649a0_shell : public BGSLoadGameBuffer
 {
     char* FUN_008649a0(char*);
@@ -872,7 +860,6 @@ struct PackedFormID
     unsigned char m_ucIDByte1;
     unsigned char m_ucIDByte2;
 };
-typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
 struct FUN_00853500_shell : public PackedFormID
 {
     unsigned int FUN_00853500();
@@ -1016,7 +1003,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00864a60_shell : public BGSLoadGameBuffer
 {
     int FUN_00864a60();

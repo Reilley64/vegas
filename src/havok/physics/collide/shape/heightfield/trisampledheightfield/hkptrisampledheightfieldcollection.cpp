@@ -26,7 +26,7 @@ int FUN_00d263f0_t::FUN_00d263f0(int a, int aiLimit)
 {
     int iAdjusted = aiLimit - 0x40;
     void* obj = m_obj;
-    int iResult = (*(int(__thiscall**)(void*, int, int))(*(unsigned char**)obj + 0x18))(obj, a, iAdjusted);
+    int iResult = (*(int(**)(void*, int, int))(*(unsigned char**)obj + 0x18))(obj, a, iAdjusted);
     if (iResult >= 0 && iResult <= iAdjusted)
     {
         if (m_obj == m_buf40)
@@ -91,7 +91,7 @@ struct FUN_00d263a0_cls
 
 // Returns the next key in a sequence derived from the given key, or -1 when the sequence is exhausted.
 // @fnv 0x00d263a0
-int __thiscall FUN_00d263a0_cls::GetNextKey(unsigned int key)
+int FUN_00d263a0_cls::GetNextKey(unsigned int key)
 {
     if ((key & 1) == 0)
         return key | 1;
@@ -110,7 +110,7 @@ int __thiscall FUN_00d263a0_cls::GetNextKey(unsigned int key)
 }
 
 // @fnv 0x00d26440
-int __stdcall FUN_00d26440(int arg0)
+int FUN_00d26440(int arg0)
 {
     return 0;
 }

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpHeightFieldShape.h"
-#pragma pack(push, 1)
 class hkpSampledHeightFieldShape : public hkpHeightFieldShape
 {
   public:
@@ -27,6 +26,4 @@ class hkpSampledHeightFieldShape : public hkpHeightFieldShape
     hkVector4 m_kOffset;             // +0x40
     hkVector4 SetCenterPosition;             // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSampledHeightFieldShape[(sizeof(hkpSampledHeightFieldShape) == 0x60) ? 1 : -1];
 #endif

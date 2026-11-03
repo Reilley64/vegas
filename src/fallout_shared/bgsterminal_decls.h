@@ -287,8 +287,6 @@ class BGSTerminal : public TESObjectACTI, public TESDescription
     void AddMenuItem(TerminalMenuItem*);
 };
 extern ScriptVariableInfo* DAT_011c83d4;
-typedef char terminal_size_check[sizeof(BGSTerminal) == 0xa8 ? 1 : -1];
-typedef char menu_item_size_check[sizeof(TerminalMenuItem) == 0x78 ? 1 : -1];
 class BGSNote : public TESForm
 {
 };

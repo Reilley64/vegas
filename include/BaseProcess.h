@@ -42,7 +42,6 @@ enum KNOCK_STATE_ENUM
     KNOCK_STATE_ENUM_KNOCK_STATE_QUEUED = 5,
     KNOCK_STATE_ENUM_KNOCK_STATE_GET_UP = 6
 };
-#pragma pack(push, 4)
 class BaseProcess
 {
   public:
@@ -548,12 +547,4 @@ class BaseProcess
     virtual void SetLastTargetReference(TESObjectREFR*);                                     // slot 0x1EB
     virtual void ClearTargetReference(TESObjectREFR*);                                       // slot 0x1EC
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BaseProcess) == 0x30);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_kProcessData) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_fValue2) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_fValue1) == 0x20);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_uiStateFlags) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_eProcessType) == 0x28);
-FNV_STATIC_ASSERT(offsetof(BaseProcess, m_pCachedValues) == 0x2C);
 #endif

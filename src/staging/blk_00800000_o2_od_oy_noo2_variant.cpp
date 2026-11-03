@@ -498,11 +498,11 @@ struct ImpactObject
     virtual void unknown_0090();
     virtual void unknown_0094();
     virtual ImpactState* unknown_0098();
-    void __thiscall FUN_0043b4f0(ImpactType*);
+    void FUN_0043b4f0(ImpactType*);
 };
 struct ImpactOwner
 {
-    void __thiscall FUN_0081f000(float x, float y, float z, float dx, float dy, float dz, ImpactObject* object);
+    void FUN_0081f000(float x, float y, float z, float dx, float dy, float dz, ImpactObject* object);
 };
 // @fnv 0x0081f000
 void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, float dz, ImpactObject* object)

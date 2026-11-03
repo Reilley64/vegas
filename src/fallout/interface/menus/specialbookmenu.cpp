@@ -715,7 +715,7 @@ FUN_007ca2c0::FUN_007ca2c0(int a, const char* apFirstName, const char* apSecondN
 
 // Candidate for FUN_007cadd0 (FNV decompilation, official checker)
 
-// __thiscall, no stack args (caller pops 0). /Od /Oy- /GS /EHsc.
+// , no stack args (caller pops 0). /Od /Oy- /GS /EHsc.
 
 // Based on an unverified GLM (Z.ai) / zai_glm_01 draft, round 4.
 

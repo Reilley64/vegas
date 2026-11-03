@@ -74,7 +74,7 @@ TESSound* FUN_004fd3a0_shell::FUN_004fd3a0()
 extern int DAT_01029ee0;
 
 // @fnv 0x00510620
-void* __fastcall FUN_00510620(void** pThis)
+void* FUN_00510620(void** pThis)
 {
     *pThis = &DAT_01029ee0;
     return pThis;
@@ -200,7 +200,7 @@ struct TESFullName_ext : TESFullName
 };
 
 // @fnv 0x00511840
-const char* __fastcall FUN_00511840(char* apObject)
+const char* FUN_00511840(char* apObject)
 {
     return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((TESFullName_ext*)(apObject + 0x30))))->FUN_00408da0()));
 }

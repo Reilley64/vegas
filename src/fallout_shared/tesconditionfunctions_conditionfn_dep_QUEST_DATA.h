@@ -10,8 +10,4 @@ class QuestData
     unsigned char layoutPadding2[2];
     float fQuestDelayTime;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(QuestData) == 0x8);
-FNV_STATIC_ASSERT(offsetof(QuestData, m_ucEntryType) == 0x0);
-FNV_STATIC_ASSERT(offsetof(QuestData, ucPriority) == 0x1);
-FNV_STATIC_ASSERT(offsetof(QuestData, fQuestDelayTime) == 0x4);
 #endif

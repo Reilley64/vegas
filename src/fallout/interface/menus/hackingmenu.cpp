@@ -124,11 +124,11 @@ void FUN_006ffe80_shell::FUN_006ffe80(int aiFirst, int aiSecond)
 
 struct HackingMenu
 {
-    int __thiscall FUN_00765870();
+    int FUN_00765870();
 };
 
 // @fnv 0x00765870
-int __thiscall HackingMenu::FUN_00765870()
+int HackingMenu::FUN_00765870()
 {
     return 0x41f;
 }
@@ -245,7 +245,7 @@ public:
 };
 
 // @fnv 0x00747d00
-int __thiscall InterfaceManager::FUN_00747d00()
+int InterfaceManager::FUN_00747d00()
 {
     return (int)(UpdateInterfaceState() / 2.0 + *(float*)((char*)this + 0x2c));
 }
@@ -255,13 +255,13 @@ struct HackingMenu;
 
 struct FUN_0076a510_shell : HackingMenu
 {
-    void __thiscall FUN_0076a510();
-    void __thiscall FUN_0076a540();
+    void FUN_0076a510();
+    void FUN_0076a540();
 };
 
 // Calls FUN_0076a540 when gm_GetTickCount() exceeds the tick value stored at this+0x1d0.
 // @fnv 0x0076a510
-void __thiscall FUN_0076a510_shell::FUN_0076a510()
+void FUN_0076a510_shell::FUN_0076a510()
 {
     if (((unsigned int)(::FUN_00457fe0())) > *(unsigned int*)((char*)this + 0x1d0))
     {
@@ -291,7 +291,7 @@ struct ListX
 };
 struct FUN_00765810 : ListX
 {
-    void __thiscall FreeAll();
+    void FreeAll();
     ~FUN_00765810();
 };
 // @fnv 0x00765810
@@ -302,11 +302,11 @@ FUN_00765810::~FUN_00765810()
 
 struct FUN_0076b560_shell
 {
-    void* __thiscall FUN_00765b50(unsigned int flags);
+    void* FUN_00765b50(unsigned int flags);
 };
 // Calls FUN_0076b560, then frees this with Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00765b50
-void* __thiscall FUN_0076b560_shell::FUN_00765b50(unsigned int flags)
+void* FUN_0076b560_shell::FUN_00765b50(unsigned int flags)
 {
     reinterpret_cast<::FUN_0076b560 *>(this)->FUN_0076b560::~FUN_0076b560();
     if (flags & 1)
@@ -317,11 +317,11 @@ void* __thiscall FUN_0076b560_shell::FUN_00765b50(unsigned int flags)
 void __cdecl UpdateD766AA0Menu();
 struct FUN_00767b80_shell
 {
-    bool __thiscall HandleButton10(int, float);
+    bool HandleButton10(int, float);
 };
 // If aiButton is 10, stores 4 at offset 0x1c4, calls UpdateD766AA0Menu and returns true; otherwise returns false.
 // @fnv 0x00767b80
-bool __thiscall FUN_00767b80_shell::HandleButton10(int aiButton, float afValue)
+bool FUN_00767b80_shell::HandleButton10(int aiButton, float afValue)
 {
     if (aiButton == 10)
     {
@@ -337,17 +337,17 @@ struct T7021b0
 };
 struct C7687d0
 {
-    void __thiscall FUN_007687d0();
+    void FUN_007687d0();
 };
 
 struct FUN_00768920_shell
 {
     void* p;
     void* q;
-    void __thiscall FUN_00768920(void* n);
+    void FUN_00768920(void* n);
 };
 // @fnv 0x00768920
-void __thiscall FUN_00768920_shell::FUN_00768920(void* n)
+void FUN_00768920_shell::FUN_00768920(void* n)
 {
     void* pOldBuffer = p;
     void* pNewBuffer;
@@ -359,11 +359,11 @@ void __thiscall FUN_00768920_shell::FUN_00768920(void* n)
 
 struct FUN_00768a10_shell : HackingMenu
 {
-    unsigned int __thiscall CountMatchingChars(const char* a, const char* b);
+    unsigned int CountMatchingChars(const char* a, const char* b);
 };
 // Returns 0 if either string is null, otherwise counts positions up to the shorter length where the two strings have equal characters.
 // @fnv 0x00768a10
-unsigned int __thiscall FUN_00768a10_shell::CountMatchingChars(const char* pcStringA, const char* pcStringB)
+unsigned int FUN_00768a10_shell::CountMatchingChars(const char* pcStringA, const char* pcStringB)
 {
     if (!pcStringA || !pcStringB)
         return 0;
@@ -379,13 +379,13 @@ unsigned int __thiscall FUN_00768a10_shell::CountMatchingChars(const char* pcStr
 
 struct FUN_007694f0_shell
 {
-    void __thiscall FUN_00726c90();
-    int __thiscall FUN_007694f0();
+    void FUN_00726c90();
+    int FUN_007694f0();
 };
 
 // Calls FUN_00726c90, then zeroes the int fields at offsets 0x30 and 0x2c and returns this.
 // @fnv 0x007694f0
-int __thiscall FUN_007694f0_shell::FUN_007694f0()
+int FUN_007694f0_shell::FUN_007694f0()
 {
     new ((void *)this) ::FUN_00726c90();
     *(int*)((char*)this + 0x30) = 0;
@@ -397,11 +397,11 @@ struct Struct0076ae30
 {
     unsigned char* buf;
     unsigned int cnt;
-    int __thiscall FindByteIndices(int, unsigned char*);
+    int FindByteIndices(int, unsigned char*);
 };
 // Scans buf for bytes equal to v, writes their indices into out, and returns how many were found.
 // @fnv 0x0076ae30
-int __thiscall Struct0076ae30::FindByteIndices(int aiValue, unsigned char* pIndices)
+int Struct0076ae30::FindByteIndices(int aiValue, unsigned char* pIndices)
 {
     unsigned char c = 0;
     for (unsigned int i = 0; i < cnt; i++)
@@ -417,7 +417,7 @@ int __thiscall Struct0076ae30::FindByteIndices(int aiValue, unsigned char* pIndi
 struct Struct0076b090
 {
     int field0;
-    Struct0076b090* __thiscall Construct(int);
+    Struct0076b090* Construct(int);
 };
 struct STR_0076b200
 {
@@ -443,10 +443,10 @@ struct G2
 };
 struct FUN_0076b240_shell
 {
-    void __thiscall FUN_0076b240(const char* s);
+    void FUN_0076b240(const char* s);
 };
 // @fnv 0x0076b240
-void __thiscall FUN_0076b240_shell::FUN_0076b240(const char* apString)
+void FUN_0076b240_shell::FUN_0076b240(const char* apString)
 {
     unsigned int size = ::FUN_0044a670(apString) + 1;
     char* buffer = new char[size];
@@ -458,12 +458,12 @@ namespace fnv_0076b2a0 {
 struct FUN_0076b2a0_shell
 {
     void* m_p;
-    void __thiscall FUN_0063f7b0();
-    void __thiscall FreeAll();
+    void FUN_0063f7b0();
+    void FreeAll();
 };
 // Repeatedly deallocates the object at m_p and calls FUN_0063f7b0 until m_p becomes null.
 // @fnv 0x0076b2a0
-void __thiscall FUN_0076b2a0_shell::FreeAll()
+void FUN_0076b2a0_shell::FreeAll()
 {
     while (m_p)
     {
@@ -476,7 +476,7 @@ void __thiscall FUN_0076b2a0_shell::FreeAll()
 
 struct Tile
 {
-    void __thiscall Set(int, int);
+    void Set(int, int);
 public:
     void SetName(const char *);
 public:
@@ -493,10 +493,10 @@ struct FUN_00768020_holder
     FUN_00759f20_holder _anim;
     char _pad1[0x114 - 0xE0 - 1];
     Tile* _tile;
-    void __thiscall FUN_00768020();
+    void FUN_00768020();
 };
 // @fnv 0x00768020
-void __thiscall FUN_00768020_holder::FUN_00768020()
+void FUN_00768020_holder::FUN_00768020()
 {
     reinterpret_cast<::FUN_00759f20_shell *>(&(_anim))->AssignString((const char *)(0));
     _tile->Set(0x1005, -1);
@@ -509,23 +509,23 @@ struct MyHack
     float f4AC;
     unsigned char _pad1[0x20];
     float f4D0;
-    float __thiscall FUN_007697f0();
+    float FUN_007697f0();
 };
 // Returns f4AC multiplied by 1280.0, divided by the result of FUN_004dc1f0, then multiplied by f4D0.
 // @fnv 0x007697f0
-float __thiscall MyHack::FUN_007697f0()
+float MyHack::FUN_007697f0()
 {
     return (float)(f4AC * 1280.0 / ((int)(::FUN_004dc1f0())) * f4D0);
 }
 
 struct FUN_00768970_shell
 {
-    void __thiscall FormatHexWord(unsigned short v, char* dst);
+    void FormatHexWord(unsigned short v, char* dst);
 };
 
 // Writes "0x" followed by the four hex digits of v (most significant first) into dst and null-terminates it.
 // @fnv 0x00768970
-void __thiscall FUN_00768970_shell::FormatHexWord(unsigned short ausValue, char* pDest)
+void FUN_00768970_shell::FormatHexWord(unsigned short ausValue, char* pDest)
 {
     __memcpy(pDest, "0x", 2);
     for (int i = 0; i < 4; i++)
@@ -556,12 +556,12 @@ struct FUN_00767bb0_shell
     unsigned char _pad[0x28];
     FUN_00767bb0_entry* entries[46];
 
-    TGF* __thiscall FUN_00767bb0(unsigned int a, unsigned int b);
+    TGF* FUN_00767bb0(unsigned int a, unsigned int b);
 };
 
 // Scans 46 entries for one whose value is non-null, passes a check, and whose floats at 0xfac and 0x1004 equal a and b; returns that value or null.
 // @fnv 0x00767bb0
-TGF* __thiscall FUN_00767bb0_shell::FUN_00767bb0(unsigned int a, unsigned int b)
+TGF* FUN_00767bb0_shell::FUN_00767bb0(unsigned int a, unsigned int b)
 {
     for (unsigned int i = 0; i < 46; ++i)
     {
@@ -623,7 +623,7 @@ struct FUN_007021b0_cls
 };
 // Reads a pointer from this, and if it is non-null calls its DestroyOrFree with 3.
 // @fnv 0x007687d0
-void __thiscall C7687d0::FUN_007687d0()
+void C7687d0::FUN_007687d0()
 {
     T7021b0* q;
     {
@@ -633,7 +633,7 @@ void __thiscall C7687d0::FUN_007687d0()
     q ? ((int)(reinterpret_cast<::FUN_007021b0_cls *>((q))->DestroyOrFree(3))) : 0;
 }
 
-extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
+extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
 
 
 // Destroys the object's elements and optionally frees the allocation, returning the object or its base pointer depending on flags.
@@ -732,11 +732,11 @@ struct EntryListNode
 };
 struct FUN_00767ef0_shell
 {
-    void __thiscall AddValueRows(unsigned int count, const unsigned int* values);
+    void AddValueRows(unsigned int count, const unsigned int* values);
 };
 // Adds count to the 0xfac value of each existing row, then creates count new rows with descending 0xfac values and the given values at 0xfc4, appending each.
 // @fnv 0x00767ef0
-void __thiscall FUN_00767ef0_shell::AddValueRows(unsigned int count, const unsigned int* puiValues)
+void FUN_00767ef0_shell::AddValueRows(unsigned int count, const unsigned int* puiValues)
 {
     ValueRow* item;
     {
@@ -1006,7 +1006,7 @@ struct Fade
     int state;
     int flags;
     float amount;
-    void __thiscall FUN_00a0a270(float value, int enabled);
+    void FUN_00a0a270(float value, int enabled);
 };
 struct Resources
 {
@@ -1016,7 +1016,7 @@ struct Widget
 };
 struct HackingMenuDecomp : HackingMenu
 {
-    void __thiscall UpdateFade();
+    void UpdateFade();
 };
 // Toggles the fade at offset 0x1d4 between 0 and 1 on a timer, creating it from resource 0xfa3 when absent, unless menu state 4 with widget 0x1006 is active.
 // @fnv 0x0076a9d0
@@ -1124,7 +1124,7 @@ struct Menu0076ab40
     unsigned int unk118;
     Node* active;
     Node* root;
-    void __thiscall UpdateActiveNodeProperty();
+    void UpdateActiveNodeProperty();
 };
 // @fnv 0x0076ab40
 void Menu0076ab40::UpdateActiveNodeProperty()
@@ -1152,7 +1152,7 @@ void Menu0076ab40::UpdateActiveNodeProperty()
 // BuildHackingGuessTemplate - hacking menu guess template formatting
 struct FUN_00a1ddb0_res
 {
-    int __thiscall FUN_00700300();
+    int FUN_00700300();
 };
 
 struct FUN_00a1ddb0_owner
@@ -1200,7 +1200,7 @@ struct FUN_0076ae90_cls
 {
     unsigned char* buf;
     unsigned int cnt;
-    unsigned int __thiscall FUN_0076ae90();
+    unsigned int FUN_0076ae90();
 };
 // Scans input entries for the smallest value, recursing into sub-entries when it exceeds 2, and returns the combined result plus one.
 // @fnv 0x00769520
@@ -1299,7 +1299,7 @@ struct ElemArray
 };
 // Resets field0 to 0, calls CopyFrom with a, and returns this.
 // @fnv 0x0076b090
-Struct0076b090* __thiscall Struct0076b090::Construct(int aiValue)
+Struct0076b090* Struct0076b090::Construct(int aiValue)
 {
     field0 = 0;
     reinterpret_cast<::ElemArray *>(this)->CopyFrom((::ElemArray *)(aiValue));
@@ -1872,7 +1872,7 @@ struct HackMenuStub
     int unk114;
     int unk118;
     HTile* tile11C;
-    void __thiscall PositionTileFromEntry(HackEntry* entry);
+    void PositionTileFromEntry(HackEntry* entry);
 };
 
 // Computes x/y from the entry's tile string length and float values plus ancestor tiles, then sets them on tile11C.
@@ -2067,30 +2067,30 @@ struct FUN_00680890 : FUN_00765810
 };
 struct StrMemMethods : StrMem
 {
-    void __thiscall FUN_00438390(const char*);
+    void FUN_00438390(const char*);
 };
 struct WordsView : FUN_00765810
 {
-    void __thiscall FUN_00680890();
-    void __thiscall FUN_0076b240(const char*);
-    void __thiscall SortWeatherEntries();
+    void FUN_00680890();
+    void FUN_0076b240(const char*);
+    void SortWeatherEntries();
 };
 struct FileObj
 {
     virtual ~FileObj();
-    virtual void __thiscall unknown04();
-    virtual void __thiscall unknown08();
-    virtual void __thiscall unknown0c();
-    virtual void __thiscall unknown10();
-    virtual void __thiscall unknown14();
-    virtual void __thiscall unknown18();
-    virtual void __thiscall unknown1c();
-    virtual unsigned char __thiscall FUN_20(int, int);
-    virtual void __thiscall unknown24();
-    virtual void __thiscall unknown28();
-    virtual void __thiscall unknown2c();
-    virtual void __thiscall unknown30();
-    virtual int __thiscall FUN_34(char*, int, int);
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void unknown0c();
+    virtual void unknown10();
+    virtual void unknown14();
+    virtual void unknown18();
+    virtual void unknown1c();
+    virtual unsigned char FUN_20(int, int);
+    virtual void unknown24();
+    virtual void unknown28();
+    virtual void unknown2c();
+    virtual void unknown30();
+    virtual int FUN_34(char*, int, int);
 };
 struct EntryRow
 {
@@ -2101,11 +2101,11 @@ struct MatrixWrapper : FUN_007687d0
 };
 struct FUN_00768070_shell : FUN_00768a10_shell
 {
-    void __thiscall SelectWordSet(unsigned int);
+    void SelectWordSet(unsigned int);
 };
 
 // @fnv 0x00768070
-void __thiscall FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
+void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
 {
     unsigned int attacker;
     int ahead;
@@ -3266,8 +3266,8 @@ struct DummyClass
     char unk1D8;
     char unk1D9;
     unsigned char unk1DA;
-    void __thiscall FUN_00769830();
-    void __thiscall FUN_00767c90();
+    void FUN_00769830();
+    void FUN_00767c90();
 };
 
 // Updates tile state based on unk1C4, handling fade, entry positioning, and active node property updates.

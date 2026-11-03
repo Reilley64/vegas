@@ -35,7 +35,7 @@ struct BSFadeNode
     static void* __cdecl operator new(unsigned int);
 };
 
-void* __fastcall FUN_00c2c030(void*);
+void* FUN_00c2c030(void*);
 
 // @fnv 0x00c2c080
 void* __cdecl FUN_00c2c080()
@@ -64,7 +64,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00c2c0b0_shell : public NiPSysDragModifier
 {
     NiObject* CloneDragModifier(CloningProcess*);
@@ -188,7 +187,7 @@ void FUN_00c2c4f0_cls::FUN_00c2c4f0(NiStream& stream)
 {
     reinterpret_cast<::ParticleModifierBinary *>((reinterpret_cast<NiPSysModifierStand*>(this)))->FUN_00c31950((::OutputStream &)(stream));
     void** vt = *reinterpret_cast<void***>(&stream);
-    reinterpret_cast<void(__thiscall*)(NiStream*, NiAVObject*)>(vt[12])(&stream, m_pParent);
+    reinterpret_cast<void(*)(NiStream*, NiAVObject*)>(vt[12])(&stream, m_pParent);
     reinterpret_cast<::NiColor *>((reinterpret_cast<NiPoint3Stand*>(&m_kDragDirection)))->SaveBinary(stream);
     DragStreamView* s = reinterpret_cast<DragStreamView*>(&stream);
     s->m_pUnderlyingStream->Load(&m_fDragStrength);

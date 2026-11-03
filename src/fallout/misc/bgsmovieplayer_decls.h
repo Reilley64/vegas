@@ -28,7 +28,7 @@ class Direct3DDeviceInterface
     virtual void vfn_00();
     virtual void vfn_04();
     virtual void vfn_08();
-    virtual int __stdcall TestCooperativeLevel();
+    virtual int TestCooperativeLevel();
 };
 
 class NiRenderer

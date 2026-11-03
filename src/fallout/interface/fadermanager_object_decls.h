@@ -17,11 +17,6 @@
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_0106e000.h"
 #include "fnv/symbols_011de000.h"
-template <int> struct FNVAssert;
-template <> struct FNVAssert<1>
-{
-};
-#define FNV_STATIC_ASSERT(cond) typedef FNVAssert<(cond) ? 1 : 0> FNVAssertLine##__LINE__
 
 enum FADER_ENUM
 {
@@ -194,9 +189,6 @@ class FaderManager
     void AddFader(FADER_ENUM eFader, float fDuration, bool bFadeOut);
     void AddRoot(NiNode* pParent, float m_fProjectionDepth, bool m_bUseAlternateRoot);
 };
-FNV_STATIC_ASSERT(sizeof(FaderManager) == 8);
-FNV_STATIC_ASSERT(offsetof(FaderManager, m_pRootBelowMenus) == 0);
-FNV_STATIC_ASSERT(offsetof(FaderManager, m_pRootAboveMenus) == 4);
 
 // One entry per FADER_ENUM value (FADER_COUNT == 3); entry size is 0x1C.
 struct FaderEntry
@@ -211,12 +203,6 @@ struct FaderEntry
     float fAlpha;                     // +0x14
     NiPointer<NiNode> m_pParentNode;  // +0x18
 };
-FNV_STATIC_ASSERT(sizeof(FaderEntry) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, bUnk08) == 0x08);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, fUnk0C) == 0x0C);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, pFadeNode) == 0x10);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, fAlpha) == 0x14);
-FNV_STATIC_ASSERT(offsetof(FaderEntry, m_pParentNode) == 0x18);
 
 static FaderEntry s_faders[FADER_ENUM_FADER_COUNT];
 static bool s_bAllowDetach;

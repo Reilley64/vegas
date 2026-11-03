@@ -98,7 +98,7 @@ void __cdecl FUN_00d49530(FUN_00c9ce00_cls* pObject, int aiValue)
 
 
 // @fnv 0x00d4de30
-void __stdcall FUN_00d4de30(int a, int b)
+void FUN_00d4de30(int a, int b)
 {
     ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(a), (::fnv_00d6f2b0::EventRecord **)(b), 0, 8);
 }
@@ -207,16 +207,16 @@ void __cdecl FUN_00d495a0(int* pObject, int b)
 // @fnv 0x00d4b190
 void __cdecl FUN_00d4b190(void* p)
 {
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
 }
 
 struct FUN_00d4b250_class
 {
-    void __thiscall FUN_00d4b250(int);
+    void FUN_00d4b250(int);
 };
 struct FUN_00d4b250_vt
 {
-    virtual void __thiscall FUN_00d4b250(int);
+    virtual void FUN_00d4b250(int);
 };
 // @fnv 0x00d4b250
 void __cdecl FUN_00d4b250(FUN_00d4b250_vt* p)
@@ -284,7 +284,7 @@ void __cdecl FUN_00d49510(FUN_00d49580_vtbl* p)
 
 struct FUN_00d4b1f0_vt
 {
-    virtual void __thiscall FUN_00d4b1f0(int);
+    virtual void FUN_00d4b1f0(int);
 };
 // @fnv 0x00d4b1f0
 void __cdecl FUN_00d4b1f0(FUN_00d4b1f0_vt* p)
@@ -331,7 +331,7 @@ struct FUN_00d4fe40_cls
     bool b0;
     char pad2[0xb2 - 0xa3];
     bool b1;
-    void __thiscall FUN_00d4fe40(void* a, bool b);
+    void FUN_00d4fe40(void* a, bool b);
 };
 // Stores the flag and its inverse, then zeroes four floats at a nested pointer when the argument and its sub-pointers are non-null.
 // @fnv 0x00d4fe40
@@ -359,11 +359,11 @@ void FUN_00d4fe40_cls::FUN_00d4fe40(void* apObject, bool abFlag)
 
 struct FUN_00d532a0_cls
 {
-    void __thiscall ApplyToAllEntries(int arg);
+    void ApplyToAllEntries(int arg);
 };
 
 // @fnv 0x00d532a0
-void __thiscall FUN_00d532a0_cls::ApplyToAllEntries(int aiValue)
+void FUN_00d532a0_cls::ApplyToAllEntries(int aiValue)
 {
     int* p = this ? *(int**)((char*)this + 8) : 0;
     int i = 0;
@@ -378,7 +378,7 @@ void __thiscall FUN_00d532a0_cls::ApplyToAllEntries(int aiValue)
                 v = *(int**)((char*)obj + 0xc);
             else
                 v = 0;
-            void(__thiscall * pfnMethod)(void*, int) = *(void(__thiscall**)(void*, int))(*(int*)v + 0x54);
+            void(* pfnMethod)(void*, int) = *(void(**)(void*, int))(*(int*)v + 0x54);
             pfnMethod(v, aiValue);
             ++i;
         } while (i < p[0xf]);
@@ -759,12 +759,12 @@ struct S_00d48300_Foo
     S_00d48300_Callee unk00;
     S_00d48300_Callee unk04;
 
-    S_00d48300_Foo* __thiscall FUN_00d48300(volatile int);
+    S_00d48300_Foo* FUN_00d48300(volatile int);
 };
 
 // Calls FUN_00cb0a70 with a on both unk00 and unk04, then returns this.
 // @fnv 0x00d48300
-S_00d48300_Foo* __thiscall S_00d48300_Foo::FUN_00d48300(volatile int a)
+S_00d48300_Foo* S_00d48300_Foo::FUN_00d48300(volatile int a)
 {
     reinterpret_cast<::FUN_00cb0a70_Class *>(&(unk00))->FUN_00cb0a70(a);
     reinterpret_cast<::FUN_00cb0a70_Class *>(&(unk04))->FUN_00cb0a70(a);
@@ -1028,7 +1028,7 @@ int __cdecl FUN_00d4b220()
 // argument on to the object's own handler.
 struct FUN_00d4a180_cls
 {
-    void __thiscall FUN_00d4a180(int a);
+    void FUN_00d4a180(int a);
 };
 
 // @fnv 0x00d4b230
@@ -1206,7 +1206,7 @@ int* FUN_00d4be80()
 
 struct FUN_00d4ba30_class
 {
-    void __thiscall FUN_00d4ba30(int);
+    void FUN_00d4ba30(int);
 };
 
 // @fnv 0x00d4be90
@@ -2011,7 +2011,7 @@ struct FUN_00d51b30_cls
 {
     int unk00;
     FUN_00d51b30_obj* m_pEntryObject;
-    void __thiscall AppendTwoIntsAndAdvance(int v);
+    void AppendTwoIntsAndAdvance(int v);
 };
 
 // @fnv 0x00d51b30
@@ -2452,7 +2452,7 @@ struct S_00d532f0_Class
     int unk04;
     S_00d532f0_Data* unk08;
 
-    bool __thiscall CompareData(S_00d532f0_Class* p);
+    bool CompareData(S_00d532f0_Class* p);
 };
 
 // Calls IsEqualWithValues, then compares the unk3c counts and each of the unk38 entries of this's and p's unk08 data, returning whether all match.
@@ -3474,13 +3474,13 @@ int hkBlockD46E::SumLinkedValues() const
 }
 
 // @fnv 0x00d46e00
-int __stdcall FUN_00d46e00(int arg0)
+int FUN_00d46e00(int arg0)
 {
     return 0;
 }
 
 // @fnv 0x00d46e10
-int __stdcall FUN_00d46e10(int arg0)
+int FUN_00d46e10(int arg0)
 {
     return 0;
 }
@@ -3491,7 +3491,7 @@ struct FUN_00d46e20_cls
     void* unk04;
     void* unk08;
     int unk0C;
-    int __thiscall FUN_00d46e20();
+    int FUN_00d46e20();
 };
 
 // @fnv 0x00d46e20
@@ -3539,7 +3539,7 @@ class hkEntryListD46E
 };
 
 // @fnv 0x00d46ee0
-int* __fastcall GetEntryAt(char* self, int edx, int index)
+int* GetEntryAt(char* self, int edx, int index)
 {
     int* base = (int*)(*(int*)(self + 0x10));
     return &base[index * 5];
@@ -3641,7 +3641,7 @@ void __cdecl FUN_00d47fa0(void* obj)
 
 struct FUN_00d47fe0_cls
 {
-    void __thiscall Destroy(int value);
+    void Destroy(int value);
 };
 
 // @fnv 0x00d47fd0
@@ -3718,14 +3718,14 @@ void __cdecl FUN_00d50000(int* param_1, int param_2)
 
 struct FUN_00c89920_cls
 {
-    void __thiscall InvokeRefTarget(int);
+    void InvokeRefTarget(int);
 };
 struct FUN_00d53290_cls
 {
-    void __thiscall FUN_00d53290(int a);
+    void FUN_00d53290(int a);
 };
 // @fnv 0x00d53290
-void __thiscall FUN_00d53290_cls::FUN_00d53290(int a)
+void FUN_00d53290_cls::FUN_00d53290(int a)
 {
     ((FUN_00c89920_cls*)this)->InvokeRefTarget(a);
 }
@@ -3930,17 +3930,17 @@ struct FUN_00d54dc0_cls
     int unk10;
     float unk14;
 
-    void __thiscall FUN_00d54dc0(float value);
+    void FUN_00d54dc0(float value);
 };
 
 // @fnv 0x00d54dc0
-void __thiscall FUN_00d54dc0_cls::FUN_00d54dc0(float value)
+void FUN_00d54dc0_cls::FUN_00d54dc0(float value)
 {
     unk14 = value;
 }
 
 // @fnv 0x00d54dd0
-float __fastcall FUN_00d54dd0(char* self, int)
+float FUN_00d54dd0(char* self, int)
 {
     return *(float*)(self + 0x14);
 }
@@ -3978,7 +3978,7 @@ void FUN_00d57150()
 {}
 
 // @fnv 0x00d584f0
-int __stdcall FUN_00d584f0(int iUnused0, int iUnused1)
+int FUN_00d584f0(int iUnused0, int iUnused1)
 {
     return 0x60;
 }
@@ -3995,13 +3995,13 @@ struct FUN_00d58ce0_Class
     int unk00;
     unsigned short unk04;
 
-    int __thiscall FUN_00d58ce0(unsigned char flag);
+    int FUN_00d58ce0(unsigned char flag);
 };
 
 extern "C" void __cdecl FUN_00da2560();
 
 // @fnv 0x00d58ce0
-int __thiscall FUN_00d58ce0_Class::FUN_00d58ce0(unsigned char flag)
+int FUN_00d58ce0_Class::FUN_00d58ce0(unsigned char flag)
 {
     FUN_00da2560();
 
@@ -4020,11 +4020,11 @@ struct FUN_00d5d660_cls
 {
     int m_i00;
     int m_i04;
-    void __thiscall NextFloat4(float* pOut);
+    void NextFloat4(float* pOut);
 };
 // Advances the linear congruential state four times and writes each new state, scaled to [0,1), into pOut[0..3].
 // @fnv 0x00d5d660
-void __thiscall FUN_00d5d660_cls::NextFloat4(float* pOut)
+void FUN_00d5d660_cls::NextFloat4(float* pOut)
 {
     m_i04 = (int)((long long)m_i04 * 0x19660dLL + 0x3c6ef35fLL);
     *pOut = (float)(unsigned int)m_i04 * 2.3283064365386963e-10;
@@ -4141,7 +4141,7 @@ struct FUN_00d5e0c0_Obj
     int unk3c;
     unsigned char unk40;
 
-    unsigned char __thiscall FUN_00d5e0c0();
+    unsigned char FUN_00d5e0c0();
 };
 
 // @fnv 0x00d5e0c0
@@ -4156,11 +4156,11 @@ struct FUN_00d5f740_cls
     int m_24;
     char pad2[0xc0 - 0x28];
     int m_c0;
-    void __thiscall SetValue(int a);
+    void SetValue(int a);
 };
 
 // @fnv 0x00d5f740
-void __thiscall FUN_00d5f740_cls::SetValue(int aiValue)
+void FUN_00d5f740_cls::SetValue(int aiValue)
 {
     m_24 = aiValue;
     m_c0 = aiValue;
@@ -4282,7 +4282,7 @@ struct Hk48fc0_Bool
 struct Hk48fc0_String
 {
     char* m_pText;
-    void __thiscall FUN_00cb0a60();
+    void FUN_00cb0a60();
 };
 
 struct Hk48fc0_Magic
@@ -4308,7 +4308,7 @@ struct Hk48fc0_Stream
     virtual void v00();
     virtual void v04();
     virtual void v08();
-    virtual Hk48fc0_Bool __thiscall IsStreamValid();
+    virtual Hk48fc0_Bool IsStreamValid();
 };
 
 struct Hk48fc0_Factory
@@ -4316,8 +4316,8 @@ struct Hk48fc0_Factory
     virtual void v00();
     virtual void v04();
     virtual void v08();
-    virtual void* __thiscall getLoader();
-    virtual void* __thiscall getAllocator();
+    virtual void* getLoader();
+    virtual void* getAllocator();
 };
 
 struct Hk48fc0_Loader
@@ -4328,13 +4328,13 @@ struct Hk48fc0_Loader
     virtual void v0c();
     virtual void v10();
     virtual void v14();
-    virtual void* __thiscall load(void* pStream, Hk48fc0_Format* pFormat, void* pError);
+    virtual void* load(void* pStream, Hk48fc0_Format* pFormat, void* pError);
 };
 
 struct Hk48fc0_Contents
 {
     void* m_pData;
-    void __thiscall FUN_00dba0d0(void* pArg1, void* pArg2);
+    void FUN_00dba0d0(void* pArg1, void* pArg2);
 };
 
 struct Hk48fc0_Data
@@ -4342,7 +4342,7 @@ struct Hk48fc0_Data
     void* m_pVtbl;
     void* m_pData;
     int m_nRef;
-    void __thiscall FUN_00dc8030();
+    void FUN_00dc8030();
 };
 
 int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
@@ -4901,11 +4901,11 @@ struct FUN_00d54ed0_Obj
 };
 struct FNVMemoryManager
 {
-    void __thiscall FUN_00d54ed0(FUN_00d54ed0_Obj*);
+    void FUN_00d54ed0(FUN_00d54ed0_Obj*);
 };
 // Calls FUN_00c851c0 on object, then appends a string from FUN_00a7d330(DAT_01268f90) via FUN_0096ae90, growing with FUN_0096ad30 first when full.
 // @fnv 0x00d54ed0
-void __thiscall FNVMemoryManager::FUN_00d54ed0(FUN_00d54ed0_Obj* object)
+void FNVMemoryManager::FUN_00d54ed0(FUN_00d54ed0_Obj* object)
 {
     MemoryContextScope scope;
     reinterpret_cast<::ShapeViewerFields *>((this))->FUN_00c851c0((::BCA05B0StringArray *)(object));
@@ -4992,7 +4992,7 @@ struct S_00d49660_Foo
     float unk6c;
     unsigned char unk70;
 
-    S_00d49660_Foo* __thiscall FUN_00d49660(int, int, float);
+    S_00d49660_Foo* FUN_00d49660(int, int, float);
 };
 
 extern int DAT_010cfb34;
@@ -5000,7 +5000,7 @@ int __cdecl FUN_00ec62c0();
 
 // Calls FUN_00d248a0(a, 0), sets unk00 to the address of DAT_010cfb34, stores b in unk60 and c in unk6c, derives unk68 from unk14, and returns this.
 // @fnv 0x00d49660
-S_00d49660_Foo* __thiscall S_00d49660_Foo::FUN_00d49660(int a, int b, float c)
+S_00d49660_Foo* S_00d49660_Foo::FUN_00d49660(int a, int b, float c)
 {
     reinterpret_cast<::HeightField *>(this)->FUN_00d248a0((*(const ::hkSampledHeightFieldShapeCinfo *)(a)), (::HeightFieldType)(0));
     unk00 = reinterpret_cast<int>(&DAT_010cfb34);
@@ -5119,7 +5119,7 @@ struct D502D0_Owner
 {
     unsigned int m_unk00, m_unk04, m_flag08;
     D502D0_RefData* m_pData;
-    D502D0_RefData* __thiscall EnsureReference(bool* created);
+    D502D0_RefData* EnsureReference(bool* created);
 };
 // Sets *created to true when m_pData is null, then creates a new D502D0_RefData via D502D0_CreateReference and copies from source if m_flag08 is set.
 // @fnv 0x00d502d0

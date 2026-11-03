@@ -1226,7 +1226,7 @@ struct FilterData
     }
     static void operator delete[](void*);
 };
-extern void __stdcall FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
+extern void FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
                                    void(__cdecl* constructor)(void*));
 extern void __cdecl FUN_004a7800(void* value);
 extern void* __cdecl FUN_00ec44d0(void* target, const void* source, unsigned int bytes);

@@ -193,7 +193,7 @@ void PlayerQuestData::InitItem(TESForm* form, QuestStage* stage)
     }
 }
 
-void __fastcall ResetFlags(void* pThis);
+void ResetFlags(void* pThis);
 
 class RecursiveSpinLock
 {
@@ -202,7 +202,7 @@ class RecursiveSpinLock
 };
 
 // @fnv 0x0060f210
-void* __fastcall FUN_0060f210(char* pThis)
+void* FUN_0060f210(char* pThis)
 {
     ResetFlags(pThis);
     new ((void *)(((RecursiveSpinLock*)(pThis + 4)))) ::fnv_00722f60::SL();

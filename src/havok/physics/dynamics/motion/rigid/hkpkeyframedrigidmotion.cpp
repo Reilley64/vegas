@@ -40,47 +40,47 @@ void FUN_00d1dff0::setMotion()
 }
 
 // @fnv 0x00d1dec0
-void __stdcall FUN_00d1dec0(int)
+void FUN_00d1dec0(int)
 {}
 
 // @fnv 0x00d1ded0
-void __stdcall FUN_00d1ded0(int)
+void FUN_00d1ded0(int)
 {}
 
 // @fnv 0x00d1dee0
-void __stdcall FUN_00d1dee0(int)
+void FUN_00d1dee0(int)
 {}
 
 // @fnv 0x00d1def0
-void __stdcall FUN_00d1def0(int)
+void FUN_00d1def0(int)
 {}
 
 // @fnv 0x00d1df00
-void __stdcall FUN_00d1df00(int)
+void FUN_00d1df00(int)
 {}
 
 // @fnv 0x00d1df10
-void __stdcall FUN_00d1df10(int, int)
+void FUN_00d1df10(int, int)
 {}
 
 // @fnv 0x00d1df20
-void __stdcall FUN_00d1df20(int)
+void FUN_00d1df20(int)
 {}
 
 // @fnv 0x00d1df30
-void __stdcall FUN_00d1df30(int, int)
+void FUN_00d1df30(int, int)
 {}
 
 // @fnv 0x00d1df40
-void __stdcall FUN_00d1df40(int a, int b, int c)
+void FUN_00d1df40(int a, int b, int c)
 {}
 
 // @fnv 0x00d1df50
-void __stdcall FUN_00d1df50(int, int)
+void FUN_00d1df50(int, int)
 {}
 
 // @fnv 0x00d1df60
-void __stdcall FUN_00d1df60(int, int)
+void FUN_00d1df60(int, int)
 {}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -182,7 +182,7 @@ struct FUN_00d1e030_t
     float fC, fD, fE, fF;
 };
 // @fnv 0x00d1e030
-void __stdcall FUN_00d1e030(FUN_00d1e030_t* p)
+void FUN_00d1e030(FUN_00d1e030_t* p)
 {
     __m128 z = _mm_setzero_ps();
     *(__m128*)&p->f0 = z;
@@ -191,7 +191,7 @@ void __stdcall FUN_00d1e030(FUN_00d1e030_t* p)
 }
 
 // @fnv 0x00d1e050
-void __stdcall ZeroFloatArray(float* apFloats)
+void ZeroFloatArray(float* apFloats)
 {
     __m128 z = _mm_setzero_ps();
     *reinterpret_cast<__m128*>(apFloats) = z;
@@ -200,7 +200,7 @@ void __stdcall ZeroFloatArray(float* apFloats)
 }
 
 // @fnv 0x00d1e070
-void __stdcall ZeroFloats(float* apFloats)
+void ZeroFloats(float* apFloats)
 {
     __m128 z = _mm_setzero_ps();
     *(reinterpret_cast<__m128*>(apFloats)) = z;
@@ -264,7 +264,7 @@ void Veh_00d1e090::ComputeVelocityAlongDirection(hkVector4* position, hkVector4*
 extern "C" void _mm_store_ps(float*, __m128);
 
 // @fnv 0x00d1e010
-void __stdcall FUN_00d1e010(hkVector4* inertia)
+void FUN_00d1e010(hkVector4* inertia)
 {
     __m128 zero = _mm_setzero_ps();
     _mm_store_ps(reinterpret_cast<float*>(inertia), zero);

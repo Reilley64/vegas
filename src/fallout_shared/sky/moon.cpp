@@ -110,7 +110,7 @@ struct Calendar
     unsigned int GetGameDaysPassed(void);
 };
 extern unsigned int DAT_011cca80;
-unsigned int __fastcall FUN_00636980(void*);
+unsigned int FUN_00636980(void*);
 
 // @fnv 0x006368f0
 bool __cdecl FUN_006368f0(const Sky* apSky)

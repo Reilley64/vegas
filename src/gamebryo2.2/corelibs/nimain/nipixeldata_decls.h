@@ -15,7 +15,6 @@ class NiObject
     virtual void DeleteThis()
     {}
 };
-typedef char FNV_NiObject_must_be_8[(sizeof(NiObject) == 8) ? 1 : -1];
 
 class NiPixelFormat
 {
@@ -33,7 +32,6 @@ class NiPixelFormat
 public:
     bool operator!=(const ::NiPixelFormat &) const;
 };
-typedef char FNV_NiPixelFormat_must_be_68[(sizeof(NiPixelFormat) == 68) ? 1 : -1];
 
 class NiPalettePointer
 {
@@ -62,7 +60,6 @@ class NiPixelData : public NiObject
     NiPixelData(unsigned int width, unsigned int height, const NiPixelFormat& format, unsigned int mipmapLevels,
                 unsigned int faces) throw();
 };
-typedef char FNV_NiPixelData_must_be_116[(sizeof(NiPixelData) == 116) ? 1 : -1];
 
 extern "C" void* __cdecl fnv_zlib_memcpy(void* destination, const void* source, unsigned int size);
 

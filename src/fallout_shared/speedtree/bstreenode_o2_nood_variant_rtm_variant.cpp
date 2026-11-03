@@ -57,12 +57,12 @@
 #include "fnv/symbols_01272000.h"
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int FUN_00622430();
 };
 struct NiRTTI;
 struct FUN_0066b5b0_shell
 {
-    const NiRTTI* __thiscall GetNiRTTI();
+    const NiRTTI* GetNiRTTI();
 };
 struct NiAVObject;
 class NiUpdateData;
@@ -75,12 +75,12 @@ public:
 };
 struct BSTreeNode : NiNode
 {
-    NiAVObject* __thiscall GetFirstChild();
+    NiAVObject* GetFirstChild();
 };
 struct NiCullingProcess;
 struct DummyNode
 {
-    void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
+    void FUN_0066bf50(NiCullingProcess* arCuller);
 };
 struct FUN_00c6c290_holder
 {
@@ -122,7 +122,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int FUN_0066d730() const;
 };
 struct FUN_0066da50_t
 {
@@ -140,7 +140,7 @@ struct Flt
 struct NiTriBasedGeom;
 struct FUN_0066b620_shell
 {
-    NiTriBasedGeom* __thiscall GetTriBasedGeom();
+    NiTriBasedGeom* GetTriBasedGeom();
 };
 struct FUN_0066d400_shell
 {
@@ -153,18 +153,18 @@ public:
 };
 struct BSTreeNodeVisibility : BSTreeNode
 {
-    bool __thiscall FUN_0066bc40(bool);
+    bool FUN_0066bc40(bool);
 };
 struct FUN_0066d3d0_shell
 {
 };
 struct FUN_0066d3a0_shell
 {
-    void* __thiscall FUN_0066d3a0(void*);
+    void* FUN_0066d3a0(void*);
 };
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void FUN_0056e120();
 };
 struct FUN_0066d550_shell
 {
@@ -175,11 +175,11 @@ struct FUN_00c8bed0_holder
 };
 struct bhkTransformShape
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 struct FUN_0066d740_owner
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 struct FUN_0056e900_shell
 {
@@ -189,7 +189,7 @@ struct FUN_006299a0_shell
 };
 struct FUN_0066d770_shell
 {
-    void* __thiscall FUN_0066d770();
+    void* FUN_0066d770();
 };
 struct NiObject
 {
@@ -300,12 +300,12 @@ struct FUN_0066bf80_vftable
     void* slot138;
     void* slot13C;
     void* slot140;
-    void(__thiscall* process)(void*, float);
+    void(* process)(void*, float);
 };
 struct FUN_0066bf80_owner
 {
     FUN_0066bf80_vftable* vtable;
-    void __thiscall FUN_0066bf80(struct FUN_0066bf80_data*, unsigned int);
+    void FUN_0066bf80(struct FUN_0066bf80_data*, unsigned int);
 };
 struct FUN_0066bf80_data
 {
@@ -1050,7 +1050,7 @@ struct MyObj
 {
     unsigned char unk00[8];
     Inner* m8;
-    void __thiscall FUN_00c8c410(void*);
+    void FUN_00c8c410(void*);
 };
 struct Alloc
 {

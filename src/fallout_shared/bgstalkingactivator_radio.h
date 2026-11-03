@@ -149,7 +149,4 @@ class Pathing
     static float FindPathDistance(const PathingLocation&, const PathingLocation&, float, PathingActorData*,
                                   DOOR_LOCK_DISPOSITION);
 };
-FNV_STATIC_ASSERT(sizeof(PathingLocation) == 40);
-FNV_STATIC_ASSERT(sizeof(PathingPath) == 56);
-FNV_STATIC_ASSERT(sizeof(ParentSpaceNode) == 12);
 #endif

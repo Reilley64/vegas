@@ -30,7 +30,7 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00ca86c0_class
 {
-    unsigned int __thiscall FUN_00ca86c0();
+    unsigned int FUN_00ca86c0();
 };
 struct FUN_00ca88c0_Class
 {
@@ -38,7 +38,7 @@ struct FUN_00ca88c0_Class
 };
 struct FUN_00ca80c0_Class
 {
-    int __fastcall FUN_00ca80c0();
+    int FUN_00ca80c0();
 };
 struct FUN_00ca8900_Class
 {
@@ -132,7 +132,7 @@ inline float lowerPairReversed(float left, float right)
 {
     return left > right ? right : left;
 }
-void __fastcall ComputeScaledMinimum(const Vector3* values, Output* result);
+void ComputeScaledMinimum(const Vector3* values, Output* result);
 struct __declspec(align(16)) Vec4
 {
     float x;
@@ -368,7 +368,7 @@ struct AudioInterfaceVTable
     void* slot24;
     void* slot28;
     void* slot2C;
-    void(__thiscall* dispatch)(AudioInterface*, int);
+    void(* dispatch)(AudioInterface*, int);
 };
 struct AudioInterface
 {
@@ -461,7 +461,7 @@ struct CA8830Object
     void FUN_00ca8830(int value);
 };
 struct SubObject;
-typedef void(__thiscall* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
+typedef void(* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
 struct SubObjectVtbl
 {
     void* fn00;

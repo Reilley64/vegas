@@ -63,7 +63,7 @@ struct MessageProcessor
     void* unk00;
     void* unk04;
     MessageSink sink;
-    void __thiscall ProcessInputData(InputProvider* source);
+    void ProcessInputData(InputProvider* source);
 };
 // Reads a byte buffer from source and, for each byte, fetches a MessageContext and passes its active pointer with the byte to sink.FUN_00cb1870.
 // @fnv 0x00dd9600

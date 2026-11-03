@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadfile.cpp: BGSSaveLoadFileEntry, SaveLoadFile, BGSSaveLoadManager (23 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -168,7 +169,7 @@ struct VDestruct008462c0
 
 // Deletes the VDestruct008462c0 object stored at offset 0x104 of pThis.
 // @fnv 0x008462c0
-void __fastcall FUN_008462c0(char* pThis)
+void FUN_008462c0(char* pThis)
 {
     delete *reinterpret_cast<VDestruct008462c0**>(pThis + 0x104);
 }
@@ -194,7 +195,7 @@ struct UnknownOwner008463c0
 };
 
 // @fnv 0x008463c0
-bool __fastcall FUN_008463c0(UnknownOwner008463c0* _this)
+bool FUN_008463c0(UnknownOwner008463c0* _this)
 {
     if (((bool)(reinterpret_cast<::FUN_00424940_shell *>((::DAT_011de134))->FUN_00424940())))
         return true;
@@ -231,7 +232,7 @@ struct FUN_008464f0_arg
 };
 
 // @fnv 0x008464f0
-void __fastcall FUN_008464f0(char* pThis, FUN_008464f0_arg aStringArg)
+void FUN_008464f0(char* pThis, FUN_008464f0_arg aStringArg)
 {
     TaskQueueInterface::CopyStringToBuffer(pThis, 0x104, aStringArg.str);
 }
@@ -245,7 +246,7 @@ SaveLoadFile* __cdecl FUN_00846520(const char* apName, bool abFlag, unsigned int
 
 // Deletes the objects stored at indices 0, 6, 5, 3 and 4 of the array pointed to by pThis.
 // @fnv 0x00846690
-void __fastcall FUN_00846690(void** pThis)
+void FUN_00846690(void** pThis)
 {
     delete pThis[0];
     delete pThis[6];
@@ -290,15 +291,13 @@ struct _WIN32_FIND_DATAA_
     char cAlternateFileName[14];
 };
 
-__declspec(dllimport) void* __stdcall FindFirstFileA(const char*, _WIN32_FIND_DATAA_*);
-__declspec(dllimport) int __stdcall FindClose(void*);
 
 struct BGSSaveLoadManager_ext : public BGSSaveLoadManager
 {
 };
 
 // @fnv 0x00846a20
-void __fastcall UpdateFileWriteTime(char* pThis)
+void UpdateFileWriteTime(char* pThis)
 {
     if (*(unsigned int*)(pThis + 0x30) == 0 && *(unsigned int*)(pThis + 0x2c) == 0)
     {
@@ -321,7 +320,7 @@ struct BGSSaveLoadManager_ext : public BGSSaveLoadManager
 };
 
 // @fnv 0x00846ad0
-bool __fastcall FUN_00846ad0(const char** pThis)
+bool FUN_00846ad0(const char** pThis)
 {
     return reinterpret_cast<::BGSSaveLoadManager *>((((BGSSaveLoadManager_ext*)::DAT_011de134)))->IsQuickSaveFileName(*pThis);
 }
@@ -333,7 +332,7 @@ struct BGSSaveLoadManager_ext : public BGSSaveLoadManager
 };
 
 // @fnv 0x00846af0
-bool __fastcall IsLegacyAutosaveFileName(const char** apFileName)
+bool IsLegacyAutosaveFileName(const char** apFileName)
 {
     return reinterpret_cast<::BGSSaveLoadManager *>((((BGSSaveLoadManager_ext*)::DAT_011de134)))->IsSaveFileNameLegacyAutosave(*apFileName);
 }
@@ -477,7 +476,6 @@ struct GlobalObject_0045cfe0
 int __cdecl strcat_s(char*, unsigned int, const char*);
 int __cdecl FUN_00ecbf05(const char*, int);
 int __cdecl FUN_00ec862c(const char*, const char*);
-__declspec(dllimport) int __stdcall DeleteFileA(const char*);
 struct MgrShell
 {
 };

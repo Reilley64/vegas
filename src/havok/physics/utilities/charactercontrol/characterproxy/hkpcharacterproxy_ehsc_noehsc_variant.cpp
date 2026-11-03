@@ -29,7 +29,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 struct FUN_00cad480_Class {
-    void __thiscall FUN_00cad480(void* arg);
+    void FUN_00cad480(void* arg);
 };
 struct S_00cad440;
 struct S_00cad440_Listener {
@@ -126,14 +126,14 @@ struct FUN_00cad6f0_class
     int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
     void** items;
     volatile int itemCount;
-    void __thiscall RemoveItem(void* item);
+    void RemoveItem(void* item);
 };
 struct FUN_00cade20_Class
 {
 };
 struct FUN_00cafbd0_Class
 {
-    void __thiscall FUN_00cafbd0(int first, int second, int third, int fourth);
+    void FUN_00cafbd0(int first, int second, int third, int fourth);
 };
 struct FNVAllocator {
     virtual void Release();

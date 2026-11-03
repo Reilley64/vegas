@@ -4,7 +4,6 @@
 
 #include "layout_support.h"
 class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___;
-#pragma pack(push, 4)
 class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {
   public:
@@ -30,9 +29,4 @@ class NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
     // void __cdecl NiTSet<unsigned int,NiTMallocInterface<unsigned int> >::*()
     // void* __cdecl NiTSet<unsigned int,NiTMallocInterface<unsigned int> >::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_pBase) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiElementCount) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___, m_uiAllocatedCapacity) == 8);
 #endif

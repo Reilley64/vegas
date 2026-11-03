@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a8ad80
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/NiStream.h"
 #include "fnv/symbols_00a65000.h"
@@ -11,12 +12,11 @@
 #include "fnv/symbols_0109f000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
-char __stdcall IsNifExtension(const char* pcFileExtension)
+char IsNifExtension(const char* pcFileExtension)
 {
     return ::NiStricmp(pcFileExtension, ".nif") == 0;
 }
 
-__declspec(dllimport) void __stdcall InitializeCriticalSection(void* pkSection);
 
 struct A8AE50CriticalSection
 {
@@ -185,12 +185,12 @@ struct A8Class
     int unkFC;
     A8NiStream unk100;
 
-    void __thiscall FUN_00a8ada0();
+    void FUN_00a8ada0();
 };
 
 // Sets unk00 to DAT_0109f3e4, calls unk100.FUN_00a65300, sets unk00 to DAT_0109f3d0, and deletes the critical section at unk80.
 // @fnv 0x00a8ada0
-void __thiscall A8Class::FUN_00a8ada0()
+void A8Class::FUN_00a8ada0()
 {
     unk00 = DAT_0109f3e4;
     ::FUN_00a65300((::FUN_00a65300_holder *)&(unk100));

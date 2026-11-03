@@ -1,4 +1,5 @@
 // staging/blk_00d80000_o2.cpp: IdxStand_, ObjD9A4, MonitorBuffer (124 functions)
+#include <windows.h>
 #include <stdlib.h>
 
 // src/staging/blk_00d80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -451,9 +452,9 @@ namespace fnv_00d854e0 {
 //
 // Reconstructed behavior:
 //   A* a          = FUN_00c85750();              // cdecl, no args
-//   C* obj        = a->unk10->Create(0x140);     // virtual slot +4, __thiscall
+//   C* obj        = a->unk10->Create(0x140);     // virtual slot +4,
 //   obj->unk04    = 0x140;                       // u16 field at +4
-//   D* result     = obj->FUN_00cdf2f0();         // __thiscall, no stack args
+//   D* result     = obj->FUN_00cdf2f0();         // , no stack args
 //   FUN_00cb1260(&result->unk10, &src->unk10, 0x130);  // cdecl, 3 args
 //   return result;
 
@@ -477,7 +478,7 @@ struct A_Stub {
 struct C_Stub {
     int unk00;
     unsigned short unk04;
-       // game function at 0x00cdf2f0 (__thiscall member)
+       // game function at 0x00cdf2f0 (member)
 };
 
 struct D_Stub {
@@ -717,7 +718,7 @@ struct FUN_00d855c0_Data {
 };
 
 extern "C" FUN_00d855c0_Manager* FUN_00c85750();
-extern "C" void* __fastcall FUN_00d84bd0(void* object);
+extern "C" void* FUN_00d84bd0(void* object);
 extern "C" void* FUN_00cb1260(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00d855c0
@@ -1527,7 +1528,7 @@ struct FUN_00d873b0_Obj {
 struct FUN_00d873f0_Holder {
     int unk00;
     FUN_00d86910_Obj* unk04;
-    FUN_00d873b0_Obj* __thiscall FUN_00d873f0(FUN_00d873b0_Obj* a);
+    FUN_00d873b0_Obj* FUN_00d873f0(FUN_00d873b0_Obj* a);
 };
 
 // Calls unk04's method to get a value, passes unk00 and that value to a's method, and returns a.
@@ -1572,7 +1573,7 @@ FUN_00d87910_cls* FUN_00d87910_cls::FUN_00d87910()
     return this;
 }
 
-extern "C" unsigned int (__stdcall *DAT_00fdf1d0)();
+extern "C" unsigned int (*DAT_00fdf1d0)();
 
 // @fnv 0x00d87a40
 unsigned __int64 __cdecl FUN_00d87a40()
@@ -1906,7 +1907,6 @@ FUN_00d93310_cls* FUN_00d93310_cls::FUN_00d93310()
 extern "C" {
     unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int dwTlsIndex);
     extern unsigned int DAT_0126835c;
     void __cdecl FUN_00d89f80(void* p, int a2, int a3, int a4, bool* pb);
 }
@@ -2125,11 +2125,11 @@ struct FUN_00d9a4a0_Obj {
     int unk0C;
     FUN_00d9a4a0_Float* unk10;
 
-    void __thiscall InvokeCallback(int a1);
+    void InvokeCallback(int a1);
 };
 
 // @fnv 0x00d9a4a0
-float __fastcall FUN_00d9a4a0(
+float FUN_00d9a4a0(
     FUN_00d9a4a0_Obj* self,
     int unused,
     FUN_00d9a4a0_Param* param) {
@@ -2150,11 +2150,11 @@ void* IdxStand_::FUN_00d9a4c0(int idx)
 struct FUN_00d9a4d0_Class {
     int unk00;
 
-    int __thiscall GetEntryOffset(unsigned short value);
+    int GetEntryOffset(unsigned short value);
 };
 
 // @fnv 0x00d9a4d0
-int __thiscall FUN_00d9a4d0_Class::GetEntryOffset(unsigned short value) {
+int FUN_00d9a4d0_Class::GetEntryOffset(unsigned short value) {
     return unk00 + value * 0x14;
 }
 
@@ -2177,35 +2177,35 @@ void FUN_00d9fb30_Stub::FUN_00d9fb30()
 }
 
 // @fnv 0x00d9fb40
-void __stdcall FUN_00d9fb40(unsigned char* output, int unused1)
+void FUN_00d9fb40(unsigned char* output, int unused1)
 {
     *output = 1;
 }
 
 // @fnv 0x00d9fca0
-void __stdcall FUN_00d9fca0(int) {
+void FUN_00d9fca0(int) {
 }
 
 // @fnv 0x00d9fcb0
-void __stdcall FUN_00d9fcb0(int, int, int) {
+void FUN_00d9fcb0(int, int, int) {
 }
 
 // @fnv 0x00d9fcc0
-void __stdcall FUN_00d9fcc0(int) {
+void FUN_00d9fcc0(int) {
 }
 
 // @fnv 0x00d9fcd0
-void __stdcall FUN_00d9fcd0(int) {
+void FUN_00d9fcd0(int) {
 }
 
 // @fnv 0x00d9fce0
-void __stdcall FUN_00d9fce0(int) {
+void FUN_00d9fce0(int) {
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 extern unsigned int DAT_0126835c;
-typedef void* (__stdcall* D85TlsFn)(unsigned long);
+typedef void* (* D85TlsFn)(unsigned long);
 extern D85TlsFn DAT_00fdf044;
 
 struct D85Ctn {
@@ -2708,7 +2708,7 @@ static __declspec(noinline) void FUN_00d96870(unsigned char* self, int* src, uns
     *(unsigned char*)(out + 0x12) = 1;
 }
 
-void __fastcall S00d96870_Entry(unsigned char* self, int* src)
+void S00d96870_Entry(unsigned char* self, int* src)
 {
     FUN_00d96870(self, src, S00d96870_outp);
 }
@@ -2791,7 +2791,7 @@ struct FUN_00d9a410_Stub {
     int unk1c;
     unsigned char* unk20;
 
-    void __thiscall InvokeCallback(int* param);
+    void InvokeCallback(int* param);
 };
 
 // If target->v01 returns nonzero, looks up an entry in the unk20 table and calls its function with unk18, param, &unk20, unk10 and unk14.
@@ -3097,7 +3097,7 @@ void __cdecl SetPivotAtom(PivotCData* data, const __m128* pivot, int pivotIndex)
 }
 
 extern unsigned int DAT_0126835c;
-typedef void* (__stdcall* D90TlsFn)(unsigned long);
+typedef void* (* D90TlsFn)(unsigned long);
 extern D90TlsFn DAT_00fdf044;
 
 struct D90Ctn {
@@ -3798,7 +3798,6 @@ void CleanupEntry() { FUN_00d93ab0(cleanupInput); }
 extern "C" void _ReadWriteBarrier(void);
 extern "C" {
     unsigned __int64 __rdtsc(void);
-    __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int dwTlsIndex);
 }
 
 extern unsigned int DAT_0126835c;
@@ -5151,7 +5150,7 @@ struct D94Tls {
     D94Rec16* pEnd;
 };
 extern unsigned int DAT_0126835c;
-typedef void* (__stdcall *D94TlsGetFn)(unsigned long);
+typedef void* (*D94TlsGetFn)(unsigned long);
 extern D94TlsGetFn DAT_00fdf044;
 extern const char str_010d3ef4[];
 struct D94Sub {
@@ -5834,7 +5833,6 @@ void __cdecl FUN_00d94a80(Arg0* a1, Arg1* a2, Arg2* a3)
 namespace fnv_00d86050 {
 extern unsigned int DAT_0126835c;
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -5945,7 +5943,6 @@ namespace fnv_00d94340 {
 #include <intrin.h>
 
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern unsigned long DAT_0126835c;
 
 struct T00d94340_Cmd {

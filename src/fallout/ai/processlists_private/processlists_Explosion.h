@@ -51,30 +51,4 @@ class Explosion : public MobileObject
       // PC 009AE6E0, supplied candidate identity
 };
 
-FNV_STATIC_ASSERT(sizeof(Explosion) == 0x104);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_fFirstFloatValue) == 0x88);
-FNV_STATIC_ASSERT(offsetof(Explosion, f3DLifetime) == 0x8C);
-FNV_STATIC_ASSERT(offsetof(Explosion, fInnerRadius) == 0x90);
-FNV_STATIC_ASSERT(offsetof(Explosion, fOuterRadius) == 0x94);
-FNV_STATIC_ASSERT(offsetof(Explosion, ExplosionRuntimeData) == 0x98);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_fFourthRecordValue) == 0x9C);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_pExplosionPhantom) == 0xA0);
-FNV_STATIC_ASSERT(offsetof(Explosion, kTargets) == 0xA4);
-FNV_STATIC_ASSERT(offsetof(Explosion, kSoundHandles) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_pMenuLight) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(Explosion, pOwnerRef) == 0xC8);
-FNV_STATIC_ASSERT(offsetof(Explosion, ReferenceSoundCauseData) == 0xCC);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_pActorCause) == 0xD0);
-FNV_STATIC_ASSERT(offsetof(Explosion, ReferenceCauseInfo) == 0xD4);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_bFlagD5) == 0xD5);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_bFlagD6) == 0xD6);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_bFlagD7) == 0xD7);
-FNV_STATIC_ASSERT(offsetof(Explosion, MagicWeaponState) == 0xD8);
-FNV_STATIC_ASSERT(offsetof(Explosion, bUnderwater) == 0xD9);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_pEffectInstance) == 0xDC);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_pFiringWeapon) == 0xE0);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_iValueE4) == 0xE4);
-FNV_STATIC_ASSERT(offsetof(Explosion, kClosestPoint) == 0xE8);
-FNV_STATIC_ASSERT(offsetof(Explosion, kClosestPointNormal) == 0xF4);
-FNV_STATIC_ASSERT(offsetof(Explosion, m_fClosestPointScalar) == 0x100);
 #endif

@@ -52,8 +52,8 @@ struct D31Tbl2
 };
 struct D31Mgr
 {
-             // __thiscall
-    void FUN_00d59200(D31Arr* out);  // __thiscall, 1 stack arg
+             //
+    void FUN_00d59200(D31Arr* out);  // , 1 stack arg
 };
 struct D31Tbl
 {
@@ -117,14 +117,14 @@ struct Collection
 };
 struct ShapeVTable
 {
-    void(__thiscall* slot0)(Shape*);
-    void(__thiscall* slot1)(Shape*);
-    void(__thiscall* slot2)(Shape*);
-    void(__thiscall* slot3)(Shape*);
-    Collection*(__thiscall* getCollection)(Shape*);
-    void(__thiscall* slot5)(Shape*);
-    void(__thiscall* slot6)(Shape*);
-    void(__thiscall* getBounds)(Shape*, const Transform*, float, struct Bounds*);
+    void(* slot0)(Shape*);
+    void(* slot1)(Shape*);
+    void(* slot2)(Shape*);
+    void(* slot3)(Shape*);
+    Collection*(* getCollection)(Shape*);
+    void(* slot5)(Shape*);
+    void(* slot6)(Shape*);
+    void(* getBounds)(Shape*, const Transform*, float, struct Bounds*);
 };
 struct Shape
 {

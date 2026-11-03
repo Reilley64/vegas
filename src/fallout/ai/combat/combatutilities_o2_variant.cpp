@@ -13,7 +13,7 @@ extern "C" int DAT_011a558c;
 float ScaleCharToFloat(char arg);
 struct FUN_009a9f00_shell
 {
-    void __thiscall SetFieldE0(float value);
+    void SetFieldE0(float value);
 };
 struct BGSProjectile
 {

@@ -442,7 +442,7 @@ __forceinline SimdC::__m128 blendPosition(const Vec& position, const Vec& target
                              SimdC::_mm_mul_ps(t, target.quad()));
 }
 
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 __declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
 {
     SimdC::__m128 av = a.m_vComponents, bv = b.m_vComponents;

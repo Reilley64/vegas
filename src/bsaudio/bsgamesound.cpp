@@ -1,5 +1,7 @@
 // bsaudio/bsgamesound.cpp: BSGameSound, SoundView, AudioPathFixer (24 functions)
 
+#include <windows.h>
+#include <objbase.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00ad7150_shell.h"
 #include "fnv/decl/FUN_00aea210_Class.h"
@@ -129,7 +131,7 @@ bool BSGameSound::HasMaster(const char* filename, bool resolve)
 
 // Initializes the object's fields to zero/default values, sets flags at offset 0x10, and clears bit 0x8000.
 // @fnv 0x00ae95e0
-void __fastcall FUN_00ae95e0(char* pObject)
+void FUN_00ae95e0(char* pObject)
 {
     *(int*)(pObject + 0x4) = 0;
     *(int*)(pObject + 0x8) = 0;
@@ -169,7 +171,7 @@ void __fastcall FUN_00ae95e0(char* pObject)
 
 // If a callback pointer at offset 0x168 is set, calls it with the value at 0x170 and the id at 0x14, then clears both fields.
 // @fnv 0x00ae9af0
-void __fastcall ClearCallback(char* pObject)
+void ClearCallback(char* pObject)
 {
     if (*(void**)(pObject + 0x168) != 0)
     {
@@ -328,12 +330,12 @@ struct Interface
 
 struct FUN_00aea590_shell
 {
-    bool __thiscall FUN_00aea590(int param, int unused);
+    bool FUN_00aea590(int param, int unused);
 };
 
 // Returns true when param is non-negative; otherwise logs "Audio system could not be initialized." and returns false.
 // @fnv 0x00aea590
-bool __thiscall FUN_00aea590_shell::FUN_00aea590(int aiResult, int unused)
+bool FUN_00aea590_shell::FUN_00aea590(int aiResult, int unused)
 {
     if (aiResult >= 0)
         return true;
@@ -549,13 +551,13 @@ struct BSAudioVoice
     virtual int FUN_00f0(int abEnable);
 };
 
-// A sink the manager hands a piece of work to.  Its slots are __stdcall
+// A sink the manager hands a piece of work to.  Its slots are
 // callbacks that receive the sink back as their only argument.
 struct BSAudioSink
 {
-    virtual void __stdcall FUN_00f0();
-    virtual void __stdcall FUN_00f4();
-    virtual void __stdcall FUN_00f8();
+    virtual void FUN_00f0();
+    virtual void FUN_00f4();
+    virtual void FUN_00f8();
 };
 
 struct BSWin32Audio
@@ -609,7 +611,6 @@ void BSWin32Audio::Shutdown()
 }
 
 extern "C" char DAT_010a3b10, DAT_010a3ae0, DAT_010a3a78, DAT_010a3a38, DAT_010a39f8, DAT_01100fa4;
-extern "C" __declspec(dllimport) void* __stdcall GetModuleHandleA(const char*);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct Heap
 {
@@ -660,13 +661,13 @@ struct Desc
 };
 struct Com
 {
-    virtual int __stdcall q(void*, int*);
-    virtual int __stdcall r1();
-    virtual int __stdcall r2();
-    virtual int __stdcall create(Desc*, Com**, int);
-    virtual int __stdcall caps(void*);
-    virtual int __stdcall r5();
-    virtual int __stdcall coop(int, int);
+    virtual int q(void*, int*);
+    virtual int r1();
+    virtual int r2();
+    virtual int create(Desc*, Com**, int);
+    virtual int caps(void*);
+    virtual int r5();
+    virtual int coop(int, int);
 };
 struct Text
 {
@@ -706,7 +707,7 @@ void C::SetWindow(int aiWindow)
         return;
     if (*(const unsigned char*)((Text*)&(*reinterpret_cast<char *>(&::g_011f6d9c)))->Get())
     {
-        GetModuleHandleA(0);
+        CoInitialize(0);
         iResult = ((int)(::FUN_00ee81e0((const void *)(0), (void **)(void *)(&com), (void *)(0))));
         if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3b10)))
             return;

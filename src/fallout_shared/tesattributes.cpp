@@ -60,12 +60,12 @@ unsigned char FUN_00480160_shell::FUN_00480160(int aeAttribute)
 
 struct FUN_00480100_shell
 {
-    unsigned int __thiscall FUN_00480100(void* apData);
+    unsigned int FUN_00480100(void* apData);
 };
 
 // Copies 7 bytes from this+4 into apData, then returns the result of FUN_009d2510(this).
 // @fnv 0x00480100
-unsigned int __thiscall FUN_00480100_shell::FUN_00480100(void* apData)
+unsigned int FUN_00480100_shell::FUN_00480100(void* apData)
 {
     ::__memcpy(apData, this + 4, 7);
     return reinterpret_cast<::FUN_009d2510_shell *>((this))->FUN_009d2510();
@@ -100,7 +100,7 @@ struct FUN_00480240_shell
 };
 
 // @fnv 0x00480240
-void __thiscall FUN_00480240_shell::FUN_00480240(unsigned int aFlags, unsigned int aDummy)
+void FUN_00480240_shell::FUN_00480240(unsigned int aFlags, unsigned int aDummy)
 {
     if (aFlags & 0)
     {
@@ -257,7 +257,7 @@ void Thing::SetByte(int offset, char value, unsigned char flag)
         void* p = FUN_00ec43fb(this, 0, &(*reinterpret_cast<void * *>(&::fnv_004861f0::DAT_01186c74)), &(*reinterpret_cast<void * *>(&::DAT_01183028)), 0);
         if (p != 0)
         {
-            (*(void(__thiscall**)(void*, int))(*(char**)p + 0x48))(p, 4);
+            (*(void(**)(void*, int))(*(char**)p + 0x48))(p, 4);
         }
     }
 }

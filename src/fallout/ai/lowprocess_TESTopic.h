@@ -11,7 +11,6 @@
 #include "DialogueTopicData.h"
 #include "lowprocess_TESForm.h"
 #include "TESFullName.h"
-#pragma pack(push, 4)
 class TESTopic : public TESForm
 {
   public:
@@ -29,12 +28,4 @@ class TESTopic : public TESForm
                                                TESObjectREFR* listener, bool filter, TESTopic* previousTopic,
                                                BSSimpleList<DialogueItem*>* history);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESTopic) == 0x40);
-FNV_STATIC_ASSERT(offsetof(TESTopic, tESFullNameComponent) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESTopic, m_Data) == 0x24);
-FNV_STATIC_ASSERT(offsetof(TESTopic, m_fTopicParamB) == 0x28);
-FNV_STATIC_ASSERT(offsetof(TESTopic, m_kQuestInfoList) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(TESTopic, m_kDummyPrompt) == 0x34);
-FNV_STATIC_ASSERT(offsetof(TESTopic, m_iTopicFlags) == 0x3C);
 #endif

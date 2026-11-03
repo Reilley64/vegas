@@ -5,6 +5,7 @@
 
 // src/staging/blk_00ac0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/AC27Vector.h"
 #include "fnv/decl/Ace750Self.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -75,28 +76,28 @@ struct FUN_00ac5ed0_This
 bool FUN_00ac63f0();
 void SetGlobalIfUnset(int param_1);
 void __cdecl FUN_00ac6830();
-extern "C" void __stdcall FUN_00eccec5(int);
+extern "C" void FUN_00eccec5(int);
 void __cdecl FUN_00ac68e0();
 struct FUN_00acb7d0_class
 {
-    int __thiscall FUN_00acb7d0(int);
+    int FUN_00acb7d0(int);
 };
 struct FUN_00acbb60_Class
 {
-    void* __thiscall GetSelf(void*, void*);
+    void* GetSelf(void*, void*);
 };
 void __cdecl FUN_00ec3205(void*);
 struct FUN_00acdfa0_class
 {
-    void* __thiscall FUN_00acdfa0(int a);
+    void* FUN_00acdfa0(int a);
 };
 struct FUN_00ad4000_Class
 {
-    char __thiscall Identity(char a);
+    char Identity(char a);
 };
 struct FUN_00ad4080_Class
 {
-    unsigned char __thiscall GetParam(unsigned char param, int extra);
+    unsigned char GetParam(unsigned char param, int extra);
 };
 extern int DAT_010a31f4;
 struct FUN_00ad41a0_cls
@@ -120,7 +121,7 @@ struct FUN_00ac10c0_Class
     float f0;
     float f4;
     float f8;
-    NiPoint3* __thiscall AddOffset(NiPoint3* pDest, NiPoint3* pSource);
+    NiPoint3* AddOffset(NiPoint3* pDest, NiPoint3* pSource);
 };
 int __cdecl GetHighestSetBitIndex(int);
 int __cdecl FUN_00ac6950(int param_1);
@@ -130,16 +131,16 @@ void __cdecl FUN_00ec3205(void*);
 struct FUN_00ac9c30_class
 {
     void* m_p;
-    void* __thiscall FUN_00ac9c30(int flags);
+    void* FUN_00ac9c30(int flags);
 };
 struct FUN_00acad30_class
 {
-    void* __thiscall GetElementAt(int a);
+    void* GetElementAt(int a);
 };
 unsigned int __cdecl FUN_00ec7c56();
 struct FUN_00ace030_class
 {
-    void* __thiscall FUN_00ace030(unsigned int flags);
+    void* FUN_00ace030(unsigned int flags);
 };
 struct FUN_00ace9c0_Class
 {
@@ -161,30 +162,30 @@ struct FUN_00ace9c0_Class
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00ad1a50_class
 {
-    FUN_00ad1a50_class* __thiscall FUN_00ad1a50(int a, int b);
+    FUN_00ad1a50_class* FUN_00ad1a50(int a, int b);
 };
 struct FUN_00ad3eb0_Class
 {
     int* m_p;
-    FUN_00ad3eb0_Class* __thiscall FUN_00ad3eb0(unsigned int flags);
+    FUN_00ad3eb0_Class* FUN_00ad3eb0(unsigned int flags);
 };
 extern "C" char __cdecl FUN_00ec379c(char, char*);
 struct FUN_00ad3f50_class
 {
-    char* __thiscall FUN_00ad3f50(char* p, char* end);
+    char* FUN_00ad3f50(char* p, char* end);
 };
 void __cdecl free(void*);
 struct FUN_00ad41c0_Class
 {
-    void __thiscall FUN_00ad41c0();
+    void FUN_00ad41c0();
 };
 struct FUN_00ad5670_class
 {
-    int* __thiscall FUN_00ad5670(int a);
+    int* FUN_00ad5670(int a);
 };
 struct FUN_00ad5730_Class
 {
-    void* __thiscall FUN_00ad5730(int flags);
+    void* FUN_00ad5730(int flags);
 };
 struct FUN_00ad87d0_Class
 {
@@ -193,20 +194,20 @@ struct FUN_00ad87d0_Class
 int __cdecl FUN_00ec34d4();
 struct FUN_00ad3a10_Class
 {
-    int __thiscall GetEntryAt(int a);
+    int GetEntryAt(int a);
 };
 int __cdecl GetHighestSetBitIndex(unsigned int param_1);
 extern "C" char __cdecl FUN_00ec3909(char, char*);
 struct FUN_00ad3fc0_Class
 {
-    char* __thiscall FUN_00ad3fc0(char* p, char* pEnd);
+    char* FUN_00ad3fc0(char* p, char* pEnd);
 };
 struct FUN_00ac1120_Class
 {
     float f0;
     float f4;
     float f8;
-    NiPoint3* __thiscall ScaleToPoint3(NiPoint3* pDest, float scale);
+    NiPoint3* ScaleToPoint3(NiPoint3* pDest, float scale);
 };
 struct FUN_00ac52b0_class
 {
@@ -226,7 +227,7 @@ struct GlobalObjectO2_00ec3a75
 };
 struct FUN_00acdf60_class
 {
-    void* __thiscall DestroyAndDeallocate(int flags);
+    void* DestroyAndDeallocate(int flags);
 };
 void FUN_00ec3205(void*);
 struct FUN_00ace330_class
@@ -255,7 +256,7 @@ struct FUN_00ad3f20_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    char __thiscall FUN_00ad3f20(char c);
+    char FUN_00ad3f20(char c);
 };
 extern "C" char __cdecl FUN_00ec3909(char, char*);
 struct FUN_00ad3f90_Class
@@ -279,7 +280,7 @@ struct FUN_00ac0460_cls
 {
     unsigned int m_iWordAt00;
     unsigned int m_iWordAt04;
-    int __thiscall FUN_00ac0460(FUN_00ac0460_cls* other);
+    int FUN_00ac0460(FUN_00ac0460_cls* other);
 };
 void __cdecl FUN_00ac1d10(int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
 struct ByteBox
@@ -327,7 +328,7 @@ struct FUN_00ac1720_pool
 {
     void* FUN_00aa3e40(unsigned int size);
 };
-extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
+extern "C" void FUN_00ec7894(void* err2, const char* msg);
 struct FUN_00ac1720_err
 {
     void* m_vptr;
@@ -541,7 +542,7 @@ struct S_00ac3f40_Inner
     int unk14;
     int unk18;
 
-    void __thiscall AssignSubstring(S_00ac3f40_Arg* arg, int value, int flag);
+    void AssignSubstring(S_00ac3f40_Arg* arg, int value, int flag);
 };
 struct S_00ac3f40_Class
 {
@@ -556,7 +557,7 @@ struct S_00ac3f40_Class
     S_00ac3f40_Inner unk20;
     int unk3c;
 
-    void __thiscall FUN_00ac3f40(S_00ac3f40_Arg* arg);
+    void FUN_00ac3f40(S_00ac3f40_Arg* arg);
 };
 class Holder40_FUN_00ac5c00
 {
@@ -812,7 +813,7 @@ struct S_00ac9da0_class
     int unk10;
     int unk14;
 
-    void __thiscall FUN_00ac9da0(S_00ac9da0_string* a);
+    void FUN_00ac9da0(S_00ac9da0_string* a);
 };
 struct FUN_00aca4e0_frame
 {
@@ -900,7 +901,7 @@ struct FUN_00aca4e0_cls
 };
 struct FUN_00ec3280_class
 {
-    void __thiscall FUN_00ec3280();
+    void FUN_00ec3280();
 };
 struct FUN_00aca9a0_base
 {
@@ -910,7 +911,7 @@ struct FUN_00aca9a0_class
 {
     FUN_00aca9a0_base* m_p;
 
-    void __thiscall FUN_00aca9a0();
+    void FUN_00aca9a0();
 };
 struct FUN_00aca9f0_P
 {
@@ -1160,7 +1161,7 @@ struct FUN_00acda10_cls
 extern int DAT_010a318c;
 struct FUN_00acde90_class
 {
-    void __thiscall FUN_00acde90();
+    void FUN_00acde90();
 };
 struct FUN_00acdff0_prim
 {
@@ -1284,7 +1285,7 @@ struct FUN_00acea00_class
     void* unk30;
     int* m_pCounter34;
 
-    int __thiscall DecrementCounterAndPostIncrementOther();
+    int DecrementCounterAndPostIncrementOther();
 };
 class FUN_00aced20_pad
 {
@@ -1360,9 +1361,9 @@ struct S_00acfb90_Class
     int unk48;
     void* unk4c;
 
-    bool __thiscall FUN_00acfcd0();
-    void __thiscall FUN_00acfc10(int param_1, int param_2);
-    void* __thiscall FUN_00acfb90();
+    bool FUN_00acfcd0();
+    void FUN_00acfc10(int param_1, int param_2);
+    void* FUN_00acfb90();
 };
 int __cdecl FUN_00ec9907(void*);
 struct FNV_ad0470_class
@@ -1578,7 +1579,7 @@ struct FUN_00ad3550_cls
 {
     FNVSourceStringX* m_pSource;
     char* m_pPos;
-    FUN_00ad3550_cls* __thiscall InitFromSource(char* a1, FNVSourceStringX* a2);
+    FUN_00ad3550_cls* InitFromSource(char* a1, FNVSourceStringX* a2);
 };
 // ForwardToV07: thiscall member (3 stack args) that forwards to its own
 // virtual slot 7 (vftable offset 0x1C) with four arguments, the last one
@@ -21551,7 +21552,7 @@ struct C970
     unsigned char m_48;
     void FUN_00acc970();
 };
-inline void* __thiscall S_00acfb90_Class::FUN_00acfb90()
+inline void* S_00acfb90_Class::FUN_00acfb90()
 {
     unsigned int d00, d01, d02, d03, d04, d05, d06, d07, d08, d09, d0a, d0b, d0c, d0d, d0e, d0f;
     unsigned int d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d1a, d1b, d1c, d1d, d1e, d1f;
@@ -25155,11 +25156,11 @@ struct FUN_00ad2640_class : _Vector_val<VecStr, allocator<VecStr> >
     VecStr* _Myfirst;
     VecStr* _Mylast;
     VecStr* _Myend;
-    void __thiscall FUN_00ad2640(VecStr* _First, VecStr* _Last);
+    void FUN_00ad2640(VecStr* _First, VecStr* _Last);
 };
 
 // @fnv 0x00ad2640
-void __thiscall FUN_00ad2640_class::FUN_00ad2640(VecStr* _First, VecStr* _Last)
+void FUN_00ad2640_class::FUN_00ad2640(VecStr* _First, VecStr* _Last)
 {
     _Destroy_range(_First, _Last, this->_Alval);
 }
@@ -29924,7 +29925,6 @@ Pair56* __cdecl FUN_00ad6d30(Pair56* first, Pair56* last, Pair56* dest)
     return dest;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct NiPoint3_audio
 {
     float x, y, z;
@@ -33096,7 +33096,7 @@ namespace fnv_00ac43b0 {
 
 typedef unsigned int u32;
 
-extern "C" void __stdcall FUN_00ec7894(void*, const char*);
+extern "C" void FUN_00ec7894(void*, const char*);
 unsigned int __cdecl FUN_00ec7c56();
 
 struct PoolAdapter : FUN_00ac1720_pool

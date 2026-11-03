@@ -3,6 +3,7 @@
 // say /MT /O2 /GS /EHsc /Gy (unit src/bsshader/bsshadermanager.cpp lists /MT /O2 /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_00a59d30_C.h"
@@ -48,7 +49,6 @@
 #include "fnv/symbols_0126f000.h"
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
@@ -226,7 +226,6 @@ struct ImageSpaceManager
     char data[0x204];
     ImageSpaceTexture m_texture;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct PropHelper
 {
     virtual void vfn_0();

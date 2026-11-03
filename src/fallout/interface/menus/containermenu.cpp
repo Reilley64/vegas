@@ -232,11 +232,11 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
 
 struct FUN_0075b200_shell
 {
-    int __thiscall GetClass();
+    int GetClass();
 };
 
 // @fnv 0x0075b200
-int __thiscall FUN_0075b200_shell::GetClass()
+int FUN_0075b200_shell::GetClass()
 {
     return 0x3f0;
 }
@@ -282,7 +282,7 @@ void* FUN_0075cc70_shell::FUN_0075cc70()
 
 struct FUN_00a011f0_shell
 {
-    char* __thiscall FUN_00a011f0(int);
+    char* FUN_00a011f0(int);
 };
 
 // Compares the strings returned by FUN_00a011f0(0xfc4) on both items using _mbscmp and returns the result.
@@ -319,11 +319,11 @@ bool FUN_0075c250_Holder::HandleKey(int aiKey)
 
 struct FUN_0075cf70_shell
 {
-    void __thiscall ClearTileValues(int aiID, Tile* apTarget);
+    void ClearTileValues(int aiID, Tile* apTarget);
 };
 // Sets the value 0xFA3 to 0 on the Tile objects at offsets 0x5C, 0x58 and 0x4C of this object.
 // @fnv 0x0075cf70
-void __thiscall FUN_0075cf70_shell::ClearTileValues(int aiID, Tile* apTarget)
+void FUN_0075cf70_shell::ClearTileValues(int aiID, Tile* apTarget)
 {
     (*(Tile**)((char*)this + 0x5C))->Set(0xFA3, 0);
     (*(Tile**)((char*)this + 0x58))->Set(0xFA3, 0);
@@ -334,11 +334,11 @@ struct FUN_0075b710_shell
 {
     int _pad[10];
     int field28[19];
-    bool __thiscall FUN_0075b710();
+    bool FUN_0075b710();
 };
 // Returns false if any of the 19 ints in field28 is zero, otherwise returns true.
 // @fnv 0x0075b710
-bool __thiscall FUN_0075b710_shell::FUN_0075b710()
+bool FUN_0075b710_shell::FUN_0075b710()
 {
     for (int i = 0; i < 0x13; ++i)
     {
@@ -603,12 +603,12 @@ struct FUN_0075d430_shell : FUN_0075d430_base
     char unk28[0x58];
     int unk80;
 
-    bool __thiscall FUN_0075d430(int param1, int param2);
+    bool FUN_0075d430(int param1, int param2);
 };
 
 
 // @fnv 0x0075d430
-bool __thiscall FUN_0075d430_shell::FUN_0075d430(int param1, int aiUnused)
+bool FUN_0075d430_shell::FUN_0075d430(int param1, int aiUnused)
 {
     bool result = false;
 
@@ -2689,7 +2689,7 @@ extern void* DAT_011d93fc;
 
 struct ContainerMenu;
 
-int __fastcall FUN_00401170(void* obj);
+int FUN_00401170(void* obj);
 
 struct MenuObj
 {

@@ -7,15 +7,15 @@
 extern "C" void __cdecl FUN_00da3510(void*, void*);
 struct hkAgent1nMachine
 {
-    void __thiscall InvalidateTim(void*);
+    void InvalidateTim(void*);
 };
 struct hkpListAgent
 {
     char m0[0x10];
-    void __thiscall FUN_00d36850(void* arg);
+    void FUN_00d36850(void* arg);
 };
 extern "C" void __cdecl FUN_00d36990(int, int, int, int);
-void __stdcall FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
+void FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
 extern "C" void __cdecl FUN_00da35f0(void*, float, float, int);
 struct Owner
 {
@@ -26,9 +26,9 @@ struct Owner
     void FUN_00d36870(float a1, float a2, int a3);
 };
 void __cdecl FUN_00d36920(void* a, void* b, void* c, void* d);
-void __stdcall FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
+void FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4);
 void __cdecl FUN_00d36930(int a1, int a2, int a3, int a4, int a5);
-void __stdcall FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5);
+void FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5);
 extern "C" void __cdecl FUN_00da42b0(void* a, int b, int c, int d);
 struct FUN_00d36820_cls
 {

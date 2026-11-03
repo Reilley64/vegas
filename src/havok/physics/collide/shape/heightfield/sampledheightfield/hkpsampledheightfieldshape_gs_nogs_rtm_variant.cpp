@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/symbols_00c98000.h"
 #include "fnv/symbols_00d26000.h"
 #include "fnv/symbols_01012000.h"
@@ -48,7 +49,7 @@ struct FUN_00d24b50_Obj {
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
-    hkBoolD260 __thiscall FUN_00d26080(void* object, hkInfoD260* info);
+    hkBoolD260 FUN_00d26080(void* object, hkInfoD260* info);
 };
 struct S00d261b0_Elem {
     __m128 v00;
@@ -188,7 +189,7 @@ return m_kStorage;
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

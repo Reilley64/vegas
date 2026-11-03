@@ -7,7 +7,7 @@
 #include "bsshaderpplightingproperty_passes_1x_types_BSShaderPPLightingProperty.h"
 #include "bsshaderpplightingproperty_passes_1x_types_BSShaderProperty__RenderPassArray.h"
 
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 
 extern const char DAT_010250cc[];
 extern const char DAT_010bc580[];

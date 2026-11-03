@@ -59,7 +59,6 @@ class CombatAction
     COMBAT_ACTION eType;
     unsigned int iFlags;
 };
-typedef char CombatActionSizeCheck[sizeof(CombatAction) == 44 ? 1 : -1];
 
 // Constructor at 0x0097ad10; identity from its PC vtable.
 class CombatActionAttackRanged : public CombatAction

@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/checking/hkleakdetectallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/checking/hkleakdetectallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/DC3980Map.h"
 #include "fnv/decl/FUN_00c903a0_class.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
@@ -17,7 +18,7 @@
 #include "fnv/symbols_01269000.h"
 struct FUN_00d5f270_class
 {
-    void __thiscall FUN_00d5f270(void* a, unsigned int b);
+    void FUN_00d5f270(void* a, unsigned int b);
 };
 
 struct FUN_00d5f2b0_class
@@ -113,7 +114,7 @@ struct FUN_00d5ee80_class
     void* unk3c;
     volatile void* unk40;
     unsigned int unk44;
-    void __thiscall InitWithAllocator(void* a, void* b, void* c, void* d);
+    void InitWithAllocator(void* a, void* b, void* c, void* d);
 };
 struct Allocator
 {
@@ -128,7 +129,7 @@ struct Old
 };
 extern void* __cdecl FUN_00da2bc0();
 // @fnv 0x00d5ee80
-void __thiscall FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllocator, void* apArg2, void* apArg3)
+void FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllocator, void* apArg2, void* apArg3)
 {
     unk30 = apArg0;
     unk34 = apAllocator;
@@ -159,8 +160,6 @@ void __thiscall FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllo
     this->unk40 = pBlock;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct Sub30
 {
@@ -234,7 +233,7 @@ int FUN_00d5f0a0_class::ProcessAndDispatch(int aiFlag, void* apArg)
 
 
 // @fnv 0x00d5f260
-void __stdcall FUN_00d5f260(void* apObject)
+void FUN_00d5f260(void* apObject)
 {
     reinterpret_cast<::FUN_00d5f0a0_class *>((0))->ProcessAndDispatch((int)(apObject), {});
 }
@@ -364,7 +363,7 @@ struct FUN_00d5edc0_cls
 
 struct FUN_00d5f290_class
 {
-    void __thiscall CallWithFirstArg(int* a);
+    void CallWithFirstArg(int* a);
 };
 
 // @fnv 0x00d5f290
@@ -667,8 +666,6 @@ int List2b50::FUN_00da2b50(int iStartIndex, unsigned int* out, int count)
     return i;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct CriticalSectionD5
 {
@@ -1022,7 +1019,7 @@ struct LeakDetectAllocator
     void FUN_00d5f150(unsigned int unused, void* p, int numBytes);
 };
 // @fnv 0x00d5f270
-void __thiscall FUN_00d5f270_class::FUN_00d5f270(void* a, unsigned int b)
+void FUN_00d5f270_class::FUN_00d5f270(void* a, unsigned int b)
 {
     reinterpret_cast<::LeakDetectAllocator *>(this)->FUN_00d5f150(0, a, b);
 }

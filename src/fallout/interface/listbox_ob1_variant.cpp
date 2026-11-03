@@ -105,8 +105,8 @@ struct FUN_00723f50_shell : AX
 };
 struct FUN_00724140_shell
 {
-    void __thiscall FUN_00722880();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_00722880();
+    void* Destroy(unsigned int flags);
 };
 struct FUN_007a51c0_shell
 {
@@ -120,7 +120,7 @@ struct FUN_007a62e0_shell
     int a;
     int b;
     char c;
-    FUN_007a62e0_shell* __thiscall FUN_007a62e0(int param2, int* param3);
+    FUN_007a62e0_shell* FUN_007a62e0(int param2, int* param3);
 };
 struct RecursiveLock;
 struct Menu;
@@ -140,8 +140,8 @@ struct FUN_007d8e80_shell
 };
 struct FUN_007d8eb0_shell
 {
-    void __thiscall FUN_007d7d30();
-    void* __thiscall FUN_007d8eb0(unsigned int flags);
+    void FUN_007d7d30();
+    void* FUN_007d8eb0(unsigned int flags);
 };
 struct BSSimpleList
 {
@@ -149,13 +149,13 @@ struct BSSimpleList
 struct FUN_00721410_class
 {
     BSSimpleList list;
-    void __thiscall FUN_00721410(void* param);
+    void FUN_00721410(void* param);
 };
 extern "C" char str_010703dc[];
 struct FUN_00723fa0_shell : AX
 {
     int* vtable;
-    FUN_00723fa0_shell* __thiscall FUN_00723fa0();
+    FUN_00723fa0_shell* FUN_00723fa0();
 };
 struct FUN_00723ff0_shell : AX
 {
@@ -168,15 +168,15 @@ struct FUN_00724070_shell : GlobalObject_00869f00
 };
 struct FUN_007241d0_shell : FUN_00723f30_shell
 {
-    void* __thiscall FUN_007241d0(unsigned int flags);
+    void* FUN_007241d0(unsigned int flags);
 };
 struct FUN_00724290_shell
 {
-    void* __thiscall FUN_00724290(unsigned int flags);
+    void* FUN_00724290(unsigned int flags);
 };
 struct FUN_007242c0_shell
 {
-    bool __thiscall FUN_007242c0(unsigned int flags);
+    bool FUN_007242c0(unsigned int flags);
 };
 struct VATSMenu
 {
@@ -191,14 +191,14 @@ extern int DAT_011d8cdc;
 struct FUN_0071ae60_shell : VATSMenu
 {
     TGF* tile;
-    unsigned int __thiscall FUN_0071ae60();
+    unsigned int FUN_0071ae60();
 };
 void __cdecl FUN_00724930();
 struct FUN_00721bc0_shell
 {
     int x;
-    void __thiscall FUN_00721bc0(int(__cdecl* param)(void*, void*));
-    void __thiscall FUN_00724930();
+    void FUN_00721bc0(int(__cdecl* param)(void*, void*));
+    void FUN_00724930();
 };
 struct Tile
 {
@@ -223,56 +223,56 @@ struct FUN_00725aa0_shell
 struct FUN_00723310_shell
 {
     BSSimpleList list;
-    void __thiscall FUN_00723310(int(__cdecl* cmp)(void*, void*));
+    void FUN_00723310(int(__cdecl* cmp)(void*, void*));
 };
 struct FUN_00723ac0_shell
 {
-    void __thiscall FUN_00723ac0(void* param);
+    void FUN_00723ac0(void* param);
 };
 struct FUN_00723f00_shell : AX
 {
     int* vtable;
-    FUN_00723f00_shell* __thiscall FUN_00723f00();
+    FUN_00723f00_shell* FUN_00723f00();
 };
 struct FUN_00723fd0_shell : GlobalObject_00869f00
 {
-    void __thiscall FUN_00723fd0();
+    void FUN_00723fd0();
 };
 struct FUN_00724090_shell
 {
-    void* __thiscall FUN_00724090(unsigned int flags);
+    void* FUN_00724090(unsigned int flags);
 };
 struct FUN_00721920_shell
 {
-    void __thiscall FUN_00721920();
+    void FUN_00721920();
 };
 struct FUN_007240e0_shell
 {
-    void* __thiscall FUN_007240e0(unsigned int flags);
+    void* FUN_007240e0(unsigned int flags);
 };
 struct FUN_00724110_This
 {
-    void* __thiscall FUN_00724110(unsigned int flags);
+    void* FUN_00724110(unsigned int flags);
 };
 struct S_00724170
 {
-    void __thiscall FUN_00723070();
-    void* __thiscall FUN_00724170(unsigned int flags);
+    void FUN_00723070();
+    void* FUN_00724170(unsigned int flags);
 };
 struct FUN_007241a0_shell
 {
-    void* __thiscall FUN_007241a0(unsigned int flags);
+    void* FUN_007241a0(unsigned int flags);
 };
 struct Helper_00723fd0
 {
 };
 struct FUN_00724230_shell
 {
-    void* __thiscall FUN_00724230(unsigned int flags);
+    void* FUN_00724230(unsigned int flags);
 };
 struct FUN_00724260_shell
 {
-    void* __thiscall FUN_00724260(unsigned int flags);
+    void* FUN_00724260(unsigned int flags);
 };
 struct Member_007a8b10
 {
@@ -280,7 +280,7 @@ struct Member_007a8b10
 };
 struct FUN_007643c0_p07 : Member_007a8b10
 {
-    Member_007a8b10* __thiscall DestroySelf(unsigned int flags);
+    Member_007a8b10* DestroySelf(unsigned int flags);
 };
 struct BSSimpleList;
 struct FUN_007a6480_shell
@@ -288,18 +288,18 @@ struct FUN_007a6480_shell
 };
 struct FUN_007a22a0_shell
 {
-    void __thiscall FUN_007a22a0(int(__cdecl* cmp)(void*, void*));
+    void FUN_007a22a0(int(__cdecl* cmp)(void*, void*));
 };
 struct FUN_007a30a0_Holder
 {
-    int __thiscall FUN_007a30a0(int, unsigned char);
+    int FUN_007a30a0(int, unsigned char);
 };
 struct FUN_007a80e0_shell
 {
 };
 struct FUN_007a5700_shell
 {
-    int* __thiscall FUN_007a5700(int(__cdecl* cmp)(void*, void*));
+    int* FUN_007a5700(int(__cdecl* cmp)(void*, void*));
 };
 struct FUN_007a1aa0_shell
 {
@@ -307,15 +307,15 @@ struct FUN_007a1aa0_shell
 };
 struct FUN_007a6100_shell : FUN_007a1aa0_shell
 {
-    void* __thiscall FUN_007a6100(unsigned int flags);
+    void* FUN_007a6100(unsigned int flags);
 };
 struct FUN_007a6130_This
 {
-    void* __thiscall FUN_007a6130(unsigned int flags);
+    void* FUN_007a6130(unsigned int flags);
 };
 struct FUN_007a6190Owner
 {
-    void* __thiscall FUN_007a6190(unsigned int flags);
+    void* FUN_007a6190(unsigned int flags);
 };
 struct FUN_007a86b0_Item
 {
@@ -324,32 +324,32 @@ struct FUN_007a86b0_Item
 };
 struct FUN_007a63b0_holder
 {
-    void __thiscall FUN_007a63b0(FUN_007a86b0_Item*, unsigned int);
+    void FUN_007a63b0(FUN_007a86b0_Item*, unsigned int);
 };
 struct FUN_007a63f0_shell
 {
-    void __thiscall FUN_007a63f0(unsigned int requested, unsigned int savedSize);
+    void FUN_007a63f0(unsigned int requested, unsigned int savedSize);
 };
 struct FUN_007d9000_shell
 {
 };
 struct FUN_007d7a80_shell
 {
-    void __thiscall FUN_007d7a80(int a);
+    void FUN_007d7a80(int a);
 };
 void __cdecl UpdateSaveLoadList();
 struct FUN_007d8420_shell
 {
     BSSimpleList list;
-    void __thiscall SortList(int(__cdecl* cmp)(void*, void*));
-    void __thiscall UpdateSaveLoadList();
+    void SortList(int(__cdecl* cmp)(void*, void*));
+    void UpdateSaveLoadList();
 };
 struct FUN_007a6fa0_shell
 {
 };
 struct FUN_007d86c0_shell
 {
-    int* __thiscall FUN_007d86c0(int* apItem, unsigned char apSelect);
+    int* FUN_007d86c0(int* apItem, unsigned char apSelect);
 };
 struct NavMeshSearchLOSArray
 {
@@ -390,7 +390,7 @@ struct FUN_007d8810_shell
     void* m4;
     void* m8;
     TileSet* mC;
-    void __thiscall FUN_007d8810(bool abVal);
+    void FUN_007d8810(bool abVal);
 };
 extern int DAT_011d95ac;
 extern int DAT_011d95b0;
@@ -398,7 +398,7 @@ struct FUN_00765340_shell : VATSMenu
 {
     int pad[3];
     TGF* tile;
-    unsigned int __thiscall GetUnfilteredCount();
+    unsigned int GetUnfilteredCount();
 };
 extern int DAT_011dac94;
 extern int DAT_011dac98;
@@ -473,7 +473,7 @@ struct FUN_00725c20_shell
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall UpdateHighlightTiles();
+    void UpdateHighlightTiles();
 };
 struct Tile_IsTrue_helper
 {
@@ -482,13 +482,13 @@ struct FUN_007a6bd0_shell
 {
     char _base[0x0c];
     Tile* m_pListTile;
-    bool __thiscall FUN_007a6bd0();
+    bool FUN_007a6bd0();
 };
 struct FUN_007a79b0_shell
 {
     char _pad[12];
     Tile* m_pListTile;
-    bool __thiscall FUN_007a79b0();
+    bool FUN_007a79b0();
 };
 struct Tile_IsTrue_shell : Tile
 {
@@ -539,7 +539,7 @@ struct FUN_00721440_class
     int unk0c;
     SelectedObject* selected;
 
-    bool __thiscall SelectObject(SelectedObject* object);
+    bool SelectObject(SelectedObject* object);
 };
 extern int DAT_010702ec;
 struct FUN_00721850_shell
@@ -662,7 +662,7 @@ Member_00722880::~Member_00722880()
 {}
 struct Helper_007228f0
 {
-    void __thiscall Call();
+    void Call();
 };
 void Helper_007228f0::Call()
 {}
@@ -765,7 +765,7 @@ struct Owner_00724430
     int unk04;
     int unk08;
     Item_00724430* item;
-    bool __thiscall FUN_00724430();
+    bool FUN_00724430();
 };
 struct Obj00724930
 {
@@ -792,7 +792,7 @@ struct FUN_00724930_cls
     unsigned short unk1e;
     float m_20;
 
-    void __thiscall UpdateTraitDisplay();
+    void UpdateTraitDisplay();
     void FUN_00724930();
 };
 struct TileFloatGet
@@ -932,7 +932,7 @@ struct Owner
 {
     int unk00;
     Node head;
-    int* __thiscall FindItemData(int* key);
+    int* FindItemData(int* key);
 };
 struct FUN_007a23e0_arg
 {
@@ -1016,11 +1016,11 @@ struct FUN_007a6310_cls
     int unk04;
     int unk08;
     int unk0C;
-    void __thiscall ConstructElements(int arr, unsigned int count);
+    void ConstructElements(int arr, unsigned int count);
 };
 struct FUN_00a01230_shell
 {
-    bool __thiscall IsTraitNonZero(int);
+    bool IsTraitNonZero(int);
 };
 struct FUN_007a6550_shell
 {
@@ -1029,7 +1029,7 @@ struct FUN_007a6550_shell
     int unk08;
     FUN_00a01230_shell* target;
 
-    bool __thiscall FUN_007a6550();
+    bool FUN_007a6550();
 };
 struct FUN_00a01230_Target
 {
@@ -1118,7 +1118,7 @@ struct HeightList
     int unk18;
     int unk1c;
     float totalHeight;
-    void __thiscall FUN_007d9460();
+    void FUN_007d9460();
 };
 struct TileX
 {
@@ -1868,7 +1868,7 @@ struct Cls_764ef0
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall UpdateHighlightTile();
+    void UpdateHighlightTile();
 };
 struct ScrollTile
 {
@@ -1937,7 +1937,7 @@ struct ListBox_7a6600
     Tile* highlightTile;
     Tile* selectedTile;
 
-    void __thiscall FUN_007a6600();
+    void FUN_007a6600();
 };
 // Whether the list box tile is enabled (trait id resolved once and cached).
 class D7580Tile
@@ -2032,7 +2032,7 @@ struct ListBoxX
     void FUN_007d97a0();
 };
 struct ContNode;
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct N6815c0
 {
 };

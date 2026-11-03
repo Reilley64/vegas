@@ -185,7 +185,7 @@ struct FUN_00e05250_Class
     void WriteSections(FUN_00e05250_Archive* pArchive, int unused);
 };
 
-typedef void(__thiscall* FUN_00e05250_Write)(FUN_00e05250_Archive*, int, const char*, void*, int, int);
+typedef void(* FUN_00e05250_Write)(FUN_00e05250_Archive*, int, const char*, void*, int, int);
 
 
 // @fnv 0x00e05250
@@ -989,12 +989,12 @@ struct S00e05700_Class
     S00e05700_Arr arr4C;
     S00e05700_Arr arr58;
 
-    S00e05700_Class* __thiscall FUN_00e05700();
+    S00e05700_Class* FUN_00e05700();
 };
 
 // Initializes fields, resets four arrays, and assigns DAT_01268b08->vf10()'s result to unk2C.
 // @fnv 0x00e05700
-S00e05700_Class* __thiscall S00e05700_Class::FUN_00e05700()
+S00e05700_Class* S00e05700_Class::FUN_00e05700()
 {
     int zero = 0;
 

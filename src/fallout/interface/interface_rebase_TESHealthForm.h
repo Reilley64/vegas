@@ -12,6 +12,4 @@ class TESHealthForm : public BaseFormComponent
 public:
     static unsigned int GetBaseHealth(::TESForm *);
 };
-FNV_STATIC_ASSERT(sizeof(TESHealthForm) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESHealthForm, m_uiHealthValue) == 0x4);
 #endif

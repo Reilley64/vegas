@@ -325,12 +325,12 @@ struct K
     int fC;
     int f10;
     int f14;
-    void __thiscall FUN_00b331c0();
+    void FUN_00b331c0();
 };
 
 
 // @fnv 0x00b331c0
-void __thiscall K::FUN_00b331c0()
+void K::FUN_00b331c0()
 {
     int u[12];
     int t2;
@@ -529,11 +529,11 @@ struct FUN_00b30020_Class
     int unk68;
     int unk6C;
     FUN_00b32210_Class sub;
-    void __thiscall FUN_00b30020(float* a);
+    void FUN_00b30020(float* a);
 };
 // Calls FUN_00b30060 with a, then passes the address of the result to sub.FUN_00b32210.
 // @fnv 0x00b30020
-void __thiscall FUN_00b30020_Class::FUN_00b30020(float* a)
+void FUN_00b30020_Class::FUN_00b30020(float* a)
 {
     int iResult;
     int CNVal;

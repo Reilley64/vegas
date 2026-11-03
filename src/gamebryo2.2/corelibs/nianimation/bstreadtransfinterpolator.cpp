@@ -15,11 +15,11 @@ struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    int __thiscall FUN_00a43560(short arg);
+    int FUN_00a43560(short arg);
 };
 
 // @fnv 0x00a43560
-int __thiscall FUN_00a43560_shell::FUN_00a43560(short arg)
+int FUN_00a43560_shell::FUN_00a43560(short arg)
 {
     if (arg == 0)
     {
@@ -33,7 +33,7 @@ int __thiscall FUN_00a43560_shell::FUN_00a43560(short arg)
 
 struct FUN_00a43580_shell
 {
-    void* __thiscall FUN_00a43580(unsigned short flag);
+    void* FUN_00a43580(unsigned short flag);
 };
 
 // @fnv 0x00a43580
@@ -77,11 +77,11 @@ struct FUN_00a435c0_shell
 {
     unsigned char m_auiShapeKeys[0x20];
     void* m_ptr_20;
-    char __thiscall FUN_00a435c0(short arg);
+    char FUN_00a435c0(short arg);
 };
 
 // @fnv 0x00a435c0
-char __thiscall FUN_00a435c0_shell::FUN_00a435c0(short arg)
+char FUN_00a435c0_shell::FUN_00a435c0(short arg)
 {
     if (arg != 0)
         return 0;
@@ -115,11 +115,11 @@ struct FUN_00a434b0_shell
     float valueDelta;
     unsigned int sampleIndex;
     SampleTrack* track;
-    bool __thiscall UpdateSampleValue(float time, int, int);
+    bool UpdateSampleValue(float time, int, int);
 };
 // Samples the track at time, updates sampleIndex, computes valueDelta from the previous value, stores previousValue and previousTime, and returns true.
 // @fnv 0x00a434b0
-bool __thiscall FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
+bool FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
 {
     SampleTrack* pTrack = track;
     unsigned int count = pTrack->count;
@@ -214,7 +214,7 @@ struct FUN_00a435e0_shell
     int unk1c;
     int unk20;
 
-    bool __thiscall FUN_00a435e0(int arg);
+    bool FUN_00a435e0(int arg);
 };
 
 // @fnv 0x00a435e0

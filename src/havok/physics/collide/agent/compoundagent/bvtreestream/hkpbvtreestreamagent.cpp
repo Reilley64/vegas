@@ -22,11 +22,11 @@ extern "C" void __cdecl FUN_00d312f0(void*, void*, void*, void*);
 
 struct FUN_00d2dd30_class
 {
-    void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
+    void FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
 
 // @fnv 0x00d2dd30
-void __thiscall FUN_00d2dd30_class::FUN_00d2dd30(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+void FUN_00d2dd30_class::FUN_00d2dd30(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00d312f0(apArg1, apArg2, apArg3, apArg4);
 }
@@ -34,18 +34,18 @@ void __thiscall FUN_00d2dd30_class::FUN_00d2dd30(void* apArg1, void* apArg2, voi
 
 struct FUN_00d2ddd0_class
 {
-    void __thiscall FUN_00d2ddd0(int a);
+    void FUN_00d2ddd0(int a);
 };
 
 // @fnv 0x00d2ddd0
-void __thiscall FUN_00d2ddd0_class::FUN_00d2ddd0(int aiValue)
+void FUN_00d2ddd0_class::FUN_00d2ddd0(int aiValue)
 {
     ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x30)), (*(::CollisionAgentContext *)((void*)aiValue)));
 }
 
 extern "C" void __cdecl FUN_00d31110(void*, void*, void*, void*);
 // @fnv 0x00d2dd50
-extern "C" void __stdcall FUN_00d2dd50(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+extern "C" void FUN_00d2dd50(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00d31110(apArg1, apArg2, apArg3, apArg4);
 }
@@ -76,7 +76,7 @@ struct FUN_00d2dda0_class
     int unk28;
     int unk2c;
     int unk30;
-    void __thiscall FUN_00d2dda0(int value);
+    void FUN_00d2dda0(int value);
 };
 // Passes unk0c, unk08 and value to FUN_00da42b0 with &unk30, then calls finish(1).
 // @fnv 0x00d2dda0
@@ -88,11 +88,11 @@ void FUN_00d2dda0_class::FUN_00d2dda0(int value)
 
 struct FUN_00d2ddf0_Class
 {
-    void __thiscall FUN_00d2ddf0(float a, float b, void* c);
+    void FUN_00d2ddf0(float a, float b, void* c);
 };
 // Calls FUN_00da35f0 with the subobject at offset 0x30 of this object and the three arguments.
 // @fnv 0x00d2ddf0
-void __thiscall FUN_00d2ddf0_Class::FUN_00d2ddf0(float a, float b, void* c)
+void FUN_00d2ddf0_Class::FUN_00d2ddf0(float a, float b, void* c)
 {
     ::FUN_00da35f0((::Da35Stream ***)(void *)((char*)this + 0x30), a, b, (void **)(c));
 }
@@ -325,7 +325,7 @@ struct BufOwner
     int unk28;
     int unk2C;
     PackedBuffer m_buf;
-    void __thiscall VisitPackedBuffer(VisitTarget* target, int flags);
+    void VisitPackedBuffer(VisitTarget* target, int flags);
 };
 
 // @fnv 0x00d2de90
@@ -378,7 +378,7 @@ struct FUN_00d2eb50_cls
     unsigned char m_b08;
     unsigned char m_b09;
     FUN_00d2eb50_nib m_nib0a;
-    void __thiscall SwapFields();
+    void SwapFields();
 };
 
 // @fnv 0x00d2eb50
@@ -422,7 +422,7 @@ struct FUN_00d2dd30_obj
 
 struct FUN_00d2ebb0_cls
 {
-    void __thiscall DispatchWithFlag(void* a1, void* a2, void* a3, unsigned int a4);
+    void DispatchWithFlag(void* a1, void* a2, void* a3, unsigned int a4);
 };
 
 // Builds a temporary holding a4 and a zero flag with a vtable pointer, then forwards a2, a1, a3 and the temporary to FUN_00d2dd30.
@@ -512,12 +512,12 @@ struct hkpSymmetricAgentFlipBodyCollector : hkpCollectorBase
 // Game side wrapper that fills the collector and hands it to the query routine.
 struct FUN_00d43cd0_class
 {
-    void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
+    void FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 
 // Builds a flip-body collector holding a4 and forwards a2, a1, a3 and the collector to ProcessCollisionEntries.
 // @fnv 0x00d2ed90
-void __thiscall FUN_00d43cd0_class::FUN_00d2ed90(void* a1, void* a2, void* a3, void* apPayload)
+void FUN_00d43cd0_class::FUN_00d2ed90(void* a1, void* a2, void* a3, void* apPayload)
 {
     hkpSymmetricAgentFlipBodyCollector collector;
     collector.payload = apPayload;
@@ -827,11 +827,11 @@ __declspec(align(16)) struct QueryObj
 
 struct FUN_00d2dd70_class
 {
-    void __thiscall FUN_00d2ef30(Handle p1, Handle p2, QueryCtx* ctx, int e1, int e2);
+    void FUN_00d2ef30(Handle p1, Handle p2, QueryCtx* ctx, int e1, int e2);
 };
 
 // @fnv 0x00d2ef30
-void __thiscall FUN_00d2dd70_class::FUN_00d2ef30(Handle p1, Handle p2, QueryCtx* ctx, int aiExtra1, int aiExtra2)
+void FUN_00d2dd70_class::FUN_00d2ef30(Handle p1, Handle p2, QueryCtx* ctx, int aiExtra1, int aiExtra2)
 {
     QueryObj q2;
     QueryObj q1;
@@ -1145,7 +1145,7 @@ struct hkpBvTreeStreamAgent
     int unk34;             // +0x34
     int unk38;             // +0x38
 
-    void* __thiscall FUN_00d2eae0(unsigned int flags);
+    void* FUN_00d2eae0(unsigned int flags);
 };
 
 // The functions the vtables of the agent class and of its base class point
@@ -1183,7 +1183,7 @@ extern "C" AgentManagerHolder* __cdecl FUN_00c85750();
 
 // Resets the vtable, frees its buffer through the handler if owned, and if flags bit 0 is set calls the handler's release(this, id); returns this.
 // @fnv 0x00d2eae0
-void* __thiscall hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
+void* hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
 {
     vtbl = &g_vtblAgent;
 

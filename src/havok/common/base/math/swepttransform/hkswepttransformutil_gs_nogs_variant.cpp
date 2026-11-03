@@ -453,7 +453,7 @@ struct Obj
 struct Calc
 {
     __declspec(align(16)) F4 res;
-    void __thiscall mul(Obj* o, F4* v);
+    void mul(Obj* o, F4* v);
 };
 extern const __m128 g_mask;
 void ApplyDelta(__m128* a, Obj* b);
@@ -495,7 +495,7 @@ struct FUN_008cd6a0_Class
     V4 rot0;
     V4 rot1;
     V4 comLocal;
-    void __thiscall FUN_00cb2d90(void*);
+    void FUN_00cb2d90(void*);
 };
 __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
 {

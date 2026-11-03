@@ -153,22 +153,22 @@ float FUN_004de0e0()
 
 struct FUN_00867270_shell
 {
-    void __thiscall FUN_00867270();
+    void FUN_00867270();
 };
 // @fnv 0x00867270
-void __thiscall FUN_00867270_shell::FUN_00867270()
+void FUN_00867270_shell::FUN_00867270()
 {
     FUN_008305e0();
 }
 
 struct FUN_00867150_shell
 {
-    void __thiscall FUN_00867180();
-    void* __thiscall FUN_00867150(unsigned int);
+    void FUN_00867180();
+    void* FUN_00867150(unsigned int);
 };
 // Calls FUN_00867180, then deallocates this if the low bit of flags is set, and returns this.
 // @fnv 0x00867150
-void* __thiscall FUN_00867150_shell::FUN_00867150(unsigned int flags)
+void* FUN_00867150_shell::FUN_00867150(unsigned int flags)
 {
     FUN_00867180();
     if (flags & 1)
@@ -178,10 +178,10 @@ void* __thiscall FUN_00867150_shell::FUN_00867150(unsigned int flags)
 
 struct FUN_00867280_shell
 {
-    void __thiscall FUN_00867280();
+    void FUN_00867280();
 };
 // @fnv 0x00867280
-void __thiscall FUN_00867280_shell::FUN_00867280()
+void FUN_00867280_shell::FUN_00867280()
 {
     ResetThreadFlags();
 }
@@ -192,7 +192,7 @@ struct FUN_00ec15e0_shell
 };
 
 // @fnv 0x00867180
-void __thiscall FUN_00867150_shell::FUN_00867180()
+void FUN_00867150_shell::FUN_00867180()
 {
     *(void**)this = &DAT_01082564;
     reinterpret_cast<::fnv_00ec15e0::BSMoviePlayer *>((((FUN_00ec15e0_shell*)this)))->fnv_00ec15e0::BSMoviePlayer::~BSMoviePlayer();

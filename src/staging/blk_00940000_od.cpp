@@ -185,22 +185,22 @@ char FUN_00944340_Class::GetByteAtOffset681()
 
 struct FUN_00944360_Class
 {
-    unsigned char __thiscall GetByteAt66E();
+    unsigned char GetByteAt66E();
 };
 
 // @fnv 0x00944360
-unsigned char __thiscall FUN_00944360_Class::GetByteAt66E()
+unsigned char FUN_00944360_Class::GetByteAt66E()
 {
     return ((unsigned char*)this)[0x66e];
 }
 
 struct FUN_00944380_class
 {
-    void __thiscall SetFieldE28(float value);
+    void SetFieldE28(float value);
 };
 
 // @fnv 0x00944380
-void __thiscall FUN_00944380_class::SetFieldE28(float value)
+void FUN_00944380_class::SetFieldE28(float value)
 {
     *(float*)((char*)this + 0xe28) = value;
 }
@@ -281,11 +281,11 @@ char FUN_009444a0()
 
 struct FUN_0094c380_Class
 {
-    void __thiscall FUN_0094c380();
+    void FUN_0094c380();
 };
 
 // @fnv 0x0094c380
-void __thiscall FUN_0094c380_Class::FUN_0094c380()
+void FUN_0094c380_Class::FUN_0094c380()
 {
     reinterpret_cast<::FUN_00621370Owner *>(this)->FUN_00621370((::C68E30Owner *)(0));
 }
@@ -309,11 +309,11 @@ void SetScaledValue(float value)
 
 struct FUN_0094c8c0_class
 {
-    unsigned int __thiscall GetField6EC();
+    unsigned int GetField6EC();
 };
 
 // @fnv 0x0094c8c0
-unsigned int __thiscall FUN_0094c8c0_class::GetField6EC()
+unsigned int FUN_0094c8c0_class::GetField6EC()
 {
     return *(unsigned int*)((char*)this + 0x6ec);
 }
@@ -468,11 +468,11 @@ struct FUN_00464e30_shell
 struct FUN_009527b0_Class
 {
     void FUN_00952830(BSAudio*, unsigned int, unsigned int);
-    void __thiscall AddTopics(FUN_00952b30_BSSimpleList*);
+    void AddTopics(FUN_00952b30_BSSimpleList*);
 };
 // Iterates the given topic list, calls FUN_00952830 on each entry, and if any returns true calls SortTopicList with 1 and the result of GetSelfOffset6A8.
 // @fnv 0x009527b0
-void __thiscall FUN_009527b0_Class::AddTopics(FUN_00952b30_BSSimpleList* apAddTopicList)
+void FUN_009527b0_Class::AddTopics(FUN_00952b30_BSSimpleList* apAddTopicList)
 {
     if (apAddTopicList)
     {
@@ -617,7 +617,7 @@ class FUN_00952f90_cls
     char unk0000[0x6f4];
     FUN_00952f90_helper* m_6f4;
     FUN_00952f90_member m_6f8;
-    void __thiscall ClearHelper();
+    void ClearHelper();
 };
 
 // Calls v10(1) on m_6f4 if non-null, then nulls m_6f4 and calls ClearTeleportPath on m_6f8.

@@ -15,7 +15,7 @@ struct TESEatPackageData
 {
     unsigned char base[4];
     void* m_pPackageTarget;
-    void __thiscall FUN_0067bbb0();
+    void FUN_0067bbb0();
 };
 
 struct LocationDescriptor
@@ -23,7 +23,7 @@ struct LocationDescriptor
 };
 
 // @fnv 0x0067bbb0
-void __thiscall TESEatPackageData::FUN_0067bbb0()
+void TESEatPackageData::FUN_0067bbb0()
 {
     ::FUN_004856d0(0x44454b50);
     if (this->m_pPackageTarget != 0)
@@ -56,7 +56,7 @@ void TESEatPackageData::FUN_0067bfa0(BGSLoadFormBuffer* apLoadGameBuffer)
 
 struct FakeCls
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 struct BGSLoadFormBuffer
 {
@@ -70,10 +70,10 @@ struct TESEatPackageData_
 {
     unsigned char base[4];
     void* m_pPackageTarget;
-    void __thiscall Load(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Load(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // @fnv 0x0067b050
-void __thiscall TESEatPackageData_::Load(BGSLoadFormBuffer* apLoadGameBuffer)
+void TESEatPackageData_::Load(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     bool bhasLocation = false;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&bhasLocation), 1);
@@ -99,7 +99,7 @@ struct FUN_0067b9b0_cls : public Base_b9420
     virtual ~FUN_0067b9b0_cls();
 };
 // @fnv 0x0067b980
-void* __thiscall FakeCls::DestroyIfFlagged(unsigned int flags)
+void* FakeCls::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_0067b9b0_cls *>(this)->FUN_0067b9b0_cls::~FUN_0067b9b0_cls();
     if (flags & 1)
@@ -134,11 +134,11 @@ struct TESEatPackageData_StandIn
     unsigned char base[4];
     FUN_0067f600_Obj* m_pPackageTarget;
 
-    unsigned char __thiscall FUN_0067bb40(int arg);
+    unsigned char FUN_0067bb40(int arg);
 };
 
 // @fnv 0x0067bb40
-unsigned char __thiscall TESEatPackageData_StandIn::FUN_0067bb40(int arg)
+unsigned char TESEatPackageData_StandIn::FUN_0067bb40(int arg)
 {
     FUN_0067bb40_Result* result = (FUN_0067bb40_Result*)FUN_00ec43fb(arg, 0, &DAT_0119bdec, &DAT_0119be3c, 0);
 

@@ -6,6 +6,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/BC6C330HavokCollision.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_0056df20_Class.h"
@@ -58,12 +59,12 @@
 #include "fnv/symbols_01272000.h"
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int FUN_00622430();
 };
 struct NiRTTI;
 struct FUN_0066b5b0_shell
 {
-    const NiRTTI* __thiscall GetNiRTTI();
+    const NiRTTI* GetNiRTTI();
 };
 struct NiAVObject;
 struct NiNode
@@ -71,12 +72,12 @@ struct NiNode
 };
 struct BSTreeNode : NiNode
 {
-    NiAVObject* __thiscall GetFirstChild();
+    NiAVObject* GetFirstChild();
 };
 struct NiCullingProcess;
 struct DummyNode
 {
-    void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
+    void FUN_0066bf50(NiCullingProcess* arCuller);
 };
 struct FUN_00c6c290_holder
 {
@@ -119,7 +120,7 @@ struct FUN_0066d610_shell
 };
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int FUN_0066d730() const;
 };
 struct FUN_0066da50_t
 {
@@ -137,7 +138,7 @@ struct Flt
 struct NiTriBasedGeom;
 struct FUN_0066b620_shell
 {
-    NiTriBasedGeom* __thiscall GetTriBasedGeom();
+    NiTriBasedGeom* GetTriBasedGeom();
 };
 struct FUN_0066d400_shell
 {
@@ -207,10 +208,9 @@ struct H_00c8c810
 {
     char _p[8];
     S_00c8c810_C* p;
-    void __thiscall FUN_00c8c770();
-    void __thiscall FUN_00c8c810(bool);
+    void FUN_00c8c770();
+    void FUN_00c8c810(bool);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct Buf00cb7750
 {
     int m00;
@@ -333,7 +333,7 @@ struct S00cb7750
     int _08;
     int _0C;
     Inner00cb7750* m_10;
-    void __thiscall FUN_00cb7750();
+    void FUN_00cb7750();
 };
 struct BSFadeNode
 {
@@ -1473,7 +1473,7 @@ struct FUN_00cb7790_class
     FUN_00cb7790_node* node;
     unsigned int unk0C;
     FUN_00cb7790_receiver* receiver;
-    void __thiscall FUN_00cb7790();
+    void FUN_00cb7790();
 };
 // FUN_00cb7920 - factory for a bhkMultiSphereShape.
 //
@@ -1795,7 +1795,7 @@ struct FUN_00cb8010_cls
     virtual void vB0();
     virtual OwnerB* v45(unsigned char* pFlag);
 
-    void __thiscall FUN_00cb8010(A1Owner* a1);
+    void FUN_00cb8010(A1Owner* a1);
 };
 struct CTarget
 {
@@ -1874,7 +1874,7 @@ struct CObj
     int unk04;
     CLevel1* unk08;
 
-    bool __thiscall FUN_00c8c3d0(int value);
+    bool FUN_00c8c3d0(int value);
 };
 inline bool Walk(CObj* o, int v, bool r)
 {
@@ -2383,14 +2383,13 @@ inline void* C8C260GetTarget(C8C260Shader* p)
 {
     return (p && p->m_link && p->m_link->m_inner) ? p->m_link->m_inner->m_target : 0;
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-typedef void(__thiscall* ReleaseFn_t)(S_00c8c810_A* apObj);
+typedef void(* ReleaseFn_t)(S_00c8c810_A* apObj);
 struct CollisionStreamLoader : NiCollisionObject
 {
 };
 struct LegacyCollisionLoader : CollisionStreamLoader
 {
-    void __thiscall FUN_00c87f60(NiStream& stream);
+    void FUN_00c87f60(NiStream& stream);
 };
 
 #include <xmmintrin.h>

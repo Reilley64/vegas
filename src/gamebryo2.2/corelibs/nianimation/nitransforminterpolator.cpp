@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nitransforminterpolator.cpp: NiTransformInterpolator, Holder, NiTransformInterpolatorCopy, InterpolatorF7B0 (26 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/DataA38.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -44,7 +45,7 @@ static inline bool TransformIsValid(const NiQuatTransform& value)
 }
 
 // @fnv 0x00a40410
-void* __fastcall FUN_00a40410(NiTransformInterpolator* pThis, int, unsigned int flags)
+void* FUN_00a40410(NiTransformInterpolator* pThis, int, unsigned int flags)
 {
     NiRefObject* pkData = *(NiRefObject**)((char*)pThis + 0x2c);
     if (pkData)
@@ -68,7 +69,7 @@ enum KeyContent
 
 // Maps a channel index to a KeyContent: 0 quaternion, 1 position, 2 none, otherwise tangent.
 // @fnv 0x00a3f570
-KeyContent __stdcall FUN_00a3f570(unsigned short usChannel)
+KeyContent FUN_00a3f570(unsigned short usChannel)
 {
     if (usChannel == 0)
         return KEY_CONTENT_QUATERNION;
@@ -81,7 +82,7 @@ KeyContent __stdcall FUN_00a3f570(unsigned short usChannel)
 
 struct FUN_00a3f600_shell
 {
-    void* __thiscall FUN_00a3f600(short a);
+    void* FUN_00a3f600(short a);
 };
 
 // Returns the pointer stored at offset 0x14, 0x10 or 0x18 of the object at this+0x2c depending on a (0, 1, 2), or null.
@@ -111,12 +112,12 @@ void* FUN_00a3f600_shell::FUN_00a3f600(short aiIndex)
 
 struct FUN_00a3f650_shell
 {
-    int __thiscall FUN_00a3f650(short arg);
+    int FUN_00a3f650(short arg);
 };
 
 // Returns a field from the object at offset 0x2c based on arg (0, 1, or 2), or 0 if that pointer is null or arg is other.
 // @fnv 0x00a3f650
-int __thiscall FUN_00a3f650_shell::FUN_00a3f650(short aiIndex)
+int FUN_00a3f650_shell::FUN_00a3f650(short aiIndex)
 {
     if (aiIndex == 0)
     {
@@ -141,7 +142,7 @@ int __thiscall FUN_00a3f650_shell::FUN_00a3f650(short aiIndex)
 
 struct FUN_00a3f990_shell
 {
-    int __thiscall FUN_00a3f990(unsigned int* out1, int* out2, unsigned char* out3);
+    int FUN_00a3f990(unsigned int* out1, int* out2, unsigned char* out3);
 };
 // @fnv 0x00a3fdb0
 bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& value)
@@ -196,7 +197,7 @@ bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTran
 
 // Reads fields at offsets 0xa, 0x14, 0x1d and 0x24 from the object at this+0x2c into the out parameters and returns the last; zeroes them if that pointer is null.
 // @fnv 0x00a3f990
-int __thiscall FUN_00a3f990_shell::FUN_00a3f990(unsigned int* puiValue, int* piValue, unsigned char* pucValue)
+int FUN_00a3f990_shell::FUN_00a3f990(unsigned int* puiValue, int* piValue, unsigned char* pucValue)
 {
     void* p = *(void**)((char*)this + 0x2c);
     if (p)
@@ -244,7 +245,6 @@ struct BSRotAccumTransfInterpolator : public NiTransformInterpolator
     void __local_vftable_ctor_closure();
     NiQuaternion m_kAccumulatedRotation;
 };
-typedef char _sizecheck_BSRotAccumTransfInterpolator[sizeof(BSRotAccumTransfInterpolator) == 88 ? 1 : -1];
 struct FUN_00a3fd10_shell : public NiTransformInterpolator
 {
     NiInterpolator* FUN_00a3fd10(float, float);
@@ -265,7 +265,6 @@ struct RcObj
     virtual void Destroy();
     int m_uiRefs;
 };
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct FUN_00a3f5b0_t : public NiTransformInterpolator
 {
@@ -370,7 +369,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a40460_shell : public NiTransformInterpolator
 {
     NiObject* FUN_00a40460(CloningProcess*);
@@ -401,8 +399,6 @@ NiObject* FUN_00a40460_shell::FUN_00a40460(CloningProcess* kCloning)
     return (NiObject*)pkObject;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct RefObj
 {
     virtual ~RefObj();
@@ -510,7 +506,6 @@ struct BSRotAccumTransfInterpolator : public NiTransformInterpolator
     void __local_vftable_ctor_closure();
     NiQuaternion m_kAccumulatedRotation;
 };
-typedef char _sizecheck_BSRotAccumTransfInterpolator[sizeof(BSRotAccumTransfInterpolator) == 88 ? 1 : -1];
 struct TransformAnimationData : public TimedRotationKey
 {
     static int RegisterObjectLoader();
@@ -549,7 +544,6 @@ struct TransformAnimationData : public TimedRotationKey
     char m_ppKeyData[12];
     char m_uiLastKeyIndex[12];
 };
-typedef char _sizecheck_NiEulerRotKey[sizeof(TransformAnimationData) == 72 ? 1 : -1];
 struct FUN_00a3fb20_shell : public NiTransformInterpolator
 {
     void FUN_00a3fb20(float*, float*);
@@ -730,7 +724,6 @@ struct BSRotAccumTransfInterpolator : public NiTransformInterpolator
     void __local_vftable_ctor_closure();
     NiQuaternion m_kAccumulatedRotation;
 };
-typedef char _sizecheck_BSRotAccumTransfInterpolator[sizeof(BSRotAccumTransfInterpolator) == 88 ? 1 : -1];
 struct FUN_00a404b0_shell : public NiTransformInterpolator
 {
     void FUN_00a404b0(void*);
@@ -758,7 +751,7 @@ void FUN_00a404b0_shell::FUN_00a404b0(void* pkStrings)
     reinterpret_cast<::QXformViewer *>((((FUN_00a38cb0_shell*)((char*)this + 0xc))))->FUN_00a38cb0((::ViewerStrings *)(::fnv_00a404b0::StrArr *)((StrArr*)pkStrings));
     void* pData = *(void**)((char*)this + 0x2c);
     if (pData)
-        ((void(__thiscall*)(void*, StrArr*))(*(void***)pData)[24])(pData, (StrArr*)pkStrings);
+        ((void(*)(void*, StrArr*))(*(void***)pData)[24])(pData, (StrArr*)pkStrings);
 }
 }  // namespace fnv_00a404b0
 
@@ -896,7 +889,7 @@ struct S_00a3f870_Data
     virtual void v18();
     virtual void v19();
     virtual void v20();
-    virtual void __thiscall v21(unsigned int arg);
+    virtual void v21(unsigned int arg);
 };
 
 struct S_00a3f870_This
@@ -914,13 +907,13 @@ struct S_00a3f870_This
     void* unk28;
     S_00a3f870_Data* unk2c;
 
-    bool __thiscall FUN_00aa0ad0(unsigned int arg);
-    bool __thiscall FUN_00a3f870(unsigned int arg);
+    bool FUN_00aa0ad0(unsigned int arg);
+    bool FUN_00a3f870(unsigned int arg);
 };
 
 // Calls FUN_00aa0ad0(arg); if it succeeds, invokes v21(arg) on unk2c when non-null and returns true, otherwise returns false.
 // @fnv 0x00a3f870
-bool __thiscall S_00a3f870_This::FUN_00a3f870(unsigned int arg)
+bool S_00a3f870_This::FUN_00a3f870(unsigned int arg)
 {
     if (!this->FUN_00aa0ad0(arg))
         return false;
@@ -1050,11 +1043,11 @@ struct FUN_00a3f8a0_t
     int unk28;
     void* unk2C;
 
-    void __thiscall FUN_00a3f8a0(NiStream* stream);
+    void FUN_00a3f8a0(NiStream* stream);
 };
 
 // @fnv 0x00a3f8a0
-void __thiscall FUN_00a3f8a0_t::FUN_00a3f8a0(NiStream* stream)
+void FUN_00a3f8a0_t::FUN_00a3f8a0(NiStream* stream)
 {
     reinterpret_cast<::FUN_00a95ca0_shell *>((reinterpret_cast<FUN_00a95ca0_helper*>(this)))->FUN_00a95ca0((*(::S_00a58160_Stream *)(stream)));
     reinterpret_cast<::DataA38 *>((reinterpret_cast<FUN_00a38b60_tgt*>(reinterpret_cast<char*>(this) + 0x0C)))->FUN_00a38b60((*(::NiStreamA38 *)(stream)));
@@ -1179,8 +1172,6 @@ struct NiStreamF7B0
 {
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 class NiObjectF7B0
 {

@@ -332,7 +332,7 @@ struct PoseQuaternion
     PoseVector vector;
     void FUN_00c66320(const PoseQuaternion&, const PoseQuaternion&);
 };
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 struct QuaternionProduct
 {
     __m128 quad;
@@ -605,7 +605,7 @@ struct S_00ccbce0_Owner
     int unk10;
     S_00ccbce0_Ref* unk14;
 
-    void __thiscall FUN_00ccbce0(S_00ccbce0_Output* value);
+    void FUN_00ccbce0(S_00ccbce0_Output* value);
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 union hkVec4
@@ -1027,7 +1027,7 @@ class S_00cd3c20_Obj
     int unk51c;
     int unk520;
 };
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj);
+void FUN_00cd3c20(S_00cd3c20_Obj* obj);
 struct ShapeVector
 {
     hkVec4 m_v;
@@ -2319,8 +2319,8 @@ struct OutputHandler
 {
     void FUN_00cca6f0(InitializePathingRequestFromPosition* request);
 };
-typedef void(__thiscall* OutputMethod)(OutputHandler*, void*);
-typedef void(__thiscall* RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
+typedef void(* OutputMethod)(OutputHandler*, void*);
+typedef void(* RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
 struct ThreadTlsBlock
 {
     unsigned int unk0000;
@@ -2832,7 +2832,7 @@ class CylinderInitOwner
     virtual void v45();
     virtual void v46();
     virtual void v47(ParamSrc*);
-    void __thiscall FUN_00ccd8c0(ParamSrc*);
+    void FUN_00ccd8c0(ParamSrc*);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 void* __cdecl FUN_00aa13e0(unsigned);

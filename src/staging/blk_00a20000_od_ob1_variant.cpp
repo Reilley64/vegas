@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/A237F0Object.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -67,7 +68,6 @@ struct FUN_00a25d50_Class
 {
     unsigned int GetField14278();
 };
-extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char* dst, const char* src);
 char* __cdecl FUN_00a25e00(char* dst, char* src);
 struct FUN_00a24f10_Class
 {
@@ -228,7 +228,6 @@ struct FUN_00a26220_Class
     unsigned int FUN_00a26220();
     unsigned int FUN_00a26240();
 };
-extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount();
 struct FUN_00a262d0_Class
 {
     unsigned int m_00;
@@ -260,21 +259,21 @@ struct FUN_00a23e10_Class : public FUN_00a24080_Class
 };
 struct InputDevice
 {
-    virtual unsigned long __stdcall QueryInterface() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual unsigned long __stdcall GetCapabilities() = 0;
-    virtual unsigned long __stdcall EnumObjects() = 0;
-    virtual unsigned long __stdcall GetProperty() = 0;
-    virtual unsigned long __stdcall SetProperty() = 0;
-    virtual unsigned long __stdcall Acquire() = 0;
-    virtual unsigned long __stdcall Unacquire() = 0;
+    virtual unsigned long QueryInterface() = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual unsigned long GetCapabilities() = 0;
+    virtual unsigned long EnumObjects() = 0;
+    virtual unsigned long GetProperty() = 0;
+    virtual unsigned long SetProperty() = 0;
+    virtual unsigned long Acquire() = 0;
+    virtual unsigned long Unacquire() = 0;
 };
 struct InputInterface
 {
-    virtual unsigned long __stdcall QueryInterface() = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual unsigned long QueryInterface() = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 struct NiAllocator
 {
@@ -294,11 +293,8 @@ struct InputManagerClose
     unsigned int unk28;
     InputDevice* keyboard;
     InputDevice* mouse;
-    void __thiscall ShutdownInput();
+    void ShutdownInput();
 };
-extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
-    const char* lpAppName, const char* lpKeyName, const char* lpDefault, char* lpReturnedString, unsigned long nSize,
-    const char* lpFileName);
 extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
@@ -306,7 +302,7 @@ struct ControlsIniLoader : public FUN_00a24f60_Class
 {
     void LoadControlsFromIni();
 };
-// FUN_00a232c0 : an empty __thiscall member function (an /Od build).
+// FUN_00a232c0 : an empty member function (an /Od build).
 struct FnvEmpty_00a232c0
 {
     void FUN_00a232c0();
@@ -3854,15 +3850,15 @@ struct InputHandler
 class SpawnedObject
 {
   public:
-    virtual void __stdcall v00();
-    virtual void __stdcall v04();
-    virtual void __stdcall v08();
-    virtual void __stdcall v0C();
-    virtual void __stdcall v10(int a0, void* a1, void* a2, int a3);
-    virtual void __stdcall v14();
-    virtual void __stdcall v18();
-    virtual void __stdcall v1C();
-    virtual void __stdcall v20();
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10(int a0, void* a1, void* a2, int a3);
+    virtual void v14();
+    virtual void v18();
+    virtual void v1C();
+    virtual void v20();
 };
 struct FUN_00a252d0_cls
 {
@@ -4103,32 +4099,32 @@ extern Scratch DAT_011f35a8;
 extern Scratch DAT_011f35b8;
 struct PollingDevice
 {
-    virtual long __stdcall QueryInterface() = 0;
-    virtual long __stdcall AddRef() = 0;
-    virtual long __stdcall Release() = 0;
-    virtual long __stdcall GetCapabilities() = 0;
-    virtual long __stdcall EnumObjects() = 0;
-    virtual long __stdcall GetProperty() = 0;
-    virtual long __stdcall SetProperty() = 0;
-    virtual long __stdcall Acquire() = 0;
-    virtual long __stdcall Unacquire() = 0;
-    virtual long __stdcall GetDeviceState(unsigned int size, void* state) = 0;
-    virtual long __stdcall GetDeviceData() = 0;
-    virtual long __stdcall SetDataFormat() = 0;
-    virtual long __stdcall SetEventNotification() = 0;
-    virtual long __stdcall SetCooperativeLevel() = 0;
-    virtual long __stdcall GetObjectInfo() = 0;
-    virtual long __stdcall GetDeviceInfo() = 0;
-    virtual long __stdcall RunControlPanel() = 0;
-    virtual long __stdcall Initialize() = 0;
-    virtual long __stdcall CreateEffect() = 0;
-    virtual long __stdcall EnumEffects() = 0;
-    virtual long __stdcall GetEffectInfo() = 0;
-    virtual long __stdcall GetForceFeedbackState() = 0;
-    virtual long __stdcall SendForceFeedbackCommand() = 0;
-    virtual long __stdcall EnumCreatedEffectObjects() = 0;
-    virtual long __stdcall Escape() = 0;
-    virtual long __stdcall Poll() = 0;
+    virtual long QueryInterface() = 0;
+    virtual long AddRef() = 0;
+    virtual long Release() = 0;
+    virtual long GetCapabilities() = 0;
+    virtual long EnumObjects() = 0;
+    virtual long GetProperty() = 0;
+    virtual long SetProperty() = 0;
+    virtual long Acquire() = 0;
+    virtual long Unacquire() = 0;
+    virtual long GetDeviceState(unsigned int size, void* state) = 0;
+    virtual long GetDeviceData() = 0;
+    virtual long SetDataFormat() = 0;
+    virtual long SetEventNotification() = 0;
+    virtual long SetCooperativeLevel() = 0;
+    virtual long GetObjectInfo() = 0;
+    virtual long GetDeviceInfo() = 0;
+    virtual long RunControlPanel() = 0;
+    virtual long Initialize() = 0;
+    virtual long CreateEffect() = 0;
+    virtual long EnumEffects() = 0;
+    virtual long GetEffectInfo() = 0;
+    virtual long GetForceFeedbackState() = 0;
+    virtual long SendForceFeedbackCommand() = 0;
+    virtual long EnumCreatedEffectObjects() = 0;
+    virtual long Escape() = 0;
+    virtual long Poll() = 0;
 };
 struct DeviceStatePair
 {
@@ -5999,12 +5995,12 @@ FUN_00a25b00::~FUN_00a25b00()
     }
 }
 
-// Reconstruction of FUN_00a22660 (input-device-manager init), 1417 B, __thiscall, ret 4.
+// Reconstruction of FUN_00a22660 (input-device-manager init), 1417 B, , ret 4.
 //
 // The target's allocation site 0x00a22a98..0x00a22aa4 is
 //     6a 40            push 0x40
 //     b9 38 62 1f 01   mov  ecx, OFFSET DAT_011f6238   (memory-manager singleton)
-//     e8 9c 13 08 00   call FUN_00aa3e40              (__thiscall pool alloc)
+//     e8 9c 13 08 00   call FUN_00aa3e40              (pool alloc)
 //     89 45 b4         mov  [ebp-0x4c], eax
 // followed by the new-expression EH state 0 (mov dword [ebp-4],0) and an unwind
 // action at 0x00f1e7a0 = `mov eax,[ebp-0x4c]; push eax; call ??3@YAXPAX@Z`.
@@ -6037,41 +6033,32 @@ inline void* operator new(unsigned int size)
     return reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
 }
 
-extern "C" __declspec(dllimport) long __stdcall RegOpenKeyExA(void* key, const char* sub, unsigned int opt,
-                                                              unsigned int sam, void** out);
-extern "C" __declspec(dllimport) long __stdcall RegQueryValueExA(void* key, const char* name, unsigned int* res,
-                                                                 unsigned int* typeIn, unsigned char* data,
-                                                                 unsigned int* cb);
-extern "C" __declspec(dllimport) long __stdcall RegCloseKey(void* key);
-extern "C" __declspec(dllimport) int __stdcall SwapMouseButton(int sw);
-extern "C" __declspec(dllimport) unsigned int __stdcall GetDoubleClickTime(void);
-extern "C" __declspec(dllimport) void* __stdcall GetActiveWindow(void);
 extern "C" long __cdecl FUN_00eca6d3(const char* s);
 
 struct IDI8
 {
-    virtual long __stdcall v00(void*, void*) = 0;
-    virtual long __stdcall v04(void*, void*) = 0;
-    virtual long __stdcall v08(void*, void*) = 0;
-    virtual long __stdcall CreateDevice(void* guid, void** out, void* outer) = 0;
+    virtual long v00(void*, void*) = 0;
+    virtual long v04(void*, void*) = 0;
+    virtual long v08(void*, void*) = 0;
+    virtual long CreateDevice(void* guid, void** out, void* outer) = 0;
 };
 
 struct IDIDev
 {
-    virtual long __stdcall v00(void*, void*) = 0;
-    virtual long __stdcall v04(void*, void*) = 0;
-    virtual long __stdcall v08(void*, void*) = 0;
-    virtual long __stdcall GetCapabilities(void* caps) = 0;
-    virtual long __stdcall v10(void*, void*) = 0;
-    virtual long __stdcall v14(void*, void*) = 0;
-    virtual long __stdcall SetProperty(int guid, void* hdr) = 0;
-    virtual long __stdcall v1c(void*, void*) = 0;
-    virtual long __stdcall v20(void*, void*) = 0;
-    virtual long __stdcall v24(void*, void*) = 0;
-    virtual long __stdcall v28(void*, void*) = 0;
-    virtual long __stdcall SetDataFormat(void* fmt) = 0;
-    virtual long __stdcall v30(void*, void*) = 0;
-    virtual long __stdcall SetCooperativeLevel(void* hwnd, unsigned int flags) = 0;
+    virtual long v00(void*, void*) = 0;
+    virtual long v04(void*, void*) = 0;
+    virtual long v08(void*, void*) = 0;
+    virtual long GetCapabilities(void* caps) = 0;
+    virtual long v10(void*, void*) = 0;
+    virtual long v14(void*, void*) = 0;
+    virtual long SetProperty(int guid, void* hdr) = 0;
+    virtual long v1c(void*, void*) = 0;
+    virtual long v20(void*, void*) = 0;
+    virtual long v24(void*, void*) = 0;
+    virtual long v28(void*, void*) = 0;
+    virtual long SetDataFormat(void* fmt) = 0;
+    virtual long v30(void*, void*) = 0;
+    virtual long SetCooperativeLevel(void* hwnd, unsigned int flags) = 0;
 };
 
 struct Elem2

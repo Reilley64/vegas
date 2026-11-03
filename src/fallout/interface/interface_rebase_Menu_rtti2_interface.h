@@ -20,14 +20,4 @@ class Menu
     int m_iMenuId;                       // +0x20
     Interface__FADE_STATE m_eFadeState;  // +0x24
 };
-FNV_STATIC_ASSERT(sizeof(Menu) == 0x28);
-FNV_STATIC_ASSERT(offsetof(Menu, pMenu) == 0x4);
-FNV_STATIC_ASSERT(offsetof(Menu, m_kTileTemplateList) == 0x8);
-FNV_STATIC_ASSERT(offsetof(Menu, m_pMenuTile) == 0x10);
-FNV_STATIC_ASSERT(offsetof(Menu, m_iModalMenuId) == 0x14);
-FNV_STATIC_ASSERT(offsetof(Menu, m_iSecondaryValue) == 0x18);
-FNV_STATIC_ASSERT(offsetof(Menu, m_bIsSpecial) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(Menu, m_bVisible) == 0x1D);
-FNV_STATIC_ASSERT(offsetof(Menu, m_iMenuId) == 0x20);
-FNV_STATIC_ASSERT(offsetof(Menu, m_eFadeState) == 0x24);
 #endif

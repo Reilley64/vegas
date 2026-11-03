@@ -75,7 +75,7 @@ struct LandSaveCell5391
 
 struct FUN_005391d0_class
 {
-    bool __thiscall FUN_005391d0(LandSaveGroup5391* apGroupFORM);
+    bool FUN_005391d0(LandSaveGroup5391* apGroupFORM);
 };
 
 // @fnv 0x005391d0

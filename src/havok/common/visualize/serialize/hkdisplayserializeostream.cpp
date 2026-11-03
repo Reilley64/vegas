@@ -33,7 +33,7 @@ unsigned int FUN_00dda830(const unsigned int* puiValues)
 }
 
 // @fnv 0x00dda730
-void __stdcall FUN_00dda730(unsigned int p)
+void FUN_00dda730(unsigned int p)
 {
     reinterpret_cast<::FUN_00d60b00_class *>((p))->WriteFloatArray((const float *)(3), {});
 }
@@ -208,7 +208,7 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 // the neighbourhood is hkOArchive; no layout information is needed here because
 // the function never touches a member).
 //
-// The original is a __thiscall member with ONE 4-byte stack argument (the
+// The original is a member with ONE 4-byte stack argument (the
 // callers do `mov ecx,<object> / push <arg> / call WriteUInt16`, and the body
 // ends in `ret 4`).  It forwards `this` (ECX) unchanged to WriteSwapped and
 // passes the ADDRESS of its own incoming argument as the first argument of
@@ -221,7 +221,7 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
 //     call 0x00d60600
 //     ret 4
 //
-// WriteSwapped is a __thiscall member of its own (it uses ECX as `this` and
+// WriteSwapped is a member of its own (it uses ECX as `this` and
 // pops three 4-byte arguments), so it is only DECLARED here: the call target
 // is then bound by the checker from the original's own bytes.
 

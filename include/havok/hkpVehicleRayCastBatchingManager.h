@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPVEHICLERAYCASTBATCHINGMANAGER_H
 #include "hkBase.h"
 #include "hkpVehicleCastBatchingManager.h"
-#pragma pack(push, 1)
 class hkpVehicleRayCastBatchingManager : public hkpVehicleCastBatchingManager
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleRayCastBatchingManager[(sizeof(hkpVehicleRayCastBatchingManager) == 0x18) ? 1 : -1];
 #endif

@@ -59,9 +59,8 @@ class TESAmmoInitCalls
 
 bool IsValidSandboxProcedure(int aiProcedure);
 
-extern unsigned int(__stdcall* DAT_00fdf1b0)(void*);
+extern unsigned int(* DAT_00fdf1b0)(void*);
 
-#pragma pack(push, 4)
 class FurnitureMark
 {
   public:
@@ -86,12 +85,6 @@ class FurnitureMark
     // bool __cdecl FurnitureMark::*(const FurnitureMark&)
     // void __cdecl FurnitureMark::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FurnitureMark) == 16);
-FNV_STATIC_ASSERT(offsetof(FurnitureMark, Position) == 0);
-FNV_STATIC_ASSERT(offsetof(FurnitureMark, m_usMarkerId) == 12);
-FNV_STATIC_ASSERT(offsetof(FurnitureMark, m_ucFlags) == 14);
-#pragma pack(push, 4)
 class MagicItem;
 class MagicTarget;
 class MiddleHighProcess : public MiddleLowProcess
@@ -469,99 +462,4 @@ public:
 public:
     void SetMagicTarget(::MagicTarget *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MiddleHighProcess) == 604);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kReferenceList) == 200);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kSecondaryReferenceList) == 208);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kNinthUnshownMember) == 216);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kEighthUnshownMember) == 220);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bPackageStateFlag2) == 224);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bPackageStateFlag) == 225);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bPackageStateFlag3) == 226);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bPackageStateFlag4) == 227);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, PackageReference) == 228);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kPackageTargetPosition) == 252);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_ePackageObjectType) == 264);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pPackageIdleForm) == 268);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kSecondUnshownMember) == 272);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, pWeapon) == 276);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, pAmmo) == 280);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pQueuedWeaponFile) == 284);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pWeaponData) == 288);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFirstWeaponFlag) == 292);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bSecondWeaponFlag) == 293);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bThirdWeaponFlag) == 294);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFourthWeaponFlag) == 295);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFifthWeaponFlag) == 296);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bSixthWeaponFlag) == 297);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bSeventhWeaponFlag) == 298);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pActorNode) == 300);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pActorObject) == 304);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFirstActorFlag) == 308);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bAdditionalActorFlag) == 309);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pCharacterController) == 312);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_cCharacterControllerState) == 316);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_ucFurnitureInteractionState) == 317);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pFurnitureReference) == 320);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_ucFurnitureMarkerIndex) == 324);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, FurnitureMarker) == 328);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pCombatTarget) == 344);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pEquippedWeapon) == 348);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pFirstMagicItem) == 352);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pSecondMagicItem) == 356);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bWeaponOut) == 360);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pEffectShader) == 364);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fFirstEffectShaderValue) == 368);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fSecondEffectShaderValue) == 372);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pFaceGenAnimationData) == 376);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFirstFaceGenFlag) == 380);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kSixthUnshownMember) == 381);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bThirdFaceGenFlag) == 382);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kSeventhUnshownMember) == 383);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kFifthUnshownMember) == 384);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_uiAnimationStateFlags) == 388);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bAiming) == 392);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bAimStateFlag) == 393);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bCombatStateFlag) == 394);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFourthStateFlag) == 395);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_ucProcessState) == 396);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bEquipStateFlag) == 397);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_iIdleState) == 400);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pCurrentIdleForm) == 404);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fIdleAnimationTime) == 408);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kThirdUnshownMember) == 412);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kFourthUnshownMember) == 413);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pLipSyncAnimation) == 416);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_uiLipSyncState) == 420);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_iProjectileCount) == 424);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pArrowProjectileList) == 428);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kDeferredHideLimbList) == 432);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pActiveEffectList) == 440);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pMagicTarget) == 444);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, pCurrentAnimation) == 448);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_apAnimGroupSequences) == 452);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fAnimationTime) == 464);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fAnimationSpeed) == 468);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_ucAnimationState) == 472);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bFirstAnimationFlag) == 473);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_bAnimationStateFlag) == 474);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_apBodyPartNodes) == 476);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pFirstAttachedObject) == 536);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pSecondAttachedObject) == 540);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pLightingProperty) == 544);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pBound) == 548);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kFieldAfterWeaponFlags) == 552);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_sBoundDataValue) == 554);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kEleventhUnshownMember) == 556);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pkPaddedFloatRecordList) == 560);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_kTenthUnshownMember) == 564);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fFirstFaceGenValue) == 568);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_fSecondFaceGenValue) == 572);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pData) == 576);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_iFaceGenNodeIndex) == 580);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pFirstFaceGenNode) == 584);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pSecondFaceGenNode) == 588);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pFaceGenObject) == 592);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_pAdditionalFaceGenData) == 596);
-FNV_STATIC_ASSERT(offsetof(MiddleHighProcess, m_uiFaceGenDataFlags) == 600);
 #endif

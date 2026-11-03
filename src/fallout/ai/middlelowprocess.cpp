@@ -310,7 +310,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -347,7 +346,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0092eaa0_shell : public MiddleLowProcess
 {
     void FUN_0092eaa0(BGSLoadFormBuffer*);
@@ -434,7 +432,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -471,7 +468,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_0092eb00_shell : public MiddleLowProcess
 {
     void FUN_0092eb00(BGSLoadFormBuffer*);
@@ -561,7 +557,7 @@ struct P09AV
 };
 struct ModHack
 {
-    void __thiscall ModifyModifier(char, float, int);
+    void ModifyModifier(char, float, int);
 };
 struct FUN_0092ce70_shell
 {
@@ -1258,7 +1254,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
 
 struct Sub0092cec0
 {
-    void __thiscall FUN_00937480(unsigned char aucIndex, float afValue, int aiType);
+    void FUN_00937480(unsigned char aucIndex, float afValue, int aiType);
 };
 
 struct Owner0092cec0

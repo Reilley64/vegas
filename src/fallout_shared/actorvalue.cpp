@@ -610,7 +610,7 @@ const char* __cdecl FUN_0066eb00(ActorValue::Index aiIndex)
 extern "C" void __cdecl ClearActorValueSlots();
 
 // @fnv 0x0066efd0
-void __fastcall FUN_0066efd0(int)
+void FUN_0066efd0(int)
 {
     ClearActorValueSlots();
 }

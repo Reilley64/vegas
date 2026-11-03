@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/fallout_shared/settings/xgamesetting.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -436,7 +437,6 @@ void* __cdecl FUN_00c4bb40(NiObjectC4BB* pkObject)
     return pvData;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 int __cdecl FUN_00ec65a6(char* dst, unsigned size, const char* src);
 int __cdecl FUN_00ec6bd2(char* dst, unsigned size, const char* src);
 static __forceinline void DeadQ3()

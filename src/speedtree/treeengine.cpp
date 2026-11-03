@@ -59,11 +59,11 @@ void FUN_00b2bdc0_shell::FUN_00b2bdc0(float afValue44, float afValue40)
 void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 // Calls FUN_00b2ae90, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x00b2ae60
-void* __thiscall FUN_00b2ae60_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00b2ae60_shell::DestroyIfFlagged(unsigned int flags)
 {
     char stack[0x58];
     reinterpret_cast<::B2AE90_Object *>(this)->B2AE90_Object::~B2AE90_Object();
@@ -101,10 +101,10 @@ struct ElementIterator
 };
 struct FUN_00b2daf0_shell : CTreeEngine
 {
-    void __thiscall FUN_00b2daf0(ElementIterator* a);
+    void FUN_00b2daf0(ElementIterator* a);
 };
 // @fnv 0x00b2daf0
-void __thiscall FUN_00b2daf0_shell::FUN_00b2daf0(ElementIterator* a)
+void FUN_00b2daf0_shell::FUN_00b2daf0(ElementIterator* a)
 {
     *(int*)((char*)this + 0x54) = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
 }
@@ -168,12 +168,12 @@ struct FUN_00b2bd40_Obj
     float unk40;
     float unk44;
 
-    float __thiscall GetNormalizedValue();
+    float GetNormalizedValue();
 };
 
 // Computes 1 - (v - unk44)/(unk40 - unk44) from DAT_011f8e9c.FUN_00b04d40, sets 1 or 0 past the two thresholds, stores it in unk14 and returns it.
 // @fnv 0x00b2bd40
-float __thiscall FUN_00b2bd40_Obj::GetNormalizedValue()
+float FUN_00b2bd40_Obj::GetNormalizedValue()
 {
     float local;
     float fUnused;
@@ -222,14 +222,14 @@ struct FUN_00b3d720_Class
     float unk4C;
     float unk50;
 
-    FUN_00b3d720_Class* __thiscall FUN_00b3d720();
+    FUN_00b3d720_Class* FUN_00b3d720();
 };
 
 extern float DAT_010a587c;
 
 // Sets unk00 false, fills float triples at unk04, unk30, unk3C, unk48 from globals/constants, sets unk10, and calls FUN_0044a730(false, 0) on unk14.
 // @fnv 0x00b3d720
-FUN_00b3d720_Class* __thiscall FUN_00b3d720_Class::FUN_00b3d720()
+FUN_00b3d720_Class* FUN_00b3d720_Class::FUN_00b3d720()
 {
     int unused01;
     int unused02;

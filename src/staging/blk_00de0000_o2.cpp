@@ -2,6 +2,7 @@
 // src/staging/blk_00de0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AnimationEndian.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -97,7 +98,7 @@ void __cdecl FUN_00df64d0(void* p, int b)
 
 struct FUN_00cb0c00_class
 {
-    void __thiscall FUN_00cb0c00();
+    void FUN_00cb0c00();
 };
 
 // @fnv 0x00dfb490
@@ -122,7 +123,7 @@ extern int DAT_010df34c;
 
 struct FUN_00dfbdf0_class
 {
-    void __thiscall FUN_00cb0a70(int a);
+    void FUN_00cb0a70(int a);
 };
 
 // @fnv 0x00dfbdf0
@@ -168,7 +169,7 @@ void FUN_00dfd0f0(void* pObject, int b)
 
 struct FUN_00cb0a70_class
 {
-    void __thiscall FUN_00cb0a70(int);
+    void FUN_00cb0a70(int);
 };
 
 // @fnv 0x00dfd770
@@ -194,7 +195,7 @@ void __cdecl FUN_00dfd970(hkReferencedObject** p)
 
 struct FUN_00cb0a70_cls
 {
-    void __thiscall FUN_00cb0a70(char*);
+    void FUN_00cb0a70(char*);
 };
 
 // If b is non-null, calls FUN_00cb0a70 on b and on b+4 with a as the argument.
@@ -231,7 +232,7 @@ struct FUN_00cb0a70_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_00cb0a70(int a);
+    void FUN_00cb0a70(int a);
 };
 
 // @fnv 0x00dfef50
@@ -268,7 +269,7 @@ extern int DAT_010cce28;
 extern int DAT_010d07f4;
 struct FUN_00cb0a70
 {
-    void __thiscall m_00cb0a70(int);
+    void m_00cb0a70(int);
 };
 
 // @fnv 0x00dff1f0
@@ -396,7 +397,7 @@ void __cdecl FUN_00dfc130(int* p)
         *p = (int)&DAT_010dff44;
 }
 
-typedef void(__thiscall* VTable0)(void*, int);
+typedef void(* VTable0)(void*, int);
 // @fnv 0x00dfc230
 void __cdecl FUN_00dfc230(void** p)
 {
@@ -406,7 +407,7 @@ void __cdecl FUN_00dfc230(void** p)
 // @fnv 0x00dfc250
 void __cdecl FUN_00dfc250(void** p)
 {
-    void(__thiscall * fn)(void*, int) = *(void(__thiscall**)(void*, int)) * p;
+    void(* fn)(void*, int) = *(void(**)(void*, int)) * p;
     fn(p, 0);
 }
 
@@ -429,7 +430,7 @@ void FUN_00dfc2a0(int* p)
 // @fnv 0x00dfc380
 void __cdecl FUN_00dfc380(void** p)
 {
-    (**(void(__thiscall**)(void*, int))(*p))(p, 0);
+    (**(void(**)(void*, int))(*p))(p, 0);
 }
 
 extern int DAT_010e04ac;
@@ -443,7 +444,7 @@ void __cdecl FUN_00dfc470(int* p)
 // @fnv 0x00dfc500
 void __cdecl FUN_00dfc500(void* p)
 {
-    ((void(__thiscall*)(void*, int)) * (void**)*(void**)p)(p, 0);
+    ((void(*)(void*, int)) * (void**)*(void**)p)(p, 0);
 }
 
 // @fnv 0x00dfc520
@@ -472,7 +473,7 @@ void __cdecl FUN_00dfc6c0(int* p)
 // @fnv 0x00dfc700
 void __cdecl FUN_00dfc700(void* p)
 {
-    ((void(__thiscall*)(void*, int))(*(void**)*(void**)p))(p, 0);
+    ((void(*)(void*, int))(*(void**)*(void**)p))(p, 0);
 }
 
 extern int DAT_010d0aac;
@@ -502,7 +503,7 @@ void __cdecl FUN_00dfca90(int* p)
 // @fnv 0x00dfcad0
 void __cdecl FUN_00dfcad0(void** p)
 {
-    ((void(__thiscall*)(void*, int))(**(void***)(p)))(p, 0);
+    ((void(*)(void*, int))(**(void***)(p)))(p, 0);
 }
 
 extern int DAT_010d0b3c;
@@ -535,7 +536,7 @@ void __cdecl FUN_00dfccd0(int* p)
         *p = (int)&DAT_010d0be4;
 }
 
-typedef int(__thiscall* VFunc0)(void*, int);
+typedef int(* VFunc0)(void*, int);
 // @fnv 0x00dfcd10
 int __cdecl FUN_00dfcd10(void* self)
 {
@@ -578,7 +579,7 @@ void __cdecl FUN_00dfd7c0(void* arg)
 
 struct FUN_00dfd940_vt
 {
-    virtual void __thiscall FUN_00dfd940(int);
+    virtual void FUN_00dfd940(int);
 };
 // @fnv 0x00dfd940
 void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p)
@@ -633,7 +634,7 @@ void __cdecl FUN_00dfe340(void* p)
 
 struct FUN_00dfe430_class
 {
-    virtual int __thiscall FUN_00cb0a70(int a);
+    virtual int FUN_00cb0a70(int a);
 };
 // @fnv 0x00dfe430
 int __cdecl FUN_00dfe430(FUN_00dfe430_class* p)
@@ -685,7 +686,7 @@ void FUN_00dfe700(int* p)
 // @fnv 0x00dfeaa0
 void __cdecl FUN_00dfeaa0(void** p)
 {
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
 }
 
 extern int DAT_010e5b68;
@@ -734,7 +735,7 @@ void __cdecl FUN_00dfec90(int** p)
 // @fnv 0x00dfecb0
 void __cdecl FUN_00dfecb0(int* p)
 {
-    ((void(__thiscall*)(void*, int))(*(int*)p[0]))(p, 0);
+    ((void(*)(void*, int))(*(int*)p[0]))(p, 0);
 }
 
 
@@ -797,7 +798,7 @@ void __cdecl FUN_00dff0d0(int* p)
 extern int DAT_010c8e94;
 struct FUN_00cb0a70_m_helper
 {
-    void __thiscall m(int);
+    void m(int);
 };
 // @fnv 0x00dff270
 void __cdecl FUN_00dff270(void* pObject, void* b)
@@ -813,7 +814,7 @@ void __cdecl FUN_00dff270(void* pObject, void* b)
     }
 }
 
-typedef void(__thiscall* VTableFn)(void*, int);
+typedef void(* VTableFn)(void*, int);
 // @fnv 0x00dff3c0
 void __cdecl FUN_00dff3c0(void* p)
 {
@@ -847,10 +848,10 @@ void __cdecl FUN_00dff620(int** p)
 // @fnv 0x00dff9e0
 void __cdecl FUN_00dff9e0(void** p)
 {
-    (**(void(__thiscall**)(void*, int))(*p))(p, 0);
+    (**(void(**)(void*, int))(*p))(p, 0);
 }
 
-typedef int(__thiscall* Vfn)(void*, int);
+typedef int(* Vfn)(void*, int);
 // @fnv 0x00dffa30
 int __cdecl FUN_00dffa30(void* obj)
 {
@@ -902,7 +903,7 @@ void FUN_00dffee0(int* p)
 
 struct FUN_00dfff60_vt
 {
-    virtual int __thiscall v0(int);
+    virtual int v0(int);
 };
 // @fnv 0x00dfff60
 int __cdecl FUN_00dfff60(FUN_00dfff60_vt* p)
@@ -982,7 +983,7 @@ void __cdecl FUN_00de81a0(void* pObject, void* arg)
 
 struct FUN_00d21ce0_cls
 {
-    void __thiscall FUN_00d21ce0(void*);
+    void FUN_00d21ce0(void*);
 };
 struct FUN_00de8550_t
 {
@@ -1059,14 +1060,14 @@ int __cdecl FUN_00df3250(int arg)
     return eax + 2;
 }
 
-typedef void(__thiscall* Vfn0)(void*, int);
+typedef void(* Vfn0)(void*, int);
 // @fnv 0x00df6460
 void __cdecl FUN_00df6460(void** p)
 {
     ((Vfn0) * (void**)*p)(p, 0);
 }
 
-typedef int(__thiscall* VFunc_00dfb270)(void*, int);
+typedef int(* VFunc_00dfb270)(void*, int);
 // @fnv 0x00dfb270
 int __cdecl FUN_00dfb270(void* p)
 {
@@ -1084,7 +1085,7 @@ void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_m_helper* pHelper, int iValue)
     }
 }
 
-typedef void(__thiscall* VFunc00dfb3f0)(void*, int);
+typedef void(* VFunc00dfb3f0)(void*, int);
 // @fnv 0x00dfb3f0
 void __cdecl FUN_00dfb3f0(void** p)
 {
@@ -1122,14 +1123,14 @@ void FUN_00dfb9f0(int* pTarget, int iValue)
     }
 }
 
-typedef void(__thiscall* VTable0_00dfba70)(void*, int);
+typedef void(* VTable0_00dfba70)(void*, int);
 // @fnv 0x00dfba70
 void __cdecl FUN_00dfba70(void* p)
 {
     ((VTable0_00dfba70**)(void**)p)[0][0](p, 0);
 }
 
-typedef void(__thiscall* VFn0)(void*, int);
+typedef void(* VFn0)(void*, int);
 // @fnv 0x00dfbb30
 void __cdecl FUN_00dfbb30(void* p)
 {
@@ -1179,14 +1180,14 @@ void __cdecl FUN_00dfbca0(S_00dfb720_Elem* p)
     p->S_00dfb720_Elem::~S_00dfb720_Elem();
 }
 
-typedef void(__thiscall* VTable0)(void*, int);
+typedef void(* VTable0)(void*, int);
 // @fnv 0x00dfbcd0
 void __cdecl FUN_00dfbcd0(void* p)
 {
     ((VTable0*)*(void**)p)[0](p, 0);
 }
 
-typedef void(__thiscall* VFunc1)(void*, int);
+typedef void(* VFunc1)(void*, int);
 // @fnv 0x00dfbdd0
 void __cdecl FUN_00dfbdd0(void* p)
 {
@@ -1195,7 +1196,7 @@ void __cdecl FUN_00dfbdd0(void* p)
 
 struct FUN_00dfc040_vt
 {
-    virtual void __thiscall FUN_00dfc040(int);
+    virtual void FUN_00dfc040(int);
 };
 // @fnv 0x00dfc040
 void __cdecl FUN_00dfc040(FUN_00dfc040_vt* p)
@@ -1203,7 +1204,7 @@ void __cdecl FUN_00dfc040(FUN_00dfc040_vt* p)
     p->FUN_00dfc040(0);
 }
 
-typedef void(__thiscall* V00dfc790)(void*, int);
+typedef void(* V00dfc790)(void*, int);
 // @fnv 0x00dfc790
 void __cdecl FUN_00dfc790(void** p)
 {
@@ -1214,7 +1215,7 @@ void __cdecl FUN_00dfc790(void** p)
 void __cdecl FUN_00dfc7f0(int* p)
 {
     int* vt = (int*)(*(void**)p);
-    ((void(__thiscall*)(void*, int))(*vt))((void*)p, 0);
+    ((void(*)(void*, int))(*vt))((void*)p, 0);
 }
 
 // @fnv 0x00dfc8d0
@@ -1224,7 +1225,7 @@ void __cdecl FUN_00dfc8d0(void** p)
     reinterpret_cast<VTable0>(vt[0])(p, 0);
 }
 
-typedef void(__thiscall* Vfn_00dfcb60)(void*, int);
+typedef void(* Vfn_00dfcb60)(void*, int);
 // @fnv 0x00dfcb60
 void __cdecl FUN_00dfcb60(void* p)
 {
@@ -1244,7 +1245,7 @@ void __cdecl FUN_00dfcc30(FUN_00dfcc30_vt* p)
 
 struct FUN_00dd0420_Class
 {
-    FUN_00dd0420_Class* __thiscall FUN_00dd0420(int);
+    FUN_00dd0420_Class* FUN_00dd0420(int);
 };
 // @fnv 0x00dfcd80
 void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a)
@@ -1255,7 +1256,7 @@ void __cdecl FUN_00dfcd80(FUN_00dd0420_Class* self, int a)
 
 struct FUN_00dfce00_vt
 {
-    virtual void __thiscall v0(int);
+    virtual void v0(int);
 };
 // @fnv 0x00dfce00
 void __cdecl FUN_00dfce00(FUN_00dfce00_vt* p)
@@ -1275,7 +1276,7 @@ void __cdecl FUN_00dfcf00(FUN_00dfcf00_vt* p)
 
 struct FUN_00dfd240_vt
 {
-    virtual void __thiscall FUN_00dfd240(int);
+    virtual void FUN_00dfd240(int);
 };
 // @fnv 0x00dfd240
 void __cdecl FUN_00dfd240(FUN_00dfd240_vt* p)
@@ -1283,7 +1284,7 @@ void __cdecl FUN_00dfd240(FUN_00dfd240_vt* p)
     p->FUN_00dfd240(0);
 }
 
-typedef void(__thiscall* Vfn_00dfd620)(void*, int);
+typedef void(* Vfn_00dfd620)(void*, int);
 // @fnv 0x00dfd620
 void __cdecl FUN_00dfd620(void* p)
 {
@@ -1316,7 +1317,7 @@ void FUN_00dfd7d0(int* pObject, int aiValue)
 // @fnv 0x00dfda70
 void __cdecl FUN_00dfda70(void* p)
 {
-    void(__thiscall * fn)(void*, int) = ((void(__thiscall*)(void*, int)) * (*(void***)p));
+    void(* fn)(void*, int) = ((void(*)(void*, int)) * (*(void***)p));
     fn(p, 0);
 }
 
@@ -1400,7 +1401,7 @@ void __cdecl FUN_00dfe0c0(ArrayPair* p)
     reinterpret_cast<::FUN_00cce530 *>((p))->FUN_00cce530::~FUN_00cce530();
 }
 
-typedef void(__thiscall* Vfn_00dfe270)(void*, int);
+typedef void(* Vfn_00dfe270)(void*, int);
 // @fnv 0x00dfe270
 void __cdecl FUN_00dfe270(void* p)
 {
@@ -1411,7 +1412,7 @@ void __cdecl FUN_00dfe270(void* p)
 // @fnv 0x00dfe2b0
 void __cdecl FUN_00dfe2b0(void* p)
 {
-    ((void(__thiscall*)(void*, int)) * (*(void***)p))(p, 0);
+    ((void(*)(void*, int)) * (*(void***)p))(p, 0);
 }
 
 extern int DAT_010cb864;
@@ -1463,8 +1464,8 @@ void __cdecl FUN_00dfe4e0(FUN_00dfe4e0_vt* p)
 // @fnv 0x00dfe590
 void __cdecl FUN_00dfe590(void* p)
 {
-    void(__thiscall * fn)(void*, int);
-    fn = (void(__thiscall*)(void*, int)) * ((void**)*((void**)p));
+    void(* fn)(void*, int);
+    fn = (void(*)(void*, int)) * ((void**)*((void**)p));
     fn(p, 0);
 }
 
@@ -1496,18 +1497,18 @@ void __cdecl FUN_00dfe990(void* apObject, int aiValue)
 // @fnv 0x00dfeb40
 void __cdecl FUN_00dfeb40(void* p)
 {
-    void(__thiscall * fn)(void*, int);
-    fn = *reinterpret_cast<void(__thiscall**)(void*, int)>(*reinterpret_cast<void**>(p));
+    void(* fn)(void*, int);
+    fn = *reinterpret_cast<void(**)(void*, int)>(*reinterpret_cast<void**>(p));
     fn(p, 0);
 }
 
 // @fnv 0x00dfebb0
 void __cdecl FUN_00dfebb0(void** p)
 {
-    ((void(__thiscall*)(void*, int))(**(void****)p))(p, 0);
+    ((void(*)(void*, int))(**(void****)p))(p, 0);
 }
 
-typedef void(__thiscall* Vfn0)(void*, int);
+typedef void(* Vfn0)(void*, int);
 // @fnv 0x00dfebf0
 void __cdecl FUN_00dfebf0(void* p)
 {
@@ -1544,7 +1545,7 @@ void __cdecl FUN_00dfede0(FUN_00dfede0_vt* p)
     p->v0(0);
 }
 
-typedef int(__thiscall* Vfn_00dfeec0)(void*, int);
+typedef int(* Vfn_00dfeec0)(void*, int);
 // @fnv 0x00dfeec0
 int __cdecl FUN_00dfeec0(void* p)
 {
@@ -1553,7 +1554,7 @@ int __cdecl FUN_00dfeec0(void* p)
 
 struct FUN_00dfef00_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 // @fnv 0x00dfef00
 void __cdecl FUN_00dfef00(FUN_00dfef00_vt* p)
@@ -1571,7 +1572,7 @@ void __cdecl FUN_00dff1d0(FUN_00dff1d0_vt* p)
     p->m0(0);
 }
 
-typedef void(__thiscall* VTable0)(void*, int);
+typedef void(* VTable0)(void*, int);
 // @fnv 0x00dff300
 void __cdecl FUN_00dff300(void** p)
 {
@@ -1580,7 +1581,7 @@ void __cdecl FUN_00dff300(void** p)
 
 struct FUN_00dff370_vt
 {
-    virtual void __thiscall FUN_00dff370(int);
+    virtual void FUN_00dff370(int);
 };
 // @fnv 0x00dff370
 void __cdecl FUN_00dff370(FUN_00dff370_vt* p)
@@ -1594,14 +1595,14 @@ void __cdecl FUN_00dff540(void** p)
     ((Vfn)(*(void**)*p))(p, 0);
 }
 
-typedef void(__thiscall* VTable0)(void*, int);
+typedef void(* VTable0)(void*, int);
 // @fnv 0x00dff580
 void __cdecl FUN_00dff580(void** p)
 {
     ((VTable0)(*(VTable0*)*p))(p, 0);
 }
 
-typedef void(__thiscall* VTable0)(void*, int);
+typedef void(* VTable0)(void*, int);
 
 // @fnv 0x00dff5c0
 void __cdecl FUN_00dff5c0(void* p)
@@ -1612,7 +1613,7 @@ void __cdecl FUN_00dff5c0(void* p)
 extern int DAT_010d0994;
 struct FUN_00dff9b0_m : FUN_00cb0a70
 {
-    void __thiscall m(int);
+    void m(int);
 };
 // @fnv 0x00dff9b0
 void __cdecl FUN_00dff9b0(FUN_00dff9b0_m* pObject, int aiValue)
@@ -1625,7 +1626,7 @@ void __cdecl FUN_00dff9b0(FUN_00dff9b0_m* pObject, int aiValue)
     }
 }
 
-typedef void(__thiscall* VTblFn0)(void*, int);
+typedef void(* VTblFn0)(void*, int);
 // @fnv 0x00dffc10
 void __cdecl FUN_00dffc10(void* p)
 {
@@ -1644,7 +1645,7 @@ void __cdecl FUN_00dffc60(FUN_00dffc60_vt* p)
 
 struct FUN_00dffd80_vt
 {
-    virtual void __thiscall FUN_00cb0a70(int);
+    virtual void FUN_00cb0a70(int);
 };
 // @fnv 0x00dffd80
 void __cdecl FUN_00dffd80(FUN_00dffd80_vt* p)
@@ -1652,7 +1653,7 @@ void __cdecl FUN_00dffd80(FUN_00dffd80_vt* p)
     p->FUN_00cb0a70(0);
 }
 
-typedef void(__thiscall* VTableFn)(void*, int);
+typedef void(* VTableFn)(void*, int);
 // @fnv 0x00dffe20
 void __cdecl FUN_00dffe20(void* p)
 {
@@ -1669,7 +1670,7 @@ void __cdecl FUN_00dffe60(FUN_00dffe60_vt* p)
     p->m_iWordAt00(0);
 }
 
-typedef void(__thiscall* Vfn0)(void*, int);
+typedef void(* Vfn0)(void*, int);
 // @fnv 0x00dfff00
 void __cdecl FUN_00dfff00(void* p)
 {
@@ -2888,7 +2889,7 @@ struct FUN_00df3140_pair
 };
 
 // @fnv 0x00df3140
-void __stdcall CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int auiIndex, FUN_00df3140_pair* src)
+void CopyPairToIndex(FUN_00df3140_pair* dst, unsigned int auiIndex, FUN_00df3140_pair* src)
 {
     dst[auiIndex] = *src;
 }
@@ -2936,10 +2937,9 @@ struct FUN_00df7a60_class
     int unk18;
     void* m_p1c;
 
-    void __thiscall FUN_00df7a60();
+    void FUN_00df7a60();
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedExchangeAdd(volatile long* value, long increment);
 
 
 // @fnv 0x00df7a60
@@ -2961,16 +2961,16 @@ struct ParserContext
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
         unk40, result44;
-    int __thiscall FUN_00e63af0(int, void*, float*);
+    int FUN_00e63af0(int, void*, float*);
 };
 struct FloatPair
 {
     float first, second;
-    int __thiscall FUN_00dfb040(ParserContext*, int, int*, ParserContext**);
+    int FUN_00dfb040(ParserContext*, int, int*, ParserContext**);
 };
 // Initialises first/second from constants, calls ctx->FUN_00e63af0 and, if it returns 1, delegates to TraverseNode; otherwise returns 2.
 // @fnv 0x00dfb040
-int __thiscall FloatPair::FUN_00dfb040(ParserContext* ctx, int input, int* outA, ParserContext** outB)
+int FloatPair::FUN_00dfb040(ParserContext* ctx, int input, int* outA, ParserContext** outB)
 {
     double initial = DAT_010dbb3c;
     *outB = 0;
@@ -2999,7 +2999,7 @@ int* __cdecl FUN_00dfb280()
 
 struct FUN_00dfb2d0_class
 {
-    void __thiscall FUN_00dfb2d0(int a);
+    void FUN_00dfb2d0(int a);
 };
 
 // @fnv 0x00dfb290
@@ -3055,7 +3055,7 @@ void* __cdecl FUN_00dfb420()
 
 struct FUN_00e2ebc0_cls
 {
-    void __thiscall Init(void* a);
+    void Init(void* a);
 };
 
 // @fnv 0x00dfb430
@@ -3613,7 +3613,7 @@ struct S_00dfc110_vt
     virtual void m0(int);
 };
 
-void __thiscall S_00dfc110_vt::m0(int)
+void S_00dfc110_vt::m0(int)
 {}
 
 // @fnv 0x00dfc110
@@ -3916,7 +3916,7 @@ void* __cdecl FUN_00dfc5f0()
 
 struct FUN_00dfc600_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 // @fnv 0x00dfc600
 void __cdecl FUN_00dfc600(FUN_00dfc600_vt* p)
@@ -4011,7 +4011,7 @@ int* __cdecl FUN_00dfc760()
 namespace fnv_00dfc770 {
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 
 // @fnv 0x00dfc770
@@ -4408,7 +4408,7 @@ void* __cdecl FUN_00dfcb30()
 namespace fnv_00dfcb40 {
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 
 // @fnv 0x00dfcb40
@@ -4572,7 +4572,7 @@ void* __cdecl FUN_00dfcdd0()
 
 struct DFD5E0
 {
-    void __thiscall FUN_00d53df0(void* p);
+    void FUN_00d53df0(void* p);
 };
 // @fnv 0x00dfcde0
 void __cdecl FUN_00dfcde0(void* pTarget, void* b)
@@ -4649,7 +4649,7 @@ void* __cdecl FUN_00dfcf10()
 
 struct FUN_00dfcf20_cls
 {
-    void __thiscall InitializeVtables(int a);
+    void InitializeVtables(int a);
 };
 
 // @fnv 0x00dfcf20
@@ -4809,7 +4809,7 @@ unsigned char* __cdecl FUN_00dfd1b0()
 // @fnv 0x00dfd1c0
 void __cdecl FUN_00dfd1c0(void* p)
 {
-    (*(void(__thiscall**)(void*, int)) * (int*)p)(p, 0);
+    (*(void(**)(void*, int)) * (int*)p)(p, 0);
 }
 
 
@@ -4905,7 +4905,7 @@ void* FUN_00dfd2f0()
 
 struct FUN_00e3dbd0_class
 {
-    void __thiscall FUN_00e3dbd0(int value);
+    void FUN_00e3dbd0(int value);
 };
 
 // @fnv 0x00dfd300
@@ -5219,7 +5219,7 @@ CpuOpaque* __cdecl FUN_00dfde00()
 
 struct FUN_00dfde10_vtable
 {
-    virtual void __thiscall slot0(int value)
+    virtual void slot0(int value)
     {}
 };
 
@@ -5599,7 +5599,7 @@ unsigned int __cdecl FUN_00dfe350()
 // Helper object whose virtual-like member performs the work.
 struct FUN_00cb0a70_obj
 {
-    void __thiscall m_00cb0a70(int value);
+    void m_00cb0a70(int value);
 };
 
 // @fnv 0x00dfe410
@@ -5696,7 +5696,7 @@ int __cdecl FUN_00dfe710()
 
 struct FUN_00dfe970_class
 {
-    virtual void __thiscall m_iWordAt00(int);
+    virtual void m_iWordAt00(int);
 };
 
 // @fnv 0x00dfe970
@@ -6329,7 +6329,7 @@ FUN_00dff470_cls* FUN_00dff470_cls::DestroySelf(unsigned char acFlags)
 
 struct FUN_00e46300_class
 {
-    void __thiscall FUN_00e46300(int);
+    void FUN_00e46300(int);
 };
 
 // @fnv 0x00dff4c0
@@ -6459,7 +6459,7 @@ int* __cdecl FUN_00dff880()
 // when that pointer is non-null.
 struct FUN_00dff890_cls
 {
-    void __thiscall InitializeRecordPointers(int a);
+    void InitializeRecordPointers(int a);
 };
 
 // @fnv 0x00dff890
@@ -6490,11 +6490,11 @@ struct FNVRecordPointers
     int m28;
     int m2c;
     void* volatile m30;
-    FNVRecordPointers* __thiscall InitializeRecordPointers(int unused);
+    FNVRecordPointers* InitializeRecordPointers(int unused);
 };
 // Assigns a sequence of global addresses to the record pointer fields m00, m08, m0c, m10, m14 and m30, then returns this.
 // @fnv 0x00dff8d0
-FNVRecordPointers* __thiscall FNVRecordPointers::InitializeRecordPointers(int unused)
+FNVRecordPointers* FNVRecordPointers::InitializeRecordPointers(int unused)
 {
     m08 = &(*reinterpret_cast<char *>(&::DAT_010c3b80));
     m0c = &(*reinterpret_cast<char *>(&::DAT_010c3b98));
@@ -6528,7 +6528,7 @@ void* __cdecl FUN_00dffa40()
 // when that object is present.
 struct FUN_00dffa50_cls
 {
-    void __thiscall FUN_00dffa90(int value);
+    void FUN_00dffa90(int value);
 };
 
 // @fnv 0x00dffa50
@@ -6627,7 +6627,7 @@ namespace fnv_00dffb80 {
 // handler pointer is non-null.
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 
 // @fnv 0x00dffb80
@@ -6962,7 +6962,7 @@ int* __cdecl FUN_00dfff70()
 
 struct S_00dfff80_Foo
 {
-    void __thiscall FUN_00cdf760(int a);
+    void FUN_00cdf760(int a);
 };
 
 // @fnv 0x00dfff80
@@ -7577,7 +7577,7 @@ char* FnvCpu_FUN_00de4de0_CpuObject::FUN_00de4de0()
 }
 
 // @fnv 0x00de4df0
-void* __fastcall FUN_00de4df0(char* self, int)
+void* FUN_00de4df0(char* self, int)
 {
     return self + 0x70;
 }
@@ -7889,7 +7889,7 @@ struct FUN_00df7210_Class
     int unk08;
     int unk0c;
     FUN_00df7210_Inner* m10;
-    char* __thiscall FUN_00df7210(char* out);
+    char* FUN_00df7210(char* out);
 };
 // @fnv 0x00df7210
 char* FUN_00df7210_Class::FUN_00df7210(char* out)
@@ -7898,7 +7898,6 @@ char* FUN_00df7210_Class::FUN_00df7210(char* out)
     return out;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -8435,7 +8434,7 @@ struct S00de0fe0_Arr
     S00de0fe0_Element** data;
     int count;
     int cap;
-    void __thiscall FUN_00ddfb70();
+    void FUN_00ddfb70();
 };
 
 struct S00de0fe0_Obj10
@@ -8684,7 +8683,6 @@ void __cdecl ProcessWorkQueue(ExecutionContext* context, WorkQueue* queue)
     reinterpret_cast<::LunaOwner *>((context))->ProcessCallback((int)(queue), (int)(queue), 0);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
 
 struct CommandTimingEntry
@@ -10692,7 +10690,7 @@ struct FUN_00dfdd90_cls
 {
     int unk00;
     SubObject* m_pSub;
-    void __thiscall FUN_00cb0c00();
+    void FUN_00cb0c00();
 };
 
 // Calls FUN_00c905b0 on m_pSub if set, clears m_pSub, then calls FUN_00cb0c00 on p.
@@ -10784,7 +10782,7 @@ struct Holder
     void* data2;
     int size2;
     int cap2;
-    void __thiscall FUN_00dfed30();
+    void FUN_00dfed30();
 };
 void Holder::FUN_00dfed30()
 {
@@ -11636,7 +11634,6 @@ int __cdecl FUN_00df33b0(const BndBuffers* buffers, int begin, int end, BndSplit
 extern "C" void _ReadWriteBarrier(void);
 // Today's tree (blk_00de0000_o2.cpp) has no windows.h; declare the Win32 pieces the
 // way the unit itself does (see the TlsGetValue profile macro users in the file).
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 
 extern unsigned long DAT_0126835c;
@@ -11671,7 +11668,7 @@ struct FUN_00d04e80_cls
 {
 };
 
-typedef void*(__stdcall* PFN_TlsGetValue)(unsigned long dwTlsIndex);
+typedef void*(* PFN_TlsGetValue)(unsigned long dwTlsIndex);
 
 // Records a TtCollQueryPairLinearCast profiler tick, calls FUN_00df7760 on a2's fields, records an Et tick, then calls ProcessCallback on a1.
 // @fnv 0x00df79d0

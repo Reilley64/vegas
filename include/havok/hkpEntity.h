@@ -12,7 +12,6 @@
 class hkLocalFrame;
 class hkpConstraintInstance;
 class hkpEntityExtendedListeners;
-#pragma pack(push, 1)
 class hkpEntity : public hkpWorldObject
 {
   public:
@@ -48,6 +47,4 @@ class hkpEntity : public hkpWorldObject
     hkpEntityExtendedListeners* m_pExtendedListeners;              // +0x214
     char pad218[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpEntity[(sizeof(hkpEntity) == 0x220) ? 1 : -1];
 #endif

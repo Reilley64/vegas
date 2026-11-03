@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /Gy (unit src/gamebryo2.2/corelibs/nianimation/niboolinterpolator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/A53480Object.h"
 #include "fnv/decl/FUN_00a53910_shell.h"
 #include "fnv/decl/FUN_00a95ca0_shell.h"
@@ -18,14 +19,14 @@
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_0109a000.h"
 #include "fnv/symbols_011f4000.h"
-int __stdcall FUN_00a53070(unsigned short usChannel);
+int FUN_00a53070(unsigned short usChannel);
 struct FUN_00a53080_shell
 {
-    int __thiscall GetThirdValue(int arg);
+    int GetThirdValue(int arg);
 };
 struct FUN_00a53090_shell
 {
-    int __thiscall GetValueFromMember(void* arg);
+    int GetValueFromMember(void* arg);
 };
 class NiObject;
 struct NiStream
@@ -70,7 +71,7 @@ template <class T> struct NiPointer
 struct NiBoolInterpolator : HC1Base
 {
     NiPointer<NiBoolData> m_spBoolData;
-    bool __thiscall FUN_00a3c5b0(NiStream*);
+    bool FUN_00a3c5b0(NiStream*);
 };
 void __cdecl FUN_00a537a0(float m_fStartTime, float m_fMaximumDistance);
 struct NiBoolData_shell
@@ -90,7 +91,7 @@ struct FUN_00a530a0_shell
     volatile unsigned char unk0c;
     int unk10;
 
-    unsigned char __thiscall FUN_00a530a0(int unused);
+    unsigned char FUN_00a530a0(int unused);
 };
 struct S_00a53680_Stream;
 struct S_00a53680_Bin
@@ -384,7 +385,7 @@ struct S_00a533c0_Class
     unsigned char unk0c;
     S_00a533c0_Data* unk10;
     unsigned char unk14;
-    bool __thiscall UpdateValue(float fValue, int iValue, unsigned char* pOut);
+    bool UpdateValue(float fValue, int iValue, unsigned char* pOut);
 };
 class CloningProcessA535;
 class TESObjectDoorController
@@ -429,8 +430,6 @@ class NiBoolInterpA535 : public FUN_00a3ca10
 
     NiBoolInterpA535* FUN_00a53590(CloningProcessA535& cloning);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 namespace A536 {
 
 class NiBinaryStream
@@ -525,8 +524,6 @@ class NiBoolInterpolatorA536 : public NiKeyBasedInterpolator_LoadBinary_Helper
     void FUN_00a53600(NiStream& kStream);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 class NiRefObject3300
 {

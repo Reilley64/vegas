@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nisingleshadermateriallibrary.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisingleshadermateriallibrary.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FNVObj.h"
 #include "fnv/decl/MaterialLibraryView.h"
 #include "fnv/decl/MyDesc.h"
@@ -17,7 +18,7 @@ struct NiMaterial;
 
 
 // @fnv 0x00a8fd60
-NiMaterial* __stdcall FUN_00a8fd60(const NiFixedString* kName)
+NiMaterial* FUN_00a8fd60(const NiFixedString* kName)
 {
     char* p = kName->m_kHandle;
     return ((::NiMaterial *)(::FindOrCreateShaderEntry((const char *)(::NiMaterial *)((NiMaterial*)p), 1)));
@@ -29,7 +30,7 @@ void __cdecl FUN_00a8fcc0()
 {
     NiMaterial* material = (*reinterpret_cast<::NiMaterial * *>(&::DAT_011f5e40));
     if (material)
-        ((void(__thiscall*)(NiMaterial*, int))(*reinterpret_cast<void***>(material))[0])(material, 1);
+        ((void(*)(NiMaterial*, int))(*reinterpret_cast<void***>(material))[0])(material, 1);
     (*reinterpret_cast<::NiMaterial * *>(&::DAT_011f5e40)) = 0;
 }
 
@@ -97,7 +98,6 @@ extern int DAT_0109f7b4;
 struct BaseStub
 {
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiSingleShaderMaterialLibrary
 {
     void* _vf;
@@ -192,7 +192,7 @@ struct NiShaderLibraryDescStub
 };
 
 // @fnv 0x00a8fbf0
-const char* __stdcall GetShaderNameByIndex(unsigned int uiShaderIndex)
+const char* GetShaderNameByIndex(unsigned int uiShaderIndex)
 {
     unsigned int uiBaseIndex;
     RefCountedNamedObject* pkLib;

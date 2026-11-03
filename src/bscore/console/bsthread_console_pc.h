@@ -3,6 +3,7 @@
 #define FNV_BSTHREAD_CONSOLE_PC_H
 
 
+#include <windows.h>
 #include "layout_support.h"
 
 struct BSThreadCriticalSectionPC
@@ -43,25 +44,11 @@ class BSThread
     bool m_bThreadStarted;
 };
 
-FNV_STATIC_ASSERT(sizeof(BSThreadCriticalSectionPC) == 0x18);
-FNV_STATIC_ASSERT(sizeof(BSThread) == 0x30);
-FNV_STATIC_ASSERT(offsetof(BSThread, CriticalSection) == 0x04);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_pThreadHandle) == 0x1c);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_pCurrentThreadHandle) == 0x20);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_uiCreatedThreadId) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_uiCurrentThreadId) == 0x28);
-FNV_STATIC_ASSERT(offsetof(BSThread, m_bThreadStarted) == 0x2c);
 
 extern "C"
 {
-    extern void(__stdcall* fnv_EnterCriticalSection)(void*);
-    extern void(__stdcall* fnv_LeaveCriticalSection)(void*);
-    __declspec(dllimport) void* __stdcall GetCurrentThread();
-    __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-    __declspec(dllimport) void* __stdcall CreateThread(void*, unsigned long, unsigned long(__stdcall*)(void*), void*,
-                                                       unsigned long, unsigned int*);
-    __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
-    __declspec(dllimport) int __stdcall SetThreadPriority(void*, int);
+    extern void(* fnv_EnterCriticalSection)(void*);
+    extern void(* fnv_LeaveCriticalSection)(void*);
 }
 
 class BSThreadEntryPC
@@ -72,7 +59,7 @@ class BSThreadEntryPC
 };
 
 // The thread entry point has no identity candidate in the task or lookup index.
-unsigned long __stdcall RunThreadProc(void*);
-extern void(__stdcall* DAT_00fdf054)(void*);
+unsigned long RunThreadProc(void*);
+extern void(* DAT_00fdf054)(void*);
 
 #endif

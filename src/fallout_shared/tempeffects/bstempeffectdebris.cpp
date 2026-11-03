@@ -83,7 +83,7 @@ void FUN_0050e620_S::FUN_0050e620(unsigned char p)
 
 
 // @fnv 0x00618940
-void __fastcall FUN_00618940(void* thisPtr)
+void FUN_00618940(void* thisPtr)
 {
     reinterpret_cast<::RTTIEntry *>((thisPtr))->FUN_0061bcf0();
 }
@@ -116,7 +116,7 @@ void* FUN_00682ac0_shell::GetGlobalPtr() const
 
 struct GlobalObject_006836f0
 {
-    void __thiscall FUN_006834e0(void** p);
+    void FUN_006834e0(void** p);
 };
 
 
@@ -143,12 +143,12 @@ struct FUN_006834a0_shell
 {
     int m_000;
     int m_004;
-    bool __thiscall MatchesValue(int arg);
+    bool MatchesValue(int arg);
 };
 
 // Returns true when the object exists and its m_004 field equals arg, otherwise false.
 // @fnv 0x006834a0
-bool __thiscall FUN_006834a0_shell::MatchesValue(int aiValue)
+bool FUN_006834a0_shell::MatchesValue(int aiValue)
 {
     return this ? m_004 == aiValue : 0;
 }

@@ -234,11 +234,11 @@ struct FUN_005e78f0_t
 
 struct StatCopy : public TESObjectSTAT
 {
-    void __thiscall FUN_0051b5f0(TESForm* apCopy);
+    void FUN_0051b5f0(TESForm* apCopy);
 };
 
 // @fnv 0x0051b5f0
-void __thiscall StatCopy::FUN_0051b5f0(TESForm* apCopy)
+void StatCopy::FUN_0051b5f0(TESForm* apCopy)
 {
     TESObjectSTAT* pcopy = dynamic_cast<TESObjectSTAT*>(apCopy);
     if (!pcopy)

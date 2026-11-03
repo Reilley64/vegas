@@ -154,7 +154,7 @@ struct NiDX9Renderer
 {
     unsigned int pad[0x228];
     unsigned int m_8a0;
-    unsigned int __thiscall FUN_00e695e0();
+    unsigned int FUN_00e695e0();
 };
 struct FUN_00e695f0_shell
 {
@@ -164,7 +164,7 @@ struct FUN_00e695f0_shell
 };
 struct FUN_00e69600_shell
 {
-    unsigned int __thiscall FUN_00e69600();
+    unsigned int FUN_00e69600();
 };
 struct FUN_00e69900_shell
 {
@@ -212,9 +212,9 @@ struct NiWorldToSkin
 void __cdecl BuildWorldToSkinTransform(NiWorldToSkin* out, const NiTransform* kWorldToRootParent,
                                        const NiPoint3* kIntersectionOffset, float fScale);
 extern int DAT_0126efc0;
-bool __stdcall FUN_00e6c760(int value);
+bool FUN_00e6c760(int value);
 void __cdecl FUN_00aa1110(void*);
-void __stdcall FUN_00e6d740(void* a1);
+void FUN_00e6d740(void* a1);
 extern RecursiveSpinLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
 struct LinkedListEntry
@@ -223,7 +223,7 @@ struct LinkedListEntry
     LinkedListEntry* prev;
     char* data;
 };
-void __stdcall FUN_00e6e8a0(LinkedListEntry* a);
+void FUN_00e6e8a0(LinkedListEntry* a);
 struct NiTMapBase_StandIn
 {
     void RemoveAll();
@@ -240,7 +240,7 @@ struct FUN_00e6eab0_shell : NiTMapBase_StandIn
 {
     char pad[8];
     void* data;
-    int __thiscall DestroyMap(int flag);
+    int DestroyMap(int flag);
 };
 struct NodePoolView
 {
@@ -248,7 +248,7 @@ struct NodePoolView
 };
 struct FUN_00e72e50_shell
 {
-    void* __thiscall FUN_00e72e50();
+    void* FUN_00e72e50();
 };
 extern "C" void* g_0126f0f0;
 void* __cdecl FUN_00e757b0();

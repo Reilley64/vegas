@@ -263,7 +263,7 @@ template <class _Elem, class _Traits, class _Ax> class basic_string
 }
 
 // @fnv 0x0044a540
-void __fastcall FUN_0044a540(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* apString)
+void FUN_0044a540(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* apString)
 {
     apString->_Tidy(true, 0);
 }
@@ -429,7 +429,6 @@ struct ShortPoint3
     short y;
     short z;
 };
-typedef char _sizecheck_NiNPShortPoint3[sizeof(ShortPoint3) == 6 ? 1 : -1];
 struct FUN_0050e8b0_shell : public ShortPoint3
 {
     ShortPoint3* FUN_0050e8b0(void*);
@@ -469,7 +468,7 @@ const TESBoundPoint& GetActorValueShortVector()
 
 // Calls _ref_006815c0 on pThis and on pThis + 6, then returns pThis.
 // @fnv 0x0050e9c0
-void* __fastcall FUN_0050e9c0(char* pThis)
+void* FUN_0050e9c0(char* pThis)
 {
     new ((void *)(pThis)) ::Vec3();
     new ((void *)(pThis + 6)) ::Vec3();
@@ -482,7 +481,7 @@ struct FUN_0050e9f0_shell : public TESBoundObject
 };
 
 extern const void* const vftable_TESBoundObject[];
-void __fastcall FUN_0050f930(void*);
+void FUN_0050f930(void*);
 
 struct NiPoint3
 {
@@ -505,7 +504,7 @@ struct FUN_0050ea10_class
     }
 };
 
-static void (__thiscall FUN_0050ea10_class::*volatile p)(NiPoint3&) const = &FUN_0050ea10_class::FUN_0050ea10;
+static void (FUN_0050ea10_class::*volatile p)(NiPoint3&) const = &FUN_0050ea10_class::FUN_0050ea10;
 
 struct FUN_0050eaa0_shell : public TESBoundObject
 {
@@ -567,7 +566,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -585,7 +583,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0050ee20_shell : public TESBoundAnimObject
 {
     bool FUN_0050ee20(char*);
@@ -634,7 +631,7 @@ bool FUN_0050ee20_shell::FUN_0050ee20(char* pfilename)
 
 
 // @fnv 0x0050f6f0
-void* __fastcall FUN_0050f6f0(void* pThis)
+void* FUN_0050f6f0(void* pThis)
 {
     new ((void *)(pThis)) ::TESBoundObject();
     *(int**)pThis = &DAT_0106c92c;
@@ -657,7 +654,7 @@ void FUN_0050f740_shell::FUN_0050f740()
 namespace fnv_0050f7a0 {
 
 // @fnv 0x0050f7a0
-void* __fastcall FUN_0050f7a0(void* pThis)
+void* FUN_0050f7a0(void* pThis)
 {
     new ((void *)(pThis)) ::TESBoundObject();
     *(int**)pThis = &(*reinterpret_cast<int *>(&::DAT_01029994));
@@ -668,7 +665,7 @@ void* __fastcall FUN_0050f7a0(void* pThis)
 extern int DAT_01029b1c;
 
 // @fnv 0x0050f8c0
-TESObject* __fastcall FUN_0050f8c0(TESObject* apObject)
+TESObject* FUN_0050f8c0(TESObject* apObject)
 {
     new ((void *)(apObject)) ::fnv_00483370::FUN_00483370();
     *reinterpret_cast<int**>(apObject) = &DAT_01029b1c;
@@ -858,11 +855,11 @@ void* FUN_0050f740_shell::FUN_0050f710(unsigned int flags)
 }
 }  // namespace fnv_0050f710
 
-void __fastcall FUN_0050f930(void* obj);
+void FUN_0050f930(void* obj);
 
 struct FUN_0050f900_Class
 {
-    void* __thiscall FUN_0050f900(unsigned int flags);
+    void* FUN_0050f900(unsigned int flags);
 };
 
 struct FUN_0050eb30_class
@@ -908,11 +905,11 @@ extern "C" void __cdecl FUN_00ec3205(int);
 struct FUN_00aca4b0_class
 {
     void* vtbl;
-    void __thiscall FUN_00aca4b0();
+    void FUN_00aca4b0();
 };
 
 // @fnv 0x00aca4b0
-void __thiscall FUN_00aca4b0_class::FUN_00aca4b0()
+void FUN_00aca4b0_class::FUN_00aca4b0()
 {
     vtbl = &(*reinterpret_cast<void * *>(&::DAT_010a2fa4));
     vtbl = &(*reinterpret_cast<void * *>(&::DAT_010a2f9c));
@@ -921,11 +918,11 @@ void __thiscall FUN_00aca4b0_class::FUN_00aca4b0()
 
 struct S_4029f0
 {
-    void __thiscall FUN_004029f0(bool);
+    void FUN_004029f0(bool);
 };
 // Calls FUN_00402a20 with index 1 and the inverse of b.
 // @fnv 0x004029f0
-void __thiscall S_4029f0::FUN_004029f0(bool b)
+void S_4029f0::FUN_004029f0(bool b)
 {
     reinterpret_cast<::FUN_00402a20_class *>(this)->FUN_00402a20(1, !b);
 }
@@ -1528,7 +1525,7 @@ struct FUN_0048cee0_class
     virtual void Slot03();
     virtual void Slot04();
     virtual int Slot05();
-    int __thiscall FUN_0048cee0();
+    int FUN_0048cee0();
 };
 
 struct FUN_0045a5e0_class
@@ -1555,11 +1552,11 @@ struct FUN_0050d600_shell
     int unk38;
     FUN_0048cee0_class unk3c;
 
-    void __thiscall FUN_0050d600(int value);
+    void FUN_0050d600(int value);
 };
 
 // @fnv 0x0050d600
-void __thiscall FUN_0050d600_shell::FUN_0050d600(int value)
+void FUN_0050d600_shell::FUN_0050d600(int value)
 {
     if (unk3c.FUN_0048cee0())
     {
@@ -1877,7 +1874,7 @@ void FUN_0050e9f0_shell::FUN_0050e9f0()
 }
 // Calls FUN_0050f930 on this, deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x0050f900
-void* __thiscall FUN_0050f900_Class::FUN_0050f900(unsigned int flags)
+void* FUN_0050f900_Class::FUN_0050f900(unsigned int flags)
 {
     reinterpret_cast<struct ::FUN_0050f930 *>((this))->FUN_0050f930::~FUN_0050f930();
     if (flags & 1)

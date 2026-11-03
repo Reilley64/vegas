@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConvexShape.h"
-#pragma pack(push, 1)
 class hkpConvexListShape : public hkpConvexShape
 {
   public:
@@ -18,6 +17,4 @@ class hkpConvexListShape : public hkpConvexShape
     char pad41[0x3];
     hkArray<hkpConvexShape*> m_kChildShapes;  // +0x44
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexListShape[(sizeof(hkpConvexListShape) == 0x50) ? 1 : -1];
 #endif

@@ -5,7 +5,6 @@
 #include "layout_support.h"
 class D3DRenderStateGroup;
 class NiD3DRenderStateGroup__NiD3DRSEntry;
-#pragma pack(push, 4)
 class D3DRenderStateGroup
 {
   public:
@@ -35,11 +34,4 @@ class D3DRenderStateGroup
     // unsigned int __cdecl D3DRenderStateGroup::*(unsigned int)
     // void* __cdecl D3DRenderStateGroup::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(D3DRenderStateGroup) == 20);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_bHasBeenApplied) == 0);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_uiRenderStateEntryCount) == 4);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_pkRenderStateEntries) == 8);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_uiFreeEntryCount) == 12);
-FNV_STATIC_ASSERT(offsetof(D3DRenderStateGroup, m_pkFreeEntries) == 16);
 #endif

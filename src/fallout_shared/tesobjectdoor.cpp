@@ -338,7 +338,7 @@ class TESDataHandler
 
 
 // @fnv 0x00517670
-int __fastcall FUN_00517670(TESDataHandler* apDataHandler)
+int FUN_00517670(TESDataHandler* apDataHandler)
 {
     return ::FUN_00517690((char *)(void *)(((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40()))));
 }
@@ -350,14 +350,14 @@ class PackageTargetRecord
 };
 
 // @fnv 0x00517690
-int __fastcall FUN_00517690(char* pThis)
+int FUN_00517690(char* pThis)
 {
     return ((PackageTargetRecord*)(pThis + 8))->GetTargetKind();
 }
 
 // Returns true if the byte at offset 0x84 of thisPtr has bit 2 set, otherwise false.
 // @fnv 0x00517fa0
-bool __fastcall FUN_00517fa0(void* thisPtr)
+bool FUN_00517fa0(void* thisPtr)
 {
     if (*(unsigned char*)((char*)thisPtr + 0x84) & 2)
         return true;
@@ -390,7 +390,7 @@ struct Call_008842c0
 {
     bool call()
     {
-        return ((bool(__thiscall*)(Call_008842c0*)) & FUN_008842c0)(this);
+        return ((bool(*)(Call_008842c0*)) & FUN_008842c0)(this);
     }
 };
 
@@ -398,7 +398,7 @@ struct Call_00501fd0
 {
     bool call(Actor* a, bool b, bool c)
     {
-        return ((bool(__thiscall*)(Call_00501fd0*, Actor*, bool, bool)) & CanAccessLock)(this, a, b, c);
+        return ((bool(*)(Call_00501fd0*, Actor*, bool, bool)) & CanAccessLock)(this, a, b, c);
     }
 };
 
@@ -484,7 +484,7 @@ struct ProcessVtbl0x128
 struct ActorVtbl0x448
 {
     char pad[0x448];
-    bool(__thiscall* fn_448)(Actor*);
+    bool(* fn_448)(Actor*);
 };
 
 // @fnv 0x00518e60
@@ -591,11 +591,11 @@ Holder_004d9100* Holder_004d9100::FUN_004d9100(int aiArg1, int aiArg2)
 
 struct Host
 {
-    void* __thiscall FUN_005174d0(unsigned int flags);
+    void* FUN_005174d0(unsigned int flags);
 };
 // Calls FUN_00517500 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x005174d0
-void* __thiscall Host::FUN_005174d0(unsigned int flags)
+void* Host::FUN_005174d0(unsigned int flags)
 {
     reinterpret_cast<::TESObjectDOOR *>((this))->TESObjectDOOR::~TESObjectDOOR();
     if (flags & 1)

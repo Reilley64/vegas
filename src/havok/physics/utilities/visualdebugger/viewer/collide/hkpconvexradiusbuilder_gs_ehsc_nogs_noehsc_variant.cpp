@@ -47,8 +47,8 @@ struct D31Tbl2
 
 struct D31Mgr
 {
-             // __thiscall
-      // __thiscall, 1 stack arg
+             //
+      // , 1 stack arg
 };
 
 struct D31Tbl

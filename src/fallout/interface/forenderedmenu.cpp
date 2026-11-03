@@ -412,7 +412,7 @@ void FUN_007fadf0_shell::FUN_007fadf0()
 }
 
 // @fnv 0x007faef0
-unsigned char __fastcall GetByteAtOffsetB9(void* thisPtr)
+unsigned char GetByteAtOffsetB9(void* thisPtr)
 {
     return ((unsigned char*)thisPtr)[0xb9];
 }
@@ -426,11 +426,11 @@ char* FUN_007fdf30()
 
 struct FUN_0087d6c0_shell
 {
-    float __thiscall FUN_0087d6c0();
+    float FUN_0087d6c0();
 };
 
 // @fnv 0x0087d6c0
-float __thiscall FUN_0087d6c0_shell::FUN_0087d6c0()
+float FUN_0087d6c0_shell::FUN_0087d6c0()
 {
     return 1.0f;
 }
@@ -448,11 +448,11 @@ float FUN_00706060_shell::FUN_00706060()
 
 struct HOLDER
 {
-    void* __thiscall DestroyHolder(unsigned int);
+    void* DestroyHolder(unsigned int);
 };
 // Runs the destructor on this object, frees it with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x007face0
-void* __thiscall HOLDER::DestroyHolder(unsigned int flags)
+void* HOLDER::DestroyHolder(unsigned int flags)
 {
     ((FUN_007fad10*)this)->FUN_007fad10::~FUN_007fad10();
     if (flags & 1)
@@ -565,7 +565,7 @@ public:
 };
 // Sets the app-culled flag on both the root node and the node returned by FUN_007fa970, if both exist.
 // @fnv 0x007fa8d0
-void __thiscall Interface::FUN_007fa8d0(bool abCulled)
+void Interface::FUN_007fa8d0(bool abCulled)
 {
     if (!((::NiNode *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950())) || !((::NiNode *)(reinterpret_cast<::FUN_007fa970_Class *>(this)->FUN_007fa970())))
         return;
@@ -660,7 +660,7 @@ void S_007fb2b0::FUN_007fb2b0(float x, float y, float z)
 
 struct GO
 {
-    void __thiscall operator=(void*);
+    void operator=(void*);
 };
 
 struct FUN_007fbeb0_shell
@@ -669,11 +669,11 @@ struct FUN_007fbeb0_shell
     char pad1fd[1];
     char pad1fe[1];
     GO go1ff;
-    void __thiscall SetValueAndAssign(char, void*);
+    void SetValueAndAssign(char, void*);
 };
 
 // @fnv 0x007fbeb0
-void __thiscall FUN_007fbeb0_shell::SetValueAndAssign(char value, void* ptr)
+void FUN_007fbeb0_shell::SetValueAndAssign(char value, void* ptr)
 {
     ((char*)this + 0x1fc)[0] = value;
     ((GO*)this + 0x1f8)->operator=(ptr);
@@ -1005,7 +1005,7 @@ struct FUN_007fb480_Class
     float f68;
     float f6c;
     float f70;
-    void __thiscall FUN_007fb480(float a);
+    void FUN_007fb480(float a);
 };
 
 

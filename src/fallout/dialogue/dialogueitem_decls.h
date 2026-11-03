@@ -10,7 +10,6 @@
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/decl/fnv_00825c00__FUN_00825c00_shell.h"
 #include "layout_support.h"
-#pragma pack(push, 4)
 class DialogueItem
 {
   public:
@@ -24,12 +23,4 @@ class DialogueItem
     TESObjectREFR* SelectDefaultResponseList();
     DialogueResponse* GetActiveResponse();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DialogueItem) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(DialogueItem, m_kResponseList) == 0x0);
-FNV_STATIC_ASSERT(offsetof(DialogueItem, m_pCurrentResponseList) == 0x8);
-FNV_STATIC_ASSERT(offsetof(DialogueItem, pInfo) == 0xC);
-FNV_STATIC_ASSERT(offsetof(DialogueItem, pTopic) == 0x10);
-FNV_STATIC_ASSERT(offsetof(DialogueItem, pQuest) == 0x14);
-FNV_STATIC_ASSERT(offsetof(DialogueItem, m_pDialogueSpeaker) == 0x18);
 #endif

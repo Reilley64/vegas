@@ -241,7 +241,7 @@ class D0B6A0Collector : public D0B6A0Primary, public D0B6A0Secondary
     bool m_deferAdds;
     D0B6A0EntityArray m_deferredEntities;
 };
-void __stdcall FUN_00d0b520(int);
+void FUN_00d0b520(int);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {

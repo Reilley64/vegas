@@ -10,7 +10,6 @@ class NiPSysData;
 class NiParticleSystem;
 class CloningProcess;
 
-#pragma pack(push, 4)
 class CloningProcess;
 class NiPSysModifier : public NiObject
 {
@@ -39,5 +38,4 @@ class NiPSysModifier : public NiObject
 public:
     void CopyMemberData(::NiPSysModifier *, ::CloningProcess &);
 };
-#pragma pack(pop)
 #endif

@@ -125,8 +125,8 @@ struct FUN_00462e60_Class
 };
 struct FUN_00464f40_class
 {
-    void __thiscall FUN_00470110();
-    void __thiscall FUN_00464f40();
+    void FUN_00470110();
+    void FUN_00464f40();
 };
 struct NavMesh
 {
@@ -134,7 +134,7 @@ struct NavMesh
 };
 struct FUN_0046dcc0_class
 {
-    void __thiscall SetByteAtOffsetF4(unsigned char param);
+    void SetByteAtOffsetF4(unsigned char param);
 };
 struct FUN_0046dce0_class
 {
@@ -143,7 +143,7 @@ struct FUN_0046dce0_class
 void __cdecl FUN_00ec825b(char* p, unsigned int a, char const* b, char const* c, char const* d, char const* e);
 struct FUN_0046e880_Class
 {
-    void __thiscall SetByteField(int value);
+    void SetByteField(int value);
 };
 struct FUN_0046e8c0_class
 {
@@ -163,7 +163,7 @@ struct FUN_0046ebf0_Class
 };
 struct FUN_0046fdf0_class
 {
-    int __thiscall GetZero();
+    int GetZero();
 };
 struct FUN_0046fe90_Class
 {
@@ -184,7 +184,7 @@ struct FUN_004700a0
 };
 struct FUN_004705c0_cls
 {
-    void* __fastcall FUN_004705c0();
+    void* FUN_004705c0();
 };
 struct FUN_00471110_Class
 {
@@ -205,7 +205,7 @@ struct FUN_00474760_This
 {
     const char* p;
     ActorCombatGroup* q;
-    void __thiscall FUN_00474760();
+    void FUN_00474760();
 };
 extern "C" void* DAT_0101a3b8;
 struct BFC_s
@@ -258,7 +258,7 @@ struct FUN_00476c70_Class
 };
 struct FUN_00476c90_Class
 {
-    unsigned int __thiscall FUN_00476c90();
+    unsigned int FUN_00476c90();
 };
 struct FUN_004791f0_holder
 {
@@ -267,7 +267,7 @@ extern int DAT_0101a8fc;
 struct FUN_00479190_holder
 {
     int m_iWordAt00;
-    FUN_00479190_holder* __thiscall Construct(int a);
+    FUN_00479190_holder* Construct(int a);
 };
 struct FUN_00573eb0_Class
 {
@@ -275,11 +275,11 @@ struct FUN_00573eb0_Class
 };
 struct FUN_0047b4d0_Class
 {
-    bool __thiscall FUN_0047b4d0(unsigned short flags);
+    bool FUN_0047b4d0(unsigned short flags);
 };
 struct S47
 {
-    void __thiscall FUN_0047dea0(short);
+    void FUN_0047dea0(short);
 };
 struct FUN_0047ebb0_Class
 {
@@ -287,7 +287,7 @@ struct FUN_0047ebb0_Class
 };
 struct FUN_0047ebd0_Class
 {
-    void __thiscall FUN_0047ebd0(bool value);
+    void FUN_0047ebd0(bool value);
 };
 struct FUN_0047ff50_class
 {
@@ -301,21 +301,21 @@ struct FUN_00474630 : public NiTPointerMap<int, int>
 extern int DAT_0101a91c;
 struct FUN_004792c0_Class : NiTPointerMap<int, int>
 {
-    void __thiscall FUN_004792c0();
+    void FUN_004792c0();
 };
 struct FUN_0045d930_class
 {
-    void __thiscall FUN_0046ffd0();
-    void* __thiscall FUN_00470320(unsigned int flags);
+    void FUN_0046ffd0();
+    void* FUN_00470320(unsigned int flags);
 };
 struct FUN_0045d950_Class
 {
-    void __thiscall FUN_00470070();
-    void* __thiscall FUN_00470380(unsigned int flags);
+    void FUN_00470070();
+    void* FUN_00470380(unsigned int flags);
 };
 struct FUN_004703e0_class : public FUN_00464f40_class
 {
-    void* __thiscall FUN_004703e0(unsigned int flags);
+    void* FUN_004703e0(unsigned int flags);
 };
 void __cdecl operator delete(void* p)
 {
@@ -323,15 +323,15 @@ void __cdecl operator delete(void* p)
 }
 struct FUN_00470410_class : public FUN_00464f40_class
 {
-    void* __thiscall FUN_00470410(unsigned int flags);
+    void* FUN_00470410(unsigned int flags);
 };
 struct FUN_004746d0_Class
 {
-    void* __thiscall FUN_00474530(unsigned int flags);
+    void* FUN_00474530(unsigned int flags);
 };
 struct FUN_004747c0_Class : public FUN_00474630
 {
-    void* __thiscall FUN_004747c0(unsigned int flags);
+    void* FUN_004747c0(unsigned int flags);
 };
 void FUN_00474730();
 struct FUN_004747f0_class
@@ -341,27 +341,27 @@ struct FUN_004747f0_class
 };
 struct FUN_00473f00_class
 {
-    void __thiscall ForwardToHolder();
+    void ForwardToHolder();
 };
 struct FUN_00474850_class : public FUN_00473f00_class
 {
-    void* __thiscall FUN_00474850(unsigned int flags);
+    void* FUN_00474850(unsigned int flags);
 };
 struct FUN_004752e0_Class
 {
-    void* __thiscall FUN_004752e0(unsigned int flags);
+    void* FUN_004752e0(unsigned int flags);
 };
 struct FUN_00479140_class
 {
-    void __thiscall FUN_00479140();
+    void FUN_00479140();
 };
 struct FUN_00479160_class
 {
-    void* __thiscall FUN_00479160(unsigned int flags);
+    void* FUN_00479160(unsigned int flags);
 };
 struct FUN_004792f0_Class : FUN_004792c0_Class
 {
-    void* __thiscall FUN_004792f0(unsigned int flags);
+    void* FUN_004792f0(unsigned int flags);
 };
 struct BGSImpactDataSet
 {
@@ -378,7 +378,7 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 void __cdecl BSEndian(unsigned int*, EndianSizeTag<3>);
 struct S_00462230
 {
-    void __thiscall FUN_00462230();
+    void FUN_00462230();
 };
 struct TlsBlock462480
 {
@@ -389,7 +389,7 @@ __declspec(thread) TlsBlock462480 g_tls462480;
 extern int __tls_index;
 struct FUN_00462480_Class
 {
-    unsigned char __thiscall FUN_00462480();
+    unsigned char FUN_00462480();
 };
 __declspec(thread) unsigned int TLS_PAD[166];
 struct S69570
@@ -401,31 +401,31 @@ struct KFModel
 };
 struct FUN_0046e8e0_This
 {
-    void __thiscall FUN_0046e8e0(KFModel* a, int b, int c, int d, int e);
+    void FUN_0046e8e0(KFModel* a, int b, int c, int d, int e);
 };
 extern int DAT_01019a14;
 // @fnv 0x0046ffd0
 template <> struct NiTMallocInterface<void*>
 {
 };
-void __thiscall FUN_0045d930_class::FUN_0046ffd0()
+void FUN_0045d930_class::FUN_0046ffd0()
 {
     *(void**)this = (void*)&DAT_01019a14;
     ::FUN_004ede70(*(void***)((char*)this + 4));
 }
 struct FUN_004700d0_class : FUN_004705c0_cls
 {
-    void __thiscall FUN_004700d0(int* p);
+    void FUN_004700d0(int* p);
 };
 struct FUN_00471d90_class
 {
     char m_auiShapeKeys[0x3e8];
     int m_flags;
-    void __thiscall FUN_00471d90(bool enabled);
+    void FUN_00471d90(bool enabled);
 };
 struct FUN_00471e10_class
 {
-    void __thiscall SetFlag40(bool set);
+    void SetFlag40(bool set);
 };
 struct BSFile
 {
@@ -459,8 +459,8 @@ struct FUN_00471e60_shell
 };
 struct FUN_00474500_Class
 {
-    void __thiscall FUN_004745d0();
-    void* __thiscall FUN_00474500(unsigned int flags);
+    void FUN_004745d0();
+    void* FUN_00474500(unsigned int flags);
 };
 struct FUN_00474660_class
 {
@@ -476,11 +476,11 @@ struct FUN_00474880_Helper
 struct FUN_00474790_Class
 {
     const char* m0;
-    FUN_00474790_Class* __thiscall FUN_00474790(unsigned int a, unsigned int b);
+    FUN_00474790_Class* FUN_00474790(unsigned int a, unsigned int b);
 };
 struct FUN_00474820_Class
 {
-    void* __thiscall FUN_00474820(unsigned int);
+    void* FUN_00474820(unsigned int);
 };
 enum ENUM_FORM_ID;
 struct TESForm
@@ -501,7 +501,7 @@ struct QueueObj
 };
 struct S751
 {
-    S751* __thiscall Initialize();
+    S751* Initialize();
 };
 struct FUN_00476a40_Data
 {
@@ -514,14 +514,14 @@ struct FUN_00476a40_Holder
 {
     int _00;
     FUN_00476a40_Data* data;
-    void* __thiscall FUN_00476a40(unsigned int index);
+    void* FUN_00476a40(unsigned int index);
 };
 struct FUN_004781b0_This
 {
     int field0;
     unsigned char field4;
     unsigned char field5;
-    FUN_004781b0_This* __thiscall FUN_004781b0();
+    FUN_004781b0_This* FUN_004781b0();
 };
 struct FUN_00478f70_s
 {
@@ -542,15 +542,15 @@ extern int vftable__ShadowSceneArray;
 struct S
 {
     void* vf;
-    S* __thiscall ConstructShadowSceneArray();
+    S* ConstructShadowSceneArray();
 };
 struct FUN_004791f0_holder2
 {
-    void* __thiscall InitArrayHolder(int a);
+    void* InitArrayHolder(int a);
 };
 struct FUN_0047b470_This
 {
-    bool __thiscall FUN_0047b470();
+    bool FUN_0047b470();
 };
 struct Actor;
 struct LH
@@ -564,7 +564,7 @@ struct FUN_0047ba80_This
 {
     int _0;
     ScriptS* m4;
-    bool __thiscall IsActorInList(Actor* actor);
+    bool IsActorInList(Actor* actor);
 };
 struct FUN_0046fe10_Class
 {
@@ -607,7 +607,7 @@ struct NiObject
 };
 struct FUN_00478130_class
 {
-    void __thiscall FUN_00478130();
+    void FUN_00478130();
 };
 struct FUN_00462e10_Class
 {
@@ -687,7 +687,7 @@ struct FUN_004750e0 : Date
 };
 struct BSSimpleArrayActor
 {
-    void __thiscall Clear(bool);
+    void Clear(bool);
 };
 struct FUN_0047bcf0_class
 {
@@ -715,7 +715,7 @@ struct ResourceDescriptor
     void* manager;
     unsigned int options;
 
-    ResourceDescriptor* __thiscall FUN_004705e0(unsigned int initialCount, unsigned int initialOptions);
+    ResourceDescriptor* FUN_004705e0(unsigned int initialCount, unsigned int initialOptions);
 };
 Twin_008d0360* __cdecl FUN_00471f70();
 class Base_b9207
@@ -1047,12 +1047,12 @@ struct SpawnedItem_b10003
 struct FUN_00478e90_This
 {
     int unk00;
-    SpawnedItem_b10003** __thiscall AllocateSpawnedItemArray(unsigned char count);
+    SpawnedItem_b10003** AllocateSpawnedItemArray(unsigned char count);
 };
 void* __cdecl operator new(unsigned int size);
 struct FUN_0048a3d0;
-typedef void(__thiscall* CopyMethod)(FUN_0048a3d0*, const FUN_0048a3d0*);
-typedef void*(__thiscall* ReleaseMethod)(FUN_0048a3d0*, int);
+typedef void(* CopyMethod)(FUN_0048a3d0*, const FUN_0048a3d0*);
+typedef void*(* ReleaseMethod)(FUN_0048a3d0*, int);
 struct EffectMethods
 {
     void* unk00;
@@ -1128,7 +1128,7 @@ struct FUN_0047fe80_class : BaseFormComponent
     virtual void FUN_0047fe80_v2();
     virtual void FUN_0047fe80_v3();
     virtual unsigned short GetAttackDamage();
-    bool __thiscall IsAttackDamageDifferent(BaseFormComponent* other);
+    bool IsAttackDamageDifferent(BaseFormComponent* other);
 };
 struct Standin77900
 {

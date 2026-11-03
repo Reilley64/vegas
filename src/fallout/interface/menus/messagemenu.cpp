@@ -171,7 +171,7 @@ void __cdecl FUN_007a8df0()
 }  // namespace fnv_007a8df0
 
 // @fnv 0x007a9280
-char __fastcall GetByteAtOffset56(char* pThis)
+char GetByteAtOffset56(char* pThis)
 {
     return pThis[0x38];
 }
@@ -556,12 +556,12 @@ struct FUN_007aafb0_Class
     int unk0C;
     int unk10;
     int unk14;
-    int __thiscall FUN_007aafb0(unsigned int arg);
+    int FUN_007aafb0(unsigned int arg);
 };
 
 // If arg exceeds unk14, calls FUN_00ec7c56; then returns the result of FUN_0044a970() plus arg.
 // @fnv 0x007aafb0
-int __thiscall FUN_007aafb0_Class::FUN_007aafb0(unsigned int arg)
+int FUN_007aafb0_Class::FUN_007aafb0(unsigned int arg)
 {
     if (arg > unk14)
     {
@@ -1324,7 +1324,7 @@ bool __cdecl FUN_007a8ba0()
     Tile* pTile = reinterpret_cast<::fnv_00a01b00::TileLoader *>((((Helper*)((void *)(reinterpret_cast<::InterfaceManager *>((((Helper*)B)))->FUN_00586150())))))->FUN_00a01b00({});
     ::DAT_011da4f0 = ((int)(reinterpret_cast<::FUN_00a03c90_shell *>((((Helper*)pTile)))->FUN_00a03c90()));
     if (::DAT_011da4f0 != 0 &&
-        ((int(__thiscall*)(void*))((*(void***)::DAT_011da4f0)[13]))((void*)::DAT_011da4f0) == ::FUN_007a8de0())
+        ((int(*)(void*))((*(void***)::DAT_011da4f0)[13]))((void*)::DAT_011da4f0) == ::FUN_007a8de0())
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((((Helper*)::DAT_011da4f0)))->FUN_00a1dc70((::TileMenu *)(pTile), 0);
         if (!((FUN_007abdb0_shell*)::DAT_011da4f0)->FUN_007abdb0())

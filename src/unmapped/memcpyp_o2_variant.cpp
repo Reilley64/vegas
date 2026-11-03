@@ -3,6 +3,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 struct Item
 {
     virtual void Reserved();
@@ -17,8 +18,6 @@ struct Owner
     void FUN_00a76a60(Item* replacement);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 // @fnv 0x00a76a60
 void Owner::FUN_00a76a60(Item* replacement)

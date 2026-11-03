@@ -59,7 +59,7 @@ struct FUN_00e428f0_class
 };
 struct FUN_00e4e400_class
 {
-    FUN_00e4e400_class* __thiscall FUN_00e4e400();
+    FUN_00e4e400_class* FUN_00e4e400();
 };
 void FUN_00e52860(const float* src, float* dst);
 void FUN_00e52ef0(const float* src, float* dst);
@@ -88,11 +88,11 @@ struct FUN_00e459c0_class
 };
 struct FUN_00e45a10_class
 {
-    void __thiscall ClearFlags(int a, int b);
+    void ClearFlags(int a, int b);
 };
 struct FUN_00e587b0_Class
 {
-    int* __thiscall FUN_00e587b0(int idx);
+    int* FUN_00e587b0(int idx);
 };
 struct FUN_00e58880_Class
 {
@@ -147,7 +147,7 @@ struct FUN_00e4ab50_class
     int m_04;
     int* m_08;
     int m_0c;
-    void __thiscall ApplyToAll(int a);
+    void ApplyToAll(int a);
 };
 extern int DAT_010ec1fc;
 struct FUN_00cb0a70
@@ -703,7 +703,7 @@ struct FUN_00e53580_cls
 };
 struct S_00e53590_Foo
 {
-    int* __thiscall FUN_00e53590(int index);
+    int* FUN_00e53590(int index);
 };
 struct Vec4f
 {
@@ -781,7 +781,7 @@ double E54B50Dot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 struct FUN_00e54ae0_class
 {
-    void __thiscall GetHelperValueAsFloat();
+    void GetHelperValueAsFloat();
 };
 struct FUN_00e532b0_class
 {
@@ -1131,7 +1131,7 @@ class FUN_00e5c9b0_cls
 // with a literal zero inserted as the third argument.
 struct FUN_00e5cdb0_class
 {
-    void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
+    void FUN_00e5cec0(int a, int b, int c, int d);
 };
 struct S_00e5cfb0_Object
 {

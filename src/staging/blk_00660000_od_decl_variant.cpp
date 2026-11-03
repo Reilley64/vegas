@@ -73,16 +73,16 @@
 #include "../../include/layout_support.h"
 struct FUN_006601f0_Class
 {
-    void __thiscall FUN_006601f0(int a, int b);
+    void FUN_006601f0(int a, int b);
 };
 extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d);
 struct FUN_00660300_Class
 {
-    int __thiscall FUN_00660300(int a, int b);
+    int FUN_00660300(int a, int b);
 };
 struct FUN_00660320_Class
 {
-    void __thiscall FUN_00660320(int a, int b);
+    void FUN_00660320(int a, int b);
 };
 struct FUN_00661d30_cls
 {
@@ -92,12 +92,12 @@ extern "C" void* __cdecl FUN_00665f50(void*);
 extern int DAT_01066434;
 struct FUN_00665c50
 {
-    void* __thiscall FUN_00665f50(int a);
-    void* __thiscall Set(int a);
+    void* FUN_00665f50(int a);
+    void* Set(int a);
 };
 struct FUN_00665f10_class
 {
-    int __thiscall Identity(int a);
+    int Identity(int a);
 };
 struct BGSSaveLoadChangesMap
 {
@@ -137,7 +137,7 @@ extern "C" int DAT_01068aa4;
 struct FUN_0067d970_Class
 {
     int m;
-    void __thiscall FUN_0067d970();
+    void FUN_0067d970();
 };
 struct FUN_0067f4b0_class
 {
@@ -162,22 +162,22 @@ struct S6
 };
 struct FUN_00661d40_shell
 {
-    void __thiscall SetVTableAndDestroy();
-    void* __thiscall FUN_00661d60(unsigned int);
+    void SetVTableAndDestroy();
+    void* FUN_00661d60(unsigned int);
 };
 extern const char* DAT_0119b49c[];
 struct StatisticalArray
 {
     int _pad[3];
     int m_base;
-    int __thiscall FUN_00662890(unsigned int);
+    int FUN_00662890(unsigned int);
 };
 unsigned int __cdecl FUN_00ec7c56();
 void __cdecl Deallocate(void* p);
 struct FUN_00665c80_Class
 {
-    void __thiscall FUN_00665fc0();
-    void* __thiscall FUN_00665c80(unsigned int flags);
+    void FUN_00665fc0();
+    void* FUN_00665c80(unsigned int flags);
 };
 struct Inner0080
 {
@@ -195,7 +195,7 @@ struct Inner0080
 struct FUN_00665f20_Holder
 {
     Inner0080* p;
-    void __thiscall CallInnerFuncAndForward(int a);
+    void CallInnerFuncAndForward(int a);
 };
 extern int $SG6086;
 struct FUN_00665f50_Class
@@ -204,22 +204,22 @@ struct FUN_00665f50_Class
     int count;
     int* data;
     int zero;
-    void* __thiscall FUN_00665f50(int a);
+    void* FUN_00665f50(int a);
 };
 struct FUN_006661b0_Class
 {
-    void* __thiscall FUN_006661b0(unsigned int flags);
+    void* FUN_006661b0(unsigned int flags);
 };
 struct FUN_00666270_Holder
 {
-    void* __thiscall InitAndMaybeDeallocate(unsigned int);
+    void* InitAndMaybeDeallocate(unsigned int);
 };
 void __cdecl FUN_006665c0();
 void __cdecl Deallocate(void*);
 struct FUN_00666570_Class
 {
-    void __thiscall FUN_006665c0();
-    void* __thiscall FUN_00666570(unsigned int flags);
+    void FUN_006665c0();
+    void* FUN_00666570(unsigned int flags);
 };
 struct T_
 {
@@ -254,7 +254,7 @@ struct FUN_0066dae0_Class
     void* p;
     unsigned int pad;
     unsigned int state;
-    void __thiscall FUN_0066dae0(void* a);
+    void FUN_0066dae0(void* a);
 };
 struct FUN_0066db70_Class
 {
@@ -268,12 +268,12 @@ struct FUN_0066db70_Class
     {}
     virtual void v4(int, int)
     {}
-    void __thiscall FUN_0066db70(int a, int b);
+    void FUN_0066db70(int a, int b);
 };
 void __cdecl Deallocate(void* p);
 struct FUN_0066df40_Class
 {
-    void* __thiscall FUN_0066e300(unsigned int flags);
+    void* FUN_0066e300(unsigned int flags);
 };
 struct FUN_00671a70_Class
 {
@@ -282,7 +282,7 @@ struct FUN_00671a70_Class
 };
 struct FUN_00671ad0_Class
 {
-    void __thiscall FUN_00671ad0(bool a);
+    void FUN_00671ad0(bool a);
 };
 struct FUN_00671b30_Class
 {
@@ -291,29 +291,29 @@ struct FUN_00671b30_Class
 };
 struct FUN_00671b90_Class
 {
-    void __thiscall FUN_00671b90(bool b);
+    void FUN_00671b90(bool b);
 };
 struct FUN_00671bf0_Class
 {
-    void __thiscall FUN_00671bf0(bool a);
+    void FUN_00671bf0(bool a);
 };
 struct FUN_00671c50_Class
 {
-    void __thiscall FUN_00671c50(bool bSet);
+    void FUN_00671c50(bool bSet);
 };
 struct FUN_00671cb0_Class
 {
-    void __thiscall SetFlag20(bool b);
+    void SetFlag20(bool b);
 };
 struct FUN_0067ac70_Class
 {
     unsigned short wFlags;  // +0x22
-    void __thiscall SetFlag100(bool bSet);
+    void SetFlag100(bool bSet);
 };
 struct FUN_0067ad70_cls
 {
     virtual ~FUN_0067ad70_cls();
-    void* __thiscall DestroyAndFree(unsigned int);
+    void* DestroyAndFree(unsigned int);
 };
 struct BGSSaveFormBuffer
 {
@@ -325,7 +325,7 @@ struct Holder
 {
     int _0;
     FUNObj* q;
-    void __thiscall SaveToBuffer(void*);
+    void SaveToBuffer(void*);
 };
 extern int DAT_010689e4;
 struct FUN_0067c3f0_Class : public FUN_0067ad20_Class
@@ -339,7 +339,7 @@ template <int N> struct EndianSizeTag
 };
 struct FUN_0067eff0_Class
 {
-    void __thiscall FUN_0067eff0();
+    void FUN_0067eff0();
 };
 struct FUN_0067b170
 {
@@ -369,7 +369,7 @@ struct FUN_0067b100_Class
     unsigned char b4;
     unsigned char b0c;
     unsigned char b14;
-    void __thiscall FUN_0067b100();
+    void FUN_0067b100();
 };
 struct bhkConvexShape
 {
@@ -429,7 +429,7 @@ struct FUN_00665e30_Class
 {
     int pad;
     int* data;
-    FUN_0044d000* __thiscall FUN_00665e30(int index);
+    FUN_0044d000* FUN_00665e30(int index);
 };
 void* __cdecl operator new(unsigned int);
 struct DetectionViewData;
@@ -477,7 +477,7 @@ struct FUN_00672d10_Class
     unsigned char m_auiShapeKeys[0x28];
     FUN_0067caa0* m_pObject;
 
-    FUN_0067caa0* __thiscall FUN_00672d10();
+    FUN_0067caa0* FUN_00672d10();
 };
 struct C0130Iterator
 {
@@ -645,7 +645,7 @@ struct SpawnedObject
 float __cdecl FUN_0066dc70(int a);
 struct S_0066e2b0_Class : public FUN_0066df40_Class
 {
-    void __thiscall FUN_0066e2b0();
+    void FUN_0066e2b0();
 };
 struct G2;
 struct SaveBufCls
@@ -663,7 +663,7 @@ struct DetClassCls
     SaveNodeCls* m_04;
     unsigned char m_08[12];
     unsigned int m_14;
-    void __thiscall WriteToSaveBuffer(SaveBufCls* buffer);
+    void WriteToSaveBuffer(SaveBufCls* buffer);
 };
 class StatsGetterCls
 {
@@ -737,7 +737,7 @@ struct E640Item
 };
 struct E640Cls : DetClassCls
 {
-    void __thiscall FUN_0066e640(SaveBufCls* buffer);
+    void FUN_0066e640(SaveBufCls* buffer);
 };
 struct S_00660510_Context
 {

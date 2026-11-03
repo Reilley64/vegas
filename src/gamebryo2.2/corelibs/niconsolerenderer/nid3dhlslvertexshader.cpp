@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp: MyHolder, ShaderWrap, NiD3DHLSLVertexShader, ArrayShader (8 functions)
 
+#include <windows.h>
 #include "fnv/decl/E89B40Renderer.h"
 #include "fnv/decl/FUN_0043ba10_shell.h"
 #include "fnv/decl/FUN_00e89ac0_Class.h"
@@ -22,7 +23,7 @@ NiTPrimitiveArray<NiD3DShaderProgramCreatorObj*>::NiTPrimitiveArray(unsigned int
 struct VT_00e89b10
 {
     char _pad[0x178];
-    int(__stdcall* m_fn)(void*, unsigned int, const float*, unsigned int);
+    int(* m_fn)(void*, unsigned int, const float*, unsigned int);
 };
 struct DEV_00e89b10
 {
@@ -42,9 +43,9 @@ bool CLS_00e89b10::CallVtableMethod(unsigned int auiArg1, const float* apfArg2, 
 
 struct MyConstTable
 {
-    virtual void __stdcall Dummy0();
-    virtual void __stdcall Dummy1();
-    virtual void __stdcall Release();
+    virtual void Dummy0();
+    virtual void Dummy1();
+    virtual void Release();
 };
 struct MyHolder
 {
@@ -72,12 +73,12 @@ struct MyDesc
 };
 struct MyTable
 {
-    virtual long __stdcall F0();
-    virtual long __stdcall F1();
-    virtual long __stdcall F2();
-    virtual long __stdcall F3();
-    virtual long __stdcall F4();
-    virtual long __stdcall GetDesc(MyDesc* pDesc);
+    virtual long F0();
+    virtual long F1();
+    virtual long F2();
+    virtual long F3();
+    virtual long F4();
+    virtual long GetDesc(MyDesc* pDesc);
 };
 struct ShaderWrap
 {
@@ -113,16 +114,16 @@ struct _D3DXCONSTANT_DESC
 };
 struct ConstTable
 {
-    virtual int __stdcall f0();
-    virtual int __stdcall f1();
-    virtual int __stdcall f2();
-    virtual int __stdcall f3();
-    virtual int __stdcall f4();
-    virtual int __stdcall f5();
-    virtual int __stdcall GetConstantDescription(unsigned int hConstant, _D3DXCONSTANT_DESC* pDesc,
+    virtual int f0();
+    virtual int f1();
+    virtual int f2();
+    virtual int f3();
+    virtual int f4();
+    virtual int f5();
+    virtual int GetConstantDescription(unsigned int hConstant, _D3DXCONSTANT_DESC* pDesc,
                                                  unsigned int* pCount);
-    virtual int __stdcall f7();
-    virtual unsigned int __stdcall GetPlaneConstant(unsigned int hConstant, unsigned int uiIndex);
+    virtual int f7();
+    virtual unsigned int GetPlaneConstant(unsigned int hConstant, unsigned int uiIndex);
 };
 struct NiD3DHLSLVertexShader
 {
@@ -155,8 +156,6 @@ void __cdecl FUN_00e97240()
 }
 
 extern const char str_010f14a0[];
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct VS_00e972e0_Str
 {
@@ -179,16 +178,16 @@ struct VS_00e972e0_Desc
 };
 struct VS_00e972e0_Table
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
-    virtual long __stdcall GetDesc(void*);
-    virtual long __stdcall GetConstantDescription(void* hConstant, VS_00e972e0_Desc* pDesc, unsigned int* pCount);
-    virtual unsigned int __stdcall GetSamplerRegisterIndex(void*);
-    virtual void* __stdcall GetPlaneConstant(void*, unsigned int);
-    virtual void* __stdcall FindConstantByName(void*, const char*);
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
+    virtual long GetDesc(void*);
+    virtual long GetConstantDescription(void* hConstant, VS_00e972e0_Desc* pDesc, unsigned int* pCount);
+    virtual unsigned int GetSamplerRegisterIndex(void*);
+    virtual void* GetPlaneConstant(void*, unsigned int);
+    virtual void* FindConstantByName(void*, const char*);
 };
 struct __declspec(align(16)) VS_00e972e0_Matrix
 {

@@ -103,7 +103,7 @@ struct TextWriter
     void** virtualMethods;
 };
 extern "C" const char str_010c9308[];
-typedef void(__thiscall* WriteMethod)(TextWriter*, const char*, int);
+typedef void(* WriteMethod)(TextWriter*, const char*, int);
 struct AttributeFormatter
 {
     int unknown00;

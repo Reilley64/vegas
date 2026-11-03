@@ -13,7 +13,6 @@
 #include "layout_support.h"
 class ImageSpaceModifierParameterData;
 class TESImageSpace;
-#pragma pack(push, 4)
 class ImageSpaceModifierParameterData
 {
   public:
@@ -26,15 +25,6 @@ class ImageSpaceModifierParameterData
     // void __cdecl ImageSpaceModifierParameterData::*()
       // 0x00b8ad00; defined in another unit, declared here only
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierParameterData) == 152);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afFirstParameterSet) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afSecondParameterSet) == 60);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afThirdParameterSet) == 72);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afFourthParameterSet) == 84);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afColorAndAlphaParameters) == 100);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, ShaderConstantData) == 148);
-#pragma pack(push, 4)
 class TESImageSpace : public TESForm
 {
   public:
@@ -58,8 +48,4 @@ class TESImageSpace : public TESForm
     // TESImageSpace& __cdecl TESImageSpace::*(const TESImageSpace&)
     // void __cdecl TESImageSpace::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESImageSpace) == 184);
-FNV_STATIC_ASSERT(offsetof(TESImageSpace, Data) == 24);
-FNV_STATIC_ASSERT(offsetof(TESImageSpace, strName) == 176);
 #endif

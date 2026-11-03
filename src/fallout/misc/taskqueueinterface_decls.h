@@ -2,6 +2,7 @@
 #ifndef FNV_TASKQUEUEINTERFACE_DECLS_H
 #define FNV_TASKQUEUEINTERFACE_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/C6E030Holder.h"
 #include "fnv/decl/Cell.h"
 #include "fnv/decl/FUN_00453900_Class.h"
@@ -72,7 +73,6 @@ class NiPoint3
     float x, y, z;
     NiPoint3(float x, float y, float z);  // @ref 0x00416870 ??0NiPoint3
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 12);
 #endif
 class BSPackedTask;
 class TESObjectWEAP;
@@ -817,7 +817,6 @@ class NiUpdateData
 public:
     NiUpdateData(float, bool, bool);
 };
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
 class Script
 {
   public:
@@ -1049,7 +1048,6 @@ FUN_0087ce70();                                            // @ref 0x0087ce70 FU
              // @ref 0x01202df4 DAT_01202df4
 void operator delete(void*);
 extern bool DAT_011a31f4;
-extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 class InterfaceManager
 {

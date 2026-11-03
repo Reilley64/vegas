@@ -21,18 +21,18 @@ extern "C" void* __cdecl FUN_00d21a60(void* thisPtr, int size, int param);
 
 struct hkpHingeConstraintData_ : public hkpConstraintData
 {
-    void* __thiscall FUN_00cbe210(int param);
+    void* FUN_00cbe210(int param);
 };
 
 // @fnv 0x00cbe210
-void* __thiscall hkpHingeConstraintData_::FUN_00cbe210(int param)
+void* hkpHingeConstraintData_::FUN_00cbe210(int param)
 {
     return FUN_00d21a60((char*)this + 0x10, 0x9c, param);
 }
 
 // Writes 5 and 0x28 into target[1] and target[0] when param is nonzero, otherwise writes zeros.
 // @fnv 0x00cbe1e0
-void __stdcall SetTargetValues(char param, int* target)
+void SetTargetValues(char param, int* target)
 {
     if (param)
     {

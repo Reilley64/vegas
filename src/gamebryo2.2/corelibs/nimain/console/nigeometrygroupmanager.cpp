@@ -19,7 +19,7 @@ void* NiGeometryGroupManager::FUN_00a7f840(unsigned int auiFlags)
 }
 
 // @fnv 0x00aa00c0
-bool __stdcall FUN_00aa00c0(int a, int b)
+bool FUN_00aa00c0(int a, int b)
 {
     return false;
 }

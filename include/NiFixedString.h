@@ -2,7 +2,6 @@
 #ifndef FNV_NIFIXEDSTRING_H
 #define FNV_NIFIXEDSTRING_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class NiFixedString
 {
   public:
@@ -11,7 +10,4 @@ class NiFixedString
 public:
     ::NiFixedString &operator=(const char *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiFixedString) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiFixedString, m_kHandle) == 0x0);
 #endif

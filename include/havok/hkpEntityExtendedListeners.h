@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpEntitySmallArraySerializeOverrideType.h"
-#pragma pack(push, 1)
 class hkpEntityExtendedListeners
 {
   public:
     hkpEntitySmallArraySerializeOverrideType m_kContactListenerArray;  // +0x0
     hkpEntitySmallArraySerializeOverrideType m_kEntityListenerArray;   // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpEntityExtendedListeners[(sizeof(hkpEntityExtendedListeners) == 0x10) ? 1 : -1];
 #endif

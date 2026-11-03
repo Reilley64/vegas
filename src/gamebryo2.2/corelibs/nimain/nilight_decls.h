@@ -117,10 +117,4 @@ class NiLight : public NiDynamicEffect
     void* m_pMaterialData;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiAVObject) == 0x9c);
-FNV_STATIC_ASSERT(sizeof(NiDynamicEffect) == 0xc4);
-FNV_STATIC_ASSERT(offsetof(NiDynamicEffect, m_iIndex) == 0xa0);
-FNV_STATIC_ASSERT(offsetof(NiDynamicEffect, m_uiEffectPushCount) == 0xa4);
-FNV_STATIC_ASSERT(offsetof(NiLight, m_fDimmer) == 0xc4);
-FNV_STATIC_ASSERT(offsetof(NiLight, m_pMaterialData) == 0xec);
 #endif

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKGIZMOATTRIBUTE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkGizmoAttribute
 {
   public:
@@ -21,6 +20,4 @@ class hkGizmoAttribute
     hkInt8 m_type;  // +0x8 (GizmoType)
     char pad9[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkGizmoAttribute[(sizeof(hkGizmoAttribute) == 0xC) ? 1 : -1];
 #endif

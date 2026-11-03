@@ -2,6 +2,7 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00e5c490_cls.h"
 #include "fnv/symbols_00cf4000.h"
@@ -26,7 +27,7 @@ void FUN_00c903b0_class::ReleaseReference()
     {
         --m_uCount;
         if (!m_uCount)
-            ((void(__thiscall*)(void*, int))m_pVTable[0])(this, 1);
+            ((void(*)(void*, int))m_pVTable[0])(this, 1);
     }
 }
 
@@ -450,9 +451,6 @@ void CreateAndInitObj()
     o->Init();
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
-extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long index, void* value);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
 extern int DAT_012681d8;
 
 struct FUN_00c90490_state
@@ -482,10 +480,6 @@ void __cdecl EnterTlsGuard()
 }
 
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
-extern "C" __declspec(dllimport) int __stdcall TlsSetValue(unsigned long dwTlsIndex, void* pvValue);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* pkSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* pkSection);
 
 struct hkCriticalSectionDataC905
 {
@@ -892,7 +886,7 @@ struct Obj_00c89b60
     int unk0C;
     int unk10;
     Ref_00c89b60* m_pReference;
-    void __thiscall FUN_00c89b60(Ref_00c89b60* r);
+    void FUN_00c89b60(Ref_00c89b60* r);
 };
 
 class hkMemoryAllocatorC904
@@ -1026,7 +1020,7 @@ void FUN_00ca9b40_class::FUN_00ca9b40(ObjectRef* pObject)
 }
 // Sets m_pReference to r, calling FUN_00c90510 on the new reference and FUN_00c905b0 on the old one if present.
 // @fnv 0x00c89b60
-void __thiscall Obj_00c89b60::FUN_00c89b60(Ref_00c89b60* apReference)
+void Obj_00c89b60::FUN_00c89b60(Ref_00c89b60* apReference)
 {
     Scope_00c89b60 s;
     if (apReference)
@@ -1037,10 +1031,10 @@ void __thiscall Obj_00c89b60::FUN_00c89b60(Ref_00c89b60* apReference)
 }
 
 extern int DAT_012681d8;
-extern int(__stdcall* DAT_00fdf044)(int);
-extern int(__stdcall* DAT_00fdf04c)(int, int);
-extern void(__stdcall* DAT_00fdf05c)(void*);
-extern void(__stdcall* DAT_00fdf100)(void*);
+extern int(* DAT_00fdf044)(int);
+extern int(* DAT_00fdf04c)(int, int);
+extern void(* DAT_00fdf05c)(void*);
+extern void(* DAT_00fdf100)(void*);
 
 // @fnv 0x00c90510
 void FUN_00c90510_class::FUN_00c90510()
@@ -1053,14 +1047,14 @@ void FUN_00c90510_class::FUN_00c90510()
 
     if (state[2] == one)
     {
-        int(__stdcall * getValue)(int) = DAT_00fdf044;
+        int(* getValue)(int) = DAT_00fdf044;
         int value = getValue(DAT_012681d8);
 
         if (value != 0x23df4554)
         {
             value = getValue(DAT_012681d8);
 
-            int(__stdcall * setValue)(int, int) = DAT_00fdf04c;
+            int(* setValue)(int, int) = DAT_00fdf04c;
 
             if (value == 0x23df4554)
             {
@@ -1430,11 +1424,11 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
 
 extern "C" void _ReadWriteBarrier(void);
 volatile int S00e3eba0_sink;
-__declspec(noinline) void __fastcall FUN_00c90510(void* self)
+__declspec(noinline) void FUN_00c90510(void* self)
 {
     S00e3eba0_sink = (int)self;
 }
-__declspec(noinline) void __fastcall FUN_00c905b0(void* self)
+__declspec(noinline) void FUN_00c905b0(void* self)
 {
     S00e3eba0_sink = (int)self + 1;
 }

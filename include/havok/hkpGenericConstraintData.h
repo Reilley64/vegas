@@ -7,13 +7,10 @@
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintData.h"
 #include "hkpGenericConstraintDataScheme.h"
-#pragma pack(push, 1)
 class hkpGenericConstraintData : public hkpConstraintData
 {
   public:
     hkpBridgeAtoms m_kBridgeAtoms;                           // +0xC
     hkpGenericConstraintDataScheme m_kConstraintDataScheme;  // +0x18
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpGenericConstraintData[(sizeof(hkpGenericConstraintData) == 0x58) ? 1 : -1];
 #endif

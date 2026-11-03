@@ -896,7 +896,6 @@ class FUN_00d4aa70 : public FUN_00d569c0
     void FUN_00d49dc0(const hkpShapesSubpartD4AA& kPart) throw();
 };
 
-typedef char fnv_check_d4aa70_a[(sizeof(FUN_00d4aa70) == 0x110) ? 1 : -1];
 
 // Constructs from pkMesh, copies its half extents, user data and welding data, calls FUN_00d4a2b0 and FUN_00d49dc0 per subpart, then FUN_00d55950.
 // @fnv 0x00d4aa70

@@ -1070,7 +1070,7 @@ __declspec(noinline) void __cdecl FUN_00458620(Point3* result, const FourFloatVe
     result->z = FUN_004587d0(float(ScalarValue((_mm_load_ss)(&value->At(2)))));
 }
 // @fnv 0x00c6f500
-__declspec(noinline) void __fastcall FUN_00c6f500(ParticleController* self, void*, unsigned int mode, Source* source,
+__declspec(noinline) void FUN_00c6f500(ParticleController* self, void*, unsigned int mode, Source* source,
                                                   const FourFloatVector* transform)
 {
     ControllerOwner* owner;

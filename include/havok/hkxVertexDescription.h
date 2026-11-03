@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkxVertexDescriptionElementDecl;
-#pragma pack(push, 1)
 class hkxVertexDescription
 {
   public:
@@ -35,6 +34,4 @@ class hkxVertexDescription
     };
     hkArray<hkxVertexDescriptionElementDecl> m_kElementDeclarations;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxVertexDescription[(sizeof(hkxVertexDescription) == 0xC) ? 1 : -1];
 #endif

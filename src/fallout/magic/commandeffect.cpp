@@ -140,7 +140,7 @@ struct FUN_0080b590_vtable
     void* unk38;
     void* unk3c;
     void* unk40;
-    void(__thiscall* ApplyEffect)(void*, FUN_0080b560*);
+    void(* ApplyEffect)(void*, FUN_0080b560*);
 };
 struct FUN_0080b590_object
 {
@@ -155,11 +155,11 @@ struct FUN_0080b590_object
     int unk20;
     int unk24;
     int unk28;
-    FUN_0080b560* __thiscall CreateAndApplyEffect();
+    FUN_0080b560* CreateAndApplyEffect();
 };
 // Allocates an EffectStorage from the object's caster, item and effect item, applies it via the vtable, and returns it.
 // @fnv 0x0080b590
-FUN_0080b560* __thiscall FUN_0080b590_object::CreateAndApplyEffect()
+FUN_0080b560* FUN_0080b590_object::CreateAndApplyEffect()
 {
     FUN_0080b560* effect = new EffectStorage((MagicCaster*)unk28, (MagicItem*)unk08, (EffectItem*)unk0c);
     vtable->ApplyEffect(this, effect);
@@ -1445,9 +1445,9 @@ struct FUN_008d8520_class
 {
 };
 
-typedef void(__thiscall* SlotNoFloat)(void* self, int aArg);
-typedef void(__thiscall* SlotWithFloat)(void* self, int aArg, float aValue);
-typedef void(__thiscall* SlotThreeInts)(void* self, int aA, int aB, int aC);
+typedef void(* SlotNoFloat)(void* self, int aArg);
+typedef void(* SlotWithFloat)(void* self, int aArg, float aValue);
+typedef void(* SlotThreeInts)(void* self, int aA, int aB, int aC);
 
 
 // If the owner's FUN_008d8520 result is non-null and abFlag is set, calls slot 330 on it with 0, then calls slots 280 and 232 on apOwner.

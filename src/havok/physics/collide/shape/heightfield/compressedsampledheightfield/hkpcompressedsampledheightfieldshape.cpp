@@ -7,7 +7,7 @@
 #include "havok/hkpCompressedSampledHeightFieldShape.h"
 
 // @fnv 0x00e49510
-int __stdcall FUN_00e49510(int a, int b)
+int FUN_00e49510(int a, int b)
 {
     int r = (b >= 0x80) ? 1 : 0;
     r = r - 1;

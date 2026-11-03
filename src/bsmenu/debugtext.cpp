@@ -30,10 +30,10 @@ namespace fnv_00a11860 {
 enum DEBUGTEXT_LOCATION { DTL_NONE };
 struct DebugText {
     int m_lines[0x861];
-    void __thiscall SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine);
+    void SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine);
 };
 // @fnv 0x00a11860
-void __thiscall DebugText::SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine)
+void DebugText::SetLine(DEBUGTEXT_LOCATION aeLoc, int aiLine)
 {
     *(int*)((char*)this + 0x2284 + (int)aeLoc * 4) = aiLine;
 }
@@ -43,22 +43,22 @@ struct GlobalObject_00a7b610;
 
 
 struct FUN_00a11b70_shell {
-    GlobalObject_00a7b610* __thiscall GetGlobalObject();
+    GlobalObject_00a7b610* GetGlobalObject();
 };
 
 // @fnv 0x00a11b70
-GlobalObject_00a7b610* __thiscall FUN_00a11b70_shell::GetGlobalObject()
+GlobalObject_00a7b610* FUN_00a11b70_shell::GetGlobalObject()
 {
     return &::g_011f33d4;
 }
 
 struct DebugText_00a0e430 {
-    void __thiscall AddScaledValue(int a, int b);
+    void AddScaledValue(int a, int b);
 };
 
 // Adds the value at this+0x2280 multiplied by b to the int at this+0x2284 indexed by a.
 // @fnv 0x00a0e430
-void __thiscall DebugText_00a0e430::AddScaledValue(int aiIndex, int aiMultiplier)
+void DebugText_00a0e430::AddScaledValue(int aiIndex, int aiMultiplier)
 {
     *(int*)((char*)this + 0x2284 + aiIndex * 4) += *(int*)((char*)this + 0x2280) * aiMultiplier;
 }
@@ -107,7 +107,7 @@ struct FUN_00a0e580_VTab {
     virtual int m3();
     virtual int m4();
     virtual int m5();
-    virtual int __thiscall m6(int, int, const char*, char*, int);
+    virtual int m6(int, int, const char*, char*, int);
 };
 // @fnv 0x00a0e580
 int __cdecl FUN_00a0e580(FUN_00a0e580_VTab* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...)
@@ -185,7 +185,7 @@ int FUN_00a0e710(Thiss* pThis, const RgbaColor* apTextColor, DEBUGTEXT_LOCATION 
 }  // namespace fnv_00a0e710
 
 extern int DAT_011f33dc;
-extern void (__stdcall *DAT_00fdf05c)(int*);
+extern void (*DAT_00fdf05c)(int*);
 
 // @fnv 0x00a11820
 void __cdecl FUN_00a11820()
@@ -220,7 +220,7 @@ void FUN_00a11c00_shell::FUN_00a11c00(NiTMapItem* item)
 struct BSSimpleArray {
     int _pad;
     void** m_data;
-    unsigned int __thiscall FUN_00a11d20(void* &aValue);
+    unsigned int FUN_00a11d20(void* &aValue);
 };
 struct PendingObj {
 };
@@ -870,7 +870,7 @@ struct FUN_00a11ee0_cls {
     unsigned int FUN_00a11ee0();
 };
 // @fnv 0x00a11d20
-unsigned int __thiscall BSSimpleArray::FUN_00a11d20(void* &aValue)
+unsigned int BSSimpleArray::FUN_00a11d20(void* &aValue)
 {
     unsigned int uiIndex = reinterpret_cast<::FUN_00a11ee0_cls *>(this)->FUN_00a11ee0();
     {

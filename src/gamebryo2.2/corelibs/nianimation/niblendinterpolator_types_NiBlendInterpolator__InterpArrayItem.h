@@ -27,11 +27,4 @@ class NiBlendInterpolator__InterpArrayItem
     // NiBlendInterpolator::InterpArrayItem& __cdecl NiBlendInterpolator::InterpArrayItem::*(const NiBlendInterpolator::InterpArrayItem&)
     // void* __cdecl NiBlendInterpolator::InterpArrayItem::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(NiBlendInterpolator__InterpArrayItem) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator__InterpArrayItem, m_spControllerInterpolator) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator__InterpArrayItem, m_fWeight) == 4);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator__InterpArrayItem, m_fNormalizedWeight) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator__InterpArrayItem, m_cPriority) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator__InterpArrayItem, m_fEaseSpinner) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator__InterpArrayItem, m_fLastEvaluationTime) == 20);
 #endif

@@ -201,7 +201,7 @@ struct R6815c0
 
 // Sets the first four bytes and the byte at offset 0x1c to zero, then assigns two NiPoint3 values built from DAT_01016450.
 // @fnv 0x0043a160
-TeleportableReference* __fastcall FUN_0043a160(TeleportableReference* self)
+TeleportableReference* FUN_0043a160(TeleportableReference* self)
 {
     NiPoint3 a;
     NiPoint3 b;
@@ -381,12 +381,12 @@ bool FUN_0043a860_shell::FUN_0043a860(TeleportableReference* apCompare)
 
 struct FUN_0043a8f0_shell
 {
-    unsigned short __thiscall FUN_0043a8f0();
+    unsigned short FUN_0043a8f0();
 };
 
 // Returns 0x1c, computed by adding 0xc, 0xc, and 4 to an unsigned short initialized to zero.
 // @fnv 0x0043a8f0
-unsigned short __thiscall FUN_0043a8f0_shell::FUN_0043a8f0()
+unsigned short FUN_0043a8f0_shell::FUN_0043a8f0()
 {
     unsigned short v = 0;
     v += 0xc;
@@ -460,7 +460,7 @@ struct TESObjectREFR_ext : public TESObjectREFR
     bool GetReferencePersistence();
 };
 
-bool __thiscall TESObjectREFR_ext::GetReferencePersistence()
+bool TESObjectREFR_ext::GetReferencePersistence()
 {
     return false;
 }

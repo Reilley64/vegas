@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nistringextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nistringextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
@@ -151,7 +152,6 @@ unsigned char S_00a742a0::Equals(S_00a742a0* pOther)
 
 extern "C" void* DAT_0109d39c;
 extern "C" void* DAT_0109b220;
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf1c4_import(void* apMemory);
 
 struct FUN_00a742c0_cls
 {
@@ -172,7 +172,7 @@ FUN_00a742c0_cls* FUN_00a742c0_cls::Destroy(unsigned int acFlags)
     char* pData = *(char* volatile*)&m_pData;
     if (pData != (char*)DAT_0109b220)
     {
-        FUN_00fdf1c4_import(pData - 8);
+        InterlockedDecrement(pData - 8);
     }
     reinterpret_cast<::FUN_00a7b300_shell *>(this)->FUN_00a7b300();
     if (acFlags & 1)
@@ -186,8 +186,8 @@ namespace fnv_00a74300 {
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 extern "C" char* DAT_0109b220;
 extern "C" void* DAT_0109d39c;
-extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
-extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
+extern "C" void(* DAT_00fdf1c0)(void*);
+extern "C" void(* DAT_00fdf1c4)(void*);
 
 struct FUN_00a74300_cls
 {

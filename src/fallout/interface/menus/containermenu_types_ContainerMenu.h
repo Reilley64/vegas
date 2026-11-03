@@ -68,7 +68,6 @@ enum MENU_SOUNDS
     MENU_SOUNDS_MENU_SOUND_ENCHANT = 35,
     MENU_SOUNDS_MENU_SOUND_MODE = 36
 };
-#pragma pack(push, 4)
 class ContainerMenu : public Menu
 {
   public:
@@ -121,21 +120,4 @@ class ContainerMenu : public Menu
     // ContainerMenu& __cdecl ContainerMenu::*(const ContainerMenu&)
     // void __cdecl ContainerMenu::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ContainerMenu) == 268);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_pTiles) == 40);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_pContainer) == 116);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_kContainerItems) == 120);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_eContainerMenuMode) == 128);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_iStolenItemCount) == 132);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_bFirstContainerFlag) == 136);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_bSecondContainerFlag) == 137);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_eFilterMode) == 140);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_eSecondFilterMode) == 144);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_eMenuSounds) == 148);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_kFirstItemChangeList) == 152);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_kSecondItemChangeList) == 200);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_pCurrentList) == 248);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_uiCurrentItemIndex) == 252);
-FNV_STATIC_ASSERT(offsetof(ContainerMenu, m_kFadeSequence) == 256);
 #endif

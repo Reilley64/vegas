@@ -959,7 +959,7 @@ class NiBound
 
 // Initializes the object: sets index to -1, zeroes position and a float, constructs NiBound, initializes two AvoidSpheres, and sets a float to 1.0.
 // @fnv 0x006ae120
-void* __fastcall FUN_006ae120(char* pObject)
+void* FUN_006ae120(char* pObject)
 {
     *(int*)pObject = -1;
     *(NiPoint3*)(pObject + 4) = NiPoint3::ZERO;
@@ -1014,11 +1014,11 @@ struct DummyArr
 {
     void* vtbl;
     Dummy64* pBuffer;
-    int __thiscall GetBufferElementAddress(unsigned int aiIndex);
+    int GetBufferElementAddress(unsigned int aiIndex);
 };
 
 // @fnv 0x006b30e0
-int __thiscall DummyArr::GetBufferElementAddress(unsigned int aiIndex)
+int DummyArr::GetBufferElementAddress(unsigned int aiIndex)
 {
     return reinterpret_cast<int>(&pBuffer[aiIndex]);
 }
@@ -1036,13 +1036,13 @@ char* FUN_006b3160_shell::FUN_006b3160(unsigned int uiIndex)
 }
 
 // @fnv 0x006b3180
-const NavMeshTriangleReference& __fastcall GetFirstElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
+const NavMeshTriangleReference& GetFirstElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
 {
     return (*(const ::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)(pThis))->FUN_006b3160(0)));
 }
 
 // @fnv 0x006b31a0
-const NavMeshTriangleReference& __fastcall GetLastElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
+const NavMeshTriangleReference& GetLastElement(const BSSimpleArray<NavMeshTriangleReference, 1024>* pThis)
 {
     return (*(const ::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)(pThis))->FUN_006b3160(*(const unsigned int*)((const char*)pThis + 8) - 1)));
 }
@@ -1083,7 +1083,7 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x006b35a0
-void __fastcall InitGlobalObject(GlobalObject_00869f00* _this)
+void InitGlobalObject(GlobalObject_00869f00* _this)
 {
     *(int**)_this = &DAT_0106ba1c;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((_this))->Clear(true);
@@ -1097,7 +1097,7 @@ struct GlobalObject_00869f00
 };
 
 // @fnv 0x006b35f0
-void __fastcall FUN_006b35f0(GlobalObject_00869f00* pThis)
+void FUN_006b35f0(GlobalObject_00869f00* pThis)
 {
     *(int**)pThis = &::DAT_0106ba30;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
@@ -1107,7 +1107,7 @@ void __fastcall FUN_006b35f0(GlobalObject_00869f00* pThis)
 extern int DAT_0106ba44;
 
 // @fnv 0x006b3640
-void __fastcall InitSimpleArray(BSSimpleArray<NavMeshEdgeSegment, 1024>* _this)
+void InitSimpleArray(BSSimpleArray<NavMeshEdgeSegment, 1024>* _this)
 {
     *(int**)_this = &DAT_0106ba44;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((_this))->Clear(true);
@@ -1121,7 +1121,7 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x006b3710
-void __fastcall FUN_006b3710(GlobalObject_00869f00* pThis)
+void FUN_006b3710(GlobalObject_00869f00* pThis)
 {
     *(const char**)pThis = "p9k";
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
@@ -1155,7 +1155,7 @@ struct NiAVObject
 
 // If the object pointer at pThis is non-null, calls FUN_00401970 on the NiAVObject at offset 0x10 of that pointer.
 // @fnv 0x006b37e0
-void __fastcall FUN_006b37e0(char** pThis)
+void FUN_006b37e0(char** pThis)
 {
     if (*pThis)
     {
@@ -1202,11 +1202,11 @@ struct FUN_006b3120_shell
     char m_Pad[4];
     char* m_Array;  // +0x4
 
-    char* __thiscall GetElementAt(unsigned int aiIndex);
+    char* GetElementAt(unsigned int aiIndex);
 };
 
 // @fnv 0x006b3120
-char* __thiscall FUN_006b3120_shell::GetElementAt(unsigned int aiIndex)
+char* FUN_006b3120_shell::GetElementAt(unsigned int aiIndex)
 {
     return m_Array + aiIndex * 0x20;
 }
@@ -1229,14 +1229,14 @@ struct FUN_006b3570_shell
 {
     void* vtable;
     void FUN_006b3eb0(int, int);
-    void* __thiscall FUN_006b3570();
+    void* FUN_006b3570();
 };
 
 extern int DAT_0106ba1c;
 
 // Sets the vtable to DAT_0106ba1c, calls FUN_006b3eb0(0, 0), and returns this.
 // @fnv 0x006b3570
-void* __thiscall FUN_006b3570_shell::FUN_006b3570()
+void* FUN_006b3570_shell::FUN_006b3570()
 {
     vtable = &DAT_0106ba1c;
     FUN_006b3eb0(0, 0);
@@ -1245,12 +1245,12 @@ void* __thiscall FUN_006b3570_shell::FUN_006b3570()
 
 struct FUN_006b3780_shell
 {
-    void* __thiscall AllocateScaledBlock(unsigned int size);
+    void* AllocateScaledBlock(unsigned int size);
 };
 
 // Allocates size << 5 bytes via operator new and returns the pointer.
 // @fnv 0x006b3780
-void* __thiscall FUN_006b3780_shell::AllocateScaledBlock(unsigned int size)
+void* FUN_006b3780_shell::AllocateScaledBlock(unsigned int size)
 {
     void* p = ::FUN_00401000(size << 5);
     return p;
@@ -6785,7 +6785,6 @@ struct EdgeExtraInfo
     int eType;
     char Portal[8];
 };
-typedef char _sizecheck_EdgeExtraInfo[sizeof(EdgeExtraInfo) == 12 ? 1 : -1];
 struct FUN_006b2060_shell : public PathSmootherPOVSearch
 {
     bool FindPath(void*, void*, NavMeshEdgePoint*, float*);

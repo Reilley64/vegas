@@ -154,52 +154,52 @@ bool TimeoutTimer::CheckTimer()
 
 
 // @fnv 0x0097f2d0
-char __fastcall FUN_0097f2d0(char* this_)
+char FUN_0097f2d0(char* this_)
 {
     return GetByteAtOffset70(*(char**)(this_ + 0x9c));
 }
 
 struct FUN_009cef70_shell
 {
-    float __thiscall FUN_009cef70(int index);
+    float FUN_009cef70(int index);
 };
 
 // @fnv 0x009cef70
-float __thiscall FUN_009cef70_shell::FUN_009cef70(int index)
+float FUN_009cef70_shell::FUN_009cef70(int index)
 {
     return ((float*)this)[index + 0x3f];
 }
 
 struct FUN_009cef90_shell
 {
-    float __thiscall FUN_009cef90(int index);
+    float FUN_009cef90(int index);
 };
 
 // @fnv 0x009cef90
-float __thiscall FUN_009cef90_shell::FUN_009cef90(int index)
+float FUN_009cef90_shell::FUN_009cef90(int index)
 {
     return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x110 + index * 4);
 }
 
 struct FUN_009cf400_shell
 {
-    unsigned char __thiscall GetByteAtOffsetAD();
+    unsigned char GetByteAtOffsetAD();
 };
 
 // @fnv 0x009cf400
-unsigned char __thiscall FUN_009cf400_shell::GetByteAtOffsetAD()
+unsigned char FUN_009cf400_shell::GetByteAtOffsetAD()
 {
     return ((unsigned char*)this)[0xad];
 }
 
 struct FUN_009cf6d0_shell
 {
-    void __thiscall FUN_009cf6d0(int arg);
+    void FUN_009cf6d0(int arg);
 };
 
 // Stores the previous value at offset 0x14 into offset 0x18, then writes arg into offset 0x14.
 // @fnv 0x009cf6d0
-void __thiscall FUN_009cf6d0_shell::FUN_009cf6d0(int arg)
+void FUN_009cf6d0_shell::FUN_009cf6d0(int arg)
 {
     *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x14);
     *(int*)((char*)this + 0x14) = arg;
@@ -207,11 +207,11 @@ void __thiscall FUN_009cf6d0_shell::FUN_009cf6d0(int arg)
 
 struct FUN_009cfc40_shell
 {
-    void __thiscall FUN_009cfc40(int);
+    void FUN_009cfc40(int);
 };
 
 // @fnv 0x009cfc40
-void __thiscall FUN_009cfc40_shell::FUN_009cfc40(int)
+void FUN_009cfc40_shell::FUN_009cfc40(int)
 {
     ((unsigned char*)this)[0] = 1;
 }
@@ -526,7 +526,7 @@ struct FUN_009d0610_shell
 {
     bool active;
     unsigned int elapsed;
-    unsigned int __thiscall UpdateDirection(unsigned int, unsigned int);
+    unsigned int UpdateDirection(unsigned int, unsigned int);
     void FUN_009d0610(TESAmmoInitCalls* src);
 };
 // @fnv 0x009d0610

@@ -57,7 +57,7 @@ struct FUN_00d263a0_cls
     FUN_00d263a0_data* unk08;
     int GetNextKey(unsigned int key);
 };
-int __stdcall FUN_00d26440(int arg0);
+int FUN_00d26440(int arg0);
 struct FUN_00d26450_Obj
 {
     int unk00;

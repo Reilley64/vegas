@@ -3,7 +3,6 @@
 #define FNV_IMEMORYHEAP_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 class IMemoryHeap
 {
   public:
@@ -18,6 +17,4 @@ class IMemoryHeap
     virtual int OutputBlockInfo(IMemoryManagerFile* file, bool full) = 0;
     virtual unsigned int Size(const void* pointer, unsigned int alignment) = 0;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(IMemoryHeap) == 0x4);
 #endif

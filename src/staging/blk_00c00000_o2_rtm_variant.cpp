@@ -4,6 +4,7 @@
 
 // src/staging/blk_00c00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShader.h"
 #include "fnv/decl/BSShaderBloodSplatter.h"
@@ -95,17 +96,17 @@ struct MemoryManager
 void __cdecl FUN_00c03270();
 struct FUN_00c033f0_class
 {
-    void* __thiscall FUN_00c033f0(int);
+    void* FUN_00c033f0(int);
 };
-extern int(__stdcall* DAT_00fdf1c4)(void*);
-extern int(__stdcall* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
 struct RefObject
 {
     virtual void Unused0();
     virtual void DeleteThis();
     int m_iObjectReferenceCount;
 
-    void DecRefCount(int(__stdcall* pfnDec)(void*))
+    void DecRefCount(int(* pfnDec)(void*))
     {
         if (pfnDec(&m_iObjectReferenceCount) == 0)
             DeleteThis();
@@ -149,11 +150,11 @@ struct FUN_00c04d60_class
 {
     unsigned char pad[0x60];
     int m_0x60;
-    int __thiscall FUN_00c04d60();
+    int FUN_00c04d60();
 };
 struct FUN_00c04d80_cls
 {
-    void __thiscall SetByteValue(char v);
+    void SetByteValue(char v);
 };
 extern char DAT_011f9422;
 struct FUN_00c05350_class
@@ -164,9 +165,9 @@ extern void* DAT_010bcb60;
 struct FUN_00c058c0
 {
     void* vtbl;
-    __thiscall FUN_00c058c0(bool flag);
+    FUN_00c058c0(bool flag);
 };
-void __stdcall FUN_00c1a2f0(unsigned short ausValue);
+void FUN_00c1a2f0(unsigned short ausValue);
 struct NiScreenElements
 {
     void* DestroyIfRequested(bool);
@@ -193,20 +194,20 @@ struct NiShaderConstantMapEntry
 void SetShaderConstantMapEntryFlags(int a);
 struct FUN_00c036e0_class
 {
-    void __thiscall FUN_00c036e0(int a);
+    void FUN_00c036e0(int a);
 };
 struct FUN_00c06ee0_class
 {
     char pad00[0x34];
     RefObject* m_sp34;
 
-    void __thiscall FUN_00c06ee0(RefObject* p);
+    void FUN_00c06ee0(RefObject* p);
 };
 struct FUN_00c06f30_class
 {
     char pad[0x48];
     RefObject* m_sp48;
-    void __thiscall FUN_00c06f30(RefObject* p);
+    void FUN_00c06f30(RefObject* p);
 };
 struct FUN_00c0d1b0_class
 {
@@ -307,13 +308,13 @@ struct FUN_00c0d1b0_class
 };
 struct FUN_00c1a640_class
 {
-    unsigned short __thiscall FUN_00c1a640(unsigned short a);
+    unsigned short FUN_00c1a640(unsigned short a);
 };
 extern float DAT_011ae6cc;
 extern float DAT_011ae6c8;
 struct ImageSpaceShaderParam
 {
-    void __thiscall SetShaderConstantVector4(int a, float b, float c, float d, float e);
+    void SetShaderConstantVector4(int a, float b, float c, float d, float e);
 };
 struct FUN_00c053c0_class
 {
@@ -322,7 +323,7 @@ struct FUN_00c053c0_class
     char pad20[0x58 - 0x20];
     char* m_p58;
 
-    bool __thiscall UpdateShaderParam(int);
+    bool UpdateShaderParam(int);
 };
 struct ImageSpaceTexture
 {
@@ -342,14 +343,14 @@ struct FUN_00c03350_class
     FUN_00c053c0_class* m_pParam;
     char pad20[0x58 - 0x20];
     char* m_p58;
-    bool __thiscall FUN_00c03350(int);
+    bool FUN_00c03350(int);
 };
 struct ISTex
 {
 };
 struct FUN_00c03390_class
 {
-    void __thiscall FUN_00c03390(int);
+    void FUN_00c03390(int);
 };
 struct BeamStage
 {
@@ -364,7 +365,7 @@ struct StageReturn : BeamStage
 template <class> class NiPointer;
 struct NiD3DPass : StageReturn
 {
-    bool __thiscall ApplyRenderStateChanges(bool);
+    bool ApplyRenderStateChanges(bool);
 public:
     void SetAlphaBlendMode(unsigned int, unsigned int, bool);
 public:
@@ -374,7 +375,7 @@ public:
 };
 struct UnkBA38F0
 {
-    void __thiscall FUN_00ba38f0(BeamStage*);
+    void FUN_00ba38f0(BeamStage*);
 };
 struct NiD3DShader
 {
@@ -421,7 +422,7 @@ struct FUN_00c04310_class
     char pad9c[2];
     unsigned short m_usStageCount;
 
-    void __thiscall ReleaseStagePasses(int);
+    void ReleaseStagePasses(int);
 };
 extern int DAT_010bca64;
 struct ImageSpaceEffect
@@ -466,7 +467,7 @@ struct FUN_00c046e0_class
     unsigned char pad20[0x3c];
     float m_f5c;
 
-    bool __thiscall FUN_00c046e0(int);
+    bool FUN_00c046e0(int);
 };
 struct FUN_00c054a0_class
 {
@@ -475,15 +476,15 @@ struct FUN_00c054a0_class
 };
 struct FUN_00c056a0_class
 {
-    void __thiscall FUN_00c056a0();
-    FUN_00c056a0_class* __thiscall FUN_00c05760(char flag);
+    void FUN_00c056a0();
+    FUN_00c056a0_class* FUN_00c05760(char flag);
 };
 extern int DAT_010bcc90;
 struct FUN_00c1a480_class
 {
     int m_vtbl;
     int m_iWordAt04;
-    int __thiscall FUN_00c1a480(int a);
+    int FUN_00c1a480(int a);
 };
 struct StrArr
 {
@@ -493,8 +494,8 @@ struct StrArr
     unsigned char pad0C[2];
     unsigned short m_0E;
 
-    void __thiscall SetSize(unsigned int size);
-    void __thiscall SetAt(unsigned int index, char*& value);
+    void SetSize(unsigned int size);
+    void SetAt(unsigned int index, char*& value);
 };
 struct FUN_00a7fb20_class
 {
@@ -506,8 +507,8 @@ struct Holder
     unsigned char padC6[2];
     FUN_00a7fb20_class m_bound;
 
-    void __thiscall AppendString(StrArr* strings);
-    void __thiscall AppendBoundInfo(StrArr* strings);
+    void AppendString(StrArr* strings);
+    void AppendBoundInfo(StrArr* strings);
 };
 struct NiTransformDummy
 {
@@ -523,7 +524,7 @@ public:
 };
 struct FUN_00c1a680_class
 {
-    void __thiscall FUN_00c1a680();
+    void FUN_00c1a680();
 };
 struct FnvObj;
 struct FnvHolder
@@ -649,7 +650,7 @@ class FUN_00c02d90_loc
     float m_08;
     unsigned int m_0c;
 };
-void __stdcall FUN_00c02d90(FUN_00c02d90_cls* a1, int a2, FUN_00c02d90_tgt* a3);
+void FUN_00c02d90(FUN_00c02d90_cls* a1, int a2, FUN_00c02d90_tgt* a3);
 struct FlagHolderB5649
 {
     char pad00[8];
@@ -938,7 +939,7 @@ struct Cls_00c03d70
     int unk54;
     int unk58;
     int unk5C;
-    void __thiscall FUN_00c03d70(int a);
+    void FUN_00c03d70(int a);
 };
 struct FUN_00c04030_renderer
 {
@@ -1041,7 +1042,7 @@ struct FUN_00c04030_class
     virtual void vfbc();
     virtual void vfc0(FUN_00c04030_renderer* renderer);
 
-    void __thiscall SetupRenderer();
+    void SetupRenderer();
 };
 extern FUN_00c04030_renderer* DAT_011f9508;
 // FUN_00c043f0: thiscall, one stack arg, two guarded virtual calls on this->m_30 / this->m_34.
@@ -1199,7 +1200,7 @@ class FUN_00c043f0_cls
     int unk2c;
     struct B4630Obj* m_30;
     struct B4630Obj* m_34;
-    void __thiscall FUN_00c043f0(int a1);
+    void FUN_00c043f0(int a1);
 };
 class MemoryManagerC046
 {
@@ -1433,7 +1434,7 @@ struct S_00c05250_Arr
     unsigned short m_usSize;
     unsigned short m_usElementCount;
     unsigned short m_usGrow;
-    void __thiscall SetAt(unsigned int index, S_00c05250_Obj*& value);
+    void SetAt(unsigned int index, S_00c05250_Obj*& value);
 };
 struct S_00c05250_Elem
 {
@@ -2857,7 +2858,7 @@ struct S_00c1a6f0_Self
     unsigned int m_d0;
     float m_d4;
 
-    void __thiscall CopyStateToDestination(int p);
+    void CopyStateToDestination(int p);
 };
 struct CountedObjectBase
 {
@@ -2885,7 +2886,7 @@ struct FUN_00c1f4e0_cls
     int unk10;
     unsigned char m_b14;
 
-    void __thiscall FUN_00c1f4e0(unsigned char value);
+    void FUN_00c1f4e0(unsigned char value);
 };
 struct DecompPass266
 {
@@ -3109,7 +3110,7 @@ struct RenderOptions
     unsigned short unk0a;
     ResourceHandle* m_handle;
 };
-void __stdcall ApplyRendererToShaderPasses(unsigned int opcode, Renderer* renderer);
+void ApplyRendererToShaderPasses(unsigned int opcode, Renderer* renderer);
 struct C08
 {
     float r, g, b;
@@ -3762,8 +3763,6 @@ struct FUN_00c1d8b0_class
     unsigned short m_usGrowBy;
     void FUN_00c1d8b0(unsigned int index, RefObject** value);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class NiRefObjectF42
 {
   public:
@@ -4142,7 +4141,7 @@ struct FNVRenderManager
 
     RefObject* m_colorTarget4;
 
-    void __thiscall SetupCubeSurfaces();
+    void SetupCubeSurfaces();
 };
 extern FNVCubeSurface* DAT_012022a0;
 extern FNVCubeSurface* DAT_012022a4;
@@ -4273,8 +4272,6 @@ struct FUN_00c04da0 : _Base_00ba3d30
 };
 float __cdecl FUN_00c05870();
 extern "C" unsigned int __cdecl _rotl(unsigned int, int);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 struct ConstantEntryStandin
 {
     int unk00;
@@ -5280,7 +5277,7 @@ struct S00c03c80_cls
     int unkC4;
     int unkC8;
     S00c03c80_processor* m_processor;
-    void __thiscall ProcessEntries();
+    void ProcessEntries();
 };
 struct S00c04f50_V4
 {
@@ -6114,7 +6111,7 @@ struct Obj_c1a310
     int unk34;
     float unk38;
 };
-void __stdcall FUN_00c1a310(int a, int b, Obj_c1a310* p);
+void FUN_00c1a310(int a, int b, Obj_c1a310* p);
 void __cdecl FUN_00c1a390();
 namespace ShaderBias {
 struct RefObject
@@ -6123,8 +6120,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -6467,8 +6462,6 @@ struct FUN_00c056a0 : ImageSpaceEffectBaseC056
 {
     virtual ~FUN_00c056a0();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class NiRefObjectC1D
 {
   public:

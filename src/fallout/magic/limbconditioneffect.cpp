@@ -23,11 +23,11 @@ bool GetLimbConditionEffectInitialized()
 struct Actor;
 struct LimbConditionEffect
 {
-    unsigned short __thiscall FUN_0080f2b0(Actor* apActor);
+    unsigned short FUN_0080f2b0(Actor* apActor);
 };
 
 // @fnv 0x0080f2b0
-unsigned short __thiscall LimbConditionEffect::FUN_0080f2b0(Actor* apActor)
+unsigned short LimbConditionEffect::FUN_0080f2b0(Actor* apActor)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00802d90_shell *>((((LimbConditionEffect*)this)))->FUN_00802d90(apActor);
@@ -103,15 +103,15 @@ struct BGSLoadFormBuffer
 };
 struct ActiveEffect
 {
-    virtual void __thiscall LoadGame(BGSLoadFormBuffer*);
+    virtual void LoadGame(BGSLoadFormBuffer*);
 };
 struct MyEffect : ActiveEffect
 {
-    void __thiscall FUN_0080f350(BGSLoadFormBuffer*);
+    void FUN_0080f350(BGSLoadFormBuffer*);
 };
 // Calls ActiveEffect::LoadGame, then for buffer version 8 or higher reads 4 bytes into the field at offset 0x4c.
 // @fnv 0x0080f350
-void __thiscall MyEffect::FUN_0080f350(BGSLoadFormBuffer* apBuffer)
+void MyEffect::FUN_0080f350(BGSLoadFormBuffer* apBuffer)
 {
     reinterpret_cast<::FUN_00806420_shell *>(this)->FUN_00806420(apBuffer);
     if (apBuffer->GetVersion() >= 8)
@@ -128,12 +128,12 @@ struct LimbConditionEffectShell : public LimbConditionEffect
 {
     char _pad[0x4C];
     int m_4C;
-    void __thiscall FUN_0080f150(ActiveEffect* other);
+    void FUN_0080f150(ActiveEffect* other);
 };
 
 // Copies the base value-modifier data from other, then, if other is a LimbConditionEffect, copies m_4C into it.
 // @fnv 0x0080f150
-void __thiscall LimbConditionEffectShell::FUN_0080f150(ActiveEffect* other)
+void LimbConditionEffectShell::FUN_0080f150(ActiveEffect* other)
 {
     reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectShell*>(this)))->CopyData(other);
     LimbConditionEffect* target = dynamic_cast<LimbConditionEffect*>(other);
@@ -182,10 +182,10 @@ struct LimbConditionEffect_0080f220
 {
     char _pad[0x4C];
     int m_4C;
-    void __thiscall FUN_0080f220(Actor* apActor, float afModifier, ActorValue::Index aeOverrideActorValue);
+    void FUN_0080f220(Actor* apActor, float afModifier, ActorValue::Index aeOverrideActorValue);
 };
 // @fnv 0x0080f220
-void __thiscall LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float afModifier,
+void LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float afModifier,
                                                            ActorValue::Index aeOverrideActorValue)
 {
     if (m_4C != ActorValue::None)
@@ -264,7 +264,7 @@ struct FUN_0080f0a0_Class
     void* _p28;
 };
 
-ActiveEffect* __fastcall FUN_0080f0a0(FUN_0080f0a0_Class* self)
+ActiveEffect* FUN_0080f0a0(FUN_0080f0a0_Class* self)
 {
     ActiveEffect* presult = (ActiveEffect*)new FUN_0080f1a0_StandIn(self->_p28, self->_p8, self->_pC);
 

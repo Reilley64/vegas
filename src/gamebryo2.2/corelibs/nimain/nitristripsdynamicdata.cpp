@@ -67,11 +67,11 @@ void* __cdecl FUN_00a92470()
 
 struct FUN_00a92480_shell
 {
-    void __thiscall FUN_00a92480(short value);
+    void FUN_00a92480(short value);
 };
 
 // @fnv 0x00a92480
-void __thiscall FUN_00a92480_shell::FUN_00a92480(short value)
+void FUN_00a92480_shell::FUN_00a92480(short value)
 {
     *(short*)((char*)this + 0x50) = value;
 }
@@ -106,11 +106,11 @@ void* __cdecl FUN_00a923f0()
 
 struct FUN_00a92490_shell
 {
-    void __thiscall SetShortValue(short value);
+    void SetShortValue(short value);
 };
 
 // @fnv 0x00a92490
-void __thiscall FUN_00a92490_shell::SetShortValue(short value)
+void FUN_00a92490_shell::SetShortValue(short value)
 {
     *(short*)((char*)this + 0x52) = value;
     if (*(short*)((char*)this + 0x44))
@@ -119,7 +119,7 @@ void __thiscall FUN_00a92490_shell::SetShortValue(short value)
 
 struct FUN_00a75dc0
 {
-    virtual void __thiscall Dummy();
+    virtual void Dummy();
     char _pad[76];
     FUN_00a75dc0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, unsigned int a5, unsigned int a6,
                  unsigned int a7, unsigned int a8, unsigned int a9, unsigned int a10, unsigned int a11);
@@ -144,11 +144,11 @@ FUN_00a92340::FUN_00a92340(unsigned int a1, unsigned int a2, unsigned int a3, un
 
 struct Standin00a761a0
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00a76040, then frees this with _delete when arg has bit 1 set, and returns this.
 // @fnv 0x00a924b0
-void* __thiscall Standin00a761a0::DestroyIfFlagged(unsigned int auiFlags)
+void* Standin00a761a0::DestroyIfFlagged(unsigned int auiFlags)
 {
     reinterpret_cast<::NiTriStripsDataImpl::FUN_00a76040 *>(this)->NiTriStripsDataImpl::FUN_00a76040::~FUN_00a76040();
     if (auiFlags & 1)
@@ -481,11 +481,11 @@ struct NiTriStripsStandin
     int unk4C;
     unsigned short m_usActiveVertices;
     unsigned short m_usActiveTriangles;
-    void __thiscall FUN_00a92530(void*);
+    void FUN_00a92530(void*);
 };
 
 // @fnv 0x00a92530
-void __thiscall NiTriStripsStandin::FUN_00a92530(void* stream)
+void NiTriStripsStandin::FUN_00a92530(void* stream)
 {
     reinterpret_cast<::A76340StripsData *>((this))->FUN_00a76340((*(::A76340Stream *)((unsigned int)stream)));
     NiStreamBufferStandin* pBuffer = *(NiStreamBufferStandin**)((char*)stream + 0x250);

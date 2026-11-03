@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_00d26000.h"
@@ -203,7 +204,6 @@ extern "C" int _mm_movemask_ps(__m128 _A);
 extern "C" const __m128 DAT_010ec7f0;
 extern "C" const __m128 DAT_01017d10;
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();

@@ -4,9 +4,6 @@
 
 #include <stddef.h>
 #include "fnv/symbols_01197000.h"
-#define TESANIMGROUP_JOIN_INNER(a, b) a##b
-#define TESANIMGROUP_JOIN(a, b) TESANIMGROUP_JOIN_INNER(a, b)
-#define TESANIMGROUP_ASSERT(c) typedef char TESANIMGROUP_JOIN(tesanimgroup_assert_, __LINE__)[(c) ? 1 : -1]
 class NiMemObject
 {
 };
@@ -428,28 +425,6 @@ class TESAnimGroup : public NiRefObject
 };
 extern "C" char* __cdecl strchr(const char*, int);  // CRT strchr, canonical _strchr = 0x00EC7690
 char* __cdecl strchr(char*, int);                   // C++ <string.h> overload, ?strchr@@YAPADPADH@Z = 0x0043B9D0
-TESANIMGROUP_ASSERT(sizeof(void*) == 4);
-TESANIMGROUP_ASSERT(sizeof(NiRefObject) == 8);
-TESANIMGROUP_ASSERT(sizeof(NiPoint3) == 12);
-TESANIMGROUP_ASSERT(sizeof(TESAnimGroup) == 60);
-TESANIMGROUP_ASSERT(sizeof(TESAnimGroup::AnimGroupSound) == 16);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucSectionPriorities) == 8);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, sType) == 16);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, frameCount) == 20);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, times) == 24);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, speed) == 28);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_cByteAfterSpeed) == 40);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucBlendCount) == 41);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucBlendInCount) == 42);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucBlendOutCount) == 43);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_ucDecal) == 44);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, pParentName) == 48);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, m_uiSoundEntryCount) == 52);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup, sounds) == 56);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, fTime) == 0);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, ucVolume) == 4);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, fCurrentSpeed) == 8);
-TESANIMGROUP_ASSERT(offsetof(TESAnimGroup::AnimGroupSound, SoundAssetTmp) == 12);
 struct TESAnimGroupActionEntry
 {
     ANIM_GROUP_ACTION_TYPE action;

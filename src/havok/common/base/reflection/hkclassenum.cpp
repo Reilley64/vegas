@@ -10,7 +10,7 @@
 
 // Reads a signed char, short or int from p depending on the size returned by FUN_00d86980, defaulting to 0.
 // @fnv 0x00d86b80
-int __stdcall ReadSignedValueBySize(const void* apData)
+int ReadSignedValueBySize(const void* apData)
 {
     int r = 0;
     switch (static_cast<::ClassMember_d869 *>(nullptr)->FUN_00d86980())
@@ -34,7 +34,7 @@ struct hkCustomAttributes
 
 struct FUN_00db76a0_Class
 {
-    void* __thiscall GetAttribute(void* arg);
+    void* GetAttribute(void* arg);
 };
 
 // @fnv 0x00db76a0

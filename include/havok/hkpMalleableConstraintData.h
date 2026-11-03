@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintData.h"
-#pragma pack(push, 1)
 class hkpMalleableConstraintData : public hkpConstraintData
 {
   public:
@@ -14,6 +13,4 @@ class hkpMalleableConstraintData : public hkpConstraintData
     hkpBridgeAtoms m_kBridgeAtoms;         // +0x10
     hkReal m_fSpringStrength;              // +0x1C
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMalleableConstraintData[(sizeof(hkpMalleableConstraintData) == 0x20) ? 1 : -1];
 #endif

@@ -19,11 +19,11 @@ const char kFailedShaderFactoryMessage[] = "Failed to create shader factory!";
 
 struct FUN_00a1e740_Class
 {
-    bool __thiscall FUN_00a1e740(const char*, const char*);
+    bool FUN_00a1e740(const char*, const char*);
 };
 
 // @fnv 0x00a1e740
-bool __thiscall FUN_00a1e740_Class::FUN_00a1e740(const char* pcKey1, const char* pcKey2)
+bool FUN_00a1e740_Class::FUN_00a1e740(const char* pcKey1, const char* pcKey2)
 {
     return NiStricmp(pcKey1, pcKey2) == 0;
 }

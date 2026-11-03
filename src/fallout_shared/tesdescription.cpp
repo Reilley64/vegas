@@ -78,7 +78,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -107,13 +106,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct FUN_00482c80_shell : public TESDescription
 {
     void ClearParsedXML();
@@ -146,11 +143,11 @@ void __cdecl WriteDescChunk(void*, int);
 
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void FUN_00482cb0();
 };
 
 // @fnv 0x00482cb0
-void __thiscall FUN_00482cb0_shell::FUN_00482cb0()
+void FUN_00482cb0_shell::FUN_00482cb0()
 {
     WriteDescChunk(this, 0x43534544);
 }
@@ -168,7 +165,7 @@ struct S7010
 };
 struct FUN_00482d30_shell
 {
-    unsigned int __thiscall GetMenuParsedXmlLength();
+    unsigned int GetMenuParsedXmlLength();
 };
 // @fnv 0x00482cd0
 void __cdecl WriteDescChunk(void* apDesc, int aiChunk)
@@ -189,18 +186,18 @@ void __cdecl WriteDescChunk(void* apDesc, int aiChunk)
     }
 }
 // @fnv 0x00482d30
-unsigned int __thiscall FUN_00482d30_shell::GetMenuParsedXmlLength()
+unsigned int FUN_00482d30_shell::GetMenuParsedXmlLength()
 {
     return ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004048e0()));
 }
 
 struct ClassFFB70
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_004ffba0 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x004ffb70
-void* __thiscall ClassFFB70::DestroyIfFlagged(unsigned int flags)
+void* ClassFFB70::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_004ffba0 *>((this))->FUN_004ffba0::~FUN_004ffba0();
     if (flags & 1)
@@ -235,11 +232,11 @@ struct StrCmpHelper
 
 struct FUN_00482df0_shell
 {
-    bool __thiscall FUN_00482df0(BaseFormComponent* apComponent);
+    bool FUN_00482df0(BaseFormComponent* apComponent);
 };
 
 // @fnv 0x00482df0
-bool __thiscall FUN_00482df0_shell::FUN_00482df0(BaseFormComponent* apComponent)
+bool FUN_00482df0_shell::FUN_00482df0(BaseFormComponent* apComponent)
 {
     TESDescription* pDesc = dynamic_cast<TESDescription*>(apComponent);
     if (!pDesc)

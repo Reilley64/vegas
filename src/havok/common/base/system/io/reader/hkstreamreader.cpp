@@ -64,7 +64,7 @@ int __cdecl FUN_00cb1580()
 }
 
 // @fnv 0x00cb15c0
-void __stdcall FUN_00cb15c0(char* p)
+void FUN_00cb15c0(char* p)
 {
     *p = 0;
 }

@@ -79,7 +79,6 @@ class MemoryManager
 };
 
 
-#pragma pack(push, 4)
 struct MagicEffectEntry
 {
     int m_iMagnitude;
@@ -109,7 +108,6 @@ class EffectItem
     EffectItem* Delete(unsigned int flags);
 };
 
-#pragma pack(push, 4)
 class ActiveEffect
 {
   public:
@@ -127,9 +125,7 @@ class ScriptEffect : public ActiveEffect
     unsigned int unknown;
     ScriptEffect(MagicCaster* caster, MagicItem* item, EffectItem* effect);
 };
-#pragma pack(pop)
 
-#pragma pack(push, 4)
 class EffectItemListItems
 {
   public:
@@ -145,7 +141,5 @@ class EffectItemList
     int hostileCount;
     void AddItem(EffectItem* item);
 };
-#pragma pack(pop)
-#pragma pack(pop)
 
 #endif

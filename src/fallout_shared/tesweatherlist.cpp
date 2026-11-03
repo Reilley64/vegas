@@ -215,7 +215,7 @@ struct BSSimpleListTESRaceSize
     int GetSize();
 };
 
-bool __fastcall _ref_008256d0(void* pObject);
+bool _ref_008256d0(void* pObject);
 int __cdecl _memcmp(const void* pDest, const void* pSrc, unsigned int uiSize);
 
 struct FUN_00582690_shell : public TESWeatherList

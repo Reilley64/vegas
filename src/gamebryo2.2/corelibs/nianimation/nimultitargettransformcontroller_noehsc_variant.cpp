@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /Gy (unit src/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00aa1000.h"
@@ -70,7 +71,6 @@ class MemoryManager
 };
 
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 inline void* operator new(unsigned int n)
@@ -170,7 +170,7 @@ struct FUN_00a409b0_class : public SNAEntry
     FUN_00a409b0_class() throw();
 };
 
-extern void(__stdcall* DAT_00fdf1c0)(void*);
+extern void(* DAT_00fdf1c0)(void*);
 
 struct FUN_00a30160_cls : public NiMultiTargetTransformController
 {
@@ -193,7 +193,7 @@ void FUN_00a30160_cls::FUN_00a30160()
     unsigned short i = 0;
     if (i < m_usNumTargets)
     {
-        void(__stdcall * fn)(void*) = DAT_00fdf1c0;
+        void(* fn)(void*) = DAT_00fdf1c0;
         do
         {
             fn((char*)m_pkBlendInterpolators + 4 + i * 0x30);

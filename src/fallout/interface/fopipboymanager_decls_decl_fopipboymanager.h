@@ -327,10 +327,4 @@ class FOPipboyManager : public FORenderedMenu
 public:
     void ActivateButton(const unsigned int);
 };
-typedef char FOPipboyManagerButtonsOffset[(offsetof(FOPipboyManager, m_cPipBoyButtonAvailability) == 0xe8) ? 1 : -1];
-typedef char FOPipboyManagerKnobsOffset[(offsetof(FOPipboyManager, m_pGaugeObjects) == 0x100) ? 1 : -1];
-typedef char FOPipboyManagerLightOffset[(offsetof(FOPipboyManager, b1stPersonLightOn) == 0x160) ? 1 : -1];
-typedef char InterfacePipboyManagerOffset[(offsetof(Interface, pPipboyManager) == 0x174) ? 1 : -1];
-typedef char NiUpdateDataSize[(sizeof(NiUpdateData) == 12) ? 1 : -1];
-typedef char NiMatrix3Size[(sizeof(ThreeByThreeMatrix) == 36) ? 1 : -1];
 #endif

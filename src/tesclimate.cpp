@@ -195,7 +195,7 @@ struct FUN_0052ae80_shell
 void FUN_0052ae80_shell::Init()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    ((void(__thiscall*)(void*, unsigned int))WriteWeatherList)((char*)this + 0x30, 0x54534c57);
+    ((void(*)(void*, unsigned int))WriteWeatherList)((char*)this + 0x30, 0x54534c57);
     int i = 0;
     for (; i < 2; ++i)
         reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x38 + i * 0xc))))->FUN_0048e370(0x4d414e46 + i);

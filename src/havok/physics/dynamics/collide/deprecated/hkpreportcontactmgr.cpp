@@ -122,7 +122,7 @@ struct Descriptor
 
 
 // @fnv 0x00cfc960
-void __stdcall ProcessInputRecord(InputRecord* record, void* output, unsigned int unused)
+void ProcessInputRecord(InputRecord* record, void* output, unsigned int unused)
 {
     Descriptor descriptor;
     descriptor.type = 2;

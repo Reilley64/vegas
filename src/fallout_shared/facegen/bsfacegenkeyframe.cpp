@@ -443,7 +443,7 @@ bool FUN_0064f7e0_shell::FUN_0064f7e0()
     unsigned int i;
     for (i = 0; i < m_uiFaceGenValueCount; ++i)
     {
-        if (((bool(__thiscall*)(void*, unsigned int))(*(void***)this)[19])(this, i) &&
+        if (((bool(*)(void*, unsigned int))(*(void***)this)[19])(this, i) &&
             m_pfFaceGenValues[i] > ::_DAT_01012060)
             return false;
     }

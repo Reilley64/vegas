@@ -131,8 +131,8 @@ struct FUN_00cfbbe0_rec
 class FUN_00cfbbe0_cls
 {
   public:
-    void __thiscall RegisterAgentType(void* p, int flag, int a2, int a3, int a4, int a5, int h, int g);
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
+    void RegisterAgentType(void* p, int flag, int a2, int a3, int a4, int a5, int h, int g);
+    void FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
 };
 struct SpawnRequest
 {

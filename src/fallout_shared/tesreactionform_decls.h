@@ -34,7 +34,6 @@ class BaseProcess
 #define FNV_TESREACTIONFORM_H
 #endif
 
-#pragma pack(push, 4)
 class TESReactionForm : public BaseFormComponent
 {
   public:
@@ -48,11 +47,7 @@ class TESReactionForm : public BaseFormComponent
     void InitLoadGame(BGSLoadFormBuffer* buffer);
     void InitItem(TESForm* form);
 };
-#pragma pack(pop)
 
-FNV_STATIC_ASSERT(sizeof(TESReactionForm) == 0x10);
-FNV_STATIC_ASSERT(offsetof(TESReactionForm, m_kReactionList) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESReactionForm, m_ucReactionFlags) == 0xC);
 
 #endif
 

@@ -46,7 +46,7 @@ struct FUN_00dbdf30_s
 {
     int m_kPointA;
     int m_kPointB;
-    void __thiscall FUN_00dbdf30(int a, int b);
+    void FUN_00dbdf30(int a, int b);
 };
 struct MemoryRouter
 {
@@ -87,7 +87,7 @@ struct FUN_00dbe760_s : public FUN_00dbc6e0_s
 {
     unsigned short m_uiFilterValue;
 
-    FUN_00dbe760_s* __thiscall FUN_00dbe760(int a);
+    FUN_00dbe760_s* FUN_00dbe760(int a);
 };
 struct FUN_00cb1930_s
 {
@@ -153,7 +153,7 @@ struct FUN_00e02c70_Obj
 void __cdecl FUN_00dbdb10(void* a, void* b, void* c);
 struct DbFirst
 {
-    char* __thiscall GetLastNodeFlag(void* out);
+    char* GetLastNodeFlag(void* out);
 };
 struct DbSecond
 {
@@ -355,7 +355,7 @@ struct S00dbde40_Obj : public S00dbde40_Base
     int unk94;
     int unk98;
 
-    void __thiscall FUN_00dbde40(int a, int b, int c, int d, int e);
+    void FUN_00dbde40(int a, int b, int c, int d, int e);
 };
 void* __cdecl FUN_00c85750(void);
 class hkMemoryAllocatorDF6
@@ -629,7 +629,7 @@ struct S00dbddc0_cls : public S00dbddc0_Base
     S00dbddc0_Sub9C m_sub9c;
     S00dbddc0_SubA8 m_suba8;
 
-    int __thiscall FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
+    int FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
 };
 
 struct TaggedName

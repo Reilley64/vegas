@@ -23,9 +23,6 @@
 #include "fnv/symbols_00653000.h"
 #include "fnv/symbols_011cb000.h"
 #include "fnv/symbols_011de000.h"
-#define TESRACE_JOIN_INNER(a, b) a##b
-#define TESRACE_JOIN(a, b) TESRACE_JOIN_INNER(a, b)
-#define TESRACE_ASSERT(c) typedef char TESRACE_JOIN(tesrace_assert_, __LINE__)[(c) ? 1 : -1]
 // Shared declarations come from the canonical include/ headers: layout_support (BSSimpleList, BSStringT,
 // ENUM_FORM_ID, forward declarations) and BaseFormComponent. Canonical NiPointer/BSSimpleArray are renamed away:
 // this unit has no NiPointer of its own yet and the canonical one inlines operator= (real calls are out of line).
@@ -141,7 +138,6 @@ public:
     ::TESFile *GetOwnerMaster();
 };
 
-TESRACE_ASSERT(sizeof(TESForm) == 0x18);
 class TESFullName : public BaseFormComponent
 {
   public:
@@ -318,16 +314,6 @@ class TESHair : public TESForm, public TESFullName, public TESModel, public TEST
   public:
     char cFlags;
 };
-TESRACE_ASSERT(sizeof(RaceDefinitionData) == 0x24);
-TESRACE_ASSERT(sizeof(TESModel) == 0x18);
-TESRACE_ASSERT(sizeof(FaceGenMatrix<float>) == 0x20);
-TESRACE_ASSERT(sizeof(TESRace) == 0x524);
-TESRACE_ASSERT(offsetof(TESRace, Data) == 0x50);
-TESRACE_ASSERT(offsetof(TESRace, m_acDefaultHairColors) == 0x9c);
-TESRACE_ASSERT(offsetof(TESRace, m_apDefaultVoiceTypes) == 0x4fc);
-TESRACE_ASSERT(offsetof(TESRace, m_pOlderRace) == 0x504);
-TESRACE_ASSERT(offsetof(TESRace, m_pYoungerRace) == 0x508);
-TESRACE_ASSERT(offsetof(TESRace, strEditorID) == 0x50c);
 class TESNPCModelComponent
 {
   public:

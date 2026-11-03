@@ -50,11 +50,11 @@ struct NiFloatsExtraData
     char m_ucUnknownByte[12];
     unsigned int m_uiSize;
     float* m_pfValue;
-    bool __thiscall SetValue(const unsigned int uiIndex, float fValue);
+    bool SetValue(const unsigned int uiIndex, float fValue);
 };
 
 // @fnv 0x00a89000
-bool __thiscall NiFloatsExtraData::SetValue(const unsigned int uiIndex, float fValue)
+bool NiFloatsExtraData::SetValue(const unsigned int uiIndex, float fValue)
 {
     if (uiIndex < m_uiSize)
     {
@@ -72,12 +72,12 @@ struct CloningProcess
 };
 struct NiFloatsExtraData_shell : NiFloatsExtraData
 {
-    void __thiscall CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning);
+    void CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning);
 };
 
 // Copies the base extra data, then allocates and copies the float array from this object into pDest, or clears pDest's array when empty.
 // @fnv 0x00a89040
-void __thiscall NiFloatsExtraData_shell::CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning)
+void NiFloatsExtraData_shell::CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning)
 {
     reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(pDest), pCloning);
     if (!m_pfValue || m_uiSize <= 0)
@@ -104,11 +104,11 @@ extern int DAT_0109ec0c;
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a891d0_shell
 {
-    void* __thiscall DestroyNiFloatsExtraData(unsigned int);
+    void* DestroyNiFloatsExtraData(unsigned int);
 };
 // Releases the float array, resets the vtable, runs base cleanup, and optionally frees the object when flags has bit 0 set.
 // @fnv 0x00a891d0
-void* __thiscall FUN_00a891d0_shell::DestroyNiFloatsExtraData(unsigned int flags)
+void* FUN_00a891d0_shell::DestroyNiFloatsExtraData(unsigned int flags)
 {
     NiFloatsExtraData* p = (NiFloatsExtraData*)this;
     float* v = p->m_pfValue;
@@ -124,11 +124,11 @@ void* __thiscall FUN_00a891d0_shell::DestroyNiFloatsExtraData(unsigned int flags
 // NiFloatsExtraData float accessor: bounds-checked read of the value array.
 struct FUN_00a89020_cls : NiFloatsExtraData
 {
-    float __thiscall GetValueAt(unsigned int uiIndex);
+    float GetValueAt(unsigned int uiIndex);
 };
 
 // @fnv 0x00a89020
-float __thiscall FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
+float FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
 {
     if (uiIndex < m_uiSize)
         return m_pfValue[uiIndex];
@@ -137,11 +137,11 @@ float __thiscall FUN_00a89020_cls::GetValueAt(unsigned int uiIndex)
 
 struct NiFloatsExtraData_compare : NiFloatsExtraData
 {
-    bool __thiscall FUN_00a890b0(const NiFloatsExtraData* pOther);
+    bool FUN_00a890b0(const NiFloatsExtraData* pOther);
 };
 // Compares this NiFloatsExtraData with pOther: checks size, null-ness of the value array, and element-wise equality of the floats.
 // @fnv 0x00a890b0
-bool __thiscall NiFloatsExtraData_compare::FUN_00a890b0(const NiFloatsExtraData* pOther)
+bool NiFloatsExtraData_compare::FUN_00a890b0(const NiFloatsExtraData* pOther)
 {
     if (!pOther)
         return false;

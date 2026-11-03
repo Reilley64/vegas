@@ -4,6 +4,7 @@
 
 // src/staging/blk_00ce0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C89AC0_Owner.h"
@@ -86,7 +87,7 @@ struct FUN_00ce4a20_cls
     short m_kPointB;
     short m_iThirdValue;
     int m_iFourthElementInteger;
-    int __thiscall FUN_00ce4a20(int a);
+    int FUN_00ce4a20(int a);
 };
 extern int DAT_0102e378;
 struct FUN_00cf69c0_class
@@ -94,7 +95,7 @@ struct FUN_00cf69c0_class
     int m_kPointA;
     int m_auiShapeKeys;
     int m_kPointB;
-    int __thiscall FUN_00cf69c0(int a);
+    int FUN_00cf69c0(int a);
 };
 struct FUN_00cf86e0_class
 {
@@ -217,7 +218,7 @@ struct PacketSerializer
 struct SerializedObject
 {
     int base00, base04, base08, base0C, base10, word14, word18;
-    void __thiscall SerializeToStream(int source);
+    void SerializeToStream(int source);
 };
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
 struct CF4BC0AllocTagScope
@@ -489,7 +490,7 @@ struct S_00cf4f00
     int unk48;
     int unk4c;
     unsigned int m_bits[1];
-    void __thiscall ClearBit(unsigned int idx);
+    void ClearBit(unsigned int idx);
 };
 struct FUN_00cf4f30_class
 {
@@ -557,15 +558,13 @@ struct FUN_00cf6980_class
 void __cdecl FUN_00cf6980(FUN_00cf6980_class* object);
 int* __cdecl FUN_00cf6990();
 extern int DAT_0102e378;
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf05c(int value);
-extern "C" __declspec(dllimport) void __stdcall FUN_00fdf100(int value);
 struct S_00cf6b50_Foo
 {
     int m_iWordAt00;
     short m_iWordAt04;
     unsigned short m_6;
 
-    void __thiscall UpdateState(int a);
+    void UpdateState(int a);
 };
 struct FUN_00cf6d50_cls
 {
@@ -1024,8 +1023,6 @@ class hkObjCF46
 
     void SaveToArchive(hkArchiveCF46* ar);
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 struct hkCriticalSectionCF6B
 {
     int m_kCriticalSection;
@@ -1056,8 +1053,6 @@ struct hkMultiThreadCheckCF6B
 
     void MarkForRead();
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 struct hkCriticalSectionCF61
 {
     int m_kCriticalSection;
@@ -1088,8 +1083,6 @@ struct hkMultiThreadCheckCF61
 
     bool IsCurrentThreadOwner();
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 struct hkCriticalSectionCF6C
 {
     int m_kCriticalSection;
@@ -1120,8 +1113,6 @@ struct hkMultiThreadCheckCF6C
 
     void FUN_00cf6c60();
 };
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs) throw();
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs) throw();
 struct hkCriticalSectionCF6D
 {
     int m_kCriticalSection;
@@ -1272,12 +1263,12 @@ struct hkPairCF74
     hkEntityCF74* m_kPointB;
 };
 void FUN_00cfb060();
-void __stdcall FUN_00cfc580(int, int, int, int, int);
+void FUN_00cfc580(int, int, int, int, int);
 struct FUN_00cfc590_class
 {
     int* vtable;
 
-    void __thiscall FUN_00cfc590();
+    void FUN_00cfc590();
 };
 extern int DAT_010cc86c;
 struct S_00cfc5a0
@@ -1357,7 +1348,6 @@ struct CE0020Buffer
     CE0020Event* m_pRecordEnd;
 };
 extern char DAT_010cb81c[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 __forceinline void CE0020TimerMark(const char* pTag)
@@ -2097,7 +2087,7 @@ struct TargetType
     void* unk20;
     unsigned int unk24;
 };
-void __stdcall FUN_00cf6d00(int);
+void FUN_00cf6d00(int);
 extern void* DAT_010cc4e0;
 extern void* DAT_010cc4d0;
 struct NodeBaseA
@@ -2132,7 +2122,7 @@ struct FUN_00cf6f90
     NodeObj m_kDefault;
     FUN_00cf6f90();
 };
-void __stdcall FUN_00cf8810(int a);
+void FUN_00cf8810(int a);
 extern char DAT_010cc688[];
 struct VecCFAD
 {
@@ -2609,7 +2599,7 @@ struct MapperInitialization
     int unk58;
     int unk5C;
     unsigned char unk60;
-    void __thiscall FUN_00ce5310();
+    void FUN_00ce5310();
 };
 
 #include <xmmintrin.h>

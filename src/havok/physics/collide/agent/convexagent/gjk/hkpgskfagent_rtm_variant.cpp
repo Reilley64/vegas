@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/decl/hkpGskBaseAgent_S.h"
 #include "fnv/symbols_00dac000.h"
@@ -24,7 +25,7 @@ struct FUN_00dacc70_vt
 void __cdecl InitVtable(FUN_00dacc70_vt* p);
 struct FUN_00dacaf0_vt
 {
-    void(__thiscall* dtor)(void*, int);
+    void(* dtor)(void*, int);
 };
 struct FUN_00dacaf0
 {
@@ -53,7 +54,7 @@ struct FUN_00dacb60_class
 
     Potential m_potentials[256];
 
-    void __thiscall AddPotential(unsigned short value);
+    void AddPotential(unsigned short value);
 };
 extern int DAT_010d5224;
 struct FUN_00dabf10
@@ -162,7 +163,6 @@ extern "C"
 }
 
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 
 extern const char str_010ceca0[];
 
@@ -331,11 +331,11 @@ struct hkGskAgentS
     float m_fFloatValue;
     int unk1c;
     hkVector4S m_vSeparatingNormal;
-    void __thiscall FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result);
+    void FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result);
 };
 
 // @fnv 0x00dacd50
-void __thiscall hkGskAgentS::FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result)
+void hkGskAgentS::FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkInputS& input, void* result)
 {
     SweepFactors work;
     {

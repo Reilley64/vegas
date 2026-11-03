@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSFaceGenEyeData.h"
 #include "fnv/decl/BSFaceGenKeyframeMultiple.h"
@@ -166,7 +167,7 @@ struct FUN_00645c20_Class
 };
 struct FUN_00645c80_Class
 {
-    bool __thiscall IsFlagSet() const;
+    bool IsFlagSet() const;
 };
 struct FUN_00645ca0_Class
 {
@@ -190,7 +191,7 @@ struct FUN_0064db00_class
 };
 struct FUN_0064db50_class
 {
-    void __thiscall FUN_0064db50(int a, int b);
+    void FUN_0064db50(int a, int b);
 };
 struct FUN_0064dbd0_Class
 {
@@ -198,7 +199,7 @@ struct FUN_0064dbd0_Class
 };
 struct FUN_0064dc30_class
 {
-    int __thiscall FUN_0064dc30();
+    int FUN_0064dc30();
 };
 struct FUN_0064de50_class
 {
@@ -212,7 +213,7 @@ void CF_0081c630::Init()
 {}
 struct FUN_0064de90_class
 {
-    void __thiscall FUN_0064de90();
+    void FUN_0064de90();
 };
 struct FUN_0064deb0_Class
 {
@@ -221,17 +222,17 @@ struct FUN_0064deb0_Class
 extern "C" void __cdecl FUN_0064e3f0(int, int, int);
 struct FUN_0064dee0_Class
 {
-    void __thiscall ForwardToHelper(int, int);
+    void ForwardToHelper(int, int);
 };
 extern "C" void __cdecl FUN_0064e430(int, int);
 struct FUN_0064df30_class
 {
-    void __thiscall FUN_0064df30(int a);
+    void FUN_0064df30(int a);
 };
 extern "C" void __cdecl FUN_0064e630(void* a, void* b, void* c, void* d);
 struct FUN_0064e480_Class
 {
-    void __thiscall FUN_0064e480(void* a, void* b, void* c);
+    void FUN_0064e480(void* a, void* b, void* c);
 };
 struct FUN_0065e9a0_holder
 {
@@ -239,7 +240,7 @@ struct FUN_0065e9a0_holder
 };
 struct FUN_0064e7d0_class
 {
-    void __thiscall FUN_0064e7d0(void* a, void* b);
+    void FUN_0064e7d0(void* a, void* b);
 };
 extern "C" void __cdecl FUN_0064e920(int, int, int, int);
 struct DecalStub
@@ -263,7 +264,7 @@ struct FUN_00658100
 };
 struct FUN_00657fd0
 {
-    void __thiscall Method_00657fd0();
+    void Method_00657fd0();
 };
 extern "C" void __cdecl FUN_00658bd0(int a1, int a2, int a3);
 struct FUN_00657ff0_Class
@@ -273,7 +274,7 @@ struct FUN_00657ff0_Class
 extern "C" void __cdecl FUN_00658c10(int a, int b);
 struct FUN_00658020_Class
 {
-    void __thiscall FUN_00658020(int a);
+    void FUN_00658020(int a);
 };
 struct FUN_00658130
 {
@@ -287,15 +288,15 @@ struct FUN_00658040
     int m_iWordAt04;
     int m_8;
     int m_C;
-    void __thiscall Call_00658040();
+    void Call_00658040();
 };
 struct FUN_00658060_Class
 {
-    void __thiscall FUN_00658060(int a, int b);
+    void FUN_00658060(int a, int b);
 };
 struct FUN_00658090_Class
 {
-    void __thiscall FUN_00658090(int a);
+    void FUN_00658090(int a);
 };
 struct FUN_00658930_class
 {
@@ -307,7 +308,7 @@ struct FUN_00658aa0_class
 {
     void* vtbl;
     void FUN_00659230(int a, int b);
-    FUN_00658aa0_class* __thiscall Initialize(int a, unsigned char b);
+    FUN_00658aa0_class* Initialize(int a, unsigned char b);
 };
 struct NiTStringTemplateMap
 {
@@ -320,8 +321,8 @@ struct BSFaceGenModelMap
 };
 struct FUN_00658d30_class
 {
-    void __thiscall FUN_00658d50();
-    void __thiscall FUN_00658d30();
+    void FUN_00658d50();
+    void FUN_00658d30();
 };
 struct FUN_00659170
 {
@@ -329,11 +330,11 @@ struct FUN_00659170
 };
 struct FUN_00659210_Class
 {
-    int __thiscall FUN_00659210(char a, int b);
+    int FUN_00659210(char a, int b);
 };
 struct FUN_006592f0
 {
-    void __thiscall operator()(void*);
+    void operator()(void*);
 };
 struct FUN_00659310_
 {
@@ -357,7 +358,7 @@ struct FUN_00659540_class
 };
 struct FUN_0065cc30_class
 {
-    int __thiscall FUN_0065cc30();
+    int FUN_0065cc30();
 };
 struct FUN_0065cc50_Class
 {
@@ -365,7 +366,7 @@ struct FUN_0065cc50_Class
 };
 struct FUN_0065cea0_class
 {
-    int __thiscall FUN_0065cea0();
+    int FUN_0065cea0();
 };
 struct FUN_0065cf90_class
 {
@@ -373,7 +374,7 @@ struct FUN_0065cf90_class
 };
 struct FUN_0065cfb0_Class
 {
-    void __thiscall FUN_0065cfb0();
+    void FUN_0065cfb0();
 };
 struct FUN_0065db40_class
 {
@@ -381,18 +382,18 @@ struct FUN_0065db40_class
 };
 struct FUN_0065db60_class
 {
-    void __thiscall FUN_0065db60(int a, int b);
+    void FUN_0065db60(int a, int b);
 };
 struct FUN_0065e020_class
 {
 };
 struct FUN_0065db90_class
 {
-    void __thiscall FUN_0065db90();
+    void FUN_0065db90();
 };
 struct FUN_0065dbb0_class
 {
-    void __thiscall FUN_0065dbb0(int arg);
+    void FUN_0065dbb0(int arg);
 };
 struct FUN_0065dbf0_class
 {
@@ -400,7 +401,7 @@ struct FUN_0065dbf0_class
 };
 struct FUN_0065dc20_class
 {
-    void __thiscall FUN_0065dc20(int a);
+    void FUN_0065dc20(int a);
 };
 struct FUN_0065dc60Class
 {
@@ -408,15 +409,15 @@ struct FUN_0065dc60Class
 };
 struct FUN_0065dd50_Class
 {
-    void __thiscall FUN_0065dd50(int a);
+    void FUN_0065dd50(int a);
 };
 struct FUN_0065dd70_Class
 {
-    void __thiscall FUN_0065dd70();
+    void FUN_0065dd70();
 };
 struct FUN_0065ddc0_class
 {
-    void __thiscall FUN_0065ddc0(int a);
+    void FUN_0065ddc0(int a);
 };
 struct FUN_0065dde0_Class
 {
@@ -434,15 +435,15 @@ struct FUN_0065de80_Class
 };
 struct FUN_0065deb0_Class
 {
-    void __thiscall FUN_0065deb0(int arg);
+    void FUN_0065deb0(int arg);
 };
 struct FUN_0065df10_class
 {
-    void __thiscall FUN_0065df10(void* b, void* c);
+    void FUN_0065df10(void* b, void* c);
 };
 struct FUN_0065df40_class
 {
-    void __thiscall FUN_0065df40(int a);
+    void FUN_0065df40(int a);
 };
 struct FUN_0065df60_class
 {
@@ -450,27 +451,27 @@ struct FUN_0065df60_class
 };
 struct FUN_0065df80_class
 {
-    void __thiscall FUN_0065df80(int a, int b);
+    void FUN_0065df80(int a, int b);
 };
 struct FUN_0065dfb0_Class
 {
-    void __thiscall FUN_0065dfb0(int a);
+    void FUN_0065dfb0(int a);
 };
 struct FUN_0065dfd0_class
 {
-    bool __thiscall FUN_0065dfd0(int);
+    bool FUN_0065dfd0(int);
 };
 struct FUN_0065e000_class
 {
-    int __thiscall FUN_0065da80(int a, int b);
-    int __thiscall FUN_0065e000(int a, int b);
+    int FUN_0065da80(int a, int b);
+    int FUN_0065e000(int a, int b);
 };
 struct FUN_0065e9a0
 {
 };
 struct FUN_0065e9a0_t
 {
-    void __thiscall FUN_0065e9a0(void*);
+    void FUN_0065e9a0(void*);
 };
 struct FUN_0065ea00_class
 {
@@ -481,15 +482,15 @@ struct FUN_0065ea60_class
 extern "C" void __cdecl FUN_0065eb00(int);
 struct FUN_0065e9c0_class
 {
-    void __thiscall FUN_0065e9c0(int arg);
+    void FUN_0065e9c0(int arg);
 };
 struct FUN_0065e9e0_Class
 {
-    void __thiscall FUN_0065e9e0(void* a);
+    void FUN_0065e9e0(void* a);
 };
 struct FUN_0065ea20_Class
 {
-    void __thiscall FUN_0065ea20(int a);
+    void FUN_0065ea20(int a);
 };
 struct FUN_0065ea40_class
 {
@@ -497,23 +498,23 @@ struct FUN_0065ea40_class
 };
 struct FUN_0065ea60_cls
 {
-    void __thiscall FUN_0065ea60(void* a);
+    void FUN_0065ea60(void* a);
 };
 struct FUN_0065ee70_class
 {
-    void __thiscall FUN_0065ee70();
+    void FUN_0065ee70();
 };
 struct FUN_0065ee30_class
 {
-    void __thiscall FUN_0065ee30();
+    void FUN_0065ee30();
 };
 struct FUN_0065f2b0_class
 {
-    void __thiscall FUN_0065f2b0(int a, int b);
+    void FUN_0065f2b0(int a, int b);
 };
 struct FUN_0065f400_class
 {
-    void __thiscall FUN_0065f400(int a, int b);
+    void FUN_0065f400(int a, int b);
 };
 struct FUN_0065f7c0_Class
 {
@@ -525,20 +526,20 @@ struct FUN_0065f580_Class
 extern "C" void __cdecl FUN_0065f9e0(int a, int b);
 struct FUN_0065f6c0_class
 {
-    void __thiscall FUN_0065f6c0(int a);
+    void FUN_0065f6c0(int a);
 };
 struct FUN_0065f7a0_Class
 {
-    void* __thiscall FUN_0065f7a0(void* arg);
+    void* FUN_0065f7a0(void* arg);
 };
 extern "C" void __cdecl FUN_0065fde0(int, int, int, int);
 struct FUN_0065f890_class
 {
-    void __thiscall FUN_0065f890(int a1, int a2, int a3);
+    void FUN_0065f890(int a1, int a2, int a3);
 };
 struct FUN_0065f930_Class
 {
-    void __thiscall FUN_0065f930(int a, int b, int c);
+    void FUN_0065f930(int a, int b, int c);
 };
 extern void* DAT_010658d0;
 struct FUN_00658e70_cls : public NiTPointerMap<int, int>
@@ -569,7 +570,7 @@ struct FUN_00644350_Class
 void* __cdecl operator new(unsigned int size, void* placement);
 struct FUN_00644490_Class
 {
-    void __thiscall FUN_00644490(char* items, unsigned int count);
+    void FUN_00644490(char* items, unsigned int count);
 };
 struct FUN_006444e0_Class
 {
@@ -577,7 +578,7 @@ struct FUN_006444e0_Class
     int m_iWordAt04;
     int m_8;
     int m_C;
-    void* __thiscall FUN_006444e0(int a, int b, int c, int d);
+    void* FUN_006444e0(int a, int b, int c, int d);
 };
 GlobalObject_0040e0b0 g_011ce840;
 GlobalObject_0040e0b0 g_011cfd8c;
@@ -587,12 +588,12 @@ struct ActorValueOwner
 };
 struct S_0064dac0
 {
-    int __thiscall FUN_0064dac0(int, int);
+    int FUN_0064dac0(int, int);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0064db20_Class
 {
-    void* __thiscall GetEntryAt(unsigned int a);
+    void* GetEntryAt(unsigned int a);
 };
 struct Caller
 {
@@ -605,19 +606,19 @@ struct Pair
 struct Tgt
 {
     Pair m;
-    int* __thiscall CopyPairAfterCallback(int* p1, int p2);
+    int* CopyPairAfterCallback(int* p1, int p2);
 };
 struct FUN_0064e2d0_Holder
 {
-    unsigned int __thiscall FUN_0064e2d0() const;
+    unsigned int FUN_0064e2d0() const;
 };
 struct FUN_0064e300_Class
 {
-    int __thiscall FUN_0064e300();
+    int FUN_0064e300();
 };
 struct FUN_0064e340_class
 {
-    void* __thiscall FUN_0064e340(int a, int b, int c);
+    void* FUN_0064e340(int a, int b, int c);
 };
 extern "C" void __cdecl FUN_0064e3f0(int, int, int);
 // @fnv 0x0064e3f0
@@ -657,35 +658,35 @@ struct Holder00aad6b0
 };
 struct Class_00658100
 {
-    unsigned int __thiscall FUN_00658100();
+    unsigned int FUN_00658100();
 };
 struct Dummy658130
 {
-    unsigned __thiscall FUN_00658130();
+    unsigned FUN_00658130();
 };
 void FUN_00658bd0(int a1, int a2, int a3);
 void __cdecl operator delete(void* p);
 struct FUN_00658bb0_Class
 {
-    void __thiscall FUN_00658bb0();
+    void FUN_00658bb0();
 };
 struct FUN_00658d00_Class
 {
-    void* __thiscall FUN_00658d00(unsigned int flags);
+    void* FUN_00658d00(unsigned int flags);
 };
 struct FUN_00658ea0_cls
 {
-    void* __thiscall FUN_00658ea0(unsigned int);
+    void* FUN_00658ea0(unsigned int);
 };
 void __cdecl operator delete(void* p);
 struct FUN_00658ed0_Class
 {
-    void __thiscall FUN_00658e10();
-    void* __thiscall FUN_00658ed0(unsigned int flags);
+    void FUN_00658e10();
+    void* FUN_00658ed0(unsigned int flags);
 };
 struct FUN_00658f00_Class : public FUN_00658d30_class
 {
-    FUN_00658f00_Class* __thiscall FUN_00658f00(unsigned int flags);
+    FUN_00658f00_Class* FUN_00658f00(unsigned int flags);
 };
 struct Pair590
 {
@@ -694,7 +695,7 @@ struct Pair590
 };
 struct S_006590c0
 {
-    void* __thiscall CopyPairTo(void* p, int q);
+    void* CopyPairTo(void* p, int q);
 };
 struct FUN_006a68b0_Class
 {
@@ -703,7 +704,7 @@ struct FUN_006a68b0_Class
 void __cdecl operator delete(void*);
 struct FUN_00659140_Class
 {
-    void* __thiscall FUN_00659140(unsigned int flags);
+    void* FUN_00659140(unsigned int flags);
 };
 extern int DAT_010658f0;
 struct FUN_00659230
@@ -723,7 +724,7 @@ struct FUN_00659330_class
     int m_8;
     int m_C;
     unsigned char m_10;
-    void* __thiscall InitializeWithGlobal(int a, unsigned char b);
+    void* InitializeWithGlobal(int a, unsigned char b);
 };
 struct FUN_00659380_cls
 {
@@ -734,14 +735,14 @@ struct FUN_006593b0_class
 void __cdecl operator delete(void*);
 struct FUN_00659380_class
 {
-    void* __thiscall FUN_00659380(unsigned int flags);
+    void* FUN_00659380(unsigned int flags);
 };
 struct FUN_00659440_Class
 {
 };
 struct FUN_006593b0_Class
 {
-    void* __thiscall FUN_006593b0(unsigned int flags);
+    void* FUN_006593b0(unsigned int flags);
 };
 struct NarrowString
 {
@@ -759,20 +760,19 @@ struct FUN_006593e0_Class
     NarrowString m_40;
     ~FUN_006593e0_Class();
 };
-extern "C" __declspec(dllimport) void* __stdcall CreateSemaphoreA(void*, long, long, const char*);
 struct FUN_00659500_Holder
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    FUN_00659500_Holder* __thiscall InitSemaphore(int a, int b);
+    FUN_00659500_Holder* InitSemaphore(int a, int b);
 };
 struct FUN_0065b3e0_Holder
 {
     char _pad[16];
     void* m_10;
     void* m_14;
-    void* __thiscall GetPointerByFlag(bool);
+    void* GetPointerByFlag(bool);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0065cc70_Holder
@@ -781,7 +781,7 @@ struct FUN_0065cc70_Holder
     int m_iWordAt04;
     int m_8;
     int m_C;
-    int __thiscall FUN_0065cc70(unsigned int param);
+    int FUN_0065cc70(unsigned int param);
 };
 struct TextureBasis
 {
@@ -799,7 +799,7 @@ struct Pair65cf50
 struct Holder65cf50
 {
     Pair65cf50 data;
-    void* __thiscall CopyDataAfterCallback(void* p, int q);
+    void* CopyDataAfterCallback(void* p, int q);
 };
 struct FUN_0064df10_helper
 {
@@ -813,33 +813,33 @@ struct FUN_0065d150_class
     void* m_iThirdValue;
     void* m_10;
     void* m_14;
-    void __thiscall ClearStorage();
+    void ClearStorage();
 };
 struct FUN_0065dd90_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void __thiscall FUN_0065dd90(int a1, int a2);
+    void FUN_0065dd90(int a1, int a2);
 };
 struct _Out_0044a170
 {
 };
 struct FUN_0065ded0_Class
 {
-    _Out_0044a170* __thiscall FUN_0065ded0(_Out_0044a170* a1, int a2, int a3);
+    _Out_0044a170* FUN_0065ded0(_Out_0044a170* a1, int a2, int a3);
 };
 struct FUN_0065e020_Cls
 {
-    int __thiscall FUN_0065e020();
+    int FUN_0065e020();
 };
 struct FUN_0065e050_Holder
 {
-    int __thiscall FUN_0065e050();
+    int FUN_0065e050();
 };
 struct FUN_0065e080_S
 {
-    int __thiscall FUN_0065e080();
+    int FUN_0065e080();
 };
 struct FUN_0065e0b0_Class
 {
@@ -855,7 +855,7 @@ struct S_0065e140
 };
 struct FUN_0065e170_Cls
 {
-    unsigned __thiscall FUN_0065e170();
+    unsigned FUN_0065e170();
 };
 void FUN_0065e510(int a, int b, int c);
 void __cdecl FUN_0065e5a0(int a, int b, int c);
@@ -888,24 +888,24 @@ struct Owner_0065eb60
 {
     float m_iWordAt00;
     Sub_0065eed0 m_iWordAt04;
-    Owner_0065eb60& __thiscall FUN_0065eb60(const Owner_0065eb60&);
+    Owner_0065eb60& FUN_0065eb60(const Owner_0065eb60&);
 };
 void __cdecl operator delete(void*);
 struct FUN_0065eca0_class
 {
-    void* __thiscall FUN_0065eca0(unsigned int flags);
+    void* FUN_0065eca0(unsigned int flags);
 };
 struct FUN_0065ecd0_class
 {
-    void* __thiscall FUN_0065ecd0(unsigned int flags);
+    void* FUN_0065ecd0(unsigned int flags);
 };
 void __cdecl operator delete(void* p);
 struct FUN_0065ed00_class
 {
-    void* __thiscall FUN_0065ed00(unsigned int flags);
+    void* FUN_0065ed00(unsigned int flags);
 };
 void FUN_0065f060();
-void __stdcall FUN_0065ee50_Helper(void*, unsigned int, int, void (*)());
+void FUN_0065ee50_Helper(void*, unsigned int, int, void (*)());
 struct FUN_0065ee50_S
 {
     char m_auiShapeKeys[16];
@@ -938,26 +938,26 @@ struct S_0065f7c0
 };
 struct FUN_0065f7f0_Class
 {
-    unsigned int __thiscall FUN_0065f7f0() const;
+    unsigned int FUN_0065f7f0() const;
 };
 struct FUN_0065fb10_Class
 {
-    void __thiscall FUN_0065fb10(const FUN_0065fb10_Class& other);
+    void FUN_0065fb10(const FUN_0065fb10_Class& other);
 };
 struct FUN_0065fa80_Holder
 {
     float m_iWordAt00;
     FUN_0065fb10_Class m_iWordAt04;
-    FUN_0065fa80_Holder& __thiscall FUN_0065fa80(const FUN_0065fa80_Holder& other);
+    FUN_0065fa80_Holder& FUN_0065fa80(const FUN_0065fa80_Holder& other);
 };
 int __cdecl FUN_00ec7ce3(void* a1, unsigned int a2, void* a3, unsigned int a4);
 struct FUN_0065ff30_Class
 {
-    void __thiscall FUN_0065ff30(int a, int b, int c, int d, int e);
+    void FUN_0065ff30(int a, int b, int c, int d, int e);
 };
 struct FUN_0065ff60_class
 {
-    void __thiscall FUN_0065ff60(int a, int b, int c, int d, int e);
+    void FUN_0065ff60(int a, int b, int c, int d, int e);
 };
 struct NiRTTI;
 struct NiProperty;
@@ -1006,7 +1006,7 @@ struct FUN_00657e60_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_00657e60();
+    void FUN_00657e60();
 };
 struct H_0060b3b0
 {
@@ -1020,7 +1020,7 @@ struct FUN_0065d460_Class
     void* m_iThirdValue;
     void* m_10;
     void* m_14;
-    void __thiscall FUN_0065d460();
+    void FUN_0065d460();
 };
 struct FUN_0065d660_Class
 {
@@ -1030,7 +1030,7 @@ struct FUN_0065d660_Class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall FUN_0065d660();
+    void FUN_0065d660();
 };
 struct FUN_0065d860_class
 {
@@ -1040,7 +1040,7 @@ struct FUN_0065d860_class
     void* m_iThirdValue;
     void* m_10;
     void* m_14;
-    void __thiscall FUN_0065d860();
+    void FUN_0065d860();
 };
 struct EGMDeltaList;
 struct Elem_65eed0
@@ -1071,7 +1071,7 @@ struct FUN_0065f430_class
 };
 struct FUN_0064cc90_Class
 {
-    void __thiscall FUN_0064cc90(unsigned char bFlag);
+    void FUN_0064cc90(unsigned char bFlag);
 };
 struct FUN_00659490_cls2
 {
@@ -1089,7 +1089,7 @@ struct FUN_0065d050
     int m_iThirdValue;
     int m_10;
     int m_14;
-    void __thiscall Clear_0065d050();
+    void Clear_0065d050();
 };
 struct FUN_0065f240
 {
@@ -1109,11 +1109,11 @@ struct GlobalObject_0040c150 : public StartMenu
 };
 struct FUN_0064da80_Class
 {
-    int __thiscall FUN_0064da80(int a, int b);
+    int FUN_0064da80(int a, int b);
 };
 struct FUN_0064daa0_Class
 {
-    int __thiscall FUN_0064daa0(int a, int b);
+    int FUN_0064daa0(int a, int b);
 };
 struct BGSTerrainManager
 {
@@ -1138,7 +1138,7 @@ struct FUN_00658ad0_arg
 };
 struct FUN_00658ad0_class
 {
-    void __thiscall AssignString(FUN_00658ad0_arg* arg, char* source, GO value);
+    void AssignString(FUN_00658ad0_arg* arg, char* source, GO value);
 };
 int __cdecl strcpy_s(char*, unsigned int, char*);
 int __cdecl strlen(char*);
@@ -1149,11 +1149,11 @@ struct FUN_00658bb0 : FUN_00658d30_class
 };
 struct FUN_0065d240_class
 {
-    void __thiscall ClearAndFree();
+    void ClearAndFree();
 };
 struct FUN_0065d560_Class
 {
-    void __thiscall ClearAndFreeBuffer();
+    void ClearAndFreeBuffer();
 };
 struct FUN_0065da00_class
 {
@@ -1183,11 +1183,11 @@ struct FUN_0065def0_class
 };
 struct CIdvFilenameDestructorHelper
 {
-    void __thiscall NarrowString();
+    void NarrowString();
 };
 struct FUN_0065ed30_class
 {
-    void __thiscall FUN_0065ed30();
+    void FUN_0065ed30();
 };
 struct CIdvFilenameDtorHelper
 {
@@ -1361,7 +1361,7 @@ struct FUN_0064bda0_Class
     virtual void vf90();
     virtual float vf94(int index);
 
-    int __thiscall FUN_0064bda0();
+    int FUN_0064bda0();
 };
 inline void FUN_0064bda0_Class::vf04()
 {}
@@ -1439,7 +1439,7 @@ inline float FUN_0064bda0_Class::vf94(int)
 {
     return 0.0f;
 }
-int __thiscall FUN_0064bda0_Class::FUN_0064bda0()
+int FUN_0064bda0_Class::FUN_0064bda0()
 {
     int result = -1;
 
@@ -1626,7 +1626,7 @@ struct FUN_0064dda0_cls
 {
     unsigned int m_iWordAt00;
     unsigned int m_iWordAt04;
-    unsigned int __thiscall FUN_0064dda0();
+    unsigned int FUN_0064dda0();
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct S_0064ddf0_Container
@@ -1773,7 +1773,7 @@ struct FUN_0064fcd0_Self
     int unk08;
     int unk0c;
     unsigned int m_uiItemCount;
-    FUN_0064fcd0_Self* __thiscall CopyFrom(FUN_0064fcd0_Other* other);
+    FUN_0064fcd0_Self* CopyFrom(FUN_0064fcd0_Other* other);
 };
 struct FUN_00438af0_cls
 {
@@ -1875,7 +1875,7 @@ struct Blk_657c50
 };
 struct FUN_00657c50_cls
 {
-    void* __thiscall FUN_00657c50(void* a, Pair_657c50 b, int c, int d);
+    void* FUN_00657c50(void* a, Pair_657c50 b, int c, int d);
 };
 struct Sub_657cd0_08
 {
@@ -1900,7 +1900,7 @@ struct FUN_00657d50_cls
     int m_0c;
     int m_10;
     int m_14;
-    void __thiscall FUN_00657d50();
+    void FUN_00657d50();
 };
 struct FUN_00657d50_callee_a
 {
@@ -1935,7 +1935,7 @@ struct FUN_00657ee0_cls
     unsigned int m_10;
     unsigned int m_14;
 
-    bool __thiscall FUN_00657ee0(unsigned int a);
+    bool FUN_00657ee0(unsigned int a);
 };
 class SpanEntry;
 class FUN_006580b0_cls
@@ -1977,7 +1977,7 @@ struct Hldr0044
     int m_iWordAt04;
     int m_8;
 };
-extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
+extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
 class Base_b9895
 {
   public:
@@ -2299,7 +2299,7 @@ struct S_0065d1c0_Class
     int m_10;
     int m_14;
 
-    bool __thiscall AllocateElements(unsigned int a);
+    bool AllocateElements(unsigned int a);
 };
 struct FUN_0065d2b0_sub
 {
@@ -2424,7 +2424,7 @@ struct FUN_0065dae0_cls
 {
     unsigned int m_iWordAt00;
     unsigned int m_iWordAt04;
-    FUN_0065dae0_cls* __thiscall FUN_0065dae0();
+    FUN_0065dae0_cls* FUN_0065dae0();
 };
 struct FUN_0065e0e0_cls
 {
@@ -2535,7 +2535,7 @@ struct S_0065f8c0_IterTag
 };
 extern void FUN_0065f060();
 extern void FUN_0065fc10();
-void __stdcall FUN_00ecaebb(void* dst, void* src, unsigned int size, unsigned int count, void (*copyCtor)(),
+void FUN_00ecaebb(void* dst, void* src, unsigned int size, unsigned int count, void (*copyCtor)(),
                             void (*dtor)());
 struct FUN_0065fab0_cls
 {
@@ -2840,7 +2840,7 @@ struct FUN_00658e10 : ObjectCleanupBase658e10
 };
 struct FUN_00659080_Class
 {
-    void __thiscall FUN_00659080(FUN_00659140_Class* obj);
+    void FUN_00659080(FUN_00659140_Class* obj);
 };
 struct FUN_0065c9c0 : FUN_0065d3a0
 {
@@ -2888,7 +2888,7 @@ struct FUN_0044d6c0_class
     int unk00;
     int unk04;
     int unk08;
-    void* __thiscall FUN_0044d6c0(void** a);
+    void* FUN_0044d6c0(void** a);
 };
 // @fnv 0x00658c10
 extern "C" void __cdecl FUN_00658c10(int a, int b)
@@ -3363,11 +3363,11 @@ struct Interface
 };
 struct FUN_0065e9a0_Class
 {
-    void __thiscall FUN_0065e9a0(BGSLoadGameBuffer* p);
+    void FUN_0065e9a0(BGSLoadGameBuffer* p);
 };
 struct FUN_0065ea00_Class
 {
-    void __thiscall FUN_0065ea00(void* a);
+    void FUN_0065ea00(void* a);
 };
 
 void* __cdecl operator new(unsigned int size, unsigned int allocation);

@@ -18,7 +18,7 @@ struct BSFadeNode
 };
 struct NiBlendInterpolator;
 // @fnv 0x00a57750
-NiBlendInterpolator* __stdcall FUN_00a57750(int aiUnused, int aiArg, int aiUnused2, float a4, int a5)
+NiBlendInterpolator* FUN_00a57750(int aiUnused, int aiArg, int aiUnused2, float a4, int a5)
 {
     void* pMemory = BSFadeNode::operator new(0x34);
     if (pMemory)
@@ -31,7 +31,7 @@ struct StrArr
 };
 // Appends the string returned by FUN_00a7d330(g_011f3f08_arg1) to the StrArr at index e, growing it by the value at offset 14 plus e when e >= c.
 // @fnv 0x00a57800
-void __stdcall FUN_00a57800(StrArr* apStrings)
+void FUN_00a57800(StrArr* apStrings)
 {
     reinterpret_cast<::Holder00a390a0 *>((apStrings))->FUN_00a390a0({});
     char* pString = FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4228)));
@@ -169,11 +169,11 @@ struct FUN_00a57c10_This
 
 struct StandIn
 {
-    int __thiscall FUN_00a57c10(FUN_00a57c10_This* this_, int param_2);
+    int FUN_00a57c10(FUN_00a57c10_This* this_, int param_2);
 };
 
 // @fnv 0x00a57c10
-int __thiscall StandIn::FUN_00a57c10(FUN_00a57c10_This* this_, int param_2)
+int StandIn::FUN_00a57c10(FUN_00a57c10_This* this_, int param_2)
 {
     return ((int)(reinterpret_cast<::FUN_00a39030_cls *>(this)->IsCompatibleWith((::NiSingleInterpController *)(this_))));
 }

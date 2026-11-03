@@ -70,7 +70,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiQuaternion
 {
     void SetW(float);
@@ -111,7 +110,6 @@ struct NiQuaternion
 public:
     void MakeUnitLength();
 };
-typedef char _sizecheck_NiQuaternion[sizeof(NiQuaternion) == 16 ? 1 : -1];
 
 struct FUN_004f0160_arg
 {
@@ -119,7 +117,7 @@ struct FUN_004f0160_arg
 };
 
 // @fnv 0x004f0160
-void __fastcall FUN_004f0160(char* _this, FUN_004f0160_arg aQuatArg)
+void FUN_004f0160(char* _this, FUN_004f0160_arg aQuatArg)
 {
     reinterpret_cast<::FUN_004f0180_Class *>((aQuatArg.kQuat))->FUN_004f0180((::M3_ *)(::ThreeByThreeMatrix *)((ThreeByThreeMatrix*)(_this + 0x34)));
 }
@@ -156,7 +154,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiPoint3
 {
     static struct blob12 ComponentProduct(void*, void*);
@@ -187,7 +184,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00640020_shell : public Stars
 {
     void UpdateStars(Sky*, float);

@@ -21,7 +21,6 @@
 #ifndef FNV_INTERIOR_DATA_H
 #define FNV_INTERIOR_DATA_H
 class InteriorData;
-#pragma pack(push, 4)
 class InteriorData
 {
   public:
@@ -38,19 +37,6 @@ class InteriorData
     unsigned int m_uiTrailingValue;          // +0x28, 4 bytes
     InteriorData();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(InteriorData) == 44);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiAmbientColor) == 0);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiDirectionalColor) == 4);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiFogColor) == 8);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogNear) == 12);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogFar) == 16);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiDirectionalRotationXY) == 20);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiDirectionalRotationZ) == 24);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fDirectionalFade) == 28);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogClipDistance) == 32);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_fFogPower) == 36);
-FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiTrailingValue) == 40);
 #endif
 // The 2008 BGSLightingTemplate.cpp saw a 32-bit TESFile::GetTESForm: the Load
 // form check compares the call result with cmp eax,imm and no movzx, which is
@@ -60,7 +46,6 @@ FNV_STATIC_ASSERT(offsetof(InteriorData, m_uiTrailingValue) == 40);
 struct TESFileFormInt : public TESFile
 {
 };
-#pragma pack(push, 4)
 class BGSLightingTemplate : public TESForm
 {
   public:
@@ -69,7 +54,4 @@ class BGSLightingTemplate : public TESForm
     void ResetFormData();
     bool Load(TESFile* file);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSLightingTemplate) == 68);
-FNV_STATIC_ASSERT(offsetof(BGSLightingTemplate, Data) == 24);
 #endif

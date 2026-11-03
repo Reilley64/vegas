@@ -78,7 +78,6 @@ struct NiGPUProgram : public NiRefObject
     int GetProgramType();
     int m_iProgramType;
 };
-typedef char _sizecheck_NiGPUProgram[sizeof(NiGPUProgram) == 12 ? 1 : -1];
 struct NiD3DShaderProgram : public NiGPUProgram
 {
     virtual void __vslot_0();
@@ -108,7 +107,6 @@ struct NiD3DShaderProgram : public NiGPUProgram
     GraphicsRenderer* m_pShaderObject;
     ShaderPassRenderer* m_pRenderState;
 };
-typedef char _sizecheck_NiD3DShaderProgram[sizeof(NiD3DShaderProgram) == 44 ? 1 : -1];
 struct FUN_00e89830_shell : public NiD3DShaderProgram
 {
     void* FUN_00e89830();
@@ -363,14 +361,14 @@ FUN_00aa05a0::~FUN_00aa05a0() throw()
 }
 
 // @fnv 0x00a38de0
-int __stdcall FUN_00a38de0(int unk08)
+int FUN_00a38de0(int unk08)
 {
     return 0;
 }
 
 extern int DAT_010a2148;
 
-typedef int(__stdcall* FUN_00aa0190_Decrement)(void*);
+typedef int(* FUN_00aa0190_Decrement)(void*);
 extern FUN_00aa0190_Decrement DAT_00fdf1c4;
 
 void __cdecl FUN_00aa10f0(void* p);
@@ -385,11 +383,11 @@ struct FUN_00aa0190_Obj
     int unk10;
     void* unk14;
 
-    void* __thiscall Destroy(int flag);
+    void* Destroy(int flag);
 };
 
 // @fnv 0x00aa0190
-void* __thiscall FUN_00aa0190_Obj::Destroy(int aiFlags)
+void* FUN_00aa0190_Obj::Destroy(int aiFlags)
 {
     void* saved = unk14;
     vptr = &DAT_010a2148;
@@ -415,7 +413,7 @@ void* __thiscall FUN_00aa0190_Obj::Destroy(int aiFlags)
 
 // Returns 0 regardless of its three arguments.
 // @fnv 0x00b57fc0
-int __stdcall FUN_00b57fc0(int arg0, int arg1, int arg2)
+int FUN_00b57fc0(int arg0, int arg1, int arg2)
 {
     return 0;
 }

@@ -322,7 +322,7 @@ struct Item
     char* m_altName;
 };
 
-static __forceinline void __fastcall callFree(hkMemoryRouterContext* ctx, void* p, unsigned int size)
+static __forceinline void callFree(hkMemoryRouterContext* ctx, void* p, unsigned int size)
 {
     ctx->Free(p, size);
 }
@@ -571,7 +571,7 @@ struct FUN_00dc5d50_Local
 };
 
 // @fnv 0x00dc5d50
-unsigned int __stdcall FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
+unsigned int FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
     local.FUN_00dc5f30(b, c);

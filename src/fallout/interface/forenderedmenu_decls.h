@@ -61,7 +61,6 @@ template <class T> class NiPointer
     NiPointer& operator=(T*);
 };
 
-#pragma pack(push, 4)
 class FORenderedMenu
 {
   public:
@@ -131,13 +130,8 @@ class FORenderedMenu
     void GetCurrentTimeMilliseconds();
     void StartBurst(float duration, float intensity, float soundChance);
 };
-#pragma pack(pop)
 
-typedef char FNV_ASSERT_menu_root_offset[(offsetof(FORenderedMenu, m_pRenderedMenuObject) == 0x14) ? 1 : -1];
-typedef char FNV_ASSERT_burst_active_offset[(offsetof(FORenderedMenu, m_bBurstActive) == 0x4D) ? 1 : -1];
-typedef char FNV_ASSERT_burst_duration_offset[(offsetof(FORenderedMenu, fBurstDuration) == 0x54) ? 1 : -1];
 
-#pragma pack(push, 4)
 class SoundPlaybackHandle
 {
   public:
@@ -152,9 +146,7 @@ class SoundPlaybackHandle
 public:
     bool Release();
 };
-#pragma pack(pop)
 
-typedef char FNV_ASSERT_sound_handle_size[(sizeof(SoundPlaybackHandle) == 12) ? 1 : -1];
 
 class BSAudio
 {

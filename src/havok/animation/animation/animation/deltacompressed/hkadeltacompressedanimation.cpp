@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e4e000.h"
@@ -20,7 +21,7 @@ unsigned int FUN_00e34b40_s::FUN_00e34b40(unsigned int arg)
 }
 
 // @fnv 0x00e34a90
-void __stdcall ZeroBuffer(int aiUnused1, int aiUnused2, unsigned int count, unsigned int* puiDst)
+void ZeroBuffer(int aiUnused1, int aiUnused2, unsigned int count, unsigned int* puiDst)
 {
     if (count > 0)
     {
@@ -238,13 +239,13 @@ struct S00e34c10_Cache {
 };
 
 struct S00e34c10_Anim : hkaDeltaCompressedAnimation {
-    void __thiscall FUN_00e34c10(unsigned int frameIndex, int unused,
+    void FUN_00e34c10(unsigned int frameIndex, int unused,
                                  S00e34c10_Cache* cache, int mode);
 };
 
 // Stores animation pointers and alignment in cache, computes block indices, and calls GetCompressedBlockRange to fill cache blocks.
 // @fnv 0x00e34c10
-void __thiscall S00e34c10_Anim::FUN_00e34c10(
+void S00e34c10_Anim::FUN_00e34c10(
     unsigned int frameIndex, int unused, S00e34c10_Cache* cache, int mode)
 {
     cache->anim = this;
@@ -269,7 +270,6 @@ void __thiscall S00e34c10_Anim::FUN_00e34c10(
 // FUN_00e34d80 - hkaDeltaCompressedAnimation block decode launcher (Havok timer-wrapped)
 // Per-TU private conventions: anim arrives in eax; callee FUN_00e349c0 takes dst in eax.
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long tlsIndex);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 

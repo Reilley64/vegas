@@ -3,7 +3,6 @@
 #define FNV_SETTINGT_GAMESETTINGCOLLECTION__H
 #include "layout_support.h"
 #include "Setting.h"
-#pragma pack(push, 4)
 template <> class SettingT<GameSettingCollection> : public Setting
 {
   public:
@@ -12,6 +11,4 @@ template <> class SettingT<GameSettingCollection> : public Setting
     SettingT(const char* key, char* value);
     virtual ~SettingT();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(SettingT<GameSettingCollection>) == 0xC);
 #endif

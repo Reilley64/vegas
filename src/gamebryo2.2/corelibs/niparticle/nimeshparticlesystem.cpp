@@ -31,7 +31,7 @@ void* __cdecl FUN_00c21e10()
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
-    void __thiscall FUN_00c1b5c0();
+    void FUN_00c1b5c0();
 };
 extern int DAT_010bdd84;
 // @fnv 0x00c21e90
@@ -65,10 +65,10 @@ public:
 struct NiMeshParticleSystem : NiParticleSystem
 {
     float m_f110;
-    void __thiscall FUN_00c21910(NiUpdateData&, unsigned int);
+    void FUN_00c21910(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00c21910
-void __thiscall NiMeshParticleSystem::FUN_00c21910(NiUpdateData& UpdateData, unsigned int uFlags)
+void NiMeshParticleSystem::FUN_00c21910(NiUpdateData& UpdateData, unsigned int uFlags)
 {
     if (UpdateData.m_bRender)
     {
@@ -146,10 +146,10 @@ class NiMeshParticleSystem : public NiGeometry
     char _pad1[0x98];
     NiPropertyState _st;
     NiMeshPSysData* _pk;
-    void __thiscall FUN_00c21b60(NiPropertyState* pkParentState);
+    void FUN_00c21b60(NiPropertyState* pkParentState);
 };
 // @fnv 0x00c21b60
-void __thiscall NiMeshParticleSystem::FUN_00c21b60(NiPropertyState* pkParentState)
+void NiMeshParticleSystem::FUN_00c21b60(NiPropertyState* pkParentState)
 {
     reinterpret_cast<::NiGeometry *>(this)->UpdatePropertiesDownwardPass((::NiPropertyState *)(pkParentState));
     _pk->m_pMeshNode->UpdatePropertiesDownwardPass(&_st);
@@ -215,10 +215,10 @@ struct NiMeshPSysData
 struct NiMeshParticleSystem : NiParticleSystem
 {
     NiMeshPSysData* m_pUserData;
-    void __thiscall UpdateSelective(bool&, bool, bool&);
+    void UpdateSelective(bool&, bool, bool&);
 };
 // @fnv 0x00c21bb0
-void __thiscall NiMeshParticleSystem::UpdateSelective(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms,
+void NiMeshParticleSystem::UpdateSelective(bool& bSelectiveUpdate, bool bSelectiveUpdateTransforms,
                                                       bool& bRigid)
 {
     reinterpret_cast<::NiParticleSystem *>(this)->SetSelectiveUpdateFlags(bSelectiveUpdate, true, bRigid);
@@ -244,11 +244,11 @@ struct NiParticleSystem
 };
 struct NiMeshParticleSystem : NiParticleSystem
 {
-    void __thiscall AppendString(StrArr*);
+    void AppendString(StrArr*);
 };
 // Calls the base particle system handler, then appends the string returned by _FUN_00a7d330 to pkStrings, growing it if full.
 // @fnv 0x00c21dc0
-void __thiscall NiMeshParticleSystem::AppendString(StrArr* pkStrings)
+void NiMeshParticleSystem::AppendString(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00c1b850_cls *>(this)->WriteParticleSystemInfo((::FUN_00c1b850_list *)(pkStrings));
     char* pcString = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202538))));
@@ -262,16 +262,16 @@ void __thiscall NiMeshParticleSystem::AppendString(StrArr* pkStrings)
 namespace fnv_00c21ed0 {
 struct NiTPointerListBase
 {
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 struct NiMeshParticleSystem
 {
     char _pad[0xC8];
     NiTPointerListBase m_kNode;
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // @fnv 0x00c21ed0
-void* __thiscall NiMeshParticleSystem::Destroy(unsigned int flags)
+void* NiMeshParticleSystem::Destroy(unsigned int flags)
 {
     m_kNode.RemoveAll();
     reinterpret_cast<::FUN_00a80580_cls *>((this))->FUN_00a80580();
@@ -288,10 +288,10 @@ struct RgbaColor
 };
 struct NiMeshParticleSystem
 {
-    RgbaColor* __thiscall GetParticleColor(unsigned short, unsigned short);
+    RgbaColor* GetParticleColor(unsigned short, unsigned short);
 };
 // @fnv 0x00c26350
-RgbaColor* __thiscall NiMeshParticleSystem::GetParticleColor(unsigned short ausBlockIndex, unsigned short ausColorIndex)
+RgbaColor* NiMeshParticleSystem::GetParticleColor(unsigned short ausBlockIndex, unsigned short ausColorIndex)
 {
     if (*(int*)((char*)this + 0x28))
     {
@@ -311,7 +311,7 @@ struct CloningProcess;
 struct NiMeshParticleSystemClone : NiMeshParticleSystem
 {
     static void* __cdecl operator new(unsigned int);
-    NiMeshParticleSystemClone* __thiscall FUN_00c21e20(CloningProcess&);
+    NiMeshParticleSystemClone* FUN_00c21e20(CloningProcess&);
     char _pad114[4];
 };
 struct NiStream
@@ -325,11 +325,11 @@ int __cdecl sprintf(char* buffer, const char* format, ...);
 
 struct FUN_00c21960_shell
 {
-    void __thiscall CheckUnsupportedMeshParticle(NiStream& stream);
+    void CheckUnsupportedMeshParticle(NiStream& stream);
 };
 
 // @fnv 0x00c21960
-void __thiscall FUN_00c21960_shell::CheckUnsupportedMeshParticle(NiStream& stream)
+void FUN_00c21960_shell::CheckUnsupportedMeshParticle(NiStream& stream)
 {
     const char* pname = stream.m_acInputFilePath;
     bool bWarn = true;
@@ -644,7 +644,7 @@ struct FUN_00c21b90_cls
     int unkB0;
     int unkB4;
     Mid* m_B8;
-    void __thiscall TailViaMid(int a);
+    void TailViaMid(int a);
 };
 
 // @fnv 0x00c21b90
@@ -784,12 +784,12 @@ struct NiObject
 {
     const NiRTTI* QueryRTTI()
     {
-        typedef const NiRTTI*(__thiscall * Fn)(NiObject*);
+        typedef const NiRTTI*(* Fn)(NiObject*);
         return ((Fn*)*(void***)this)[2](this);
     }
     void Update(unsigned int value)
     {
-        typedef void(__thiscall * Fn)(NiObject*, unsigned int);
+        typedef void(* Fn)(NiObject*, unsigned int);
         ((Fn*)*(void***)this)[54](this, value);
     }
     unsigned short MeshChildCount() const
@@ -808,7 +808,7 @@ struct NiObject
     {
         return *(NiObject * * const*)((const char*)this + 0x1c);
     }
-    void __thiscall FUN_00c21cb0(unsigned int);
+    void FUN_00c21cb0(unsigned int);
 };
 struct NiObjectNode
 {
@@ -823,7 +823,7 @@ struct NiObjectNode
     }
 };
 // @fnv 0x00c21cb0
-void __thiscall NiObject::FUN_00c21cb0(unsigned int value)
+void NiObject::FUN_00c21cb0(unsigned int value)
 {
     reinterpret_cast<::GeomStub *>(this)->FUN_00a809b0((::NiRenderer *)(value));
     NiObject* pLinkedObject = *(NiObject**)((char*)this + 0xb8);
@@ -965,7 +965,7 @@ class FUN_00c1b5c0 : public C1B5C0Base
 };
 // Allocates and constructs a NiMeshParticleSystemClone, copies m_f110 and the byte at offset 0x114 from this, and returns it.
 // @fnv 0x00c21e20
-NiMeshParticleSystemClone* __thiscall NiMeshParticleSystemClone::FUN_00c21e20(CloningProcess& process)
+NiMeshParticleSystemClone* NiMeshParticleSystemClone::FUN_00c21e20(CloningProcess& process)
 {
     NiMeshParticleSystemClone* result = new NiMeshParticleSystemClone;
     if (result)
@@ -1185,7 +1185,7 @@ struct FUN_00c21a80_cls
     unsigned int unk10C;
     float m_f110;
     char m_b114;
-    void __thiscall FUN_00c21a80(NiUpdateData&, unsigned int);
+    void FUN_00c21a80(NiUpdateData&, unsigned int);
 };
 // Runs update callbacks over the node and object lists, defers the found object's v37, then stores the update time and flag.
 // @fnv 0x00c21a80

@@ -155,14 +155,14 @@ void RouletteMenu::SetTile(int aiIndex, Tile* tile)
 namespace fnv_007b8f70 {
 struct RouletteMenu
 {
-    void __thiscall FUN_007b9020();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_007b9020();
+    void* Destroy(unsigned int flags);
 };
 
 
 // Calls FUN_007b9020, then deallocates this if flags has bit 1 set, and returns this.
 // @fnv 0x007b8f70
-void* __thiscall RouletteMenu::Destroy(unsigned int flags)
+void* RouletteMenu::Destroy(unsigned int flags)
 {
     this->FUN_007b9020();
     if (flags & 1)

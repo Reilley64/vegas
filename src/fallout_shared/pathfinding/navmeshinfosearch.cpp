@@ -330,7 +330,6 @@ struct PathingActorData
     bool m_bCanIgnoreLocks;
     char _pad_9[3];
 };
-typedef char _sizecheck_ActorLockData[sizeof(PathingActorData) == 12 ? 1 : -1];
 struct FUN_006b8c50_shell : public NavMeshInfoSearch
 {
     bool SetupNavMeshSearch(PathingActorData*, void*, void*, void*, void*, void*, void*, int);

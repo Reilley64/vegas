@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/NiGPUProgramOwner.h"
 #include "fnv/decl/NiTimeController.h"
@@ -97,7 +98,7 @@ struct FnvF30Owner
 // Helper that stores its argument into this+0x0c.
 struct FnvF0COwner
 {
-    void __thiscall SetF0C(FnvNode* p);
+    void SetF0C(FnvNode* p);
 };
 
 struct FnvNode
@@ -117,10 +118,9 @@ struct FnvNode
     FnvNode* f30;   // +0x30
     virtual void v0();
     virtual void v1();
-    void __thiscall FUN_00c27290(FnvNode* arg);
+    void FUN_00c27290(FnvNode* arg);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 
 // @fnv 0x00c27290
 void FnvNode::FUN_00c27290(FnvNode* pTarget)
@@ -167,7 +167,7 @@ struct GlobalObjectO2_00a7b610
 
 // Appends the string returned by FUN_00a7d330(g_01202690.m_pcName) to pkStrings, growing it via SetSize when full and storing at index m_usSize.
 // @fnv 0x00c27300
-void __stdcall FUN_00c27300(StrArr* pkStrings)
+void FUN_00c27300(StrArr* pkStrings)
 {
     reinterpret_cast<::TCController *>((pkStrings))->FUN_00a6d830({});
     char* str = FUN_00a7d330(::g_01202690.m_pcName);

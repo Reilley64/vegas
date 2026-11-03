@@ -20,8 +20,8 @@
 class NiTexture;
 extern "C" void __cdecl fnv_CopyFilePath(char* destination, unsigned int destinationSize, const char* source,
                                          unsigned int sourceSize);
-extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* section);
-extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* section);
+extern "C" void(* fnv_EnterCriticalSection)(void* section);
+extern "C" void(* fnv_LeaveCriticalSection)(void* section);
 
 class NiStreamLinkIDSet : public NiTSet_unsigned_int_NiTMallocInterface_unsigned_int___
 {

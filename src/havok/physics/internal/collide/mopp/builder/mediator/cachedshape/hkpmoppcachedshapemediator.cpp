@@ -5,7 +5,7 @@
 // @fnv 0x00dd55d0
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d54000.h"
-int __stdcall InitIntToZero(int, int* piValue)
+int InitIntToZero(int, int* piValue)
 {
     *piValue = 0;
     return 1;
@@ -13,7 +13,7 @@ int __stdcall InitIntToZero(int, int* piValue)
 
 // Copies five pointer-sized values from src to dst at offsets 0, 4, 8, 0xc and 0x10.
 // @fnv 0x00dd5630
-void __stdcall CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
+void CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest)
 {
     *(void**)apDest = *(void**)apSource;
     *(void**)((char*)apDest + 4) = *(void**)((char*)apSource + 4);

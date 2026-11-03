@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/SearchObject.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00c90000.h"
@@ -2043,7 +2044,6 @@ struct TrackMonitor
 };
 extern const float DAT_0104e148 = -3.40282e+38f;
 extern const char DAT_010cc9d0[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned int);
 struct PreviousBodies
 {
     hkpCdBodyCFT a, b;

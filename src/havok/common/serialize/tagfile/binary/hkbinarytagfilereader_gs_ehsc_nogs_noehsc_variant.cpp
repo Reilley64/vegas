@@ -148,7 +148,7 @@ struct Item
     int m_extra;
     char* m_altName;
 };
-static __forceinline void __fastcall callFree(hkMemoryRouterContext* ctx, void* p, unsigned int size)
+static __forceinline void callFree(hkMemoryRouterContext* ctx, void* p, unsigned int size)
 {
     ctx->Free(p, size);
 }

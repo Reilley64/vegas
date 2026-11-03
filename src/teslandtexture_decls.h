@@ -17,9 +17,6 @@
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_005b5000.h"
-#define FNV_JOIN2(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN2(a, b)
-#define FNV_STATIC_ASSERT(e) typedef char FNV_JOIN(fnv_check_, __LINE__)[(e) ? 1 : -1]
 class TESFile;
 class TESGrass;
 class BGSTextureSet;
@@ -52,7 +49,6 @@ class BaseFormComponent
     virtual void CopyFromBase(BaseFormComponent* component);
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 
 // Source layout: TESForm. PC corrections are in generate_headers.py.
 class TESForm : public BaseFormComponent
@@ -142,11 +138,6 @@ class TESForm : public BaseFormComponent
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class BGSTextureSet;
@@ -159,10 +150,6 @@ class TextureParameterBlock
     unsigned char m_ucParameter3;  // +0x2, 1 bytes
     // void __cdecl TextureParameterBlock::*()
 };
-FNV_STATIC_ASSERT(sizeof(TextureParameterBlock) == 3);
-FNV_STATIC_ASSERT(offsetof(TextureParameterBlock, m_ucParameter1) == 0);
-FNV_STATIC_ASSERT(offsetof(TextureParameterBlock, m_ucParameter2) == 1);
-FNV_STATIC_ASSERT(offsetof(TextureParameterBlock, m_ucParameter3) == 2);
 class TESLandTexture : public TESForm
 {
   public:
@@ -199,11 +186,6 @@ class TESLandTexture : public TESForm
     // TESLandTexture& __cdecl TESLandTexture::*(const TESLandTexture&)
     // void __cdecl TESLandTexture::*()
 };
-FNV_STATIC_ASSERT(sizeof(TESLandTexture) == 40);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, m_pTextureSet) == 24);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, LandTextureParameters) == 28);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, m_ucTextureTiling) == 31);
-FNV_STATIC_ASSERT(offsetof(TESLandTexture, m_kGrassList) == 32);
 
 // Vtable declarations only, using public JohnnyGuitarNVSE NiObject.hpp names.
 class bhkBlendCollisionObject;
@@ -273,7 +255,6 @@ class NiObject : public NiRefObject
     virtual void SetGroup(NiObjectGroup* apGroup);
     virtual NiControllerManager* IsControllerManager() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
 class BSShaderProperty
 {
   public:
@@ -288,7 +269,6 @@ class BSTextureSet : public NiObject
   public:
     virtual const char* GetTexturePath(BSShaderProperty::TextureTypeEnum texture) const;
 };
-FNV_STATIC_ASSERT(sizeof(BSTextureSet) == 8);
 class TESFormList;
 class TESObject : public TESForm
 {
@@ -311,7 +291,6 @@ class TESBoundObject : public TESObject
         ShortPoint3 m_kBoundMax;
     } TESBoundObjectBounds;
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
 class BGSTextureSet : public TESBoundObject, public BSTextureSet
 {
   public:

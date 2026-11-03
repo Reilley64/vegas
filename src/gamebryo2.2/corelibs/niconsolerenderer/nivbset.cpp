@@ -232,7 +232,7 @@ struct VBLayout
     VBArray m_kBlockArray;
 };
 // @fnv 0x00e98500
-unsigned int __fastcall FreeVBBlock(NiVBBlock* object, void*, unsigned int index)
+unsigned int FreeVBBlock(NiVBBlock* object, void*, unsigned int index)
 {
     VBLayout* pLayout = reinterpret_cast<VBLayout*>(object);
     unsigned int result = 0;
@@ -341,7 +341,7 @@ struct VBArr
 };
 
 struct VBDev;
-typedef int(__stdcall* VBDev_fn)(VBDev* pSelf, unsigned int uiSize, unsigned int uiA, unsigned int uiB,
+typedef int(* VBDev_fn)(VBDev* pSelf, unsigned int uiSize, unsigned int uiA, unsigned int uiB,
                                  unsigned int uiC, unsigned int* puiOut, unsigned int uiZero);
 struct VBDev
 {
@@ -424,9 +424,9 @@ VBBlk* VBSetX::FUN_00e94580(unsigned int uiSize)
 extern "C" void __cdecl FUN_00aa10f0(void*);
 struct VBReleaseInterface
 {
-    virtual long __stdcall QueryInterface(const void*, void**) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const void*, void**) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 template <class T> class NiTMallocInterface

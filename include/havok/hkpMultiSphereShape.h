@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpSphereRepShape.h"
-#pragma pack(push, 1)
 class hkpMultiSphereShape : public hkpSphereRepShape
 {
   public:
@@ -13,6 +12,4 @@ class hkpMultiSphereShape : public hkpSphereRepShape
     char pad14[0xC];
     hkVector4 m_kSpheres[8];  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMultiSphereShape[(sizeof(hkpMultiSphereShape) == 0xA0) ? 1 : -1];
 #endif

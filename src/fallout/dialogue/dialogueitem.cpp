@@ -188,9 +188,9 @@ DialogueResponse* DialogueItem_shell::GetResponseByIndex(short index)
     return 0;
 }
 
-bool __fastcall _ref_008256d0(void*);
+bool _ref_008256d0(void*);
 struct DialogueResponse;
-DialogueResponse*& __fastcall _ref_006815c0(void*);
+DialogueResponse*& _ref_006815c0(void*);
 struct StandIn
 {
     char _pad[8];

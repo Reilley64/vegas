@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00c90000.h"
@@ -114,12 +115,12 @@ struct Owner {
 };
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
-extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
+extern "C" void FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 // @fnv 0x00d32150
-extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
+extern "C" void FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     ::FUN_00d317d0((int)(arg0), (int)(arg1), (int)(arg2), arg3);
 }
@@ -144,7 +145,6 @@ extern const char DAT_010cea60[];
 extern const char DAT_010cea54[];
 extern const char DAT_010cea48[];
 extern const char str_010cea1c[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 struct MonitorCommand {
     const char* name;
     unsigned int time;

@@ -51,7 +51,7 @@ extern void* DAT_011f4a64;
 extern void* DAT_0126fa0c;
 extern void* DAT_010f0c80;
 extern void* DAT_010f0ca0;
-extern void(__stdcall* DAT_00fdf054)(void*);
+extern void(* DAT_00fdf054)(void*);
 extern unsigned char kVtbl_NiD3DShaderFactory;
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned long);
 #endif

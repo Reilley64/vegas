@@ -9,7 +9,7 @@
 const char* __cdecl FUN_007ab810();
 struct FUN_007e6760_cls
 {
-    bool __thiscall FUN_007e6760();
+    bool FUN_007e6760();
 };
 struct BSAudio_
 {
@@ -19,8 +19,8 @@ struct BSAudio_
 extern "C" void __cdecl FUN_007004e0();
 struct FUN_007f7770_Class
 {
-    void __thiscall FUN_007004e0();
-    void __thiscall FUN_007f7770();
+    void FUN_007004e0();
+    void FUN_007f7770();
 };
 extern float DAT_012007d0;
 extern float DAT_012007d4;
@@ -67,13 +67,13 @@ void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
     char _0[0x28];
-    void __thiscall FUN_007e66a0(int a, int b);
+    void FUN_007e66a0(int a, int b);
 };
 void __cdecl DestroyList(void*);
 struct FUN_007f69d0_Class
 {
-    void __thiscall DestroyList();
-    void* __thiscall FUN_007f69d0(unsigned int flags);
+    void DestroyList();
+    void* FUN_007f69d0(unsigned int flags);
 };
 struct GameTimerRecord
 {
@@ -93,7 +93,7 @@ struct FUN_007f7880_Class
     float f8;
     float f9;
     float f10;
-    void __thiscall FUN_007f7880(float a, float b, float c);
+    void FUN_007f7880(float a, float b, float c);
 };
 struct ModelLoader
 {
@@ -118,8 +118,8 @@ struct FUN_007f7830_Class
 {
     char _0[0x28];
     unsigned char bActive;
-    void __thiscall UpdateFalloff(float);
-    void __thiscall UpdateIfActive();
+    void UpdateFalloff(float);
+    void UpdateIfActive();
 };
 struct FUN_007fecc0_Class
 {
@@ -128,26 +128,26 @@ struct FUN_007fecc0_Class
     unsigned char _1[3];
     float fTime;
     float fValue;
-    void __thiscall FUN_007fecc0();
+    void FUN_007fecc0();
 };
 struct FUN_007eb8d0_Class
 {
     char _0[0x28];
-    bool __thiscall HasAllSlotsSet(int* p);
+    bool HasAllSlotsSet(int* p);
 };
 struct Tile
 {
     virtual ~Tile();  // the original class is polymorphic (rtti_variants.py)
-    void __thiscall Set(int, int);
+    void Set(int, int);
 };
 struct Menu
 {
     virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
-    void __thiscall LoadMenuData();
+    void LoadMenuData();
 };
 struct SimpleList
 {
-    SimpleList* __thiscall GetNext();
+    SimpleList* GetNext();
 };
 extern SimpleList* DAT_011daec4;
 void FUN_007e65b0();
@@ -159,7 +159,7 @@ struct FUN_007f6a00_Class
 {
     char _0[8];
     ListX l;
-    void __thiscall DestroyList();
+    void DestroyList();
 };
 struct NiPoint2
 {
@@ -178,7 +178,7 @@ struct FUN_007f78f0_Class
     NiPoint2 f6;
     NiPoint2 f8;
 
-    void __thiscall InitFromPoints(const NiPoint2* a, const NiPoint2* b, const NiPoint2* c);
+    void InitFromPoints(const NiPoint2* a, const NiPoint2* b, const NiPoint2* c);
 };
 struct FUN_007e0d80_shell : Flt
 {
@@ -383,7 +383,7 @@ struct FUN_007f7fb0_Class
     unsigned char unk00[0xC0];
     FUN_007f7fb0_Value unkC0;
 
-    void __thiscall FUN_007f7fb0(const FUN_007f7fb0_Value* value);
+    void FUN_007f7fb0(const FUN_007f7fb0_Value* value);
 };
 struct Quad4
 {
@@ -396,7 +396,7 @@ struct FUN_007f7fe0_cls
 {
     unsigned char _0[0xa8];
     Quad4 m_q;
-    void __thiscall SetQuad(const Quad4* src);
+    void SetQuad(const Quad4* src);
 };
 struct SoundPlaybackHandle
 {
@@ -581,7 +581,7 @@ struct FUN_007fa0f0_Class
 
     float values[1];
 
-    void __thiscall SetValue(int index, bool play);
+    void SetValue(int index, bool play);
 };
 struct FUN_007fb730_Class
 {
@@ -589,7 +589,7 @@ struct FUN_007fb730_Class
     float y;
     float z;
 
-    FUN_007fb730_Class* __thiscall Add(FUN_007fb730_Class* output, const FUN_007fb730_Class* input);
+    FUN_007fb730_Class* Add(FUN_007fb730_Class* output, const FUN_007fb730_Class* input);
 };
 class NiBound7FD
 {

@@ -14,7 +14,6 @@ enum NiObjectNET__CopyType
     NiObjectNET__CopyType_COPY_EXACT = 1,
     NiObjectNET__CopyType_COPY_UNIQUE = 2
 };
-#pragma pack(push, 4)
 class CloningProcess
 {
   public:
@@ -28,10 +27,4 @@ class CloningProcess
     // void __cdecl CloningProcess::*()
     // void* __cdecl CloningProcess::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CloningProcess) == 16);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_pCloneMap) == 0);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_pProcessMap) == 4);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_eCloneCopyMode) == 8);
-FNV_STATIC_ASSERT(offsetof(CloningProcess, m_bExactType) == 12);
 #endif

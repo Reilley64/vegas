@@ -264,7 +264,7 @@ struct Prefix
     unsigned int f4c;
     unsigned int f50;
     unsigned int f54;
-    int __thiscall FUN_00cd2260(int value);
+    int FUN_00cd2260(int value);
 };
 struct FUN_00cd2460_class;
 struct Secondary
@@ -275,7 +275,7 @@ struct FUN_00cd2460_class : Prefix, Secondary
 {
 };
 // @fnv 0x00cd2460
-int __thiscall Secondary::FUN_00cd2460(int value)
+int Secondary::FUN_00cd2460(int value)
 {
     return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->FUN_00cd2260(value);
 }
@@ -1976,12 +1976,12 @@ CD28F0Derived::CD28F0Derived()
 struct FUN_00cd1eb0_StandIn
 {
     int unk00;
-    int __thiscall FUN_00cd1eb0(int param);
+    int FUN_00cd1eb0(int param);
 };
 
 
 // @fnv 0x00cd1eb0
-int __thiscall FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
+int FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
 {
     unk00 = 0x010cb1e4;
     if (aiFlags & 1)

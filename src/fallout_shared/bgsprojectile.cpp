@@ -148,7 +148,7 @@ void BGSProjectile::InitItem()
     SetInitializationState(true);
 }
 // @fnv 0x004fcc00
-ProjectileProperties* __fastcall FUN_004fcc00(ProjectileProperties* pThis)
+ProjectileProperties* FUN_004fcc00(ProjectileProperties* pThis)
 {
     pThis->InitializeDefaults();
     return pThis;

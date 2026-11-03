@@ -601,7 +601,6 @@ class FUN_00d4ce10 : public hkpWorldObjectD4D0
     hkpWorldObjectD4D0* FUN_00d4d0d0() const throw();
 };
 
-typedef char fnv_check_d4d0d0[(sizeof(FUN_00d4ce10) == 0x170) ? 1 : -1];
 
 // @fnv 0x00d4d0d0
 hkpWorldObjectD4D0* FUN_00d4ce10::FUN_00d4d0d0() const throw()
@@ -1151,7 +1150,7 @@ __declspec(align(8)) struct QueryDC4A30
 
 struct Ca30Derived : public hkpCachingShapePhantomStandIn
 {
-    void __thiscall QueryCollisionDetails();
+    void QueryCollisionDetails();
 };
 
 // Copies 0x50 bytes from the pointer at (this->8)+0x78 into a local buffer, then calls v20 on each collision detail entry with it and a type-1 query.

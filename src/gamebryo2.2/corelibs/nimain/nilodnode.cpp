@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a994c0
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00a93ef0_cls.h"
@@ -58,18 +59,18 @@ void* __cdecl FUN_00a99710()
 struct NiStream;
 struct NiLODNode : public NiSwitchNode
 {
-    bool __thiscall FUN_00a93c40(NiStream*);
+    bool FUN_00a93c40(NiStream*);
     NiStream* m_pBinaryStream;
-    bool __thiscall FUN_00a992e0(NiStream* stream);
+    bool FUN_00a992e0(NiStream* stream);
 };
 // @fnv 0x00a992e0
-bool __thiscall NiLODNode::FUN_00a992e0(NiStream* stream)
+bool NiLODNode::FUN_00a992e0(NiStream* stream)
 {
     if (!FUN_00a93c40(stream))
         return false;
     NiStream* node = *(NiStream**)((char*)this + 0xcc);
     if (node)
-        ((void(__thiscall*)(NiStream*, NiStream*))(*(int**)node)[21])(node, stream);
+        ((void(*)(NiStream*, NiStream*))(*(int**)node)[21])(node, stream);
     return true;
 }
 
@@ -77,12 +78,12 @@ namespace fnv_00a99670 {
 void __cdecl operator delete(void* p, unsigned int size);
 struct NiLODNode : public NiSwitchNode
 {
-    void __thiscall FUN_00a99470();
-    NiLODNode* __thiscall FUN_00a99670(unsigned int flags);
+    void FUN_00a99470();
+    NiLODNode* FUN_00a99670(unsigned int flags);
 };
 // Calls FUN_00a99470, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a99670
-NiLODNode* __thiscall NiLODNode::FUN_00a99670(unsigned int flags)
+NiLODNode* NiLODNode::FUN_00a99670(unsigned int flags)
 {
     FUN_00a99470();
     if (flags & 1)
@@ -95,7 +96,7 @@ class NiUpdateData;
 class NiAVObject
 {
   public:
-    void __thiscall UpdateWorldData(class NiUpdateData&);
+    void UpdateWorldData(class NiUpdateData&);
 };
 struct Helper
 {
@@ -135,15 +136,15 @@ struct Helper
     virtual void v33();
     virtual void v34();
     virtual void v35();
-    virtual void __thiscall Sel(void*);
+    virtual void Sel(void*);
 };
 struct LODNodeStandIn
 {
-    void __thiscall FUN_00a99110(class NiUpdateData&);
+    void FUN_00a99110(class NiUpdateData&);
 };
 // Updates this object's world data, then calls Sel on the helper stored at offset 0xCC if it is non-null.
 // @fnv 0x00a99110
-void __thiscall LODNodeStandIn::FUN_00a99110(class NiUpdateData& UpdateData)
+void LODNodeStandIn::FUN_00a99110(class NiUpdateData& UpdateData)
 {
     ((NiAVObject*)this)->UpdateWorldData(UpdateData);
     Helper* p = *(Helper**)((char*)this + 0xCC);
@@ -175,7 +176,7 @@ struct Unk94610
 };
 struct NodeStandIn
 {
-    void __thiscall FUN_00a99310(NiStream&);
+    void FUN_00a99310(NiStream&);
 };
 // @fnv 0x00a99310
 void NodeStandIn::FUN_00a99310(NiStream& kStream)
@@ -184,8 +185,6 @@ void NodeStandIn::FUN_00a99310(NiStream& kStream)
     kStream.f12(*(int*)((char*)this + 0xCC));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
 struct Obj
 {
     virtual void F0();
@@ -284,7 +283,7 @@ struct FUN_00a991d0_AVObject
 
 struct FUN_00a991d0_shell
 {
-    void __thiscall UpdateChildrenWorldData();
+    void UpdateChildrenWorldData();
 };
 
 // @fnv 0x00a991d0
@@ -325,7 +324,7 @@ struct CloningProcess;
 
 struct FUN_00a93c00_shell
 {
-    void __thiscall FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kCloning);
+    void FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kCloning);
 };
 
 struct Helper2
@@ -367,12 +366,12 @@ struct Helper2
     virtual void v34();
     virtual void v35();
     virtual void v36();
-    virtual void* __thiscall Sel();
+    virtual void* Sel();
 };
 
 struct FUN_00a99390_shell : public NiSwitchNode
 {
-    void __thiscall FUN_00a99390(NiSwitchNode* pkDest, CloningProcess& kCloning);
+    void FUN_00a99390(NiSwitchNode* pkDest, CloningProcess& kCloning);
 };
 
 // @fnv 0x00a99390
@@ -999,7 +998,7 @@ struct NiRangeLODData : public Obj
         unsigned unusedA, unusedB;
     };
     Range* m_pRanges;
-    void __thiscall SetRangeCount(unsigned count);
+    void SetRangeCount(unsigned count);
     void SetGridPosition(const LODPoint& c)
     {
         m_kCenter = c;
@@ -1014,7 +1013,7 @@ struct NiRangeLODData : public Obj
 };
 struct LODLoader : Holder
 {
-    void __thiscall FUN_00a994d0(NiStream*);
+    void FUN_00a994d0(NiStream*);
     void SetLODData(NiRangeLODData* data)
     {
         if (m_sp != data)
@@ -1027,7 +1026,7 @@ struct LODLoader : Holder
     }
 };
 // @fnv 0x00a994d0
-void __thiscall LODLoader::FUN_00a994d0(NiStream* pStream)
+void LODLoader::FUN_00a994d0(NiStream* pStream)
 {
     LODStreamEx* stream = (LODStreamEx*)pStream;
     reinterpret_cast<::FUN_00a94570_Node *>(this)->FUN_00a94570((*(::BA94570Stream *)(stream)));

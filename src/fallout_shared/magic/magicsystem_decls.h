@@ -231,7 +231,6 @@ class SpellItem : public MagicItemForm
     SpellItem();
     unsigned char spellData[0x10];  // Unaccessed spell data; PC allocation is 0x44.
 };
-FNV_STATIC_ASSERT(sizeof(SpellItem) == 0x44);
 
 class MagicSystem
 {

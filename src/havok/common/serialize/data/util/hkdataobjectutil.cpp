@@ -62,11 +62,11 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00dc35e0_class
 {
-    int __thiscall FUN_00dc35e0();
+    int FUN_00dc35e0();
 };
 
 // @fnv 0x00dc35e0
-int __thiscall FUN_00dc35e0_class::FUN_00dc35e0()
+int FUN_00dc35e0_class::FUN_00dc35e0()
 {
     int count = *(int*)((char*)this + 8);
     int result = 0;
@@ -119,7 +119,7 @@ struct FUN_00dc3b60_class
     void** entries;
     unsigned int flags;
     int count;
-    void __thiscall NotifyCallback(Callback* callback);
+    void NotifyCallback(Callback* callback);
 };
 struct S_00dc3b90_Pair
 {
@@ -237,9 +237,9 @@ void S_00dc3ce0::AddEntry(int aiFirst, int aiSecond, int aiThird)
 struct Temp
 {
     int f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11;
-    Temp* __thiscall Construct(void* a2, int one, void* a1, void* a3) throw();
+    Temp* Construct(void* a2, int one, void* a1, void* a3) throw();
     ~Temp() throw();
-    int __thiscall FUN_00dc4710() throw();
+    int FUN_00dc4710() throw();
 };
 
 // @fnv 0x00dc32c0
@@ -436,7 +436,7 @@ unsigned int FUN_00dc36b0_cls::Lookup(unsigned int aKey0, unsigned int aKey1, un
 
 struct Wrapper
 {
-    void __thiscall FUN_00dc3bd0(int first, int count);
+    void FUN_00dc3bd0(int first, int count);
 };
 struct DC3BF0Allocator
 {
@@ -900,7 +900,7 @@ struct FUN_00dc38f0_cls
     }* m_00;
     unsigned int m_04;
     int m_08;
-    void __thiscall ResetEntries();
+    void ResetEntries();
 };
 // Calls ResetEntries, then if the high flag bit is clear, invokes callback->update with entries and (count + 1) * 12 bytes.
 // @fnv 0x00dc3b60
@@ -954,7 +954,7 @@ struct HashTable_cls
     void FUN_00dc39b0(Allocator_cls* alloc, int newSize);
 };
 // @fnv 0x00dc3bd0
-void __thiscall Wrapper::FUN_00dc3bd0(int first, int count)
+void Wrapper::FUN_00dc3bd0(int first, int count)
 {
     int needed = count + count;
     int capacity = 8;
@@ -1188,7 +1188,7 @@ class FUN_00c6cd00_cls
     __m128 m_v1;
     __m128 m_v2;
 
-    void __thiscall FUN_00c6cd00(const FUN_00c6cd00_cls* src);
+    void FUN_00c6cd00(const FUN_00c6cd00_cls* src);
 };
 
 // Copies the three __m128 vector fields from src into the current object.
@@ -1203,11 +1203,11 @@ void FUN_00c6cd00_cls::FUN_00c6cd00(const FUN_00c6cd00_cls* src)
 struct S48
 {
     __m128 v[3];
-    void __thiscall CopyFromFloatArray(const float* src);
+    void CopyFromFloatArray(const float* src);
 };
 // Copies 12 floats from src into the three __m128 members of v using SSE load/store.
 // @fnv 0x00c6cd30
-void __thiscall S48::CopyFromFloatArray(const float* src)
+void S48::CopyFromFloatArray(const float* src)
 {
     _mm_store_ps((float*)&v[0], _mm_load_ps(src));
     _mm_store_ps((float*)&v[1], _mm_load_ps(src + 4));
@@ -1741,10 +1741,10 @@ void DC3710Transform::FUN_00dc3710(const DC3710Transform& akSource)
 
 struct S_00dc4a80_Reader
 {
-    void* __thiscall DispatchToVTableSlot8(int count) throw();
-    const char* __thiscall FUN_00dbac70() throw();
-    float __thiscall ApplyValue() throw();
-    int __thiscall CallVirtualWithArg() throw();
+    void* DispatchToVTableSlot8(int count) throw();
+    const char* FUN_00dbac70() throw();
+    float ApplyValue() throw();
+    int CallVirtualWithArg() throw();
 };
 
 struct S_00dc4a80_M3
@@ -1823,7 +1823,7 @@ struct S_00dc4a80
     int unk08;
 
 
-    int __thiscall ReadValue(void* out, int type, S_00dc4a80_Reader* reader, int arg3, int arg4) throw();
+    int ReadValue(void* out, int type, S_00dc4a80_Reader* reader, int arg3, int arg4) throw();
 };
 
 namespace fnv_00dc4fa0 {
@@ -1834,9 +1834,9 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 
 struct S_00dc4fa0_Reader
 {
-    void* __thiscall DispatchToInterface(int count) throw();
-    const char* __thiscall FUN_00dba9c0() throw();
-    float __thiscall FUN_00dbaa00() throw();
+    void* DispatchToInterface(int count) throw();
+    const char* FUN_00dba9c0() throw();
+    float FUN_00dbaa00() throw();
 };
 
 struct S_00dc4fa0_M3
@@ -1906,15 +1906,15 @@ struct S_00dc4fa0
     StringHolder* unk04;
     int unk08;
 
-    void __thiscall FUN_00dc4430(S_00dc5970_Handle* out, const S_00dc5970_Object& obj, int arg4) throw();
-    int __thiscall ReadObject(void* out, const S_00dc5970_Object& obj) throw();
+    void FUN_00dc4430(S_00dc5970_Handle* out, const S_00dc5970_Object& obj, int arg4) throw();
+    int ReadObject(void* out, const S_00dc5970_Object& obj) throw();
 
-    int __thiscall FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, int arg3, int arg4) throw();
+    int FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, int arg3, int arg4) throw();
 };
 
 // Reads a typed value from reader into out based on type, returning 1 on error or unsupported type.
 // @fnv 0x00dc4fa0
-int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, int aiFlag, int arg4) throw()
+int S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* reader, int aiFlag, int arg4) throw()
 {
     switch (type)
     {
@@ -3531,7 +3531,7 @@ struct DC4430_Class
 };
 // Reads a value of the given type from reader into out, returning 1 on failure.
 // @fnv 0x00dc4a80
-int __thiscall S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* reader, int aiFlag3, int arg4) throw()
+int S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* reader, int aiFlag3, int arg4) throw()
 {
     switch (type)
     {

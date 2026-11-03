@@ -26,7 +26,7 @@ struct FUN_00ca95e0_class
 };
 struct FUN_00ca9670_cls
 {
-    void __thiscall FUN_00ca9670(float a, float b, float c);
+    void FUN_00ca9670(float a, float b, float c);
 };
 struct FUN_00ca9660_cls
 {

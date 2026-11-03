@@ -188,7 +188,7 @@ struct FUN_00a43ac0_Class : BaseInterp
     int unk30[6];
     NiQuaternion m_kRotValue;
 
-    void __thiscall UpdateRotValue(int a);
+    void UpdateRotValue(int a);
 };
 
 // Calls FUN_00a43330, then copies the first rotation key's quaternion into m_kRotValue when rotation keys exist.

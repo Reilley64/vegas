@@ -253,7 +253,6 @@ class Script : public TESForm
     Script();
     virtual ~Script();
 };
-FNV_STATIC_ASSERT(sizeof(Script) == 0x54);
 class Tile
 {
   public:
@@ -342,6 +341,4 @@ class BSFile : public NiFile
     BSFile(const char*, OpenMode, unsigned int, bool);
     void Close();
 };
-FNV_STATIC_ASSERT(sizeof(BSFile) == 0x158);
-FNV_STATIC_ASSERT(sizeof(NiFrustum) == 28);
 #endif

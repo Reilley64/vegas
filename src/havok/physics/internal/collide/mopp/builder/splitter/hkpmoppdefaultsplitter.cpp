@@ -82,7 +82,7 @@ FUN_00e09ba0::FUN_00e09ba0()
 }
 
 // @fnv 0x00e09bd0
-void __fastcall FUN_00e09bd0(void* p, int)
+void FUN_00e09bd0(void* p, int)
 {
     *reinterpret_cast<void**>(p) = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
@@ -307,7 +307,7 @@ struct FUN_00e0ac80_Alloc
 {
     virtual void FUN_00e0ac80_0();
     virtual void FUN_00e0ac80_1();
-    virtual void __thiscall FUN_00e0ac80_2(void* p, unsigned short size);
+    virtual void FUN_00e0ac80_2(void* p, unsigned short size);
 };
 
 struct BSAudio
@@ -326,7 +326,7 @@ struct FUN_00e0ac80_class
     int unk00;
     unsigned short m_04;
 
-    FUN_00e0ac80_class* __thiscall Construct(int flags);
+    FUN_00e0ac80_class* Construct(int flags);
 };
 
 // @fnv 0x00e0ac80

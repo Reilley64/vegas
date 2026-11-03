@@ -274,7 +274,7 @@ void ImpactTask::FUN_004a2d50()
             reinterpret_cast<::FUN_004a3eb0_shell *>(&(ray))->FUN_004a3eb0((void *)&(end));
             FUN_004a3a70 collector;
             reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&collector));
-            bool rayHit = ((bool(__thiscall*)(World*, FUN_004a3c20*))world->vtable[50])(world, &ray);
+            bool rayHit = ((bool(*)(World*, FUN_004a3c20*))world->vtable[50])(world, &ray);
             int count = ((int)(reinterpret_cast<::Callees *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070()));
             bool placed = false;
             for (int hit = 0; !placed && hit < count; ++hit)

@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxAnimatedVector : public hkReferencedObject
 {
   public:
@@ -13,6 +12,4 @@ class hkxAnimatedVector : public hkReferencedObject
     hkUint8 m_bIsAnimated;         // +0x14 (Hint)
     char pad15[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxAnimatedVector[(sizeof(hkxAnimatedVector) == 0x18) ? 1 : -1];
 #endif

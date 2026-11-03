@@ -13,5 +13,5 @@ struct SummonCreatureEffect
 void __cdecl _Deallocate(void*);
 struct FUN_00828da0_shell
 {
-    int __thiscall GetZero(int a, int b, int c);
+    int GetZero(int a, int b, int c);
 };

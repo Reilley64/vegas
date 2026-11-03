@@ -380,7 +380,7 @@ struct FUN_00780be0_shell
     unsigned char m_0x11;  // +0x11
     unsigned char m_0x12;  // +0x12
     unsigned char m_0x13;  // +0x13
-    void __thiscall SetByte13(unsigned char value);
+    void SetByte13(unsigned char value);
 };
 
 // @fnv 0x00780be0
@@ -391,7 +391,7 @@ void FUN_00780be0_shell::SetByte13(unsigned char value)
 
 struct FUN_0077fb50_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 struct TGF
 {
@@ -405,14 +405,14 @@ void __cdecl FUN_00780c00(Tile* pTile)
 
 struct FUN_00781b10_shell
 {
-    void __thiscall ClearActionPointSource();
+    void ClearActionPointSource();
 };
 struct FUN_00781620_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781620(int aiID, Tile* apTarget);
+    void FUN_00781620(int aiID, Tile* apTarget);
 };
 // @fnv 0x00781620
-void __thiscall FUN_00781620_shell::FUN_00781620(int aiID, Tile* apTarget)
+void FUN_00781620_shell::FUN_00781620(int aiID, Tile* apTarget)
 {
     if (aiID == 0x1D || aiID == 0x1E)
     {
@@ -490,7 +490,7 @@ struct FUN_00781860_shell
 
 struct FUN_00781680_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781680();
+    void FUN_00781680();
 };
 
 struct GlobalObject_0040c150 : public InventoryMenuSetting
@@ -507,12 +507,12 @@ struct FUN_007823d0_listbox
 
 struct FUN_007823d0_shell : public InventoryMenu
 {
-    bool __thiscall HandleInventoryButton(int aiButton, float afValue);
+    bool HandleInventoryButton(int aiButton, float afValue);
 };
 
 // Handles inventory menu buttons 16 and 10 when the inventory interface is open, hiding a tile and returning whether the button was handled.
 // @fnv 0x007823d0
-bool __thiscall FUN_007823d0_shell::HandleInventoryButton(int aiButton, float afValue)
+bool FUN_007823d0_shell::HandleInventoryButton(int aiButton, float afValue)
 {
     bool bhandled;
 
@@ -1030,7 +1030,7 @@ class FUN_0077fb80_cls : public MenuBase_0077fb80
 };
 // Calls FUN_0077fb80, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0077fb50
-void* __thiscall FUN_0077fb50_shell::Destroy(unsigned int flags)
+void* FUN_0077fb50_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0077fb80_cls *>(this)->FUN_0077fb80_cls::~FUN_0077fb80_cls();
     if (flags & 1)
@@ -2662,7 +2662,7 @@ bool __cdecl FUN_00782620(Entry* entry)
 
 struct FUN_0073ac90_shell
 {
-    Tile** __thiscall FUN_0073ac90();
+    Tile** FUN_0073ac90();
 };
 
 // Clears the static action point source and resets several inventory menu tiles and a related tile to 0.

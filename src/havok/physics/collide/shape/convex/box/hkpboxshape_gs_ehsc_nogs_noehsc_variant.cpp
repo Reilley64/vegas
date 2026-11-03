@@ -16,7 +16,7 @@ int __cdecl FUN_00c9db70();
 float __cdecl FUN_00c9e0f0(float a, float b);
 struct FUN_00c9db80_class
 {
-    void __thiscall FUN_00c9db80();
+    void FUN_00c9db80();
 };
 struct MemoryManager
 {
@@ -38,12 +38,12 @@ struct FUN_00c9e1b0_class
 
     void* FUN_00c9e1b0(unsigned char flags);
 };
-int __stdcall FUN_00c9e1a0(int a1, int a2);
+int FUN_00c9e1a0(int a1, int a2);
 void __cdecl FUN_00c9db60(int a, int* b);
 struct hkAabb;
 struct FUN_00c9dc10_class : public hkpBoxShape
 {
-    void __thiscall GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const;
+    void GetAabb(const hkTransform& transform, hkReal tolerance, hkAabb& out) const;
 };
 struct VectorExtents
 {
@@ -79,10 +79,10 @@ extern "C" void _mm_store_ps(float*, __m128);
 extern "C" int _mm_movemask_ps(__m128);
 struct S00c9dc40_Box : public hkpBoxShape
 {
-    void __thiscall FUN_00c9dc40(const float* src, float* dst);
+    void FUN_00c9dc40(const float* src, float* dst);
 };
 // @fnv 0x00c9dcb0
-extern "C" void __stdcall ZeroResult(__m128* result)
+extern "C" void ZeroResult(__m128* result)
 {
     *result = _mm_setzero_ps();
 }
@@ -111,11 +111,11 @@ struct FUN_00c9dcd0_object
     unsigned char unknown00[0x20];
     __m128 halfExtents;
 
-    void __thiscall FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output);
+    void FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output);
 };
 
 // @fnv 0x00c9dcd0
-void __thiscall FUN_00c9dcd0_object::FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output)
+void FUN_00c9dcd0_object::FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output)
 {
     for (int i = count - 1; i >= 0; --i)
     {

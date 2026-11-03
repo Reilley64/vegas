@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00d2eb50_cls.h"
 #include "fnv/symbols_00d42000.h"
@@ -69,7 +70,7 @@ int Obj::ForwardToTarget(float a, float b, int c)
     return m_target->v10(a, b, c);
 }
 
-typedef int (__thiscall *FUN_00d42a60_method)(void*);
+typedef int (*FUN_00d42a60_method)(void*);
 struct FUN_00d42a60_vtable {
     FUN_00d42a60_method slot00;
     FUN_00d42a60_method slot04;
@@ -94,7 +95,7 @@ struct FUN_00d42a60_class {
     void* unk04;
     void* unk08;
     FUN_00d42a60_interface* unk0c;
-    int __thiscall FUN_00d42a60();
+    int FUN_00d42a60();
 };
 // @fnv 0x00d42a60
 int FUN_00d42a60_class::FUN_00d42a60() {
@@ -265,7 +266,7 @@ void Owner::FUN_00d42ed0(Input* input,int aiArg1,int aiArg2,int aiArg3)
 namespace fnv_00d42fc0 {
 struct FourFloatVector { float x, y, z, w; };
 __declspec(align(16)) struct Matrix43 { FourFloatVector row0, row1, row2, row3; };
-struct FUN_00cb2240_shell { void __thiscall FUN_00cb2240(const Matrix43*, const Matrix43*); };
+struct FUN_00cb2240_shell { void FUN_00cb2240(const Matrix43*, const Matrix43*); };
 struct Object { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; Matrix43 transform; };
 struct Input { Object* object; int unk04; Matrix43* transform; };
 struct DispatchData { int unk00; int unk04; Matrix43* unk08; Input* unk0c; };
@@ -587,7 +588,7 @@ struct __declspec(align(16)) Transform_00d42f40
     Vector4_00d42f40 basisY;
     Vector4_00d42f40 basisZ;
     Vector4_00d42f40 translation;
-    void __thiscall FUN_00cb2240(const Transform_00d42f40*, const Transform_00d42f40*);
+    void FUN_00cb2240(const Transform_00d42f40*, const Transform_00d42f40*);
 };
 
 struct Shape_00d42f40
@@ -1391,7 +1392,6 @@ void __cdecl FUN_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);

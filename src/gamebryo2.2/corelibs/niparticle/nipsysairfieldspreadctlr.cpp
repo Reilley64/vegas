@@ -20,7 +20,7 @@ struct ObjHdr
 
 // Calls FUN_00c32f60 on p, gets a value from FUN_00a7d330, grows the buffer if unkA >= unk8, then stores the value at index unkA via FUN_0096ae90.
 // @fnv 0x00c2f490
-void __stdcall AppendElement(ObjHdr* apObj)
+void AppendElement(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
     ::FUN_00c32f60((::StrArr *)(pObj));

@@ -30,12 +30,12 @@ struct NiSpotLight;
 
 struct NiSpotLightShell
 {
-    NiSpotLightShell* __thiscall FUN_00a94d60(unsigned int flags);
+    NiSpotLightShell* FUN_00a94d60(unsigned int flags);
 };
 
 // Calls _FUN_00a72010, then if flags has bit 1 set calls __Dummy_00b6fef0 on this with size 0x114, and returns this.
 // @fnv 0x00a94d60
-NiSpotLightShell* __thiscall NiSpotLightShell::FUN_00a94d60(unsigned int flags)
+NiSpotLightShell* NiSpotLightShell::FUN_00a94d60(unsigned int flags)
 {
     static_cast<::FUN_00a72010_owner *>(nullptr)->FUN_00a72010();
     if (flags & 1)
@@ -46,7 +46,7 @@ NiSpotLightShell* __thiscall NiSpotLightShell::FUN_00a94d60(unsigned int flags)
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
-    void* __thiscall FUN_00a94ce0();
+    void* FUN_00a94ce0();
 };
 
 // @fnv 0x00a94e20
@@ -63,7 +63,7 @@ struct NiObject
 };
 struct NiPointLight
 {
-    bool __thiscall FUN_00a7d730(NiObject*);
+    bool FUN_00a7d730(NiObject*);
 };
 
 struct NiSpotLight
@@ -72,12 +72,12 @@ struct NiSpotLight
     float m_f0108;
     float m_f010c;
     float m_f0110;
-    bool __thiscall IsEqual(NiObject*);
+    bool IsEqual(NiObject*);
 };
 
 // Calls the base NiPointLight comparison, then checks that the spot light's three float fields match the other object's.
 // @fnv 0x00a94c80
-bool __thiscall NiSpotLight::IsEqual(NiObject* pObject)
+bool NiSpotLight::IsEqual(NiObject* pObject)
 {
     NiSpotLight* pOther = (NiSpotLight*)pObject;
     if (((NiPointLight*)this)->FUN_00a7d730(pObject))
@@ -96,11 +96,11 @@ struct C_00a7d7a0
 };
 struct S_00a94d90
 {
-    void __thiscall FUN_00a94d90(NiUpdateData&);
+    void FUN_00a94d90(NiUpdateData&);
 };
 // Calls the base update, copies three floats from offsets 0x68/0x74/0x80 to 0xFC/0x100/0x104, and increments the counter at 0xA8.
 // @fnv 0x00a94d90
-void __thiscall S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
+void S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
 {
     reinterpret_cast<::fnv_00a7d7a0::NiPointLight *>((((C_00a7d7a0*)this)))->FUN_00a7d7a0((::fnv_00a7d7a0::NiUpdateData &)(UpdateData));
     *(volatile float*)((char*)this + 0xFC) = *(volatile float*)((char*)this + 0x68);
@@ -121,7 +121,7 @@ struct StrArr
 
 struct NiPoint3
 {
-    char* __thiscall FUN_00a59af0(char const* name);
+    char* FUN_00a59af0(char const* name);
 };
 
 struct NiPointLightViewerStrings
@@ -131,7 +131,7 @@ struct NiPointLightViewerStrings
 
 struct FUN_00a94f70_shell : NiSpotLightShell
 {
-    void __thiscall AppendViewerStrings(StrArr* strings);
+    void AppendViewerStrings(StrArr* strings);
 };
 
 // Appends the spot light's base viewer strings plus m_kWorldDir, m_fOuterSpotAngle, m_fInnerSpotAngle and m_fSpotExponent entries to the string array.
@@ -358,7 +358,7 @@ struct FUN_00a94e40_cls
     float m_f0108;
     float m_f010c;
     float m_f0110;
-    void __thiscall FUN_00a94e40(FUN_00a94e40_arg* a);
+    void FUN_00a94e40(FUN_00a94e40_arg* a);
 };
 
 struct StreamCb
@@ -521,7 +521,7 @@ struct FUN_00a94e40_arg
 };
 
 // @fnv 0x00a94e40
-void __thiscall FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
+void FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
 {
     reinterpret_cast<::NiPointLightSave *>(this)->SaveToStream((::NiStream *)(apArg));
     StreamCb* s = apArg->m_024c;

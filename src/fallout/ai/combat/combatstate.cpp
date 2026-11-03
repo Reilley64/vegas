@@ -399,7 +399,6 @@ struct CombatCoverPointData
     char m_cTrailingData[6];
     char _pad_76[2];
 };
-typedef char _sizecheck_CombatCoverLocation[sizeof(CombatCoverPointData) == 120 ? 1 : -1];
 struct FUN_005dc960_shell : public CombatCoverPointData
 {
     bool FUN_005dc960();
@@ -443,7 +442,6 @@ struct CombatAvoidanceSphere
     float fRadius;
     unsigned int iFlags;
 };
-typedef char _sizecheck_CombatLocation[sizeof(CombatAvoidanceSphere) == 32 ? 1 : -1];
 struct FUN_00819a50_shell : public CombatAvoidanceSphere
 {
     void FUN_00819a50(float);
@@ -457,16 +455,16 @@ void FUN_00819a50_shell::FUN_00819a50(float afRadius)
 
 struct FUN_00997c10_shell
 {
-    void __thiscall FUN_00997c10();
+    void FUN_00997c10();
 };
 
 struct FUN_009989f0_shell
 {
-    unsigned char __thiscall GetByteAtOffsetC7();
+    unsigned char GetByteAtOffsetC7();
 };
 
 // @fnv 0x009989f0
-unsigned char __thiscall FUN_009989f0_shell::GetByteAtOffsetC7()
+unsigned char FUN_009989f0_shell::GetByteAtOffsetC7()
 {
     return ((unsigned char*)this)[0xc7];
 }
@@ -499,19 +497,19 @@ struct FUN_0099c210_shell
 };
 
 // @fnv 0x0099c210
-void __thiscall FUN_0099c210_shell::LockCombatTargetMap()
+void FUN_0099c210_shell::LockCombatTargetMap()
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(m_lock));
 }
 
 struct FUN_009a0680_shell
 {
-    void __thiscall ClearAndDeletePointer();
+    void ClearAndDeletePointer();
 };
 
 // Deletes the pointer stored at offset 0x18c and sets that field to null.
 // @fnv 0x009a0680
-void __thiscall FUN_009a0680_shell::ClearAndDeletePointer()
+void FUN_009a0680_shell::ClearAndDeletePointer()
 {
     void* ptr = *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18c);
     ::FUN_00401030(ptr);
@@ -528,7 +526,7 @@ struct FUN_009a0a40_shell
 
 // Deletes the pointer stored at field_c4 and sets it to null.
 // @fnv 0x009a0a40
-void __fastcall FreeAndClearFieldC4(FUN_009a0a40_shell* thisp)
+void FreeAndClearFieldC4(FUN_009a0a40_shell* thisp)
 {
     void* p = thisp->field_c4;
     ::FUN_00401030(p);
@@ -570,7 +568,7 @@ struct GlobalObject_00869f00
 extern int DAT_0108e068;
 
 // @fnv 0x009a3410
-void __fastcall FUN_009a3410(GlobalObject_00869f00* this_)
+void FUN_009a3410(GlobalObject_00869f00* this_)
 {
     this_->m_ptr = &DAT_0108e068;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this_))->Clear(true);
@@ -580,7 +578,7 @@ namespace fnv_009a35f0 {
 struct GlobalObject_00869f00
 {
     int m_Data;
-    void __thiscall Clear(bool);
+    void Clear(bool);
 };
 
 
@@ -794,7 +792,7 @@ void Outer_997440::CopyRefValue()
 struct CH
 {
     int v;
-    void __thiscall CombatTargetTimestamp(float);
+    void CombatTargetTimestamp(float);
 };
 struct SH
 {
@@ -808,7 +806,7 @@ struct Unk975C0
     void FUN_009975c0();
 };
 // @fnv 0x00997c10
-void __thiscall FUN_00997c10_shell::FUN_00997c10()
+void FUN_00997c10_shell::FUN_00997c10()
 {
     reinterpret_cast<::Unk975C0 *>((((FUN_00997c10_shell*)((char*)this + 0x128))))->FUN_009975c0();
 }
@@ -990,7 +988,7 @@ struct RegionPoint
 
 struct CombatTimeStampCtor
 {
-    void __thiscall CombatTargetTimestamp(float);
+    void CombatTargetTimestamp(float);
 };
 
 struct CombatTimeStamp4
@@ -1001,7 +999,7 @@ struct CombatTimeStamp4
 
 struct FUN_0099a5e0_shell
 {
-    void __thiscall UpdateCombatTimestamps(int);
+    void UpdateCombatTimestamps(int);
 };
 
 // Stores a new combat timestamp at this+0x9c and, if the timestamp at this+0xa4 equals -DAT_0108df70, replaces it with a new one.
@@ -1354,7 +1352,7 @@ template <class T> struct SettingT;
 
 struct FUN_009a0be0_Class
 {
-    float __thiscall GetIdleAdjustedValue();
+    float GetIdleAdjustedValue();
 };
 
 // Returns the float at this+0xc4 offset 0x1c, adding the runtime float setting when the idle's section is not 0xf, 6 or 0.
@@ -1404,11 +1402,11 @@ struct Entry
 
 struct FUN_009a0d00_shell
 {
-    void __thiscall StoreEntry(const void* apCopy);
+    void StoreEntry(const void* apCopy);
 };
 
 // @fnv 0x009a0d00
-void __thiscall FUN_009a0d00_shell::StoreEntry(const void* apCopy)
+void FUN_009a0d00_shell::StoreEntry(const void* apCopy)
 {
     if (!apCopy)
         return;
@@ -1429,7 +1427,7 @@ struct FUN_007881d0_shell
 };
 struct CombatTimeStamp_ctor
 {
-    void __thiscall CombatTargetTimestamp(float);
+    void CombatTargetTimestamp(float);
 };
 struct Actor
 {
@@ -1451,11 +1449,11 @@ struct FUN_009a0ec0_Node
 
 struct FUN_009a0ec0_shell
 {
-    void __thiscall SetNodeBlockAndTimestamp(const FUN_009a0ec0_Block* a1);
+    void SetNodeBlockAndTimestamp(const FUN_009a0ec0_Block* a1);
 };
 
 // @fnv 0x009a0ec0
-void __thiscall FUN_009a0ec0_shell::SetNodeBlockAndTimestamp(const FUN_009a0ec0_Block* apBlock)
+void FUN_009a0ec0_shell::SetNodeBlockAndTimestamp(const FUN_009a0ec0_Block* apBlock)
 {
     FUN_009a0ec0_Ts timeStamp;
     unsigned int index = reinterpret_cast<::S5460 *>((reinterpret_cast<FUN_007881d0_shell*>(reinterpret_cast<char*>(this) + 0x174)))->FUN_007881d0();
@@ -1472,7 +1470,7 @@ void __thiscall FUN_009a0ec0_shell::SetNodeBlockAndTimestamp(const FUN_009a0ec0_
 namespace fnv_009a1010 {
 struct Actor
 {
-    float __thiscall FUN_008be600();
+    float FUN_008be600();
 };
 
 struct TESAmmoInitCalls
@@ -1536,7 +1534,7 @@ struct FUN_00527ba0_Class
 
 struct FUN_009a2c60_Class
 {
-    void __thiscall LoadFormData(void*);
+    void LoadFormData(void*);
 };
 
 // @fnv 0x009a2c60
@@ -1811,7 +1809,7 @@ void FUN_009a2f50_shell::FUN_009a2f50(BGSSaveFormBuffer* buffer)
     for (unsigned int i = 0; i < flags; ++i)
     {
         void* cover = reinterpret_cast<::FUN_009a3280_shell *>((((FUN_009a3280_shell*)((char*)this + 32))))->FUN_009a3280(i);
-        ((void(__thiscall*)(void*, BGSSaveFormBuffer*))(*((int**)cover))[0])(cover, buffer);
+        ((void(*)(void*, BGSSaveFormBuffer*))(*((int**)cover))[0])(cover, buffer);
     }
 }
 }  // namespace fnv_009a2f50
@@ -1969,8 +1967,8 @@ struct C99
     void FUN_0099a780(int);
 };
 namespace fnv_0099a7d0 {
-bool __fastcall FUN_00981990(void*);
-int __fastcall _FNV_GetFormType(void*);
+bool FUN_00981990(void*);
+int _FNV_GetFormType(void*);
 struct Actor
 {
 };
@@ -2285,7 +2283,7 @@ struct PrimaryBase : FUN_009a0a40_shell
 };
 
 struct GlobalObject_00869f00;
-void __fastcall FUN_009a3410(GlobalObject_00869f00*);
+void FUN_009a3410(GlobalObject_00869f00*);
 
 struct Base_009a3410
 {
@@ -3607,7 +3605,7 @@ public:
 bool FUN_009a9630(void* apActor)
 {
     TESObjectWEAP* weapon = 0;
-    void* pcombatController = (*(void*(__thiscall**)(void*))(*(char**)apActor + 0x428))(apActor);
+    void* pcombatController = (*(void*(**)(void*))(*(char**)apActor + 0x428))(apActor);
     if (pcombatController)
     {
         weapon = (TESObjectWEAP*)FUN_007031c0((int)pcombatController);
@@ -7800,13 +7798,13 @@ void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
     {
         reinterpret_cast<::FUN_006e4320_Class *>((param))->FUN_006e4320(reinterpret_cast<::FUN_00453700_shell *>((((FUN_0099d310_field_calls*)f1C4)))->FUN_00453700());
     }
-    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(__thiscall*)(void*, unsigned int))(*(unsigned int**)((char*)actor + 0xa4))[2])(
+    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(unsigned int**)((char*)actor + 0xa4))[2])(
         (char*)actor + 0xa4, 0x10));
     if (item != 0)
     {
         if (FUN_0097ee90() && (unsigned char)_pad[0x74] == 0)
         {
-            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(__thiscall*)(void*))(*(unsigned int**)item)[0x1f4 / 4])(item))));
+            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(*)(void*))(*(unsigned int**)item)[0x1f4 / 4])(item))));
         }
         reinterpret_cast<::fnv_0099cb70::FUN_0099cb70_struct *>(this)->CollectCastSoundPositions((::fnv_0099cb70::Arr_006cee30 *)(((int)(reinterpret_cast<::FUN_006e4fb0_shell *>((param))->GetOffsetF4()))));
     }

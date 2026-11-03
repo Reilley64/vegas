@@ -82,7 +82,7 @@ struct FUN_00e428f0_class {
     void FUN_00e428f0(void* p);
 };
 struct FUN_00e4e400_class {
-    FUN_00e4e400_class* __thiscall FUN_00e4e400();
+    FUN_00e4e400_class* FUN_00e4e400();
 };
 void FUN_00e52860(const float* src, float* dst);
 void FUN_00e52ef0(const float* src, float* dst);
@@ -104,10 +104,10 @@ struct FUN_00e459c0_class {
     void SetBitMaskFlags(int a, int b);
 };
 struct FUN_00e45a10_class {
-    void __thiscall ClearFlags(int a, int b);
+    void ClearFlags(int a, int b);
 };
 struct FUN_00e587b0_Class {
-    int* __thiscall FUN_00e587b0(int idx);
+    int* FUN_00e587b0(int idx);
 };
 struct FUN_00e58880_Class {
     float FUN_00e58880(int offset);
@@ -155,7 +155,7 @@ struct FUN_00e4ab50_class {
     int m_04;
     int* m_08;
     int m_0c;
-    void __thiscall ApplyToAll(int a);
+    void ApplyToAll(int a);
 };
 extern int DAT_010ec1fc;
 struct FUN_00cb0a70 {
@@ -635,7 +635,7 @@ struct FUN_00e53580_cls {
     float FUN_00e53580(int idx);
 };
 struct S_00e53590_Foo {
-    int* __thiscall FUN_00e53590(int index);
+    int* FUN_00e53590(int index);
 };
 struct Vec4f {
     float x;
@@ -1017,7 +1017,7 @@ public:
 // FUN_00e5cec0 - forwards this + four stack arguments to SpliceArray,
 // with a literal zero inserted as the third argument.
 struct FUN_00e5cdb0_class {
-    void __thiscall FUN_00e5cec0(int a, int b, int c, int d);
+    void FUN_00e5cec0(int a, int b, int c, int d);
 };
 struct S_00e5cfb0_Object {
     int unk00;
@@ -1450,7 +1450,7 @@ struct FUN_00e46b30_Class : FUN_00e46b30_Layout {
     FUN_00e46b30_Class* InitializeWithReference(FUN_00c90510_Reference* value);
 };
 struct FUN_00c905b0_class {
-    void __thiscall FUN_00c905b0();
+    void FUN_00c905b0();
 };
 extern int DAT_010e7874;
 extern int DAT_010e7868;
@@ -1475,7 +1475,7 @@ struct FUN_00e46b80_class {
     int* unk30;
     FUN_00c905b0_class* unk34;
 
-    void __thiscall FUN_00e46b80();
+    void FUN_00e46b80();
 };
 struct FUN_00e46e80 {
     int m_00;
@@ -1489,13 +1489,13 @@ struct E473C0Owner;
 struct E473C0Target {
     virtual void vf00();
     virtual void vf01();
-    virtual void __thiscall vf02(E473C0Owner* a1, int a2);
+    virtual void vf02(E473C0Owner* a1, int a2);
 };
 struct E473C0Owner {
     int unk00;
     unsigned short unk04;
 
-    E473C0Owner* __thiscall FUN_00e473c0(unsigned char flags);
+    E473C0Owner* FUN_00e473c0(unsigned char flags);
 };
 struct FnvCpu_FUN_00e473f0_CpuObject {
     unsigned int unk00;
@@ -1578,7 +1578,7 @@ struct FUN_00e48db0_class {
     int m_08;
     int m_0c;
     int m_10;
-    FUN_00e48db0_class* __thiscall InitFromFloatAndPointer(float f, void* p);
+    FUN_00e48db0_class* InitFromFloatAndPointer(float f, void* p);
 };
 struct Node4a5
 {
@@ -1869,7 +1869,7 @@ struct BitLinks {
 namespace se49080 {
 
 
-void __fastcall FUN_00c90510(void* pvObject);
+void FUN_00c90510(void* pvObject);
 
 struct Shape;
 

@@ -3,6 +3,7 @@
 #define FNV_NISMARTPOINTER_DECLS_H
 
 
+#include <windows.h>
 #include "fnv/decl/FUN_0040f6e0_class.h"
 #include "fnv/decl/FUN_0042fdc0_class.h"
 #include "fnv/decl/NiPtr.h"
@@ -10,8 +11,6 @@
 #include "fnv/decl/fnv_0044b050__FUN_0044b050_shell.h"
 #include "fnv/decl/fnv_0044b0f0__FUN_0044b0f0_shell.h"
 #include "fnv/decl/fnv_0044b180__FUN_0044b180_shell.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 #define FNV_REFCOUNTED_TYPE(T)                                                                                         \
     class T                                                                                                            \

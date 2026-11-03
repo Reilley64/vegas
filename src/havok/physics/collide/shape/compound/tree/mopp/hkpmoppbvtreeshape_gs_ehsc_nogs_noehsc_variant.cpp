@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/BundleMachine.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
@@ -139,7 +140,7 @@ struct FUN_00d54350_Obj
     int unk10;
     void* unk14;
 
-    void __thiscall ForwardToTarget(int a, int b, float c, int d);
+    void ForwardToTarget(int a, int b, float c, int d);
 };
 class hkMemoryAllocatorD548
 {
@@ -257,11 +258,10 @@ struct S00d54490_Obj
     int unk18;
     int unk1C;
     float unk20[4];
-    S00d54490_Obj* __thiscall FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2);
+    S00d54490_Obj* FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2);
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" const char str_010d0df0[];
 struct hkTimerCommandD546
 {

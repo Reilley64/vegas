@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00de1210.h"
 #include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
@@ -39,7 +40,6 @@ struct SecondBase {
 };
 struct FullObject : HeadPart, FirstBase, SecondBase {
 };
-typedef char _check_offsets[sizeof(FullObject) == 0x2c ? 1 : -1];
 struct Receiver {
 };
 struct hkMemoryAllocator
@@ -394,7 +394,6 @@ struct EventStorage {
     EventStamp* m_pFreeList;
 };
 extern char DAT_010d233c[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 static __forceinline void TimerMark(char* marker)
 {

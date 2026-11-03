@@ -32,12 +32,12 @@ void* __cdecl FUN_00c2f590()
 
 struct NiPSysAirFieldModifier
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Calls FUN_00c31750, then if flags has bit 1 set calls __Dummy_00b6fef0 on this with 0x68, and returns this.
 // @fnv 0x00c2f5a0
-void* __thiscall NiPSysAirFieldModifier::Destroy(unsigned int flags)
+void* NiPSysAirFieldModifier::Destroy(unsigned int flags)
 {
     void* p = this;
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
@@ -54,7 +54,7 @@ struct NiObject
 };
 struct NiPSysFieldModifier
 {
-    NiObject* __thiscall Clone(CloningProcess&);
+    NiObject* Clone(CloningProcess&);
 };
 struct BSFadeNode
 {
@@ -62,8 +62,8 @@ struct BSFadeNode
 };
 struct AirTmp : NiPSysFieldModifier
 {
-    AirTmp* __thiscall FUN_00c2f5c0();
-    void __thiscall FUN_00c2f500(void*);
+    AirTmp* FUN_00c2f5c0();
+    void FUN_00c2f500(void*);
 };
 struct A51BF0Base
 {
@@ -412,7 +412,7 @@ class FUN_00c2f5c0_cls : public BC2F5C0Modifier
     float m_fFirstLightParameter;
 };
 // @fnv 0x00c2fad0
-NiObject* __thiscall NiPSysFieldModifier::Clone(CloningProcess& kCloning)
+NiObject* NiPSysFieldModifier::Clone(CloningProcess& kCloning)
 {
     AirTmp* pkObject;
     void* pMemory = BSFadeNode::operator new(0x68);
@@ -499,23 +499,23 @@ static void AddViewerString(ViewerStrings* s, void* value)
 
 struct AirFieldModifier
 {
-    void __thiscall FUN_00c2f4e0(NiStream& stream);
+    void FUN_00c2f4e0(NiStream& stream);
 };
 
 // @fnv 0x00c2f4e0
-void __thiscall AirFieldModifier::FUN_00c2f4e0(NiStream& stream)
+void AirFieldModifier::FUN_00c2f4e0(NiStream& stream)
 {
     reinterpret_cast<::fnv_00c2e520::FUN_00c2e520_shell *>(this)->LinkObject((::fnv_00c2e520::NiStream &)(stream));
 }
 
 struct FUN_00c61f60_class
 {
-    unsigned char __thiscall FUN_00c28b60(int param);
-    unsigned char __thiscall FUN_00c2f4f0(int param);
+    unsigned char FUN_00c28b60(int param);
+    unsigned char FUN_00c2f4f0(int param);
 };
 
 // @fnv 0x00c2f4f0
-unsigned char __thiscall FUN_00c61f60_class::FUN_00c2f4f0(int param)
+unsigned char FUN_00c61f60_class::FUN_00c2f4f0(int param)
 {
     return FUN_00c28b60(param);
 }
@@ -888,11 +888,11 @@ struct S00c30170_Obj : AirTmp
     bool m_61;
     bool m_62;
     float m_64;
-    void __thiscall FUN_00c30170(NiStream* stream);
+    void FUN_00c30170(NiStream* stream);
 };
 // Calls LoadFromStream, reads m_40, applies FUN_00c2f500 to it, then reads m_58, m_5c, m_60, m_61, m_62, and m_64.
 // @fnv 0x00c30170
-void __thiscall S00c30170_Obj::FUN_00c30170(NiStream* stream)
+void S00c30170_Obj::FUN_00c30170(NiStream* stream)
 {
     reinterpret_cast<::FUN_00c32120_cls *>(this)->LoadFromStream((::StreamOwner *)(stream));
     reinterpret_cast<::NiColor *>(&(m_40))->LoadBinary((*(::NiStream *)(stream)));

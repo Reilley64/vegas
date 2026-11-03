@@ -495,14 +495,13 @@ struct CombatTargetTimestamp
     void LoadGame(BGSLoadGameBuffer*);
     float fTimeStamp;
 };
-typedef char _sizecheck_CombatTimeStamp[sizeof(CombatTargetTimestamp) == 4 ? 1 : -1];
 struct FUN_004300a0_shell : public CombatTargetTimestamp
 {
     void FUN_004300a0(float);
 };
 
 // @fnv 0x004300a0
-CombatTargetTimestamp* __fastcall FUN_004300a0(CombatTargetTimestamp* this_ptr)
+CombatTargetTimestamp* FUN_004300a0(CombatTargetTimestamp* this_ptr)
 {
     this_ptr->fTimeStamp = 0.0f;
     return this_ptr;
@@ -674,7 +673,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_004301b0_shell : public Animation
 {
     unsigned short FUN_004301b0(int);
@@ -786,12 +784,11 @@ struct ExtraLeveledCreature : public BSExtraData
     TESActorBase* m_pCreatureBase;
     TESActorBase* pTemplate;
 };
-typedef char _sizecheck_ExtraLeveledCreature[sizeof(ExtraLeveledCreature) == 20 ? 1 : -1];
 
 extern int DAT_01015b7c;
 
 // @fnv 0x004311f0
-ExtraLeveledCreature* __fastcall FUN_004311f0(ExtraLeveledCreature* pThis)
+ExtraLeveledCreature* FUN_004311f0(ExtraLeveledCreature* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((((BSExtraData*)pThis)))->init(0x2e);
     *(void**)pThis = &DAT_01015b7c;
@@ -826,7 +823,6 @@ struct ExtraMapMarker : public BSExtraData
     void __local_vftable_ctor_closure();
     MapMarkerData* m_pMapMarkerData;
 };
-typedef char _sizecheck_ExtraMapMarker[sizeof(ExtraMapMarker) == 16 ? 1 : -1];
 
 extern int DAT_01015b88;
 
@@ -854,7 +850,6 @@ struct ExtraAudioMarker : public BSExtraData
     void __local_vftable_ctor_closure();
     MediaLocation* pAudioData;
 };
-typedef char _sizecheck_ExtraAudioMarker[sizeof(ExtraAudioMarker) == 16 ? 1 : -1];
 
 extern int DAT_01015b94;
 
@@ -865,7 +860,7 @@ struct PtrWrap
 
 // Initializes an ExtraAudioMarker: constructs the BSExtraData base with type 0x90, sets its vtable, and stores the given audio data pointer.
 // @fnv 0x004314c0
-ExtraAudioMarker* __fastcall FUN_004314c0(ExtraAudioMarker* pThis, PtrWrap aData)
+ExtraAudioMarker* FUN_004314c0(ExtraAudioMarker* pThis, PtrWrap aData)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x90);
     *(int*)pThis = (int)&DAT_01015b94;
@@ -893,7 +888,6 @@ struct ExtraContainerChanges : public BSExtraData
     virtual void __vslot_0();
     InventoryChanges* pChanges;
 };
-typedef char _sizecheck_ExtraContainerChanges[sizeof(ExtraContainerChanges) == 16 ? 1 : -1];
 struct FUN_00431830_shell : public ExtraContainerChanges
 {
     void InitExtraContainerChanges(void*);
@@ -943,7 +937,7 @@ struct FUN_00432e60_helper
 
 // Constructs the BSExtraData base with type 0x74, installs the vtable from DAT_01015c54 and zeroes the extra field.
 // @fnv 0x00432e60
-FUN_00432e60_helper* __fastcall FUN_00432e60(FUN_00432e60_helper* _this)
+FUN_00432e60_helper* FUN_00432e60(FUN_00432e60_helper* _this)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>(&(_this->base))->init(0x74);
     *(int**)_this = &DAT_01015c54;
@@ -955,7 +949,7 @@ extern int DAT_01015c60;
 
 // Constructs a BSExtraData with type 0x12, installs the vtable at DAT_01015c60, zeroes the field at offset 0xc, and returns pThis.
 // @fnv 0x00432f00
-BSExtraData* __fastcall FUN_00432f00(BSExtraData* pThis)
+BSExtraData* FUN_00432f00(BSExtraData* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x12);
     *(int**)pThis = &DAT_01015c60;
@@ -1052,7 +1046,6 @@ struct ExtraReflectedRefs : public BSExtraData
     void __local_vftable_ctor_closure();
     char RefList[8];
 };
-typedef char _sizecheck_ExtraReflectedRefs[sizeof(ExtraReflectedRefs) == 20 ? 1 : -1];
 struct FUN_004348a0_shell : public ExtraReflectedRefs
 {
     void AddReflectedRef(TESObjectREFR*, unsigned int);
@@ -1087,13 +1080,12 @@ struct ExtraMerchantContainer : public BSExtraData
     void __local_vftable_ctor_closure();
     TESObjectREFR* pContainer;
 };
-typedef char _sizecheck_ExtraMerchantContainer[sizeof(ExtraMerchantContainer) == 16 ? 1 : -1];
 
 extern int DAT_01015e04;
 
 // Constructs an ExtraMerchantContainer: initializes the BSExtraData base with type 0x3c, sets the vtable, and clears pContainer.
 // @fnv 0x00434fc0
-ExtraMerchantContainer* __fastcall ExtraMerchantContainerCtor(ExtraMerchantContainer* pThis)
+ExtraMerchantContainer* ExtraMerchantContainerCtor(ExtraMerchantContainer* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x3c);
     *(int**)pThis = &DAT_01015e04;
@@ -1110,12 +1102,11 @@ struct ExtraLevCreaModifier : public BSExtraData
     void __local_vftable_ctor_closure();
     int m_iModifier;
 };
-typedef char _sizecheck_ExtraLevCreaModifier[sizeof(ExtraLevCreaModifier) == 16 ? 1 : -1];
 
 extern int DAT_01015e10;
 
 // @fnv 0x00435040
-ExtraLevCreaModifier* __fastcall ExtraLevCreaModifierCtor(ExtraLevCreaModifier* _this)
+ExtraLevCreaModifier* ExtraLevCreaModifierCtor(ExtraLevCreaModifier* _this)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((_this))->init(0x1E);
     *(int**)_this = &DAT_01015e10;
@@ -1133,7 +1124,6 @@ struct ExtraLevCreaModifier : public BSExtraData
     void __local_vftable_ctor_closure();
     int m_iModifier;
 };
-typedef char _sizecheck_ExtraLevCreaModifier[sizeof(ExtraLevCreaModifier) == 16 ? 1 : -1];
 struct FUN_004350c0_shell : public ExtraLevCreaModifier
 {
     float FUN_004350c0();
@@ -1161,7 +1151,6 @@ struct ExtraLevCreaModifier : public BSExtraData
     void __local_vftable_ctor_closure();
     int m_iModifier;
 };
-typedef char _sizecheck_ExtraLevCreaModifier[sizeof(ExtraLevCreaModifier) == 16 ? 1 : -1];
 struct FUN_00435100_shell : public ExtraLevCreaModifier
 {
     int FUN_00435100();
@@ -1205,13 +1194,12 @@ struct ExtraXTarget : public BSExtraData
     void __local_vftable_ctor_closure();
     TESObjectREFR* pTarget;
 };
-typedef char _sizecheck_ExtraXTarget[sizeof(ExtraXTarget) == 16 ? 1 : -1];
 
 extern int DAT_01015e28;
 
 // Initializes an ExtraXTarget: constructs the BSExtraData base with type 0x44, sets its vtable, and clears pTarget.
 // @fnv 0x00435370
-ExtraXTarget* __fastcall ConstructExtraXTarget(ExtraXTarget* pThis)
+ExtraXTarget* ConstructExtraXTarget(ExtraXTarget* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x44);
     *(int**)pThis = &DAT_01015e28;
@@ -1226,10 +1214,9 @@ struct ExtraEmittanceSource : public BSExtraData
     void __local_vftable_ctor_closure();
     TESForm* pSource;
 };
-typedef char _sizecheck_ExtraEmittanceSource[sizeof(ExtraEmittanceSource) == 16 ? 1 : -1];
 
 // @fnv 0x00435440
-ExtraEmittanceSource* __fastcall InitExtraEmittanceSource(ExtraEmittanceSource* this_ptr)
+ExtraEmittanceSource* InitExtraEmittanceSource(ExtraEmittanceSource* this_ptr)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((this_ptr))->init(0x67);
     *(const char**)this_ptr = "pTC";
@@ -1255,7 +1242,6 @@ struct BGSLoadGameSubBuffer
     void RenderCopyData(BGSSaveFormBuffer*);
     char* pBuffer;
 };
-typedef char _sizecheck_BGSLoadGameSubBuffer[sizeof(BGSLoadGameSubBuffer) == 4 ? 1 : -1];
 struct FUN_00435b20_shell : public BGSLoadGameSubBuffer
 {
     void FUN_00435b20();
@@ -1370,11 +1356,10 @@ struct ExtraSayToTopicInfo : public BSExtraData
     bool m_bTopicInfoFlag;
     char _pad_19[3];
 };
-typedef char _sizecheck_ExtraSayToTopicInfo[sizeof(ExtraSayToTopicInfo) == 28 ? 1 : -1];
 
 
 // @fnv 0x00437690
-ExtraSayToTopicInfo* __fastcall ExtraSayToTopicInfoConstructor(ExtraSayToTopicInfo* pThis)
+ExtraSayToTopicInfo* ExtraSayToTopicInfoConstructor(ExtraSayToTopicInfo* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x75);
     *(void**)pThis = &DAT_01015f48;
@@ -1390,7 +1375,6 @@ struct ExtraIgnoredBySandbox : public BSExtraData
     virtual void __vslot_0();
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_ExtraIgnoredBySandbox[sizeof(ExtraIgnoredBySandbox) == 12 ? 1 : -1];
 
 extern int DAT_01015f64;
 
@@ -1427,7 +1411,7 @@ struct FUN_00437bb0_Class
 };
 
 // @fnv 0x00437bb0
-bool __fastcall FUN_00437bb0(FUN_00437bb0_Class* pThis)
+bool FUN_00437bb0(FUN_00437bb0_Class* pThis)
 {
     return pThis->val;
 }
@@ -1468,7 +1452,6 @@ struct NiFixedString
     void* __vecDelDtor(unsigned int);
     char* m_kHandle;
 };
-typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_004381b0_shell : public NiFixedString
 {
     void FUN_004381b0();
@@ -1513,16 +1496,15 @@ struct PositionRotation
     NiPoint3 pos;
     NiPoint3 rot;
 };
-typedef char _sizecheck_FILE_POS_ROT[sizeof(PositionRotation) == 24 ? 1 : -1];
 struct FUN_00692710_shell : public PositionRotation
 {
     void FUN_00692710();
 };
 
-void __fastcall _ref_006815c0(void*);
+void _ref_006815c0(void*);
 
 // @fnv 0x00692710
-void* __fastcall FUN_00692710(PositionRotation* pThis)
+void* FUN_00692710(PositionRotation* pThis)
 {
     new ((void *)(&pThis->pos)) ::Vec3();
     new ((void *)(&pThis->rot)) ::Vec3();
@@ -1982,7 +1964,6 @@ struct ExtraTeleport : public BSExtraData
     void __local_vftable_ctor_closure();
     TeleportableReference* m_pTeleportData;
 };
-typedef char _sizecheck_ExtraTeleport[sizeof(ExtraTeleport) == 16 ? 1 : -1];
 struct FUN_00431260_shell : public ExtraTeleport
 {
     void FUN_00431260();
@@ -2343,16 +2324,16 @@ extern "C" void __cdecl _Deallocate(void*);
 
 struct ExtraFollower
 {
-    void __thiscall FUN_00430ea0();
-    void* __thiscall FUN_00430e70(unsigned int flags);
+    void FUN_00430ea0();
+    void* FUN_00430e70(unsigned int flags);
 };
 
-void __thiscall ExtraFollower::FUN_00430ea0()
+void ExtraFollower::FUN_00430ea0()
 {}
 
 // Calls FUN_00430ea0, then frees this when flags has bit 0 set, and returns this.
 // @fnv 0x00430e70
-void* __thiscall ExtraFollower::FUN_00430e70(unsigned int flags)
+void* ExtraFollower::FUN_00430e70(unsigned int flags)
 {
     FUN_00430ea0();
     if (flags & 1)
@@ -2619,7 +2600,7 @@ extern "C" void __cdecl _Deallocate(void*);
 
 // Calls FUN_00432b50, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00432a70
-void* __thiscall ExtraPlayerCrimeList::FUN_00432a70(unsigned int flags)
+void* ExtraPlayerCrimeList::FUN_00432a70(unsigned int flags)
 {
     this->FUN_00432b50();
     if (flags & 1)
@@ -2699,11 +2680,11 @@ bool FUN_00432dd0_shell::CompareRagDollData(BSExtraData* apCompare)
 struct ExtraRandomTeleportMarker : BSExtraData
 {
     TESObjectREFR* pTeleportMarker;
-    bool __thiscall FUN_004334e0(BSExtraData* apCompare);
+    bool FUN_004334e0(BSExtraData* apCompare);
 };
 
 // @fnv 0x004334e0
-bool __thiscall ExtraRandomTeleportMarker::FUN_004334e0(BSExtraData* apCompare)
+bool ExtraRandomTeleportMarker::FUN_004334e0(BSExtraData* apCompare)
 {
     ExtraRandomTeleportMarker* pcomp = dynamic_cast<ExtraRandomTeleportMarker*>(apCompare);
     if (!pcomp)
@@ -2717,14 +2698,14 @@ namespace fnv_004335a0 {
 struct ExtraLinkedRefChildren
 {
     void FUN_004335d0();
-    void* __thiscall FUN_004335a0(unsigned int flags);
+    void* FUN_004335a0(unsigned int flags);
 };
 
 extern "C" void* __cdecl _Deallocate(void* p);
 
 // Calls FUN_004335d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004335a0
-void* __thiscall ExtraLinkedRefChildren::FUN_004335a0(unsigned int flags)
+void* ExtraLinkedRefChildren::FUN_004335a0(unsigned int flags)
 {
     FUN_004335d0();
     if (flags & 1)
@@ -2736,11 +2717,11 @@ void* __thiscall ExtraLinkedRefChildren::FUN_004335a0(unsigned int flags)
 struct ExtraLinkedRef : BSExtraData
 {
     TESObjectREFR* m_pLinkedReference;
-    bool __thiscall FUN_00433670(BSExtraData* apCompare);
+    bool FUN_00433670(BSExtraData* apCompare);
 };
 
 // @fnv 0x00433670
-bool __thiscall ExtraLinkedRef::FUN_00433670(BSExtraData* apCompare)
+bool ExtraLinkedRef::FUN_00433670(BSExtraData* apCompare)
 {
     ExtraLinkedRef* pcomp = dynamic_cast<ExtraLinkedRef*>(apCompare);
     if (!pcomp)
@@ -2754,12 +2735,12 @@ void __cdecl _Deallocate(void*);
 
 struct ExtraActivateRefChildren
 {
-    void* __thiscall FUN_00433800(unsigned int flags);
+    void* FUN_00433800(unsigned int flags);
 };
 
 // Calls FUN_00433830, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00433800
-void* __thiscall ExtraActivateRefChildren::FUN_00433800(unsigned int flags)
+void* ExtraActivateRefChildren::FUN_00433800(unsigned int flags)
 {
     reinterpret_cast<::FUN_00433830 *>(this)->FUN_00433830::~FUN_00433830();
     if (flags & 1)
@@ -2797,7 +2778,7 @@ struct ExtraPoison
 
 // Casts apCompare to ExtraPoison and returns true if the cast fails or the poison item pointers differ, otherwise false.
 // @fnv 0x00435180
-bool __thiscall ExtraPoison::IsDifferent(BSExtraData* apCompare)
+bool ExtraPoison::IsDifferent(BSExtraData* apCompare)
 {
     ExtraPoison* pcomp = dynamic_cast<ExtraPoison*>(apCompare);
     if (!pcomp)
@@ -2834,7 +2815,7 @@ struct ExtraDroppedItemList
 
 // Calls FUN_004359f0, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x004359c0
-void* __thiscall ExtraDroppedItemList::FUN_004359c0(unsigned int flags)
+void* ExtraDroppedItemList::FUN_004359c0(unsigned int flags)
 {
     FUN_004359f0();
     if (flags & 1)
@@ -2859,7 +2840,7 @@ int ExtraFriendHits::FUN_00435e20()
 
 struct ExtraSayTopicInfoOnceADay
 {
-    void* __thiscall FUN_004374e0(unsigned int);
+    void* FUN_004374e0(unsigned int);
 };
 
 void __cdecl _Deallocate(void*);
@@ -2896,15 +2877,15 @@ extern "C" void __cdecl _Deallocate(void* ptr);
 
 struct ExtraFollowerSwimBreadcrumbs
 {
-    void __thiscall FUN_00437d10();
-    void* __thiscall FUN_00437ce0(unsigned int flags);
+    void FUN_00437d10();
+    void* FUN_00437ce0(unsigned int flags);
 };
 
-void __thiscall ExtraFollowerSwimBreadcrumbs::FUN_00437d10()
+void ExtraFollowerSwimBreadcrumbs::FUN_00437d10()
 {}
 
 // @fnv 0x00437ce0
-void* __thiscall ExtraFollowerSwimBreadcrumbs::FUN_00437ce0(unsigned int flags)
+void* ExtraFollowerSwimBreadcrumbs::FUN_00437ce0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00437d10 *>(this)->FUN_00437d10::~FUN_00437d10();
     if (flags & 1)
@@ -3022,14 +3003,14 @@ void* ExtraAnim::FUN_004300f0(unsigned int flags)
 namespace fnv_004302a0 {
 struct ExtraDismemberedLimbs
 {
-    void* __thiscall FUN_004302d0();
-    void* __thiscall FUN_004302a0(unsigned int flags);
+    void* FUN_004302d0();
+    void* FUN_004302a0(unsigned int flags);
 };
 
 extern "C" void* __cdecl _Deallocate(void*);
 
 // @fnv 0x004302a0
-void* __thiscall ExtraDismemberedLimbs::FUN_004302a0(unsigned int flags)
+void* ExtraDismemberedLimbs::FUN_004302a0(unsigned int flags)
 {
     FUN_004302d0();
     if (flags & 1)
@@ -3049,7 +3030,7 @@ extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // Casts apCompare to ExtraStartingPosition, returns true if the cast fails, the base Compare succeeds, or the 0x18 bytes at offset 0xC differ; otherwise false.
 // @fnv 0x00430850
-bool __thiscall ExtraStartingPosition::FUN_00430850(BSExtraData* apCompare)
+bool ExtraStartingPosition::FUN_00430850(BSExtraData* apCompare)
 {
     ExtraStartingPosition* pComp = (ExtraStartingPosition*)dynamic_cast<ExtraStartingPosition*>(apCompare);
     if (!pComp)
@@ -3123,7 +3104,7 @@ class ExtraHealthPerc : public BSExtraData
 };
 
 // @fnv 0x00431db0
-bool __thiscall ExtraHealthPerc::FUN_00431db0(BSExtraData* apCompare)
+bool ExtraHealthPerc::FUN_00431db0(BSExtraData* apCompare)
 {
     ExtraHealthPerc* pComp = dynamic_cast<ExtraHealthPerc*>(apCompare);
     if (!pComp)
@@ -3145,7 +3126,7 @@ class ExtraTimeLeft : public BSExtraData
 };
 
 // @fnv 0x00431ef0
-bool __thiscall ExtraTimeLeft::FUN_00431ef0(BSExtraData* apCompare)
+bool ExtraTimeLeft::FUN_00431ef0(BSExtraData* apCompare)
 {
     ExtraTimeLeft* pComp = dynamic_cast<ExtraTimeLeft*>(apCompare);
     if (!pComp)
@@ -3173,7 +3154,7 @@ struct ExtraRadius : BSExtraData
 };
 
 // @fnv 0x00436bd0
-bool __thiscall ExtraRadius::FUN_00436bd0(BSExtraData* apCompare)
+bool ExtraRadius::FUN_00436bd0(BSExtraData* apCompare)
 {
     ExtraRadius* pComp;
     pComp = dynamic_cast<ExtraRadius*>(apCompare);
@@ -3198,7 +3179,7 @@ struct ExtraRadioData : BSExtraData
 };
 
 // @fnv 0x00437290
-bool __thiscall ExtraRadioData::CompareRadioData(BSExtraData* apCompare)
+bool ExtraRadioData::CompareRadioData(BSExtraData* apCompare)
 {
     ExtraRadioData* pComp = dynamic_cast<ExtraRadioData*>(apCompare);
     if (pComp == 0)
@@ -3216,14 +3197,14 @@ struct BSExtraData;
 struct ExtraPrimitive : BSExtraData
 {
     BGSPrimitive* m_pPrimitive;
-    bool __thiscall FUN_00437370(BSExtraData* apCompare);
+    bool FUN_00437370(BSExtraData* apCompare);
 };
 
 extern BGSPrimitive* DAT_011842b0;
 
 // Casts apCompare to ExtraPrimitive and returns true if the cast fails or the primitive pointers differ, false otherwise.
 // @fnv 0x00437370
-bool __thiscall ExtraPrimitive::FUN_00437370(BSExtraData* apCompare)
+bool ExtraPrimitive::FUN_00437370(BSExtraData* apCompare)
 {
     ExtraPrimitive* pcomp = dynamic_cast<ExtraPrimitive*>(apCompare);
     if (!pcomp)
@@ -3235,12 +3216,12 @@ bool __thiscall ExtraPrimitive::FUN_00437370(BSExtraData* apCompare)
 
 struct FUN_004303e0_Class
 {
-    bool __thiscall IsBitSet(unsigned int);
+    bool IsBitSet(unsigned int);
 };
 
 // Tests whether bit n is set in the 16-bit flags word at offset 12 of this object and returns the result.
 // @fnv 0x004303e0
-bool __thiscall FUN_004303e0_Class::IsBitSet(unsigned int uiBitIndex)
+bool FUN_004303e0_Class::IsBitSet(unsigned int uiBitIndex)
 {
     if (reinterpret_cast<unsigned short*>(this)[6] & (1 << uiBitIndex))
         return true;
@@ -4667,12 +4648,12 @@ void __cdecl _Deallocate(void* p);
 class ExtraSavedHavokData : public FUN_00435bb0
 {
   public:
-    void* __thiscall FUN_00435b80(unsigned int flags);
+    void* FUN_00435b80(unsigned int flags);
 };
 
 // Runs the base destructor and, when flags has bit 0 set, deallocates this object; returns this.
 // @fnv 0x00435b80
-void* __thiscall ExtraSavedHavokData::FUN_00435b80(unsigned int flags)
+void* ExtraSavedHavokData::FUN_00435b80(unsigned int flags)
 {
     reinterpret_cast<::FUN_00435bb0 *>(this)->FUN_00435bb0::~FUN_00435bb0();
 
@@ -4786,7 +4767,7 @@ struct FUN_0042e010_ExtraLock : public BSExtraData
     TESTopic* unk28;
     void* unk2C;
 
-    void __thiscall FUN_0042e010(int);
+    void FUN_0042e010(int);
 };
 
 // Calls MenuTopic::FUN_0083df80 with the stored quest, topic and topic info, passing arg as the MobileObject.
@@ -4912,12 +4893,12 @@ class ExtraModdingItem : public BSExtraData
 class FUN_004321b0_cls
 {
   public:
-    bool __thiscall IsDifferentFrom(BSExtraData* a);
+    bool IsDifferentFrom(BSExtraData* a);
 };
 
 // Casts a to ExtraModdingItem; returns true if the cast fails, Compare(a) succeeds, or unk0C differs, otherwise false.
 // @fnv 0x004321b0
-bool __thiscall FUN_004321b0_cls::IsDifferentFrom(BSExtraData* apExtraData)
+bool FUN_004321b0_cls::IsDifferentFrom(BSExtraData* apExtraData)
 {
     ExtraModdingItem* pOtherItem = dynamic_cast<ExtraModdingItem*>(apExtraData);
     if (pOtherItem == 0)
@@ -5394,8 +5375,8 @@ struct ResultContainer
 };
 
 extern "C" ResultContainer* __cdecl func_0x00ec43fb(int, int, void*, void*, int);
-extern "C" void __fastcall FUN_00434fa0(void*);
-extern "C" bool __fastcall FUN_008256d0(LinkedNode*);
+extern "C" void FUN_00434fa0(void*);
+extern "C" bool FUN_008256d0(LinkedNode*);
 
 struct FUN_00434ee0_Class
 {
@@ -5446,8 +5427,8 @@ extern int DAT_01015e4c;
 struct EmittanceSourceCleanup : BSExtraData
 {
     void* ownedSource;
-    void __thiscall FUN_0040ecb0();
-    void __thiscall FUN_004355f0();
+    void FUN_0040ecb0();
+    void FUN_004355f0();
 };
 // Calls FUN_004355f0, then if bit 0 of flags is set calls FUN_00401030 on this, and returns this.
 // @fnv 0x004355c0
@@ -5463,7 +5444,7 @@ FUN_004355c0_cls* FUN_004355c0_cls::FUN_004355c0(int flags)
 
 // Sets the vtable pointer, frees ownedSource via FUN_00401030, then calls FUN_0040ecb0.
 // @fnv 0x004355f0
-void __thiscall EmittanceSourceCleanup::FUN_004355f0()
+void EmittanceSourceCleanup::FUN_004355f0()
 {
     *reinterpret_cast<void**>(this) = &DAT_01015e4c;
     void* sourceToFree = ownedSource;
@@ -7150,7 +7131,7 @@ FUN_0081dd00::FUN_0081dd00(OwnerForm* owner, int arg2, int arg3, int arg4, NiPoi
 }
 
 struct ContNode;
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 void __cdecl operator delete(void*);
 struct ListNode
 {
@@ -8102,12 +8083,12 @@ bool ExtraEnableStateParent::FUN_00433340(BSExtraData* apCompare)
 
 struct MerchantContainerComparison : ExtraMerchantContainer
 {
-    bool __thiscall FUN_00434ff0(BSExtraData* apCompare);
+    bool FUN_00434ff0(BSExtraData* apCompare);
 };
 
 // Returns true if apCompare is not an ExtraMerchantContainer or its pContainer differs from this->pContainer, otherwise false.
 // @fnv 0x00434ff0
-bool __thiscall MerchantContainerComparison::FUN_00434ff0(BSExtraData* apCompare)
+bool MerchantContainerComparison::FUN_00434ff0(BSExtraData* apCompare)
 {
     ExtraMerchantContainer* pcomp = dynamic_cast<ExtraMerchantContainer*>(apCompare);
     if (!pcomp)
@@ -8141,12 +8122,12 @@ class ExtraEmittanceSource;
 struct EmittanceSourceComparison : BSExtraData
 {
     TESForm* pSource;
-    bool __thiscall FUN_004354c0(BSExtraData* apCompare);
+    bool FUN_004354c0(BSExtraData* apCompare);
 };
 
 // Returns true if apCompare is not an ExtraEmittanceSource or if its pSource differs from this->pSource, otherwise false.
 // @fnv 0x004354c0
-bool __thiscall EmittanceSourceComparison::FUN_004354c0(BSExtraData* apCompare)
+bool EmittanceSourceComparison::FUN_004354c0(BSExtraData* apCompare)
 {
     EmittanceSourceComparison* pcomp = (EmittanceSourceComparison*)dynamic_cast<ExtraEmittanceSource*>(apCompare);
     if (!pcomp)

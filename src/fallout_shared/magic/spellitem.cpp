@@ -26,7 +26,7 @@ void SpellItem::ResetFormData()
 }
 
 // @fnv 0x0040e280
-int __fastcall FUN_0040e280(int thisPtr)
+int FUN_0040e280(int thisPtr)
 {
     return 0x54495053;
 }
@@ -51,7 +51,7 @@ struct FUN_0040e290_shell
 
 struct FlaggedData
 {
-    int __thiscall ContainsAnyFlag(unsigned int);
+    int ContainsAnyFlag(unsigned int);
 };
 
 struct FUN_0040e670_shell
@@ -91,7 +91,7 @@ struct FUN_0040e1e0_shell
 };
 // Returns true when the object at this-0x18 reports false for the argument 1.
 // @fnv 0x0040e1e0
-bool __thiscall FUN_0040e1e0_shell::FUN_0040e1e0()
+bool FUN_0040e1e0_shell::FUN_0040e1e0()
 {
     return !(unsigned char)((FlaggedData*)((char*)this - 0x18))->ContainsAnyFlag(1);
 }

@@ -425,12 +425,12 @@ struct FUN_00516070_shell
 {
     char _pad[0x58];
     TESValueFormStub m_valueStub;
-    void __thiscall FUN_00516070(unsigned int, unsigned int);
+    void FUN_00516070(unsigned int, unsigned int);
 };
 
 // Forwards both arguments to TESFormStub::FUN_00484c50 on this object, then to m_valueStub.FUN_0048ea10.
 // @fnv 0x00516070
-void __thiscall FUN_00516070_shell::FUN_00516070(unsigned int a1, unsigned int a2)
+void FUN_00516070_shell::FUN_00516070(unsigned int a1, unsigned int a2)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(a1, a2);
     reinterpret_cast<::fnv_0048ea10::TESValueForm *>(&(m_valueStub))->FUN_0048ea10(a1, a2);

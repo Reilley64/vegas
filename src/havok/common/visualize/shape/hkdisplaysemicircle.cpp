@@ -70,11 +70,11 @@ struct Geometry
     int unk94;
     int unk98;
     int unk9c;
-    void __thiscall FUN_00de4c40(VectorArray*, void*);
+    void FUN_00de4c40(VectorArray*, void*);
 };
 // Fills a temporary array via FUN_00de4af0, then writes consecutive pairs (i, i+1) from it into destination, 2*unk9c entries, growing destination as needed.
 // @fnv 0x00de4c40
-void __thiscall Geometry::FUN_00de4c40(VectorArray* destination, void* allocator)
+void Geometry::FUN_00de4c40(VectorArray* destination, void* allocator)
 {
     VectorArray temporary = {0, 0, 0x80000000u};
     reinterpret_cast<::ArcPointsPrivate::ArcSamples_de4af0 *>(this)->FUN_00de4af0((::ArcPointsPrivate::VecArr_de4af0 *)(::VectorArray *)(&temporary));

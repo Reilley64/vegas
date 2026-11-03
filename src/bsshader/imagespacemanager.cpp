@@ -108,7 +108,7 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
 }
 
 // @fnv 0x00b8b200
-void __stdcall FUN_00b8b200(bool value)
+void FUN_00b8b200(bool value)
 {
     (*reinterpret_cast<bool *>(&::g_unk012023f0)) = value;
 }
@@ -416,7 +416,7 @@ void FUN_00b8afe0_shell::AddDoubleVision(float afDoubleVision)
 }
 
 // @fnv 0x00b8b210
-void __fastcall FUN_00b8b210(char* pThis, int, int mode)
+void FUN_00b8b210(char* pThis, int, int mode)
 {
     if (mode != *(int*)(pThis + 0x58))
     {
@@ -456,7 +456,7 @@ struct PtrTable
 };
 
 // @fnv 0x00b8b440
-void __fastcall FUN_00b8b440(char* pThis, int, bool bFlag)
+void FUN_00b8b440(char* pThis, int, bool bFlag)
 {
     PtrTable** ppTable = (PtrTable**)(pThis + 8);
     if ((*ppTable)->p00)
@@ -493,7 +493,7 @@ void __fastcall FUN_00b8b440(char* pThis, int, bool bFlag)
 
 // Sets the first three entries of the bool array at self+0x58 to true and the fourth to false.
 // @fnv 0x00b8bc20
-void __fastcall FUN_00b8bc20(char* self, int)
+void FUN_00b8bc20(char* self, int)
 {
     NiTArray<bool, NiTMallocInterface<bool> >* arr =
         reinterpret_cast<NiTArray<bool, NiTMallocInterface<bool> >*>(self + 0x58);
@@ -516,7 +516,7 @@ class D3DRenderStateGroup
 
 // Ensures the render state object exists, then sets render states 0x34, 0x38, 0x39 and 0x37 to 1, 7, 0x80 and 1.
 // @fnv 0x00b8bfe0
-void __fastcall FUN_00b8bfe0(char* pThis, int)
+void FUN_00b8bfe0(char* pThis, int)
 {
     char* pPass = *(char**)(pThis + 0x5c);
     if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
@@ -549,10 +549,10 @@ struct ShaderInitBlock_00b8c0e0
 struct Vtable_00b8c0e0
 {
     char pad0[0x13c];
-    void(__thiscall* fn_13c)(void*, ShaderInitBlock_00b8c0e0*, ShaderInitBlock_00b8c0e0*, const char*, const char*,
+    void(* fn_13c)(void*, ShaderInitBlock_00b8c0e0*, ShaderInitBlock_00b8c0e0*, const char*, const char*,
                              const char*);
     char pad1[0x14c - 0x140];
-    void(__thiscall* fn_14c)(void*);
+    void(* fn_14c)(void*);
 };
 
 struct Obj_00b8c0e0
@@ -564,7 +564,7 @@ static const char* const unused_str_order_00b8c0e0 = "TV";
 
 // Fills vertex and pixel shader init blocks with the TV shader paths, calls the vtable init with "TV", "vs_1_1", "ps_2_0", then the vtable finalize.
 // @fnv 0x00b8c0e0
-void __fastcall InitTVShader(Obj_00b8c0e0* pObj, int)
+void InitTVShader(Obj_00b8c0e0* pObj, int)
 {
     ShaderInitBlock_00b8c0e0 vsBlock;
     ShaderInitBlock_00b8c0e0 psBlock;
@@ -579,7 +579,7 @@ void __fastcall InitTVShader(Obj_00b8c0e0* pObj, int)
 }
 
 // @fnv 0x00b8b1c0
-int __stdcall FUN_00b8b1c0(int a, int b)
+int FUN_00b8b1c0(int a, int b)
 {
     return ((int)(::FUN_00b59d30((::Vec4 *)(a), (::NiPoint2 *)(b), (float *)(int *)(&b))));
 }
@@ -587,14 +587,14 @@ int __stdcall FUN_00b8b1c0(int a, int b)
 extern float DAT_012023f4;
 extern float DAT_012023f8;
 // @fnv 0x00b8b1e0
-void __stdcall FUN_00b8b1e0(const int* aiValues)
+void FUN_00b8b1e0(const int* aiValues)
 {
     *reinterpret_cast<int*>(&DAT_012023f4) = aiValues[0];
     *reinterpret_cast<int*>(&DAT_012023f8) = aiValues[1];
 }
 
 
-void __stdcall FUN_00b8b200(bool value);
+void FUN_00b8b200(bool value);
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
@@ -604,7 +604,7 @@ extern float DAT_012003d0;
 
 // Copies 0x98 bytes from the object's source pointer at 0xb0 or 0xac into offset 0x14, falling back to DAT_011ff940, then zeroes two floats.
 // @fnv 0x00b8b500
-void __fastcall FUN_00b8b500(void* thisPtr, int aiUnused)
+void FUN_00b8b500(void* thisPtr, int aiUnused)
 {
     char* pSource = *(char**)((char*)thisPtr + 0xb0);
     if (pSource)
@@ -630,11 +630,11 @@ void __fastcall FUN_00b8b500(void* thisPtr, int aiUnused)
 struct FUN_00b8bc80_shell
 {
     NiTArray<bool, NiTMallocInterface<bool> > m_aiIndexedValues;  // at offset 0x58
-    void __thiscall FUN_00b8bc80();
+    void FUN_00b8bc80();
 };
 // Sets the bool array at offset 0x58: index 0, 1 and 3 to true and index 2 to false.
 // @fnv 0x00b8bc80
-void __thiscall FUN_00b8bc80_shell::FUN_00b8bc80()
+void FUN_00b8bc80_shell::FUN_00b8bc80()
 {
     NiTArray<bool, NiTMallocInterface<bool> >* p = (NiTArray<bool, NiTMallocInterface<bool> >*)((char*)this + 0x58);
     p->SetAt(0, true);
@@ -716,16 +716,16 @@ struct FUN_00b8bf10_Desc
     int r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16;
 };
 struct FUN_00b8bf10_Obj;
-typedef void(__thiscall* FUN_00b8bf10_Add)(FUN_00b8bf10_Obj*, FUN_00b8bf10_Desc*, FUN_00b8bf10_Desc*, const char*,
+typedef void(* FUN_00b8bf10_Add)(FUN_00b8bf10_Obj*, FUN_00b8bf10_Desc*, FUN_00b8bf10_Desc*, const char*,
                                            const char*, const char*);
-typedef void(__thiscall* FUN_00b8bf10_Fin)(FUN_00b8bf10_Obj*);
+typedef void(* FUN_00b8bf10_Fin)(FUN_00b8bf10_Obj*);
 struct FUN_00b8bf10_Obj
 {
     void** vt;
 };
 // Registers the Sunbeams shader with vertex shader base.v.hlsl and pixel shader sunbeams.p.hlsl, then finalizes it.
 // @fnv 0x00b8bf10
-void __fastcall RegisterSunbeamsShader(FUN_00b8bf10_Obj* self, int unused)
+void RegisterSunbeamsShader(FUN_00b8bf10_Obj* self, int unused)
 {
     FUN_00b8bf10_Desc a;
     FUN_00b8bf10_Desc b;
@@ -777,10 +777,10 @@ struct H_00c03a20
 void __cdecl _delete(void*, unsigned int);
 struct S_00b8bd50
 {
-    void* __thiscall FUN_00b8bd50(unsigned int);
+    void* FUN_00b8bd50(unsigned int);
 };
 // @fnv 0x00b8bd50
-void* __thiscall S_00b8bd50::FUN_00b8bd50(unsigned int flags)
+void* S_00b8bd50::FUN_00b8bd50(unsigned int flags)
 {
     *(int*)this = (int)&DAT_010affc0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010affa0;
@@ -909,7 +909,7 @@ void* UnkClass::DestroyIfFlagged(unsigned int auiFlags)
 }
 
 // @fnv 0x00b8aea0
-void __fastcall FUN_00b8aea0(char* self)
+void FUN_00b8aea0(char* self)
 {
     float* p = (float*)(self + 0x14c);
     int i = 0xf;
@@ -2393,7 +2393,7 @@ static __forceinline float Dot(NiPoint3 a, NiPoint3 b)
 
 // Computes the distance between the camera position and a given point, storing the result in both elements of the output array.
 // @fnv 0x00b8bb70
-void __stdcall FUN_00b8bb70(NiPoint3* apPoint, float* out)
+void FUN_00b8bb70(NiPoint3* apPoint, float* out)
 {
     NiPoint3 g = (*reinterpret_cast<::fnv_00b8bb70::NiCamera * *>(&::DAT_011f917c))->pos;
     NiPoint3 pPoint = *apPoint;

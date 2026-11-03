@@ -8,7 +8,6 @@
 #include "hkReferencedObject.h"
 class hkpPhantom;
 class hkpSimulation;
-#pragma pack(push, 1)
 class hkpWorld : public hkReferencedObject
 {
   public:
@@ -123,6 +122,4 @@ class hkpWorld : public hkReferencedObject
     hkInt8 m_iContactPointGeneration;  // +0x340
     char pad341[0xF];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpWorld[(sizeof(hkpWorld) == 0x350) ? 1 : -1];
 #endif

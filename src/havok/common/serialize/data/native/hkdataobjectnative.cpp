@@ -51,7 +51,7 @@
 #include "fnv/symbols_00d87000.h"
 #include "fnv/symbols_00dc1000.h"
 #include "fnv/symbols_01268000.h"
-void __stdcall FUN_00dbb610(int* p)
+void FUN_00dbb610(int* p)
 {
     *p = 0;
 }
@@ -108,7 +108,7 @@ struct FUN_00dbbb20_Class
     int m_08;
     int m_0C;
     void* m_10;
-    int __thiscall FUN_00dbbb20(int a);
+    int FUN_00dbbb20(int a);
 };
 
 struct FUN_00d46f00_Class
@@ -116,18 +116,18 @@ struct FUN_00d46f00_Class
 };
 
 // @fnv 0x00dbbb20
-int __thiscall FUN_00dbbb20_Class::FUN_00dbbb20(int a)
+int FUN_00dbbb20_Class::FUN_00dbbb20(int a)
 {
     return (a < ((int)(reinterpret_cast<::FUN_00d46f00_s *>((((FUN_00d46f00_Class*)m_10)))->FUN_00d46f00()))) ? 1 : 0;
 }
 
 struct FUN_00dbbc50_Class
 {
-    int __thiscall FUN_00dbbc50(int a);
+    int FUN_00dbbc50(int a);
 };
 
 // @fnv 0x00dbbc50
-int __thiscall FUN_00dbbc50_Class::FUN_00dbbc50(int a)
+int FUN_00dbbc50_Class::FUN_00dbbc50(int a)
 {
     return *(int*)(this + 0x10) + a * *(int*)(this + 0x18);
 }
@@ -142,10 +142,10 @@ struct FUN_00dbbc60_Class
     int m_14;
     int m_18;
     int m_1c;
-    int __thiscall FUN_00dbbc60(int a);
+    int FUN_00dbbc60(int a);
 };
 // @fnv 0x00dbbc60
-int __thiscall FUN_00dbbc60_Class::FUN_00dbbc60(int aiIndex)
+int FUN_00dbbc60_Class::FUN_00dbbc60(int aiIndex)
 {
     switch (m_1c)
     {
@@ -173,14 +173,14 @@ FUN_00d873b0_t::FUN_00d873b0_t(int aiFirst, int aiSecond)
 
 struct D481D0Class
 {
-    const char* __thiscall getName();
+    const char* getName();
 };
 struct FUN_00dbb920_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    const char* __thiscall FUN_00dbb920();
+    const char* FUN_00dbb920();
 };
 // @fnv 0x00dbb920
 const char* FUN_00dbb920_Class::FUN_00dbb920()
@@ -220,11 +220,11 @@ struct hkDataClassNative
     FUN_00d46d50_s* m_0C;
     FUN_00dbb940_VirtualClass* m_10;
 
-    int __thiscall FUN_00dbb940();
+    int FUN_00dbb940();
 };
 
 // @fnv 0x00dbb940
-int __thiscall hkDataClassNative::FUN_00dbb940()
+int hkDataClassNative::FUN_00dbb940()
 {
     D481D0Class* parent = ((::fnv_00dbb940::D481D0Class *)(reinterpret_cast<::ReflectObj *>((m_0C))->FUN_00d46d50()));
 
@@ -285,12 +285,12 @@ struct FUN_00dbba80_Class
     D481D0Class* m_10;
     FUN_00dbba80_Manager* m_14;
 
-    D481D0Class* __thiscall GetNamedClass();
+    D481D0Class* GetNamedClass();
 };
 
 // If m_10 is set, looks up its name through m_14 and returns the resulting D481D0Class; otherwise returns 0.
 // @fnv 0x00dbba80
-D481D0Class* __thiscall FUN_00dbba80_Class::GetNamedClass()
+D481D0Class* FUN_00dbba80_Class::GetNamedClass()
 {
     if (m_10)
         return m_14->GetVariantValue(reinterpret_cast<::FnvClassNameNode *>((void *)(m_10))->FUN_00d46d40());
@@ -417,11 +417,11 @@ struct FUN_00dbbd70_class
     char* m_10;
     int m_14;
     int m_18;
-    __int64 __thiscall GetEntry64(int a);
+    __int64 GetEntry64(int a);
 };
 
 // @fnv 0x00dbbd70
-__int64 __thiscall FUN_00dbbd70_class::GetEntry64(int aiIndex)
+__int64 FUN_00dbbd70_class::GetEntry64(int aiIndex)
 {
     return *reinterpret_cast<__int64*>(m_10 + m_18 * aiIndex);
 }
@@ -441,8 +441,8 @@ struct FUN_00dbbfa0_Class
     int m_08;
     Container* m_0c;
 
-    void __thiscall GetMemberInfo(Shape const*, int);
-    void __thiscall FUN_00dbbfa0(int, int);
+    void GetMemberInfo(Shape const*, int);
+    void FUN_00dbbfa0(int, int);
 };
 
 // Retrieves the shape at index a from the container m_0c and passes it with b to GetMemberInfo.
@@ -483,7 +483,7 @@ struct FUN_00dbc640_allocator
     {}
     virtual void FUN_00dbc640_1()
     {}
-    virtual void __thiscall FUN_00dbc640_2(FUN_00dbc640_class* p, unsigned short size);
+    virtual void FUN_00dbc640_2(FUN_00dbc640_class* p, unsigned short size);
 };
 
 struct FUN_00dbc640_router
@@ -503,7 +503,7 @@ struct FUN_00dbc640_class
     unsigned short m_04;
 
 
-    FUN_00dbc640_class* __thiscall FUN_00dbc640(int flags);
+    FUN_00dbc640_class* FUN_00dbc640(int flags);
 };
 
 FUN_00dbc640_class* FUN_00dbc640_class::FUN_00dbc640(int flags)
@@ -549,7 +549,7 @@ struct FUN_00dbb9e0_Class
     int unk08;
     FUN_00d47080_Class* unk0c;
 
-    void __thiscall FUN_00dbb9e0();
+    void FUN_00dbb9e0();
 };
 
 // @fnv 0x00dbb9e0
@@ -579,11 +579,11 @@ struct FUN_00dbba00_Class
     int m_04;
     int m_08;
     int m_0C;
-    int __thiscall FUN_00dbba00(int param_1);
+    int FUN_00dbba00(int param_1);
 };
 
 // @fnv 0x00dbba00
-int __thiscall FUN_00dbba00_Class::FUN_00dbba00(int param_1)
+int FUN_00dbba00_Class::FUN_00dbba00(int param_1)
 {
 
     FUN_00dbba00_Class* target = *reinterpret_cast<FUN_00dbba00_Class**>(reinterpret_cast<char*>(this) + 0xC);
@@ -591,25 +591,25 @@ int __thiscall FUN_00dbba00_Class::FUN_00dbba00(int param_1)
 }
 
 // @fnv 0x00dbba40
-__int64 __stdcall FUN_00dbba40(int)
+__int64 FUN_00dbba40(int)
 {
     return 0;
 }
 
 // @fnv 0x00dc9520
-int __stdcall FUN_00dc9520(unsigned int arg0)
+int FUN_00dc9520(unsigned int arg0)
 {
     return (int)(arg0 + 1u);
 }
 
 // @fnv 0x00dbb120
-int __stdcall FUN_00dbb120(int arg0)
+int FUN_00dbb120(int arg0)
 {
     return 0;
 }
 
 // @fnv 0x00dbb130
-int __stdcall FUN_00dbb130(int a, int b)
+int FUN_00dbb130(int a, int b)
 {
     return 0;
 }
@@ -642,11 +642,11 @@ struct FUN_00dbb360_Class
     hkReferencedObject* m_0C;
     FUN_00d87790_Obj m_10;
     int m_14, m_18, m_1C, m_20, m_24;
-    FUN_00dbb360_Class* __thiscall Initialize();
+    FUN_00dbb360_Class* Initialize();
 };
 // Initializes the object's fields, resets m_10, and stores referenced objects obtained from DAT_01268b08's vf14 and vf10.
 // @fnv 0x00dbb360
-FUN_00dbb360_Class* __thiscall FUN_00dbb360_Class::Initialize()
+FUN_00dbb360_Class* FUN_00dbb360_Class::Initialize()
 {
     FUN_00d87790_Result result;
     m_06 = 1;
@@ -946,7 +946,7 @@ class hkHalf
 };
 
 // @fnv 0x00dbba20
-hkHalf __stdcall MakeZeroHalf(int a)
+hkHalf MakeZeroHalf(int a)
 {
     return hkHalf(0.0f);
 }
@@ -1500,7 +1500,7 @@ struct FUN_00c85750_Result
 
 struct FUN_00c85750_Class
 {
-    int __thiscall FUN_00c85750();
+    int FUN_00c85750();
 };
 
 class FUN_00dba490_heap
@@ -1668,14 +1668,14 @@ hkNodeRefDBB6 hkLibDBB6::FUN_00dbb620()
 
 // Returns 0.0f.
 // @fnv 0x00dbba10
-float __stdcall FUN_00dbba10(void* pArg)
+float FUN_00dbba10(void* pArg)
 {
     return 0.0f;
 }
 
 struct FUN_00d470f0_Obj
 {
-    unsigned char* __thiscall GetLastNodeFlag(unsigned char* flag);
+    unsigned char* GetLastNodeFlag(unsigned char* flag);
 };
 
 struct HKDBB50Handle
@@ -1692,7 +1692,7 @@ struct FUN_00dbba50_Obj
     int m_0C;
     FUN_00d470f0_Obj* m_10;
 
-    HKDBB50Handle* __thiscall GetHandle(HKDBB50Handle* __restrict handle);
+    HKDBB50Handle* GetHandle(HKDBB50Handle* __restrict handle);
 };
 
 // @fnv 0x00dbba50
@@ -1721,7 +1721,7 @@ struct FUN_00dbbb60_cls
     int m_08;
     int m_0c;
     int m_10;
-    void* __thiscall FUN_00dbbb60(int a, int b);
+    void* FUN_00dbbb60(int a, int b);
 };
 
 // Constructs a FUN_00d871a0 with m_0c and a, then returns the result of FUN_00d87200.
@@ -1819,7 +1819,7 @@ struct DbbOwner
 {
     int unk00;
     int unk04;
-    void __thiscall FUN_00dbb4f0(int a, int b);
+    void FUN_00dbb4f0(int a, int b);
 };
 
 static __declspec(noinline) void FUN_00dbb260(dbb::Pair* p, DbbOwner* self)
@@ -1937,7 +1937,7 @@ struct Owner680
     void FUN_00dbb680(Input680* input);
 };
 struct RawDispatch680;
-typedef void*(__thiscall* DispatchFn680)(RawDispatch680*, void*);
+typedef void*(* DispatchFn680)(RawDispatch680*, void*);
 struct DispatchTable680
 {
     DispatchFn680 q0, q1, q2, RunFourthVirtual, v4, q5, RunSeventhVirtualOperation, v7;
@@ -2445,7 +2445,7 @@ struct FUN_00dbc4d0_Class
     int m_10;
     int* m_14;
 
-    int __thiscall FUN_00dbc4d0(int name);
+    int FUN_00dbc4d0(int name);
 };
 // Looks up a member by name, extracts its value based on type, and returns a native object via FUN_00dbb260.
 // @fnv 0x00dbc4d0
@@ -2601,7 +2601,7 @@ struct Object
     Source* source;
     int d;
     Index index;
-    Record* __thiscall FUN_00dbb520(void*);
+    Record* FUN_00dbb520(void*);
 };
 // Looks up a record by key in the index, or allocates a new 20-byte record, stores the source reference, and inserts it into the index.
 // @fnv 0x00dbb520
@@ -2646,7 +2646,7 @@ struct C_dbbab0
     int m_08;
     int m_0C;
 
-    NativeMemberReferenceDBBA __thiscall FUN_00dbbab0(int param_1);
+    NativeMemberReferenceDBBA FUN_00dbbab0(int param_1);
 };
 
 // Calls FUN_00d871a0 on m_0C with param_1, then returns a NativeMemberReferenceDBBA pairing this object with param_1.

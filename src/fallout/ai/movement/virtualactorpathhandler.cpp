@@ -1263,7 +1263,7 @@ struct FUN_005c3420_shell
 {
     void* FUN_005c3420() const;
 };
-void* __fastcall FUN_00717e50(void* p);
+void* FUN_00717e50(void* p);
 
 struct FUN_009eb230_class
 {

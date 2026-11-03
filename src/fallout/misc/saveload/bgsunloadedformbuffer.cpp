@@ -64,21 +64,21 @@ typedef unsigned int SIZE_TYPE;
 
 
 // @fnv 0x00866430
-SIZE_TYPE __fastcall FUN_00866430(void* a)
+SIZE_TYPE FUN_00866430(void* a)
 {
     return ((unsigned int)(reinterpret_cast<::FUN_00864520_shell *>((*(void**)a))->FUN_00864520()));
 }
 
 struct FUN_00866450_shell
 {
-    unsigned int __thiscall GetAdjustedValue();
+    unsigned int GetAdjustedValue();
 };
 
 unsigned int __cdecl FUN_00845d70(unsigned int);
 
 // Calls FUN_00845d70 on the result of FUN_00866430 and returns that value plus 9.
 // @fnv 0x00866450
-unsigned int __thiscall FUN_00866450_shell::GetAdjustedValue()
+unsigned int FUN_00866450_shell::GetAdjustedValue()
 {
     unsigned int result = FUN_00845d70(::FUN_00866430((void *)this));
     return result + 9;

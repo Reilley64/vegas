@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShapePhantom.h"
 class hkpSimpleShapePhantomCollisionDetail;
-#pragma pack(push, 1)
 class hkpSimpleShapePhantom : public hkpShapePhantom
 {
   public:
@@ -14,6 +13,4 @@ class hkpSimpleShapePhantom : public hkpShapePhantom
     hkBool m_bOrderDirty;                                               // +0x16C
     char pad16D[0x3];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSimpleShapePhantom[(sizeof(hkpSimpleShapePhantom) == 0x170) ? 1 : -1];
 #endif

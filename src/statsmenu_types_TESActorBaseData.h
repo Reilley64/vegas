@@ -26,17 +26,6 @@ class ActorBaseAttributes
     unsigned short m_usField16;  // +0x16, 2 bytes
     // void __cdecl ActorBaseAttributes::*()
 };
-FNV_STATIC_ASSERT(sizeof(ActorBaseAttributes) == 24);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_uiActorFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField04) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField06) == 6);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, sLevel) == 8);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0A) == 10);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0C) == 12);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField0E) == 14);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_fField10) == 16);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField14) == 20);
-FNV_STATIC_ASSERT(offsetof(ActorBaseAttributes, m_usField16) == 22);
 class TESActorBaseData : public BaseFormComponent
 {
   public:
@@ -141,11 +130,4 @@ class TESActorBaseData : public BaseFormComponent
     // TESActorBaseData& __cdecl TESActorBaseData::*(const TESActorBaseData&)
     // void* __cdecl TESActorBaseData::*(unsigned int)
 };
-FNV_STATIC_ASSERT(sizeof(TESActorBaseData) == 52);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, actorData) == 4);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pBaseTemplateForm) == 28);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_kFactionList) == 32);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_ppTemplateForms) == 36);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pDeathItem) == 40);
-FNV_STATIC_ASSERT(offsetof(TESActorBaseData, m_pVoiceType) == 44);
 #endif

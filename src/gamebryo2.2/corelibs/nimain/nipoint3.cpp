@@ -27,12 +27,12 @@ struct NiPoint3
     float x;
     float y;
     float z;
-    char* __thiscall FUN_00a59af0(const char* pPrefix);
+    char* FUN_00a59af0(const char* pPrefix);
 };
 
 // Allocates a buffer sized to the prefix plus 0x40 and formats "%s = (%g,%g,%g)" from the prefix and x, y, z into it, returning the buffer.
 // @fnv 0x00a59af0
-char* __thiscall NiPoint3::FUN_00a59af0(const char* pPrefix)
+char* NiPoint3::FUN_00a59af0(const char* pPrefix)
 {
     unsigned int uiLen = strlen(pPrefix) + 0x40;
     char* pString = (char*)::FUN_00aa1070(uiLen);

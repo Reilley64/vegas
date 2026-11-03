@@ -9,7 +9,6 @@
 
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_011d5000.h"
-#pragma pack(push, 4)
 union SETTING_VALUE
 {
   public:
@@ -21,7 +20,6 @@ union SETTING_VALUE
     char c;           // +0x0
     unsigned char h;  // +0x0
 };
-#pragma pack(pop)
 
 class GameSettingCollection
 {

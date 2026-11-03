@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BigState.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -1864,7 +1865,6 @@ void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float d
 }
 
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _mm_prefetch(char const* p, int hint);
@@ -2006,7 +2006,7 @@ static inline void FreeStackD0(void* p)
 }
 // Builds handles and uncompressed AABBs for each collidable, runs the broad-phase pair update under lock, then processes new and deleted pairs.
 // @fnv 0x00d0c030
-void __stdcall UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world,
+void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world,
     PairArrayD0& newPairs, PairArrayD0& delPairs)
 {
     if (!numCollidables)
@@ -2179,11 +2179,11 @@ void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned 
 
 // Empty function body that takes three int arguments and does nothing.
 // @fnv 0x00d0bc50
-void __stdcall FUN_00d0bc50(int, int, int) {
+void FUN_00d0bc50(int, int, int) {
 }
 
 // @fnv 0x00d0bcf0
-void __stdcall FUN_00d0bcf0(int a)
+void FUN_00d0bcf0(int a)
 {
 }
 
@@ -2618,7 +2618,7 @@ struct ThisFull {
 union StepArg { Param* step; volatile unsigned int tick; };
 // Calls vcall8 on queued elements, stores the step parameters in the context, then loops items calling FUN_00d0d3f0, then FUN_00d0d8b0 and FUN_00d01650.
 // @fnv 0x00d0ef40
-void __fastcall FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg)
+void FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg)
 {
     volatile unsigned int tA;
     TickWrite<0>(DAT_010cc64c, tA);
@@ -3073,7 +3073,7 @@ struct __declspec(align(16)) S00d0c9c0_Ctx {
 
 // Iterates apEntries, builds a context struct, configures apP table offsets, calls FUN_00cfedd0, and invokes v18 on the object when m_pData changed.
 // @fnv 0x00d0c9c0
-void __stdcall FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt)
+void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt)
 {
     TimerCommandD0Write(str_010cd440);
     for (int i = 0; i < aiCount; ++i) {
@@ -3099,7 +3099,6 @@ void __stdcall FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int ai
 }
 
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -4113,7 +4112,6 @@ int S_00d0e9c0::FUN_00d0e9c0(float minTime) {
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _mm_prefetch(const char*, int);
 extern char DAT_010cd3e8[];
@@ -4455,7 +4453,7 @@ static __forceinline void Trace(unsigned char* event, unsigned char* category=0)
     }
 }
 // @fnv 0x00d0d3f0
-void __stdcall FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* marker)
+void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* marker)
 {
     if (!count) return;
     Trace((unsigned char*)&DAT_010cc624,(unsigned char*)&DAT_010cd3e8);
@@ -5511,7 +5509,6 @@ FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
 
 template<class T> class ScanPointer {T p;public:__forceinline ScanPointer(){} __forceinline ScanPointer(T q):p(q){} __forceinline void operator=(T q){p=q;} __forceinline operator T()const{return p;} __forceinline T const& val()const{return p;}};
 // Resolve an event and remove obsolete queued events.
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" __m128 _mm_setzero_ps();
 extern "C" void _ReadWriteBarrier(void);

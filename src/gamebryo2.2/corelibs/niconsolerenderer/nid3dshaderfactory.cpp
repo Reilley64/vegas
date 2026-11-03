@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.cpp: NiD3DShaderFactory, ShaderFactoryView, TMapHolder, FakeCls and more (46 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AA4610Allocator.h"
@@ -152,32 +153,32 @@ struct FUN_00e91ea0_cls
     NiConsoleRendererStub* renderer;
 };
 // @fnv 0x00e91ea0
-void __fastcall FUN_00e91ea0(FUN_00e91ea0_cls* self, int)
+void FUN_00e91ea0(FUN_00e91ea0_cls* self, int)
 {
     if (self->renderer)
         reinterpret_cast<::ConsoleRendererShaders *>((self->renderer))->FUN_00e75380();
 }
 
 // @fnv 0x00e91eb0
-unsigned int __stdcall FUN_00e91eb0(unsigned int uiVersion)
+unsigned int FUN_00e91eb0(unsigned int uiVersion)
 {
     return uiVersion & 0xFF;
 }
 
 // @fnv 0x00e91ec0
-unsigned int __stdcall MakeVersionCode(unsigned int uiMajor, unsigned int uiMinor)
+unsigned int MakeVersionCode(unsigned int uiMajor, unsigned int uiMinor)
 {
     return ((0xFFFFFF00 | uiMajor) << 8) | uiMinor;
 }
 
 // @fnv 0x00e91ee0
-unsigned int __stdcall FUN_00e91ee0(unsigned int uiVersion)
+unsigned int FUN_00e91ee0(unsigned int uiVersion)
 {
     return (uiVersion >> 8) & 0xFF;
 }
 
 // @fnv 0x00e91ef0
-unsigned int __stdcall FUN_00e91ef0(unsigned int a, unsigned int b)
+unsigned int FUN_00e91ef0(unsigned int a, unsigned int b)
 {
     return ((0xFFFFFE00 | a) << 8) | b;
 }
@@ -215,7 +216,7 @@ struct NiD3DShaderProgramFactory
 };
 
 // @fnv 0x00e91f60
-void __stdcall FUN_00e91f60(const char* pacDirectory)
+void FUN_00e91f60(const char* pacDirectory)
 {
     NiD3DShaderProgramFactory* pkFactory = ((::fnv_00e91f60::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (pkFactory)
@@ -230,7 +231,7 @@ struct NiD3DShaderProgramFactory
 
 
 // @fnv 0x00e91f80
-void __stdcall FUN_00e91f80(char* pacDirectory)
+void FUN_00e91f80(char* pacDirectory)
 {
     NiD3DShaderProgramFactory* pkFactory = ((::fnv_00e91f80::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (pkFactory)
@@ -249,18 +250,18 @@ extern int _ref_00ec408c;
 
 struct NiTMapBase
 {
-    bool __thiscall RemoveAt(char const*);
+    bool RemoveAt(char const*);
 };
 
 struct NiD3DShaderFactory_shell
 {
     NiTMapBase* m_pShaderMapStorage;
-    void __thiscall FUN_00e923f0(const char* pcName, unsigned int uiImplementation);
+    void FUN_00e923f0(const char* pcName, unsigned int uiImplementation);
 };
 
 // Builds a name from pcName and uiImplementation and removes the matching entry from the map at offset 0x28 if present.
 // @fnv 0x00e923f0
-void __thiscall NiD3DShaderFactory_shell::FUN_00e923f0(const char* pcName, unsigned int uiImplementation)
+void NiD3DShaderFactory_shell::FUN_00e923f0(const char* pcName, unsigned int uiImplementation)
 {
     char acFullName[260];
     if (*(NiTMapBase**)((char*)this + 0x28))
@@ -280,14 +281,14 @@ struct FUN_00e92460_cls
     NiTMapBaseStub* map;
 };
 // @fnv 0x00e92460
-void __fastcall FUN_00e92460(FUN_00e92460_cls* self, int)
+void FUN_00e92460(FUN_00e92460_cls* self, int)
 {
     if (self->map)
         reinterpret_cast<::S_00b601a0_Map *>((self->map))->FUN_00b601a0();
 }
 
 // @fnv 0x00e92590
-unsigned int __stdcall FUN_00e92590(unsigned int auiLeft, unsigned int auiRight)
+unsigned int FUN_00e92590(unsigned int auiLeft, unsigned int auiRight)
 {
     return auiLeft == auiRight;
 }
@@ -297,7 +298,7 @@ struct Obj_00e92690
     void Destroy();
 };
 // @fnv 0x00e92690
-Obj_00e92690* __fastcall FUN_00e92690(Obj_00e92690* self, int, unsigned int flags)
+Obj_00e92690* FUN_00e92690(Obj_00e92690* self, int, unsigned int flags)
 {
     self->Destroy();
     if (flags & 1)
@@ -311,7 +312,7 @@ struct Obj_00e92cd0
 };
 // Calls the object's cleanup method, frees it via g_memoryManager when flags has bit 0 set, and returns the object pointer.
 // @fnv 0x00e92cd0
-Obj_00e92cd0* __fastcall FUN_00e92cd0(Obj_00e92cd0* self, int, unsigned int flags)
+Obj_00e92cd0* FUN_00e92cd0(Obj_00e92cd0* self, int, unsigned int flags)
 {
     self->FUN_00e925a0();
     if (flags & 1)
@@ -539,7 +540,7 @@ public:
 };
 // Casts pkShader to NiD3DShaderInterface and returns whether it is the default shader, or false if the cast fails.
 // @fnv 0x00e92730
-bool __stdcall IsDefaultShader(class NiShader* pkShader)
+bool IsDefaultShader(class NiShader* pkShader)
 {
     if (pkShader)
     {
@@ -556,7 +557,7 @@ void __cdecl operator delete(void* p, unsigned int);
 
 struct FUN_00e92e30_shell : public NiD3DShaderFactory
 {
-    void* __thiscall DestroyShaderFactory(unsigned int flags);
+    void* DestroyShaderFactory(unsigned int flags);
 };
 
 struct GraphicsRenderer;
@@ -697,7 +698,7 @@ struct Tbl00b57f20
     void** m_aiIndexedValues;
     void AdvanceToNextEntry(Ent00b57f20** pp, int* o1, int* o2);
 };
-typedef unsigned int(__thiscall* VF00b57f20)(void*, int);
+typedef unsigned int(* VF00b57f20)(void*, int);
 // @fnv 0x00b57f20
 void Tbl00b57f20::AdvanceToNextEntry(Ent00b57f20** ppEntry, int* piFirst, int* piSecond)
 {
@@ -797,8 +798,8 @@ void FUN_00e6e630_cls::AdvanceIterator(MapItemNode** apIter, unsigned int* key, 
     *apIter = 0;
 }
 
-extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* pkSection);
-extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* pkSection);
+extern "C" void(* fnv_EnterCriticalSection)(void* pkSection);
+extern "C" void(* fnv_LeaveCriticalSection)(void* pkSection);
 
 struct E92270CriticalSection
 {
@@ -1027,8 +1028,6 @@ void ShaderFactoryShell::FUN_00e92470()
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
@@ -1163,7 +1162,6 @@ struct ShaderMap
     virtual void Dispose(unsigned int flags);
 };
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* criticalSection);
 
 struct ShaderFactoryShutdown : NiD3DShaderFactory
 {
@@ -1171,7 +1169,7 @@ struct ShaderFactoryShutdown : NiD3DShaderFactory
 };
 // Calls FUN_00e92dc0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00e92e30
-void* __thiscall FUN_00e92e30_shell::DestroyShaderFactory(unsigned int flags)
+void* FUN_00e92e30_shell::DestroyShaderFactory(unsigned int flags)
 {
     static_cast<::ShaderFactoryShutdown *>(nullptr)->FUN_00e92dc0();
     if (flags & 1)
@@ -1201,7 +1199,6 @@ void ShaderFactoryShutdown::FUN_00e92dc0()
     reinterpret_cast<::FUN_00aa05a0 *>(this)->FUN_00aa05a0::~FUN_00aa05a0();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00d47a30_class
 {
     void* m_ppVirtualMethodTable;
@@ -1359,7 +1356,6 @@ ShaderRefObject* ShaderFactoryView::GetShaderRefObject(const char* pcName) throw
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class NiRefObjE92A
 {
@@ -1683,8 +1679,6 @@ void NiD3DShaderFactory::UpdateShaderMaterialCache(void* parameter)
     }
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" char UNK_010f0b84[];
 extern "C" char UNK_010f0b20[];
 extern "C" char UNK_010f0b54[];
@@ -1809,8 +1803,6 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
 // Today's tree does not provide the CRITICAL_SECTION typedef (windows.h include is
 // dropped when merged); declare the lock functions the way the tree does and use a
 // stand-in with the 24-byte x86 CRITICAL_SECTION layout.
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct FUN_00e92330_critsec
 {
@@ -1852,7 +1844,7 @@ struct FUN_00e92330_cls
     bool FUN_00e92330(unsigned int a1);
 };
 
-typedef FUN_00e92330_item*(__thiscall* FUN_00e92330_match)(FUN_00e92330_cls*, unsigned int, unsigned int);
+typedef FUN_00e92330_item*(* FUN_00e92330_match)(FUN_00e92330_cls*, unsigned int, unsigned int);
 
 // Checks whether the collection contains the item identified by a1, using a virtual Match lookup and a Test predicate under a critical section.
 // @fnv 0x00e92330

@@ -42,11 +42,11 @@ hkDefaultBuiltinTypeRegistry* hkDefaultBuiltinTypeRegistry::Initialize()
 
 struct FUN_00d479e0_class
 {
-    void* __thiscall FUN_00d479e0(const void* key);
+    void* FUN_00d479e0(const void* key);
 };
 
 // @fnv 0x00d479e0
-void* __thiscall FUN_00d479e0_class::FUN_00d479e0(const void* key)
+void* FUN_00d479e0_class::FUN_00d479e0(const void* key)
 {
     return ((void *)(reinterpret_cast<::hkObjectD878 *>((((FUN_00d479e0_class*)((char*)this + 8))))->GetValue((int)(key), (int)(0))));
 }
@@ -99,15 +99,15 @@ void FUN_00d47aa0_s::FUN_00d47aa0(int a, const char* name)
 
 struct FUN_00d87440_Class
 {
-    int __thiscall FUN_00d87440(int);
+    int FUN_00d87440(int);
 };
 struct SlotBitmap
 {
-    int __thiscall FindNextUsedSlot(int);
+    int FindNextUsedSlot(int);
 };
 struct FUN_00d874b0_class
 {
-    char* __thiscall SetBoolFromThreshold(char*, int);
+    char* SetBoolFromThreshold(char*, int);
 };
 struct FUN_00d87410_Class
 {
@@ -127,7 +127,7 @@ void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
     while (flag)
     {
         int val = ((FUN_00d87440_Class*)reg)->FUN_00d87440(key);
-        (*(void(__thiscall**)(void*, int, int))(*(int*)this + 0x1c))(this, val, 0);
+        (*(void(**)(void*, int, int))(*(int*)this + 0x1c))(this, val, 0);
         key = ((SlotBitmap*)reg)->FindNextUsedSlot(key);
         reg->SetBoolFromThreshold(&flag, key);
     }
@@ -219,7 +219,7 @@ struct D477C0RegistryC
     virtual void registerLink(void*, D477C0Source*);
 };
 // @fnv 0x00d477c0
-void __stdcall RegisterInputSource(D477C0Input* input, D477C0Source* source)
+void RegisterInputSource(D477C0Input* input, D477C0Source* source)
 {
     D477C0RegistryA* registryA = *(D477C0RegistryA**)&DAT_01269b14;
     registryA->registerObject(source, ((int)(reinterpret_cast<::FnvClassNameNode *>((source))->FUN_00d46d40())));
@@ -306,12 +306,12 @@ struct FUN_00d47940_Obj
     int unk00;
     int unk04;
     FUN_00d47940_Registry unk08;
-    void* __thiscall FUN_00d47940(int param1, int param2);
+    void* FUN_00d47940(int param1, int param2);
 };
 
 // Looks up a result by key in the registry, and if found and it has a callback, invokes that callback with param1; returns the result.
 // @fnv 0x00d47940
-void* __thiscall FUN_00d47940_Obj::FUN_00d47940(int param1, int aKey)
+void* FUN_00d47940_Obj::FUN_00d47940(int param1, int aKey)
 {
     FUN_00d47940_Result* result = (FUN_00d47940_Result*)((void *)(reinterpret_cast<::hkObjectD878 *>(&(this->unk08))->GetValue((int)((const void*)aKey), (int)(0))));
 

@@ -49,11 +49,11 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 struct NiKeyBasedInterpolator
 {
     void* m_pVTable;
-    void __thiscall FUN_00a57010();
-    NiKeyBasedInterpolator* __thiscall FUN_00a3ca50(unsigned int flags);
+    void FUN_00a57010();
+    NiKeyBasedInterpolator* FUN_00a3ca50(unsigned int flags);
 };
 // @fnv 0x00a3ca50
-NiKeyBasedInterpolator* __thiscall NiKeyBasedInterpolator::FUN_00a3ca50(unsigned int flags)
+NiKeyBasedInterpolator* NiKeyBasedInterpolator::FUN_00a3ca50(unsigned int flags)
 {
     m_pVTable = &DAT_01097054;
     FUN_00a57010();
@@ -71,8 +71,8 @@ struct NiKeyBasedInterpolator
 // @fnv 0x00a3ca80
 AnimationKey* NiKeyBasedInterpolator::FUN_00a3ca80(unsigned int uiWhichKey, unsigned short usChannel)
 {
-    typedef unsigned char(__thiscall * FnStride)(NiKeyBasedInterpolator*, unsigned short);
-    typedef AnimationKey*(__thiscall * FnArray)(NiKeyBasedInterpolator*, unsigned short);
+    typedef unsigned char(* FnStride)(NiKeyBasedInterpolator*, unsigned short);
+    typedef AnimationKey*(* FnArray)(NiKeyBasedInterpolator*, unsigned short);
     unsigned char stride = ((FnStride)(*(void***)this)[60])(this, usChannel);
     AnimationKey* keys = ((FnArray)(*(void***)this)[59])(this, usChannel);
     return (AnimationKey*)((char*)keys + uiWhichKey * stride);

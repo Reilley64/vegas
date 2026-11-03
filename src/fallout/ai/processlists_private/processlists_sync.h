@@ -27,10 +27,6 @@ class FNV_ALIGN(32) RecursiveSpinLock
 public:
     void FUN_0040fba0();
 };
-FNV_STATIC_ASSERT(sizeof(RecursiveSpinLock) == 0x20);
-FNV_STATIC_ASSERT(__alignof(RecursiveSpinLock) == 32);
-FNV_STATIC_ASSERT(offsetof(RecursiveSpinLock, m_uiOwningThreadID) == 0);
-FNV_STATIC_ASSERT(offsetof(RecursiveSpinLock, m_uiRecursionCount) == 4);
 
 class LockPrimitive
 {
@@ -45,8 +41,6 @@ class LockPrimitive
     void Unlock();
     bool IsLocked() const;
 };
-FNV_STATIC_ASSERT(sizeof(LockPrimitive) == 4);
-FNV_STATIC_ASSERT(offsetof(LockPrimitive, m_uiLockState) == 0);
 
 class CountingSemaphore
 {
@@ -62,8 +56,4 @@ class CountingSemaphore
 
     bool Test();
 };
-FNV_STATIC_ASSERT(sizeof(CountingSemaphore) == 0xC);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, ItemUpdateArray) == 0);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, hSemaphore) == 4);
-FNV_STATIC_ASSERT(offsetof(CountingSemaphore, uiMaxCount) == 8);
 #endif

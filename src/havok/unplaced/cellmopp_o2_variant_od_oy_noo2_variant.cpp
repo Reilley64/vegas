@@ -7,6 +7,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/CCA1B0Level2.h"
 #include "fnv/decl/FUN_0049ec60.h"
 #include "fnv/decl/FUN_00507610_Class.h"
@@ -283,7 +284,7 @@ struct HC1Base
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall FUN_00ca4f40(NiStream* stream);
+    void FUN_00ca4f40(NiStream* stream);
 };
 struct Link
 {
@@ -758,7 +759,6 @@ class FUN_00ca4fd0_cls
 
     void FUN_00ca4fd0(int first, int second);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 struct RefCounted
 {
     int unk00;

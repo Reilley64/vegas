@@ -5,6 +5,7 @@
 
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00d04370_cls.h"
 #include "fnv/decl/FUN_00d04390.h"
 #include "fnv/decl/WorkerThreadPoolViewD2.h"
@@ -157,14 +158,6 @@ struct ClsD2C : VBaseD2C, ArrBaseD2C
     void FUN_00d2cf00();
 };
 
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* lpThreadAttributes, unsigned long dwStackSize,
-                                                              unsigned long(__stdcall* lpStartAddress)(void*),
-                                                              void* lpParameter, unsigned long dwCreationFlags,
-                                                              unsigned long* lpThreadId);
-extern "C" __declspec(dllimport) void __stdcall RaiseException(unsigned long dwExceptionCode,
-                                                               unsigned long dwExceptionFlags,
-                                                               unsigned long nNumberOfArguments,
-                                                               const unsigned long* lpArguments);
 extern "C" unsigned long __cdecl _exception_code(void);
 
 struct THREADNAME_INFO
@@ -187,7 +180,7 @@ struct Thr_00d87940
 // @fnv 0x00d87940
 int Thr_00d87940::FUN_00d87940(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3)
 {
-    m0 = (unsigned int)CreateThread(0, a3, (unsigned long(__stdcall*)(void*))a0, (void*)a1, 0, &a1);
+    m0 = (unsigned int)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &a1);
     if (m0 == 0)
     {
         return 1;

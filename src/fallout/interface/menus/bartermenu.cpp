@@ -132,11 +132,11 @@
 #include "fnv/symbols_011de000.h"
 struct FUN_0072d030_shell
 {
-    int __thiscall FUN_0072d030();
+    int FUN_0072d030();
 };
 
 // @fnv 0x0072d030
-int __thiscall FUN_0072d030_shell::FUN_0072d030()
+int FUN_0072d030_shell::FUN_0072d030()
 {
     return 0x41d;
 }
@@ -158,7 +158,7 @@ void __cdecl FUN_0072db40()
 
 struct FUN_0072dc30_shell
 {
-    void __thiscall RebuildInventoryLists(int);
+    void RebuildInventoryLists(int);
 };
 
 extern unsigned char DAT_011d8fc0;
@@ -183,18 +183,18 @@ void __cdecl FUN_00730690(bool abNow)
 
 struct BarterMenu
 {
-    void* __thiscall FUN_0072d070(unsigned int flags);
-    void __thiscall FUN_0072d0a0();
+    void* FUN_0072d070(unsigned int flags);
+    void FUN_0072d0a0();
 };
 
 namespace fnv_0072e530 {
 struct Tile
 {
-    void __thiscall Set(int, int);
+    void Set(int, int);
 };
 struct BarterMenu
 {
-    void __thiscall FUN_0072e530(int, Tile*);
+    void FUN_0072e530(int, Tile*);
 };
 // Calls Set(0xfa3, 0) on the Tile objects at offsets 0x7c and 0x78 of this BarterMenu.
 // @fnv 0x0072e530
@@ -2444,7 +2444,7 @@ struct Self72
     ListObj* m_108;
     NodeS m_10c;
     NodeS m_114;
-    void __thiscall RebuildInventoryLists(int arg);
+    void RebuildInventoryLists(int arg);
 };
 // @fnv 0x0072d770
 void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
@@ -3073,7 +3073,7 @@ bool FUN_0072f4b0_cls::HandleAction(int aiAction, int aiUnused)
 }
 // Rebuilds the m_a8/m_d8 lists from the player and data handler for the given form, then selects and activates m_108 and calls FUN_0072db60.
 // @fnv 0x0072dc30
-void __thiscall Self72::RebuildInventoryLists(int arg)
+void Self72::RebuildInventoryLists(int arg)
 {
     long i = 0;
     if (m_108 != 0)

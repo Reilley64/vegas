@@ -76,6 +76,6 @@ extern char* DAT_011a2224;
 
 extern "C" unsigned int __cdecl strlen(const char* string);
 extern "C" void* __cdecl fnv_zlib_memset(void* destination, int value, unsigned int size);
-extern "C" void __fastcall __security_check_cookie(unsigned int cookie);
+extern "C" void __security_check_cookie(unsigned int cookie);
 
 #endif

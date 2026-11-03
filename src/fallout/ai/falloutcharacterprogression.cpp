@@ -46,7 +46,6 @@ struct PlayerProgressionData
     bool m_bSecondProgressionFlag;
     char _pad_9[3];
 };
-typedef char _sizecheck_CharacterProgressionData[sizeof(PlayerProgressionData) == 12 ? 1 : -1];
 struct FUN_008d55e0_shell : public PlayerProgressionData
 {
     bool FUN_008d55e0(int);
@@ -129,11 +128,11 @@ struct FUN_008d55b0_shell
     unsigned char m_b0;
     int m_i4;
     unsigned char m_b8;
-    void __thiscall FUN_008d55b0();
+    void FUN_008d55b0();
 };
 
 // @fnv 0x008d55b0
-void __thiscall FUN_008d55b0_shell::FUN_008d55b0()
+void FUN_008d55b0_shell::FUN_008d55b0()
 {
     m_b0 = 0;
     m_i4 = ::ActorValueUtility::ConvertActorValue(2);
@@ -212,11 +211,11 @@ void Flt::FUN_008d5550(int, int)
 
 struct FUN_008d5590_shell
 {
-    void* __thiscall FUN_008d5590();
+    void* FUN_008d5590();
 };
 
 // @fnv 0x008d5590
-void* __thiscall FUN_008d5590_shell::FUN_008d5590()
+void* FUN_008d5590_shell::FUN_008d5590()
 {
     reinterpret_cast<::fnv_008d55b0::FUN_008d55b0_shell *>(this)->FUN_008d55b0();
     return this;

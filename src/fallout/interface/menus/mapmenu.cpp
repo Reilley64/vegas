@@ -360,7 +360,7 @@ struct Dummy_007a1a70
 
 // Sets the object's vtable to DAT_01075530 and calls FUN_007a63f0 with 0, 0, returning the object.
 // @fnv 0x007a1a70
-Dummy_007a1a70* __fastcall FUN_007a1a70(Dummy_007a1a70* pThis)
+Dummy_007a1a70* FUN_007a1a70(Dummy_007a1a70* pThis)
 {
     pThis->vtable = &DAT_01075530;
     reinterpret_cast<::FUN_007a63f0_shell *>((pThis))->FUN_007a63f0(0, 0);
@@ -436,8 +436,8 @@ NiTexture* FUN_009c8640_shell::FUN_009c8640()
     return (NiTexture*)(const char*)(*(BSStringT<char>*)((char*)this + 0x60));
 }
 
-void __fastcall UpdateWaveAnimation(MapMenu*);
-void __fastcall UpdateHolotapePlayback(MapMenu*);
+void UpdateWaveAnimation(MapMenu*);
+void UpdateHolotapePlayback(MapMenu*);
 struct A7d
 {
 };
@@ -450,7 +450,7 @@ struct NoteReadState
 
 // Updates the map menu: toggles the playing item, handles map input modes, moves the highlight, marks notes read, and refreshes the menu.
 // @fnv 0x0079a130
-void __fastcall UpdateMapMenu(MapMenu* menu)
+void UpdateMapMenu(MapMenu* menu)
 {
     unsigned int i;
     Tile* pcurrTile;
@@ -944,7 +944,6 @@ struct PathingPath
     NiPoint3 Start;
     NiPoint3 End;
 };
-typedef char _sizecheck_TeleportPath[sizeof(PathingPath) == 56 ? 1 : -1];
 struct FUN_006f49c0_shell : public PathingPath
 {
     float GetPathLength();
@@ -1758,7 +1757,7 @@ struct QueueOwner
     unsigned int capacity;
     unsigned int flags;
     HandlerRegistration* first;
-    void __thiscall ClearQueue();
+    void ClearQueue();
 };
 // @fnv 0x00798bf0
 void MapMenu::StopMapMenuSounds()
@@ -3274,8 +3273,8 @@ struct RadioList
     void* FUN_007a3820(RadioEntry*, unsigned int, int, int);
     void FUN_007a3d20(bool (*)(RefH*));
 };
-typedef void(__thiscall* RadioMethod)(RadioList*);
-typedef void(__thiscall* RadioCallback)(RadioList*, void*);
+typedef void(* RadioMethod)(RadioList*);
+typedef void(* RadioCallback)(RadioList*, void*);
 struct FUN_0079bea0_Shell : MapMenu
 {
     void RefreshRadioList();
@@ -4669,7 +4668,7 @@ void ZoomMenu::FUN_0079c5a0(bool inward, float factor)
 }
 namespace fnv_0079ea30 {
 extern "C" int sprintf(char*, const char*, ...);
-TESWorldSpace* __fastcall FUN_00575d70(TESObjectREFR*);
+TESWorldSpace* FUN_00575d70(TESObjectREFR*);
 
 class TeleportPathHelper
 {

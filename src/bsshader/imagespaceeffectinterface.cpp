@@ -2,6 +2,7 @@
 // src/bsshader/imagespaceeffectinterface.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectinterface.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/BBA3C00Shader.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -14,7 +15,6 @@
 #include "fnv/symbols_011ae000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01200000.h"
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 struct MemoryManagerStandIn
 {

@@ -1,5 +1,6 @@
 // bsshader/distantlodshader.cpp: DistantLODShader, BSShaderStandin, RSShader, LodCompiler (13 functions)
 
+#include <windows.h>
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00be1750_shell.h"
@@ -120,7 +121,7 @@ struct LodShaderBase
 };
 // Releases the objects in setA when field28 is set, releases the objects in setB, then calls FUN_00e814b0 on the shader.
 // @fnv 0x00bd4ed0
-void __fastcall ReleaseLodObjects(LodShaderBase* shader, int)
+void ReleaseLodObjects(LodShaderBase* shader, int)
 {
     int i;
     if (shader->field28)
@@ -150,11 +151,11 @@ void* __cdecl FUN_00bd5460()
 
 struct FUN_00bd5470_shell
 {
-    void __thiscall FUN_00bd5470(int a, char b);
+    void FUN_00bd5470(int a, char b);
 };
 
 // @fnv 0x00bd5470
-void __thiscall FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
+void FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
 {
     *reinterpret_cast<int*>(this + 0x74) = a;
     *reinterpret_cast<char*>(this + 0x78) = b;
@@ -162,8 +163,8 @@ void __thiscall FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
 
 struct S_00bd58f0
 {
-    void __thiscall FUN_00bd5330();
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void FUN_00bd5330();
+    void* DestroyIfFlagged(unsigned int);
 };
 struct NiRenderer;
 
@@ -384,7 +385,7 @@ public:
 
 struct FUN_00bd5a40_shell
 {
-    bool __thiscall FUN_00bd5a40();
+    bool FUN_00bd5a40();
 };
 
 struct BSShaderStandin
@@ -534,7 +535,7 @@ struct FUN_00bd5330 : FUN_00be0f10
 };
 // Calls FUN_00bd5330, then if bit 0 of flags is set deletes this with size 0x100, and returns this.
 // @fnv 0x00bd58f0
-void* __thiscall S_00bd58f0::DestroyIfFlagged(unsigned int flags)
+void* S_00bd58f0::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00bd5330 *>(this)->FUN_00bd5330::~FUN_00bd5330();
     if (flags & 1)
@@ -567,8 +568,6 @@ FUN_00bd5330::~FUN_00bd5330()
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM_011f6238 *>(&::g_memoryManager))))->FUN_00aa4060(allocated);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* apValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* apValue);
 
 struct RSRefObject
 {

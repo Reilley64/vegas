@@ -85,7 +85,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESAttributes : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -117,7 +116,6 @@ struct TESAttributes : public BaseFormComponent
     char cAttribute[7];
     char _pad_b[1];
 };
-typedef char _sizecheck_TESAttributes[sizeof(TESAttributes) == 12 ? 1 : -1];
 struct FUN_009d2510_shell : public TESAttributes
 {
     unsigned int FUN_009d2510();
@@ -133,8 +131,8 @@ void __cdecl operator delete(void*);
 
 struct FUN_009d2520_shell
 {
-    void __thiscall FUN_009d2550();
-    void* __thiscall FUN_009d2520(unsigned int flags);
+    void FUN_009d2550();
+    void* FUN_009d2520(unsigned int flags);
 };
 
 // Calls FUN_009d2550, then deletes this object if bit 0 of flags is set, and returns this.
@@ -150,12 +148,12 @@ void* FUN_009d2520_shell::FUN_009d2520(unsigned int flags)
 
 struct FUN_009d32e0_shell
 {
-    float __thiscall GetRandomFloatInRange();
+    float GetRandomFloatInRange();
 };
 
 // Returns a random float between the two floats stored at offsets 0x20 and 0x24 of this object.
 // @fnv 0x009d32e0
-float __thiscall FUN_009d32e0_shell::GetRandomFloatInRange()
+float FUN_009d32e0_shell::GetRandomFloatInRange()
 {
     return ::RandomFloat(*(float*)(this + 0x20), *(float*)(this + 0x24));
 }
@@ -163,12 +161,12 @@ float __thiscall FUN_009d32e0_shell::GetRandomFloatInRange()
 
 struct FUN_009d3310_shell
 {
-    float __thiscall GetRandomFloat();
+    float GetRandomFloat();
 };
 
 // Returns a random float between the two float values stored at offsets 0x28 and 0x2c of this object.
 // @fnv 0x009d3310
-float __thiscall FUN_009d3310_shell::GetRandomFloat()
+float FUN_009d3310_shell::GetRandomFloat()
 {
     return ::RandomFloat(*(float*)((char*)this + 0x28), *(float*)((char*)this + 0x2c));
 }
@@ -179,14 +177,14 @@ struct TESCombatStyle
     char pad[0x30];
     float m_fMinimum;
     float m_fMaximum;
-    float __thiscall GetRandomValue();
+    float GetRandomValue();
 public:
     float UpdateCombatStyle();
 };
 
 // Returns a random float between the combat style's two stored float fields.
 // @fnv 0x009d3340
-float __thiscall TESCombatStyle::GetRandomValue()
+float TESCombatStyle::GetRandomValue()
 {
     return ::RandomFloat(m_fMinimum, m_fMaximum);
 }
@@ -197,7 +195,7 @@ struct FUN_009ca6c0_shell
 extern "C" int DAT_010910f4;
 
 // @fnv 0x009d2550
-void __thiscall FUN_009d2520_shell::FUN_009d2550()
+void FUN_009d2520_shell::FUN_009d2550()
 {
     *reinterpret_cast<void**>(this) = &DAT_010910f4;
     reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();

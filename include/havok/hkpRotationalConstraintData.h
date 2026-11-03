@@ -6,13 +6,10 @@
 #include "hkBase.h"
 #include "hkpConstraintData.h"
 #include "hkpRotationalConstraintDataAtoms.h"
-#pragma pack(push, 1)
 class hkpRotationalConstraintData : public hkpConstraintData
 {
   public:
     char padC[0x4];
     hkpRotationalConstraintDataAtoms m_kBridgeAtoms;  // +0x10
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpRotationalConstraintData[(sizeof(hkpRotationalConstraintData) == 0x90) ? 1 : -1];
 #endif

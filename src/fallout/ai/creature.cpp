@@ -40,7 +40,7 @@ void Creature::LoadGame(BGSLoadFormBuffer* buffer)
 float Creature::CalculateRunSpeed()
 {
     float fRunSpeed = 0.0f;
-    typedef bool(__thiscall * IsOverencumberedFn)(Creature*);
+    typedef bool(* IsOverencumberedFn)(Creature*);
     if (!((IsOverencumberedFn)(*(void***)(this))[214])(this))
         fRunSpeed = actorValues.GetCurrentActorValue(21) * 1.1 * Creature::GetAnimationSpeedMultiplier(kAnimGroupRun);
     return fRunSpeed;
@@ -51,7 +51,7 @@ float Creature::GetAnimationSpeedMultiplier(ANIM_GROUP_ENUM group)
 {
     if (!((CreatureAnimationAccess*)this)->GetAnimData())
         return 32.0f;
-    typedef unsigned short (__thiscall Actor::*GroupFn)(ANIM_GROUP_ENUM, InventoryStackRecord*);
+    typedef unsigned short (Actor::*GroupFn)(ANIM_GROUP_ENUM, InventoryStackRecord*);
     unsigned short animGroup =
         (this->*reinterpret_cast<GroupFn>(&Actor::GetAnimGroup))(group, pAnimData->GetWeaponInfo(1, 0));
     return reinterpret_cast<::FUN_00494300_shell *>((((CreatureAnimationAccess*)this)->GetAnimData()))->FUN_00494300(animGroup);
@@ -113,7 +113,7 @@ FUN_008d4500::FUN_008d4500(bool abUnk) : FUN_0087d4a0(abUnk)
 }
 
 // @fnv 0x008d44b0
-unsigned char __fastcall GetByteAtOffset1B4(void* thisPtr)
+unsigned char GetByteAtOffset1B4(void* thisPtr)
 {
     return *(unsigned char*)((char*)thisPtr + 0x1b4);
 }
@@ -769,7 +769,7 @@ void FUN_008c50f0_shell::ApplyModifier(bool abEnabled, float afModifier)
         b = false;
     }
 
-    typedef void*(__thiscall * VFunc_1d0)(void*);
+    typedef void*(* VFunc_1d0)(void*);
     ::FUN_00b68770((::NiAVObject_b68770 *)(void *)(((VFunc_1d0)(*(void***)this)[0x1d0 / 4])(this)), b, f, 0, 0.0f, 0);
 
     val = ((::fnv_008c50f0::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0()));
@@ -815,7 +815,7 @@ float FUN_008d4cc0_shell::FUN_008d4cc0()
     int f = 0x12;
     float temp = ((FUN_0087d880_class*)this)->FUN_0087d880();
     bool b = false;
-    typedef float(__thiscall * VFunc_48c)(void*, int, bool*);
+    typedef float(* VFunc_48c)(void*, int, bool*);
     float val = ((VFunc_48c)(*(void***)this)[0x48c / 4])(this, f, &b);
     if (b)
     {
@@ -862,7 +862,7 @@ float FUN_008d4db0_shell::FUN_008d4db0()
     int f = 0x4c;
     float temp = reinterpret_cast<::FUN_0087d880_class *>((((FUN_0087d880_class*)this)))->FUN_0087d880();
     bool b = false;
-    typedef float(__thiscall * VFunc_48c)(void*, int, bool*);
+    typedef float(* VFunc_48c)(void*, int, bool*);
     float val = ((VFunc_48c)(*(void***)this)[0x48c / 4])(this, f, &b);
     if (b)
     {

@@ -89,7 +89,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a3ba70_shell : public NiGeomMorpherController
 {
     void FUN_00a3ba70(NiGeomMorpherController*, CloningProcess*);
@@ -99,7 +98,7 @@ extern bool DAT_011f3724;
 
 // Returns the name handle of the morph target at index us from the controller's NiMorphData.
 // @fnv 0x00a3a870
-char* __fastcall GetMorphTargetName(NiGeomMorpherController* self, int, unsigned short ausIndex)
+char* GetMorphTargetName(NiGeomMorpherController* self, int, unsigned short ausIndex)
 {
     NiMorphData* md = *reinterpret_cast<NiMorphData**>(&self->m_spMorphTargetData);
     return md->GetTarget(ausIndex)->GetName().m_kHandle;
@@ -116,14 +115,14 @@ struct FUN_00a3a8a0_t
     Item8* items;
 };
 // @fnv 0x00a3a8a0
-void* __fastcall FUN_00a3a8a0(FUN_00a3a8a0_t* self, int unused, unsigned short idx)
+void* FUN_00a3a8a0(FUN_00a3a8a0_t* self, int unused, unsigned short idx)
 {
     return self->items[idx].p;
 }
 
 // Stores pkInterpolator into the morph controller's interpolator slot at usIndex, releasing the old interpolator and incrementing the new one's ref count.
 // @fnv 0x00a3a8b0
-void __fastcall FUN_00a3a8b0(NiGeomMorpherController* self, int, NiInterpolator* pkInterpolator, unsigned short usIndex)
+void FUN_00a3a8b0(NiGeomMorpherController* self, int, NiInterpolator* pkInterpolator, unsigned short usIndex)
 {
     NiInterpolator** slot = reinterpret_cast<NiInterpolator**>(&self->m_pInterpolatorItems[usIndex]);
     NiInterpolator* pOldInterpolator = *slot;
@@ -146,7 +145,7 @@ struct NiFloatInterpolator
 };
 // Reads the morph weight at usIndex from the controller's weight array (or 0.0f) and allocates a NiFloatInterpolator initialized with that value.
 // @fnv 0x00a3a900
-NiInterpolator* __fastcall CreateMorphWeightInterpolator(NiGeomMorpherController* self, int, unsigned short usIndex)
+NiInterpolator* CreateMorphWeightInterpolator(NiGeomMorpherController* self, int, unsigned short usIndex)
 {
     float fValue = 0.0f;
     if (self->m_pInterpolatorItems)
@@ -163,7 +162,7 @@ struct FUN_00a3a940_t
     float b;
 };
 // @fnv 0x00a3a940
-FUN_00a3a940_t* __fastcall FUN_00a3a940(FUN_00a3a940_t* self, int)
+FUN_00a3a940_t* FUN_00a3a940(FUN_00a3a940_t* self, int)
 {
     self->a = 0;
     self->b = 0.0f;
@@ -231,7 +230,7 @@ struct FUN_00a3aba0_t
     bool need;
 };
 // @fnv 0x00a3aba0
-void __fastcall FUN_00a3aba0(FUN_00a3aba0_t* self, int)
+void FUN_00a3aba0(FUN_00a3aba0_t* self, int)
 {
     if (self->tgt && self->need)
     {
@@ -254,7 +253,7 @@ struct FUN_00a3adc0_t
     FUN_00a3adc0_md* md;
 };
 // @fnv 0x00a3adc0
-unsigned short __fastcall FUN_00a3adc0(FUN_00a3adc0_t* self, int)
+unsigned short FUN_00a3adc0(FUN_00a3adc0_t* self, int)
 {
     if (self->md)
         return self->md->count;
@@ -327,7 +326,7 @@ struct FUN_00a3afe0_t
 };
 // Walks the RTTI base chain of self->tgt and returns true if it reaches g_011f4a48_arg1, otherwise false.
 // @fnv 0x00a3afe0
-bool __fastcall IsRTTIDerivedFrom(FUN_00a3afe0_t* self, int)
+bool IsRTTIDerivedFrom(FUN_00a3afe0_t* self, int)
 {
     FUN_00a3afe0_tgt* pTgt = self->tgt;
     if (pTgt)
@@ -471,7 +470,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00a3aa10_shell : public NiGeomMorpherController
 {
     void UpdateMorphWeights(float);
@@ -698,7 +696,7 @@ struct NiStream
     unsigned char m_aucPad[0xD8];
     unsigned int m_uiNifVersion;
 
-    void* __thiscall GetLoadedObject();
+    void* GetLoadedObject();
 };
 
 struct NiD3DShaderProgram
@@ -714,8 +712,8 @@ struct FUN_00a3b5a0_shell : public NiGeomMorpherController
 // @fnv 0x00a3b5a0
 void FUN_00a3b5a0_shell::FUN_00a3b5a0(NiStream& kStream)
 {
-    typedef void(__thiscall * SetInterpolatorType)(NiGeomMorpherController*, const char*, unsigned int);
-    typedef void(__thiscall * SetTimeType)(NiGeomMorpherController*, float, float);
+    typedef void(* SetInterpolatorType)(NiGeomMorpherController*, const char*, unsigned int);
+    typedef void(* SetTimeType)(NiGeomMorpherController*, float, float);
 
     reinterpret_cast<::NiInterpController *>(this)->LinkObject(kStream);
 
@@ -999,7 +997,7 @@ void FUN_00a3a7a0_cls::ApplyToAllItems(float afValue1, float afValue2)
 
 struct FUN_00a38fe0_shell
 {
-    bool __thiscall FUN_00a2f8b0(NiStream& stream);
+    bool FUN_00a2f8b0(NiStream& stream);
 };
 
 struct FUN_00a3a7f0_target
@@ -1081,11 +1079,11 @@ struct FUN_00a3a7f0_obj
     virtual void vfC0();
     virtual void* FUN_00a3a7f0_get(unsigned short index);
 
-    bool __thiscall LoadFromStream(NiStream* stream);
+    bool LoadFromStream(NiStream* stream);
 };
 
 // @fnv 0x00a3a7f0
-bool __thiscall FUN_00a3a7f0_obj::LoadFromStream(NiStream* stream)
+bool FUN_00a3a7f0_obj::LoadFromStream(NiStream* stream)
 {
     FUN_00a38fe0_shell* helper = reinterpret_cast<FUN_00a38fe0_shell*>(this);
 

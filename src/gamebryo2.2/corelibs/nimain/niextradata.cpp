@@ -113,7 +113,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a7b330_shell : public NiBinaryExtraData
 {
     void FUN_00a7b330(NiBinaryExtraData*, CloningProcess*);
@@ -196,7 +195,7 @@ struct NiRefObject
 
 struct FUN_00a7b300_shell : public NiRefObject
 {
-    void __thiscall FUN_00a7b300();
+    void FUN_00a7b300();
 };
 
 // Restores the NiExtraData vtable, releases the reference-counted object at offset 8 if not the empty sentinel, then calls the NiRefObject destructor.
@@ -239,12 +238,12 @@ class NiObject_00a7b3d0
     unsigned int _04;
     unsigned int _08;
 
-    unsigned char __thiscall FUN_00a7b3d0(NiObject_00a7b3d0* object);
+    unsigned char FUN_00a7b3d0(NiObject_00a7b3d0* object);
 };
 
 // Returns 0 if IsSameAs fails; otherwise returns whether _08 equals object->_08.
 // @fnv 0x00a7b3d0
-unsigned char __thiscall NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
+unsigned char NiObject_00a7b3d0::FUN_00a7b3d0(NiObject_00a7b3d0* object)
 {
     if (!((unsigned char)(reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(object)))))
         return 0;

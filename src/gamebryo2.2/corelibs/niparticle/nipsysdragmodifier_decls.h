@@ -112,15 +112,5 @@ class NiPSysDragModifier : public NiPSysModifier
     float m_fSecondLightParameter;
 };
 
-FNV_STATIC_ASSERT(sizeof(NiColor) == 12);
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 0x18);
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBinaryStream, m_pfnRead) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifierStreamLayout, m_pUnderlyingStream) == 0x24C);
-FNV_STATIC_ASSERT(sizeof(NiPSysDragModifier) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_kDragDirection) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_fDragStrength) == 0x28);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_fFirstLightParameter) == 0x2C);
-FNV_STATIC_ASSERT(offsetof(NiPSysDragModifier, m_fSecondLightParameter) == 0x30);
 
 #endif

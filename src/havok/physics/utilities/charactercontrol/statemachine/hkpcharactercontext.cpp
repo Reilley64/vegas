@@ -28,10 +28,10 @@ void FUN_00ca95e0_class::FUN_00ca95e0()
 
 struct FUN_00ca9670_cls
 {
-    void __thiscall FUN_00ca9670(float a, float b, float c);
+    void FUN_00ca9670(float a, float b, float c);
 };
 // @fnv 0x00ca9670
-void __thiscall FUN_00ca9670_cls::FUN_00ca9670(float a, float b, float c)
+void FUN_00ca9670_cls::FUN_00ca9670(float a, float b, float c)
 {
     *(float*)((char*)this + 0x24) = a;
     *(float*)((char*)this + 0x20) = b;
@@ -112,7 +112,7 @@ hkpCharacterContext* hkpCharacterContext::Initialize(void* arg0, int arg1)
 }
 
 // @fnv 0x00ca9600
-int __fastcall FUN_00ca9600(char* object)
+int FUN_00ca9600(char* object)
 {
     return *reinterpret_cast<int*>(object + 0x10);
 }

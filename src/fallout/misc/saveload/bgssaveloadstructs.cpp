@@ -68,7 +68,7 @@ struct FUN_00853dc0_shell
 };
 
 // @fnv 0x00853dc0
-int __thiscall FUN_00853dc0_shell::GetDifference()
+int FUN_00853dc0_shell::GetDifference()
 {
     return *(int*)((char*)this + 0xc) - *(int*)((char*)this + 0x10);
 }
@@ -79,22 +79,22 @@ struct FUN_008547f0_shell
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    int __thiscall GetSum();
+    int GetSum();
 };
 
 // @fnv 0x008547f0
-int __thiscall FUN_008547f0_shell::GetSum()
+int FUN_008547f0_shell::GetSum()
 {
     return m_kPointA + m_kPointB + m_iThirdValue;
 }
 
 struct FUN_00854810_shell
 {
-    int __thiscall GetSumOfFields();
+    int GetSumOfFields();
 };
 
 // @fnv 0x00854810
-int __thiscall FUN_00854810_shell::GetSumOfFields()
+int FUN_00854810_shell::GetSumOfFields()
 {
     return ((int*)this)[0x41] + ((int*)this)[0x42];
 }
@@ -112,7 +112,7 @@ struct FUN_00854880_shell
 
 // Increments a counter, adds a, b and c to three running totals, and tracks the minimum and maximum of their sum.
 // @fnv 0x00854880
-void __thiscall FUN_00854880_shell::AccumulateStats(unsigned int auiValueA, unsigned int auiValueB,
+void FUN_00854880_shell::AccumulateStats(unsigned int auiValueA, unsigned int auiValueB,
                                                     unsigned int auiValueC)
 {
     this->m_iElementCount = this->m_iElementCount + 1;
@@ -145,7 +145,7 @@ extern int DAT_011a2428[];
 
 // Masks the low 6 bits of the first byte and returns the entry at that index from DAT_011a2428.
 // @fnv 0x00853640
-int __fastcall FUN_00853640(unsigned char* pData)
+int FUN_00853640(unsigned char* pData)
 {
     unsigned char v = pData[0] & 0x3f;
     return DAT_011a2428[v];
@@ -188,14 +188,14 @@ FUN_00854830_shell::FUN_00854830_shell()
     m_14 = 0;
 }
 
-int __fastcall FUN_00853640(unsigned char* param_1);
+int FUN_00853640(unsigned char* param_1);
 struct FUN_00849220_shell
 {
     unsigned char* p;
-    int __thiscall FUN_00849220();
+    int FUN_00849220();
 };
 // @fnv 0x00849220
-int __thiscall FUN_00849220_shell::FUN_00849220()
+int FUN_00849220_shell::FUN_00849220()
 {
     return FUN_00853640(p);
 }
@@ -242,12 +242,12 @@ void FUN_008535e0()
 struct FUN_00853670_shell
 {
     unsigned char m0;
-    void __thiscall FUN_00853670(int);
+    void FUN_00853670(int);
 };
 extern unsigned char DAT_011de360[];
 extern unsigned int DAT_011de3e0;
 // @fnv 0x00853670
-void __thiscall FUN_00853670_shell::FUN_00853670(int formType)
+void FUN_00853670_shell::FUN_00853670(int formType)
 {
     unsigned char type = DAT_011de360[formType];
     if (type >= DAT_011de3e0)
@@ -261,8 +261,8 @@ void __thiscall FUN_00853670_shell::FUN_00853670(int formType)
 void __cdecl operator delete(void*);
 struct FUN_00853880_shell
 {
-    void __thiscall FUN_008538b0();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_008538b0();
+    void* Destroy(unsigned int flags);
 };
 struct Dummy008539e0
 {
@@ -286,10 +286,10 @@ void FUN_008539e0_holder::FUN_008539e0()
 
 struct FUN_00854920_shell : FUN_00854900_shell
 {
-    float __thiscall GetRatio();
+    float GetRatio();
 };
 // @fnv 0x00854920
-float __thiscall FUN_00854920_shell::GetRatio()
+float FUN_00854920_shell::GetRatio()
 {
     return (float)((double)(unsigned int)FUN_00854900() / (double)(unsigned int)m_00);
 }
@@ -485,7 +485,7 @@ struct TESQuest
 
 struct TESTopicInfo : TESForm
 {
-    TESQuest* __thiscall GetParentQuest();
+    TESQuest* GetParentQuest();
 };
 
 struct TESFullName
@@ -508,11 +508,11 @@ struct FormNameEntry
     TESForm* pForm;
     unsigned int m_18;
 
-    void __thiscall BuildFormName(char* apName, unsigned int aiNameSize);
+    void BuildFormName(char* apName, unsigned int aiNameSize);
 };
 
 // @fnv 0x008536d0
-void __thiscall FormNameEntry::BuildFormName(char* apName, unsigned int aiNameSize)
+void FormNameEntry::BuildFormName(char* apName, unsigned int aiNameSize)
 {
     TESObjectREFR* pRefr;
     TESTopicInfo* pTopicInfo;
@@ -583,12 +583,12 @@ struct FUN_00854af0
 
 struct FUN_008549b0_shell
 {
-    void __thiscall FUN_008549b0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    void FUN_008549b0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                                  unsigned int, unsigned char);
 };
 
 // @fnv 0x008549b0
-void __thiscall FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned int uiKey, unsigned int p3,
+void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned int uiKey, unsigned int p3,
                                                  unsigned int p4, unsigned int p5, unsigned int p6, unsigned char p7)
 {
     FUN_00854af0* form = new FUN_00854af0();
@@ -671,7 +671,7 @@ struct FUN_008538b0 : MapBase
 };
 // Calls FUN_008538b0, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00853880
-void* __thiscall FUN_00853880_shell::Destroy(unsigned int flags)
+void* FUN_00853880_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_008538b0 *>(this)->FUN_008538b0::~FUN_008538b0();
     if (flags & 1)

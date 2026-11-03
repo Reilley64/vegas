@@ -48,11 +48,11 @@ void FUN_006e4360_class::SetByteAtOffsetCD(char acValue)
 
 struct FUN_006e4380_Class
 {
-    void __thiscall SetFlagCE(bool value);
+    void SetFlagCE(bool value);
 };
 
 // @fnv 0x006e4380
-void __thiscall FUN_006e4380_Class::SetFlagCE(bool value)
+void FUN_006e4380_Class::SetFlagCE(bool value)
 {
     *(char*)((char*)this + 0xce) = (char)value;
 }
@@ -70,11 +70,11 @@ void FUN_006e43a0_class::FUN_006e43a0(int b)
 
 struct FUN_006e43c0_class
 {
-    void __thiscall SetByteAtOffsetD0(char param);
+    void SetByteAtOffsetD0(char param);
 };
 
 // @fnv 0x006e43c0
-void __thiscall FUN_006e43c0_class::SetByteAtOffsetD0(char acValue)
+void FUN_006e43c0_class::SetByteAtOffsetD0(char acValue)
 {
     *(char*)((char*)this + 0xd0) = acValue;
 }

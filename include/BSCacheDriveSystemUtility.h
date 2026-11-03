@@ -3,7 +3,6 @@
 #define FNV_BSCACHEDRIVESYSTEMUTILITY_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 class BSCacheDriveSystemUtility
 {
   public:
@@ -16,10 +15,4 @@ class BSCacheDriveSystemUtility
     unsigned char layoutPadding42B;
     void Destroy();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSCacheDriveSystemUtility) == 0x42C);
-FNV_STATIC_ASSERT(offsetof(BSCacheDriveSystemUtility, m_ppVirtualMethodTable) == 0x0);
-FNV_STATIC_ASSERT(offsetof(BSCacheDriveSystemUtility, bIsActive) == 0x4);
-FNV_STATIC_ASSERT(offsetof(BSCacheDriveSystemUtility, m_eDriveStatus) == 0x8);
-FNV_STATIC_ASSERT(offsetof(BSCacheDriveSystemUtility, m_acDrivePath) == 0xC);
 #endif

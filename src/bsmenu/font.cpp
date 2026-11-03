@@ -1,5 +1,6 @@
 // bsmenu/font.cpp: Font, FontManager, OwnQ, SBox and more (57 functions)
 
+#include <windows.h>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/Bound88.h"
@@ -353,7 +354,6 @@ void FUN_00a16d20_shell::FUN_00a16d20()
 }
 }  // namespace fnv_00a16d20
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00a1b410_shell { char* p; void ClearPointer(); };
 // Sets p to null, then if p is non-null increments the counter at p+4 via InterlockedIncrement.
 // @fnv 0x00a1b410
@@ -651,7 +651,6 @@ struct FUN_00a14a20_shell : public Font {
     NiTriShape* CreateTextShape(int, void*, bool);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct P03MM { void* Allocate(unsigned int); };
 struct BSFadeNode { static void* __cdecl operator new(unsigned int); };
 struct NiGlobalStringTable {
@@ -1397,7 +1396,6 @@ void GQFont::BuildGlyphQuad(GQGlyph* apGlyph, unsigned int auiIndex, GQGeometry*
 struct NiMemObjectAllocation { static void* operator new(unsigned);static void operator delete(void*); };
 struct AtlasVertex { float x,y,z;AtlasVertex() {} static void* operator new[](unsigned n) { return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n); } };
 struct AtlasUV { float u,v;AtlasUV() {} static void* operator new[](unsigned n) { return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n); } };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct AtlasString {
  char* text;
  AtlasString(const char* value) { if(!value) text=DAT_0109b220; else text=::NiGlobalStringTable::AddString(value); }
@@ -1619,7 +1617,6 @@ AtlasGeometry* FontAtlasFactory::FUN_00a14da0() {
  ::AttachFaceGenAnimationData((::NiAVObject *)(geometry_));
  return geometry_;}
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct ThreadState {
 int unk000;
@@ -1928,7 +1925,6 @@ static void __cdecl operator delete(void*);
 __forceinline unsigned char* GetPixels(unsigned int level=0,unsigned int face=0) { return pixels+face*offsets[levels]+offsets[level]; }
 };
 struct Preferences { int layout; int alpha; int mip; };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 inline long DecrementRef(long volatile* value) { return InterlockedDecrement(value); }
 inline long IncrementRef(long volatile* value) { return InterlockedIncrement(value); }
 struct TextureMap { int unk00; int unk04; int unk08; int unk0c; TextureMap(); void SetFilter(int); };
@@ -5188,8 +5184,6 @@ void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct TQMemoryAllocator {
     void FUN_00aa4060(void*);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct TQPoint3 {
     float x;

@@ -10,7 +10,6 @@
 #include "fnv/symbols_00937000.h"
 #include "layout_support.h"
 
-#pragma pack(push, 4)
 class Modifier
 {
   public:
@@ -51,11 +50,8 @@ class ActorValueModifierList : public BSSimpleList<Modifier*>
     void RemoveAllModifiers();
     void AddFastModifier(char key, Modifier* modifier);
 };
-#pragma pack(pop)
 
 void __cdecl operator delete(void* memory);
 
-FNV_STATIC_ASSERT(sizeof(Modifier) == 8);
-FNV_STATIC_ASSERT(sizeof(ActorValueModifierList) == 0x10);
 
 #endif

@@ -176,16 +176,16 @@ FUN_005f4e00::FUN_005f4e00()
 
 struct FUN_00484bf0_shell
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int aiFlags);
+    unsigned short FUN_00484bf0(unsigned int aiFlags);
 };
 
 struct FUN_005a7770_shell
 {
-    unsigned short __thiscall FUN_005a7770(unsigned int aiFlags);
+    unsigned short FUN_005a7770(unsigned int aiFlags);
 };
 
 // @fnv 0x005a7770
-unsigned short __thiscall FUN_005a7770_shell::FUN_005a7770(unsigned int aiFlags)
+unsigned short FUN_005a7770_shell::FUN_005a7770(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += ((FUN_00484bf0_shell*)this)->FUN_00484bf0(aiFlags);
@@ -407,11 +407,11 @@ struct FUN_0051b070_shell
 
 struct FUN_0059adb0_shell
 {
-    void __thiscall FUN_0059adb0(unsigned int aiFlags);
+    void FUN_0059adb0(unsigned int aiFlags);
 };
 
 // @fnv 0x0059adb0
-void __thiscall FUN_0059adb0_shell::FUN_0059adb0(unsigned int aiFlags)
+void FUN_0059adb0_shell::FUN_0059adb0(unsigned int aiFlags)
 {
     reinterpret_cast<::PC7d *>((((FUN_0051b070_shell*)this)))->FUN_00484c20(aiFlags);
 }
@@ -422,18 +422,18 @@ struct TESFormStub
 
 struct FUN_00616640_shell : public TESFormStub
 {
-    void __thiscall FUN_00616640(unsigned int aiFlags, unsigned int aiCurrentFlags);
+    void FUN_00616640(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 
 // @fnv 0x00616640
-void __thiscall FUN_00616640_shell::FUN_00616640(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_00616640_shell::FUN_00616640(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((this))->FUN_00484c50(aiFlags, aiCurrentFlags);
 }
 
 struct TESQuest
 {
-    PerkEntryConditionSet* __thiscall GetConditions(void);
+    PerkEntryConditionSet* GetConditions(void);
 };
 
 struct FUN_005e79a0_t
@@ -444,12 +444,12 @@ extern "C" int _memcmp(const void*, const void*, unsigned int);
 
 struct FUN_005f56b0_shell
 {
-    bool __thiscall IsNotEqual(TESForm* apCompare);
+    bool IsNotEqual(TESForm* apCompare);
 };
 
 // Compares this TESChallenge against apCompare: returns true if it is not a TESChallenge or if data, form two, form one or the base comparison differ.
 // @fnv 0x005f56b0
-bool __thiscall FUN_005f56b0_shell::IsNotEqual(TESForm* apCompare)
+bool FUN_005f56b0_shell::IsNotEqual(TESForm* apCompare)
 {
     TESChallenge* pcomp = dynamic_cast<TESChallenge*>(apCompare);
     if (!pcomp)
@@ -467,7 +467,7 @@ bool __thiscall FUN_005f56b0_shell::IsNotEqual(TESForm* apCompare)
 
 struct FUN_005f4ee0_shell
 {
-    void* __thiscall FUN_005f4ee0(unsigned int);
+    void* FUN_005f4ee0(unsigned int);
 };
 struct FUN_004855a0
 {
@@ -477,18 +477,18 @@ struct S_00487010
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void FUN_0048cca0();
 };
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void FUN_00482cb0();
 };
 struct FUN_0048e370_obj
 {
 };
 struct FUN_0047a240_shell
 {
-    void __thiscall FUN_0047a240(unsigned int);
+    void FUN_0047a240(unsigned int);
 };
 struct FUN_00485e00_shell
 {
@@ -498,7 +498,7 @@ struct FUN_00485680
 };
 struct FUN_005f5540_shell
 {
-    void __thiscall Initialize();
+    void Initialize();
 };
 struct FUN_005e78f0_t
 {
@@ -507,12 +507,12 @@ struct FUN_005e78f0_t
 
 struct FUN_005f5630_shell
 {
-    void __thiscall CopyFromChallenge(TESForm* apCopy);
+    void CopyFromChallenge(TESForm* apCopy);
 };
 
 // Copies the TESChallenge data block and both forms from apCopy into this challenge, then calls FUN_004851b0 with apCopy.
 // @fnv 0x005f5630
-void __thiscall FUN_005f5630_shell::CopyFromChallenge(TESForm* apCopy)
+void FUN_005f5630_shell::CopyFromChallenge(TESForm* apCopy)
 {
     TESChallenge* challenge = dynamic_cast<TESChallenge*>(apCopy);
     if (!challenge)
@@ -531,11 +531,11 @@ struct FUN_00484d60_holder
 };
 struct FUN_005f5780_holder
 {
-    void __thiscall FUN_005f5780(BGSSaveFormBuffer*);
+    void FUN_005f5780(BGSSaveFormBuffer*);
 };
 // Calls the base save routine, then writes the 4-byte values at offsets 0x6C and 0x70 into the save buffer.
 // @fnv 0x005f5780
-void __thiscall FUN_005f5780_holder::FUN_005f5780(BGSSaveFormBuffer* apBuffer)
+void FUN_005f5780_holder::FUN_005f5780(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged(apBuffer);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x6C, 4, 0);
@@ -573,7 +573,7 @@ struct BSIntToType32
 
 struct FUN_005f5480_shell
 {
-    void __thiscall SwapEndianFields();
+    void SwapEndianFields();
 };
 // @fnv 0x005F51A0
 bool TESChallenge::Load(TESFile* file)
@@ -637,7 +637,7 @@ bool TESChallenge::Load(TESFile* file)
     return true;
 }
 // @fnv 0x005f5540
-void __thiscall FUN_005f5540_shell::Initialize()
+void FUN_005f5540_shell::Initialize()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
@@ -665,7 +665,7 @@ void __thiscall FUN_005f5540_shell::Initialize()
 
 // Byte-swaps the fields at offsets 0, 4, 8, 12, 16, 18 and 20 of this object to the opposite endianness.
 // @fnv 0x005f5480
-void __thiscall FUN_005f5480_shell::SwapEndianFields()
+void FUN_005f5480_shell::SwapEndianFields()
 {
     ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
     ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 4));
@@ -749,7 +749,7 @@ class FUN_005f4f10_cls : public B5F4F10Form,
 };
 // Calls FUN_005f4f10 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x005f4ee0
-void* __thiscall FUN_005f4ee0_shell::FUN_005f4ee0(unsigned int flags)
+void* FUN_005f4ee0_shell::FUN_005f4ee0(unsigned int flags)
 {
     reinterpret_cast<::FUN_005f4f10_cls *>((this))->FUN_005f4f10_cls::~FUN_005f4f10_cls();
     if (flags & 1)

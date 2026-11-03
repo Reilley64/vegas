@@ -2,6 +2,8 @@
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
+#include <objbase.h>
 #include <new>
 #include "fnv/decl/B83C270Conversation.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -107,11 +109,11 @@
 
 struct FUN_00821620_Class
 {
-    void __thiscall FUN_00821620(float value);
+    void FUN_00821620(float value);
 };
 
 // @fnv 0x00821620
-void __thiscall FUN_00821620_Class::FUN_00821620(float value)
+void FUN_00821620_Class::FUN_00821620(float value)
 {
     *(float*)((char*)this + 0x130) = value;
 }
@@ -151,8 +153,8 @@ bool FUN_00824080_Class::IsFlag200Set()
 
 struct FUN_00827200_class
 {
-    void __thiscall FUN_00cb26e0(int);
-    FUN_00827200_class* __thiscall FUN_00827200(int a);
+    void FUN_00cb26e0(int);
+    FUN_00827200_class* FUN_00827200(int a);
 };
 struct FUN_0082d660_class
 {
@@ -178,27 +180,27 @@ unsigned short FUN_0082d6a0_Class::GetShortAt(int index)
 
 struct FUN_0082d6c0_class
 {
-    unsigned short __thiscall GetShortAtOffset5A();
+    unsigned short GetShortAtOffset5A();
 };
 
 // @fnv 0x0082d6c0
-unsigned short __thiscall FUN_0082d6c0_class::GetShortAtOffset5A()
+unsigned short FUN_0082d6c0_class::GetShortAtOffset5A()
 {
     return *(unsigned short*)((char*)this + 0x5a);
 }
 
 // @fnv 0x0082d700
-int __fastcall FUN_0082d700(void* self)
+int FUN_0082d700(void* self)
 {
     return *(unsigned short*)((char*)self + 0x4e) & 0xff;
 }
 
 struct FUN_0082d720_Class
 {
-    unsigned int __thiscall FUN_0082d720();
+    unsigned int FUN_0082d720();
 };
 // @fnv 0x0082d720
-unsigned int __thiscall FUN_0082d720_Class::FUN_0082d720()
+unsigned int FUN_0082d720_Class::FUN_0082d720()
 {
     return ((const unsigned int*)this)[0x5c / 4] & 0xff;
 }
@@ -218,7 +220,7 @@ struct FUN_0082f140_class
 };
 
 // @fnv 0x0082f140
-void __thiscall FUN_0082f140_class::FUN_0082f140()
+void FUN_0082f140_class::FUN_0082f140()
 {
     *reinterpret_cast<void**>(this) = &DAT_0107cb6c;
 }
@@ -269,12 +271,12 @@ FUN_0082f240_class::FUN_0082f240_class()
 struct FUN_0082f520Class
 {
     void* p;
-    void* __thiscall FUN_0082f520(void* v);
+    void* FUN_0082f520(void* v);
 };
 
 // Stores v into p, calls FUN_0082f1b0 on p, and returns this.
 // @fnv 0x0082f520
-void* __thiscall FUN_0082f520Class::FUN_0082f520(void* pValue)
+void* FUN_0082f520Class::FUN_0082f520(void* pValue)
 {
     p = pValue;
     ::fnv_0082f1b0::FUN_0082f1b0(p);
@@ -287,7 +289,7 @@ struct RecursiveLock
 };
 
 // @fnv 0x0082f550
-void __fastcall LeaveObject(void* p)
+void LeaveObject(void* p)
 {
     reinterpret_cast<::S_0082f1f0_Lock *>((((RecursiveLock**)(int*)p)[0]))->FUN_0082f1f0();
 }
@@ -295,11 +297,11 @@ void __fastcall LeaveObject(void* p)
 
 struct FUN_00831e00_class
 {
-    int __thiscall IsFlagSet();
+    int IsFlagSet();
 };
 
 // @fnv 0x00831e00
-int __thiscall FUN_00831e00_class::IsFlagSet()
+int FUN_00831e00_class::IsFlagSet()
 {
     return (*(int*)((char*)this + 8) & 1) != 0;
 }
@@ -471,11 +473,11 @@ FUN_008224b0_Class::~FUN_008224b0_Class()
 struct GO
 {
     ~GO();
-    GO* __thiscall FUN_008228f0(unsigned int flags);
+    GO* FUN_008228f0(unsigned int flags);
 };
 // Runs the destructor and, if flags has bit 0 set, frees the object; returns the pointer.
 // @fnv 0x008228f0
-GO* __thiscall GO::FUN_008228f0(unsigned int flags)
+GO* GO::FUN_008228f0(unsigned int flags)
 {
     reinterpret_cast<::FUN_0045cec0_Class *>(this)->FUN_0045cec0();
     if (flags & 1)
@@ -485,7 +487,7 @@ GO* __thiscall GO::FUN_008228f0(unsigned int flags)
 
 struct FUN_0082eee0_class
 {
-    void* __thiscall InitArray(int size);
+    void* InitArray(int size);
 };
 // Calls InitArray with the argument, stores the address of DAT_0107ca44 in m_p, and returns this.
 // @fnv 0x0082ee80
@@ -496,7 +498,7 @@ FUN_0082ee80_class* FUN_0082ee80_class::InitializeWithGlobal(int a)
     return this;
 }
 // @fnv 0x0082eee0
-void* __thiscall FUN_0082eee0_class::InitArray(int aiCount)
+void* FUN_0082eee0_class::InitArray(int aiCount)
 {
     *(void***)this = &DAT_0107ca64;
     ((int*)this)[1] = aiCount;
@@ -509,7 +511,7 @@ void* __thiscall FUN_0082eee0_class::InitArray(int aiCount)
 
 struct FUN_00831f80_class
 {
-    void* __thiscall FUN_00831f80(unsigned int flags);
+    void* FUN_00831f80(unsigned int flags);
 };
 extern int DAT_0107cd54;
 extern int DAT_0107cd6c;
@@ -521,11 +523,11 @@ struct FUN_00831fb0_class
     int b;
     int c;
     int d;
-    void __thiscall FUN_00831fb0();
+    void FUN_00831fb0();
 };
 // Calls FUN_00831fb0, then frees this with Deallocate if flags has bit 0 set, and returns this.
 // @fnv 0x00831f80
-void* __thiscall FUN_00831f80_class::FUN_00831f80(unsigned int flags)
+void* FUN_00831f80_class::FUN_00831f80(unsigned int flags)
 {
     reinterpret_cast<::FUN_00831fb0_class *>(this)->FUN_00831fb0();
     if (flags & 1)
@@ -534,7 +536,7 @@ void* __thiscall FUN_00831f80_class::FUN_00831f80(unsigned int flags)
 }
 // Sets the object's vtbl and two fields to the given globals, then calls FUN_009fdc10 on this.
 // @fnv 0x00831fb0
-void __thiscall FUN_00831fb0_class::FUN_00831fb0()
+void FUN_00831fb0_class::FUN_00831fb0()
 {
     vtbl = &DAT_0107cdac;
     c = (int)&DAT_0107cd6c;
@@ -547,7 +549,7 @@ struct BGSSaveFormBuffer
 };
 struct FUN_00836600_class
 {
-    void __thiscall FUN_00836600(BGSLoadFormBuffer* buffer);
+    void FUN_00836600(BGSLoadFormBuffer* buffer);
 };
 struct FUN_00837280_Class
 {
@@ -566,11 +568,11 @@ struct FUN_0083b640_class
     int m_uiItemCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_0083b640_class* __thiscall InitBuffer(int a);
+    FUN_0083b640_class* InitBuffer(int a);
 };
 // Sets the vtable, stores a count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x0083b640
-FUN_0083b640_class* __thiscall FUN_0083b640_class::InitBuffer(int aiCount)
+FUN_0083b640_class* FUN_0083b640_class::InitBuffer(int aiCount)
 {
     m_vt = &DAT_0107d9e4;
     m_uiItemCount = aiCount;
@@ -584,11 +586,11 @@ FUN_0083b640_class* __thiscall FUN_0083b640_class::InitBuffer(int aiCount)
 
 struct FUN_0083b740_Class
 {
-    void* __thiscall FUN_0083b740(unsigned int flags);
+    void* FUN_0083b740(unsigned int flags);
 };
 // Calls FUN_0083b710, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0083b740
-void* __thiscall FUN_0083b740_Class::FUN_0083b740(unsigned int flags)
+void* FUN_0083b740_Class::FUN_0083b740(unsigned int flags)
 {
     reinterpret_cast<::fnv_0083b710::FUN_0083b710_cls *>(this)->FUN_0083b710();
     if (flags & 1)
@@ -639,8 +641,8 @@ FUN_0083b7d0::~FUN_0083b7d0()
 
 struct FUN_0083c750_class
 {
-    void __thiscall FUN_0083c750();
-    void* __thiscall FUN_0083c720(unsigned int flags);
+    void FUN_0083c750();
+    void* FUN_0083c720(unsigned int flags);
 };
 struct TESForm
 {
@@ -677,11 +679,11 @@ struct G2
 };
 struct FUN_00824290_class
 {
-    void __thiscall AddWeatherEntry(int a, int b, int c);
+    void AddWeatherEntry(int a, int b, int c);
 };
 // Allocates a WeatherEntry storing the three arguments and adds it to the head of the list at this+8.
 // @fnv 0x00824290
-void __thiscall FUN_00824290_class::AddWeatherEntry(int aiFirst, int aiSecond, int aiThird)
+void FUN_00824290_class::AddWeatherEntry(int aiFirst, int aiSecond, int aiThird)
 {
     WeatherEntry* pEntry = new WeatherEntry;
     pEntry->a = aiFirst;
@@ -739,11 +741,11 @@ struct SndItem
     SndX second;
     bool active;
 };
-int __fastcall FNV_GetFormType(TESForm*);
+int FNV_GetFormType(TESForm*);
 struct ContNode
 {
 };
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct Q
 {
     ~Q();
@@ -977,7 +979,7 @@ FUN_0082b370* CreateFUN0082b370(int a, int b, int c)
 struct FUN_0082cf80
 {
     unsigned char m_data[0x48];
-    __fastcall FUN_0082cf80(int, int, int);
+    FUN_0082cf80(int, int, int);
 };
 
 // Allocates a FUN_0082cf80 object by calling its constructor with the three arguments and returns the pointer.
@@ -1000,7 +1002,7 @@ unsigned char FUN_0082d6e0_Class::GetHighByteOfField4E()
 struct GlobalObject_0082ee80
 {
     ~GlobalObject_0082ee80();
-    GlobalObject_0082ee80* __thiscall FUN_0082eeb0(unsigned int flags);
+    GlobalObject_0082ee80* FUN_0082eeb0(unsigned int flags);
 };
 struct FUN_0082efb0_Ext : FUN_0082efb0
 {
@@ -1018,11 +1020,11 @@ FUN_0082efb0* FUN_0082efb0_Ext::FUN_0082efe0(unsigned int flags)
 
 struct FUN_0082f160_class : public FUN_0082f140_class
 {
-    void* __thiscall FUN_0082f160(unsigned int flags);
+    void* FUN_0082f160(unsigned int flags);
 };
 
 // @fnv 0x0082f160
-void* __thiscall FUN_0082f160_class::FUN_0082f160(unsigned int flags)
+void* FUN_0082f160_class::FUN_0082f160(unsigned int flags)
 {
     FUN_0082f140();
     if (flags & 1)
@@ -1032,7 +1034,7 @@ void* __thiscall FUN_0082f160_class::FUN_0082f160(unsigned int flags)
 
 struct FUN_0082f260_class
 {
-    void* __thiscall FUN_0082f210(unsigned int flags);
+    void* FUN_0082f210(unsigned int flags);
 };
 struct FUN_00831de0_Class
 {
@@ -1047,10 +1049,10 @@ int FUN_00831de0_Class::ForwardToMember()
     return m_14.IsFlagSet();
 }
 
-typedef void(__stdcall* FUN_00831eb0_callback)(void*, int, int);
+typedef void(* FUN_00831eb0_callback)(void*, int, int);
 
 // @fnv 0x00831eb0
-void __stdcall FUN_00831eb0(void* object, int aiArg1, int aiArg2)
+void FUN_00831eb0(void* object, int aiArg1, int aiArg2)
 {
     BSSimpleList<ContNode>* next =
         ((::BSSimpleList< ::ContNode> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<ContNode>*>(reinterpret_cast<char*>(object) - 0x0C)))->FUN_00726070()));
@@ -1062,12 +1064,12 @@ void __stdcall FUN_00831eb0(void* object, int aiArg1, int aiArg2)
 struct FUN_00831ee0_class
 {
     virtual void FUN_00831ee0_virtual0();
-    virtual void __stdcall FUN_00831ee0_virtual1();
+    virtual void FUN_00831ee0_virtual1();
 };
 
 // Retrieves the ContNode at p-0xc via FUN_00726070 and calls its first virtual method.
 // @fnv 0x00831ee0
-void __stdcall FUN_00831ee0(void* p)
+void FUN_00831ee0(void* p)
 {
     FUN_00831ee0_class* node = (FUN_00831ee0_class*)((::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)((char*)p - 0xc)))->FUN_00726070()));
 
@@ -1080,11 +1082,11 @@ struct BSSimpleListEx
 };
 struct FUN_00837480 : BSSimpleListEx
 {
-    void* __thiscall DeleteThis(unsigned int flags);
+    void* DeleteThis(unsigned int flags);
 };
 // Destroys the BSSimpleListEx base and, when flags has bit 0 set, deallocates this object; returns this.
 // @fnv 0x00837480
-void* __thiscall FUN_00837480::DeleteThis(unsigned int flags)
+void* FUN_00837480::DeleteThis(unsigned int flags)
 {
     ::FUN_008373f0((void *)(this));
     if (flags & 1)
@@ -1095,7 +1097,7 @@ void* __thiscall FUN_00837480::DeleteThis(unsigned int flags)
 struct GlobalObject_0083b5e0
 {
     ~GlobalObject_0083b5e0();
-    void* __thiscall FUN_0083b610(unsigned int flags);
+    void* FUN_0083b610(unsigned int flags);
 };
 
 struct BSStr
@@ -1115,7 +1117,7 @@ struct TESIdleForm : TESForm
 
 struct FUN_0083d740_Class
 {
-    void __thiscall FUN_0083d740(BGSLoadGameBuffer* buffer);
+    void FUN_0083d740(BGSLoadGameBuffer* buffer);
 };
 // Reads a response count and its responses, an optional current response id, topic info, topic, quest and speaker from the load buffer.
 // @fnv 0x0083cf40
@@ -1142,7 +1144,7 @@ void DialogueItem_shell::LoadDialogueItem(BGSLoadFormBuffer* buffer)
 }
 
 // @fnv 0x0083d740
-void __thiscall FUN_0083d740_Class::FUN_0083d740(BGSLoadGameBuffer* buffer)
+void FUN_0083d740_Class::FUN_0083d740(BGSLoadGameBuffer* buffer)
 {
     char text[1000];
 
@@ -1243,7 +1245,7 @@ FUN_0083da50::FUN_0083da50() : StrMem(), m_sl()
 
 struct Str6a70
 {
-    Str6a70& __thiscall operator=(char const*);
+    Str6a70& operator=(char const*);
 };
 
 struct BGSLoadGameBufferLoadStringHelper
@@ -1258,11 +1260,11 @@ extern void* _DAT_01183028;
 
 struct FUN_0083fbe0_Class
 {
-    void __thiscall FUN_0083fbe0(BGSLoadGameBuffer* buffer);
+    void FUN_0083fbe0(BGSLoadGameBuffer* buffer);
 };
 
 // @fnv 0x0083fbe0
-void __thiscall FUN_0083fbe0_Class::FUN_0083fbe0(BGSLoadGameBuffer* buffer)
+void FUN_0083fbe0_Class::FUN_0083fbe0(BGSLoadGameBuffer* buffer)
 {
     char string[500];
 
@@ -1498,7 +1500,7 @@ struct FUN_0082ef50 : public Base_82efb0
 };
 // Runs the destructor, frees the object with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0082eeb0
-GlobalObject_0082ee80* __thiscall GlobalObject_0082ee80::FUN_0082eeb0(unsigned int flags)
+GlobalObject_0082ee80* GlobalObject_0082ee80::FUN_0082eeb0(unsigned int flags)
 {
     reinterpret_cast<::FUN_0082ef50 *>((this))->FUN_0082ef50::~FUN_0082ef50();
     if (flags & 1)
@@ -1782,7 +1784,6 @@ int ArchiveStream::FUN_0082f3c0(void* buffer, unsigned int count, int unused, un
 // signals the object at +0x34, waits for the worker thread to leave, closes its
 // handle, then runs the base class destructor.
 
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 
 
 struct FUN_00aa63c0
@@ -1859,7 +1860,7 @@ void __cdecl FUN_0082f9c0()
 
 // FUN_00831f70: stdcall stub taking one stack argument and returning 0.
 // @fnv 0x00831f70
-int __stdcall FUN_00831f70(int unused)
+int FUN_00831f70(int unused)
 {
     return 0;
 }
@@ -1881,7 +1882,7 @@ public:
 };
 // Calls _ref_006815c0, then FUN_00cb26e0 with a, and returns this.
 // @fnv 0x00827200
-FUN_00827200_class* __thiscall FUN_00827200_class::FUN_00827200(int a)
+FUN_00827200_class* FUN_00827200_class::FUN_00827200(int a)
 {
     new ((void *)this) ::Vec3();
     FUN_00cb26e0(a);
@@ -1942,7 +1943,7 @@ struct AudioPlaybackHandle
 };
 struct BSAudioShell
 {
-    AudioPlaybackHandle __thiscall FUN_00ad7480(const char* name);
+    AudioPlaybackHandle FUN_00ad7480(const char* name);
 };
 struct TESSoundShell
 {
@@ -2437,7 +2438,7 @@ struct S_0083d130_Node
 struct S_0083d130_Mgr
 {
 };
-bool __fastcall FUN_008256d0(S_0083d130_Node*);
+bool FUN_008256d0(S_0083d130_Node*);
 
 struct S_0083d130_Class : S_0083d130_Node
 {
@@ -3005,65 +3006,61 @@ struct AudGuid
     unsigned long d3;
 };
 
-extern "C" __declspec(dllimport) long __stdcall CoInitializeEx(void* reserved, unsigned long flags);
-extern "C" __declspec(dllimport) long __stdcall CoCreateInstance(const AudGuid& clsid, void* outer, unsigned long ctx,
-                                                                 const AudGuid& iid, void** out);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* handle, unsigned long ms);
 
 struct IAudUnk
 {
-    virtual long __stdcall QueryInterface(const AudGuid& iid, void** out);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const AudGuid& iid, void** out);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct IAudGraph : IAudUnk
 {
-    virtual long __stdcall AddFilter(IAudUnk* filter, const wchar_t* name);
+    virtual long AddFilter(IAudUnk* filter, const wchar_t* name);
 };
 struct IAudBuilder : IAudUnk
 {
-    virtual long __stdcall v0C();
-    virtual long __stdcall v10();
-    virtual long __stdcall v14();
-    virtual long __stdcall v18();
-    virtual long __stdcall v1C();
-    virtual long __stdcall v20();
-    virtual long __stdcall v24();
-    virtual long __stdcall v28();
-    virtual long __stdcall v2C();
-    virtual long __stdcall Render(IAudUnk* pin);
+    virtual long v0C();
+    virtual long v10();
+    virtual long v14();
+    virtual long v18();
+    virtual long v1C();
+    virtual long v20();
+    virtual long v24();
+    virtual long v28();
+    virtual long v2C();
+    virtual long Render(IAudUnk* pin);
 };
 struct IAudDispatch : IAudUnk
 {
-    virtual long __stdcall d0C();
-    virtual long __stdcall d10();
-    virtual long __stdcall d14();
-    virtual long __stdcall d18();
+    virtual long d0C();
+    virtual long d10();
+    virtual long d14();
+    virtual long d18();
 };
 struct IAudBasicAudio : IAudDispatch
 {
-    virtual long __stdcall put_Volume(long volume);
+    virtual long put_Volume(long volume);
 };
 struct IAudControl : IAudDispatch
 {
-    virtual long __stdcall Run();
-    virtual long __stdcall Pause();
-    virtual long __stdcall Stop();
+    virtual long Run();
+    virtual long Pause();
+    virtual long Stop();
 };
 struct IAudPosition : IAudDispatch
 {
-    virtual long __stdcall get_Duration(double* len);
-    virtual long __stdcall put_CurrentPosition(double t);
-    virtual long __stdcall get_CurrentPosition(double* t);
+    virtual long get_Duration(double* len);
+    virtual long put_CurrentPosition(double t);
+    virtual long get_CurrentPosition(double* t);
 };
 struct IAudEvent : IAudDispatch
 {
-    virtual long __stdcall e1C();
-    virtual long __stdcall GetEvent(long* code, long* p1, long* p2, long timeout);
-    virtual long __stdcall e24();
-    virtual long __stdcall e28();
-    virtual long __stdcall e2C();
-    virtual long __stdcall FreeEventParams(long code, long p1, long p2);
+    virtual long e1C();
+    virtual long GetEvent(long* code, long* p1, long* p2, long timeout);
+    virtual long e24();
+    virtual long e28();
+    virtual long e2C();
+    virtual long FreeEventParams(long code, long p1, long p2);
 };
 
 struct AudMediaType
@@ -3803,10 +3800,10 @@ struct FUN_00831f10_Target
 {
     virtual void unk00();
     virtual void unk04();
-    virtual void __stdcall unk08();
+    virtual void unk08();
 };
 // @fnv 0x00831f10
-void __stdcall CallVirtualOnContainedNode(char* a1)
+void CallVirtualOnContainedNode(char* a1)
 {
     FUN_00831f10_Target* target = (FUN_00831f10_Target*)((::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)(a1 - 0xc)))->FUN_00726070()));
     target->unk08();
@@ -3845,7 +3842,7 @@ struct SoundTimer
     void FUN_00836110(SaveFormBufferEx* buffer);
 };
 // @fnv 0x00836600
-void __thiscall FUN_00836600_class::FUN_00836600(BGSLoadFormBuffer* buffer)
+void FUN_00836600_class::FUN_00836600(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<BGSSaveFormBuffer*>(buffer)))->FUN_00865df0(
         (::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0])), 0);
@@ -4129,7 +4126,7 @@ struct FUN_0083c750 : BSS
 };
 // Calls FUN_0083c750, frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0083c720
-void* __thiscall FUN_0083c750_class::FUN_0083c720(unsigned int flags)
+void* FUN_0083c750_class::FUN_0083c720(unsigned int flags)
 {
     reinterpret_cast<::FUN_0083c750 *>(this)->FUN_0083c750::~FUN_0083c750();
     if (flags & 1)
@@ -4147,7 +4144,7 @@ namespace fnv_0082f1b0 {
 // Wrapper around the Win32 critical-section API: locks the section owned by
 // the object passed in the fastcall register (ecx).
 // @fnv 0x0082f1b0
-void __fastcall FUN_0082f1b0(void* apCriticalSection)
+void FUN_0082f1b0(void* apCriticalSection)
 {
     EnterCriticalSection((LPCRITICAL_SECTION)apCriticalSection);
 }

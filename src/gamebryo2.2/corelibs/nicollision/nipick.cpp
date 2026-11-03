@@ -95,12 +95,12 @@ void __cdecl FUN_00e99260();
 
 struct FUN_00e99300_shell
 {
-    void* __thiscall FUN_00e99300();
+    void* FUN_00e99300();
 };
 
 // Increments DAT_0126fa60 and, when the previous value was zero, registers InitNiStreamCallbacks and FUN_00e99260 via FUN_00aa2080; returns this.
 // @fnv 0x00e99300
-void* __thiscall FUN_00e99300_shell::FUN_00e99300()
+void* FUN_00e99300_shell::FUN_00e99300()
 {
     void* result = this;
     int iPreviousCount = DAT_0126fa60;

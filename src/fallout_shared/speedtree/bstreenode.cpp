@@ -47,11 +47,11 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int FUN_00622430();
 };
 
 // @fnv 0x00622430
-unsigned int __thiscall FUN_00622430_shell::FUN_00622430()
+unsigned int FUN_00622430_shell::FUN_00622430()
 {
     return 0x50;
 }
@@ -61,11 +61,11 @@ struct NiRTTI;
 
 struct FUN_0066b5b0_shell
 {
-    const NiRTTI* __thiscall GetNiRTTI();
+    const NiRTTI* GetNiRTTI();
 };
 
 // @fnv 0x0066b5b0
-const NiRTTI* __thiscall FUN_0066b5b0_shell::GetNiRTTI()
+const NiRTTI* FUN_0066b5b0_shell::GetNiRTTI()
 {
     return &(*reinterpret_cast<::NiRTTI *>(&::g_011d5e70));
 }
@@ -75,7 +75,7 @@ struct NiAVObject;
 class NiUpdateData;
 struct NiNode
 {
-    NiAVObject* __thiscall GetAt(unsigned int);
+    NiAVObject* GetAt(unsigned int);
 public:
     void UpdateDownwardPass(::NiUpdateData &, unsigned int);
 public:
@@ -84,7 +84,7 @@ public:
 
 struct BSTreeNode : NiNode
 {
-    NiAVObject* __thiscall GetFirstChild();
+    NiAVObject* GetFirstChild();
 };
 
 // @fnv 0x0066b5c0
@@ -98,12 +98,12 @@ struct NiAVObject;
 
 struct NiNode
 {
-    NiAVObject* __thiscall GetAt(unsigned int);
+    NiAVObject* GetAt(unsigned int);
 };
 
 struct BSTreeNode
 {
-    NiAVObject* __thiscall FUN_0066b5e0();
+    NiAVObject* FUN_0066b5e0();
 };
 
 // @fnv 0x0066b5e0
@@ -136,8 +136,8 @@ NiAVObject* BSTreeNode::FUN_0066b600()
 namespace fnv_0066b680 {
 struct BSTreeNode
 {
-    void __thiscall FUN_0066b6c0();
-    void* __thiscall FUN_0066b680(unsigned int);
+    void FUN_0066b6c0();
+    void* FUN_0066b680(unsigned int);
 };
 
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
@@ -217,12 +217,12 @@ bool BSTreeNode::FUN_0066be30(unsigned char acTest)
 struct NiCullingProcess;
 struct DummyNode
 {
-    void __thiscall FUN_0066bf50(NiCullingProcess* arCuller);
+    void FUN_0066bf50(NiCullingProcess* arCuller);
 };
 
 // If FUN_0054ee20() returns nonzero, forwards the culling call to FUN_00a5dbe0 with arCuller.
 // @fnv 0x0066bf50
-void __thiscall DummyNode::FUN_0066bf50(NiCullingProcess* arCuller)
+void DummyNode::FUN_0066bf50(NiCullingProcess* arCuller)
 {
     if (::FUN_0054ee20({}))
     {
@@ -307,7 +307,7 @@ struct FUN_0066d520_shell
 void __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 
 // @fnv 0x0066d520
-void* __thiscall FUN_0066d520_shell::FUN_0066d520(unsigned int flags)
+void* FUN_0066d520_shell::FUN_0066d520(unsigned int flags)
 {
     reinterpret_cast<::FUN_00cb78b0 *>((this))->FUN_00cb78b0::~FUN_00cb78b0();
     if (flags & 1)
@@ -333,11 +333,11 @@ GlobalObjectO2_00a7b610* FUN_0066d610_shell::GetGlobalObject()
 
 struct bhkCapsuleShape
 {
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int FUN_0066d730() const;
 };
 
 // @fnv 0x0066d730
-unsigned int __thiscall bhkCapsuleShape::FUN_0066d730() const
+unsigned int bhkCapsuleShape::FUN_0066d730() const
 {
     return 0x30;
 }
@@ -368,7 +368,7 @@ struct NiTriBasedGeom;
 
 struct FUN_0066b620_shell
 {
-    NiTriBasedGeom* __thiscall GetTriBasedGeom();
+    NiTriBasedGeom* GetTriBasedGeom();
 };
 
 // @fnv 0x0066b620
@@ -396,14 +396,14 @@ public:
 };
 struct BSTreeNodeVisibility : BSTreeNode
 {
-    bool __thiscall FUN_0066bc40(bool);
+    bool FUN_0066bc40(bool);
 };
 // Gets the node's NiAVObject and sets its app-culled flag to the inverse of abVisible; returns false if there is no object.
 // @fnv 0x0066bc40
-bool __thiscall BSTreeNodeVisibility::FUN_0066bc40(bool abVisible)
+bool BSTreeNodeVisibility::FUN_0066bc40(bool abVisible)
 {
     NiAVObject* object =
-        (NiAVObject*)((NiAVObject * (__thiscall*)(BSTreeNodeVisibility*)) * (char**)(*(char**)this + 0x104))(this);
+        (NiAVObject*)((NiAVObject * (*)(BSTreeNodeVisibility*)) * (char**)(*(char**)this + 0x104))(this);
     if (!object)
         return false;
     reinterpret_cast<::TaskQueueInterface *>((object))->QueueActorDisarm(!abVisible);
@@ -483,11 +483,11 @@ struct StandInBC90
     virtual void d64();
     virtual void d65();
     virtual NiNode* GetLeaf();
-    bool __thiscall SetLeafVisible(bool abVisible);
+    bool SetLeafVisible(bool abVisible);
 };
 // Gets the leaf node via GetLeaf, sets its app-culled flag to the inverse of abVisible, and returns false if no leaf exists.
 // @fnv 0x0066bc90
-bool __thiscall StandInBC90::SetLeafVisible(bool abVisible)
+bool StandInBC90::SetLeafVisible(bool abVisible)
 {
     NiNode* pnode = GetLeaf();
     if (pnode == 0)
@@ -499,14 +499,14 @@ bool __thiscall StandInBC90::SetLeafVisible(bool abVisible)
 
 struct FUN_0066d3d0_shell
 {
-    void __thiscall FUN_0066d3d0(void*);
+    void FUN_0066d3d0(void*);
 };
 struct FUN_0066d3a0_shell
 {
-    void* __thiscall FUN_0066d3a0(void*);
+    void* FUN_0066d3a0(void*);
 };
 // @fnv 0x0066d3a0
-void* __thiscall FUN_0066d3a0_shell::FUN_0066d3a0(void* arg)
+void* FUN_0066d3a0_shell::FUN_0066d3a0(void* arg)
 {
     reinterpret_cast<FUN_0066d3d0_shell*>(this)->FUN_0066d3d0(arg);
     *reinterpret_cast<void**>(this) = &DAT_01066acc;
@@ -521,12 +521,12 @@ struct FUN_00c6b950_shell
 struct FUN_0066d3d0_shell
 {
     void* m0;
-    void* __thiscall FUN_0066d3d0(unsigned int a);
+    void* FUN_0066d3d0(unsigned int a);
 };
 
 // Calls FUN_00c6b950 with a, then sets m0 to point at DAT_01066b94 and returns this.
 // @fnv 0x0066d3d0
-void* __thiscall FUN_0066d3d0_shell::FUN_0066d3d0(unsigned int a)
+void* FUN_0066d3d0_shell::FUN_0066d3d0(unsigned int a)
 {
     new ((void *)(((FUN_00c6b950_shell*)this))) ::FUN_00c6b950((void *)(a));
     m0 = &(*reinterpret_cast<void * *>(&::DAT_01066b94));
@@ -538,7 +538,7 @@ extern "C" void __cdecl FUN_004b5020();
 extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void FUN_0056e120();
 };
 struct FUN_0066d550_shell
 {
@@ -547,9 +547,9 @@ struct FUN_0066d550_shell
 // @fnv 0x0066d550
 void* FUN_0066d550_shell::Initialize()
 {
-    ((void(__thiscall*)(void*))FUN_004b5020)(this);
+    ((void(*)(void*))FUN_004b5020)(this);
     ((unsigned int*)this)[1] = 0;
-    ((void(__thiscall*)(void*))FUN_0056e270)((char*)this + 0x10);
+    ((void(*)(void*))FUN_0056e270)((char*)this + 0x10);
     ((FUN_0056e120_shell*)((char*)this + 0x10))->FUN_0056e120();
     return this;
 }
@@ -560,7 +560,7 @@ struct FUN_00c8bed0_holder
 void __cdecl _delete(void*, unsigned int);
 struct bhkTransformShape
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // @fnv 0x0066d620
 void* bhkTransformShape::Destroy(unsigned int flags)
@@ -573,11 +573,11 @@ void* bhkTransformShape::Destroy(unsigned int flags)
 
 struct FUN_0066d740_owner
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 void __cdecl _delete(void* p, unsigned int size);
 // @fnv 0x0066d740
-void* __thiscall FUN_0066d740_owner::DestroyIfFlagged(unsigned int flags)
+void* FUN_0066d740_owner::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00caacf0 *>((this))->FUN_00caacf0::~FUN_00caacf0();
     if (flags & 1)
@@ -593,11 +593,11 @@ struct FUN_006299a0_shell
 };
 struct FUN_0066d770_shell
 {
-    void* __thiscall FUN_0066d770();
+    void* FUN_0066d770();
 };
 // Calls StepAndReturnThis on this and FUN_006299a0 on the object at this+4, then returns this.
 // @fnv 0x0066d770
-void* __thiscall FUN_0066d770_shell::FUN_0066d770()
+void* FUN_0066d770_shell::FUN_0066d770()
 {
     reinterpret_cast<::FUN_0056e900_cls *>((((FUN_0056e900_shell*)this)))->StepAndReturnThis();
     reinterpret_cast<::FUN_00629a80_Class *>((((FUN_006299a0_shell*)((char*)this + 4))))->FUN_006299a0();
@@ -678,11 +678,11 @@ struct FUN_0066bce0_holder
     virtual void v65();
     virtual void v66();
     virtual NiNode* GetNode();
-    bool __thiscall SetNodeVisible(bool abVisible);
+    bool SetNodeVisible(bool abVisible);
 };
 // Gets the node and, if present, sets its app-culled flag to the inverse of abVisible; returns whether a node was found.
 // @fnv 0x0066bce0
-bool __thiscall FUN_0066bce0_holder::SetNodeVisible(bool abVisible)
+bool FUN_0066bce0_holder::SetNodeVisible(bool abVisible)
 {
     NiNode* pnode;
     pnode = GetNode();
@@ -741,7 +741,7 @@ struct BSTreeNodeVisibilityWork : BSTreeNodeVisibility
 // @fnv 0x0066bdb0
 bool BSTreeNodeVisibilityWork::SetVisibilityByType(unsigned short type, unsigned char mode)
 {
-    typedef NiAVObject*(__thiscall * GetAtFn)(void*, unsigned int);
+    typedef NiAVObject*(* GetAtFn)(void*, unsigned int);
     NiAVObject* node = ((GetAtFn)(*(void***)this)[0x45])(this, type);
     if (node == 0)
         return false;
@@ -842,12 +842,12 @@ struct FUN_0066bf80_vftable
     void* slot138;
     void* slot13C;
     void* slot140;
-    void(__thiscall* process)(void*, float);
+    void(* process)(void*, float);
 };
 struct FUN_0066bf80_owner
 {
     FUN_0066bf80_vftable* vtable;
-    void __thiscall FUN_0066bf80(struct FUN_0066bf80_data*, unsigned int);
+    void FUN_0066bf80(struct FUN_0066bf80_data*, unsigned int);
 };
 struct FUN_0066bf80_data
 {
@@ -2395,18 +2395,18 @@ struct FnvModelReference
 struct FnvObjectSlot
 {
     void* m_object;
-    void __thiscall FUN_0066b0d0(int type);
+    void FUN_0066b0d0(int type);
 };
 struct FnvElementCollection : S_0066b6c0_Base
 {
     FnvModelReference m_model;
     FnvObjectSlot* m_slots;
-    bool __thiscall SetSlotObject(unsigned short index, int type);
+    bool SetSlotObject(unsigned short index, int type);
 };
-typedef S_0066ba30_Node*(__thiscall* FnvNodeGetter)(FnvElementCollection*);
+typedef S_0066ba30_Node*(* FnvNodeGetter)(FnvElementCollection*);
 // Validates index and type against the model, clears the slot's existing object, sets the new object on the actor, and stores it in the slot.
 // @fnv 0x0066b8b0
-bool __thiscall FnvElementCollection::SetSlotObject(unsigned short index, int type)
+bool FnvElementCollection::SetSlotObject(unsigned short index, int type)
 {
     FnvScopedContext guard;
     if (!((::FnvModelElement *)(::FUN_00559450((int *)&(m_model)))) || !m_slots || !type)

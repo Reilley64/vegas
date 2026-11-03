@@ -43,11 +43,11 @@ extern int DAT_01088438;
 
 struct FUN_00905670_Class
 {
-    void __thiscall SetVTable();
+    void SetVTable();
 };
 
 // @fnv 0x00905670
-void __thiscall FUN_00905670_Class::SetVTable()
+void FUN_00905670_Class::SetVTable()
 {
     *(int*)this = (int)&DAT_01088438;
 }
@@ -122,11 +122,11 @@ extern "C" void __cdecl DAT_01088640();
 
 struct FUN_00906110_Class
 {
-    void __thiscall FUN_00906110();
+    void FUN_00906110();
 };
 
 // @fnv 0x00906110
-void __thiscall FUN_00906110_Class::FUN_00906110()
+void FUN_00906110_Class::FUN_00906110()
 {
     *reinterpret_cast<void**>(this) = &DAT_01088640;
 }
@@ -197,7 +197,7 @@ char FUN_00905510_Class::LockAndCall(int aiArg)
         if (FUN_0043b460((long volatile*)(this + 1), 0, 1) == 0)
         {
             ::FUN_0040fbe0();
-            r = ((char(__thiscall*)(void*, int))vtbl[6])(this, aiArg);
+            r = ((char(*)(void*, int))vtbl[6])(this, aiArg);
             ::FUN_0040fbe0();
             FUN_0043b460((long volatile*)(this + 1), 1, 0);
             break;
@@ -208,8 +208,8 @@ char FUN_00905510_Class::LockAndCall(int aiArg)
 
 struct FUN_00905690_Class
 {
-    void __thiscall FUN_00905650();
-    void* __thiscall FUN_00905690(unsigned int flags);
+    void FUN_00905650();
+    void* FUN_00905690(unsigned int flags);
 };
 
 // @fnv 0x00905690
@@ -224,11 +224,11 @@ void* FUN_00905690_Class::FUN_00905690(unsigned int flags)
 
 struct FUN_009056c0_Class
 {
-    void* __thiscall FUN_009056c0(unsigned int flags);
+    void* FUN_009056c0(unsigned int flags);
 };
 
 // @fnv 0x009056c0
-void* __thiscall FUN_009056c0_Class::FUN_009056c0(unsigned int flags)
+void* FUN_009056c0_Class::FUN_009056c0(unsigned int flags)
 {
     reinterpret_cast<::FUN_00905670_Class *>(this)->SetVTable();
     if (flags & 1)
@@ -238,10 +238,10 @@ void* __thiscall FUN_009056c0_Class::FUN_009056c0(unsigned int flags)
 
 struct FUN_009055c0_Class
 {
-    void* __thiscall FUN_00905930(unsigned int flags);
+    void* FUN_00905930(unsigned int flags);
 };
 // @fnv 0x00905930
-void* __thiscall FUN_009055c0_Class::FUN_00905930(unsigned int flags)
+void* FUN_009055c0_Class::FUN_00905930(unsigned int flags)
 {
     reinterpret_cast<::FUN_009055c0 *>(this)->FUN_009055c0::~FUN_009055c0();
     if (flags & 1)
@@ -264,7 +264,7 @@ void* FUN_00905960_Class::FUN_00905960(unsigned int flags)
 
 struct FUN_00906130_Class
 {
-    void* __thiscall FUN_00906130(unsigned int flags);
+    void* FUN_00906130(unsigned int flags);
 };
 // Calls FUN_00906110 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00906130
@@ -422,7 +422,7 @@ void FUN_009138e0_Class::FUN_009138e0()
 
 struct FUN_00913950_Class
 {
-    void* __thiscall FUN_00913950(int a);
+    void* FUN_00913950(int a);
 };
 
 // @fnv 0x00913950
@@ -799,7 +799,7 @@ struct FUN_00906050_Class
     virtual void v0();
     virtual void v1();
     virtual unsigned char v2(int value, FUN_00528cb0_Guard* guard);
-    void __thiscall FUN_00906050(int value);
+    void FUN_00906050(int value);
 };
 // Creates a guard, calls v2 with the value and guard; if it succeeds, calls CallVirtual5 and passes the guard's flag result to DAT_01202d98.
 // @fnv 0x00906050

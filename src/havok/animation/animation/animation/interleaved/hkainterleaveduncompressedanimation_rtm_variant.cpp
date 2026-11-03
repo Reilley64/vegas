@@ -4,6 +4,7 @@
 
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00e3f000.h"
@@ -64,7 +65,7 @@ struct S00e3fd20_Desc
     int m_2c;
     int m_30;
     int m_34;
-    void __thiscall FUN_00e3fd20(int scale, int unused1, int* out, int unused2);
+    void FUN_00e3fd20(int scale, int unused1, int* out, int unused2);
 };
 #include <xmmintrin.h>
 struct QsTransformX
@@ -141,8 +142,7 @@ class FUN_00e402e0 : public BaseAnimX
 extern int DAT_010e5474;
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-typedef void*(__stdcall* TlsGetValueFn)(unsigned long);
+typedef void*(* TlsGetValueFn)(unsigned long);
 struct ProfRec
 {
     const char* m_pName;

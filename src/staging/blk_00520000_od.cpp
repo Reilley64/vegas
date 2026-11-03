@@ -74,11 +74,11 @@
 
 struct FUN_005224c0_Class
 {
-    unsigned int __thiscall GetField22C();
+    unsigned int GetField22C();
 };
 
 // @fnv 0x005224c0
-unsigned int __thiscall FUN_005224c0_Class::GetField22C()
+unsigned int FUN_005224c0_Class::GetField22C()
 {
     return *(unsigned int*)((char*)this + 0x22c);
 }
@@ -118,12 +118,12 @@ float FUN_00526ae0_class::FUN_00526ae0() const
 
 struct FUN_00527740_class
 {
-    void __thiscall FUN_00527740();
+    void FUN_00527740();
 };
 
 // Clears the int fields at offsets 0x0c and 0x10 and the byte at 0x14 of this object to zero.
 // @fnv 0x00527740
-void __thiscall FUN_00527740_class::FUN_00527740()
+void FUN_00527740_class::FUN_00527740()
 {
     *(int*)((char*)this + 0x0c) = 0;
     *(int*)((char*)this + 0x10) = 0;
@@ -162,30 +162,30 @@ void TESQueuedCellManager::FUN_00528540()
 
 struct FUN_0052a980_Class
 {
-    int __thiscall FUN_0052a980(char* dst);
+    int FUN_0052a980(char* dst);
 };
 
 // @fnv 0x0052a980
-int __thiscall FUN_0052a980_Class::FUN_0052a980(char* pcBuffer)
+int FUN_0052a980_Class::FUN_0052a980(char* pcBuffer)
 {
     return ::FUN_00406d00(pcBuffer, 0x800, "  Temp");
 }
 
 struct FUN_0052d180_cls
 {
-    void __thiscall FUN_0052d180();
+    void FUN_0052d180();
 };
 
-void __thiscall FUN_0052d180_cls::FUN_0052d180()
+void FUN_0052d180_cls::FUN_0052d180()
 {}
 
 struct FUN_0052d160_cls
 {
-    void* __thiscall FUN_0052d160();
+    void* FUN_0052d160();
 };
 
 // @fnv 0x0052d160
-void* __thiscall FUN_0052d160_cls::FUN_0052d160()
+void* FUN_0052d160_cls::FUN_0052d160()
 {
     ((FUN_0052d180_cls*)this)->FUN_0052d180();
     return this;
@@ -304,12 +304,12 @@ struct FUN_005289b0_Class
     int m_field04;
     int m_field08;
     int m_field0c;
-    void __thiscall FUN_005289b0(void* p);
+    void FUN_005289b0(void* p);
 };
 
 // Loops calling FUN_0040fca0(0) while the object's m_field0c is 3 or 5.
 // @fnv 0x005289b0
-void __thiscall FUN_005289b0_Class::FUN_005289b0(void* pObject)
+void FUN_005289b0_Class::FUN_005289b0(void* pObject)
 {
     while (((FUN_005289b0_Class*)pObject)->m_field0c == 3 || ((FUN_005289b0_Class*)pObject)->m_field0c == 5)
         FUN_0040fca0(0);
@@ -317,25 +317,25 @@ void __thiscall FUN_005289b0_Class::FUN_005289b0(void* pObject)
 
 struct FUN_00526ef0_Class
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 struct FUN_005277a0_Class
 {
-    void __thiscall FUN_00527840();
+    void FUN_00527840();
     void* FUN_005277a0(unsigned int flags);
 };
 
 void __cdecl operator delete(void*);
 struct FUN_00528be0_Class
 {
-    void __thiscall FUN_00528be0();
+    void FUN_00528be0();
 };
 struct FUN_00528e10_Class
 {
-    void* __thiscall FUN_00528e10(unsigned int flags);
+    void* FUN_00528e10(unsigned int flags);
 };
 // @fnv 0x00528e10
-void* __thiscall FUN_00528e10_Class::FUN_00528e10(unsigned int flags)
+void* FUN_00528e10_Class::FUN_00528e10(unsigned int flags)
 {
     ((FUN_00528be0_Class*)this)->FUN_00528be0();
     if (flags & 1)
@@ -348,14 +348,14 @@ struct FUN_00529330_Class
 };
 struct FUN_00529300_Class
 {
-    void* __thiscall FUN_00529300(unsigned int flags);
+    void* FUN_00529300(unsigned int flags);
 };
 struct FUN_005293c0_Class
 {
-    void* __thiscall FUN_005293c0(unsigned int flags);
+    void* FUN_005293c0(unsigned int flags);
 };
 // @fnv 0x005293c0
-void* __thiscall FUN_005293c0_Class::FUN_005293c0(unsigned int flags)
+void* FUN_005293c0_Class::FUN_005293c0(unsigned int flags)
 {
     reinterpret_cast<::FUN_0044f420_class *>(this)->FUN_0044f420();
     if (flags & 1)
@@ -409,12 +409,12 @@ struct FUN_005271b0_Class
     char m_auiShapeKeys[0x48];
     char m_field48;
     char m_field70;
-    char* __thiscall GetFieldByType(unsigned int type);
+    char* GetFieldByType(unsigned int type);
 };
 
 // Returns a pointer to the member at offset 0x48 for type 0x29 or at offset 0x30 for type 0x28, otherwise null.
 // @fnv 0x005271b0
-char* __thiscall FUN_005271b0_Class::GetFieldByType(unsigned int type)
+char* FUN_005271b0_Class::GetFieldByType(unsigned int type)
 {
     switch (type)
     {
@@ -498,11 +498,11 @@ struct FUN_005277d0_Class
     unsigned int size;
     void* data;
     void* next;
-    FUN_005277d0_Class* __thiscall InitBuffer(unsigned int size);
+    FUN_005277d0_Class* InitBuffer(unsigned int size);
 };
 // Sets the vtable, stores size, clears next, allocates size*4 bytes with NiMalloc, zeroes them, and returns this.
 // @fnv 0x005277d0
-FUN_005277d0_Class* __thiscall FUN_005277d0_Class::InitBuffer(unsigned int size)
+FUN_005277d0_Class* FUN_005277d0_Class::InitBuffer(unsigned int size)
 {
     vtbl = &DAT_0102cfa0;
     this->size = size;
@@ -515,11 +515,11 @@ FUN_005277d0_Class* __thiscall FUN_005277d0_Class::InitBuffer(unsigned int size)
 
 struct FUN_005278d0_Class
 {
-    void* __thiscall FUN_005278d0(unsigned int flags);
+    void* FUN_005278d0(unsigned int flags);
 };
 // Calls DoIt on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x005278d0
-void* __thiscall FUN_005278d0_Class::FUN_005278d0(unsigned int flags)
+void* FUN_005278d0_Class::FUN_005278d0(unsigned int flags)
 {
     ((FUN_005278a0*)this)->DoIt();
     if (flags & 1)
@@ -529,7 +529,7 @@ void* __thiscall FUN_005278d0_Class::FUN_005278d0(unsigned int flags)
 
 struct IOTask
 {
-    virtual void __thiscall Dummy();
+    virtual void Dummy();
     IOTask(int a);
     char _pad[20];
 };
@@ -549,7 +549,7 @@ FUN_00527c00::FUN_00527c00(int aiValue18, int aiValue1c) : IOTask(0)
 
 struct Caller27f90
 {
-    void* __thiscall FUN_00527f90(unsigned int flags);
+    void* FUN_00527f90(unsigned int flags);
 };
 // If the global TESQueuedCellManager exists, calls its FUN_00527f90 with flags 1 and clears the global pointer.
 // @fnv 0x00527f40
@@ -572,8 +572,8 @@ void __cdecl FUN_00527f40()
 
 struct FUN_00527f90_Holder
 {
-    void __thiscall FUN_00527e50();
-    void* __thiscall FUN_00527f90(unsigned int);
+    void FUN_00527e50();
+    void* FUN_00527f90(unsigned int);
 };
 struct RecursiveSpinLock
 {
@@ -582,19 +582,19 @@ public:
 };
 struct FUN_00449f80_Class
 {
-    void* __thiscall FUN_00449f80(void* a, void* b, unsigned char c);
+    void* FUN_00449f80(void* a, void* b, unsigned char c);
 };
 struct FUN_0044c000_Class
 {
-    unsigned char __thiscall FUN_0044c000();
+    unsigned char FUN_0044c000();
 };
 struct FUN_00528b60_Class
 {
-    unsigned char __thiscall LockedCall(void* a, void* b, unsigned char c);
+    unsigned char LockedCall(void* a, void* b, unsigned char c);
 };
 // Locks the object at offset 0x20, calls FUN_00449f80 then FUN_0044c000 on its result, unlocks, and returns that result.
 // @fnv 0x00528b60
-unsigned char __thiscall FUN_00528b60_Class::LockedCall(void* a, void* b, unsigned char c)
+unsigned char FUN_00528b60_Class::LockedCall(void* a, void* b, unsigned char c)
 {
     unsigned char r;
     reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0040fbf0((char *)(0));
@@ -633,11 +633,11 @@ struct FUN_0052cfc0_Class
 {
     int pad;
     FUN_0052cfc0_Rect rect;
-    void __thiscall FUN_0052cfc0(FUN_0052cfc0_Rect* p);
+    void FUN_0052cfc0(FUN_0052cfc0_Rect* p);
 };
 // Copies the four ints of the passed rect into this object's rect field.
 // @fnv 0x0052cfc0
-void __thiscall FUN_0052cfc0_Class::FUN_0052cfc0(FUN_0052cfc0_Rect* apRect)
+void FUN_0052cfc0_Class::FUN_0052cfc0(FUN_0052cfc0_Rect* apRect)
 {
     rect = *apRect;
 }
@@ -649,11 +649,11 @@ template <int N> struct EndianSizeTag
 
 struct FUN_00535aa0_Class
 {
-    void __thiscall FUN_00535aa0();
+    void FUN_00535aa0();
 };
 
 // @fnv 0x00535aa0
-void __thiscall FUN_00535aa0_Class::FUN_00535aa0()
+void FUN_00535aa0_Class::FUN_00535aa0()
 {
     ::FUN_00407a90((short *)(unsigned char *)((unsigned char*)this));
     ::FUN_00401080((int *)(unsigned short *)((unsigned short*)((char*)this + 4)));
@@ -666,7 +666,7 @@ struct Cl537
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    Cl537* __thiscall FUN_00537bb0();
+    Cl537* FUN_00537bb0();
 };
 // @fnv 0x00537b80
 Base537* Base537::FUN_00537b80()
@@ -677,7 +677,7 @@ Base537* Base537::FUN_00537b80()
     return this;
 }
 // @fnv 0x00537bb0
-Cl537* __thiscall Cl537::FUN_00537bb0()
+Cl537* Cl537::FUN_00537bb0()
 {
     reinterpret_cast<::FUN_004b5020_shell *>((((CallCls537*)this)))->FUN_004b5020();
     m_iWordAt04 = 0;
@@ -698,7 +698,7 @@ void __cdecl InitQueuedCellManager()
 
 struct FUN_005285c0_Class
 {
-    void* __thiscall FUN_005285c0(void* a, void* b, void* c);
+    void* FUN_005285c0(void* a, void* b, void* c);
 };
 // Allocates a 0x14-byte object storing a, b and c in its first three fields, zeroing the byte at 0x10 and the int at 0xC, and returns it or null if a is null.
 // @fnv 0x005285c0
@@ -750,7 +750,7 @@ struct FUN_005272b0_ItemChange
 
 struct FUN_005272b0_Class
 {
-    void __thiscall ClearAndDestroy();
+    void ClearAndDestroy();
 };
 
 // @fnv 0x005272b0
@@ -762,28 +762,28 @@ void FUN_005272b0_Class::ClearAndDestroy()
 
 struct FUN_005285a0_Class
 {
-    virtual void __thiscall v0();
-    virtual void __thiscall v1();
-    virtual void __thiscall v2();
-    virtual void __thiscall v3();
-    virtual void __thiscall v4();
-    virtual void __thiscall v5();
-    virtual void __thiscall v6();
-    virtual void __thiscall v7();
-    virtual void __thiscall v8();
-    virtual void __thiscall v9();
-    virtual void __thiscall v10();
-    virtual void __thiscall v11();
-    virtual void __thiscall v12();
-    virtual void __thiscall v13();
-    virtual void __thiscall v14();
-    virtual void __thiscall v15();
-    virtual void __thiscall CallVirtual17();
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void CallVirtual17();
 };
 // @fnv 0x005285a0
-void __thiscall FUN_005285a0_Class::CallVirtual17()
+void FUN_005285a0_Class::CallVirtual17()
 {
-    ((void(__thiscall*)(void*))(*(void***)this)[17])(this);
+    ((void(*)(void*))(*(void***)this)[17])(this);
 }
 
 class Sub24_b5481
@@ -859,7 +859,7 @@ FUN_005271f0::FUN_005271f0(int owner, int type) : m_iOwner(owner), m_iArrayLengt
     reinterpret_cast<::fnv_00527350::FUN_00527350 *>(this)->FUN_00527350_Init();
 }
 
-// The game object whose byte at +4 is read by FUN_00401170 (a plain __thiscall
+// The game object whose byte at +4 is read by FUN_00401170 (a plain
 // member of the game's own shell class, so a stand-in with the same shape is
 // enough: the call is ECX-based and its result is a plain int).
 struct FNV_FormType
@@ -953,7 +953,7 @@ struct FUN_00527e50 : FUN_00528be0
 };
 // Calls FUN_00527e50, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x00527f90
-void* __thiscall FUN_00527f90_Holder::FUN_00527f90(unsigned int flags)
+void* FUN_00527f90_Holder::FUN_00527f90(unsigned int flags)
 {
     reinterpret_cast<::FUN_00527e50 *>(this)->FUN_00527e50::~FUN_00527e50();
     if (flags & 1)
@@ -1776,11 +1776,11 @@ struct Cls
     void* m_iWordAt00;
     unsigned long m_iWordAt04;
     ArrayItem* m_8;
-    void __thiscall FUN_00529330();
+    void FUN_00529330();
 };
 // Calls FUN_00529330 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00529300
-void* __thiscall FUN_00529300_Class::FUN_00529300(unsigned int flags)
+void* FUN_00529300_Class::FUN_00529300(unsigned int flags)
 {
     reinterpret_cast<::Cls *>((((FUN_00529330_Class*)this)))->FUN_00529330();
     if (flags & 1)
@@ -1789,7 +1789,7 @@ void* __thiscall FUN_00529300_Class::FUN_00529300(unsigned int flags)
 }
 
 // @fnv 0x00529330
-void __thiscall Cls::FUN_00529330()
+void Cls::FUN_00529330()
 {
     unsigned int i = 0;
     for (; i < ((unsigned int)(::FUN_00559450((int *)(this)))); ++i)

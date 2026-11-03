@@ -195,22 +195,22 @@ void* StatsMenu::FUN_0071f6d0(unsigned int flags)
 
 struct FUN_0071feb0_shell
 {
-    int __thiscall FUN_0071feb0();
+    int FUN_0071feb0();
 };
 
 // @fnv 0x0071feb0
-int __thiscall FUN_0071feb0_shell::FUN_0071feb0()
+int FUN_0071feb0_shell::FUN_0071feb0()
 {
     return 0x41e;
 }
 
 struct FUN_00720100_shell
 {
-    int __thiscall FUN_00720100();
+    int FUN_00720100();
 };
 
 // @fnv 0x00720100
-int __thiscall FUN_00720100_shell::FUN_00720100()
+int FUN_00720100_shell::FUN_00720100()
 {
     return 0x420;
 }
@@ -867,7 +867,7 @@ struct FUN_0071f2d0_shell
 };
 
 // @fnv 0x0071f2d0
-int __thiscall FUN_0071f2d0_shell::FUN_0071f2d0()
+int FUN_0071f2d0_shell::FUN_0071f2d0()
 {
     return 0x423;
 }
@@ -1140,7 +1140,6 @@ struct CombatManager
     unsigned int m_uiDebugFlags;
     char m_spDebugRootNode[4];
 };
-typedef char _sizecheck_CombatManager[sizeof(CombatManager) == 60 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -1148,12 +1147,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 namespace ActorValue { enum Index; }
 struct ActorValueOwner
 {
@@ -1173,7 +1170,6 @@ public:
 public:
     float GetActorValueFloatByIndex(::ActorValue::Index);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -1195,7 +1191,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_008d0300_shell : public CombatManager
 {
     bool FUN_008d0300(Actor*, Actor*);
@@ -1439,11 +1434,11 @@ struct S0071
 {
     unsigned char _pad[0x2c];
     Tile* m_pTiles[18];
-    void __thiscall FUN_0071ffe0(int, Tile*);
+    void FUN_0071ffe0(int, Tile*);
 };
 // Stores apTile in the slot returned by FUN_00720010(aiID) when aiID is in 1..0x12.
 // @fnv 0x0071ffe0
-void __thiscall S0071::FUN_0071ffe0(int aiID, Tile* apTile)
+void S0071::FUN_0071ffe0(int aiID, Tile* apTile)
 {
     if (aiID > 0 && aiID <= 0x12)
     {

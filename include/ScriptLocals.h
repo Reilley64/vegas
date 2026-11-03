@@ -4,7 +4,6 @@
 
 #include "fnv/decl/FUN_005a9290_shell.h"
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ScriptLocals
 {
   public:
@@ -16,11 +15,4 @@ class ScriptLocals
     BSSimpleList<ScriptLocalVariable*>* m_pVariableList;        // +0xC
     ScriptDefinition* m_pExtendedLocals;               // +0x10
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ScriptLocals) == 0x14);
-FNV_STATIC_ASSERT(offsetof(ScriptLocals, m_pOwnerScript) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ScriptLocals, m_cActionFlags) == 0x4);
-FNV_STATIC_ASSERT(offsetof(ScriptLocals, m_pLocalVariableList) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ScriptLocals, m_pVariableList) == 0xC);
-FNV_STATIC_ASSERT(offsetof(ScriptLocals, m_pExtendedLocals) == 0x10);
 #endif

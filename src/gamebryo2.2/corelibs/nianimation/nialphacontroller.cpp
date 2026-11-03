@@ -21,11 +21,11 @@ void NiAlphaController::CopyMemberData(NiAlphaController* clone, CloningProcess&
 
 struct FUN_00a569f0_shell
 {
-    void __thiscall FUN_00a569f0(float& fValue);
+    void FUN_00a569f0(float& fValue);
 };
 
 // @fnv 0x00a569f0
-void __thiscall FUN_00a569f0_shell::FUN_00a569f0(float& fValue)
+void FUN_00a569f0_shell::FUN_00a569f0(float& fValue)
 {
     float* p = *reinterpret_cast<float**>(reinterpret_cast<char*>(this) + 0x2c);
     fValue = p[0x3c / 4];
@@ -78,7 +78,7 @@ struct FUN_00bc3050_Obj
 };
 // Checks whether pkTarget's RTTI chain contains g_011f4a5c, returning false for a null target or null RTTI.
 // @fnv 0x00bc3050
-bool __stdcall FUN_00bc3050(FUN_00bc3050_Obj* pkTarget)
+bool FUN_00bc3050(FUN_00bc3050_Obj* pkTarget)
 {
     if (!pkTarget)
         return false;
@@ -104,12 +104,12 @@ template <class T, class Alloc> struct NiTPrimitiveArray
     unsigned short m_usSize;
     char _pad2[2];
     unsigned short m_usGrowBy;
-    void __thiscall SetSize(unsigned int);
-    void __thiscall SetAt(unsigned int, T&);
+    void SetSize(unsigned int);
+    void SetAt(unsigned int, T&);
 };
 // Grows pkStrings if full, then appends the string returned by _FUN_00a7d330(g_011f4084) at the current size index.
 // @fnv 0x00a56b60
-void __stdcall FUN_00a56b60(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
+void FUN_00a56b60(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     ::FUN_00a576c0(pkStrings);
     char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_011f4084)));
@@ -128,7 +128,7 @@ struct NiNew
 };
 struct Holder
 {
-    NiNew* __thiscall CreateAndCopy(CloningProcess* p);
+    NiNew* CreateAndCopy(CloningProcess* p);
 };
 // Allocates and initialises a NiNew, then copies p into it via Copy and returns the new object, or null if allocation fails.
 // @fnv 0x00a56ae0
@@ -232,11 +232,11 @@ struct FUN_00a56a90_shell
 {
     char _pad[0x34];
     Obj_00a56a90* m_pEntryObject;
-    void* __thiscall FUN_00a56a90(unsigned int);
+    void* FUN_00a56a90(unsigned int);
 };
 // Decrements m_pEntryObject's count, calls F1 at zero, invokes FUN_00a6d290, optionally deletes this, and returns this.
 // @fnv 0x00a56a90
-void* __thiscall FUN_00a56a90_shell::FUN_00a56a90(unsigned int uiFlags)
+void* FUN_00a56a90_shell::FUN_00a56a90(unsigned int uiFlags)
 {
     Obj_00a56a90* p = m_pEntryObject;
     if (p)

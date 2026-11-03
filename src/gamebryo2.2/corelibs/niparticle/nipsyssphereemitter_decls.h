@@ -32,7 +32,7 @@ class NiPSysSphereEmitter : public NiPSysVolumeEmitter
     float m_fBoundRadius;
     virtual void LoadBinary(NiStream& stream);
 };
-inline void __fastcall ReadBinaryValue(NiStream& stream, float& value)
+inline void ReadBinaryValue(NiStream& stream, float& value)
 {
     NiBinaryStream* input = stream.input;
     unsigned int reader = reinterpret_cast<unsigned int>(input->read);

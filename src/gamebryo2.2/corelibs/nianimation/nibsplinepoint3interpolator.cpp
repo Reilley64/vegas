@@ -77,7 +77,7 @@ struct FUN_00a50660_shell
     void SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel);
 };
 // @fnv 0x00a50660
-void __thiscall FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel)
+void FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, unsigned short usChannel)
 {
     if (!usChannel)
         ((NiBSplinePoint3Interpolator*)this)->m_kPoint3CPHandle = kControlHandle;
@@ -254,7 +254,7 @@ struct FUN_00a50710_shell
     int dataOffset;
     Point3 lastValue;
     unsigned int handle;
-    bool __thiscall SampleBSpline(float time, int unk, Point3* output);
+    bool SampleBSpline(float time, int unk, Point3* output);
 };
 // @fnv 0x00a50710
 bool FUN_00a50710_shell::SampleBSpline(float time, int aiUnused, Point3* output)

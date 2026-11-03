@@ -340,7 +340,7 @@ struct FUN_0040c110_obj
 {
     void FUN_0040c130();
 };
-void __fastcall FUN_0040c130(void*);
+void FUN_0040c130(void*);
 
 struct FUN_0040c110_ptr
 {
@@ -350,10 +350,10 @@ struct FUN_0040c110_ptr
     }* m_pObject;
 };
 
-void __fastcall FUN_0040c130(FUN_0040c110_ptr::Target*);
+void FUN_0040c130(FUN_0040c110_ptr::Target*);
 
 // @fnv 0x0040c110
-void __fastcall FUN_0040c110(FUN_0040c110_ptr* _this)
+void FUN_0040c110(FUN_0040c110_ptr* _this)
 {
     if (_this->m_pObject)
         reinterpret_cast<::FUN_0040c130_Class *>((_this->m_pObject))->FUN_0040c130();
@@ -362,7 +362,7 @@ void __fastcall FUN_0040c110(FUN_0040c110_ptr* _this)
 
 // Returns pThis[1] when pThis is non-null, otherwise resets DAT_01202800 to 0 and returns it.
 // @fnv 0x0043d4d0
-int& __fastcall FUN_0043d4d0(int* pThis)
+int& FUN_0043d4d0(int* pThis)
 {
     return pThis ? pThis[1] : (DAT_01202800 = 0, DAT_01202800);
 }
@@ -371,9 +371,9 @@ struct FUN_004047f0_arg
 {
     const BSStringT<char>* s;
 };
-void __fastcall FUN_00403970(BSStringT<char>*);
+void FUN_00403970(BSStringT<char>*);
 // @fnv 0x004047f0
-BSStringT<char>* __fastcall AssignFromString(BSStringT<char>* this_ptr, FUN_004047f0_arg aStringArg)
+BSStringT<char>* AssignFromString(BSStringT<char>* this_ptr, FUN_004047f0_arg aStringArg)
 {
     FUN_00403970(this_ptr);
     reinterpret_cast<::TextString *>((this_ptr))->FUN_004037f0(((const char *)(::FUN_00559450((int *)(aStringArg.s)))), 0);
@@ -384,9 +384,9 @@ struct FUN_0040c0e0_arg
 {
     const char* s;
 };
-void __fastcall FUN_00403970(BSStringT<char>*);
+void FUN_00403970(BSStringT<char>*);
 // @fnv 0x0040c0e0
-BSStringT<char>* __fastcall FUN_0040c0e0(BSStringT<char>* this_ptr, FUN_0040c0e0_arg aCString)
+BSStringT<char>* FUN_0040c0e0(BSStringT<char>* this_ptr, FUN_0040c0e0_arg aCString)
 {
     FUN_00403970(this_ptr);
     reinterpret_cast<::TextString *>((this_ptr))->FUN_004037f0(aCString.s, 0);

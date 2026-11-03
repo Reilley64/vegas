@@ -54,7 +54,7 @@ struct _ref_0084e3a0_t
 };
 struct FUN_00511d10_shell
 {
-    void __thiscall FUN_00511d10();
+    void FUN_00511d10();
 };
 class B511A10Form
 {
@@ -110,7 +110,7 @@ struct FUN_005e78f0_t
 };
 struct AnimationCopyEntry : TESObjectANIO
 {
-    void __thiscall FUN_00511d70(TESForm* apCopy);
+    void FUN_00511d70(TESForm* apCopy);
 };
 // @fnv 0x00511d70
 void AnimationCopyEntry::FUN_00511d70(TESForm* apCopy)

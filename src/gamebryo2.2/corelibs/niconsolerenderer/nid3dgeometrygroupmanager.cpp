@@ -52,10 +52,10 @@ struct FUN_00e88dc0_caller
 
 // Forwards the geometry group, data and skin instance to ProcessCollector along with the bool at pThis+0x18 and two zero arguments.
 // @fnv 0x00e88fa0
-bool __fastcall FUN_00e88fa0(void* pThis, int, NiGeometryGroup* pkGroup, NiGeometryData* pkData,
+bool FUN_00e88fa0(void* pThis, int, NiGeometryGroup* pkGroup, NiGeometryData* pkData,
                              NiSkinInstance* pkSkinInstance)
 {
-    typedef bool(__thiscall * Fn)(void*, NiGeometryGroup*, NiGeometryData*, NiSkinInstance*, bool, unsigned int,
+    typedef bool(* Fn)(void*, NiGeometryGroup*, NiGeometryData*, NiSkinInstance*, bool, unsigned int,
                                   unsigned int);
     return ((Fn)&((bool (&)(void *, int, NiGeometryGroup *, NiGeometryData *, NiSkinInstance *, bool, unsigned int, unsigned int))::ProcessCollector))(pThis, pkGroup, pkData, pkSkinInstance, *((bool*)pThis + 0x18), 0, 0);
 }
@@ -144,9 +144,9 @@ struct Elem9
 };
 struct Rel3
 {
-    virtual void __stdcall g0();
-    virtual void __stdcall g1();
-    virtual void __stdcall g2();
+    virtual void g0();
+    virtual void g1();
+    virtual void g2();
 };
 struct Holder
 {
@@ -220,7 +220,7 @@ struct FUN_P
     FUN_Elem* m_0C;
 };
 // @fnv 0x00e88d00
-bool __stdcall FUN_00e88d00(FUN_P* p)
+bool FUN_00e88d00(FUN_P* p)
 {
     unsigned int cnt = p->m_08;
     FUN_Elem* e = p->m_0C;
@@ -338,7 +338,7 @@ struct GeomRef
 
 // Checks pRef's m_0C via FUN_00e88d00, otherwise calls Slot5 on pOwner's m_34->m_08 and Slot0 if m_04 is zero, returning true or false.
 // @fnv 0x00e88e40
-bool __stdcall FUN_00e88e40(GeomOwner* pGeomOwner, GeomRef* pGeomRef)
+bool FUN_00e88e40(GeomOwner* pGeomOwner, GeomRef* pGeomRef)
 {
     if (pGeomRef == 0)
     {
@@ -365,9 +365,9 @@ owner:
 
 struct IDeviceE88
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObj) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const void* riid, void** ppvObj) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 class NiGeometryGroupE88
@@ -513,7 +513,7 @@ struct HkCollector
 
 // Processes each element of the info array when enabled; otherwise calls Process once with null if body->unk34 is zero.
 // @fnv 0x00e88dc0
-bool __stdcall ProcessCollector(HkCollector* collector, HkBody* body, HkInput* input, bool flag, int unused1,
+bool ProcessCollector(HkCollector* collector, HkBody* body, HkInput* input, bool flag, int unused1,
                                 int unused2)
 {
     if (input && flag && input->unk0c)

@@ -4,7 +4,7 @@
 
 // @fnv 0x00dd51f0
 #include "fnv/decl/FUN_00dd51d0_class.h"
-int __stdcall ReadIntField(const void* a, int* piValue)
+int ReadIntField(const void* a, int* piValue)
 {
     *piValue = *(const int*)((const char*)a + 4);
     return 1;
@@ -21,7 +21,7 @@ struct FUN_00dd5260_T
 
 // Copies the five-int struct pointed to by pSrc into the struct pointed to by pDst.
 // @fnv 0x00dd5260
-void __stdcall FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst)
+void FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst)
 {
     *pDst = *pSrc;
 }
@@ -139,7 +139,7 @@ CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
 }
 
 // @fnv 0x00dd51e0
-void __stdcall FUN_00dd51e0(int, int)
+void FUN_00dd51e0(int, int)
 {}
 
 struct FnvCpu_FUN_00dd5290_CpuObject

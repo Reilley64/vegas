@@ -1,5 +1,6 @@
 // bssystem/bsfilecache.cpp: BSFileCache, StandIn (15 functions)
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_011f6000.h"
 #include "bsfilecache.h"
@@ -136,7 +137,7 @@ struct FUN_00b012f0_shell
 };
 
 // @fnv 0x00b012f0
-void __thiscall FUN_00b012f0_shell::FUN_00b012f0(int aiValue1, int aiValue2)
+void FUN_00b012f0_shell::FUN_00b012f0(int aiValue1, int aiValue2)
 {
     DAT_011ad028 = aiValue1;
     DAT_011ad02c = aiValue2;
@@ -175,11 +176,11 @@ int FUN_00b01340_Shell::FUN_00b01340(const char* apFileList, unsigned int aiCurr
 
 struct FUN_00b01350_shell
 {
-    bool __thiscall FUN_00b01350(void* apCachedFile);
+    bool FUN_00b01350(void* apCachedFile);
 };
 
 // @fnv 0x00b01350
-bool __thiscall FUN_00b01350_shell::FUN_00b01350(void* apCachedFile)
+bool FUN_00b01350_shell::FUN_00b01350(void* apCachedFile)
 {
     return false;
 }
@@ -202,7 +203,6 @@ void StandIn::ClearPointerAt60()
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x60) = 0;
 }
 
-extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long ulMilliseconds);
 
 class B01130Task
 {

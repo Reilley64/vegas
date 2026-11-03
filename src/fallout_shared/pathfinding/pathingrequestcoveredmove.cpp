@@ -484,7 +484,7 @@ struct FUN_006e4f10_class
     NiPoint3 m_afExtents;
     bool m_flag;
 
-    void __thiscall FUN_006e4f10(const NiPoint3& pt);
+    void FUN_006e4f10(const NiPoint3& pt);
 };
 // Copies this object's float, int and byte members and the unkC8/unkD4/unkE4/unkF4 sub-objects into pTarget via its setter methods.
 // @fnv 0x006e4dd0
@@ -517,7 +517,7 @@ void FUN_006e4dd0_cls::CopyTo(void* arg)
 
 // Stores pt into the NiPoint3 member and sets m_flag to true.
 // @fnv 0x006e4f10
-void __thiscall FUN_006e4f10_class::FUN_006e4f10(const NiPoint3& aPoint)
+void FUN_006e4f10_class::FUN_006e4f10(const NiPoint3& aPoint)
 {
     m_afExtents = aPoint;
     m_flag = true;

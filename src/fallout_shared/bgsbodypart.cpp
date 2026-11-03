@@ -235,7 +235,7 @@ bool BGSBodyPart::Load(TESFile* file)
 extern int DAT_0104540c;
 
 // @fnv 0x005e3be0
-TESModel* __fastcall FUN_005e3be0(TESModel* pThis)
+TESModel* FUN_005e3be0(TESModel* pThis)
 {
     new ((void *)(pThis)) ::FUN_00488f50_cls();
     *(int**)pThis = &DAT_0104540c;
@@ -244,7 +244,7 @@ TESModel* __fastcall FUN_005e3be0(TESModel* pThis)
 
 
 // @fnv 0x005e3c00
-void* __fastcall FUN_005e3c00(char* pObject)
+void* FUN_005e3c00(char* pObject)
 {
     new ((void *)(pObject + 0x2c)) ::Vec3();
     new ((void *)(pObject + 0x38)) ::Vec3();

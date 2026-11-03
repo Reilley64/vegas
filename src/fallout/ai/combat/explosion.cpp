@@ -122,7 +122,7 @@ struct FUN_009ac170_shell
 {
     char m_auiShapeKeys[0xd0];
     NiPointer m_actorCause;
-    void __thiscall FUN_009ac170(ActorCause* apActorCause);
+    void FUN_009ac170(ActorCause* apActorCause);
 };
 
 struct Explosion
@@ -135,12 +135,12 @@ struct Explosion
 struct NiRTTI;
 struct bhkLiquidAction
 {
-    const NiRTTI* __thiscall GetRTTI() const;
+    const NiRTTI* GetRTTI() const;
 };
 
 
 // @fnv 0x009ae240
-const NiRTTI* __thiscall bhkLiquidAction::GetRTTI() const
+const NiRTTI* bhkLiquidAction::GetRTTI() const
 {
     return &(*reinterpret_cast<::NiRTTI *>(&::g_01268420));
 }
@@ -190,7 +190,7 @@ void Explosion::FUN_009b2770(BGSLoadFormBuffer* apLoadGameBuffer)
 
 struct BSOcclusionPlane
 {
-    int __thiscall IsNotCulled();
+    int IsNotCulled();
 };
 
 // @fnv 0x009ad5f0
@@ -209,12 +209,12 @@ extern "C" void __cdecl FUN_009afbe0(void*);
 
 struct FUN_00621100_shell
 {
-    void __thiscall SetVtable(void);
+    void SetVtable(void);
 };
 
 struct FUN_009afc10_shell
 {
-    void __thiscall FUN_009afc10();
+    void FUN_009afc10();
 };
 // Calls FUN_009afc10, then if bit 0 of flags is set calls FUN_009afbe0 on this, and returns this.
 // @fnv 0x009afbb0
@@ -227,7 +227,7 @@ void* FUN_009afbb0_shell::FUN_009afbb0(unsigned int flags)
 }
 
 // @fnv 0x009afc10
-void __thiscall FUN_009afc10_shell::FUN_009afc10()
+void FUN_009afc10_shell::FUN_009afc10()
 {
     ((FUN_00621100_shell*)this)->SetVtable();
 }
@@ -248,12 +248,12 @@ NavMesh* FUN_009afc50_shell::FUN_009afc30()
 void __cdecl FUN_009ac940(void*);
 struct FUN_009ac910_shell
 {
-    void __thiscall FUN_009ac940();
-    void* __thiscall FUN_009ac910(unsigned int flags);
+    void FUN_009ac940();
+    void* FUN_009ac910(unsigned int flags);
 };
 // Calls FUN_009ac940, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x009ac910
-void* __thiscall FUN_009ac910_shell::FUN_009ac910(unsigned int flags)
+void* FUN_009ac910_shell::FUN_009ac910(unsigned int flags)
 {
     reinterpret_cast<::fnv_009ac940::FUN_009ac940 *>(this)->fnv_009ac940::FUN_009ac940::~FUN_009ac940();
     if (flags & 1)
@@ -266,7 +266,7 @@ struct FUN_00cbc920_shell
 };
 struct StandIn
 {
-    void* __thiscall FUN_009ae250(unsigned int);
+    void* FUN_009ae250(unsigned int);
 };
 // Calls FUN_00cbc920 on this, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x009ae250
@@ -520,11 +520,11 @@ struct S009afc70
 {
     char m_auiShapeKeys[0x14];
     NavMeshPtr m_navMeshPtr;
-    void* __thiscall FUN_009afc70(void*);
+    void* FUN_009afc70(void*);
 };
 // Calls FUN_00622570 on a1 with true when m_navMeshPtr.FUN_00458b50() returns a value greater than 0, then returns a1.
 // @fnv 0x009afc70
-void* __thiscall S009afc70::FUN_009afc70(void* apTarget)
+void* S009afc70::FUN_009afc70(void* apTarget)
 {
     reinterpret_cast<::FUN_00622570_Class *>((((H00622570*)apTarget)))->FUN_00622570((int)m_navMeshPtr.FUN_00458b50() > 0);
     return apTarget;
@@ -584,10 +584,10 @@ struct TESDataHandler
 };
 struct FUN_009b0d30_shell
 {
-    void __thiscall FUN_009b0d30(int);
+    void FUN_009b0d30(int);
 };
 // @fnv 0x009b0d30
-void __thiscall FUN_009b0d30_shell::FUN_009b0d30(int a1)
+void FUN_009b0d30_shell::FUN_009b0d30(int a1)
 {
     reinterpret_cast<::hkpEntityC9C *>((this))->FUN_00c9c1d0();
     ((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((reinterpret_cast<TESDataHandler*>(this)))->FUN_009d9f40()))->F21(a1);
@@ -660,10 +660,10 @@ struct BGSExplosion : Standin77900
 {
     char _pad[0xA0];
     float m_fSphereRadius;
-    float __thiscall GetScaledValue();
+    float GetScaledValue();
 };
 // @fnv 0x009ad5a0
-float __thiscall BGSExplosion::GetScaledValue()
+float BGSExplosion::GetScaledValue()
 {
     return (float)(reinterpret_cast<::FUN_00477950_shell *>(this)->HasAnyFlags(1) ? (double)m_fSphereRadius
                                   : (double)(m_fSphereRadius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
@@ -797,7 +797,7 @@ struct Vec3f
     float y;
     float z;
 };
-void* __fastcall Callee0053d280(void* p);
+void* Callee0053d280(void* p);
 struct FUN_005762b0_cls
 {
     virtual void vf0()
@@ -1125,7 +1125,7 @@ struct FUN_009ae140_cls : Ae140Base
 struct VectorHolder
 {
     unsigned int handle;
-    void __thiscall FUN_006815c0();
+    void FUN_006815c0();
     VectorHolder()
     {
         FUN_006815c0();
@@ -1135,7 +1135,7 @@ struct BaseObject
 {
     virtual ~BaseObject();
     unsigned int unk04;
-    void __thiscall FUN_00621060();
+    void FUN_00621060();
     BaseObject()
     {
         FUN_00621060();
@@ -1162,12 +1162,12 @@ FUN_009afaf0::FUN_009afaf0(unsigned int firstValue, unsigned int secondValue)
 
 struct FUN_009afca0_holder
 {
-    void __thiscall InvokeCallback(void* param);
+    void InvokeCallback(void* param);
 };
 
 
 // @fnv 0x009afca0
-void __thiscall FUN_009afca0_holder::InvokeCallback(void* param)
+void FUN_009afca0_holder::InvokeCallback(void* param)
 {
     ::DAT_01268430(param, this);
 }
@@ -2003,7 +2003,7 @@ struct Holder0042f780
     Holder0042f780* FUN_0042f780(AC_0042f730* p);
 };
 // @fnv 0x009ac170
-void __thiscall FUN_009ac170_shell::FUN_009ac170(ActorCause* apActorCause)
+void FUN_009ac170_shell::FUN_009ac170(ActorCause* apActorCause)
 {
     reinterpret_cast<::Holder0042f780 *>((void *)&(const ::NiPointer &)(m_actorCause))->FUN_0042f780((::AC_0042f730 *)(apActorCause));
 }

@@ -49,8 +49,8 @@
 extern "C" void __cdecl FUN_00b02c90();
 struct FUN_00b274a0_class
 {
-    void __thiscall FUN_00b02c90();
-    FUN_00b274a0_class* __thiscall ResetState();
+    void FUN_00b02c90();
+    FUN_00b274a0_class* ResetState();
 };
 extern int DAT_010a57fc;
 struct FUN_00b3c440_class
@@ -65,24 +65,24 @@ struct FUN_00b3c910_class
 extern int DAT_010a5890;
 struct FUN_00b3f0a0_Class
 {
-    void __thiscall FUN_00b3f0a0();
+    void FUN_00b3f0a0();
 };
 struct NiPoint3
 {
     float x;
     float y;
     float z;
-    NiPoint3& __thiscall FUN_00b2a1c0(const NiPoint3& other);
+    NiPoint3& FUN_00b2a1c0(const NiPoint3& other);
 };
 unsigned int __cdecl FUN_00ec7c56();
 struct FUN_00b393b0_Class
 {
     int* vtbl;
-    int __thiscall GetVtblAndValue(int a);
+    int GetVtblAndValue(int a);
 };
 struct FUN_00b3c4b0_class
 {
-    FUN_00b3c4b0_class* __thiscall FUN_00b3c4b0(int a);
+    FUN_00b3c4b0_class* FUN_00b3c4b0(int a);
 };
 double __cdecl FUN_00ec6054(double);
 struct FUN_00b3c5a0_class
@@ -152,7 +152,7 @@ struct FUN_00b2e1b0_class
     unsigned char* m_kRayEnd;
     int m_pRayCursor;
 
-    void __thiscall FreeBuffer();
+    void FreeBuffer();
 };
 struct FUN_00b34d90_class
 {
@@ -161,7 +161,7 @@ struct FUN_00b34d90_class
     int value;
     char* end;
 
-    void __thiscall FUN_00b34d90();
+    void FUN_00b34d90();
 };
 struct FUN_00b3c470_class
 {
@@ -181,7 +181,7 @@ struct FUN_00b3f030_Class
 struct Random
 {
     void* vtbl;
-    void* __thiscall DestroyRandom(unsigned int flags);
+    void* DestroyRandom(unsigned int flags);
 };
 extern const int vftable_Random[];
 struct FUN_00b27060_cls
@@ -254,7 +254,7 @@ struct FnvB2e080
     int f0c;
     int f10;
     int f14;
-    bool __thiscall InitBuffer(unsigned int count);
+    bool InitBuffer(unsigned int count);
 };
 struct SpanPair
 {
@@ -343,7 +343,7 @@ struct Hldr0044
     int m_8;
     void Init(unsigned int* p);
 };
-extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
+extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
 // @fnv 0x00b35f00
 extern "C" void __cdecl FUN_00b35f00(unsigned int n)
 {
@@ -526,7 +526,7 @@ struct FUN_00b3c750_cls
 {
     float data[5];
     int count;
-    FUN_00aa7830_cls __thiscall Subtract(const FUN_00b3c5a0_class* other);
+    FUN_00aa7830_cls Subtract(const FUN_00b3c5a0_class* other);
 };
 struct FUN_00aa7830_holder
 {
@@ -616,7 +616,7 @@ struct StringLike
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall Clear(bool flag, unsigned int count);
+    void Clear(bool flag, unsigned int count);
 };
 struct FUN_00b3d800_cls
 {
@@ -649,7 +649,7 @@ struct FNV_00b3efe0_Obj
 };
 struct FUN_00b37880_class
 {
-    void __thiscall FUN_00b37880();
+    void FUN_00b37880();
 };
 struct FUN_00b3fdd0_class
 {
@@ -677,7 +677,7 @@ struct FUN_00b3fdd0_class
     int unk54;
     int unk58;
     FUN_00b37880_class* unk5c;
-    void __thiscall FUN_00b3fdd0(FUN_00b37880_class* value);
+    void FUN_00b3fdd0(FUN_00b37880_class* value);
 };
 extern int DAT_010173e8;
 struct FUN_00b3c3b0_Sub
@@ -690,8 +690,8 @@ struct FUN_00b3c3b0_Class
     int unk08;
     FUN_00b3c3b0_Sub unk0c;
 
-    void __thiscall FUN_00ec79a1();
-    void __thiscall Initialize();
+    void FUN_00ec79a1();
+    void Initialize();
 };
 struct PtrVector
 {
@@ -1440,7 +1440,7 @@ template <class T> struct ConstIter : RanIter<T>
     {
         return !(*this == rhs);
     }
-    ConstIter& __thiscall FUN_00b359d0(int offset);
+    ConstIter& FUN_00b359d0(int offset);
 };
 template <class T> struct VecIter : ConstIter<T>
 {
@@ -1496,7 +1496,7 @@ template <class T> struct ShortVec : ContainerBase
     T* fillNew(T* a, unsigned int n, const T& val);
     void moveBackward(T* a, T* b, T* c);
     void tooLong();
-    void __thiscall FUN_00b34e10(ConstIter<T> where, unsigned int count, const T& val)
+    void FUN_00b34e10(ConstIter<T> where, unsigned int count, const T& val)
     {
         unsigned int cap = capacity();
         if (count == 0)
@@ -1568,7 +1568,7 @@ template <class T> struct ShortVec : ContainerBase
         return VecIter<T>(where.ptr, this);
     }
     T* copy(T* a, T* b, T* c);
-    VecIter<T> __thiscall FUN_00b33af0(ConstIter<T> a, ConstIter<T> b)
+    VecIter<T> FUN_00b33af0(ConstIter<T> a, ConstIter<T> b)
     {
         ConstIter<T> firstArgument = a;
         T* firstPointer = firstArgument.ptr;
@@ -2726,7 +2726,6 @@ struct FUN_00b2e680
     BxString name;
     Point3 first, second, third;
 };
-typedef char FUN_00b2e680SizeCheck[(sizeof(FUN_00b2e680) == 0x54) ? 1 : -1];
 struct CheckedRange
 {
 };
@@ -8733,7 +8732,7 @@ struct ResizeCIterator
     ResizeCIterator()
     {}
     ResizeCIterator(T* p, const ResizeContainer* c);
-    ResizeCIterator& __thiscall FUN_00b3e390(unsigned int count);
+    ResizeCIterator& FUN_00b3e390(unsigned int count);
 };
 struct ResizeIterator : ResizeCIterator
 {
@@ -9118,7 +9117,7 @@ struct VecIter54
     {
         return _Myaux ? _Myaux->_Getcont() : 0;
     }
-    VecIter54& __thiscall FUN_00b3e390(int _Off);
+    VecIter54& FUN_00b3e390(int _Off);
 };
 // @fnv 0x00b3e390
 VecIter54& VecIter54::FUN_00b3e390(int _Off)
@@ -10222,7 +10221,6 @@ struct FUN_00b2e680
     BxString name;
     Point3 first, second, third;
 };
-typedef char FUN_00b2e680SizeCheck[(sizeof(FUN_00b2e680) == 0x54) ? 1 : -1];
 struct CheckedRange
 {
 };
@@ -10987,7 +10985,6 @@ struct FUN_00b2e680
     BxString name;
     Point3 first, second, third;
 };
-typedef char FUN_00b2e680SizeCheck[(sizeof(FUN_00b2e680) == 0x54) ? 1 : -1];
 struct CheckedRange
 {
 };
@@ -12106,15 +12103,15 @@ struct FUN_00b357d0 : ValQ
     {
         reinterpret_cast<::Vector_b17f50 *>(this)->FUN_00b17f50();
     }
-    FUN_00b357d0& __thiscall FUN_00b36600(const FUN_00b357d0& o);
-    void __thiscall FUN_00b36f60(FUN_00b357d0& o);
+    FUN_00b357d0& FUN_00b36600(const FUN_00b357d0& o);
+    void FUN_00b36f60(FUN_00b357d0& o);
 };
 inline void PadQ()
 {
     int dq[81];
 }
 // @fnv 0x00b36f60
-void __thiscall FUN_00b357d0::FUN_00b36f60(FUN_00b357d0& o)
+void FUN_00b357d0::FUN_00b36f60(FUN_00b357d0& o)
 {
     if (this == &o)
         ;
@@ -12183,15 +12180,15 @@ struct FUN_00b357d0 : ValQ
     {
         reinterpret_cast<::FUN_00b34d90_class *>(this)->FUN_00b34d90();
     }
-    FUN_00b357d0& __thiscall FUN_00b36600(const FUN_00b357d0& o);
-    void __thiscall FUN_00b37190(FUN_00b357d0& o);
+    FUN_00b357d0& FUN_00b36600(const FUN_00b357d0& o);
+    void FUN_00b37190(FUN_00b357d0& o);
 };
 inline void PadQ()
 {
     int dq[81];
 }
 // @fnv 0x00b37190
-void __thiscall FUN_00b357d0::FUN_00b37190(FUN_00b357d0& o)
+void FUN_00b357d0::FUN_00b37190(FUN_00b357d0& o)
 {
     if (this == &o)
         ;
@@ -14702,7 +14699,7 @@ struct AlQ134
     int x;
 };
 void __cdecl FUN_00b361b0(Elem24Q* f, unsigned int n, const Elem24Q& v, AlQ134& al, NonScalarTagQ, RangeTagQ);
-void __stdcall FUN_00ec7894(int, int);
+void FUN_00ec7894(int, int);
 inline void PadAQ()
 {
     int a[26];
@@ -17748,7 +17745,7 @@ struct Target18
     int unk114;
     FloatVector18 values;
     ByteVector18 types;
-    void __thiscall FUN_00b31070(unsigned char type, Params18* params);
+    void FUN_00b31070(unsigned char type, Params18* params);
 };
 static __forceinline float Lerp18(const float& t, float a, float b)
 {

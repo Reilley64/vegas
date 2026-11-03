@@ -36,7 +36,7 @@ struct GeometryBuffers
 struct Allocator
 {
     virtual void unused();
-    virtual void* __thiscall Allocate(unsigned int);
+    virtual void* Allocate(unsigned int);
 };
 struct GlobalContext
 {
@@ -78,7 +78,7 @@ struct MeshBuilder
     Vertex initialVertex;
     int unk70, unk74, unk78, unk7c;
     volatile int segmentCount;
-    void __thiscall InitializeGeometry();
+    void InitializeGeometry();
 };
 
 #include <math.h>
@@ -164,7 +164,7 @@ struct Cls
     int m_uiItemCount;
     float m_fConeAngle;
     float m_step;
-    void __thiscall FUN_00de54b0(ArrayRef output);
+    void FUN_00de54b0(ArrayRef output);
 };
 static __forceinline ::__m128 rot(const Q& quaternion, const Q& vector)
 {
@@ -204,7 +204,7 @@ __forceinline void Q::SetRotatedDirection(const Q& quaternion, const Q& vector)
     quad = rot(quaternion, vector);
 }
 // @fnv 0x00de54b0
-void __thiscall Cls::FUN_00de54b0(ArrayRef output)
+void Cls::FUN_00de54b0(ArrayRef output)
 {
     int count = m_uiItemCount;
     ::GlobalContext* context = ::FUN_00c85750();

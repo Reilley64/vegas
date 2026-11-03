@@ -10,12 +10,12 @@ struct FUN_00a8fdb0_shell
 
 struct FUN_00a8ff10_shell : FUN_00a8fdb0_shell
 {
-    void* __thiscall FUN_00a8ff10(unsigned int flags);
+    void* FUN_00a8ff10(unsigned int flags);
 };
 
 // Calls the base cleanup, then frees this object with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00a8ff10
-void* __thiscall FUN_00a8ff10_shell::FUN_00a8ff10(unsigned int flags)
+void* FUN_00a8ff10_shell::FUN_00a8ff10(unsigned int flags)
 {
     reinterpret_cast<::MaterialLibraryView *>(this)->FUN_00a8fdb0();
     if (flags & 1)

@@ -40,14 +40,14 @@ DecalData::DecalData()
 
 struct FUN_005932e0_shell
 {
-    bool __thiscall Compare(void* apCompare);
+    bool Compare(void* apCompare);
 };
 
 extern int __cdecl _memcmp(const void*, const void*, int);
 
 // Returns true if apCompare is null or the first 0x24 bytes differ from this; otherwise returns false.
 // @fnv 0x005932e0
-bool __thiscall FUN_005932e0_shell::Compare(void* apCompare)
+bool FUN_005932e0_shell::Compare(void* apCompare)
 {
     if (apCompare == 0)
         return true;

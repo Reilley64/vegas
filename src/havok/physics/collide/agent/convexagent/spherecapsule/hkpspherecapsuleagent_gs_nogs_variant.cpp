@@ -100,7 +100,7 @@ extern char DAT_010cf018[];
 AllocHolder* FUN_00c85750();
 void __cdecl FUN_00d3e2f0(int a, int b, int c, int d);
 void __cdecl FUN_00d3e330(int a, int b, int c, int d);
-void __stdcall FUN_00d3e510(int a, int b, int c, int d);
+void FUN_00d3e510(int a, int b, int c, int d);
 extern char DAT_010ce81c;
 struct FUN_00d3f040_tmp
 {

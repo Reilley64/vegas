@@ -21,11 +21,11 @@ char FUN_008e95a0_Class::GetByteAtBD()
 
 struct FUN_008e95e0_Class
 {
-    unsigned char __thiscall GetByteAtOffsetC0();
+    unsigned char GetByteAtOffsetC0();
 };
 
 // @fnv 0x008e95e0
-unsigned char __thiscall FUN_008e95e0_Class::GetByteAtOffsetC0()
+unsigned char FUN_008e95e0_Class::GetByteAtOffsetC0()
 {
     return *(unsigned char*)((char*)this + 0xc0);
 }

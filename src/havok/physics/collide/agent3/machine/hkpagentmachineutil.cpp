@@ -9,7 +9,7 @@
 #include "fnv/symbols_00d06000.h"
 struct FUN_00c91180_Class
 {
-    void __thiscall IncrementCounter();
+    void IncrementCounter();
     int m_field;
     void* m_ptr;
 };
@@ -20,7 +20,7 @@ struct FUN_00d022b0_Class
 
 // If the field at offset 0x50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the object at offset 8.
 // @fnv 0x00c92d70
-void __fastcall FUN_00c92d70(FUN_00c91180_Class* self, int, void* apArg, float afValue)
+void FUN_00c92d70(FUN_00c91180_Class* self, int, void* apArg, float afValue)
 {
     if (*(int*)((char*)self + 0x50))
     {

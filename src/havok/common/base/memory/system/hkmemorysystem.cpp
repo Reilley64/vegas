@@ -6,7 +6,7 @@
 #include "fnv/decl/Target.h"
 #include "fnv/symbols_00cc0000.h"
 #include "fnv/symbols_01268000.h"
-int __stdcall FUN_00cbc440(int a, int b)
+int FUN_00cbc440(int a, int b)
 {
     return 1;
 }
@@ -30,7 +30,7 @@ extern int DAT_010c8efc;
 struct FUN_00cbbfe0_This
 {
     int unk00;
-    void __thiscall FUN_00cbbfe0();
+    void FUN_00cbbfe0();
 };
 
 // @fnv 0x00cbbfe0
@@ -276,7 +276,7 @@ static __declspec(noinline) void FUN_00cbc000(hkOstream* ostr, const char* name,
 
 // Writes heap, thread, stack, solver, and debug memory statistics to ostr using info and FUN_00cbc000.
 // @fnv 0x00cbc220
-void __stdcall FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
+void FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
 {
     SixUnsignedValueRecord stats;
     info->m_pStreamAllocator->FillMemoryStatistics(stats);

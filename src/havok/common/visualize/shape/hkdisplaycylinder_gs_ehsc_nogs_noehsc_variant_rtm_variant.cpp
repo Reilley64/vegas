@@ -7,7 +7,7 @@
 // to their real unit once identified.
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_010c7000.h"
-void __stdcall FUN_00d58500(int, int);
+void FUN_00d58500(int, int);
 #include <xmmintrin.h>
 struct DE1F50Vector4
 {
@@ -337,7 +337,7 @@ struct CachePair
     Quaternion delta;
 };
 // @fnv 0x00d58590
-__declspec(noinline) void __fastcall FUN_00d58590(CylinderMeshBuilder* self)
+__declspec(noinline) void FUN_00d58590(CylinderMeshBuilder* self)
 {
     const int& heights = self->m_88;
     const int& sectors = self->m_84;

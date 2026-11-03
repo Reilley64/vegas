@@ -195,7 +195,7 @@ float FUN_00879d90()
 
 struct FUN_0087a030_shell
 {
-    unsigned short __thiscall GetSaveSize(bool abRecursing);
+    unsigned short GetSaveSize(bool abRecursing);
 };
 
 // Returns the save size for this object: a fixed 0x20 bytes, ignoring the recursion flag.
@@ -215,11 +215,11 @@ TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0087a090_shell
 {
-    void __thiscall FUN_0087a090(unsigned short);
+    void FUN_0087a090(unsigned short);
 };
 
 // @fnv 0x0087a090
-void __thiscall FUN_0087a090_shell::FUN_0087a090(unsigned short)
+void FUN_0087a090_shell::FUN_0087a090(unsigned short)
 {
     reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((void*)((char*)this + 4), 0x20);
 }
@@ -235,7 +235,7 @@ struct FUN_0087a0c0_shell
 
 // Calls SaveData on the buffer with this+4 and a size of 0x20.
 // @fnv 0x0087a0c0
-void __thiscall FUN_0087a0c0_shell::SaveFormData(void* buf)
+void FUN_0087a0c0_shell::SaveFormData(void* buf)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)buf)))->FUN_00865e50((char*)this + 4, 0x20, 0);
 }

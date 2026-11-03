@@ -275,7 +275,7 @@ void hkDisplayGeometryE494::AddToStatisticsCollector(hkStatisticsCollectorE494* 
 
 // Stores whether bit bitIndex % 31 of word bitIndex / 31, at bits[bits[0] + 1 + word], is set into *found, and returns found.
 // @fnv 0x00e49040
-unsigned char* __stdcall FUN_00e49040(unsigned char* pbResult, const int* bits, unsigned int bitIndex)
+unsigned char* FUN_00e49040(unsigned char* pbResult, const int* bits, unsigned int bitIndex)
 {
     unsigned int wordIndex = bitIndex / 31;
     unsigned int bitWithinWord = bitIndex % 31;

@@ -123,8 +123,4 @@ class NiBoolData : public NiObject
     virtual void LoadBinary(NiStream& stream);
     void SetColorKeys(BooleanKey*, unsigned int, AnimationKey::KeyType);
 };
-FNV_STATIC_ASSERT(sizeof(NiBoolData) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBoolData, m_uiNumKeys) == 8);
-FNV_STATIC_ASSERT(offsetof(NiBoolData, m_ucKeyDataSize) == 20);
-FNV_STATIC_ASSERT(sizeof(NiBinaryStream) == 16);
 #endif

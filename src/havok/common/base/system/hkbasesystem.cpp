@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00cbb950
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/Candidate.h"
@@ -64,7 +65,6 @@ int __cdecl FUN_00cbb930(void* value)
     return 0;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 int __cdecl FUN_00c85760();
 void __cdecl SetThreadLocalValue(int);
 
@@ -84,7 +84,7 @@ extern "C" int __cdecl FUN_00cbb990()
 extern "C" void* DAT_011b3dbc;
 typedef void(__cdecl* Callback)(int, int);
 // @fnv 0x00cbbd20
-void __stdcall InvokeCallback(int first, int second)
+void InvokeCallback(int first, int second)
 {
     ((Callback)DAT_011b3dbc)(first, second);
 }
@@ -154,7 +154,7 @@ inline void* hkAlloc(int n)
 }
 
 // @fnv 0x00cbbee0
-ObjB* __stdcall FUN_00cbbee0(int a)
+ObjB* FUN_00cbbee0(int a)
 {
     LocalBuf localBuf;
     reinterpret_cast<::BufferOwner *>(&(localBuf))->InitBuffer();
@@ -638,7 +638,7 @@ struct S_00cbbde0_BufferedReader : S_00cbbde0_Reader
 
 // Creates a StdioReader from the resolved path, wraps it in a 4096-byte BufferedReader when vfn18() is false, and returns the resulting reader.
 // @fnv 0x00cbbde0
-S_00cbbde0_Reader* __stdcall FUN_00cbbde0(const char* name) throw()
+S_00cbbde0_Reader* FUN_00cbbde0(const char* name) throw()
 {
     S_00cbbde0_StringBuf buf;
     S_00cbbde0_Reader* reader = new S_00cbbde0_StdioReader((*reinterpret_cast<const char *(**)(const char *, fnv_00cbbde0::S_00cbbde0_StringBuf &)>(&::DAT_011b3dc0))(name, buf));

@@ -12,23 +12,16 @@ class NiTPointerAllocator_unsigned_int_;
 class NiTPointerList_Tile___;
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___;
 class Tile__Value;
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -36,10 +29,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile_____AntiBloatAllocator, m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
   public:
@@ -63,12 +52,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
     // NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__Tile___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
@@ -97,9 +80,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,Tile *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___) == 12);
-#pragma pack(push, 4)
 class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___
 {
   public:
@@ -109,9 +89,6 @@ class NiTPointerList_Tile___ : public NiTPointerListBase_NiTPointerAllocator_uns
     // NiTPointerList<Tile *>& __cdecl NiTPointerList<Tile *>::*(const NiTPointerList<Tile *>&)
     // void* __cdecl NiTPointerList<Tile *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerList_Tile___) == 12);
-#pragma pack(push, 4)
 class Tile
 {
     static bool IsSpecialTileName(const char*);
@@ -242,15 +219,4 @@ class Tile
     // Tile& __cdecl Tile::*(const Tile&)
     // void __cdecl Tile::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Tile) == 56);
-FNV_STATIC_ASSERT(offsetof(Tile, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(Tile, m_kChildTileList) == 4);
-FNV_STATIC_ASSERT(offsetof(Tile, m_kValues) == 16);
-FNV_STATIC_ASSERT(offsetof(Tile, StringProvider) == 32);
-FNV_STATIC_ASSERT(offsetof(Tile, pParent) == 40);
-FNV_STATIC_ASSERT(offsetof(Tile, m_pRenderedNodeEntry) == 44);
-FNV_STATIC_ASSERT(offsetof(Tile, uiFlags) == 48);
-FNV_STATIC_ASSERT(offsetof(Tile, m_bFlagAfterUiFlags) == 52);
-FNV_STATIC_ASSERT(offsetof(Tile, m_bSpeechChallengeFailure) == 53);
 #endif

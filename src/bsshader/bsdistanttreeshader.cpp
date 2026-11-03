@@ -74,7 +74,7 @@ struct S_00bb6b60_b
     S_00bb6b60_a* m_C;
 };
 // @fnv 0x00bb6b60
-void __stdcall FUN_00bb6b60(S_00bb6b60_b* p)
+void FUN_00bb6b60(S_00bb6b60_b* p)
 {
     S_00bb6b60_a* pFlagHolder = p->m_C;
     if (pFlagHolder && ((pFlagHolder->m_24 & 0x10000) > 0))

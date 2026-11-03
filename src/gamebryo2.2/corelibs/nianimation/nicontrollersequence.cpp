@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a31730
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
@@ -75,12 +76,12 @@ extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 struct FUN_00a30580_shell
 {
-    bool __thiscall IsNotInChain(void* arg);
+    bool IsNotInChain(void* arg);
 };
 
 // Walks the linked list at offset 0x58 from arg and returns false if this is found in it, true otherwise.
 // @fnv 0x00a30580
-bool __thiscall FUN_00a30580_shell::IsNotInChain(void* pStart)
+bool FUN_00a30580_shell::IsNotInChain(void* pStart)
 {
     void* next = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(pStart) + 0x58);
     if (next == 0)
@@ -100,10 +101,10 @@ struct MM_00a34450
 extern int DAT_01096620;
 struct FUN_00a34450_shell
 {
-    void* __thiscall FUN_00a34450(unsigned int);
+    void* FUN_00a34450(unsigned int);
 };
 // @fnv 0x00a34450
-void* __thiscall FUN_00a34450_shell::FUN_00a34450(unsigned int auiFlags)
+void* FUN_00a34450_shell::FUN_00a34450(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 4);
     *(void**)this = (void*)&DAT_01096620;
@@ -287,7 +288,7 @@ void FUN_00a30900_shell::FUN_00a30900(char cDefaultPriority)
                 ucPriority = (unsigned int)cDefaultPriority;
             else
                 ucPriority = kItem->m_ucArrayItemID;
-            kItem->m_ucBlendIndex = ((unsigned char(__thiscall*)(void*, void*, float, unsigned int, float)) *
+            kItem->m_ucBlendIndex = ((unsigned char(*)(void*, void*, float, unsigned int, float)) *
                                      (void**)(*(unsigned int*)kItem->m_pkBlendInterpolator + 0xdc))(
                 kItem->m_pkBlendInterpolator, kItem->m_spControllerInterpolator, *(float*)((char*)this + 0x1c),
                 ucPriority, 1.0f);
@@ -314,7 +315,7 @@ void* __cdecl FUN_00a326c0()
 }
 
 extern char DAT_01096584;
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct NiRefObject
 {
@@ -335,7 +336,7 @@ struct FUN_00a31740_shell
 
 struct FUN_00a35640_shell
 {
-    void __thiscall FUN_00a35640();
+    void FUN_00a35640();
 };
 // @fnv 0x00a35820
 void* NiControllerSequence::FUN_00a35820(unsigned int flags)
@@ -418,7 +419,6 @@ void FUN_00a307c0_cls::GetEntryText(unsigned int uiIndex, char* out)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* Addend);
 
 struct S_00a30880_RefObject
 {
@@ -589,7 +589,7 @@ struct SequenceA30970 : NiObject
     float lastTime34;
     float accumulated38;
     float scaled3c;
-    float __thiscall FUN_00a30970(float time, bool update);
+    float FUN_00a30970(float time, bool update);
 };
 // Advances the sequence's accumulated time by frequency times the delta, wraps it into [begin,end] when cycleType is 0, and optionally stores the new state.
 // @fnv 0x00a30970
@@ -641,7 +641,7 @@ float SequenceA30970::FUN_00a30970(float time, bool update)
 
 struct FUN_00a30c80_shell
 {
-    bool __thiscall FUN_00a30c80(void* arg);
+    bool FUN_00a30c80(void* arg);
 };
 struct FUN_00a30cc0_target
 {
@@ -818,8 +818,6 @@ bool SequenceView::FUN_00a30ea0(StreamView& stream)
     return true;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
 
 
 struct FixedStr
@@ -873,7 +871,7 @@ FUN_00a312d0::FUN_00a312d0(const FixedStr& akAVObjectName, const FixedStr& akPro
     m_kInterpolatorID = akInterpolatorID;
 }
 
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct S_00aa4060_Class
 {
@@ -965,8 +963,8 @@ void* FUN_00a31740_cls::FUN_00a31740(unsigned char acFlags)
     return this;
 }
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern int(__stdcall* DAT_00fdf1c4)(void*);
+extern int(* DAT_00fdf1c0)(void*);
+extern int(* DAT_00fdf1c4)(void*);
 
 struct FUN_00a317e0_ref
 {
@@ -990,7 +988,7 @@ struct FUN_00a317e0_tag
     void* unk08;
     void* unk0C;
     void* unk10;
-    void __thiscall ResetStrings();
+    void ResetStrings();
 };
 
 struct FUN_00a317e0_t
@@ -1003,11 +1001,11 @@ struct FUN_00a317e0_t
     FUN_00a317e0_interp* m_pInterpArray;
     FUN_00a317e0_tag* m_pkIDTags;
 
-    void __thiscall AssignInterpolatorRef(int index, FUN_00a317e0_ref** output);
+    void AssignInterpolatorRef(int index, FUN_00a317e0_ref** output);
 };
 
 // @fnv 0x00a317e0
-void __thiscall FUN_00a317e0_t::AssignInterpolatorRef(int index, FUN_00a317e0_ref** output)
+void FUN_00a317e0_t::AssignInterpolatorRef(int index, FUN_00a317e0_ref** output)
 {
     FUN_00a317e0_ref* pNewRef = reinterpret_cast<FUN_00a317e0_ref*>(
         reinterpret_cast<FUN_00a317e0_interp*>(m_pInterpArray + index)->m_spControllerInterpolator);
@@ -1020,7 +1018,7 @@ void __thiscall FUN_00a317e0_t::AssignInterpolatorRef(int index, FUN_00a317e0_re
     reinterpret_cast<FUN_00a317e0_tag*>(m_pkIDTags + index)->ResetStrings();
 
     FUN_00a317e0_ref* old = *output;
-    int(__stdcall * pfnDecrementRef)(void*) = DAT_00fdf1c4;
+    int(* pfnDecrementRef)(void*) = DAT_00fdf1c4;
 
     if (old != pNewRef)
     {
@@ -1077,8 +1075,6 @@ void SeqExt::FUN_00a328b0(float time, bool setControllerTimes)
 }
 }  // namespace fnv_00a328b0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* addend);
 
 struct RefObj
 {
@@ -1560,7 +1556,7 @@ FUN_00a315b0_cls* FUN_00a315b0_cls::FUN_00a315b0(unsigned char acFlags)
         char* base = (char*)this - 4;
         if (i >= 0)
         {
-            int(__stdcall * pRelease)(void*) = DAT_00fdf1c4;
+            int(* pRelease)(void*) = DAT_00fdf1c4;
             do
             {
                 e = (FUN_00a315b0_Elem*)((char*)e - 20);
@@ -1777,8 +1773,6 @@ void* __cdecl FormatStringWithType(const char* pcText, void* arg2)
 
 // Copy a group of five ref-counted fixed strings (the ref count sits 8 bytes before the text).
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 
 
 class A1400FixedString
@@ -2283,8 +2277,6 @@ void AnimationSequence::FUN_00a34ba0(float time, bool update)
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct RefObject
 {
     virtual void Virtual0();
@@ -2415,7 +2407,7 @@ struct SequenceLink : NiObject
     unsigned int unk68;
     NiPointerRef* objects6c;
     unsigned short count70;
-    void __thiscall LinkSequenceSource(NiSequenceSource*);
+    void LinkSequenceSource(NiSequenceSource*);
 };
 
 // @fnv 0x00a326e0
@@ -2460,8 +2452,7 @@ void SequenceLink::LinkSequenceSource(NiSequenceSource* source)
     }
 }
 
-extern int(__stdcall* DAT_00fdf1c0)(void*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
+extern int(* DAT_00fdf1c0)(void*);
 
 struct A33950RefObject
 {
@@ -2661,7 +2652,6 @@ void SeqIDTagOffsets::LoadFromPalette(NiStringPalette* pkPalette, int iUnused)
     OffsetString::DecRefHandle(pcNullHandle);
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(long* plAddend);
 
 struct A31500Ref
 {
@@ -2711,7 +2701,7 @@ void FUN_00a35640_shell::FUN_00a35640()
         reinterpret_cast<::FUN_00a31740_cls *>((reinterpret_cast<FUN_00a31740_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x6c))))->FUN_00a31740(3);
     }
 
-    int(__stdcall * pDecrementRef)(void*) = DAT_00fdf1c4;
+    int(* pDecrementRef)(void*) = DAT_00fdf1c4;
 
     void* p = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x64);
     if (p != 0)
@@ -3611,8 +3601,6 @@ void Obj43c::ClearInterpolatorRefs(Src43c* pkSrc, int iArg)
     reinterpret_cast<::CloneSequence *>(this)->FUN_00a33570((::CloneSequence *)(pkSrc), (void *)(iArg));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class GlobalObjectO2_00a7b610
 {
@@ -4610,9 +4598,7 @@ bool FUN_00a34480_cls::AssignControllers(void* apObjectName, FUN_00a34480_obj* a
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 
@@ -5104,8 +5090,6 @@ void S00a32fa0_Seq::FUN_00a32fa0(S00a32fa0_Seq* destination, int, int, bool remo
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class S00a31880_RefObj
 {

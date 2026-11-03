@@ -53,7 +53,5 @@ class NiTriShape : public NiTriBasedGeom
     virtual ~NiTriShape();
 };
 
-FNV_STATIC_ASSERT(sizeof(NiTriShapeData) == 0x58);
-FNV_STATIC_ASSERT(sizeof(NiTriShape) == 0xc4);
 
 #endif

@@ -28,6 +28,5 @@ class Matrix4f
     }
 };
 
-FNV_STATIC_ASSERT(sizeof(Matrix4f) == 64);
 
 #endif

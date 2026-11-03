@@ -96,7 +96,7 @@ class ContainerItemExtraFileData
 };
 
 extern "C" void __cdecl _alloca_probe_16();
-extern "C" void __fastcall __security_check_cookie(unsigned int);
+extern "C" void __security_check_cookie(unsigned int);
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 
@@ -235,9 +235,9 @@ extern "C" void* __cdecl _alloca(unsigned int);
 struct TESFormVtbl
 {
     char pad0[0xE0];
-    void(__thiscall* readOBND)(TESForm*, TESFile*);
+    void(* readOBND)(TESForm*, TESFile*);
     char pad1[0x134 - 0xE4];
-    void(__thiscall* setEditorID)(TESForm*, char*);
+    void(* setEditorID)(TESForm*, char*);
 };
 
 // @fnv 0x00599d70

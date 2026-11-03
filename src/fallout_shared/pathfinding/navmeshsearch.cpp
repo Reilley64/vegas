@@ -214,7 +214,7 @@ bool HX::FUN_006a8290(PNode* apFinalNode, BSSimpleArray<NavMeshTriangleReference
 
 
 // @fnv 0x006a84e0
-void __fastcall FUN_006a84e0(char* this_ptr)
+void FUN_006a84e0(char* this_ptr)
 {
     ::FUN_00403d30(this_ptr + 4, 0, 0x50);
 }

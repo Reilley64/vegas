@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp: NiD3DGPUProgramCache, NiFixedString, Holder, ShaderLoader8e (15 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0048af90_shell.h"
@@ -73,7 +74,6 @@ const char* NiD3DGPUProgramCache::GetPixelShaderProfile(bool usePixelLevel)
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct MemoryManager
 {
 };
@@ -164,8 +164,6 @@ void* S00e8ea20::ReleaseAndDestroy(unsigned int auiFlags)
     return this;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ValueHolder
 {
     void* m_pOwnerObject;
@@ -178,7 +176,7 @@ struct ObjectReference
 };
 // Assigns a text pointer and a ref-counted object into a ValueHolder, adjusting reference counts and releasing the previous object.
 // @fnv 0x00e8ded0
-void __stdcall AssignValueHolder(ValueHolder* destination, char** sourceText, ObjectReference incoming)
+void AssignValueHolder(ValueHolder* destination, char** sourceText, ObjectReference incoming)
 {
     char* text = *sourceText;
     if (destination->m_pText != text)
@@ -281,7 +279,6 @@ bool E8DF70Writer::WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShad
     return true;
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct S_00e8e1d0_Ptr
 {
     RefCounted* p;
@@ -373,8 +370,6 @@ FUN_00e8eb10_cls* FUN_00e8eb10_cls::Destroy(unsigned char acFlags)
 }
 
 __declspec(nothrow) int FUN_00aa1360(const char*, const char*);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedIncrement(volatile long*);
 __declspec(nothrow) inline long NiAtomicSubtract(volatile long* value)
 {
     return InterlockedDecrement(value);
@@ -614,11 +609,11 @@ template <class T> inline void LoadBinary8e(ShaderStream8e* pkStream, T* pkValue
 }
 struct ShaderBuffer8e
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
 };
 struct FixedString8e
 {
@@ -765,7 +760,7 @@ class NiFile : public NiBinaryStream
 
 // Writes pcText to pcFileName if the preceding checks pass and the file opens, then returns true.
 // @fnv 0x00e8dd70
-bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
+bool WriteTextToFile(const char* pcFileName, const char* pcText)
 {
     if (::FUN_00ee8d20({}, {}))
     {

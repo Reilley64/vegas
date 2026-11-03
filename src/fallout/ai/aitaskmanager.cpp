@@ -649,7 +649,7 @@ struct GlobalObject_008caae0
 
 struct FUN_008ca300_shell
 {
-    void __thiscall FUN_008ca300();
+    void FUN_008ca300();
 };
 
 struct FUN_008ca330_shell
@@ -657,7 +657,7 @@ struct FUN_008ca330_shell
     void FUN_008ca330(int a);
 };
 // @fnv 0x008ca300
-void __thiscall FUN_008ca300_shell::FUN_008ca300()
+void FUN_008ca300_shell::FUN_008ca300()
 {
     if (*(unsigned char*)((char*)this + 0x10180))
     {
@@ -674,7 +674,7 @@ void FUN_008ca330_shell::FUN_008ca330(int aiIndex)
 extern int DAT_0108583c;
 
 // @fnv 0x008ca3c0
-void __fastcall FUN_008ca3c0(void* thisPtr)
+void FUN_008ca3c0(void* thisPtr)
 {
     *static_cast<void**>(thisPtr) = &DAT_0108583c;
 }
@@ -728,12 +728,12 @@ FUN_008ca440::FUN_008ca440(int aiValue)
 
 struct FUN_008ca520_shell
 {
-    void __thiscall InitVtbl();
+    void InitVtbl();
 };
 extern int DAT_01085864;
 
 // @fnv 0x008ca500
-void __fastcall FUN_008ca500(void* this_ptr)
+void FUN_008ca500(void* this_ptr)
 {
     *(void**)this_ptr = &DAT_01085864;
     ((FUN_008ca520_shell*)this_ptr)->InitVtbl();
@@ -1368,8 +1368,8 @@ struct FUN_008c81c0_shell
     bool ProcessMessage(const MobileObjectTaskletContext* aMessage, unsigned int aThread);
 };
 
-typedef void(__thiscall* SetCountFn)(FUN_008c81c0_shell*, unsigned int);
-typedef void(__thiscall* SetMobFn)(FUN_008c81c0_shell*, void*);
+typedef void(* SetCountFn)(FUN_008c81c0_shell*, unsigned int);
+typedef void(* SetMobFn)(FUN_008c81c0_shell*, void*);
 
 // @fnv 0x008c81c0
 bool FUN_008c81c0_shell::ProcessMessage(const MobileObjectTaskletContext* aMessage, unsigned int aThread)

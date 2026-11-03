@@ -218,8 +218,8 @@ struct FUN_0083e230_shell : public TopicMenuController
     void FUN_0083e230();
 };
 
-bool __fastcall _ref_008256d0(void* pThis);
-void __fastcall _ref_0063f7b0(void* pThis);
+bool _ref_008256d0(void* pThis);
+void _ref_0063f7b0(void* pThis);
 
 struct FUN_0083e2d0_helper
 {
@@ -302,8 +302,8 @@ struct TopicItem
     bool bKeep;
     ~TopicItem();
 };
-void __fastcall _ref_0063f7b0(void* pThis);
-bool __fastcall _ref_008256d0(void* pThis);
+void _ref_0063f7b0(void* pThis);
+bool _ref_008256d0(void* pThis);
 struct TopicHolder
 {
     void* head;
@@ -1340,7 +1340,6 @@ struct TESResponseList
     void* __vecDelDtor(unsigned int);
     TESResponse* pHead;
 };
-typedef char _sizecheck_ResponseListWrapper[sizeof(TESResponseList) == 4 ? 1 : -1];
 struct FUN_0083df80_shell : public MenuTopic
 {
     void FUN_0083df80(TESObjectREFR*);

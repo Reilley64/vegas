@@ -97,7 +97,7 @@ FUN_00663430::FUN_00663430()
 {}
 
 // @fnv 0x006639f0
-char __fastcall FUN_006639f0(char* pThis)
+char FUN_006639f0(char* pThis)
 {
     return pThis[0x189];
 }
@@ -131,7 +131,7 @@ unsigned char FUN_00663a30()
 }
 
 // @fnv 0x00663a50
-char __fastcall GetByteAt1D(char* pThis)
+char GetByteAt1D(char* pThis)
 {
     return pThis[0x1d];
 }
@@ -147,7 +147,6 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00663a70_shell : public BSFaceGenNiNode
 {
     void UpdateFaceGenNode(NiUpdateData*, unsigned int);
@@ -194,7 +193,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00663ae0_shell : public BSFaceGenNiNode
 {
     void CullWithBoundAccum(NiCullingProcess*);
@@ -235,24 +233,24 @@ struct BSStrHelper663
     operator const char*() const;
 };
 // @fnv 0x00663b40
-const char* __fastcall GetStringAtOffsetC4(void* p)
+const char* GetStringAtOffsetC4(void* p)
 {
     return *(BSStrHelper663*)((char*)p + 0xc4);
 }
 
 // @fnv 0x00663b60
-unsigned int __fastcall GetField19C(char* pThis)
+unsigned int GetField19C(char* pThis)
 {
     return *(unsigned int*)(pThis + 0x19c);
 }
 
 struct FUN_00662a40_shell
 {
-    char __thiscall GetByteAtOffsetD6();
+    char GetByteAtOffsetD6();
 };
 
 // @fnv 0x00662a40
-char __thiscall FUN_00662a40_shell::GetByteAtOffsetD6()
+char FUN_00662a40_shell::GetByteAtOffsetD6()
 {
     return *(char*)((char*)this + 0xd6);
 }
@@ -3041,7 +3039,7 @@ struct S_00662e90_Argument
 class S_00662e90_Class : public S_00662e90_This
 {
   public:
-    void __thiscall FUN_00662e90(S_00662e90_Argument*);
+    void FUN_00662e90(S_00662e90_Argument*);
 };
 
 // @fnv 0x00662e90

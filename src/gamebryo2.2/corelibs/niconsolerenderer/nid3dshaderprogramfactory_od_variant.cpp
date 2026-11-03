@@ -32,7 +32,7 @@ struct Lst
 };
 struct FUN_00e93f30_shell
 {
-    void* __thiscall DestroyShaderProgramFactory(unsigned int flags);
+    void* DestroyShaderProgramFactory(unsigned int flags);
 };
 struct ShaderBufferRecord;
 struct NiTStringPointerMap_00e93060
@@ -42,7 +42,7 @@ struct NiD3DShaderProgramFactory_00e93060
 {
     int m_auiShapeKeys[6];
     NiTStringPointerMap_00e93060* m_pShaderBufferMap;
-    ShaderBufferRecord* __thiscall FUN_00e93060(const char* pcShaderName);
+    ShaderBufferRecord* FUN_00e93060(const char* pcShaderName);
 };
 struct P03MM
 {
@@ -67,10 +67,10 @@ template <class T> struct PoolAllocatorBase
 };
 struct FUN_0045cee0_shell
 {
-    void __thiscall FUN_0045cee0(void*);
+    void FUN_0045cee0(void*);
 };
 // @fnv 0x0045cee0
-void __thiscall FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
+void FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     PoolAllocatorBase<unsigned int>::LinkedListEntry* pkNode =

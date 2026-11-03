@@ -80,7 +80,7 @@ struct __declspec(align(16)) HandlerTable
     int unk38;
     int unk3C;
 };
-// Stand-in for the script object: the registration is a __thiscall member.
+// Stand-in for the script object: the registration is a member.
 class CScript
 {
   public:

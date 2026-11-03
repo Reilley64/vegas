@@ -23,11 +23,11 @@ struct MagicCaster
 };
 struct CalmEffect : ActiveEffect
 {
-    bool __thiscall FUN_0080ba50(MagicCaster*);
+    bool FUN_0080ba50(MagicCaster*);
 };
 // Calls ClearCasterIfMatch on the caster; if it returns true, dispels the effect and returns that result.
 // @fnv 0x0080ba50
-bool __thiscall CalmEffect::FUN_0080ba50(MagicCaster* caster)
+bool CalmEffect::FUN_0080ba50(MagicCaster* caster)
 {
     bool result = reinterpret_cast<::StandIn00806200 *>(this)->ClearCasterIfMatch(caster);
     if (result)
@@ -53,7 +53,7 @@ FUN_0080a900* FUN_0080a930_shell::FUN_0080a930()
 {
     FUN_0080a900* presult =
         new FUN_0080a900(*(void**)((char*)this + 0x28), *(void**)((char*)this + 8), *(void**)((char*)this + 0xc));
-    ((void(__thiscall*)(void*, void*))(*(void***)this)[17])(this, presult);
+    ((void(*)(void*, void*))(*(void***)this)[17])(this, presult);
     return presult;
 }
 

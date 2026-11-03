@@ -125,7 +125,7 @@ void FUN_00a6e960_shell::FUN_00a6e960()
 
 struct P03MM
 {
-    void* __thiscall Allocate(unsigned int);
+    void* Allocate(unsigned int);
 };
 
 // @fnv 0x00a6ef50
@@ -140,7 +140,7 @@ void* __cdecl FUN_00a6ef50()
 
 // Assigns the pointer from p2 into p1's slot with reference counting, and stores p3 alongside it.
 // @fnv 0x00a6e550
-void __stdcall AssignSharedPtr(void* apTarget, void* apSource, void* apValue)
+void AssignSharedPtr(void* apTarget, void* apSource, void* apValue)
 {
     void* v = *(void**)apSource;
     if (*(void**)((char*)apTarget + 4) != v)
@@ -164,11 +164,11 @@ extern int DAT_0109ca08;
 extern int DAT_0109ca18;
 struct FUN_00a6eb20_Holder
 {
-    void* __thiscall DestroyHolder(unsigned int);
+    void* DestroyHolder(unsigned int);
 };
 // Resets the two embedded maps, frees the pointer at offset 8, and optionally deallocates the object when flag bit 0 is set.
 // @fnv 0x00a6eb20
-void* __thiscall FUN_00a6eb20_Holder::DestroyHolder(unsigned int auiFlags)
+void* FUN_00a6eb20_Holder::DestroyHolder(unsigned int auiFlags)
 {
     NiTFixedStringMap_NiAVObject___* p = (NiTFixedStringMap_NiAVObject___*)this;
     *(void**)this = (void*)&DAT_0109ca18;
@@ -360,8 +360,8 @@ struct PaletteObject : PaletteBase
 };
 struct PaletteOwner
 {
-    void __thiscall FUN_00aa1000(PaletteObject* palette, void* argument);
-    PaletteObject* __thiscall CreatePalette(void* argument);
+    void FUN_00aa1000(PaletteObject* palette, void* argument);
+    PaletteObject* CreatePalette(void* argument);
 };
 // Allocates a PaletteObject, initializes it via FUN_00aa1000 with argument, and returns it.
 // @fnv 0x00a6ef70
@@ -559,12 +559,12 @@ void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
 
 
 // @fnv 0x00a6e540
-bool __stdcall FUN_00a6e540(void* p)
+bool FUN_00a6e540(void* p)
 {
     return FUN_00a84c70(p);
 }
 
-extern "C" void(__stdcall* DAT_00fdf1c4)(void*);
+extern "C" void(* DAT_00fdf1c4)(void*);
 
 struct PaletteMap
 {
@@ -630,7 +630,7 @@ bool FUN_00a6e7b0_class::FUN_00a6e7b0(FUN_00a6e7b0_class* other)
         void* iterator = ((void *)(reinterpret_cast<::FUN_00ee8ac0_cls *>(&(m_map))->FUN_00ee8ac0()));
         if (iterator)
         {
-            void(__stdcall * deallocate)(void*) = DAT_00fdf1c4;
+            void(* deallocate)(void*) = DAT_00fdf1c4;
             do
             {
                 char* key = DAT_0109b220;
@@ -663,7 +663,7 @@ struct PaletteSaveShell : public NiDefaultAVObjectPalette
     void FUN_00a6e6c0(NiStream& kStream);
 };
 
-typedef void(__thiscall* NiStreamLinkObject)(NiStream*, NiAVObject*);
+typedef void(* NiStreamLinkObject)(NiStream*, NiAVObject*);
 
 template <class T> void WriteBinaryArray(NiBinaryStream& kOstr, const T* pValue, unsigned int uiNumValues)
 {
@@ -867,7 +867,7 @@ struct Map
         fnv_zlib_memset(buckets, 0, size * 4);
         vtable = &DAT_0109ca18;
     }
-    void __thiscall FUN_00aa01f0();
+    void FUN_00aa01f0();
     __forceinline void Destroy()
     {
         vtable = &DAT_0109ca18;
@@ -883,9 +883,9 @@ struct Map
                 return buckets[index];
         return 0;
     }
-    void __thiscall FUN_00a8f770(void*&, Key&, Obj*&);
-    void __thiscall FUN_00a6e980(const Key&, const void*);
-    void __thiscall RemoveKey(const Key&);
+    void FUN_00a8f770(void*&, Key&, Obj*&);
+    void FUN_00a6e980(const Key&, const void*);
+    void RemoveKey(const Key&);
     __forceinline bool GetAt(const Key& key, Obj*& value)
     {
         Item* item = buckets[(unsigned int)key.text % size];
@@ -902,14 +902,14 @@ struct Map
     }
 };
 
-extern "C" void(__stdcall* DAT_00fdf1c0)(void*);
+extern "C" void(* DAT_00fdf1c0)(void*);
 struct MapDispatch
 {
     void* destroy;
-    Item*(__thiscall* allocate)(Map*);
-    void(__thiscall* release)(Map*, Item*);
+    Item*(* allocate)(Map*);
+    void(* release)(Map*, Item*);
 };
-__declspec(noinline) void __stdcall AssignEntry(Item* item, const Key& key, const void* value)
+__declspec(noinline) void AssignEntry(Item* item, const Key& key, const void* value)
 {
     const char* fresh = key.text;
     if (item->key != fresh)
@@ -965,7 +965,7 @@ struct Palette
     int vptr;
     int refs;
     Map map;
-    void __thiscall FUN_00a6eb60(void*);
+    void FUN_00a6eb60(void*);
 };
 // Clones the base object, then renames palette entries whose key differs from the object name by moving them in the map under the new key.
 // @fnv 0x00a6eb60

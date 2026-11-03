@@ -445,7 +445,7 @@ struct CollisionDetectionWheelOutputE366
 };
 struct hkpVehicleRayCastWheelCollideE366
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE366& kCdInfo);
 };
 struct __declspec(align(16)) FUN_00e36900_V
@@ -1111,7 +1111,7 @@ inline float dot3(__m128 a, __m128 b)
     _mm_store_ss(&res, sum);
     return res;
 }
-void __stdcall FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
+void FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
                             WheelCollideOutputStandIn* out);
 
 extern "C" __m128 _mm_load_ss(const float*);

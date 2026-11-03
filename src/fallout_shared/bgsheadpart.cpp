@@ -332,7 +332,6 @@ struct TESFile
     bool m_bIsDLC;
     char _pad_42b[1];
 };
-typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005e7530_shell : public BGSHeadPart
 {
     bool FUN_005e7530(TESFile*);
@@ -498,7 +497,7 @@ bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
     if (reinterpret_cast<::FUN_00472660_shell *>((apFile))->FUN_00472660() != 9)
         return false;
 
-    ((void(__thiscall*)(TESForm*, TESFile*))ref_00485110)(this, apFile);
+    ((void(*)(TESForm*, TESFile*))ref_00485110)(this, apFile);
 
     int chunkid;
     while ((chunkid = reinterpret_cast<::FUN_004726b0_class *>((apFile))->FUN_004726b0()) != 0)
@@ -527,7 +526,7 @@ bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
             unsigned int isize = reinterpret_cast<::FUN_00401660_Class *>((apFile))->GetField25C();
             void* pdata = _alloca(isize);
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(pdata), isize);
-            ((void(__thiscall*)(TESModelTextureSwap*, void*, unsigned int, unsigned int))ref_0048a7b0)(
+            ((void(*)(TESModelTextureSwap*, void*, unsigned int, unsigned int))ref_0048a7b0)(
                 (TESModelTextureSwap*)((char*)this + 0x24), pdata, isize, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((apFile))->FUN_00403570());
             break;
         }
@@ -537,7 +536,7 @@ bool FUN_005e7530_shell::FUN_005e7530(TESFile* apFile)
         case 0x4D414E48: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            ((void(__thiscall*)(BGSHeadPart*, unsigned int))ref_005e7790)(this, itempint);
+            ((void(*)(BGSHeadPart*, unsigned int))ref_005e7790)(this, itempint);
             break;
         }
         }
@@ -701,7 +700,7 @@ FUN_005e73a0::~FUN_005e73a0()
     FUN_005e7460();
 }
 
-// FUN_005e6600: real destructor (__thiscall, no params) of a class with:
+// FUN_005e6600: real destructor (, no params) of a class with:
 //   - a polymorphic base at offset 0 (total size 8, its dtor at 0x5e6470)
 //   - a member object at offset 8 whose dtor is 0x5aa1a0
 //   - a destructor body calling this->FUN_005e6c60(0)

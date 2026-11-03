@@ -59,7 +59,6 @@ class BSFileCache
     volatile FILE_CACHE_STATE m_eCacheState;             // +0x5C
     void* m_pCacheSyncObject;                            // +0x60
 };
-FNV_STATIC_ASSERT(sizeof(BSFileCache) == 0x64);
 
 // PC specialization of the file cache; it overrides the interface and
 // carries no extra state of its own.

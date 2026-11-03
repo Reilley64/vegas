@@ -106,11 +106,11 @@ struct Collection {
 struct Owner {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
     Collection* collection;
-    void __thiscall ProcessCollectionItems();
+    void ProcessCollectionItems();
 };
 // Iterates the collection's items and passes each to VisitSubObjects on the Handler at this-8, if the collection exists.
 // @fnv 0x00d67110
-void __thiscall Owner::ProcessCollectionItems() {
+void Owner::ProcessCollectionItems() {
     if (collection != 0) {
         int n = collection->count;
         int i = 0;
@@ -291,7 +291,7 @@ struct Outer {
 };
 
 struct TargetClass {
-    void __thiscall FUN_00d67150(void* arg);
+    void FUN_00d67150(void* arg);
 };
 
 // @fnv 0x00d67150

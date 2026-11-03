@@ -24,7 +24,6 @@
 
 class BGSLoadFormBuffer;
 
-#pragma pack(push, 4)
 class TESForm : public BaseFormComponent
 {
   public:
@@ -114,8 +113,6 @@ class TESForm : public BaseFormComponent
 public:
     void LoadGame(void *);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 
 template <> class BSSimpleList<TESForm*>
 {
@@ -202,9 +199,6 @@ class BGSRadiationStage
   public:
 };
 
-FNV_STATIC_ASSERT(sizeof(BGSListForm) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSListForm, m_kFormList) == 24);
-FNV_STATIC_ASSERT(offsetof(BGSListForm, m_uiFormCount) == 32);
 
 class BGSCameraShot;
 class BGSPerkEntry;

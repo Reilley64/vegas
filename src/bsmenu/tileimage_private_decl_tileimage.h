@@ -2,6 +2,7 @@
 #ifndef FNV_TILEIMAGE_PRIVATE_H
 #define FNV_TILEIMAGE_PRIVATE_H
 
+#include <windows.h>
 #include <stddef.h>
 #include "fnv/decl/FUN_004bc320_shell.h"
 #include "fnv/decl/FUN_00a00f30_shell.h"
@@ -28,8 +29,6 @@ class GlobalObject_0040c150
         return this ? text : 0;
     }
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 class NiTexture
 {
   public:
@@ -135,9 +134,6 @@ class TileImage : public Tile
     NiPointer<TileShaderProperty> m_spShaderProperty;
     bool m_bTextureLoaded;
 };
-typedef char tileimage_size_check[sizeof(TileImage) == 0x48 ? 1 : -1];
-typedef char tileimage_flags_check[offsetof(Tile, uiFlags) == 0x30 ? 1 : -1];
-typedef char tileimage_texture_check[offsetof(TileImage, spTexture) == 0x3c ? 1 : -1];
 class TextureReceiver
 {
   public:

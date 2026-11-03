@@ -48,23 +48,23 @@ struct NiStream;
 
 struct NiBoundingVolume
 {
-    void __thiscall SaveBinary(NiStream& kStream);
+    void SaveBinary(NiStream& kStream);
 };
 
 struct OrientedBoxBound
 {
-    void __thiscall SaveBinary(NiStream& kStream);
+    void SaveBinary(NiStream& kStream);
 };
 
 struct NiBoxBV
 {
     NiBoundingVolume m_kBase;
     OrientedBoxBound m_kBoundsBox;
-    void __thiscall FUN_00ea0800(NiStream& kStream);
+    void FUN_00ea0800(NiStream& kStream);
 };
 
 // @fnv 0x00ea0800
-void __thiscall NiBoxBV::FUN_00ea0800(NiStream& kStream)
+void NiBoxBV::FUN_00ea0800(NiStream& kStream)
 {
     reinterpret_cast<::S_00e9cb10_Obj *>(&(m_kBase))->SaveValueToStream((::S_00e9cb10_Stream *)&(kStream));
     reinterpret_cast<::ColorContainer *>((((OrientedBoxBound*)((char*)this + 4))))->FUN_00eae630((::NiStream *)&(kStream));
@@ -82,10 +82,10 @@ struct FakeBox
 };
 struct StandIn
 {
-    int __thiscall FUN_00ea07a0(const NiBoundingVolume&);
+    int FUN_00ea07a0(const NiBoundingVolume&);
 };
 // @fnv 0x00ea07a0
-int __thiscall StandIn::FUN_00ea07a0(const NiBoundingVolume& kABV)
+int StandIn::FUN_00ea07a0(const NiBoundingVolume& kABV)
 {
     if (reinterpret_cast<const VType&>(kABV).f3() == 1)
     {
@@ -128,7 +128,7 @@ struct FUN_00ea7d10_shell
     {
         int v[15];
     } data;
-    NiBoundingVolume* __thiscall Clone();
+    NiBoundingVolume* Clone();
 };
 // Allocates a 0x40-byte clone, copies the vfptr and data payload into it, and returns it as a NiBoundingVolume, or returns 0 on failure.
 // @fnv 0x00ea7d10
@@ -222,7 +222,7 @@ struct Ea07Owner
 {
     int m_00;
     Ea07Sub m_04;
-    void __thiscall FUN_00ea07e0(int a);
+    void FUN_00ea07e0(int a);
 };
 
 // @fnv 0x00ea07e0
@@ -1972,11 +1972,11 @@ class ReworkPoint
         return r;
     }
     float Dot(const ReworkPoint& o) const;
-    ReworkPoint __thiscall operator+(const ReworkPoint& o) const
+    ReworkPoint operator+(const ReworkPoint& o) const
     {
         return ReworkPoint(x + o.x, y + o.y, z + o.z);
     }
-    ReworkPoint& __thiscall operator+=(const ReworkPoint& o)
+    ReworkPoint& operator+=(const ReworkPoint& o)
     {
         x += o.x;
         y += o.y;
@@ -1987,7 +1987,7 @@ class ReworkPoint
     {
         return ReworkPoint(-x, -y, -z);
     }
-    void __thiscall FUN_004a0c10()
+    void FUN_004a0c10()
     {
         float length = (float)sqrt(x * x + y * y + z * z);
         if (length > 1e-6)

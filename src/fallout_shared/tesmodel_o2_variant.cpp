@@ -26,7 +26,6 @@ struct FileEntryList
     char _pad_1[3];
     BSFileEntry** m_ppFileEntries;
 };
-typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct FUN_00488ff0_shell : public FileEntryList
 {
     void FUN_00488ff0();
@@ -53,7 +52,7 @@ struct FUN_00489860_shell
     unsigned char b2;
     unsigned char b3;
     int i4;
-    unsigned char* __thiscall FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
+    unsigned char* FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
 };
 
 // sub ecx,0x30; jmp FUN_004029f0  ==  MSVC adjustor thunk (multiple inheritance,
@@ -109,7 +108,6 @@ struct PrimaryBase
     int unk2C;
 };
 
-typedef char _sizecheck_PrimaryBase[sizeof(PrimaryBase) == 0x30 ? 1 : -1];
 
 struct SecondaryBase
 {

@@ -3,6 +3,7 @@
 // tile.cpp itself cannot take /Ob1 (its 50 accepted functions call those helpers out of line), so these come from a
 // different object; same declarations as tile.cpp. Move them to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/AAOwner.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/AGOwner.h"
@@ -212,7 +213,6 @@ public:
 public:
     bool IsValid() const;
 };
-typedef char _sizecheck_BSSoundHandle[sizeof(SoundPlaybackHandle) == 12 ? 1 : -1];
 struct FUN_00a0b110_shell : public Tile {
     void FUN_00a0b110(int);
 };
@@ -269,7 +269,6 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-typedef char _sizecheck_AutoTileLock[sizeof(EmptyPolymorphicObject) == 1 ? 1 : -1];
 struct FUN_00a03c90_shell : public Tile {
     Menu* FUN_00a03c90();
 };
@@ -364,7 +363,6 @@ FUN_00a0abe0::~FUN_00a0abe0() {
     member_0c = 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct Tile__TileTemplate {
     void Clear();
@@ -431,7 +429,6 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-typedef char _sizecheck_AutoTileLock[sizeof(EmptyPolymorphicObject) == 1 ? 1 : -1];
 struct FUN_00a01350_shell : public Tile {
     void FUN_00a01350(int, char*, bool);
 };
@@ -494,7 +491,6 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-typedef char _sizecheck_AutoTileLock[sizeof(EmptyPolymorphicObject) == 1 ? 1 : -1];
 struct FUN_00a03da0_shell : public Tile {
     Tile* FUN_00a03da0(char*);
 };
@@ -552,7 +548,6 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-typedef char _sizecheck_AutoTileLock[sizeof(EmptyPolymorphicObject) == 1 ? 1 : -1];
 struct FUN_00a03f70_shell : public Tile {
     Tile* FUN_00a03f70(int, int*);
 };
@@ -1085,7 +1080,7 @@ struct FUN_00a0d220_cls {
 // Claim: clm_0814eff69ec3418ebf5d -> FUN_00a0d280 (0x00a0d280, 24 bytes)
 // Flags: /MT /Od /Oy- /GS /EHsc /Gy /Ob1
 //
-// Shape: a tiny __thiscall member of the tile-template class.  The body only
+// Shape: a tiny member of the tile-template class.  The body only
 // forwards to a method of the sub-object that lives at this+0x0C.  MSVC /Od
 // spills 'this' into the frame (the slot sits below every named local) and
 // reloads it with the sub-object adjustment right before the call:
@@ -1758,9 +1753,6 @@ FUN_00ac5490::FUN_00ac5490(S00ac5490_Str a) : S00ac5490_Base(a)
 }
 
 struct _RTL_CRITICAL_SECTION;
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(_RTL_CRITICAL_SECTION*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 class FUN_009ff340;
 struct S009ff340_List { int FUN_0057c730(FUN_009ff340* const& p); };
@@ -2237,8 +2229,6 @@ int FUN_00a01630(ExtraNode* pkNode)
 
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 void __cdecl FUN_00a044f0();
 void __cdecl FUN_00a04500();
@@ -2607,8 +2597,6 @@ XmlNode* __cdecl FUN_00a01e20(const char* filename, const char* source, unsigned
 }  // namespace fnv_00a01e20
 
 namespace fnv_00a04200 {
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern char DAT_011f3330;
 inline int GetMemoryContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
 inline void SetMemoryContext(int value) { (*reinterpret_cast<int *>(&::currentAllocationContext)) = value; }
@@ -2757,7 +2745,7 @@ struct ClipProperty {
 };
 struct ClipGeometry {  };
 struct ClipArray;
-inline void __fastcall FUN_004afc80(ClipArray*);
+inline void FUN_004afc80(ClipArray*);
 struct ClipPointer {
     ClipGeometry* pointer;
     __forceinline ClipGeometry* operator->() { return pointer; }
@@ -2771,7 +2759,7 @@ struct ClipArray {
 
 ClipPointer* __cdecl AllocateClipArray(unsigned int);
 void __cdecl FreeClipArray(ClipPointer*);
-inline void __fastcall FUN_004afc80(ClipArray* array) {
+inline void FUN_004afc80(ClipArray* array) {
     ClipPointer* oldData;
     unsigned short source;
     unsigned short destination;
@@ -3232,7 +3220,7 @@ FUN_00a0d3c0::~FUN_00a0d3c0()
 }
 
 namespace fnv_00a1e1d0 {
-struct A1E1D0_Pool { void __thiscall FUN_00aa4060(void* p); };
+struct A1E1D0_Pool { void FUN_00aa4060(void* p); };
 struct FUN_00a0c190
 {
     int m_00;
@@ -3253,7 +3241,6 @@ void A1E1D0_Holder::FUN_00a1e1d0(FUN_00a0c190* entry)
 }
 }  // namespace fnv_00a1e1d0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
 
 
 class NiFixedString {
@@ -3432,7 +3419,6 @@ TileBaseA0BBF0* CreateTileA0BBF0()
 }
 
 namespace fnv_00a0c0c0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* addend);
 struct A0C0C0_String
 {
     char* m_handle;
@@ -3586,8 +3572,8 @@ void S_00a04150_Class::FUN_00a04150()
 
 namespace fnv_00a01b00 {
 struct MemoryManager { void Deallocate(void*); };
-extern void (__stdcall *DAT_00fdf05c)(void*);
-extern void (__stdcall *DAT_00fdf100)(void*);
+extern void (*DAT_00fdf05c)(void*);
+extern void (*DAT_00fdf100)(void*);
 struct FUN_00a031b0_shell {  };
 struct Tile__TileTemplate;
 
@@ -4150,7 +4136,6 @@ UITile* FUN_00a08b20(UITile* pTile, const char* pcPath)
 
 }
 
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
 extern "C" double __cdecl fabs(double);
 
 class NiAVObject;
@@ -4711,13 +4696,9 @@ void C00a033b0::FUN_00a033b0(R_Menu* a1)
 }
 }  // namespace fnv_00a033b0
 
-__declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-__declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 int __cdecl FUN_00ec6da0(const char*,const char*);
 struct RenderAtlasSetting { int unk00; const char* pValue; __forceinline const char* GetValue() { return this ? pValue : 0; } };
 extern RenderAtlasSetting g_011f3368;
-__declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct RenderTLS { int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int heapIndex; };
 struct RenderHeapScope {

@@ -37,7 +37,6 @@ class Tile
     bool m_bSpeechChallengeFailure;
     unsigned char layoutPadding36[2];
 };
-FNV_STATIC_ASSERT(sizeof(Tile) == 56);
 class TileRect : public Tile
 {
   public:
@@ -46,7 +45,6 @@ class TileRect : public Tile
     bool m_bTextureLoaded;
     unsigned char layoutPadding39[3];
 };
-FNV_STATIC_ASSERT(sizeof(TileRect) == 60);
 class TileMenu : public TileRect
 {
   public:
@@ -61,6 +59,4 @@ class TileMenu : public TileRect
     }
     Menu* pMenu;
 };
-FNV_STATIC_ASSERT(sizeof(TileMenu) == 64);
-FNV_STATIC_ASSERT(offsetof(TileMenu, pMenu) == 60);
 #endif

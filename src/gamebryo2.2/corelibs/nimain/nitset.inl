@@ -1,4 +1,5 @@
 
+#include <windows.h>
 #include "fnv/symbols_00a47000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00c1d000.h"
@@ -10,10 +11,6 @@ public:
     virtual void DeleteThis();
 };
 
-extern "C" __declspec(dllimport) long __stdcall
-InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall
-InterlockedIncrement(volatile long* value);
 
 template <class T>
 class NiPointer

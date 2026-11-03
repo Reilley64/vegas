@@ -383,7 +383,7 @@ struct FUN_00c6d4a0_class
     int unk590;
     int unk594;
     FUN_00cbe8d0_class* unk598;
-    void __thiscall FUN_00c6d4a0();
+    void FUN_00c6d4a0();
 };
 // @fnv 0x00c6d4a0
 void FUN_00c6d4a0_class::FUN_00c6d4a0()

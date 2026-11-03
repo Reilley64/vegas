@@ -1,5 +1,6 @@
 // bsmenu/tile3d.cpp: Tile3D, Tile3DCalc, AnimTile, Interface and more (12 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/Callees.h"
@@ -82,14 +83,14 @@ Tile* Tile3D::SetTraitValue(int uiValueID, float fFloatValue, const char* pcStrV
     return 0;
 }
 
-void(__thiscall* const pFUN_0078bb60)(void*, int) = 0;
+void(* const pFUN_0078bb60)(void*, int) = 0;
 struct DummyClass_0078a9f0;
-void __fastcall FUN_0078bb60(DummyClass_0078a9f0* pThis);
+void FUN_0078bb60(DummyClass_0078a9f0* pThis);
 
-typedef void(__thiscall* FUN_0078bb60_t)(void*, int);
+typedef void(* FUN_0078bb60_t)(void*, int);
 
 // @fnv 0x0078a9f0
-void __fastcall FUN_0078a9f0(char* pThis)
+void FUN_0078a9f0(char* pThis)
 {
     *(int*)(pThis + 0x1dc) = *((int *)(new ((void *)(*(void**)(pThis + 0x1d8))) ::Vec3()));
     *(void**)(pThis + 0x1d8) = reinterpret_cast<::Callees *>((*(void**)(pThis + 0x1d8)))->FUN_00726070();
@@ -102,7 +103,7 @@ void __fastcall FUN_0078a9f0(char* pThis)
         int item = *((int *)(new ((void *)(*(void**)(pThis + 0x1d8))) ::Vec3()));
         if (item != 0)
         {
-            ((void(__thiscall*)(void*, int))FUN_0078bb60)(pThis, *(int*)(pThis + 0x1dc));
+            ((void(*)(void*, int))FUN_0078bb60)(pThis, *(int*)(pThis + 0x1dc));
         }
     }
 }
@@ -112,7 +113,6 @@ struct GameTimerRecord
     void Enable();
 };
 extern GameTimerRecord DAT_011f3560;
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct TileNU
 {
 };
@@ -260,7 +260,6 @@ void FUN_00a20ba0_X::RemovePropertyRecursive(char* pTarget)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiGlobalStringTable
 {
     static char* __cdecl AddString(const char*);
@@ -862,7 +861,6 @@ inline float DeltaTime()
     return delta;
 }
 extern float DAT_01095728;
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
 class NiNode;
 struct Interface
 {

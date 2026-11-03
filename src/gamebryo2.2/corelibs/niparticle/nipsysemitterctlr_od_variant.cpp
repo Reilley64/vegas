@@ -44,11 +44,11 @@ struct FUN_00c1ba30 : NiTimeControllerStop
     char pad[0x48 - 1];
     float m48;
 };
-void __fastcall FUN_00c1ba30(FUN_00c1ba30* self, int unused);
+void FUN_00c1ba30(FUN_00c1ba30* self, int unused);
 const char* const* __cdecl FUN_00c1c2f0();
 extern int DAT_011ae754;
 extern int DAT_011ae758;
-const char* const* __stdcall FUN_00c1ba50(unsigned short usIndex);
+const char* const* FUN_00c1ba50(unsigned short usIndex);
 struct NiPSysEmitterCtlr_shell : NiPSysEmitterCtlr
 {
     void FUN_00c1bcc0(NiInterpolator* pkInterpolator, unsigned short usIndex);

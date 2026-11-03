@@ -31,7 +31,7 @@ struct hkp3AxisSweep {
 struct BSAudio { void* p; int a; int b; };
 BSAudio* __cdecl FUN_00c85750();
 struct UnkRet { int x; int y; };
-void __fastcall ToggleBit(int a, void* b);
+void ToggleBit(int a, void* b);
 struct Entry {
     unsigned short key;
     unsigned short value;
@@ -138,7 +138,7 @@ struct S_00d1a180_Axis {
 
     void RemapEndPoints(char* nodes, const S_00d1a180_IntArray& remap);
 };
-void __fastcall FUN_00d10af0(int index, unsigned int* bits);
+void FUN_00d10af0(int index, unsigned int* bits);
 struct FUN_00d11620_cls {
     int unk00;
     int unk04;
@@ -191,7 +191,7 @@ struct FUN_00d11620_cls {
 //   shl eax, 4                  ; * 16 (entry stride)
 //   add eax, [ecx+0xA0]         ; + &this->entries
 //   mov [esp+4], eax            ; forward as first stack arg
-//   jmp FUN_00d11650            ; __thiscall tail call, ecx = this preserved
+//   jmp FUN_00d11650            ; tail call, ecx = this preserved
 struct UnkHandle {
     int unk00; // entry index read at [handle]
 };
@@ -202,8 +202,8 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
     int unk0C;
 };
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
-// __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-// Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
+// helper taking (self in ecx, handle in edx, entry on stack).
+// Stand-in owner class for the thunk; fnvcheck matches the name FUN_00d119c0.
 struct FUN_00d119c0_owner {
     int unk00;
     int unk04;
@@ -791,7 +791,7 @@ static void FreeLocalVec(LocalVec& v)
     int cap = v.m_08;
     v.m_04 = 0;
     if ((cap & (int)0x80000000) == 0) {
-        typedef void (__thiscall* FreeFn)(AllocObj*, void*, int);
+        typedef void (* FreeFn)(AllocObj*, void*, int);
         FreeFn fn = (FreeFn)ao->m_vtbl[4];
         fn(ao, v.m_00, (cap & 0x3fffffff) * 2);
     }
@@ -863,7 +863,7 @@ struct BpDeltaPair {
     unsigned int lo;
     unsigned int hi;
 };
-void __stdcall FUN_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound);
+void FUN_00d10c40(FourIntegerBlock* nodes, int n, int delta, const int* bound);
 struct BpBoundNode { __m64 lo; __m64 hi; };
 struct BpBoundWords { unsigned short lo0, lo1, lo2, lo3, hi0, hi1; };
 struct __declspec(align(16)) ReferenceBounds {
@@ -1763,11 +1763,11 @@ __forceinline void quantizeCombinedSweepAabb(const BatchAabb& box,const SweepVec
     out.high[1]=upperResult.values[1]|1;
     out.high[2]=upperResult.values[2]|1;
 }
-void __fastcall ToggleBit(int index,void* storage) {
+void ToggleBit(int index,void* storage) {
     int wordIndex=index>>5;
     ((unsigned int*)storage)[wordIndex] ^= 1 << (index&31);
 }
-void __fastcall FUN_00d10af0(int index,unsigned int* storage) {
+void FUN_00d10af0(int index,unsigned int* storage) {
     int wordIndex=index>>5;
     storage[wordIndex] &= ~(1 << (index&31));
 }

@@ -1,5 +1,6 @@
 // bscore/scrapheap_decls.h: declares ScrapHeapBuffer, ScrapHeapManager, Entry, MemoryManager
 
+#include <windows.h>
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/StateMachine.h"
 #include "fnv/symbols_00aa5000.h"
@@ -54,7 +55,4 @@ class MemoryManager
 };
 
 
-extern "C" __declspec(dllimport) void* __stdcall VirtualAlloc(void* address, unsigned int size,
-                                                              unsigned int allocationType, unsigned int protection);
 
-extern "C" __declspec(dllimport) int __stdcall VirtualFree(void* address, unsigned int size, unsigned int freeType);

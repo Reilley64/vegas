@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00404000.h"
@@ -14,8 +15,8 @@ extern int DAT_01189c40;
 struct FUN_00404b10_class
 {
     void* m_p;
-    void __thiscall FUN_00404b90(int);
-    void* __thiscall Initialize();
+    void FUN_00404b90(int);
+    void* Initialize();
 };
 struct FUN_00404d00_class
 {
@@ -47,8 +48,8 @@ struct CombatThreatRecord
 };
 struct FUN_009a5270_class
 {
-    void* __thiscall GetFirstPos();
-    void __thiscall DeleteAllEntries();
+    void* GetFirstPos();
+    void DeleteAllEntries();
 };
 struct SpawnedObj404a80
 {
@@ -164,7 +165,7 @@ struct FUN_00438af0_Class
     FUN_00438af0_Item** unk08;
     int unk0C;
 
-    void __thiscall FUN_00438af0();
+    void FUN_00438af0();
 };
 inline void FUN_00438af0_Class::vf04()
 {}
@@ -178,7 +179,7 @@ inline void FUN_00438af0_Class::vf14()
 {}
 inline void FUN_00438af0_Class::vf18(FUN_00438af0_Item*)
 {}
-void __thiscall FUN_00438af0_Class::FUN_00438af0()
+void FUN_00438af0_Class::FUN_00438af0()
 {
     unsigned int index;
 
@@ -230,7 +231,7 @@ struct C6b7f20_Map
     virtual unsigned int GetBucket(unsigned int key);
     unsigned int bucketCount;
     C6b7f20_Node** buckets;
-    void __thiscall FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
+    void FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, void** outValue);
 };
 struct FUN_00844700_Node
 {
@@ -251,7 +252,7 @@ struct FUN_00844700_Class
     FUN_00844700_Node** nodes;
     int count;
 
-    void __thiscall FUN_00844700(unsigned int key, unsigned int value);
+    void FUN_00844700(unsigned int key, unsigned int value);
 };
 inline int FUN_00844700_Class::vf04(unsigned int)
 {
@@ -269,7 +270,7 @@ inline void* FUN_00844700_Class::vf14()
 {
     return 0;
 }
-void __thiscall FUN_00844700_Class::FUN_00844700(unsigned int key, unsigned int value)
+void FUN_00844700_Class::FUN_00844700(unsigned int key, unsigned int value)
 {
     int counter = this->vf04(key);
     FUN_00844700_Node* node = this->nodes[counter];
@@ -367,7 +368,7 @@ class RMapBase
 struct E60Val
 {
     int a, b;
-    void __thiscall FUN_006e5cc0(E60Val* src);
+    void FUN_006e5cc0(E60Val* src);
 };
 struct E60Item
 {
@@ -492,8 +493,6 @@ void MapOwnerStandIn::FUN_00ec2e50()
     reinterpret_cast<::FUN_00438af0_Class *>(&(m_kFormatEntries))->FUN_00438af0();
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct RefX
 {
     virtual void v0();

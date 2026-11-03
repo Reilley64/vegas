@@ -133,7 +133,7 @@ struct StreamBufferD27210
     int FlushToDestination();
 };
 // @fnv 0x00d27260
-int __thiscall FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
+int FUN_00d27260_standin::FUN_00d27260(const void* data, int size)
 {
     int remaining = size;
     const char* bytes = static_cast<const char*>(data);

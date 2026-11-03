@@ -8,7 +8,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "bsdiscbootsystemutility_local.h"
 
-typedef void(__thiscall* DestroyFn)(BSDiscBootSystemUtility*);
+typedef void(* DestroyFn)(BSDiscBootSystemUtility*);
 
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 

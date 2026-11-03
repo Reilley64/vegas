@@ -74,11 +74,11 @@ extern "C" void __cdecl __Dummy_00b6fef0(void*, int);
 
 struct FUN_00c23cf0_shell
 {
-    FUN_00c23cf0_shell* __thiscall FUN_00c23cf0(int param);
+    FUN_00c23cf0_shell* FUN_00c23cf0(int param);
 };
 
 // @fnv 0x00c23cf0
-FUN_00c23cf0_shell* __thiscall FUN_00c23cf0_shell::FUN_00c23cf0(int param)
+FUN_00c23cf0_shell* FUN_00c23cf0_shell::FUN_00c23cf0(int param)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (param & 1)
@@ -97,11 +97,11 @@ struct FUN_00c23b70_shell : NiObject
     float m_fSpawnDirectionChaos;
     float m_fYValue;
     float m_fLifeSpanVariation;
-    bool __thiscall FUN_00c23b70(NiObject* pkObject);
+    bool FUN_00c23b70(NiObject* pkObject);
 };
 // Compares this object with pkObject: checks IsEqual and that eight stored values match, returning true only if all are equal.
 // @fnv 0x00c23b70
-bool __thiscall FUN_00c23b70_shell::FUN_00c23b70(NiObject* pkObject)
+bool FUN_00c23b70_shell::FUN_00c23b70(NiObject* pkObject)
 {
     FUN_00c23b70_shell* pkDest = static_cast<FUN_00c23b70_shell*>(pkObject);
     if (reinterpret_cast<::MyIsEqual *>((void *)this)->FUN_00c31830(pkObject) && pkDest->m_usSpawnGenerationCount == m_usSpawnGenerationCount &&
@@ -142,13 +142,13 @@ struct FUN_00c24a50_shell : Base00c319e0
     float m_fYValue;
     float m_fLifeSpanVariation;
 
-    void __thiscall AppendSpawnSettingsStrings(StrArr* strings);
+    void AppendSpawnSettingsStrings(StrArr* strings);
 };
 
 
 // Appends formatted spawn-setting name/value strings to the StrArr, growing it when full.
 // @fnv 0x00c24a50
-void __thiscall FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
+void FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
 {
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(strings);
 
@@ -316,7 +316,7 @@ template <class T> __forceinline void StreamSaveBinary(SaveStream& stream, const
 
 struct SpawnModifier : NiPSysSpawnModifier
 {
-    void __thiscall FUN_00c24920(SaveStream& stream);
+    void FUN_00c24920(SaveStream& stream);
 };
 
 // Saves the SpawnModifier fields to the stream after calling the base class save routine.
@@ -337,7 +337,7 @@ void SpawnModifier::FUN_00c24920(SaveStream& stream)
 #include <string.h>
 struct FUN_00c23c00_shell
 {
-    void __thiscall AddDelta(float*, float*);
+    void AddDelta(float*, float*);
 };
 
 // Copies 9 floats from the object into fTimeSinceScaleStart, then adds each element of fDelta2 to the corresponding element.

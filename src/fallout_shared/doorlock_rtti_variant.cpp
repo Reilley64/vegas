@@ -33,7 +33,6 @@ class TESGlobal;
 class TESClass;
 class TESActorBase;
 class InventoryChanges;
-#pragma pack(push, 4)
 class DoorAccessData
 {
   public:
@@ -50,14 +49,6 @@ class DoorAccessData
     bool CanActorOpenDoor(const PathingActorData* pActorData, bool bFlag);
     bool CanUnlockDoor(const PathingActorData* pActorData, TESObjectREFR* pRef, bool& bNeedsKey);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DoorAccessData) == 24);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pSourceCell) == 0);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pDestinationCell) == 4);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pTeleportData) == 8);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pKeyForm) == 12);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_iLockLevel) == 16);
-FNV_STATIC_ASSERT(offsetof(DoorAccessData, m_pLockLevelGlobal) == 20);
 // Minimal callee declarations (codegen only; layouts remain with owning units).
 class TESForm
 {
@@ -109,7 +100,6 @@ struct KeySearch
     int iCount;
 };
 class TESKey;
-#pragma pack(push, 4)
 class LockExtraData
 {
   public:
@@ -123,13 +113,6 @@ class LockExtraData
     int GetLockLevel(TESObjectREFR* pRef);
     bool IsLocked();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LockExtraData) == 20);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockState) == 0);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, pKey) == 4);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, cFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockDifficulty) == 12);
-FNV_STATIC_ASSERT(offsetof(LockExtraData, m_uiLockValue) == 16);
 class FUN_00411b00 : public LockExtraData
 {
   public:

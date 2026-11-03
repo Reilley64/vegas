@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLEFRICTIONDESCRIPTIONAXISDESCRIPTION_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleFrictionDescriptionAxisDescription
 {
   public:
@@ -19,7 +18,4 @@ class hkpVehicleFrictionDescriptionAxisDescription
     hkReal m_fAxisFrictionTuning8;        // +0x5C
     hkReal m_fAxisFrictionTuning9;        // +0x60
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleFrictionDescriptionAxisDescription
-    [(sizeof(hkpVehicleFrictionDescriptionAxisDescription) == 0x64) ? 1 : -1];
 #endif

@@ -87,7 +87,7 @@ void BoundsWriter::WriteBoundsVertices(VertexBuffer* output, unsigned int alloca
 }
 
 namespace fnv_00de15c0 {
-// InitBoxMesh worker9 v1: __thiscall, no stack args, no frame in ORIG.
+// InitBoxMesh worker9 v1: , no stack args, no frame in ORIG.
 // Allocates a 24B Pair { VertArr verts; FaceArr faces; } via the singleton
 // allocator vtable slot +4, stores it at this->m_08, then pushes the 8 box
 // corners (this->m_60 / this->m_70) into verts and 12 index triples into faces.
@@ -106,7 +106,7 @@ struct __declspec(align(16)) Vec4f
 struct AllocVt
 {
     void* f0;
-    void*(__thiscall* allocFn)(void* self, int bytes);
+    void*(* allocFn)(void* self, int bytes);
 };
 struct AllocObj
 {

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/decl/FUN_00a62a40_this.h"
@@ -100,17 +101,17 @@ struct NiStream
 };
 struct NiProperty
 {
-    virtual void __thiscall LoadBinary(NiStream&);
+    virtual void LoadBinary(NiStream&);
     char _pad[0x14];
 };
 struct NiCullingProperty : NiProperty
 {
     unsigned short m_usFlags;
-    void __thiscall FUN_00a8f650(NiStream&);
+    void FUN_00a8f650(NiStream&);
 };
 // Calls NiProperty::LoadBinary then reads 2 bytes from the stream into m_usFlags, advancing the stream position.
 // @fnv 0x00a8f650
-void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
+void NiCullingProperty::FUN_00a8f650(NiStream& stream)
 {
     reinterpret_cast<::NiProperty *>(this)->LoadBinary((::NiStream &)(stream));
     NiBinaryStream* __restrict input = stream.m_pUnderlyingStream;
@@ -121,14 +122,12 @@ void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
 
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 extern int DAT_0109f68c;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 struct NiPropertyMem;
 struct NiPropertyVTable
 {
     void* reserved;
-    void(__thiscall* dispose)(NiPropertyMem*);
+    void(* dispose)(NiPropertyMem*);
 };
 struct NiPropertyMem
 {

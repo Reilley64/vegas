@@ -42,7 +42,7 @@ extern int DAT_010d461c;
 
 struct FUN_00da07b0_class
 {
-    void __thiscall FUN_00cb0a70(void*);
+    void FUN_00cb0a70(void*);
 };
 
 // @fnv 0x00da07b0
@@ -72,7 +72,7 @@ void* __cdecl InitAndReturnTail(void* apUnused1, void* apUnused2, void* apStruct
 // @fnv 0x00da08c0
 void __cdecl FUN_00da08c0(void** a)
 {
-    (**(void(__thiscall**)(void*, int))(*a))(a, 0);
+    (**(void(**)(void*, int))(*a))(a, 0);
 }
 
 extern int DAT_010c6bec;
@@ -105,11 +105,11 @@ extern int DAT_010d6014;
 
 struct FUN_00db7ab0_class
 {
-    void* __thiscall FUN_00db7ab0(void* a, void* b, void* c);
+    void* FUN_00db7ab0(void* a, void* b, void* c);
 };
 
 // @fnv 0x00db7ab0
-void* __thiscall FUN_00db7ab0_class::FUN_00db7ab0(void* a, void* b, void* c)
+void* FUN_00db7ab0_class::FUN_00db7ab0(void* a, void* b, void* c)
 {
     *(short*)((char*)this + 6) = 1;
     *(int*)((char*)this + 12) = (int)a;
@@ -215,7 +215,7 @@ void __cdecl FUN_00da0740(FUN_00da0740_vt* p)
 
 struct FUN_00cb0a70_class
 {
-    void __thiscall FUN_00cb0a70(int);
+    void FUN_00cb0a70(int);
 };
 // @fnv 0x00da0760
 void __cdecl FUN_00da0760(void* pObject, void* b)
@@ -229,10 +229,10 @@ void __cdecl FUN_00da0760(void* pObject, void* b)
 
 struct FUN_00db7cf0_class
 {
-    int __thiscall FUN_00db7cf0(int a, int b);
+    int FUN_00db7cf0(int a, int b);
 };
 // @fnv 0x00db7cf0
-int __thiscall FUN_00db7cf0_class::FUN_00db7cf0(int a, int b)
+int FUN_00db7cf0_class::FUN_00db7cf0(int a, int b)
 {
     return ((int*)(*(int**)(this + 0x10)))[a];
 }
@@ -672,11 +672,11 @@ struct FUN_00db0060_class
     int unk14;
     int unk18;
 
-    void __thiscall FUN_00db0060(int* param_2, int param_3);
+    void FUN_00db0060(int* param_2, int param_3);
 };
 
 // @fnv 0x00db0060
-void __thiscall FUN_00db0060_class::FUN_00db0060(int* aiValues, int param_3)
+void FUN_00db0060_class::FUN_00db0060(int* aiValues, int param_3)
 {
     int value;
 
@@ -751,11 +751,11 @@ struct FUN_00db75b0_class
     FUN_00db75b0_entry* unk04;
     int unk08;
 
-    unsigned int __thiscall FUN_00db75b0(int a1, unsigned int* a2);
+    unsigned int FUN_00db75b0(int a1, unsigned int* a2);
 };
 
 // @fnv 0x00db75b0
-unsigned int __thiscall FUN_00db75b0_class::FUN_00db75b0(int a1, unsigned int* a2)
+unsigned int FUN_00db75b0_class::FUN_00db75b0(int a1, unsigned int* a2)
 {
     for (int index = 0; index < unk08; ++index)
     {
@@ -1439,7 +1439,7 @@ __forceinline void addEdge(int& mask, int value)
 }
 // Returns early if count < 3; if dimension >= 4 sets result true, otherwise builds masks from entries and sets result to whether neither mask has occupied cells.
 // @fnv 0x00db0b00
-void __stdcall CheckFeatureCacheCoverage(FeatureCache* cache, int firstFlags, int secondFlags)
+void CheckFeatureCacheCoverage(FeatureCache* cache, int firstFlags, int secondFlags)
 {
     if (cache->count < 3)
         return;
@@ -1542,10 +1542,10 @@ struct CallbackHolder
     int unk00;
     int unk04;
     int unk08;
-    void(__stdcall* callback)(void* argument);
+    void(* callback)(void* argument);
 };
 
-extern void*(__stdcall* DAT_00fdf110)();
+extern void*(* DAT_00fdf110)();
 
 struct FUN_00da2b30_Class
 {
@@ -1571,7 +1571,7 @@ extern int DAT_01269a9c;
 
 struct FUN_00da2840_Obj
 {
-    void __thiscall FUN_00da2840();
+    void FUN_00da2840();
 };
 
 struct FUN_00da2b90_Obj
@@ -1581,12 +1581,12 @@ struct FUN_00da2b90_Obj
     short unk06;
     int* unk08;
 
-    unsigned int* __thiscall Initialize();
+    unsigned int* Initialize();
 };
 
 // Sets unk06 to 1, stores pointers to DAT_010d4de4 and DAT_01269a9c, calls FUN_00da2840 on DAT_01269a9c, and returns this.
 // @fnv 0x00da2b90
-unsigned int* __thiscall FUN_00da2b90_Obj::Initialize()
+unsigned int* FUN_00da2b90_Obj::Initialize()
 {
     unk06 = 1;
     unk00 = reinterpret_cast<int>(&DAT_010d4de4);
@@ -1618,7 +1618,7 @@ struct DA2D70Object
     int unk00;
     unsigned short unk04;
 
-    void* __thiscall NotifyAudioListener(int flags);
+    void* NotifyAudioListener(int flags);
 };
 
 extern BSAudio* __cdecl FUN_00c85750();
@@ -2700,8 +2700,8 @@ void CallTarget_a()
 struct S_00db7c70_class
 {
     int unk0c;
-    int __thiscall FUN_00db7c70(int a, int b);
-    int __thiscall FUN_00db7c80();
+    int FUN_00db7c70(int a, int b);
+    int FUN_00db7c80();
 };
 // @fnv 0x00db7c90
 void SpawnedOuter::ForwardToInner(__int64 v)
@@ -2710,12 +2710,12 @@ void SpawnedOuter::ForwardToInner(__int64 v)
 }
 
 // @fnv 0x00db7c70
-int __thiscall S_00db7c70_class::FUN_00db7c70(int a, int b)
+int S_00db7c70_class::FUN_00db7c70(int a, int b)
 {
     return b;
 }
 
-int __thiscall S_00db7c70_class::FUN_00db7c80()
+int S_00db7c70_class::FUN_00db7c80()
 {
     return unk0c;
 }
@@ -2744,10 +2744,10 @@ int DBBCBC0Target::FUN_00dbbc00()
 
 namespace fnv_00da2840 {
 extern char* DAT_011b76d0;
-extern void*(__stdcall* DAT_00fdf0b0)(const char*);
-extern void*(__stdcall* DAT_00fdf0ac)(void*, const char*);
-extern void(__stdcall* DAT_00fdf16c)(const char*);
-extern HANDLE(__stdcall* DAT_00fdf110)(int, int);
+extern void*(* DAT_00fdf0b0)(const char*);
+extern void*(* DAT_00fdf0ac)(void*, const char*);
+extern void(* DAT_00fdf16c)(const char*);
+extern HANDLE(* DAT_00fdf110)(int, int);
 
 extern char str_010d4da0[];
 extern char str_010d4d90[];
@@ -2762,18 +2762,18 @@ extern char str_010d4c84[];
 extern char str_010d4c6c[];
 extern char str_010d4c60[];
 
-typedef void(__stdcall* DA2840_OutputDebugString)(const char*);
-typedef void*(__stdcall* DA2840_GetProcAddress)(void*, const char*);
-typedef int(__stdcall* DA2840_SymInitialize)(HANDLE);
-typedef int(__stdcall* DA2840_SymRefreshModuleList)(void);
-typedef DWORD(__stdcall* DA2840_SymGetOptions)(void);
-typedef DWORD(__stdcall* DA2840_SymSetOptions)(DWORD);
-typedef void*(__stdcall* DA2840_SymGetSymFromAddr)(void*, void*, void*);
-typedef int(__stdcall* DA2840_StackWalk64)(void*, void*, void*, void*, void*, void*, void*, void*);
-typedef void*(__stdcall* DA2840_SymFunctionTableAccess64)(void*, void*, void*);
-typedef void*(__stdcall* DA2840_SymGetModuleBase64)(void*, void*);
-typedef int(__stdcall* DA2840_SymGetLineFromAddr64)(void*, void*, void*, void*);
-typedef BOOL(__stdcall* DA2840_SymCleanup)(void*);
+typedef void(* DA2840_OutputDebugString)(const char*);
+typedef void*(* DA2840_GetProcAddress)(void*, const char*);
+typedef int(* DA2840_SymInitialize)(HANDLE);
+typedef int(* DA2840_SymRefreshModuleList)(void);
+typedef DWORD(* DA2840_SymGetOptions)(void);
+typedef DWORD(* DA2840_SymSetOptions)(DWORD);
+typedef void*(* DA2840_SymGetSymFromAddr)(void*, void*, void*);
+typedef int(* DA2840_StackWalk64)(void*, void*, void*, void*, void*, void*, void*, void*);
+typedef void*(* DA2840_SymFunctionTableAccess64)(void*, void*, void*);
+typedef void*(* DA2840_SymGetModuleBase64)(void*, void*);
+typedef int(* DA2840_SymGetLineFromAddr64)(void*, void*, void*, void*);
+typedef BOOL(* DA2840_SymCleanup)(void*);
 
 struct DA2840Object
 {
@@ -2898,7 +2898,6 @@ struct S00da6eb0_Alloc
 extern char str_010d50b8[];
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 
 inline void S00da6eb0_TimerMark(const char* pName)
@@ -3574,7 +3573,7 @@ struct StackTraceModule
 
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
 
-    void(__stdcall* releaseProcess)(void*);
+    void(* releaseProcess)(void*);
 };
 
 struct StackTraceOwner

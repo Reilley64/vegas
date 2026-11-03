@@ -13,10 +13,10 @@ struct StrArr
     char _pad2[2];
     unsigned short m_usGrow;
 };
-void __stdcall FUN_00b71450(StrArr*);
+void FUN_00b71450(StrArr*);
 // Grows the string array if it is full, then appends the string returned by _FUN_00a7d330(DAT_012005b8) at the end.
 // @fnv 0x00bb44a0
-void __stdcall FUN_00bb44a0(StrArr* apStrings)
+void FUN_00bb44a0(StrArr* apStrings)
 {
     FUN_00b71450(apStrings);
     char* pString = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_012005b8)));

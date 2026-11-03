@@ -19,5 +19,4 @@ class ActorValueOwner
     virtual unsigned short GetActorValueOwnerType();
     Actor* GetActorOwner();
 };
-FNV_STATIC_ASSERT(sizeof(ActorValueOwner) == 0x4);
 #endif

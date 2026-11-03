@@ -645,7 +645,7 @@ void FUN_006b4b50_shell::LoadNavMeshInfo(char* apChunkBuffer, TESFile* apFile, i
 
 // FUN_0069bcf0 - default constructor of a non-polymorphic class.
 // Disassembly facts:
-//   - __thiscall, no stack args, returns this (mov eax,[ebp-0x10] epilogue)
+//   - , no stack args, returns this (mov eax,[ebp-0x10] epilogue)
 //   - no vtable store -> non-polymorphic
 //   - ctor-call on this+0x00 and this+0x0C with 3 float args each
 //     (globals D_01015f5c x3 then D_01016970 x3)

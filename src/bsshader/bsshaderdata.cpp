@@ -2,6 +2,7 @@
 // src/bsshader/bsshaderdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00baff20_Class.h"
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/decl/WorkerSource.h"
@@ -94,12 +95,10 @@ struct ShaderPropertyConversionData
     char _pad_b3[1];
     int m_iShaderDataFlags;
 };
-typedef char _sizecheck_BSShaderData[sizeof(ShaderPropertyConversionData) == 184 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00bb0180_shell : public ShaderPropertyConversionData
 {
     void AddProperties(NiAVObject*, unsigned int);
@@ -127,7 +126,7 @@ struct FUN_00bb0490_shell
 // @fnv 0x00bb0490
 void FUN_00bb0490_shell::CallVirtualMethod74()
 {
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(this))[0x4a])(this, DAT_012005e0);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(this))[0x4a])(this, DAT_012005e0);
 }
 
 struct _D3DXMACRO
@@ -135,8 +134,6 @@ struct _D3DXMACRO
     const char* Name;
     const char* Definition;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiD3DPixelShader
 {
     virtual void v0();

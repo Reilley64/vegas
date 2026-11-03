@@ -10,43 +10,43 @@
 
 struct FUN_00c86400_Class
 {
-    void __thiscall FUN_00c86400(void* a);
+    void FUN_00c86400(void* a);
 };
 
 // @fnv 0x00c86400
-void __thiscall FUN_00c86400_Class::FUN_00c86400(void* a)
+void FUN_00c86400_Class::FUN_00c86400(void* a)
 {
     ::SetMotionState((const ::MotionMat4 *)(a), (::MotionState_cls *)(void *)((char*)this + 0x10));
 }
 
 struct FUN_00c86420_Class
 {
-    void __thiscall FUN_00c86420(char a);
+    void FUN_00c86420(char a);
 };
 // @fnv 0x00c86420
-void __thiscall FUN_00c86420_Class::FUN_00c86420(char a)
+void FUN_00c86420_Class::FUN_00c86420(char a)
 {
     ((char*)this)[0xbe] = a;
 }
 
 struct FUN_00c86480_Class
 {
-    void __thiscall FUN_00c86480(float v);
+    void FUN_00c86480(float v);
 };
 // @fnv 0x00c86480
-void __thiscall FUN_00c86480_Class::FUN_00c86480(float v)
+void FUN_00c86480_Class::FUN_00c86480(float v)
 {
     *(float*)((char*)this + 0xcc) = v;
 }
 
 struct FUN_00c86330_Class
 {
-    void __thiscall FUN_00c86330(float mass);
+    void FUN_00c86330(float mass);
 };
 
 // Computes the inverse of mass (0 if mass is 0) and passes it to the virtual function at vtable slot 4.
 // @fnv 0x00c86330
-void __thiscall FUN_00c86330_Class::FUN_00c86330(float mass)
+void FUN_00c86330_Class::FUN_00c86330(float mass)
 {
     float invMass;
     if (mass == 0.0f)
@@ -58,17 +58,17 @@ void __thiscall FUN_00c86330_Class::FUN_00c86330(float mass)
         invMass = 1.0f / mass;
     }
     void** vtbl = *(void***)this;
-    void(__thiscall * fn)(void*, float) = (void(__thiscall*)(void*, float))vtbl[4];
+    void(* fn)(void*, float) = (void(*)(void*, float))vtbl[4];
     fn(this, invMass);
 }
 
 extern "C" void __cdecl FUN_00cf20d0(void*, void*);
 struct FUN_00c863a0_Class
 {
-    void __thiscall FUN_00c863a0(void* a);
+    void FUN_00c863a0(void* a);
 };
 // @fnv 0x00c863a0
-void __thiscall FUN_00c863a0_Class::FUN_00c863a0(void* a)
+void FUN_00c863a0_Class::FUN_00c863a0(void* a)
 {
     FUN_00cf20d0(a, (char*)this + 0x10);
 }
@@ -76,11 +76,11 @@ void __thiscall FUN_00c863a0_Class::FUN_00c863a0(void* a)
 
 struct FUN_00c863c0_Class
 {
-    void __thiscall FUN_00c863c0(void* a);
+    void FUN_00c863c0(void* a);
 };
 
 // @fnv 0x00c863c0
-void __thiscall FUN_00c863c0_Class::FUN_00c863c0(void* a)
+void FUN_00c863c0_Class::FUN_00c863c0(void* a)
 {
     ::FUN_00cf2160((unsigned int)(a), (unsigned int)((char*)this + 0x10));
 }
@@ -89,7 +89,7 @@ extern void __cdecl FUN_00cf1f80(void*, void*, void*);
 
 struct FUN_00c863e0_Class
 {
-    void __thiscall FUN_00c863e0(void* param1, void* param2);
+    void FUN_00c863e0(void* param1, void* param2);
 };
 
 // @fnv 0x00c863e0
@@ -107,7 +107,7 @@ struct FUN_00c86490_Class
     char pad[0x50];
     FUN_00cf22d0_Class sweptTransform;
 
-    void __thiscall SweepTransform(float value, void* result);
+    void SweepTransform(float value, void* result);
 };
 
 // @fnv 0x00c86490
@@ -118,7 +118,7 @@ void FUN_00c86490_Class::SweepTransform(float value, void* result)
 
 int __cdecl ApplyDelta(int, int);
 // @fnv 0x00c86380
-int __fastcall FUN_00c86380(unsigned int registerArg0, unsigned int registerArg1, unsigned int arg0)
+int FUN_00c86380(unsigned int registerArg0, unsigned int registerArg1, unsigned int arg0)
 {
     unsigned int callResult0 = (unsigned int)ApplyDelta((int)arg0, (int)(registerArg0 + 16u));
     return (int)callResult0;
@@ -356,11 +356,11 @@ struct Motion_00c86660
 struct Motion_00c86610
 {
     Motion_00c86610();
-    void __thiscall FUN_00c86610(Motion_00c86610* dst);
+    void FUN_00c86610(Motion_00c86610* dst);
 };
 // Copies the embedded Motion_00c86660 member and the two __m128 blocks plus one byte from this to dst.
 // @fnv 0x00c86610
-void __thiscall Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
+void Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
 {
     reinterpret_cast<::FUN_00c86660_cls *>((((Motion_00c86660*)((char*)apDest + 0x10))))->FUN_00c86660((const ::FUN_00c86660_cls *)(void *)((char*)this + 0x10));
     *(__m128*)((char*)apDest + 0xd0) = *(__m128*)((char*)this + 0xd0);
@@ -371,10 +371,10 @@ void __thiscall Motion_00c86610::FUN_00c86610(Motion_00c86610* apDest)
 
 struct FUN_00c864b0_Class
 {
-    void __thiscall FUN_00c864b0(const float* a);
+    void FUN_00c864b0(const float* a);
 };
 // @fnv 0x00c864b0
-void __thiscall FUN_00c864b0_Class::FUN_00c864b0(const float* apVector)
+void FUN_00c864b0_Class::FUN_00c864b0(const float* apVector)
 {
     __m128 v = *(const __m128*)apVector;
     *((__m128*)(this + 0xd0)) = v;
@@ -384,10 +384,10 @@ struct FUN_00c864d0_Class
 {
     char m_e0[0xe0];
     __m128 m_f0e0;
-    void __thiscall CopyFrom(__m128* v);
+    void CopyFrom(__m128* v);
 };
 // @fnv 0x00c864d0
-void __thiscall FUN_00c864d0_Class::CopyFrom(__m128* apSource)
+void FUN_00c864d0_Class::CopyFrom(__m128* apSource)
 {
     m_f0e0 = *apSource;
 }

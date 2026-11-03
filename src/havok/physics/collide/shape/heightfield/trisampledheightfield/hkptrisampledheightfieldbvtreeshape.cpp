@@ -42,15 +42,15 @@ void TriSampledHeightFieldBvTreeShape::FUN_00d27200()
 
 struct FUN_00d268b0_Obj : public hkpTriSampledHeightFieldBvTreeShape
 {
-    int __thiscall FUN_00d268b0(int a, int b);
+    int FUN_00d268b0(int a, int b);
 };
 
 // @fnv 0x00d268b0
-int __thiscall FUN_00d268b0_Obj::FUN_00d268b0(int a, int aiUnused)
+int FUN_00d268b0_Obj::FUN_00d268b0(int a, int aiUnused)
 {
     hkpShape* childShape = m_kChildContainer.m_pContainedShape;
     void** vtable = *(void***)childShape;
-    typedef int(__thiscall * ShapeFunction)(hkpShape*, int, int);
+    typedef int(* ShapeFunction)(hkpShape*, int, int);
     ShapeFunction function = (ShapeFunction)vtable[6];
 
     unsigned int result = (unsigned int)function(childShape, a, 0x100);
@@ -167,7 +167,7 @@ class FUN_00d268f0_Shape
 
 // Calls ComputeAabbFromTransform(a, b, c, &buffer), then calls CollectHits with that buffer and d.
 // @fnv 0x00d268f0
-void __thiscall FUN_00d268f0_Shape::ProcessBuffer(int a, int b, float c, int d)
+void FUN_00d268f0_Shape::ProcessBuffer(int a, int b, float c, int d)
 {
     __declspec(align(16)) FUN_00d268f0_LocalBuffer buffer;
 

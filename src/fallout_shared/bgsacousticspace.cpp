@@ -63,7 +63,7 @@ void BGSAcousticSpace::ResetFormData()
 }
 
 // @fnv 0x0058a200
-char __fastcall GetByteAtOffset48(void* this_ptr)
+char GetByteAtOffset48(void* this_ptr)
 {
     return static_cast<char*>(this_ptr)[0x30];
 }
@@ -140,7 +140,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
 }
 
 // @fnv 0x00589f50
-void __thiscall FUN_00589f50_shell::SetSound(void* apSound)
+void FUN_00589f50_shell::SetSound(void* apSound)
 {
     *(int*)((char*)this + 0x4c) = (int)apSound;
 }
@@ -240,7 +240,7 @@ extern int DAT_010320fc;
 
 struct FUN_00589960_shell
 {
-    void __thiscall FUN_00589960();
+    void FUN_00589960();
 };
 // Calls FUN_00589960, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00589930
@@ -253,7 +253,7 @@ void* Standin00589930::FUN_00589930(unsigned int flags)
 }
 
 // @fnv 0x00589960
-void __thiscall FUN_00589960_shell::FUN_00589960()
+void FUN_00589960_shell::FUN_00589960()
 {
     *reinterpret_cast<int**>(this) = &DAT_010320fc;
     reinterpret_cast<::FUN_0050e9f0_shell *>((this))->FUN_0050e9f0();

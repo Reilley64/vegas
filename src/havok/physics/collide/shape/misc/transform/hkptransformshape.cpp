@@ -17,7 +17,7 @@ struct FUN_00cf5900
 // @fnv 0x00cf5900
 int FUN_00cf5900::calc(int aiArg, int aiLimit)
 {
-    int result = (*(int(__thiscall**)(void*, int, int))(*(int*)(*(int*)((char*)this + 0x14)) + 0x18))(
+    int result = (*(int(**)(void*, int, int))(*(int*)(*(int*)((char*)this + 0x14)) + 0x18))(
         *(void**)((char*)this + 0x14), aiArg, aiLimit - 0x70);
     if (result < 0)
         return -1;

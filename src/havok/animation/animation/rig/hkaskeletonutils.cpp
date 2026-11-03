@@ -2,6 +2,7 @@
 // src/havok/animation/animation/rig/hkaskeletonutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaskeletonutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00cb1600.h"
@@ -598,7 +599,6 @@ void __cdecl FUN_00cde1d0(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern char DAT_010cb7dc[];
 
 struct TimerEntry

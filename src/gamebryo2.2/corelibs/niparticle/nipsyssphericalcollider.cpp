@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c281f0
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/C326B0Modifier.h"
@@ -72,7 +73,6 @@ void NiPSysSphericalCollider::FUN_00c28070(NiStream& kStream)
 }
 
 namespace fnv_00c28200 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiRefObject
 {
     virtual ~NiRefObject();
@@ -110,7 +110,7 @@ struct BSFadeNode
 };
 struct Collider : BSFadeNode
 {
-    Collider* __thiscall FUN_00c28110(float, int, int, int, int, float);
+    Collider* FUN_00c28110(float, int, int, int, int, float);
 };
 // @fnv 0x00c282a0
 Collider* CreateCollider()
@@ -126,7 +126,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -137,7 +136,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiObject
 {

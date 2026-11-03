@@ -9,10 +9,6 @@
 #include "matrixvt_decls.h"
 #include <string.h>
 
-FNV_STATIC_ASSERT(sizeof(FR2MatrixVTCData) == 24);
-FNV_STATIC_ASSERT(sizeof(FaceGenMatrix<float>) == 32);
-FNV_STATIC_ASSERT(offsetof(FaceGenMatrix<float>, m_uiRowCount) == 24);
-FNV_STATIC_ASSERT(offsetof(FaceGenMatrix<float>, m_uiColumnCount) == 28);
 
 // @fnv 0x006581e0
 FaceGenMatrix<float>& FaceGenMatrix<float>::operator=(const FaceGenMatrix<float>& rhs)

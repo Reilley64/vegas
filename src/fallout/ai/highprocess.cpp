@@ -1825,13 +1825,13 @@ const NavMeshTriangleReference& BSSimpleArray<NavMeshTriangleReference, 1024>::F
 }
 
 // @fnv 0x00824060
-char __fastcall GetByteAtOffset17(const char* pThis)
+char GetByteAtOffset17(const char* pThis)
 {
     return pThis[0x11];
 }
 
 // @fnv 0x008d7220
-void __fastcall ResolveActorFormId(unsigned int* formId)
+void ResolveActorFormId(unsigned int* formId)
 {
     *formId = (*formId != 0) ? (unsigned int)dynamic_cast<Actor*>(::FUN_004839c0(*formId)) : 0;
 }
@@ -1968,7 +1968,7 @@ struct DummyClass
 
 // Returns the name of the file obtained from pThis, or a fallback name when no file is present.
 // @fnv 0x008e5670
-const char* __fastcall FUN_008e5670(DummyClass* pThis)
+const char* FUN_008e5670(DummyClass* pThis)
 {
     TESFile* pFile = ((::TESFile *)(::FUN_004ae750((void *)(pThis))));
     const char* pName = pFile ? ((const char *)(reinterpret_cast<::BGSCameraPath *>((pFile))->GetShotList())) : ((const char *)(::FUN_00458b20()));
@@ -2078,7 +2078,7 @@ bool FUN_008e7c00_shell::IsFlag40Set()
 
 // Stores aTargetAngle at offset 0x8c and sets the flag at offset 0x99 to true.
 // @fnv 0x008e7c20
-void __fastcall SetTargetAngle(char* pThis, float aTargetAngle)
+void SetTargetAngle(char* pThis, float aTargetAngle)
 {
     *(float*)(pThis + 0x8c) = aTargetAngle;
     *(bool*)(pThis + 0x99) = true;
@@ -2107,7 +2107,7 @@ bool FUN_008f21a0_shell::FUN_008f21a0()
 }
 
 // @fnv 0x008f21d0
-unsigned short __fastcall GetShortAtOffset12(const char* pThis)
+unsigned short GetShortAtOffset12(const char* pThis)
 {
     return *(const unsigned short*)(pThis + 0x12);
 }
@@ -2198,7 +2198,7 @@ bool FUN_00900400_shell::FUN_00900400(int aiWhich)
 
 
 // @fnv 0x00903bb0
-void __fastcall FUN_00903bb0(char* pThis)
+void FUN_00903bb0(char* pThis)
 {
     reinterpret_cast<::Twin_0044ddc0 *>((pThis + 0x4c))->GetName();
 }
@@ -2413,11 +2413,11 @@ bool FakeCell::FUN_005547c0(NiPoint3 const& aPoint, float& aHeight)
 
 struct FUN_00645c40_Class
 {
-    float __thiscall GetField174Float();
+    float GetField174Float();
 };
 
 // @fnv 0x00645c40
-float __thiscall FUN_00645c40_Class::GetField174Float()
+float FUN_00645c40_Class::GetField174Float()
 {
     return *(float*)((char*)this + 0x174);
 }
@@ -2494,10 +2494,10 @@ bool LowProcess_GetIsAggressor_ext::FUN_008d7ec0()
 
 struct FUN_008d7f00_class
 {
-    void __thiscall FUN_008d7f00(float afvalue);
+    void FUN_008d7f00(float afvalue);
 };
 // @fnv 0x008d7f00
-void __thiscall FUN_008d7f00_class::FUN_008d7f00(float afvalue)
+void FUN_008d7f00_class::FUN_008d7f00(float afvalue)
 {
     *(float*)((char*)this + 0xa4) = afvalue;
 }
@@ -2670,11 +2670,11 @@ void FUN_008d86a0_class::FUN_008d86a0()
 
 struct FUN_008d8720_class
 {
-    void __thiscall FUN_008d8720(bool value);
+    void FUN_008d8720(bool value);
 };
 
 // @fnv 0x008d8720
-void __thiscall FUN_008d8720_class::FUN_008d8720(bool value)
+void FUN_008d8720_class::FUN_008d8720(bool value)
 {
     *(bool*)((char*)this + 0x18b) = value;
 }
@@ -2704,12 +2704,12 @@ void S_008d8960::FUN_008d8960(float afValue)
 
 struct FUN_008d8990_Class
 {
-    void __thiscall SubtractValue(float afValue);
+    void SubtractValue(float afValue);
 };
 
 // Subtracts afValue from the float stored at offset 0x238 of this object.
 // @fnv 0x008d8990
-void __thiscall FUN_008d8990_Class::SubtractValue(float afValue)
+void FUN_008d8990_Class::SubtractValue(float afValue)
 {
     ((float*)this)[0x238 / 4] -= afValue;
 }
@@ -2770,22 +2770,22 @@ void StandIn_008d8ba0::FUN_008d8ba0(void* aFurniture)
 
 struct FUN_008d8c40_Class
 {
-    void __thiscall SetShortValue(int aivalue);
+    void SetShortValue(int aivalue);
 };
 
 // @fnv 0x008d8c40
-void __thiscall FUN_008d8c40_Class::SetShortValue(int aivalue)
+void FUN_008d8c40_Class::SetShortValue(int aivalue)
 {
     *(short*)((char*)this + 0x22a) = (short)aivalue;
 }
 
 struct FUN_008d8c80_Class
 {
-    int __thiscall GetField39C();
+    int GetField39C();
 };
 
 // @fnv 0x008d8c80
-int __thiscall FUN_008d8c80_Class::GetField39C()
+int FUN_008d8c80_Class::GetField39C()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x39c);
 }
@@ -2959,12 +2959,12 @@ struct FUN_008d96d0_Class
 {
     char pad_0x424[0x424];
     unsigned int m_0x424;
-    void __thiscall ClearFlag(unsigned int aeAction);
+    void ClearFlag(unsigned int aeAction);
 };
 
 // Clears the bits of m_0x424 selected by aeAction.
 // @fnv 0x008d96d0
-void __thiscall FUN_008d96d0_Class::ClearFlag(unsigned int aeAction)
+void FUN_008d96d0_Class::ClearFlag(unsigned int aeAction)
 {
     m_0x424 &= ~aeAction;
 }
@@ -2986,17 +2986,17 @@ struct S_008d9890
 };
 struct FUN_0044afe0_class
 {
-    void __thiscall FUN_0044afe0(int);
+    void FUN_0044afe0(int);
 };
 
 struct FUN_008d98c0_class
 {
-    void __thiscall FUN_0044afe0(int);
-    void __thiscall FUN_008d98c0();
+    void FUN_0044afe0(int);
+    void FUN_008d98c0();
 };
 
 // @fnv 0x008d98c0
-void __thiscall FUN_008d98c0_class::FUN_008d98c0()
+void FUN_008d98c0_class::FUN_008d98c0()
 {
     FUN_0044afe0(0);
 }
@@ -3353,11 +3353,11 @@ char FUN_008e3e90()
 
 struct FUN_008e9620
 {
-    char __thiscall GetFlag();
+    char GetFlag();
 };
 
 // @fnv 0x008e9620
-char __thiscall FUN_008e9620::GetFlag()
+char FUN_008e9620::GetFlag()
 {
     return ((char*)this)[0xc2];
 }
@@ -3461,7 +3461,7 @@ float MyHigh::FUN_008f68a0(Actor* apActor, int abWhichList)
     DetectionViewData* pstate;
     ftime = -DAT_01087820;
     pstate =
-        ((DetectionViewData * (__thiscall**)(MyHigh*, Actor*, int))(*(int**)this))[321](this, apActor, abWhichList);
+        ((DetectionViewData * (**)(MyHigh*, Actor*, int))(*(int**)this))[321](this, apActor, abWhichList);
     if (pstate)
         ftime = reinterpret_cast<::CombatTargetTimestamp *>((((RegionPoint*)((char*)pstate + 24))))->FUN_006a7f50();
     return ftime;
@@ -4208,11 +4208,11 @@ unsigned short FUN_008f9140_Cls::GetField14()
 
 struct FUN_008f9160Class
 {
-    unsigned short __thiscall GetShortAtOffset16();
+    unsigned short GetShortAtOffset16();
 };
 
 // @fnv 0x008f9160
-unsigned short __thiscall FUN_008f9160Class::GetShortAtOffset16()
+unsigned short FUN_008f9160Class::GetShortAtOffset16()
 {
     return *(unsigned short*)((char*)this + 0x16);
 }
@@ -4971,21 +4971,21 @@ bool FUN_008ffdc0_Class::FUN_008ffdc0(class Actor* apActor, class Actor* apTarge
 
 struct FUN_00900e40
 {
-    void __thiscall SetCastingState(int a);
+    void SetCastingState(int a);
 };
 // @fnv 0x00900e40
-void __thiscall FUN_00900e40::SetCastingState(int aiValue)
+void FUN_00900e40::SetCastingState(int aiValue)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3ac) = aiValue;
 }
 
 struct FUN_00900e60_class
 {
-    int __thiscall GetField3AC();
+    int GetField3AC();
 };
 
 // @fnv 0x00900e60
-int __thiscall FUN_00900e60_class::GetField3AC()
+int FUN_00900e60_class::GetField3AC()
 {
     return *(int*)((char*)this + 0x3ac);
 }
@@ -5278,11 +5278,11 @@ void S00903f50::FreeField()
 
 struct FUN_00904430_Class
 {
-    float __thiscall GetField440();
+    float GetField440();
 };
 
 // @fnv 0x00904430
-float __thiscall FUN_00904430_Class::GetField440()
+float FUN_00904430_Class::GetField440()
 {
     return *(float*)((char*)this + 0x440);
 }
@@ -16084,7 +16084,7 @@ void FUN_008ebb50_Class::FUN_008ebb50(ActorForReset* actor)
     if (!reinterpret_cast<::Actor *>((actor))->IsSneaking())
         reinterpret_cast<::FUN_00884f80_shell *>((actor))->FUN_00884f80();
     reinterpret_cast<::FUN_008b39f0_shell *>((actor))->FUN_008b39f0(0x400);
-    typedef bool(__thiscall * VFunc)(FUN_008ebb50_Class*, ActorForReset*, bool);
+    typedef bool(* VFunc)(FUN_008ebb50_Class*, ActorForReset*, bool);
     if ((*(VFunc*)((char*)*(void**)this + 0x7c8))(this, actor, false))
     {
         if (reinterpret_cast<::Actor *>((actor))->IsSneaking())
@@ -17205,7 +17205,7 @@ struct FUN_008eea80_Class
 };
 
 // @fnv 0x008eea80
-bool __thiscall FUN_008eea80_Class::FUN_008eea80()
+bool FUN_008eea80_Class::FUN_008eea80()
 {
     return (this->unk24 & 1) ? true : false;
 }
@@ -22752,7 +22752,7 @@ struct ProcessController
 };
 struct ActivePackage
 {
-    int __thiscall FUN_0041ca90();
+    int FUN_0041ca90();
 };
 struct ActorObject
 {
@@ -22890,14 +22890,14 @@ struct ActorObject
     virtual void vfn_20c();
     virtual void vfn_210();
     virtual int vfn_214();
-    ActivePackage* __thiscall FUN_009344a0();
+    ActivePackage* FUN_009344a0();
 };
 struct HostController
 {
-    void __thiscall FUN_00901740(ActorObject* actor);
+    void FUN_00901740(ActorObject* actor);
 };
 // @fnv 0x00901740
-void __thiscall HostController::FUN_00901740(ActorObject* actor)
+void HostController::FUN_00901740(ActorObject* actor)
 {
     int topic = ((int)(::fnv_0061a2d0::GetTopicSubTypeName(1, 2)));
     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((actor))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)((*reinterpret_cast<unsigned int *>(&::_g_thePlayer))));
@@ -51013,7 +51013,7 @@ struct FUN_00900830_node
 {
     Actor** FUN_006815c0();
 };
-bool __fastcall FUN_008256d0(FUN_00900830_node* apNode);
+bool FUN_008256d0(FUN_00900830_node* apNode);
 
 struct FUN_005be5c0_list
 {
@@ -53803,17 +53803,17 @@ struct Engine_00902c80 : HighProcess
 // @fnv 0x00902c80
 void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80* current)
 {
-    typedef void*(__thiscall * GetPointer)(Engine_00902c80*);
-    typedef void(__thiscall * SetPointer)(Engine_00902c80*, void*);
-    typedef void(__thiscall * SetInt)(Engine_00902c80*, int);
-    typedef void(__thiscall * SetFloat)(Engine_00902c80*, float);
-    typedef void(__thiscall * SetSix)(Engine_00902c80*, void*, int, int, int, int, int);
-    typedef bool(__thiscall * TryAction)(Engine_00902c80*, Actor_00902c80*, TargetRef_00902c80*, int, int, int, int,
+    typedef void*(* GetPointer)(Engine_00902c80*);
+    typedef void(* SetPointer)(Engine_00902c80*, void*);
+    typedef void(* SetInt)(Engine_00902c80*, int);
+    typedef void(* SetFloat)(Engine_00902c80*, float);
+    typedef void(* SetSix)(Engine_00902c80*, void*, int, int, int, int, int);
+    typedef bool(* TryAction)(Engine_00902c80*, Actor_00902c80*, TargetRef_00902c80*, int, int, int, int,
                                          int, int, int, int, int, int, int);
-    typedef bool(__thiscall * ActorBool)(Actor_00902c80*);
-    typedef NiPoint3*(__thiscall * GetPosition)(TargetRef_00902c80*);
-    typedef NiPoint3*(__thiscall * GetActorPosition)(Actor_00902c80*);
-    typedef void(__thiscall * SetTarget)(Engine_00902c80*, TargetRef_00902c80*);
+    typedef bool(* ActorBool)(Actor_00902c80*);
+    typedef NiPoint3*(* GetPosition)(TargetRef_00902c80*);
+    typedef NiPoint3*(* GetActorPosition)(Actor_00902c80*);
+    typedef void(* SetTarget)(Engine_00902c80*, TargetRef_00902c80*);
     bool aWasGreeting = false;
     TargetRef_00902c80* requestedC = ((::TargetRef_00902c80 *)(reinterpret_cast<::Twin_0044ddc0 *>((current))->GetName()));
     if (pOwnedObject)
@@ -53823,8 +53823,8 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
             ((SetSix)(*(void***)this)[0x2a4 / 4])(this, requestedC, 0, 0, 0, 0, 0);
     }
     TargetRef_00902c80* oldTargetC = (TargetRef_00902c80*)((GetPointer)(*(void***)this)[0x128 / 4])(this);
-    typedef bool(__thiscall * TargetBool)(TargetRef_00902c80*);
-    typedef bool(__thiscall * TargetBoolArg)(TargetRef_00902c80*, int);
+    typedef bool(* TargetBool)(TargetRef_00902c80*);
+    typedef bool(* TargetBoolArg)(TargetRef_00902c80*, int);
     if (!oldTargetC)
     {
         reinterpret_cast<::CombatProcedure *>((current))->Initialize((::CombatController *)(false));
@@ -53892,7 +53892,7 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
             }
             if (changeL)
             {
-                typedef int(__thiscall * ValidActor)(Actor_00902c80*);
+                typedef int(* ValidActor)(Actor_00902c80*);
                 if (((TryAction)(*(void***)this)[0x33c / 4])(this, actor, ((::TargetRef_00902c80 *)(reinterpret_cast<::Twin_0044ddc0 *>((current))->GetName())), 0, 0, 0, 0, 0, 0, 0,
                                                              0, 0, 1, 0))
                 {
@@ -54217,7 +54217,7 @@ void FUN_00904000_cls::FUN_00904000(void* a1, void* a2, void* a3)
 
 namespace fnv_00904220 {
 // FNV decomp candidate: RemoveItemByID (web_clm_0c8c8f2d0c904a6d961a)
-// __thiscall(this, int) ret 4: walks list at this+0x44c; on item->f30 == param,
+// (this, int) ret 4: walks list at this+0x44c; on item->f30 == param,
 // removes via node->_ref_00905330(&item) and frees via _Deallocate.
 
 struct Item
@@ -54226,7 +54226,7 @@ struct Item
     int f30;
 };
 
-void** __fastcall FUN_006815c0(void*);
+void** FUN_006815c0(void*);
 
 struct FUN_00904220_class
 {
@@ -60576,7 +60576,7 @@ void AcquisitionProcess::ProcessAcquisitionEntries(AcquisitionActor* actor)
 
 class MenuTopic;
 struct ContNode;
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 class B006815c0
 {
   public:
@@ -63465,7 +63465,7 @@ struct G45cObj
 struct Setting8ee
 {
 };
-bool __fastcall FUN_00881570(void* aA);
+bool FUN_00881570(void* aA);
 float __cdecl FUN_006465f0(float aA, float aB);
 bool __cdecl FUN_00702680(int a1, int a2);
 struct G7b8Obj

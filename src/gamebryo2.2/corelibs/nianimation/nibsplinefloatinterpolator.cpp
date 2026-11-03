@@ -23,7 +23,7 @@ void NiBSplineFloatInterpolator::LoadBinary(NiStream& stream)
 }
 
 // @fnv 0x00a50a20
-int __stdcall FUN_00a50a20(unsigned short v)
+int FUN_00a50a20(unsigned short v)
 {
     unsigned short z = 0;
     return z == v;
@@ -35,7 +35,7 @@ struct CPX
     unsigned int handle;
 };
 // @fnv 0x00a50a60
-unsigned int __fastcall GetHandleByIndex(CPX* self, int, unsigned short idx)
+unsigned int GetHandleByIndex(CPX* self, int, unsigned short idx)
 {
     unsigned int r = 0xffff;
     if (idx == 0)
@@ -50,7 +50,7 @@ struct CPX
     unsigned int handle;
 };
 // @fnv 0x00a50a80
-void __fastcall SetHandleIfFirstIndex(CPX* self, int, unsigned int h, unsigned short idx)
+void SetHandleIfFirstIndex(CPX* self, int, unsigned int h, unsigned short idx)
 {
     if (idx == 0)
         self->handle = h;
@@ -68,7 +68,7 @@ struct FInterpX
 };
 // Returns true when FUN_00a57e90 matches other and both f1c and h are equal; otherwise false.
 // @fnv 0x00a50b30
-bool __fastcall IsInterpEqual(FInterpX* self, int, FInterpX* other)
+bool IsInterpEqual(FInterpX* self, int, FInterpX* other)
 {
     if (!reinterpret_cast<::A57E90Controller *>((reinterpret_cast<IsEqX*>(self)))->FUN_00a57e90((::A57E90Object *)(other)))
         return false;
@@ -87,9 +87,9 @@ GlobalObjX* FUN_00a50b70()
     return &(*reinterpret_cast<::GlobalObjX *>(&::g_011f3ffc));
 }
 
-void __fastcall FUN_00a57f80(void*);
+void FUN_00a57f80(void*);
 // @fnv 0x00a50b80
-void* __fastcall FUN_00a50b80(void* self, int, unsigned int flags)
+void* FUN_00a50b80(void* self, int, unsigned int flags)
 {
     FUN_00a57f80(self);
     if (flags & 1)

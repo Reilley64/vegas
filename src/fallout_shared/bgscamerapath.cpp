@@ -346,7 +346,7 @@ struct NTL
 };
 // Calls NiTLargePrimitiveArray(0, 1) on self, stores &DAT_010326fc at self, and returns self.
 // @fnv 0x0058b3f0
-void* __fastcall FUN_0058b3f0(void* self)
+void* FUN_0058b3f0(void* self)
 {
     ((NTL*)self)->NiTLargePrimitiveArray(0, 1);
     *(int**)self = &DAT_010326fc;
@@ -361,7 +361,7 @@ struct FUN_0058b600_shell
 
 // Returns the form ID of the TESForm stored at m_field_2c, or 0 if it is null.
 // @fnv 0x0058b600
-unsigned int __fastcall GetStoredFormID(FUN_0058b600_shell* thisPtr)
+unsigned int GetStoredFormID(FUN_0058b600_shell* thisPtr)
 {
     unsigned int result = 0;
     if (thisPtr->m_field_2c)
@@ -380,8 +380,8 @@ struct Unk58
 };
 struct FUN_00464f40_shell
 {
-    void __thiscall FUN_00464f40();
-    void __thiscall FUN_0058b450();
+    void FUN_00464f40();
+    void FUN_0058b450();
 };
 // Calls FUN_0058b450, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0058b420
@@ -393,21 +393,21 @@ void* Unk58::FUN_0058b420(unsigned int flags)
     return this;
 }
 
-void __thiscall FUN_00464f40_shell::FUN_00464f40()
+void FUN_00464f40_shell::FUN_00464f40()
 {}
 
 // @fnv 0x0058b450
-void __thiscall FUN_00464f40_shell::FUN_0058b450()
+void FUN_00464f40_shell::FUN_0058b450()
 {
     reinterpret_cast<::FUN_00464f40_class *>(this)->FUN_00464f40();
 }
 
 struct FUN_0058b4f0_shell
 {
-    bool __thiscall IsFlag2Set();
+    bool IsFlag2Set();
 };
 // @fnv 0x0058b4f0
-bool __thiscall FUN_0058b4f0_shell::IsFlag2Set()
+bool FUN_0058b4f0_shell::IsFlag2Set()
 {
     if (((const unsigned char*)this)[0x28] & 2)
         return true;
@@ -777,11 +777,11 @@ struct CameraResponse
 };
 struct CameraFlag
 {
-    bool __thiscall FUN_008256d0();
+    bool FUN_008256d0();
 };
 struct CameraPath : FUN_0058b600_shell
 {
-    CameraPath* __thiscall FUN_0058b510(unsigned int context, unsigned int flags);
+    CameraPath* FUN_0058b510(unsigned int context, unsigned int flags);
 };
 
 // @fnv 0x0058b510

@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPMESHSHAPESUBPART_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpMeshShapeSubpart
 {
   public:
@@ -25,6 +24,4 @@ class hkpMeshShapeSubpart
     hkInt32 m_iNumTriangles;            // +0x30
     hkInt32 m_iTriangleOffset;          // +0x34
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpMeshShapeSubpart[(sizeof(hkpMeshShapeSubpart) == 0x38) ? 1 : -1];
 #endif

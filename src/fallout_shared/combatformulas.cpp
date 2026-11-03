@@ -530,7 +530,7 @@ float CombatDamageCalculator::CalculateArmorDamageThreshold(unsigned short ratin
 }
 
 // @fnv 0x005dc980
-char __fastcall FUN_005dc980(const char* pThis)
+char FUN_005dc980(const char* pThis)
 {
     return pThis[0x64];
 }
@@ -578,28 +578,28 @@ struct FUN_00644930_shell
 {
     char m_auiShapeKeys[0x94];
     float m_f;
-    float __thiscall FUN_00644930();
+    float FUN_00644930();
 };
 
 // @fnv 0x00644930
-float __thiscall FUN_00644930_shell::FUN_00644930()
+float FUN_00644930_shell::FUN_00644930()
 {
     return m_f;
 }
 
 // @fnv 0x00644970
-float __fastcall FUN_00644970(void* p)
+float FUN_00644970(void* p)
 {
     return *(float*)((char*)p + 0x104);
 }
 
 struct FUN_00644a30_shell
 {
-    unsigned char __thiscall FUN_00644a30();
+    unsigned char FUN_00644a30();
 };
 
 // @fnv 0x00644a30
-unsigned char __thiscall FUN_00644a30_shell::FUN_00644a30()
+unsigned char FUN_00644a30_shell::FUN_00644a30()
 {
     return *(unsigned char*)((char*)this + 0x58);
 }
@@ -843,7 +843,7 @@ struct FUN_004e4620_shell
 {
     float FUN_004e4620();
 };
-bool __fastcall FUN_006450c0(TESObjectWEAP*);
+bool FUN_006450c0(TESObjectWEAP*);
 // @fnv 0x00645d00
 float __cdecl FUN_00645d00(ActorValueOwner* pActorValueOwner, TESObjectWEAP* weapon, InventoryStackRecord* item)
 {
@@ -1113,7 +1113,7 @@ float FUN_00646260(Actor* apActor)
 
 // Returns true when the weapon's data.eType is 0, 1 or 2, otherwise false.
 // @fnv 0x006450c0
-bool __fastcall FUN_006450c0(TESObjectWEAP* pWeap)
+bool FUN_006450c0(TESObjectWEAP* pWeap)
 {
     switch (pWeap->data.eType)
     {
@@ -1886,8 +1886,8 @@ struct FUN_0066ef50_Owner
 struct FUN_008d85e0_Weap
 {
 };
-char __fastcall FUN_005dc980(const char*);
-bool __fastcall FUN_006450c0(TESObjectWEAP*);
+char FUN_005dc980(const char*);
+bool FUN_006450c0(TESObjectWEAP*);
 float __cdecl FUN_00646880(ActorValueOwner*, int);
 
 struct CombatDebugLog
@@ -1899,7 +1899,7 @@ struct CombatDebugLog
     virtual void Unk_04();
     virtual void Log(int, int, const char*, ...);
 };
-typedef bool(__thiscall* RefBoolFn)(TESObjectREFR*);
+typedef bool(* RefBoolFn)(TESObjectREFR*);
 
 
 // Computes the hit chance for a weapon attack on a target, applying range, spread, ammo, and stealth modifiers, and returns the final probability.

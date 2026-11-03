@@ -64,7 +64,7 @@
 #include "fnv/symbols_01272000.h"
 struct FUN_00cb7460_class
 {
-    int __thiscall FUN_00cb7460(int value);
+    int FUN_00cb7460(int value);
 };
 struct FUN_00cb3ca0_object
 {
@@ -3383,8 +3383,8 @@ struct C6A870_Item
     int m_uiItemCount;
 };
 struct C6A870_Heap;
-typedef void*(__thiscall* C6A870_AllocFn)(C6A870_Heap*, int&);
-typedef void(__thiscall* C6A870_FreeFn)(C6A870_Heap*, void*, int);
+typedef void*(* C6A870_AllocFn)(C6A870_Heap*, int&);
+typedef void(* C6A870_FreeFn)(C6A870_Heap*, void*, int);
 struct C6A870_HeapTable
 {
     void* v00;
@@ -3482,7 +3482,7 @@ struct C6A870_World
     C6A870_Array<C6A870_Item*> m_items;
 };
 struct C6A870_Self;
-typedef C6A870_World*(__thiscall* C6A870_Query)(C6A870_Self*);
+typedef C6A870_World*(* C6A870_Query)(C6A870_Self*);
 struct C6A870_QueryTable
 {
     void* f00;
@@ -4012,8 +4012,8 @@ struct Inner
     int unk1cc;
     float m_1d0;
 };
-typedef void(__thiscall* FnFree)(void* self, void* p, int bytes);
-typedef void(__thiscall* Fn20)(void* self, void* p, int a, void* b, int c);
+typedef void(* FnFree)(void* self, void* p, int bytes);
+typedef void(* Fn20)(void* self, void* p, int a, void* b, int c);
 struct RemRef
 {
 };

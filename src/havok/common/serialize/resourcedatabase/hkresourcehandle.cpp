@@ -22,11 +22,11 @@
 
 struct FUN_00e2df60_class
 {
-    int __thiscall FUN_00e2df60(int);
+    int FUN_00e2df60(int);
 };
 
 // @fnv 0x00e2df60
-int __thiscall FUN_00e2df60_class::FUN_00e2df60(int)
+int FUN_00e2df60_class::FUN_00e2df60(int)
 {
     return *(int*)((char*)this + 8) & 0xfffffffe;
 }
@@ -35,10 +35,10 @@ extern int DAT_010eb19c;
 struct FUN_00e2def0_class
 {
     void* m_p;
-    int __thiscall InitAndMaybeFree(int flags);
+    int InitAndMaybeFree(int flags);
 };
 // @fnv 0x00e2def0
-int __thiscall FUN_00e2def0_class::InitAndMaybeFree(int flags)
+int FUN_00e2def0_class::InitAndMaybeFree(int flags)
 {
     m_p = &DAT_010eb19c;
     if (flags & 1)
@@ -48,11 +48,11 @@ int __thiscall FUN_00e2def0_class::InitAndMaybeFree(int flags)
 
 struct FUN_00e2df40_class
 {
-    const char* __thiscall FUN_00e2df40(int);
+    const char* FUN_00e2df40(int);
 };
 
 // @fnv 0x00e2df40
-const char* __thiscall FUN_00e2df40_class::FUN_00e2df40(int)
+const char* FUN_00e2df40_class::FUN_00e2df40(int)
 {
     int v = *(const int*)(this + 0xc) & 0xfffffffe;
     return v ? reinterpret_cast<const char*>(v) : "null";
@@ -62,7 +62,7 @@ struct D481D0RefVariant
 {
 };
 // @fnv 0x00e2df20
-const void* __fastcall FUN_00e2df20(char* self, int)
+const void* FUN_00e2df20(char* self, int)
 {
     return reinterpret_cast<::ReferencedObjectHolder *>((void *)(reinterpret_cast<D481D0RefVariant*>(self + 8)))->FUN_00d477a0();
 }
@@ -104,12 +104,12 @@ struct FUN_00e2df80_obj
 
 struct FUN_00e2df80_class
 {
-    int __thiscall FUN_00e2df80(void* a, int* out);
+    int FUN_00e2df80(void* a, int* out);
 };
 
 // Clears *out, looks up an object via the helper at this+4, and if found stores its v1c() result in *out and returns its v18() result.
 // @fnv 0x00e2df80
-int __thiscall FUN_00e2df80_class::FUN_00e2df80(void* apKey, int* piOut)
+int FUN_00e2df80_class::FUN_00e2df80(void* apKey, int* piOut)
 {
     if (piOut)
         *piOut = 0;
@@ -151,11 +151,11 @@ struct FUN_00e2f1e0_class
 {
     void* m_p;
     S_00e028e0_Base m_base;
-    void* __thiscall Destroy(int flags);
+    void* Destroy(int flags);
 };
 
 // @fnv 0x00e2f1e0
-void* __thiscall FUN_00e2f1e0_class::Destroy(int flags)
+void* FUN_00e2f1e0_class::Destroy(int flags)
 {
     reinterpret_cast<::FUN_00d877d0_class *>(&(m_base))->FreeBuffer();
     m_p = &DAT_010eb19c;
@@ -173,7 +173,7 @@ struct FUN_00e2f210_manager
 {
     virtual void unused();
     virtual void unused2();
-    virtual void __thiscall release(void* resource, unsigned short handle);
+    virtual void release(void* resource, unsigned short handle);
 };
 
 struct FUN_00e2f210_router
@@ -188,7 +188,7 @@ FUN_00e2f210_router* _D1A0E0GetMemoryRouter();
 struct FUN_00e2f210_class : public FUN_00e2ea40_class
 {
     unsigned short m_handle;
-    void* __thiscall FUN_00e2f210(unsigned int flags);
+    void* FUN_00e2f210(unsigned int flags);
 };
 
 // Runs the base constructor, and if flags has bit 0 set, releases m_handle through the memory router's manager, then returns this.
@@ -216,7 +216,7 @@ struct FUN_00e2f240_manager_class
 {
     virtual void FUN_00e2f240_virtual_0();
     virtual void FUN_00e2f240_virtual_1();
-    virtual void __thiscall FUN_00e2f240_free(void*, unsigned short);
+    virtual void FUN_00e2f240_free(void*, unsigned short);
 };
 
 struct FUN_00e2f240_router_class
@@ -232,7 +232,7 @@ struct FUN_00e2f240_class : public FUN_00e2ec00_class
     unsigned char m_auiShapeKeys[4];
     unsigned short m_iElementCount;
 
-    void* __thiscall FUN_00e2f240(int flags);
+    void* FUN_00e2f240(int flags);
 };
 
 // @fnv 0x00e2f240
@@ -303,10 +303,10 @@ struct FNVEntryCollection
     FNVEntry** items;
     int count;
 
-    FNVEntry* __thiscall FUN_00e2dfd0(const void* filter, FNVEntry* previous);
+    FNVEntry* FUN_00e2dfd0(const void* filter, FNVEntry* previous);
 };
 // @fnv 0x00e2dfd0
-FNVEntry* __thiscall FNVEntryCollection::FUN_00e2dfd0(const void* filter, FNVEntry* previous)
+FNVEntry* FNVEntryCollection::FUN_00e2dfd0(const void* filter, FNVEntry* previous)
 {
     int index = 0;
     FNVEntry** ppSlot = 0;
@@ -364,10 +364,10 @@ struct EntryArray
     int size;
     int capacityAndFlags;
 };
-void __stdcall FUN_00e2e2e0(EntryArray*);
+void FUN_00e2e2e0(EntryArray*);
 MemoryRouter* __cdecl FUN_00c85750();
 // @fnv 0x00e2e960
-void __stdcall FUN_00e2e960(int aiValue)
+void FUN_00e2e960(int aiValue)
 {
     EntryArray a;
     a.data = 0;
@@ -836,7 +836,7 @@ struct S00e2e3f0_Obj
     void FUN_00e2e3f0();
 };
 
-extern "C" __declspec(noinline) void __fastcall FUN_00cb0c00(void* self)
+extern "C" __declspec(noinline) void FUN_00cb0c00(void* self)
 {
     ::FUN_00401030(self);
 }
@@ -1037,14 +1037,14 @@ struct FUN_00e2e9e0_class
     int m_iValueAfterStandIn;
     int m_flags;
 
-    void* __thiscall Ctor();
+    void* Ctor();
 };
 
 extern int DAT_010eb288;
 
 // Initializes the object handle, class pointer, reference count, target, and flags, then returns this.
 // @fnv 0x00e2e9e0
-void* __thiscall FUN_00e2e9e0_class::Ctor()
+void* FUN_00e2e9e0_class::Ctor()
 {
     m_handle = 1;
     m_class = &DAT_010eb288;
@@ -1389,7 +1389,7 @@ struct FUN_00e2eae0_class
     virtual void* vf1c();
     virtual void* vf20();
     virtual FUN_00e2eae0_Result* vf24();
-    void __thiscall FUN_00e2eae0(int* param);
+    void FUN_00e2eae0(int* param);
 };
 
 struct FUN_00cbbd80_Local
@@ -1457,7 +1457,7 @@ FUN_00c85750_Owner* __cdecl FUN_00c85750();
 
 // Calls vf24 and vf10, sends two values to the object at param, then conditionally calls allocator->vf10.
 // @fnv 0x00e2eae0
-void __thiscall FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
+void FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
 {
     FUN_00e2eae0_Result* result = vf24();
     if (result != 0)

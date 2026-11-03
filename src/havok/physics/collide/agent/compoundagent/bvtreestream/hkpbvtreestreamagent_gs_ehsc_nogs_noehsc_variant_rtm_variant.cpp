@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cb21e0_shell.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -28,13 +29,13 @@
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00d2dd30_class {
-    void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
+    void FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
 struct FUN_00d2ddd0_class {
-    void __thiscall FUN_00d2ddd0(int a);
+    void FUN_00d2ddd0(int a);
 };
 // @fnv 0x00d2dd50
-extern "C" void __stdcall FUN_00d2dd50(void* a, void* b, void* c, void* d)
+extern "C" void FUN_00d2dd50(void* a, void* b, void* c, void* d)
 {
     FUN_00d31110(a, b, c, d);
 }
@@ -55,10 +56,10 @@ struct FUN_00d2dda0_class {
     int unk28;
     int unk2c;
     int unk30;
-    void __thiscall FUN_00d2dda0(int value);
+    void FUN_00d2dda0(int value);
 };
 struct FUN_00d2ddf0_Class {
-    void __thiscall FUN_00d2ddf0(float a, float b, void* c);
+    void FUN_00d2ddf0(float a, float b, void* c);
 };
 struct hkMemoryAllocator {
     virtual ~hkMemoryAllocator();
@@ -164,7 +165,7 @@ struct BufOwner {
     int unk28;
     int unk2C;
     PackedBuffer m_buf;
-    void __thiscall VisitPackedBuffer(VisitTarget* target, int flags);
+    void VisitPackedBuffer(VisitTarget* target, int flags);
 };
 struct Collector {
     const void* vtable;
@@ -184,7 +185,7 @@ struct FUN_00d2eb50_cls {
     unsigned char m_b08;
     unsigned char m_b09;
     FUN_00d2eb50_nib m_nib0a;
-    void __thiscall SwapFields();
+    void SwapFields();
 };
 struct CpuCallData { void* descriptor; float bound; unsigned int value; };
 struct CpuObject {
@@ -206,7 +207,7 @@ struct hkpSymmetricAgentFlipBodyCollector : hkpCollectorBase {
 };
 // Game side wrapper that fills the collector and hands it to the query routine.
 struct FUN_00d43cd0_class {
-    void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
+    void FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
@@ -369,7 +370,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

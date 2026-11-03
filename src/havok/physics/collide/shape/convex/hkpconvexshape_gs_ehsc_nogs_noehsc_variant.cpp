@@ -6,7 +6,7 @@
 // src/havok/physics/collide/shape/convex/hkpconvexshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/hkpconvexshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkpConvexShape.h"
-int __stdcall FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+int FUN_00c9e1e0(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 struct FUN_00d1df70
 {
     void FUN_00c90510() throw();

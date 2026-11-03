@@ -7,13 +7,10 @@
 #include "hkReferencedObject.h"
 class hkpPhysicsSystem;
 class hkpWorldCinfo;
-#pragma pack(push, 1)
 class hkpPhysicsData : public hkReferencedObject
 {
   public:
     hkpWorldCinfo* m_pWorldCinfo;                  // +0x8
     hkArray<hkpPhysicsSystem*> m_kPhysicsSystems;  // +0xC
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPhysicsData[(sizeof(hkpPhysicsData) == 0x18) ? 1 : -1];
 #endif

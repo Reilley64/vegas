@@ -38,11 +38,11 @@ void NiPSysEmitterInitialRadiusCtlr::FUN_00c2b760(float& fOut) const
 namespace fnv_00c2b770 {
 struct NiPSysEmitterInitialRadiusCtlr
 {
-    void __thiscall FUN_00c2b770(float);
+    void FUN_00c2b770(float);
 };
 
 // @fnv 0x00c2b770
-void __thiscall NiPSysEmitterInitialRadiusCtlr::FUN_00c2b770(float value)
+void NiPSysEmitterInitialRadiusCtlr::FUN_00c2b770(float value)
 {
     float* p = *(float**)((char*)this + 0x3c);
     p[0x10] = value;
@@ -59,7 +59,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330(g_01202748) to pkStrings, growing it via SetSize when full and storing it with SetAt.
 // @fnv 0x00c2b820
-void __stdcall FUN_00c2b820(StrArr* pkStrings)
+void FUN_00c2b820(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* psz = ::FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_01202748)));

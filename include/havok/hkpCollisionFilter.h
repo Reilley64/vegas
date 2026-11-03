@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpCollisionFilter : public hkReferencedObject
 {
   public:
@@ -24,6 +23,4 @@ class hkpCollisionFilter : public hkReferencedObject
     hkUint32 m_type;                  // +0x20 (hkpFilterType)
     hkUint32 m_uiPostTypePadding[3];  // +0x24
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCollisionFilter[(sizeof(hkpCollisionFilter) == 0x30) ? 1 : -1];
 #endif

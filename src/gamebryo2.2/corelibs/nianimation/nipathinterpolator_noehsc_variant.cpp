@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00a3ce20_shell.h"
 #include "fnv/decl/FUN_00a3dd40.h"
 #include "fnv/decl/FUN_00a3e680_shell.h"
@@ -31,19 +32,19 @@
 void* __cdecl FUN_00a3dab0();
 struct FUN_00a3dae0_shell
 {
-    void* __thiscall FUN_00a3dae0(short idx);
+    void* FUN_00a3dae0(short idx);
 };
 struct FUN_00a3db10_shell
 {
-    int __thiscall GetValueByIndex(short arg);
+    int GetValueByIndex(short arg);
 };
 struct FUN_00a3db40_shell
 {
-    int __thiscall FUN_00a3db40(short arg);
+    int FUN_00a3db40(short arg);
 };
 struct FUN_00a3db70_shell
 {
-    char __thiscall FUN_00a3db70(unsigned short arg);
+    char FUN_00a3db70(unsigned short arg);
 };
 void* __cdecl FUN_00a3dde0();
 struct FloatDataHelper
@@ -52,21 +53,21 @@ struct FloatDataHelper
 struct NiPathInterpolator
 {
     void* m_pPathInterp;
-    void __thiscall FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
 };
-int __stdcall GetChannelIndex(unsigned short usChannel);
+int GetChannelIndex(unsigned short usChannel);
 struct FUN_00a3dac0_shell
 {
-    void* __thiscall DestroyIfOdd(short idx);
+    void* DestroyIfOdd(short idx);
 };
 struct FUN_00a3ddf0_shell
 {
-    void* __thiscall FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
+    void* FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
 };
 void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a3e980_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 struct StrArr
 {
@@ -82,7 +83,7 @@ struct FUN_00a3cbf0_shell
 };
 struct TargetHolder : FUN_00a3cbf0_shell
 {
-    void __thiscall AppendString(StrArr*);
+    void AppendString(StrArr*);
 };
 class CloningProcess
 {
@@ -91,33 +92,33 @@ class CloningProcess
 };
 struct NiObject
 {
-    virtual void __thiscall _v00();
-    virtual void __thiscall _v01();
-    virtual void __thiscall _v02();
-    virtual void __thiscall _v03();
-    virtual void __thiscall _v04();
-    virtual void __thiscall _v05();
-    virtual void __thiscall _v06();
-    virtual void __thiscall _v07();
-    virtual void __thiscall _v08();
-    virtual void __thiscall _v09();
-    virtual void __thiscall _v10();
-    virtual void __thiscall _v11();
-    virtual void __thiscall _v12();
-    virtual void __thiscall _v13();
-    virtual void __thiscall _v14();
-    virtual void __thiscall _v15();
-    virtual void __thiscall _v16();
-    virtual void __thiscall _v17();
-    virtual void __thiscall _v18();
-    virtual void __thiscall _v19();
-    virtual void __thiscall _v20();
-    virtual void __thiscall _v21();
-    virtual void __thiscall _v22();
-    virtual void __thiscall _v23();
-    virtual void __thiscall _v24();
-    virtual void __thiscall _v25();
-    virtual void __thiscall ProcessClone(CloningProcess&);
+    virtual void _v00();
+    virtual void _v01();
+    virtual void _v02();
+    virtual void _v03();
+    virtual void _v04();
+    virtual void _v05();
+    virtual void _v06();
+    virtual void _v07();
+    virtual void _v08();
+    virtual void _v09();
+    virtual void _v10();
+    virtual void _v11();
+    virtual void _v12();
+    virtual void _v13();
+    virtual void _v14();
+    virtual void _v15();
+    virtual void _v16();
+    virtual void _v17();
+    virtual void _v18();
+    virtual void _v19();
+    virtual void _v20();
+    virtual void _v21();
+    virtual void _v22();
+    virtual void _v23();
+    virtual void _v24();
+    virtual void _v25();
+    virtual void ProcessClone(CloningProcess&);
 };
 struct PathPtr
 {
@@ -132,7 +133,7 @@ struct FUN_00a3dc80_shell
     char _pad[0x18];
     PathPtr m_pPathObject;
     PctPtr m_pPathInterp;
-    void __thiscall FUN_00a3dc80(CloningProcess&);
+    void FUN_00a3dc80(CloningProcess&);
 };
 struct HC1Base
 {
@@ -167,7 +168,7 @@ struct FUN_00a3dcc0_cls
     char _pad[0x18];
     FUN_00a3dcc0_Reg* m_path;
     FUN_00a3dcc0_Reg* m_pct;
-    bool __thiscall FUN_00a3dcc0(void*);
+    bool FUN_00a3dcc0(void*);
 };
 struct A51BF0Base
 {
@@ -175,7 +176,7 @@ struct A51BF0Base
 };
 struct FUN_00a3f060_shell
 {
-    void* __thiscall FUN_00a3f060(short, short);
+    void* FUN_00a3f060(short, short);
 };
 extern float DAT_01097170;
 struct FUN_00a3dba0_Class
@@ -277,7 +278,7 @@ struct FUN_00a3dba0_Class
     virtual void vfBC()
     {}
 
-    virtual void __thiscall GetRange(float* fTargetUpperBound, float* fMinimumInputValue);
+    virtual void GetRange(float* fTargetUpperBound, float* fMinimumInputValue);
 
     virtual void vfC4()
     {}
@@ -297,11 +298,11 @@ struct FUN_00a3dba0_Class
 };
 struct FUN_00a3dba0_Class1 : FUN_00a3dba0_Class
 {
-    virtual unsigned int __thiscall vfE0(unsigned int index);
+    virtual unsigned int vfE0(unsigned int index);
 };
 struct FUN_00a3dba0_Class2 : FUN_00a3dba0_Class
 {
-    virtual unsigned int __thiscall vfE0(unsigned int index, unsigned int mode);
+    virtual unsigned int vfE0(unsigned int index, unsigned int mode);
 };
 struct Stream
 {
@@ -328,7 +329,7 @@ struct PathData
     unsigned int value28, value2c;
     unsigned short channel30, unk32;
     unsigned int unk34, value38;
-    void __thiscall ReadFromStream(Source*);
+    void ReadFromStream(Source*);
 };
 struct FNV_WriteStream;
 typedef int(__cdecl* FNV_WriteFn)(FNV_WriteStream* stream, void* data, int size, int* written, int flag);
@@ -526,7 +527,7 @@ struct FNV_Writer
     unsigned short unk32;
     float unk34;
     int unk38;
-    void __thiscall WriteToStream(FNV_NiStream* pStream);
+    void WriteToStream(FNV_NiStream* pStream);
 };
 static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, int nSize)
 {
@@ -534,8 +535,6 @@ static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, 
     int r = pWriter->m_pfn(pWriter, pData, n, &n, 1);
     pWriter->m_uiItemCount += r;
 }
-__declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 class NiRefObject
 {
@@ -756,8 +755,6 @@ class FUN_00a3f060 : public NiKeyBasedInterpolator
     float m_fLast;
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 
 class NiRefObjectE6F0
 {

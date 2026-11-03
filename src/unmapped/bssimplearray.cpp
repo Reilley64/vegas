@@ -61,12 +61,12 @@ struct FUN_006cf180
 };
 struct FUN_006cf250_Class
 {
-    void* __thiscall AllocateBuffer(unsigned int count);
+    void* AllocateBuffer(unsigned int count);
 };
 
 // Allocates count * 0x18 bytes with operator new and returns the pointer.
 // @fnv 0x006cf250
-void* __thiscall FUN_006cf250_Class::AllocateBuffer(unsigned int count)
+void* FUN_006cf250_Class::AllocateBuffer(unsigned int count)
 {
     void* buffer = ::FUN_00401000(count * 0x18);
     return buffer;
@@ -74,10 +74,10 @@ void* __thiscall FUN_006cf250_Class::AllocateBuffer(unsigned int count)
 
 struct FUN_006cf280_Class
 {
-    void* __thiscall FUN_006cf280(void* p, unsigned int n);
+    void* FUN_006cf280(void* p, unsigned int n);
 };
 // @fnv 0x006cf280
-void* __thiscall FUN_006cf280_Class::FUN_006cf280(void* p, unsigned int n)
+void* FUN_006cf280_Class::FUN_006cf280(void* p, unsigned int n)
 {
     return ::Reallocate(p, n * 0x18);
 }
@@ -124,12 +124,12 @@ void FUN_006cfaa0::FUN_006cfaa0_()
 
 struct FUN_006e91e0_cls
 {
-    void* __thiscall AllocateBlock(int count);
+    void* AllocateBlock(int count);
 };
 
 // Allocates count * 0x30 bytes with operator new and returns the pointer.
 // @fnv 0x006e91e0
-void* __thiscall FUN_006e91e0_cls::AllocateBlock(int count)
+void* FUN_006e91e0_cls::AllocateBlock(int count)
 {
     void* p = ::FUN_00401000(count * 0x30);
     return p;
@@ -194,11 +194,11 @@ void* BSSimpleArray_006e93c0::AllocateElements(int count)
 
 struct FUN_006e93f0
 {
-    void* __thiscall FUN_006e93f0_(void* p, int n);
+    void* FUN_006e93f0_(void* p, int n);
 };
 
 // @fnv 0x006e93f0
-void* __thiscall FUN_006e93f0::FUN_006e93f0_(void* p, int aiCount)
+void* FUN_006e93f0::FUN_006e93f0_(void* p, int aiCount)
 {
     return ::Reallocate(p, aiCount * 0x3c);
 }
@@ -364,11 +364,11 @@ struct ParentSpaceNode
 };
 struct ArrHelper
 {
-    void __thiscall ConstructParentSpaceNodes(ParentSpaceNode* p, unsigned int count);
+    void ConstructParentSpaceNodes(ParentSpaceNode* p, unsigned int count);
 };
 struct S5460
 {
-    unsigned int __thiscall FUN_00978bc0();
+    unsigned int FUN_00978bc0();
 public:
     int GetNextPosition();
 };
@@ -422,11 +422,11 @@ struct ArrSI
 };
 struct FUN_006cf6a0_Class
 {
-    void* __thiscall CopyAndFreeBuffer(void* src, unsigned int size);
+    void* CopyAndFreeBuffer(void* src, unsigned int size);
 };
 // Allocates size bytes from the allocator at this+0x10, copies GetFlags() bytes from src into it, frees src, and returns the new buffer.
 // @fnv 0x006cf6a0
-void* __thiscall FUN_006cf6a0_Class::CopyAndFreeBuffer(void* src, unsigned int size)
+void* FUN_006cf6a0_Class::CopyAndFreeBuffer(void* src, unsigned int size)
 {
     void* result = reinterpret_cast<::FUN_00aa54a0_s *>((reinterpret_cast<ScrapHeapBuffer*>(*(void**)((char*)this + 0x10))))->FUN_00aa54a0(size, DAT_010a2720);
     __memcpy(result, src, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())));
@@ -460,25 +460,25 @@ void* BSScrapArray_006cfc20::ReallocateCopy(const void* src, unsigned int count)
 
 struct FUN_006cf230_Class
 {
-    void* __thiscall FUN_006cf230();
+    void* FUN_006cf230();
 };
 
 struct FUN_006cfc80_Class
 {
-    void* __thiscall FUN_006cfc80(unsigned int flags);
+    void* FUN_006cfc80(unsigned int flags);
 };
 
 struct FUN_006cf340_Class
 {
-    void* __thiscall FUN_006cf340();
+    void* FUN_006cf340();
 };
 struct FUN_006cfcb0_Class
 {
-    void* __thiscall FUN_006cfcb0(unsigned int flags);
+    void* FUN_006cfcb0(unsigned int flags);
 };
 // Calls FUN_006cf340 on this, then frees this when flags has bit 0 set, and returns this.
 // @fnv 0x006cfcb0
-void* __thiscall FUN_006cfcb0_Class::FUN_006cfcb0(unsigned int flags)
+void* FUN_006cfcb0_Class::FUN_006cfcb0(unsigned int flags)
 {
     reinterpret_cast<::FUN_006cf340 *>((((FUN_006cf340_Class*)this)))->FUN_006cf340::~FUN_006cf340();
     if (flags & 1)
@@ -493,10 +493,10 @@ struct FUN_006cf440_class
 };
 struct FUN_006cfce0_class
 {
-    void* __thiscall FUN_006cfce0(unsigned int flags);
+    void* FUN_006cfce0(unsigned int flags);
 };
 // @fnv 0x006cfce0
-void* __thiscall FUN_006cfce0_class::FUN_006cfce0(unsigned int flags)
+void* FUN_006cfce0_class::FUN_006cfce0(unsigned int flags)
 {
     reinterpret_cast<::FUN_006cf440 *>((((FUN_006cf440_class*)this)))->FUN_006cf440::~FUN_006cf440();
     if (flags & 1)
@@ -509,17 +509,17 @@ namespace fnv_006cfd10 {
 
 struct FUN_006cf820_Class
 {
-    void* __thiscall FUN_006cf820();
+    void* FUN_006cf820();
 };
 
 struct FUN_006cfd10_Class
 {
-    void* __thiscall FUN_006cfd10(unsigned int flags);
+    void* FUN_006cfd10(unsigned int flags);
 };
 
 // Calls FUN_006cf820 on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x006cfd10
-void* __thiscall FUN_006cfd10_Class::FUN_006cfd10(unsigned int flags)
+void* FUN_006cfd10_Class::FUN_006cfd10(unsigned int flags)
 {
     reinterpret_cast<FUN_006cf820_Class*>(this)->FUN_006cf820();
     if (flags & 1)
@@ -531,12 +531,12 @@ void* __thiscall FUN_006cfd10_Class::FUN_006cfd10(unsigned int flags)
 void __cdecl operator delete(void* p);
 struct FUN_006cfd40_Class
 {
-    void __thiscall FUN_006cf610();
-    void* __thiscall FUN_006cfd40(unsigned int flags);
+    void FUN_006cf610();
+    void* FUN_006cfd40(unsigned int flags);
 };
 // Calls FUN_006cf610, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x006cfd40
-void* __thiscall FUN_006cfd40_Class::FUN_006cfd40(unsigned int flags)
+void* FUN_006cfd40_Class::FUN_006cfd40(unsigned int flags)
 {
     reinterpret_cast<::FUN_006cf610 *>(this)->FUN_006cf610::~FUN_006cf610();
     if (flags & 1)
@@ -553,7 +553,7 @@ struct FUN_006e9530_shell
 };
 struct FUN_006e9410_class
 {
-    void __thiscall FUN_006e9410(void* arg);
+    void FUN_006e9410(void* arg);
 };
 namespace fnv_007a1c30 {
 struct FUN_007a86b0_Item
@@ -630,11 +630,11 @@ void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_006dc6e0_Class
 {
-    void __thiscall FUN_006dc6e0(char* a, char* b, unsigned int count);
+    void FUN_006dc6e0(char* a, char* b, unsigned int count);
 };
 
 // @fnv 0x006dc6e0
-void __thiscall FUN_006dc6e0_Class::FUN_006dc6e0(char* pDst, char* pSrc, unsigned int count)
+void FUN_006dc6e0_Class::FUN_006dc6e0(char* pDst, char* pSrc, unsigned int count)
 {
     if (count <= 0)
         return;
@@ -683,22 +683,22 @@ struct FUN_006dc590
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    void __thiscall FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
+    void FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount);
 };
 // @fnv 0x006dc590
-void __thiscall FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount)
+void FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCount)
 {
     if (pBuffer)
     {
         if (aiCopyCount == SimpleArrayStorage)
         {
-            pBuffer = (TypeValueCount*)((void*(__thiscall*)(void*, TypeValueCount*, unsigned int))vfptr[3])(
+            pBuffer = (TypeValueCount*)((void*(*)(void*, TypeValueCount*, unsigned int))vfptr[3])(
                 this, pBuffer, aiNewSize);
         }
         else
         {
             TypeValueCount* pnewBuffer =
-                (TypeValueCount*)((void*(__thiscall*)(void*, unsigned int))vfptr[1])(this, aiNewSize);
+                (TypeValueCount*)((void*(*)(void*, unsigned int))vfptr[1])(this, aiNewSize);
             ((FUN_006dc6e0_Class*)this)->FUN_006dc6e0((char*)pnewBuffer, (char*)pBuffer, aiCopyCount);
             ::FUN_006a8500((::DummyClass_006a8500 *)(((FUN_006c8a30_Class*)this)));
             pBuffer = pnewBuffer;
@@ -706,7 +706,7 @@ void __thiscall FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int
     }
     else
     {
-        pBuffer = (TypeValueCount*)((void*(__thiscall*)(void*, unsigned int))vfptr[1])(this, aiNewSize);
+        pBuffer = (TypeValueCount*)((void*(*)(void*, unsigned int))vfptr[1])(this, aiNewSize);
         SimpleArrayStorage = aiNewSize;
     }
 }
@@ -859,7 +859,7 @@ struct FUN_006e1280_Class
 
 struct FUN_006cf520_Class
 {
-    int __thiscall FUN_006cf520(const unsigned char* aValue);
+    int FUN_006cf520(const unsigned char* aValue);
 };
 
 struct FUN_006d0450_Class
@@ -867,7 +867,7 @@ struct FUN_006d0450_Class
 };
 
 // @fnv 0x006cf520
-int __thiscall FUN_006cf520_Class::FUN_006cf520(const unsigned char* aValue)
+int FUN_006cf520_Class::FUN_006cf520(const unsigned char* aValue)
 {
     int iVar1;
     iVar1 = ((int)(reinterpret_cast<::fnv_006d0450::S5460 *>((((FUN_006d0450_Class*)this)))->GetNextIndex()));
@@ -1043,11 +1043,11 @@ struct FUN_0069cea0_class : BSSimpleArrayActor
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void __thiscall FUN_0069cea0(unsigned int aiNewSize, bool abFreeMemory);
+    void FUN_0069cea0(unsigned int aiNewSize, bool abFreeMemory);
 };
 
 // @fnv 0x0069cea0
-void __thiscall FUN_0069cea0_class::FUN_0069cea0(unsigned int aiNewSize, bool abFreeMemory)
+void FUN_0069cea0_class::FUN_0069cea0(unsigned int aiNewSize, bool abFreeMemory)
 {
     if (aiNewSize == 0)
     {
@@ -1111,7 +1111,7 @@ struct FUN_006a69b0_Class
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void __thiscall FUN_006a6660(unsigned int newSize, bool freeMemory);
+    void FUN_006a6660(unsigned int newSize, bool freeMemory);
 };
 
 // @fnv 0x006a6660
@@ -1184,11 +1184,11 @@ struct BSScrapArray
     void* field08;
     void* field0c;
     ScrapHeapBuffer* m_pPoolBase;
-    void* __thiscall FUN_006cf670(unsigned int size);
+    void* FUN_006cf670(unsigned int size);
 };
 
 // @fnv 0x006cf670
-void* __thiscall BSScrapArray::FUN_006cf670(unsigned int size)
+void* BSScrapArray::FUN_006cf670(unsigned int size)
 {
     void* result;
     result = reinterpret_cast<::FUN_00aa54a0_s *>((m_pPoolBase))->FUN_00aa54a0(size, DAT_010a2720);
@@ -1266,7 +1266,7 @@ struct FUN_006e90a0_class
     void FUN_006e90a0(unsigned int aiNewSize, bool abFreeMemory);
 };
 // @fnv 0x006e9410
-void __thiscall FUN_006e9410_class::FUN_006e9410(void* arg)
+void FUN_006e9410_class::FUN_006e9410(void* arg)
 {
     reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e9410_shell*)arg)))->FUN_006e90a0(*(int*)((char*)this + 8), 1);
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
@@ -1449,7 +1449,7 @@ void BSSimpleArrayActor::FUN_006f4480(unsigned int count, bool freeMemory)
 
 struct FUN_0042fb60_shell
 {
-    void __thiscall FUN_0042fb60(char* dst, char* src, unsigned int count);
+    void FUN_0042fb60(char* dst, char* src, unsigned int count);
 };
 
 struct FUN_006bf8f0_Class
@@ -1461,12 +1461,12 @@ struct FUN_006bf8f0_Class
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void __thiscall FUN_006bf8f0(unsigned int aiIndex, bool abShrink);
+    void FUN_006bf8f0(unsigned int aiIndex, bool abShrink);
 };
 
 // Removes the element at aiIndex from the buffer, optionally reallocating to a smaller size and shifting the remaining elements down.
 // @fnv 0x006bf8f0
-void __thiscall FUN_006bf8f0_Class::FUN_006bf8f0(unsigned int aiIndex, bool abShrink)
+void FUN_006bf8f0_Class::FUN_006bf8f0(unsigned int aiIndex, bool abShrink)
 {
     unsigned int inewSize;
     char* pnewBuffer;
@@ -1591,7 +1591,7 @@ struct FUN_009f6540_Helper
 
 struct Host9f6340
 {
-    void __thiscall FUN_009f6460(int, int);
+    void FUN_009f6460(int, int);
 };
 
 struct FUN_009f6200_Class
@@ -1939,13 +1939,13 @@ struct FUN_006d0540_shell
     int unk08;
     int unk0c;
 
-    void __thiscall FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
-    void __thiscall FUN_006a8500();
+    void FUN_006d0540(void* newItem, void* oldItem, unsigned int count);
+    void FUN_006a8500();
 };
 
 struct FUN_006cfe70_Class : public FUN_006d0540_shell
 {
-    void __thiscall FUN_006cfe70(int value, int count);
+    void FUN_006cfe70(int value, int count);
 };
 // @fnv 0x006e90a0
 void FUN_006e90a0_class::FUN_006e90a0(unsigned int aiNewSize, bool abFreeMemory)
@@ -1992,7 +1992,7 @@ void FUN_006e90a0_class::FUN_006e90a0(unsigned int aiNewSize, bool abFreeMemory)
 }
 
 // @fnv 0x006cfe70
-void __thiscall FUN_006cfe70_Class::FUN_006cfe70(int value, int count)
+void FUN_006cfe70_Class::FUN_006cfe70(int value, int count)
 {
     if (this->unk04 != 0)
     {
@@ -2166,7 +2166,7 @@ struct FUN_006cf230
 };
 // Calls FUN_006cf230 on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006cfc80
-void* __thiscall FUN_006cfc80_Class::FUN_006cfc80(unsigned int flags)
+void* FUN_006cfc80_Class::FUN_006cfc80(unsigned int flags)
 {
     reinterpret_cast<::FUN_006cf230 *>((((FUN_006cf230_Class*)this)))->FUN_006cf230::~FUN_006cf230();
     if (flags & 1)
@@ -2338,11 +2338,11 @@ struct FUN_0069f920_cls
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     FUN_0069f920_Sub unk20;
-    void* __thiscall FUN_0069f920(int, int);
+    void* FUN_0069f920(int, int);
 };
 // Calls unk20.FUN_006a1920 for a node, constructs FUN_006e2280(a, b) at the address FUN_006e8f80 returns for it, and returns the node.
 // @fnv 0x0069f920
-void* __thiscall FUN_0069f920_cls::FUN_0069f920(int aiArg1, int aiArg2)
+void* FUN_0069f920_cls::FUN_0069f920(int aiArg1, int aiArg2)
 {
     void* pNode = ((void *)(reinterpret_cast<::FUN_006a1920_cls *>(&(unk20))->FUN_006a1920()));
     void* pPlace = ((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>(&(unk20))->FUN_006e8f80((unsigned int)pNode)));

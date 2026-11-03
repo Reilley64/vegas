@@ -318,7 +318,7 @@ struct TESClimate
 };
 
 // @fnv 0x00595ea0
-float __fastcall FUN_00595ea0(char* apThis)
+float FUN_00595ea0(char* apThis)
 {
     if ((*(unsigned int*)(apThis + 0x118) & 0x100) && *(TESClimate**)(apThis + 0xc))
     {
@@ -378,7 +378,7 @@ struct TESClimate
 };
 
 // @fnv 0x00595f50
-float __fastcall FUN_00595f50(Sky* pThis)
+float FUN_00595f50(Sky* pThis)
 {
     if ((*(unsigned int*)((char*)pThis + 0x118) & 0x200) && *(TESClimate**)((char*)pThis + 0xc))
     {
@@ -398,7 +398,7 @@ struct TESClimate
 
 // If the 0x400 flag is set and a TESClimate is present, stores its value for index 2 divided by 6.0 in DAT_011ca9f0 and clears the flag; returns DAT_011ca9f0.
 // @fnv 0x00595fc0
-float __fastcall FUN_00595fc0(char* pThis)
+float FUN_00595fc0(char* pThis)
 {
     if ((*(unsigned int*)(pThis + 0x118) & 0x400) && *(TESClimate**)(pThis + 0xc))
     {
@@ -433,7 +433,7 @@ float FUN_00596030_cls::FUN_00596030()
 }
 
 // @fnv 0x00966a20
-float __fastcall GetFieldEC(const char* pThis)
+float GetFieldEC(const char* pThis)
 {
     return *(const float*)(pThis + 0xec);
 }
@@ -938,8 +938,8 @@ struct GlobT
 {
 };
 extern double DAT_01034200;
-float __fastcall FUN_00595ea0(char* apThis);
-float __fastcall GetFieldEC(const char* pThis);
+float FUN_00595ea0(char* apThis);
+float GetFieldEC(const char* pThis);
 
 struct ThisT
 {

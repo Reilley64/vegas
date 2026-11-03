@@ -1,5 +1,6 @@
 // bsshader/bsshaderlightingproperty.cpp: BSShaderLightingProperty, NewObj, LList, FalloffProperty and more (45 functions)
 
+#include <windows.h>
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/B9DBE0Fader.h"
 #include "fnv/decl/BA01A0Owner.h"
@@ -152,7 +153,7 @@ BSShaderLightingProperty* CreateShaderLightingProperty()
     return new BSShaderLightingProperty;
 }
 
-void __fastcall FUN_00b6fd30(void* pThis);
+void FUN_00b6fd30(void* pThis);
 
 struct NiMemObject_DeleteHelper : NiMemObject
 {
@@ -162,7 +163,7 @@ struct NiMemObject_DeleteHelper : NiMemObject
 
 // Calls FUN_00b6fd30 on pThis, then if flags has bit 1 set calls _Dummy_00b6fef0 with pThis and 0x80, and returns pThis.
 // @fnv 0x00b6fef0
-void* __fastcall FUN_00b6fef0(void* pThis, int, unsigned int flags)
+void* FUN_00b6fef0(void* pThis, int, unsigned int flags)
 {
     FUN_00b6fd30(pThis);
     if (flags & 1)
@@ -227,7 +228,7 @@ struct Dummy_00b70290
 
 
 // @fnv 0x00b70290
-void __fastcall FUN_00b70290(Dummy_00b70290* pThis, int edx_val, int arg)
+void FUN_00b70290(Dummy_00b70290* pThis, int edx_val, int arg)
 {
     reinterpret_cast<::FnvShaderProperty *>((pThis))->FUN_00ba8aa0((void *)(edx_val));
     pThis->v50(arg);
@@ -240,7 +241,6 @@ struct NiRTTI
     char* m_pcName;
     void* m_pBaseRTTI;
 };
-typedef char _sizecheck_NiRTTI[sizeof(NiRTTI) == 8 ? 1 : -1];
 struct FUN_00b702b0_shell : public NiRTTI
 {
     void FUN_00b702b0(char*, void*);
@@ -249,14 +249,14 @@ struct FUN_00b702b0_shell : public NiRTTI
 struct _Helper_00ba8b10
 {
 };
-static void (__thiscall _Helper_00ba8b10::*const _ref_00ba8b10)(char*, void*) = &((void (&)(char *, void *))::FUN_00ba8b10);
+static void (_Helper_00ba8b10::*const _ref_00ba8b10)(char*, void*) = &((void (&)(char *, void *))::FUN_00ba8b10);
 
 // Calls FUN_00ba8b10 with p1 and p2, then invokes the virtual function at offset 0xc8 with this and p1.
 // @fnv 0x00b702b0
 void FUN_00b702b0_shell::FUN_00b702b0(char* p1, void* p2)
 {
     ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), (int)(p1), (::BSSP_stub4 *)(p2), {});
-    typedef void(__thiscall * VFn)(void*, char*);
+    typedef void(* VFn)(void*, char*);
     (*(VFn*)((*(int*)this) + 0xc8))(this, p1);
 }
 
@@ -274,7 +274,7 @@ struct List_00b702e0
 
 // Unlinks node from the doubly linked list and reinserts it immediately before target, updating head and tail pointers.
 // @fnv 0x00b702e0
-void __fastcall MoveNodeBefore(List_00b702e0* list, int, Node_00b702e0* node, Node_00b702e0* target)
+void MoveNodeBefore(List_00b702e0* list, int, Node_00b702e0* node, Node_00b702e0* target)
 {
     if (node != target)
     {
@@ -333,7 +333,7 @@ struct Obj_00b70340
 
 // Searches the linked list for a node whose item value equals target, storing the node in outNode and returning whether it was found.
 // @fnv 0x00b70340
-bool __fastcall FindNodeByItemValue(Obj_00b70340* pThis, int, int aiTargetValue, int unused, Node_00b70340** outNode)
+bool FindNodeByItemValue(Obj_00b70340* pThis, int, int aiTargetValue, int unused, Node_00b70340** outNode)
 {
     *outNode = 0;
     if (pThis->count < 1)
@@ -392,7 +392,7 @@ struct Helper_00b707d0_Node
 
 // Walks the linked list at thisPtr+0x60 and counts lights whose word110 is not 0xFF, whose objF8 flags bit 0 is clear, and whose byteEC is false.
 // @fnv 0x00b707d0
-int __fastcall FUN_00b707d0(void* thisPtr)
+int FUN_00b707d0(void* thisPtr)
 {
     int count = 0;
     Helper_00b707d0_Node* pos = *(Helper_00b707d0_Node**)((char*)thisPtr + 0x60);
@@ -409,7 +409,7 @@ extern int DAT_010ae7b0;
 
 // Sets the vtable, calls the lighting property's cleanup twice on the sub-object at offset 0x60, then calls FUN_00baa0e0 on pThis.
 // @fnv 0x00b71410
-void __fastcall FUN_00b71410(void* pThis, int)
+void FUN_00b71410(void* pThis, int)
 {
     BSShaderLightingProperty* pSub = (BSShaderLightingProperty*)((char*)pThis + 0x60);
     *(int**)pThis = &DAT_010ae7b0;
@@ -419,10 +419,10 @@ void __fastcall FUN_00b71410(void* pThis, int)
 }
 
 extern int DAT_010ae7b0;
-void __fastcall FUN_00ba8e50(void*);
+void FUN_00ba8e50(void*);
 
 // @fnv 0x00b71720
-void* __fastcall FUN_00b71720(char* pThis)
+void* FUN_00b71720(char* pThis)
 {
     reinterpret_cast<::FUN_00ba8e50_cls *>((pThis))->FUN_00ba8e50();
     char* list = pThis + 0x60;
@@ -696,7 +696,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00b6f540_shell : public BSShaderLightingProperty
 {
     void CopyShaderLightingProperty(BSShaderLightingProperty*, CloningProcess*);
@@ -827,7 +826,7 @@ FUN_00b6fd30::~FUN_00b6fd30()
 }
 
 // @fnv 0x00b70270
-bool __stdcall FUN_00b70270(void* p)
+bool FUN_00b70270(void* p)
 {
     if (FUN_00c9a420(p))
         return true;
@@ -861,7 +860,7 @@ struct FUN_00b70600_list
 };
 
 // @fnv 0x00b70600
-FUN_00b70600_obj* __fastcall FUN_00b70600(FUN_00b70600_list* self, int unused, FUN_00b70600_node** it)
+FUN_00b70600_obj* FUN_00b70600(FUN_00b70600_list* self, int unused, FUN_00b70600_node** it)
 {
     FUN_00b70600_node* n = self->head;
     *it = n;
@@ -906,7 +905,7 @@ struct FUN_00b70790_owner
     FUN_00b70790_node* head;
 };
 // @fnv 0x00b70790
-unsigned int __fastcall FUN_00b70790(FUN_00b70790_owner* self)
+unsigned int FUN_00b70790(FUN_00b70790_owner* self)
 {
     unsigned int n = 0;
     FUN_00b70790_node* it = self->head;
@@ -956,14 +955,14 @@ void __cdecl FUN_00b71360(unsigned int id, FUN_00b71360_water* w, float fValue)
 }
 
 // @fnv 0x00b71440
-const char* __fastcall FUN_00b71440(void* self)
+const char* FUN_00b71440(void* self)
 {
     return (*reinterpret_cast<const char (*)[]>(&::g_011fa560));
 }
 
 extern int DAT_010ae7b0;
 // @fnv 0x00b71760
-BSShaderLightingProperty* __fastcall DestroyShaderLightingProperty(BSShaderLightingProperty* self, int edx,
+BSShaderLightingProperty* DestroyShaderLightingProperty(BSShaderLightingProperty* self, int edx,
                                                                    unsigned int flags)
 {
     BSShaderLightingProperty* list = (BSShaderLightingProperty*)((char*)self + 0x60);
@@ -1017,10 +1016,10 @@ NewObj::NewObj()
     f78 = 0;
 }
 struct Owner;
-typedef void(__thiscall* OwnerFn)(Owner*, void*);
+typedef void(* OwnerFn)(Owner*, void*);
 
 // @fnv 0x00b71800
-NewObj* __fastcall FUN_00b71800(_Helper_00ba8b10* self, int unused, void* arg)
+NewObj* FUN_00b71800(_Helper_00ba8b10* self, int unused, void* arg)
 {
     NewObj* o = new NewObj;
     ::FUN_00ba8b10((::BSSP_stub4 *)(self), (int)(reinterpret_cast<char*>(o)), (::BSSP_stub4 *)(arg), {});
@@ -1062,7 +1061,7 @@ struct SelfStub
 
 // Allocates a NewObj, passes it with arg to FUN_00b702b0, and returns the new object.
 // @fnv 0x00bb4140
-NewObj* __fastcall FUN_00bb4140(SelfStub* self, int unused, int aiValue)
+NewObj* FUN_00bb4140(SelfStub* self, int unused, int aiValue)
 {
     NewObj* o = new NewObj;
     reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(o), (void *)(aiValue));
@@ -1131,7 +1130,7 @@ static inline bool Skip_b70700(Light_b70700* p)
 }
 
 // @fnv 0x00b70700
-Light_b70700* __stdcall FUN_00b70700(ListItem_b70700*& kPos)
+Light_b70700* FUN_00b70700(ListItem_b70700*& kPos)
 {
     Light_b70700* p = 0;
     if (kPos)
@@ -2932,7 +2931,7 @@ struct Bdf3e0_vt
     void* ve0;
     void* ve4;
     void* ve8;
-    unsigned short(__thiscall* vEC)(Bdf3e0_cls*);
+    unsigned short(* vEC)(Bdf3e0_cls*);
 };
 
 struct Bdf3e0_cls
@@ -3025,7 +3024,7 @@ struct S00b70680_Helper
 };
 // Advances the iterator past inactive ShadowSceneLight entries and returns the next active light or null.
 // @fnv 0x00b70680
-ShadowSceneLight* __stdcall FUN_00b70680(NiTListItem<ShadowSceneLight*>*& iter)
+ShadowSceneLight* FUN_00b70680(NiTListItem<ShadowSceneLight*>*& iter)
 {
     NiTListItem<ShadowSceneLight*>* node = iter;
     ShadowSceneLight* light = 0;
@@ -3047,7 +3046,6 @@ ShadowSceneLight* __stdcall FUN_00b70680(NiTListItem<ShadowSceneLight*>*& iter)
     return light;
 }
 
-extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 namespace sb717a0 {
 

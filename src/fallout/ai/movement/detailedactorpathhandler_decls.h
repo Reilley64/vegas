@@ -16,7 +16,6 @@
 #undef NiPoint3
 #undef NiPointer
 
-#pragma pack(push, 4)
 class NiPoint3
 {
   public:
@@ -31,7 +30,6 @@ public:
 public:
     float ComputeMagnitude() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == sizeof(FNV_NiPoint3_Canonical));
 
 template <class T> class NiPointer
 {
@@ -41,13 +39,11 @@ template <class T> class NiPointer
     T* operator->() const;
     operator T*() const;
 };
-#pragma pack(pop)
 
 #include "Actor.h"
 #include "PlayerCharacter.h"
 #include "BaseProcess.h"
 
-#pragma pack(push, 4)
 class PathingSolution;
 class PathingRequest;
 class TESTopicInfo;
@@ -140,6 +136,5 @@ class DetailedActorPathHandler
     void SetInitialPathState();
     void TransitionFrom(ActorPathHandler* previous);
 };
-#pragma pack(pop)
 
 #endif

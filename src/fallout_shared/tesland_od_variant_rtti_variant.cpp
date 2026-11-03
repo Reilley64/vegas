@@ -155,11 +155,11 @@
 #pragma optimize("", off)
 struct FUN_00533260_holder
 {
-    void __thiscall FUN_00533260();
+    void FUN_00533260();
 };
 struct FUN_00533210_class
 {
-    void* __thiscall FUN_00533210(unsigned int flags);
+    void* FUN_00533210(unsigned int flags);
 };
 struct CellH
 {
@@ -248,8 +248,8 @@ struct FUN_00535a60_Class
 };
 struct FUN_00537100_Class
 {
-    void __thiscall FUN_00537130();
-    void* __thiscall FUN_00537100(unsigned int flags);
+    void FUN_00537130();
+    void* FUN_00537100(unsigned int flags);
 };
 struct FUN_00537ca0_class
 {
@@ -273,7 +273,7 @@ struct FUN_00540800_Class
 };
 struct FUN_00537d00_Class
 {
-    void* __thiscall FUN_00537d00();
+    void* FUN_00537d00();
 };
 struct FUN_00537d10_Class
 {
@@ -319,7 +319,7 @@ extern int DAT_0102e378;
 struct FUN_00538e10_class
 {
     int* m_vtbl;
-    void __fastcall FUN_00538e10();
+    void FUN_00538e10();
 };
 struct B1
 {
@@ -343,7 +343,7 @@ struct FUN_00538f20
 };
 struct FUN_00538f80
 {
-    void* __thiscall DeleteThis(unsigned int flags);
+    void* DeleteThis(unsigned int flags);
 };
 struct FUN_00539460_Class
 {
@@ -374,11 +374,11 @@ struct FUN_0053a000
 };
 struct FUN_00539fd0 : public FUN_0053a000
 {
-    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_0053a070_Class
 {
-    void __thiscall FUN_0053a070(int a, int b);
+    void FUN_0053a070(int a, int b);
 };
 struct B006815c0
 {
@@ -414,7 +414,7 @@ struct FUN_0053a760_Class
 };
 struct FUN_0053ae30_class
 {
-    float __thiscall FUN_0053ae30(unsigned char type, unsigned short id);
+    float FUN_0053ae30(unsigned char type, unsigned short id);
 };
 struct GlobalObject_0044f440
 {
@@ -454,7 +454,7 @@ struct Owner
 };
 struct FUN_0053df00_Class
 {
-    int __thiscall FUN_0053df00();
+    int FUN_0053df00();
 };
 struct Tmp53e210
 {
@@ -520,11 +520,11 @@ struct FUN_0053f120_Holder
 struct LandscapeColorData
 {
     int m00, m04, m08, m0C, m10, m14, m18, m1C, m20, m24, m28, m2C, m30, m34, m38, m3C, m40, m44, m48, m4C;
-    void __thiscall FUN_0053a510();
+    void FUN_0053a510();
 };
 struct TESObjectLAND
 {
-    bool __thiscall FUN_0053f180(const LandscapeColorData&, float&);
+    bool FUN_0053f180(const LandscapeColorData&, float&);
 };
 struct QueuedFile;
 struct BGSTextureSet
@@ -2378,7 +2378,7 @@ struct FUN_00538c00_Class
 
 {
 
-    char __thiscall FUN_00538c00(const void* source, unsigned int size, Output538c00** result);
+    char FUN_00538c00(const void* source, unsigned int size, Output538c00** result);
 };
 struct Mesh53;
 struct Buffer53

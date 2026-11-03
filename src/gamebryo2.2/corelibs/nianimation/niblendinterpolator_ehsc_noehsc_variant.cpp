@@ -67,7 +67,7 @@ struct BlendItem
 };
 
 // @fnv 0x00a370b0
-S_00a370b0_Class* __thiscall S_00a370b0_Class::FUN_00a370b0(bool bFlags, float fWeightThreshold,
+S_00a370b0_Class* S_00a370b0_Class::FUN_00a370b0(bool bFlags, float fWeightThreshold,
                                                             unsigned char volatile ucArraySize)
 {
     unsigned int nCount;

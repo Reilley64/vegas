@@ -4,16 +4,16 @@
 #include "fnv/decl/FUN_0043cc80_shell.h"
 struct FUN_0043c610_shell
 {
-    void __thiscall RunVirtualMethod28();
+    void RunVirtualMethod28();
 };
 
 struct FUN_0043daa0_shell
 {
-    void __thiscall FUN_0043daa0();
+    void FUN_0043daa0();
 };
 
 // @fnv 0x0043daa0
-void __thiscall FUN_0043daa0_shell::FUN_0043daa0()
+void FUN_0043daa0_shell::FUN_0043daa0()
 {
     ((FUN_0043c610_shell*)this)->RunVirtualMethod28();
 }
@@ -61,7 +61,7 @@ public:
 };
 struct FUN_0043d6b0_shell
 {
-    void __thiscall FUN_0043d6b0(QHeadLocal* aHead);
+    void FUN_0043d6b0(QHeadLocal* aHead);
 };
 // Wraps aHead in a QHeadPtr and passes its priority and the wrapper to the object at this+0x64 via FUN_00449210.
 // @fnv 0x0043d6b0

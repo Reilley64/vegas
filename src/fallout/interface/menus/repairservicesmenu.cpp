@@ -99,12 +99,12 @@ int __cdecl FUN_007b7890()
 struct FUN_007b78a0_shell
 {
     int m[10];
-    bool __thiscall FUN_007b78a0();
+    bool FUN_007b78a0();
 };
 
 // Returns true only if all 16 entries following the first 10 ints in the object are non-zero; otherwise returns false.
 // @fnv 0x007b78a0
-bool __thiscall FUN_007b78a0_shell::FUN_007b78a0()
+bool FUN_007b78a0_shell::FUN_007b78a0()
 {
     for (int i = 0; i < 16; ++i)
     {
@@ -139,8 +139,8 @@ void RepairServicesMenu::UpdateRepairServiceTiles(int aiID, Tile* apTarget)
 
 struct FUN_007b74d0_shell
 {
-    void __thiscall FUN_007b7500();
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void FUN_007b7500();
+    void* DestroyIfFlagged(unsigned int);
 };
 struct Tile
 {
@@ -202,7 +202,7 @@ struct FUN_007b7500 : Menu_007a8b10
 };
 // Calls FUN_007b7500, then deallocates this if flags has bit 1 set, and returns this.
 // @fnv 0x007b74d0
-void* __thiscall FUN_007b74d0_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_007b74d0_shell::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_007b7500 *>(this)->FUN_007b7500::~FUN_007b7500();
     if (flags & 1)
@@ -238,10 +238,10 @@ struct ListBoxItem
 
 struct Tile_IsTrue_standin
 {
-    bool __thiscall ContainsTrait(int);
+    bool ContainsTrait(int);
 };
 
-bool __thiscall Tile_IsTrue_standin::ContainsTrait(int)
+bool Tile_IsTrue_standin::ContainsTrait(int)
 {
     return false;
 }

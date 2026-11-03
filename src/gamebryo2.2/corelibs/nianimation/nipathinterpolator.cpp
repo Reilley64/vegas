@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a3dab0
+#include <windows.h>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a3dd00_class.h"
 #include "fnv/decl/FUN_00a3e9a0_cls.h"
@@ -38,12 +39,12 @@ void* __cdecl FUN_00a3dab0()
 
 struct FUN_00a3dae0_shell
 {
-    void* __thiscall FUN_00a3dae0(short idx);
+    void* FUN_00a3dae0(short idx);
 };
 
 // Returns the pointer stored at offset 8 of the object at this+0x18 for idx 0 or this+0x1c for idx 1, or null if absent.
 // @fnv 0x00a3dae0
-void* __thiscall FUN_00a3dae0_shell::FUN_00a3dae0(short idx)
+void* FUN_00a3dae0_shell::FUN_00a3dae0(short idx)
 {
     if (idx == 0)
     {
@@ -62,12 +63,12 @@ void* __thiscall FUN_00a3dae0_shell::FUN_00a3dae0(short idx)
 
 struct FUN_00a3db10_shell
 {
-    int __thiscall GetValueByIndex(short arg);
+    int GetValueByIndex(short arg);
 };
 
 // Returns the int at offset 0x10 of the pointer stored at this+0x18 for arg 0 or this+0x1c for arg 1, or 0 if that pointer is null or arg is other.
 // @fnv 0x00a3db10
-int __thiscall FUN_00a3db10_shell::GetValueByIndex(short aiIndex)
+int FUN_00a3db10_shell::GetValueByIndex(short aiIndex)
 {
     unsigned char* b = reinterpret_cast<unsigned char*>(this);
     if (aiIndex == 0)
@@ -87,12 +88,12 @@ int __thiscall FUN_00a3db10_shell::GetValueByIndex(short aiIndex)
 
 struct FUN_00a3db40_shell
 {
-    int __thiscall FUN_00a3db40(short arg);
+    int FUN_00a3db40(short arg);
 };
 
 // Returns the int at offset 0xC of the object stored at this+0x18 when arg is 0, or at this+0x1C when arg is 1; otherwise returns 0.
 // @fnv 0x00a3db40
-int __thiscall FUN_00a3db40_shell::FUN_00a3db40(short aiSlot)
+int FUN_00a3db40_shell::FUN_00a3db40(short aiSlot)
 {
     if (aiSlot == 0)
     {
@@ -111,12 +112,12 @@ int __thiscall FUN_00a3db40_shell::FUN_00a3db40(short aiSlot)
 
 struct FUN_00a3db70_shell
 {
-    char __thiscall FUN_00a3db70(unsigned short arg);
+    char FUN_00a3db70(unsigned short arg);
 };
 
 // Returns byte at offset 0x14 of the object stored at this+0x18 for arg 0 or this+0x1c for arg 1, otherwise 0.
 // @fnv 0x00a3db70
-char __thiscall FUN_00a3db70_shell::FUN_00a3db70(unsigned short ausIndex)
+char FUN_00a3db70_shell::FUN_00a3db70(unsigned short ausIndex)
 {
     if (ausIndex == 0)
     {
@@ -147,12 +148,12 @@ struct FloatDataHelper
 struct NiPathInterpolator
 {
     void* m_pPathInterp;
-    void __thiscall FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
+    void FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
 };
 
 // Forwards the two float arguments to the FloatDataHelper stored at offset 0x1c, if that pointer is non-null.
 // @fnv 0x00a3dc50
-void __thiscall NiPathInterpolator::FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance)
+void NiPathInterpolator::FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance)
 {
     FloatDataHelper* p = (FloatDataHelper*)(*(void**)((char*)this + 0x1c));
     if (p)
@@ -163,7 +164,7 @@ void __thiscall NiPathInterpolator::FUN_00a3dc50(float m_fStartTime, float m_fMa
 
 // Maps channel 0 to 1, channel 1 to 0, and any other channel to 6.
 // @fnv 0x00a3da80
-int __stdcall GetChannelIndex(unsigned short usChannel)
+int GetChannelIndex(unsigned short usChannel)
 {
     if (usChannel == 0)
         return 1;
@@ -173,12 +174,12 @@ int __stdcall GetChannelIndex(unsigned short usChannel)
 
 struct FUN_00a3dac0_shell
 {
-    void* __thiscall DestroyIfOdd(short idx);
+    void* DestroyIfOdd(short idx);
 };
 
 // Calls FUN_00a48fb0, then deletes this with size 24 when idx has bit 0 set, and returns this.
 // @fnv 0x00a3dac0
-void* __thiscall FUN_00a3dac0_shell::DestroyIfOdd(short idx)
+void* FUN_00a3dac0_shell::DestroyIfOdd(short idx)
 {
     static_cast<::Holder *>(nullptr)->FUN_00a48fb0();
     if (idx & 1)
@@ -188,7 +189,7 @@ void* __thiscall FUN_00a3dac0_shell::DestroyIfOdd(short idx)
 
 struct FUN_00a3ddf0_shell
 {
-    void* __thiscall FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
+    void* FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
 };
 // Reads a type index, element size and base pointer from this+0x18, then calls the DAT_011f3ca8 entry for that type with two element pointers and pData.
 // @fnv 0x00a3ddf0
@@ -219,11 +220,11 @@ void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00a3e980_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // @fnv 0x00a3e980
-void* __thiscall FUN_00a3e980_shell::Destroy(unsigned int flags)
+void* FUN_00a3e980_shell::Destroy(unsigned int flags)
 {
     FUN_00a3dd40();
     if (flags & 1)
@@ -245,11 +246,11 @@ struct FUN_00a3cbf0_shell
 };
 struct TargetHolder : FUN_00a3cbf0_shell
 {
-    void __thiscall AppendString(StrArr*);
+    void AppendString(StrArr*);
 };
 // Appends the string returned by _FUN_00a7d330(_g_011f3e48) to pkStrings, growing the array if the size limit is reached.
 // @fnv 0x00a3f4d0
-void __thiscall TargetHolder::AppendString(StrArr* pkStrings)
+void TargetHolder::AppendString(StrArr* pkStrings)
 {
     reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>(this)->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(pkStrings));
     char* pcString = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f3e48)));
@@ -266,33 +267,33 @@ class CloningProcess
 };
 struct NiObject
 {
-    virtual void __thiscall _v00();
-    virtual void __thiscall _v01();
-    virtual void __thiscall _v02();
-    virtual void __thiscall _v03();
-    virtual void __thiscall _v04();
-    virtual void __thiscall _v05();
-    virtual void __thiscall _v06();
-    virtual void __thiscall _v07();
-    virtual void __thiscall _v08();
-    virtual void __thiscall _v09();
-    virtual void __thiscall _v10();
-    virtual void __thiscall _v11();
-    virtual void __thiscall _v12();
-    virtual void __thiscall _v13();
-    virtual void __thiscall _v14();
-    virtual void __thiscall _v15();
-    virtual void __thiscall _v16();
-    virtual void __thiscall _v17();
-    virtual void __thiscall _v18();
-    virtual void __thiscall _v19();
-    virtual void __thiscall _v20();
-    virtual void __thiscall _v21();
-    virtual void __thiscall _v22();
-    virtual void __thiscall _v23();
-    virtual void __thiscall _v24();
-    virtual void __thiscall _v25();
-    virtual void __thiscall ProcessClone(CloningProcess&);
+    virtual void _v00();
+    virtual void _v01();
+    virtual void _v02();
+    virtual void _v03();
+    virtual void _v04();
+    virtual void _v05();
+    virtual void _v06();
+    virtual void _v07();
+    virtual void _v08();
+    virtual void _v09();
+    virtual void _v10();
+    virtual void _v11();
+    virtual void _v12();
+    virtual void _v13();
+    virtual void _v14();
+    virtual void _v15();
+    virtual void _v16();
+    virtual void _v17();
+    virtual void _v18();
+    virtual void _v19();
+    virtual void _v20();
+    virtual void _v21();
+    virtual void _v22();
+    virtual void _v23();
+    virtual void _v24();
+    virtual void _v25();
+    virtual void ProcessClone(CloningProcess&);
 };
 struct PathPtr
 {
@@ -307,11 +308,11 @@ struct FUN_00a3dc80_shell
     char _pad[0x18];
     PathPtr m_pPathObject;
     PctPtr m_pPathInterp;
-    void __thiscall FUN_00a3dc80(CloningProcess&);
+    void FUN_00a3dc80(CloningProcess&);
 };
 // Calls ProcessClone on this object and on the path and percentage objects if they are set.
 // @fnv 0x00a3dc80
-void __thiscall FUN_00a3dc80_shell::FUN_00a3dc80(CloningProcess& kCloning)
+void FUN_00a3dc80_shell::FUN_00a3dc80(CloningProcess& kCloning)
 {
     reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((unsigned int)&(kCloning));
     NiObject* pkPath = m_pPathObject.m_pObject;
@@ -324,7 +325,7 @@ void __thiscall FUN_00a3dc80_shell::FUN_00a3dc80(CloningProcess& kCloning)
 
 struct HC1Base
 {
-    bool __thiscall FUN_00aa0ad0(void*);
+    bool FUN_00aa0ad0(void*);
 };
 struct FUN_00a3dcc0_Reg
 {
@@ -356,7 +357,7 @@ struct FUN_00a3dcc0_cls
     char _pad[0x18];
     FUN_00a3dcc0_Reg* m_path;
     FUN_00a3dcc0_Reg* m_pct;
-    bool __thiscall FUN_00a3dcc0(void*);
+    bool FUN_00a3dcc0(void*);
 };
 // @fnv 0x00a3dcc0
 bool FUN_00a3dcc0_cls::FUN_00a3dcc0(void* pkStream)
@@ -379,7 +380,7 @@ struct A51BF0Base
 
 struct FUN_00a3f060_shell
 {
-    void* __thiscall FUN_00a3f060(short, short);
+    void* FUN_00a3f060(short, short);
 };
 
 // @fnv 0x00a3f4b0
@@ -492,7 +493,7 @@ struct FUN_00a3dba0_Class
     virtual void vfBC()
     {}
 
-    virtual void __thiscall GetRange(float* fTargetUpperBound, float* fMinimumInputValue);
+    virtual void GetRange(float* fTargetUpperBound, float* fMinimumInputValue);
 
     virtual void vfC4()
     {}
@@ -513,16 +514,16 @@ struct FUN_00a3dba0_Class
 
 struct FUN_00a3dba0_Class1 : FUN_00a3dba0_Class
 {
-    virtual unsigned int __thiscall vfE0(unsigned int index);
+    virtual unsigned int vfE0(unsigned int index);
 };
 
 struct FUN_00a3dba0_Class2 : FUN_00a3dba0_Class
 {
-    virtual unsigned int __thiscall vfE0(unsigned int index, unsigned int mode);
+    virtual unsigned int vfE0(unsigned int index, unsigned int mode);
 };
 
 // @fnv 0x00a3dba0
-void __thiscall FUN_00a3dba0_Class::GetRange(float* pfMin, float* pfMax)
+void FUN_00a3dba0_Class::GetRange(float* pfMin, float* pfMax)
 {
     *pfMin = DAT_01097170;
     *pfMax = DAT_01015f5c;
@@ -577,7 +578,7 @@ struct PathData
     unsigned int value28, value2c;
     unsigned short channel30, unk32;
     unsigned int unk34, value38;
-    void __thiscall ReadFromStream(Source*);
+    void ReadFromStream(Source*);
 };
 // Reads channel, value38, value28, value2c and channel30 from the source's stream, accumulating bytesRead, then calls FUN_00a645b0 twice.
 // @fnv 0x00a3ed90
@@ -800,7 +801,7 @@ struct FNV_Writer
     unsigned short unk32;
     float unk34;
     int unk38;
-    void __thiscall WriteToStream(FNV_NiStream* pStream);
+    void WriteToStream(FNV_NiStream* pStream);
 };
 
 // The single write the record layout performs: hand the payload and its size
@@ -826,8 +827,6 @@ void FNV_Writer::WriteToStream(FNV_NiStream* pStream)
     pStream->f12(unk1c);
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
-__declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 class NiRefObject
@@ -1690,15 +1689,15 @@ struct FV3
         v.z = -z;
         return v;
     }
-    FV3 __thiscall FUN_004b3800(const FV3&) const;
-    FV3 __thiscall FUN_00439e90(const FV3&) const;
+    FV3 FUN_004b3800(const FV3&) const;
+    FV3 FUN_00439e90(const FV3&) const;
 };
 struct FM3
 {
     float values[3][3];
     FM3()
     {}
-    FM3 __thiscall FUN_0043f8d0(const FM3&) const;
+    FM3 FUN_0043f8d0(const FM3&) const;
     void SetCol(int c, const FV3& v)
     {
         values[0][c] = v.x;
@@ -1724,11 +1723,11 @@ struct PathKeyBlock
 struct PathBasis
 {
     float x, y, z;
-    FV3 __thiscall FUN_0053d1a0(const FV3&) const;
+    FV3 FUN_0053d1a0(const FV3&) const;
 };
 struct PathBlend
 {
-    FV3* __thiscall FUN_00439e90(FV3*, const FV3*);
+    FV3* FUN_00439e90(FV3*, const FV3*);
 };
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 extern float DAT_011f3e40;
@@ -1767,7 +1766,7 @@ struct PathMotion : NiKeyBasedInterpolatorStub
         stride = 0;
         return 0;
     }
-    void __thiscall EvaluateBasis(unsigned int first, unsigned int second, float time, FM3* out);
+    void EvaluateBasis(unsigned int first, unsigned int second, float time, FM3* out);
 };
 
 extern "C" double __cdecl sqrt(double);
@@ -1786,7 +1785,7 @@ __declspec(noinline) FV3 PathBasis::FUN_0053d1a0(const FV3& v) const
 
 // Computes the path basis matrix at a given time by interpolating position, tangent, and curvature, applying smoothing, axis, and bank adjustments.
 // @fnv 0x00a3de50
-void __thiscall PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int aiSecondKey, float time, FM3* out)
+void PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int aiSecondKey, float time, FM3* out)
 {
     FM3 transform;
     memcpy(&transform, &(*reinterpret_cast<char *>(&::DAT_011a9448)), 36);

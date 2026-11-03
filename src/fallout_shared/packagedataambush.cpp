@@ -10,7 +10,7 @@
 #include "fnv/symbols_0119b000.h"
 struct FUN_0067ad90_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 struct LocationDescriptor
 {
@@ -21,10 +21,10 @@ struct FUN_0067afc0_shell
 {
     void* base;
     LocationDescriptor* m_pSaveObject;
-    void __thiscall SaveWithTag();
+    void SaveWithTag();
 };
 // @fnv 0x0067afc0
-void __thiscall FUN_0067afc0_shell::SaveWithTag()
+void FUN_0067afc0_shell::SaveWithTag()
 {
     FUN_004856d0(0x4d414b50);
     if (m_pSaveObject)
@@ -51,7 +51,7 @@ class FUN_0067adc0_cls : public Base_0067adc0
 };
 // Calls FUN_0067adc0, then frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x0067ad90
-void* __thiscall FUN_0067ad90_shell::Destroy(unsigned int flags)
+void* FUN_0067ad90_shell::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_0067adc0_cls *>(this)->FUN_0067adc0_cls::~FUN_0067adc0_cls();
     if (flags & 1)

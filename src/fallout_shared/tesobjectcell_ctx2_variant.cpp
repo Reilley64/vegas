@@ -144,7 +144,7 @@ struct Q4
     int r4;
 };
 
-extern void*(__stdcall* DAT_00fdf28c)(int, int, int, void*);
+extern void*(* DAT_00fdf28c)(int, int, int, void*);
 
 class LockCtx
 {

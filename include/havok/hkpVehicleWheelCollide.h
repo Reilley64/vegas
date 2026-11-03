@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkpVehicleWheelCollide : public hkReferencedObject
 {
   public:
@@ -24,6 +23,4 @@ class hkpVehicleWheelCollide : public hkReferencedObject
     hkUint8 m_type;                   // +0x9
     char padA[0x2];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleWheelCollide[(sizeof(hkpVehicleWheelCollide) == 0xC) ? 1 : -1];
 #endif

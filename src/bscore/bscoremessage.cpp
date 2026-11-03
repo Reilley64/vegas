@@ -15,7 +15,7 @@ struct BSCoreMessage;
 class BSCoreMessage_shell
 {
   public:
-    BSCoreMessage* __thiscall FUN_00aa4d40(unsigned int auiTextID, unsigned int auiCaptionID, const char* apcText,
+    BSCoreMessage* FUN_00aa4d40(unsigned int auiTextID, unsigned int auiCaptionID, const char* apcText,
                                            const char* apcCaption, unsigned int aStyle);
 };
 

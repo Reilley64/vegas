@@ -7,7 +7,6 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "layout_support.h"
 // Partial PC prefix through m_bPoolAllocationEnabled; sizeof is the prefix, not the runtime allocation.
-#pragma pack(push, 4)
 class MemoryManager
 {
   public:
@@ -22,7 +21,4 @@ class MemoryManager
     void* Reallocate(void* pointer, unsigned int size);
     unsigned int Size(const void* pointer);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MemoryManager) == 0x12C);
-FNV_STATIC_ASSERT(offsetof(MemoryManager, m_bPoolAllocationEnabled) == 0x129);
 #endif

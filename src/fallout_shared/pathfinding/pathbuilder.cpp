@@ -178,7 +178,7 @@ PathBuilder::PathBuilder(PathingRequest* request, PathingSolution* solution)
 extern int DAT_0106c92c;
 
 // @fnv 0x006c8dd0
-void* __fastcall FUN_006c8dd0(void* pThis)
+void* FUN_006c8dd0(void* pThis)
 {
     ::FUN_006c8df0((void **)(pThis));
     *(int**)pThis = &DAT_0106c92c;
@@ -188,7 +188,7 @@ void* __fastcall FUN_006c8dd0(void* pThis)
 extern int DAT_0106c934;
 
 // @fnv 0x006c8df0
-void* __fastcall FUN_006c8df0(void** pThis)
+void* FUN_006c8df0(void** pThis)
 {
     *pThis = &DAT_0106c934;
     return pThis;
@@ -222,7 +222,7 @@ struct Dummy_006c93a0
 
 // Calls FUN_006cf120 with 1, then sets f18 and f1c to -1.
 // @fnv 0x006c93a0
-void __fastcall FUN_006c93a0(Dummy_006c93a0* pThis)
+void FUN_006c93a0(Dummy_006c93a0* pThis)
 {
     pThis->f20.FUN_006cf120(1);
     pThis->f18 = -1;
@@ -242,34 +242,34 @@ PathingActorData* FUN_006c9900_shell::FUN_006c9900()
 }
 
 // @fnv 0x006ca4c0
-char __fastcall FUN_006ca4c0(char* this_ptr)
+char FUN_006ca4c0(char* this_ptr)
 {
     return this_ptr[0xa0];
 }
 
 // @fnv 0x006ca4e0
-float __fastcall GetField90Float(char* pThis)
+float GetField90Float(char* pThis)
 {
     return *(float*)(pThis + 0x90);
 }
 
 // @fnv 0x006ca830
-bool __fastcall FUN_006ca830(const unsigned int* puiValue)
+bool FUN_006ca830(const unsigned int* puiValue)
 {
     return (*puiValue & 1) == 1;
 }
 
 // @fnv 0x006cac70
-bool __fastcall FUN_006cac70(const int* pFlags)
+bool FUN_006cac70(const int* pFlags)
 {
     return (*pFlags & 2) == 2;
 }
 
 extern int DAT_0106c93c;
-void __fastcall SetVtable(void* pThis);
+void SetVtable(void* pThis);
 
 // @fnv 0x006cd5a0
-void* __fastcall FUN_006cd5a0(void* pThis)
+void* FUN_006cd5a0(void* pThis)
 {
     SetVtable(pThis);
     *(int**)pThis = &DAT_0106c93c;
@@ -308,7 +308,6 @@ struct PathingGraphNode
     NiPoint3 Tangent;
     TESObjectREFR* m_pDoorRef;
 };
-typedef char _sizecheck_PathingNode[sizeof(PathingGraphNode) == 60 ? 1 : -1];
 struct FUN_006e2330_shell : public PathingGraphNode
 {
     bool FUN_006e2330();
@@ -365,7 +364,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -394,7 +392,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_006c99c0_shell : public PathingSolution
 {
     unsigned int AddPathingItem(void*, TESObjectREFR*);
@@ -467,7 +464,7 @@ struct Dummy_006c93a0
 
 
 // @fnv 0x006c93d0
-int __fastcall FUN_006c93d0(Dummy_006c93a0* obj)
+int FUN_006c93d0(Dummy_006c93a0* obj)
 {
     ::FUN_006c93a0((::Dummy_006c93a0 *)(::fnv_006c93d0::Dummy_006c93a0 *)((Dummy_006c93a0*)obj->vtable));
     return 1;
@@ -476,11 +473,11 @@ int __fastcall FUN_006c93d0(Dummy_006c93a0* obj)
 
 struct FUN_006c9fa0_shell
 {
-    void __thiscall SetByteAtOffset40(unsigned char a);
+    void SetByteAtOffset40(unsigned char a);
 };
 
 // @fnv 0x006c9fa0
-void __thiscall FUN_006c9fa0_shell::SetByteAtOffset40(unsigned char aucValue)
+void FUN_006c9fa0_shell::SetByteAtOffset40(unsigned char aucValue)
 {
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x40) = aucValue;
 }
@@ -513,11 +510,11 @@ unsigned char FUN_006cd1d0_shell::GetFlag() const
 
 struct FUN_006cee10_shell
 {
-    char* __thiscall FUN_006cee10(int a);
+    char* FUN_006cee10(int a);
 };
 
 // @fnv 0x006cee10
-char* __thiscall FUN_006cee10_shell::FUN_006cee10(int aiIndex)
+char* FUN_006cee10_shell::FUN_006cee10(int aiIndex)
 {
     return *(char**)(this + 4) + aiIndex * 0x18;
 }
@@ -548,7 +545,6 @@ struct NavMeshTriangleReference
     float m_fCenterY;
     float m_fCenterZ;
 };
-typedef char _sizecheck_NavMeshSearchNode[sizeof(NavMeshTriangleReference) == 20 ? 1 : -1];
 struct FUN_006cc5e0_shell : public PathBuilder
 {
     int FUN_006cc5e0(PathingLocation*, PathingLocation*, unsigned int, unsigned int);
@@ -909,7 +905,7 @@ void FUN_006c9380_shell::FUN_006c9380(int aiValue)
     reinterpret_cast<::FUN_006cf000_Class *>((((FUN_006cf000_shell*)((char*)this + 0x20))))->RemoveAt(aiValue, 1);
 }
 
-void __fastcall FUN_006cf180(void*);
+void FUN_006cf180(void*);
 
 struct FUN_006cb480_shell
 {
@@ -1075,7 +1071,7 @@ struct BSSimpleArray_006cedd0
 };
 
 // @fnv 0x006cedd0
-void __fastcall FUN_006cedd0(BSSimpleArray_006cedd0* self)
+void FUN_006cedd0(BSSimpleArray_006cedd0* self)
 {
     self->FUN_00691750(self->m_iElementCount - 1);
 }
@@ -1432,7 +1428,7 @@ struct TESshell
 {
 };
 extern float DAT_0104e2b8;
-bool __fastcall FUN_006cac70(const int* pThis);
+bool FUN_006cac70(const int* pThis);
 
 struct ThisCls
 {
@@ -1716,7 +1712,7 @@ struct PathBuilderUpdate : public PathBuilder
     int UpdatePathFromIndex(unsigned int index, const NiPoint3* point);
 };
 
-void __fastcall FUN_006c93a0(Dummy_006c93a0* pThis);
+void FUN_006c93a0(Dummy_006c93a0* pThis);
 
 // @fnv 0x006c9170
 int PathBuilderUpdate::UpdatePathFromIndex(unsigned int index, const NiPoint3* point)
@@ -4461,7 +4457,7 @@ struct VisitedArray
 };
 
 bool __cdecl AreBytesEqual(const unsigned char*, const unsigned char*);
-bool __fastcall FUN_006ca830(const unsigned int*);
+bool FUN_006ca830(const unsigned int*);
 
 struct PathBuilderX
 {

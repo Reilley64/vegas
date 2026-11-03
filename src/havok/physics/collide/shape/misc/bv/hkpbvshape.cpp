@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/bv/hkpbvshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/bv/hkpbvshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -18,10 +19,10 @@ struct FUN_00c9d8c0
 {
     int* vtbl;
     DDCC60World* m_pContainedShape;
-    FUN_00c9d8c0* __thiscall doWork(int flags);
+    FUN_00c9d8c0* doWork(int flags);
 };
 // @fnv 0x00c9d8c0
-FUN_00c9d8c0* __thiscall FUN_00c9d8c0::doWork(int flags)
+FUN_00c9d8c0* FUN_00c9d8c0::doWork(int flags)
 {
     DDCC60World* pOldWorld = m_pContainedShape;
     vtbl = (int*)&DAT_010c6fd0;
@@ -76,7 +77,7 @@ struct hkpBvShapeStandIn
 void* _D1A0E0GetMemoryRouter();
 
 // @fnv 0x00c9d8b0
-int __stdcall FUN_00c9d8b0(int a1)
+int FUN_00c9d8b0(int a1)
 {
     return -1;
 }
@@ -153,7 +154,6 @@ FUN_00c9d990::FUN_00c9d990(Shape_00c9d990* apBoundingVolume, Shape_00c9d990* chi
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010c7024[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 struct Rs_c9d9e0_Cmd
 {

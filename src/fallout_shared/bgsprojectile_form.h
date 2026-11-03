@@ -12,7 +12,6 @@
 #include "fnv/symbols_00485000.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
-#pragma pack(push, 4)
 class TESForm : public BaseFormComponent
 {
   public:
@@ -102,10 +101,4 @@ class TESForm : public BaseFormComponent
     void NotifySaveLoadGameOfFormChange();
     void SetInitializationState(bool initialized);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 #endif

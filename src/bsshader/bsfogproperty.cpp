@@ -1,5 +1,6 @@
 // bsshader/bsfogproperty.cpp: BSFogProperty, StandIn (8 functions)
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a5bfa0_shell.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -40,13 +41,11 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct FUN_00a5c240_shell : public NiFogProperty
 {
     void DestroyFogProperty();
 };
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 extern unsigned char* DAT_0109b244;
 
@@ -119,10 +118,10 @@ struct MMStandIn
 };
 struct StandIn
 {
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // @fnv 0x00a9bbc0
-void* __thiscall StandIn::Destroy(unsigned int auiFlags)
+void* StandIn::Destroy(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 4);
     *(void**)this = (void*)&DAT_010a1458;

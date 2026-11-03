@@ -102,7 +102,7 @@ struct FUN_004f5140_shell
 };
 struct FUN_004f5260_shell
 {
-    void* __thiscall FUN_004f5260();
+    void* FUN_004f5260();
 };
 // @fnv 0x004f5260
 void* FUN_004f5260_shell::FUN_004f5260()

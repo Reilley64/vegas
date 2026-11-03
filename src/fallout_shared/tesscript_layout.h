@@ -9,11 +9,6 @@
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "fnv/symbols_00472000.h"
 #include "fnv/symbols_00487000.h"
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 class Actor;
 class EffectSetting;
 class TESForm;
@@ -53,8 +48,6 @@ template <class T> class BSStringT
     bool Set(const T* text, unsigned int length);
     const T* String();
 };
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
 enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_NO_FORM = 0,

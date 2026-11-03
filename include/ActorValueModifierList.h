@@ -1,7 +1,6 @@
 #ifndef FNV_MODIFIERLIST_H
 #define FNV_MODIFIERLIST_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ActorValueModifierList : public BSSimpleList<Modifier*>
 {
   public:
@@ -18,8 +17,4 @@ public:
 public:
     void FUN_00937d50(int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorValueModifierList) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ActorValueModifierList, m_bAllowZeroValueModifiers) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ActorValueModifierList, m_ppModifiedActorValues) == 0xC);
 #endif

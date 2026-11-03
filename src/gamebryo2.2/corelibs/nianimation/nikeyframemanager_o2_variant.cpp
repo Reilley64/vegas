@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nikeyframemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nianimation/nikeyframemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/AHSeqOwner.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -237,8 +238,6 @@ class FUN_00a4d780
 FUN_00a4d780::FUN_00a4d780() throw()
 {}
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 __declspec(nothrow) void __cdecl NiFree(void*);
 struct MemShellD810
 {
@@ -426,7 +425,7 @@ struct S_00a4dac0
     int unk2c;
     int unk30;
     S_00a4dac0_Map map34;
-    bool __thiscall FUN_00a4dac0(int a, const char* name, int b) throw();
+    bool FUN_00a4dac0(int a, const char* name, int b) throw();
 };
 // @fnv 0x00a4db80
 void SeqController::FUN_00a4db80(NiStreamR& kStream)
@@ -505,7 +504,7 @@ void SeqController::FUN_00a4db80(NiStreamR& kStream)
     }
 }
 // @fnv 0x00a4dac0
-bool __thiscall S_00a4dac0::FUN_00a4dac0(int a, const char* name, int b) throw()
+bool S_00a4dac0::FUN_00a4dac0(int a, const char* name, int b) throw()
 {
     S_00a4dac0_Obj* obj = 0;
     ::CreateOrReleaseRef((const char *)(a), b, (::S_00a48070_Ref **)(::S_00a4dac0_Obj **)(&obj), (void *)(name));

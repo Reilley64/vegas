@@ -25,7 +25,6 @@
 #include "fnv/symbols_011cf000.h"
 #include "fnv/symbols_011d0000.h"
 #include "fnv/symbols_011d1000.h"
-#pragma pack(push, 4)
 union SETTING_VALUE
 {
   public:
@@ -37,7 +36,6 @@ union SETTING_VALUE
     char c;           // +0x0
     unsigned char h;  // +0x0
 };
-#pragma pack(pop)
 
 class GameSettingCollection
 {
@@ -75,7 +73,7 @@ int ActorValueUtility::ConvertActorValue(int aiLevel)
 }
 
 // @fnv 0x005be4d0
-int __fastcall FUN_005be4d0(char* pThis)
+int FUN_005be4d0(char* pThis)
 {
     return *(int*)(pThis + 0x7b8);
 }

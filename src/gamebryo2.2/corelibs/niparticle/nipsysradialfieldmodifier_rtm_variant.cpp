@@ -50,7 +50,7 @@ struct FUN_00c31ff0 : NiPSysPositionModifier
     float _m2c;
     FUN_00c31ff0();
 };
-unsigned char __stdcall FUN_00c285a0(void* p);
+unsigned char FUN_00c285a0(void* p);
 struct S_00c28a90_Arr
 {
     int unk00;

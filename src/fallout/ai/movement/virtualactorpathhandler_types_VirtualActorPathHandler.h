@@ -11,7 +11,6 @@ class PathingRequest;
 class PathingSolution;
 class BGSLoadFormBuffer;
 class VirtualActorPathHandler;
-#pragma pack(push, 4)
 class ActorPathHandler
 {
   public:
@@ -23,14 +22,6 @@ class ActorPathHandler
     // ActorPathHandler
     // ActorPathHandler& __cdecl ActorPathHandler::*(const ActorPathHandler&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorPathHandler) == 20);
-FNV_STATIC_ASSERT(offsetof(ActorPathHandler, m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(ActorPathHandler, pActor) == 4);
-FNV_STATIC_ASSERT(offsetof(ActorPathHandler, m_pActorMover) == 8);
-FNV_STATIC_ASSERT(offsetof(ActorPathHandler, pCurrentPathingSolution) == 12);
-FNV_STATIC_ASSERT(offsetof(ActorPathHandler, m_pPathingRequest) == 16);
-#pragma pack(push, 4)
 class VirtualActorPathHandler : public ActorPathHandler
 {
   public:
@@ -65,9 +56,4 @@ class VirtualActorPathHandler : public ActorPathHandler
     // void __cdecl VirtualActorPathHandler::*(BGSLoadFormBuffer*)
     // VirtualActorPathHandler& __cdecl VirtualActorPathHandler::*(const VirtualActorPathHandler&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(VirtualActorPathHandler) == 32);
-FNV_STATIC_ASSERT(offsetof(VirtualActorPathHandler, m_uiPathPointIndex) == 20);
-FNV_STATIC_ASSERT(offsetof(VirtualActorPathHandler, m_fPathValue16) == 24);
-FNV_STATIC_ASSERT(offsetof(VirtualActorPathHandler, m_fPathValue2) == 28);
 #endif

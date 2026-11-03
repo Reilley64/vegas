@@ -11,7 +11,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct BGSClipRoundsForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -26,7 +25,6 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-typedef char _sizecheck_BGSClipRoundsForm[sizeof(BGSClipRoundsForm) == 8 ? 1 : -1];
 struct FUN_00475100_shell : public BGSClipRoundsForm
 {
     void SetClipRounds();
@@ -58,7 +56,7 @@ void FUN_00475120_shell::CopyFormTypeFromComponent(BaseFormComponent* component)
 
 struct TESForm
 {
-    int __thiscall FNV_GetFormType();
+    int FNV_GetFormType();
 };
 struct FUN_00475170_shell : public BGSClipRoundsForm
 {

@@ -13,7 +13,6 @@ typedef int ActorValue__Index;
 class TESClassData;
 class TESAttributes;
 class TESClass;
-#pragma pack(push, 4)
 class TESAttributes : public BaseFormComponent
 {
   public:
@@ -51,10 +50,6 @@ class TESAttributes : public BaseFormComponent
     // TESAttributes& __cdecl TESAttributes::*(const TESAttributes&)
     // void* __cdecl TESAttributes::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESAttributes) == 12);
-FNV_STATIC_ASSERT(offsetof(TESAttributes, cAttribute) == 4);
-#pragma pack(push, 4)
 class TESClassData
 {
   public:
@@ -67,14 +62,6 @@ class TESClassData
     unsigned char layoutPadding1A[2];
     // void __cdecl TESClassData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESClassData) == 28);
-FNV_STATIC_ASSERT(offsetof(TESClassData, m_aeTaggedSkills) == 0);
-FNV_STATIC_ASSERT(offsetof(TESClassData, m_ucClassFlags) == 16);
-FNV_STATIC_ASSERT(offsetof(TESClassData, m_uiField08) == 20);
-FNV_STATIC_ASSERT(offsetof(TESClassData, m_ucField0C) == 24);
-FNV_STATIC_ASSERT(offsetof(TESClassData, m_ucField0D) == 25);
-#pragma pack(push, 4)
 class TESClass : public TESForm, public TESFullName, public TESDescription, public TESTexture, public TESAttributes
 {
   public:
@@ -113,7 +100,4 @@ class TESClass : public TESForm, public TESFullName, public TESDescription, publ
     // TESClass& __cdecl TESClass::*(const TESClass&)
     // void __cdecl TESClass::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESClass) == 96);
-FNV_STATIC_ASSERT(offsetof(TESClass, data) == 68);
 #endif

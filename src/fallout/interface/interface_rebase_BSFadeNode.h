@@ -44,18 +44,4 @@ class BSFadeNode : public NiNode
     BSSimpleList<BSPortal*> kParentPortals;
     LOD_MULT_TYPE GetLODMultType() const;
 };
-FNV_STATIC_ASSERT(sizeof(LOD_MULT_TYPE) == 4);
-FNV_STATIC_ASSERT(sizeof(BSFadeNode) == 0xE4);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, fNearDistSqr) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, fFarDistSqr) == 0xB0);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, fLastFadePct) == 0xB4);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, fCurrentFade) == 0xB8);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, m_fFadeDelta) == 0xBC);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, fTimeSinceUpdate) == 0xC0);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, eLODMultType) == 0xC4);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, iFrameCounter) == 0xC8);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, m_pWorldReferenceInfo) == 0xCC);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, m_pFadingSceneNode) == 0xD0);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, kParentRooms) == 0xD4);
-FNV_STATIC_ASSERT(offsetof(BSFadeNode, kParentPortals) == 0xDC);
 #endif

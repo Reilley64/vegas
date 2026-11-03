@@ -4,11 +4,8 @@
 #define FNV_HAVOK_HKPFASTMESHSHAPE_H
 #include "hkBase.h"
 #include "hkpMeshShape.h"
-#pragma pack(push, 1)
 class hkpFastMeshShape : public hkpMeshShape
 {
   public:
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpFastMeshShape[(sizeof(hkpFastMeshShape) == 0x60) ? 1 : -1];
 #endif

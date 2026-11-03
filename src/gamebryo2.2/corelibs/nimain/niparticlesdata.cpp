@@ -41,7 +41,7 @@ void __cdecl _NiFreeAlias(void* p);
 
 // Clamps param_3 to 0x10, frees the pointer at this_ptr+0x68, stores the clamped byte at +0x6c and param_2 at +0x68.
 // @fnv 0x00a968e0
-void __fastcall FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char param_3)
+void FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char param_3)
 {
     if (param_3 >= 0x10)
     {
@@ -61,11 +61,11 @@ const char* const* __cdecl FUN_00a967d0()
 
 struct FUN_00a968c0_shell
 {
-    void __thiscall SetPointer(void* p);
+    void SetPointer(void* p);
 };
 
 // @fnv 0x00a968c0
-void __thiscall FUN_00a968c0_shell::SetPointer(void* apPointer)
+void FUN_00a968c0_shell::SetPointer(void* apPointer)
 {
     reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(*(void**)(this + 0x60));
     *(void**)(this + 0x60) = apPointer;
@@ -127,11 +127,11 @@ void* FUN_00a96600()
 void __cdecl _delete(void*, unsigned int);
 struct FUN_00a96a10_shell
 {
-    void* __thiscall FUN_00a96a10(unsigned int flags);
+    void* FUN_00a96a10(unsigned int flags);
 };
 // Calls FUN_00a96800, then deletes this with size 0x70 if flags has bit 0 set, and returns this.
 // @fnv 0x00a96a10
-void* __thiscall FUN_00a96a10_shell::FUN_00a96a10(unsigned int flags)
+void* FUN_00a96a10_shell::FUN_00a96a10(unsigned int flags)
 {
     static_cast<::FUN_00a96800_shell *>(nullptr)->FUN_00a96800();
     if (flags & 1)
@@ -983,12 +983,12 @@ class ParticlesLoadView : public NiGeometryData
     Rot16* m_pkSubTextureOffsets;
     unsigned char m_ucSubTextureOffsetCount;
     unsigned char unk6d, unk6e, unk6f;
-    void __thiscall FUN_00a96cf0(StreamIn* stream);
+    void FUN_00a96cf0(StreamIn* stream);
 };
 
 // Reads particle-related values and flags from the stream, allocates arrays, and fills several arrays with defaults depending on version.
 // @fnv 0x00a96cf0
-void __thiscall ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
+void ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
 {
     union ReadValue
     {

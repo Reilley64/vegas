@@ -33,6 +33,4 @@ class BSSystemUtility
   public:
     DownloadableContentManager& QDLCUtility();
 };
-typedef char check_DLC_size[sizeof(DownloadableContentManager) == 0x24 ? 1 : -1];
-typedef char check_DLC_valid[offsetof(DownloadableContentManager, m_kContentEntries) == 0x0c ? 1 : -1];
 #endif

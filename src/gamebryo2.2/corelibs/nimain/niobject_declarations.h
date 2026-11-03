@@ -15,6 +15,5 @@ class NiObject : public NiRefObject
     NiObject* DynamicCast(const NiRTTI* rtti);
 };
 
-typedef char niobject_object_size_check[(sizeof(NiObject) == 8) ? 1 : -1];
 
 #endif

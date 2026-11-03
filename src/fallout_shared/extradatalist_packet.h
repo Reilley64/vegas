@@ -16,7 +16,6 @@ class ExtraDismemberedLimbs;
 class SeenData;
 class LockExtraData;
 class TESImageSpaceModifier;
-#pragma pack(push, 4)
 class BaseExtraList
 {
   public:
@@ -41,9 +40,6 @@ class ExtraDataList : public BaseExtraList
 public:
     void SetExtraHealth(float);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BaseExtraList) == 0x20);
-FNV_STATIC_ASSERT(sizeof(ExtraDataList) == 0x20);
 #include "../../include/TESObjectREFR.h"
 #include "Actor.h"
 #include "BaseProcess.h"

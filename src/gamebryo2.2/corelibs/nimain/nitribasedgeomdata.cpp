@@ -26,7 +26,7 @@ NiTriBasedGeomData::NiTriBasedGeomData(unsigned short ausVertexCount, NiPoint3* 
 
 
 // @fnv 0x00a8a970
-NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData* pThis)
+NiTriBasedGeomData* InitializeTriBasedGeomData(NiTriBasedGeomData* pThis)
 {
     new ((void *)(pThis)) struct ::FUN_00a67c00();
     *(unsigned short*)((char*)pThis + 0x40) = 0;
@@ -256,7 +256,7 @@ bool FUN_00a8a9b0::RegisterStreamables(NiStream& kStream)
 }
 
 // @fnv 0x00d3dd00
-void __stdcall FUN_00d3dd00(int a, int b, int c, int d)
+void FUN_00d3dd00(int a, int b, int c, int d)
 {}
 
 // @fnv 0x00a8a9a0

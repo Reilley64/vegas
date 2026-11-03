@@ -20,12 +20,12 @@ struct __declspec(align(16)) FUN_00827200_class
 {
     int unk00;
     int unk04;
-    void __thiscall FUN_00cb26e0(int);
+    void FUN_00cb26e0(int);
 };
 
 struct FUN_00cf2410_class
 {
-    int __thiscall FUN_00cf2410(int, void*);
+    int FUN_00cf2410(int, void*);
 };
 
 class FUN_00c9ea40_cls : public FUN_00c9ea90

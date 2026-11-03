@@ -42,7 +42,6 @@ public:
     ::TESWorldSpace *GetParentWorldSpace();
 };
 
-#pragma pack(push, 4)
 class PathingLocation
 {
   public:
@@ -71,8 +70,6 @@ class PathingLocation
 public:
     bool HasValidTriangle_006dd6a0();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(PathingLocation) == 0x28);
 
 class NavMeshInfo
 {

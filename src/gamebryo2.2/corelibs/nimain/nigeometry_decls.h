@@ -2,6 +2,7 @@
 #ifndef FNV_TASK_NIGEOMETRY_DECLS_H
 #define FNV_TASK_NIGEOMETRY_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -146,8 +147,6 @@ class NiObject
     virtual void ProcessClone(CloningProcess& process);
     unsigned int m_uiRefCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* value);
 template <class T> class NiPointer
 {
   public:
@@ -280,7 +279,7 @@ class NiBound
     }
     void Update(const NiBound&, const NiTransform&);
 };
-inline const NiBound& __fastcall PreviousBound(NiBound* b)
+inline const NiBound& PreviousBound(NiBound* b)
 {
     return b ? *b : ::g_defaultBound;
 }

@@ -22,7 +22,7 @@
 struct hkpSweptTransformDisplayViewer {
     void FUN_00d64950(int a);
 };
-void __fastcall FUN_00d647f0(void* self);
+void FUN_00d647f0(void* self);
 int __cdecl FUN_00d64970();
 struct D63FF0Entry {
     void* m_key;
@@ -89,7 +89,7 @@ struct FUN_00d647b0_Listener
 {
     int unk00;
 };
-typedef void (__thiscall* FUN_00d647b0_Handler)(FUN_00d647b0_Listener* self, int item);
+typedef void (* FUN_00d647b0_Handler)(FUN_00d647b0_Listener* self, int item);
 struct FUN_00d647b0_cls
 {
     int unk00;     int unk04;     int unk08;     int unk0C;     int unk10;     int unk14;     int unk18;

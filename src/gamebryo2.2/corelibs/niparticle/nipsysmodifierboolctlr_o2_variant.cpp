@@ -65,7 +65,7 @@ void NiPSysModifierBoolCtlr::FUN_00c32c70(NiInterpolator* pkInterp, unsigned sho
         pkBoolInterp = 0;
     else
         pkBoolInterp = (NiBoolInterpolator*)pkInterp->DynamicCast((const ::NiRTTI *)(const unsigned int *)(&(*reinterpret_cast<unsigned int *>(&::g_011f404c))));
-    ((void(__thiscall*)(NiPSysModifierBoolCtlr*, bool*))(*(void***)this)[60])(this, &bValue);
+    ((void(*)(NiPSysModifierBoolCtlr*, bool*))(*(void***)this)[60])(this, &bValue);
     reinterpret_cast<::fnv_00a531a0::FUN_00a531a0_shell *>((pkBoolInterp))->SetBoolValue(bValue);
 }
 

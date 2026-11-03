@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/Controller197.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00c7f750_shell.h"
@@ -31,17 +32,17 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 struct FUN_00cad480_Class {
-    void __thiscall FUN_00cad480(void* arg);
+    void FUN_00cad480(void* arg);
 };
 
 // Iterates the proxy list at this+0x80 in reverse and calls each proxy's third virtual method with this and arg.
 // @fnv 0x00cad480
-void __thiscall FUN_00cad480_Class::FUN_00cad480(void* arg)
+void FUN_00cad480_Class::FUN_00cad480(void* arg)
 {
     int count = *(int*)((char*)this + 0x84);
     for (--count; count >= 0; --count) {
         void* proxy = *(void**)((char*)*(void**)((char*)this + 0x80) + count * 4);
-        (*(void (__stdcall **)(void*, void*))(*(void***)proxy + 2))(this, arg);
+        (*(void (**)(void*, void*))(*(void***)proxy + 2))(this, arg);
     }
 }
 
@@ -162,7 +163,7 @@ struct FUN_00cad6f0_class
     int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
     void** items;
     volatile int itemCount;
-    void __thiscall RemoveItem(void* item);
+    void RemoveItem(void* item);
 };
 // Finds item in items, decrements itemCount, and moves the last entry into the removed slot.
 // @fnv 0x00cad6f0
@@ -198,12 +199,12 @@ struct FUN_00cade20_Class
 
 struct FUN_00cafbd0_Class
 {
-    void __thiscall FUN_00cafbd0(int first, int second, int third, int fourth);
+    void FUN_00cafbd0(int first, int second, int third, int fourth);
 };
 
 // Forwards the four arguments to FUN_00cade20 with two trailing zero arguments.
 // @fnv 0x00cafbd0
-void __thiscall FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
+void FUN_00cafbd0_Class::FUN_00cafbd0(int first, int second, int third, int fourth)
 {
     reinterpret_cast<::POwner *>((((FUN_00cade20_Class*)this)))->FUN_00cade20((*(const ::PStep *)(first)), (*(const ::PVec *)(second)), (*(::PCollector *)(third)), (*(::PCollector *)(fourth)), (void *)(0), 0);
 }
@@ -1252,7 +1253,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Outp
         __m128 normal=work.normal.load();
         if(impulse<0.0f) {
             FloatMatrix3 inertia;
-            ((void (__thiscall*)(Motion*,FloatMatrix3*))motion->vtable[10])(motion,&inertia);
+            ((void (*)(Motion*,FloatMatrix3*))motion->vtable[10])(motion,&inertia);
             Vec4 torque,transformed;
             torque.set(cross(_mm_sub_ps(work.point.load(),body->motion.reference.load()),work.normal.load()));
             reinterpret_cast<::FUN_00c7f750_shell *>(&(transformed))->FUN_00c7f750((float *)(&inertia),(float *)(&torque));
@@ -1281,7 +1282,7 @@ void ContactSolver::FUN_00cacf80(const float* step,const Vec4* acceleration,Outp
             ++destination;
         }else {
             reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
-            ((void (__thiscall*)(Motion*,const Vec4*,const Vec4*))motion->vtable[20])(motion,&response.impulse,&response.location);
+            ((void (*)(Motion*,const Vec4*,const Vec4*))motion->vtable[20])(motion,&response.impulse,&response.location);
         }
     }
     if(collect && destination-*output<outputCapacity)destination->body=0;
@@ -2804,7 +2805,6 @@ struct S00cae900_Listeners {  };
 static const float DAT_010c851c = -0.08f;
 extern const __m128 DAT_01017d10;
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" {
 __m128 _mm_and_ps(__m128, __m128);
 __m128 _mm_cmple_ps(__m128, __m128);
@@ -3324,7 +3324,6 @@ void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_Sur
 }
 
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" {
 __m128 _mm_set_ps1(float);
 __m128 _mm_setr_ps(float, float, float, float);

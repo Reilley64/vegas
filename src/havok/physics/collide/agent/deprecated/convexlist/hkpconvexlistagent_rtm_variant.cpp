@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/Container.h"
@@ -31,12 +32,12 @@
 #include "fnv/symbols_01268000.h"
 struct hkpConvexListAgent
 {
-    void __thiscall FUN_00d33770(int a);
+    void FUN_00d33770(int a);
 };
 extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
 struct FUN_00d33b70_cls
 {
-    void __thiscall FUN_00d33b70(int a, int b, int c, int d);
+    void FUN_00d33b70(int a, int b, int c, int d);
 };
 extern "C"
 {
@@ -44,7 +45,7 @@ extern "C"
 }
 struct FUN_00d33c80_class
 {
-    void __thiscall FUN_00d33c80(void* a, void* b, void* c, void* d);
+    void FUN_00d33c80(void* a, void* b, void* c, void* d);
 };
 struct hkpCollisionDispatcher
 {
@@ -60,7 +61,7 @@ struct hkpCollisionDispatcher
 };
 struct FUN_00d337f0_self
 {
-    void __thiscall FUN_00d337f0(int a);
+    void FUN_00d337f0(int a);
 };
 struct hkpGskfAgent
 {
@@ -69,15 +70,15 @@ public:
 };
 struct FUN_00d33810_cls : hkpGskfAgent
 {
-    void __thiscall FUN_00d33810(int a);
+    void FUN_00d33810(int a);
 };
 struct FUN_00d33740_cls
 {
-    void __thiscall FUN_00d33740(int a, int b);
+    void FUN_00d33740(int a, int b);
 };
 struct FUN_00d33850_cls
 {
-    void __thiscall FUN_00d33850(int a);
+    void FUN_00d33850(int a);
 };
 struct hkpSimpleClosestContactCollector
 {
@@ -151,7 +152,7 @@ struct D338e0Owner
     int unk80;
     unsigned char unk84;
 
-    void __thiscall FUN_00d338e0(int param1, int param2, int param3, int param4);
+    void FUN_00d338e0(int param1, int param2, int param3, int param4);
 };
 inline void D338e0Dispatch(D338e0Local* local, int* ownerField, int result)
 {
@@ -524,7 +525,6 @@ extern "C" void __cdecl FUN_00d33b90(void* a, void* b, void* c, void* d)
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010cec28[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 struct StringCursor
 {
     int unk00;
@@ -783,8 +783,8 @@ struct Workspace
 {
     L4096 contacts;
     L128 state;
-    void __thiscall FUN_00d33670(Arg4&);
-    void __thiscall FUN_00d33600(const Shape&, const Shape&, Arg4&, void*);
+    void FUN_00d33670(Arg4&);
+    void FUN_00d33600(const Shape&, const Shape&, Arg4&, void*);
 };
 
 struct Obj
@@ -904,7 +904,7 @@ struct Arg4
 struct CollObj
 {
     Vec4 a, b, c, d;
-    void __thiscall FUN_00cb22f0(Obj*, Obj*);
+    void FUN_00cb22f0(Obj*, Obj*);
 };
 struct SStruct
 {
@@ -976,11 +976,11 @@ struct ScratchArena
     int* cursor;
 };
 
-typedef void(__thiscall* Ws70Fn)(void*, const void*);
-typedef void(__thiscall* Ws00Fn)(void*, const void*, const void*, const void*, void*);
-typedef void*(__thiscall* CbFn)(void*, void*, void*);
-typedef void(__thiscall* Ag1Fn)(void*, void*);
-typedef void(__thiscall* Ag4Fn)(void*, const void*, const void*, const void*, void*);
+typedef void(* Ws70Fn)(void*, const void*);
+typedef void(* Ws00Fn)(void*, const void*, const void*, const void*, void*);
+typedef void*(* CbFn)(void*, void*, void*);
+typedef void(* Ag1Fn)(void*, void*);
+typedef void(* Ag4Fn)(void*, const void*, const void*, const void*, void*);
 
 struct StreamState
 {
@@ -1032,13 +1032,13 @@ struct Agent
     char m_84;
     char m_85;
     short m_86;
-    void __thiscall FUN_00d33850(void*);
-    void __thiscall FUN_00d33ef0(void*);
-    void __thiscall FUN_00d42020(const Shape&, const Shape&, const Arg3&, Arg4&);
+    void FUN_00d33850(void*);
+    void FUN_00d33ef0(void*);
+    void FUN_00d42020(const Shape&, const Shape&, const Arg3&, Arg4&);
     __forceinline void processCached(const Shape&, const Shape&, const Arg3&, Arg4&, const Vec4&, Workspace&, StackObj&,
                                      ScalarScratch&, bool&);
     void streamCollision(const Shape&, const Shape&, const Arg3&, Arg4&, const Vec4&, ShapeHead*);
-    void __thiscall FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d);
+    void FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d);
 };
 
 __forceinline void projectDistance(Vec4& normal, const Vec4& vec)
@@ -1190,7 +1190,7 @@ __forceinline void Agent::processCached(const Shape& a, const Shape& b, const Ar
     }
 }
 // @fnv 0x00d33f40
-void __thiscall Agent::FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d)
+void Agent::FUN_00d33f40(const Shape& a, const Shape& b, const Arg3& c, Arg4& d)
 {
     Workspace ws;
     Vec4 vec;

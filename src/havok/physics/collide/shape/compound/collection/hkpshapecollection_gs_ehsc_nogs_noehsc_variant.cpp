@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/hkpshapecollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00d21000.h"
@@ -23,8 +24,8 @@ class hkpShapeCollection_L
     virtual ~hkpShapeCollection_L();
     virtual int FUN_00d213d0();
 };
-void __stdcall FUN_00d213f0(int, int);
-void __stdcall FUN_00d21400(int a1);
+void FUN_00d213f0(int, int);
+void FUN_00d21400(int a1);
 struct Allocator
 {
     virtual void vfn0();
@@ -47,9 +48,8 @@ struct Holder
     unsigned int userData;
     unsigned int shapeType;
     void* shapeVtable;
-    Holder* __thiscall Destroy(unsigned char flags);
+    Holder* Destroy(unsigned char flags);
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 struct hkBoolRet
@@ -136,7 +136,6 @@ class hkpRayShapeCollectionFilter
     virtual hkBoolRet IsCollisionEnabled(const ShapeRayCastQuery& aInput, const FUN_00d21450_Class& aCollection,
                                          const hkpShapeContainer& bContainer, hkpShapeKey aKey) const = 0;
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010ce228[];
 struct S00d216e0_Rec
 {

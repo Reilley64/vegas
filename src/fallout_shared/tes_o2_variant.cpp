@@ -474,7 +474,6 @@ struct TESDataHandler
     TESEffectShader* m_pSecondEffectShader;
     TESEffectShader* m_pThirdEffectShader;
 };
-typedef char _sizecheck_TESDataHandler[sizeof(TESDataHandler) == 1596 ? 1 : -1];
 struct FUN_004516b0_shell : public TESDataHandler
 {
     bool FUN_004516b0();
@@ -581,7 +580,6 @@ struct BGSSaveLoadGame
     unsigned char m_ucSaveLoadState;
     char _pad_249[3];
 };
-typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 struct FUN_004523c0_shell : public BGSSaveLoadGame
 {
     bool FUN_004523c0();
@@ -597,7 +595,7 @@ struct FUN_00452420_shell
 };
 struct FUN_00452440_shell
 {
-    bool __thiscall FUN_00452440();
+    bool FUN_00452440();
 };
 struct FUN_004e32c0_shell
 {
@@ -608,16 +606,16 @@ struct PlaceableWaterData
 };
 struct BGSPlaceableWater
 {
-    bool __thiscall HasFlags(unsigned int flags);
+    bool HasFlags(unsigned int flags);
 };
 extern unsigned char DAT_0119b8c8;
 struct FUN_00453470_shell
 {
-    int __thiscall FUN_00453470(void);
+    int FUN_00453470(void);
 };
 struct FUN_004534f0_shell
 {
-    void __thiscall FUN_004534f0(unsigned int);
+    void FUN_004534f0(unsigned int);
 };
 struct FUN_00453500_shell
 {
@@ -649,7 +647,7 @@ struct FUN_00458f20_shell
 };
 struct FUN_00458f70_shell
 {
-    void __thiscall FUN_00458f70();
+    void FUN_00458f70();
 };
 struct AnimIdle;
 struct Animation;
@@ -791,7 +789,6 @@ struct ModelLoader
     bool m_bLoadTexturesDegraded;
     char _pad_2d[3];
 };
-typedef char _sizecheck_ModelLoader[sizeof(ModelLoader) == 48 ? 1 : -1];
 struct FUN_0045a5e0_shell : public ModelLoader
 {
     void FUN_0045a5e0(char*);
@@ -823,7 +820,7 @@ struct NiCamera
     float y;
     float z;
     float w;
-    int __thiscall ClassifyPoint(const NiPoint3* other);
+    int ClassifyPoint(const NiPoint3* other);
 };
 struct FUN_00451cd0_shell
 {

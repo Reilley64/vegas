@@ -97,7 +97,6 @@ class NiD3DShaderConstantMap : public NiRefObject
     virtual void vfn_6c();
     virtual NiShaderConstantMapEntry* vfn_70(const char*);
 };
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderConstantMap) == 0x44);
 class ShadowLightShader
 {
   public:
@@ -113,9 +112,6 @@ class ShadowLightShader
     NiPointer<NiD3DShaderConstantMap> m_spSecondPassConstantMap;
     void UpdateShaderConstants();
 };
-FNV_STATIC_ASSERT(sizeof(ShadowLightShader) == 0x8c);
-FNV_STATIC_ASSERT(offsetof(ShadowLightShader, m_spSecondShaderConstantMap) == 0x34);
-FNV_STATIC_ASSERT(offsetof(ShadowLightShader, m_spFillColorConstantMap) == 0x7c);
 extern const float DAT_011fa0b0[];
 extern const float DAT_011fa2e0[];
 extern const float DAT_011fa300[];

@@ -217,11 +217,11 @@ const char* FUN_004b75a0(const char* apString1, const char* apString2)
 
 struct FUN_00634830_cls
 {
-    unsigned int __thiscall GetOffset58();
+    unsigned int GetOffset58();
 };
 
 // @fnv 0x00634830
-unsigned int __thiscall FUN_00634830_cls::GetOffset58()
+unsigned int FUN_00634830_cls::GetOffset58()
 {
     return *(unsigned short*)((char*)this + 0x58);
 }

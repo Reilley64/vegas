@@ -27,11 +27,11 @@
 struct FUN_00d554a0_class
 {
     int m_d0;
-    int __thiscall GetOrInitValue();
+    int GetOrInitValue();
 };
 
 // @fnv 0x00d554a0
-int __thiscall FUN_00d554a0_class::GetOrInitValue()
+int FUN_00d554a0_class::GetOrInitValue()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) < 0)
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) = reinterpret_cast<::FUN_00d1f1e0_class *>(this)->FUN_00d1f1e0();
@@ -40,11 +40,11 @@ int __thiscall FUN_00d554a0_class::GetOrInitValue()
 
 struct FUN_00d56040_shell
 {
-    void __thiscall FUN_00d56040(void* first, float value, int last);
+    void FUN_00d56040(void* first, float value, int last);
 };
 // Calls FUN_00d26230 with first, the two buffers at offsets 0x90 and 0xa0 of this, value and last.
 // @fnv 0x00d56040
-void __thiscall FUN_00d56040_shell::FUN_00d56040(void* first, float value, int last)
+void FUN_00d56040_shell::FUN_00d56040(void* first, float value, int last)
 {
     ::FUN_00d26230((*(const ::hkTransformD262 *)(first)), (*(const ::hkVector4D262 *)((unsigned char*)this + 0x90)), (*(const ::hkVector4D262 *)((unsigned char*)this + 0xa0)), value, (*(::hkAabbD262 *)(last)));
 }
@@ -306,7 +306,7 @@ struct FUN_00d55520_cls
 };
 
 // @fnv 0x00d55520
-int __stdcall FUN_00d55520(FUN_00d55520_cls* a1)
+int FUN_00d55520(FUN_00d55520_cls* a1)
 {
     return a1->m_18;
 }
@@ -462,7 +462,7 @@ struct FUN_00d55a90_cls
     Group* m_0c0;
     int m_0c4;
 
-    int __thiscall FUN_00d55a90(int a1, int a2);
+    int FUN_00d55a90(int a1, int a2);
 };
 
 // @fnv 0x00d55a90
@@ -1196,11 +1196,11 @@ int bhkShapeOwner::GetShapeKey()
 }
 
 // @fnv 0x00d554e0
-void __stdcall FUN_00d554e0(int a)
+void FUN_00d554e0(int a)
 {}
 
 // @fnv 0x00d554f0
-void __stdcall FUN_00d554f0(int a0)
+void FUN_00d554f0(int a0)
 {}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -2447,7 +2447,7 @@ extern "C" __m128 _mm_max_ps(__m128, __m128);
 struct __declspec(align(16)) Vec4Q
 {
     float x, y, z, w;
-    void __thiscall FUN_00c7f640(const void* transform, const Vec4Q* point);
+    void FUN_00c7f640(const void* transform, const Vec4Q* point);
 };
 
 struct AabbQ

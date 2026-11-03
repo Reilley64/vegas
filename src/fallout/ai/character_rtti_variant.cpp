@@ -140,8 +140,8 @@
 #include "fnv/symbols_011f2000.h"
 #include "fnv/symbols_011f6000.h"
 #include "character_decls_rtti_character.h"
-bool __fastcall Character_GetTrespassing(Character* self);
-void __fastcall FUN_008d1e90(Character* this_ptr, float value);
+bool Character_GetTrespassing(Character* self);
+void FUN_008d1e90(Character* this_ptr, float value);
 struct FUN_008d34b0_shell : public Character
 {
     void FUN_008d34b0(BGSLoadFormBuffer*);
@@ -221,7 +221,6 @@ struct MusicMarkerReference
     TESObjectREFR* m_pMarkerReference;
     MediaLocation* m_pAudioMarkerData;
 };
-typedef char _sizecheck_AudioMarkerInfo[sizeof(MusicMarkerReference) == 8 ? 1 : -1];
 struct FUN_009698a0_shell : public PlayerCharacter
 {
     MediaLocationController* GetMediaLocationController();
@@ -1365,7 +1364,7 @@ struct FUN_008ac850_owner
     virtual void* f0265();
     virtual FUN_008ac850_object* f0266();
 
-    void __thiscall FUN_008ac850(void* value);
+    void FUN_008ac850(void* value);
 };
 // Pool of 1000 entry pointers (all null) plus three 4-slot tables, all cleared on construction.
 struct PoolEntry;

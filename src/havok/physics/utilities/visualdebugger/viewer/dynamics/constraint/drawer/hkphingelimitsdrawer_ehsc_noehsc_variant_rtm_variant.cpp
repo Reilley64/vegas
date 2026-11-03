@@ -1210,7 +1210,7 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     }
 }
 // @fnv 0x00de5fe0
-extern "C" __declspec(noinline) void __fastcall FUN_00de5fe0(HingeConstraintDrawer* drawer, void*,
+extern "C" __declspec(noinline) void FUN_00de5fe0(HingeConstraintDrawer* drawer, void*,
                                                              hkpConstraintInstance* constraint,
                                                              hkDebugDisplayHandler* handler, int id, int tag)
 {

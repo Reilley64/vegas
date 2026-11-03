@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitmapbase_h_unit.cpp: SharedAccumulatorState (1 function)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/InteriorCellLookup.h"
@@ -15,8 +16,6 @@
 // with the unit's own flags (/O2). Nothing of this unit's own follows the include, so no accepted function is affected.
 #pragma optimize("", on)
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct SharedAccumulatorState
 {

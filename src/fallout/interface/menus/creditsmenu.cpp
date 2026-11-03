@@ -135,7 +135,7 @@ struct SM7d6
 void __cdecl FUN_008304f0(void);
 struct FUN_008467b0_shell
 {
-    bool __thiscall LoadSaveEntry(void);
+    bool LoadSaveEntry(void);
 };
 
 // @fnv 0x00761410
@@ -169,11 +169,11 @@ struct StandIn_75f1d0
 
 struct FUN_007613f0_shell
 {
-    int* __thiscall FUN_007613f0();
+    int* FUN_007613f0();
 };
 
 // @fnv 0x007613f0
-int* __thiscall FUN_007613f0_shell::FUN_007613f0()
+int* FUN_007613f0_shell::FUN_007613f0()
 {
     *(int*)this = (*reinterpret_cast<int *>(&::DAT_0109b220));
     return (int*)this;
@@ -185,10 +185,10 @@ struct FUN_007616d0_shell
 };
 struct FUN_00761470_shell
 {
-    FUN_00761470_shell* __thiscall Construct();
+    FUN_00761470_shell* Construct();
 };
 // @fnv 0x00761470
-FUN_00761470_shell* __thiscall FUN_00761470_shell::Construct()
+FUN_00761470_shell* FUN_00761470_shell::Construct()
 {
     *reinterpret_cast<int**>(this) = &DAT_01072514;
     reinterpret_cast<::FUN_007616d0_class *>((reinterpret_cast<FUN_007616d0_shell*>(this)))->InitializeBuffer(0, 0);

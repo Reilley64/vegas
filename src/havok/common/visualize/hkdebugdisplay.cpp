@@ -18,7 +18,7 @@ struct FUN_00c99fb0_Manager
     FUN_00c99fb0_Interface* allocator;
 };
 extern FUN_00c99fb0_Manager* __cdecl FUN_00c85750();
-extern "C" void __stdcall DeleteCriticalSection(void* section);
+extern "C" void DeleteCriticalSection(void* section);
 struct FUN_00c99fb0
 {
     virtual ~FUN_00c99fb0();

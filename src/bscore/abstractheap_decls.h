@@ -2,6 +2,7 @@
 #ifndef ABSTRACTHEAP_DECLS_H
 #define ABSTRACTHEAP_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_00aaa6e0_Class.h"
 #include "fnv/symbols_00406000.h"
 #include "fnv/symbols_011f6000.h"
@@ -130,9 +131,8 @@ __forceinline bool AbstractHeapHasLog()
 }
 extern "C"
 {
-    extern void(__stdcall* fnv_EnterCriticalSection)(void*);
-    extern void(__stdcall* fnv_LeaveCriticalSection)(void*);
-    __declspec(dllimport) void* __stdcall VirtualAlloc(void*, unsigned int, unsigned int, unsigned int);
+    extern void(* fnv_EnterCriticalSection)(void*);
+    extern void(* fnv_LeaveCriticalSection)(void*);
 }
 
 class AbstractHeap : public IMemoryHeap
@@ -200,14 +200,4 @@ class AbstractHeap : public IMemoryHeap
     void InsertFreeBlock(HeapFreeBlock*);
     void CoalesceFreeBlocks(HeapFreeBlock*, HeapFreeBlock*);
 };
-FNV_STATIC_ASSERT(sizeof(MemoryBlockHeader) == 8);
-FNV_STATIC_ASSERT(offsetof(MemoryBlockHeader, m_uiSizeAndFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_pLastBlock) == 0x3c);
-FNV_STATIC_ASSERT(sizeof(HeapFreeBlock) == 16);
-FNV_STATIC_ASSERT(sizeof(HeapFreeList) == 8);
-FNV_STATIC_ASSERT(sizeof(HeapBlockList) == 8);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kFreeLists) == 0x44);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kFreeListSentinel) == 0x2048);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kSubBucketLists) == 0x2058);
-FNV_STATIC_ASSERT(offsetof(AbstractHeap, m_kCriticalSection) == 0x20d8);
 #endif

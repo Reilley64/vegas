@@ -384,8 +384,8 @@ struct Table
     void* unk20;
     void* unk24;
     void* unk28;
-    unsigned int(__thiscall* f2c)(struct Ctrl*);
-    void(__thiscall* f30)(struct Ctrl*, unsigned int);
+    unsigned int(* f2c)(struct Ctrl*);
+    void(* f30)(struct Ctrl*, unsigned int);
 };
 struct Ctrl
 {

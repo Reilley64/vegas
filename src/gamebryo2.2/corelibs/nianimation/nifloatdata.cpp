@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nifloatdata.cpp: NiFloatData (10 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -223,8 +224,6 @@ struct FUN_00a3ce20_shell : public NiFloatData
     void FUN_00a3ce20(float m_fStartTime, float m_fMaximumDistance, NiFloatData** ppResult);
 };
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* Addend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* Addend);
 
 struct NiRefShell : public NiObject
 {

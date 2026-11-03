@@ -53,11 +53,11 @@ struct FUN_00409160_Class
 };
 struct Unnamed
 {
-    void* __thiscall FUN_00409270(unsigned int);
+    void* FUN_00409270(unsigned int);
 };
 // Calls FUN_00409210, then frees this via _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00409270
-void* __thiscall Unnamed::FUN_00409270(unsigned int flags)
+void* Unnamed::FUN_00409270(unsigned int flags)
 {
     reinterpret_cast<::FUN_00409210 *>(this)->FUN_00409210::~FUN_00409210();
     if (flags & 1)

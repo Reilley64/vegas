@@ -14,7 +14,7 @@ class NiPixelFormat
     unsigned short pad;
     unsigned int data[16];
 };
-extern void(__stdcall* DAT_00fdf054)(void*);
+extern void(* DAT_00fdf054)(void*);
 class NiImageReader
 {
   public:

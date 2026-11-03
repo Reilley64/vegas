@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/niavobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niavobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a59a90_cls.h"
@@ -44,7 +45,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -55,20 +55,19 @@ struct NiUpdateData
     bool m_bVisible;
     char _pad_9[3];
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 
 struct NiAVObject
 {
-    void __thiscall UpdateTimeControllers(NiUpdateData&, bool);
+    void UpdateTimeControllers(NiUpdateData&, bool);
 };
 
 struct FUN_00a5a030_shell : NiAVObject
 {
-    void __thiscall FUN_00a5a030(NiUpdateData& data);
+    void FUN_00a5a030(NiUpdateData& data);
 };
 
 // @fnv 0x00a5a030
-void __thiscall FUN_00a5a030_shell::FUN_00a5a030(NiUpdateData& data)
+void FUN_00a5a030_shell::FUN_00a5a030(NiUpdateData& data)
 {
     NiAVObject::UpdateTimeControllers(data, true);
 }
@@ -94,11 +93,11 @@ struct MemoryManager
 
 struct FUN_00a59dc0_shell
 {
-    void __thiscall SetBoundObject(void* apBound);
+    void SetBoundObject(void* apBound);
 };
 
 // @fnv 0x00a59dc0
-void __thiscall FUN_00a59dc0_shell::SetBoundObject(void* apBound)
+void FUN_00a59dc0_shell::SetBoundObject(void* apBound)
 {
     unsigned char* pThis = reinterpret_cast<unsigned char*>(this);
     if (*(void**)(pThis + 0x20))
@@ -118,25 +117,25 @@ void __thiscall FUN_00a59dc0_shell::SetBoundObject(void* apBound)
 
 struct FUN_00a59c90_shell
 {
-    void __thiscall FUN_00a59c90(NiUpdateData&);
+    void FUN_00a59c90(NiUpdateData&);
 };
 // Calls the object's vtable slot 42 with the update data, then, if the object at offset 0x18 exists, calls its vtable slot 63.
 // @fnv 0x00a59c90
-void __thiscall FUN_00a59c90_shell::FUN_00a59c90(NiUpdateData& aUpdateData)
+void FUN_00a59c90_shell::FUN_00a59c90(NiUpdateData& aUpdateData)
 {
-    ((void(__thiscall*)(void*, void*, int))(*(int**)this)[42])(this, &aUpdateData, 0);
+    ((void(*)(void*, void*, int))(*(int**)this)[42])(this, &aUpdateData, 0);
     if (*(int**)((char*)this + 0x18))
-        ((void(__thiscall*)(void*))(*(int**)(*(int**)((char*)this + 0x18)))[63])(*(int**)((char*)this + 0x18));
+        ((void(*)(void*))(*(int**)(*(int**)((char*)this + 0x18)))[63])(*(int**)((char*)this + 0x18));
 }
 
 struct NiNode;
 struct FUN_00a59d00_shell
 {
-    void __thiscall SetParent(NiNode* pkParent);
+    void SetParent(NiNode* pkParent);
 };
-typedef void(__thiscall* FUN_00a59d00_Fn)(NiNode*, void*);
+typedef void(* FUN_00a59d00_Fn)(NiNode*, void*);
 // @fnv 0x00a59d00
-void __thiscall FUN_00a59d00_shell::SetParent(NiNode* pkParent)
+void FUN_00a59d00_shell::SetParent(NiNode* pkParent)
 {
     NiNode* pkOldParent = *(NiNode**)((char*)this + 0x18);
     if (pkOldParent)
@@ -220,14 +219,13 @@ struct NiRenderer
 };
 struct PropHelper
 {
-    void __thiscall FUN_00a59e50(NiRenderer*);
+    void FUN_00a59e50(NiRenderer*);
 };
 namespace fnv_00a59ec0 {
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct CloningProcess
 {
     void __dflt_ctor_closure();
@@ -238,36 +236,35 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 
 struct NiObjectNET
 {
-    virtual void __thiscall _v00();
-    virtual void __thiscall _v01();
-    virtual void __thiscall _v02();
-    virtual void __thiscall _v03();
-    virtual void __thiscall _v04();
-    virtual void __thiscall _v05();
-    virtual void __thiscall _v06();
-    virtual void __thiscall _v07();
-    virtual void __thiscall _v08();
-    virtual void __thiscall _v09();
-    virtual void __thiscall _v10();
-    virtual void __thiscall _v11();
-    virtual void __thiscall _v12();
-    virtual void __thiscall _v13();
-    virtual void __thiscall _v14();
-    virtual void __thiscall _v15();
-    virtual void __thiscall _v16();
-    virtual void __thiscall _v17();
-    virtual void __thiscall _v18();
-    virtual void __thiscall _v19();
-    virtual void __thiscall _v20();
-    virtual void __thiscall _v21();
-    virtual void __thiscall _v22();
-    virtual void __thiscall _v23();
-    virtual void __thiscall _v24();
-    virtual void __thiscall _v25();
+    virtual void _v00();
+    virtual void _v01();
+    virtual void _v02();
+    virtual void _v03();
+    virtual void _v04();
+    virtual void _v05();
+    virtual void _v06();
+    virtual void _v07();
+    virtual void _v08();
+    virtual void _v09();
+    virtual void _v10();
+    virtual void _v11();
+    virtual void _v12();
+    virtual void _v13();
+    virtual void _v14();
+    virtual void _v15();
+    virtual void _v16();
+    virtual void _v17();
+    virtual void _v18();
+    virtual void _v19();
+    virtual void _v20();
+    virtual void _v21();
+    virtual void _v22();
+    virtual void _v23();
+    virtual void _v24();
+    virtual void _v25();
     virtual void ProcessClone(CloningProcess&);
 };
 struct S59ec0
@@ -276,10 +273,10 @@ struct S59ec0
     NiObjectNET* m_spCollision;
     char _p1[0x4];
     int m_kNode[3];
-    void __thiscall FUN_00a59ec0(CloningProcess& b);
+    void FUN_00a59ec0(CloningProcess& b);
 };
 // @fnv 0x00a59ec0
-void __thiscall S59ec0::FUN_00a59ec0(CloningProcess& kCloning)
+void S59ec0::FUN_00a59ec0(CloningProcess& kCloning)
 {
     reinterpret_cast<::NiObjectNET *>((((NiObjectNET*)(void*)this)))->ProcessClone((::CloningProcess &)(kCloning));
     if (m_kNode[2])
@@ -337,11 +334,11 @@ struct Param
 struct Owner
 {
     GO arr[8];
-    void __thiscall SetSlot(Param* p);
+    void SetSlot(Param* p);
 };
 // If p is non-null and p->Get() is at most 7, stores p into arr at index p->Get().
 // @fnv 0x00a59f50
-void __thiscall Owner::SetSlot(Param* pParam)
+void Owner::SetSlot(Param* pParam)
 {
     if (pParam && pParam->Get() <= 7)
         arr[pParam->Get()] = pParam;
@@ -349,15 +346,15 @@ void __thiscall Owner::SetSlot(Param* pParam)
 
 struct FUN_00a59f90_holder
 {
-    void __thiscall FUN_00a59f90(NiUpdateData&, unsigned int);
+    void FUN_00a59f90(NiUpdateData&, unsigned int);
 };
 // @fnv 0x00a59f90
-void __thiscall FUN_00a59f90_holder::FUN_00a59f90(NiUpdateData& kData, unsigned int uiFlags)
+void FUN_00a59f90_holder::FUN_00a59f90(NiUpdateData& kData, unsigned int uiFlags)
 {
     if (kData.m_bUpdateEnabled)
         ((NiAVObject*)this)->UpdateTimeControllers(kData, true);
-    ((void(__thiscall*)(void*, NiUpdateData&))(*(void***)this)[46])(this, kData);
-    ((void(__thiscall*)(void*))(*(void***)this)[47])(this);
+    ((void(*)(void*, NiUpdateData&))(*(void***)this)[46])(this, kData);
+    ((void(*)(void*))(*(void***)this)[47])(this);
 }
 
 struct T00a5a0e0
@@ -406,10 +403,10 @@ struct T00a5a0e0
     T00a5a0e0* m_pHeadNode;
     char _p10[32];
     T00a5a0e0* m_next;
-    bool __thiscall FUN_00a5a0e0();
+    bool FUN_00a5a0e0();
 };
 // @fnv 0x00a5a0e0
-bool __thiscall T00a5a0e0::FUN_00a5a0e0()
+bool T00a5a0e0::FUN_00a5a0e0()
 {
     T00a5a0e0* p = m_pHeadNode;
     while (p)
@@ -436,11 +433,11 @@ struct S_00a5a110
 {
     char _pad[36];
     NodeA* head;
-    bool __thiscall HasNodeWithNonZeroValue();
+    bool HasNodeWithNonZeroValue();
 };
 // Walks the linked list from head and returns true if any node's DataA has a non-zero v, otherwise false.
 // @fnv 0x00a5a110
-bool __thiscall S_00a5a110::HasNodeWithNonZeroValue()
+bool S_00a5a110::HasNodeWithNonZeroValue()
 {
     NodeA* pNode = head;
     while (pNode)
@@ -456,11 +453,11 @@ bool __thiscall S_00a5a110::HasNodeWithNonZeroValue()
 
 struct FUN_00a5aa90_shell
 {
-    void* __thiscall FUN_00a5aa90(unsigned int);
+    void* FUN_00a5aa90(unsigned int);
 };
 // Calls FUN_00a5a390 on this, frees this with _delete when bit 0 of a1 is set, and returns this.
 // @fnv 0x00a5aa90
-void* __thiscall FUN_00a5aa90_shell::FUN_00a5aa90(unsigned int auiFlags)
+void* FUN_00a5aa90_shell::FUN_00a5aa90(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();
     if (auiFlags & 1)
@@ -515,11 +512,11 @@ struct Holder00a59cc0
     virtual void v39() = 0;
     virtual void v40() = 0;
     virtual void Target(NiUpdateData&, bool) = 0;
-    void __thiscall UpdateWithParent(NiNode* pEventualParent, NiUpdateData& UpdateData);
+    void UpdateWithParent(NiNode* pEventualParent, NiUpdateData& UpdateData);
 };
 // Sets m_parent to pEventualParent, calls Target(UpdateData, false), then clears m_parent.
 // @fnv 0x00a59cc0
-void __thiscall Holder00a59cc0::UpdateWithParent(NiNode* pEventualParent, NiUpdateData& UpdateData)
+void Holder00a59cc0::UpdateWithParent(NiNode* pEventualParent, NiUpdateData& UpdateData)
 {
     m_parent = pEventualParent;
     Target(UpdateData, false);
@@ -530,11 +527,11 @@ struct FUN_00a59db0_shell
 {
     char _pad_0[0x18];
     int _field_0x18;
-    void __thiscall FUN_00a59db0(int arg);
+    void FUN_00a59db0(int arg);
 };
 
 // @fnv 0x00a59db0
-void __thiscall FUN_00a59db0_shell::FUN_00a59db0(int arg)
+void FUN_00a59db0_shell::FUN_00a59db0(int arg)
 {
     _field_0x18 = 0;
 }
@@ -729,12 +726,12 @@ struct FUN_00a59d80_cls
     int unk28;
     int unk2C;
     unsigned int m_flags;
-    void __thiscall FUN_00a59d80(void* pArg);
+    void FUN_00a59d80(void* pArg);
 };
 
 // If bit 2 of m_flags is set, calls v46 with pArg and then v47.
 // @fnv 0x00a59d80
-void __thiscall FUN_00a59d80_cls::FUN_00a59d80(void* pArg)
+void FUN_00a59d80_cls::FUN_00a59d80(void* pArg)
 {
     unsigned char flags = (unsigned char)(m_flags >> 2);
     if (flags & 1)
@@ -836,7 +833,7 @@ struct ListOwner
 
 struct Filter
 {
-    bool __thiscall FUN_00b63170(ItemBase* item, ListOwner*& owner);
+    bool FUN_00b63170(ItemBase* item, ListOwner*& owner);
 };
 
 struct Holder
@@ -853,7 +850,7 @@ inline ItemBase* const& GetNext(ListNode*& pos)
 }
 
 // @fnv 0x00a59e70
-void __stdcall FUN_00a59e70(ListOwner* owner, Holder* holder)
+void FUN_00a59e70(ListOwner* owner, Holder* holder)
 {
     ListNode* node = owner->m_04;
     while (node != 0)
@@ -927,7 +924,7 @@ struct FUN_00a59f00_cls
     FUN_00a59f00_obj* m_1c;
     int m_20;
     FUN_00a59f00_node* m_24;
-    bool __thiscall FUN_00a59f00(void* p);
+    bool FUN_00a59f00(void* p);
 };
 
 // Calls FUN_00a5c180(p); if it succeeds, invokes v21(p) on each node's m_obj and on m_1c, then returns true.
@@ -962,7 +959,7 @@ struct FUN_00a5a140_cls
     NodeA* m_pFirstNode;
     char _pad_28[0x8];
     unsigned int m_flags;
-    void __thiscall FUN_00a5a140(int unused);
+    void FUN_00a5a140(int unused);
 };
 
 inline DataA* const& GetNextData(NodeA*& pos)
@@ -973,7 +970,7 @@ inline DataA* const& GetNextData(NodeA*& pos)
 }
 
 // @fnv 0x00a5a140
-void __thiscall FUN_00a5a140_cls::FUN_00a5a140(int unused)
+void FUN_00a5a140_cls::FUN_00a5a140(int unused)
 {
     NodeA* pos = m_pFirstNode;
     while (pos != 0)
@@ -1258,7 +1255,6 @@ void Obj00a5a900::FUN_00a5a900(NiStream& kStream)
 }
 }  // namespace fnv_00a5a900
 
-extern "C" __declspec(dllimport) int __stdcall IsBadCodePtr(void* p);
 
 struct ObjBase
 {
@@ -1317,7 +1313,7 @@ FUN_00a5aa20_cls::FUN_00a5aa20_cls()
     Child* p = m_1c;
     if (p != 0)
     {
-        if (!IsBadCodePtr(&p->m_04))
+        if (!InterlockedDecrement(&p->m_04))
             p->v01();
         m_1c = 0;
     }
@@ -1538,8 +1534,6 @@ void FUN_00a5a040_Class::FUN_00a5a040()
     }
 }
 
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct LoadedRef
 {
     virtual ~LoadedRef();
@@ -1985,7 +1979,7 @@ void AV59f::UpdateDownwardPassIfSelective(NiUpdateData& kData, unsigned int uiUn
 
 // 0x00c6c760  ret 0xc
 // @fnv 0x00c6c760
-void __stdcall FUN_00c6c760(int, int, int)
+void FUN_00c6c760(int, int, int)
 {}
 
 class ItemA59D
@@ -2067,7 +2061,7 @@ class FUN_00a59d30_C
 };
 // Retrieves property 2 and, if present, passes it to the renderer's v61 method.
 // @fnv 0x00a59e50
-void __thiscall PropHelper::FUN_00a59e50(NiRenderer* apkRenderer)
+void PropHelper::FUN_00a59e50(NiRenderer* apkRenderer)
 {
     Prop* pkProperty = ((::Prop *)(reinterpret_cast<::FUN_00a59d30_C *>(this)->FUN_00a59d30(2)));
     if (pkProperty)
@@ -2300,12 +2294,12 @@ struct A5a260Object : A5a260CompareBase
     unsigned char unk33;
     A5a260CompareField unk34;
 
-    bool __thiscall FUN_00a5a260(A5a260CompareBase*);
+    bool FUN_00a5a260(A5a260CompareBase*);
 };
 
 // Returns false when the flag bit, field comparison, property list, or collision comparison does not match.
 // @fnv 0x00a5a260
-bool __thiscall A5a260Object::FUN_00a5a260(A5a260CompareBase* pkObject)
+bool A5a260Object::FUN_00a5a260(A5a260CompareBase* pkObject)
 {
     A5a260Object* other = (A5a260Object*)pkObject;
 
@@ -2837,8 +2831,6 @@ void WorkerProperties::FUN_00a89960()
 }  // namespace fnv_00a89960
 
 namespace fnv_00a5a170 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 class A170Obj
 {

@@ -33,7 +33,6 @@ template <class T> class NiPointer
 
 template <class T> class NiTStringMap;
 
-#pragma pack(push, 4)
 
 // Gamebryo asset stream base. The canonical tree does not carry the engine
 // nistream layout yet, so the base is declared here to keep this translation
@@ -63,7 +62,6 @@ class BSStream : public NiStream
     NiPointer<BSNodeReferences> m_spNodeReferences;  // +0x5c8
 };
 
-#pragma pack(pop)
 
 // @fnv 0x0043cfd0
 BSStream::BSStream() : m_spNodeReferences(0)

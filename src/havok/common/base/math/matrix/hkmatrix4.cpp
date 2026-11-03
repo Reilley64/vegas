@@ -441,10 +441,10 @@ struct Matrix4Q
         *(__m128*)&row3 = *(const __m128*)&value.row3;
     }
 
-    __declspec(noinline) void __fastcall SwapFields(hkMatrix4* context);
+    __declspec(noinline) void SwapFields(hkMatrix4* context);
 };
 
-void __fastcall Matrix4Q::SwapFields(hkMatrix4* context)
+void Matrix4Q::SwapFields(hkMatrix4* context)
 {
     __m128* vectors = reinterpret_cast<__m128*>(this);
     __m128 low01 = _mm_unpacklo_ps(vectors[0], vectors[1]);

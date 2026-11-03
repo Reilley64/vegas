@@ -135,8 +135,8 @@ class Vec4
         __m128 scale = inverseLength3().broadcast();
         data = _mm_mul_ps(scale, data);
     }
-    void __thiscall FUN_00c7f640(const Buf40*, const void*);
-    void __thiscall FUN_00c7f700(const RotationColumns& rotation, const Vec4& value);
+    void FUN_00c7f640(const Buf40*, const void*);
+    void FUN_00c7f700(const RotationColumns& rotation, const Vec4& value);
 };
 struct Buf40
 {
@@ -174,12 +174,12 @@ struct SubReg : DisplayBase
     Vec4 start, axis;
     int count;
     float angle, height;
-    void __thiscall FUN_00de5370(float, float, int, Vec4*, void*);
+    void FUN_00de5370(float, float, int, Vec4*, void*);
 };
 struct Sub280 : DisplayBase
 {
     Vec4 normal, center, perpendicular, extent;
-    void __thiscall SetFromVectors(Vec4*, Vec4*, void*, Vec4*);
+    void SetFromVectors(Vec4*, Vec4*, void*, Vec4*);
 };
 struct MatrixColumns
 {
@@ -313,7 +313,7 @@ struct DrawerBase
     RotationColumns m60, m90;
     SubC0 mC0;
 
-    void __thiscall FUN_00de47e0(P1*, Buf40*, Buf40*);
+    void FUN_00de47e0(P1*, Buf40*, Buf40*);
     __forceinline float arrowSize() const
     {
         return f1c * f0c;
@@ -332,10 +332,10 @@ struct This : DrawerBase
     SubReg mD0, m160, m1F0;
     Sub280 m280;
 
-    void __thiscall FUN_00de59f0(P1*, P2Vtbl*, int, int);
+    void FUN_00de59f0(P1*, P2Vtbl*, int, int);
 };
 // @fnv 0x00de59f0
-void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
+void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
 {
     Mat* mat = p1->mat;
     reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((int)(p2));

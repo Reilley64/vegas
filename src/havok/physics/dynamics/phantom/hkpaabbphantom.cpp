@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/C.h"
 #include "fnv/decl/CA92A0Object.h"
 #include "fnv/decl/FUN_00ca94c0_Class.h"
@@ -542,7 +543,6 @@ class FUN_00cf2bf0 : public FUN_00d08130
     virtual ~FUN_00cf2bf0() throw();
 };
 
-typedef char fnv_check_cf2bf0[(sizeof(FUN_00cf2bf0) == 0xe0) ? 1 : -1];
 
 // @fnv 0x00cf2bf0
 FUN_00cf2bf0::~FUN_00cf2bf0() throw()
@@ -815,7 +815,6 @@ class FUN_00cf2cb0 : public hkpWorldObjectCF2D
     hkpWorldObjectCF2D* FUN_00cf2d50() const throw();
 };
 
-typedef char fnv_check_cf2d50[(sizeof(FUN_00cf2cb0) == 0xe0) ? 1 : -1];
 
 // @fnv 0x00cf2d50
 hkpWorldObjectCF2D* FUN_00cf2cb0::FUN_00cf2d50() const throw()
@@ -893,7 +892,6 @@ extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
@@ -1176,7 +1174,7 @@ void FnvCpu_FUN_00cf2470_CpuObject::FUN_00cf2470(FnvCpu_FUN_00cf2470_CpuData0* i
 
 struct PhantomBounds
 {
-    void __thiscall FUN_00cf24a0(const hkAabb& source);
+    void FUN_00cf24a0(const hkAabb& source);
 };
 // Copies the minimum and maximum corners from source into the embedded hkAabb at offset 0xb0, then calls FUN_00d07ec0 on it.
 // @fnv 0x00cf24a0

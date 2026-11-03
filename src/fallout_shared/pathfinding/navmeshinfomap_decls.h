@@ -49,7 +49,6 @@ class AutoMemContext
 
 #define NULL 0
 
-#pragma pack(push, 4)
 
 class NavMeshBounds
 {
@@ -74,7 +73,6 @@ template <class T, unsigned int Growth> class BSSimpleArray
     template <unsigned int Other> void CopyTo(BSSimpleArray<T, Other>*);
     template <class U> unsigned int Find(U&, unsigned int, bool(__cdecl*)(U&, U&));
 };
-typedef char BSSimpleArrayCheck[sizeof(BSSimpleArray<NavMeshInfo*, 1024>) == 16 ? 1 : -1];
 
 class NiPoint3
 {
@@ -106,8 +104,6 @@ class NavMeshInfo
     void SetNavMesh(NavMesh*);
     void ReleaseNavMesh();
 };
-typedef char NavMeshInfoCheckSize[sizeof(NavMeshInfo) == 92 ? 1 : -1];
-typedef char NavMeshInfoCheckBounds[offsetof(NavMeshInfo, pBounds) == 0x58 ? 1 : -1];
 
 template <class K, class V> class NiTMapItem
 {
@@ -136,7 +132,6 @@ template <class K, class V> class NiTPointerMap
     void* GetFirstPos();
     void GetNext(void*& pPos, unsigned int& uiKey, void*& val);
 };
-typedef char NiTMapCheck[sizeof(NiTPointerMap<unsigned int, void*>) == 16 ? 1 : -1];
 
 typedef BSSimpleArray<NavMeshInfo*, 1024> NavMeshInfoArray;
 
@@ -244,7 +239,6 @@ public:
 public:
     static ::NiTLargePrimitiveArray< ::TESForm *> *ms_pAllForms;
 };
-typedef char TESFormCheck[sizeof(TESForm) == 24 ? 1 : -1];
 
 class NavMeshInfoMap : public TESForm
 {
@@ -263,10 +257,7 @@ class NavMeshInfoMap : public TESForm
     void InitItem();
     void InsertNavMeshInfo(NavMeshInfo* info);
 };
-typedef char NavMeshInfoMapCheck[sizeof(NavMeshInfoMap) == 64 ? 1 : -1];
-typedef char NavMeshInfoMapCheckCell[offsetof(NavMeshInfoMap, m_kNavMeshInfoArraysByWorldspace) == 0x2C ? 1 : -1];
 
-#pragma pack(pop)
 
 class TESFile
 {

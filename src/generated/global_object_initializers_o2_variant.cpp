@@ -9731,7 +9731,7 @@ struct FUN_008699c0_shell
 struct FUN_00869b10_shell
 {
     void* m_vft;
-    void* __thiscall FUN_00869b10(void* a, void* b);
+    void* FUN_00869b10(void* a, void* b);
 };
 struct FUN_00869bf0_holder
 {

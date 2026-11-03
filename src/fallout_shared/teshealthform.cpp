@@ -34,7 +34,7 @@ extern int DAT_0101abd8;
 
 // Initialises a BaseFormComponent: runs the base constructor, installs the vtable from DAT_0101abd8, calls FUN_0047b540, and returns pThis.
 // @fnv 0x004871d0
-void* __fastcall FUN_004871d0(BaseFormComponent* pThis)
+void* FUN_004871d0(BaseFormComponent* pThis)
 {
     ::FUN_00402d30((int *)(pThis));
     *(int**)pThis = &DAT_0101abd8;
@@ -58,7 +58,7 @@ void FUN_00487200_shell::FUN_00487200()
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFile_Access*>(this)))->ClearData();
 }
 
-unsigned int __fastcall _FNV_GetFormType(void* pForm);
+unsigned int _FNV_GetFormType(void* pForm);
 
 struct TESHealthForm_Dummy
 {

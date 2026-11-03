@@ -32,7 +32,7 @@ struct NavMeshSearchMaxCost;
 struct NavMeshSearchMaxCost
 {
     void FUN_006ab480();
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 void NavMeshSearchMaxCost::FUN_006ab480()
@@ -50,11 +50,11 @@ void* NavMeshSearchMaxCost::Destroy(unsigned int flags)
 
 struct FUN_006abb90_shell
 {
-    int __thiscall GetField2048();
+    int GetField2048();
 };
 
 // @fnv 0x006abb90
-int __thiscall FUN_006abb90_shell::GetField2048()
+int FUN_006abb90_shell::GetField2048()
 {
     return *(int*)((char*)this + 0x2048);
 }
@@ -70,7 +70,7 @@ class NavMeshTriangleReference;
 template <class, class> class AStarNode;
 struct NavMeshSearch
 {
-    bool __thiscall HasReachedGoal(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>*);
+    bool HasReachedGoal(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>*);
 public:
     void SetSearchNodeTriangle(::AStarNode< ::NavMeshTriangleReference, ::NavMeshTriangleEdgeReference> *, ::NavMesh *, unsigned short);
 public:
@@ -80,10 +80,10 @@ struct Holder
 {
     char _pad[0x20A8];
     bool flag;
-    bool __thiscall FUN_006abb60(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode);
+    bool FUN_006abb60(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode);
 };
 // @fnv 0x006abb60
-bool __thiscall Holder::FUN_006abb60(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode)
+bool Holder::FUN_006abb60(const AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* apNode)
 {
     if (!flag)
         return false;
@@ -98,11 +98,11 @@ struct FUN_006abcb0_shell
 {
     char _pad[16];
     ScrapHeapBuffer* heap;
-    void* __thiscall FUN_006abcb0(unsigned int);
+    void* FUN_006abcb0(unsigned int);
 };
 // Allocates n blocks of 0x14 bytes from the heap and returns the pointer.
 // @fnv 0x006abcb0
-void* __thiscall FUN_006abcb0_shell::FUN_006abcb0(unsigned int auiCount)
+void* FUN_006abcb0_shell::FUN_006abcb0(unsigned int auiCount)
 {
     void* tmp;
     tmp = reinterpret_cast<::FUN_00aa54a0_s *>((heap))->FUN_00aa54a0(auiCount * 0x14, DAT_010a2720);
@@ -120,11 +120,11 @@ struct FUN_006abce0_shell
 {
     char _pad[0x10];
     ScrapHeapBuffer* heap;
-    void* __thiscall FUN_006abce0(void*, unsigned int);
+    void* FUN_006abce0(void*, unsigned int);
 };
 // Allocates count*0x14 bytes, copies GetFlags()*0x14 bytes from src into it, frees src, and returns the new buffer.
 // @fnv 0x006abce0
-void* __thiscall FUN_006abce0_shell::FUN_006abce0(void* pSource, unsigned int count)
+void* FUN_006abce0_shell::FUN_006abce0(void* pSource, unsigned int count)
 {
     void* dst = reinterpret_cast<::FUN_00aa54a0_s *>((heap))->FUN_00aa54a0(count * 0x14, ::DAT_010a2720);
     ::__memcpy(dst, pSource, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 0x14);
@@ -142,11 +142,11 @@ struct GlobalObject_00869f00
 struct FUN_006abdc0_shell
 {
     int* p;
-    void __thiscall FUN_006abdc0();
+    void FUN_006abdc0();
 };
 
 // @fnv 0x006abdc0
-void __thiscall FUN_006abdc0_shell::FUN_006abdc0()
+void FUN_006abdc0_shell::FUN_006abdc0()
 {
     p = &DAT_0106b8c8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
@@ -179,11 +179,11 @@ struct GlobalObject_00869f00
 
 struct FUN_006abc30_shell
 {
-    void __thiscall FUN_006abc30();
+    void FUN_006abc30();
 };
 
 // @fnv 0x006abc30
-void __thiscall FUN_006abc30_shell::FUN_006abc30()
+void FUN_006abc30_shell::FUN_006abc30()
 {
     *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_0106b8a0));
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);

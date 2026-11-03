@@ -4,6 +4,7 @@
 
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include <new>
 #include "fnv/decl/C87710HavokObject.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
@@ -18,7 +19,6 @@
 #include "fnv/symbols_010c9000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkOstream.h"
-extern "C" __declspec(dllimport) void __stdcall free(void*);
 void __cdecl FUN_00c85750();
 struct Old
 {
@@ -97,11 +97,11 @@ struct Own_00cc0470
     int u00;
     int u04;
     Sub_00cc0470* m_sub;
-    void __thiscall FUN_00cc0470(void* a);
+    void FUN_00cc0470(void* a);
 };
 int* __cdecl FUN_00cc04c0();
 int __cdecl FUN_00cc0770();
-void __stdcall FUN_00e3b490(bool* p);
+void FUN_00e3b490(bool* p);
 struct FUN_00cc04a0_Slots
 {
     virtual void slot00();

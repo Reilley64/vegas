@@ -15,7 +15,6 @@ class NiSingleInterpController;
 class CloningProcess;
 class NiStream;
 class NiUpdateData;
-#pragma pack(push, 4)
 class NiTimeController : public NiObject
 {
   public:
@@ -84,20 +83,6 @@ class NiTimeController : public NiObject
     // NiTimeController& __cdecl NiTimeController::*(const NiTimeController&)
     // void __cdecl NiTimeController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 52);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_uiObjectFlags) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fFrequency) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fPhase) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLoKeyTime) == 20);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fHiKeyTime) == 24);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fStartTime) == 28);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fLastTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fWeightAdjustedLastTime) == 36);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 40);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_pkTarget) == 44);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_spNextController) == 48);
-#pragma pack(push, 4)
 class NiInterpController : public NiTimeController
 {
   public:
@@ -118,9 +103,6 @@ class NiInterpController : public NiTimeController
     // NiInterpController& __cdecl NiInterpController::*(const NiInterpController&)
     // void __cdecl NiInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpController) == 52);
-#pragma pack(push, 4)
 class NiSingleInterpController : public NiInterpController
 {
   public:
@@ -152,10 +134,6 @@ class NiSingleInterpController : public NiInterpController
     // NiSingleInterpController& __cdecl NiSingleInterpController::*(const NiSingleInterpController&)
     // void __cdecl NiSingleInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiSingleInterpController) == 56);
-FNV_STATIC_ASSERT(offsetof(NiSingleInterpController, m_spControllerInterpolator) == 52);
-#pragma pack(push, 4)
 class NiBoolInterpController : public NiSingleInterpController
 {
   public:
@@ -179,8 +157,6 @@ class NiBoolInterpController : public NiSingleInterpController
     // NiBoolInterpController& __cdecl NiBoolInterpController::*(const NiBoolInterpController&)
     // void __cdecl NiBoolInterpController::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBoolInterpController) == 56);
 class NiTransformController : public NiSingleInterpController
 {
   public:

@@ -1,4 +1,5 @@
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_004381b0_shell.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
@@ -152,7 +153,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400()
 }
 
 // @fnv 0x00bc5c20
-char* __fastcall FUN_00bc5c20(char* self)
+char* FUN_00bc5c20(char* self)
 {
     if (self[0x1c])
         reinterpret_cast<::TexXform *>((self))->UpdateMatrix();
@@ -160,7 +161,7 @@ char* __fastcall FUN_00bc5c20(char* self)
 }
 
 // @fnv 0x00e826c0
-void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i)
+void* FUN_00e826c0(char* self, int unused, unsigned int i)
 {
     return (*(void***)(self + 0x10))[i];
 }
@@ -177,7 +178,7 @@ struct FUN_00e82ac0_e
 unsigned int __cdecl GetAttributeTypeForMapping(void*, unsigned int*, unsigned int*);
 // Looks up the entry's key, stores a byte from DAT_011f5fb4 indexed by the result into flags, and on success stores the pointer and y into p10 and v20.
 // @fnv 0x00e82ac0
-unsigned int __stdcall UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
+unsigned int UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
 {
     void* x;
     unsigned int uiKey = pEntry->key;
@@ -199,7 +200,7 @@ unsigned int __stdcall UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
 
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 // @fnv 0x00e83630
-void* __fastcall FUN_00e83630(void* self, int unused, unsigned int flags)
+void* FUN_00e83630(void* self, int unused, unsigned int flags)
 {
     reinterpret_cast<class ::FUN_00e81c00 *>((self))->FUN_00e81c00::~FUN_00e81c00();
     if (flags & 1)
@@ -240,10 +241,10 @@ struct FUN_00e84b60_prog
     virtual void Slot28();
     virtual bool SetConstant(void* entry, const void* data, unsigned int n);
 };
-const void* __stdcall GetConstantData(void*);
+const void* GetConstantData(void*);
 // Looks up data for entry via GetConstantData and, if found, calls prog->SetConstant with it, returning 0 on success, 1 if no data, or 0x50 on failure.
 // @fnv 0x00e84b60
-unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
+unsigned int FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
 {
     const void* pvData = GetConstantData(entry);
     if (!pvData)
@@ -302,7 +303,7 @@ struct RArr
     void FUN_00e86f40(unsigned int, void*);
 };
 // @fnv 0x00e87010
-unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char* name)
+unsigned int LookupAndReleaseEntry(RMap* self, int unused, const char* name)
 {
     unsigned int idx = self->LookupSequenceByKey(name);
     if (idx != 0xFFFFFFFF)
@@ -691,7 +692,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
         e->m_pConstantData = pvDataSource;
     }
     e->m_uiValue1 = 0x20000000;
-    typedef unsigned int(__thiscall * Fn)(void*, NiShaderConstantMapEntry*);
+    typedef unsigned int(* Fn)(void*, NiShaderConstantMapEntry*);
     unsigned int* self = (unsigned int*)this;
     self[0x34 / 4] = ((Fn)(*(void***)this)[0x88 / 4])(this, pkEntry);
     if (self[0x34 / 4] == 0)
@@ -699,7 +700,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
         self[0x34 / 4] = ((Fn)(*(void***)this)[0x84 / 4])(this, pkEntry);
         return self[0x34 / 4];
     }
-    typedef void(__thiscall * Del)(void*, unsigned int);
+    typedef void(* Del)(void*, unsigned int);
     ((Del)(*(void***)pkEntry)[0])(pkEntry, 1);
     return self[0x34 / 4];
 }
@@ -1154,12 +1155,12 @@ class FUN_00e82640_Obj
     unsigned short unk24;
     unsigned short unk26;
 
-    FUN_00e82640_Entry* __thiscall FindEntry(unsigned int name);
+    FUN_00e82640_Entry* FindEntry(unsigned int name);
 };
 
 // Searches two entry arrays by name using FUN_00aa1360 and returns the matching entry, or 0 if not found.
 // @fnv 0x00e82640
-FUN_00e82640_Entry* __thiscall FUN_00e82640_Obj::FindEntry(unsigned int name)
+FUN_00e82640_Entry* FUN_00e82640_Obj::FindEntry(unsigned int name)
 {
     unsigned int count;
     unsigned int index;
@@ -1277,7 +1278,7 @@ struct ShaderConstEntry
 
 // Looks up the shader constant type for the entry key, sets flags, dataSize, type, and matrix descriptor fields, returning 0 on success or 0x40 on failure.
 // @fnv 0x00e829b0
-unsigned int __stdcall InitShaderConstantEntry(ShaderConstEntry* apEntry)
+unsigned int InitShaderConstantEntry(ShaderConstEntry* apEntry)
 {
     unsigned int count = 4;
     unsigned int type;
@@ -1345,7 +1346,7 @@ struct Vector
 extern Matrix DAT_0126f860;
 // Computes a matrix or vector constant based on type and mode, applies inverse or transpose in some matrix cases, and passes it to SetConstant.
 // @fnv 0x00e82b40
-unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
+unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
                                     bool inverse, bool transpose)
 {
     switch (type)
@@ -1418,8 +1419,6 @@ unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsign
     return 1;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
@@ -1626,7 +1625,7 @@ struct ExtraDataStandIn
 
 // Converts extraData fields according to the mapped type, returning a static buffer, pData, or null.
 // @fnv 0x00e83840
-const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, ExtraDataStandIn* extraData)
+const void* GetShaderConstantValue(NiShaderConstantMapEntry* entry, ExtraDataStandIn* extraData)
 {
     int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[entry->flags & 0xff];
 
@@ -1739,7 +1738,7 @@ struct ConstantEntryView
 
 // Returns entry data directly for some counts, otherwise converts supported values into static buffers.
 // @fnv 0x00e83a90
-const void* __stdcall GetConstantData(void* apEntry)
+const void* GetConstantData(void* apEntry)
 {
     ConstantEntryView* entry = static_cast<ConstantEntryView*>(apEntry);
     unsigned int count = entry->byteSize / entry->elementSize;
@@ -2024,7 +2023,7 @@ namespace fnv_00e84d00 {
 
 // For supported uiType values, copies or passes pkEntry->data to SetConstant, returning 0x50 if that call fails.
 // @fnv 0x00e84d00
-unsigned int __stdcall FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
+unsigned int FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
                                     unsigned int uiPass)
 {
     unsigned int uiResult = 0;
@@ -2955,7 +2954,7 @@ static unsigned int Dbl(unsigned int x)
 
 // Gets a format and dimensions, calls FillLightConstantData with the source and derived pitch, then passes the buffer to obj->s1d.
 // @fnv 0x00e85c40
-int __stdcall FUN_00e85c40(S00e85c40_Obj* obj, S00e85c40_Tex* tex, int p3, int p4, int p5, int p6, int p7,
+int FUN_00e85c40(S00e85c40_Obj* obj, S00e85c40_Tex* tex, int p3, int p4, int p5, int p6, int p7,
                            unsigned int auiLightType, int p9, int p10, int p11)
 {
     int result = 0;
@@ -2993,7 +2992,7 @@ struct FUN_00e86a50_object
 
 // Copies the float data from object into the matching slot of g_0126f7c4 based on the type code and returns that code.
 // @fnv 0x00e86a50
-unsigned int __stdcall FUN_00e86a50(unsigned int index, FUN_00e86a50_object* object, unsigned int unused)
+unsigned int FUN_00e86a50(unsigned int index, FUN_00e86a50_object* object, unsigned int unused)
 {
     float* source = object->data;
     unsigned int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[object->type & 0xff];
@@ -3290,7 +3289,7 @@ void ShaderEntryArray::FUN_00e86f40(unsigned int uiIndex, const NiShaderConstant
 
 // Moves enabled shader constant map entries to the front of the array, leaving disabled entries at the end.
 // @fnv 0x00e870c0
-void __stdcall CompactEnabledEntries(ShaderEntryArray* pkArray)
+void CompactEnabledEntries(ShaderEntryArray* pkArray)
 {
     NiShaderConstantMapEntryPtr spEntry;
     unsigned int uiSize = pkArray->size;

@@ -53,8 +53,8 @@ struct BSAudio
 BSAudio* __cdecl FUN_00c85750();
 struct FUN_00ddacd0_shell
 {
-    void __thiscall FUN_00ddac00(void* output);
-    void __thiscall FUN_00ddacd0(ArrayPair* arrays);
+    void FUN_00ddac00(void* output);
+    void FUN_00ddacd0(ArrayPair* arrays);
 };
 struct AudioAllocator
 {

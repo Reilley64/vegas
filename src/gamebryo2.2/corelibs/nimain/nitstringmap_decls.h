@@ -48,7 +48,7 @@ template <class T_Map, class T_Value> class NiTStringTemplateMap : public T_Map
 };
 
 class ShaderBufferRecord;
-bool __stdcall FUN_00b7fce0(const char* left, const char* right);
+bool FUN_00b7fce0(const char* left, const char* right);
 template <> class NiTPointerMap<const char*, ShaderBufferRecord*>
 {
   public:

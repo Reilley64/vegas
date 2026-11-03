@@ -89,7 +89,7 @@ struct FUN_00b0cff0_class
     float x;
     float y;
     float z;
-    NiPoint3* __thiscall ScaleSwizzled(NiPoint3* output, float factor);
+    NiPoint3* ScaleSwizzled(NiPoint3* output, float factor);
 };
 // Multiplies each component by factor and writes them to output with x/y/z rotated (x<-y, y<-z, z<-x), returning output.
 // @fnv 0x00b0cff0

@@ -63,7 +63,7 @@ struct Cls;
 struct BoolGuard
 {
     bool flag;
-    int __thiscall Get(Cls* owner, int value);
+    int Get(Cls* owner, int value);
 };
 
 struct Cls

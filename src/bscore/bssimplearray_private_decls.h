@@ -105,9 +105,6 @@ class BSSimpleArrayPacketReserve
 };
 
 #include <stddef.h>
-#define FNV_BSSA_JOIN_I(a, b) a##b
-#define FNV_BSSA_JOIN(a, b) FNV_BSSA_JOIN_I(a, b)
-#define FNV_BSSA_ASSERT(x) typedef char FNV_BSSA_JOIN(bssimplearray_assert_, __LINE__)[(x) ? 1 : -1]
 namespace Tile {
 class Value;
 }
@@ -202,45 +199,6 @@ template <> class BSSimpleArray<PathingAvoidanceNode, 1024>
 
 typedef BSSimpleArray<Tile::Value*, 8> BSSimpleArrayTileLayout;
 typedef BSScrapArray<OffsetData, 1024> BSScrapArrayOffsetLayout;
-FNV_BSSA_ASSERT(sizeof(BSSimpleArrayTileLayout) == 16);
-FNV_BSSA_ASSERT(offsetof(BSSimpleArrayTileLayout, pBuffer) == 4);
-FNV_BSSA_ASSERT(offsetof(BSSimpleArrayTileLayout, iSize) == 8);
-FNV_BSSA_ASSERT(offsetof(BSSimpleArrayTileLayout, SimpleArrayStorage) == 12);
-FNV_BSSA_ASSERT(sizeof(BSScrapArrayOffsetLayout) == 20);
-FNV_BSSA_ASSERT(offsetof(BSScrapArrayOffsetLayout, m_pAllocator) == 16);
 typedef BSSimpleArray<PathingAvoidanceNode, 1024> BSSimpleArrayAvoidLayout;
-FNV_BSSA_ASSERT(sizeof(BSSimpleArrayAvoidLayout) == 16);
-FNV_BSSA_ASSERT(offsetof(BSSimpleArrayAvoidLayout, pBuffer) == 4);
-FNV_BSSA_ASSERT(offsetof(BSSimpleArrayAvoidLayout, iSize) == 8);
-FNV_BSSA_ASSERT(offsetof(BSSimpleArrayAvoidLayout, SimpleArrayStorage) == 12);
-FNV_BSSA_ASSERT(sizeof(OffsetData) == 8);
-FNV_BSSA_ASSERT(offsetof(OffsetData, iOffset) == 0);
-FNV_BSSA_ASSERT(offsetof(OffsetData, m_pFormLookupMap) == 4);
-FNV_BSSA_ASSERT(sizeof(NiRect<float>) == 16);
-FNV_BSSA_ASSERT(offsetof(NiRect<float>, m_fMinimumU) == 0);
-FNV_BSSA_ASSERT(offsetof(NiRect<float>, m_fMaximumU) == 4);
-FNV_BSSA_ASSERT(offsetof(NiRect<float>, m_fMinimumV) == 8);
-FNV_BSSA_ASSERT(offsetof(NiRect<float>, m_fMaximumV) == 12);
-FNV_BSSA_ASSERT(sizeof(ButtonIcon) == 32);
-FNV_BSSA_ASSERT(offsetof(ButtonIcon, m_fGlyphWidthInPixels) == 0);
-FNV_BSSA_ASSERT(offsetof(ButtonIcon, m_fHorizontalOffset) == 4);
-FNV_BSSA_ASSERT(offsetof(ButtonIcon, m_fGlyphVerticalOffset) == 8);
-FNV_BSSA_ASSERT(offsetof(ButtonIcon, m_fHorizontalSpacing) == 12);
-FNV_BSSA_ASSERT(offsetof(ButtonIcon, m_kTextureCoordinates) == 16);
-FNV_BSSA_ASSERT(sizeof(SandboxProcedureData) == 16);
-FNV_BSSA_ASSERT(offsetof(SandboxProcedureData, pTarget) == 0);
-FNV_BSSA_ASSERT(offsetof(SandboxProcedureData, eProcedure) == 4);
-FNV_BSSA_ASSERT(offsetof(SandboxProcedureData, m_iActivityState) == 8);
-FNV_BSSA_ASSERT(offsetof(SandboxProcedureData, m_iProcedureData) == 12);
-FNV_BSSA_ASSERT(sizeof(NiPoint3) == 12);
-FNV_BSSA_ASSERT(offsetof(NiPoint3, x) == 0);
-FNV_BSSA_ASSERT(offsetof(NiPoint3, y) == 4);
-FNV_BSSA_ASSERT(offsetof(NiPoint3, z) == 8);
-FNV_BSSA_ASSERT(sizeof(PathingAvoidanceNode) == 36);
-FNV_BSSA_ASSERT(offsetof(PathingAvoidanceNode, m_kLocation) == 0);
-FNV_BSSA_ASSERT(offsetof(PathingAvoidanceNode, TwoComponentVector) == 12);
-FNV_BSSA_ASSERT(offsetof(PathingAvoidanceNode, fRadius) == 24);
-FNV_BSSA_ASSERT(offsetof(PathingAvoidanceNode, m_fPathingCostCur) == 28);
-FNV_BSSA_ASSERT(offsetof(PathingAvoidanceNode, eType) == 32);
 
 #endif

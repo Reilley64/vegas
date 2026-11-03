@@ -6,12 +6,12 @@
 #include "fnv/decl/fnv_006fa0d0__FUN_006fa0d0_Class.h"
 struct FUN_00462d80_shell
 {
-    unsigned int __thiscall ReadBytes(void* pvBuffer, unsigned int uiBytes);
+    unsigned int ReadBytes(void* pvBuffer, unsigned int uiBytes);
 };
 
 // Reads uiBytes into pvBuffer via InvokeAndAccumulate and returns the number of bytes read.
 // @fnv 0x00462d80
-unsigned int __thiscall FUN_00462d80_shell::ReadBytes(void* pvBuffer, unsigned int uiBytes)
+unsigned int FUN_00462d80_shell::ReadBytes(void* pvBuffer, unsigned int uiBytes)
 {
     unsigned int uiSize = 1;
     unsigned int uiBytesRead = ((unsigned int)(reinterpret_cast<::FUN_00462dc0_cls *>(this)->InvokeAndAccumulate((int)(pvBuffer), uiBytes, (int)(&uiSize), 1)));

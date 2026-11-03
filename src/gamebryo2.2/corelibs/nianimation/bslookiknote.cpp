@@ -38,12 +38,12 @@ int* __cdecl FUN_00a43f80()
 
 struct BSLookIKNote
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // Calls FUN_00a44830, then if flags has bit 0 set frees this with _delete, and returns this.
 // @fnv 0x00a43f90
-void* __thiscall BSLookIKNote::Destroy(unsigned int flags)
+void* BSLookIKNote::Destroy(unsigned int flags)
 {
     reinterpret_cast<::FUN_00a44830_cls *>(this)->FUN_00a44830_cls::~FUN_00a44830_cls();
     if (flags & 1)

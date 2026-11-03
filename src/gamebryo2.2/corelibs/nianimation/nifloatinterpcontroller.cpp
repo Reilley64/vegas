@@ -30,7 +30,7 @@ template <class T, class M> class NiTPrimitiveArray : public StrArr
 typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > NiTPrimitiveArray_char;
 
 // @fnv 0x00a576c0
-void __stdcall FUN_00a576c0(NiTPrimitiveArray_char* pkStrings)
+void FUN_00a576c0(NiTPrimitiveArray_char* pkStrings)
 {
     reinterpret_cast<::Holder00a390a0 *>((pkStrings))->FUN_00a390a0({});
     char* pStr = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4220)));
@@ -62,7 +62,7 @@ struct NiFloatInterpController
 FUN_00a3c390* NiFloatInterpController::CreateFadeNodeFromValue(unsigned short usIndex)
 {
     float fValue;
-    ((void(__thiscall*)(NiFloatInterpController*, float*))(*(void***)this)[59])(this, &fValue);
+    ((void(*)(NiFloatInterpController*, float*))(*(void***)this)[59])(this, &fValue);
     return new FUN_00a3c390(fValue);
 }
 

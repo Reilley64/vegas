@@ -49,7 +49,7 @@ struct FUN_00eb60e0_t
 
 // Compares the six floats of p and q and returns 1 if all are equal, otherwise 0.
 // @fnv 0x00eb60e0
-int __fastcall FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
+int FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
 {
     if (!(p->a[0] != q->a[0] || p->a[1] != q->a[1] || p->a[2] != q->a[2] || p->a[3] != q->a[3] || p->a[4] != q->a[4] ||
           p->a[5] != q->a[5]))
@@ -337,14 +337,14 @@ FUN_00eb5e30::FUN_00eb5e30(S_00eb5e30_Obj* pObj, const S_00eb5e30_V3* pOrigin, c
 
 struct FUN_00aa4060_Class
 {
-    void* __thiscall FUN_00aa4060(void* object);
+    void* FUN_00aa4060(void* object);
 };
 
 
 struct FUN_00eb6b50_Class
 {
-    void __thiscall FUN_00eb8ab0();
-    int __thiscall FUN_00eb6b50(unsigned char flags);
+    void FUN_00eb8ab0();
+    int FUN_00eb6b50(unsigned char flags);
 };
 
 class EB8AB0Object
@@ -394,7 +394,7 @@ class FUN_00eb8ab0
 };
 // Calls FUN_00eb8ab0, and if bit 0 of flags is set passes this to DAT_011f6238.FUN_00aa4060; returns this as int.
 // @fnv 0x00eb6b50
-int __thiscall FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
+int FUN_00eb6b50_Class::FUN_00eb6b50(unsigned char flags)
 {
     reinterpret_cast<::FUN_00eb8ab0 *>((this))->FUN_00eb8ab0::~FUN_00eb8ab0();
     if ((flags & 1) != 0)

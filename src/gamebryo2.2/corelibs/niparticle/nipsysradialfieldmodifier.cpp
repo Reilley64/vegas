@@ -104,7 +104,7 @@ FUN_00c31ff0::FUN_00c31ff0() : _m18(0), _m1c(0.0f), _m20(0.0f), _m24(0), _m28(0.
 
 
 // @fnv 0x00c285a0
-unsigned char __stdcall FUN_00c285a0(void* p)
+unsigned char FUN_00c285a0(void* p)
 {
     return ((char)(reinterpret_cast<::C32060EmitterModifier *>((p))->FUN_00c32060({}))) != 0;
 }

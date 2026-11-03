@@ -443,7 +443,7 @@ struct CollisionDetectionWheelOutputE366
 };
 struct hkpVehicleRayCastWheelCollideE366
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE366& kCdInfo);
 };
 struct __declspec(align(16)) FUN_00e36900_V
@@ -1226,11 +1226,11 @@ struct E367_Vehicle : hkpVehicleInstanceE36C
 class E367_Class : public hkpVehicleLinearCastWheelCollide
 {
   public:
-    void __thiscall FUN_00e36700(const E367_Vehicle* vehicle, unsigned char wheelIndex, hkAabbE36C& output);
+    void FUN_00e36700(const E367_Vehicle* vehicle, unsigned char wheelIndex, hkAabbE36C& output);
 };
 
 // @fnv 0x00e36700
-void __thiscall E367_Class::FUN_00e36700(const E367_Vehicle* vehicle, unsigned char wheelIndex, hkAabbE36C& output)
+void E367_Class::FUN_00e36700(const E367_Vehicle* vehicle, unsigned char wheelIndex, hkAabbE36C& output)
 {
     int index = wheelIndex;
     const hkpVehicleDataWheelComponentParamsE36C* wheel = vehicle->m_data->m_kWheelParams.m_data + index;

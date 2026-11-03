@@ -309,7 +309,7 @@ float DF7230CastCollector::CastAgainstCollidable(const DF7230Collidable* collida
 //   call 0xdf7230                     ; same class, this (ECX) forwarded
 //   ret 8
 //
-// CastAgainstCollidable is a __thiscall member of the same class with one 4-byte
+// CastAgainstCollidable is a member of the same class with one 4-byte
 // stack argument; it ends with `ret 4`, so it pops the pushed pointer
 // itself and our own epilogue only has to drop the two incoming arguments.
 //

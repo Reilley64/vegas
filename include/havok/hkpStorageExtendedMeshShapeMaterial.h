@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpMeshMaterial.h"
-#pragma pack(push, 1)
 class hkpStorageExtendedMeshShapeMaterial : public hkpMeshMaterial
 {
   public:
@@ -13,7 +12,4 @@ class hkpStorageExtendedMeshShapeMaterial : public hkpMeshMaterial
     hkHalf m_fSlipAngle;   // +0x6
     hkUlong m_ulUserData;  // +0x8
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpStorageExtendedMeshShapeMaterial[(sizeof(hkpStorageExtendedMeshShapeMaterial) == 0xC) ? 1 : -1];
 #endif

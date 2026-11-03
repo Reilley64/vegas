@@ -201,7 +201,7 @@ struct NiInterpolator
 
 // Calls the interpolator's virtual method at slot 44 and returns its boolean result.
 // @fnv 0x00a55fd0
-bool __stdcall FUN_00a55fd0(NiInterpolator* pkInterpolator)
+bool FUN_00a55fd0(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->ControlsTransform();
 }

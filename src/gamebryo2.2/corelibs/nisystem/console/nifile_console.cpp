@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nisystem/console/nifile_console.cpp: NiFile, NiBinaryStream (9 functions)
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FileTransferCallbacks.h"
 #include "fnv/symbols_00aa1000.h"
@@ -142,7 +143,6 @@ FUN_00aa14d0_cls::FUN_00aa14d0_cls(const char* name, unsigned int mode, unsigned
         m_pBuffer = 0;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall GetFileAttributesA(const char* lpFileName);
 
 // @fnv 0x00aa1670
 bool __cdecl IsDirectory(const char* pcPath)

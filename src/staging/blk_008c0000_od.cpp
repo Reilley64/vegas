@@ -124,11 +124,11 @@
 
 struct FUN_008c1be0_Class
 {
-    unsigned int __thiscall FUN_008c1be0(unsigned int mask);
+    unsigned int FUN_008c1be0(unsigned int mask);
 };
 
 // @fnv 0x008c1be0
-unsigned int __thiscall FUN_008c1be0_Class::FUN_008c1be0(unsigned int mask)
+unsigned int FUN_008c1be0_Class::FUN_008c1be0(unsigned int mask)
 {
     return *reinterpret_cast<unsigned int*>(this) & mask;
 }
@@ -139,10 +139,10 @@ struct AX
 };
 struct PAVActor
 {
-    AX* __thiscall FUN_008c1c00();
+    AX* FUN_008c1c00();
 };
 // @fnv 0x008c1c00
-AX* __thiscall PAVActor::FUN_008c1c00()
+AX* PAVActor::FUN_008c1c00()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_01084fec;
     ((AX*)this)->FUN_006b3eb0(0, 0);
@@ -155,10 +155,10 @@ struct BooleanFloatQuery
 };
 struct S_008c1c60
 {
-    void __thiscall FUN_008c1c60();
+    void FUN_008c1c60();
 };
 // @fnv 0x008c1c60
-void __thiscall S_008c1c60::FUN_008c1c60()
+void S_008c1c60::FUN_008c1c60()
 {
     if (*reinterpret_cast<BooleanFloatQuery**>(this))
         reinterpret_cast<::S_0087cea0 *>((reinterpret_cast<BooleanFloatQuery**>(this)[0]))->ReleaseScriptRunLock();
@@ -203,11 +203,11 @@ void ActorPackageContext::Clear()
 
 struct FUN_008c6c80_Class
 {
-    void __thiscall FUN_008c6c80(int a);
+    void FUN_008c6c80(int a);
 };
 
 // @fnv 0x008c6c80
-void __thiscall FUN_008c6c80_Class::FUN_008c6c80(int a)
+void FUN_008c6c80_Class::FUN_008c6c80(int a)
 {
     reinterpret_cast<ActorPackageContext*>(this)->Clear();
 }
@@ -215,16 +215,16 @@ void __thiscall FUN_008c6c80_Class::FUN_008c6c80(int a)
 extern int DAT_01085864;
 struct FUN_008ca740_class
 {
-    FUN_008ca740_class* __thiscall FUN_008ca740();
+    FUN_008ca740_class* FUN_008ca740();
 };
 
 struct FUN_008ca7a0_cls
 {
     void* vtbl;
-    void* __thiscall InitializeVtbl();
+    void* InitializeVtbl();
 };
 // @fnv 0x008ca740
-FUN_008ca740_class* __thiscall FUN_008ca740_class::FUN_008ca740()
+FUN_008ca740_class* FUN_008ca740_class::FUN_008ca740()
 {
     reinterpret_cast<::FUN_008ca7a0_cls *>(this)->InitializeVtbl();
     *reinterpret_cast<void**>(this) = &DAT_01085864;
@@ -233,7 +233,7 @@ FUN_008ca740_class* __thiscall FUN_008ca740_class::FUN_008ca740()
 }
 
 // @fnv 0x008ca7a0
-void* __thiscall FUN_008ca7a0_cls::InitializeVtbl()
+void* FUN_008ca7a0_cls::InitializeVtbl()
 {
     vtbl = &DAT_01085884;
     return this;
@@ -374,11 +374,11 @@ void FUN_008d0240_Class::FUN_008d0240()
 
 struct FUN_008d1160_Class
 {
-    void __thiscall FUN_008d1160();
+    void FUN_008d1160();
 };
 
 // @fnv 0x008d1160
-void __thiscall FUN_008d1160_Class::FUN_008d1160()
+void FUN_008d1160_Class::FUN_008d1160()
 {
     reinterpret_cast<::fnv_00c705c0::FUN_00c705c0 *>((this))->fnv_00c705c0::FUN_00c705c0::~FUN_00c705c0();
 }
@@ -406,19 +406,19 @@ void __cdecl FUN_008d1d10(float afValue1, float afValue2)
 
 struct FUN_008d5020_class
 {
-    void __thiscall FUN_008d5020();
+    void FUN_008d5020();
 };
 
-void __thiscall FUN_008d5020_class::FUN_008d5020()
+void FUN_008d5020_class::FUN_008d5020()
 {}
 
 struct FUN_008d4360_class
 {
-    FUN_008d4360_class* __thiscall FUN_008d4360();
+    FUN_008d4360_class* FUN_008d4360();
 };
 
 // @fnv 0x008d4360
-FUN_008d4360_class* __thiscall FUN_008d4360_class::FUN_008d4360()
+FUN_008d4360_class* FUN_008d4360_class::FUN_008d4360()
 {
     ((FUN_008d5020_class*)this)->FUN_008d5020();
     return this;
@@ -428,8 +428,8 @@ extern "C" void __cdecl FreeAndClear();
 
 struct FUN_008d4380_class
 {
-    void __thiscall FreeAndClear();
-    void __thiscall FUN_008d4380();
+    void FreeAndClear();
+    void FUN_008d4380();
 };
 
 struct FUN_008d5590_shell
@@ -449,7 +449,7 @@ void FUN_008d50e0_shell::FUN_008d50e0()
 
 struct FUN_008d5660_class
 {
-    void __thiscall ForwardToInner(int a);
+    void ForwardToInner(int a);
 };
 struct ActorValueUtility
 {
@@ -460,11 +460,11 @@ struct FUN_008d5720
 {
     char bFlag;
     int nValue;
-    void __thiscall Init(int);
+    void Init(int);
 };
 
 // @fnv 0x008d5720
-void __thiscall FUN_008d5720::Init(int)
+void FUN_008d5720::Init(int)
 {
     bFlag = 0;
     nValue = ActorValueUtility::ConvertActorValue(2);
@@ -499,33 +499,33 @@ struct FUN_006d2c00_shell
 
 struct FUN_008df000_shell
 {
-    void __thiscall FUN_008df000();
+    void FUN_008df000();
 };
 
 // @fnv 0x008df000
-void __thiscall FUN_008df000_shell::FUN_008df000()
+void FUN_008df000_shell::FUN_008df000()
 {
     ((FUN_006d2c00_shell*)((char*)this + 0x34))->FUN_006d2c00();
 }
 
 struct FUN_008df020_class
 {
-    unsigned char __thiscall GetByteAt94();
+    unsigned char GetByteAt94();
 };
 
 // @fnv 0x008df020
-unsigned char __thiscall FUN_008df020_class::GetByteAt94()
+unsigned char FUN_008df020_class::GetByteAt94()
 {
     return *(unsigned char*)((char*)this + 0x94);
 }
 
 struct FUN_008df1c0_Class
 {
-    void __thiscall SetByteAtA1(int a);
+    void SetByteAtA1(int a);
 };
 
 // @fnv 0x008df1c0
-void __thiscall FUN_008df1c0_Class::SetByteAtA1(int aiValue)
+void FUN_008df1c0_Class::SetByteAtA1(int aiValue)
 {
     ((unsigned char*)this)[0xa1] = (unsigned char)aiValue;
 }
@@ -537,12 +537,12 @@ struct FUN_008ca800_Class
     int a;
     int b;
     int c;
-    FUN_008ca800_Class* __thiscall FUN_008ca800();
+    FUN_008ca800_Class* FUN_008ca800();
 };
 
 // Sets a to the address of DAT_0108583c and clears b and c, then returns this.
 // @fnv 0x008ca800
-FUN_008ca800_Class* __thiscall FUN_008ca800_Class::FUN_008ca800()
+FUN_008ca800_Class* FUN_008ca800_Class::FUN_008ca800()
 {
     a = (int)&DAT_0108583c;
     b = 0;
@@ -552,14 +552,14 @@ FUN_008ca800_Class* __thiscall FUN_008ca800_Class::FUN_008ca800()
 
 struct FUN_008c1c80_Class
 {
-    void* __thiscall FUN_008c1c80(unsigned int flags);
+    void* FUN_008c1c80(unsigned int flags);
 };
 struct FUN_008c4f90_Class
 {
-    void __thiscall FUN_008c4f90(int arg);
+    void FUN_008c4f90(int arg);
 };
 // @fnv 0x008c4f90
-void __thiscall FUN_008c4f90_Class::FUN_008c4f90(int arg)
+void FUN_008c4f90_Class::FUN_008c4f90(int arg)
 {
     FUN_008c5000_shell* result = (FUN_008c5000_shell*)((FUN_008c5000_shell*)this)->FUN_008c5000(arg);
     if (result)
@@ -596,11 +596,11 @@ struct FUN_008c5e20_Class
     int d;
     float e;
     int f;
-    void* __thiscall FUN_008c5e20();
+    void* FUN_008c5e20();
 };
 // Initialises the object's fields: zeroes a, b, c and f, sets e to -1.0f and d to -1, then returns this.
 // @fnv 0x008c5e20
-void* __thiscall FUN_008c5e20_Class::FUN_008c5e20()
+void* FUN_008c5e20_Class::FUN_008c5e20()
 {
     a = 0;
     b = 0;
@@ -613,7 +613,7 @@ void* __thiscall FUN_008c5e20_Class::FUN_008c5e20()
 
 struct FUN_008c7790_Class
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 struct GlobalObject_0078d3b0
@@ -634,7 +634,7 @@ struct FUN_008c77c0_Class : FUN_00aa63c0_base
 };
 // Calls FUN_008c77c0, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008c7790
-void* __thiscall FUN_008c7790_Class::DestroyIfFlagged(unsigned int flags)
+void* FUN_008c7790_Class::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_008c77c0_Class *>(this)->FUN_008c77c0_Class::~FUN_008c77c0_Class();
     if (flags & 1)
@@ -651,10 +651,10 @@ struct FUN_008c7990_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __fastcall FUN_008c7990();
+    void FUN_008c7990();
 };
 // @fnv 0x008c7990
-void __fastcall FUN_008c7990_Class::FUN_008c7990()
+void FUN_008c7990_Class::FUN_008c7990()
 {
     for (unsigned int i = 0; i < 2; ++i)
     {
@@ -668,19 +668,19 @@ void __fastcall FUN_008c7990_Class::FUN_008c7990()
 
 struct FUN_008ca7c0_shell
 {
-    void __thiscall Reinitialize(int b);
-    bool __thiscall FUN_008ca7c0(int a, int b);
+    void Reinitialize(int b);
+    bool FUN_008ca7c0(int a, int b);
 };
 struct FUN_008_Struct
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void* __thiscall FUN_008caa70(FUN_008_Struct* source);
+    void* FUN_008caa70(FUN_008_Struct* source);
 };
 // Copies the three pointer members from source into this object and returns this.
 // @fnv 0x008caa70
-void* __thiscall FUN_008_Struct::FUN_008caa70(FUN_008_Struct* source)
+void* FUN_008_Struct::FUN_008caa70(FUN_008_Struct* source)
 {
     m_iWordAt00 = source->m_iWordAt00;
     m_iWordAt04 = source->m_iWordAt04;
@@ -733,14 +733,14 @@ struct FUN_008d0270_Class
     int m_24;
     int m_28;
     int m_2c;
-    FUN_008d0270_Class* __thiscall FUN_008d0270();
+    FUN_008d0270_Class* FUN_008d0270();
 };
 // Sets the vtable pointer, calls FUN_008c5e20 on the object at offset 4, zeroes m_2c, and returns this.
 // @fnv 0x008d0270
-FUN_008d0270_Class* __thiscall FUN_008d0270_Class::FUN_008d0270()
+FUN_008d0270_Class* FUN_008d0270_Class::FUN_008d0270()
 {
     vtbl = &DAT_01085e2c;
-    ((void(__thiscall*)(void*))FUN_008c5e20)((char*)this + 4);
+    ((void(*)(void*))FUN_008c5e20)((char*)this + 4);
     m_2c = 0;
     return this;
 }
@@ -749,12 +749,12 @@ void __cdecl CallWithParam(int);
 
 struct FUN_008d1130_Class : FUN_008d1160_Class
 {
-    FUN_008d1130_Class* __thiscall FUN_008d1130(unsigned int flags);
+    FUN_008d1130_Class* FUN_008d1130(unsigned int flags);
 };
 
 // Calls the base constructor, then if bit 0 of flags is set calls CallWithParam on this, and returns this.
 // @fnv 0x008d1130
-FUN_008d1130_Class* __thiscall FUN_008d1130_Class::FUN_008d1130(unsigned int flags)
+FUN_008d1130_Class* FUN_008d1130_Class::FUN_008d1130(unsigned int flags)
 {
     FUN_008d1160();
     if (flags & 1)
@@ -765,11 +765,11 @@ FUN_008d1130_Class* __thiscall FUN_008d1130_Class::FUN_008d1130(unsigned int fla
 extern int DAT_010867fc;
 struct FUN_008d15d0_Class
 {
-    void* __thiscall FUN_008d15d0();
+    void* FUN_008d15d0();
 };
 // Calls FUN_00a6d220 on this, sets the vtable to DAT_010867fc, zeroes the float at +0x34 and the int at +0x38, and returns this.
 // @fnv 0x008d15d0
-void* __thiscall FUN_008d15d0_Class::FUN_008d15d0()
+void* FUN_008d15d0_Class::FUN_008d15d0()
 {
     new ((void *)(this)) class ::FUN_00a6d220();
     *(int*)this = (int)&DAT_010867fc;
@@ -823,16 +823,16 @@ struct BGSSaveFormBuffer
 };
 struct FUN_008d56c0_class
 {
-    void __thiscall SaveToBuffer(int a);
+    void SaveToBuffer(int a);
 };
 // @fnv 0x008d5660
-void __thiscall FUN_008d5660_class::ForwardToInner(int aiValue)
+void FUN_008d5660_class::ForwardToInner(int aiValue)
 {
     reinterpret_cast<::FUN_008d56c0_class *>((((FUN_008d5660_class*)*(void**)this)))->SaveToBuffer(aiValue);
 }
 // Writes this object's first byte and the 4 bytes at offset 4 into the BGSSaveFormBuffer passed in.
 // @fnv 0x008d56c0
-void __thiscall FUN_008d56c0_class::SaveToBuffer(int pBuffer)
+void FUN_008d56c0_class::SaveToBuffer(int pBuffer)
 {
     reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50(this, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50((char*)this + 4, 4, 0);
@@ -843,11 +843,11 @@ struct BGSLoadFormBuffer
 };
 struct FUN_008d56f0_Class
 {
-    void __thiscall FUN_008d56f0(BGSLoadFormBuffer* buffer);
+    void FUN_008d56f0(BGSLoadFormBuffer* buffer);
 };
 // Reads 1 byte into this and 4 bytes at offset 4 from the load buffer.
 // @fnv 0x008d56f0
-void __thiscall FUN_008d56f0_Class::FUN_008d56f0(BGSLoadFormBuffer* buffer)
+void FUN_008d56f0_Class::FUN_008d56f0(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this), 1);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 4), 4);
@@ -859,10 +859,10 @@ struct FUN_008d6000_Class
     unsigned int m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
-    void __thiscall InitTiming(unsigned int a, unsigned int b);
+    void InitTiming(unsigned int a, unsigned int b);
 };
 // @fnv 0x008d6000
-void __thiscall FUN_008d6000_Class::InitTiming(unsigned int a, unsigned int b)
+void FUN_008d6000_Class::InitTiming(unsigned int a, unsigned int b)
 {
     m_iWordAt04 = b;
     m_iWordAt00 = a;
@@ -905,8 +905,8 @@ struct FUN_008d6f50_Class
 
 struct FUN_008df980_Class
 {
-    void __thiscall FUN_008df9b0();
-    void* __thiscall FUN_008df980(unsigned int flags);
+    void FUN_008df9b0();
+    void* FUN_008df980(unsigned int flags);
 };
 
 struct NiFixedStr
@@ -1364,11 +1364,11 @@ struct CountingSemaphore
 
 struct FUN_008c7250_Class
 {
-    FUN_008c7250_Class* __thiscall FUN_008c7250();
+    FUN_008c7250_Class* FUN_008c7250();
 };
 
 // @fnv 0x008c7250
-FUN_008c7250_Class* __thiscall FUN_008c7250_Class::FUN_008c7250()
+FUN_008c7250_Class* FUN_008c7250_Class::FUN_008c7250()
 {
     ((CountingSemaphore*)this)->CountingSemaphore::CountingSemaphore(0, 0x14);
     return this;
@@ -1388,15 +1388,15 @@ struct FUN_008c7270_Class
 };
 struct FUN_008c8110_Class
 {
-    void __thiscall FUN_008c8110();
+    void FUN_008c8110();
     unsigned char m_00[0x18];
     FUN_008c7270_Class m_18;
 };
-void __stdcall FUN_0065ee50_Helper(void* p, unsigned int size, int count, void(__cdecl* cb)(void));
+void FUN_0065ee50_Helper(void* p, unsigned int size, int count, void(__cdecl* cb)(void));
 void __cdecl FUN_008c7270_Cb(void);
 // Calls FUN_0065ee50_Helper on m_18 with size 0xc, count 3 and callback FUN_008c7270_Cb.
 // @fnv 0x008c8110
-void __thiscall FUN_008c8110_Class::FUN_008c8110()
+void FUN_008c8110_Class::FUN_008c8110()
 {
     FUN_0065ee50_Helper(&m_18, 0xc, 3, FUN_008c7270_Cb);
 }
@@ -1420,11 +1420,11 @@ struct FUN_008ca8d0_Class
     int m_iWordAt00;
     long volatile m_iWordAt04;
     int m_8;
-    void __thiscall FUN_008ca8d0(int* arg);
+    void FUN_008ca8d0(int* arg);
 };
 
 // @fnv 0x008ca8d0
-void __thiscall FUN_008ca8d0_Class::FUN_008ca8d0(int* arg)
+void FUN_008ca8d0_Class::FUN_008ca8d0(int* arg)
 {
     while (true)
     {
@@ -1447,11 +1447,11 @@ struct FUN_008caae0_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    void* __thiscall FUN_008caae0();
+    void* FUN_008caae0();
 };
 
 // @fnv 0x008caae0
-void* __thiscall FUN_008caae0_Class::FUN_008caae0()
+void* FUN_008caae0_Class::FUN_008caae0()
 {
     m_iThirdValue = 0;
     return this;
@@ -1469,7 +1469,7 @@ struct GO
 
 struct FUN_008d3f40_Class
 {
-    void __thiscall GetEntryAt(int arg);
+    void GetEntryAt(int arg);
 };
 
 struct FUN_008d3f10_Class
@@ -1477,7 +1477,7 @@ struct FUN_008d3f10_Class
     unsigned char pad[0x38];
     GO m_38;
 
-    void __thiscall FUN_008d3f10(int arg);
+    void FUN_008d3f10(int arg);
 };
 
 // Calls GetEntryAt on the object obtained by converting m_38 to an unsigned int, passing arg through.
@@ -1516,17 +1516,17 @@ void* FUN_008d3f40_Class::GetEntryAt(unsigned int index)
 struct FUN_008d50a0_Class
 {
     void* m_p;
-    void __thiscall FreeAndClear();
+    void FreeAndClear();
 };
 // @fnv 0x008d4380
-void __thiscall FUN_008d4380_class::FUN_008d4380()
+void FUN_008d4380_class::FUN_008d4380()
 {
     reinterpret_cast<::FUN_008d50a0_Class *>(this)->FreeAndClear();
 }
 
 // If m_p is set, deallocates it and resets m_p to null.
 // @fnv 0x008d50a0
-void __thiscall FUN_008d50a0_Class::FreeAndClear()
+void FUN_008d50a0_Class::FreeAndClear()
 {
     if (m_p)
     {
@@ -1549,10 +1549,10 @@ void FUN_008d5680_Class::FUN_008d5680(BGSLoadFormBuffer* apBuffer)
 
 struct FUN_008d56a0_Class
 {
-    void __thiscall FUN_008d56a0(int value);
+    void FUN_008d56a0(int value);
 };
 // @fnv 0x008d56a0
-void __thiscall FUN_008d56a0_Class::FUN_008d56a0(int value)
+void FUN_008d56a0_Class::FUN_008d56a0(int value)
 {
     ((FUN_008d5720*)*(void**)this)->Init(value);
 }
@@ -1926,7 +1926,7 @@ struct SpawnedElemB
     unsigned int m_08;
 };
 
-extern "C" void __stdcall SpawnedArrayCtor(void* pBase, unsigned int elemSize, unsigned int count, void (*ctor)(void*),
+extern "C" void SpawnedArrayCtor(void* pBase, unsigned int elemSize, unsigned int count, void (*ctor)(void*),
                                            void (*dtor)(void*));
 
 void SpawnedElemB_Ctor(void* p)
@@ -1982,7 +1982,7 @@ struct FUN_008c78c0_Class
 
 // Callback slot in the game's global handler table: one int argument, and the
 // callee pops it (stdcall), so the call site has no stack cleanup.
-extern void(__stdcall* g_FNV_008c78c0_hook)(int);
+extern void(* g_FNV_008c78c0_hook)(int);
 
 // Calls the hook on each entry of unk3c and unk6c, clears unk0c, sets DAT_011dfa19 to 1, then invokes SignalAtOffset30 on each non-null unk00 element.
 // @fnv 0x008c78c0
@@ -2076,7 +2076,7 @@ class FUN_008ca940_cls
     bool PopNode(FUN_008ca940_node** out);
 };
 // @fnv 0x008ca7c0
-bool __thiscall FUN_008ca7c0_shell::FUN_008ca7c0(int a, int b)
+bool FUN_008ca7c0_shell::FUN_008ca7c0(int a, int b)
 {
     if (reinterpret_cast<::FUN_008ca940_cls *>(this)->PopNode((::FUN_008ca940_node **)(a)))
     {
@@ -3990,7 +3990,7 @@ class FUN_008df9b0 : public B8DF9B0Base
 };
 // Calls FUN_008df9b0, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x008df980
-void* __thiscall FUN_008df980_Class::FUN_008df980(unsigned int flags)
+void* FUN_008df980_Class::FUN_008df980(unsigned int flags)
 {
     reinterpret_cast<::FUN_008df9b0 *>(this)->FUN_008df9b0::~FUN_008df9b0();
     if (flags & 1)
@@ -4922,7 +4922,7 @@ void FUN_008d6bb0_owner::CreateMultiBoundNode(SceneArg* arg)
 
 struct FUN_00559450_shell
 {
-    int __thiscall FUN_00559450();
+    int FUN_00559450();
 };
 
 int FUN_00559450_shell::FUN_00559450()
@@ -4947,12 +4947,12 @@ struct FUN_008c7a30_class
 
     Item items[2];
 
-    int __thiscall GetValueWithItemResult(int index);
+    int GetValueWithItemResult(int index);
 };
 
 // If index is below 2, returns values[index] plus the result of FUN_00559450 called on items[index]; otherwise returns 0.
 // @fnv 0x008c7a30
-int __thiscall FUN_008c7a30_class::GetValueWithItemResult(int index)
+int FUN_008c7a30_class::GetValueWithItemResult(int index)
 {
     int result = 0;
 
@@ -5611,7 +5611,7 @@ class FUN_008c2630_Owner
   public:
     char unk00[0x88];
     FUN_008c2630_Obj m_88;
-    void __thiscall FUN_008c2630(TESBoundObject* a1, int a2);
+    void FUN_008c2630(TESBoundObject* a1, int a2);
 };
 
 // If a1 is form type 0x18 or 0x1a, dynamic_cast it to TESEnchantableForm, read its FUN_00726070() value, and call m_88.v5 with that value's offset 0x18.

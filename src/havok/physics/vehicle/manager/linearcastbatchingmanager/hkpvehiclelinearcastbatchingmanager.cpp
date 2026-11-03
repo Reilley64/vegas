@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/VUC_StepInstance.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_01268000.h"
@@ -9,17 +10,17 @@
 
 struct FUN_00e42fe0
 {
-    int __thiscall GetCount();
+    int GetCount();
 };
 
 struct FUN_00e43060
 {
-    void __thiscall DoWork(int a, int b, int* out);
+    void DoWork(int a, int b, int* out);
 };
 
 struct FUN_00e43010
 {
-    int __thiscall ConvertReferences(int numVehicles);
+    int ConvertReferences(int numVehicles);
 };
 struct FUN_00e42fe0_counted
 {
@@ -51,11 +52,11 @@ struct FUN_00e42fe0_impl
     FUN_00e42fe0_vehicle** vehicles;
     int count;
 
-    int __thiscall FUN_00e42fe0();
+    int FUN_00e42fe0();
 };
 // Computes four aligned offsets from GetCount() and the 16-bit count at this+0x14, writes them to out, and advances a by each padding.
 // @fnv 0x00e43060
-void __thiscall FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffsets)
+void FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffsets)
 {
     int iCount = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
     unsigned int n = *(unsigned short*)((char*)this + 0x14);
@@ -75,7 +76,7 @@ void __thiscall FUN_00e43060::DoWork(int iBaseOffset, int iUnused, int* paiOffse
 }
 // Computes a 16-byte-aligned total from the object's count, a 16-bit field at offset 0x14, the count again, and numVehicles.
 // @fnv 0x00e43010
-int __thiscall FUN_00e43010::ConvertReferences(int numVehicles)
+int FUN_00e43010::ConvertReferences(int numVehicles)
 {
     int count = reinterpret_cast<::FUN_00e42fe0_impl *>((((FUN_00e42fe0*)this)))->FUN_00e42fe0();
     unsigned int a = (unsigned int)(unsigned short)*(unsigned short*)((char*)this + 0x14);
@@ -106,7 +107,6 @@ int FUN_00e42fe0_impl::FUN_00e42fe0()
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 
 struct ProfRec

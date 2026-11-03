@@ -130,7 +130,7 @@ struct DummyClass_006a8500
 
 // Calls the object's vfunc2 with pBuffer, then clears pBuffer to null.
 // @fnv 0x006a8500
-void __fastcall FUN_006a8500(DummyClass_006a8500* pThis)
+void FUN_006a8500(DummyClass_006a8500* pThis)
 {
     pThis->vfunc2(pThis->pBuffer);
     pThis->pBuffer = 0;
@@ -159,7 +159,7 @@ struct FUN_006c6200_cls : public NavMeshSearchLOSArray
     int extra;
     void FUN_006c6200(bool flag);
 };
-void __fastcall FUN_0081f770(void* pThis);
+void FUN_0081f770(void* pThis);
 
 struct FUN_0081f320_helper
 {
@@ -172,7 +172,7 @@ struct Dummy0042f800
 };
 
 // @fnv 0x00822580
-void* __fastcall FUN_00822580(int** ppObject)
+void* FUN_00822580(int** ppObject)
 {
     *ppObject = &DAT_010159d4;
     ::fnv_00822860::FUN_00822860((::fnv_00822860::AX *)(reinterpret_cast<Dummy0042f800*>(ppObject)), (::fnv_00822860::UW)(0), (::fnv_00822860::UW)(0));
@@ -229,7 +229,7 @@ struct AX
     unsigned int alloc;
 };
 // @fnv 0x00822860
-void __fastcall FUN_00822860(AX* self, UW uiMaxSize, UW uiSize)
+void FUN_00822860(AX* self, UW uiMaxSize, UW uiSize)
 {
     self->data = 0;
     self->size = 0;
@@ -251,7 +251,7 @@ void __fastcall FUN_00822860(AX* self, UW uiMaxSize, UW uiSize)
 
 
 // @fnv 0x0081f310
-int* __fastcall GetGlobalIntPtr(int* thisPtr)
+int* GetGlobalIntPtr(int* thisPtr)
 {
     return &(*reinterpret_cast<int *>(&::g_011dc804));
 }
@@ -274,13 +274,13 @@ void FUN_00820b70_shell::FUN_00820b70(float afValue)
 }
 
 // @fnv 0x00820b90
-void __fastcall FUN_00820b90(int pObject)
+void FUN_00820b90(int pObject)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x64) = 1;
 }
 
 // @fnv 0x00820bb0
-void __fastcall ClearField64(void* apObject)
+void ClearField64(void* apObject)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(apObject) + 0x64) = 0;
 }
@@ -292,7 +292,7 @@ struct Arr3520
 extern int DAT_0107b824;
 
 // @fnv 0x00822560
-void __fastcall FUN_00822560(Arr3520* pArray)
+void FUN_00822560(Arr3520* pArray)
 {
     *(int*)pArray = (int)&DAT_0107b824;
     reinterpret_cast<::FUN_006c6200_cls *>((pArray))->FUN_006c6200(true);
@@ -311,7 +311,7 @@ void* FUN_00820b50_shell::GetFieldAt11C()
 
 struct FUN_00820bf0_shell
 {
-    int __thiscall GetField6A4();
+    int GetField6A4();
 };
 // @fnv 0x00820C10
 void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, float& extent, NiAVObject*& shaderObject,
@@ -388,7 +388,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
 }
 
 // @fnv 0x00820bf0
-int __thiscall FUN_00820bf0_shell::GetField6A4()
+int FUN_00820bf0_shell::GetField6A4()
 {
     return *(int*)((char*)this + 0x6a4);
 }
@@ -449,12 +449,12 @@ void FUN_008225b0_shell::FUN_008225b0()
 
 struct FUN_008225d0_shell
 {
-    void* __thiscall FUN_008225d0(unsigned int param_1);
+    void* FUN_008225d0(unsigned int param_1);
 };
 
 // Allocates a block of param_1 * 4 bytes via operator new and returns the pointer.
 // @fnv 0x008225d0
-void* __thiscall FUN_008225d0_shell::FUN_008225d0(unsigned int param_1)
+void* FUN_008225d0_shell::FUN_008225d0(unsigned int param_1)
 {
     void* result = ::FUN_00401000(param_1 * 4);
     return result;
@@ -463,21 +463,21 @@ void* __thiscall FUN_008225d0_shell::FUN_008225d0(unsigned int param_1)
 struct AX
 {
     unsigned int vtable;
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
+    void FUN_006b3eb0(unsigned int, unsigned int);
 };
 
-void __thiscall AX::FUN_006b3eb0(unsigned int, unsigned int)
+void AX::FUN_006b3eb0(unsigned int, unsigned int)
 {}
 
 
 struct FUN_00822600_shell : AX
 {
-    AX* __thiscall InitVtable();
+    AX* InitVtable();
 };
 
 // Sets the object's vtable to DAT_0107b84c, calls FUN_006b3eb0 with 0, 0, and returns this as an AX pointer.
 // @fnv 0x00822600
-AX* __thiscall FUN_00822600_shell::InitVtable()
+AX* FUN_00822600_shell::InitVtable()
 {
     vtable = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::fnv_00822630::DAT_0107b84c));
     FUN_006b3eb0(0, 0);
@@ -3157,7 +3157,7 @@ class EffView : public MagicShaderHitEffect
 };
 
 // @fnv 0x008217e0
-void __fastcall UpdateEffectNode(EffView* pEffectView)
+void UpdateEffectNode(EffView* pEffectView)
 {
     bool bInitTmp = (((::TESObjectREFR *)(reinterpret_cast<::BGSTerrainManager *>((pEffectView))->GetMinLevel())) == ::_g_thePlayer);
     bool pTargetObj5 = (bInitTmp && ::_g_thePlayer != 0 && ((::MagicShaderHitEffect *)(reinterpret_cast<::FUN_00820bf0_shell *>((::_g_thePlayer))->GetField6A4())) == pEffectView) ? 1 : 0;

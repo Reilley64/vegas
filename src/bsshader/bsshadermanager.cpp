@@ -1,5 +1,6 @@
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/BSShaderNoLighting.h"
 #include "fnv/decl/BloodSplatterBeamShader.h"
@@ -93,7 +94,6 @@
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
@@ -432,7 +432,6 @@ NiTexture* GetImageSpaceTexture()
     return ((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ImageSpaceTexture*)((char*)DAT_011f91ac + 0x204))))->FUN_00ba3780()));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 // Replaces the global NiTexture pointer with pkTexture, releasing the previous texture and incrementing the new one's reference count.
 // @fnv 0x00b54ac0
@@ -3209,7 +3208,6 @@ bool FUN_00b7fe40_cls::LoadFromReader(int param)
 }
 
 namespace fnv_00b54630 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct CleanupHeap
 {
 };

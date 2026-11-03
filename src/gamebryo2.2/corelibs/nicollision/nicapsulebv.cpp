@@ -1316,7 +1316,7 @@ struct S_00ea0730_Arr
 };
 // Formats name as "name = CAPSULE_BV", grows the array if needed, and appends the buffer pointer to arr.
 // @fnv 0x00ea0730
-void __stdcall AddCapsuleBV(const char* name, S_00ea0730_Arr* arr)
+void AddCapsuleBV(const char* name, S_00ea0730_Arr* arr)
 {
     unsigned int n = strlen(name) + 14;
     char* buf = (char*)FUN_00aa1070(n);

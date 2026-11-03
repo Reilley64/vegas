@@ -4,8 +4,8 @@
 
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d54000.h"
-int __stdcall InitIntToZero(int, int* piValue);
-void __stdcall CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest);
+int InitIntToZero(int, int* piValue);
+void CopyFivePointers(const void* apSource, void* apUnused1, void* apUnused2, void* apUnused3, void* apDest);
 struct S_00d54cd0_Base
 {
     void* vtbl;
@@ -404,7 +404,7 @@ struct Lst
 };
 struct CachedRangeMediator : Obj_00dd5b00
 {
-    void __thiscall FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax);
+    void FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax);
 };
 // @fnv 0x00dd58d0
 void CachedRangeMediator::FUN_00dd58d0(int unused, int k, Lst* l, int count, float* outMin, float* outMax)

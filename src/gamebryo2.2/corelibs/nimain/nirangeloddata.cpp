@@ -139,11 +139,11 @@ struct FUN_00aa09c0_shell
 };
 struct FUN_00a97740_shell : NiRangeLODData
 {
-    void* __thiscall DestroyRangeLODData(unsigned int);
+    void* DestroyRangeLODData(unsigned int);
 };
 // Restores the base vtable, frees the stored pointer, runs base cleanup, and optionally deletes the object when flag bit 0 is set.
 // @fnv 0x00a97740
-void* __thiscall FUN_00a97740_shell::DestroyRangeLODData(unsigned int auiFlags)
+void* FUN_00a97740_shell::DestroyRangeLODData(unsigned int auiFlags)
 {
     void* pk = m_pRanges;
     *(void**)this = (void*)&DAT_010a073c;
@@ -180,7 +180,7 @@ NiRangeLODData* CreateRangeLODData()
 }
 
 // @fnv 0x00a97c50
-NiRangeLODData* __fastcall CopyRangeLODData(NiRangeLODData* self, int)
+NiRangeLODData* CopyRangeLODData(NiRangeLODData* self, int)
 {
     NiRangeLODData* pkData = (NiRangeLODData*)BSFadeNode::operator new(0x28);
     if (pkData)

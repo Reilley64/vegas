@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-#pragma pack(push, 1)
 class hkxEdgeSelectionChannel : public hkReferencedObject
 {
   public:
     hkArray<hkInt32> m_kSelectedEdgeIndices;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxEdgeSelectionChannel[(sizeof(hkxEdgeSelectionChannel) == 0x14) ? 1 : -1];
 #endif

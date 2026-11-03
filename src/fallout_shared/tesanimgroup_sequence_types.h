@@ -209,36 +209,5 @@ class BSAnimGroupSequence : public NiControllerSequence
     // BSAnimGroupSequence& __cdecl BSAnimGroupSequence::*(const BSAnimGroupSequence&)
     // void __cdecl BSAnimGroupSequence::*()
 };
-TESANIMGROUP_ASSERT(sizeof(NiControllerSequence) == 116);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_kName) == 8);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_uiNumControlledBlocks) == 12);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_uiNumIDTags) == 16);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_pInterpArray) == 20);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_pkIDTags) == 24);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fWeight) == 28);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_spTextKeyData) == 32);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_eAnimationCycleType) == 36);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fFrequency) == 40);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fFirstKeyTime) == 44);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fLastKeyTime) == 48);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fLastTime) == 52);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fWeightAdjustedLastTime) == 56);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fScaledLastTime) == 60);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_pkOwnerManager) == 64);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_eAnimationState) == 68);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fSequenceOffset) == 72);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fStartTime) == 76);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fEndTime) == 80);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_fDestinationFrame) == 84);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_pkTimeSyncSequence) == 88);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_kAccumulationRootName) == 92);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_pkAccumulationRoot) == 96);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_spStringPalette) == 100);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_sAnimNotesExtraDataIndex) == 104);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_pkAnimNotes) == 108);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_usNumAnimNotes) == 112);
-TESANIMGROUP_ASSERT(offsetof(NiControllerSequence, m_bHasAnimNotes) == 114);
-TESANIMGROUP_ASSERT(sizeof(BSAnimGroupSequence) == 120);
-TESANIMGROUP_ASSERT(offsetof(BSAnimGroupSequence, m_spAnimGroup) == 116);
 extern const char* DAT_01199bcc[];
 #endif

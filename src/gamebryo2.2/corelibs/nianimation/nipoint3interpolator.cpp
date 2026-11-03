@@ -263,7 +263,7 @@ struct NiMemObject_Delete : public NiMemObject
 };
 
 // @fnv 0x00a49ae0
-NiPoint3Interpolator* __fastcall FUN_00a49ae0(NiPoint3Interpolator* pThis, int, unsigned int uiFlags)
+NiPoint3Interpolator* FUN_00a49ae0(NiPoint3Interpolator* pThis, int, unsigned int uiFlags)
 {
     NiPosData* pkData = *(NiPosData**)((char*)pThis + 0x18);
     if (pkData)
@@ -278,7 +278,7 @@ NiPoint3Interpolator* __fastcall FUN_00a49ae0(NiPoint3Interpolator* pThis, int, 
 }
 
 // @fnv 0x00a49410
-void* __fastcall FUN_00a49410(char* self, int, int)
+void* FUN_00a49410(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -287,7 +287,7 @@ void* __fastcall FUN_00a49410(char* self, int, int)
 }
 
 // @fnv 0x00a49420
-void* __fastcall FUN_00a49420(char* self, int, int)
+void* FUN_00a49420(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -296,7 +296,7 @@ void* __fastcall FUN_00a49420(char* self, int, int)
 }
 
 // @fnv 0x00a49430
-void* __fastcall FUN_00a49430(char* self, int, int)
+void* FUN_00a49430(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -305,7 +305,7 @@ void* __fastcall FUN_00a49430(char* self, int, int)
 }
 
 // @fnv 0x00a49440
-unsigned char __fastcall FUN_00a49440(char* self, int, int)
+unsigned char FUN_00a49440(char* self, int, int)
 {
     void* d = *(void**)(self + 0x18);
     if (!d)
@@ -421,7 +421,7 @@ GlobalObjectO2_00a7b610* FUN_00a49640()
 
 struct NiPoint3Interpolator_shell
 {
-    bool __thiscall FUN_00a49460(unsigned short channel);
+    bool FUN_00a49460(unsigned short channel);
 };
 
 // @fnv 0x00a49460
@@ -728,7 +728,7 @@ void FUN_00a49bb0_cls::AppendPoint3Fields(StrArrList* list)
 }
 
 // @fnv 0x00d46c90
-unsigned int __stdcall FUN_00d46c90(unsigned int a1)
+unsigned int FUN_00d46c90(unsigned int a1)
 {
     return 1;
 }

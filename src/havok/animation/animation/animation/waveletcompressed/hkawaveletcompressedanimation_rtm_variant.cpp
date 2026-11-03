@@ -3,6 +3,7 @@
 
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/symbols_00e2f000.h"
 #include "fnv/symbols_00e4e000.h"
 #include "fnv/symbols_00e4f000.h"
@@ -14,7 +15,7 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkaWaveletCompressedAnimation.h"
 int __cdecl FUN_00e51da0(int aiValue, const char* apBytes);
-unsigned int __fastcall FUN_00e2f9f0(hkaWaveletCompressedAnimation* self, int, unsigned int a);
+unsigned int FUN_00e2f9f0(hkaWaveletCompressedAnimation* self, int, unsigned int a);
 struct FUN_00e2f8c0_Class
 {
     unsigned char m_auiShapeKeys[0x2c];
@@ -22,7 +23,7 @@ struct FUN_00e2f8c0_Class
 
     int FUN_00e2f8c0(unsigned int value, int unused);
 };
-void __stdcall FUN_00e2f950(int aiUnused1, int aiUnused2, unsigned int count, void* dest);
+void FUN_00e2f950(int aiUnused1, int aiUnused2, unsigned int count, void* dest);
 struct FUN_00e2f7c0_Class : hkaWaveletCompressedAnimation
 {
     virtual void v1();
@@ -244,7 +245,7 @@ struct DestWrapPre
     DestWrapPre(float* q) : p(q)
     {}
 };
-void __stdcall sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
+void sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
 {
     if (count > 0)
     {
@@ -268,7 +269,7 @@ struct DestWrap
     DestWrap(float* q) : p(q)
     {}
 };
-void __stdcall FUN_00e2fbc0(int, int, unsigned int count, DestWrap dest);
+void FUN_00e2fbc0(int, int, unsigned int count, DestWrap dest);
 extern "C" void __cdecl _ReadWriteBarrier(void);
 struct SwapCountsE2
 {
@@ -322,7 +323,7 @@ inline unsigned int SwapIntE2(unsigned int u)
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern void* DAT_00fdf044;
-typedef void*(__stdcall* S00e306d0_TlsFn)(unsigned long);
+typedef void*(* S00e306d0_TlsFn)(unsigned long);
 extern unsigned long DAT_0126835c;
 extern const char str_010eb358[];
 struct S00e306d0_Args
@@ -529,7 +530,6 @@ struct ChunkRetry
 struct AnimRetry : hkaWaveletCompressedAnimation
 {
 };
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" unsigned long DAT_0126835c;
 extern "C" void _ReadWriteBarrier();

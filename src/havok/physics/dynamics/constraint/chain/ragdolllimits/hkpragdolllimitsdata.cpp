@@ -20,7 +20,7 @@ void FUN_00d4f130_StandIn::FUN_00d4f130(unsigned int auiValue)
 }
 
 // @fnv 0x00d4f150
-void __stdcall FUN_00d4f150(int aiUnused, int* b)
+void FUN_00d4f150(int aiUnused, int* b)
 {
     b[1] = 3;
     b[0] = 0x1c;
@@ -28,11 +28,11 @@ void __stdcall FUN_00d4f150(int aiUnused, int* b)
 
 struct hkPragdollLimitsData
 {
-    void __thiscall FUN_00d4f270(bool value);
+    void FUN_00d4f270(bool value);
 };
 
 // @fnv 0x00d4f270
-void __thiscall hkPragdollLimitsData::FUN_00d4f270(bool value)
+void hkPragdollLimitsData::FUN_00d4f270(bool value)
 {
     ((char*)this)[0x9a] = (unsigned char)((value ? 1 : 0) << 4);
 }
@@ -51,7 +51,7 @@ struct FUN_00d4f170_Rotation
     hkVector4 m_kColumn1;
     hkVector4 m_kColumn2;
 
-    char* __thiscall IsOrthonormal(char* out, float tolerance);
+    char* IsOrthonormal(char* out, float tolerance);
 };
 
 struct FUN_00d4f170_Rotations
@@ -73,11 +73,11 @@ struct S00d4f170_StandIn : public hkpConstraintData
     hkpConeLimitConstraintAtom m_kConeLimit;
     hkpConeLimitConstraintAtom m_kPlaneLimit;
 
-    virtual char* __thiscall FUN_00d4f170(char* result);
+    virtual char* FUN_00d4f170(char* result);
 };
 // Sets *result to whether both rotations pass IsOrthonormal and the cone, plane and twist limit angles satisfy the checked comparisons; returns result.
 // @fnv 0x00d4f170
-char* __thiscall S00d4f170_StandIn::FUN_00d4f170(char* result)
+char* S00d4f170_StandIn::FUN_00d4f170(char* result)
 {
     char* __restrict out = result;
     char* p;

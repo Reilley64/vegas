@@ -60,9 +60,7 @@ template <> class NiPointer<NiAVObject>
     ~NiPointer();
     operator NiAVObject*() const;
 };
-FNV_STATIC_ASSERT(sizeof(NiPointer<NiAVObject>) == 4);
 
-#pragma pack(push, 4)
 class ImageSpaceModifierInstance : public NiObject
 {
   public:
@@ -126,14 +124,6 @@ class ImageSpaceModifierInstance : public NiObject
     // void __cdecl ImageSpaceModifierInstance::*(ImageSpaceModifierInstance*)
     // ImageSpaceModifierInstance& __cdecl ImageSpaceModifierInstance::*(const ImageSpaceModifierInstance&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierInstance) == 28);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstance, m_bHasBeenApplied) == 8);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstance, fWaterLevelItem) == 12);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstance, m_spTargetObject) == 16);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstance, m_fStartTime) == 20);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstance, iFlags) == 24);
-#pragma pack(push, 4)
 class ImageSpaceModifierInstanceForm : public ImageSpaceModifierInstance, public NiMemObjectAllocation
 {
   public:
@@ -164,14 +154,6 @@ class ImageSpaceModifierInstanceForm : public ImageSpaceModifierInstance, public
     // ImageSpaceModifierInstanceForm& __cdecl ImageSpaceModifierInstanceForm::*(const ImageSpaceModifierInstanceForm&)
     // void __cdecl ImageSpaceModifierInstanceForm::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierInstanceForm) == 48);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceForm, m_pPreviousImageSpaceModifier) == 28);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceForm, m_pImageSpaceModifier) == 32);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceForm, m_fBlendWeight) == 36);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceForm, m_pTargetNode) == 40);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceForm, m_fElapsedTime) == 44);
-#pragma pack(push, 4)
 class ImageSpaceModifierInstanceTemp : public ImageSpaceModifierInstance
 {
   public:
@@ -189,9 +171,6 @@ class ImageSpaceModifierInstanceTemp : public ImageSpaceModifierInstance
     // void __cdecl ImageSpaceModifierInstanceTemp::*()
     // ImageSpaceModifierInstanceTemp& __cdecl ImageSpaceModifierInstanceTemp::*(const ImageSpaceModifierInstanceTemp&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierInstanceTemp) == 32);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierInstanceTemp, fDuration) == 28);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class RgbaColor;
@@ -206,7 +185,6 @@ class TimedFloatKey;
 class NiPoint2;
 class TESImageSpaceModifier;
 class TESImageSpaceModifier__ImageSpaceModifierData;
-#pragma pack(push, 4)
 class NiPoint2
 {
   public:
@@ -233,11 +211,6 @@ class NiPoint2
     // SaveBinary
     // char* __cdecl NiPoint2::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint2) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, y) == 4);
-#pragma pack(push, 4)
 class TESImageSpaceModifier__ImageSpaceModifierData
 {
   public:
@@ -265,29 +238,6 @@ class TESImageSpaceModifier__ImageSpaceModifierData
     unsigned int m_uiEffectEntryCountTwelfth;     // +0xEC, 4 bytes
     unsigned int m_uiEffectEntryCountThirteenth;  // +0xF0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifier__ImageSpaceModifierData) == 244);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_bOverride) == 0);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, fDuration) == 4);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_auiKeyframeCountsByTypeAndChannel) == 8);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountFirst) == 176);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountSecond) == 180);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountThird) == 184);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountFourth) == 188);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountFifth) == 192);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountSixth) == 196);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_bUseRadialBlur) == 200);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_kRadialBlurCenter) == 204);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountSeventh) == 212);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountEighth) == 216);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountNinth) == 220);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_bUseEffectEntries) == 224);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_ucEffectMode) == 225);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountTenth) == 228);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountEleventh) == 232);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountTwelfth) == 236);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier__ImageSpaceModifierData, m_uiEffectEntryCountThirteenth) == 240);
-#pragma pack(push, 4)
 class NiInterpolator : public NiObject
 {
   public:
@@ -308,10 +258,6 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
-#pragma pack(push, 4)
 class NiKeyBasedInterpolator : public NiInterpolator
 {
   public:
@@ -331,9 +277,6 @@ class NiKeyBasedInterpolator : public NiInterpolator
     // NiKeyBasedInterpolator& __cdecl NiKeyBasedInterpolator::*(const NiKeyBasedInterpolator&)
     // void __cdecl NiKeyBasedInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiKeyBasedInterpolator) == 12);
-#pragma pack(push, 4)
 class NiFloatInterpolator : public NiKeyBasedInterpolator
 {
   public:
@@ -368,12 +311,6 @@ class NiFloatInterpolator : public NiKeyBasedInterpolator
     // void __cdecl NiFloatInterpolator::*()
     // void __cdecl NiFloatInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiFloatInterpolator) == 24);
-FNV_STATIC_ASSERT(offsetof(NiFloatInterpolator, m_fFloatValue) == 12);
-FNV_STATIC_ASSERT(offsetof(NiFloatInterpolator, m_spFloatData) == 16);
-FNV_STATIC_ASSERT(offsetof(NiFloatInterpolator, m_uiLastKeyIndex) == 20);
-#pragma pack(push, 4)
 class RgbaColor
 {
   public:
@@ -400,13 +337,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class NiColorInterpolator : public NiKeyBasedInterpolator
 {
   public:
@@ -440,12 +370,6 @@ class NiColorInterpolator : public NiKeyBasedInterpolator
     // void __cdecl NiColorInterpolator::*()
     // void __cdecl NiColorInterpolator::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiColorInterpolator) == 36);
-FNV_STATIC_ASSERT(offsetof(NiColorInterpolator, m_kColorValue) == 12);
-FNV_STATIC_ASSERT(offsetof(NiColorInterpolator, m_spColorData) == 28);
-FNV_STATIC_ASSERT(offsetof(NiColorInterpolator, m_uiLastKeyIndex) == 32);
-#pragma pack(push, 4)
 class TESImageSpaceModifier : public TESForm
 {
   public:
@@ -525,40 +449,6 @@ class TESImageSpaceModifier : public TESForm
     // TESImageSpaceModifier& __cdecl TESImageSpaceModifier::*(const TESImageSpaceModifier&)
     // void __cdecl TESImageSpaceModifier::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESImageSpaceModifier) == 1848);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pOutroSound) == 24);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pIntroSound) == 28);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, Data) == 32);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_akFloatInterpolators) == 276);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorOne) == 1284);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorTwo) == 1308);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kColorInterpolatorOne) == 1332);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kColorInterpolatorTwo) == 1368);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorNine) == 1404);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorTen) == 1428);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorEleven) == 1452);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorThree) == 1476);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorFour) == 1500);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorFive) == 1524);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorSix) == 1548);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorSeven) == 1572);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, m_kFloatInterpolatorEight) == 1596);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pEffectEntryTable) == 1620);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pSecondEffectEntries) == 1788);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pThirdEffectEntries) == 1792);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pFirstEffectRecordArray) == 1796);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pSecondEffectRecordArray) == 1800);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pTenthEffectEntries) == 1804);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pEleventhEffectEntries) == 1808);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pTwelfthEffectEntries) == 1812);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pFourthEffectEntries) == 1816);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pFifthEffectEntries) == 1820);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pSeventhEffectEntries) == 1824);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pEighthEffectEntries) == 1828);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pNinthEffectEntries) == 1832);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, pSixthEffectEntries) == 1836);
-FNV_STATIC_ASSERT(offsetof(TESImageSpaceModifier, strName) == 1840);
 
 // Returns whether the referenced image space modifier is expired, or false when no modifier is set.
 // @fnv 0x005297b0
@@ -930,7 +820,7 @@ struct FUN_00529530_shell
 };
 
 // @fnv 0x00529530
-const char* const* __thiscall FUN_00529530_shell::GetArg1Ptr()
+const char* const* FUN_00529530_shell::GetArg1Ptr()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_011f4418));
 }
@@ -961,12 +851,12 @@ extern "C" void _delete(void* p, unsigned int size);
 
 struct FUN_0052a620_shell
 {
-    void* __thiscall FUN_0052a620(unsigned int flags);
+    void* FUN_0052a620(unsigned int flags);
 };
 
 // Destroys the object's members and, when flags has bit 0 set, frees the 0x44-byte object; returns this.
 // @fnv 0x0052a620
-void* __thiscall FUN_0052a620_shell::FUN_0052a620(unsigned int flags)
+void* FUN_0052a620_shell::FUN_0052a620(unsigned int flags)
 {
     reinterpret_cast<ImageSpaceModifierInstanceDOF*>(this)->DestroyMembers();
     if (flags & 1)

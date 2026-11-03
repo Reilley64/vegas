@@ -6,14 +6,14 @@
 #include "fnv/symbols_0126f000.h"
 struct NiD3DShaderConstantMap
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 extern "C" void __cdecl FUN_00e87690();
 
 // Calls FUN_00e87690, then if bit 0 of flags is set calls __Dummy_00b6fef0 on this with 0x44, and returns this.
 // @fnv 0x00b7e410
-void* __thiscall NiD3DShaderConstantMap::Destroy(unsigned int flags)
+void* NiD3DShaderConstantMap::Destroy(unsigned int flags)
 {
     FUN_00e87690();
     if (flags & 1)
@@ -26,11 +26,11 @@ void* __thiscall NiD3DShaderConstantMap::Destroy(unsigned int flags)
 
 struct FUN_00e80610_shell
 {
-    void __thiscall FUN_00e80610();
+    void FUN_00e80610();
 };
 
 // @fnv 0x00e80610
-void __thiscall FUN_00e80610_shell::FUN_00e80610()
+void FUN_00e80610_shell::FUN_00e80610()
 {
     DAT_0126f74c = 0;
     *(int*)((char*)this + 0x38) = 0;

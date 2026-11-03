@@ -41,7 +41,7 @@ struct FUN_00d4de50_class
 // @fnv 0x00d4de50
 void FUN_00d4de50_class::PopulateInfo(GenericConstraintAtomScheme* info)
 {
-    ((void(__thiscall*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pHavokConstraint)[0x3c / 4]))(
+    ((void(*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pHavokConstraint)[0x3c / 4]))(
         m_pHavokConstraint, info);
     info->m_kBridgeAtoms = (char*)this + 0xc;
     info->m_usSizeOfAllAtoms = 0xc;

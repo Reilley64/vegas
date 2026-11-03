@@ -39,13 +39,13 @@ struct hkReferencedObject
 
 struct FUN_00e04ee0_class
 {
-    void __thiscall FUN_00e04ee0(hkReferencedObject* p);
+    void FUN_00e04ee0(hkReferencedObject* p);
     char _pad[0x14];
     hkReferencedObject* m_p;
 };
 
 // @fnv 0x00e04ee0
-void __thiscall FUN_00e04ee0_class::FUN_00e04ee0(hkReferencedObject* apObject)
+void FUN_00e04ee0_class::FUN_00e04ee0(hkReferencedObject* apObject)
 {
     if (apObject)
         reinterpret_cast<::FUN_00c90510_class *>((apObject))->FUN_00c90510();
@@ -149,7 +149,7 @@ int __cdecl FUN_00e04e50()
 }
 
 // @fnv 0x00e04e60
-void __stdcall FUN_00e04e60(int a, int b)
+void FUN_00e04e60(int a, int b)
 {}
 
 struct FUN_00e04e70_class

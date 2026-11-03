@@ -89,7 +89,7 @@ void __cdecl CreateAllocatedValue()
 }
 
 // @fnv 0x00d2b8b0
-int __stdcall FUN_00d2b8b0(int a, int b, int c)
+int FUN_00d2b8b0(int a, int b, int c)
 {
     return 1;
 }

@@ -53,7 +53,7 @@ extern "C" void* DAT_01020634;
 
 struct FUN_004b9e50_shell
 {
-    void __thiscall FUN_004b9e50();
+    void FUN_004b9e50();
 };
 // Calls FUN_004b9e50, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x004b9e20
@@ -66,7 +66,7 @@ void* S004b9e20::DestroyIfFlagged(unsigned int flags)
 }
 
 // @fnv 0x004b9e50
-void __thiscall FUN_004b9e50_shell::FUN_004b9e50()
+void FUN_004b9e50_shell::FUN_004b9e50()
 {
     *reinterpret_cast<void**>(this) = &DAT_01020634;
 }
@@ -79,7 +79,7 @@ struct FUN_004b9e90_shell : GridArray
 // @fnv 0x004b9e90
 void FUN_004b9e90_shell::CallVirtualMethod2()
 {
-    ((void(__thiscall*)(GridArray*))(*reinterpret_cast<void***>(this))[2])(this);
+    ((void(*)(GridArray*))(*reinterpret_cast<void***>(this))[2])(this);
 }
 
 struct FUN_004b9f10_shell : GridArray

@@ -39,16 +39,16 @@ struct SplatterShaderInfo
 };
 struct FUN_00b807c0_shell
 {
-    int __thiscall FUN_00b807c0(void* a, void* b);
+    int FUN_00b807c0(void* a, void* b);
 };
 int* __cdecl FUN_00b807b0();
 
 struct FUN_0068ab60_shell
 {
-    void __thiscall FUN_0068ab60();
+    void FUN_0068ab60();
 };
 // @fnv 0x0068ab60
-void __thiscall FUN_0068ab60_shell::FUN_0068ab60()
+void FUN_0068ab60_shell::FUN_0068ab60()
 {
     reinterpret_cast<::FUN_0068ab80_class *>(this)->FUN_0068ab80();
 }

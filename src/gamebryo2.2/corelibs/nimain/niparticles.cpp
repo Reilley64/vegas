@@ -81,7 +81,7 @@ void FUN_00a9b1f0_shell::SetupRenderer(NiRenderer* apkRenderer)
     reinterpret_cast<::FUN_00a80610_shell *>((((FUN_00a80610_This*)this)))->FUN_00a80610((::NiRenderer *)(pkRenderer));
     if ((pkRenderer->m_iRendererState == 1 || pkRenderer->m_iRendererState == 2) && pkRenderer->m_bRendererFlagA == 1)
     {
-        ((void(__thiscall*)(NiRenderer*, void*))(*(void***)pkRenderer)[111])(pkRenderer, this);
+        ((void(*)(NiRenderer*, void*))(*(void***)pkRenderer)[111])(pkRenderer, this);
     }
 }
 
@@ -95,7 +95,7 @@ struct StrArr
 };
 // Grows the StrArr if it is full, then appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) at the current size.
 // @fnv 0x00a9b2e0
-void __stdcall FUN_00a9b2e0(StrArr* apStrArr)
+void FUN_00a9b2e0(StrArr* apStrArr)
 {
     reinterpret_cast<::ViewerGeometry *>((apStrArr))->FUN_00a80e70({});
     char* psz = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f5f64)));

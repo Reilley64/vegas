@@ -84,7 +84,7 @@ struct FUN_00b0cff0_class
     float x;
     float y;
     float z;
-    NiPoint3* __thiscall ScaleSwizzled(NiPoint3* output, float factor);
+    NiPoint3* ScaleSwizzled(NiPoint3* output, float factor);
 };
 extern double __cdecl FUN_00eca190(double value);
 struct This : FUN_00b2a180

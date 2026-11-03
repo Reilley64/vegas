@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nirendertargetgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirendertargetgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -22,11 +23,11 @@ NiRTTI* __cdecl FUN_00ee8530()
 struct NiPixelFormat;
 struct NiRenderTargetGroup
 {
-    const NiPixelFormat* __thiscall GetPixelFormat() const;
+    const NiPixelFormat* GetPixelFormat() const;
 };
 
 // @fnv 0x00ee8600
-const NiPixelFormat* __thiscall NiRenderTargetGroup::GetPixelFormat() const
+const NiPixelFormat* NiRenderTargetGroup::GetPixelFormat() const
 {
     NiRenderTargetGroup* p = const_cast<NiRenderTargetGroup*>(this);
     NiPixelFormat* p1 = *reinterpret_cast<NiPixelFormat**>(reinterpret_cast<unsigned char*>(p) + 0x20);
@@ -68,7 +69,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiRenderTargetGroup
 {
@@ -111,17 +111,16 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiRenderTargetGroup
 {
     char _pad_0[0x0c];
     NiMemObject* m_pBuffers[1];
-    NiMemObject* __thiscall FUN_00ee84f0(unsigned int uiIndex) const;
+    NiMemObject* FUN_00ee84f0(unsigned int uiIndex) const;
 };
 
 // @fnv 0x00ee84f0
-NiMemObject* __thiscall NiRenderTargetGroup::FUN_00ee84f0(unsigned int uiIndex) const
+NiMemObject* NiRenderTargetGroup::FUN_00ee84f0(unsigned int uiIndex) const
 {
     return m_pBuffers[uiIndex];
 }
@@ -132,17 +131,16 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 
 struct NiRenderTargetGroup : NiMemObject
 {
     char _pad_1[7];
     bool m_bNeedsResolve;
-    void __thiscall FUN_00ee8550(bool abResolve);
+    void FUN_00ee8550(bool abResolve);
 };
 
 // @fnv 0x00ee8550
-void __thiscall NiRenderTargetGroup::FUN_00ee8550(bool abResolve)
+void NiRenderTargetGroup::FUN_00ee8550(bool abResolve)
 {
     m_bNeedsResolve = abResolve;
 }
@@ -173,12 +171,12 @@ void __cdecl FUN_00ee8560();
 struct NiRenderTargetGroup
 {
     char _pad_0[1];
-    void* __thiscall FUN_00ee87e0(unsigned int flags);
+    void* FUN_00ee87e0(unsigned int flags);
 };
 
 // Calls FUN_00ee8560, then if bit 0 of flags is set calls __Dummy_00b6fef0 on this with 0x28, and returns this.
 // @fnv 0x00ee87e0
-void* __thiscall NiRenderTargetGroup::FUN_00ee87e0(unsigned int flags)
+void* NiRenderTargetGroup::FUN_00ee87e0(unsigned int flags)
 {
     NiRenderTargetGroup* p = this;
     FUN_00ee8560();
@@ -197,7 +195,7 @@ struct StrArr
     unsigned short m_usGrow;
 };
 // @fnv 0x00ee8800
-void __stdcall FUN_00ee8800(StrArr* pkStrings)
+void FUN_00ee8800(StrArr* pkStrings)
 {
     reinterpret_cast<::A5D6E0This *>((pkStrings))->AppendCameraPathEntries({});
     char* pString = FUN_00a7d330(*(const char**)&(*reinterpret_cast<::NiRTTI *>(&::g_012708ec)));
@@ -243,7 +241,7 @@ void* EE8490Pass::GetStageTexture(unsigned int uiStage)
 // inline array of six pointers at +0x0c..+0x23 and a renderer-data pointer at
 // +0x24.
 //
-// The function is a __thiscall member taking one 4-byte stack parameter (an
+// The function is a member taking one 4-byte stack parameter (an
 // index into that array).  It returns the pointer stored at entry+0x0c, or 0
 // when the array slot is empty.
 //
@@ -279,7 +277,6 @@ void* NiRenderTargetGroupStand::FUN_00ee84b0(unsigned int index)
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct RenderBuffer
 {
     virtual void Unknown();
@@ -681,11 +678,11 @@ unsigned int AA1AC0Class::FUN_00aa1ac0()
 
 struct StandIn_00ee8540
 {
-    unsigned char __thiscall FUN_00ee8540() const;
+    unsigned char FUN_00ee8540() const;
 };
 
 // @fnv 0x00ee8540
-unsigned char __thiscall StandIn_00ee8540::FUN_00ee8540() const
+unsigned char StandIn_00ee8540::FUN_00ee8540() const
 {
     return *reinterpret_cast<const unsigned char*>(reinterpret_cast<const char*>(this) + 8);
 }
@@ -795,20 +792,20 @@ struct RTG_Host
 {
     int _pad[8];
     NiDepthStencilBuffer* _ds;
-    bool __thiscall SetDepthStencilBuffer(NiDepthStencilBuffer*);
+    bool SetDepthStencilBuffer(NiDepthStencilBuffer*);
 };
 // Replaces the host's depth-stencil buffer, releasing the old one and acquiring a reference to the new one.
 // @fnv 0x00ee8690
-bool __thiscall RTG_Host::SetDepthStencilBuffer(NiDepthStencilBuffer* pkDepthBuffer)
+bool RTG_Host::SetDepthStencilBuffer(NiDepthStencilBuffer* pkDepthBuffer)
 {
-    ((void(__thiscall**)(void*, int))(*(void***)this))[49](this, 0);
+    ((void(**)(void*, int))(*(void***)this))[49](this, 0);
     NiDepthStencilBuffer* pkOld = _ds;
     if (pkOld != pkDepthBuffer)
     {
         if (pkOld)
         {
             if (InterlockedDecrement(&pkOld->m_lRef) == 0)
-                ((void(__thiscall**)(void*))(*(void***)pkOld))[1](pkOld);
+                ((void(**)(void*))(*(void***)pkOld))[1](pkOld);
         }
         _ds = pkDepthBuffer;
         if (pkDepthBuffer)

@@ -10,7 +10,7 @@
 #include "havok/hkpRagdollConstraintData.h"
 
 // @fnv 0x00cde9d0
-void __stdcall FUN_00cde9d0(int* apUnused, int* apiOut)
+void FUN_00cde9d0(int* apUnused, int* apiOut)
 {
     apiOut[1] = 0xc;
     apiOut[0] = 0x80;
@@ -18,20 +18,20 @@ void __stdcall FUN_00cde9d0(int* apUnused, int* apiOut)
 
 struct FUN_00cde980_cls
 {
-    void __thiscall FUN_00cde980(int a);
+    void FUN_00cde980(int a);
 };
 // @fnv 0x00cde980
-void __thiscall FUN_00cde980_cls::FUN_00cde980(int aiBitIndex)
+void FUN_00cde980_cls::FUN_00cde980(int aiBitIndex)
 {
     *(char*)((char*)this + 0x13a) = (char)(1 << aiBitIndex);
 }
 
 struct FUN_00cde960_cls
 {
-    void __thiscall FUN_00cde960(float a);
+    void FUN_00cde960(float a);
 };
 // @fnv 0x00cde960
-void __thiscall FUN_00cde960_cls::FUN_00cde960(float a)
+void FUN_00cde960_cls::FUN_00cde960(float a)
 {
     *(float*)((char*)this + 0x13c) = a;
 }
@@ -177,7 +177,7 @@ float FUN_00cde970_cls::FUN_00cde970()
 // The getter returns that byte shifted right by one bit.
 struct RagdollBodiesToNotify : public hkpRagdollConstraintData
 {
-    int __thiscall FUN_00cde9a0();
+    int FUN_00cde9a0();
 };
 
 // @fnv 0x00cde9a0

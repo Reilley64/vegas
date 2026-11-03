@@ -41,15 +41,6 @@ class FourComponentNumericValue
         unsigned int u[4];  // +0x0, 16 bytes
     };
 };
-FNV_STATIC_ASSERT(sizeof(FourComponentNumericValue) == 16);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_afComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, m_auiComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, x) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, y) == 4);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, z) == 8);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, w) == 12);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, v) == 0);
-FNV_STATIC_ASSERT(offsetof(FourComponentNumericValue, u) == 0);
 class NiPoint4
 {
   public:
@@ -77,9 +68,6 @@ class NiPoint4
     // NiPoint4 __cdecl NiPoint4::*(float)
     // void __cdecl NiPoint4::*(NiPoint4*, unsigned int, NiPoint3*)
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint4) == 16);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_kComponents) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
 class ThreeByThreeMatrix
 {
   public:
@@ -94,8 +82,6 @@ class ThreeByThreeMatrix
     // operator*
     // Inverse
 };
-FNV_STATIC_ASSERT(sizeof(ThreeByThreeMatrix) == 48);
-FNV_STATIC_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
 class NiTransform
 {
   public:
@@ -112,10 +98,6 @@ class NiTransform
     // void __cdecl NiTransform::*(NiStream&)
     // void __cdecl NiTransform::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiTransform) == 64);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kOrientation) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_kTranslation) == 48);
-FNV_STATIC_ASSERT(offsetof(NiTransform, m_fScale) == 60);
 class Projectile : public MobileObject
 {
   public:
@@ -260,38 +242,6 @@ class Projectile : public MobileObject
     // Projectile& __cdecl Projectile::*(const Projectile&)
     // void __cdecl Projectile::*()
 };
-FNV_STATIC_ASSERT(sizeof(Projectile) == 368);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_kProjectileImpactList) == 136);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_bHasImpactData) == 144);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_kImpactTransform) == 160);
-FNV_STATIC_ASSERT(offsetof(Projectile, iFlags) == 224);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fAlpha) == 228);
-FNV_STATIC_ASSERT(offsetof(Projectile, TransformFlagFloatData) == 232);
-FNV_STATIC_ASSERT(offsetof(Projectile, fImpulseRadiusSquared) == 236);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fFirstFloatValue) == 240);
-FNV_STATIC_ASSERT(offsetof(Projectile, afDamageAmount) == 244);
-FNV_STATIC_ASSERT(offsetof(Projectile, fAlpha) == 248);
-FNV_STATIC_ASSERT(offsetof(Projectile, AlphaFloatParameters) == 252);
-FNV_STATIC_ASSERT(offsetof(Projectile, AlphaParameterSet) == 256);
-FNV_STATIC_ASSERT(offsetof(Projectile, WeaponAlphaParameters) == 260);
-FNV_STATIC_ASSERT(offsetof(Projectile, WeaponReferenceParameterData) == 264);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fFourthRecordValue) == 268);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pFiringWeapon) == 272);
-FNV_STATIC_ASSERT(offsetof(Projectile, WeaponHitData) == 276);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pMagicTarget) == 280);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_kImpactPoint) == 284);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fImpactForce) == 296);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pMenuLight) == 300);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_bFlagAfterLight) == 304);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pExplosionEffect) == 308);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pActorCause) == 312);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_fLifetime) == 316);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_kFirstValue) == 320);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_kSecondValue) == 332);
-FNV_STATIC_ASSERT(offsetof(Projectile, pTarget) == 344);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_pTargetData) == 348);
-FNV_STATIC_ASSERT(offsetof(Projectile, m_bHasTarget) == 352);
-FNV_STATIC_ASSERT(offsetof(Projectile, ObjectPointerFlagFloatData) == 356);
 class GrenadeProjectile : public Projectile
 {
   public:
@@ -325,6 +275,4 @@ class GrenadeProjectile : public Projectile
     // GrenadeProjectile& __cdecl GrenadeProjectile::*(const GrenadeProjectile&)
     // void __cdecl GrenadeProjectile::*()
 };
-FNV_STATIC_ASSERT(sizeof(GrenadeProjectile) == 384);
-FNV_STATIC_ASSERT(offsetof(GrenadeProjectile, m_bProximityTriggered) == 368);
 #endif

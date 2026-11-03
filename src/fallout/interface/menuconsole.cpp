@@ -201,11 +201,11 @@ void ListHead::Clear()
 
 struct FUN_0071b020_shell
 {
-    void __thiscall FUN_0071b020();
+    void FUN_0071b020();
 };
 
 // @fnv 0x0071b020
-void __thiscall FUN_0071b020_shell::FUN_0071b020()
+void FUN_0071b020_shell::FUN_0071b020()
 {
     reinterpret_cast<::FUN_0071dec0 *>(this)->FUN_0071dec0::~FUN_0071dec0();
 }

@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_00d22000.h"
 #include "fnv/symbols_01030000.h"
@@ -16,7 +17,7 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpCylinderShape.h"
 int __cdecl FUN_00d571b0();
-// FUN_00d571a0: __thiscall getter returning the float at this+0x14,
+// FUN_00d571a0: getter returning the float at this+0x14,
 // which is hkpCylinderShape::m_fCylinderRadius in the pack's layout
 //  m_type 0xC, m_fSphereRadius 0x10, m_fCylinderRadius 0x14).
 class hkpCylinderShapeGetCylRadius : public hkpCylinderShape {
@@ -45,7 +46,7 @@ struct S00d57b20_Obj {
     int unk08;
     int unk0C;
 
-    S00d57b20_Obj* __thiscall FUN_00d57b20(int condition);
+    S00d57b20_Obj* FUN_00d57b20(int condition);
 };
 #include <xmmintrin.h>
 
@@ -64,7 +65,7 @@ struct CylVec4
 
 struct CylShapeAdapter : public hkpCylinderShape
 {
-    void __thiscall FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
+    void FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
 };
 
 extern float DAT_011b5be4;
@@ -610,7 +611,7 @@ return m_kStorage;
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

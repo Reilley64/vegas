@@ -43,7 +43,7 @@ struct _Node_006f99e0
 };
 
 // @fnv 0x006f99e0
-void* __fastcall FUN_006f99e0(void* _this)
+void* FUN_006f99e0(void* _this)
 {
     return new _Node_006f99e0;
 }

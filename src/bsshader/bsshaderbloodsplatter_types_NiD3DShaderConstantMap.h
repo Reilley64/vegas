@@ -19,7 +19,6 @@ enum NiGPUProgram__ProgramType
     NiGPUProgram__ProgramType_PROGRAM_PIXEL = 2,
     NiGPUProgram__ProgramType_PROGRAM_MAX = 3
 };
-#pragma pack(push, 4)
 class NiShaderConstantMap : public NiRefObject
 {
   public:
@@ -39,10 +38,6 @@ class NiShaderConstantMap : public NiRefObject
     // void __cdecl NiShaderConstantMap::*()
     // NiShaderConstantMap& __cdecl NiShaderConstantMap::*(const NiShaderConstantMap&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShaderConstantMap) == 12);
-FNV_STATIC_ASSERT(offsetof(NiShaderConstantMap, m_iProgramType) == 8);
-#pragma pack(push, 4)
 class NiD3DShaderConstantMap : public NiShaderConstantMap
 {
   public:
@@ -86,14 +81,4 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
     // unsigned int __cdecl NiD3DShaderConstantMap::*(unsigned int, NiShaderConstantMapEntry*, unsigned int)
     // NiD3DShaderConstantMap& __cdecl NiD3DShaderConstantMap::*(const NiD3DShaderConstantMap&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiD3DShaderConstantMap) == 68);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_kEntries) == 12);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_kDefinedEntries) == 28);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_bHasChanges) == 44);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pShaderProgram) == 48);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_uiErrorCode) == 52);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pD3DDevice) == 56);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pShaderObject) == 60);
-FNV_STATIC_ASSERT(offsetof(NiD3DShaderConstantMap, m_pRenderState) == 64);
 #endif

@@ -2,6 +2,7 @@
 #ifndef NIDEVIMAGECONVERTER_DECLS_H
 #define NIDEVIMAGECONVERTER_DECLS_H
 
+#include <windows.h>
 #include "fnv/decl/Conv.h"
 #include "fnv/decl/FUN_00a77960_shell.h"
 #include "fnv/decl/Owner.h"
@@ -104,7 +105,6 @@ class NiPalette : public NiMemObject
         return entries;
     }
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*) throw();
 template <class T> class NiPointer
 {
   public:

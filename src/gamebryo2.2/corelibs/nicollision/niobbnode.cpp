@@ -169,7 +169,7 @@ struct SwapNode
 };
 
 // @fnv 0x00eb9a50
-int __stdcall RunSwapTests(SwapNode* pNode)
+int RunSwapTests(SwapNode* pNode)
 {
     int iResult0 = 0;
     int iResult1 = 0;

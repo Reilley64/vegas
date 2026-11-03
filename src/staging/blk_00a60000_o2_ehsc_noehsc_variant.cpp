@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -63,7 +64,7 @@
 void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 struct FUN_00a61590_class
 {
-    void* __thiscall ClearAndReset();
+    void* ClearAndReset();
 };
 struct NiShader;
 template <class K, class V> class NiTPointerMap;
@@ -82,19 +83,19 @@ extern int DAT_0109df2c;
 extern int DAT_011f4ab4;
 struct FUN_00a7f820_Class
 {
-    void __thiscall FUN_00a7f820();
+    void FUN_00a7f820();
 };
 struct MemoryManager
 {
 };
 struct FUN_00a615c0_Class
 {
-    void __thiscall ClearAllBuckets();
+    void ClearAllBuckets();
 };
 struct RecursiveSpinLock
 {
 };
-void __stdcall FUN_00a638c0(void* p);
+void FUN_00a638c0(void* p);
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int);
@@ -102,7 +103,7 @@ struct BSFadeNode
 struct NiTriBasedGeomData;
 struct FUN_00a7d670_Class
 {
-    void* __thiscall FUN_00a7d670();
+    void* FUN_00a7d670();
 };
 struct CloningProcess;
 struct NiDirectionalLight
@@ -115,7 +116,7 @@ struct NiCullingProperty
 };
 struct FUN_00a755f0_Class : NiCullingProperty
 {
-    void __thiscall CopyCullingData(void* dst, CloningProcess& proc);
+    void CopyCullingData(void* dst, CloningProcess& proc);
 };
 struct FUN_00a72590_Class
 {
@@ -149,18 +150,18 @@ struct FUN_00a699d0_Class
     NiPoint3 normal;
     float distance;
 
-    FUN_00a699d0_Class* __thiscall FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
+    FUN_00a699d0_Class* FUN_00a699d0(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
 };
 struct NiTFixedStringMap_NiAVObject___
 {
     void* m_baseData0;
     void* m_baseData1;
-    void __thiscall RemoveAll();
+    void RemoveAll();
 };
 struct FUN_00a6ea00_Class : NiTFixedStringMap_NiAVObject___
 {
     void* m_pData;
-    void* __thiscall FUN_00a6ea00(unsigned char flag);
+    void* FUN_00a6ea00(unsigned char flag);
 };
 extern int DAT_0109ca08;
 struct NiTriStrips
@@ -382,7 +383,7 @@ class FUN_00a61920_Class
   public:
     FUN_00a61920_Node* m_pBuckets[1];
 
-    bool __thiscall FindShaderByHash(int, int, NiShader**);
+    bool FindShaderByHash(int, int, NiShader**);
 };
 void NiShader::Release()
 {}
@@ -463,10 +464,8 @@ struct SlotObject
     virtual void SlotVirtual1();  // vtable slot 1 - the release hook
     int m_iObjectReferenceCount;  // +0x04
 };
-typedef long(__stdcall* FNV_INTERLOCKED_DECREMENT)(volatile long*);
+typedef long(* FNV_INTERLOCKED_DECREMENT)(volatile long*);
 void ReleasePendingTable();
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct RefObj_a62
 {
     virtual void v00();
@@ -507,7 +506,7 @@ struct FUN_00a639e0_Class
     void* m_baseData0;
     void* m_baseData1;
     void* m_baseData2;
-    FUN_00a639e0_Class* __thiscall FUN_00a639e0(char param_2);
+    FUN_00a639e0_Class* FUN_00a639e0(char param_2);
 };
 struct FUN_00a66960_cls
 {
@@ -608,7 +607,7 @@ struct FUN_00a674b0_cls
     unsigned char unk38;
     unsigned char unk39;
     unsigned char m_3a;
-    void __thiscall GetOutRec(OutRec674* out);
+    void GetOutRec(OutRec674* out);
 };
 extern int DAT_0109c28c;
 struct FUN_00a693e0_cls
@@ -630,9 +629,8 @@ struct FUN_00a69b00
 };
 struct FUN_00a69b40_Class
 {
-    void __thiscall FUN_00a69b40(int param_2);
+    void FUN_00a69b40(int param_2);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
 class NiGlobalStringTable
 {
   public:
@@ -679,7 +677,7 @@ struct FUN_00a6db50_V
     float m_04;
     float m_08;
     float m_0c;
-    FUN_00a6db50_V* __thiscall Set(float a, float b, float c, float d);
+    FUN_00a6db50_V* Set(float a, float b, float c, float d);
 };
 class A6DB70ColorA
 {
@@ -795,7 +793,7 @@ struct ObjectRegistry
     void* unk18;
     IndexedObjects indexedObjects;
 
-    bool __thiscall RemoveObject(unsigned int index, bool clearReferences);
+    bool RemoveObject(unsigned int index, bool clearReferences);
 };
 struct BA726A0Entry
 {
@@ -1392,7 +1390,6 @@ struct S_00a7fea0_Class
     float scale;
     void TransformPoint(const S_00a7fea0_Xf& a);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class MemoryManagerA61
 {
   public:
@@ -1485,8 +1482,6 @@ class NameTableA61
     unsigned int m_uiCount;
 };
 // Fixed-size (713 bucket) pointer map: return the current entry's object and advance the iterator.
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
 class A619B0Object
 {
   public:
@@ -2037,7 +2032,7 @@ struct NodeList
 class EqBase
 {
   public:
-    bool __thiscall FUN_00a62140(void* other);
+    bool FUN_00a62140(void* other);
 };
 class ColorAStandIn
 {
@@ -2058,7 +2053,7 @@ struct FUN_00a727b0_Class
 {
     unsigned int FUN_00a727b0();
 };
-unsigned short __fastcall FUN_00a75f20(char* p, int);
+unsigned short FUN_00a75f20(char* p, int);
 class FileA609
 {
   public:
@@ -2313,7 +2308,6 @@ struct FUN_00a60770_shell : FUN_00a62a40_this
     const char* m_pcFileName;
     void GetFileStrings(StrArr* pkStrings);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 namespace A61F {
 
 class NiRefObject
@@ -2403,7 +2397,7 @@ struct FUN_00a7fb80_Class
     int m_28;
     int m_2C;
     int m_30;
-    void* __thiscall FUN_00a7fb80();
+    void* FUN_00a7fb80();
 };
 struct Z2Setup
 {

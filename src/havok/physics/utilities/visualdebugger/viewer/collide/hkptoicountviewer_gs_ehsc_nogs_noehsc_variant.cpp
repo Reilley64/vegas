@@ -3,7 +3,7 @@
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
-void __stdcall ClearTwoInts(int* a, int* b);
+void ClearTwoInts(int* a, int* b);
 extern int g_D67960Value;
 int __cdecl FUN_00d67960();
 struct Item;
@@ -269,8 +269,8 @@ struct Context
 };
 struct FUN_00d67970_helper
 {
-    void __thiscall c93920(void* value);
-    void __thiscall c93a20(void* value);
+    void c93920(void* value);
+    void c93a20(void* value);
 };
 struct FUN_00d67970_class
 {
@@ -279,7 +279,7 @@ struct FUN_00d67970_class
     void* unk08;
     void* unk0c;
 
-    void __thiscall FUN_00d67970(FUN_00d67970_helper* helper);
+    void FUN_00d67970(FUN_00d67970_helper* helper);
 };
 struct OwnerBinding
 {

@@ -212,7 +212,7 @@ struct ObjBE43C
 
 // Returns true if pkA is enabled and pkB's level is not positive, otherwise false.
 // @fnv 0x00e43c00
-hkBoolE43C __stdcall FUN_00e43c00(ObjAE43C* pkA, ObjBE43C* pkB)
+hkBoolE43C FUN_00e43c00(ObjAE43C* pkA, ObjBE43C* pkB)
 {
     if (!pkA->m_bEnableState)
         return false;

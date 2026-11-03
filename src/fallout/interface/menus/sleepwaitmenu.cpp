@@ -83,8 +83,8 @@ struct SleepWaitMenu;
 
 struct SleepWaitMenu
 {
-    void* __thiscall FUN_007bfbd0(unsigned int flags);
-    void* __thiscall FUN_007bfc00();
+    void* FUN_007bfbd0(unsigned int flags);
+    void* FUN_007bfc00();
 };
 
 void* SleepWaitMenu::FUN_007bfc00()

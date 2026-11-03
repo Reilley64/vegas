@@ -21,7 +21,7 @@
 #include "fnv/symbols_00d67000.h"
 #include "fnv/symbols_00fff000.h"
 #include "fnv/symbols_01269000.h"
-void __stdcall ClearTwoInts(int* piFirst, int* piSecond)
+void ClearTwoInts(int* piFirst, int* piSecond)
 {
     *piFirst = 0;
     *piSecond = 0;
@@ -195,7 +195,7 @@ struct hkpToiCountViewer
     void* vtable;
     unsigned short size;
     unsigned short unk06;
-    hkpToiCountViewer* __thiscall FUN_00d67ce0(unsigned int);
+    hkpToiCountViewer* FUN_00d67ce0(unsigned int);
 };
 // Allocates a 0x40-byte hkpToiCountViewer from the global heap, initializes it with arg, and returns a pointer 8 bytes into it or null.
 // @fnv 0x00d67d60
@@ -364,12 +364,12 @@ struct FUN_00d67970_class
     void* unk08;
     void* unk0c;
 
-    void __thiscall FUN_00d67970(FUN_00d67970_helper* helper);
+    void FUN_00d67970(FUN_00d67970_helper* helper);
 };
 
 // Passes pointers to this object's unk0c and unk08 fields to the helper's c93920 and c93a20 methods, or null if the base pointer is null.
 // @fnv 0x00d67970
-void __thiscall FUN_00d67970_class::FUN_00d67970(FUN_00d67970_helper* helper)
+void FUN_00d67970_class::FUN_00d67970(FUN_00d67970_helper* helper)
 {
     void* base = reinterpret_cast<char*>(this) - 0x20;
     void* value;

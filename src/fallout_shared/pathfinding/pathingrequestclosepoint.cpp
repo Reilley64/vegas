@@ -47,12 +47,12 @@ struct PathingRequestClosePoint
 {
     virtual ~PathingRequestClosePoint();
     static void __cdecl operator delete(void* p, unsigned int flags);
-    void* __thiscall FUN_006e3f70(unsigned int flags);
+    void* FUN_006e3f70(unsigned int flags);
 };
 
 // Runs the destructor and, when bit 0 of flags is set, frees the object with operator delete; returns this.
 // @fnv 0x006e3f70
-void* __thiscall PathingRequestClosePoint::FUN_006e3f70(unsigned int flags)
+void* PathingRequestClosePoint::FUN_006e3f70(unsigned int flags)
 {
     reinterpret_cast<::FUN_006dad70_shell *>((this))->DestroyPathingRequest();
     if (flags & 1)
@@ -71,12 +71,12 @@ struct PathingRequest
 
 struct PathingRequestClosePoint : PathingRequest
 {
-    void __thiscall FUN_006e5f00(BGSSaveFormBuffer* apSaveGameBuffer);
+    void FUN_006e5f00(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // Calls the base save routine, then writes the 4-byte values at offsets 0xb0 and 0xb4 to the save buffer.
 // @fnv 0x006e5f00
-void __thiscall PathingRequestClosePoint::FUN_006e5f00(BGSSaveFormBuffer* apSaveGameBuffer)
+void PathingRequestClosePoint::FUN_006e5f00(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FUN_006e3230_shell *>(this)->FUN_006e3230((::BGSSaveFormBuffer *)(apSaveGameBuffer));
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0xb0, 4, 0);
@@ -125,10 +125,10 @@ struct FUN_006e4030_This
     char _pad[0xB0];
     float fPointHeight;
     float m_fUnknownValue2;
-    void __thiscall CopyToWithClosePoint(PathingRequest* apDest);
+    void CopyToWithClosePoint(PathingRequest* apDest);
 };
 // @fnv 0x006e4030
-void __thiscall FUN_006e4030_This::CopyToWithClosePoint(PathingRequest* apDest)
+void FUN_006e4030_This::CopyToWithClosePoint(PathingRequest* apDest)
 {
     PathingRequestClosePoint* pdest = (PathingRequestClosePoint*)apDest;
     reinterpret_cast<::PathingRequest *>((((PathingRequestCopyHelper*)this)))->CopyTo((PathingRequest*)pdest);

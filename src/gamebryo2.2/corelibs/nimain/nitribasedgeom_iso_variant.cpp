@@ -24,7 +24,7 @@ const GlobalObjectO2_00a7b610* FUN_00a74790()
 
 
 // @fnv 0x00a89790
-extern "C" ::NiGeometry* __fastcall FUN_00a89790(::NiGeometry* geometry, void*, unsigned int flags)
+extern "C" ::NiGeometry* FUN_00a89790(::NiGeometry* geometry, void*, unsigned int flags)
 {
     *reinterpret_cast<void**>(geometry) = &DAT_0109ed94;
     reinterpret_cast<::FUN_00a80580_cls *>((geometry))->FUN_00a80580();
@@ -42,7 +42,7 @@ struct NiUpdateData
 };
 struct FUN_00a59f90_holder
 {
-    void __thiscall FUN_00a59f90(NiUpdateData& data, unsigned int value);
+    void FUN_00a59f90(NiUpdateData& data, unsigned int value);
 };
 struct ParticleDownwardPassReceiver
 {
@@ -93,7 +93,7 @@ struct ParticleDownwardPassReceiver
     virtual void slot44();
     virtual void slot45();
     virtual void dispatch(void* data);
-    void __thiscall FUN_00c1ad90(void* data, unsigned int value);
+    void FUN_00c1ad90(void* data, unsigned int value);
 };
 // @fnv 0x00c1ad90
 void ParticleDownwardPassReceiver::FUN_00c1ad90(void* data, unsigned int value)
@@ -153,7 +153,7 @@ struct EntryArray
 }
 
 // @fnv 0x00a897c0
-void __stdcall FUN_00a897c0(TriGeomViewerDetail::EntryArray* entries)
+void FUN_00a897c0(TriGeomViewerDetail::EntryArray* entries)
 {
     reinterpret_cast<::ViewerGeometry *>((entries))->FUN_00a80e70({});
     char* label = ::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f5b70)));

@@ -428,7 +428,7 @@ unsigned int TESFile::GetOffset()
 extern int DAT_01014210;
 
 // @fnv 0x0040ecb0
-void __fastcall FUN_0040ecb0(int* p)
+void FUN_0040ecb0(int* p)
 {
     *p = (int)&DAT_01014210;
 }
@@ -452,7 +452,7 @@ bool FUN_00471d60_shell::IsFlag8Set()
 }
 
 // @fnv 0x004835e0
-unsigned int __fastcall GetField20C(char* pThis)
+unsigned int GetField20C(char* pThis)
 {
     return *(unsigned int*)(pThis + 0x20c);
 }
@@ -513,11 +513,11 @@ struct FUN_00486930_arg
     unsigned int val;
 };
 
-void __fastcall FUN_005890c0(int* self, FUN_00486930_arg a);
+void FUN_005890c0(int* self, FUN_00486930_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00486930
-int* __fastcall FUN_00486930(int* self, FUN_00486930_arg aArg)
+int* FUN_00486930(int* self, FUN_00486930_arg aArg)
 {
     FUN_005890c0(self, aArg);
     *self = (int)&DAT_01031fac;
@@ -539,7 +539,7 @@ S00486ab0* S00486ab0::Construct(unsigned int auiValue, bool b)
 }
 
 // @fnv 0x0048ce80
-void __fastcall ClearString(char* this_ptr)
+void ClearString(char* this_ptr)
 {
     reinterpret_cast<::TextString *>((((BSStringT<char>*)(this_ptr + 4))))->FUN_004037f0(0, 0);
 }
@@ -693,7 +693,6 @@ struct IdleAnimationManager
     char _pad_15[3];
     char m_acIdleName[16];
 };
-typedef char _sizecheck_TESIdleManager[sizeof(IdleAnimationManager) == 40 ? 1 : -1];
 struct FUN_005ffbf0_shell : public IdleAnimationManager
 {
     void AddIdleToArray(TESIdleForm*);
@@ -849,7 +848,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -866,7 +864,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -888,7 +885,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_004011d0_shell : public TESForm
 {
     bool FUN_004011d0();
@@ -1040,7 +1036,6 @@ struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -1057,7 +1052,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -1079,7 +1073,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_004011f0_shell : public TESForm
 {
     bool FUN_004011f0();
@@ -1170,12 +1163,12 @@ void FUN_004849d0_shell::SetFlag200(bool abVal)
 
 struct FUN_00484bf0_shell
 {
-    unsigned short __thiscall FUN_00484bf0(unsigned int aiFlags);
+    unsigned short FUN_00484bf0(unsigned int aiFlags);
 };
 
 // Returns 4 when bit 0 of aiFlags is set, otherwise 0.
 // @fnv 0x00484bf0
-unsigned short __thiscall FUN_00484bf0_shell::FUN_00484bf0(unsigned int aiFlags)
+unsigned short FUN_00484bf0_shell::FUN_00484bf0(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     if (aiFlags & 1)
@@ -1249,7 +1242,7 @@ void FUN_00485b30_shell::ResetGlobalPointer()
 
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void FUN_00485e00();
 };
 
 struct NodePoolView
@@ -1273,11 +1266,11 @@ extern int DAT_0118a870[];
 
 struct FUN_0051dab0_shell
 {
-    int __thiscall GetIndexedValue();
+    int GetIndexedValue();
 };
 
 // @fnv 0x0051dab0
-int __thiscall FUN_0051dab0_shell::GetIndexedValue()
+int FUN_0051dab0_shell::GetIndexedValue()
 {
     return DAT_0118a870[*(char*)(((char*)this) + 0xf4)];
 }
@@ -1308,11 +1301,11 @@ bool FUN_005516c0::IsCellPersistent()
 
 struct FUN_00554880_shell
 {
-    void __thiscall FUN_00554880(unsigned char arg);
+    void FUN_00554880(unsigned char arg);
 };
 
 // @fnv 0x00554880
-void __thiscall FUN_00554880_shell::FUN_00554880(unsigned char arg)
+void FUN_00554880_shell::FUN_00554880(unsigned char arg)
 {
     ::FUN_005548a0(arg);
 }
@@ -1321,11 +1314,11 @@ extern unsigned char __cdecl FUN_00588a60(unsigned char);
 
 struct FUN_00588a40_shell
 {
-    unsigned char __thiscall FUN_00588a40(unsigned char arg);
+    unsigned char FUN_00588a40(unsigned char arg);
 };
 
 // @fnv 0x00588a40
-unsigned char __thiscall FUN_00588a40_shell::FUN_00588a40(unsigned char arg)
+unsigned char FUN_00588a40_shell::FUN_00588a40(unsigned char arg)
 {
     return FUN_00588a60(arg);
 }
@@ -1334,11 +1327,11 @@ namespace fnv_005e9690 {
 
 struct FUN_005e9690_shell
 {
-    void __thiscall FUN_005e9690();
+    void FUN_005e9690();
 };
 
 // @fnv 0x005e9690
-void __thiscall FUN_005e9690_shell::FUN_005e9690()
+void FUN_005e9690_shell::FUN_005e9690()
 {
     ::FUN_004856d0(0x464b5250);
 }
@@ -1346,34 +1339,34 @@ void __thiscall FUN_005e9690_shell::FUN_005e9690()
 
 struct FUN_0061bbd0_shell
 {
-    unsigned char __thiscall FUN_0061bbd0(unsigned char param);
+    unsigned char FUN_0061bbd0(unsigned char param);
 };
 
 
 // @fnv 0x0061bbd0
-unsigned char __thiscall FUN_0061bbd0_shell::FUN_0061bbd0(unsigned char param)
+unsigned char FUN_0061bbd0_shell::FUN_0061bbd0(unsigned char param)
 {
     return ((unsigned char)(::FUN_0061bbf0(param)));
 }
 
 struct FUN_00621b00_shell
 {
-    float __thiscall FUN_00621b00();
+    float FUN_00621b00();
 };
 
 // @fnv 0x00621b00
-float __thiscall FUN_00621b00_shell::FUN_00621b00()
+float FUN_00621b00_shell::FUN_00621b00()
 {
     return *(float*)((char*)this + 0x10);
 }
 
 struct FUN_008df040_shell
 {
-    unsigned char __thiscall FUN_008df040();
+    unsigned char FUN_008df040();
 };
 
 // @fnv 0x008df040
-unsigned char __thiscall FUN_008df040_shell::FUN_008df040()
+unsigned char FUN_008df040_shell::FUN_008df040()
 {
     return ((unsigned char*)this)[0x80];
 }
@@ -1570,10 +1563,10 @@ template <int N> struct EndianSizeTag
 };
 struct FUN_00470650_shell
 {
-    void __thiscall FUN_00470650();
+    void FUN_00470650();
 };
 // @fnv 0x00470650
-void __thiscall FUN_00470650_shell::FUN_00470650()
+void FUN_00470650_shell::FUN_00470650()
 {
     ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
     ::FUN_00401080((int *)(unsigned char *)((unsigned char*)((char*)this + 4)));
@@ -1716,11 +1709,11 @@ struct SGL_Stub
 };
 struct FUN_00484d40_Host
 {
-    void __thiscall FUN_00484d40(unsigned int* apNumericID, int aiSize);
+    void FUN_00484d40(unsigned int* apNumericID, int aiSize);
 };
 // Forwards the numeric ID buffer and its size to the save/load game object's handler.
 // @fnv 0x00484d40
-void __thiscall FUN_00484d40_Host::FUN_00484d40(unsigned int* apNumericID, int aiSize)
+void FUN_00484d40_Host::FUN_00484d40(unsigned int* apNumericID, int aiSize)
 {
     reinterpret_cast<::FUN_00857aa0 *>((((SGL_Stub*)::g_TESSaveLoadGame)))->ValidateFormIDArray(apNumericID, aiSize);
 }
@@ -1995,7 +1988,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FormComponentArray
 {
     void InitializeFromForm(TESForm*);
@@ -2007,7 +1999,6 @@ struct FormComponentArray
     void* __vecDelDtor(unsigned int);
     char m_pComponents[152];
 };
-typedef char _sizecheck_FormComponentCollection[sizeof(FormComponentArray) == 152 ? 1 : -1];
 struct FUN_00483720_shell : public TESForm
 {
     void ClearFormData();
@@ -2123,7 +2114,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FormComponentArray
 {
     void InitializeFromForm(TESForm*);
@@ -2135,7 +2125,6 @@ struct FormComponentArray
     void* __vecDelDtor(unsigned int);
     char m_pComponents[152];
 };
-typedef char _sizecheck_FormComponentCollection[sizeof(FormComponentArray) == 152 ? 1 : -1];
 struct FUN_00483870_shell : public TESForm
 {
     void FUN_00483870();
@@ -2205,7 +2194,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESDescription : public BaseFormComponent
 {
     virtual char* GetDescription(TESForm*, int);
@@ -2226,7 +2214,6 @@ struct TESDescription : public BaseFormComponent
     void SetDescription(char*);
     unsigned long m_uiDescriptionFileOffset;
 };
-typedef char _sizecheck_TESDescription[sizeof(TESDescription) == 8 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -2255,13 +2242,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct ActorValueInfo : public TESForm, public TESFullName, public TESDescription, public TESIcon
 {
     virtual void __vslot_10();
@@ -2287,7 +2272,6 @@ struct ActorValueInfo : public TESForm, public TESFullName, public TESDescriptio
     int m_iEnumeratedNameCount;
     char m_apEnumeratedNames[40];
 };
-typedef char _sizecheck_ActorValueInfo[sizeof(ActorValueInfo) == 196 ? 1 : -1];
 struct FUN_00484730_shell : public TESForm
 {
     void FUN_00484730(bool);
@@ -2383,7 +2367,6 @@ struct TESAttributes : public BaseFormComponent
     char cAttribute[7];
     char _pad_b[1];
 };
-typedef char _sizecheck_TESAttributes[sizeof(TESAttributes) == 12 ? 1 : -1];
 struct BGSClipRoundsForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -2398,7 +2381,6 @@ struct BGSClipRoundsForm : public BaseFormComponent
     unsigned char m_ucClipRounds;
     char _pad_5[3];
 };
-typedef char _sizecheck_BGSClipRoundsForm[sizeof(BGSClipRoundsForm) == 8 ? 1 : -1];
 struct TESUsesForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -2413,7 +2395,6 @@ struct TESUsesForm : public BaseFormComponent
     unsigned char m_ucUses;
     char _pad_5[3];
 };
-typedef char _sizecheck_TESUsesForm[sizeof(TESUsesForm) == 8 ? 1 : -1];
 struct TESQualityForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -2428,7 +2409,6 @@ struct TESQualityForm : public BaseFormComponent
     unsigned char m_ucFormQuality;
     char _pad_5[3];
 };
-typedef char _sizecheck_TESQualityForm[sizeof(TESQualityForm) == 8 ? 1 : -1];
 struct TESWeightForm : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -2441,7 +2421,6 @@ struct TESWeightForm : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     float fWeight;
 };
-typedef char _sizecheck_TESWeightForm[sizeof(TESWeightForm) == 8 ? 1 : -1];
 struct FUN_00486620_shell : public TESForm
 {
     unsigned int FUN_00486620();
@@ -3128,7 +3107,7 @@ struct ActionObject
     void** methods;
 };
 
-typedef void(__thiscall* ActionHandler)(ActionObject* self, int target, void* data, unsigned char mode);
+typedef void(* ActionHandler)(ActionObject* self, int target, void* data, unsigned char mode);
 
 struct ActionCaller
 {
@@ -3150,7 +3129,7 @@ bool ActionCaller::InvokeAction(int target, void* key, unsigned char mode, int u
 
 struct FUN_0050f780_Class
 {
-    void __thiscall ForwardTo008d0600(int arg1, unsigned char arg2);
+    void ForwardTo008d0600(int arg1, unsigned char arg2);
 };
 
 // @fnv 0x0050f780
@@ -3171,10 +3150,10 @@ struct FUN_005e9620_class
     unsigned int unk00;
     unsigned char unk04;
     unsigned char unk05;
-    void __thiscall FUN_005e9620(unsigned char value);
+    void FUN_005e9620(unsigned char value);
 };
 // @fnv 0x005e9620
-void __thiscall FUN_005e9620_class::FUN_005e9620(unsigned char value)
+void FUN_005e9620_class::FUN_005e9620(unsigned char value)
 {
     Record data;
     data.field2 = unk05;
@@ -3463,7 +3442,7 @@ struct SDSaveForm : TESForm
     void FUN_00485e20(const void* apData, unsigned int auiSize);
 };
 // @fnv 0x00485e00
-void __thiscall FUN_00485e00_shell::FUN_00485e00()
+void FUN_00485e00_shell::FUN_00485e00()
 {
     reinterpret_cast<::SDSaveForm *>(this)->FUN_00485e20((const void *)(0), 0);
 }

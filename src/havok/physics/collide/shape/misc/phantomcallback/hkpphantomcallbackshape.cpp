@@ -7,7 +7,7 @@
 
 // 0x00c9e390  ret 0xc
 // @fnv 0x00c9e390
-void __stdcall FUN_00c9e390(int, int, int)
+void FUN_00c9e390(int, int, int)
 {}
 
 
@@ -19,7 +19,7 @@ void __cdecl FUN_00c9e3a0(void* object, void* callback)
 
 #include <xmmintrin.h>
 // @fnv 0x00c9e3b0
-__m128* __stdcall FUN_00c9e3b0(int aUnused, int bUnused, __m128* p)
+__m128* FUN_00c9e3b0(int aUnused, int bUnused, __m128* p)
 {
     const __m128 z = _mm_setzero_ps();
     p[0] = z;
@@ -28,7 +28,7 @@ __m128* __stdcall FUN_00c9e3b0(int aUnused, int bUnused, __m128* p)
 }
 
 // @fnv 0x00c9e3d0
-void __stdcall FUN_00c9e3d0(char* p, int a, int b)
+void FUN_00c9e3d0(char* p, int a, int b)
 {
     *p = 0;
 }

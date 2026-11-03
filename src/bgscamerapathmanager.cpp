@@ -88,7 +88,7 @@ struct FUN_0058b470_shell
 {
     bool IsFlag80Set();
 };
-bool __fastcall _ref_008256d0(const char* s);
+bool _ref_008256d0(const char* s);
 struct FUN_0058bb50_shell : NiFormArray
 {
     TESFile* FUN_0058bb50(unsigned int arg1, unsigned int arg2);
@@ -132,7 +132,7 @@ struct FUN_0058bc00_obj
 };
 // Sets the object's vtbl to DAT_01032748 and deallocates its data array via NiTMallocInterface.
 // @fnv 0x0058bc00
-void __fastcall FUN_0058bc00(FUN_0058bc00_obj* self)
+void FUN_0058bc00(FUN_0058bc00_obj* self)
 {
     self->vtbl = &DAT_01032748;
     ::FUN_004ede70(self->data);

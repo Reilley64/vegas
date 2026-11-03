@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a943f0
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ChildNode.h"
 #include "fnv/decl/FUN_00a5e930.h"
@@ -82,27 +83,25 @@ struct NiObject
 };
 struct NiSwitchNode : public NiObject
 {
-    bool __thiscall FUN_00a94000(NiObject*);
+    bool FUN_00a94000(NiObject*);
 };
 // Calls FUN_00a5e600, then returns true only if m_0b0 matches and the low bit of m_0ac matches the other object's.
 // @fnv 0x00a94000
-bool __thiscall NiSwitchNode::FUN_00a94000(NiObject* other)
+bool NiSwitchNode::FUN_00a94000(NiObject* other)
 {
     if (!reinterpret_cast<::NiNodeEq *>(this)->FUN_00a5e600((::NiAVObject *)(other)) || m_0b0 != other->m_0b0 || (m_0ac ^ other->m_0ac) & 1)
         return false;
     return true;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct NiObjectNET
 {
-    void __thiscall DeleteExtraData(unsigned short);
-    bool __thiscall FUN_00a5bf50(unsigned short);
+    void DeleteExtraData(unsigned short);
+    bool FUN_00a5bf50(unsigned short);
 };
 // Locks DAT_011f4380, deletes the extra data at index a1 if it is below the count at offset 0x14, and returns whether it was removed.
 // @fnv 0x00a5bf50
-bool __thiscall NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
+bool NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
 {
     EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
     if (ausIndex < *(unsigned short*)((char*)this + 0x14))
@@ -123,10 +122,10 @@ struct NiNode_Helper
 };
 struct FUN_00a93c00_shell : NiSwitchNode
 {
-    void __thiscall FUN_00a93c00(NiSwitchNode*, CloningProcess&);
+    void FUN_00a93c00(NiSwitchNode*, CloningProcess&);
 };
 // @fnv 0x00a93c00
-void __thiscall FUN_00a93c00_shell::FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kCloning)
+void FUN_00a93c00_shell::FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kCloning)
 {
     reinterpret_cast<::NiNode *>((((NiNode_Helper*)this)))->CopyMemberData((::NiNode *)(pkDest), kCloning);
     *(unsigned short*)((char*)pkDest + 0xac) = *(unsigned short*)((char*)this + 0xac);
@@ -212,11 +211,11 @@ struct Unk_00a5e930
 };
 struct FUN_00a94400_shell
 {
-    void* __thiscall DestroyWithFlags(unsigned int);
+    void* DestroyWithFlags(unsigned int);
 };
 // Sets the string at offset 0xbc, frees the pointer at 0xc0, calls FUN_00a5e930, and deletes this with size 0xcc when flags has bit 0 set.
 // @fnv 0x00a94400
-void* __thiscall FUN_00a94400_shell::DestroyWithFlags(unsigned int flags)
+void* FUN_00a94400_shell::DestroyWithFlags(unsigned int flags)
 {
     void* tmp = *(void**)((char*)this + 0xc0);
     *(char const**)((char*)this + 0xbc) = " HG";
@@ -240,14 +239,14 @@ struct NiNode_Helper
 };
 struct NiSwitchNode_Helper
 {
-    NiSwitchNode* __thiscall FUN_00a94360();
+    NiSwitchNode* FUN_00a94360();
 };
 struct FUN_00a94500_Holder : NiSwitchNode
 {
-    NiObject* __thiscall CloneSwitchNode(CloningProcess&);
+    NiObject* CloneSwitchNode(CloningProcess&);
 };
 // @fnv 0x00a94500
-NiObject* __thiscall FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloning)
+NiObject* FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloning)
 {
     NiSwitchNode* pkObject;
     void* pMemory = BSFadeNode::operator new(0xCC);
@@ -274,7 +273,7 @@ struct FUN_00a5ee30_shell
 };
 struct FUN_00a944a0_shell : public NiSwitchNode
 {
-    void __thiscall SetChildAtIndex(unsigned int, NiAVObject*, NiPointer&);
+    void SetChildAtIndex(unsigned int, NiAVObject*, NiPointer&);
 };
 // @fnv 0x00a944a0
 void FUN_00a944a0_shell::SetChildAtIndex(unsigned int uiIndex, NiAVObject* pkChild, NiPointer& spobject)
@@ -288,8 +287,6 @@ void FUN_00a944a0_shell::SetChildAtIndex(unsigned int uiIndex, NiAVObject* pkChi
     reinterpret_cast<::ChildNode *>((((FUN_00a5ee30_shell*)this)))->FUN_00a5ee30(uiIndex, (::ChildObj *)(pkChild), (::ChildObj *&)(spobject));
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long*);
 struct RefObj
 {
     virtual void f0();
@@ -331,7 +328,7 @@ struct Target : NiObject
     unsigned int unkBC;
     RefObj** arr;
     unsigned short capacity, length, count;
-    void __thiscall FUN_00a93ca0(RefObj*, RefPtr&);
+    void FUN_00a93ca0(RefObj*, RefPtr&);
 };
 // @fnv 0x00a93ca0
 void Target::FUN_00a93ca0(RefObj* child, RefPtr& out)
@@ -366,8 +363,6 @@ void Target::FUN_00a93ca0(RefObj* child, RefPtr& out)
 }
 
 namespace fnv_00a93dd0 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* plValue);
 
 class A93DD0AVObject
 {
@@ -559,11 +554,11 @@ struct FUN_00a93ef0_cls : public NiSwitchNode
     void* m_0b8;
     SwitchHolderB10050 m_0bc;
     void** m_0c0;
-    void __thiscall UpdateSwitchChild(unsigned int arg);
+    void UpdateSwitchChild(unsigned int arg);
 };
 
 // @fnv 0x00a93ef0
-void __thiscall FUN_00a93ef0_cls::UpdateSwitchChild(unsigned int arg)
+void FUN_00a93ef0_cls::UpdateSwitchChild(unsigned int arg)
 {
     int idx = (int)m_0b0;
     if (idx >= 0)

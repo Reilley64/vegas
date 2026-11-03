@@ -7,7 +7,6 @@
 #include "fnv/symbols_01096000.h"
 #include "fnv/symbols_0109a000.h"
 class NiBinaryStream;
-#pragma pack(push, 4)
 class NiBinaryStream
 {
   public:
@@ -16,5 +15,4 @@ class NiBinaryStream
     unsigned int(__cdecl* m_pfnRead)(NiBinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
     unsigned int(__cdecl* m_pfnWrite)(NiBinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 };
-#pragma pack(pop)
 #endif

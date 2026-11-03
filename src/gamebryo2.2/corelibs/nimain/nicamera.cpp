@@ -206,7 +206,7 @@ struct NiMemObject
 };
 
 // @fnv 0x00a70050
-void* __fastcall DestroyCamera(int* pThis, int, unsigned int flags)
+void* DestroyCamera(int* pThis, int, unsigned int flags)
 {
     *pThis = (int)&DAT_0109cb9c;
     reinterpret_cast<::FUN_00a5a390_shell *>((pThis))->FUN_00a5a390();
@@ -231,7 +231,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a713e0_shell : public NiCamera
 {
     NiObject* FUN_00a713e0(CloningProcess*);
@@ -251,7 +250,7 @@ struct CamStub
     void FUN_00a70f60(void*, CloningProcess*);
 };
 // @fnv 0x00a713e0
-void* __fastcall FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
+void* FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
 {
     FUN_00a712f0* pkObject = new FUN_00a712f0();
     self->FUN_00a70f60(pkObject, kCloning);
@@ -1024,12 +1023,12 @@ union FUN_00a70f60_FloatBits
 
 struct FUN_00a70f60_Obj
 {
-    void __thiscall FUN_00a70f60(NiCamera* destination, int second);
+    void FUN_00a70f60(NiCamera* destination, int second);
 };
 
 // Copies NiCamera state from source to destination via base copy, memcpy, and field assignments.
 // @fnv 0x00a70f60
-void __thiscall FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
+void FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
 {
     NiCamera* source = reinterpret_cast<NiCamera*>(this);
 

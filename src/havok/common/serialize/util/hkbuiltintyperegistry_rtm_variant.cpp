@@ -27,7 +27,7 @@ struct hkDefaultBuiltinTypeRegistry
 extern int DAT_010cf78c;
 struct FUN_00d479e0_class
 {
-    void* __thiscall FUN_00d479e0(const void* key);
+    void* FUN_00d479e0(const void* key);
 };
 struct FUN_00d47a80_class
 {
@@ -56,15 +56,15 @@ struct FUN_00d47aa0_s
 };
 struct FUN_00d87440_Class
 {
-    int __thiscall FUN_00d87440(int);
+    int FUN_00d87440(int);
 };
 struct SlotBitmap
 {
-    int __thiscall FindNextUsedSlot(int);
+    int FindNextUsedSlot(int);
 };
 struct FUN_00d874b0_class
 {
-    char* __thiscall SetBoolFromThreshold(char*, int);
+    char* SetBoolFromThreshold(char*, int);
 };
 struct FUN_00d87410_Class
 {
@@ -131,7 +131,7 @@ struct D477C0RegistryC
     virtual void slot08();
     virtual void registerLink(void*, D477C0Source*);
 };
-void __stdcall RegisterInputSource(D477C0Input* input, D477C0Source* source);
+void RegisterInputSource(D477C0Input* input, D477C0Source* source);
 struct hkClassD478
 {
     const char* m_name;
@@ -180,7 +180,7 @@ struct FUN_00d47940_Obj
     int unk00;
     int unk04;
     FUN_00d47940_Registry unk08;
-    void* __thiscall FUN_00d47940(int param1, int param2);
+    void* FUN_00d47940(int param1, int param2);
 };
 struct FUN_00d87430_Class
 {

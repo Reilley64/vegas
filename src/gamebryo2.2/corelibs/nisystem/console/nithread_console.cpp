@@ -1,8 +1,7 @@
 // gamebryo2.2/corelibs/nisystem/console/nithread_console.cpp: free functions (1 function)
 
-extern "C" __declspec(dllimport) void __stdcall RaiseException(unsigned long, unsigned long, unsigned long,
-                                                               const unsigned long*);
 
+#include <windows.h>
 struct THREADNAME_INFO
 {
     unsigned long dwType;

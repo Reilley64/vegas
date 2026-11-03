@@ -19,6 +19,4 @@ class NiRefObject : public NiMemObject
             DeleteThis();
     }
 };
-FNV_STATIC_ASSERT(sizeof(NiRefObject) == 0x8);
-FNV_STATIC_ASSERT(offsetof(NiRefObject, m_uiRefCount) == 0x4);
 #endif

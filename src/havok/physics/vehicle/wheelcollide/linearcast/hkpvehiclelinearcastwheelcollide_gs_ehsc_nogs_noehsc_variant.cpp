@@ -443,7 +443,7 @@ struct CollisionDetectionWheelOutputE366
 };
 struct hkpVehicleRayCastWheelCollideE366
 {
-    static void __stdcall RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
+    static void RayCastWheelCollide(const hkpVehicleInstanceE366* pkVehicle, unsigned char ucWheelNum,
                                               CollisionDetectionWheelOutputE366& kCdInfo);
 };
 struct __declspec(align(16)) FUN_00e36900_V
@@ -1124,7 +1124,7 @@ inline float dot3(__m128 a, __m128 b)
 }
 
 // @fnv 0x00e36510
-void __stdcall FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
+void FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, HitStandIn* hit,
                             WheelCollideOutputStandIn* out)
 {
     float velChassis = vehicle->m_pSuspension->m_wheelData[wheelIndex].m_fRestLength;

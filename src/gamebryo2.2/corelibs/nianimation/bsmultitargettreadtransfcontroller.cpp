@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp: Holder, BSMultiTargetTreadTransfController, TreadController (20 functions)
 
+#include <windows.h>
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
@@ -55,12 +56,12 @@ char* FUN_00a35e90_shell::FUN_00a35e90(unsigned short ausIndex)
 
 struct FUN_00a35fc0_shell
 {
-    void __thiscall SetSlotValue(unsigned short idx, void* val);
+    void SetSlotValue(unsigned short idx, void* val);
 };
 
 // Stores val into the slot at idx in the array at this+0x3c and, if val is non-null, sets bit 0x80 in val's field at 0x30.
 // @fnv 0x00a35fc0
-void __thiscall FUN_00a35fc0_shell::SetSlotValue(unsigned short usIndex, void* pValue)
+void FUN_00a35fc0_shell::SetSlotValue(unsigned short usIndex, void* pValue)
 {
     void* arr = *(void**)((char*)this + 0x3c);
     void* slot = *(void**)((char*)arr + usIndex * 4);
@@ -79,12 +80,12 @@ public:
 
 struct FUN_00a35910_shell
 {
-    unsigned short __thiscall FindIndexByValue(unsigned short a);
+    unsigned short FindIndexByValue(unsigned short a);
 };
 
 // Scans the array at this+0x3c for an entry whose field at offset 4 equals a, returning its index or INVALID_INDEX.
 // @fnv 0x00a35910
-unsigned short __thiscall FUN_00a35910_shell::FindIndexByValue(unsigned short a)
+unsigned short FUN_00a35910_shell::FindIndexByValue(unsigned short a)
 {
     unsigned short i = 0;
     unsigned short n = *(unsigned short*)((char*)this + 0x40);
@@ -140,10 +141,10 @@ unsigned short Holder_00a35f30::FindLinkIndex(const Arg_00a35f30& arName)
 
 struct FUN_00a35f70_struct
 {
-    void __thiscall SetSlotEntry(unsigned short, void*, unsigned short, void*);
+    void SetSlotEntry(unsigned short, void*, unsigned short, void*);
 };
 // @fnv 0x00a35f70
-void __thiscall FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* a2, unsigned short a3, void* a4)
+void FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* a2, unsigned short a3, void* a4)
 {
     int iOffset = usIndex * 4;
     *(void**)(*(char**)((char*)*(char***)((char*)this + 0x3c) + iOffset) + 4) = a2;
@@ -155,7 +156,7 @@ void __thiscall FUN_00a35f70_struct::SetSlotEntry(unsigned short usIndex, void* 
 
 struct S_00a36050
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 struct Interp00a358b0
@@ -217,10 +218,10 @@ struct Ctrl00a358b0
     char _0[52];
     Interp00a358b0* m_base;
     unsigned short m_num;
-    void __thiscall FUN_00a358b0(float afStartTime, float afEndTime);
+    void FUN_00a358b0(float afStartTime, float afEndTime);
 };
 // @fnv 0x00a358b0
-void __thiscall Ctrl00a358b0::FUN_00a358b0(float afStartTime, float afEndTime)
+void Ctrl00a358b0::FUN_00a358b0(float afStartTime, float afEndTime)
 {
     unsigned short us = 0;
     if (us < m_num)
@@ -287,7 +288,7 @@ struct InterpStub_00a2fac0
 };
 
 // @fnv 0x00a2fac0
-bool __stdcall FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex)
+bool FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex)
 {
     return apInterpolator->IsCorrectType();
 }
@@ -364,7 +365,7 @@ struct TreadInterpolator : FUN_00a2f8c0
 
 struct TreadController
 {
-    TreadInterpolator* __thiscall CreateInterpolator(unsigned int index);
+    TreadInterpolator* CreateInterpolator(unsigned int index);
 };
 
 // @fnv 0x00a35a10
@@ -378,7 +379,7 @@ TreadInterpolator* TreadController::CreateInterpolator(unsigned int index)
 struct TreadElem_00a35b90
 {
     char unk00[0x34];
-    void __thiscall Dtor();
+    void Dtor();
 };
 
 void __cdecl FreeArr_00a35b90(void* apMemory, unsigned int aiSize);
@@ -468,14 +469,14 @@ struct FUN_00a35fe0_shell
     Entry_00a35fe0** unk3C;
     unsigned short unk40;
 
-    unsigned short __thiscall FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
+    unsigned short FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value);
 };
 
 extern unsigned short DAT_01096320;
 
 // Finds the first free entry slot, stores the value, id and target in it, sets bit 0x80 on the target, and returns the slot index or DAT_01096320 if none is free.
 // @fnv 0x00a35fe0
-unsigned short __thiscall FUN_00a35fe0_shell::FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value)
+unsigned short FUN_00a35fe0_shell::FUN_00a35fe0(Target_00a35fe0* target, unsigned short id, void* value)
 {
     for (unsigned short index = 0; index < unk40; ++index)
     {
@@ -494,8 +495,6 @@ unsigned short __thiscall FUN_00a35fe0_shell::FUN_00a35fe0(Target_00a35fe0* targ
     return DAT_01096320;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 inline unsigned int NiAtomicIncrement(unsigned int& v)
 {
     return InterlockedIncrement((long*)&v);
@@ -754,7 +753,7 @@ struct S00a35960_Heap
 
 struct S00a35960_Obj
 {
-    virtual void __thiscall Dtor(unsigned int flags);
+    virtual void Dtor(unsigned int flags);
 };
 
 struct S00a35960_Cls : FUN_00a2f8c0
@@ -768,7 +767,7 @@ struct S00a35960_Cls : FUN_00a2f8c0
     void FUN_00a35960();
 };
 // @fnv 0x00a36050
-void* __thiscall S_00a36050::DestroyIfFlagged(unsigned int uiFlags)
+void* S_00a36050::DestroyIfFlagged(unsigned int uiFlags)
 {
     reinterpret_cast<::S00a35960_Cls *>(this)->FUN_00a35960();
     if (uiFlags & 1)
@@ -890,12 +889,12 @@ struct FUN_00a35eb0_shell
     Entry_00a35eb0** unk3C;
     unsigned short unk40;
 
-    unsigned short __thiscall FindByName(const char* name);
+    unsigned short FindByName(const char* name);
 };
 
 // Searches the entry array for an interpolator whose name matches name and returns its index, or DAT_01096320 if not found.
 // @fnv 0x00a35eb0
-unsigned short __thiscall FUN_00a35eb0_shell::FindByName(const char* name)
+unsigned short FUN_00a35eb0_shell::FindByName(const char* name)
 {
     if (name == 0)
         return DAT_01096320;

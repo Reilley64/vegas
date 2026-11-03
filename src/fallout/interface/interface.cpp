@@ -1,5 +1,6 @@
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorMover.h"
@@ -722,7 +723,7 @@ class Modifier
     char GetKey(void);
 };
 
-bool __fastcall FUN_00644640(void*);
+bool FUN_00644640(void*);
 
 // Returns true when FUN_004b7210 yields a Modifier whose GetKey is nonzero and FUN_00644640 accepts that same object; otherwise false.
 // @fnv 0x00702360
@@ -914,7 +915,7 @@ class BGSMoviePlayer
   public:
 };
 
-void __fastcall FUN_00713f00(InterfaceManager*);
+void FUN_00713f00(InterfaceManager*);
 
 // @fnv 0x00702870
 void FUN_00702870()
@@ -1533,7 +1534,7 @@ struct TutorialManagerLayout
 };
 
 // @fnv 0x00706b90
-void __fastcall ResetEntries(TutorialManagerLayout* pThis)
+void ResetEntries(TutorialManagerLayout* pThis)
 {
     for (unsigned int i = 0; i < 0x29; ++i)
     {
@@ -1846,7 +1847,7 @@ void FUN_00707950_shell::SetNeed(bool abNeed)
     *((bool*)((char*)this + 0xb0)) = abNeed;
 }
 
-bool __fastcall FUN_007079f0(InterfaceManager*);
+bool FUN_007079f0(InterfaceManager*);
 
 // Returns false if FUN_00705a00() is true and the rendered menu is not initialized; otherwise returns FUN_007079f0(FUN_004b7210()).
 // @fnv 0x007079b0
@@ -1938,7 +1939,7 @@ template <> class BSSimpleList<TESRace*>
 };
 
 // @fnv 0x00726c40
-int __fastcall GetRaceCount(char* pThis)
+int GetRaceCount(char* pThis)
 {
     return ((BSSimpleList<TESRace*>*)(pThis + 4))->GetSize();
 }
@@ -2964,11 +2965,11 @@ struct FORenderedTerminal
 
 struct FUN_00706810_Class
 {
-    int __thiscall FUN_00706810();
+    int FUN_00706810();
 };
 
 // @fnv 0x00706810
-int __thiscall FUN_00706810_Class::FUN_00706810()
+int FUN_00706810_Class::FUN_00706810()
 {
     return MinInt(1, 1) + 5;
 }
@@ -3022,7 +3023,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 
 struct Tile_Set_Helper
 {
@@ -3437,7 +3437,7 @@ struct TaskQueueInterface
 
 int strcat_s(char*, unsigned int, const char*);
 int _sprintf(char*, const char*, ...);
-void __fastcall _ref_00ec408c(unsigned int);
+void _ref_00ec408c(unsigned int);
 
 extern unsigned int __security_cookie;
 
@@ -3882,8 +3882,6 @@ unsigned int __cdecl FUN_00707870(unsigned int a1)
     }
 }
 
-extern "C" __declspec(dllimport) int __stdcall IsDebuggerPresent();
-extern "C" __declspec(dllimport) __declspec(noreturn) void __stdcall ExitProcess(unsigned int uExitCode);
 extern "C" void __debugbreak();
 
 char ConsumeByteAtE4();
@@ -4794,10 +4792,6 @@ struct WinMessage
     unsigned int time;
     WinPoint pt;
 };
-extern "C" __declspec(dllimport) int __stdcall PeekMessageA(WinMessage*, HWND__*, unsigned int, unsigned int,
-                                                            unsigned int);
-extern "C" __declspec(dllimport) int __stdcall TranslateMessage(const WinMessage*);
-extern "C" __declspec(dllimport) long __stdcall DispatchMessageA(const WinMessage*);
 
 struct InterfaceControl
 {
@@ -5009,7 +5003,7 @@ void FUN_007066d0(Buffer* buffer)
 
 struct FUN_00703960_Class
 {
-    void __thiscall SetByteAtOffsetEC(char param);
+    void SetByteAtOffsetEC(char param);
 };
 
 // @fnv 0x00706db0
@@ -5863,7 +5857,6 @@ FUN_00709930::~FUN_00709930()
 // Builds on the packet's best prior attempt; corrected constructors, calls and local layout.
 // Packet flags: /MT /Od /Oy- /GS /EHsc /Gy /GF. Entry ABI: __cdecl, caller pops.
 
-extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(const char*, void*);
 
 namespace points {
 struct FUN_006815c0
@@ -5892,7 +5885,7 @@ struct FUN_004a7800
 };
 typedef FUN_004a7800 NiCol;
 
-// object reached from DAT_011dea3c through virtual slot 0x1f4 (index 125, __thiscall)
+// object reached from DAT_011dea3c through virtual slot 0x1f4 (index 125, )
 struct C125
 {
     virtual void v000();
@@ -6023,7 +6016,7 @@ struct C125
     virtual void* v125();
 };
 
-// object with virtual name accessor at slot 0x130 (index 76, __thiscall)
+// object with virtual name accessor at slot 0x130 (index 76, )
 struct C76a
 {
     virtual void v000();
@@ -6265,7 +6258,7 @@ struct C76c
     virtual unsigned int v076(int);
 };
 
-// object with virtual slot 0xdc (index 55, __thiscall, callee pops 8)
+// object with virtual slot 0xdc (index 55, , callee pops 8)
 struct C55
 {
     virtual void v000();
@@ -6326,7 +6319,7 @@ struct C55
     virtual void v055(void*, int);
 };
 
-// object with virtual slot 0x9c (index 39, __thiscall, callee pops 4)
+// object with virtual slot 0x9c (index 39, , callee pops 4)
 struct C39
 {
     virtual void v000();
@@ -6637,15 +6630,15 @@ struct MapMenuR6
 };
 
 // free helpers; conventions read from add esp evidence
-extern "C" void __stdcall FUN_00401050(void*, unsigned int, unsigned int, void*);
+extern "C" void FUN_00401050(void*, unsigned int, unsigned int, void*);
 extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_004a7800();
 extern "C" void* __cdecl FUN_00ec62c0();
 struct ColorSource
 {
 };
-extern "C" void __fastcall FUN_00719060(void*); /* ecx = FUN_00718b60 result */
-extern "C" void __fastcall FUN_00a59c60(void*); /* ecx = FUN_0056c7f0 result */
+extern "C" void FUN_00719060(void*); /* ecx = FUN_00718b60 result */
+extern "C" void FUN_00a59c60(void*); /* ecx = FUN_0056c7f0 result */
 struct GObj
 {
 };

@@ -42,7 +42,7 @@ struct FUN_00a86ff0_shell
 
 // Sets the byte at offset 8 of the 20-byte entry at index to whether its dword at offset 4 is nonzero, then sets the flag at 0xcc.
 // @fnv 0x00a86ff0
-void __thiscall FUN_00a86ff0_shell::SetEntryActive(unsigned int index)
+void FUN_00a86ff0_shell::SetEntryActive(unsigned int index)
 {
     unsigned char* p = (unsigned char*)this;
     void* arr = *(void**)(p + 0xc4);
@@ -60,12 +60,12 @@ struct MemoryManager
 
 struct FUN_00a87290_shell
 {
-    void* __thiscall FUN_00a87290(unsigned int flags);
+    void* FUN_00a87290(unsigned int flags);
 };
 
 // Sets the vtable, deallocates the pointer at offset 0xc4, calls FUN_00a89760 on this, and frees the object with _delete when flags has bit 0 set.
 // @fnv 0x00a87290
-void* __thiscall FUN_00a87290_shell::FUN_00a87290(unsigned int flags)
+void* FUN_00a87290_shell::FUN_00a87290(unsigned int flags)
 {
     void* old = *(void**)((char*)this + 0xc4);
     *(void**)this = &::DAT_0109e834;

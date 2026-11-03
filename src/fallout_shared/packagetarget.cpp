@@ -211,7 +211,7 @@ void PackageTargetRecord::InitItem(TESForm* owner)
 
 // Sets the byte at pThis to 2 and zeroes the int, int and float fields at offsets 4, 8 and 12, then returns pThis.
 // @fnv 0x0067ff70
-void* __fastcall FUN_0067ff70(void* pThis)
+void* FUN_0067ff70(void* pThis)
 {
     *(unsigned char*)pThis = 2;
     *((int*)pThis + 1) = 0;

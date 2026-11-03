@@ -25,7 +25,7 @@
 #include "havok/hkpEntity.h"
 
 // @fnv 0x00c9c380
-int __fastcall FUN_00c9c380(void* self, int)
+int FUN_00c9c380(void* self, int)
 {
     return *(int*)((char*)self + 0xb8) + *(unsigned short*)((char*)self + 0xb0);
 }
@@ -117,12 +117,12 @@ struct FUN_00c9c1a0_Class
     FUN_00c9c1a0_Item* m_60;
     int m_64;
 
-    int __thiscall FindValueByKey(int value);
+    int FindValueByKey(int value);
 };
 
 // Scans the m_60 item array for an entry whose m_04 equals value + 0x10 and returns that entry's m_00->m_08, or 0 if none matches.
 // @fnv 0x00c9c1a0
-int __thiscall FUN_00c9c1a0_Class::FindValueByKey(int value)
+int FUN_00c9c1a0_Class::FindValueByKey(int value)
 {
     int index = 0;
     if (m_64 > 0)
@@ -183,7 +183,7 @@ void* FUN_00c9d490_Class::FUN_00c9d490(int flags)
 }
 
 // @fnv 0x00c9c020
-int __fastcall FUN_00c9c020(int param_1)
+int FUN_00c9c020(int param_1)
 {
     return param_1 + 0xac;
 }
@@ -2457,7 +2457,7 @@ struct FUN_00c9c700_Class
     int unk210;
     FUN_00c9c700_Array* unk214;
 
-    void __thiscall FUN_00c9c700(int value);
+    void FUN_00c9c700(int value);
 };
 
 // Initializes the internal array if needed, then inserts value into the first empty slot or appends it, growing capacity when full.

@@ -103,7 +103,7 @@ struct FUN_00e898d0_shell : NiD3DPixelShader
 };
 
 // @fnv 0x00e898d0
-void __thiscall FUN_00e898d0_shell::FUN_00e898d0()
+void FUN_00e898d0_shell::FUN_00e898d0()
 {
     ::fnv_00e92f30::FUN_00e92f30((::fnv_00e92f30::NiD3DPixelShader *)(::NiD3DPixelShader *)(this));
 }

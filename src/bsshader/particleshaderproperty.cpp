@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00ba7f10
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a673d0_shell.h"
@@ -59,7 +60,6 @@ void ParticleShaderProperty::FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInte
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrings))->SetAt(size, str);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern int DAT_01200424;
 int __cdecl GetFloatQuadTable();
 void* _fnv_zlib_memset(void*, int, unsigned int);

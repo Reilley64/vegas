@@ -62,18 +62,18 @@ struct FUN_00456a60_Class
 char __cdecl FUN_005b9240();
 struct FUN_005b92e0_class
 {
-    int __thiscall GetField59C();
+    int GetField59C();
 };
 struct FUN_005a7220_class
 {
 };
 struct FUN_005a71d0_class
 {
-    void* __thiscall FUN_005a71d0();
+    void* FUN_005a71d0();
 };
 struct FUN_005a7220_cls
 {
-    int __thiscall Initialize();
+    int Initialize();
 };
 struct Flt
 {
@@ -84,11 +84,11 @@ struct BSSimpleListBase
 };
 struct FUN_005a7c00_class : public BSSimpleListBase
 {
-    char __thiscall FUN_005a7c00(BSSimpleListBase* other);
+    char FUN_005a7c00(BSSimpleListBase* other);
 };
 struct FUN_005a8e20_cls
 {
-    char __thiscall FUN_005a8ef0(int param_2, int param_3);
+    char FUN_005a8ef0(int param_2, int param_3);
 };
 void FUN_005b4a70();
 void FUN_005b9200(unsigned char value);

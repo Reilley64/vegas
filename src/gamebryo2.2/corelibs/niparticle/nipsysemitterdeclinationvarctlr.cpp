@@ -73,7 +73,7 @@ struct StrArr
 };
 
 // @fnv 0x00c2b920
-void __stdcall FUN_00c2b920(StrArr* pStringArray)
+void FUN_00c2b920(StrArr* pStringArray)
 {
     FUN_00c32f60(pStringArray);
     char* s = ::FUN_00a7d330((char*)(*reinterpret_cast<void * *>(&::g_01202750)));

@@ -12,7 +12,7 @@ struct FUN_004f9bf0_shell
 };
 struct BGSConstructibleObject
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 
 // sub ecx,0x3c; jmp target: MSVC adjustor thunk from multiple inheritance (Derived overrides a virtual both bases declare).

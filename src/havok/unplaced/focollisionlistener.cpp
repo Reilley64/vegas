@@ -66,11 +66,11 @@ void FUN_006234f0_class::FUN_006234f0()
 
 struct FUN_00623570_class
 {
-    int __fastcall FUN_00623570();
+    int FUN_00623570();
 };
 
 // @fnv 0x00623570
-int __fastcall FUN_00623570_class::FUN_00623570()
+int FUN_00623570_class::FUN_00623570()
 {
     *reinterpret_cast<int**>(this) = &(*reinterpret_cast<int *>(&::DAT_0104dd7c));
     return reinterpret_cast<int>(this);
@@ -78,13 +78,13 @@ int __fastcall FUN_00623570_class::FUN_00623570()
 
 struct FUN_00623590_class
 {
-    void __thiscall FUN_006235c0();
-    void* __thiscall FUN_00623590(unsigned int flags);
+    void FUN_006235c0();
+    void* FUN_00623590(unsigned int flags);
 };
 struct FUN_00623820_class
 {
-    void __thiscall FUN_00623850();
-    void* __thiscall FUN_00623820(unsigned int flags);
+    void FUN_00623850();
+    void* FUN_00623820(unsigned int flags);
 };
 struct GO
 {
@@ -102,7 +102,7 @@ struct FUN_00623850
     ~FUN_00623850();
 };
 // @fnv 0x00623820
-void* __thiscall FUN_00623820_class::FUN_00623820(unsigned int flags)
+void* FUN_00623820_class::FUN_00623820(unsigned int flags)
 {
     reinterpret_cast<::FUN_00623850 *>(this)->FUN_00623850::~FUN_00623850();
     if (flags & 1)
@@ -152,7 +152,7 @@ struct FUN_006235c0 : BaseObject
 };
 // Calls FUN_006235c0, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x00623590
-void* __thiscall FUN_00623590_class::FUN_00623590(unsigned int flags)
+void* FUN_00623590_class::FUN_00623590(unsigned int flags)
 {
     reinterpret_cast<::FUN_006235c0 *>(this)->FUN_006235c0::~FUN_006235c0();
     if (flags & 1)

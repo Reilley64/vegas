@@ -26,7 +26,7 @@ void hkDisplayCapsule::FUN_00d22d70()
 }
 
 // @fnv 0x00d22db0
-void __stdcall FUN_00d22db0(int, int)
+void FUN_00d22db0(int, int)
 {}
 
 union __declspec(intrin_type) __declspec(align(16)) __m128

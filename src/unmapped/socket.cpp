@@ -5,20 +5,20 @@
 #include "fnv/symbols_0044a000.h"
 struct MorphName
 {
-    char const* __thiscall GetMorphName();
+    char const* GetMorphName();
 };
 // @fnv 0x0044a380
-char const* __thiscall MorphName::GetMorphName()
+char const* MorphName::GetMorphName()
 {
     return ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)(reinterpret_cast<MorphName*>(reinterpret_cast<char*>(this) + 0xc)));
 }
 
 struct FUN_00aca1e0
 {
-    void* __thiscall GetPointer();
+    void* GetPointer();
 };
 // @fnv 0x00aca1e0
-void* __thiscall FUN_00aca1e0::GetPointer()
+void* FUN_00aca1e0::GetPointer()
 {
     struct X
     {

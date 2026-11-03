@@ -1,5 +1,6 @@
 // bsshader/watershader.cpp: WaterShader, MaterialShader, WaterShaderLoader, WaterShaderReleaser and more (12 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -136,7 +137,7 @@ struct FUN_00b86b80_arg
 };
 // Reads the global mode and the inner object's flags and byte, calling FUN_00b98480 or _FUN_00b98070 depending on the mode and flag checks.
 // @fnv 0x00b86b80
-void __stdcall FUN_00b86b80(FUN_00b86b80_arg* apArg)
+void FUN_00b86b80(FUN_00b86b80_arg* apArg)
 {
     FUN_00b86b80_inner* pInner = apArg->m_p;
     unsigned int mode = DAT_011f91e4;
@@ -227,8 +228,6 @@ struct Ref112
     virtual void DeleteThis();
     long refs;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct Stage112
 {
     unsigned int unk00;

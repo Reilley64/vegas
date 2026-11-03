@@ -181,12 +181,12 @@ struct FUN_0048e9b0
 
 struct FUN_0051b020_shell
 {
-    unsigned short __thiscall FUN_0051b020(unsigned int aiFlags);
+    unsigned short FUN_0051b020(unsigned int aiFlags);
 };
 
 // Returns the sum of GetSaveSize(aiFlags) for this object and the sub-object at offset 0x74.
 // @fnv 0x0051b020
-unsigned short __thiscall FUN_0051b020_shell::FUN_0051b020(unsigned int aiFlags)
+unsigned short FUN_0051b020_shell::FUN_0051b020(unsigned int aiFlags)
 {
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_00484bf0_shell *>((((FUN_00484bf0*)this)))->FUN_00484bf0(aiFlags);
@@ -298,10 +298,10 @@ struct FUN_008cdd90_shell
 };
 struct FUN_0051af50_shell
 {
-    void __thiscall FUN_0051af50(TESForm* apCopy);
+    void FUN_0051af50(TESForm* apCopy);
 };
 // @fnv 0x0051af50
-void __thiscall FUN_0051af50_shell::FUN_0051af50(TESForm* apCopy)
+void FUN_0051af50_shell::FUN_0051af50(TESForm* apCopy)
 {
     TESObjectMISC* pmisc = dynamic_cast<TESObjectMISC*>(apCopy);
     if (!pmisc)
@@ -337,11 +337,11 @@ struct TESValueFormLoadGame
 };
 struct FUN_0051b100_owner
 {
-    void __thiscall FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer);
+    void FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 // Loads the form from the buffer, then loads the value form at offset 0x74 from the same buffer.
 // @fnv 0x0051b100
-void __thiscall FUN_0051b100_owner::FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer)
+void FUN_0051b100_owner::FUN_0051b100(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormBufferAccess*>(this)))->LoadGame(apLoadGameBuffer);
     reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<TESValueFormLoadGame*>((char*)this + 0x74)))->FUN_0048ea80(apLoadGameBuffer);

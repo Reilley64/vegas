@@ -1,6 +1,7 @@
 
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00e937f0_shell.h"
 #include "fnv/decl/FUN_00e93820_shell.h"
@@ -24,7 +25,6 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01270000.h"
 #include "nid3dgpuprogramcache_decls.h"
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct MemoryManager
 {
 };
@@ -49,8 +49,6 @@ struct S00e8ea20
     char* _s;
     void* ReleaseAndDestroy(unsigned int);
 };
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-__declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ValueHolder
 {
     void* m_pOwnerObject;
@@ -117,7 +115,6 @@ class E8DF70Writer
   public:
     bool WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShader);
 };
-__declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct S_00e8e1d0_Ptr
 {
     RefCounted* p;
@@ -160,8 +157,6 @@ struct FUN_00e8eb10_cls
 
     FUN_00e8eb10_cls* Destroy(unsigned char acFlags);
 };
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedDecrement(volatile long*);
-__declspec(dllimport) __declspec(nothrow) long __stdcall InterlockedIncrement(volatile long*);
 __declspec(nothrow) inline long NiAtomicSubtract(volatile long* value)
 {
     return InterlockedDecrement(value);
@@ -297,11 +292,11 @@ template <class T> inline void LoadBinary8e(ShaderStream8e* pkStream, T* pkValue
 }
 struct ShaderBuffer8e
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
 };
 struct FixedString8e
 {

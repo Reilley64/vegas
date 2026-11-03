@@ -483,7 +483,7 @@ void FUN_0061cfd0_shell::FUN_0061cfd0(char* apPrompt)
 
 // Reads the flags byte at offset 0x26 and returns 1 if bit 0x10 is set, 3 if bit 0x20 is set, otherwise 2.
 // @fnv 0x0061e720
-int __fastcall FUN_0061e720(const char* pThis)
+int FUN_0061e720(const char* pThis)
 {
     return (pThis[0x26] & 0x10) ? 1 : ((pThis[0x26] & 0x20) ? 3 : 2);
 }
@@ -631,7 +631,7 @@ void FUN_0061cc60_holder::AddNode(int pNode)
 
 // Walks the response chain to its last node and links the given response onto the end of it.
 // @fnv 0x0061cc90
-void __thiscall FUN_0061cc90_shell::AppendResponse(TESResponse* apResponse)
+void FUN_0061cc90_shell::AppendResponse(TESResponse* apResponse)
 {
     TESResponse* next = this;
     while (((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((next))->FUN_0045cd60())) != 0)
@@ -661,11 +661,11 @@ struct TESFormStub
 
 struct FUN_0061dad0_shell
 {
-    void __thiscall FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags);
+    void FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags);
 };
 
 // @fnv 0x0061dad0
-void __thiscall FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_0061dad0_shell::FUN_0061dad0(unsigned int aiFlags, unsigned int aiCurrentFlags)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x80000000)
@@ -847,14 +847,14 @@ void FUN_0061d6a0_shell::FUN_0061d6a0(bool set)
 extern "C" void* _data_011c16bc;
 struct FUN_00680a70_shell
 {
-    void __thiscall CopyConditions(PerkEntryConditionSet* dst, PerkEntryConditionSet* src);
+    void CopyConditions(PerkEntryConditionSet* dst, PerkEntryConditionSet* src);
 };
 struct FUN_0061e0f0_shell : TESTopicInfo
 {
-    void __thiscall FUN_0061e0f0(PerkEntryConditionSet* apCond);
+    void FUN_0061e0f0(PerkEntryConditionSet* apCond);
 };
 // @fnv 0x0061e0f0
-void __thiscall FUN_0061e0f0_shell::FUN_0061e0f0(PerkEntryConditionSet* apCond)
+void FUN_0061e0f0_shell::FUN_0061e0f0(PerkEntryConditionSet* apCond)
 {
     if (apCond)
         ((FUN_00680a70_shell*)((char*)this + 0x18))->CopyConditions(apCond, (PerkEntryConditionSet*)this);
@@ -1259,7 +1259,7 @@ void FUN_0061f280_This::FUN_0061f280()
 struct GlobalObject2_0040c150
 {
 };
-int __fastcall FUN_0061e720(const char*);
+int FUN_0061e720(const char*);
 struct CondOps
 {
 };

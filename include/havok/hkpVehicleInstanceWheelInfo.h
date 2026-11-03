@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkContactPoint.h"
-#pragma pack(push, 1)
 class hkpVehicleInstanceWheelInfo
 {
   public:
@@ -30,6 +29,4 @@ class hkpVehicleInstanceWheelInfo
     hkReal m_fForwardForce;               // +0xD4
     char padD8[0x8];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleInstanceWheelInfo[(sizeof(hkpVehicleInstanceWheelInfo) == 0xE0) ? 1 : -1];
 #endif

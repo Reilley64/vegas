@@ -150,7 +150,7 @@ struct FUN_004e0530_shell
 };
 
 // @fnv 0x004e0530
-GlobalObject_00a7b610* __thiscall FUN_004e0530_shell::GetGlobalObject()
+GlobalObject_00a7b610* FUN_004e0530_shell::GetGlobalObject()
 {
     return &::g_011c7844;
 }

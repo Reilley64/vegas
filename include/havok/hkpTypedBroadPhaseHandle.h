@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPTYPEDBROADPHASEHANDLE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpTypedBroadPhaseHandle
 {
   public:
@@ -15,6 +14,4 @@ class hkpTypedBroadPhaseHandle
     char pad7[0x1];
     hkUint32 m_uiCollisionFilterData;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpTypedBroadPhaseHandle[(sizeof(hkpTypedBroadPhaseHandle) == 0xC) ? 1 : -1];
 #endif

@@ -2,6 +2,7 @@
 #ifndef FNV_TESDATAHANDLER_FILES_H
 #define FNV_TESDATAHANDLER_FILES_H
 
+#include <windows.h>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -61,9 +62,6 @@ struct WIN32_FIND_DATAA
     char name[260];
     char alternate[14];
 };
-extern "C" __declspec(dllimport) void* __stdcall FindFirstFileA(const char*, WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindNextFileA(void*, WIN32_FIND_DATAA*);
-extern "C" __declspec(dllimport) int __stdcall FindClose(void*);
 struct TESRecordHeader
 {
     unsigned int type, size, flags, formID;
@@ -261,8 +259,6 @@ extern "C" void* _alloca(unsigned int);
 
 
 int strcat_s(char*, unsigned int, const char*);
-extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char*, const char*);
-extern "C" __declspec(dllimport) char* __stdcall lstrcatA(char*, const char*);
 char* strchr(char*, int);
 int FUN_00ec4835(const void*, const void*, unsigned int);
 extern "C" void* memcpy(void*, const void*, unsigned int);
@@ -305,6 +301,5 @@ class FAMThread : public BSThread
     void* result;
     unsigned int threadID;
 };
-extern "C" __declspec(dllimport) void* __stdcall CreateEventA(void*, int, int, const char*);
 
 #endif

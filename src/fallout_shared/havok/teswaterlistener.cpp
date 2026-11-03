@@ -87,7 +87,7 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_0062e750_shell
 {
-    void* __thiscall FUN_0062e750(unsigned int flags);
+    void* FUN_0062e750(unsigned int flags);
 };
 
 
@@ -195,11 +195,11 @@ float __cdecl SignOfFloat(float afValue)
 
 struct FUN_005631e0_shell
 {
-    bool __thiscall IsNonZero(int a);
+    bool IsNonZero(int a);
 };
 
 // @fnv 0x005631e0
-bool __thiscall FUN_005631e0_shell::IsNonZero(int aiValue)
+bool FUN_005631e0_shell::IsNonZero(int aiValue)
 {
     return reinterpret_cast<::FUN_00563200_Struct *>(this)->MaskWithField(aiValue) != 0;
 }
@@ -207,11 +207,11 @@ bool __thiscall FUN_005631e0_shell::IsNonZero(int aiValue)
 
 struct FUN_0062e710_shell
 {
-    void __thiscall SetValueAt(float f, int a, int b);
+    void SetValueAt(float f, int a, int b);
 };
 
 // @fnv 0x0062e710
-void __thiscall FUN_0062e710_shell::SetValueAt(float afValue, int a, int b)
+void FUN_0062e710_shell::SetValueAt(float afValue, int a, int b)
 {
     int index = a + b * (*(int*)((char*)this + 0x28));
     *(float*)((*(int*)((char*)this + 0x20)) + index * 4) = FUN_004a3e90(afValue);
@@ -219,14 +219,14 @@ void __thiscall FUN_0062e710_shell::SetValueAt(float afValue, int a, int b)
 
 struct BSSimpleList_Ragdoll
 {
-    void* __thiscall FUN_006310e0();
+    void* FUN_006310e0();
 };
 struct TESDataHandler
 {
 };
 struct FUN_006310c0_shell
 {
-    void __thiscall FUN_006310c0();
+    void FUN_006310c0();
 };
 
 // @fnv 0x006310c0
@@ -240,10 +240,10 @@ struct FUN_00c9a520_shell
 };
 struct FUN_0062e940_shell
 {
-    void __thiscall ProcessAndForward(const void* p);
+    void ProcessAndForward(const void* p);
 };
 // @fnv 0x0062e940
-void __thiscall FUN_0062e940_shell::ProcessAndForward(const void* p)
+void FUN_0062e940_shell::ProcessAndForward(const void* p)
 {
     void* q = FUN_004b5a80(p);
     reinterpret_cast<::ObstacleManagerC9A *>((((FUN_00c9a520_shell*)this)))->FUN_00c9a520((::ObstacleDataC9A *)(q));
@@ -251,7 +251,7 @@ void __thiscall FUN_0062e940_shell::ProcessAndForward(const void* p)
 
 struct FUN_00576830_shell
 {
-    void* __thiscall FUN_00576830(BSOcclusionPlane* pPlane);
+    void* FUN_00576830(BSOcclusionPlane* pPlane);
 };
 
 // Calls GetOcclusionPlaneThreadID on pPlane; if it returns non-null, calls FUN_00576830 on the object at offset 0x14 and returns its result, otherwise returns null.
@@ -267,15 +267,15 @@ void* FUN_0062fe80(BSOcclusionPlane* pPlane)
 
 struct FUN_0062b0a0_shell
 {
-    void* __thiscall FUN_0062b0a0(void* a, void* b);
+    void* FUN_0062b0a0(void* a, void* b);
 };
 struct FUN_00630100_shell
 {
-    void* __thiscall FUN_00630100(void* arg);
+    void* FUN_00630100(void* arg);
 };
 // Calls FUN_0062b0a0 with arg and this, then returns arg.
 // @fnv 0x00630100
-void* __thiscall FUN_00630100_shell::FUN_00630100(void* arg)
+void* FUN_00630100_shell::FUN_00630100(void* arg)
 {
     ((FUN_0062b0a0_shell*)this)->FUN_0062b0a0(arg, this);
     return arg;
@@ -283,7 +283,7 @@ void* __thiscall FUN_00630100_shell::FUN_00630100(void* arg)
 
 struct PackedByteIntRecord
 {
-    char* __thiscall Endian();
+    char* Endian();
 };
 // @fnv 0x006310e0
 void* BSSimpleList_Ragdoll::FUN_006310e0()
@@ -323,11 +323,11 @@ struct VList
 };
 struct FUN_00631100_shell
 {
-    void __thiscall FUN_00631100(float a, int b);
+    void FUN_00631100(float a, int b);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a and b to Target on the BGSRagdollList from TESDataHandler.
 // @fnv 0x00631100
-void __thiscall FUN_00631100_shell::FUN_00631100(float afValue, int aiValue)
+void FUN_00631100_shell::FUN_00631100(float afValue, int aiValue)
 {
     reinterpret_cast<::hkpEntityC9C *>((((UnkCall*)this)))->FUN_00c9c1d0();
     ((VList*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiValue);
@@ -364,11 +364,11 @@ struct ListCall00631140
 };
 struct FUN_00631140_shell
 {
-    void __thiscall FUN_00631140(float, int, int);
+    void FUN_00631140(float, int, int);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a, b and c to Target on the BGSRagdollList from the data handler.
 // @fnv 0x00631140
-void __thiscall FUN_00631140_shell::FUN_00631140(float afValue, int aiArg1, int aiArg2)
+void FUN_00631140_shell::FUN_00631140(float afValue, int aiArg1, int aiArg2)
 {
     reinterpret_cast<::hkpEntityC9C *>((((FUN_00c9c1d0_shell*)this)))->FUN_00c9c1d0();
     ((ListCall00631140*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiArg1, aiArg2);
@@ -376,17 +376,17 @@ void __thiscall FUN_00631140_shell::FUN_00631140(float afValue, int aiArg1, int 
 
 struct AX
 {
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
+    void FUN_006b3eb0(unsigned int, unsigned int);
 };
 
 struct FUN_00631750_shell
 {
-    void* __thiscall FUN_00631750();
+    void* FUN_00631750();
 };
 
 // Sets the object's vtable pointer to DAT_0104e4bc, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x00631750
-void* __thiscall FUN_00631750_shell::FUN_00631750()
+void* FUN_00631750_shell::FUN_00631750()
 {
     *(void**)this = &DAT_0104e4bc;
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);
@@ -401,11 +401,11 @@ struct FUN_00628f30_shell
     int m12;
     int m16;
     int m20;
-    void __thiscall FUN_00628f70(int arg);
-    void __thiscall SetFlag(int a, bool b);
+    void FUN_00628f70(int arg);
+    void SetFlag(int a, bool b);
 };
 // @fnv 0x00628f30
-void __thiscall FUN_00628f30_shell::SetFlag(int aiFlag, bool abSet)
+void FUN_00628f30_shell::SetFlag(int aiFlag, bool abSet)
 {
     if (abSet)
         m16 |= aiFlag;
@@ -758,7 +758,7 @@ struct S_0062f5b0_Cls
     int unk04;
     int unk08;
     S_0062f5b0_Sub unk0c;
-    bool __thiscall FUN_0062f5b0(void* a, int b);
+    bool FUN_0062f5b0(void* a, int b);
 };
 
 // Wraps the object returned by FUN_004b59f0 in a scoped pointer, passes it to unk0c.FUN_00631540, and returns false.

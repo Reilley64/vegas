@@ -19,7 +19,7 @@ struct FUN_00a698a0_class
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_00a698a0(void* context);
+    void FUN_00a698a0(void* context);
 };
 // Writes the four 4-byte fields at offsets 0, 4, 8 and 12 of this object to the stream stored at context+0x250, accumulating bytesWritten.
 // @fnv 0x00a698a0

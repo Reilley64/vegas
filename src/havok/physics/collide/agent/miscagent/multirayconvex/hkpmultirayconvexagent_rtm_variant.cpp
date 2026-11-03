@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00c90000.h"
@@ -16,7 +17,7 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00d37690_Class
 {
-    void __thiscall ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(int a, int b, int c, int d);
 };
 void FUN_00d378a0(int a, int b, int c, int d);
 struct FUN_00cfbbe0_Arg
@@ -173,7 +174,6 @@ extern "C"
     __m128 _mm_load_ss(const float*);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 extern "C" unsigned __int64 __rdtsc();
 
@@ -361,7 +361,7 @@ struct RayLocals
 };
 
 // @fnv 0x00d37010
-void __stdcall FUN_00d37010(const RayBody* a, const RayBody* b, void* unused, RayCollector* collector)
+void FUN_00d37010(const RayBody* a, const RayBody* b, void* unused, RayCollector* collector)
 {
 
     union

@@ -2,6 +2,7 @@
 #ifndef TALLGRASS_PRIVATE_H
 #define TALLGRASS_PRIVATE_H
 
+#include <windows.h>
 #include "fnv/decl/FUN_00b61250.h"
 #include "fnv/symbols_00b61000.h"
 #include "fnv/symbols_011f6000.h"
@@ -81,7 +82,6 @@ template <class T> inline void DestroyGrass(T* pointer)
         MemoryManager::Instance().Deallocate(pointer);
     }
 }
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 class TallGrassRefObject
 {
   public:

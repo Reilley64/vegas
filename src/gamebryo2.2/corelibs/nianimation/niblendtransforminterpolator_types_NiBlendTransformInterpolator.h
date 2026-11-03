@@ -55,8 +55,6 @@ class NiInterpolator : public NiObject
     // NiInterpolator& __cdecl NiInterpolator::*(const NiInterpolator&)
     // void __cdecl NiInterpolator::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
-FNV_STATIC_ASSERT(offsetof(NiInterpolator, m_fLastTime) == 8);
 class NiBlendInterpolator : public NiInterpolator
 {
   public:
@@ -126,20 +124,6 @@ class NiBlendInterpolator : public NiInterpolator
     // NiBlendInterpolator& __cdecl NiBlendInterpolator::*(const NiBlendInterpolator&)
     // void __cdecl NiBlendInterpolator::*()
 };
-FNV_STATIC_ASSERT(sizeof(NiBlendInterpolator) == 48);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_uiObjectFlags) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_ucArraySize) == 13);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_ucInterpCount) == 14);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_ucSingleIdx) == 15);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_cHighPriority) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_cNextHighPriority) == 17);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_pInterpArray) == 20);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_pSingleInterpolator) == 24);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fWeightThreshold) == 28);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fSingleInterpolatorTime) == 32);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fHighSumOfWeights) == 36);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fNextHighSumOfWeights) == 40);
-FNV_STATIC_ASSERT(offsetof(NiBlendInterpolator, m_fTrailingValue) == 44);
 class NiObjectNET;
 class NiQuatTransform;
 class NiBlendTransformInterpolator : public NiBlendInterpolator
@@ -173,5 +157,4 @@ class NiBlendTransformInterpolator : public NiBlendInterpolator
 public:
     bool FUN_00a40b30(float, ::NiObjectNET *, ::NiQuatTransform &);
 };
-FNV_STATIC_ASSERT(sizeof(NiBlendTransformInterpolator) == 48);
 #endif

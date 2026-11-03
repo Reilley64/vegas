@@ -2,6 +2,7 @@
 // src/fallout_shared/modelloader_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/modelloader.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/FUN_0043caa0_shell.h"
 #include "fnv/decl/FUN_0043caf0_shell.h"
@@ -31,8 +32,6 @@
 #include "fnv/symbols_01202000.h"
 #include "modelloader_verified_packet.h"
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct PlaceHolder
 {
     char _pad[0x24];

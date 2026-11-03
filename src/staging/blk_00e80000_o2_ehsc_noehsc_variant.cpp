@@ -5,6 +5,7 @@
 
 // src/staging/blk_00e80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E895A0_Object.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -61,101 +62,101 @@ struct FUN_00e87a40_This {
     void FUN_00e87a40();
 };
 struct FUN_00e87a70_Class {
-    void __thiscall FUN_00e87a70();
+    void FUN_00e87a70();
 };
 struct FUN_00e888b0_Class
 {
-    int __thiscall FUN_00e888b0();
+    int FUN_00e888b0();
 };
 struct FUN_00e88a50_Class {
-    int __thiscall FUN_00e88a50(int index);
+    int FUN_00e88a50(int index);
 };
 struct FUN_00e87a50_Class {
-    void __thiscall FUN_00e87a50();
+    void FUN_00e87a50();
 };
 struct FUN_00e87ea0_Class {
-    int __thiscall CallVirtualWithFlags(void* p);
+    int CallVirtualWithFlags(void* p);
 };
 struct FUN_00e88710_Class {
-    void __thiscall FUN_00e88710(float* a, float* b);
+    void FUN_00e88710(float* a, float* b);
 };
 struct FUN_00e88730_Class {
-    void __thiscall SetRange(float a, float b);
+    void SetRange(float a, float b);
 };
 struct FUN_00e88760_Class {
     char m_auiShapeKeys[0xf4];
     int m_flag;
-    int __thiscall SetFlag(bool b);
+    int SetFlag(bool b);
 };
 struct FUN_00e888c0_Class {
-    int __thiscall CallVirtualWithMember();
+    int CallVirtualWithMember();
 };
 struct FUN_00e891f0_Class {
-    void __thiscall FUN_00e891f0();
+    void FUN_00e891f0();
 };
 extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010efc34;
 struct FUN_00e8aa40_Class {
-    int __thiscall FUN_00e8aa40(bool flag);
+    int FUN_00e8aa40(bool flag);
 };
-void __stdcall FUN_00e8b490(int* a, int b, int c);
+void FUN_00e8b490(int* a, int b, int c);
 struct NiTMapBaseStub { void RemoveAll(); };
 void FUN_00e933d0();
 struct MemoryManager {  };
 struct FUN_00e93650_Class {
-    void* __thiscall FUN_00e93650(int unused);
+    void* FUN_00e93650(int unused);
 };
 void __cdecl FUN_00e941a0(void* a);
 struct FUN_00e95b80_Class {
-    void __thiscall FUN_00e95b80();
+    void FUN_00e95b80();
 };
 struct FUN_00e97790_Class {
-    int __thiscall InitFromSource(int a, int b);
+    int InitFromSource(int a, int b);
 };
 struct BSFadeNode {
     static void* __cdecl operator new(unsigned int);
 };
 extern "C" void __cdecl NiFreeAlias(void*);
 struct FUN_00e98640_Class {
-    void __thiscall FUN_00e98640();
+    void FUN_00e98640();
 };
 struct FUN_00e81d00_Class {
     char m_auiShapeKeys[0x38];
     void* m_pRenderState;
     void* m_pShaderObject;
     void* m_pD3DDevice;
-    void __thiscall FUN_00e81d00(void* renderer);
+    void FUN_00e81d00(void* renderer);
 };
 struct NiD3DShaderFactory {
     void ShutdownPoint3();
     void FUN_00e87ab0();
 };
 struct FUN_00e87af0_This {
-    void __thiscall FUN_00e87af0(void* renderer);
+    void FUN_00e87af0(void* renderer);
 };
 struct FUN_00e886d0_Class {
-    void __thiscall FUN_00e886d0(float a);
+    void FUN_00e886d0(float a);
 };
 struct FUN_00e88860_Class {
-    int __thiscall FUN_00e88860(int idx);
+    int FUN_00e88860(int idx);
 };
 struct FUN_00e889b0_Class {
-    void __thiscall ClearBlock();
+    void ClearBlock();
 };
 struct FUN_00e88ab0_Class {
-    void __thiscall FUN_00e88ab0(bool b);
+    void FUN_00e88ab0(bool b);
 };
 struct FUN_00e88ad0_Class {
-    void __thiscall FUN_00e88ad0(bool v);
+    void FUN_00e88ad0(bool v);
 };
 struct FUN_00e88bb0_Class {
-    void __thiscall ApplyFromArray(int* a);
+    void ApplyFromArray(int* a);
 };
 extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
 struct FUN_00e89560_Class {
     void* m_ptr;
     void* m_obj;
-    void __thiscall FUN_00e89560();
+    void FUN_00e89560();
 };
 extern int DAT_0126f9a0;
 struct P03MM {  };
@@ -167,7 +168,7 @@ struct NiConsoleRenderStateStub {
     void* m_ppVirtualMethodTable;
 };
 struct FUN_00e89760_Class {
-    void __thiscall FUN_00e89760(NiConsoleRendererStub* renderer);
+    void FUN_00e89760(NiConsoleRendererStub* renderer);
 };
 extern int DAT_011f4500;
 struct ShaderNode {
@@ -190,13 +191,13 @@ struct FUN_00e936b0_Class {
     int* m_kPointA;
     int* m_kPointB;
     void* m_iThirdValue;
-    void* __thiscall DestroyMapBase(int unused);
+    void* DestroyMapBase(int unused);
 };
 extern int DAT_010f0eb0;
 extern int DAT_010f0ed0;
 void __cdecl NiFree(void*);
 struct FUN_00e93750_Class {
-    void* __thiscall FUN_00e93750(int unused);
+    void* FUN_00e93750(int unused);
 };
 struct FUN_00e941d0_Node { unsigned int pad[9]; unsigned int count; unsigned int pad2[5]; FUN_00e941d0_Node* next; FUN_00e941d0_Node* prev; };
 struct FUN_00e941d0_This { int pad[11]; FUN_00e941d0_Node* head; };
@@ -262,10 +263,10 @@ struct FUN_00e89350_Class {
 };
 struct NiColor { float m_r; float m_g; float m_kPointB; float m_kPointA; };
 struct FUN_00e93fb0_Class {
-    char __thiscall CopyColorIfChanged(FUN_00e93fb0_Class* p);
+    char CopyColorIfChanged(FUN_00e93fb0_Class* p);
 };
 struct FUN_00e8a1f0_Class {
-    char __thiscall GetEntryData(int b, int* c, int* d, char* e, char* f);
+    char GetEntryData(int b, int* c, int* d, char* e, char* f);
 };
 extern int DAT_010f0ac0;
 extern int DAT_0126fa50;
@@ -278,7 +279,7 @@ struct NiD3DRenderStateStub {
     void ClearRenderState(int arg);
 };
 struct FUN_00e879e0_Class {
-    void __thiscall FUN_00e879e0(float* p);
+    void FUN_00e879e0(float* p);
 };
 struct FUN_00e887d0_Class {
     char m_auiShapeKeys[0x1b8];
@@ -287,23 +288,23 @@ struct FUN_00e887d0_Class {
     int m_field1c0;
     char m_pad3[0xf34];
     void* m_field10f8;
-    void __thiscall SetFieldValues(int a, int b, int c, int d);
+    void SetFieldValues(int a, int b, int c, int d);
 };
 struct FUN_00e88b00_Class {
     int m_auiShapeKeys[0x1100 / 4];
     virtual ~FUN_00e88b00_Class();
-    int __thiscall DestroyIfFlagged(bool flag);
+    int DestroyIfFlagged(bool flag);
 };
 void __cdecl _NiFree(void* p);
 struct FUN_00e8b4e0_Class : NiTMapBaseStub {
     void* m_auiShapeKeys;
     void* m_pAuxiliaryObject;
     void* m_ptr;
-    void* __thiscall FUN_00e8b4e0(unsigned int flags);
+    void* FUN_00e8b4e0(unsigned int flags);
 };
 extern int DAT_010efdd8;
 struct FUN_00e8b520_Class : NiTMapBaseStub {
-    void* __thiscall FUN_00e8b520(int deletingFlag);
+    void* FUN_00e8b520(int deletingFlag);
 };
 extern int DAT_010efdf8;
 extern int DAT_010efdd8;
@@ -323,18 +324,18 @@ struct FUN_00e8ce70_Class : NiTMapBaseStub {
     unsigned int m_auiShapeKeys;
     void* m_data;
 
-    void* __thiscall FUN_00e8ce70(int flag);
+    void* FUN_00e8ce70(int flag);
 };
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e8ceb0_Class {
-    void* __thiscall FUN_00e8d200(bool flag);
+    void* FUN_00e8d200(bool flag);
 };
 struct FUN_00e8f800_Class {
     void* m_vptr;
     char m_auiShapeKeys[4];
     void* m_data;
 
-    void* __thiscall FUN_00e8f800(bool deleting);
+    void* FUN_00e8f800(bool deleting);
 };
 void __cdecl _NiFree(void* p);
 extern int DAT_0126fa04;
@@ -352,7 +353,7 @@ extern int DAT_010f0e10;
 extern int DAT_010f0e30;
 void __cdecl _NiFree(void* p);
 struct FUN_00e93400_Class {
-    void __thiscall FUN_00e93400();
+    void FUN_00e93400();
 };
 extern int DAT_010f0e90;
 void _NiFree(void* p);
@@ -379,7 +380,7 @@ struct FUN_00e93610_Class {
     char m_auiShapeKeys[3];
     void* m_data;
 
-    FUN_00e93610_Class* __thiscall FUN_00e93610(int flags);
+    FUN_00e93610_Class* FUN_00e93610(int flags);
 };
 void __cdecl NiFree(void* p);
 extern int DAT_010f0e50;
@@ -387,22 +388,22 @@ struct FUN_00e93670_Class {
     void* m_ppVirtualMethodTable;
     void* m_auiShapeKeys;
     void* m_ptr;
-    void* __thiscall FUN_00e93670(int unused);
+    void* FUN_00e93670(int unused);
 };
 void __cdecl FUN_00e934d0();
 struct FUN_00e936f0_Class {
-    void __thiscall FUN_00e934d0();
-    void* __thiscall FUN_00e936f0(bool b);
+    void FUN_00e934d0();
+    void* FUN_00e936f0(bool b);
 };
 void __cdecl _NiFree(void* p);
 struct FUN_00e93710_Class : NiTMapBaseStub {
     int m_auiShapeKeys;
     int m_pAuxiliaryObject;
     void* m_ptr;
-    void* __thiscall FUN_00e93710(int unused);
+    void* FUN_00e93710(int unused);
 };
 struct NiTMapBase {
-    bool __thiscall RemoveAt(const char* name);
+    bool RemoveAt(const char* name);
 };
 struct Program {
     virtual void v00();
@@ -435,7 +436,7 @@ struct FUN_00e94070_Class {
     void* m_obj;
     char m_auiShapeKeys[0x48 - 4];
     void* m_ptr;
-    void __thiscall ReleaseOwnedObject(FUN_00e94070_Class* p);
+    void ReleaseOwnedObject(FUN_00e94070_Class* p);
 };
 struct FUN_00e942d0_Class {
 };
@@ -444,7 +445,7 @@ struct FUN_00e94390_Class {
     void* m_vptr;
     void* m_ptr;
 
-    void* __thiscall FUN_00e94390(int flags);
+    void* FUN_00e94390(int flags);
 };
 extern int DAT_010f0fb4;
 void __cdecl _NiFree(void*);
@@ -453,12 +454,12 @@ struct FUN_00e94850_Class {
     int m_auiShapeKeys;
     void* m_data;
 
-    int* __thiscall FUN_00e94850(int deleting);
+    int* FUN_00e94850(int deleting);
 };
 struct FUN_00e89970_Object {
     virtual void FUN_00e89970_Object_0();
     virtual void FUN_00e89970_Object_1();
-    virtual void __stdcall FUN_00e89970_Object_2();
+    virtual void FUN_00e89970_Object_2();
 };
 struct FUN_00e96c90_Class {
     void* m_ppVirtualMethodTable;
@@ -467,7 +468,7 @@ struct FUN_00e96c90_Class {
     void* m_34;
     FUN_00e89970_Object* m_38;
 
-    void __thiscall FUN_00e96c90();
+    void FUN_00e96c90();
 };
 extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010f1550;
@@ -483,7 +484,7 @@ void AllocateNodeList();
 struct FUN_00e98b10_Class {
     void*** m_ppVirtualMethodTable;
     void* m_data;
-    FUN_00e98b10_Class* __thiscall FUN_00e98b10(unsigned char flag);
+    FUN_00e98b10_Class* FUN_00e98b10(unsigned char flag);
 };
 extern void** DAT_010f16dc;
 struct SpawnedObject {
@@ -504,10 +505,9 @@ struct FUN_00e81b60_Class {
     unsigned int m_uiEdgeIndex[3];
     FUN_00e81b60_Entry* m_entries[3];
 
-    int __thiscall LookupEntry(unsigned int a, unsigned int b, int c, int d);
+    int LookupEntry(unsigned int a, unsigned int b, int c, int d);
 };
 extern int DAT_01101294;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 extern "C" void __cdecl _NiFreeE81(void* pvMem) throw();
 class NiFixedStringE81 {
 public:
@@ -714,7 +714,7 @@ struct FUN_00e87a90_Class {
     virtual void vf90();
     virtual void vf94();
 
-    void __thiscall FUN_00e87a90();
+    void FUN_00e87a90();
 };
 struct E87B60AlphaProperty {
     int unk00;
@@ -848,7 +848,7 @@ struct C00e87ed0 {
     virtual void v24() = 0;
     virtual void v25() = 0;
     virtual void v26(int, int, int, int) = 0;
-    void __thiscall FUN_00e87ed0(void* p);
+    void FUN_00e87ed0(void* p);
 };
 struct StencilPropStub {
     int unk00;
@@ -1013,7 +1013,7 @@ public:
     int unk011c;
     FUN_00e88000_pair m_120[(0x10f8 - 0x120) / 8];
     void* m_10f8;
-    void __thiscall ApplyPairTable();
+    void ApplyPairTable();
 };
 struct StateDefault {
     int type;
@@ -1041,9 +1041,9 @@ struct D3DDeviceStub {
     virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59();
     virtual void v60(); virtual void v61(); virtual void v62(); virtual void v63();
     virtual void v64(); virtual void v65(); virtual void v66();
-    virtual long __stdcall SetTextureStageState(unsigned int stage, int type, unsigned int value);
+    virtual long SetTextureStageState(unsigned int stage, int type, unsigned int value);
     virtual void v68();
-    virtual long __stdcall SetSamplerState(unsigned int sampler, int type, unsigned int value);
+    virtual long SetSamplerState(unsigned int sampler, int type, unsigned int value);
 };
 extern StateDefault DAT_011c04f0[];
 extern StateDefault DAT_011c0538[];
@@ -1363,13 +1363,13 @@ public:
 struct FUN_00e88780_D3DObject {
     void* m_ppVirtualMethodTable;
 };
-typedef void (__stdcall *FUN_00e88780_D3DCall)(
+typedef void (*FUN_00e88780_D3DCall)(
     FUN_00e88780_D3DObject* pObject,
     int index,
     int value
 );
 struct FUN_00e88780_Class {
-    void __thiscall SetIndexedValue(
+    void SetIndexedValue(
         int index,
         int value,
         int unused,
@@ -1507,7 +1507,7 @@ struct FUN_00e88830_cls
     int m_1f8;
     void FUN_00e88830(int a1, int unused1, int unused2);
 };
-typedef void (__stdcall *FUN_00e88830_Slot)(void* self, int code, int value);
+typedef void (*FUN_00e88830_Slot)(void* self, int code, int value);
 struct RenderStateSink
 {
     virtual void v000();
@@ -2782,7 +2782,7 @@ struct S_00e88930_Dev {
     virtual void vf64();
     virtual void vf65();
     virtual void vf66();
-    virtual void __stdcall FUN_x10c(int a, int b, int c);
+    virtual void FUN_x10c(int a, int b, int c);
 };
 struct S_00e88930_Cls {
     int unk000;
@@ -3543,7 +3543,7 @@ struct FUN_00e88a20_cls
 {
     void FUN_00e88a20(int a1, int a2);
 };
-typedef void (__stdcall *FUN_00e88a20_Slot)(void* self, int code, int value);
+typedef void (*FUN_00e88a20_Slot)(void* self, int code, int value);
 struct FUN_00e88a60_Renderer {
     virtual void f00(int, int);
     virtual void f01(int, int);
@@ -3610,7 +3610,7 @@ struct FUN_00e88a60_Renderer {
     virtual void f62(int, int);
     virtual void f63(int, int);
     virtual void f64(int, int);
-    virtual void __stdcall ClearSlotByValue(int, int);
+    virtual void ClearSlotByValue(int, int);
 };
 struct FUN_00e88a60_Class {
     char m_auiShapeKeys[0x10a0];
@@ -3618,9 +3618,9 @@ struct FUN_00e88a60_Class {
     char m_pAuxiliaryObject[0x18];
     FUN_00e88a60_Renderer* m_10f8;
 
-    void __thiscall ClearSlotByValue(int value);
+    void ClearSlotByValue(int value);
 };
-char __fastcall FUN_00e88ac0(void* self);
+char FUN_00e88ac0(void* self);
 class FUN_00e88ae0_cls {
 public:
     unsigned char FUN_00e88ae0();
@@ -4719,7 +4719,7 @@ struct FUN_00e88af0_Class {
     virtual void VF00();
     virtual void VF04();
     virtual void VF08();
-    virtual void __thiscall VF0C(int value);
+    virtual void VF0C(int value);
 
     int unk04;
     int unk08;
@@ -4751,7 +4751,7 @@ struct FUN_00e88af0_Class {
     int unk70;
     int unk74;
 
-    void __thiscall FUN_00e88af0();
+    void FUN_00e88af0();
 };
 // NiD3DGeometryGroupManager
 //   RTTI name  : .?AVNiD3DGeometryGroupManager@@   (vftable @ 0x010ef718)
@@ -4768,7 +4768,7 @@ struct NiD3DGeometryGroupManager {
     int m_10;           // +0x10
     int m_14;           // +0x14
     bool m_18;          // +0x18
-    void __thiscall FUN_00e88c20(bool flag);
+    void FUN_00e88c20(bool flag);
 };
 extern unsigned short DAT_0126f92c[];
 struct SlotGroup {
@@ -4875,7 +4875,7 @@ struct FUN_00e89250_cls
 };
 struct FUN_00e89410_Class
 {
-    void* __thiscall GetItemByIndex(unsigned int index);
+    void* GetItemByIndex(unsigned int index);
 };
 struct ScalarDeletingObject {
     void* DestroyScalarObject(unsigned char flags);
@@ -4883,11 +4883,10 @@ struct ScalarDeletingObject {
 extern "C" void __cdecl FUN_00aa10f0(void*);
 extern int DAT_010ef73c;
 extern volatile long DAT_011f4400;
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ReleaseInterface {
-    virtual void __stdcall GetType();
-    virtual void __stdcall GetFlags();
-    virtual void __stdcall Release();
+    virtual void GetType();
+    virtual void GetFlags();
+    virtual void Release();
 };
 struct FUN_00e89840_Class {
     void* m_ppVirtualMethodTable;
@@ -4904,7 +4903,7 @@ struct FUN_00e89840_Class {
     void FUN_00e89840();
 };
 struct FUN_00e89ae0_obj;
-typedef int (__stdcall *FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
+typedef int (*FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
 struct FUN_00e89ae0_obj { void** vtbl; };
 struct FUN_00e89ae0_cls {
     int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C;
@@ -5002,103 +5001,103 @@ struct FUN_00e89ae0_cls {
     bool IsVtblCallSucceeded(int a1, int a2, int a3, int a4);
 };
 struct E89B40Device {
-    virtual long __stdcall vfunc00();
-    virtual long __stdcall vfunc01();
-    virtual long __stdcall vfunc02();
-    virtual long __stdcall vfunc03();
-    virtual long __stdcall vfunc04();
-    virtual long __stdcall vfunc05();
-    virtual long __stdcall vfunc06();
-    virtual long __stdcall vfunc07();
-    virtual long __stdcall vfunc08();
-    virtual long __stdcall vfunc09();
-    virtual long __stdcall vfunc0A();
-    virtual long __stdcall vfunc0B();
-    virtual long __stdcall vfunc0C();
-    virtual long __stdcall vfunc0D();
-    virtual long __stdcall vfunc0E();
-    virtual long __stdcall vfunc0F();
-    virtual long __stdcall vfunc10();
-    virtual long __stdcall vfunc11();
-    virtual long __stdcall vfunc12();
-    virtual long __stdcall vfunc13();
-    virtual long __stdcall vfunc14();
-    virtual long __stdcall vfunc15();
-    virtual long __stdcall vfunc16();
-    virtual long __stdcall vfunc17();
-    virtual long __stdcall vfunc18();
-    virtual long __stdcall vfunc19();
-    virtual long __stdcall vfunc1A();
-    virtual long __stdcall vfunc1B();
-    virtual long __stdcall vfunc1C();
-    virtual long __stdcall vfunc1D();
-    virtual long __stdcall vfunc1E();
-    virtual long __stdcall vfunc1F();
-    virtual long __stdcall vfunc20();
-    virtual long __stdcall vfunc21();
-    virtual long __stdcall vfunc22();
-    virtual long __stdcall vfunc23();
-    virtual long __stdcall vfunc24();
-    virtual long __stdcall vfunc25();
-    virtual long __stdcall vfunc26();
-    virtual long __stdcall vfunc27();
-    virtual long __stdcall vfunc28();
-    virtual long __stdcall vfunc29();
-    virtual long __stdcall vfunc2A();
-    virtual long __stdcall vfunc2B();
-    virtual long __stdcall vfunc2C();
-    virtual long __stdcall vfunc2D();
-    virtual long __stdcall vfunc2E();
-    virtual long __stdcall vfunc2F();
-    virtual long __stdcall vfunc30();
-    virtual long __stdcall vfunc31();
-    virtual long __stdcall vfunc32();
-    virtual long __stdcall vfunc33();
-    virtual long __stdcall vfunc34();
-    virtual long __stdcall vfunc35();
-    virtual long __stdcall vfunc36();
-    virtual long __stdcall vfunc37();
-    virtual long __stdcall vfunc38();
-    virtual long __stdcall vfunc39();
-    virtual long __stdcall vfunc3A();
-    virtual long __stdcall vfunc3B();
-    virtual long __stdcall vfunc3C();
-    virtual long __stdcall vfunc3D();
-    virtual long __stdcall vfunc3E();
-    virtual long __stdcall vfunc3F();
-    virtual long __stdcall vfunc40();
-    virtual long __stdcall vfunc41();
-    virtual long __stdcall vfunc42();
-    virtual long __stdcall vfunc43();
-    virtual long __stdcall vfunc44();
-    virtual long __stdcall vfunc45();
-    virtual long __stdcall vfunc46();
-    virtual long __stdcall vfunc47();
-    virtual long __stdcall vfunc48();
-    virtual long __stdcall vfunc49();
-    virtual long __stdcall vfunc4A();
-    virtual long __stdcall vfunc4B();
-    virtual long __stdcall vfunc4C();
-    virtual long __stdcall vfunc4D();
-    virtual long __stdcall vfunc4E();
-    virtual long __stdcall vfunc4F();
-    virtual long __stdcall vfunc50();
-    virtual long __stdcall vfunc51();
-    virtual long __stdcall vfunc52();
-    virtual long __stdcall vfunc53();
-    virtual long __stdcall vfunc54();
-    virtual long __stdcall vfunc55();
-    virtual long __stdcall vfunc56();
-    virtual long __stdcall vfunc57();
-    virtual long __stdcall vfunc58();
-    virtual long __stdcall vfunc59();
-    virtual long __stdcall vfunc5A();
-    virtual long __stdcall vfunc5B();
-    virtual long __stdcall vfunc5C();
-    virtual long __stdcall vfunc5D();
-    virtual long __stdcall vfunc5E();
-    virtual long __stdcall vfunc5F();
-    virtual long __stdcall SetState(unsigned int uiA, unsigned int uiB, unsigned int uiC);
+    virtual long vfunc00();
+    virtual long vfunc01();
+    virtual long vfunc02();
+    virtual long vfunc03();
+    virtual long vfunc04();
+    virtual long vfunc05();
+    virtual long vfunc06();
+    virtual long vfunc07();
+    virtual long vfunc08();
+    virtual long vfunc09();
+    virtual long vfunc0A();
+    virtual long vfunc0B();
+    virtual long vfunc0C();
+    virtual long vfunc0D();
+    virtual long vfunc0E();
+    virtual long vfunc0F();
+    virtual long vfunc10();
+    virtual long vfunc11();
+    virtual long vfunc12();
+    virtual long vfunc13();
+    virtual long vfunc14();
+    virtual long vfunc15();
+    virtual long vfunc16();
+    virtual long vfunc17();
+    virtual long vfunc18();
+    virtual long vfunc19();
+    virtual long vfunc1A();
+    virtual long vfunc1B();
+    virtual long vfunc1C();
+    virtual long vfunc1D();
+    virtual long vfunc1E();
+    virtual long vfunc1F();
+    virtual long vfunc20();
+    virtual long vfunc21();
+    virtual long vfunc22();
+    virtual long vfunc23();
+    virtual long vfunc24();
+    virtual long vfunc25();
+    virtual long vfunc26();
+    virtual long vfunc27();
+    virtual long vfunc28();
+    virtual long vfunc29();
+    virtual long vfunc2A();
+    virtual long vfunc2B();
+    virtual long vfunc2C();
+    virtual long vfunc2D();
+    virtual long vfunc2E();
+    virtual long vfunc2F();
+    virtual long vfunc30();
+    virtual long vfunc31();
+    virtual long vfunc32();
+    virtual long vfunc33();
+    virtual long vfunc34();
+    virtual long vfunc35();
+    virtual long vfunc36();
+    virtual long vfunc37();
+    virtual long vfunc38();
+    virtual long vfunc39();
+    virtual long vfunc3A();
+    virtual long vfunc3B();
+    virtual long vfunc3C();
+    virtual long vfunc3D();
+    virtual long vfunc3E();
+    virtual long vfunc3F();
+    virtual long vfunc40();
+    virtual long vfunc41();
+    virtual long vfunc42();
+    virtual long vfunc43();
+    virtual long vfunc44();
+    virtual long vfunc45();
+    virtual long vfunc46();
+    virtual long vfunc47();
+    virtual long vfunc48();
+    virtual long vfunc49();
+    virtual long vfunc4A();
+    virtual long vfunc4B();
+    virtual long vfunc4C();
+    virtual long vfunc4D();
+    virtual long vfunc4E();
+    virtual long vfunc4F();
+    virtual long vfunc50();
+    virtual long vfunc51();
+    virtual long vfunc52();
+    virtual long vfunc53();
+    virtual long vfunc54();
+    virtual long vfunc55();
+    virtual long vfunc56();
+    virtual long vfunc57();
+    virtual long vfunc58();
+    virtual long vfunc59();
+    virtual long vfunc5A();
+    virtual long vfunc5B();
+    virtual long vfunc5C();
+    virtual long vfunc5D();
+    virtual long vfunc5E();
+    virtual long vfunc5F();
+    virtual long SetState(unsigned int uiA, unsigned int uiB, unsigned int uiC);
 };
 class E89B40Renderer {
 public:
@@ -6257,7 +6256,7 @@ struct FUN_00e8a9e0_mgr {
 struct FUN_00e8a9e0_child {
     virtual void v00();
     virtual void v04();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 struct FUN_00e8a9e0_owner {
     int unk00;
@@ -6311,12 +6310,12 @@ struct CubeMapSource {
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int __stdcall GetSurfaceLevel(int a, unsigned int b, int* c);
+    virtual int GetSurfaceLevel(int a, unsigned int b, int* c);
 };
 struct CubeMapSurface {
     virtual void v00();
     virtual void v01();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 struct FUN_00e8aaf0_cls {
     int unk00;
@@ -6346,7 +6345,7 @@ struct FUN_00e8aaf0_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void __thiscall FUN_00e8aaf0(int a1, int a2);
+    void FUN_00e8aaf0(int a1, int a2);
 };
 class MobileTargetObj {
 public:
@@ -6432,7 +6431,7 @@ struct S_00e8b4b0_Class {
     unsigned char m_70;
     unsigned char m_71;
 
-    S_00e8b4b0_Class* __thiscall Init(int value1, int value2);
+    S_00e8b4b0_Class* Init(int value1, int value2);
 };
 struct Key {
  unsigned int unk00;
@@ -6529,7 +6528,7 @@ struct Value {
 struct Item { Item* next; Key* key; Value* value; };
 struct PoolNode { PoolNode* next; PoolNode* prev; void* data; };
 struct LockObj { unsigned int value;  };
-struct Com { virtual void __stdcall f0(); virtual void __stdcall f1(); virtual void __stdcall Release(); };
+struct Com { virtual void f0(); virtual void f1(); virtual void Release(); };
 struct ListCleanup {  };
 void _delete(void*,unsigned int);
 struct Target {
@@ -6552,8 +6551,8 @@ extern int DAT_010efdf8;
 extern "C" void* __cdecl FUN_00aa1070(unsigned int);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct Observer {
-    virtual void __stdcall Slot0();
-    virtual void __stdcall Slot1();
+    virtual void Slot0();
+    virtual void Slot1();
 };
 struct MapProcessor {
     int* vtable;
@@ -6574,15 +6573,13 @@ struct MapProcessor {
     unsigned char data3c[512];
     MapProcessor* FUN_00e8bae0(void* context, Observer* observer);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* p);
-extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void* cs);
 void* __cdecl NiMemset(void* dst, int val, unsigned int size);
 void* __cdecl NiMalloc(unsigned int size);
 extern volatile long DAT_011f4400;
 struct ComStub {
-    virtual long __stdcall QueryInterface(void* riid, void** out);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void* riid, void** out);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct RefObjStub {
     unsigned int m_uiRefCount;
@@ -6643,8 +6640,8 @@ struct FUN_00e8d0e0 : RefObjStub {
     FUN_00e8d0e0(ComStub* device);
     virtual void DerivedV();
 };
-extern "C" void (__stdcall* DAT_00fdf1c0)(void*);
-extern "C" void (__stdcall* DAT_00fdf1c4)(void*);
+extern "C" void (* DAT_00fdf1c0)(void*);
+extern "C" void (* DAT_00fdf1c4)(void*);
 class FUN_00e8e330_cls {
 public:
     char** m_00;
@@ -6691,7 +6688,7 @@ struct FUN_00e940a0_Global {
 };
 struct FUN_00e940a0_Class {
     void* m_00;
-    void __thiscall ReleaseGlobalSlot();
+    void ReleaseGlobalSlot();
 };
 extern "C" void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e94150_Node {
@@ -6727,7 +6724,7 @@ struct FUN_00e94150_Class {
     int m_28;
     FUN_00e94150_Node* m_2c;
 
-    void __thiscall RemoveNode(FUN_00e94150_Node* node);
+    void RemoveNode(FUN_00e94150_Node* node);
 };
 class FUN_00e95b60_cls {
 public:
@@ -6787,7 +6784,7 @@ struct FUN_00e9e840_Class
     virtual bool m_virtual08(int value);
     virtual bool m_virtual09(int value);
 
-    bool __thiscall FUN_00e9e840(int value);
+    bool FUN_00e9e840(int value);
 };
 inline int FUN_00e9e840_Class::m_virtual01(int value)
 {
@@ -7157,7 +7154,7 @@ struct FUN_00e93540_Map : public NiTMapBaseStub {
     unsigned int unk0c;
     unsigned char m_ownsData;
 
-    void __thiscall FUN_00e93540();
+    void FUN_00e93540();
 };
 struct FUN_00e89740_Obj {
     int unk00;
@@ -7167,8 +7164,6 @@ struct FUN_00e89740_Obj {
 
 };
 void FUN_00e89740();
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plValue);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plValue);
 struct StringTable {
     static void IncRefCount(char* pcHandle)
     {
@@ -7383,7 +7378,7 @@ struct FUN_00e8bf80_Object {
     int unk20, unk24, unk28, unk2c;
     int unk30, unk34, unk38;
     int m_uiItemCount;
-    void __thiscall FUN_00e8bf80();
+    void FUN_00e8bf80();
 };
 struct FUN_00e8d350_Class {
     int unk00;
@@ -7403,7 +7398,7 @@ struct FUN_00e8d350_Class {
     int unk38;
     int unk3C;
 
-    int* __thiscall FUN_00e8d350();
+    int* FUN_00e8d350();
 };
 struct Item9ea;
 struct Seq9ea
@@ -7564,9 +7559,9 @@ struct LightDevice {
  virtual void slotc0();
  virtual void slotc4();
  virtual void slotc8();
- virtual void __stdcall SetLight(unsigned int, ActiveLight*);
+ virtual void SetLight(unsigned int, ActiveLight*);
  virtual void slotd0();
- virtual void __stdcall EnableLight(unsigned int, int);
+ virtual void EnableLight(unsigned int, int);
 };
 struct LightInputNode { LightInputNode* next; SceneLight* light; };
 struct LightInput { unsigned int field00,field04,field08; LightInputNode* head; };
@@ -7578,13 +7573,13 @@ struct ShadowSceneLightList { PoolNode* head; PoolNode* tail; unsigned int count
 struct LightManager { unsigned int field00,field04,field08,field0c; ShadowSceneLightList active; LightDevice* device; MobileTargetObj* render; unsigned int field24,field28; unsigned char field2c; bool enabled; unsigned short field2e;
    void FUN_00e8b740(LightInput* input); };
 struct S00e8f190_Iface { void** vtable; };
-typedef int (__thiscall *S00e8f190_Query)(void* vt, S00e8f190_Iface* object, int a, int b, int c, int d, S00e8f190_Iface** result, int zero);
-typedef void (__fastcall *S00e8f190_Release)(void* flag, void* vt, S00e8f190_Iface* object, void* flag2);
+typedef int (*S00e8f190_Query)(void* vt, S00e8f190_Iface* object, int a, int b, int c, int d, S00e8f190_Iface** result, int zero);
+typedef void (*S00e8f190_Release)(void* flag, void* vt, S00e8f190_Iface* object, void* flag2);
 struct S00e8f190_Cls {
     int unk00;
     int unk04;
     S00e8f190_Iface* object;
-    S00e8f190_Iface* __thiscall FUN_00e8f190(int a, int b, int c, int d, void* flag);
+    S00e8f190_Iface* FUN_00e8f190(int a, int b, int c, int d, void* flag);
 };
 extern "C" const char str_010f0184[];
 

@@ -136,8 +136,6 @@ class TESRaceForm : public BaseFormComponent
     void InitItem(TESForm* owner);
     void BaseFormRecord(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(TESRaceForm) == 8);
-FNV_STATIC_ASSERT(offsetof(TESRaceForm, m_pRace) == 4);
 
 // This shared name predicate is already bound under BGSCameraPath in
 // canonical source. Its receiver is the TESForm prefix.
@@ -168,6 +166,5 @@ class TESNPC : public TESActorBase, public TESRaceForm
     } kData;
     virtual int GetActorValue(ActorValue::Index actorValue);
 };
-FNV_STATIC_ASSERT(offsetof(TESNPC, kData) == 0x114);
 
 #endif

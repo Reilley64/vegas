@@ -1,5 +1,6 @@
 // bsshader/shadowlightshader.cpp: ShadowLightShader, ShaderS, ShaderAdapter, ObjectArray and more (59 functions)
 
+#include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "fnv/decl/BSRenderStateManager.h"
@@ -255,7 +256,7 @@ struct __declspec(align(16)) Mat16
 
 // If the global at DAT_011fec08 has a nonzero byte at offset 8 and param_1 is nonzero, copies an identity 4x4 matrix into DAT_011fec88.
 // @fnv 0x00b79050
-void __stdcall ResetTransform(int param_1)
+void ResetTransform(int param_1)
 {
     if ((*(char**)&DAT_011fec08)[8] != 0 && param_1 != 0)
     {
@@ -271,7 +272,7 @@ void __stdcall ResetTransform(int param_1)
 
 // If the byte at offset 8 of DAT_011fec14.m_pObject is non-zero, writes a scaled value derived from param_1's int at offset 0xe4 to DAT_011fd868.
 // @fnv 0x00b790d0
-void __stdcall UpdateScaledValue(const char* param_1)
+void UpdateScaledValue(const char* param_1)
 {
     if (*((const char*)DAT_011fec14.m_pObject + 8) != 0)
     {
@@ -289,7 +290,7 @@ struct Vec4
 
 // For message 0x93/0x1f1-0x1f5 sets an object field from param_2[9]+2, then writes two Vec4 flag vectors into _DAT_011FA0C0 based on param_2[11].
 // @fnv 0x00b79410
-void __stdcall FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
+void FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
 {
     int iSlotA;
     int iSlotB;
@@ -328,7 +329,7 @@ void __stdcall FUN_00b79410(unsigned int uiMessageId, unsigned char* pucPayload)
 extern float DAT_011fd948;
 
 // @fnv 0x00b796f0
-void __stdcall FUN_00b796f0(const char* param_1)
+void FUN_00b796f0(const char* param_1)
 {
     if (*((const char*)DAT_011fec70.m_pObject + 8) != 0)
     {
@@ -351,7 +352,7 @@ struct Float4
 
 // If the byte at offset 8 of DAT_011fec80.m_pObject is non-zero, copies four floats from param_1[0x3c..0x3f] into DAT_011fa300 as a Float4.
 // @fnv 0x00b798c0
-void __stdcall FUN_00b798c0(const float* afSource)
+void FUN_00b798c0(const float* afSource)
 {
     if (*reinterpret_cast<const char*>(reinterpret_cast<const char*>(DAT_011fec80.m_pObject) + 8) != 0)
     {
@@ -367,7 +368,7 @@ void __stdcall FUN_00b798c0(const float* afSource)
 
 // Assigns pObj to the NiPointer at pThis+0x5c, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b79950
-void __fastcall FUN_00b79950(char* pThis, int, NiRefObject* pObj)
+void FUN_00b79950(char* pThis, int, NiRefObject* pObj)
 {
     NiPointer<NiRefObject>& spMember = *(NiPointer<NiRefObject>*)(pThis + 0x5c);
     if (spMember.m_pObject != pObj)
@@ -394,14 +395,14 @@ void __cdecl FUN_00b799a0(float* pDest, const char* pTransform)
 }
 
 // @fnv 0x00b79db0
-void __fastcall SetField60And64(char* thisPtr, int, int aiValue, char b)
+void SetField60And64(char* thisPtr, int, int aiValue, char b)
 {
     *(int*)(thisPtr + 0x60) = aiValue;
     *(thisPtr + 0x64) = b;
 }
 
 // @fnv 0x00b7a6f0
-int __fastcall FUN_00b7a6f0(unsigned char* _this, int, unsigned char* a1, unsigned char* pFlagsSource)
+int FUN_00b7a6f0(unsigned char* _this, int, unsigned char* a1, unsigned char* pFlagsSource)
 {
     if (*reinterpret_cast<int*>(a1 + 0xbc) != 0)
         return *reinterpret_cast<int*>(_this + 0x70);
@@ -414,11 +415,11 @@ int __fastcall FUN_00b7a6f0(unsigned char* _this, int, unsigned char* a1, unsign
 
 extern int DAT_011febd4;
 
-typedef void(__thiscall* Fn128)(void*, int);
+typedef void(* Fn128)(void*, int);
 
 // Calls the virtual function at offset 0x128 on self for each int in DAT_011fdff8 up to &DAT_011febd4.
 // @fnv 0x00b78a40
-void __fastcall FUN_00b78a40(void** self)
+void FUN_00b78a40(void** self)
 {
     int* p = (*reinterpret_cast<int (*)[]>(&::fnv_00b7a730::DAT_011fdff8));
     do
@@ -448,7 +449,7 @@ struct FUN_00b79100_quad
 };
 
 // @fnv 0x00b79100
-void __stdcall FUN_00b79100(int unused)
+void FUN_00b79100(int unused)
 {
     if ((*reinterpret_cast<char**>(&DAT_011fec18))[8])
     {
@@ -469,7 +470,7 @@ extern float DAT_011fd8b8;
 extern float DAT_011fd8bc;
 
 // @fnv 0x00b79180
-void __stdcall FUN_00b79180(void* param_1)
+void FUN_00b79180(void* param_1)
 {
     NiShaderConstantMapEntry* p = *(NiShaderConstantMapEntry**)(void*)&DAT_011fec1c;
     if (*(unsigned char*)((unsigned char*)p + 8) != 0)
@@ -499,7 +500,7 @@ public:
 };
 
 // @fnv 0x00b79930
-void __fastcall FUN_00b79930(NiD3DPass** slot)
+void FUN_00b79930(NiD3DPass** slot)
 {
     NiD3DPass* p = *slot;
     if (p && --p->refs == 0)
@@ -535,7 +536,7 @@ struct FUN_00b79d80_obj
 };
 
 // @fnv 0x00b79d80
-bool __fastcall FUN_00b79d80(FUN_00b79d80_obj* self, int edx, bool value)
+bool FUN_00b79d80(FUN_00b79d80_obj* self, int edx, bool value)
 {
     self->flag = value;
     return true;
@@ -549,7 +550,7 @@ struct FUN_00b79da0_obj
 
 // Stores the given boolean value into the flag field of the object.
 // @fnv 0x00b79da0
-void __fastcall FUN_00b79da0(FUN_00b79da0_obj* self, int edx, bool value)
+void FUN_00b79da0(FUN_00b79da0_obj* self, int edx, bool value)
 {
     self->flag = value;
 }
@@ -564,16 +565,16 @@ const char* __cdecl FUN_00b79dd0()
 
 struct FUN_00b78980_shell
 {
-    void __thiscall ConfigureRenderPasses();
-    void __thiscall FUN_00bf8f70();
-    void __thiscall InitStageObjects();
-    void __thiscall InitializeParticleShaderRenderer();
+    void ConfigureRenderPasses();
+    void FUN_00bf8f70();
+    void InitStageObjects();
+    void InitializeParticleShaderRenderer();
 };
 
 // @fnv 0x00b78980
-void __thiscall FUN_00b78980_shell::InitializeParticleShaderRenderer()
+void FUN_00b78980_shell::InitializeParticleShaderRenderer()
 {
-    ((void(__thiscall*)(void*))(*(void***)this)[0x51])(this);
+    ((void(*)(void*))(*(void***)this)[0x51])(this);
     ::fnv_00beb070::FUN_00beb070();
     ::FUN_00be22b0();
     ConfigureRenderPasses();
@@ -619,7 +620,7 @@ extern float DAT_011fa2a4;
 extern float DAT_011fa2a8;
 
 // @fnv 0x00b78ef0
-void __stdcall UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 matrix)
+void UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 matrix)
 {
     if ((*(char**)&DAT_011febfc)[8] || (*(char**)&(*reinterpret_cast<::NiPointer< ::NiShaderConstantMapEntry> *>(&::DAT_011fec44)))[8])
     {
@@ -935,8 +936,6 @@ bool ResetShaderState()
 }  // namespace fnv_00b7a170
 
 namespace fnv_00b7a730 {
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct PassShaderObj
 {
     virtual void V0();
@@ -1028,8 +1027,6 @@ bool FUN_00b78980_shell::InitializePasses()
 
 extern "C" void* _fnv_zlib_memset(void*, int, unsigned int);
 void __cdecl FUN_00be0c00(const char* param_1, char* param_2);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* value);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 struct RefObj
 {
     virtual void Va0();
@@ -3936,7 +3933,7 @@ struct Gate
 };
 
 // @fnv 0x00b791f0
-void __stdcall FUN_00b791f0(unsigned int mode, Params* first, Params* second)
+void FUN_00b791f0(unsigned int mode, Params* first, Params* second)
 {
     if (!reinterpret_cast<Gate*>(DAT_011fec2c.m_pObject)->enabled)
         return;
@@ -4981,8 +4978,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -5287,8 +5282,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -5728,8 +5721,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -8787,8 +8778,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -9636,7 +9625,7 @@ struct StageReturn
     int unk58;
     int unk5c;
     int refs;
-    void __thiscall ReturnToPool();
+    void ReturnToPool();
     __forceinline void IncRefCount()
     {
         ++refs;
@@ -9659,9 +9648,9 @@ void* __cdecl FUN_00e7f5d0();
 struct RendVtbl
 {
     void* f0;
-    void(__thiscall* release)(RendObj*);
+    void(* release)(RendObj*);
 };
-typedef long(__stdcall* ImpFn)(volatile long*);
+typedef long(* ImpFn)(volatile long*);
 struct RendObj
 {
     RendVtbl* vtbl;
@@ -9738,9 +9727,9 @@ struct RendObj
 
 struct RendObj2
 {
-    void __thiscall FUN_00e80190();
-    void __thiscall FUN_00b80600(RendObj* a);
-    void __thiscall FUN_00b79950(RendObj* a);
+    void FUN_00e80190();
+    void FUN_00b80600(RendObj* a);
+    void FUN_00b79950(RendObj* a);
 };
 typedef NiPointer<RendObj> SPtr;
 struct PassObj : RendObj
@@ -9904,11 +9893,11 @@ extern PassPtr DAT_011fe1dc;
 extern PassPtr DAT_011fe240;
 struct FUN_00b78980_shell
 {
-    void __thiscall ConfigureRenderPasses();
+    void ConfigureRenderPasses();
 };
 // Configures each render pass: builds missing stages, assigns shaders and render objects, sets render states, and writes per-pass constants.
 // @fnv 0x00be39e0
-void __thiscall FUN_00b78980_shell::ConfigureRenderPasses()
+void FUN_00b78980_shell::ConfigureRenderPasses()
 {
     SPtr pPass;
     StagePtr aLocal;
@@ -11794,7 +11783,7 @@ static inline Quad119 QMul(const Quad119& v, float f)
 }
 // Updates shader light constants for a pass: writes light positions/radii or directions, adjusts diffuse color, and handles the id 0x24b case.
 // @fnv 0x00b78a90
-void __stdcall UpdateLightPass(Property119* pProperty, Pass119* pass, M_bbb890 matrix, Scale119* scale, unsigned int id,
+void UpdateLightPass(Property119* pProperty, Pass119* pass, M_bbb890 matrix, Scale119* scale, unsigned int id,
                                unsigned int world)
 {
     float time = pProperty->time;
@@ -12461,9 +12450,9 @@ struct ShaderVirtualObject
 {
     void** vtable;
 };
-typedef void*(__thiscall* FindConstantFn)(void*, const char*, void*, unsigned short, int, void*);
-typedef void(__thiscall* ApplyConstantFn)(void*, void*);
-typedef void(__thiscall* ApplyConstantDataFn)(void*, void*, void*, unsigned short, int, void*);
+typedef void*(* FindConstantFn)(void*, const char*, void*, unsigned short, int, void*);
+typedef void(* ApplyConstantFn)(void*, void*);
+typedef void(* ApplyConstantDataFn)(void*, void*, void*, unsigned short, int, void*);
 
 struct ShaderAdapter : ShadowLightShader
 {
@@ -14493,7 +14482,7 @@ struct RendObj;
 struct RendVtbl
 {
     void* f0;
-    void(__thiscall* release)(RendObj*);
+    void(* release)(RendObj*);
 };
 struct RendObj
 {
@@ -14561,8 +14550,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -15843,7 +15830,7 @@ struct StageReturn
     int unk58;
     int unk5c;
     int refs;
-    void __thiscall ReturnToPool();
+    void ReturnToPool();
     __forceinline void IncRefCount()
     {
         ++refs;
@@ -15866,9 +15853,9 @@ void* __cdecl FUN_00e7f5d0();
 struct RendVtbl
 {
     void* f0;
-    void(__thiscall* release)(RendObj*);
+    void(* release)(RendObj*);
 };
-typedef long(__stdcall* ImpFn)(volatile long*);
+typedef long(* ImpFn)(volatile long*);
 struct RendObj
 {
     RendVtbl* vtbl;
@@ -15945,9 +15932,9 @@ struct RendObj
 
 struct RendObj2
 {
-    void __thiscall FUN_00e80190();
-    void __thiscall FUN_00b80600(RendObj* a);
-    void __thiscall FUN_00b79950(RendObj* a);
+    void FUN_00e80190();
+    void FUN_00b80600(RendObj* a);
+    void FUN_00b79950(RendObj* a);
 };
 typedef NiPointer<RendObj> SPtr;
 struct PassObj : RendObj

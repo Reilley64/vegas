@@ -325,7 +325,7 @@ struct FUN_00d2c7a0_class
     int unk08;
     int unk0c;
     FUN_00d2c7a0_Slot slots[17];
-    void __thiscall FUN_00d2c7a0();
+    void FUN_00d2c7a0();
 };
 
 // Iterates the 17 slots backwards and calls FUN_00d2c520 on each index whose slot holds an object.
@@ -378,15 +378,15 @@ int DispatchInterface::DispatchValue(void* const& value)
 
 struct FUN_00d2c020_class
 {
-    virtual void __fastcall slot00(unsigned int value);
-    virtual void __fastcall slot04(unsigned int value);
-    virtual void __fastcall slot08(unsigned int value);
+    virtual void slot00(unsigned int value);
+    virtual void slot04(unsigned int value);
+    virtual void slot08(unsigned int value);
 
-    void __fastcall FUN_00d2c020(unsigned int value);
+    void FUN_00d2c020(unsigned int value);
 };
 
 // @fnv 0x00d2c020
-void __fastcall FUN_00d2c020_class::FUN_00d2c020(unsigned int value)
+void FUN_00d2c020_class::FUN_00d2c020(unsigned int value)
 {
     slot08(value);
 }

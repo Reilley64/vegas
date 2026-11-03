@@ -5,6 +5,8 @@
 
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
+#include <objbase.h>
 #include "fnv/decl/B83C270Conversation.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -107,7 +109,7 @@
 #include "../../include/layout_support_decl_blk_00820000_od.h"
 struct FUN_00821620_Class
 {
-    void __thiscall FUN_00821620(float value);
+    void FUN_00821620(float value);
 };
 struct FUN_00821680_Class
 {
@@ -123,8 +125,8 @@ struct FUN_00824080_Class
 };
 struct FUN_00827200_class
 {
-    void __thiscall FUN_00cb26e0(int);
-    FUN_00827200_class* __thiscall FUN_00827200(int a);
+    void FUN_00cb26e0(int);
+    FUN_00827200_class* FUN_00827200(int a);
 };
 struct FUN_0082d660_class
 {
@@ -136,11 +138,11 @@ struct FUN_0082d6a0_Class
 };
 struct FUN_0082d6c0_class
 {
-    unsigned short __thiscall GetShortAtOffset5A();
+    unsigned short GetShortAtOffset5A();
 };
 struct FUN_0082d720_Class
 {
-    unsigned int __thiscall FUN_0082d720();
+    unsigned int FUN_0082d720();
 };
 extern int DAT_0107ca44;
 void __cdecl InitArray(int);
@@ -168,11 +170,11 @@ struct CBSAStream
 struct FUN_0082f520Class
 {
     void* p;
-    void* __thiscall FUN_0082f520(void* v);
+    void* FUN_0082f520(void* v);
 };
 struct FUN_00831e00_class
 {
-    int __thiscall IsFlagSet();
+    int IsFlagSet();
 };
 struct FUN_00831f40_Class
 {
@@ -235,15 +237,15 @@ struct FUN_008224b0_Class
 struct GO
 {
     ~GO();
-    GO* __thiscall FUN_008228f0(unsigned int flags);
+    GO* FUN_008228f0(unsigned int flags);
 };
 struct FUN_0082eee0_class
 {
-    void* __thiscall InitArray(int size);
+    void* InitArray(int size);
 };
 struct FUN_00831f80_class
 {
-    void* __thiscall FUN_00831f80(unsigned int flags);
+    void* FUN_00831f80(unsigned int flags);
 };
 extern int DAT_0107cd54;
 extern int DAT_0107cd6c;
@@ -255,14 +257,14 @@ struct FUN_00831fb0_class
     int b;
     int c;
     int d;
-    void __thiscall FUN_00831fb0();
+    void FUN_00831fb0();
 };
 struct BGSSaveFormBuffer
 {
 };
 struct FUN_00836600_class
 {
-    void __thiscall FUN_00836600(BGSLoadFormBuffer* buffer);
+    void FUN_00836600(BGSLoadFormBuffer* buffer);
 };
 struct FUN_00837280_Class
 {
@@ -270,7 +272,7 @@ struct FUN_00837280_Class
 };
 struct FUN_0083b740_Class
 {
-    void* __thiscall FUN_0083b740(unsigned int flags);
+    void* FUN_0083b740(unsigned int flags);
 };
 struct SoundPlaybackHandle
 {
@@ -306,7 +308,7 @@ struct FUN_0083b7d0
 };
 struct FUN_0083c750_class
 {
-    void* __thiscall FUN_0083c720(unsigned int flags);
+    void* FUN_0083c720(unsigned int flags);
 };
 enum ENUM_FORM_ID;
 struct TESForm
@@ -336,7 +338,7 @@ struct G2
 };
 struct FUN_00824290_class
 {
-    void __thiscall AddWeatherEntry(int a, int b, int c);
+    void AddWeatherEntry(int a, int b, int c);
 };
 struct SoundDataDummy
 {
@@ -374,7 +376,7 @@ struct SndItem
 struct ContNode
 {
 };
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct Q
 {
     ~Q();
@@ -524,7 +526,7 @@ FUN_0082b370* CreateFUN0082b370(int a, int b, int c);
 struct FUN_0082cf80
 {
     unsigned char m_data[0x48];
-    __fastcall FUN_0082cf80(int, int, int);
+    FUN_0082cf80(int, int, int);
 };
 void* __cdecl CreateFUN0082cf80(int a, int b, int c);
 struct FUN_0082d6e0_Class
@@ -534,7 +536,7 @@ struct FUN_0082d6e0_Class
 struct GlobalObject_0082ee80
 {
     ~GlobalObject_0082ee80();
-    GlobalObject_0082ee80* __thiscall FUN_0082eeb0(unsigned int flags);
+    GlobalObject_0082ee80* FUN_0082eeb0(unsigned int flags);
 };
 struct FUN_0082efb0_Ext : FUN_0082efb0
 {
@@ -542,11 +544,11 @@ struct FUN_0082efb0_Ext : FUN_0082efb0
 };
 struct FUN_0082f160_class : public FUN_0082f140_class
 {
-    void* __thiscall FUN_0082f160(unsigned int flags);
+    void* FUN_0082f160(unsigned int flags);
 };
 struct FUN_0082f260_class
 {
-    void* __thiscall FUN_0082f210(unsigned int flags);
+    void* FUN_0082f210(unsigned int flags);
 };
 struct FUN_00831de0_Class
 {
@@ -554,11 +556,11 @@ struct FUN_00831de0_Class
     FUN_00831e00_class m_14;
     int ForwardToMember();
 };
-typedef void(__stdcall* FUN_00831eb0_callback)(void*, int, int);
+typedef void(* FUN_00831eb0_callback)(void*, int, int);
 struct FUN_00831ee0_class
 {
     virtual void FUN_00831ee0_virtual0();
-    virtual void __stdcall FUN_00831ee0_virtual1();
+    virtual void FUN_00831ee0_virtual1();
 };
 struct BSSimpleListEx
 {
@@ -566,12 +568,12 @@ struct BSSimpleListEx
 };
 struct FUN_00837480 : BSSimpleListEx
 {
-    void* __thiscall DeleteThis(unsigned int flags);
+    void* DeleteThis(unsigned int flags);
 };
 struct GlobalObject_0083b5e0
 {
     ~GlobalObject_0083b5e0();
-    void* __thiscall FUN_0083b610(unsigned int flags);
+    void* FUN_0083b610(unsigned int flags);
 };
 struct BSStr
 {
@@ -586,11 +588,11 @@ struct TESIdleForm : TESForm
 };
 struct FUN_0083d740_Class
 {
-    void __thiscall FUN_0083d740(BGSLoadGameBuffer* buffer);
+    void FUN_0083d740(BGSLoadGameBuffer* buffer);
 };
 struct Str6a70
 {
-    Str6a70& __thiscall operator=(char const*);
+    Str6a70& operator=(char const*);
 };
 struct BGSLoadGameBufferLoadStringHelper
 {
@@ -601,7 +603,7 @@ struct BGSLoadFormBufferHelper
 extern void* _DAT_01183028;
 struct FUN_0083fbe0_Class
 {
-    void __thiscall FUN_0083fbe0(BGSLoadGameBuffer* buffer);
+    void FUN_0083fbe0(BGSLoadGameBuffer* buffer);
 };
 // FUN_00822440 - 0x00822440, 99 bytes.
 //
@@ -966,7 +968,6 @@ struct ArchiveStream
 // Base-object destructor of a thread-like class: clears the "running" flag bit,
 // signals the object at +0x34, waits for the worker thread to leave, closes its
 // handle, then runs the base class destructor.
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 struct FUN_00aa63c0
 {
     virtual ~FUN_00aa63c0();
@@ -995,7 +996,7 @@ struct FUN_0082f9c0_obj
 {
     virtual int unk00(int a);
 };
-int __stdcall FUN_00831f70(int unused);
+int FUN_00831f70(int unused);
 // PlayWeaponSound v2 (worker11): pack types reused; extra callees via shell classes
 struct NiPoint3
 {
@@ -1659,64 +1660,60 @@ struct AudGuid
     unsigned long d2;
     unsigned long d3;
 };
-extern "C" __declspec(dllimport) long __stdcall CoInitializeEx(void* reserved, unsigned long flags);
-extern "C" __declspec(dllimport) long __stdcall CoCreateInstance(const AudGuid& clsid, void* outer, unsigned long ctx,
-                                                                 const AudGuid& iid, void** out);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* handle, unsigned long ms);
 struct IAudUnk
 {
-    virtual long __stdcall QueryInterface(const AudGuid& iid, void** out);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const AudGuid& iid, void** out);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct IAudGraph : IAudUnk
 {
-    virtual long __stdcall AddFilter(IAudUnk* filter, const wchar_t* name);
+    virtual long AddFilter(IAudUnk* filter, const wchar_t* name);
 };
 struct IAudBuilder : IAudUnk
 {
-    virtual long __stdcall v0C();
-    virtual long __stdcall v10();
-    virtual long __stdcall v14();
-    virtual long __stdcall v18();
-    virtual long __stdcall v1C();
-    virtual long __stdcall v20();
-    virtual long __stdcall v24();
-    virtual long __stdcall v28();
-    virtual long __stdcall v2C();
-    virtual long __stdcall Render(IAudUnk* pin);
+    virtual long v0C();
+    virtual long v10();
+    virtual long v14();
+    virtual long v18();
+    virtual long v1C();
+    virtual long v20();
+    virtual long v24();
+    virtual long v28();
+    virtual long v2C();
+    virtual long Render(IAudUnk* pin);
 };
 struct IAudDispatch : IAudUnk
 {
-    virtual long __stdcall d0C();
-    virtual long __stdcall d10();
-    virtual long __stdcall d14();
-    virtual long __stdcall d18();
+    virtual long d0C();
+    virtual long d10();
+    virtual long d14();
+    virtual long d18();
 };
 struct IAudBasicAudio : IAudDispatch
 {
-    virtual long __stdcall put_Volume(long volume);
+    virtual long put_Volume(long volume);
 };
 struct IAudControl : IAudDispatch
 {
-    virtual long __stdcall Run();
-    virtual long __stdcall Pause();
-    virtual long __stdcall Stop();
+    virtual long Run();
+    virtual long Pause();
+    virtual long Stop();
 };
 struct IAudPosition : IAudDispatch
 {
-    virtual long __stdcall get_Duration(double* len);
-    virtual long __stdcall put_CurrentPosition(double t);
-    virtual long __stdcall get_CurrentPosition(double* t);
+    virtual long get_Duration(double* len);
+    virtual long put_CurrentPosition(double t);
+    virtual long get_CurrentPosition(double* t);
 };
 struct IAudEvent : IAudDispatch
 {
-    virtual long __stdcall e1C();
-    virtual long __stdcall GetEvent(long* code, long* p1, long* p2, long timeout);
-    virtual long __stdcall e24();
-    virtual long __stdcall e28();
-    virtual long __stdcall e2C();
-    virtual long __stdcall FreeEventParams(long code, long p1, long p2);
+    virtual long e1C();
+    virtual long GetEvent(long* code, long* p1, long* p2, long timeout);
+    virtual long e24();
+    virtual long e28();
+    virtual long e2C();
+    virtual long FreeEventParams(long code, long p1, long p2);
 };
 struct AudMediaType
 {
@@ -1992,7 +1989,7 @@ struct FUN_00831f10_Target
 {
     virtual void unk00();
     virtual void unk04();
-    virtual void __stdcall unk08();
+    virtual void unk08();
 };
 struct SaveFormBufferEx : BGSSaveFormBuffer
 {

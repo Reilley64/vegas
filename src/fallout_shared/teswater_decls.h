@@ -2,8 +2,7 @@
 #ifndef FNV_TESWATER_DECLS_H
 #define FNV_TESWATER_DECLS_H
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
+#include <windows.h>
 class NiRefObject
 {
   public:
@@ -64,5 +63,4 @@ class BSMultiBound : public NiObject
     unsigned int m_uiBoundFlags;
     NiPointer<BSMultiBoundShape> pShape;
 };
-typedef char teswater_bound_size[(sizeof(BSMultiBound) == 16) ? 1 : -1];
 #endif

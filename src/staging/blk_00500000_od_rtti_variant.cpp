@@ -29,7 +29,7 @@ struct FUN_00507610_Class
 };
 struct FUN_005076c0Class
 {
-    void __thiscall FUN_005076c0(float value);
+    void FUN_005076c0(float value);
 };
 struct FUN_005076e0_Class
 {
@@ -37,7 +37,7 @@ struct FUN_005076e0_Class
 };
 struct FUN_00507720_Class
 {
-    void __thiscall FUN_00507720(float value);
+    void FUN_00507720(float value);
 };
 struct FUN_00507740_Class
 {
@@ -74,8 +74,8 @@ struct FUN_00508070_class
 extern "C" void __cdecl _ref_006815c0();
 struct FUN_00509890_class
 {
-    void __thiscall _ref_006815c0();
-    void* __thiscall FUN_00509890(bool);
+    void _ref_006815c0();
+    void* FUN_00509890(bool);
 };
 struct FUN_0050d1d0_class
 {
@@ -83,7 +83,7 @@ struct FUN_0050d1d0_class
 };
 struct FUN_0050d1f0_Class
 {
-    bool __thiscall FUN_0050d1f0() const;
+    bool FUN_0050d1f0() const;
 };
 struct FUN_0050d210_Class
 {
@@ -112,13 +112,13 @@ struct BGSTerrainManager
 };
 struct FUN_00510380_Class
 {
-    unsigned int __thiscall GetTerrainMinLevel(BGSTerrainManager* a);
+    unsigned int GetTerrainMinLevel(BGSTerrainManager* a);
 };
 extern "C" int __cdecl _BSStringLength(const char*);
 struct FUN_005103a0_class
 {
-    void __thiscall FindSubstring(const char* a, const char* b, int c);
-    void __thiscall FUN_005103a0(const char* a, const char* b);
+    void FindSubstring(const char* a, const char* b, int c);
+    void FUN_005103a0(const char* a, const char* b);
 };
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
 void __cdecl FUN_005104b0(const void* s1, const void* s2, unsigned int n);
@@ -145,17 +145,17 @@ extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
 {
     void* m_p;
-    void __thiscall ConstructArray(void* arg);
-    void* __thiscall FUN_00519b20(void* arg);
+    void ConstructArray(void* arg);
+    void* FUN_00519b20(void* arg);
 };
 extern "C" unsigned int __cdecl FUN_00a5e930(void*);
 struct Unk_00a5e930
 {
-    unsigned int __thiscall FUN_00a5e930();
+    unsigned int FUN_00a5e930();
 };
 struct FUN_0051cfe0_Class
 {
-    unsigned int __thiscall FUN_0051cfe0();
+    unsigned int FUN_0051cfe0();
 };
 struct FUN_0051f4d0_class
 {
@@ -167,7 +167,7 @@ struct FUN_0051f4f0_Class
 };
 struct FUN_0051f530_class
 {
-    void __thiscall FUN_0051f530(int value);
+    void FUN_0051f530(int value);
 };
 extern "C" void* __cdecl _NiFreeAlias(void*);
 extern void* DAT_0102b3f0;
@@ -176,15 +176,15 @@ struct FUN_00519c50_class
     void* pVft;
     int _0x4;
     void* _0x8;
-    void __thiscall NiTPointerMap_RemoveAll();
-    void __thiscall FUN_00519c50();
+    void NiTPointerMap_RemoveAll();
+    void FUN_00519c50();
 };
 extern "C" void __cdecl _Deallocate(void*);
 void __cdecl FUN_005010f0();
 struct FUN_005010c0_class
 {
-    void __thiscall FUN_005010f0();
-    void* __thiscall FUN_005010c0(unsigned int flags);
+    void FUN_005010f0();
+    void* FUN_005010c0(unsigned int flags);
 };
 struct NiPoint4
 {
@@ -200,14 +200,14 @@ struct FUN_00507660_class
 void __cdecl Deallocate(void*);
 struct FUN_00519b50_class
 {
-    void __thiscall FUN_00519bf0();
-    void* __thiscall FUN_00519b50(unsigned int flags);
+    void FUN_00519bf0();
+    void* FUN_00519b50(unsigned int flags);
 };
 struct FUN_00519c50_class;
 void __cdecl _Deallocate(void* p);
 struct FUN_00519c80_class
 {
-    void* __thiscall FUN_00519c80(unsigned int flags);
+    void* FUN_00519c80(unsigned int flags);
 };
 struct FUN_00501cd0_class
 {
@@ -217,7 +217,7 @@ struct FUN_00501cd0_class
     void* m_0c;
     unsigned int m_10;
     void* m_14;
-    void* __thiscall FUN_00501cd0();
+    void* FUN_00501cd0();
 };
 struct TESForm;
 TESForm* __cdecl GetFormByID(unsigned int id);
@@ -230,7 +230,7 @@ struct FUN_00507590_Data
 };
 struct FUN_00507590_Class
 {
-    void __thiscall SetData(FUN_00507590_Data v);
+    void SetData(FUN_00507590_Data v);
 };
 struct Vec12_5075c0
 {
@@ -240,19 +240,19 @@ struct Vec12_5075c0
 };
 struct S5075c0
 {
-    void __thiscall FUN_005075c0(Vec12_5075c0 v);
+    void FUN_005075c0(Vec12_5075c0 v);
 };
 struct FUN_00507630_Cls
 {
     unsigned char _pad[0xC4];
     NiPoint4 fld;
-    void __thiscall SetPoint(NiPoint4 p);
+    void SetPoint(NiPoint4 p);
 };
 struct FUN_00507690_Class
 {
     char _pad[0xe4];
     NiPoint4 m_0xe4;
-    void __thiscall FUN_00507690(NiPoint4 v);
+    void FUN_00507690(NiPoint4 v);
 };
 struct BGSImpactData
 {
@@ -292,17 +292,17 @@ struct FUN_0050e640_Holder
 {
     char _0[4];
     unsigned char _4;
-    bool __thiscall MatchesValue(unsigned char v);
+    bool MatchesValue(unsigned char v);
 };
 float __cdecl FUN_004579e0(float);
-float __fastcall FUN_0050ec80(short* p);
+float FUN_0050ec80(short* p);
 struct AVH
 {
     static int __cdecl GetActorValueForSectionIndex(int, unsigned char);
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int FUN_00514fd0();
 };
 bool __cdecl FUN_00519570(int);
 struct LH
@@ -317,7 +317,7 @@ void* __cdecl NiMalloc(unsigned int size);
 void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_00519b20
 {
-    void* __thiscall ConstructArray(unsigned int n);
+    void* ConstructArray(unsigned int n);
 };
 struct TESGrassBase
 {
@@ -415,7 +415,7 @@ struct TESObjectREFR_Flags
     unsigned int GetFlags();
     void SetFlags(unsigned int flags);
     void MarkAsModified(int change);
-    void __thiscall SetRefFlag40000000(bool set);
+    void SetRefFlag40000000(bool set);
 };
 struct Setting_S
 {
@@ -468,7 +468,7 @@ struct P01RefA
 };
 struct TESObjectREFR : public P01RefA
 {
-    bool __thiscall CanBeUsed(Actor* actor, bool value);
+    bool CanBeUsed(Actor* actor, bool value);
 };
 struct ActorVTable
 {
@@ -540,13 +540,13 @@ struct ActorVTable
 struct Actor : public ActorVTable
 {
     virtual bool ActorCheck();
-    bool __thiscall FUN_00891db0(TESBoundObject* object, int a, int b, int c, int& count);
+    bool FUN_00891db0(TESBoundObject* object, int a, int b, int c, int& count);
 };
 extern Actor* g_thePlayer;
 extern TESBoundObject* g_pLockpickItem;
 struct FUN_00516cd0_class
 {
-    bool __thiscall CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
+    bool CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 int DAT_011c6200;
 int FUN_005039e0();
@@ -915,8 +915,8 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool __thiscall FUN_0050de60(NiPointer<S_0050de20_Obj> p, int* q, int b);
-    bool __thiscall FUN_0050de20(S_0050de20_A* a, int b);
+    bool FUN_0050de60(NiPointer<S_0050de20_Obj> p, int* q, int b);
+    bool FUN_0050de20(S_0050de20_A* a, int b);
 };
 extern int DAT_011f81dc;
 int FUN_0050f6e0();
@@ -1168,8 +1168,8 @@ class FUN_00508510_Activator : public ListPart508, public ActivatorBase508
 struct Item;
 struct List
 {
-    unsigned int __thiscall FUN_0043b480();
-    Item* __thiscall FUN_0043b4a0(unsigned int index);
+    unsigned int FUN_0043b480();
+    Item* FUN_0043b4a0(unsigned int index);
 };
 struct Item
 {
@@ -1177,11 +1177,11 @@ struct Item
     virtual void v1();
     virtual void v2();
     virtual int v3();
-    void* __thiscall FUN_00a59d30(int kind);
+    void* FUN_00a59d30(int kind);
 };
 struct T
 {
-    void __thiscall FUN_004bc450(void* p);
+    void FUN_004bc450(void* p);
 };
 extern void* DAT_011f4998;
 void __cdecl ProcessListItems(List* list);
@@ -1253,7 +1253,7 @@ struct TQ
 {
     void FUN_0087ad50();
 };
-TQ* __stdcall FUN_004537b0(void* p);
+TQ* FUN_004537b0(void* p);
 bool __cdecl FUN_008c7aa0();
 struct P3
 {

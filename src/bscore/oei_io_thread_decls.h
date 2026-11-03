@@ -2,6 +2,7 @@
 #ifndef FNV_OEI_IO_THREAD_DECLS_H
 #define FNV_OEI_IO_THREAD_DECLS_H
 
+#include <windows.h>
 #include "fnv/symbols_011f6000.h"
 #include "BSThread.h"
 
@@ -9,12 +10,8 @@ struct _iobuf;
 extern "C" int __cdecl fseek(_iobuf*, long, int);
 extern "C" unsigned int __cdecl fread(void*, unsigned int, unsigned int, _iobuf*);
 extern "C" unsigned int __cdecl fwrite(const void*, unsigned int, unsigned int, _iobuf*);
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void*, long, long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" void(__stdcall* fnv_EnterCriticalSection)(_RTL_CRITICAL_SECTION*);
-extern "C" void(__stdcall* fnv_LeaveCriticalSection)(_RTL_CRITICAL_SECTION*);
+extern "C" void(* fnv_EnterCriticalSection)(_RTL_CRITICAL_SECTION*);
+extern "C" void(* fnv_LeaveCriticalSection)(_RTL_CRITICAL_SECTION*);
 
 class CountingSemaphore
 {
@@ -104,8 +101,4 @@ template <class T> class BSList : public BSPointerListBase<T>
 {
 };
 
-FNV_STATIC_ASSERT(sizeof(OEI::IO::IO_Thread) == 0x40);
-FNV_STATIC_ASSERT(sizeof(OEI::IO::IORequest) == 0x1c);
-FNV_STATIC_ASSERT(offsetof(OEI::IO::IORequest, m_eRequestType) == 4);
-FNV_STATIC_ASSERT(offsetof(OEI::IO::IORequest, result) == 0x18);
 #endif

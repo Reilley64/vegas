@@ -106,7 +106,7 @@ struct FUN_00b3f280_shell
 
 struct FUN_00b433a0_shell
 {
-    int __thiscall GetRandomSample();
+    int GetRandomSample();
 };
 
 // @fnv 0x00b3f280

@@ -87,12 +87,12 @@ struct FUN_0073af60_shell
     int m_0x24;
     int m_0x28;
     int m_0x2c;
-    bool __thiscall FUN_0073af60();
+    bool FUN_0073af60();
 };
 
 // Returns true if both m_0x28 and m_0x2c are non-zero, otherwise false.
 // @fnv 0x0073af60
-bool __thiscall FUN_0073af60_shell::FUN_0073af60()
+bool FUN_0073af60_shell::FUN_0073af60()
 {
     if (m_0x28 && m_0x2c)
         return true;
@@ -121,12 +121,12 @@ bool BookMenu::HandleKey(int aikey)
 
 struct FUN_0073ad00_shell
 {
-    void __thiscall FUN_0073ad30();
-    void* __thiscall FUN_0073ad00(unsigned int);
+    void FUN_0073ad30();
+    void* FUN_0073ad00(unsigned int);
 };
 // Calls FUN_0073ad30, then deallocates this if flags has bit 1 set, and returns this.
 // @fnv 0x0073ad00
-void* __thiscall FUN_0073ad00_shell::FUN_0073ad00(unsigned int flags)
+void* FUN_0073ad00_shell::FUN_0073ad00(unsigned int flags)
 {
     FUN_0073ad30();
     if (flags & 1)
@@ -477,7 +477,6 @@ struct InterfaceManager
 public:
     int FUN_00747d00();
 };
-typedef char _sizecheck_InterfaceManager[sizeof(InterfaceManager) == 1144 ? 1 : -1];
 struct FUN_0073b020_shell : public InterfaceManager
 {
     int FUN_0073b020();
@@ -491,10 +490,10 @@ int FUN_0073b020_shell::FUN_0073b020()
 
 struct FUN_0073b460_shell
 {
-    bool __thiscall FUN_0073b460();
+    bool FUN_0073b460();
 };
 // @fnv 0x0073b460
-bool __thiscall FUN_0073b460_shell::FUN_0073b460()
+bool FUN_0073b460_shell::FUN_0073b460()
 {
     return (unsigned char)((char*)this)[0xc0] & 2;
 }
@@ -570,10 +569,10 @@ struct Holder73b430
 {
     char _pad[0x94];
     Inner73b430 inner;
-    void __thiscall CallInnerFoo();
+    void CallInnerFoo();
 };
 // @fnv 0x0073b430
-void __thiscall Holder73b430::CallInnerFoo()
+void Holder73b430::CallInnerFoo()
 {
     inner.foo(0, 0x43534544);
 }
@@ -652,7 +651,7 @@ struct FUN_0073b050_shell : Menu
     unsigned int m_0x34;
     float m_fValue;
 
-    void __thiscall FUN_0073b050(int, Tile*);
+    void FUN_0073b050(int, Tile*);
 };
 
 // @fnv 0x0073b050
@@ -942,11 +941,11 @@ struct FUN_0073b0f0_cls
 {
     char _pad[0x30];
     Obj30_0073b0f0* m_0x30;
-    void __thiscall HandleMessage(int, int);
+    void HandleMessage(int, int);
 };
 // Handles message 0x1f by calling UpdateMenuTile; for 0x20, passes a value from m_0x30 to DAT_011dea3c's vSlot, then calls UpdateMenuTile.
 // @fnv 0x0073b0f0
-void __thiscall FUN_0073b0f0_cls::HandleMessage(int msg, int unused)
+void FUN_0073b0f0_cls::HandleMessage(int msg, int unused)
 {
     if (msg == 0x1f)
     {

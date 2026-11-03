@@ -5,13 +5,10 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpAngConstraintAtom : public hkpConstraintAtom
 {
   public:
     hkUint8 m_ucFirstConstrainedAxis;  // +0x2
     hkUint8 m_ucNumConstrainedAxes;    // +0x3
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpAngConstraintAtom[(sizeof(hkpAngConstraintAtom) == 0x4) ? 1 : -1];
 #endif

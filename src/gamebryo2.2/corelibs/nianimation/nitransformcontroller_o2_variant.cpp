@@ -76,10 +76,10 @@ int* __cdecl FUN_00a36480()
 void __cdecl _delete(void*, unsigned int);
 struct S_00a36490
 {
-    void* __thiscall FUN_00a36490(unsigned int);
+    void* FUN_00a36490(unsigned int);
 };
 // @fnv 0x00a36490
-void* __thiscall S_00a36490::FUN_00a36490(unsigned int flag)
+void* S_00a36490::FUN_00a36490(unsigned int flag)
 {
     ::FUN_00a39290(this, {});
     if (flag & 1)
@@ -104,7 +104,7 @@ struct StrArr
     unsigned short m_usGrowBy;
 };
 // @fnv 0x00a36840
-void __stdcall FUN_00a36840(StrArr* pkStrings)
+void FUN_00a36840(StrArr* pkStrings)
 {
     reinterpret_cast<::Holder00a390a0 *>((pkStrings))->FUN_00a390a0({});
     char* pszString = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f36ec)));
@@ -156,7 +156,7 @@ NiTransformInterpolator* S00a36100::FUN_00a36100(unsigned short usIndex)
         (NiTransformInterpolator*)BSFadeNode::operator new(sizeof(NiTransformInterpolator));
     if (pInterp)
     {
-        typedef NiTransformInterpolator* (__thiscall NiTransformInterpolator::*CtorFn)(NiQuatTransform);
+        typedef NiTransformInterpolator* (NiTransformInterpolator::*CtorFn)(NiQuatTransform);
         CtorFn pfn = reinterpret_cast<CtorFn>(&NiTransformInterpolator::FUN_00a3fae0);
         return (pInterp->*pfn)(kTransform);
     }
@@ -442,7 +442,7 @@ class NiTransformInitB
 };
 
 // @fnv 0x00a36620
-void* __stdcall FUN_00a36620(int a1, int a2, unsigned char a3, float a4, int a5)
+void* FUN_00a36620(int a1, int a2, unsigned char a3, float a4, int a5)
 {
     void* obj;
     if (a3 != 0)

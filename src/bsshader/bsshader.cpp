@@ -86,7 +86,7 @@ void __cdecl BuildCachePath(char* apCachePath, const char* apFileName, const cha
 }
 
 // @fnv 0x00be0e30
-int __stdcall FUN_00be0e30(void* apUnused, void* apBlock)
+int FUN_00be0e30(void* apUnused, void* apBlock)
 {
     reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(apBlock);
     return 0;
@@ -105,7 +105,7 @@ void __cdecl FUN_00b97e30(unsigned int, unsigned int);
 void __cdecl FUN_00b97e80(unsigned int, unsigned int);
 
 // @fnv 0x00be0e50
-void __stdcall FUN_00be0e50(int)
+void FUN_00be0e50(int)
 {
     if (DAT_011f91e4 < 0x252 || DAT_011f91e4 > 0x256)
     {
@@ -146,7 +146,7 @@ void __cdecl FUN_00b97d90(int, int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30+0x10 and calls FUN_00b97d90 on each node's a and b fields with 0.
 // @fnv 0x00be0eb0
-void __stdcall FUN_00be0eb0(int)
+void FUN_00be0eb0(int)
 {
     int ecx_val = *(int*)(DAT_0126f74c + 0x30);
     Node_00be0eb0* pNode = *(Node_00be0eb0**)(ecx_val + 0x10);
@@ -168,7 +168,7 @@ void __cdecl FUN_00b98610(int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30's +0x10 and calls FUN_00b98610 with each node's m_val and 0.
 // @fnv 0x00be0ee0
-void __stdcall FUN_00be0ee0(int)
+void FUN_00be0ee0(int)
 {
     int p1 = *(int*)(DAT_0126f74c + 0x30);
     Node_00be0ee0* node = *(Node_00be0ee0**)(p1 + 0x10);
@@ -204,7 +204,7 @@ class BSFile
 
 // Builds a full path from pFileName, opens the file, allocates a buffer of its size, reads it into ppData, and returns the byte count in pBytes.
 // @fnv 0x00be1eb0
-long __stdcall ReadFileIntoMemory(void* pThis, int aiUnused, const char* pFileName, int aiUnused2, const void** appData,
+long ReadFileIntoMemory(void* pThis, int aiUnused, const char* pFileName, int aiUnused2, const void** appData,
                                   unsigned int* apuiBytes)
 {
     char fullPath[260];
@@ -321,7 +321,7 @@ extern GlobalMgr* DAT_0126f74c;
 
 // Gets an ObjA from DAT_0126f74c and sets its v35 from p5c->v33_get(0), and if p44 is non-null sets its v31 from p44->v31_get(0).
 // @fnv 0x00be1f90
-void __fastcall SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnused)
+void SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnused)
 {
     ObjA* pObjA = ((::fnv_00be1f90::ObjA *)(::FUN_00e7f7c0()));
     pObjA->v35_set((*reinterpret_cast<::fnv_00be1f90::GlobalMgr * *>(&::DAT_0126f74c))->p5c->v33_get(0));
@@ -337,7 +337,7 @@ int __cdecl FUN_00b97f20(unsigned int, unsigned int, int);
 
 // Reads a byte array from param, extracts a 3-bit value from offset 0x18 and a byte at 0x1a, and passes them to FUN_00b97f20.
 // @fnv 0x00be20b0
-int __stdcall FUN_00be20b0(unsigned char** apData)
+int FUN_00be20b0(unsigned char** apData)
 {
     unsigned char* p = *apData;
     return FUN_00b97f20((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
@@ -470,7 +470,7 @@ struct FUN_00be0ce0_obj
     int f5c;
 };
 // @fnv 0x00be0ce0
-void __fastcall FUN_00be0ce0(FUN_00be0ce0_obj* p, int unused)
+void FUN_00be0ce0(FUN_00be0ce0_obj* p, int unused)
 {
     p->vslot(p->f5c);
 }
@@ -527,7 +527,7 @@ struct M64Outer
 };
 // For each item in o->items, if the item's fc is not 1, sets its f8 to 0.
 // @fnv 0x00be0fb0
-void __stdcall FUN_00be0fb0(M64Outer* pOuter)
+void FUN_00be0fb0(M64Outer* pOuter)
 {
     if (pOuter)
     {
@@ -558,7 +558,7 @@ struct StructA
 
 // Derives two booleans from param_1's prop10/prop0 flags and DAT_011f91e4, then calls FUN_00b984d0 and FUN_00b97ed0 with them.
 // @fnv 0x00be20e0
-void __stdcall FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
+void FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
 {
     unsigned int v = DAT_011f91e4;
     bool bFlagA = false;
@@ -663,7 +663,6 @@ struct IUnknown
     virtual unsigned long AddRef();
     virtual unsigned long Release();
 };
-typedef char _sizecheck_IUnknown[sizeof(IUnknown) == 4 ? 1 : -1];
 struct ID3DXBuffer : public IUnknown
 {
     virtual void* GetBufferPointer();
@@ -672,7 +671,6 @@ struct ID3DXBuffer : public IUnknown
     virtual unsigned long AddRef();
     virtual unsigned long Release();
 };
-typedef char _sizecheck_ID3DXBuffer[sizeof(ID3DXBuffer) == 4 ? 1 : -1];
 struct ID3DXConstantTable : public ID3DXBuffer
 {
     virtual int GetDesc(_D3DXCONSTANTTABLE_DESC*);
@@ -703,7 +701,6 @@ struct ID3DXConstantTable : public ID3DXBuffer
     virtual void* GetBufferPointer();
     virtual unsigned long GetBufferSize();
 };
-typedef char _sizecheck_ID3DXConstantTable[sizeof(ID3DXConstantTable) == 4 ? 1 : -1];
 struct ShaderBufferRecord
 {
     char* QName();
@@ -715,7 +712,6 @@ struct ShaderBufferRecord
     char pData[1];
     char _pad_105[3];
 };
-typedef char _sizecheck_ShaderBufferEntry[sizeof(ShaderBufferRecord) == 264 ? 1 : -1];
 struct NiGPUProgram : public NiRefObject
 {
     virtual void __vslot_0();
@@ -746,7 +742,6 @@ struct NiGPUProgram : public NiRefObject
     int GetProgramType();
     int m_iProgramType;
 };
-typedef char _sizecheck_NiGPUProgram[sizeof(NiGPUProgram) == 12 ? 1 : -1];
 struct NiD3DShaderProgram : public NiGPUProgram
 {
     virtual void __vslot_0();
@@ -776,7 +771,6 @@ struct NiD3DShaderProgram : public NiGPUProgram
     GraphicsRenderer* m_pShaderObject;
     ShaderPassRenderer* m_pRenderState;
 };
-typedef char _sizecheck_NiD3DShaderProgram[sizeof(NiD3DShaderProgram) == 44 ? 1 : -1];
 struct NiD3DPixelShader : public NiD3DShaderProgram
 {
     virtual void __vslot_0();
@@ -789,7 +783,6 @@ struct NiD3DPixelShader : public NiD3DShaderProgram
     virtual bool SetShaderConstantArray(NiShaderConstantMapEntry*, void*, unsigned int, unsigned int, unsigned short*);
     GeometryRelatedType* m_pD3DPixelShader;
 };
-typedef char _sizecheck_NiD3DPixelShader[sizeof(NiD3DPixelShader) == 48 ? 1 : -1];
 struct FUN_00be1750_shell : public BSShader
 {
     NiD3DPixelShader* FUN_00be1750(char*, void*, char*, char*);
@@ -830,11 +823,11 @@ struct ShaderSourceFile_be1750
 };
 struct ShaderCodeBuffer_be1750
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual void* __stdcall GetBufferPointer();
-    virtual unsigned long __stdcall GetBufferSize();
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual void* GetBufferPointer();
+    virtual unsigned long GetBufferSize();
 };
 struct ShaderIncludes_be1750
 {
@@ -843,113 +836,113 @@ struct ShaderIncludes_be1750
 };
 struct ShaderDevice_be1750
 {
-    virtual void __stdcall s000();
-    virtual void __stdcall s001();
-    virtual void __stdcall s002();
-    virtual void __stdcall s003();
-    virtual void __stdcall s004();
-    virtual void __stdcall s005();
-    virtual void __stdcall s006();
-    virtual void __stdcall s007();
-    virtual void __stdcall s008();
-    virtual void __stdcall s009();
-    virtual void __stdcall s010();
-    virtual void __stdcall s011();
-    virtual void __stdcall s012();
-    virtual void __stdcall s013();
-    virtual void __stdcall s014();
-    virtual void __stdcall s015();
-    virtual void __stdcall s016();
-    virtual void __stdcall s017();
-    virtual void __stdcall s018();
-    virtual void __stdcall s019();
-    virtual void __stdcall s020();
-    virtual void __stdcall s021();
-    virtual void __stdcall s022();
-    virtual void __stdcall s023();
-    virtual void __stdcall s024();
-    virtual void __stdcall s025();
-    virtual void __stdcall s026();
-    virtual void __stdcall s027();
-    virtual void __stdcall s028();
-    virtual void __stdcall s029();
-    virtual void __stdcall s030();
-    virtual void __stdcall s031();
-    virtual void __stdcall s032();
-    virtual void __stdcall s033();
-    virtual void __stdcall s034();
-    virtual void __stdcall s035();
-    virtual void __stdcall s036();
-    virtual void __stdcall s037();
-    virtual void __stdcall s038();
-    virtual void __stdcall s039();
-    virtual void __stdcall s040();
-    virtual void __stdcall s041();
-    virtual void __stdcall s042();
-    virtual void __stdcall s043();
-    virtual void __stdcall s044();
-    virtual void __stdcall s045();
-    virtual void __stdcall s046();
-    virtual void __stdcall s047();
-    virtual void __stdcall s048();
-    virtual void __stdcall s049();
-    virtual void __stdcall s050();
-    virtual void __stdcall s051();
-    virtual void __stdcall s052();
-    virtual void __stdcall s053();
-    virtual void __stdcall s054();
-    virtual void __stdcall s055();
-    virtual void __stdcall s056();
-    virtual void __stdcall s057();
-    virtual void __stdcall s058();
-    virtual void __stdcall s059();
-    virtual void __stdcall s060();
-    virtual void __stdcall s061();
-    virtual void __stdcall s062();
-    virtual void __stdcall s063();
-    virtual void __stdcall s064();
-    virtual void __stdcall s065();
-    virtual void __stdcall s066();
-    virtual void __stdcall s067();
-    virtual void __stdcall s068();
-    virtual void __stdcall s069();
-    virtual void __stdcall s070();
-    virtual void __stdcall s071();
-    virtual void __stdcall s072();
-    virtual void __stdcall s073();
-    virtual void __stdcall s074();
-    virtual void __stdcall s075();
-    virtual void __stdcall s076();
-    virtual void __stdcall s077();
-    virtual void __stdcall s078();
-    virtual void __stdcall s079();
-    virtual void __stdcall s080();
-    virtual void __stdcall s081();
-    virtual void __stdcall s082();
-    virtual void __stdcall s083();
-    virtual void __stdcall s084();
-    virtual void __stdcall s085();
-    virtual void __stdcall s086();
-    virtual void __stdcall s087();
-    virtual void __stdcall s088();
-    virtual void __stdcall s089();
-    virtual void __stdcall s090();
-    virtual void __stdcall s091();
-    virtual void __stdcall s092();
-    virtual void __stdcall s093();
-    virtual void __stdcall s094();
-    virtual void __stdcall s095();
-    virtual void __stdcall s096();
-    virtual void __stdcall s097();
-    virtual void __stdcall s098();
-    virtual void __stdcall s099();
-    virtual void __stdcall s100();
-    virtual void __stdcall s101();
-    virtual void __stdcall s102();
-    virtual void __stdcall s103();
-    virtual void __stdcall s104();
-    virtual void __stdcall s105();
-    virtual long __stdcall CreatePixelShader(const unsigned int*, GeometryRelatedType**);
+    virtual void s000();
+    virtual void s001();
+    virtual void s002();
+    virtual void s003();
+    virtual void s004();
+    virtual void s005();
+    virtual void s006();
+    virtual void s007();
+    virtual void s008();
+    virtual void s009();
+    virtual void s010();
+    virtual void s011();
+    virtual void s012();
+    virtual void s013();
+    virtual void s014();
+    virtual void s015();
+    virtual void s016();
+    virtual void s017();
+    virtual void s018();
+    virtual void s019();
+    virtual void s020();
+    virtual void s021();
+    virtual void s022();
+    virtual void s023();
+    virtual void s024();
+    virtual void s025();
+    virtual void s026();
+    virtual void s027();
+    virtual void s028();
+    virtual void s029();
+    virtual void s030();
+    virtual void s031();
+    virtual void s032();
+    virtual void s033();
+    virtual void s034();
+    virtual void s035();
+    virtual void s036();
+    virtual void s037();
+    virtual void s038();
+    virtual void s039();
+    virtual void s040();
+    virtual void s041();
+    virtual void s042();
+    virtual void s043();
+    virtual void s044();
+    virtual void s045();
+    virtual void s046();
+    virtual void s047();
+    virtual void s048();
+    virtual void s049();
+    virtual void s050();
+    virtual void s051();
+    virtual void s052();
+    virtual void s053();
+    virtual void s054();
+    virtual void s055();
+    virtual void s056();
+    virtual void s057();
+    virtual void s058();
+    virtual void s059();
+    virtual void s060();
+    virtual void s061();
+    virtual void s062();
+    virtual void s063();
+    virtual void s064();
+    virtual void s065();
+    virtual void s066();
+    virtual void s067();
+    virtual void s068();
+    virtual void s069();
+    virtual void s070();
+    virtual void s071();
+    virtual void s072();
+    virtual void s073();
+    virtual void s074();
+    virtual void s075();
+    virtual void s076();
+    virtual void s077();
+    virtual void s078();
+    virtual void s079();
+    virtual void s080();
+    virtual void s081();
+    virtual void s082();
+    virtual void s083();
+    virtual void s084();
+    virtual void s085();
+    virtual void s086();
+    virtual void s087();
+    virtual void s088();
+    virtual void s089();
+    virtual void s090();
+    virtual void s091();
+    virtual void s092();
+    virtual void s093();
+    virtual void s094();
+    virtual void s095();
+    virtual void s096();
+    virtual void s097();
+    virtual void s098();
+    virtual void s099();
+    virtual void s100();
+    virtual void s101();
+    virtual void s102();
+    virtual void s103();
+    virtual void s104();
+    virtual void s105();
+    virtual long CreatePixelShader(const unsigned int*, GeometryRelatedType**);
 };
 template <unsigned int _Size> inline int ShaderStrCat_be1750(char (&_Dest)[_Size], const char* _Source)
 {
@@ -1514,7 +1507,7 @@ struct Input818
 void __cdecl AddToTwoCounters(int, int, int);
 // Reads alpha and data from input, checks flags and alpha values, then calls FUN_00b97fa0 and AddToTwoCounters with blend or default counters.
 // @fnv 0x00be1ff0
-void __stdcall FUN_00be1ff0(Input818* input)
+void FUN_00be1ff0(Input818* input)
 {
     Alpha818* alpha = input->alpha;
     Data818* data = input->data;
@@ -1692,98 +1685,98 @@ struct CacheEntryView
 class VertexDevice
 {
   public:
-    virtual void __stdcall DeviceMethod0();
-    virtual void __stdcall DeviceMethod1();
-    virtual void __stdcall DeviceMethod2();
-    virtual void __stdcall DeviceMethod3();
-    virtual void __stdcall DeviceMethod4();
-    virtual void __stdcall DeviceMethod5();
-    virtual void __stdcall DeviceMethod6();
-    virtual void __stdcall DeviceMethod7();
-    virtual void __stdcall DeviceMethod8();
-    virtual void __stdcall DeviceMethod9();
-    virtual void __stdcall DeviceMethod10();
-    virtual void __stdcall DeviceMethod11();
-    virtual void __stdcall DeviceMethod12();
-    virtual void __stdcall DeviceMethod13();
-    virtual void __stdcall DeviceMethod14();
-    virtual void __stdcall DeviceMethod15();
-    virtual void __stdcall DeviceMethod16();
-    virtual void __stdcall DeviceMethod17();
-    virtual void __stdcall DeviceMethod18();
-    virtual void __stdcall DeviceMethod19();
-    virtual void __stdcall DeviceMethod20();
-    virtual void __stdcall DeviceMethod21();
-    virtual void __stdcall DeviceMethod22();
-    virtual void __stdcall DeviceMethod23();
-    virtual void __stdcall DeviceMethod24();
-    virtual void __stdcall DeviceMethod25();
-    virtual void __stdcall DeviceMethod26();
-    virtual void __stdcall DeviceMethod27();
-    virtual void __stdcall DeviceMethod28();
-    virtual void __stdcall DeviceMethod29();
-    virtual void __stdcall DeviceMethod30();
-    virtual void __stdcall DeviceMethod31();
-    virtual void __stdcall DeviceMethod32();
-    virtual void __stdcall DeviceMethod33();
-    virtual void __stdcall DeviceMethod34();
-    virtual void __stdcall DeviceMethod35();
-    virtual void __stdcall DeviceMethod36();
-    virtual void __stdcall DeviceMethod37();
-    virtual void __stdcall DeviceMethod38();
-    virtual void __stdcall DeviceMethod39();
-    virtual void __stdcall DeviceMethod40();
-    virtual void __stdcall DeviceMethod41();
-    virtual void __stdcall DeviceMethod42();
-    virtual void __stdcall DeviceMethod43();
-    virtual void __stdcall DeviceMethod44();
-    virtual void __stdcall DeviceMethod45();
-    virtual void __stdcall DeviceMethod46();
-    virtual void __stdcall DeviceMethod47();
-    virtual void __stdcall DeviceMethod48();
-    virtual void __stdcall DeviceMethod49();
-    virtual void __stdcall DeviceMethod50();
-    virtual void __stdcall DeviceMethod51();
-    virtual void __stdcall DeviceMethod52();
-    virtual void __stdcall DeviceMethod53();
-    virtual void __stdcall DeviceMethod54();
-    virtual void __stdcall DeviceMethod55();
-    virtual void __stdcall DeviceMethod56();
-    virtual void __stdcall DeviceMethod57();
-    virtual void __stdcall DeviceMethod58();
-    virtual void __stdcall DeviceMethod59();
-    virtual void __stdcall DeviceMethod60();
-    virtual void __stdcall DeviceMethod61();
-    virtual void __stdcall DeviceMethod62();
-    virtual void __stdcall DeviceMethod63();
-    virtual void __stdcall DeviceMethod64();
-    virtual void __stdcall DeviceMethod65();
-    virtual void __stdcall DeviceMethod66();
-    virtual void __stdcall DeviceMethod67();
-    virtual void __stdcall DeviceMethod68();
-    virtual void __stdcall DeviceMethod69();
-    virtual void __stdcall DeviceMethod70();
-    virtual void __stdcall DeviceMethod71();
-    virtual void __stdcall DeviceMethod72();
-    virtual void __stdcall DeviceMethod73();
-    virtual void __stdcall DeviceMethod74();
-    virtual void __stdcall DeviceMethod75();
-    virtual void __stdcall DeviceMethod76();
-    virtual void __stdcall DeviceMethod77();
-    virtual void __stdcall DeviceMethod78();
-    virtual void __stdcall DeviceMethod79();
-    virtual void __stdcall DeviceMethod80();
-    virtual void __stdcall DeviceMethod81();
-    virtual void __stdcall DeviceMethod82();
-    virtual void __stdcall DeviceMethod83();
-    virtual void __stdcall DeviceMethod84();
-    virtual void __stdcall DeviceMethod85();
-    virtual void __stdcall DeviceMethod86();
-    virtual void __stdcall DeviceMethod87();
-    virtual void __stdcall DeviceMethod88();
-    virtual void __stdcall DeviceMethod89();
-    virtual void __stdcall DeviceMethod90();
-    virtual long __stdcall CreateVertexShader(const char*, void**) = 0;
+    virtual void DeviceMethod0();
+    virtual void DeviceMethod1();
+    virtual void DeviceMethod2();
+    virtual void DeviceMethod3();
+    virtual void DeviceMethod4();
+    virtual void DeviceMethod5();
+    virtual void DeviceMethod6();
+    virtual void DeviceMethod7();
+    virtual void DeviceMethod8();
+    virtual void DeviceMethod9();
+    virtual void DeviceMethod10();
+    virtual void DeviceMethod11();
+    virtual void DeviceMethod12();
+    virtual void DeviceMethod13();
+    virtual void DeviceMethod14();
+    virtual void DeviceMethod15();
+    virtual void DeviceMethod16();
+    virtual void DeviceMethod17();
+    virtual void DeviceMethod18();
+    virtual void DeviceMethod19();
+    virtual void DeviceMethod20();
+    virtual void DeviceMethod21();
+    virtual void DeviceMethod22();
+    virtual void DeviceMethod23();
+    virtual void DeviceMethod24();
+    virtual void DeviceMethod25();
+    virtual void DeviceMethod26();
+    virtual void DeviceMethod27();
+    virtual void DeviceMethod28();
+    virtual void DeviceMethod29();
+    virtual void DeviceMethod30();
+    virtual void DeviceMethod31();
+    virtual void DeviceMethod32();
+    virtual void DeviceMethod33();
+    virtual void DeviceMethod34();
+    virtual void DeviceMethod35();
+    virtual void DeviceMethod36();
+    virtual void DeviceMethod37();
+    virtual void DeviceMethod38();
+    virtual void DeviceMethod39();
+    virtual void DeviceMethod40();
+    virtual void DeviceMethod41();
+    virtual void DeviceMethod42();
+    virtual void DeviceMethod43();
+    virtual void DeviceMethod44();
+    virtual void DeviceMethod45();
+    virtual void DeviceMethod46();
+    virtual void DeviceMethod47();
+    virtual void DeviceMethod48();
+    virtual void DeviceMethod49();
+    virtual void DeviceMethod50();
+    virtual void DeviceMethod51();
+    virtual void DeviceMethod52();
+    virtual void DeviceMethod53();
+    virtual void DeviceMethod54();
+    virtual void DeviceMethod55();
+    virtual void DeviceMethod56();
+    virtual void DeviceMethod57();
+    virtual void DeviceMethod58();
+    virtual void DeviceMethod59();
+    virtual void DeviceMethod60();
+    virtual void DeviceMethod61();
+    virtual void DeviceMethod62();
+    virtual void DeviceMethod63();
+    virtual void DeviceMethod64();
+    virtual void DeviceMethod65();
+    virtual void DeviceMethod66();
+    virtual void DeviceMethod67();
+    virtual void DeviceMethod68();
+    virtual void DeviceMethod69();
+    virtual void DeviceMethod70();
+    virtual void DeviceMethod71();
+    virtual void DeviceMethod72();
+    virtual void DeviceMethod73();
+    virtual void DeviceMethod74();
+    virtual void DeviceMethod75();
+    virtual void DeviceMethod76();
+    virtual void DeviceMethod77();
+    virtual void DeviceMethod78();
+    virtual void DeviceMethod79();
+    virtual void DeviceMethod80();
+    virtual void DeviceMethod81();
+    virtual void DeviceMethod82();
+    virtual void DeviceMethod83();
+    virtual void DeviceMethod84();
+    virtual void DeviceMethod85();
+    virtual void DeviceMethod86();
+    virtual void DeviceMethod87();
+    virtual void DeviceMethod88();
+    virtual void DeviceMethod89();
+    virtual void DeviceMethod90();
+    virtual long CreateVertexShader(const char*, void**) = 0;
 };
 class VertexRendererView
 {
@@ -2024,7 +2017,7 @@ extern "C" void* memset(void*, int, unsigned int);
 class FileView;
 struct FileViewMethods
 {
-    void(__thiscall* destroy)(FileView*, unsigned);
+    void(* destroy)(FileView*, unsigned);
     void* method1;
     void* method2;
     void* method3;
@@ -2034,7 +2027,7 @@ struct FileViewMethods
     void* method7;
     void* method8;
     void* method9;
-    unsigned(__thiscall* size)(FileView*);
+    unsigned(* size)(FileView*);
 };
 class FileView
 {
@@ -2044,7 +2037,7 @@ class FileView
 
 // Compiles a vertex shader source file with macros and profile, caches the bytecode to disk, and creates a shader object on the device.
 // @fnv 0x00be0fe0
-FUN_00be0b30* __stdcall FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* profile,
+FUN_00be0b30* FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* profile,
                                      const char* shaderName)
 {
     ShaderBufferRecord* pCacheEntry = 0;

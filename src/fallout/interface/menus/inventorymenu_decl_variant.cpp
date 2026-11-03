@@ -118,11 +118,11 @@ struct FUN_00780be0_shell
     unsigned char m_0x11;  // +0x11
     unsigned char m_0x12;  // +0x12
     unsigned char m_0x13;  // +0x13
-    void __thiscall SetByte13(unsigned char value);
+    void SetByte13(unsigned char value);
 };
 struct FUN_0077fb50_shell
 {
-    void* __thiscall Destroy(unsigned int flags);
+    void* Destroy(unsigned int flags);
 };
 struct TGF
 {
@@ -130,11 +130,11 @@ struct TGF
 void __cdecl FUN_00780c00(Tile* pTile);
 struct FUN_00781b10_shell
 {
-    void __thiscall ClearActionPointSource();
+    void ClearActionPointSource();
 };
 struct FUN_00781620_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781620(int aiID, Tile* apTarget);
+    void FUN_00781620(int aiID, Tile* apTarget);
 };
 struct ProxyPipboy
 {
@@ -158,7 +158,7 @@ struct FUN_00781860_shell
 };
 struct FUN_00781680_shell : public InventoryMenu
 {
-    void __thiscall FUN_00781680();
+    void FUN_00781680();
 };
 struct GlobalObject_0040c150 : public InventoryMenuSetting
 {
@@ -171,7 +171,7 @@ struct FUN_007823d0_listbox
 };
 struct FUN_007823d0_shell : public InventoryMenu
 {
-    bool __thiscall HandleInventoryButton(int aiButton, float afValue);
+    bool HandleInventoryButton(int aiButton, float afValue);
 };
 struct XExtra
 {

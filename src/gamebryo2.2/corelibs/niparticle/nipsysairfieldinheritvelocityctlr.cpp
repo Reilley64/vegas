@@ -29,7 +29,7 @@ struct NiPSysAirFieldInheritVelocityCtlr : NiPSysModifierFloatCtlr
 };
 
 // @fnv 0x00c30640
-void __thiscall NiPSysAirFieldInheritVelocityCtlr::FUN_00c30640(float& fValue)
+void NiPSysAirFieldInheritVelocityCtlr::FUN_00c30640(float& fValue)
 {
     float* p = *(float**)((char*)this + 0x3c);
     fValue = p[0x5c / 4];
@@ -138,7 +138,7 @@ struct StrArr
 };
 // Grows the array if its index has reached capacity, then stores the string returned by FUN_00a7d330 at that index.
 // @fnv 0x00c30740
-void __stdcall FUN_00c30740(StrArr* array)
+void FUN_00c30740(StrArr* array)
 {
     FUN_00c32f60(array);
     char* value = ::FUN_00a7d330(static_cast<char*>((*reinterpret_cast<void * *>(&::g_012027b0))));

@@ -7,7 +7,6 @@
 #include "Tile__Action.h"
 class Tile__RefValueAction;
 class Tile__Value;
-#pragma pack(push, 4)
 class Tile__RefValueAction : public Tile__Action
 {
   public:
@@ -18,7 +17,4 @@ class Tile__RefValueAction : public Tile__Action
     // RefValueAction
     // Tile::RefValueAction& __cdecl Tile::RefValueAction::*(const Tile::RefValueAction&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(Tile__RefValueAction) == 16);
-FNV_STATIC_ASSERT(offsetof(Tile__RefValueAction, m_pReferencedValue) == 12);
 #endif

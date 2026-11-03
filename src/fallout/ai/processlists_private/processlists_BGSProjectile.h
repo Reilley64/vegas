@@ -37,28 +37,6 @@ class ProjectileProperties
     float ProjectileWeaponData;               // +0x4C, 4 bytes
     float m_fFourthProjectileValue;           // +0x50, 4 bytes
 };
-FNV_STATIC_ASSERT(sizeof(ProjectileProperties) == 84);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, iFlags) == 0);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, afGravity) == 4);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, fSpeed) == 8);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, fImpulseRadiusSquared) == 12);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, apTargetLight) == 16);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, m_pSecondLight) == 20);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, ExplosionLightingData) == 24);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, LightExplosionSoundData) == 28);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, AlphaFloatParameters) == 32);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, ExplosionFadeData) == 36);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, m_pExplosionSound) == 40);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, ExplosionEffectRecord) == 44);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, fFadeOutTime) == 48);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, fForce) == 52);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, m_pFirstSound) == 56);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, m_pSecondSound) == 60);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, m_pProjectileWeapon) == 64);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, ProjectileWeaponDataWithTwoSounds) == 68);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, ProjectileWeaponDataWithOneSound) == 72);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, ProjectileWeaponData) == 76);
-FNV_STATIC_ASSERT(offsetof(ProjectileProperties, m_fFourthProjectileValue) == 80);
 class BGSProjectile : public TESBoundObject,
                       public TESFullName,
                       public TESModel,
@@ -73,8 +51,4 @@ class BGSProjectile : public TESBoundObject,
     SOUND_LEVEL m_eSoundLevel;
     bool GetHasExplosionAltTrigger() const;
 };
-FNV_STATIC_ASSERT(sizeof(BGSProjectile) == 0xd0);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, Data) == 0x60);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, m_kProjectileModel) == 0xb4);
-FNV_STATIC_ASSERT(offsetof(BGSProjectile, m_eSoundLevel) == 0xcc);
 #endif

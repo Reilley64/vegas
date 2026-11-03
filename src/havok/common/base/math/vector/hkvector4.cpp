@@ -4,7 +4,7 @@
 
 // CheckFloatsFinite (0x00c7f4e0, 21 bytes)
 //
-// The original is a __thiscall member of a class whose object *is* the float
+// The original is a member of a class whose object *is* the float
 // array.  It forwards to a file-static helper FUN_00c7f4a0(out, self, count).
 //
 // MSVC 2008 gives an internal-linkage (file-static) helper its own internal
@@ -763,11 +763,11 @@ void FUN_00c7f700_cls::FUN_00c7f700(MatrixRows3x4* matrix, __m128* apVector)
 
 struct FUN_00c7f750_shell
 {
-    void __thiscall FUN_00c7f750(float* matrix, float* vector);
+    void FUN_00c7f750(float* matrix, float* vector);
 };
 // Multiplies a 3D vector by a 3x3 matrix using SSE and stores the resulting vector in the object.
 // @fnv 0x00c7f750
-void __thiscall FUN_00c7f750_shell::FUN_00c7f750(float* matrix, float* vector)
+void FUN_00c7f750_shell::FUN_00c7f750(float* matrix, float* vector)
 {
     __m128 v = *(__m128*)vector;
     __m128 y = _mm_mul_ps(_mm_shuffle_ps(v, v, _MM_SHUFFLE(1, 1, 1, 1)), *(__m128*)(matrix + 4));
@@ -1343,7 +1343,7 @@ struct ResObj
     int u0c;
     Iface iface;
 };
-typedef BoundingVolumeNode*(__thiscall* ResFn)(Iface* self, int id, ShapeStorage* out);
+typedef BoundingVolumeNode*(* ResFn)(Iface* self, int id, ShapeStorage* out);
 struct RayIn
 {
     QueryVector vectors[2];

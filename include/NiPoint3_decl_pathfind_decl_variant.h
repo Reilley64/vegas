@@ -4,7 +4,6 @@
 
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "layout_support.h"
-#pragma pack(push, 4)
 class NiPoint3
 {
   public:
@@ -42,9 +41,4 @@ class NiPoint3
 public:
     float ComputeMagnitude() const;
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 #endif

@@ -277,7 +277,7 @@ struct FUN_00cfbbe0_rec
 class FUN_00cfbbe0_cls
 {
   public:
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
+    void FUN_00cfbbe0(FUN_00cfbbe0_rec* a1, int a2, int a3);
 };
 
 // Copies a record into the array at offset 0x9a0 at the current index, calls RegisterAgentType on several sub-objects, and increments the index.

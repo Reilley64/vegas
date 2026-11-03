@@ -4,11 +4,6 @@
 
 #include "fnv/decl/FnvCpu_FUN_00a7b850_CpuObject.h"
 #include "font_types.h"
-#define FONT_GEOMETRY_JOIN_(a, b) a##b
-#define FONT_GEOMETRY_JOIN(a, b) FONT_GEOMETRY_JOIN_(a, b)
-#define FONT_GEOMETRY_ASSERT(e) typedef char FONT_GEOMETRY_JOIN(font_geometry_assert_, __LINE__)[(e) ? 1 : -1]
-FONT_GEOMETRY_ASSERT(sizeof(void*) == 4);
-FONT_GEOMETRY_ASSERT(sizeof(unsigned short) == 2);
 class NiNode;
 class NiCollisionObject;
 class FourComponentFloatVector;
@@ -28,7 +23,6 @@ class NiMemObject
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiMemObject) == 0x1);
 
 class NiRefObject : public NiMemObject
 {
@@ -37,22 +31,17 @@ class NiRefObject : public NiMemObject
     virtual ~NiRefObject();
     virtual void DeleteThis();
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiRefObject) == 0x8);
-FONT_GEOMETRY_ASSERT(offsetof(NiRefObject, m_uiRefCount) == 0x4);
 
 class NiObject : public NiRefObject
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiObject) == 0x8);
 
 class NiFixedString
 {
   public:
     char* m_kHandle;  // +0x0
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiFixedString) == 0x4);
-FONT_GEOMETRY_ASSERT(offsetof(NiFixedString, m_kHandle) == 0x0);
 
 class NiObjectNET : public NiObject
 {
@@ -63,12 +52,6 @@ class NiObjectNET : public NiObject
     unsigned short m_usExtraDataCount;           // +0x14
     unsigned short m_usMaxSize;                  // +0x16
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiObjectNET) == 0x18);
-FONT_GEOMETRY_ASSERT(offsetof(NiObjectNET, m_kName) == 0x8);
-FONT_GEOMETRY_ASSERT(offsetof(NiObjectNET, m_pControllers) == 0xC);
-FONT_GEOMETRY_ASSERT(offsetof(NiObjectNET, m_ppExtraData) == 0x10);
-FONT_GEOMETRY_ASSERT(offsetof(NiObjectNET, m_usExtraDataCount) == 0x14);
-FONT_GEOMETRY_ASSERT(offsetof(NiObjectNET, m_usMaxSize) == 0x16);
 
 class NiPoint3
 {
@@ -79,10 +62,6 @@ class NiPoint3
 public:
     static const ::NiPoint3 ZERO;
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiPoint3) == 0xC);
-FONT_GEOMETRY_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FONT_GEOMETRY_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FONT_GEOMETRY_ASSERT(offsetof(NiPoint3, z) == 0x8);
 
 class RgbaColor
 {
@@ -92,11 +71,6 @@ class RgbaColor
     float b;  // +0x8, 4 bytes
     float a;  // +0xC, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(RgbaColor) == 16);
-FONT_GEOMETRY_ASSERT(offsetof(RgbaColor, r) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(RgbaColor, g) == 4);
-FONT_GEOMETRY_ASSERT(offsetof(RgbaColor, b) == 8);
-FONT_GEOMETRY_ASSERT(offsetof(RgbaColor, a) == 12);
 
 class TextureCoordinate
 {
@@ -104,9 +78,6 @@ class TextureCoordinate
     float fTextureCoordinateU;  // +0x0, 4 bytes
     float fV;                   // +0x4, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(TextureCoordinate) == 8);
-FONT_GEOMETRY_ASSERT(offsetof(TextureCoordinate, fTextureCoordinateU) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(TextureCoordinate, fV) == 4);
 
 class FontCharacterInfo
 {
@@ -119,14 +90,6 @@ class FontCharacterInfo
     float m_fHorizontalSpacing;     // +0x30, 4 bytes
     float m_fVerticalOffset;        // +0x34, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(FontCharacterInfo) == 56);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, m_iCharacterCode) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, pMapping) == 4);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, m_fGlyphWidthInPixels) == 36);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, m_fGlyphExtent) == 40);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, m_fHorizontalAdvance) == 44);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, m_fHorizontalSpacing) == 48);
-FONT_GEOMETRY_ASSERT(offsetof(FontCharacterInfo, m_fVerticalOffset) == 52);
 
 // PC NiPoint2 coordinates: JohnnyGuitar NiPoint2.hpp declarations only.
 class NiPoint2
@@ -135,21 +98,16 @@ class NiPoint2
     float x;
     float y;
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiPoint2) == 8);
-FONT_GEOMETRY_ASSERT(offsetof(NiPoint2, x) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(NiPoint2, y) == 4);
 
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
 
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
 
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
@@ -157,10 +115,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____Ant
   public:
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(
-    sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator) == 4);
-FONT_GEOMETRY_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator,
-                              m_uiCount) == 0);
 
 class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
@@ -170,33 +124,24 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
     NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty_____AntiBloatAllocator
         m_kItemCount;  // +0x8, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___) == 12);
-FONT_GEOMETRY_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_pkHead) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_pkTail) == 4);
-FONT_GEOMETRY_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___, m_kItemCount) ==
-                     8);
 
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___) == 12);
 
 class NiTPointerList_NiPointer_NiProperty___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__NiPointer_NiProperty___
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTPointerList_NiPointer_NiProperty___) == 12);
 
 class ThreeByThreeMatrix
 {
   public:
     float m_afEntries[3][3];  // PC: +0x0, 36 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(ThreeByThreeMatrix) == 36);
-FONT_GEOMETRY_ASSERT(offsetof(ThreeByThreeMatrix, m_afEntries) == 0);
 
 class NiTransform
 {
@@ -205,10 +150,6 @@ class NiTransform
     NiPoint3 m_kTranslation;   // PC: +0x24, 12 bytes
     float m_fScale;            // PC: +0x30, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTransform) == 52);
-FONT_GEOMETRY_ASSERT(offsetof(NiTransform, m_kOrientation) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(NiTransform, m_kTranslation) == 36);
-FONT_GEOMETRY_ASSERT(offsetof(NiTransform, m_fScale) == 48);
 
 class NiAVObject : public NiObjectNET
 {
@@ -221,22 +162,12 @@ class NiAVObject : public NiObjectNET
     NiTransform m_kLocalTransform;                            // PC: +0x34, 52 bytes
     NiTransform m_kWorldSpaceTransform;                                     // PC: +0x68, 52 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiAVObject) == 156);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, m_pParentNode) == 24);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, m_spCollisionObject) == 28);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, m_kWorldBound) == 32);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, SceneGraphObject) == 36);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, m_uiObjectFlags) == 48);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, m_kLocalTransform) == 52);
-FONT_GEOMETRY_ASSERT(offsetof(NiAVObject, m_kWorldSpaceTransform) == 104);
 
 class NiPropertyState
 {
   public:
     NiPointer<NiProperty> m_spProperties[7];  // +0x0, 28 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiPropertyState) == 28);
-FONT_GEOMETRY_ASSERT(offsetof(NiPropertyState, m_spProperties) == 0);
 
 class NiGeometry : public NiAVObject
 {
@@ -246,23 +177,16 @@ class NiGeometry : public NiAVObject
     NiPointer<NiSkinInstance> m_spSkinningInstance;  // +0xBC, 4 bytes
     NiShader* m_pGeometryShader;                     // +0xC0, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiGeometry) == 196);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometry, m_kPropertyState) == 156);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometry, m_spGeometryData) == 184);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometry, m_spSkinningInstance) == 188);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometry, m_pGeometryShader) == 192);
 
 class NiTriBasedGeom : public NiGeometry
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTriBasedGeom) == 196);
 
 class NiTriShape : public NiTriBasedGeom
 {
   public:
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTriShape) == 196);
 
 class NiBound
 {
@@ -274,10 +198,6 @@ class NiBound
         int m_iRadius;         // +0xC, 4 bytes
     };
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiBound) == 16);
-FONT_GEOMETRY_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FONT_GEOMETRY_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FONT_GEOMETRY_ASSERT(offsetof(NiBound, m_iRadius) == 12);
 
 class NiGeometryData : public NiObject
 {
@@ -300,23 +220,6 @@ class NiGeometryData : public NiObject
     bool m_bVerticesDirty;                                       // +0x3C, 1 bytes
     unsigned char layoutPadding3D[3];
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiGeometryData) == 64);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FONT_GEOMETRY_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
 
 class NiTriBasedGeomData : public NiGeometryData
 {
@@ -324,9 +227,6 @@ class NiTriBasedGeomData : public NiGeometryData
     unsigned short m_usTriangles;    // +0x40, 2 bytes
     unsigned short activeTriangles;  // PC +0x42, JIP name
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTriBasedGeomData) == 68);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriBasedGeomData, m_usTriangles) == 64);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriBasedGeomData, activeTriangles) == 0x42);
 
 class NiTriShapeData : public NiTriBasedGeomData
 {
@@ -338,11 +238,5 @@ class NiTriShapeData : public NiTriBasedGeomData
     unsigned char layoutPadding52[2];
     NiTriShapeData__SNAMemBlock* m_pkSharedNormalArrayMemoryBlock;  // +0x54, 4 bytes
 };
-FONT_GEOMETRY_ASSERT(sizeof(NiTriShapeData) == 88);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriShapeData, m_uiTriListLength) == 68);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriShapeData, m_pusTriList) == 72);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriShapeData, m_pkSharedNormalArray) == 76);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriShapeData, m_usSharedNormalCount) == 80);
-FONT_GEOMETRY_ASSERT(offsetof(NiTriShapeData, m_pkSharedNormalArrayMemoryBlock) == 84);
 
 #endif

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
 
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -107,10 +108,10 @@ class NiMemObject
     static void __cdecl operator delete(void*, unsigned int);
 };
 
-void __fastcall ReleaseSpawnedRefs(void*);
+void ReleaseSpawnedRefs(void*);
 
 // @fnv 0x00a7c450
-void* __fastcall FUN_00a7c450(void* pThis, int, unsigned int flags)
+void* FUN_00a7c450(void* pThis, int, unsigned int flags)
 {
     ReleaseSpawnedRefs(pThis);
     if (flags & 1)
@@ -609,8 +610,6 @@ void FUN_00a7c820_shell::AppendPixelDataDebugStrings(StrArr* pkStrings)
     pkStrings->Add(pcString);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plAddend);
 class NiObject;
 struct NiStream
 {

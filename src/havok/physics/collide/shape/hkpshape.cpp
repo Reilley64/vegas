@@ -5,7 +5,7 @@
 #include "havok/hkpShape.h"
 
 // @fnv 0x00c9e3f0
-int __stdcall FUN_00c9e3f0(void* p, int size)
+int FUN_00c9e3f0(void* p, int size)
 {
     return -1;
 }

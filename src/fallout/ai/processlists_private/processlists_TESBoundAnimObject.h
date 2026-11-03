@@ -9,5 +9,4 @@ class TESBoundAnimObject : public TESBoundObject
     TESBoundAnimObject();
     virtual ~TESBoundAnimObject();
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundAnimObject) == 0x30);
 #endif

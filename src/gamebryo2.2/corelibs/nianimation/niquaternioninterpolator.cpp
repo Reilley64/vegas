@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niquaternioninterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niquaternioninterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A48280Obj.h"
 #include "fnv/decl/FUN_00a3c0a0_shell.h"
@@ -45,11 +46,11 @@ struct NiKeyBasedInterpolator
 
 struct NiQuaternionInterpolator : NiKeyBasedInterpolator
 {
-    AnimationKey::KeyContent __stdcall FUN_00a487e0();
+    AnimationKey::KeyContent FUN_00a487e0();
 };
 
 // @fnv 0x00a487e0
-AnimationKey::KeyContent __stdcall NiQuaternionInterpolator::FUN_00a487e0()
+AnimationKey::KeyContent NiQuaternionInterpolator::FUN_00a487e0()
 {
     return kCONTENT_FLOAT;
 }
@@ -163,7 +164,6 @@ void TargetWrap::SaveToStream(NiStream* kStream)
     kStream->SaveLink(_p);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 void __cdecl _delete(void*, unsigned int);
 struct RefObj
 {
@@ -173,17 +173,17 @@ struct RefObj
 };
 struct FUN_00a3ca30_shell
 {
-    void __thiscall FUN_00a3ca30();
+    void FUN_00a3ca30();
 };
 struct FUN_00a48dd0_shell
 {
     char _pad[0x1c];
     RefObj* m_p;
     char _pad2[4];
-    void* __thiscall Release(unsigned int);
+    void* Release(unsigned int);
 };
 // @fnv 0x00a48dd0
-void* __thiscall FUN_00a48dd0_shell::Release(unsigned int uiDeleteFlags)
+void* FUN_00a48dd0_shell::Release(unsigned int uiDeleteFlags)
 {
     RefObj* p = m_p;
     if (p)
@@ -223,7 +223,7 @@ struct NiQuaternionInterpolatorStandIn
     int unk08;
     NiBound m_bound;
     RefObj* m_pKeyData;
-    bool __thiscall FUN_00a48800(unsigned int nTime);
+    bool FUN_00a48800(unsigned int nTime);
 };
 
 // @fnv 0x00a48800
@@ -235,7 +235,6 @@ bool NiQuaternionInterpolatorStandIn::FUN_00a48800(unsigned int nTime)
     return bIsDefault;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
 struct NiQuaternion
 {
@@ -447,7 +446,6 @@ bool BA48A50Interpolator::FUN_00a48a50(BA48A50Object* pkObject)
     return true;
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 
 struct FUN_00a48bc0_cls
 {
@@ -524,7 +522,7 @@ struct QuaternionInterpolator
     Storage unk0c;
     void* unk1c;
 
-    void __thiscall FUN_00a48ea0(Stream* stream);
+    void FUN_00a48ea0(Stream* stream);
 };
 
 // @fnv 0x00a48ea0

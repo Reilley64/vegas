@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkpConstraintInstance;
-#pragma pack(push, 1)
 class hkpPoweredChainMapperLinkInfo
 {
   public:
@@ -13,6 +12,4 @@ class hkpPoweredChainMapperLinkInfo
     hkInt32 m_iLinkIndex;                          // +0x4
     hkpConstraintInstance* m_pConstraintInstance;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpPoweredChainMapperLinkInfo[(sizeof(hkpPoweredChainMapperLinkInfo) == 0xC) ? 1 : -1];
 #endif

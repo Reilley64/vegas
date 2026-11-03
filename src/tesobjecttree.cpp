@@ -230,11 +230,11 @@ FUN_0051d1c0::~FUN_0051d1c0()
 
 struct FUN_0051b830_shell
 {
-    unsigned int __thiscall FUN_0051b830();
+    unsigned int FUN_0051b830();
 };
 
 // @fnv 0x0051b830
-unsigned int __thiscall FUN_0051b830_shell::FUN_0051b830()
+unsigned int FUN_0051b830_shell::FUN_0051b830()
 {
     return 1024;
 }
@@ -290,12 +290,12 @@ const char* const* FUN_0051d1b0_shell::GetArg1Ptr()
 
 struct FUN_0051d400_shell
 {
-    void __thiscall FUN_0051d400();
+    void FUN_0051d400();
 };
 
 // Frees the two pointers stored at offsets 0x14 and 0x18 of this object via Deallocate.
 // @fnv 0x0051d400
-void __thiscall FUN_0051d400_shell::FUN_0051d400()
+void FUN_0051d400_shell::FUN_0051d400()
 {
     void* p2 = *(void**)((char*)this + 0x14);
     ::FUN_00401030(p2);
@@ -449,10 +449,10 @@ void FUN_00821600_shell::FUN_00821600(float value)
 struct NiMemObject;
 struct FUN_009b0900_shell
 {
-    unsigned int __thiscall GetFieldE0();
+    unsigned int GetFieldE0();
 };
 // @fnv 0x009b0900
-unsigned int __thiscall FUN_009b0900_shell::GetFieldE0()
+unsigned int FUN_009b0900_shell::GetFieldE0()
 {
     return *(unsigned int*)((char*)this + 0xe0);
 }
@@ -971,7 +971,7 @@ unsigned int FUN_0051baf0_shell::GetEntryByIndex(unsigned char index)
     unsigned int result;
     if (index == 0xFF || !reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA())
     {
-        result = ((unsigned int(__thiscall*)(void*))(*(void***)(this))[0x190 / 4])(this);
+        result = ((unsigned int(*)(void*))(*(void***)(this))[0x190 / 4])(this);
     }
     else
     {
@@ -1285,12 +1285,12 @@ struct FUN_0051d250_Class
     float unk8C;
     float unk90;
 
-    bool __thiscall FUN_0051d250();
+    bool FUN_0051d250();
 };
 
 // Returns false if unk8C or unk90 falls within their respective ranges above DAT_01012060, otherwise true.
 // @fnv 0x0051d250
-bool __thiscall FUN_0051d250_Class::FUN_0051d250()
+bool FUN_0051d250_Class::FUN_0051d250()
 {
     if ((this->unk8C > ::_DAT_01012060 && this->unk8C <= ::DAT_010179e0) ||
         (this->unk90 > ::_DAT_01012060 && this->unk90 <= DAT_0102c188))
@@ -2108,7 +2108,7 @@ struct FUN_0051d2c0_shell
     FUN_0066deb0_vec* items;
     int* itemIDs;
 
-    FUN_0051d2c0_shell* __thiscall Init(void* arg0, void* arg4, void* arg8, void* argC, unsigned int itemCount,
+    FUN_0051d2c0_shell* Init(void* arg0, void* arg4, void* arg8, void* argC, unsigned int itemCount,
                                         const void* itemSource, const void* idSource);
 };
 
@@ -2141,7 +2141,7 @@ class TreeCopy : public TESObjectTREE
     void FUN_0051c140(TESForm*);
 };
 
-typedef TreeRecordData*(__thiscall* TreeDataGetter)(TESObjectTREE*);
+typedef TreeRecordData*(* TreeDataGetter)(TESObjectTREE*);
 
 class TreeSeedAppender : public NiTPrimitiveArray_unsigned_int_
 {

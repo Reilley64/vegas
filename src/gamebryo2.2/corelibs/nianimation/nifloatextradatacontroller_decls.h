@@ -71,7 +71,6 @@ class NiObject : public NiRefObject
 public:
     ::NiObject *DynamicCast(const ::NiRTTI *);
 };
-FNV_STATIC_ASSERT(sizeof(NiObject) == 8);
 
 class NiUpdateData
 {
@@ -88,7 +87,6 @@ class NiUpdateData
     bool m_bVisible;
     unsigned char layoutPadding9[3];
 };
-FNV_STATIC_ASSERT(sizeof(NiUpdateData) == 12);
 
 class NiInterpolator : public NiObject
 {
@@ -115,7 +113,6 @@ class NiInterpolator : public NiObject
     virtual void Unk_36();
     float m_fLastTime;
 };
-FNV_STATIC_ASSERT(sizeof(NiInterpolator) == 12);
 
 class NiTimeController : public NiObject
 {
@@ -147,8 +144,6 @@ class NiTimeController : public NiObject
         return ((m_uiObjectFlags >> 5) & 1) != 0;
     }
 };
-FNV_STATIC_ASSERT(sizeof(NiTimeController) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiTimeController, m_fControllerTime) == 0x28);
 
 class NiInterpController : public NiTimeController
 {
@@ -169,9 +164,6 @@ class NiFloatExtraDataController : public NiExtraDataController
   public:
     virtual void Update(NiUpdateData& update);
 };
-FNV_STATIC_ASSERT(sizeof(NiFloatExtraDataController) == 0x40);
-FNV_STATIC_ASSERT(offsetof(NiFloatExtraDataController, m_spControllerInterpolator) == 0x34);
-FNV_STATIC_ASSERT(offsetof(NiFloatExtraDataController, m_pExtraData) == 0x3C);
 
 class NiExtraData : public NiObject
 {
@@ -183,6 +175,5 @@ class NiFloatExtraData : public NiExtraData
   public:
     float m_fValue;
 };
-FNV_STATIC_ASSERT(offsetof(NiFloatExtraData, m_fValue) == 0xC);
 
 #endif

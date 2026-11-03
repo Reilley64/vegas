@@ -82,7 +82,7 @@ void NiBSplineData::CalculateSplineValue(float time, float* value, unsigned int 
 extern int DAT_01099e54;
 
 // @fnv 0x00a52510
-void* __fastcall FUN_00a52510(void** pThis, int, unsigned int flags)
+void* FUN_00a52510(void** pThis, int, unsigned int flags)
 {
     *pThis = &DAT_01099e54;
     ::FUN_00aa10f0(pThis[2]);

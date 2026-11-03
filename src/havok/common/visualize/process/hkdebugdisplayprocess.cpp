@@ -19,7 +19,7 @@ struct Thunk
 {
     void InvokeVirtualSlot15(int, int, int, int, int);
 };
-typedef void(__thiscall* VirtualTarget)(Target*, int, int, int, int, int);
+typedef void(* VirtualTarget)(Target*, int, int, int, int, int);
 // @fnv 0x00ddc920
 void Thunk::InvokeVirtualSlot15(int a, int b, int c, int d, int e)
 {
@@ -509,7 +509,7 @@ void FUN_00ddc900_cls::FUN_00ddc900(int a, int b, int c, unsigned int d)
     void* vp = *(void**)t;
     unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&d = dat;
-    typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, unsigned int);
+    typedef void(* SlotFn)(FNVTarget*, int, int, int, unsigned int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x8);
     fn(t, a, b, c, d);
 }
@@ -556,7 +556,7 @@ void FUN_00ddc940_cls::FUN_00ddc940(int aiArg1, int aiArg2, int aiArg3, unsigned
     void* vp = *(void**)t;
     unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&d = dat;
-    typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, unsigned int);
+    typedef void(* SlotFn)(FNVTarget*, int, int, int, unsigned int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x38);
     fn(t, aiArg1, aiArg2, aiArg3, d);
 }
@@ -593,7 +593,7 @@ void FUN_00ddc980_cls::FUN_00ddc980(int aArg1, int aArg2, int aArg3)
     void* vp = *(void**)t;
     unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&aArg3 = dat;
-    typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int);
+    typedef void(* SlotFn)(FNVTarget*, int, int, int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x10);
     fn(t, aArg1, aArg2, aArg3);
 }
@@ -622,7 +622,7 @@ void FUN_00ddc9a0_cls::FUN_00ddc9a0(int aiArg, unsigned int auiParam)
     void** pVTable = *(void***)t;
     *(volatile unsigned int*)&auiParam = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     void* volatile* slot = (void* volatile*)&pVTable[5];
-    ((void(__thiscall*)(FNVTarget*, int, unsigned int)) * slot)(t, aiArg, auiParam);
+    ((void(*)(FNVTarget*, int, unsigned int)) * slot)(t, aiArg, auiParam);
 }
 }  // namespace fnv_00ddc9a0
 
@@ -665,7 +665,7 @@ void FUN_00ddca30_cls::FUN_00ddca30(int aiArg1, int aiArg2, int aiArg3, int aiAr
     void* vp = *(void**)t;
     unsigned int dat = (*reinterpret_cast<unsigned int *>(&::g_1269cdc));
     *(unsigned int volatile*)&auArg5 = dat;
-    typedef void(__thiscall * SlotFn)(FNVTarget*, int, int, int, int, unsigned int);
+    typedef void(* SlotFn)(FNVTarget*, int, int, int, int, unsigned int);
     SlotFn fn = (SlotFn) * (void* volatile*)((char*)vp + 0x24);
     fn(t, aiArg1, aiArg2, aiArg3, aiArg4, auArg5);
 }
@@ -690,7 +690,7 @@ struct VirtualReceiver
 };
 struct WrapperObject
 {
-    int __thiscall FUN_00ddcab0(int first, int second, int third);
+    int FUN_00ddcab0(int first, int second, int third);
 };
 // @fnv 0x00ddcab0
 int WrapperObject::FUN_00ddcab0(int first, int second, int third)

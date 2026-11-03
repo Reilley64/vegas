@@ -12,11 +12,11 @@ struct hkReferencedObject
 struct FUN_00d47770
 {
     hkReferencedObject* m_pObject;
-    void __thiscall SetObject(hkReferencedObject* object, int extra);
+    void SetObject(hkReferencedObject* object, int extra);
 };
 
 // @fnv 0x00d47770
-void __thiscall FUN_00d47770::SetObject(hkReferencedObject* object, int extra)
+void FUN_00d47770::SetObject(hkReferencedObject* object, int extra)
 {
     if (object)
         reinterpret_cast<::FUN_00c90510_class *>((object))->FUN_00c90510();
@@ -38,7 +38,7 @@ struct hkVtableClassRegistry
 struct ReferencedObjectHolder
 {
     hkReferencedObject* m_pObject;
-    void* __thiscall FUN_00d477a0();
+    void* FUN_00d477a0();
 };
 
 // @fnv 0x00d477a0
@@ -59,7 +59,7 @@ struct SetBlk
     unsigned short f06;
 };
 
-extern int(__thiscall* DAT_010cf9d4)(SetBlk* object, int value, int extra, int result);
+extern int(* DAT_010cf9d4)(SetBlk* object, int value, int extra, int result);
 
 extern "C" int stub_a(void);
 extern "C" int stub_b(void);

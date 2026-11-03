@@ -10,7 +10,7 @@ extern char const* const g_01268970_arg1;
 void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2);
 int __cdecl FUN_00d22350();
-int __stdcall FUN_00d22d60(int a, int b);
+int FUN_00d22d60(int a, int b);
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
     float m128_f32[4];
@@ -65,7 +65,7 @@ struct FUN_00d224a0_Data
     __m128 unk20;
     __m128 unk30;
 
-    void __thiscall FUN_00d224a0(__m128* result);
+    void FUN_00d224a0(__m128* result);
 };
 extern int DAT_010ce25c;
 union __declspec(align(16)) AlignedHKVector4
@@ -78,7 +78,7 @@ union __declspec(align(16)) AlignedHKVector4
 };
 struct FUN_00d22590_Class : hkpCapsuleShape
 {
-    FUN_00d22590_Class* __thiscall FUN_00d22590(const AlignedHKVector4& first, const AlignedHKVector4& second,
+    FUN_00d22590_Class* FUN_00d22590(const AlignedHKVector4& first, const AlignedHKVector4& second,
                                                 float radius);
 };
 struct __declspec(align(16)) Point4
@@ -118,7 +118,7 @@ class Aabb_d22440
     __m128 m_kMin;
     __m128 m_kMax;
 
-    void __thiscall FUN_00d22440(__m128* pkCenter) const;
+    void FUN_00d22440(__m128* pkCenter) const;
 };
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_mul_ps(__m128, __m128);

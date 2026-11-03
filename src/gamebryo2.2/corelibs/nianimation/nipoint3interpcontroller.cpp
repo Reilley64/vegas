@@ -24,10 +24,10 @@ struct NiPoint3InterpolatorStandIn
 {
     NiPoint3InterpolatorStandIn* FUN_00a49650(NiPoint3 v);
 };
-typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
+typedef void(* GetPoint3Fn)(void*, NiPoint3*);
 
 // @fnv 0x00a57c20
-void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
+void* FUN_00a57c20(void* self, int, unsigned short usIndex)
 {
     NiPoint3 kValue;
     (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
@@ -59,11 +59,11 @@ struct NiPoint3InterpolatorStandIn
 {
     void FUN_00a494b0(NiPoint3 v);
 };
-typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
+typedef void(* GetPoint3Fn)(void*, NiPoint3*);
 
 // Casts pkInterp to a NiPoint3 interpolator, reads a NiPoint3 from self via a virtual call, and passes it to the interpolator.
 // @fnv 0x00a57cb0
-void __fastcall FUN_00a57cb0(void* self, int, NiObject* pkInterp, int)
+void FUN_00a57cb0(void* self, int, NiObject* pkInterp, int)
 {
     NiPoint3InterpolatorStandIn* pkPoint3Interp =
         !pkInterp ? 0 : (NiPoint3InterpolatorStandIn*)((::fnv_00a57cb0::NiObject *)(reinterpret_cast<::NiObject *>((void *)(pkInterp))->DynamicCast((const ::NiRTTI *)(const ::fnv_00a57cb0::NiRTTI *)((const NiRTTI*)&(*reinterpret_cast<::fnv_00a57cb0::GlobalObjectO2_00a7b610 *>(&::g_011f3f70))))));
@@ -85,7 +85,7 @@ template <class T, class A> struct NiTArray
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > CombatGroupArray;
 
 // @fnv 0x00a57d10
-void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
+void FUN_00a57d10(CombatGroupArray* pCombatGroups)
 {
     reinterpret_cast<::Holder00a390a0 *>((pCombatGroups))->FUN_00a390a0({});
     ActorCombatGroup* pGroup = ((::ActorCombatGroup *)(::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4238)))));
@@ -114,7 +114,7 @@ struct S_00a53280_Foo
     void* FUN_00a53280(void* arg);
 };
 
-extern void(__stdcall* FUN_00fdf1c0)(void*);
+extern void(* FUN_00fdf1c0)(void*);
 
 // @fnv 0x00a53280
 void* S_00a53280_Foo::FUN_00a53280(void* arg)

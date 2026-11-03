@@ -4,13 +4,10 @@
 #define FNV_HAVOK_HKCLASSENUMITEM_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkClassEnumItem
 {
   public:
     hkInt32 m_uiFilterValue;  // +0x0
     char* m_name;             // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkClassEnumItem[(sizeof(hkClassEnumItem) == 0x8) ? 1 : -1];
 #endif

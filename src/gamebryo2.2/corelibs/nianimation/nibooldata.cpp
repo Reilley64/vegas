@@ -213,7 +213,7 @@ void NiBoolDataSaver::SaveBoolData(NiStream& stream)
 
 struct FUN_00a53910_shell : NiBoolData
 {
-    void __thiscall FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output);
+    void FUN_00a53910(float startTime, float endTime, NiPointer<NiBoolData>& output);
 };
 
 // Clones this NiBoolData, processes its keys with the requested time range when present, and assigns the result to output.

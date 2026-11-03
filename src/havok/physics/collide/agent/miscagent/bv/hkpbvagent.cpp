@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/symbols_00d45000.h"
 #include "fnv/symbols_00d46000.h"
@@ -127,7 +128,7 @@ struct Worker
     int a, b, c;
     WorkerIface* p1;
     WorkerIface* p2;
-    void __thiscall FUN_00d45270(void* value);
+    void FUN_00d45270(void* value);
 };
 // Forwards value to the v9 method of p1 and, if p2 is non-null, to the v9 method of p2.
 // @fnv 0x00d45270
@@ -526,7 +527,6 @@ void FUN_00d461e0_Cls::FUN_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiVa
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern char DAT_010cebd0;
 
 struct MonStream

@@ -11,7 +11,7 @@
 #include "fnv/symbols_00daf000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
-void __stdcall ForwardToD3C440(int a, int b, int c, int d)
+void ForwardToD3C440(int a, int b, int c, int d)
 {
     ::FUN_00d3c440((const ::S_00d3c440_Body *)(a), (const ::S_00d3c440_Body *)(b), c, (::S_00d3c440_Collector *)(d));
 }

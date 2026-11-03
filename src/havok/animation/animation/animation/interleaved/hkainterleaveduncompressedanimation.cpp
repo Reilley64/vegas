@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/interleaved/hkainterleaveduncompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
 #include "fnv/symbols_00e3f000.h"
 #include "fnv/symbols_01268000.h"
@@ -67,7 +68,7 @@ struct FUN_00e3f920_class
 // @fnv 0x00e3f920
 void FUN_00e3f920_class::FUN_00e3f920(float afValue, int b, int c, int d)
 {
-    ((void(__thiscall*)(void*, float, int, int, int, int, int))(*reinterpret_cast<void***>(this))[4])(
+    ((void(*)(void*, float, int, int, int, int, int))(*reinterpret_cast<void***>(this))[4])(
         this, afValue, *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x10), b,
         *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x14), c, d);
 }
@@ -125,12 +126,12 @@ struct S00e3fd20_Desc
     int m_2c;
     int m_30;
     int m_34;
-    void __thiscall FUN_00e3fd20(int scale, int unused1, int* out, int unused2);
+    void FUN_00e3fd20(int scale, int unused1, int* out, int unused2);
 };
 
 // Writes a descriptor into out, storing this pointer, a 0x40 size, and optional segment and alignment data based on m_10 and m_14.
 // @fnv 0x00e3fd20
-void __thiscall S00e3fd20_Desc::FUN_00e3fd20(int scale, int unused1, int* out, int unused2)
+void S00e3fd20_Desc::FUN_00e3fd20(int scale, int unused1, int* out, int unused2)
 {
     out[0] = (int)this;
     out[1] = 0x40;
@@ -290,8 +291,7 @@ FUN_00e402e0::FUN_00e402e0(SrcAnimX* apSrcAnim)
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
-typedef void*(__stdcall* TlsGetValueFn)(unsigned long);
+typedef void*(* TlsGetValueFn)(unsigned long);
 
 struct ProfRec
 {

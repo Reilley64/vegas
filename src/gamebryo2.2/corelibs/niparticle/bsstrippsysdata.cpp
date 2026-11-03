@@ -17,11 +17,11 @@
 #include "fnv/symbols_01202000.h"
 struct FUN_00c25dd0_shell
 {
-    short __thiscall FUN_00c25dd0();
+    short FUN_00c25dd0();
 };
 
 // @fnv 0x00c25dd0
-short __thiscall FUN_00c25dd0_shell::FUN_00c25dd0()
+short FUN_00c25dd0_shell::FUN_00c25dd0()
 {
     return *reinterpret_cast<short*>(this + 0x80);
 }
@@ -35,7 +35,7 @@ void* __cdecl FUN_00c25ee0()
 
 struct FUN_00c25e70_shell
 {
-    void* __thiscall GetElementField(unsigned short a, unsigned short b);
+    void* GetElementField(unsigned short a, unsigned short b);
 };
 
 // Indexes the pointer at this+0x7c by a*32, then returns that element plus b*0x84+0xc.
@@ -52,11 +52,11 @@ void* __cdecl FUN_00c25ef0();
 
 struct FUN_00c26380_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 // @fnv 0x00c26380
-void* __thiscall FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
 {
     void* p = FUN_00c25ef0();
     if (flags & 1)
@@ -66,10 +66,10 @@ void* __thiscall FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_00c25db0_shell
 {
-    unsigned short __thiscall FUN_00c25db0(unsigned short index);
+    unsigned short FUN_00c25db0(unsigned short index);
 };
 // @fnv 0x00c25db0
-unsigned short __thiscall FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
+unsigned short FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
 {
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(*reinterpret_cast<unsigned int**>(
                                                   reinterpret_cast<unsigned char*>(this) + 0x7c)) +
@@ -78,11 +78,11 @@ unsigned short __thiscall FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
 
 struct FUN_00c25de0_shell
 {
-    float __thiscall GetEntryFloat(unsigned short idx);
+    float GetEntryFloat(unsigned short idx);
 };
 
 // @fnv 0x00c25de0
-float __thiscall FUN_00c25de0_shell::GetEntryFloat(unsigned short usIndex)
+float FUN_00c25de0_shell::GetEntryFloat(unsigned short usIndex)
 {
     return *(float*)((char*)*(int**)((char*)this + 0x7c) + 0x1c + (int)usIndex * 32);
 }
@@ -120,11 +120,11 @@ struct BSStripPSysData
 };
 struct FUN_00c25cd0_shell : BSStripPSysData
 {
-    bool __thiscall FUN_00c25cd0(NiObject* pkObject);
+    bool FUN_00c25cd0(NiObject* pkObject);
 };
 // Compares the base fields and then usMaxPointCount, fStartCapSize, fEndCapSize and bDoZPrePass against another BSStripPSysData, returning true if all match.
 // @fnv 0x00c25cd0
-bool __thiscall FUN_00c25cd0_shell::FUN_00c25cd0(NiObject* pkObject)
+bool FUN_00c25cd0_shell::FUN_00c25cd0(NiObject* pkObject)
 {
     BSStripPSysData* pkDest = (BSStripPSysData*)pkObject;
     if (reinterpret_cast<::PSDataEqStand *>(this)->FUN_00c24de0((::PSDataEqStand *)(pkObject)) && pkDest->usMaxPointCount == usMaxPointCount && pkDest->fStartCapSize == fStartCapSize &&
@@ -146,11 +146,11 @@ struct S20_25e20
 };
 struct FUN_00c25e20_shell
 {
-    float __thiscall GetInnerValue(unsigned short, unsigned short);
+    float GetInnerValue(unsigned short, unsigned short);
 };
 // Indexes base[a].p to an inner object and returns its float field at index b.
 // @fnv 0x00c25e20
-float __thiscall FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex, unsigned short ausInnerIndex)
+float FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex, unsigned short ausInnerIndex)
 {
     S20_25e20* base = *(S20_25e20**)((char*)this + 0x7c);
     S84_25e20* inner = (S84_25e20*)base[ausOuterIndex].p;
@@ -159,7 +159,7 @@ float __thiscall FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex,
 
 struct FUN_00c25e40_shell
 {
-    float __thiscall FUN_00c25e40(unsigned short a, unsigned short b);
+    float FUN_00c25e40(unsigned short a, unsigned short b);
 };
 struct FUN_00c25e40_Inner
 {
@@ -173,7 +173,7 @@ struct FUN_00c25e40_Outer
 };
 // Reads a pointer from this+0x7c, indexes it by a, then indexes that object's p by b and returns the float v.
 // @fnv 0x00c25e40
-float __thiscall FUN_00c25e40_shell::FUN_00c25e40(unsigned short a, unsigned short b)
+float FUN_00c25e40_shell::FUN_00c25e40(unsigned short a, unsigned short b)
 {
     return (*(FUN_00c25e40_Outer**)((char*)this + 0x7c))[a].p[b].v;
 }
@@ -187,22 +187,22 @@ struct FUN_00c25e90_shell
 {
     char _pad[124];
     FUN_00c25e90_entry* arr;
-    void* __thiscall FUN_00c25e90(unsigned short a, unsigned short b);
+    void* FUN_00c25e90(unsigned short a, unsigned short b);
 };
 // Returns a pointer into the entry at index a, offset by b * 0x84 + 0x48 from its ptr.
 // @fnv 0x00c25e90
-void* __thiscall FUN_00c25e90_shell::FUN_00c25e90(unsigned short ausIndex, unsigned short b)
+void* FUN_00c25e90_shell::FUN_00c25e90(unsigned short ausIndex, unsigned short b)
 {
     return (char*)arr[ausIndex].ptr + b * 0x84 + 0x48;
 }
 
 struct FUN_00c25eb0_shell
 {
-    float __thiscall FUN_00c25eb0(unsigned short a);
+    float FUN_00c25eb0(unsigned short a);
 };
 // Returns 1.0 divided by (the unsigned short at offset 6 of the entry at this+0x7c indexed by a, minus 1.0).
 // @fnv 0x00c25eb0
-float __thiscall FUN_00c25eb0_shell::FUN_00c25eb0(unsigned short ausIndex)
+float FUN_00c25eb0_shell::FUN_00c25eb0(unsigned short ausIndex)
 {
     return 1.0f / ((float)*(unsigned short*)(*(char**)((char*)this + 0x7c) + (ausIndex << 5) + 6) - 1.0f);
 }
@@ -323,7 +323,7 @@ struct FUN_00c25d40_shell
     int unk78;
     FUN_00c25d40_entry* m_entries;   // +0x7c : table of 32-byte entries
     unsigned short m_uiFilterValue;  // +0x80
-    void __thiscall ResetEntry(unsigned short index);
+    void ResetEntry(unsigned short index);
 };
 
 // @fnv 0x00c25d40
@@ -826,14 +826,14 @@ void FUN_00c26630_cls::FUN_00c26630(void* pArray)
 struct NiStream;
 struct NiPSysData
 {
-    bool __thiscall RegisterStreamables(NiStream&);
+    bool RegisterStreamables(NiStream&);
 };
 struct FUN_00a817b0_shell : NiPSysData
 {
-    bool __thiscall FUN_00a817b0(NiStream& a);
+    bool FUN_00a817b0(NiStream& a);
 };
 // @fnv 0x00a817b0
-bool __thiscall FUN_00a817b0_shell::FUN_00a817b0(NiStream& a)
+bool FUN_00a817b0_shell::FUN_00a817b0(NiStream& a)
 {
     return RegisterStreamables(a);
 }

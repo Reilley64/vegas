@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/Triangle.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00cd7000.h"
@@ -98,7 +99,7 @@ struct D3DD10Data
 struct D3DD10Object
 {
 
-    void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1,
+    void FUN_00d3dd10(unsigned int p0, unsigned int p1,
                                  unsigned int p2, unsigned int p3);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
@@ -170,7 +171,6 @@ public:
     void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
 };
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" {
 unsigned __int64 __rdtsc();
 void _ReadWriteBarrier();
@@ -304,7 +304,6 @@ struct S_00d3d3e0_P3P { S_00d3d3e0_P3* p; S_00d3d3e0_P3* val() const { return p;
 
 extern "C" __m128 _mm_load_ss(float const*_A);
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern "C" {
 unsigned __int64 __rdtsc();
 void _ReadWriteBarrier();
@@ -521,7 +520,6 @@ struct MonitorStream {
     MonitorRecord* m_pRayCursor;
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 
 union FeatureInfo {

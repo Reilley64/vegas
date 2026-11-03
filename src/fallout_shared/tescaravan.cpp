@@ -362,11 +362,11 @@ void FUN_0059adf0::LoadGame(void* arg)
 
 struct FUN_0059b270_shell
 {
-    char* __thiscall FUN_0059b270(int index);
+    char* FUN_0059b270(int index);
 };
 
 // @fnv 0x0059b270
-char* __thiscall FUN_0059b270_shell::FUN_0059b270(int index)
+char* FUN_0059b270_shell::FUN_0059b270(int index)
 {
     return &((char*)this)[index * 32 + 140];
 }

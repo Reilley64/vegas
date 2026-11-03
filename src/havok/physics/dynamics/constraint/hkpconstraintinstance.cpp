@@ -123,7 +123,7 @@ void FUN_00cf3090_class::FUN_00cf3090(void* arg)
 }
 
 // @fnv 0x00cf3da0
-void __fastcall FUN_00cf3da0(void* self, int)
+void FUN_00cf3da0(void* self, int)
 {
     ::FUN_00cdff60(self, (::ConstraintInput *)(*(void**)((char*)self + 8)));
 }
@@ -229,11 +229,11 @@ void FUN_00cf3e60_class::FUN_00cf3e60()
 }  // namespace fnv_00cf3e60
 
 // @fnv 0x00cf2f90
-void __stdcall FUN_00cf2f90(int)
+void FUN_00cf2f90(int)
 {}
 
 // @fnv 0x00cf2fa0
-void __stdcall FUN_00cf2fa0(int)
+void FUN_00cf2fa0(int)
 {}
 
 struct hkBoolCF2F

@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlignedVector.h"
@@ -717,7 +718,6 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 
 class NiNode;
 template <class T> class NiPointer
@@ -759,7 +759,7 @@ void FUN_00544390_shell::SetFlag40(bool abVal)
         *((unsigned char*)this + 0x24) |= 0x40;
     else
         *((unsigned char*)this + 0x24) &= ~0x40;
-    (*(void(__thiscall**)(TESObjectCELL*, int))(*(unsigned int*)this + 0x48))(this, 2);
+    (*(void(**)(TESObjectCELL*, int))(*(unsigned int*)this + 0x48))(this, 2);
 }
 
 struct FUN_005445d0_shell : public TESObjectCELL
@@ -844,7 +844,7 @@ void FUN_00544630_shell::ResetCellData()
 }
 
 // @fnv 0x00544750
-NiNode* __fastcall GetCellNode(TESObjectCELL* pThis)
+NiNode* GetCellNode(TESObjectCELL* pThis)
 {
     InteriorCellData* pData = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((pThis))->FUN_00544600()));
     if (pData)
@@ -869,7 +869,7 @@ class BGSTerrainManager
 
 // Returns the interior cell's minimum level from the terrain manager if available, otherwise from the interior data, or 0 if there is no interior data.
 // @fnv 0x00544830
-unsigned int __fastcall GetCellMinLevel(TESObjectCELL* apCell)
+unsigned int GetCellMinLevel(TESObjectCELL* apCell)
 {
     InteriorCellData* interiorData = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((apCell))->FUN_00544600()));
     if (interiorData)
@@ -902,13 +902,12 @@ struct NiColor
     float g;
     float b;
 };
-typedef char _sizecheck_NiColor[sizeof(NiColor) == 12 ? 1 : -1];
 struct FUN_00544890_shell : public TESObjectCELL
 {
     void FUN_00544890(NiColor*);
 };
 
-unsigned int __fastcall GetCellMinLevel(TESObjectCELL* thisPtr);
+unsigned int GetCellMinLevel(TESObjectCELL* thisPtr);
 
 // Reads a packed color from the cell via GetCellMinLevel and writes its red, green and blue bytes into acolColor as normalized floats.
 // @fnv 0x00544890
@@ -936,7 +935,6 @@ struct InteriorData
     float m_fFogPower;
     unsigned int m_uiTrailingValue;
 };
-typedef char _sizecheck_INTERIOR_DATA[sizeof(InteriorData) == 44 ? 1 : -1];
 struct FUN_00544910_shell : public TESObjectCELL
 {
     unsigned int FUN_00544910();
@@ -982,7 +980,6 @@ struct InteriorData
     float m_fFogPower;
     unsigned int m_uiTrailingValue;
 };
-typedef char _sizecheck_INTERIOR_DATA[sizeof(InteriorData) == 44 ? 1 : -1];
 struct FUN_00544970_shell : public TESObjectCELL
 {
     unsigned int FUN_00544970();
@@ -1012,7 +1009,7 @@ unsigned int FUN_00544970_shell::FUN_00544970()
 
 
 // @fnv 0x005449d0
-int __fastcall FUN_005449d0(TESObjectCELL* self)
+int FUN_005449d0(TESObjectCELL* self)
 {
     InteriorCellData* data = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((self))->FUN_00544600()));
     if (data)
@@ -1043,13 +1040,12 @@ struct NiColor
     float g;
     float b;
 };
-typedef char _sizecheck_NiColor[sizeof(NiColor) == 12 ? 1 : -1];
 struct FUN_00544a30_shell : public TESObjectCELL
 {
     void FUN_00544a30(NiColor*);
 };
 
-unsigned int __fastcall FUN_005449d0(void* pThis);
+unsigned int FUN_005449d0(void* pThis);
 
 // Reads a packed color from the cell via FUN_005449d0 and writes its red, green and blue bytes into acolColor as floats scaled by 1/255.
 // @fnv 0x00544a30
@@ -1068,7 +1064,7 @@ class TESGlobalValueReader
 };
 
 // @fnv 0x00544ab0
-float __fastcall FUN_00544ab0(TESObjectCELL* apCell)
+float FUN_00544ab0(TESObjectCELL* apCell)
 {
     InteriorCellData* data = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((apCell))->FUN_00544600()));
     if (data)
@@ -1084,7 +1080,7 @@ float __fastcall FUN_00544ab0(TESObjectCELL* apCell)
 
 
 // @fnv 0x00544b10
-float __fastcall FUN_00544b10(TESObjectCELL* pthis)
+float FUN_00544b10(TESObjectCELL* pthis)
 {
     InteriorCellData* data = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((pthis))->FUN_00544600()));
     if (data)
@@ -1103,7 +1099,7 @@ struct TESObjectREFR_GetScale : TESObjectREFR
 };
 
 // @fnv 0x00544b70
-float __fastcall FUN_00544b70(TESObjectCELL* cell)
+float FUN_00544b70(TESObjectCELL* cell)
 {
     InteriorCellData* interior = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((cell))->FUN_00544600()));
     if (interior)
@@ -1290,7 +1286,7 @@ void FUN_005452c0_shell::RegisterReferenceInCell(TESObjectREFR* apRef)
 
 // Returns a pointer to the object at offset 0x5c of the field at param_1+0xc4, or null if that field is zero.
 // @fnv 0x00545710
-void* __fastcall FUN_00545710(int param_1)
+void* FUN_00545710(int param_1)
 {
     if (*(int*)(param_1 + 0xc4) != 0)
         return (void*)(*(int*)(param_1 + 0xc4) + 0x5c);
@@ -1418,7 +1414,7 @@ struct FUN_00546930_Class
 };
 
 // @fnv 0x00546930
-const char* __fastcall FUN_00546930(FUN_00546930_Class* pThis)
+const char* FUN_00546930(FUN_00546930_Class* pThis)
 {
     return pThis->str;
 }
@@ -1478,13 +1474,12 @@ struct ImpactSwap
     char m_pData[48];
     char m_acAltFootstepMaterialNames[300];
 };
-typedef char _sizecheck_ImpactSwap[sizeof(ImpactSwap) == 348 ? 1 : -1];
 struct FUN_00547610_shell : public TESObjectCELL
 {
     ImpactSwap* GetImpactSwap();
 };
 
-ImpactSwap* __fastcall FUN_0041c460(void* pThis);
+ImpactSwap* FUN_0041c460(void* pThis);
 
 // @fnv 0x00547610
 ImpactSwap* FUN_00547610_shell::GetImpactSwap()
@@ -1523,7 +1518,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -1543,7 +1537,6 @@ struct TESFullName : public BaseFormComponent
 public:
     void SetFullName(const char *);
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESAttackDamageForm : public BaseFormComponent
 {
     virtual unsigned short GetAttackDamage();
@@ -1557,7 +1550,6 @@ struct TESAttackDamageForm : public BaseFormComponent
     unsigned short m_usAttackDamage;
     char _pad_6[2];
 };
-typedef char _sizecheck_TESAttackDamageForm[sizeof(TESAttackDamageForm) == 8 ? 1 : -1];
 struct FUN_00547770_shell : public TESObjectCELL
 {
     TESWaterForm* FUN_00547770();
@@ -1576,7 +1568,7 @@ public:
 
 
 // @fnv 0x00548720
-bool __fastcall FUN_00548720(void* pThis)
+bool FUN_00548720(void* pThis)
 {
     return ((int)(reinterpret_cast<::FUN_00450fd0_class *>((pThis))->GetByteAtOffset38())) == 2;
 }
@@ -1603,7 +1595,7 @@ NiNode* FUN_005495d0_shell::FUN_005495d0()
 
 // Returns true only when all four checks on pThis return false.
 // @fnv 0x00549630
-bool __fastcall FUN_00549630(void* pThis)
+bool FUN_00549630(void* pThis)
 {
     return !reinterpret_cast<::FUN_0050d1d0_class *>((pThis))->IsFlag8Set() && !reinterpret_cast<::FUN_0050d1f0_Class *>((pThis))->FUN_0050d1f0() && !reinterpret_cast<::FUN_0050d210_Class *>((pThis))->IsFlag80Set() && !reinterpret_cast<::FUN_0050d230_class *>((pThis))->FUN_0050d230();
 }
@@ -1614,7 +1606,7 @@ class BSXFlags
 };
 
 // @fnv 0x00549690
-bool __fastcall HasFlagOne(const BSXFlags* pThis)
+bool HasFlagOne(const BSXFlags* pThis)
 {
     return reinterpret_cast<::FUN_00448a60_struct *>((void *)(pThis))->GetMaskedValue(1) != 0;
 }
@@ -1631,13 +1623,11 @@ NiNode* FUN_0054a050_shell::FUN_0054a050()
 }
 
 // @fnv 0x0054aa60
-NiAVObject* __fastcall FUN_0054aa60(TESObjectCELL* apCell)
+NiAVObject* FUN_0054aa60(TESObjectCELL* apCell)
 {
     return apCell->GetCellChildAt(3);
 }
 
-__declspec(dllimport) void* __stdcall CreateSemaphoreA(void* lpSemaphoreAttributes, long lInitialCount,
-                                                       long lMaximumCount, const char* lpName);
 
 struct FUN_0054ad60_Arg
 {
@@ -1653,7 +1643,7 @@ struct FUN_0054ad60_This
 
 // Stores the initial count and max count (count + 1) and creates a semaphore handle from them.
 // @fnv 0x0054ad60
-FUN_0054ad60_This* __fastcall FUN_0054ad60(FUN_0054ad60_This* pThis, FUN_0054ad60_Arg aInitialCount)
+FUN_0054ad60_This* FUN_0054ad60(FUN_0054ad60_This* pThis, FUN_0054ad60_Arg aInitialCount)
 {
     pThis->count = aInitialCount.val;
     pThis->maxCount = aInitialCount.val + 1;
@@ -1713,7 +1703,7 @@ void FUN_0054de10_shell::FUN_0054de10(TESWorldSpace* apWorld)
 }
 
 // @fnv 0x0054de40
-void* __fastcall FUN_0054de40(TESObjectCELL* apCell)
+void* FUN_0054de40(TESObjectCELL* apCell)
 {
     void* result = 0;
     if (apCell->IsCellInterior())
@@ -1739,7 +1729,6 @@ struct InteriorData
     float m_fFogPower;
     unsigned int m_uiTrailingValue;
 };
-typedef char _sizecheck_INTERIOR_DATA[sizeof(InteriorData) == 44 ? 1 : -1];
 struct FUN_0054deb0_shell : public TESObjectCELL
 {
     unsigned int FUN_0054deb0();
@@ -1821,7 +1810,7 @@ void S::FUN_00552470()
 }  // namespace fnv_00552470
 
 // @fnv 0x00552490
-bool __fastcall FUN_00552490(bool* pThis)
+bool FUN_00552490(bool* pThis)
 {
     return pThis[0x41];
 }
@@ -2061,10 +2050,10 @@ void _Helper_005534f0::FUN_005534f0(void* apListener)
     m_kListener = apListener;
 }
 
-void __fastcall FUN_00553540(void* pThis);
+void FUN_00553540(void* pThis);
 
 // @fnv 0x00553520
-void __fastcall FUN_00553520(void* pThis)
+void FUN_00553520(void* pThis)
 {
     FUN_00553540(pThis);
 }
@@ -2097,7 +2086,6 @@ struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct AutoMemContext
 {
     void Enter(int, bool, char*, int);
@@ -2106,7 +2094,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct NiTransform
 {
     void ResetToIdentity();
@@ -2119,7 +2106,6 @@ struct NiTransform
     char m_kTranslation[12];
     float m_fScale;
 };
-typedef char _sizecheck_NiTransform[sizeof(NiTransform) == 64 ? 1 : -1];
 struct FUN_005535f0_shell : public TESObjectCELL
 {
     void FUN_005535f0();
@@ -2193,7 +2179,7 @@ void FUN_005535f0_shell::FUN_005535f0()
 }
 
 namespace fnv_00553820 {
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 
 class NavMeshVertexMap
 {
@@ -2332,7 +2318,7 @@ struct FUN_00553820_Obj
 };
 
 // @fnv 0x00553820
-void __fastcall FUN_00553820(TESObjectCELL* pThis)
+void FUN_00553820(TESObjectCELL* pThis)
 {
     if (::FUN_00450ff0(pThis) && *(int*)((char*)pThis + 0xc4) != 0)
     {
@@ -2353,7 +2339,7 @@ void __fastcall FUN_00553820(TESObjectCELL* pThis)
 
 // Returns pThis[0x68] when bit 2 of the field at offset 0x48 is set, otherwise returns 0.
 // @fnv 0x00553b60
-char __fastcall FUN_00553b60(char* pThis)
+char FUN_00553b60(char* pThis)
 {
     return (*(unsigned int*)(pThis + 0x48) & 2) ? pThis[0x68] : 0;
 }
@@ -2425,7 +2411,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -2462,7 +2447,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_00555a50_shell : public TESObjectCELL
 {
     void FUN_00555a50(BGSLoadFormBuffer*);
@@ -2504,7 +2488,7 @@ struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
 };
 
 // @fnv 0x00558200
-unsigned int __fastcall FUN_00558200(char* this_ptr)
+unsigned int FUN_00558200(char* this_ptr)
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(this_ptr + 0x38))))->GetName()));
 }
@@ -2567,7 +2551,6 @@ struct NavMeshTriangle
     char Triangles[6];
     unsigned int m_uiTriangleFlags;
 };
-typedef char _sizecheck_NavMeshTriangle[sizeof(NavMeshTriangle) == 16 ? 1 : -1];
 struct FUN_005582d0_shell : public NavMeshTriangle
 {
     unsigned short FUN_005582d0(unsigned int);
@@ -2584,7 +2567,7 @@ struct NiNode_00558310 : NiNode
 };
 
 // @fnv 0x00558310
-NiAVObject* __fastcall FUN_00558310(NiNode_00558310* pThis)
+NiAVObject* FUN_00558310(NiNode_00558310* pThis)
 {
     return ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((pThis))->FUN_0045bc00(0)));
 }
@@ -2624,7 +2607,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00558b60_shell : public TESObjectCELL
 {
     void FUN_00558b60(BGSLightingTemplate*);
@@ -2667,7 +2649,7 @@ struct FUN_00558c90_shell : public TESObjectCELL
     void FUN_00558c90();
 };
 
-int __fastcall _FNV_GetFormType(void* pThis);
+int _FNV_GetFormType(void* pThis);
 
 class TESForm
 {
@@ -2843,7 +2825,7 @@ struct NiTArray_CombatGroup
 };
 
 // @fnv 0x00600bc0
-void __fastcall CompactArray(NiTArray_CombatGroup* pThis)
+void CompactArray(NiTArray_CombatGroup* pThis)
 {
     if (pThis->m_usESize == pThis->m_usSize)
         return;
@@ -2900,7 +2882,7 @@ class NiRenderer
   public:
 };
 
-void __fastcall FUN_00c3e310(IOManager*);
+void FUN_00c3e310(IOManager*);
 void __cdecl FUN_008781e0(int);
 void __cdecl FUN_00703980();
 
@@ -2997,7 +2979,7 @@ void* FUN_009604f0_shell::FUN_009604f0()
 }
 
 // @fnv 0x009938b0
-unsigned int __fastcall FUN_009938b0(const unsigned short* pThis)
+unsigned int FUN_009938b0(const unsigned short* pThis)
 {
     return pThis[6];
 }
@@ -3246,7 +3228,7 @@ struct BSSimpleListTESRaceSize
     int GetSize();
 };
 // @fnv 0x005504e0
-int __fastcall GetSourceFileCount(FormS* p)
+int GetSourceFileCount(FormS* p)
 {
     return ((BSSimpleListTESRaceSize*)((::SrcList *)(::FUN_00460140((int)(p)))))->GetSize();
 }
@@ -3288,7 +3270,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_005575d0_shell : public TESObjectCELL
 {
     void UpdateNavMeshObstacles();
@@ -3296,11 +3277,11 @@ struct FUN_005575d0_shell : public TESObjectCELL
 
 struct TESObjectREFR;
 struct RefStub;
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 struct NodeStub
 {
 };
-typedef bool(__thiscall* VFn)(RefStub*);
+typedef bool(* VFn)(RefStub*);
 struct RefStub
 {
     virtual void v0();
@@ -3632,12 +3613,12 @@ void __cdecl FUN_00454ae0()
 
 struct FUN_005422b0Class
 {
-    void __thiscall FUN_005422b0();
-    void __thiscall FUN_00559460();
+    void FUN_005422b0();
+    void FUN_00559460();
 };
 
 // @fnv 0x005422b0
-void __thiscall FUN_005422b0Class::FUN_005422b0()
+void FUN_005422b0Class::FUN_005422b0()
 {
     FUN_00559460();
 }
@@ -3649,11 +3630,11 @@ struct FUN_005443e0_class
 
 struct FUN_00546a00Class
 {
-    void __thiscall ClearFieldA4();
+    void ClearFieldA4();
 };
 
 // @fnv 0x00546a00
-void __thiscall FUN_00546a00Class::ClearFieldA4()
+void FUN_00546a00Class::ClearFieldA4()
 {
     *(int*)((char*)this + 0xa4) = 0;
 }
@@ -3752,11 +3733,11 @@ void* FUN_00553540::FUN_005535c0(unsigned int flags)
 
 struct FUN_00557d10_Class
 {
-    bool __thiscall FUN_00557d10();
+    bool FUN_00557d10();
 };
 
 // @fnv 0x00557d10
-bool __thiscall FUN_00557d10_Class::FUN_00557d10()
+bool FUN_00557d10_Class::FUN_00557d10()
 {
     if (((int)(reinterpret_cast<::FUN_00450fd0_class *>((this))->GetByteAtOffset38())))
         return true;
@@ -3792,12 +3773,12 @@ struct FUN_00558c60Class
     int m_0x5C;
     int m_0x60;
     int* m_0x64;
-    void __thiscall FUN_00558c60(int a1);
+    void FUN_00558c60(int a1);
 };
 
 // Stores the given int into the object pointed to by m_0x64, if that pointer is non-null.
 // @fnv 0x00558c60
-void __thiscall FUN_00558c60Class::FUN_00558c60(int aiValue)
+void FUN_00558c60Class::FUN_00558c60(int aiValue)
 {
     if (m_0x64 != 0)
     {
@@ -3814,7 +3795,7 @@ struct FUN_005590b0_S
 struct FUN_00558da0_S : FUN_005590b0_S
 {
     int* m_iWordAt00;
-    FUN_00558da0_S* __thiscall FUN_00558da0(int param_2);
+    FUN_00558da0_S* FUN_00558da0(int param_2);
 };
 
 namespace fnv_00559780 {
@@ -3902,8 +3883,8 @@ bool FUN_00548700_Class::FUN_00548700() const
 
 struct CheckWithinMultiBoundTask
 {
-    void __thiscall FUN_0054ab60();
-    void* __thiscall FUN_0054ab30(unsigned int flags);
+    void FUN_0054ab60();
+    void* FUN_0054ab30(unsigned int flags);
 };
 
 
@@ -4034,7 +4015,7 @@ struct FUN_00544490_Class
 };
 
 // @fnv 0x00544490
-unsigned char __thiscall FUN_00544490_Class::FUN_00544490()
+unsigned char FUN_00544490_Class::FUN_00544490()
 {
     unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
     if (flags & 0x20000)
@@ -4064,11 +4045,11 @@ extern Calendar g_calendar;
 struct TESObjectCELL_s
 {
     void SetDetachTime(unsigned int, bool);
-    void __thiscall FUN_00546c70();
+    void FUN_00546c70();
 };
 
 // @fnv 0x00546c70
-void __thiscall TESObjectCELL_s::FUN_00546c70()
+void TESObjectCELL_s::FUN_00546c70()
 {
     unsigned int hours = reinterpret_cast<::Calendar *>(&(g_calendar))->GetGameHoursPassed();
     SetDetachTime(hours, false);
@@ -4082,30 +4063,30 @@ struct FUN_0041c290_shell
 
 struct FUN_00547750_shell : public TESDataHandler
 {
-    void __thiscall FUN_00547750(int a);
+    void FUN_00547750(int a);
 };
 
 // Calls SetImageSpaceExtra on the TESImageSpaceModifierList obtained from GetTESImageSpaceModifierList, passing a.
 // @fnv 0x00547750
-void __thiscall FUN_00547750_shell::FUN_00547750(int a)
+void FUN_00547750_shell::FUN_00547750(int a)
 {
     reinterpret_cast<::fnv_0041c290::FUN_0041c290_shell *>((((FUN_0041c290_shell*)((::BSSimpleList< ::TESImageSpaceModifier *> *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList())))))->SetImageSpaceExtra((::fnv_0041c290::TESImageSpace *)(a));
 }
 
 struct FNStub
 {
-    const char* __thiscall GetFullName(void);
+    const char* GetFullName(void);
 };
 
 struct FUN_00548210_Class
 {
     char pad[0xd4];
     FNStub m_stub;
-    const char* __thiscall FUN_00548210();
+    const char* FUN_00548210();
 };
 
 // @fnv 0x00548210
-const char* __thiscall FUN_00548210_Class::FUN_00548210()
+const char* FUN_00548210_Class::FUN_00548210()
 {
     return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(m_stub))->FUN_00408da0()));
 }
@@ -4140,10 +4121,10 @@ void FUN_0054b800_class::FUN_0054b800()
 
 struct FUN_0054da00_class
 {
-    void __thiscall FUN_0054da00();
+    void FUN_0054da00();
 };
 // @fnv 0x0054da00
-void __thiscall FUN_0054da00_class::FUN_0054da00()
+void FUN_0054da00_class::FUN_0054da00()
 {
     reinterpret_cast<::FUN_00559810 *>(this)->FUN_00559810::~FUN_00559810();
 }
@@ -4176,8 +4157,8 @@ extern int DAT_0102f2f8;
 struct FUN_00558d40_class
 {
     void* m_p;
-    void __thiscall FUN_00558eb0(int a);
-    FUN_00558d40_class* __thiscall FUN_00558d40(int a);
+    void FUN_00558eb0(int a);
+    FUN_00558d40_class* FUN_00558d40(int a);
 };
 
 extern int DAT_0102f318;
@@ -4199,11 +4180,11 @@ struct FUN_00558dd0_class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    int __thiscall FUN_00558dd0(unsigned int index);
+    int FUN_00558dd0(unsigned int index);
 };
 
 // @fnv 0x00558dd0
-int __thiscall FUN_00558dd0_class::FUN_00558dd0(unsigned int index)
+int FUN_00558dd0_class::FUN_00558dd0(unsigned int index)
 {
     return *(int*)((char*)this + 4) + index * 16;
 }
@@ -4273,12 +4254,12 @@ extern int DAT_0102f3c0;
 struct FUN_005594b0_class
 {
     void* vtable;
-    FUN_005594b0_class* __thiscall Construct(int a, int b);
+    FUN_005594b0_class* Construct(int a, int b);
 };
 
 // Calls FUN_00559ad0 with the two arguments, sets the vtable to DAT_0102f3c0, and returns this.
 // @fnv 0x005594b0
-FUN_005594b0_class* __thiscall FUN_005594b0_class::Construct(int aiArg1, int aiArg2)
+FUN_005594b0_class* FUN_005594b0_class::Construct(int aiArg1, int aiArg2)
 {
     new ((void *)this) ::fnv_00559ad0::FUN_00559ad0_Class(aiArg1, aiArg2);
     vtable = &DAT_0102f3c0;
@@ -4610,7 +4591,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00550c60_shell : public TESObjectCELL
 {
     void RecalcLeveledActorBases(bool);
@@ -5295,7 +5275,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct LoadedCellData
 {
     void* __vecDelDtor(unsigned int);
@@ -5309,7 +5288,6 @@ struct LoadedCellData
     char m_abyData54[8];
     char m_abyData5C[8];
 };
-typedef char _sizecheck_LOADED_CELL_DATA[sizeof(LoadedCellData) == 100 ? 1 : -1];
 struct FUN_00547250_shell : public TESObjectCELL
 {
     bool CheckWaterHeight(void*, float*);
@@ -6236,7 +6214,7 @@ struct FUN_00558eb0
 };
 // Calls FUN_00558eb0 with a, sets m_p to DAT_0102f2f8, and returns this.
 // @fnv 0x00558d40
-FUN_00558d40_class* __thiscall FUN_00558d40_class::FUN_00558d40(int a)
+FUN_00558d40_class* FUN_00558d40_class::FUN_00558d40(int a)
 {
     new ((void *)this) ::FUN_00558eb0(a);
     m_p = &DAT_0102f2f8;
@@ -6264,7 +6242,7 @@ struct FUN_005590b0_s
     void* InitArray(unsigned int aCount);
 };
 // @fnv 0x00558da0
-FUN_00558da0_S* __thiscall FUN_00558da0_S::FUN_00558da0(int param_2)
+FUN_00558da0_S* FUN_00558da0_S::FUN_00558da0(int param_2)
 {
     reinterpret_cast<::FUN_005590b0_s *>(this)->InitArray(param_2);
     m_iWordAt00 = &DAT_0102f338;
@@ -6300,7 +6278,7 @@ void FUN_00544340_Class::FUN_00544340(bool set)
         *(unsigned char*)((char*)this + 0x24) |= 0x20;
     else
         *(unsigned char*)((char*)this + 0x24) &= ~0x20;
-    (*(void(__thiscall**)(void*, int))(*(int*)this + 0x48))(this, 2);
+    (*(void(**)(void*, int))(*(int*)this + 0x48))(this, 2);
 }
 
 struct FUN_00544440_Class
@@ -6316,7 +6294,7 @@ void FUN_00544440_Class::FUN_00544440(bool set)
         *(unsigned char*)((char*)this + 0x25) |= 1;
     else
         *(unsigned char*)((char*)this + 0x25) &= ~1;
-    (*(void(__thiscall**)(void*, int))(*(unsigned int*)this + 0x48))(this, 2);
+    (*(void(**)(void*, int))(*(unsigned int*)this + 0x48))(this, 2);
 }
 
 
@@ -7002,8 +6980,8 @@ struct FUN_00546b10_virtuals
     {}
     virtual void f17()
     {}
-    virtual void __thiscall f18(unsigned int value);
-    virtual void __thiscall f19(unsigned int value);
+    virtual void f18(unsigned int value);
+    virtual void f19(unsigned int value);
 };
 
 struct FUN_00546b10_class : public TESObjectCELL
@@ -8042,11 +8020,11 @@ struct CellX
     bool ProcessCell(ParamCls* param);
 };
 
-bool __fastcall FUN_00425fd0(void* pThis);
-void* __fastcall FUN_0054ddd0(void* pThis);
+bool FUN_00425fd0(void* pThis);
+void* FUN_0054ddd0(void* pThis);
 
 // @fnv 0x005444c0
-bool __fastcall FUN_005444c0(TESObjectCELL* pThis)
+bool FUN_005444c0(TESObjectCELL* pThis)
 {
     unsigned int flags;
     void* holder;
@@ -8754,7 +8732,7 @@ struct FUN_0054ab60 : FUN_00440640
 };
 // Calls FUN_0054ab60, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0054ab30
-void* __thiscall CheckWithinMultiBoundTask::FUN_0054ab30(unsigned int flags)
+void* CheckWithinMultiBoundTask::FUN_0054ab30(unsigned int flags)
 {
     reinterpret_cast<::FUN_0054ab60 *>(this)->FUN_0054ab60::~FUN_0054ab60();
     if (flags & 1)
@@ -9692,7 +9670,7 @@ struct FUN_00557c40_cls
     void FUN_00557c40();
 };
 
-int __fastcall Obj_Query(void* obj);
+int Obj_Query(void* obj);
 
 // Resets the object's fields, then walks its node list and processes each item whose object query returns 6, finally calling ResetB.
 // @fnv 0x00557c40
@@ -11397,7 +11375,7 @@ struct DeviceTexture
     virtual void v40();
     virtual void v44();
     virtual void v48();
-    virtual int __stdcall LockRect(int, LockedRect*, void*, int);
+    virtual int LockRect(int, LockedRect*, void*, int);
 };
 struct RenderData
 {
@@ -11495,7 +11473,7 @@ class C5479C0Renderer
     virtual void VFunc40();
     virtual void VFunc44();
     virtual void VFunc48();
-    virtual void __stdcall Attach(int iArg1, C5479C0Grid* pkGrid, int iArg2, int iArg3);
+    virtual void Attach(int iArg1, C5479C0Grid* pkGrid, int iArg2, int iArg3);
 };
 
 class C5479C0Object3D
@@ -11897,7 +11875,7 @@ struct BSOcclusionPlane
 struct FUN_00422120_shell
 {
 };
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR* p1);
+ExtraDataList* FUN_005d43c0(TESObjectREFR* p1);
 
 struct FUN_005497c0_shell : public TESObjectCELL
 {
@@ -12522,17 +12500,17 @@ void FUN_005496b0_shell::FUN_005496b0(TESObjectREFR* apRef, NiNode* apParent)
     pnewchild = ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RefA*)apRef)))->FUN_0043fcd0()));
     if (apParent)
     {
-        ((void(__thiscall*)(NiNode*, NiAVObject*, int))(*(void***)apParent)[0xdc / 4])(apParent, pnewchild, 1);
+        ((void(*)(NiNode*, NiAVObject*, int))(*(void***)apParent)[0xdc / 4])(apParent, pnewchild, 1);
     }
     else if (((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pnewchild))->FUN_009611e0())))
     {
         ((NiNodeV*)((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((pnewchild))->FUN_009611e0())))->InsertChild(pnewchild);
     }
     if (!apParent || ((NiAVObject*)apParent != GetDynamicNode() &&
-                      !((int(__thiscall*)(NiNode*))(*(void***)apParent)[0x14 / 4])(apParent)))
+                      !((int(*)(NiNode*))(*(void***)apParent)[0x14 / 4])(apParent)))
         reinterpret_cast<::Cell *>((((DetailedActorPathHandler*)this)))->UpdateRefPlacement((::Ref *)(apRef), true, false);
     reinterpret_cast<::S00b5d9f0_Owner *>((NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))->FUN_00b5d9f0(
-        (::S00b5d9f0_Obj *)(::NiAVObject *)(((NiAVObject * (__thiscall*)(TESObjectREFR*))(*(void***)apRef)[0x1d0 / 4])(apRef)), false);
+        (::S00b5d9f0_Obj *)(::NiAVObject *)(((NiAVObject * (*)(TESObjectREFR*))(*(void***)apRef)[0x1d0 / 4])(apRef)), false);
     ::FUN_00541ae0((char *)this);
 }
 
@@ -13830,8 +13808,8 @@ struct RefWrapper
 };
 struct RefEntry
 {
-    bool __thiscall FUN_008256d0();
-    RefWrapper* __thiscall FUN_006815c0();
+    bool FUN_008256d0();
+    RefWrapper* FUN_006815c0();
 };
 struct CellRefScan
 {
@@ -15030,7 +15008,7 @@ struct FUN_00553700_shell : public TESObjectCELL
     void UpdateCell();
 };
 
-bool __fastcall FUN_00425fd0(FUN_00553700_shell* pkCell);
+bool FUN_00425fd0(FUN_00553700_shell* pkCell);
 
 namespace fnv_005546a0 {
 struct TargetObj
@@ -15614,7 +15592,7 @@ struct FUN_0099e040_Obj
 };
 
 extern void* DAT_011dea3c;
-void __fastcall FUN_00476ab0(BSFadeNode* p);
+void FUN_00476ab0(BSFadeNode* p);
 
 struct FUN_00557ae0_shell : public TESObjectCELL
 {
@@ -18713,7 +18691,7 @@ struct MaskSurface
     virtual void v10();
     virtual void v11();
     virtual void v12();
-    virtual long __stdcall LockRect(unsigned int auiLevel, MaskPixels* apLocked, void* apRect, unsigned int auiFlags);
+    virtual long LockRect(unsigned int auiLevel, MaskPixels* apLocked, void* apRect, unsigned int auiFlags);
 };
 
 struct MaskRenderData
@@ -19526,7 +19504,7 @@ struct SettingS
 {
 };
 extern PlayerS* DAT_011dea3c;
-bool __fastcall FUN_00425fd0(CellS* cell);
+bool FUN_00425fd0(CellS* cell);
 extern "C" void* memset(void* dst, int val, unsigned int count);
 
 // Snaps a copy of the player's position to the grid and, when it matches the prior value, updates lighting in the current cell and selected neighboring cells.
@@ -21802,7 +21780,7 @@ bool CellOwnerCheck::FUN_00546ca0(Actor* apActor)
     TESForm* powner = ((DoorCell*)this)->GetOwner();
     if (powner)
     {
-        typedef bool(__thiscall * Fn218)(Actor*);
+        typedef bool(* Fn218)(Actor*);
         if (!((Fn218*)(*(void**)apActor))[0x218 / 4](apActor))
         {
             return bHasResultObj;
@@ -21959,7 +21937,7 @@ class NavMeshObstacleManager : public Call_006c0c80
 };
 
 class TESBoundObject;
-unsigned int __fastcall _FNV_GetFormType(TESForm* form);
+unsigned int _FNV_GetFormType(TESForm* form);
 
 struct CellObstacleVirtualBase
 {

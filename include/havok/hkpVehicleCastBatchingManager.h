@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPVEHICLECASTBATCHINGMANAGER_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpVehicleCastBatchingManager
 {
   public:
@@ -12,6 +11,4 @@ class hkpVehicleCastBatchingManager
     hkUint16 m_uiTotalWheelCount;  // +0x14
     char pad16[0x2];
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleCastBatchingManager[(sizeof(hkpVehicleCastBatchingManager) == 0x18) ? 1 : -1];
 #endif

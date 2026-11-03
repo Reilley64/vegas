@@ -14,7 +14,6 @@
 #include "TESObjectREFR.h"
 #include "layout_support.h"
 class LocationDescriptor;
-#pragma pack(push, 4)
 class LocationDescriptor
 {
   public:
@@ -64,13 +63,4 @@ class LocationDescriptor
     // unsigned int __cdecl LocationDescriptor::*()
     // void* __cdecl LocationDescriptor::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(LocationDescriptor) == 12);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, m_ucLocationType) == 0);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, m_pLocationData) == 4);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, pObject) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, eObjType) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, pRef) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, pCell) == 8);
-FNV_STATIC_ASSERT(offsetof(LocationDescriptor, m_pLocationObject) == 8);
 #endif

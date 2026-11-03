@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/AxleGroundBuild__Vehicle.h"
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -25,7 +26,6 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpVehicleInstance.h"
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 void* FUN_00c85750() throw();
@@ -1031,7 +1031,6 @@ class FUN_00e38b20
     FUN_00e38b20(const hkShapeE392* pkShape) throw();
 };
 
-typedef char fnv_check_e39210[(sizeof(FUN_00e38b20) == 0xd4) ? 1 : -1];
 
 class hkSourceE392
 {
@@ -1929,7 +1928,7 @@ struct FnvVehicleState
 
 // Sets active to 1, scalar08 to 0.0f, and zeroes all vectors in the FnvVehicleState.
 // @fnv 0x00e37160
-void __stdcall FUN_00e37160(int, FnvVehicleState* state)
+void FUN_00e37160(int, FnvVehicleState* state)
 {
     state->scalar08 = 0.0f;
     state->active = 1;

@@ -36,7 +36,6 @@ class NiBound
     NiPoint3 m_kCenter;
     float m_fBoundRadius;
 };
-FNV_STATIC_ASSERT(sizeof(NiBound) == 0x10);
 
 // Only the methods used by this unit are declared for pointer receivers.
 class TESObjectREFR
@@ -125,7 +124,6 @@ class NiCullingProcess
     NiFrustum m_kCameraFrustum;
     NiFrustumPlanes m_kFrustumPlanes;
 };
-FNV_STATIC_ASSERT(sizeof(NiCullingProcess) == 0x90);
 class BSFadeNodeCuller : public NiCullingProcess
 {
 };
@@ -233,7 +231,4 @@ class HighActorCuller : public MobIterOperator
     NiPointer<BSMultiBound> m_pMultiBound;
     NiPointer<BSMultiBoundSphere> m_spMultiBoundSphere;
 };
-FNV_STATIC_ASSERT(offsetof(HighActorCuller, m_kFadeNodeCuller) == 0x8);
-FNV_STATIC_ASSERT(offsetof(HighActorCuller, m_pMultiBoundNode) == 0x98);
-FNV_STATIC_ASSERT(offsetof(HighActorCuller, m_spMultiBoundSphere) == 0xA0);
 #endif

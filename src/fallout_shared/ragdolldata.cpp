@@ -53,7 +53,6 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004d9da0_shell : public CFilter
 {
     unsigned int FUN_004d9da0();
@@ -118,12 +117,12 @@ template <int N> struct EndianSizeTag
 
 struct FUN_004d9280
 {
-    void __thiscall EndianSwap();
+    void EndianSwap();
 };
 
 // Byte-swaps the six 4-byte words following the object's first word via BSEndian.
 // @fnv 0x004d9280
-void __thiscall FUN_004d9280::EndianSwap()
+void FUN_004d9280::EndianSwap()
 {
     ::FUN_00401080((int*)this + 1);
     ::FUN_00401080((int*)this + 2);

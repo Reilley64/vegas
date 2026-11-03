@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d01000.h"
 #include "fnv/symbols_00d1a000.h"
@@ -636,7 +637,6 @@ struct S883_TaskHeader
     void* m_pIntegerArrayAt40;
 };
 extern "C" void _mm_prefetch(char const*, int);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 // hkMemoryAllocator

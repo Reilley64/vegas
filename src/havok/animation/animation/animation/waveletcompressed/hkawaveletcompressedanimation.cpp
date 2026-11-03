@@ -1,6 +1,7 @@
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/symbols_00e4e000.h"
 #include "fnv/symbols_00e4f000.h"
 #include "fnv/symbols_00e63000.h"
@@ -20,7 +21,7 @@ int __cdecl FUN_00e51da0(int aiValue, const char* apBytes)
 }
 
 // @fnv 0x00e2f9f0
-unsigned int __fastcall FUN_00e2f9f0(hkaWaveletCompressedAnimation* self, int, unsigned int a)
+unsigned int FUN_00e2f9f0(hkaWaveletCompressedAnimation* self, int, unsigned int a)
 {
     return a / *(unsigned int*)((char*)self + 0x2c) + *(int*)((char*)self + 0x64);
 }
@@ -41,7 +42,7 @@ int FUN_00e2f8c0_Class::FUN_00e2f8c0(unsigned int value, int unused)
 
 // If count is greater than zero, writes count zero ints into dest.
 // @fnv 0x00e2f950
-void __stdcall FUN_00e2f950(int aiUnused1, int aiUnused2, unsigned int count, void* dest)
+void FUN_00e2f950(int aiUnused1, int aiUnused2, unsigned int count, void* dest)
 {
     if (count > 0)
     {
@@ -470,7 +471,7 @@ void caller() { g_out = FUN_00e2f9d0(g_in); }
 // Companion quad-writer variant (scalar-load broadcast form) that shares the
 // module with FUN_00e2fbc0; TU order matters for VC9's codegen state.
 struct DestWrapPre { float* p; DestWrapPre(float* q) : p(q) {} };
-void __stdcall sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
+void sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
 {
     if (count > 0)
     {
@@ -492,7 +493,7 @@ void __stdcall sse_preload_quad(int, int, unsigned int count, DestWrapPre dest)
 struct DestWrap { float* p; DestWrap(float* q) : p(q) {} };
 // Writes a repeating pattern of zero, DAT_010c71b0, and one into the float array at dest.p for count iterations.
 // @fnv 0x00e2fbc0
-void __stdcall FUN_00e2fbc0(int, int, unsigned int count, DestWrap dest)
+void FUN_00e2fbc0(int, int, unsigned int count, DestWrap dest)
 {
     if (count > 0)
     {
@@ -543,7 +544,7 @@ inline unsigned int SwapIntE2(unsigned int u) {
 }
 // When frames-per-block is 4 and the first compressed-data byte is nonzero, swaps byte order in masks, static floats, offsets, scales, and indices.
 // @fnv 0x00e2fc10
-void __fastcall FUN_00e2fc10(hkaWaveletCompressedAnimation* self) {
+void FUN_00e2fc10(hkaWaveletCompressedAnimation* self) {
     if (self->m_uiFramesPerBlock == 4) {
         unsigned char* data = self->m_kCompressedData.m_data;
         bool flag = (*data != 0);
@@ -578,7 +579,7 @@ void __fastcall FUN_00e2fc10(hkaWaveletCompressedAnimation* self) {
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern void* DAT_00fdf044;
-typedef void* (__stdcall* S00e306d0_TlsFn)(unsigned long);
+typedef void* (* S00e306d0_TlsFn)(unsigned long);
 extern unsigned long DAT_0126835c;
 extern const char str_010eb358[];
 
@@ -986,7 +987,6 @@ void AnimRetry::FUN_00e2fa60(int block, ChunkRetry& chunk) const {
     chunk.finish();
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
 extern "C" unsigned __int64 __rdtsc();
 

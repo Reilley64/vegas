@@ -2039,7 +2039,7 @@ struct FUN_00dce7e0_local
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_00dce840(void*, void*);
+    void FUN_00dce840(void*, void*);
 };
 // Reads a value from *p, initializes a local via FUN_00dce840, calls FUN_00dcea10, then invokes two methods on the local using a value from FUN_00c85750.
 // @fnv 0x00dce7e0
@@ -7112,11 +7112,11 @@ struct LocalStateDce
 
 extern "C" int DispatchItemToAgent(int a, void* p4, WorkObj* wb, int cc, void* p5);
 extern "C" int DispatchInstruction(NodeDce* p1, int sb, void* inner, void* p4, void* p5);
-extern "C" void __fastcall AccumulateStats(void* cc, void* elem, void* a, int* b);
-typedef int(__thiscall* FnThiscallInt)(void* self, int a);
-typedef int(__thiscall* FnThiscallInt2)(void* self, int a, int b);
-typedef int(__thiscall* FnThiscallFree)(void* self, void* ptr, int size);
-typedef void(__thiscall* FnThiscallVoidPtr)(void* self, void* a);
+extern "C" void AccumulateStats(void* cc, void* elem, void* a, int* b);
+typedef int(* FnThiscallInt)(void* self, int a);
+typedef int(* FnThiscallInt2)(void* self, int a, int b);
+typedef int(* FnThiscallFree)(void* self, void* ptr, int size);
+typedef void(* FnThiscallVoidPtr)(void* self, void* a);
 __forceinline void BytesDce::reserve(AllocDce& alloc, int count)
 {
     int cap = capacity & 0x3fffffff;
@@ -7460,7 +7460,7 @@ DCEEntryInit::DCEEntryInit()
 
 // Placement-constructs a DCEEntryInit object on the provided storage buffer and returns a pointer to it.
 // @fnv 0x00dce930
-extern "C" DCEEntryInit* __fastcall FUN_00dce930(void* storage, void*)
+extern "C" DCEEntryInit* FUN_00dce930(void* storage, void*)
 {
     __assume(storage != 0);
     return new (storage) DCEEntryInit;

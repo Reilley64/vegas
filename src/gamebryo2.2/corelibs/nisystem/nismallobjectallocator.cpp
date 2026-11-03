@@ -2,11 +2,10 @@
 // src/gamebryo2.2/corelibs/nisystem/nismallobjectallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nismallobjectallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/FUN_00aa34b0_cls.h"
 #include "fnv/decl/NiFixedAllocatorStub.h"
 #include "fnv/decl/S_00aa36f0_Foo.h"
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 struct SubAlloc
 {
     char _0[0x18];
@@ -29,7 +28,7 @@ void PointerCountProcessor::FUN_00aa3830(void* p, unsigned int stNumBytes)
     LeaveCriticalSection(pCriticalSection);
 }
 
-extern void(__stdcall* g_pfnEntryInit)(void*);
+extern void(* g_pfnEntryInit)(void*);
 
 struct FUN_00aa3760_entry
 {
@@ -114,7 +113,7 @@ struct FUN_00aa3760_cls
 FUN_00aa3760_cls* FUN_00aa3760_cls::InitEntries(unsigned int auiValue)
 {
     FUN_00aa3760_cls* self = this;
-    void(__stdcall * pfnInit)(void*) = g_pfnEntryInit;
+    void(* pfnInit)(void*) = g_pfnEntryInit;
     int iRemaining = 0xff;
     FUN_00aa3760_entry* pEntry = m_entries;
     do

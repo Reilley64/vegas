@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00c90000.h"
@@ -114,12 +115,12 @@ struct Owner {
 };
 extern "C" void __cdecl FUN_00d31d30(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // @fnv 0x00d32030
-extern "C" void __stdcall FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
+extern "C" void FUN_00d32030(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 // @fnv 0x00d32150
-extern "C" void __stdcall FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
+extern "C" void FUN_00d32150(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     ::FUN_00d317d0((int)(arg0), (int)(arg1), (int)(arg2), arg3);
 }
@@ -132,7 +133,6 @@ struct FUN_00d32370_cls {
 
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern char DAT_010cea14[];
 
 union CastVector {
@@ -311,7 +311,6 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
 namespace fnv_00d324e0 {
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern char DAT_010ceae0[];
 struct TimerEvent { const char* tag; unsigned int time; unsigned int unused; };
 struct TimerStream { int unk00; TimerEvent* next; int unk08; TimerEvent* end; };

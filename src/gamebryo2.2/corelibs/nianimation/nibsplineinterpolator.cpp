@@ -515,7 +515,7 @@ struct Basis
 };
 
 // @fnv 0x00a57e00
-int __thiscall SplineShell::FUN_00a57e00(int param)
+int SplineShell::FUN_00a57e00(int param)
 {
     int r0 = this->v52();
     if ((unsigned short)param < (unsigned short)r0)

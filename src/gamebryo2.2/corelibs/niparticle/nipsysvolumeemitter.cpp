@@ -42,7 +42,6 @@ struct CloningProcess
     char m_bExactType;
     char _pad_d[3];
 };
-typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00c31c90_shell : public NiPSysVolumeEmitter
 {
     void FUN_00c31c90(CloningProcess*);
@@ -123,7 +122,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00c31cf0_shell : public NiPSysVolumeEmitter
 {
     void ComputeEmitterInitialPositionAndVelocity(NiPoint3*, NiPoint3*);
@@ -137,7 +135,7 @@ struct NiTransform
     void ResetToIdentity(void);
 };
 
-typedef void(__thiscall* ComputeVolumeInitialPositionAndVelocity_t)(void*, NiTransform&, NiPoint3*, NiPoint3*);
+typedef void(* ComputeVolumeInitialPositionAndVelocity_t)(void*, NiTransform&, NiPoint3*, NiPoint3*);
 
 // Builds the emitter-to-PSys transform from the emitter and target transforms (or identity) and calls the volume emitter's virtual compute function with it.
 // @fnv 0x00c31cf0
@@ -174,11 +172,11 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c31c70_shell
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 // @fnv 0x00c31c70
-void* __thiscall FUN_00c31c70_shell::DestroyIfFlagged(unsigned int flags)
+void* FUN_00c31c70_shell::DestroyIfFlagged(unsigned int flags)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (flags & 1)

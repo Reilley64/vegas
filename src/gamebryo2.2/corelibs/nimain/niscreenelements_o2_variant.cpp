@@ -24,11 +24,11 @@ void* __cdecl FUN_00a87800()
 struct NiScreenElements
 {
     void* m_pVftable;
-    NiScreenElements* __thiscall FUN_00a87830(unsigned int flags);
+    NiScreenElements* FUN_00a87830(unsigned int flags);
 };
 
 // @fnv 0x00a87830
-NiScreenElements* __thiscall NiScreenElements::FUN_00a87830(unsigned int flags)
+NiScreenElements* NiScreenElements::FUN_00a87830(unsigned int flags)
 {
     m_pVftable = (void*)0x0109e984;
     reinterpret_cast<::FUN_00a89760_cls *>(this)->FUN_00a89760_cls::~FUN_00a89760_cls();

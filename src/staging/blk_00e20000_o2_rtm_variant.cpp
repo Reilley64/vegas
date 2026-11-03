@@ -46,11 +46,11 @@ struct FUN_00e39e60_class
 };
 struct FUN_00e3f340_Class
 {
-    void* __thiscall GetEntryByArg(int arg);
+    void* GetEntryByArg(int arg);
 };
 struct FUN_00e3f900_class
 {
-    int __thiscall FUN_00e3f900(int a);
+    int FUN_00e3f900(int a);
 };
 struct S_00df8990_Obj;
 void __cdecl FUN_00e2ba90();
@@ -61,7 +61,7 @@ struct FUN_00e34800
     int a;
     int b;
     int c;
-    void __thiscall m(int);
+    void m(int);
     FUN_00e34800(int x);
 };
 struct CB2FC0Object
@@ -69,11 +69,11 @@ struct CB2FC0Object
 };
 struct FUN_00e3b4d0_Class
 {
-    void __thiscall ApplyToBothObjects(void* a, void* b);
+    void ApplyToBothObjects(void* a, void* b);
 };
 struct FUN_00e3ec30_Class
 {
-    int __thiscall FUN_00e3ec30(int arg);
+    int FUN_00e3ec30(int arg);
 };
 struct D481D0RefVariant
 {
@@ -1357,7 +1357,7 @@ struct FUN_00e3b060_Class
     int unk04;
     int unk08;
     LinkOwner links;
-    FUN_00e3b060_Class* __thiscall ReleaseLinks(ReleaseFlags flags);
+    FUN_00e3b060_Class* ReleaseLinks(ReleaseFlags flags);
 };
 struct S_00e3c5b0_Obj
 {
@@ -1452,7 +1452,7 @@ struct FUN_00e3ec00_Class
     FUN_00e3ec00_Class** unk28;
     int unk2c;
 
-    int __thiscall GetTotal();
+    int GetTotal();
 };
 struct S_00e3ed00_Foo;
 struct S_00e3ed00_Result
@@ -1484,8 +1484,8 @@ struct S_00e3ed00_Foo
     S_00e3ed00_Foo** children;
     int childCount;
 
-    S_00e3ed00_Result* __thiscall FUN_00c85750();
-    int __thiscall AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
+    S_00e3ed00_Result* FUN_00c85750();
+    int AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
 };
 void __cdecl ResizeAudioStream(int param1, S_00e3ed00_List* param2, int param3);
 struct hkMemoryAllocator
@@ -1702,7 +1702,7 @@ struct FUN_00e39e80_class
 };
 struct FUN_00e3df50_Class
 {
-    FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
+    FUN_00e3df50_Class* FUN_00e3df50(int param);
 };
 struct FNVTreeNode
 {
@@ -1719,7 +1719,7 @@ struct FNVTreeNode
     FNVTreeNode** children;
     int childCount;
 
-    FNVTreeNode* __thiscall FindChildByName(const char* name);
+    FNVTreeNode* FindChildByName(const char* name);
 };
 class Base
 {
@@ -1756,7 +1756,7 @@ struct E3F290Class
     int unk00;
     int unk04;
     E3F290Entry* unk08;
-    int __thiscall GetEntryValue(int index);
+    int GetEntryValue(int index);
 };
 struct FUN_00e3f370_handle
 {
@@ -1951,7 +1951,7 @@ struct FUN_00e39e50_cls
 {
     __m128 m_v0;
     __m128 m_v1;
-    FUN_00e39e50_cls* __thiscall FUN_00e39e50();
+    FUN_00e39e50_cls* FUN_00e39e50();
 };
 extern float DAT_010d0c80;
 struct S3b010Links
@@ -2134,7 +2134,7 @@ template <class T> struct hkRefPtr_e3e8
         return m_pRetainedObject;
     }
 };
-Resource_e3e8* __stdcall FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
+Resource_e3e8* FUN_00e3e8e0(const char* name, Resource_e3e8* expected);
 struct S_00e3f280_Entry
 {
     int unk00;
@@ -2146,8 +2146,8 @@ struct S_00e3f280_Class
     int unk04;
     S_00e3f280_Entry* unk08;
 
-    int __thiscall FUN_00e3f280(int index);
-    int __thiscall GetEntryValue(int index);
+    int FUN_00e3f280(int index);
+    int GetEntryValue(int index);
 };
 int S_00e3f280_Class::GetEntryValue(int index)
 {

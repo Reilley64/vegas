@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKPCOMPRESSEDMESHSHAPECONVEXPIECE_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkpCompressedMeshShapeConvexPiece
 {
   public:
@@ -16,7 +15,4 @@ class hkpCompressedMeshShapeConvexPiece
     hkUint16 m_iSectionVertexCount;    // +0x36
     char pad38[0x8];
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpCompressedMeshShapeConvexPiece[(sizeof(hkpCompressedMeshShapeConvexPiece) == 0x40) ? 1 : -1];
 #endif

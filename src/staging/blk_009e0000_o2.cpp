@@ -2,6 +2,9 @@
 // src/staging/blk_009e0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
+#include <objbase.h>
+#include <d3d9.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -19,13 +22,13 @@
 #include "../../include/layout_support.h"
 
 // @fnv 0x009faba0
-int __stdcall FUN_009faba0(int, int, int)
+int FUN_009faba0(int, int, int)
 {
     return 0x80004001;
 }
 
 // @fnv 0x009f9d90
-int __stdcall GetValueFromOffset8(int a, int aiUnused, int* piOut)
+int GetValueFromOffset8(int a, int aiUnused, int* piOut)
 {
     if (!piOut)
         return 0x80004003;
@@ -63,10 +66,10 @@ SpectatorPackage* SpectatorPackage::FUN_009f9d10(const SpectatorPackage& aPackag
 
 struct FUN_009f9d10_cls
 {
-    int __thiscall CallAndReturnThis(int a);
+    int CallAndReturnThis(int a);
 };
 // @fnv 0x009f9d30
-int __thiscall FUN_009f9d10_cls::CallAndReturnThis(int a)
+int FUN_009f9d10_cls::CallAndReturnThis(int a)
 {
     reinterpret_cast<::SpectatorPackage *>(this)->FUN_009f9d10((*(const ::SpectatorPackage *)(a)));
     return (int)this;
@@ -85,14 +88,14 @@ namespace fnv_009fa180 {
 extern "C" void* __cdecl DAT_00fdf1c0;
 
 // @fnv 0x009fa180
-void __stdcall FUN_009fa180(int a)
+void FUN_009fa180(int a)
 {
-    ((void(__stdcall*)(int))DAT_00fdf1c0)(a + 0x10);
+    ((void(*)(int))DAT_00fdf1c0)(a + 0x10);
 }
 }  // namespace fnv_009fa180
 
 // @fnv 0x009fa480
-int __stdcall FUN_009fa480(int aSource, int apOut)
+int FUN_009fa480(int aSource, int apOut)
 {
     if (!apOut)
         return 0x80004003;
@@ -100,8 +103,8 @@ int __stdcall FUN_009fa480(int aSource, int apOut)
     return 0;
 }
 
-extern void(__stdcall* DAT_00fdf05c)(int*);
-extern void(__stdcall* DAT_00fdf100)(int*);
+extern void(* DAT_00fdf05c)(int*);
+extern void(* DAT_00fdf100)(int*);
 
 struct FUN_009fa4e0_class
 {
@@ -118,14 +121,14 @@ int FUN_009fa4e0_class::FUN_009fa4e0(int a, int aiValue)
 }
 
 // @fnv 0x009fa650
-int __stdcall GetFieldAt0C(int a, int* piOut)
+int GetFieldAt0C(int a, int* piOut)
 {
     *piOut = *(int*)(a + 0xc);
     return 0;
 }
 
 // @fnv 0x009fa840
-int __stdcall FUN_009fa840(int* pFlags, int bSet)
+int FUN_009fa840(int* pFlags, int bSet)
 {
     if (bSet)
         pFlags[1] |= 4;
@@ -135,7 +138,7 @@ int __stdcall FUN_009fa840(int* pFlags, int bSet)
 }
 
 // @fnv 0x009fa8b0
-int __stdcall FUN_009fa8b0(void* obj, int value)
+int FUN_009fa8b0(void* obj, int value)
 {
     if (value > *(int*)((char*)obj + 0x14))
         return 0x8004020d;
@@ -163,16 +166,16 @@ struct FUN_009f9f70_class
 };
 struct FUN_009fbb30_class
 {
-    void* __thiscall FUN_009fbb30(int flag);
+    void* FUN_009fbb30(int flag);
 };
 void __cdecl operator delete(void*);
 struct FUN_009fbca0
 {
-    FUN_009fbca0* __thiscall Method(bool);
+    FUN_009fbca0* Method(bool);
 };
 
 // @fnv 0x009fc450
-int __stdcall FUN_009fc450(int a)
+int FUN_009fc450(int a)
 {
     int b = *(int*)((int)a + 8);
     return ((int)(::FUN_009fd0a0((const wchar_t *)(b), {})));
@@ -180,7 +183,7 @@ int __stdcall FUN_009fc450(int a)
 
 struct FUN_009fc460_Class
 {
-    void* __thiscall FUN_009fc460(int);
+    void* FUN_009fc460(int);
 };
 struct FUN_009fd100_node
 {
@@ -209,7 +212,7 @@ void FUN_009fd100_t::DeleteList()
 }
 
 // @fnv 0x009fd180
-int __stdcall PopAndGetValue(int* pListHead)
+int PopAndGetValue(int* pListHead)
 {
     if (!*pListHead)
         return 0;
@@ -219,7 +222,7 @@ int __stdcall PopAndGetValue(int* pListHead)
 }
 
 // @fnv 0x009fd1a0
-int __stdcall GetValueAtOffset8(int a)
+int GetValueAtOffset8(int a)
 {
     if (!a)
         return 0;
@@ -228,22 +231,22 @@ int __stdcall GetValueAtOffset8(int a)
 
 struct FUN_009fe2a0_class
 {
-    int __thiscall FUN_009fe2a0();
+    int FUN_009fe2a0();
 };
 
 // @fnv 0x009fdbd0
-int __stdcall FUN_009fdbd0(int a)
+int FUN_009fdbd0(int a)
 {
     return ((FUN_009fe2a0_class*)(*(int*)(a + 0xa4)))->FUN_009fe2a0();
 }
 
 struct FUN_009fddd0_class
 {
-    void __thiscall FUN_009fd3c0();
-    FUN_009fddd0_class* __thiscall FUN_009fddd0(int);
+    void FUN_009fd3c0();
+    FUN_009fddd0_class* FUN_009fddd0(int);
 };
 // @fnv 0x009fddd0
-FUN_009fddd0_class* __thiscall FUN_009fddd0_class::FUN_009fddd0(int a)
+FUN_009fddd0_class* FUN_009fddd0_class::FUN_009fddd0(int a)
 {
     FUN_009fd3c0();
     if (a & 1)
@@ -251,15 +254,15 @@ FUN_009fddd0_class* __thiscall FUN_009fddd0_class::FUN_009fddd0(int a)
     return this;
 }
 
-void __fastcall FUN_009fdc10(void*);
+void FUN_009fdc10(void*);
 
 struct FUN_009fdeb0_class
 {
-    int __thiscall FUN_009fdeb0(int);
+    int FUN_009fdeb0(int);
 };
 
 // @fnv 0x009f9d60
-int __stdcall FUN_009f9d60(int apSource, int apDest)
+int FUN_009f9d60(int apSource, int apDest)
 {
     if (!apDest)
         return 0x80004003;
@@ -271,27 +274,27 @@ int __stdcall FUN_009f9d60(int apSource, int apDest)
 }
 
 // @fnv 0x009fa060
-long __stdcall FUN_009fa060(long* pObject)
+long FUN_009fa060(long* pObject)
 {
     long r = InterlockedDecrement(pObject + 5);
     if (r == 0 && pObject)
-        ((void(__thiscall*)(long*, int)) * (*(long**)pObject + 7))(pObject, 1);
+        ((void(*)(long*, int)) * (*(long**)pObject + 7))(pObject, 1);
     return r;
 }
 
 // @fnv 0x009fa1a0
-int __stdcall FUN_009fa1a0(int* pObject)
+int FUN_009fa1a0(int* pObject)
 {
     int r = InterlockedDecrement((volatile long*)(pObject + 4));
     if (r == 0 && pObject)
-        ((void(__thiscall*)(void*, int))(*((void***)pObject))[7])(pObject, 1);
+        ((void(*)(void*, int))(*((void***)pObject))[7])(pObject, 1);
     return r;
 }
 
 extern int DAT_01093bcc;
 extern int DAT_01093bdc;
 // @fnv 0x009fa580
-int __stdcall FUN_009fa580(int a, int b, int c)
+int FUN_009fa580(int a, int b, int c)
 {
     if (::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093bdc)) || ::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093bcc)) ||
         ::FUN_009f9980((const void *)(b), (const void *)((int)&DAT_01093f14)))
@@ -301,7 +304,7 @@ int __stdcall FUN_009fa580(int a, int b, int c)
 
 
 // @fnv 0x009fa8d0
-int __stdcall FUN_009fa8d0(int p1, int* p2)
+int FUN_009fa8d0(int p1, int* p2)
 {
     if (!(*(unsigned char*)(p1 + 4) & 8))
     {
@@ -313,7 +316,7 @@ int __stdcall FUN_009fa8d0(int p1, int* p2)
 }
 
 // @fnv 0x009faca0
-int __stdcall FUN_009faca0(int pSource, int* pOutput)
+int FUN_009faca0(int pSource, int* pOutput)
 {
     if (!pOutput)
         return 0x80004003;
@@ -336,12 +339,12 @@ struct FUN_009fce60_class
 };
 struct FUN_009fcee0_class
 {
-    int* __thiscall FUN_009fcee0(int a, int b);
+    int* FUN_009fcee0(int a, int b);
 };
 namespace fnv_009fcf10 {
 
 // @fnv 0x009fcf10
-int __stdcall FUN_009fcf10(int aObject, int b, int* apOutInterface)
+int FUN_009fcf10(int aObject, int b, int* apOutInterface)
 {
     if (!apOutInterface)
         return 0x80004003;
@@ -355,25 +358,25 @@ int __stdcall FUN_009fcf10(int aObject, int b, int* apOutInterface)
 }
 }  // namespace fnv_009fcf10
 
-extern void(__stdcall* DAT_00fdf07c)(void*);
+extern void(* DAT_00fdf07c)(void*);
 // @fnv 0x009fcfe0
-void __fastcall FUN_009fcfe0(void** p)
+void FUN_009fcfe0(void** p)
 {
     if (*p)
         DAT_00fdf07c(*p);
 }
 
 // @fnv 0x009fd480
-void __fastcall FUN_009fd480(void* self)
+void FUN_009fd480(void* self)
 {
     *(int*)((char*)self + 0xa0) = 0;
     ::FUN_00e7cd40();
 }
 
 extern int DAT_01093b4c;
-int __stdcall FUN_009fa260(int a, int b, int c);
+int FUN_009fa260(int a, int b, int c);
 // @fnv 0x009fd490
-int __stdcall FUN_009fd490(int pThis, int b, int c)
+int FUN_009fd490(int pThis, int b, int c)
 {
     if (!c)
         return 0x80004003;
@@ -387,10 +390,10 @@ int __stdcall FUN_009fd490(int pThis, int b, int c)
 
 struct FUN_009fd530_class
 {
-    int __thiscall FUN_009fd530(int b);
+    int FUN_009fd530(int b);
 };
 // @fnv 0x009fd530
-int __thiscall FUN_009fd530_class::FUN_009fd530(int b)
+int FUN_009fd530_class::FUN_009fd530(int b)
 {
     int* lock = *(int**)((char*)this + 0x20);
     DAT_00fdf05c(lock);
@@ -409,18 +412,18 @@ int __thiscall FUN_009fd530_class::FUN_009fd530(int b)
 }
 
 namespace fnv_009fe0c0 {
-extern void(__stdcall* DAT_00fdf0d0)(int*);
-extern void(__stdcall* DAT_00fdf1c8)(int, int);
-extern void(__stdcall* DAT_00fdf07c)(int*);
+extern void(* DAT_00fdf0d0)(int*);
+extern void(* DAT_00fdf1c8)(int, int);
+extern void(* DAT_00fdf07c)(int*);
 
 struct FUN_009fe0c0_class
 {
-    int __thiscall FUN_009fe0c0();
+    int FUN_009fe0c0();
 };
 
 // Calls DAT_00fdf0d0 on the pointer at this+0x7c, then if the handle at this+0x80 is set, calls DAT_00fdf1c8 and DAT_00fdf07c on it and clears it; returns 0.
 // @fnv 0x009fe0c0
-int __thiscall FUN_009fe0c0_class::FUN_009fe0c0()
+int FUN_009fe0c0_class::FUN_009fe0c0()
 {
     DAT_00fdf0d0((int*)*(int**)((char*)this + 0x7c));
     int handle = *(int*)((char*)this + 0x80);
@@ -438,7 +441,7 @@ extern int DAT_01093c3c;
 extern int DAT_01093b7c;
 // Checks b against two type descriptors and forwards a (offset by 0xc or 0x10) with c to the matching handler, otherwise calls FUN_009fcf10.
 // @fnv 0x009fa260
-int __stdcall FUN_009fa260(int a, int b, int c)
+int FUN_009fa260(int a, int b, int c)
 {
     if (::FUN_009f9980((const void *)(b), &DAT_01093c3c))
         return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0xc : 0), (int *)(c));
@@ -447,10 +450,10 @@ int __stdcall FUN_009fa260(int a, int b, int c)
     return ::fnv_009fcf10::FUN_009fcf10(a, b, (int *)(c));
 }
 
-typedef int(__stdcall* FUN_009fa5d0_fp)(int);
+typedef int(* FUN_009fa5d0_fp)(int);
 
 // @fnv 0x009fa5d0
-int __stdcall FUN_009fa5d0(int a)
+int FUN_009fa5d0(int a)
 {
     a += 0x44;
     return (*(FUN_009fa5d0_fp*)&DAT_00fdf1c0)(a);
@@ -461,7 +464,7 @@ extern int DAT_01093bfc;
 extern int DAT_01093f24;
 extern int DAT_01093b9c;
 // @fnv 0x009fb480
-int __stdcall FUN_009fb480(int a, int b, int c)
+int FUN_009fb480(int a, int b, int c)
 {
     if (::FUN_009f9980((const void *)(b), &DAT_01093bec))
         return ::GetObjectPointer((::FUN_009fceb0_object *)(a ? a + 0xc : 0), (int *)(c));
@@ -481,7 +484,7 @@ extern int DAT_01093e24;
 extern int DAT_01093ed4;
 struct FUN_009fc890_class
 {
-    void __thiscall FUN_009fc890(int a, int b, int c, int d, const wchar_t* e, int f);
+    void FUN_009fc890(int a, int b, int c, int d, const wchar_t* e, int f);
 };
 struct FUN_009fdd70_class
 {
@@ -531,7 +534,7 @@ struct FUN_009fdd70_class
 };
 struct FUN_009f9a50_class
 {
-    int __thiscall FUN_009f9a50();
+    int FUN_009f9a50();
 };
 // @fnv 0x009f9a50
 int FUN_009f9a50_class::FUN_009f9a50()
@@ -541,10 +544,10 @@ int FUN_009f9a50_class::FUN_009f9a50()
     return 0;
 }
 
-extern void(__stdcall* DAT_00fdf45c)(SpectatorPackage*);
+extern void(* DAT_00fdf45c)(SpectatorPackage*);
 
 // @fnv 0x009f9cb0
-void __stdcall FUN_009f9cb0(SpectatorPackage* apPackage)
+void FUN_009f9cb0(SpectatorPackage* apPackage)
 {
     if (apPackage)
     {
@@ -553,9 +556,9 @@ void __stdcall FUN_009f9cb0(SpectatorPackage* apPackage)
     }
 }
 
-int __fastcall FUN_009fce80(int);
+int FUN_009fce80(int);
 // @fnv 0x009f9f50
-int __fastcall FUN_009f9f50(int p)
+int FUN_009f9f50(int p)
 {
     return FUN_009fce80(p ? p + 4 : 0);
 }
@@ -574,10 +577,10 @@ struct FUN_009fa1d0_s
     int b;
     FUN_009fa1d0_vtbl* vt;
     int c;
-    int __stdcall ResetAndQueryVtbl();
+    int ResetAndQueryVtbl();
 };
 // @fnv 0x009fa1d0
-int __stdcall FUN_009fa1d0_s::ResetAndQueryVtbl()
+int FUN_009fa1d0_s::ResetAndQueryVtbl()
 {
     b = 0;
     c = vt->v4();
@@ -603,10 +606,10 @@ struct FUN_009fa560_class
     int m_34;
     int m_38;
     int m_3c;
-    void __thiscall FUN_009fa560();
+    void FUN_009fa560();
 };
 // @fnv 0x009fc460
-void* __thiscall FUN_009fc460_Class::FUN_009fc460(int flag)
+void* FUN_009fc460_Class::FUN_009fc460(int flag)
 {
     reinterpret_cast<::FUN_009fa560_class *>(this)->FUN_009fa560();
     if (flag & 1)
@@ -621,10 +624,10 @@ void FUN_009fa560_class::FUN_009fa560()
         ::FUN_009f9cb0((::SpectatorPackage *)(m_3c));
 }
 
-extern void*(__stdcall* DAT_00fdf1c4)(int*);
+extern void*(* DAT_00fdf1c4)(int*);
 
 // @fnv 0x009fa5f0
-int __stdcall FUN_009fa5f0(int* pObject)
+int FUN_009fa5f0(int* pObject)
 {
     int* p = (int*)((char*)pObject + 0x44);
     int result;
@@ -643,7 +646,7 @@ int __stdcall FUN_009fa5f0(int* pObject)
     if ((*(unsigned char*)((char*)pObject + 4) & 8) != 0)
     {
         void** vt = (void**)*pObject;
-        ((void(__stdcall*)(int*, int))vt[0x38 / 4])(pObject, 0);
+        ((void(*)(int*, int))vt[0x38 / 4])(pObject, 0);
     }
 
     int* obj = (int*)(*(int*)((char*)pObject + 0x18) + 0xc);
@@ -651,13 +654,13 @@ int __stdcall FUN_009fa5f0(int* pObject)
     *(int*)((char*)pObject + 8) = 0;
     *(int*)((char*)pObject + 0x40) = 0;
     void** vt2 = (void**)*obj;
-    ((void(__stdcall*)(int*, int*))vt2[0x20 / 4])(obj, pObject);
+    ((void(*)(int*, int*))vt2[0x20 / 4])(obj, pObject);
 
     return result;
 }
 
 // @fnv 0x009fa800
-int __stdcall FUN_009fa800(int* pFlags, int bSet)
+int FUN_009fa800(int* pFlags, int bSet)
 {
     if (bSet)
         pFlags[1] |= 1;
@@ -667,7 +670,7 @@ int __stdcall FUN_009fa800(int* pFlags, int bSet)
 }
 
 // @fnv 0x009fa880
-int __stdcall FUN_009fa880(int* pFlags, int bSet)
+int FUN_009fa880(int* pFlags, int bSet)
 {
     if (bSet)
         *(unsigned int*)(pFlags + 1) |= 2;
@@ -676,7 +679,7 @@ int __stdcall FUN_009fa880(int* pFlags, int bSet)
     return 0;
 }
 
-extern void(__stdcall* DAT_00fdf1b4)(int, int, int);
+extern void(* DAT_00fdf1b4)(int, int, int);
 
 struct FUN_009fae70_class
 {
@@ -694,11 +697,11 @@ struct FUN_009fae70_class
     int m_2c;
     int m_30;
     int m_34;
-    void __thiscall FUN_009fae70();
+    void FUN_009fae70();
 };
 // If m_34 is set, calls DAT_00fdf1b4 with m_30 and m_34, then clears m_34.
 // @fnv 0x009fae70
-void __thiscall FUN_009fae70_class::FUN_009fae70()
+void FUN_009fae70_class::FUN_009fae70()
 {
     if (m_34)
     {
@@ -715,12 +718,12 @@ extern int DAT_01093cf8;
 extern int DAT_01093d28;
 struct FUN_009fcc20_class
 {
-    int __thiscall Initialize(int a, int b, int c);
+    int Initialize(int a, int b, int c);
 };
 namespace fnv_009fce80 {
 extern int DAT_011f3294;
-extern int(__stdcall* DAT_00fdf1c4)(int*);
-extern void(__stdcall* DAT_00fdf0a8)(int);
+extern int(* DAT_00fdf1c4)(int*);
+extern void(* DAT_00fdf0a8)(int);
 // @fnv 0x009fce80
 void FUN_009fce80()
 {
@@ -760,11 +763,11 @@ struct FUN_009fd140_class
     int m_uiItemCount;
     int m_flag;
 
-    void __thiscall ClearList();
+    void ClearList();
 };
 
 // @fnv 0x009fd140
-void __thiscall FUN_009fd140_class::ClearList()
+void FUN_009fd140_class::ClearList()
 {
     FUN_009fd100_node* node = m_pFirstNode;
     while (node != 0)
@@ -788,10 +791,10 @@ struct FUN_009fd450_class
 };
 struct FUN_009fe690_class
 {
-    int __thiscall FUN_009fe690();
+    int FUN_009fe690();
 };
 // @fnv 0x009fdbb0
-int __stdcall FUN_009fdbb0(int a)
+int FUN_009fdbb0(int a)
 {
     return ((FUN_009fe690_class*)*(int**)(a + 0xa4))->FUN_009fe690();
 }
@@ -805,7 +808,7 @@ struct FUN_009fdcb0_class
     virtual void v10();
     virtual void v14();
     virtual int v18();
-    int* __thiscall FUN_009fdcb0(int a);
+    int* FUN_009fdcb0(int a);
 };
 // Returns a pointer to the slot at offset 0xf8 when v18() is positive and a is zero, otherwise returns null.
 // @fnv 0x009fdcb0
@@ -816,15 +819,13 @@ int* FUN_009fdcb0_class::FUN_009fdcb0(int a)
     return 0;
 }
 
-extern "C" __declspec(dllimport) unsigned int __stdcall D3DPERF_SetOptions(unsigned int dwOptions);
 
 // @fnv 0x009f9968
-unsigned int __stdcall FUN_009f9968(unsigned int dwOptions)
+unsigned int FUN_009f9968(unsigned int dwOptions)
 {
     return D3DPERF_SetOptions(dwOptions);
 }
 
-extern "C" __declspec(dllimport) void __stdcall CoTaskMemFree(void* pv);
 
 struct FUN_009f9c20_cls
 {
@@ -849,7 +850,7 @@ struct FUN_009f9c20_cls
 };
 
 // @fnv 0x009f9c20
-void __stdcall FUN_009f9c20(FUN_009f9c20_cls* p)
+void FUN_009f9c20(FUN_009f9c20_cls* p)
 {
     if (p->m_40 != 0)
     {
@@ -860,12 +861,12 @@ void __stdcall FUN_009f9c20(FUN_009f9c20_cls* p)
     if (p->m_3c != 0)
     {
         void** vt = *(void***)p->m_3c;
-        ((void(__stdcall*)(void*))vt[2])(p->m_3c);
+        ((void(*)(void*))vt[2])(p->m_3c);
         p->m_3c = 0;
     }
 }
 
-// FUN_009f9c60 - a __thiscall member that hands `this` to the __stdcall
+// FUN_009f9c60 - a member that hands `this` to the
 // free helper FUN_009f9c20 (which pops the argument itself), so the member
 // ends in a bare `ret`.
 //
@@ -887,10 +888,10 @@ void SpectatorPackageImpl::FUN_009f9c60()
 
 struct SeekableStream
 {
-    virtual int __stdcall vfn_00() = 0;
-    virtual int __stdcall vfn_04() = 0;
-    virtual int __stdcall vfn_08() = 0;
-    virtual int __stdcall GetPosition(__int64* position) = 0;
+    virtual int vfn_00() = 0;
+    virtual int vfn_04() = 0;
+    virtual int vfn_08() = 0;
+    virtual int GetPosition(__int64* position) = 0;
 };
 
 struct OffsetStream
@@ -925,12 +926,12 @@ int OffsetStream::FUN_009f9db0(__int64* position)
 }
 
 // @fnv 0x009f9f40
-int __stdcall FUN_009f9f40(int a, int b)
+int FUN_009f9f40(int a, int b)
 {
     return (int)0x80004001;
 }
 
-typedef void(__thiscall* FUN_009f9f70_fn)(void* self, void* pRef);
+typedef void(* FUN_009f9f70_fn)(void* self, void* pRef);
 
 struct FUN_009f9f70_leaf
 {
@@ -966,7 +967,7 @@ class FUN_009f9f70_cls
     FUN_009f9f70_member m_18;
 };
 // @fnv 0x009fbb30
-void* __thiscall FUN_009fbb30_class::FUN_009fbb30(int aiFlags)
+void* FUN_009fbb30_class::FUN_009fbb30(int aiFlags)
 {
     reinterpret_cast<::FUN_009f9f70_cls *>((((FUN_009f9f70_class*)this)))->FUN_009f9f70_cls::~FUN_009f9f70_cls();
     if (aiFlags & 1)
@@ -988,7 +989,7 @@ extern int DAT_01093c2c;
 
 // Returns E_POINTER if out is null; checks p2 against two globals and returns E_NOINTERFACE with *out=0 if neither matches, otherwise delegates to GetObjectPointer.
 // @fnv 0x009f9fe0
-int __stdcall GetInterfaceForObject(int pUnk, int pIid, int* ppvOut)
+int GetInterfaceForObject(int pUnk, int pIid, int* ppvOut)
 {
     if (ppvOut == 0)
     {
@@ -1036,7 +1037,7 @@ class CallerHolder
 };
 
 // @fnv 0x009fa090
-int __stdcall FUN_009fa090(CallerHolder* apHolder)
+int FUN_009fa090(CallerHolder* apHolder)
 {
     CallerHolder* esi = apHolder;
     esi->m_10 = esi->m_0c->v14();
@@ -1088,7 +1089,7 @@ int Intf::m1()
 
 // Reads an interface pointer from a+0xC, stores m0() at a+0x10 and m1() at a+0x08, clears a+0x04, and returns 0.
 // @fnv 0x009fa0d0
-int __stdcall InitFromInterface(int a)
+int InitFromInterface(int a)
 {
     Intf* p = *(Intf**)(a + 0xC);
     int r = p->m0();
@@ -1106,7 +1107,7 @@ struct VkCallback
 {
     void* m_pUnknown00;
     void* m_pUnknown04;
-    void(__stdcall* m_pInvoke)(void*);
+    void(* m_pInvoke)(void*);
 };
 
 struct VkInner
@@ -1125,7 +1126,7 @@ struct FUN_009fa100_cls
     void InitVTableAndInvokeCallback();
 };
 // @fnv 0x009fbca0
-FUN_009fbca0* __thiscall FUN_009fbca0::Method(bool abDelete)
+FUN_009fbca0* FUN_009fbca0::Method(bool abDelete)
 {
     static_cast<::FUN_009fa100_cls *>(nullptr)->InitVTableAndInvokeCallback();
     if (abDelete & 1)
@@ -1146,7 +1147,7 @@ void FUN_009fa100_cls::InitVTableAndInvokeCallback()
 extern int DAT_01093c1c;
 
 // @fnv 0x009fa120
-int __stdcall FUN_009fa120(int a, int b, int* apOut)
+int FUN_009fa120(int a, int b, int* apOut)
 {
     if (apOut == 0)
     {
@@ -1237,7 +1238,7 @@ struct FUN_009fa380_child
 {
     virtual void v00();
     virtual void v04();
-    virtual void __stdcall Release();
+    virtual void Release();
 };
 
 struct FUN_009fa380_cls
@@ -1263,7 +1264,7 @@ struct FUN_009fa380_cls
 };
 
 // @fnv 0x009fa380
-int __stdcall FUN_009fa380(FUN_009fa380_cls* apObj)
+int FUN_009fa380(FUN_009fa380_cls* apObj)
 {
     int result;
     if (apObj->m_pChildObject != 0)
@@ -1298,7 +1299,7 @@ class FUN_009fa4a0_cls
 
 // Returns E_POINTER for a null value, otherwise calls the virtual v08 on the object at p-0xc and maps a negative result to 1.
 // @fnv 0x009fa4a0
-int __stdcall FUN_009fa4a0(FUN_009fa4a0_cls* apObject, void* value)
+int FUN_009fa4a0(FUN_009fa4a0_cls* apObject, void* value)
 {
     if (value == 0)
     {
@@ -1333,7 +1334,7 @@ int FUN_009fa4d0_cls::FUN_009fa4d0()
 
 // FUN_009fa510: stdcall stub returning E_NOTIMPL (0x80004001) with 8 unused stack parameters.
 // @fnv 0x009fa510
-long __stdcall FUN_009fa510(int unk00, int unk04, int unk08, int unk0C, int unk10, int unk14, int unk18, int unk1C)
+long FUN_009fa510(int unk00, int unk04, int unk08, int unk0C, int unk10, int unk14, int unk18, int unk1C)
 {
     return (long)0x80004001;
 }
@@ -1350,7 +1351,7 @@ class FUN_009fa670_cls
 };
 
 // @fnv 0x009fa670
-int __stdcall FUN_009fa670(FUN_009fa670_cls* obj)
+int FUN_009fa670(FUN_009fa670_cls* obj)
 {
     return obj->m_14;
 }
@@ -1371,7 +1372,7 @@ struct ObjQueryRecord
 
 // Checks rec->m_flags04 bits 0x100/0x10 and writes rec->m_value20/m_value28 (or m_value20 and m_value20+1) to outA/outB, returning a status code.
 // @fnv 0x009fa680
-unsigned int __stdcall GetRecordValues(ObjQueryRecord* pRecord, unsigned __int64* outA, unsigned __int64* outB)
+unsigned int GetRecordValues(ObjQueryRecord* pRecord, unsigned __int64* outA, unsigned __int64* outB)
 {
     if ((pRecord->m_flags04 & 0x100) == 0)
     {
@@ -1392,7 +1393,7 @@ copyOne:
 }
 
 // @fnv 0x009fa760
-int __stdcall FUN_009fa760(void* pObject, int* pStart, int* pEnd)
+int FUN_009fa760(void* pObject, int* pStart, int* pEnd)
 {
     if (!(((unsigned char*)pObject)[4] & 0x20))
         return 0x80040251;
@@ -1405,7 +1406,7 @@ int __stdcall FUN_009fa760(void* pObject, int* pStart, int* pEnd)
 
 // Returns 1 when the low bit of the flag byte at offset 4 is clear, 0 otherwise.
 // @fnv 0x009fa7e0
-int __stdcall IsFlagBit0Clear(int* pFlags)
+int IsFlagBit0Clear(int* pFlags)
 {
     unsigned char flag = ((unsigned char*)pFlags)[4];
     if ((flag & 1) == 0)
@@ -1416,7 +1417,7 @@ int __stdcall IsFlagBit0Clear(int* pFlags)
 // Reads the byte field at offset 4 of the argument and returns bit 1 of its
 // complement (i.e. 1 when that bit of the raw byte is 0).
 // @fnv 0x009fa860
-int __stdcall GetTwoBits(unsigned char* pucData)
+int GetTwoBits(unsigned char* pucData)
 {
     unsigned int u = (unsigned char)(~pucData[4]);
     unsigned int w = u >> 1;
@@ -1433,7 +1434,7 @@ struct FUN_009fa8a0_cls
 };
 
 // @fnv 0x009fa8a0
-int __stdcall FUN_009fa8a0(FUN_009fa8a0_cls* a1)
+int FUN_009fa8a0(FUN_009fa8a0_cls* a1)
 {
     return a1->m_10;
 }
@@ -1484,9 +1485,9 @@ struct C9FB250GUID;
 class C9FB250Unknown
 {
   public:
-    virtual long __stdcall QueryInterface(const C9FB250GUID& riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const C9FB250GUID& riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 class C9FB250BaseObject
@@ -1501,14 +1502,14 @@ class C9FB250BaseObject
 class FUN_009fb250 : public C9FB250BaseObject, public C9FB250Unknown
 {
   public:
-    virtual long __stdcall QueryInterface(const C9FB250GUID& riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const C9FB250GUID& riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 // DECLARE_IUNKNOWN
 // @fnv 0x009fb250
-unsigned long __stdcall FUN_009fb250::AddRef()
+unsigned long FUN_009fb250::AddRef()
 {
     return m_pUnknown->AddRef();
 }
@@ -1525,7 +1526,7 @@ struct FBC50Filter
 
 struct FBC50EnumPins
 {
-    virtual long __stdcall FUN_009fbc50(unsigned long cPins);
+    virtual long FUN_009fbc50(unsigned long cPins);
 
     unsigned int m_uiReferenceCount;
     unsigned int m_PinCount;
@@ -1535,7 +1536,7 @@ struct FBC50EnumPins
 
 // Checks the filter's pin version against the stored version, then advances the pin index by cPins if it fits within the pin count, returning an HRESULT.
 // @fnv 0x009fbc50
-long __stdcall FBC50EnumPins::FUN_009fbc50(unsigned long cPins)
+long FBC50EnumPins::FUN_009fbc50(unsigned long cPins)
 {
     if (m_pOwnerFilter->GetPinVersion() != m_iCurrentPinIndex)
         return 0x80040203;
@@ -1612,8 +1613,6 @@ LayoutBase::LayoutBase(SourceObj* src)
     m_14 = 1;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct PinCritSecLock
 {
@@ -1658,15 +1657,15 @@ struct PinUnknownBase
 
 struct PinIface
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall ReceiveConnection(void* pReceivePin, void* pmt);
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long ReceiveConnection(void* pReceivePin, void* pmt);
 };
 
 struct PinQualityIface
 {
-    virtual long __stdcall QueryInterface(void*, void**);
+    virtual long QueryInterface(void*, void**);
 };
 
 struct BasePinStub : PinUnknownBase, PinIface, PinQualityIface
@@ -1685,19 +1684,19 @@ struct BasePinStub : PinUnknownBase, PinIface, PinQualityIface
     {
         return m_pOwnerFilter->m_iValueAt14 == 0;
     }
-    virtual long __stdcall ReceiveConnection(void* pReceivePin, void* pmt);
+    virtual long ReceiveConnection(void* pReceivePin, void* pmt);
 };
 
 struct FUN_009fceb0_object
 {
-    virtual void __stdcall first_virtual()
+    virtual void first_virtual()
     {}
-    virtual void __stdcall second_virtual()
+    virtual void second_virtual()
     {}
 };
 
 // @fnv 0x009fceb0
-int __stdcall GetObjectPointer(FUN_009fceb0_object* object, int* target)
+int GetObjectPointer(FUN_009fceb0_object* object, int* target)
 {
     if (target == 0)
         return 0x80004003;
@@ -1717,14 +1716,14 @@ class CNode9FD
 
 typedef CNode9FD* POSITION9FD;
 
-static __declspec(noinline) void* __stdcall GetNodeObject9FD(POSITION9FD pos)
+static __declspec(noinline) void* GetNodeObject9FD(POSITION9FD pos)
 {
     if (pos == 0)
         return 0;
     return pos->m_pObject;
 }
 
-void*(__stdcall* g_pfnGetNodeObject9FD)(POSITION9FD) = GetNodeObject9FD;
+void*(* g_pfnGetNodeObject9FD)(POSITION9FD) = GetNodeObject9FD;
 
 class CBaseList9FD
 {
@@ -1766,7 +1765,7 @@ struct S_009fd390_Base
 
 struct FUN_009fd390_cls : S_009fd390_Base
 {
-    int __thiscall FUN_009fd390();
+    int FUN_009fd390();
 };
 
 struct S_009fd3f0_Impl
@@ -1860,23 +1859,23 @@ long Pin9FD460::ForwardIfConnected(void* p)
 
 struct Interface
 {
-    virtual void __stdcall method0();
-    virtual void __stdcall method1();
-    virtual void __stdcall method2();
-    virtual void __stdcall method3();
-    virtual void __stdcall method4();
-    virtual void __stdcall method5();
-    virtual void __stdcall method6();
-    virtual void __stdcall method7();
-    virtual void __stdcall method8();
-    virtual void __stdcall method9();
-    virtual void __stdcall method10();
-    virtual void __stdcall method11();
-    virtual void __stdcall OnReady(int flags);
+    virtual void method0();
+    virtual void method1();
+    virtual void method2();
+    virtual void method3();
+    virtual void method4();
+    virtual void method5();
+    virtual void method6();
+    virtual void method7();
+    virtual void method8();
+    virtual void method9();
+    virtual void method10();
+    virtual void method11();
+    virtual void OnReady(int flags);
 };
 struct Worker
 {
-    int __thiscall WaitForCompletion(int resource, Interface** result, int flags, int* originalFlags);
+    int WaitForCompletion(int resource, Interface** result, int flags, int* originalFlags);
 };
 struct Device
 {
@@ -1924,7 +1923,7 @@ struct Device
     Worker* m_a4;
 };
 // @fnv 0x009fdaf0
-int __stdcall FUN_009fdaf0(Device* device, int resource, Interface** output, int flags)
+int FUN_009fdaf0(Device* device, int resource, Interface** output, int flags)
 {
     if (output == 0)
         return 0x80004003;
@@ -1938,19 +1937,19 @@ int __stdcall FUN_009fdaf0(Device* device, int resource, Interface** output, int
 
 struct FUN_009fe100_class
 {
-    void __thiscall FUN_009fe100(int a, int b, int c, int d);
+    void FUN_009fe100(int a, int b, int c, int d);
 };
 
 // Forwards the four integer arguments to the FUN_009fe100 method of the object stored at owner->m_a4.
 // @fnv 0x009fdb60
-void __stdcall FUN_009fdb60(FUN_009fdd70_class* owner, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_009fdb60(FUN_009fdd70_class* owner, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     ((FUN_009fe100_class*)owner->m_a4)->FUN_009fe100(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
 struct FUN_009fe090_class
 {
-    int __thiscall GetHelperValue(int a, int b);
+    int GetHelperValue(int a, int b);
 };
 
 struct FUN_009fdb90_class
@@ -2000,21 +1999,20 @@ struct FUN_009fdb90_class
 };
 
 // @fnv 0x009fdb90
-void __stdcall FUN_009fdb90(FUN_009fdb90_class* p, int aiArg1, int aiArg2)
+void FUN_009fdb90(FUN_009fdb90_class* p, int aiArg1, int aiArg2)
 {
     p->m_a4->GetHelperValue(aiArg1, aiArg2);
 }
 
 // @fnv 0x009fdbf0
-void __stdcall CallVirtualMethod9(int aiObject, int aiArg1, int aiArg2)
+void CallVirtualMethod9(int aiObject, int aiArg1, int aiArg2)
 {
     void* p = *(void**)(aiObject + 0x8c);
-    typedef void(__thiscall * Method)(void*, int, int);
+    typedef void(* Method)(void*, int, int);
     Method m = (Method)(*(void***)p)[9];
     m(p, aiArg1, aiArg2);
 }
 
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* pkSection);
 
 struct FDC10CriticalSection
 {
@@ -2140,13 +2138,13 @@ class FDC10BaseFilter
 class FDC10InterfaceA
 {
   public:
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
+    virtual long QueryInterface(const void* riid, void** ppv);
 };
 
 class FDC10InterfaceB
 {
   public:
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
+    virtual long QueryInterface(const void* riid, void** ppv);
 };
 
 class FUN_009fdc10 : public FDC10BaseFilter, public FDC10InterfaceA, public FDC10InterfaceB
@@ -2175,7 +2173,7 @@ class FUN_009fdc10 : public FDC10BaseFilter, public FDC10InterfaceA, public FDC1
     virtual ~FUN_009fdc10();
 };
 // @fnv 0x009fdeb0
-int __thiscall FUN_009fdeb0_class::FUN_009fdeb0(int flag)
+int FUN_009fdeb0_class::FUN_009fdeb0(int flag)
 {
     reinterpret_cast<class ::FUN_009fdc10 *>((this))->FUN_009fdc10::~FUN_009fdc10();
     if (flag & 1)
@@ -2200,11 +2198,11 @@ struct FUN_009fded0_cls
     int m_1c;
     int m_20;
     int m_24;
-    int __thiscall FUN_009fded0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
+    int FUN_009fded0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
 };
 
 // @fnv 0x009fded0
-int __thiscall FUN_009fded0_cls::FUN_009fded0(int aiField00, int aiField04, int aiField08, int aiField0c, int aiField14,
+int FUN_009fded0_cls::FUN_009fded0(int aiField00, int aiField04, int aiField08, int aiField0c, int aiField14,
                                               int aiField10, int aiField18, int aiField1c, int aiField20)
 {
     m_00 = aiField00;
@@ -2282,7 +2280,6 @@ long S_9fe1a0_Class::GetValue(int* piOut)
     return 0;
 }
 
-__declspec(dllimport) void __stdcall InitializeCriticalSection(void*);
 
 struct S_Lock
 {
@@ -2375,10 +2372,10 @@ struct FUN_009fe3f0_class
     int m_68;
     int m_6c;
 
-    int __thiscall FUN_009fe3f0(int);
+    int FUN_009fe3f0(int);
 };
 
-extern void(__stdcall* DAT_00fdf0d0)(void*);
+extern void(* DAT_00fdf0d0)(void*);
 
 class ForwardTarget
 {
@@ -2387,7 +2384,7 @@ class ForwardTarget
 };
 
 // @fnv 0x009fe560
-void __stdcall FUN_009fe560(ForwardTarget* p)
+void FUN_009fe560(ForwardTarget* p)
 {
     p->Tail();
 }
@@ -2417,12 +2414,12 @@ void __cdecl FUN_009feae2()
 }
 
 namespace fnv_009f9cd0 {
-extern void*(__stdcall* DAT_00fdf460)(unsigned long);
-extern void(__stdcall* DAT_00fdf45c)(void*);
+extern void*(* DAT_00fdf460)(unsigned long);
+extern void(* DAT_00fdf45c)(void*);
 
 
 // @fnv 0x009f9cd0
-int __stdcall FUN_009f9cd0(int a)
+int FUN_009f9cd0(int a)
 {
     void* obj = DAT_00fdf460(0x48);
     if (obj == 0)
@@ -2438,8 +2435,6 @@ int __stdcall FUN_009f9cd0(int a)
 }
 }  // namespace fnv_009f9cd0
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct AllocSysInfo
@@ -2454,7 +2449,6 @@ struct AllocSysInfo
     unsigned long dwAllocationGranularity;
     unsigned long dwProcessorLevelRevision;
 };
-extern "C" __declspec(dllimport) void __stdcall GetSystemInfo(AllocSysInfo*);
 
 struct AllocProps
 {
@@ -2489,17 +2483,17 @@ struct AllocLock
 
 struct AllocUnknown
 {
-    virtual long __stdcall NonDelegatingQueryInterface(const void* riid, void** ppv);
+    virtual long NonDelegatingQueryInterface(const void* riid, void** ppv);
     void* m_pName;
     void* m_pUnknown;
 };
 
 struct AllocIface
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall SetAllocProperties(AllocProps* pRequest, AllocProps* pActual) = 0;
+    virtual long QueryInterface(const void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long SetAllocProperties(AllocProps* pRequest, AllocProps* pActual) = 0;
 };
 
 struct AllocSampleList
@@ -2525,11 +2519,11 @@ struct MemAllocStub : AllocUnknown, AllocIface, AllocCritSec
     int m_bChanged;
     int m_bCommitted;
 
-    long __stdcall SetAllocProperties(AllocProps* pRequest, AllocProps* pActual);
+    long SetAllocProperties(AllocProps* pRequest, AllocProps* pActual);
 };
 
 // @fnv 0x009fb050
-long __stdcall MemAllocStub::SetAllocProperties(AllocProps* pRequestedProps, AllocProps* pActualProps)
+long MemAllocStub::SetAllocProperties(AllocProps* pRequestedProps, AllocProps* pActualProps)
 {
     if (pActualProps == 0)
     {
@@ -2684,8 +2678,8 @@ S009f9d50_Value& S009f9d50_Value::FUN_009f9d50(const S009f9d50_Value& kOther)
 class FNVRefCountedIface
 {
   public:
-    virtual void __stdcall SlotQueryInterface();
-    virtual void __stdcall SlotAddRef();
+    virtual void SlotQueryInterface();
+    virtual void SlotAddRef();
 };
 
 class FNVNameSource
@@ -2715,7 +2709,7 @@ struct FNVNameDest
 
 // Copies the name string and interface pointer from pSrc into pDst, adding a reference to the interface when present.
 // @fnv 0x009f9df0
-long __stdcall FUN_009f9df0(FNVNameSource* pSrc, FNVNameDest* pDst)
+long FUN_009f9df0(FNVNameSource* pSrc, FNVNameDest* pDst)
 {
     if (pDst == 0)
     {
@@ -2739,9 +2733,9 @@ long __stdcall FUN_009f9df0(FNVNameSource* pSrc, FNVNameDest* pDst)
 
 struct IFilter
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 struct UnknownBase
@@ -2771,7 +2765,7 @@ struct BasePin
 };
 
 // @fnv 0x009fa310
-unsigned long __stdcall ReleaseOwnerFilter(BasePin* pin)
+unsigned long ReleaseOwnerFilter(BasePin* pin)
 {
     return pin->m_pOwnerFilter->Release();
 }
@@ -2812,7 +2806,7 @@ int FUN_009fa330_cls::FUN_009fa330(int a)
 struct S_009fa400_vtable
 {
     void* unk00;
-    void(__stdcall* unk04)(int);
+    void(* unk04)(int);
 };
 
 struct S_009fa400_source
@@ -2837,7 +2831,7 @@ struct S_009fa400_output
 
 // Returns an error if output is null; else sets output->unk00 (calling its vtable unk04), unk08 (via CopyN) and unk04 from the source fields.
 // @fnv 0x009fa400
-int __stdcall FUN_009fa400(S_009fa400_source* source, S_009fa400_output* output)
+int FUN_009fa400(S_009fa400_source* source, S_009fa400_output* output)
 {
     if (output == 0)
         return 0x80004003;
@@ -2879,7 +2873,7 @@ struct S_009fa6f0_Foo
 
 // Stores *pTime, and *pDuration if given, in obj and sets or clears the matching flag bits in unk04; a null pTime only clears them.
 // @fnv 0x009fa6f0
-int __stdcall FUN_009fa6f0(S_009fa6f0_Foo* obj, __int64* pTime, __int64* pDuration)
+int FUN_009fa6f0(S_009fa6f0_Foo* obj, __int64* pTime, __int64* pDuration)
 {
     if (pTime == 0)
     {
@@ -2926,7 +2920,7 @@ struct SrcRec
 };
 // Stores src fields into m_30/m_34, computes m_38 as pValue minus src->m_00, sets flag 0x20, or clears flag 0x20 if src is null.
 // @fnv 0x009fa7a0
-int __stdcall FUN_009fa7a0(FUN_009fa7a0_rec* self, SrcRec* src, int* pValue)
+int FUN_009fa7a0(FUN_009fa7a0_rec* self, SrcRec* src, int* pValue)
 {
     if (src == 0)
     {
@@ -2962,7 +2956,7 @@ struct S_009fa910_Foo
 
 
 // @fnv 0x009fa910
-int __stdcall FUN_009fa910(S_009fa910_Foo* obj, int value)
+int FUN_009fa910(S_009fa910_Foo* obj, int value)
 {
     if (obj->unk3c != 0)
     {
@@ -3024,7 +3018,7 @@ extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int n);
 
 // Copies a subset of MediaSample fields into a SampleProperties struct at pDest, clearing the 0x20 sample flag and zeroing pMediaType when the 0x8 flag is unset.
 // @fnv 0x009fa960
-long __stdcall CopySampleProperties(MediaSample* pSample, unsigned int cb, void* pDest)
+long CopySampleProperties(MediaSample* pSample, unsigned int cb, void* pDest)
 {
     void* dest = pDest;
     SampleProperties props;
@@ -3095,12 +3089,12 @@ struct MediaSampleSI
     int unk38;
     MediaTypeSI* m_pMediaType;
     unsigned int m_dwStreamId;
-    long __stdcall FUN_009faa20(unsigned int cbProperties, const unsigned char* pbProperties);
+    long FUN_009faa20(unsigned int cbProperties, const unsigned char* pbProperties);
 };
 
 // Validates and copies sample properties from pbProperties into this MediaSampleSI, updating flags, times, stream id, and media type.
 // @fnv 0x009faa20
-long __stdcall MediaSampleSI::FUN_009faa20(unsigned int cbProperties, const unsigned char* pbProperties)
+long MediaSampleSI::FUN_009faa20(unsigned int cbProperties, const unsigned char* pbProperties)
 {
     MediaTypeSI* pMediaType = 0;
 
@@ -3206,7 +3200,7 @@ struct FUN_009fae30_Rec
 };
 // Under the critical section at r->m_cs, stores m_2c - m_30 + m_20 into *out and returns 0.
 // @fnv 0x009fae30
-int __stdcall FUN_009fae30(FUN_009fae30_Rec* r, int* out)
+int FUN_009fae30(FUN_009fae30_Rec* r, int* out)
 {
     void* pLock = ((char*)r - 0xc) ? (void*)&r->m_cs : 0;
     EnterCriticalSection(pLock);
@@ -3220,14 +3214,14 @@ struct Tab
 {
     void* query;
     void* addref;
-    unsigned long(__stdcall* release)(Obj*);
+    unsigned long(* release)(Obj*);
 };
 struct Obj
 {
     Tab* table;
 };
 // @fnv 0x009fb270
-unsigned long __stdcall FUN_009fb270(Obj** p)
+unsigned long FUN_009fb270(Obj** p)
 {
     Obj* q = p[-2];
     return q->table->release(q);
@@ -3268,18 +3262,18 @@ struct RecordSet
 };
 struct RecordWriter
 {
-    virtual int __stdcall QueryInterface() = 0;
-    virtual int __stdcall AddRef() = 0;
-    virtual int __stdcall Release() = 0;
-    virtual int __stdcall BeginSet(Vector4f header, int category, int version) = 0;
-    virtual int __stdcall FinishSet() = 0;
-    virtual int __stdcall WriteRecord(Vector4f header, int type, int group, int property, int setting, int flags,
+    virtual int QueryInterface() = 0;
+    virtual int AddRef() = 0;
+    virtual int Release() = 0;
+    virtual int BeginSet(Vector4f header, int category, int version) = 0;
+    virtual int FinishSet() = 0;
+    virtual int WriteRecord(Vector4f header, int type, int group, int property, int setting, int flags,
                                       Vector4f attachment, int attachmentKind) = 0;
-    virtual int __stdcall WriteLink(Vector4f header, int type, Vector4f first, Vector4f second) = 0;
-    virtual int __stdcall WriteHeader(Vector4f header) = 0;
+    virtual int WriteLink(Vector4f header, int type, Vector4f first, Vector4f second) = 0;
+    virtual int WriteHeader(Vector4f header) = 0;
 };
 // @fnv 0x009fb290
-int __stdcall WriteRecordSet(const RecordSet* source, RecordWriter* writer, int includeRecords)
+int WriteRecordSet(const RecordSet* source, RecordWriter* writer, int includeRecords)
 {
     if (source == 0)
         return 1;
@@ -3326,9 +3320,9 @@ struct MediaEnumCount
 
 struct MediaEnumPin
 {
-    virtual long __stdcall QueryInterface(const void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 class FUN_009fb550
@@ -3396,10 +3390,10 @@ struct FindGuard
 };
 struct FindPinIface
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall FindPin(const wchar_t* id, PinIface** result);
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long FindPin(const wchar_t* id, PinIface** result);
 };
 struct FindPinObject : AllocUnknown, PinIface
 {
@@ -3436,10 +3430,10 @@ struct FindFilter : FilterUnknown, FindPinIface
     int unk30;
     int unk34;
     FindCritSec* m_pLock;
-    long __stdcall FindPin(const wchar_t* id, PinIface** result);
+    long FindPin(const wchar_t* id, PinIface** result);
 };
 // @fnv 0x009fb960
-long __stdcall FindFilter::FindPin(const wchar_t* apPinName, PinIface** result)
+long FindFilter::FindPin(const wchar_t* apPinName, PinIface** result)
 {
     if (result == 0)
         return 0x80004003;
@@ -3463,9 +3457,9 @@ namespace fnv_009fbb50 {
 
 struct IPin9FB
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 struct Pin9FB
@@ -3507,7 +3501,7 @@ struct EnumPins9FB
 
 // Enumerates up to cPins pins from the owner filter, storing their IPin9FB pointers in ppPins and the fetched count in pcFetched.
 // @fnv 0x009fbb50
-int __stdcall FUN_009fbb50(EnumPins9FB* self, unsigned long cPins, IPin9FB** ppPins, unsigned long* pcFetched)
+int FUN_009fbb50(EnumPins9FB* self, unsigned long cPins, IPin9FB** ppPins, unsigned long* pcFetched)
 {
     if (ppPins == 0)
     {
@@ -3615,11 +3609,11 @@ struct MediaEnumerator
     EnumMediaSource* source;
     int version;
 };
-extern void*(__stdcall* DAT_00fdf460)(unsigned int);
+extern void*(* DAT_00fdf460)(unsigned int);
 
 // Retrieves up to count media types from the source at the current position, allocating each and reporting the number fetched.
 // @fnv 0x009fbcc0
-int __stdcall GetMediaTypes(MediaEnumerator* self, unsigned long count, EnumMediaType** types, unsigned long* fetched)
+int GetMediaTypes(MediaEnumerator* self, unsigned long count, EnumMediaType** types, unsigned long* fetched)
 {
     if (!types)
         return 0x80004003;
@@ -3657,19 +3651,19 @@ struct MediaTypeTry
 };
 struct EnumMediaTry
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall Next(unsigned long count, MediaTypeTry** media, unsigned long* fetched);
-    virtual long __stdcall Skip(unsigned long count);
-    virtual long __stdcall Reset();
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long Next(unsigned long count, MediaTypeTry** media, unsigned long* fetched);
+    virtual long Skip(unsigned long count);
+    virtual long Reset();
 };
 struct PinTry
 {
     long FUN_009fbfc0(void* receiver, MediaTypeTry* partial, EnumMediaTry* enumerator);
 };
-typedef int(__stdcall* FNV_HRESULT_Call2)(void* self, void** out);
-typedef unsigned long(__stdcall* FNV_Release_Call)(void* self);
+typedef int(* FNV_HRESULT_Call2)(void* self, void** out);
+typedef unsigned long(* FNV_Release_Call)(void* self);
 
 class FNV_Callee9f9a50
 {
@@ -3704,7 +3698,7 @@ class FUN_009fc0b0_cls
 };
 // Validates the receive pin and media type, checks connection state and lock, calls AgreeMediaType and Cleanup on failure, and returns an HRESULT.
 // @fnv 0x009fc990
-long __stdcall BasePinStub::ReceiveConnection(void* pReceivePin, void* pMediaType)
+long BasePinStub::ReceiveConnection(void* pReceivePin, void* pMediaType)
 {
     if (pReceivePin == 0)
     {
@@ -3728,8 +3722,6 @@ long __stdcall BasePinStub::ReceiveConnection(void* pReceivePin, void* pMediaTyp
     return 0;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* cs);
 
 struct DsCritSec
 {
@@ -3760,9 +3752,9 @@ struct DsAutoLock
 
 struct DsUnknown
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 
 struct DsBaseFilter
@@ -3791,8 +3783,8 @@ struct DsPinBase0
 
 struct DsIPin : DsUnknown
 {
-    virtual long __stdcall Connect(DsUnknown* pReceivePin, const void* pmt) = 0;
-    virtual long __stdcall FUN_009fc190(DsUnknown* pConnector, const void* pmt) = 0;
+    virtual long Connect(DsUnknown* pReceivePin, const void* pmt) = 0;
+    virtual long FUN_009fc190(DsUnknown* pConnector, const void* pmt) = 0;
 };
 
 struct DsIQualityControl
@@ -3822,16 +3814,16 @@ struct DsBasePin : DsPinBase0, DsIPin, DsIQualityControl
         return m_pOwnerFilter->m_iValueAt14 == 0;
     }
 
-    long __stdcall QueryInterface(const void* riid, void** ppv);
-    unsigned long __stdcall AddRef();
-    unsigned long __stdcall Release();
-    long __stdcall Connect(DsUnknown* pReceivePin, const void* pmt);
-    long __stdcall FUN_009fc190(DsUnknown* pConnector, const void* pmt);
+    long QueryInterface(const void* riid, void** ppv);
+    unsigned long AddRef();
+    unsigned long Release();
+    long Connect(DsUnknown* pReceivePin, const void* pmt);
+    long FUN_009fc190(DsUnknown* pConnector, const void* pmt);
 };
 
 // Connects this pin to pConnector with media type pmt, validating state, checking compatibility, and completing the connection.
 // @fnv 0x009fc190
-long __stdcall DsBasePin::FUN_009fc190(DsUnknown* pConnector, const void* pmt)
+long DsBasePin::FUN_009fc190(DsUnknown* pConnector, const void* pmt)
 {
     if (pConnector == 0)
         return 0x80004003;
@@ -3918,7 +3910,7 @@ struct RecordView
 };
 
 // @fnv 0x009fc6d0
-int __stdcall FUN_009fc6d0(ResultRec* record, FUN_009fc600** result)
+int FUN_009fc6d0(ResultRec* record, FUN_009fc600** result)
 {
     if (!result)
         return (int)0x80004003;
@@ -3949,9 +3941,9 @@ int __stdcall FUN_009fc6d0(ResultRec* record, FUN_009fc600** result)
 
 struct RecTarget
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 struct RecOwner
@@ -4030,12 +4022,12 @@ struct FUN_009fc780
     long m_lRefCount;
 
     FUN_009fc780(CBasePin_9fc7e0* pPin, FUN_009fc780* pEnumMediaTypes);
-    long __stdcall FUN_009fc7e0(FUN_009fc780** ppEnum);
+    long FUN_009fc7e0(FUN_009fc780** ppEnum);
 };
 
 // Stores a new FUN_009fc780 built from m_pPin and this in *ppEnum if the pin's version equals m_iCurrentPinIndex; otherwise sets it null and returns an error.
 // @fnv 0x009fc7e0
-long __stdcall FUN_009fc780::FUN_009fc7e0(FUN_009fc780** ppEnumMediaTypes)
+long FUN_009fc780::FUN_009fc7e0(FUN_009fc780** ppEnumMediaTypes)
 {
     if (ppEnumMediaTypes == 0)
         return 0x80004003;
@@ -4156,7 +4148,7 @@ class FUN_009fcab0_obj
 };
 
 // @fnv 0x009fcab0
-int __stdcall FUN_009fcab0(char* a, FUN_009fcab0_obj** out)
+int FUN_009fcab0(char* a, FUN_009fcab0_obj** out)
 {
     if (out == 0)
     {
@@ -4254,11 +4246,7 @@ struct S9fcc60_Base
 {
 };
 
-extern "C" __declspec(dllimport) __declspec(nothrow) void* __stdcall VirtualAlloc(void* address, unsigned int size,
-                                                                                  unsigned int allocationType,
-                                                                                  unsigned int protect);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plValue);
 
 struct RefCounted
 {
@@ -4267,7 +4255,7 @@ struct RefCounted
 };
 
 // @fnv 0x009fcf60
-unsigned long __stdcall FUN_009fcf60(RefCounted* pkObject)
+unsigned long FUN_009fcf60(RefCounted* pkObject)
 {
     InterlockedIncrement((long volatile*)&pkObject->m_uiRefCount);
     return pkObject->m_uiRefCount > 1 ? pkObject->m_uiRefCount : 1;
@@ -4285,7 +4273,7 @@ class FUN_009fcf80_cls
 };
 // Decrements m_lRefCount; deletes self when it reaches zero, otherwise returns the remaining reference count clamped to a minimum of 1.
 // @fnv 0x009fcf80
-unsigned int __stdcall FUN_009fcf80(FUN_009fcf80_cls* self)
+unsigned int FUN_009fcf80(FUN_009fcf80_cls* self)
 {
     if (InterlockedDecrement(&self->m_lRefCount) == 0)
     {
@@ -4300,7 +4288,7 @@ unsigned int __stdcall FUN_009fcf80(FUN_009fcf80_cls* self)
 
 // Copies src to dest, stopping at the terminator or after count-1 characters and always null-terminating when count is nonzero; returns dest.
 // @fnv 0x009fcff0
-wchar_t* __stdcall CopyN(wchar_t* dest, const wchar_t* src, unsigned int count)
+wchar_t* CopyN(wchar_t* dest, const wchar_t* src, unsigned int count)
 {
     wchar_t* ret = dest;
     if (count)
@@ -4320,7 +4308,7 @@ wchar_t* __stdcall CopyN(wchar_t* dest, const wchar_t* src, unsigned int count)
 namespace fnv_009fd030 {
 // Performs a lexicographic comparison of two null-terminated wide strings, returning the difference of the first differing characters or zero if equal.
 // @fnv 0x009fd030
-int __stdcall CompareWideStrings(const wchar_t* p, const wchar_t* q)
+int CompareWideStrings(const wchar_t* p, const wchar_t* q)
 {
     do
     {
@@ -4332,12 +4320,11 @@ int __stdcall CompareWideStrings(const wchar_t* p, const wchar_t* q)
 }
 }  // namespace fnv_009fd030
 
-extern "C" __declspec(dllimport) void* __stdcall CoTaskMemAlloc(unsigned long cb);
 extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int size);
 
 // Allocates a CoTaskMemAlloc'd copy of psz, writes the pointer to ppszReturn, and returns HRESULT.
 // @fnv 0x009fd0a0
-long __stdcall FUN_009fd0a0(const wchar_t* psz, wchar_t** ppszReturn)
+long FUN_009fd0a0(const wchar_t* psz, wchar_t** ppszReturn)
 {
     if (ppszReturn == 0)
         return 0x80004003L;
@@ -4380,7 +4367,7 @@ class FUN_009fd200_cls
     unsigned int RemoveNode(FUN_009fd200_node* node);
 };
 // @fnv 0x009fd390
-int __thiscall FUN_009fd390_cls::FUN_009fd390()
+int FUN_009fd390_cls::FUN_009fd390()
 {
     return ((int)(reinterpret_cast<::FUN_009fd200_cls *>(this)->RemoveNode((::FUN_009fd200_node *)(m_00))));
 }
@@ -4491,9 +4478,9 @@ int HolderObj::FUN_009fd3a0(int aMask)
 
 struct IUnknownFD4
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObject);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const void* riid, void** ppvObject);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 struct AggregateFD4
@@ -4505,7 +4492,7 @@ struct AggregateFD4
 };
 
 // @fnv 0x009fd430
-unsigned long __stdcall FUN_009fd430(AggregateFD4* pThis)
+unsigned long FUN_009fd430(AggregateFD4* pThis)
 {
     return pThis->m_pOuter->Release();
 }
@@ -4529,7 +4516,7 @@ struct Base9FD5A0
 };
 struct Iface9FD5A0
 {
-    virtual long __stdcall QueryInterface(const IID9FD5A0& riid, void** ppv);
+    virtual long QueryInterface(const IID9FD5A0& riid, void** ppv);
 };
 struct Obj9FD5A0 : Base9FD5A0, Iface9FD5A0
 {
@@ -4559,7 +4546,7 @@ struct Obj9FD5A0 : Base9FD5A0, Iface9FD5A0
 
 // Allocates an Obj9FD5A0, queries it for the DAT_01093bbc interface into ppv, and returns the HRESULT.
 // @fnv 0x009fd5a0
-long __stdcall FUN_009fd5a0(void** ppv)
+long FUN_009fd5a0(void** ppv)
 {
     if (ppv == 0)
         return 0x80004003;
@@ -4591,10 +4578,10 @@ struct ALLOCATOR_PROPERTIES
 };
 struct IMemAllocator
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall SetProperties(ALLOCATOR_PROPERTIES* pRequest, ALLOCATOR_PROPERTIES* pActual) = 0;
+    virtual long QueryInterface(const void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long SetProperties(ALLOCATOR_PROPERTIES* pRequest, ALLOCATOR_PROPERTIES* pActual) = 0;
 };
 struct AlignmentDevice
 {
@@ -4662,12 +4649,12 @@ struct AllocatorPin
     int unk9c;
     int unka0;
     AllocatorStream* pStream;
-    long __stdcall FUN_009fd6d0(IMemAllocator* apAllocator, ALLOCATOR_PROPERTIES* apRequest,
+    long FUN_009fd6d0(IMemAllocator* apAllocator, ALLOCATOR_PROPERTIES* apRequest,
                                 IMemAllocator** appAllocator);
 };
 // Sets allocator properties on apAllocator or a fallback allocator, ensuring stream alignment, and stores the chosen allocator in appAllocator.
 // @fnv 0x009fd6d0
-long __stdcall AllocatorPin::FUN_009fd6d0(IMemAllocator* apAllocator, ALLOCATOR_PROPERTIES* apRequest,
+long AllocatorPin::FUN_009fd6d0(IMemAllocator* apAllocator, ALLOCATOR_PROPERTIES* apRequest,
                                           IMemAllocator** appAllocator)
 {
     if (!apAllocator)
@@ -4707,13 +4694,13 @@ typedef LONGLONG REFERENCE_TIME;
 
 struct AsyncSample
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetPointer(unsigned char** ppBuffer);
-    virtual long __stdcall GetSize();
-    virtual long __stdcall GetTime(REFERENCE_TIME* pStart, REFERENCE_TIME* pEnd);
-    virtual long __stdcall SetTime(REFERENCE_TIME* pStart, REFERENCE_TIME* pEnd);
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetPointer(unsigned char** ppBuffer);
+    virtual long GetSize();
+    virtual long GetTime(REFERENCE_TIME* pStart, REFERENCE_TIME* pEnd);
+    virtual long SetTime(REFERENCE_TIME* pStart, REFERENCE_TIME* pEnd);
 };
 
 struct AsyncIo
@@ -4770,7 +4757,7 @@ struct AsyncOutputPin
 
 // Clamps the sample time range to the stream length and issues an aligned async read into the sample buffer.
 // @fnv 0x009fd7f0
-long __stdcall FUN_009fd7f0(AsyncOutputPin* apPin, AsyncSample* pSample, unsigned long dwUser)
+long FUN_009fd7f0(AsyncOutputPin* apPin, AsyncSample* pSample, unsigned long dwUser)
 {
     if (pSample == 0)
         return 0x80004003;
@@ -4810,19 +4797,19 @@ typedef __int64 REFTIME64;
 
 struct MediaSampleStub
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetPointer(unsigned char** ppBuffer);
-    virtual long __stdcall GetSize();
-    virtual long __stdcall GetTime(REFTIME64* pStart, REFTIME64* pEnd);
-    virtual long __stdcall SetTime(REFTIME64* pStart, REFTIME64* pEnd);
-    virtual long __stdcall IsSyncPoint();
-    virtual long __stdcall SetSyncPoint(int b);
-    virtual long __stdcall IsPreroll();
-    virtual long __stdcall SetPreroll(int b);
-    virtual long __stdcall GetActualDataLength();
-    virtual long __stdcall SetActualDataLength(long len);
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetPointer(unsigned char** ppBuffer);
+    virtual long GetSize();
+    virtual long GetTime(REFTIME64* pStart, REFTIME64* pEnd);
+    virtual long SetTime(REFTIME64* pStart, REFTIME64* pEnd);
+    virtual long IsSyncPoint();
+    virtual long SetSyncPoint(int b);
+    virtual long IsPreroll();
+    virtual long SetPreroll(int b);
+    virtual long GetActualDataLength();
+    virtual long SetActualDataLength(long len);
 };
 
 struct SampleSourceStub
@@ -4874,7 +4861,7 @@ struct SampleFilterStub
     int unk9c;
     int unka0;
     SampleSourceStub* source;
-    long __stdcall FUN_009fd970(MediaSampleStub* pSample);
+    long FUN_009fd970(MediaSampleStub* pSample);
 };
 
 struct Primary9FDTemplate
@@ -4944,7 +4931,7 @@ int FUN_009fdf20_cls::FUN_009fdf20()
             if (m_1c != 0)
             {
                 void** vt = *(void***)m_1c;
-                ((void(__stdcall*)(void*, int))vt[16])(m_1c, 1);
+                ((void(*)(void*, int))vt[16])(m_1c, 1);
                 m_24 = 0;
             }
         }
@@ -4980,12 +4967,12 @@ struct Ctx : FUN_009fded0_cls
 class Fdfe0Cls : public S_9fe1a0_Class
 {
   public:
-    int __thiscall FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3, unsigned int* out,
+    int FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3, unsigned int* out,
                                 unsigned int p5);
 };
 // Clamps the sample time range to the source's range and alignment, then fills the sample buffer via source->FillSample and sets its actual data length.
 // @fnv 0x009fd970
-long __stdcall SampleFilterStub::FUN_009fd970(MediaSampleStub* pSample)
+long SampleFilterStub::FUN_009fd970(MediaSampleStub* pSample)
 {
     if (!pSample)
         return 0x80004003;
@@ -5026,7 +5013,7 @@ long __stdcall SampleFilterStub::FUN_009fd970(MediaSampleStub* pSample)
 
 // Checks p0, p2, p3 against unk18 alignment, calls FUN_009fded0, stores ctx.m_14 to out, returns FUN_009fdf20 result.
 // @fnv 0x009fdfe0
-int __thiscall Fdfe0Cls::FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3,
+int Fdfe0Cls::FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3,
                                       unsigned int* out, unsigned int p5)
 {
     if (out == 0)
@@ -5058,10 +5045,6 @@ int __thiscall Fdfe0Cls::FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned
 }
 
 // CAsyncIo::WaitForNext from the DirectShow base classes' async reader sample (asyncio.cpp)
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* lpCriticalSection);
 
 class CCritSec
 {
@@ -5165,13 +5148,7 @@ class CAsyncIo
     long WaitForCompletion(unsigned long dwTimeout, void** ppContext, unsigned long* pUser, long* pcbActual);
 };
 
-extern "C" __declspec(dllimport) int __stdcall ResetEvent(void* hEvent);
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* lpThreadAttributes, unsigned long dwStackSize,
-                                                              unsigned long(__stdcall* lpStartAddress)(void*),
-                                                              void* lpParameter, unsigned long dwCreationFlags,
-                                                              unsigned long* lpThreadId);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
-typedef unsigned long(__stdcall* ThreadStartFn)(void*);
+typedef unsigned long(* ThreadStartFn)(void*);
 struct AMEventStandIn
 {
     void* m_hEvent;
@@ -5212,7 +5189,6 @@ long AsyncIoStandIn::StartThread()
 }
 
 namespace fnv_009fe870 {
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* pkSection);
   // free
 
 class OwnedLock
@@ -5306,7 +5282,7 @@ struct S_009f9bb0_Unk;
 struct S_009f9bb0_Vtbl
 {
     int unk00;
-    int(__stdcall* AddRef)(S_009f9bb0_Unk*);
+    int(* AddRef)(S_009f9bb0_Unk*);
 };
 struct S_009f9bb0_Unk
 {
@@ -5335,7 +5311,7 @@ struct S_009f9bb0_Rec
 };
 // Copies src into dst, allocates and copies the heap buffer when src->unk40 is set, and AddRefs the COM pointer in unk3c.
 // @fnv 0x009f9bb0
-int __stdcall FUN_009f9bb0(S_009f9bb0_Rec* dst, S_009f9bb0_Rec* src)
+int FUN_009f9bb0(S_009f9bb0_Rec* dst, S_009f9bb0_Rec* src)
 {
     *dst = *src;
     if (src->unk40)
@@ -5395,7 +5371,7 @@ struct S_009fa520_obj
 
 // Stores five values into the tail fields of S_009fa520_obj and returns 0.
 // @fnv 0x009fa520
-int __stdcall FUN_009fa520(S_009fa520_obj* obj, int a, int b, int c, int d, double e)
+int FUN_009fa520(S_009fa520_obj* obj, int a, int b, int c, int d, double e)
 {
     obj->unk74 = a;
     obj->unk78 = b;
@@ -5692,8 +5668,6 @@ Derived_009fdd60::Derived_009fdd60()
 {}
 
 namespace fnv_009fddf0 {
-extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(void* lpCriticalSection);
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* lpCriticalSection);
 
 extern int DAT_01093d70;
 
@@ -5906,7 +5880,7 @@ FUN_009fddf0_cls::FUN_009fddf0_cls(int aBaseParam, int b, int c, int d)
 
 // Returns whether the first 16 bytes of b and a are identical using memcmp.
 // @fnv 0x009f9980
-int __stdcall FUN_009f9980(const void* apFirst, const void* apSecond)
+int FUN_009f9980(const void* apFirst, const void* apSecond)
 {
     return memcmp(apFirst, apSecond, 16) == 0;
 }
@@ -5915,9 +5889,9 @@ namespace fnv_009f9e50 {
 extern int DAT_01093b6c[4];
 struct GraphUnknown
 {
-    virtual long __stdcall QueryInterface(const void*, void**) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const void*, void**) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 struct GraphFilter
 {
@@ -5952,7 +5926,7 @@ struct GraphLock
 void* __cdecl _memmove(void*, const void*, unsigned int);
 // Locks the filter, updates m_graph and m_sink from graph, and replaces m_name with a copy of name.
 // @fnv 0x009f9e50
-int __stdcall SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wchar_t* name)
+int SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wchar_t* name)
 {
     GraphLock lock(self->m_lock);
     self->m_graph = graph;
@@ -5981,7 +5955,7 @@ int __stdcall SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wcha
 }
 }  // namespace fnv_009f9e50
 
-typedef unsigned int(__thiscall* DispatchFn)(void* self, void* arg, void* out);
+typedef unsigned int(* DispatchFn)(void* self, void* arg, void* out);
 struct TargetCall
 {
     void* m_00;
@@ -6005,7 +5979,7 @@ struct TargetOwner
     int unk14;
     int unk18;
     void* m_1c;
-    unsigned int __thiscall DispatchCall(void** arg);
+    unsigned int DispatchCall(void** arg);
 };
 // @fnv 0x009fd450
 void FUN_009fd450_class::FUN_009fd450()
@@ -6025,23 +5999,23 @@ unsigned int TargetOwner::DispatchCall(void** arg)
 
 struct ConnIface
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 struct ConnHolder
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv);
+    virtual long QueryInterface(void* riid, void** ppv);
     int unk04;
     int unk08;
     ConnIface* m_Connected;
 
-    long __stdcall GetConnected(ConnIface** ppPin);
+    long GetConnected(ConnIface** ppPin);
 };
 
 // @fnv 0x009fa3c0
-long __stdcall ConnHolder::GetConnected(ConnIface** ppPin)
+long ConnHolder::GetConnected(ConnIface** ppPin)
 {
     if (ppPin == 0)
         return 0x80004003;
@@ -6062,15 +6036,13 @@ struct S_009fa820_Foo
 };
 
 // @fnv 0x009fa820
-int __stdcall FUN_009fa820(S_009fa820_Foo* obj)
+int FUN_009fa820(S_009fa820_Foo* obj)
 {
     unsigned int u = (unsigned char)(~obj->unk04);
     unsigned int w = u >> 2;
     return (int)((w & 1u) | ((u & 4u) >> 2));
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
 
 class CCritSecW
 {
@@ -6168,21 +6140,21 @@ class CUnknownW
 class IMemAllocatorW
 {
   public:
-    virtual long __stdcall QueryInterface(void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall SetProperties(void* pRequest, void* pActual) = 0;
-    virtual long __stdcall GetProperties(void* pProps) = 0;
-    virtual long __stdcall Commit() = 0;
-    virtual long __stdcall Decommit() = 0;
-    virtual long __stdcall FUN_009fad00(CMediaSampleW** ppBuffer, __int64* pStartTime, __int64* pEndTime,
+    virtual long QueryInterface(void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long SetProperties(void* pRequest, void* pActual) = 0;
+    virtual long GetProperties(void* pProps) = 0;
+    virtual long Commit() = 0;
+    virtual long Decommit() = 0;
+    virtual long FUN_009fad00(CMediaSampleW** ppBuffer, __int64* pStartTime, __int64* pEndTime,
                                         unsigned long dwFlags) = 0;
 };
 
 class CBaseAllocatorW : public CUnknownW, public IMemAllocatorW, public CCritSecW
 {
   public:
-    long __stdcall FUN_009fad00(CMediaSampleW** ppBuffer, __int64* pStartTime, __int64* pEndTime,
+    long FUN_009fad00(CMediaSampleW** ppBuffer, __int64* pStartTime, __int64* pEndTime,
                                 unsigned long dwFlags);
 
     void SetWaiting()
@@ -6204,7 +6176,7 @@ class CBaseAllocatorW : public CUnknownW, public IMemAllocatorW, public CCritSec
 
 // Pops a sample from m_lFree with refcount 1, waiting on m_hSem when empty unless dwFlags & 4 is set; fails if not committed.
 // @fnv 0x009fad00
-long __stdcall CBaseAllocatorW::FUN_009fad00(CMediaSampleW** ppBuffer, __int64* pStartTime, __int64* pEndTime,
+long CBaseAllocatorW::FUN_009fad00(CMediaSampleW** ppBuffer, __int64* pStartTime, __int64* pEndTime,
                                              unsigned long dwFlags)
 {
     CMediaSampleW* pSample;
@@ -6236,13 +6208,13 @@ long __stdcall CBaseAllocatorW::FUN_009fad00(CMediaSampleW** ppBuffer, __int64* 
 
 struct SyncUnknown
 {
-    virtual long __stdcall QueryInterface(const void*, void**) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
+    virtual long QueryInterface(const void*, void**) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
 };
 struct SyncInterface
 {
-    virtual int __stdcall FUN_009fada0(SyncUnknown*) = 0;
+    virtual int FUN_009fada0(SyncUnknown*) = 0;
 };
 struct SyncHead
 {
@@ -6265,11 +6237,11 @@ struct SyncOwner : SyncHead, SyncInterface, AllocCritSec
     int unk50;
     int unk54;
     SyncUnknown* clock;
-    virtual int __stdcall FUN_009fada0(SyncUnknown* clock);
+    virtual int FUN_009fada0(SyncUnknown* clock);
 };
 // Locks the owner, AddRefs the new clock, Releases the old clock, stores the new clock pointer, and returns 0.
 // @fnv 0x009fada0
-int __stdcall SyncOwner::FUN_009fada0(SyncUnknown* clock)
+int SyncOwner::FUN_009fada0(SyncUnknown* clock)
 {
     AllocLock guard(this);
     if (clock)
@@ -6280,7 +6252,7 @@ int __stdcall SyncOwner::FUN_009fada0(SyncUnknown* clock)
     return 0;
 }
 
-typedef void(__stdcall* LockedVirtStdFn)(void*);
+typedef void(* LockedVirtStdFn)(void*);
 
 struct LockedOwner_b5d0
 {
@@ -6314,7 +6286,7 @@ struct LockGuard_b5d0
 
 // Locks a->m_2c, calls vtable slot 1 on b and slot 2 on the old a->m_0c, stores b in a->m_0c, and returns 0.
 // @fnv 0x009fb5d0
-int __stdcall SetLockedPointer(LockedOwner_b5d0* apOwner, void* apNewPointer)
+int SetLockedPointer(LockedOwner_b5d0* apOwner, void* apNewPointer)
 {
     LockGuard_b5d0 guard(apOwner);
     if (apNewPointer != 0)
@@ -6330,8 +6302,8 @@ int __stdcall SetLockedPointer(LockedOwner_b5d0* apOwner, void* apNewPointer)
     return 0;
 }
 
-extern void(__stdcall* DAT_00fdf05c)(int* pkCriticalSection);
-extern void(__stdcall* DAT_00fdf100)(int* pkCriticalSection);
+extern void(* DAT_00fdf05c)(int* pkCriticalSection);
+extern void(* DAT_00fdf100)(int* pkCriticalSection);
 
 class CriticalSectionLock
 {
@@ -6398,7 +6370,7 @@ struct TaskGroupInnerW
 
 // Under the critical section, if m_bPending calls Finish on each active task, returns the first negative result (else 0), and clears m_bPending.
 // @fnv 0x009fb6f0
-int __stdcall FinishPendingTasks(TaskGroupInnerW* pkInner)
+int FinishPendingTasks(TaskGroupInnerW* pkInner)
 {
     CriticalSectionLock kLock(pkInner->m_pkCriticalSection);
     int iResult = 0;
@@ -6421,8 +6393,6 @@ int __stdcall FinishPendingTasks(TaskGroupInnerW* pkInner)
     return iResult;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 struct CBasePin
 {
@@ -6468,7 +6438,7 @@ struct FilterInterface
     int unk28;
     int* m_pLock;
 
-    int __stdcall Activate();
+    int Activate();
 };
 
 struct AutoLock
@@ -6485,7 +6455,7 @@ struct AutoLock
 };
 
 // @fnv 0x009fb7a0
-int __stdcall FilterInterface::Activate()
+int FilterInterface::Activate()
 {
     AutoLock lock(m_pLock);
 
@@ -6545,9 +6515,9 @@ struct FltAutoLock
 
 struct FltPin
 {
-    virtual long __stdcall NonDelegatingQueryInterface(void* riid, void** ppv);
-    virtual unsigned long __stdcall NonDelegatingAddRef();
-    virtual unsigned long __stdcall NonDelegatingRelease();
+    virtual long NonDelegatingQueryInterface(void* riid, void** ppv);
+    virtual unsigned long NonDelegatingAddRef();
+    virtual unsigned long NonDelegatingRelease();
     virtual void v0c();
     virtual void v10();
     virtual void v14();
@@ -6577,27 +6547,27 @@ struct FltRefTime
 
 struct FltUnknown
 {
-    virtual long __stdcall NonDelegatingQueryInterface(void* riid, void** ppv);
-    virtual unsigned long __stdcall NonDelegatingAddRef();
-    virtual unsigned long __stdcall NonDelegatingRelease();
+    virtual long NonDelegatingQueryInterface(void* riid, void** ppv);
+    virtual unsigned long NonDelegatingAddRef();
+    virtual unsigned long NonDelegatingRelease();
     int unk04;
     int unk08;
 };
 
 struct FltMediaFilter
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv) = 0;
-    virtual unsigned long __stdcall AddRef() = 0;
-    virtual unsigned long __stdcall Release() = 0;
-    virtual long __stdcall GetClassID(void* pClsID) = 0;
-    virtual long __stdcall Stop() = 0;
-    virtual long __stdcall Pause() = 0;
-    virtual long __stdcall FUN_009fb860(__int64 tStart) = 0;
+    virtual long QueryInterface(void* riid, void** ppv) = 0;
+    virtual unsigned long AddRef() = 0;
+    virtual unsigned long Release() = 0;
+    virtual long GetClassID(void* pClsID) = 0;
+    virtual long Stop() = 0;
+    virtual long Pause() = 0;
+    virtual long FUN_009fb860(__int64 tStart) = 0;
 };
 
 struct FltMovieSetup
 {
-    virtual long __stdcall QueryInterface(void* riid, void** ppv) = 0;
+    virtual long QueryInterface(void* riid, void** ppv) = 0;
 };
 
 struct FltBaseFilter : FltUnknown, FltMediaFilter, FltMovieSetup
@@ -6617,17 +6587,17 @@ struct FltBaseFilter : FltUnknown, FltMediaFilter, FltMovieSetup
     virtual int GetPinCount();
     virtual FltPin* GetPin(int n);
 
-    long __stdcall QueryInterface(void* riid, void** ppv);
-    unsigned long __stdcall AddRef();
-    unsigned long __stdcall Release();
-    long __stdcall GetClassID(void* pClsID);
-    long __stdcall Stop();
-    long __stdcall Pause();
-    long __stdcall FUN_009fb860(__int64 tStart);
+    long QueryInterface(void* riid, void** ppv);
+    unsigned long AddRef();
+    unsigned long Release();
+    long GetClassID(void* pClsID);
+    long Stop();
+    long Pause();
+    long FUN_009fb860(__int64 tStart);
 };
 
 // @fnv 0x009fb860
-long __stdcall FltBaseFilter::FUN_009fb860(__int64 tStart)
+long FltBaseFilter::FUN_009fb860(__int64 tStart)
 {
     FltAutoLock cObjectLock(m_pLock);
 
@@ -6784,11 +6754,11 @@ int ConnectionPin::FUN_009fbf00(void* a1, int a2)
     if (hr == 0)
     {
         m_18 = a1;
-        ((void(__stdcall*)(void*))(*(void***)a1)[1])(a1);
+        ((void(*)(void*))(*(void***)a1)[1])(a1);
         hr = v09(a2);
         if (hr >= 0)
         {
-            hr = ((int(__stdcall*)(void*, int*, int))(*(void***)a1)[4])(a1, &m_0c, a2);
+            hr = ((int(*)(void*, int*, int))(*(void***)a1)[4])(a1, &m_0c, a2);
             if (hr >= 0)
             {
                 hr = v12(a1);
@@ -6796,7 +6766,7 @@ int ConnectionPin::FUN_009fbf00(void* a1, int a2)
                 {
                     return hr;
                 }
-                ((void(__stdcall*)(void*))(*(void***)a1)[5])(a1);
+                ((void(*)(void*))(*(void***)a1)[5])(a1);
             }
         }
     }
@@ -6808,14 +6778,14 @@ int ConnectionPin::FUN_009fbf00(void* a1, int a2)
     if (m_18 != 0)
     {
         void* obj = m_18;
-        ((void(__stdcall*)(void*))(*(void***)obj)[2])(obj);
+        ((void(*)(void*))(*(void***)obj)[2])(obj);
         m_18 = 0;
     }
     return hr;
 }
 
 // @fnv 0x009fd080
-extern "C" int __stdcall FUN_009fd080(const unsigned short* apString)
+extern "C" int FUN_009fd080(const unsigned short* apString)
 {
     int i = -1;
     do
@@ -6876,7 +6846,7 @@ class CBaseList_9fd
     CNode* AddNode(void* pObject);
 };
 // @fnv 0x009fe3f0
-int __thiscall FUN_009fe3f0_class::FUN_009fe3f0(int value)
+int FUN_009fe3f0_class::FUN_009fe3f0(int value)
 {
     if (((int)(reinterpret_cast<::CBaseList_9fd *>(&(m_50))->AddNode((void *)(value)))))
     {
@@ -7021,7 +6991,7 @@ struct S_009fd390_Class
     int unk24;
 };
 
-extern void(__stdcall* DAT_00fdf1cc)(int*);
+extern void(* DAT_00fdf1cc)(int*);
 
 struct S_009fe370_AutoLock
 {
@@ -7062,7 +7032,7 @@ struct S_009fe370_Class
     int unk4c;
     S_009fd390_Class unk50;
 
-    int __thiscall LockAndProcess();
+    int LockAndProcess();
 };
 // Waits for an async I/O completion event, retrieves the next request, and returns its result, context, user data, and actual bytes read.
 // @fnv 0x009fe570
@@ -7140,9 +7110,6 @@ struct S_009fe420_Item
 {
 };
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
-extern "C" __declspec(dllimport) void __stdcall SetEvent(void*);
 
 struct CriticalSection9FE
 {
@@ -7204,18 +7171,16 @@ struct S_009fe420_Cls
     int unk74;
     void* unk78;
 
-    void __thiscall ProcessItems();
+    void ProcessItems();
 };
 
 namespace fnv_009fabb0 {
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
-extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* pCS);
 
 struct ComObj
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 
 class Inner
@@ -7317,7 +7282,7 @@ struct InterfaceOwner
 
 // Tests b against DAT_01093bbc then DAT_01093bac with FUN_009f9980, then calls FUN_009fcf10 or FUN_009fceb0 depending on the results and interfaceEnabled5c.
 // @fnv 0x009fac30
-void __stdcall FUN_009fac30(int a, int b, int c)
+void FUN_009fac30(int a, int b, int c)
 {
     int result = ::FUN_009f9980((const void *)(b), &DAT_01093bbc);
     InterfaceOwner* obj = (InterfaceOwner*)a;
@@ -7343,8 +7308,8 @@ namespace fnv_009fae90 {
 struct Packet;
 struct PacketCallbacks
 {
-    void(__stdcall* onIdle)(Packet*);
-    void(__stdcall* onStart)(Packet*);
+    void(* onIdle)(Packet*);
+    void(* onStart)(Packet*);
 };
 struct Packet
 {
@@ -7379,7 +7344,7 @@ class CriticalSectionGuard
 };
 // Acquires the packet's critical section, marks it active, and either clears a delayed flag or starts the parent and invokes the onStart callback.
 // @fnv 0x009fae90
-int __stdcall FUN_009fae90(Packet* packet)
+int FUN_009fae90(Packet* packet)
 {
     CRITICAL_SECTION* section =
         reinterpret_cast<Parent*>(reinterpret_cast<char*>(packet) - 12) ? &packet->criticalSection : 0;
@@ -7410,9 +7375,6 @@ int __stdcall FUN_009fae90(Packet* packet)
 }  // namespace fnv_009fae90
 
 namespace fnv_009fe690 {
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void* hHandle,
-                                                                             unsigned long dwMilliseconds);
-extern "C" __declspec(dllimport) int __stdcall SetEvent(void* hEvent);
 
 struct AsyncCritSec
 {
@@ -7554,7 +7516,7 @@ class S009faf50_FUN_009faf50_obj
   public:
     int unk00;
     int unk04;
-    void(__thiscall* m_08)(S009faf50_FUN_009faf50_obj* self, S009faf50_FUN_009faf50_rec* arg);
+    void(* m_08)(S009faf50_FUN_009faf50_obj* self, S009faf50_FUN_009faf50_rec* arg);
 };
 
 class S009faf50_FUN_009faf50_base
@@ -7608,7 +7570,7 @@ class S009faf50_CSGuard5
 };
 
 // @fnv 0x009faf50
-int __stdcall FUN_009faf50(S009faf50_FUN_009faf50_rec* self)
+int FUN_009faf50(S009faf50_FUN_009faf50_rec* self)
 {
     int ok = 0;
     {
@@ -7638,12 +7600,6 @@ int __stdcall FUN_009faf50(S009faf50_FUN_009faf50_rec* self)
     return 0;
 }
 
-extern "C" __declspec(dllimport) long __stdcall CoInitialize(void* pvReserved);
-extern "C" __declspec(dllimport) void __stdcall CoUninitialize();
-extern "C" __declspec(dllimport) void __stdcall CoFreeUnusedLibraries();
-extern "C" __declspec(dllimport) long __stdcall CoCreateInstance(const MediaGuid& rclsid, void* pUnkOuter,
-                                                                 unsigned long dwClsContext, const MediaGuid& riid,
-                                                                 void** ppv);
 
 extern const MediaGuid DAT_0107cb08;
 extern const MediaGuid DAT_01093b8c;
@@ -7663,7 +7619,7 @@ struct S_009fba40_A
 
 // Calls virtual v20 on the object at self-0x10 and returns 1 if it gives 0; otherwise creates a COM object, passes it to WriteRecordSet, releases it, returns 0.
 // @fnv 0x009fba40
-int __stdcall FUN_009fba40(void* self)
+int FUN_009fba40(void* self)
 {
     S_009fba40_A* a = (S_009fba40_A*)((char*)self - 0x10);
     int r = a->v20();
@@ -7682,7 +7638,7 @@ int __stdcall FUN_009fba40(void* self)
 }
 
 // @fnv 0x009fbe40
-int __stdcall FUN_009fbe40(MediaEnumerator* self, int delta)
+int FUN_009fbe40(MediaEnumerator* self, int delta)
 {
     if (delta == 0)
         return 0;
@@ -7734,7 +7690,7 @@ class S009fe2f0_FUN_009fe2f0_cls
 };
 // Repeatedly takes an item from FUN_009fe2f0, runs FUN_009fdf20 on it, calls FUN_009fe3f0, and sets event unk78 when unk70 reaches 0 and unk74 is set.
 // @fnv 0x009fe420
-void __thiscall S_009fe420_Cls::ProcessItems()
+void S_009fe420_Cls::ProcessItems()
 {
     for (;;)
     {
@@ -7874,7 +7830,6 @@ struct AllocatorSampleDeleteView
     {}
     virtual ~AllocatorSampleDeleteView();
 };
-extern "C" __declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
 inline S9fcc60_Sample* RemoveAllocatorSample(S9fcc60_Alloc* allocator)
 {
     S9fcc60_Sample* node = allocator->m_lFree;
@@ -7905,7 +7860,7 @@ void EntryObject::FUN_009fb170()
 }
 
 // @fnv 0x009fb650
-int __stdcall FUN_009fb650(FltMediaFilter* self, void** pClock)
+int FUN_009fb650(FltMediaFilter* self, void** pClock)
 {
     if (pClock == 0)
     {
@@ -7927,7 +7882,7 @@ struct FUN_009fc600_30
     FUN_009fc600_30(SourceObj*, ResultRec*);
 };
 // @fnv 0x009fcdc0
-int __stdcall FUN_009fcdc0(int a, FUN_009fc600** out)
+int FUN_009fcdc0(int a, FUN_009fc600** out)
 {
     if (!out)
         return 0x80004003;
@@ -7936,9 +7891,6 @@ int __stdcall FUN_009fcdc0(int a, FUN_009fc600** out)
     return p ? 0 : 0x8007000e;
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall WaitForMultipleObjects(unsigned long nCount,
-                                                                                void* const* lpHandles, int bWaitAll,
-                                                                                unsigned long dwMilliseconds);
 
 class AsyncIoWait : public S_009fe420_Cls
 {
@@ -7962,7 +7914,7 @@ int AsyncIoWait::FUN_009fe500()
 }
 
 // @fnv 0x009fbab0
-int __stdcall FUN_009fbab0(void* self)
+int FUN_009fbab0(void* self)
 {
     S_009fba40_A* a = (S_009fba40_A*)((char*)self - 0x10);
     int r = a->v20();
@@ -8001,7 +7953,7 @@ struct PinConnectionView_009fc390
 };
 
 // @fnv 0x009fc390
-int __stdcall FUN_009fc390(PinConnectionView_009fc390* owner, S_009f9bb0_Rec* target)
+int FUN_009fc390(PinConnectionView_009fc390* owner, S_009f9bb0_Rec* target)
 {
     if (!target)
         return 0x80004003;
@@ -8084,7 +8036,7 @@ struct Lk_Owner
 
 // Links b at the head of o's list under a critical section, increments count, and when flag48 is set and count equals p30 clears it and calls o's vtable slot 2.
 // @fnv 0x009fc480
-int __stdcall FUN_009fc480(int apOwner, Lk_Item* apItem)
+int FUN_009fc480(int apOwner, Lk_Item* apItem)
 {
     if (!apItem)
         return 0x80004003;
@@ -8109,30 +8061,30 @@ int __stdcall FUN_009fc480(int apOwner, Lk_Item* apItem)
     if (o->p4c)
     {
         void** vt = *(void***)o->p4c;
-        ((void(__stdcall*)(void*))vt[3])(o->p4c);
+        ((void(*)(void*))vt[3])(o->p4c);
     }
     if (notify)
     {
         void** vt = *(void***)o;
-        ((void(__stdcall*)(void*))vt[2])(o);
+        ((void(*)(void*))vt[2])(o);
     }
     return 0;
 }
 
-extern void(__stdcall* DAT_00fdf054)(void*);
-extern void*(__stdcall* DAT_00fdf0b4)(void*, long, long, char const*);
+extern void(* DAT_00fdf054)(void*);
+extern void*(* DAT_00fdf0b4)(void*, long, long, char const*);
 
 struct AllocatorInitView
 {
-    int* __thiscall FUN_009fcee0(int a, int b);
+    int* FUN_009fcee0(int a, int b);
 };
 
 struct AllocatorShell_9fcb90 : S9fcc60_Alloc
 {
-    int __thiscall FUN_009fcb90(int a, int b, int c, int d, int e);
+    int FUN_009fcb90(int a, int b, int c, int d, int e);
 };
 // @fnv 0x009fcc20
-int __thiscall FUN_009fcc20_class::Initialize(int a, int b, int c)
+int FUN_009fcc20_class::Initialize(int a, int b, int c)
 {
     reinterpret_cast<::AllocatorShell_9fcb90 *>(this)->FUN_009fcb90(a, b, c, 1, 1);
     *(int*)this = (int)&DAT_01093d28;
@@ -8143,7 +8095,7 @@ int __thiscall FUN_009fcc20_class::Initialize(int a, int b, int c)
 
 // Initializes the allocator by calling FUN_009fcee0, zeroing fields, and optionally allocating a handle via DAT_00fdf0b4.
 // @fnv 0x009fcb90
-int __thiscall AllocatorShell_9fcb90::FUN_009fcb90(int a, int b, int apError, int d, int e)
+int AllocatorShell_9fcb90::FUN_009fcb90(int a, int b, int apError, int d, int e)
 {
     S9fcc60_Alloc* fields = this;
 
@@ -8183,11 +8135,11 @@ int __thiscall AllocatorShell_9fcb90::FUN_009fcb90(int a, int b, int apError, in
 
 struct ObjectLifetime : FUN_009fce60_class
 {
-    ObjectLifetime* __thiscall FUN_009fce60(int);
+    ObjectLifetime* FUN_009fce60(int);
 };
 // Calls FUN_009fce60 on the object at offset 4 with a, then stores b (or this if b is null) at offset 4 and zero at offset 8, returning this.
 // @fnv 0x009fcee0
-int* __thiscall FUN_009fcee0_class::FUN_009fcee0(int aiValue, int apParent)
+int* FUN_009fcee0_class::FUN_009fcee0(int aiValue, int apParent)
 {
     reinterpret_cast<::ObjectLifetime *>((((FUN_009fce60_class*)((char*)this + 4))))->FUN_009fce60(aiValue);
     *(int*)((char*)this + 4) = apParent ? apParent : (int)this;
@@ -8196,22 +8148,21 @@ int* __thiscall FUN_009fcee0_class::FUN_009fcee0(int aiValue, int apParent)
 }
 
 // @fnv 0x009fce60
-ObjectLifetime* __thiscall ObjectLifetime::FUN_009fce60(int)
+ObjectLifetime* ObjectLifetime::FUN_009fce60(int)
 {
     InterlockedIncrement(reinterpret_cast<volatile long*>(&DAT_011f3298));
     return this;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall CreateEventA(void*, int, int, const char*);
 
 struct FUN_009fcfc0_class
 {
     void* m_p;
-    void* __thiscall FUN_009fcfc0(int a);
+    void* FUN_009fcfc0(int a);
 };
 
 // @fnv 0x009fcfc0
-void* __thiscall FUN_009fcfc0_class::FUN_009fcfc0(int a)
+void* FUN_009fcfc0_class::FUN_009fcfc0(int a)
 {
     m_p = CreateEventA(0, a, 0, 0);
     return this;
@@ -8382,14 +8333,14 @@ static inline ::BasePinStub* PinOwnerFromInterface(::PinIface* pin)
 }
 
 // @fnv 0x009fc300
-int __stdcall FUN_009fc300(::PinIface* self)
+int FUN_009fc300(::PinIface* self)
 {
     ::PinCritSecLock lock(PinOwnerFromInterface(self)->m_pLock);
     if (!PinOwnerFromInterface(self)->IsStopped())
     {
         return 0x80040224;
     }
-    int(__stdcall* const disconnect)(::FUN_009fa380_cls*) = &::FUN_009fa380;
+    int(* const disconnect)(::FUN_009fa380_cls*) = &::FUN_009fa380;
     return disconnect(reinterpret_cast< ::FUN_009fa380_cls*>(PinOwnerFromInterface(self)));
 }
 

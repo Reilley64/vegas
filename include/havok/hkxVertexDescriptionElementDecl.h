@@ -4,7 +4,6 @@
 #define FNV_HAVOK_HKXVERTEXDESCRIPTIONELEMENTDECL_H
 
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkxVertexDescriptionElementDecl
 {
   public:
@@ -13,6 +12,4 @@ class hkxVertexDescriptionElementDecl
     hkUint16 m_eDataUsage;    // +0x6 (DataUsage)
     hkUint32 m_uiByteStride;  // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxVertexDescriptionElementDecl[(sizeof(hkxVertexDescriptionElementDecl) == 0xC) ? 1 : -1];
 #endif

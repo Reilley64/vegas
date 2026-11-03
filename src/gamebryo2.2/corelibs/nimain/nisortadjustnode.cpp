@@ -24,11 +24,11 @@ void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 struct NiSortAdjustNode
 {
     void* m_vftable;
-    void* __thiscall Destructor(unsigned int flags);
+    void* Destructor(unsigned int flags);
 };
 
 // @fnv 0x00a95320
-void* __thiscall NiSortAdjustNode::Destructor(unsigned int flags)
+void* NiSortAdjustNode::Destructor(unsigned int flags)
 {
     m_vftable = &DAT_010a0384;
     reinterpret_cast<class ::FUN_00a5e930 *>((this))->FUN_00a5e930::~FUN_00a5e930();
@@ -75,7 +75,7 @@ class NiStream
   public:
     unsigned char _pad[0xD8];
     unsigned int m_uiNifVersion;
-    NiObject* __thiscall GetLoadedObject();
+    NiObject* GetLoadedObject();
 };
 class NiNode
 {
@@ -83,10 +83,10 @@ class NiNode
 };
 struct TargetCls : public NiNode
 {
-    void __thiscall FUN_00a95410(NiStream&);
+    void FUN_00a95410(NiStream&);
 };
 // @fnv 0x00a95410
-void __thiscall TargetCls::FUN_00a95410(NiStream& stream)
+void TargetCls::FUN_00a95410(NiStream& stream)
 {
     reinterpret_cast<::sa5e9d0::Node *>(this)->ReadChildListFromStream((::sa5e9d0::Stream *)&(stream));
     if (stream.m_uiNifVersion < 0x14000004)

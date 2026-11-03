@@ -1,5 +1,6 @@
 // bsshader/bsshadernolighting.cpp: BSShaderNoLighting, ShaderDispatcher, LightingShader, TechniqueShader and more (21 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSRenderStateManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BoneHost.h"
@@ -385,7 +386,7 @@ struct NiColor
 
 
 // @fnv 0x00bc6fe0
-void __fastcall UpdateMaterialColor(void* pThis, int, char* pMaterialProp, char* pShaderProp)
+void UpdateMaterialColor(void* pThis, int, char* pMaterialProp, char* pShaderProp)
 {
     DAT_01202010.a = (*(float*)(pMaterialProp + 0x28) < 1.0f) ? *(float*)(pMaterialProp + 0x28) : 1.0f;
 
@@ -431,7 +432,7 @@ struct Mat3x3_00bc8e00
 
 // Builds an identity 3x3 matrix, replaces it with the matrix at p3+0x20 when reachable, and copies it into the DAT_01201fe0..DAT_01202008 globals.
 // @fnv 0x00bc8e00
-void __stdcall UpdateGlobalMatrix(void* pObject)
+void UpdateGlobalMatrix(void* pObject)
 {
     Mat3x3_00bc8e00 mat;
     mat.m[0][0] = 1.0f;
@@ -482,14 +483,14 @@ struct DummyRenderer
 
 // If arg3 is non-null, calls FUN_00e6fe30 then invokes renderer vtable slot 0x78 with fields from this_ptr, arg2 and arg3, returning 0.
 // @fnv 0x00bc8f20
-int __fastcall FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
+int FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
                             int arg6, int arg7, int arg8)
 {
     if (arg3)
     {
         reinterpret_cast<::BoneHost *>((DAT_011f9508))->FUN_00e6fe30((::SkinMatrixBlock *)(edx_unused), (::Xf *)((int)arg2), arg7, 0, 3);
         void* obj = ((DummyRenderer*)DAT_0126f74c)->obj5c;
-        typedef void(__thiscall * VFunc)(void*, int, int, int, int, int);
+        typedef void(* VFunc)(void*, int, int, int, int, int);
         VFunc fn = (*(VFunc**)obj)[0x78 / 4];
         fn(obj, *(int*)(this_ptr + 0x180), *(int*)(arg2 + 0x28), *(unsigned short*)(arg3 + 0x20), *(int*)(arg2 + 0x20),
            *(int*)(arg3 + 4));
@@ -500,13 +501,13 @@ int __fastcall FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* 
 extern float DAT_011ad83c;
 
 // @fnv 0x00bca050
-void __stdcall ComputeReciprocal(int)
+void ComputeReciprocal(int)
 {
     DAT_012021a8 = 1.0f / DAT_011ad83c;
 }
 
 struct FUN_00bc6940_obj;
-typedef void(__thiscall* FUN_00bc6940_fn)(FUN_00bc6940_obj*, int);
+typedef void(* FUN_00bc6940_fn)(FUN_00bc6940_obj*, int);
 struct FUN_00bc6940_obj
 {
     char pad[0x6c];
@@ -515,7 +516,7 @@ struct FUN_00bc6940_obj
 
 // Calls the function pointer at offset 0x128 on self once for each of the 30 ints in self->vals.
 // @fnv 0x00bc6940
-void __fastcall CallHandlerForEachValue(FUN_00bc6940_obj* self)
+void CallHandlerForEachValue(FUN_00bc6940_obj* self)
 {
     for (int i = 0; i < 30; i++)
         (*reinterpret_cast<FUN_00bc6940_fn**>(self))[0x128 / 4](self, self->vals[i]);
@@ -525,12 +526,12 @@ extern "C" void* __cdecl _memmove(void*, const void*, unsigned int);
 
 struct FUN_00bc6fa0_shell
 {
-    void __thiscall CopyEntriesToGlobalBuffer(int a1, int a2);
+    void CopyEntriesToGlobalBuffer(int a1, int a2);
 };
 
 // Copies count 16-byte entries from the object at a1+0xb8 into DAT_01202048 and stores count at this+0x170+0x20.
 // @fnv 0x00bc6fa0
-void __thiscall FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(int apSource, int aiUnused)
+void FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(int apSource, int aiUnused)
 {
     int pContainer = *(int*)(apSource + 0xb8);
     unsigned char count = *(unsigned char*)(pContainer + 0x6c);
@@ -560,7 +561,7 @@ struct FUN_00bc9390_obj
 void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 // @fnv 0x00bc9390
-FUN_00bc9390_obj* __fastcall FUN_00bc9390(FUN_00bc9390_obj* self, int unused, unsigned int flags)
+FUN_00bc9390_obj* FUN_00bc9390(FUN_00bc9390_obj* self, int unused, unsigned int flags)
 {
     ::DestroyShaderNoLighting((::BSShaderNoLighting *)(self));
     if (flags & 1)
@@ -750,7 +751,7 @@ struct FNVFlagOwner
 
 // Checks flag bits on owner's target and other objects and calls the corresponding flag update functions when bits are set or clear.
 // @fnv 0x00bc8d90
-void __stdcall UpdateFlagStates(FNVFlagOwner* owner)
+void UpdateFlagStates(FNVFlagOwner* owner)
 {
     FNVFlagTarget* target = owner->m_pFlagTarget;
     if (target != 0 && (target->m_flags24 & 0x10000) > 0)
@@ -809,8 +810,6 @@ struct RefObject
     virtual void DeleteThis();
     long m_iObjectReferenceCount;
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct ShaderRefPointer
 {
     RefObject* object;
@@ -1415,7 +1414,7 @@ __forceinline BSShaderNoLighting::~BSShaderNoLighting()
 
 // Calls the BSShaderNoLighting destructor on shader, releasing its pass, vertex and pixel shader pointers.
 // @fnv 0x00bc7220
-void __fastcall DestroyShaderNoLighting(BSShaderNoLighting* shader)
+void DestroyShaderNoLighting(BSShaderNoLighting* shader)
 {
     shader->BSShaderNoLighting::~BSShaderNoLighting();
 }

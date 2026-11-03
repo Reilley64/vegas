@@ -9,12 +9,12 @@
 struct FUN_00865aa0_shell
 {
     unsigned char c;
-    void __thiscall SetFlags(unsigned int a);
+    void SetFlags(unsigned int a);
 };
 
 // Stores the low 2 bits of a into the upper 2 bits of c, preserving c's lower 6 bits.
 // @fnv 0x00865aa0
-void __thiscall FUN_00865aa0_shell::SetFlags(unsigned int a)
+void FUN_00865aa0_shell::SetFlags(unsigned int a)
 {
     c = (c & 0x3f) | (a << 6);
 }
@@ -22,7 +22,7 @@ void __thiscall FUN_00865aa0_shell::SetFlags(unsigned int a)
 struct FUN_00865b10_shell
 {
     unsigned char c;
-    unsigned int __thiscall GetValuePlusNine();
+    unsigned int GetValuePlusNine();
 };
 
 unsigned int __cdecl FUN_00845d40(unsigned int);
@@ -33,7 +33,7 @@ struct _ref_0084e3a0_shell
 
 // Calls _ref_0084e3a0, passes the result through FUN_00845d40 and FUN_00845d70, then returns that value plus 9.
 // @fnv 0x00865b10
-unsigned int __thiscall FUN_00865b10_shell::GetValuePlusNine()
+unsigned int FUN_00865b10_shell::GetValuePlusNine()
 {
     unsigned int value = FUN_00845d70(FUN_00845d40(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<_ref_0084e3a0_shell*>(this)))->FUN_0084e3a0()))));
     return value + 9;
@@ -301,7 +301,7 @@ struct BGSSaveFormBuffer
     unsigned int m_iChangeFlags;
     BGSFormInfo m_FormInfo;
     unsigned char m_cVersion;
-    void __thiscall InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
+    void InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
                                   unsigned char acVersion);
 };
 
@@ -378,7 +378,7 @@ struct FUN_00865a30_owner
     int unk10;
     int unk14;
     int unk18;
-    void __thiscall FUN_00865a30(void* buffer);
+    void FUN_00865a30(void* buffer);
 };
 // @fnv 0x00865a30
 void FUN_00865a30_owner::FUN_00865a30(void* buffer)

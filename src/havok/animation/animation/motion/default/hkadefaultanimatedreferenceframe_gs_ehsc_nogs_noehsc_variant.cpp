@@ -21,7 +21,7 @@ struct FUN_00e41080_Obj
     int unk2C;
     float unk30;
 
-    float __thiscall GetUnk30();
+    float GetUnk30();
 };
 
 #include <xmmintrin.h>

@@ -40,10 +40,10 @@ FUN_00e607c0::FUN_00e607c0(float afValue)
 struct FUN_00e60680_class {
     int unk00; int unk04; int unk08; int unk0c; int unk10;
     int capacity;
-    int __thiscall GetNextIndex(int index);
+    int GetNextIndex(int index);
 };
 // @fnv 0x00e60680
-int __thiscall FUN_00e60680_class::GetNextIndex(int index) {
+int FUN_00e60680_class::GetNextIndex(int index) {
     int next = index + 1;
     if (next < capacity) return next;
     return -1;

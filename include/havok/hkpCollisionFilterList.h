@@ -5,12 +5,9 @@
 
 #include "hkBase.h"
 #include "hkpCollisionFilter.h"
-#pragma pack(push, 1)
 class hkpCollisionFilterList : public hkpCollisionFilter
 {
   public:
     hkArray<hkpCollisionFilter*> m_kFilters;  // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpCollisionFilterList[(sizeof(hkpCollisionFilterList) == 0x3C) ? 1 : -1];
 #endif

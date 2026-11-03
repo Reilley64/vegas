@@ -66,10 +66,10 @@ BSFadeNode* __cdecl FUN_00c20350()
 
 struct S
 {
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void* DestroyIfFlagged(unsigned int);
 };
 // @fnv 0x00c20390
-void* __thiscall S::DestroyIfFlagged(unsigned int uiFlags)
+void* S::DestroyIfFlagged(unsigned int uiFlags)
 {
     static_cast<::PositionState *>(nullptr)->FUN_00c31750();
     if (uiFlags & 1)
@@ -123,7 +123,7 @@ struct NiPSysBoxEmitter_shell
     float m_fValueAtOffset58;
     float m_fCylinderHeight;
     float m_fValueAtOffset60;
-    NiObject* __thiscall Clone(CloningProcess& kCloning);
+    NiObject* Clone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c202f0

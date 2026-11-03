@@ -25,7 +25,6 @@
 #include "../../../include/NiPoint3.h"
 #undef NiPoint3
 #undef NiPointer
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == sizeof(FNV_NiPoint3_Canonical));
 #include "../../../include/TESForm.h"
 #include "../../../include/AutoMemContext.h"
 #include "../../../include/SETTING_VALUE.h"

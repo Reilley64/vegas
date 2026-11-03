@@ -168,7 +168,7 @@ class ArrowProjectile : public Projectile
 };
 
 struct ProjectileNode;
-bool __fastcall FUN_008256d0(ProjectileNode* node);
+bool FUN_008256d0(ProjectileNode* node);
 
 struct ProjectileNode
 {

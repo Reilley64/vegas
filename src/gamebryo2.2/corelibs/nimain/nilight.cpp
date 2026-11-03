@@ -131,7 +131,7 @@ struct FUN_00a72010_owner
 // @fnv 0x00a72010
 void FUN_00a72010_owner::FUN_00a72010()
 {
-    typedef void(__thiscall * Fn_t)(NiRenderer*, void*);
+    typedef void(* Fn_t)(NiRenderer*, void*);
     *(void**)this = (void*)&DAT_0109ce4c;
     NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
     if (pkRenderer)

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00c9e340.h"
 #include "fnv/decl/FunctionContext.h"
@@ -48,7 +49,7 @@ int FUN_00d5e020_standin::FUN_00d5e020(int a, int aiLimit)
     char* p = (char*)this;
     int iLimit = aiLimit - 0x60;
     int iResult =
-        (*(int(__thiscall**)(void*, int, int))(*(int*)(*(int*)(p + 0x18)) + 0x18))(*(void**)(p + 0x18), a, iLimit);
+        (*(int(**)(void*, int, int))(*(int*)(*(int*)(p + 0x18)) + 0x18))(*(void**)(p + 0x18), a, iLimit);
     if (iResult < 0)
         return -1;
     if (iResult > iLimit)
@@ -168,7 +169,6 @@ extern "C"
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010d1074[];
@@ -330,7 +330,6 @@ extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 extern "C" const char str_010d1084[];
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned __int64 __rdtsc(void);
 
 struct MonitorEntry
@@ -753,7 +752,7 @@ struct TransformHost
     hkVector4 unk40;
     hkVector4 unk50;
 
-    void __thiscall FUN_00d5dd40(int a, int b, float* c);
+    void FUN_00d5dd40(int a, int b, float* c);
 };
 
 struct __declspec(align(16)) LocalTransform
@@ -762,7 +761,7 @@ struct __declspec(align(16)) LocalTransform
 };
 // Calls unk18->vf3c(a, b, c), then transforms the b vectors in c in place by the matrix made from unk20, unk30, unk40 and unk50.
 // @fnv 0x00d5dd40
-void __thiscall TransformHost::FUN_00d5dd40(int a, int aiCount, float* apPoints)
+void TransformHost::FUN_00d5dd40(int a, int aiCount, float* apPoints)
 {
     unk18->vf3c(a, aiCount, (int)apPoints);
     LocalTransform localTransform;

@@ -33,7 +33,7 @@ void FUN_00d927b0_class::FUN_00d927b0(unsigned int arg)
 }
 
 // @fnv 0x00d927d0
-void __stdcall FUN_00d927d0(int, int* paiValues)
+void FUN_00d927d0(int, int* paiValues)
 {
     paiValues[0] = 0;
     paiValues[1] = 0;
@@ -105,7 +105,7 @@ int __cdecl FUN_00d92810()
 }
 
 // @fnv 0x00d92800
-void __stdcall FUN_00d92800(bool* p)
+void FUN_00d92800(bool* p)
 {
     *p = true;
 }
@@ -299,7 +299,7 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
 }
 
 // @fnv 0x00d927f0
-int __stdcall FUN_00d927f0(int arg)
+int FUN_00d927f0(int arg)
 {
     return 0;
 }

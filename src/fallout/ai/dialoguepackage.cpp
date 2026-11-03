@@ -127,7 +127,7 @@ BGSTerrainManager* LoadBGSTerrainManager(const NiPointer<NiNode>& apNode)
 }
 
 // @fnv 0x009ee040
-int __fastcall FUN_009ee040(char* pThis)
+int FUN_009ee040(char* pThis)
 {
     return *(int*)(pThis + 0xb0);
 }
@@ -218,11 +218,11 @@ struct FUN_008e95c0_shell
 {
     unsigned char m_ucUnknownByte[0xbf];
     bool m_bFlag;
-    bool __thiscall FUN_008e95c0();
+    bool FUN_008e95c0();
 };
 
 // @fnv 0x008e95c0
-bool __thiscall FUN_008e95c0_shell::FUN_008e95c0()
+bool FUN_008e95c0_shell::FUN_008e95c0()
 {
     return m_bFlag;
 }
@@ -1505,7 +1505,7 @@ struct TESSound
 };
 struct FUN_008579e0_shell
 {
-    void __thiscall FUN_008579e0(void* buf, unsigned int n);
+    void FUN_008579e0(void* buf, unsigned int n);
 };
 struct TimeGlobal : FUN_008579e0_shell
 {
@@ -1531,7 +1531,7 @@ struct SLObj
 };
 struct DialogueItem_shell
 {
-    int __thiscall GetResponseByIndex(short a);
+    int GetResponseByIndex(short a);
 };
 struct This
 {
@@ -1548,7 +1548,7 @@ struct This
     int fac;
     int fb0;
     int fb4;
-    void __thiscall LoadSaveData();
+    void LoadSaveData();
 };
 // @fnv 0x009efa50
 void This::LoadSaveData()

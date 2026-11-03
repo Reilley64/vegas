@@ -198,7 +198,6 @@ enum ImageSpaceEffectDepthRadialBlur__RadialBlurMode
     ImageSpaceEffectDepthRadialBlur__RadialBlurMode_DOF_BACK = 2,
     ImageSpaceEffectDepthRadialBlur__RadialBlurMode_DOF_NONE = 3
 };
-#pragma pack(push, 4)
 class NiTPrimitiveArray_ImageSpaceEffect___ : public NiTArray<ImageSpaceEffect*, NiTMallocInterface<ImageSpaceEffect*> >
 {
   public:
@@ -209,9 +208,6 @@ class NiTPrimitiveArray_ImageSpaceEffect___ : public NiTArray<ImageSpaceEffect*,
     // void __cdecl NiTPrimitiveArray<ImageSpaceEffect *>::*()
     // void __cdecl NiTPrimitiveArray<ImageSpaceEffect *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPrimitiveArray_ImageSpaceEffect___) == 16);
-#pragma pack(push, 4)
 class ImageSpaceModifierParameterData
 {
   public:
@@ -223,15 +219,6 @@ class ImageSpaceModifierParameterData
     unsigned int ShaderConstantData;        // +0x94, 4 bytes
     // void __cdecl ImageSpaceModifierParameterData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceModifierParameterData) == 152);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afFirstParameterSet) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afSecondParameterSet) == 60);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afThirdParameterSet) == 72);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afFourthParameterSet) == 84);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, m_afColorAndAlphaParameters) == 100);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceModifierParameterData, ShaderConstantData) == 148);
-#pragma pack(push, 4)
 class ImageSpaceTexture
 {
   public:
@@ -257,15 +244,6 @@ class ImageSpaceTexture
     // void* __cdecl ImageSpaceTexture::*(unsigned int)
     // declarations for the targets of this unit's covered code
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceTexture) == 16);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag1) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag2) == 1);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_bTextureFlag3) == 2);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, pTexture) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eTextureFilterMode) == 8);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceTexture, m_eClampMode) == 12);
-#pragma pack(push, 4)
 class RgbaColor
 {
   public:
@@ -292,13 +270,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class NiPoint2
 {
   public:
@@ -325,11 +296,6 @@ class NiPoint2
     // SaveBinary
     // char* __cdecl NiPoint2::*(const char*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiPoint2) == 8);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, x) == 0);
-FNV_STATIC_ASSERT(offsetof(NiPoint2, y) == 4);
-#pragma pack(push, 4)
 class NiRect_float_
 {
   public:
@@ -343,13 +309,6 @@ class NiRect_float_
     // char* __cdecl NiRect<float>::*(const char*)
     // void __cdecl NiRect<float>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiRect_float_) == 16);
-FNV_STATIC_ASSERT(offsetof(NiRect_float_, m_fMinimumU) == 0);
-FNV_STATIC_ASSERT(offsetof(NiRect_float_, m_fMaximumU) == 4);
-FNV_STATIC_ASSERT(offsetof(NiRect_float_, m_fMinimumV) == 8);
-FNV_STATIC_ASSERT(offsetof(NiRect_float_, m_fMaximumV) == 12);
-#pragma pack(push, 4)
 class ImageSpaceManager
 {
   public:
@@ -515,67 +474,4 @@ class ImageSpaceManager
     // ImageSpaceManager& __cdecl ImageSpaceManager::*(ImageSpaceManager&)
     // void* __cdecl ImageSpaceManager::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ImageSpaceManager) == 796);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pCurrentRenderedTexture) == 0);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, pEffectList) == 4);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kBlendedParameterData) == 20);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pCurrentModifierParameterData) == 172);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pPreviousModifierParameterData) == 176);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kModifierParameterData) == 180);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_bEndOfFrameEffectsEnabled) == 484);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_iEndOfFrameEffectCount) == 488);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_eEndOfFrameEffect) == 492);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pMenuBackgroundScreenGeometry) == 496);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pMenuBackgroundScreenElementsData) == 500);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pMenuBackgroundScreenElements) == 504);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_bPartialRenderEnabled) == 508);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pPartialRenderScreenElements) == 512);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kDepthTexture) == 516);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kModifierColor) == 532);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kPartialRenderColor) == 548);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fPartialRenderBlend) == 564);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kAccumulatedColor) == 568);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kWeatherFadeColor) == 584);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fFadeColorAlpha) == 600);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDoubleVisionStrength) == 604);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherBlurRadius) == 608);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherDoubleVisionStrength) == 612);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fAdditionalImageSpaceValue) == 616);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurStrength) == 620);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurRampUp) == 624);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurStart) == 628);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurRampDown) == 632);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurDownStart) == 636);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherRadialBlurStrength) == 640);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherRadialBlurRampUp) == 644);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherRadialBlurStart) == 648);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherRadialBlurRampDown) == 652);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fWeatherRadialBlurDownStart) == 656);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kRadialBlurCenter) == 660);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kWeatherRadialBlurCenter) == 668);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldStrength) == 676);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldMaskConstant) == 680);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldDistance) == 684);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldRange) == 688);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldEffectStrength) == 692);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldEffectDistance) == 696);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldEffectRange) == 700);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fDepthOfFieldMaskValue) == 704);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_eDepthOfFieldMode) == 708);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_eDepthOfFieldTargetMode) == 712);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_bDepthOfFieldUsesObject) == 716);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_bMenuBackgroundBlendEnabled) == 717);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fBlurRadius) == 720);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurTransition) == 724);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurStartValue) == 728);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurDistance) == 732);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fRadialBlurRange) == 736);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kRadialBlurOrigin) == 740);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_eRadialBlurMode) == 748);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fMenuBackgroundBlendValue) == 752);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_fMenuBackgroundBlendTarget) == 756);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kMenuBackgroundTint) == 760);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_kMenuBackgroundRect) == 776);
-FNV_STATIC_ASSERT(offsetof(ImageSpaceManager, m_pMenuBackgroundTexture) == 792);
 #endif

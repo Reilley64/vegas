@@ -273,7 +273,7 @@ struct EdCallee
     void* FUN_0059bb30();
     void FUN_0066b0d0(int aiArg);
 };
-typedef void(__thiscall* EdVirtual)(void* self, void* apArg);
+typedef void(* EdVirtual)(void* self, void* apArg);
 struct NiPointLight;
 class NiNode;
 class PlayerCharacter;

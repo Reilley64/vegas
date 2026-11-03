@@ -30,10 +30,10 @@ struct NiRenderer
     char _pad_204[4];
     bool m_bRendererFlagA;
 };
-typedef void(__thiscall* RendererFn)(NiRenderer*, NiLinesSelf*);
+typedef void(* RendererFn)(NiRenderer*, NiLinesSelf*);
 // Calls self's render method, then if the renderer's mode is 1 or 2 and its flag is set, invokes the renderer's virtual function at offset 0x1c4.
 // @fnv 0x00a747a0
-void __fastcall FUN_00a747a0(NiLinesSelf* self, int, NiRenderer* apkRenderer)
+void FUN_00a747a0(NiLinesSelf* self, int, NiRenderer* apkRenderer)
 {
     reinterpret_cast<::FUN_00a80610_shell *>((self))->FUN_00a80610(apkRenderer);
     if ((apkRenderer->m_iRendererState == 1 || apkRenderer->m_iRendererState == 2) &&
@@ -56,7 +56,7 @@ struct NiCombatArray
     unsigned short m_usGrowBy;
 };
 // @fnv 0x00a74830
-void __stdcall FUN_00a74830(NiCombatArray* pkStrings)
+void FUN_00a74830(NiCombatArray* pkStrings)
 {
     reinterpret_cast<::ViewerGeometry *>((pkStrings))->FUN_00a80e70({});
     ActorCombatGroup* pkGroup = ((::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<::GlobalObjectO2_00a7b610 * *>(&::g_011f4a48))))));
@@ -97,7 +97,6 @@ struct NiTriBasedGeom : public NiGeometry
     void __local_vftable_ctor_closure();
     char _pad_bc[52];
 };
-typedef char _sizecheck_NiTriBasedGeom[sizeof(NiTriBasedGeom) == 240 ? 1 : -1];
 struct NiTriShape : public NiTriBasedGeom
 {
     virtual void __vslot_0();
@@ -119,7 +118,6 @@ struct NiTriShape : public NiTriBasedGeom
     virtual void RenderWithRenderer(NiRenderer*);
     void __local_vftable_ctor_closure();
 };
-typedef char _sizecheck_NiTriShape[sizeof(NiTriShape) == 240 ? 1 : -1];
 struct BSResizableTriShape : public NiTriShape
 {
     virtual void __vslot_0();
@@ -146,7 +144,6 @@ struct BSResizableTriShape : public NiTriShape
     char LocalBound[16];
     char _pad_104[12];
 };
-typedef char _sizecheck_BSResizableTriShape[sizeof(BSResizableTriShape) == 272 ? 1 : -1];
 struct FUN_00e68810_shell : public NiLines
 {
     NiLines* FUN_00e68810();

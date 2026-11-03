@@ -4,6 +4,7 @@
 
 // src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/dashpot/hkpdashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_00cf4d80.h"
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_01012000.h"
@@ -16,7 +17,6 @@ extern int DAT_010d0994;
 struct FUN_00cf4d80_shell {  };
 struct FUN_00d4d980_Class : hkpDashpotAction { FUN_00d4d980_Class* FUN_00d4d980(int entityA, int entityB, int name); };
 // FUN_00d4d9d0 - hkpDashpotAction clone-style factory (Havok)
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 unsigned long g_tlsIdx = 0;
 __declspec(noinline) void* FUN_00c85750() {
 	unsigned long idx = g_tlsIdx;
@@ -52,9 +52,8 @@ extern double DAT_010d09b8;
 
 namespace DashpotApplyDetail {
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
-typedef void* (__stdcall *DashpotApplyTlsGetter)(unsigned long dwTlsIndex);
+typedef void* (*DashpotApplyTlsGetter)(unsigned long dwTlsIndex);
 
 static inline __m128 dashpotApplyBroadcast(float f) { __m128 t = _mm_load_ss(&f); return _mm_shuffle_ps(t,t,0); }
 

@@ -27,7 +27,7 @@ extern const void* DAT_0109d8ac;
 
 
 // @fnv 0x00a75e20
-NiTriBasedGeomData* __fastcall FUN_00a75e20(NiTriBasedGeomData* self)
+NiTriBasedGeomData* FUN_00a75e20(NiTriBasedGeomData* self)
 {
     InitializeTriBasedGeomData(self);
     unsigned int v = 0;
@@ -53,7 +53,7 @@ void* Standin00a761a0::FUN_00a761a0(unsigned int flags)
 }
 
 // @fnv 0x00a75f10
-int __fastcall FUN_00a75f10(char* self)
+int FUN_00a75f10(char* self)
 {
     return *reinterpret_cast<int*>(self + 0x4c);
 }
@@ -875,7 +875,7 @@ struct StripFactoryHeader
 };
 
 // @fnv 0x00a75ec0
-NiTriBasedGeomData* __fastcall FUN_00a75ec0(NiTriBasedGeomData*)
+NiTriBasedGeomData* FUN_00a75ec0(NiTriBasedGeomData*)
 {
     NiTriStripsData* p = (NiTriStripsData*)BSFadeNode::operator new(sizeof(NiTriStripsData));
     if (p)

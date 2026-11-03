@@ -3,13 +3,13 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/bscore/memoryheap.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <windows.h>
 #include "fnv/decl/AbstractHeapBlockInfo.h"
 #include "fnv/decl/AbstractHeapBuckets.h"
 #include "fnv/decl/AbstractHeapX.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_011f6000.h"
 #include "memoryheap_decls.h"
-__declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
 struct FUN_00aa7ab0_s
 {
     unsigned int FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize);
@@ -20,7 +20,7 @@ struct FUN_00aa7a30_shell
 };
 struct FUN_00aa7c00_shell
 {
-    unsigned int __thiscall FUN_00aa7c00(const void* apPointer);
+    unsigned int FUN_00aa7c00(const void* apPointer);
 };
 struct FUN_00aa7c30_shell
 {
@@ -55,7 +55,7 @@ struct FakeHeap
     void FUN_00aa7930();
     void* FUN_00aa7e20(unsigned int);
 };
-void __fastcall FUN_00aa9d10(void* this_ptr);
+void FUN_00aa9d10(void* this_ptr);
 struct FUN_00b02710_Cls
 {
     void FUN_00b02710(void*, int);

@@ -142,7 +142,7 @@ void __cdecl FUN_00937fd0();
 
 // Calls FUN_00937fd0, then allocates an int array of DAT_011e0750 elements, zeroes it, and stores the pointer through pThis.
 // @fnv 0x00937d70
-int** __fastcall FUN_00937d70(int** apArrayOut)
+int** FUN_00937d70(int** apArrayOut)
 {
     FUN_00937fd0();
     if (DAT_011e0750)

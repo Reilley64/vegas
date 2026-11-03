@@ -154,7 +154,7 @@ void* __cdecl memset(void*, int, unsigned int);
 
 // Zeroes out all fields of the object pointed to by pThis and returns pThis.
 // @fnv 0x005e0c60
-void* __fastcall FUN_005e0c60(char* pThis)
+void* FUN_005e0c60(char* pThis)
 {
     *(int*)(pThis + 0x20) = 0;
     *(int*)(pThis + 0x4c) = 0;

@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a955f0
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3a0.h"
@@ -73,7 +74,6 @@ struct NiRefObject
 {
     ~NiRefObject();
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct ShadowObj
 {
     volatile long m_ref;
@@ -178,12 +178,12 @@ void MyHost::FUN_00a95590()
 namespace fnv_00a95740 {
 struct NiScreenTexture
 {
-    void* __thiscall FUN_00a95740(unsigned int);
+    void* FUN_00a95740(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_00a95590, then if flags has bit 1 set frees this with size 0x20, and returns this.
 // @fnv 0x00a95740
-void* __thiscall NiScreenTexture::FUN_00a95740(unsigned int flags)
+void* NiScreenTexture::FUN_00a95740(unsigned int flags)
 {
     reinterpret_cast<::MyHost *>(this)->FUN_00a95590();
     if (flags & 1)
@@ -428,7 +428,6 @@ void ScreenRectArray::Resize(unsigned int uiNewCapacity)
     }
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct CopyBase
 {
 };

@@ -132,12 +132,12 @@ void SeedRandomSamples(long alSeed)
 
 struct FUN_00b43bc0_shell
 {
-    float* __thiscall FUN_00b43bc0(float* p);
+    float* FUN_00b43bc0(float* p);
 };
 
 // Sets the first float and the following int of the given buffer to zero and returns the buffer.
 // @fnv 0x00b43bc0
-float* __thiscall FUN_00b43bc0_shell::FUN_00b43bc0(float* afBuffer)
+float* FUN_00b43bc0_shell::FUN_00b43bc0(float* afBuffer)
 {
     *reinterpret_cast<int*>(afBuffer + 1) = 0;
     *afBuffer = 0.0f;
@@ -153,12 +153,12 @@ struct GlobalObject_00b43ae0
 
 struct FUN_00b43bf0_shell
 {
-    float* __thiscall FUN_00b43bf0(float* p);
+    float* FUN_00b43bf0(float* p);
 };
 
 // Stores 0 in the int at p+1 and 1.0f at p[0], then returns p.
 // @fnv 0x00b43bf0
-float* __thiscall FUN_00b43bf0_shell::FUN_00b43bf0(float* p)
+float* FUN_00b43bf0_shell::FUN_00b43bf0(float* p)
 {
     *(int*)(p + 1) = 0;
     p[0] = 1.0f;
@@ -167,12 +167,12 @@ float* __thiscall FUN_00b43bf0_shell::FUN_00b43bf0(float* p)
 
 struct Dummy44a3a0
 {
-    void __thiscall FUN_0044a3d0();
-    void* __thiscall DestroyIfFlagged(unsigned int);
+    void FUN_0044a3d0();
+    void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_0044a3d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0044a3a0
-void* __thiscall Dummy44a3a0::DestroyIfFlagged(unsigned int flags)
+void* Dummy44a3a0::DestroyIfFlagged(unsigned int flags)
 {
     this->FUN_0044a3d0();
     if (flags & 1)
@@ -219,11 +219,11 @@ struct MyER
 };
 struct Holder43680
 {
-    MyER* __thiscall InitMyER(MyER* p);
+    MyER* InitMyER(MyER* p);
 };
 // Sets p->i to 4 and p->f to 0.0f, then returns p.
 // @fnv 0x00b43680
-MyER* __thiscall Holder43680::InitMyER(MyER* pValue)
+MyER* Holder43680::InitMyER(MyER* pValue)
 {
     int v = 4;
     pValue->i = v;
@@ -233,14 +233,14 @@ MyER* __thiscall Holder43680::InitMyER(MyER* pValue)
 
 struct FUN_00b43c50_shell
 {
-    void __thiscall FUN_00b436b0();
-    void __thiscall FUN_00b43c50();
+    void FUN_00b436b0();
+    void FUN_00b43c50();
 };
 
 struct FUN_00b43c70_shell
 {
-    void __thiscall FUN_00b436b0();
-    void* __thiscall FUN_00b43c70(unsigned int flags);
+    void FUN_00b436b0();
+    void* FUN_00b43c70(unsigned int flags);
 };
 inline Random::~Random()
 {}
@@ -253,13 +253,13 @@ struct FUN_00b436b0 : Random
     virtual ~FUN_00b436b0();
 };
 // @fnv 0x00b43c50
-void __thiscall FUN_00b43c50_shell::FUN_00b43c50()
+void FUN_00b43c50_shell::FUN_00b43c50()
 {
     reinterpret_cast<::FUN_00b436b0 *>(this)->FUN_00b436b0::~FUN_00b436b0();
 }
 // Calls FUN_00b436b0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00b43c70
-void* __thiscall FUN_00b43c70_shell::FUN_00b43c70(unsigned int flags)
+void* FUN_00b43c70_shell::FUN_00b43c70(unsigned int flags)
 {
     reinterpret_cast<::FUN_00b436b0 *>(this)->FUN_00b436b0::~FUN_00b436b0();
     if (flags & 1)

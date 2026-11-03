@@ -249,11 +249,11 @@ void FUN_004f8fe0_shell::FUN_004f8fe0()
 
 struct FUN_004f9220_shell
 {
-    void* __thiscall FUN_004f9220();
+    void* FUN_004f9220();
 };
 
 // @fnv 0x004f9220
-void* __thiscall FUN_004f9220_shell::FUN_004f9220()
+void* FUN_004f9220_shell::FUN_004f9220()
 {
     return &(*reinterpret_cast<void * *>(&::g_011c806c));
 }

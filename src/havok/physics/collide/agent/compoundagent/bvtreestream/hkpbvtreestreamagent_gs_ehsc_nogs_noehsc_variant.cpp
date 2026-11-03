@@ -23,14 +23,14 @@
 #include "fnv/symbols_010ce000.h"
 struct FUN_00d2dd30_class
 {
-    void __thiscall FUN_00d2dd30(void* a, void* b, void* c, void* d);
+    void FUN_00d2dd30(void* a, void* b, void* c, void* d);
 };
 struct FUN_00d2ddd0_class
 {
-    void __thiscall FUN_00d2ddd0(int a);
+    void FUN_00d2ddd0(int a);
 };
 // @fnv 0x00d2dd50
-extern "C" void __stdcall FUN_00d2dd50(void* a, void* b, void* c, void* d)
+extern "C" void FUN_00d2dd50(void* a, void* b, void* c, void* d)
 {
     FUN_00d31110(a, b, c, d);
 }
@@ -54,11 +54,11 @@ struct FUN_00d2dda0_class
     int unk28;
     int unk2c;
     int unk30;
-    void __thiscall FUN_00d2dda0(int value);
+    void FUN_00d2dda0(int value);
 };
 struct FUN_00d2ddf0_Class
 {
-    void __thiscall FUN_00d2ddf0(float a, float b, void* c);
+    void FUN_00d2ddf0(float a, float b, void* c);
 };
 struct hkMemoryAllocator
 {
@@ -199,7 +199,7 @@ struct BufOwner
     int unk28;
     int unk2C;
     PackedBuffer m_buf;
-    void __thiscall VisitPackedBuffer(VisitTarget* target, int flags);
+    void VisitPackedBuffer(VisitTarget* target, int flags);
 };
 struct Collector
 {
@@ -222,7 +222,7 @@ struct FUN_00d2eb50_cls
     unsigned char m_b08;
     unsigned char m_b09;
     FUN_00d2eb50_nib m_nib0a;
-    void __thiscall SwapFields();
+    void SwapFields();
 };
 struct CpuCallData
 {
@@ -259,7 +259,7 @@ struct hkpSymmetricAgentFlipBodyCollector : hkpCollectorBase
 // Game side wrapper that fills the collector and hands it to the query routine.
 struct FUN_00d43cd0_class
 {
-    void __thiscall FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
+    void FUN_00d2ed90(void* a1, void* a2, void* a3, void* a4);
 };
 
 #include <xmmintrin.h>

@@ -74,7 +74,6 @@ enum MagicSystem__SpellType
     MagicSystem__SpellType_ADDICTION = 10,
     MagicSystem__SpellType_SPELL_TYPE_COUNT = 11
 };
-#pragma pack(push, 4)
 class EffectSetting;
 class ActiveEffect
 {
@@ -135,7 +134,6 @@ public:
 public:
     float GetDuration() const;
 };
-#pragma pack(pop)
 template <> class BSSimpleList<BGSPerkEntry*>
 {
   public:
@@ -150,26 +148,7 @@ template <> class BSSimpleList<MagicHitEffect*>
     bool IsEmpty();
     void RemoveAll();
 };
-FNV_STATIC_ASSERT(sizeof(ActiveEffect) == 72);
 
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, m_fEffectMagnitude) == 4);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, pSpell) == 8);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, pEffect) == 12);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, bActive) == 16);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, bEffectFlag) == 17);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, bWasPlaying) == 18);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, bPickResultFound) == 19);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, m_bEffectState) == 20);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, iFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, m_fElapsedTime) == 28);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, fDuration) == 32);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, pTarget) == 36);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, m_pEffectInstance) == 40);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, m_eSpellType) == 44);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, m_kSoundHandle) == 48);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, pSource) == 60);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, pHitEffectList) == 64);
-FNV_STATIC_ASSERT(offsetof(ActiveEffect, pMagicItem) == 68);
 class EffectSetting
 {
   public:

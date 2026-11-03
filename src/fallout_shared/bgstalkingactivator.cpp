@@ -359,7 +359,7 @@ struct StackIdx
 };
 
 // @fnv 0x006a1440
-Elem12& __fastcall FUN_006a1440(ArrayObj* pThis, StackIdx aiIndex)
+Elem12& FUN_006a1440(ArrayObj* pThis, StackIdx aiIndex)
 {
     return pThis->m_pBase[aiIndex.i];
 }
@@ -372,8 +372,8 @@ void FUN_004ff190()
 
 struct FUN_004fe6e0_Class
 {
-    void __thiscall FUN_004fe710();
-    void* __thiscall FUN_004fe6e0(unsigned int);
+    void FUN_004fe710();
+    void* FUN_004fe6e0(unsigned int);
 };
 struct PlayerMover
 {
@@ -622,7 +622,7 @@ class FUN_004fe710 : public C4FE710Activator
 };
 // Calls FUN_004fe710, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x004fe6e0
-void* __thiscall FUN_004fe6e0_Class::FUN_004fe6e0(unsigned int flags)
+void* FUN_004fe6e0_Class::FUN_004fe6e0(unsigned int flags)
 {
     reinterpret_cast<::FUN_004fe710 *>(this)->FUN_004fe710::~FUN_004fe710();
     if (flags & 1)
@@ -676,18 +676,18 @@ struct ActivatorComparison
 
 struct TalkingActivatorComparison : BGSTalkingActivator
 {
-    BGSVoiceType* __thiscall FUN_009185e0();
-    bool __thiscall FUN_004fed50(TESForm* form);
+    BGSVoiceType* FUN_009185e0();
+    bool FUN_004fed50(TESForm* form);
 };
 
-BGSVoiceType* __thiscall TalkingActivatorComparison::FUN_009185e0()
+BGSVoiceType* TalkingActivatorComparison::FUN_009185e0()
 {
     return m_kFactionList;
 }
 
 // Returns true if form is not a BGSTalkingActivator, FUN_005111e0 returns true, or the two FUN_009185e0 results differ.
 // @fnv 0x004fed50
-bool __thiscall TalkingActivatorComparison::FUN_004fed50(TESForm* form)
+bool TalkingActivatorComparison::FUN_004fed50(TESForm* form)
 {
     BGSTalkingActivator* activator = dynamic_cast<BGSTalkingActivator*>(form);
     if (!activator)

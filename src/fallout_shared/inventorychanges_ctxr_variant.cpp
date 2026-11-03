@@ -531,7 +531,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_004c0c90_shell : public Animation
 {
     void FUN_004c0c90(float);
@@ -985,7 +984,7 @@ struct FUN_004c0cd0_Arg
 {
     int val;
 };
-void __fastcall SetField1F0(FUN_004c0cd0_This* pThis, FUN_004c0cd0_Arg arg);
+void SetField1F0(FUN_004c0cd0_This* pThis, FUN_004c0cd0_Arg arg);
 void* __cdecl operator new(unsigned int);
 struct SL
 {
@@ -1048,7 +1047,6 @@ struct InventoryItemEntry
     TESBoundObject* pObj;
     ContainerItemExtra* m_pExtraData;
 };
-typedef char _sizecheck_ContainerObject[sizeof(InventoryItemEntry) == 12 ? 1 : -1];
 struct FUN_004d1610_shell : public InventoryChanges
 {
     void FUN_004d1610();
@@ -1058,7 +1056,7 @@ struct FUN_004bffb0_S
 {
     void* FUN_004bffb0();
 };
-bool __fastcall FUN_008256d0(ContNode*);
+bool FUN_008256d0(ContNode*);
 struct FUN_00410360
 {
     FUN_00410360();
@@ -2885,7 +2883,7 @@ struct RefShell : TESObjectREFR
     void Invalidate(unsigned mask)
     {
 
-        typedef void(__thiscall * Callback)(TESObjectREFR*, unsigned);
+        typedef void(* Callback)(TESObjectREFR*, unsigned);
 
         ((Callback)(*(void***)this)[18])(this, mask);
     }

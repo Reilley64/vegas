@@ -2,6 +2,7 @@
 // src/staging/blk_004c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -132,16 +133,16 @@ void __cdecl ClearGlobalArray();
 
 struct FUN_004d5d40_Class
 {
-    void __thiscall FUN_004d5d40();
+    void FUN_004d5d40();
 };
 
 // @fnv 0x004d5d40
-void __thiscall FUN_004d5d40_Class::FUN_004d5d40()
+void FUN_004d5d40_Class::FUN_004d5d40()
 {
     ClearGlobalArray();
 }
 
-extern void(__stdcall* DAT_00fdf28c)(void*, int, int, int);
+extern void(* DAT_00fdf28c)(void*, int, int, int);
 
 struct FUN_004d7490_Class
 {
@@ -159,10 +160,10 @@ struct ArrSI
 };
 struct FUN_004d7d50_StandIn
 {
-    unsigned int __thiscall FUN_004d7d50();
+    unsigned int FUN_004d7d50();
 };
 // @fnv 0x004d7d50
-unsigned int __thiscall FUN_004d7d50_StandIn::FUN_004d7d50()
+unsigned int FUN_004d7d50_StandIn::FUN_004d7d50()
 {
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xC8))))->GetName()));
 }
@@ -248,7 +249,7 @@ struct FUN_004d8fa0_StandIn
 };
 struct FUN_004d9190_Class
 {
-    void __thiscall FUN_004d9190();
+    void FUN_004d9190();
 };
 
 struct FUN_004dc020_Class
@@ -340,7 +341,7 @@ unsigned int FUN_004dd220_Class::GetField5C8()
 
 // Allocates size bytes with operator new and returns the resulting pointer.
 // @fnv 0x004dd240
-void* __stdcall FUN_004dd240(unsigned int size)
+void* FUN_004dd240(unsigned int size)
 {
     void* p = ::FUN_00401000(size);
     void* RunFourthVirtual;
@@ -348,7 +349,7 @@ void* __stdcall FUN_004dd240(unsigned int size)
     return RunFourthVirtual;
 }
 
-void __stdcall ClearAndFreePointer(void*);
+void ClearAndFreePointer(void*);
 
 // @fnv 0x004dd2a0
 int __cdecl FUN_004dd2a0(void* p)
@@ -374,11 +375,11 @@ FUN_004de290_StandIn* FUN_004de290_StandIn::SetValue(float value)
 
 struct FUN_004de2b0_StandIn
 {
-    FUN_004de2b0_StandIn* __thiscall SetCharAtOffset4(char c);
+    FUN_004de2b0_StandIn* SetCharAtOffset4(char c);
 };
 
 // @fnv 0x004de2b0
-FUN_004de2b0_StandIn* __thiscall FUN_004de2b0_StandIn::SetCharAtOffset4(char acValue)
+FUN_004de2b0_StandIn* FUN_004de2b0_StandIn::SetCharAtOffset4(char acValue)
 {
     if (this)
         ((char*)this)[4] = acValue;
@@ -479,12 +480,12 @@ void FUN_004d90d0_Class::FUN_004d90d0()
 
 struct FUN_004d8fd0_Class
 {
-    void __thiscall FUN_004d9070();
-    void* __thiscall Destroy(unsigned int flags);
+    void FUN_004d9070();
+    void* Destroy(unsigned int flags);
 };
 // Calls FUN_004d9070, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x004d8fd0
-void* __thiscall FUN_004d8fd0_Class::Destroy(unsigned int flags)
+void* FUN_004d8fd0_Class::Destroy(unsigned int flags)
 {
     FUN_004d9070();
     if (flags & 1)
@@ -511,7 +512,7 @@ struct FUN_004d4e40_Holder
 };
 struct FUN_004d4de0_Class
 {
-    void* __thiscall FUN_004d4de0(unsigned int);
+    void* FUN_004d4de0(unsigned int);
 };
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 extern int DAT_01020944;
@@ -525,7 +526,7 @@ struct FUN_004d4e40_Class
 };
 // Calls FUN_004d4e40 on this, then stores the address of DAT_01020924 into the object's first field and returns this.
 // @fnv 0x004d4de0
-void* __thiscall FUN_004d4de0_Class::FUN_004d4de0(unsigned int a)
+void* FUN_004d4de0_Class::FUN_004d4de0(unsigned int a)
 {
     new ((void *)(((FUN_004d4e40_Holder*)this))) ::FUN_004d4e40_Class(a);
     *(void**)this = (void*)&DAT_01020924;
@@ -545,11 +546,11 @@ FUN_004d4e40_Class::FUN_004d4e40_Class(unsigned int size)
 
 struct FUN_004d4f40_StandIn
 {
-    void* __thiscall FUN_004d4f40(unsigned int flags);
+    void* FUN_004d4f40(unsigned int flags);
 };
 // Calls FUN_004d4f10 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004d4f40
-void* __thiscall FUN_004d4f40_StandIn::FUN_004d4f40(unsigned int flags)
+void* FUN_004d4f40_StandIn::FUN_004d4f40(unsigned int flags)
 {
     ((FUN_004d4f10_StandIn*)this)->FUN_004d4f10();
     if (flags & 1)
@@ -559,16 +560,16 @@ void* __thiscall FUN_004d4f40_StandIn::FUN_004d4f40(unsigned int flags)
 
 struct FUN_004d5c20_Base
 {
-    virtual int __thiscall FUN_000(int);
+    virtual int FUN_000(int);
 };
 struct FUN_004d5c20_StandIn
 {
     FUN_004d5c20_Base* m_p0;
-    void __thiscall FUN_004d5c20();
+    void FUN_004d5c20();
 };
 // Calls FUN_000(1) on m_p0 when m_p0 is non-null.
 // @fnv 0x004d5c20
-void __thiscall FUN_004d5c20_StandIn::FUN_004d5c20()
+void FUN_004d5c20_StandIn::FUN_004d5c20()
 {
     FUN_004d5c20_Base* p1 = m_p0;
     FUN_004d5c20_Base* p2 = p1;
@@ -577,11 +578,11 @@ void __thiscall FUN_004d5c20_StandIn::FUN_004d5c20()
 
 struct FUN_004d5dd0_Class
 {
-    void* __thiscall FUN_004d5dd0(unsigned int);
+    void* FUN_004d5dd0(unsigned int);
 };
 // Calls FUN_004d5c20, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004d5dd0
-void* __thiscall FUN_004d5dd0_Class::FUN_004d5dd0(unsigned int flags)
+void* FUN_004d5dd0_Class::FUN_004d5dd0(unsigned int flags)
 {
     reinterpret_cast<::FUN_004d5c20_StandIn *>(this)->FUN_004d5c20();
     if (flags & 1)
@@ -599,7 +600,7 @@ void __cdecl FUN_004d60c0(void)
             ((int*)DAT_011c6d50[i])[1] = 0;
 }
 
-extern void*(__stdcall* DAT_00fdf020)(void*, int, int, int, int, int, int);
+extern void*(* DAT_00fdf020)(void*, int, int, int, int, int, int);
 struct FUN_004d6490_Class
 {
     void* m_p0;
@@ -608,24 +609,24 @@ struct FUN_004d6490_Class
     void* m_pC;
     void* m_p10;
     void* m_p14;
-    void __thiscall FUN_004d6490();
+    void FUN_004d6490();
 };
 // @fnv 0x004d6490
-void __thiscall FUN_004d6490_Class::FUN_004d6490()
+void FUN_004d6490_Class::FUN_004d6490()
 {
     m_p14 = DAT_00fdf020(m_p0, 180, 16, 1, 0xff000000, 0, 0);
 }
 
-extern void(__stdcall* DAT_00fdf290)(void*);
+extern void(* DAT_00fdf290)(void*);
 struct FUN_004d7440_Class
 {
     char _0[8];
     void* p8;
     void* pC;
-    void __thiscall FUN_004d7440();
+    void FUN_004d7440();
 };
 // @fnv 0x004d7440
-void __thiscall FUN_004d7440_Class::FUN_004d7440()
+void FUN_004d7440_Class::FUN_004d7440()
 {
     DAT_00fdf290(pC);
     DAT_00fdf290(p8);
@@ -695,11 +696,11 @@ struct FUN_004d8530_Class
     virtual void const* f50();
     virtual void const* f51();
     virtual void const* f52();
-    void* __thiscall FUN_004d8530();
+    void* FUN_004d8530();
 };
 // Returns the result of FUN_004b5a80 called on the object returned by virtual slot f52.
 // @fnv 0x004d8530
-void* __thiscall FUN_004d8530_Class::FUN_004d8530()
+void* FUN_004d8530_Class::FUN_004d8530()
 {
     return FUN_004b5a80(f52());
 }
@@ -719,10 +720,10 @@ struct ScriptLocalsX
 };
 struct FUN_004d8560_StandIn
 {
-    void* __thiscall GetInnerVirtualResult();
+    void* GetInnerVirtualResult();
 };
 // @fnv 0x004d8560
-void* __thiscall FUN_004d8560_StandIn::GetInnerVirtualResult()
+void* FUN_004d8560_StandIn::GetInnerVirtualResult()
 {
     FUN_004d8560_Outer* result = ((::FUN_004d8560_Outer *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     return result ? result->_10.f1() : 0;
@@ -734,10 +735,10 @@ struct ScriptLocalsX
 };
 struct FUN_004d8630_Class
 {
-    bhkShape* __thiscall GetShape();
+    bhkShape* GetShape();
 };
 // @fnv 0x004d8630
-bhkShape* __thiscall FUN_004d8630_Class::GetShape()
+bhkShape* FUN_004d8630_Class::GetShape()
 {
     void* p = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     return ((::bhkShape *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0))));
@@ -756,7 +757,7 @@ struct FUN_004d8fa0_Class
 };
 // Calls FUN_004d9000 with a, stores the address of DAT_01020fe4 in m_p, and returns this.
 // @fnv 0x004d8fa0
-FUN_004d8fa0_StandIn* __thiscall FUN_004d8fa0_StandIn::FUN_004d8fa0(int a)
+FUN_004d8fa0_StandIn* FUN_004d8fa0_StandIn::FUN_004d8fa0(int a)
 {
     reinterpret_cast<::FUN_004d8fa0_Class *>(this)->FUN_004d9000(a);
     m_p = (int)&DAT_01020fe4;
@@ -778,10 +779,10 @@ FUN_004d8fa0_Class* FUN_004d8fa0_Class::FUN_004d9000(unsigned int size)
 
 struct FUN_004d9130_Class
 {
-    void* __thiscall FUN_004d9130(unsigned int flags);
+    void* FUN_004d9130(unsigned int flags);
 };
 // @fnv 0x004d9130
-void* __thiscall FUN_004d9130_Class::FUN_004d9130(unsigned int flags)
+void* FUN_004d9130_Class::FUN_004d9130(unsigned int flags)
 {
     ((FUN_004d90d0_Class*)this)->FUN_004d90d0();
     if (flags & 1)
@@ -791,18 +792,18 @@ void* __thiscall FUN_004d9130_Class::FUN_004d9130(unsigned int flags)
 
 struct FUN_004d91e0_Class : public FUN_004d9190_Class
 {
-    void* __thiscall FUN_004d91e0(unsigned int flags);
+    void* FUN_004d91e0(unsigned int flags);
 };
 
 struct FUN_004d9380_Class
 {
     char m_p0;
     void* m_p4;
-    void __thiscall FreeAndClear();
+    void FreeAndClear();
 };
 // Deallocates the pointer stored in m_p4, then clears m_p0 and m_p4.
 // @fnv 0x004d9380
-void __thiscall FUN_004d9380_Class::FreeAndClear()
+void FUN_004d9380_Class::FreeAndClear()
 {
     void* p = m_p4;
     ::FUN_00401030(p);
@@ -848,14 +849,14 @@ struct TgtOps
 };
 struct FUN_004dc120_StandIn
 {
-    void* __thiscall FUN_004dc120(int a);
+    void* FUN_004dc120(int a);
 };
 struct FUN_004dc160_StandIn
 {
     unsigned int FUN_004dc160(int a);
 };
 // @fnv 0x004dc120
-void* __thiscall FUN_004dc120_StandIn::FUN_004dc120(int a)
+void* FUN_004dc120_StandIn::FUN_004dc120(int a)
 {
     TgtOps* p = ((::TgtOps *)(reinterpret_cast<::FUN_004dc160_StandIn *>(this)->FUN_004dc160(a)));
     if (p)
@@ -979,10 +980,10 @@ void __cdecl FUN_004dc6e0(int aiFirst, int aiSecond)
 
 struct FUN_004dcd30_Class
 {
-    unsigned char __thiscall FUN_004dcd30(int p);
+    unsigned char FUN_004dcd30(int p);
 };
 // @fnv 0x004dcd30
-unsigned char __thiscall FUN_004dcd30_Class::FUN_004dcd30(int p)
+unsigned char FUN_004dcd30_Class::FUN_004dcd30(int p)
 {
     FUN_004dcd60_Class* ptr = ((::FUN_004dcd60_Class *)(reinterpret_cast<::FUN_004dc160_StandIn *>(this)->FUN_004dc160(p)));
     if (!ptr)
@@ -1012,12 +1013,12 @@ struct FUN_004dcdf0_Class
         Arr a;
         MyArr_GetAt m;
     } _4;
-    unsigned int __thiscall FUN_004dcdf0(unsigned int index);
+    unsigned int FUN_004dcdf0(unsigned int index);
 };
 __pragma(comment(linker, "/alternatename:?GetAt@MyArr_GetAt@@QAEPAIH@Z=?GetAt@Arr@@QAEPAIH@Z"))
     // Returns the element at index from the array if index is within bounds, otherwise returns 0.
 // @fnv 0x004dcdf0
-    unsigned int __thiscall FUN_004dcdf0_Class::FUN_004dcdf0(unsigned int index)
+    unsigned int FUN_004dcdf0_Class::FUN_004dcdf0(unsigned int index)
 {
     if (index < reinterpret_cast<::FUN_00658930_class *>(&(_4.a))->GetShortAtOffsetA())
         return *(_4.m.GetAt((int)index));
@@ -1026,7 +1027,7 @@ __pragma(comment(linker, "/alternatename:?GetAt@MyArr_GetAt@@QAEPAIH@Z=?GetAt@Ar
 
 // If the pointer stored at p is non-null, deallocates it and sets the stored pointer to null.
 // @fnv 0x004dd270
-void __stdcall ClearAndFreePointer(void* apPointer)
+void ClearAndFreePointer(void* apPointer)
 {
     if (*(void***)apPointer)
     {
@@ -1038,10 +1039,10 @@ void __stdcall ClearAndFreePointer(void* apPointer)
 
 struct FUN_004de550_StandIn
 {
-    void* __thiscall FUN_004de550(unsigned int);
+    void* FUN_004de550(unsigned int);
 };
 // @fnv 0x004de550
-void* __thiscall FUN_004de550_StandIn::FUN_004de550(unsigned int flags)
+void* FUN_004de550_StandIn::FUN_004de550(unsigned int flags)
 {
     reinterpret_cast<::FUN_0045d240_Class *>(this)->FUN_0045d240();
     if (flags & 1)
@@ -1101,11 +1102,11 @@ struct FUN_004d5080_Class
     void* unk08;
     void* unk0C;
 
-    void __thiscall FUN_004d5080();
+    void FUN_004d5080();
 };
 
 // @fnv 0x004d5080
-void __thiscall FUN_004d5080_Class::FUN_004d5080()
+void FUN_004d5080_Class::FUN_004d5080()
 {
     void* fourthValue = *(void**)this->unk08;
     void* secondValue = fourthValue;
@@ -1242,7 +1243,7 @@ struct FUN_004d5b60
 };
 
 // @fnv 0x004d5c80
-void* __fastcall InitNameTable(void* pThis)
+void* InitNameTable(void* pThis)
 {
     if (!::DAT_011c6d50[0])
     {
@@ -1327,7 +1328,7 @@ struct Rect4d63
 struct WndClass4d63
 {
     unsigned int style;
-    long(__stdcall* lpfnWndProc)(void*, unsigned int, unsigned int, long);
+    long(* lpfnWndProc)(void*, unsigned int, unsigned int, long);
     int cbClsExtra;
     int cbWndExtra;
     void* hInstance;
@@ -1338,14 +1339,14 @@ struct WndClass4d63
     const char* lpszClassName;
 };
 
-extern int(__stdcall* DAT_00fdf024)(InitCommonControls4d63*);
-extern void*(__stdcall* DAT_00fdf280)(void*, const char*);
-extern void*(__stdcall* DAT_00fdf2a0)(void*, const char*);
-extern void*(__stdcall* DAT_00fdf03c)(int);
-extern unsigned short(__stdcall* DAT_00fdf2b4)(const WndClass4d63*);
-extern void*(__stdcall* DAT_00fdf2b8)(unsigned long, const char*, const char*, unsigned long, int, int, int, int, void*,
+extern int(* DAT_00fdf024)(InitCommonControls4d63*);
+extern void*(* DAT_00fdf280)(void*, const char*);
+extern void*(* DAT_00fdf2a0)(void*, const char*);
+extern void*(* DAT_00fdf03c)(int);
+extern unsigned short(* DAT_00fdf2b4)(const WndClass4d63*);
+extern void*(* DAT_00fdf2b8)(unsigned long, const char*, const char*, unsigned long, int, int, int, int, void*,
                                       void*, void*, void*);
-extern int(__stdcall* DAT_00fdf2bc)(void*, Rect4d63*);
+extern int(* DAT_00fdf2bc)(void*, Rect4d63*);
 extern char DAT_01189338[];
 
 struct TreeCtrl4d63
@@ -1395,8 +1396,8 @@ struct ClearMap64
 {
     int unk00;
 };
-typedef int(__stdcall* SendMessageResult64)(void*, int, int, int);
-extern void(__stdcall* DAT_00fdf288)(void*, int);
+typedef int(* SendMessageResult64)(void*, int, int, int);
+extern void(* DAT_00fdf288)(void*, int);
 struct Header64
 {
     int primary, secondary, tertiary, unused0c, unused10, unused14;
@@ -1425,7 +1426,7 @@ struct Owner64
     ClearMap64 messageMap;
     int unk1c, unk20, unk24, unk28;
     const char* defaultText;
-    void __thiscall FUN_004d64c0(int value, const char* text);
+    void FUN_004d64c0(int value, const char* text);
 };
 // @fnv 0x004d64c0
 void Owner64::FUN_004d64c0(int value, const char* text)
@@ -1447,12 +1448,12 @@ void Owner64::FUN_004d64c0(int value, const char* text)
     DAT_00fdf284(window);
 }
 
-extern void(__stdcall* DAT_00fdf01c)(void*);
+extern void(* DAT_00fdf01c)(void*);
 struct FUN_004d7470_StandIn
 {
     char _0[20];
     void* p14;
-    void __thiscall FUN_004d7470();
+    void FUN_004d7470();
 };
 // Frees m_p2C, calls the three cleanup methods, then resets DAT_011f36f8 and DAT_011f36f4 to zero.
 // @fnv 0x004d62a0
@@ -1467,12 +1468,12 @@ FUN_004d62a0_Class::~FUN_004d62a0_Class()
     DAT_011f36f4 = DAT_011f36f8;
 }
 // @fnv 0x004d7470
-void __thiscall FUN_004d7470_StandIn::FUN_004d7470()
+void FUN_004d7470_StandIn::FUN_004d7470()
 {
     DAT_00fdf01c(p14);
 }
 
-typedef int(__stdcall* SendTreeMessage)(void*, int, int, int);
+typedef int(* SendTreeMessage)(void*, int, int, int);
 
 struct FUN_004d74c0_Value
 {
@@ -1712,7 +1713,7 @@ struct ObjClass : public FUN_004d7d50_StandIn
 {
 };
 
-typedef int(__stdcall* DAT_00fdf28c_fn)(void*, int, int, void*);
+typedef int(* DAT_00fdf28c_fn)(void*, int, int, void*);
 
 struct HostClass
 {
@@ -1720,7 +1721,7 @@ struct HostClass
     int unk04;
     int unk08;
     void* unk0C;
-    void __thiscall SendModifierMessages(int a1, NiObject* a2);
+    void SendModifierMessages(int a1, NiObject* a2);
 };
 
 extern "C" char DAT_01020ebc;
@@ -1791,7 +1792,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         ins.image = 5;
         ins.selected = ins.image;
         ins.parent = parent;
-        void* handle4 = ((void*(__stdcall*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
+        void* handle4 = ((void*(*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
         char buffer[64];
         FUN_004add50(buffer, ((const char *)(::FUN_00559450((int *)(void *)(casted7->v2())))), 63);
         buffer[63] = 0;
@@ -1799,7 +1800,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         ins.image = 0;
         ins.selected = ins.image;
         ins.parent = handle4;
-        ins.parent = ((void*(__stdcall*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
+        ins.parent = ((void*(*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
         parent = ins.parent;
         node->v24(arr);
         unsigned index4;
@@ -1808,7 +1809,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
             ins.text = ((const char *)(::FUN_00464f30((int)(*arr->FUN_00877a30(index4)))));
             ins.image = 6;
             ins.selected = ins.image;
-            ((void*(__stdcall*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
+            ((void*(*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
         }
         ::FUN_005e03d0((::NiTArray_Layout *)(arr));
         void* obj2 = ((void *)(::fnv_006fa820::FUN_006fa820((const char *)(casted7))));
@@ -1909,7 +1910,7 @@ struct FUN_004d80b0_Class
     void* m_pOwnerObject;
     void* m_pTreeNode;
     void* m_treeWindow;
-    void __thiscall BuildTreeItems(void* parent, FNVTreeNode* node);
+    void BuildTreeItems(void* parent, FNVTreeNode* node);
 };
 // Inserts a tree item for node and its children into m_treeWindow, then recurses into related nodes found via several type lookups.
 // @fnv 0x004d80b0
@@ -1934,7 +1935,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             insertInfo.item.selectedImage = insertInfo.item.image;
             insertInfo.parent = parent;
             insertInfo.parent =
-                ((void*(__stdcall*)(void*, int, int, int))DAT_00fdf28c)(m_treeWindow, 0x1100, 0, (int)&insertInfo);
+                ((void*(*)(void*, int, int, int))DAT_00fdf28c)(m_treeWindow, 0x1100, 0, (int)&insertInfo);
             parent = insertInfo.parent;
             node->CollectChildren(nodeArray);
             for (childIndex = 0; childIndex < reinterpret_cast<::FUN_00658930_class *>((nodeArray))->GetShortAtOffsetA(); ++childIndex)
@@ -2055,7 +2056,7 @@ struct TreeInsert4d86
     TreeItem4d86 item;
 };
 
-typedef void*(__stdcall* SendMessage4d86)(void*, int, int, int);
+typedef void*(* SendMessage4d86)(void*, int, int, int);
 
 
 struct MediaSet4d86
@@ -2145,7 +2146,7 @@ struct TreeInsert4d88
     TreeItem4d88 item;
 };
 
-typedef void*(__stdcall* SendMessage4d88)(void*, int, int, int);
+typedef void*(* SendMessage4d88)(void*, int, int, int);
 
 extern const char DAT_01020f14[];
 
@@ -2540,7 +2541,7 @@ struct DispatchVTable
     void* method08;
     void* method09;
     void* method10;
-    long(__stdcall* dispatch)(DispatchInterface*, int, int, int);
+    long(* dispatch)(DispatchInterface*, int, int, int);
 };
 struct DispatchInterface
 {
@@ -2608,7 +2609,7 @@ struct DisplayInfo4de1
     int iRectBottom;
 };
 
-extern int(__stdcall* DAT_00fdf2f0)(const char*, unsigned long, DisplayDevice4de1*, unsigned long);
+extern int(* DAT_00fdf2f0)(const char*, unsigned long, DisplayDevice4de1*, unsigned long);
 int __cdecl FUN_00ec9d4a(const char* pcFormat, ...);
 extern bool DAT_01189484;
 extern float DAT_01189488;
@@ -2675,7 +2676,7 @@ void InitEyefinityDisplayInfo()
 
 struct FUN_004de2d0_StandIn : FUN_004de2b0_StandIn
 {
-    FUN_004de2b0_StandIn* __thiscall FUN_004de2d0(char c);
+    FUN_004de2b0_StandIn* FUN_004de2d0(char c);
 };
 
 // @fnv 0x004de2d0
@@ -2688,11 +2689,11 @@ FUN_004de2b0_StandIn* FUN_004de2d0_StandIn::FUN_004de2d0(char c)
 
 struct FUN_004de3f0_Class
 {
-    void* __thiscall FUN_004de3f0(int flags);
+    void* FUN_004de3f0(int flags);
 };
 
 // @fnv 0x004de3f0
-void* __thiscall FUN_004de3f0_Class::FUN_004de3f0(int flags)
+void* FUN_004de3f0_Class::FUN_004de3f0(int flags)
 {
     reinterpret_cast<::FUN_004de420 *>((this))->FUN_004de420::~FUN_004de420();
 
@@ -3265,7 +3266,7 @@ class Owner
 };
 // Resolves a2 to an ObjClass, then sends script messages for each item's name and each of its holders via DAT_00fdf28c.
 // @fnv 0x004d7ab0
-void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
+void HostClass::SendModifierMessages(int a1, NiObject* apObject)
 {
     MsgStruct n3;
     char i4[64];
@@ -3371,13 +3372,13 @@ struct FUN_004d91b0_Class
     ~FUN_004d91b0_Class();
 };
 // @fnv 0x004d9190
-void __thiscall FUN_004d9190_Class::FUN_004d9190()
+void FUN_004d9190_Class::FUN_004d9190()
 {
     reinterpret_cast<::FUN_004d91b0_Class *>(this)->FUN_004d91b0_Class::~FUN_004d91b0_Class();
 }
 // Calls FUN_004d91b0, then frees this with _Deallocate if flags has bit 1 set, and returns this.
 // @fnv 0x004d91e0
-void* __thiscall FUN_004d91e0_Class::FUN_004d91e0(unsigned int flags)
+void* FUN_004d91e0_Class::FUN_004d91e0(unsigned int flags)
 {
     reinterpret_cast<::FUN_004d91b0_Class *>(this)->FUN_004d91b0_Class::~FUN_004d91b0_Class();
     if (flags & 1)
@@ -3425,10 +3426,10 @@ struct OutT
     int x;
     int y;
 };
-extern int(__stdcall* DAT_00fdf2ec)(int, int);
-extern int(__stdcall* DAT_00fdf2e8)(unsigned int, int);
-extern int(__stdcall* DAT_00fdf310)(OutT*, int, int);
-extern int(__stdcall* DAT_00fdf2a4)(unsigned int, int, int);
+extern int(* DAT_00fdf2ec)(int, int);
+extern int(* DAT_00fdf2e8)(unsigned int, int);
+extern int(* DAT_00fdf310)(OutT*, int, int);
+extern int(* DAT_00fdf2a4)(unsigned int, int, int);
 
 
 class NiAVObject;
@@ -3563,12 +3564,12 @@ struct FUN_004dfe30_Class
     float y;
 
     FUN_004dfe30_Class();
-    FUN_004dfe30_Class __thiscall FUN_004dfe30(const FUN_004dfe30_Class& kPt) const;
+    FUN_004dfe30_Class FUN_004dfe30(const FUN_004dfe30_Class& kPt) const;
 };
 
 // Returns a new point whose x and y are the sums of this point and kPt.
 // @fnv 0x004dfe30
-FUN_004dfe30_Class __thiscall FUN_004dfe30_Class::FUN_004dfe30(const FUN_004dfe30_Class& kPt) const
+FUN_004dfe30_Class FUN_004dfe30_Class::FUN_004dfe30(const FUN_004dfe30_Class& kPt) const
 {
     FUN_004dfe30_Class res = *this;
     res.x += kPt.x;
@@ -3750,9 +3751,7 @@ void FUN_004de4a0()
         DAT_011f35a0 = (FUN_004de530*)new B004de530;
 }
 
-extern "C" __declspec(dllimport) void* __stdcall LoadLibraryA(const char* pcFileName);
-extern "C" __declspec(dllimport) void* __stdcall GetProcAddress(void* pvModule, const char* pcProcName);
-extern int(__stdcall* DAT_00fdf0a8)(void* pvModule);
+extern int(* DAT_00fdf0a8)(void* pvModule);
 
 struct EFAdapterText
 {
@@ -3973,7 +3972,7 @@ struct EFEyefinityInfo
     int iBezelCompensatedDisplay;
 };
 
-typedef int (*EFMainControlCreate)(void*(__stdcall* pfnAlloc)(unsigned int), int iEnumConnectedAdapters);
+typedef int (*EFMainControlCreate)(void*(* pfnAlloc)(unsigned int), int iEnumConnectedAdapters);
 typedef int (*EFMainControlDestroy)();
 typedef int (*EFNumberOfAdaptersGet)(int* piNumAdapters);
 typedef int (*EFAdapterInfoGet)(EFAdapterInfo* pkInfo, int iInputSize);
@@ -3986,7 +3985,7 @@ typedef int (*EFModesGet)(int iAdapterIndex, int iDisplayIndex, int* piNumModes,
 typedef int (*EFDisplayMapConfigGet)(int iAdapterIndex, int* piNumMap, EFDisplayMap** ppkMap, int* piNumTarget,
                                      EFDisplayTarget** ppkTarget, int iOptions);
 
-void __stdcall ClearAndFreePointer(void* pointer);
+void ClearAndFreePointer(void* pointer);
 void* FUN_00ec61c0(void* pvDst, int iValue, unsigned int uiSize);
 
 // Loads the AMD Eyefinity DLL, queries the SLS map and display modes for the given adapter, and fills the output display and Eyefinity info arrays.

@@ -7,13 +7,13 @@ struct TargetClass
 {
     virtual void f0();
     virtual void f1();
-    virtual void __fastcall f2(void* a2);
+    virtual void f2(void* a2);
 
-    void __fastcall FUN_00cbf1d0(void* a2);
+    void FUN_00cbf1d0(void* a2);
 };
 
 // @fnv 0x00cbf1d0
-void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
+void TargetClass::FUN_00cbf1d0(void* a2)
 {
     f2(a2);
 }
@@ -22,7 +22,7 @@ void __fastcall TargetClass::FUN_00cbf1d0(void* a2)
  * worker/candidate.cpp — DRAFT ONLY.
  * Not compiled, not compared, no MATCH claimed. Parent owns verification.
  *
- * Unit: pack/pack.json symbol FUN_00cbf280, 67 bytes, __thiscall member of a
+ * Unit: pack/pack.json symbol FUN_00cbf280, 67 bytes, member of a
  * five-slot class, three stack parameters, returns a pointer, cleans 0xC.
  *
  * Every identifier below is a placeholder chosen for readability. The binary
@@ -207,17 +207,17 @@ struct CBF260
     virtual void f6();
     virtual void f7();
     virtual void f8();
-    virtual void __fastcall f9(void* arg);
-    void __fastcall FUN_00cbf260(void* arg);
+    virtual void f9(void* arg);
+    void FUN_00cbf260(void* arg);
 };
 // @fnv 0x00cbf260
-void __fastcall CBF260::FUN_00cbf260(void* arg)
+void CBF260::FUN_00cbf260(void* arg)
 {
     f9(arg);
 }
 
 // @fnv 0x00cbf270
-bool __stdcall FUN_00cbf270(int arg0)
+bool FUN_00cbf270(int arg0)
 {
     return true;
 }

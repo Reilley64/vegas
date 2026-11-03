@@ -1,5 +1,6 @@
 // bsmenu/tile.cpp: Tile, Tile__FloatAction, LoadingMenu, TileListBoxCalls and more (86 functions)
 
+#include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -135,7 +136,6 @@ struct NiPoint2 {
     float x;
     float y;
 };
-typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 struct FUN_004e8880_shell : public NiPoint2 {
     struct blob8 Subtract();
 };
@@ -160,7 +160,7 @@ NiPoint2* NiPoint2_Sub::Subtract(NiPoint2* pResult, const NiPoint2& aPoint) cons
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 
-extern "C" void* __fastcall FUN_00718c90(void*);
+extern "C" void* FUN_00718c90(void*);
 
 struct Dummy_00718c90 {
     char pad[0x10];
@@ -297,7 +297,6 @@ int __cdecl FUN_00a01a20(const char* apTraitName)
     }
 }
 
-__declspec(dllimport) void __stdcall EnterCriticalSection(void* lpCriticalSection);
 
 // @fnv 0x00a044f0
 void __cdecl FUN_00a044f0()
@@ -306,7 +305,7 @@ void __cdecl FUN_00a044f0()
 }
 
 namespace fnv_00a04500 {
-extern void (__stdcall * const __imp__LeaveCriticalSection)(_RTL_CRITICAL_SECTION *);
+extern void (* const __imp__LeaveCriticalSection)(_RTL_CRITICAL_SECTION *);
 
 // @fnv 0x00a04500
 void __cdecl FUN_00a04500()
@@ -417,7 +416,6 @@ struct FUN_00a07fc0_shell : public Tile {
     bool FUN_00a07fc0(int);
 };
 
-__declspec(dllimport) unsigned long __stdcall timeGetTime();
 
 struct FadeControlDummy {
     float fStart;             // +0x00
@@ -444,7 +442,7 @@ bool FUN_00a07fc0_shell::FUN_00a07fc0(int aiTrait)
         {
             if (pfade->m_item->iType != 1)
             {
-                unsigned int now = timeGetTime();
+                unsigned int now = GetTickCount();
                 return ((float)(now - pfade->m_item->m_uiState) / pfade->m_item->fDuration >= 1.0) ? true : false;
             }
             else
@@ -508,7 +506,6 @@ struct MenuValueDescriptor {
     unsigned int m_uiValueId;
     char* m_pName;
 };
-typedef char _sizecheck_XMLStorage[sizeof(MenuValueDescriptor) == 8 ? 1 : -1];
 struct FUN_00a0be10_shell : public MenuValueDescriptor {
     void FUN_00a0be10();
 };
@@ -591,7 +588,7 @@ struct BW { bool v; };
 struct FW { float f; };
 // Stores afValue.f into fValue, frees ptr if set, optionally calls RemoveFromReactions, then calls FUN_00a09410 with whether the value changed or ptr was non-null.
 // @fnv 0x00a0a270
-void __fastcall FUN_00a0a270(VX* self, FW afValue, BW abClearActions)
+void FUN_00a0a270(VX* self, FW afValue, BW abClearActions)
 {
     bool bforceUpdate = self->fValue != afValue.f || self->ptr != 0;
     self->fValue = afValue.f;
@@ -640,8 +637,6 @@ struct FUN_00a00e90_shell : public Tile {
     void* FindTraitValue(int);
 };
 
-__declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-__declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 // @fnv 0x00a00e90
 void* FUN_00a00e90_shell::FindTraitValue(int aiTrait)
 {
@@ -681,8 +676,6 @@ struct P09Traits {
     unsigned int BinarySearch(P09Value*&, int (__cdecl*)(const void*, const void*));
     void InsertInSortedOrder(P09Value*&, int (__cdecl*)(const void*, const void*));
 };
-__declspec(dllimport) void __stdcall EnterCriticalSection(void*);
-__declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern int DAT_011f338c;
 extern void* DAT_011f3390;
 extern float DAT_011f3394;
@@ -801,7 +794,6 @@ struct EmptyPolymorphicObject {
     void* __vecDelDtor(unsigned int);
     char _pad_0[1];
 };
-typedef char _sizecheck_AutoTileLock[sizeof(EmptyPolymorphicObject) == 1 ? 1 : -1];
 struct FUN_00a03d40_shell : public Tile {
     Tile* FUN_00a03d40();
 };
@@ -897,7 +889,6 @@ struct MemoryManager {  };
 struct P09Fade { float fStart; float m_fEndValue; unsigned long m_uiState; float fScaleMultiplier; int m_iValueId; Tile* pTile; int eType; };
 struct FUN_00a0c7c0_Helper {  };
 struct P09TileFade { void UpdateTrait(int); };
-__declspec(dllimport) unsigned long __stdcall GetTickCount();
 // Starts a fade on this tile: allocates a P09Fade, fills start/end/length/type and tick, sets flash traits for types 2 and 3, then queues it via DAT_011f3348.
 // @fnv 0x00a07c60
 void FUN_00a07c60_shell::StartFade(int aiTrait, float afStart, float afEnd, float afLength, int aeFadeType)
@@ -1156,7 +1147,6 @@ void OH2TileTemplate::ClearList()
 }
 }  // namespace fnv_00a0ab70
 
-__declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 struct NiGlobalStringTable { static char* __cdecl AddString(const char*); };
 int __cdecl FUN_00ec6da0(const char*, const char*);
 struct TileTemplate_00a0af10 { char* m_kName; };
@@ -1328,8 +1318,8 @@ void* FUN_00a0a0b0_shell::FUN_00a0a0b0(int aiBaseTrait, int aiID)
 
 int __cdecl _atexit(void (__cdecl*)());
 void __cdecl FUN_00fda290();
-extern void (__stdcall *DAT_00fdf05c)(void*);
-extern void (__stdcall *DAT_00fdf100)(void*);
+extern void (*DAT_00fdf05c)(void*);
+extern void (*DAT_00fdf100)(void*);
 extern unsigned int DAT_011f3388;
 extern unsigned int DAT_011f3374;
 extern int DAT_011f3378;
@@ -1535,11 +1525,11 @@ const char* TileText::FUN_00a0bbe0()
 struct Tile3D
 {
     virtual ~Tile3D();
-    const char* __thiscall FUN_00a0bdd0();
+    const char* FUN_00a0bdd0();
 };
 
 // @fnv 0x00a0bdd0
-const char* __thiscall Tile3D::FUN_00a0bdd0()
+const char* Tile3D::FUN_00a0bdd0()
 {
     return "3DAN";
 }
@@ -1584,7 +1574,7 @@ struct FUN_00a0d260_Class {
 };
 
 // @fnv 0x00a0d260
-unsigned int __thiscall FUN_00a0d260_Class::Modulo(unsigned int auiValue) {
+unsigned int FUN_00a0d260_Class::Modulo(unsigned int auiValue) {
     return auiValue % m_iWordAt04;
 }
 

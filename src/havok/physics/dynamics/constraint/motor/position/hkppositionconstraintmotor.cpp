@@ -49,11 +49,11 @@ struct PositionConstraintMotor
     float m_fMotorDamping;
     float m_fProportionalRecoveryVelocity;
     float m_fConstantRecoveryVelocity;
-    PositionConstraintMotor* __thiscall Clone();
+    PositionConstraintMotor* Clone();
 };
 // Allocates a 0x24-byte copy of this motor through the global allocator, copies its type and float parameters, and returns it.
 // @fnv 0x00cdf5b0
-PositionConstraintMotor* __thiscall PositionConstraintMotor::Clone()
+PositionConstraintMotor* PositionConstraintMotor::Clone()
 {
     MemoryRouter* router = FUN_00c85750();
     PositionConstraintMotor* copy = (PositionConstraintMotor*)router->m_pThreadAllocator->Allocate(0x24);

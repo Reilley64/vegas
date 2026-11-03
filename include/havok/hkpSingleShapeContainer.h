@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkpShapeContainer.h"
 class hkpShape;
-#pragma pack(push, 1)
 class hkpSingleShapeContainer : public hkpShapeContainer
 {
   public:
     hkpShape* m_pContainedShape;  // +0x4
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpSingleShapeContainer[(sizeof(hkpSingleShapeContainer) == 0x8) ? 1 : -1];
 #endif

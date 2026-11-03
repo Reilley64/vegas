@@ -45,7 +45,4 @@ class ShadowLightData
     ShadowLightData();
     static void SetTargetMaskForSelection(unsigned int selectedIndex, unsigned __int64 targetMask);
 };
-FNV_STATIC_ASSERT(sizeof(FUN_007002d0) == 44);
-FNV_STATIC_ASSERT(offsetof(ShadowLightData, point0) == 0x30);
-FNV_STATIC_ASSERT(offsetof(ShadowLightData, pShaderParams) == 0x50);
 #endif

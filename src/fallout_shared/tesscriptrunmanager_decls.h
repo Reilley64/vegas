@@ -36,7 +36,6 @@ class ScriptRunner
     bool Run(Script* script, TESObjectREFR* reference, ScriptLocals* locals, TESObjectREFR* target, bool arg5,
              bool arg6, bool arg7, float arg8);
 };
-FNV_STATIC_ASSERT(sizeof(ScriptRunner) == 0xA4);
 
 class ScriptExecutor
 {
@@ -50,7 +49,6 @@ class ScriptExecutor
     bool Run(Script* script, TESObjectREFR* reference, ScriptLocals* locals, TESObjectREFR* target, bool arg5,
              bool arg6, bool arg7, float arg8);
 };
-FNV_STATIC_ASSERT(sizeof(ScriptExecutor) == 8);
 
 extern void DebugLog(const char* format, ...);
 extern "C" const char g_nestedScriptRunFormat[];

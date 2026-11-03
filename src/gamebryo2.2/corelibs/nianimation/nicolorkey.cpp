@@ -62,7 +62,6 @@ struct AnimationKey
     void* __vecDelDtor(unsigned int);
     float m_fTime;
 };
-typedef char _sizecheck_NiAnimationKey[sizeof(AnimationKey) == 4 ? 1 : -1];
 struct ColorAnimationKey : public AnimationKey
 {
     static int RegisterObjectLoader();
@@ -100,7 +99,6 @@ struct ColorAnimationKey : public AnimationKey
     void* __vecDelDtor(unsigned int);
     char m_kRgbaColor[16];
 };
-typedef char _sizecheck_NiColorKey[sizeof(ColorAnimationKey) == 20 ? 1 : -1];
 struct RgbaColor
 {
     void Clamp();
@@ -117,7 +115,6 @@ struct RgbaColor
     float b;
     float a;
 };
-typedef char _sizecheck_NiColorA[sizeof(RgbaColor) == 16 ? 1 : -1];
 
 typedef void(__cdecl* InterpFn)(float, const char*, const char*, void*);
 

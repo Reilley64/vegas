@@ -76,11 +76,11 @@ FUN_00a963f0::FUN_00a963f0()
 struct FUN_00a967e0_class
 {
     unsigned short m_usActive;
-    void __thiscall FUN_00a967e0(unsigned short usActive);
+    void FUN_00a967e0(unsigned short usActive);
 };
 
 // @fnv 0x00a967e0
-void __thiscall FUN_00a967e0_class::FUN_00a967e0(unsigned short usActive)
+void FUN_00a967e0_class::FUN_00a967e0(unsigned short usActive)
 {
     unsigned short active = *(unsigned short*)((char*)this + 8);
     if (usActive <= active)
@@ -388,7 +388,7 @@ struct NiPSysDataWriter : NiParticlesDataWriter
 {
     Point3ParameterData* particleInfo;
     float* rotationSpeeds;
-    void __thiscall FUN_00c25560(NiStream&);
+    void FUN_00c25560(NiStream&);
 };
 // @fnv 0x00c25560
 void NiPSysDataWriter::FUN_00c25560(NiStream& stream)

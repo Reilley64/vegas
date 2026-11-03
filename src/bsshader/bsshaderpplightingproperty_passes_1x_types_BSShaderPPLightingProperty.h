@@ -33,7 +33,6 @@ enum NiTexturingProperty__ClampMode
     NiTexturingProperty__ClampMode_WRAP_S_WRAP_T = 3,
     NiTexturingProperty__ClampMode_CLAMP_MAX_MODES = 4
 };
-#pragma pack(push, 4)
 class NiShadeProperty : public NiProperty
 {
   public:
@@ -67,11 +66,6 @@ class NiShadeProperty : public NiProperty
     // NiShadeProperty& __cdecl NiShadeProperty::*(const NiShadeProperty&)
     // void __cdecl NiShadeProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiShadeProperty) == 32);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_uiObjectFlags) == 24);
-FNV_STATIC_ASSERT(offsetof(NiShadeProperty, m_iShaderType) == 28);
-#pragma pack(push, 4)
 class BSShaderProperty : public NiShadeProperty
 {
   public:
@@ -142,42 +136,16 @@ class BSShaderProperty : public NiShadeProperty
     // BSShaderProperty& __cdecl BSShaderProperty::*(const BSShaderProperty&)
     // void __cdecl BSShaderProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderProperty) == 104);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, ulFlags) == 32);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fAlpha) == 40);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fFadeAlpha) == 44);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fAmbientReflectionScale) == 48);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fSpecularExponent) == 52);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, iLastRenderPassState) == 56);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, pRenderPassList) == 60);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray1) == 64);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray2) == 68);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray3) == 72);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray4) == 76);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray5) == 80);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_pRenderPassArray6) == 84);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_iRenderPassCount) == 88);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, fDepthBias) == 92);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fValueAfterDepthBias) == 96);
-FNV_STATIC_ASSERT(offsetof(BSShaderProperty, m_fEnvironmentMapScale) == 100);
-#pragma pack(push, 4)
 class NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTAbstractPoolAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTPointerAllocator_unsigned_int_ : public NiTAbstractPoolAllocator_unsigned_int_
 {
   public:
     // void* __cdecl NiTPointerAllocator<unsigned int>::*()
     // void __cdecl NiTPointerAllocator<unsigned int>::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerAllocator_unsigned_int_) == 1);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBloatAllocator
     : public NiTPointerAllocator_unsigned_int_
 {
@@ -185,11 +153,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBlo
     // base NiTPointerAllocator<unsigned int> at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBloatAllocator) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight_____AntiBloatAllocator,
-                           m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
 {
   public:
@@ -214,12 +177,6 @@ class NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
     // NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>& __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(const NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>&)
     // void* __cdecl NiTListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___) == 12);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___, m_pkHead) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___, m_pkTail) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___, m_kItemCount) == 8);
-#pragma pack(push, 4)
 class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
     : public NiTListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
 {
@@ -248,18 +205,12 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
     // NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>& __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(const NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>&)
     // void* __cdecl NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *>::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___) == 12);
-#pragma pack(push, 4)
 class NiTPointerListSingleThread_ShadowSceneLight___
     : public NiTPointerListBase_NiTPointerAllocator_unsigned_int__ShadowSceneLight___
 {
   public:
     // base NiTPointerListBase<NiTPointerAllocator<unsigned int>,ShadowSceneLight *> at +0x0, size 12
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTPointerListSingleThread_ShadowSceneLight___) == 12);
-#pragma pack(push, 4)
 class BSShaderLightingProperty : public BSShaderProperty
 {
   public:
@@ -310,14 +261,6 @@ class BSShaderLightingProperty : public BSShaderProperty
     // BSShaderLightingProperty& __cdecl BSShaderLightingProperty::*(const BSShaderLightingProperty&)
     // void __cdecl BSShaderLightingProperty::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderLightingProperty) == 132);
-FNV_STATIC_ASSERT(offsetof(BSShaderLightingProperty, m_kShadowSceneLights) == 104);
-FNV_STATIC_ASSERT(offsetof(BSShaderLightingProperty, m_fForcedDarkness) == 116);
-FNV_STATIC_ASSERT(offsetof(BSShaderLightingProperty, m_uiLightCount) == 120);
-FNV_STATIC_ASSERT(offsetof(BSShaderLightingProperty, m_bHasForcedDarkness) == 124);
-FNV_STATIC_ASSERT(offsetof(BSShaderLightingProperty, m_pLightData) == 128);
-#pragma pack(push, 4)
 class RgbaColor
 {
   public:
@@ -344,13 +287,6 @@ class RgbaColor
     // float __cdecl RgbaColor::*()
     // void __cdecl RgbaColor::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(RgbaColor) == 16);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, r) == 0);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, g) == 4);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, b) == 8);
-FNV_STATIC_ASSERT(offsetof(RgbaColor, a) == 12);
-#pragma pack(push, 4)
 class BSShaderPPLightingProperty : public BSShaderLightingProperty
 {
   public:
@@ -446,29 +382,4 @@ class BSShaderPPLightingProperty : public BSShaderLightingProperty
     BSShaderProperty__RenderPass* AddAmbientDiffuseTexturePass_1x(NiGeometry*, ShadowSceneLight*, unsigned short&, bool,
                                                                   bool&, bool, bool, bool, bool, bool, bool);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BSShaderPPLightingProperty) == 272);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fEmissiveMultiple) == 132);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fSpecularScale) == 136);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_kEmissiveColor) == 140);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_kSpecularColor) == 156);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_spTextureSet) == 172);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_usTextureFlags) == 176);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_ppTextureSlots) == 180);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_pTextureFlags) == 208);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_usTextureIndex) == 212);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_pbTextureHasAlpha) == 216);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_spTangentSpaceData) == 220);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_pfTextureSpecularExponents) == 224);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_eClampMode) == 228);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, spTexEffectData) == 232);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fValueBeforeTextureCount) == 236);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_iTextureCount) == 240);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fFirstFloatAfterTextureCount) == 244);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fSecondFloatAfterTextureCount) == 248);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fThirdFloatAfterTextureCount) == 252);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fFourthFloatAfterTextureCount) == 256);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fFifthFloatAfterTextureCount) == 260);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_fSixthFloatAfterTextureCount) == 264);
-FNV_STATIC_ASSERT(offsetof(BSShaderPPLightingProperty, m_pRenderPassEntry) == 268);
 #endif

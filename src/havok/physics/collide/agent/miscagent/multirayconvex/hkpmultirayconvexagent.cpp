@@ -13,11 +13,11 @@
 #include "fnv/symbols_010ce000.h"
 struct FUN_00d37690_Class
 {
-    void __thiscall ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(int a, int b, int c, int d);
 };
 
 // @fnv 0x00d37690
-void __thiscall FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(aiArg1)), (*(const ::S_00d374f0_CdBody *)(aiArg2)), aiArg3, (::S_00d374f0_Collector *)(aiArg4));
 }
@@ -244,7 +244,7 @@ struct S_00d376b0_Class
 {
     int unk00;
     short unk04;
-    void __thiscall FUN_00d376b0(int a, int b, int c, int d);
+    void FUN_00d376b0(int a, int b, int c, int d);
 };
 
 struct S_00d37740_Interface

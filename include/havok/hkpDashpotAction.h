@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpBinaryAction.h"
-#pragma pack(push, 1)
 class hkpDashpotAction : public hkpBinaryAction
 {
   public:
@@ -15,6 +14,4 @@ class hkpDashpotAction : public hkpBinaryAction
     char pad48[0x8];
     hkVector4 m_fContactImpulse;  // +0x50
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpDashpotAction[(sizeof(hkpDashpotAction) == 0x60) ? 1 : -1];
 #endif

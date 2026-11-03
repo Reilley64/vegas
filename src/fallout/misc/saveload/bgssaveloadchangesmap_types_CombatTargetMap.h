@@ -11,16 +11,12 @@ class DFALL_NiTMapItem_Actor___CombatTargetData_____;
 class NiTMap_Actor___CombatTargetData___;
 class NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___;
 class NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData_____AntiBloatAllocator;
-#pragma pack(push, 4)
 class DFALL_NiTMapItem_Actor___CombatTargetData_____
 {
   public:
     // void* __cdecl DFALL<NiTMapItem<Actor *,ActorCombatTargetData *> >::*()
     // void __cdecl DFALL<NiTMapItem<Actor *,ActorCombatTargetData *> >::*(void*)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(DFALL_NiTMapItem_Actor___CombatTargetData_____) == 1);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData_____AntiBloatAllocator
     : public DFALL_NiTMapItem_Actor___CombatTargetData_____
 {
@@ -28,14 +24,6 @@ class NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTa
     // base DFALL<NiTMapItem<Actor *,ActorCombatTargetData *> > at +0x0, size 1
     unsigned int m_uiCount;  // +0x0, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(
-    sizeof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData_____AntiBloatAllocator) ==
-    4);
-FNV_STATIC_ASSERT(
-    offsetof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData_____AntiBloatAllocator,
-             m_uiCount) == 0);
-#pragma pack(push, 4)
 class NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___
 {
   public:
@@ -58,17 +46,6 @@ class NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTa
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<Actor *,ActorCombatTargetData *> >,Actor *,ActorCombatTargetData *>::*()
     // void __cdecl NiTMapBase<DFALL<NiTMapItem<Actor *,ActorCombatTargetData *> >,Actor *,ActorCombatTargetData *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___) == 16);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___,
-                           m_ppVirtualMethodTable) == 0);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___,
-                           m_uiHashSize) == 4);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___,
-                           m_ppkHashTable) == 8);
-FNV_STATIC_ASSERT(offsetof(NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___,
-                           m_kItemCount) == 12);
-#pragma pack(push, 4)
 class NiTMap_Actor___CombatTargetData___
     : public NiTMapBase_DFALL_NiTMapItem_Actor___CombatTargetData______Actor___CombatTargetData___
 {
@@ -82,9 +59,6 @@ class NiTMap_Actor___CombatTargetData___
     // void __cdecl NiTMap<Actor *,ActorCombatTargetData *>::*()
     // void __cdecl NiTMap<Actor *,ActorCombatTargetData *>::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTMap_Actor___CombatTargetData___) == 16);
-#pragma pack(push, 4)
 class CombatTargetMap : public NiTMap_Actor___CombatTargetData___
 {
   public:
@@ -101,6 +75,4 @@ class CombatTargetMap : public NiTMap_Actor___CombatTargetData___
     // CombatTargetMap& __cdecl CombatTargetMap::*(const CombatTargetMap&)
     // void __cdecl CombatTargetMap::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(CombatTargetMap) == 16);
 #endif

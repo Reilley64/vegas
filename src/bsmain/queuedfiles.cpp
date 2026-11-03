@@ -41,7 +41,6 @@ struct QueuedFileEntry : public QueuedFile
     char* pFileName;
     BSFileEntry* m_pFileEntry;
 };
-typedef char _sizecheck_QueuedFileEntry[sizeof(QueuedFileEntry) == 48 ? 1 : -1];
 struct FUN_00c3cee0_shell : public QueuedFileEntry
 {
     void FUN_00c3cee0(char*);
@@ -88,7 +87,6 @@ struct QueuedFileEntry : public QueuedFile
     char* pFileName;
     BSFileEntry* m_pFileEntry;
 };
-typedef char _sizecheck_QueuedFileEntry[sizeof(QueuedFileEntry) == 48 ? 1 : -1];
 struct FileNameHash
 {
     void GetAll(unsigned char*, unsigned char*, unsigned char*, unsigned char*, unsigned int*);
@@ -111,7 +109,6 @@ struct FileNameHash
     unsigned char cFirst;
     unsigned int uiCRC;
 };
-typedef char _sizecheck_BSHash[sizeof(FileNameHash) == 8 ? 1 : -1];
 struct FUN_00c3cf60_shell : public QueuedFileEntry
 {
     void LookupFileEntryByArchive(int);

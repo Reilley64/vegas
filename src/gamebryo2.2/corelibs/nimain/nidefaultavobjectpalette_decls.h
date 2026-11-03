@@ -3,6 +3,7 @@
 #define NIDEFAULTAVOBJECTPALETTE_DECLS_H
 
 
+#include <windows.h>
 #include "fnv/symbols_0109b000.h"
 class NiBinaryStream
 {
@@ -31,7 +32,6 @@ template <class T> void ReadBinaryValue(NiStream& stream, T& value)
     NiBinaryStreamLoad(*stream.m_pUnderlyingStream, &value, 1);
 }
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 void __cdecl NiFree(void*);
 
 #endif

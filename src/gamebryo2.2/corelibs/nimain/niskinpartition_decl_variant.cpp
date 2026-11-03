@@ -26,7 +26,7 @@
 #include "niskinpartition_decls.h"
 const void* g_011f5b1c;
 const void* __cdecl FUN_00a820d0();
-void __stdcall FUN_00a82600(int a, int b, float c);
+void FUN_00a82600(int a, int b, float c);
 struct Holder
 {
     unsigned short* m_pusData;
@@ -49,7 +49,7 @@ struct S : NiRefObject
     int f4;
     int f8;
     void* fC;
-    void __thiscall FUN_00a824d0();
+    void FUN_00a824d0();
 };
 struct NiTAbstractPoolAllocator_unsigned_int
 {
@@ -59,7 +59,7 @@ struct NiTAbstractPoolAllocator_unsigned_int
 struct RecursiveSpinLock
 {
 };
-void __stdcall PoolFreeUIntNode(void* a);
+void PoolFreeUIntNode(void* a);
 struct FUN_00a82710_shell
 {
     void* m_p;
@@ -69,7 +69,7 @@ struct FUN_00a82710_shell
 };
 struct FUN_00a82890_shell
 {
-    char __thiscall FUN_00a82890(const unsigned short* a, const void* b);
+    char FUN_00a82890(const unsigned short* a, const void* b);
 };
 struct FUN_00a82c70_holder
 {
@@ -144,13 +144,13 @@ struct S_00a82050_Class : S_00a82050_Base
     S_00a82050_Node** ppNodes;
     unsigned int uCount;
 
-    virtual int __thiscall GetIndex(int);
-    virtual bool __thiscall Compare(int, int);
-    virtual void __thiscall Initialize(S_00a82050_Node*, int, float);
+    virtual int GetIndex(int);
+    virtual bool Compare(int, int);
+    virtual void Initialize(S_00a82050_Node*, int, float);
     virtual void Unknown();
-    virtual S_00a82050_Node* __thiscall GetNode();
+    virtual S_00a82050_Node* GetNode();
 
-    void __thiscall FUN_00a82050(int, float);
+    void FUN_00a82050(int, float);
 };
 S_00a82050_Base::~S_00a82050_Base()
 {}
@@ -193,7 +193,7 @@ struct FNV_This_821f0
     unsigned short* m_pusData;
     unsigned int unk04;
     unsigned int m_uCount;
-    char __thiscall ContainsAllValues(FNV_Arg_821f0* pArg);
+    char ContainsAllValues(FNV_Arg_821f0* pArg);
 };
 struct TriIndexList
 {
@@ -684,7 +684,7 @@ struct MergeItems
 };
 
 // @fnv 0x00a839d0
-void __stdcall FUN_00a839d0(unsigned char threshold, MergeItems* items)
+void FUN_00a839d0(unsigned char threshold, MergeItems* items)
 {
     // One equivalence id per bounded skin set; 50 entries inferred from the frame.
     int cls[50];

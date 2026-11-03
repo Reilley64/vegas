@@ -27,10 +27,10 @@
 #include "fnv/symbols_010c7000.h"
 struct FUN_00ca86c0_class
 {
-    unsigned int __thiscall FUN_00ca86c0();
+    unsigned int FUN_00ca86c0();
 };
 // @fnv 0x00ca86c0
-unsigned int __thiscall FUN_00ca86c0_class::FUN_00ca86c0()
+unsigned int FUN_00ca86c0_class::FUN_00ca86c0()
 {
     unsigned char m_0xe8 = *(unsigned char*)((char*)this + 0xe8);
     if (m_0xe8 != 4 && m_0xe8 != 5)
@@ -46,15 +46,15 @@ struct FUN_00ca88c0_Class
 // @fnv 0x00ca88c0
 void FUN_00ca88c0_Class::FUN_00ca88c0(float afValue)
 {
-    ((void(__thiscall*)(void*, float))(*(void**)(*(int*)((char*)this + 0xe0) + 12)))((char*)this + 0xe0, afValue);
+    ((void(*)(void*, float))(*(void**)(*(int*)((char*)this + 0xe0) + 12)))((char*)this + 0xe0, afValue);
 }
 
 struct FUN_00ca80c0_Class
 {
-    int __fastcall FUN_00ca80c0();
+    int FUN_00ca80c0();
 };
 // @fnv 0x00ca80c0
-int __fastcall FUN_00ca80c0_Class::FUN_00ca80c0()
+int FUN_00ca80c0_Class::FUN_00ca80c0()
 {
     return *(unsigned char*)(this + 0xe9) != 0xff;
 }
@@ -173,7 +173,7 @@ inline float lowerPairReversed(float left, float right)
 }
 // Computes the minimum of the three components of values and stores 0.2 times it in result->value if below DAT_01016248, otherwise 0.1.
 // @fnv 0x00ca80d0
-void __fastcall ComputeScaledMinimum(const Vector3* values, Output* result)
+void ComputeScaledMinimum(const Vector3* values, Output* result)
 {
     float firstMinimum = lowerPair(values->x, values->y);
     float minimum = lowerPair(firstMinimum, values->z);
@@ -436,7 +436,7 @@ struct AudioInterfaceVTable
     void* slot24;
     void* slot28;
     void* slot2C;
-    void(__thiscall* dispatch)(AudioInterface*, int);
+    void(* dispatch)(AudioInterface*, int);
 };
 struct AudioInterface
 {
@@ -550,7 +550,7 @@ void CA8830Object::FUN_00ca8830(int value)
 
 struct SubObject;
 
-typedef void(__thiscall* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
+typedef void(* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
 
 struct SubObjectVtbl
 {
@@ -2549,10 +2549,10 @@ void __cdecl FUN_00ca8700(Entity* apEntity)
 }
 
 // @fnv 0x00ca8920
-void __fastcall FUN_00ca8920(FUN_00ca8860_cls* body, void*, int inertia)
+void FUN_00ca8920(FUN_00ca8860_cls* body, void*, int inertia)
 {
     SubObject* motion = &body->m_sub;
-    typedef void(__thiscall * SetInertia)(SubObject*, int);
+    typedef void(* SetInertia)(SubObject*, int);
     SetInertia set = reinterpret_cast<SetInertia>(motion->m_pVtbl->fn1c);
     set(motion, inertia);
 }

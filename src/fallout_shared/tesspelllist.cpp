@@ -82,7 +82,7 @@ FUN_0048d060::~FUN_0048d060()
 }
 
 // @fnv 0x0048d150
-int __fastcall GetOffsetC(int apBase)
+int GetOffsetC(int apBase)
 {
     return apBase + 0xc;
 }

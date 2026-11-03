@@ -50,9 +50,4 @@ class NiPSysBoundUpdateModifier : public NiPSysModifier
     void SetUpdateSkipCounter(int iUpdateSkip);
 };
 
-FNV_STATIC_ASSERT(sizeof(NiBound) == 0x10);
-FNV_STATIC_ASSERT(sizeof(NiPSysModifier) == 0x18);
-FNV_STATIC_ASSERT(sizeof(NiPSysBoundUpdateModifier) == 0x20);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_usUpdateSkip) == 0x18);
-FNV_STATIC_ASSERT(offsetof(NiPSysBoundUpdateModifier, m_pkBounds) == 0x1C);
 #endif

@@ -16,11 +16,11 @@
 #include "fnv/symbols_011f5000.h"
 struct FUN_00a893b0_shell
 {
-    void __thiscall SetValues(int a, int b, int c, int d);
+    void SetValues(int a, int b, int c, int d);
 };
 
 // @fnv 0x00a893b0
-void __thiscall FUN_00a893b0_shell::SetValues(int aiValue0, int aiValue1, int aiValue2, int aiValue3)
+void FUN_00a893b0_shell::SetValues(int aiValue0, int aiValue1, int aiValue2, int aiValue3)
 {
     *(int*)(this + 0xc) = aiValue0;
     *(int*)(this + 0x10) = aiValue1;
@@ -40,11 +40,11 @@ extern int DAT_0109eccc;
 
 struct NiColorExtraData_shell
 {
-    NiColorExtraData_shell* __thiscall Destroy(unsigned int flags);
+    NiColorExtraData_shell* Destroy(unsigned int flags);
 };
 
 // @fnv 0x00a89560
-NiColorExtraData_shell* __thiscall NiColorExtraData_shell::Destroy(unsigned int flags)
+NiColorExtraData_shell* NiColorExtraData_shell::Destroy(unsigned int flags)
 {
     *reinterpret_cast<int**>(this) = &DAT_0109eccc;
     static_cast<::FUN_00a7b300_shell *>(nullptr)->FUN_00a7b300();
@@ -91,7 +91,7 @@ void NiColorExtraData::FUN_00a893d0(NiStream& kStream)
 struct NiColor
 {
     float r, g, b;
-    void __thiscall LoadBinary(NiStream& kStream);
+    void LoadBinary(NiStream& kStream);
 };
 
 struct NiStream

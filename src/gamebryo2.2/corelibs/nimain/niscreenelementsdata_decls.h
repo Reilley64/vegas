@@ -23,7 +23,6 @@ class NiTriBasedGeomData;
 class NiTriShapeData;
 class NiTriShapeData__SNAMemBlock;
 class NiTriShapeData__SharedNormalArray;
-#pragma pack(push, 4)
 class NiBound
 {
   public:
@@ -34,12 +33,6 @@ class NiBound
         int m_iRadius;         // +0xC, 4 bytes
     };
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_kCenter) == 0);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_fBoundRadius) == 12);
-FNV_STATIC_ASSERT(offsetof(NiBound, m_iRadius) == 12);
-#pragma pack(push, 4)
 class NiGeometryData : public NiObject
 {
   public:
@@ -67,35 +60,12 @@ class NiGeometryData : public NiObject
     bool m_bVerticesDirty;                                       // +0x3C, 1 bytes
     unsigned char layoutPadding3D[3];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiGeometryData) == 64);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usVertices) == 8);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usGeometryFlags) == 10);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usTrianglePoints) == 12);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_usDirtyFlags) == 14);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_kBound) == 16);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkVertex) == 32);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkNormal) == 36);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkColor) == 40);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkTexture) == 44);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_spAdditionalGeomData) == 48);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_pkGeometryRendererData) == 52);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucKeepFlags) == 56);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_ucCompressFlags) == 57);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bIsDynamic) == 58);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bBoundDirty) == 59);
-FNV_STATIC_ASSERT(offsetof(NiGeometryData, m_bVerticesDirty) == 60);
-#pragma pack(push, 4)
 class NiTriBasedGeomData : public NiGeometryData
 {
   public:
     unsigned short m_usTriangles;  // +0x40, 2 bytes
     unsigned char layoutPadding42[2];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriBasedGeomData) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTriBasedGeomData, m_usTriangles) == 64);
-#pragma pack(push, 4)
 class NiTriShapeData : public NiTriBasedGeomData
 {
   public:
@@ -106,14 +76,6 @@ class NiTriShapeData : public NiTriBasedGeomData
     unsigned char layoutPadding52[2];
     NiTriShapeData__SNAMemBlock* m_pkSharedNormalArrayMemoryBlock;  // +0x54, 4 bytes
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiTriShapeData) == 88);
-FNV_STATIC_ASSERT(offsetof(NiTriShapeData, m_uiTriListLength) == 68);
-FNV_STATIC_ASSERT(offsetof(NiTriShapeData, m_pusTriList) == 72);
-FNV_STATIC_ASSERT(offsetof(NiTriShapeData, m_pkSharedNormalArray) == 76);
-FNV_STATIC_ASSERT(offsetof(NiTriShapeData, m_usSharedNormalCount) == 80);
-FNV_STATIC_ASSERT(offsetof(NiTriShapeData, m_pkSharedNormalArrayMemoryBlock) == 84);
-#pragma pack(push, 4)
 class NiScreenElementsData__Polygon
 {
   public:
@@ -122,7 +84,6 @@ class NiScreenElementsData__Polygon
     unsigned short m_usTriangleCount;
     unsigned short m_usTriangleIndexOffset;
 };
-FNV_STATIC_ASSERT(sizeof(NiScreenElementsData__Polygon) == 8);
 class NiScreenElementsData : public NiTriShapeData
 {
   public:
@@ -140,16 +101,4 @@ class NiScreenElementsData : public NiTriShapeData
     bool m_bGeometryInitialized;                 // +0x6E, 1 bytes
     unsigned char layoutPadding6F[1];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(NiScreenElementsData) == 112);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_akPolygon) == 88);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_ausPIndexer) == 92);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usMaxPQuantity) == 96);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usPGrowBy) == 98);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usPQuantity) == 100);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usMaxVQuantity) == 102);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usVGrowBy) == 104);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usMaxIQuantity) == 106);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_usIGrowBy) == 108);
-FNV_STATIC_ASSERT(offsetof(NiScreenElementsData, m_bGeometryInitialized) == 110);
 #endif

@@ -890,7 +890,7 @@ struct BSSoundHandleEx
 };
 struct BSAudio
 {
-    BSSoundHandleEx __thiscall GetSoundHandleByEditorID(const char* id, unsigned int a1);
+    BSSoundHandleEx GetSoundHandleByEditorID(const char* id, unsigned int a1);
 };
 struct BSAudioS_
 {
@@ -922,12 +922,12 @@ struct C
     int m_88;
     int m_8c;
     float m_90;
-    void __thiscall FUN_007908f0();
+    void FUN_007908f0();
 };
 
 // Computes a sound value from game state, clamps it, plays a sound on threshold crossings, stores it, and updates m_90 from nearby tiles.
 // @fnv 0x007908f0
-void __thiscall C::FUN_007908f0()
+void C::FUN_007908f0()
 {
     float RunSeventhVirtualOperation = 0.0f;
     long cnt4 = 0;

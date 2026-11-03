@@ -247,18 +247,18 @@ int SearchObject::GetCallResult(unsigned int auiUnused)
 
 struct V
 {
-    virtual void __fastcall f0(int);
-    virtual void __fastcall f1(int);
-    virtual void __fastcall f2(int);
-    virtual void __fastcall f3(int);
-    virtual void __fastcall f4(int);
+    virtual void f0(int);
+    virtual void f1(int);
+    virtual void f2(int);
+    virtual void f3(int);
+    virtual void f4(int);
 };
 struct C
 {
-    void __fastcall FUN_00e45090(int);
+    void FUN_00e45090(int);
 };
 // @fnv 0x00e45090
-void __fastcall C::FUN_00e45090(int x)
+void C::FUN_00e45090(int x)
 {
     V* base = reinterpret_cast<V*>(reinterpret_cast<char*>(this) - 8);
     base->f4(x);
@@ -270,7 +270,7 @@ struct FUN_00e450b0_cls
 };
 
 // @fnv 0x00e450b0
-void __thiscall FUN_00e450b0_cls::FUN_00e450b0(int)
+void FUN_00e450b0_cls::FUN_00e450b0(int)
 {
     *(unsigned char*)(this + 0xc) |= 2;
 }
@@ -1039,12 +1039,12 @@ struct FUN_00e44c70_V
 class FUN_00e44da0_cls : public hkpProjectileGun
 {
   public:
-    void __thiscall FUN_00e44da0(float value);
+    void FUN_00e44da0(float value);
 };
 
 // Iterates m_kRigidBodies and calls FUN_00e44c70 on each item whose offset-0x14 float field exceeds value.
 // @fnv 0x00e44da0
-void __thiscall FUN_00e44da0_cls::FUN_00e44da0(float value)
+void FUN_00e44da0_cls::FUN_00e44da0(float value)
 {
     int count = m_kRigidBodies.m_iElementCount;
     int index = 0;

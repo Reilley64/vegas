@@ -39,7 +39,7 @@ struct FUN_009da7a0_shell : FUN_009ca6c0_shell
 };
 
 // @fnv 0x009da7a0
-void __thiscall FUN_009da7a0_shell::FUN_009da7a0(void)
+void FUN_009da7a0_shell::FUN_009da7a0(void)
 {
     *(int*)this = (int)&DAT_010920cc;
     reinterpret_cast<::FUN_009ca6c0_class *>(this)->FUN_009ca6c0();

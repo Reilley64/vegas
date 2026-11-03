@@ -33,10 +33,10 @@ struct VirtualBase
 };
 struct FUN_00ddf020_Class
 {
-    void __thiscall FUN_00ddf020();
+    void FUN_00ddf020();
 };
 // @fnv 0x00ddf020
-void __thiscall FUN_00ddf020_Class::FUN_00ddf020()
+void FUN_00ddf020_Class::FUN_00ddf020()
 {
     ((VirtualBase*)this)->Dispatch();
 }
@@ -391,7 +391,7 @@ class ObjDDF9
 
 
 // @fnv 0x00ddf970
-void __stdcall ClearAllItems(int iUnused0, int iUnused1)
+void ClearAllItems(int iUnused0, int iUnused1)
 {
     hkArrayDDF9<ObjDDF9*> kArray;
     reinterpret_cast<::MonitorTreeBuilder *>((kArray))->FUN_00ddf740((::MonitorNodeArray *)(0), {});
@@ -700,7 +700,7 @@ struct Sub20_cls
 {
 };
 
-typedef void(__thiscall* VSlot8)(void* self, void* owner, int r);
+typedef void(* VSlot8)(void* self, void* owner, int r);
 
 struct FUN_00ddfa10_cls
 {

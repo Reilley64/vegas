@@ -2,6 +2,7 @@
 // to their real unit once identified.
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FUN_00a5d450_class.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
@@ -22,17 +23,16 @@ struct NiObject
 };
 struct FUN_00c36040_Class
 {
-    void __thiscall FUN_00c36040(NiStream* stream);
+    void FUN_00c36040(NiStream* stream);
 };
 struct FUN_00c36220_class
 {
-    void* __thiscall FUN_00c36220(int arg);
+    void* FUN_00c36220(int arg);
 };
 struct S_00c36290
 {
     void* FUN_00c36290(unsigned int);
 };
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct R_00c362c0
 {
     virtual void f0();
@@ -46,7 +46,7 @@ struct S_00c362c0
 };
 struct FUN_00c36300_Class
 {
-    void* __thiscall FUN_00c36300();
+    void* FUN_00c36300();
 };
 struct BSMultiBound
 {
@@ -57,8 +57,8 @@ struct BSMultiBound
 };
 struct FUN_00c35f50_class
 {
-    void __thiscall FUN_00c35fe0(BSMultiBound*, int);
-    BSMultiBound* __thiscall FUN_00c35f50(int);
+    void FUN_00c35fe0(BSMultiBound*, int);
+    BSMultiBound* FUN_00c35f50(int);
 };
 extern int _data_011c16bc;
 struct A51BF0Base
@@ -136,7 +136,7 @@ struct Cls
     unsigned int m_u08;
     SP m_sp;
 
-    unsigned char __thiscall FUN_00c36240(int arg);
+    unsigned char FUN_00c36240(int arg);
 };
 
 // @fnv 0x00c36240
@@ -259,7 +259,7 @@ struct FUN_00c360a0_sp_shell
 
 struct FUN_00a5d2f0_shell
 {
-    bool __thiscall FUN_00a5d2f0(void* arg);
+    bool FUN_00a5d2f0(void* arg);
 };
 
 struct FUN_00c360a0_shell
@@ -269,7 +269,7 @@ struct FUN_00c360a0_shell
     unsigned int unk08;
     FUN_00c360a0_sp_shell m_sp0c;
 
-    bool __thiscall FUN_00c360a0(void* arg);
+    bool FUN_00c360a0(void* arg);
 };
 
 // @fnv 0x00c360a0

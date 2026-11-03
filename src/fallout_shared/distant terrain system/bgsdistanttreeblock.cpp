@@ -109,7 +109,7 @@ struct BGSDistantTreeBlockLoadTask : QueuedFileEntry
     int iX;
     int iY;
     int iLevel;
-    bool __thiscall FormatDescription(char* apDescription, unsigned int aiBufferSize);
+    bool FormatDescription(char* apDescription, unsigned int aiBufferSize);
 };
 
 
@@ -269,7 +269,7 @@ struct BGSDistantTreeBlockLoadTask_shell : BGSDistantTreeBlockLoadTask
 void BGSDistantTreeBlockLoadTask_shell::FUN_006f94c0()
 {
     *(char*)((char*)this + 0x34) = 1;
-    ((void(__thiscall*)(void*))(*(void***)this)[0x28 / 4])(this);
+    ((void(*)(void*))(*(void***)this)[0x28 / 4])(this);
 }
 
 struct Block88
@@ -300,10 +300,10 @@ struct FakeArray
 {
     int _0;
     InstanceData* _4;
-    unsigned int __thiscall AppendInstance(InstanceData*);
+    unsigned int AppendInstance(InstanceData*);
 };
 // @fnv 0x006f9800
-unsigned int __thiscall FakeArray::AppendInstance(InstanceData* apInstance)
+unsigned int FakeArray::AppendInstance(InstanceData* apInstance)
 {
     unsigned int uiNewIndex;
     uiNewIndex = ((unsigned int)(reinterpret_cast<::FUN_006b4060_class *>(this)->GetNextIndex()));
@@ -570,7 +570,7 @@ void BGSDistantTreeBlock_shell::MarkTreeInstance(unsigned int aID, bool abQueue)
 
 struct FUN_006b3120_helper
 {
-    unsigned char* __thiscall GetElementAt(int);
+    unsigned char* GetElementAt(int);
 };
 
 

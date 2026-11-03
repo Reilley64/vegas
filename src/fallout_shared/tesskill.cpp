@@ -32,12 +32,12 @@ struct FUN_006180a0_shell
     int m8;
     int m12;
     int m16;
-    void __thiscall SwapEndian();
+    void SwapEndian();
 };
 
 // Byte-swaps the five int fields m0, m4, m8 and the two ints at m12 via BSEndian.
 // @fnv 0x006180a0
-void __thiscall FUN_006180a0_shell::SwapEndian()
+void FUN_006180a0_shell::SwapEndian()
 {
     ::FUN_00401080(&m0);
     ::FUN_00401080(&m4);
@@ -63,12 +63,12 @@ struct FUN_00617f40_shell
 
 struct FUN_00617e50_shell : public FUN_00617f40_shell
 {
-    void* __thiscall FUN_00617e50(unsigned int flags);
+    void* FUN_00617e50(unsigned int flags);
 };
 
 // Calls FUN_00617f40, then if flags has bit 1 set deallocates this and returns this.
 // @fnv 0x00617e50
-void* __thiscall FUN_00617e50_shell::FUN_00617e50(unsigned int flags)
+void* FUN_00617e50_shell::FUN_00617e50(unsigned int flags)
 {
     reinterpret_cast<::FUN_00617f40 *>(this)->FUN_00617f40::~FUN_00617f40();
     if (flags & 1)
@@ -78,14 +78,14 @@ void* __thiscall FUN_00617e50_shell::FUN_00617e50(unsigned int flags)
 
 struct TgtOps
 {
-    void __thiscall ClearSourceFiles();
+    void ClearSourceFiles();
 };
 struct FUN_00617ea0_shell
 {
-    void __thiscall ResetState();
+    void ResetState();
 };
 // @fnv 0x00617ea0
-void __thiscall FUN_00617ea0_shell::ResetState()
+void FUN_00617ea0_shell::ResetState()
 {
     *(int*)((char*)this + 0x2c) = -1;
     *(int*)((char*)this + 0x34) = 0;
@@ -95,8 +95,8 @@ void __thiscall FUN_00617ea0_shell::ResetState()
         *(float*)((char*)this + 0x38 + iIndex * 4) = 1.0f;
     int iSlot = 0;
     for (; iSlot < 4; ++iSlot)
-        ((void(__thiscall*)(void*))(*(int**)((char*)this + 0x40 + iSlot * 8))[0])((char*)this + 0x40 + iSlot * 8);
-    ((void(__thiscall*)(void*, int))(*(int**)((char*)this + 0x00))[0x32])((char*)this, 0);
+        ((void(*)(void*))(*(int**)((char*)this + 0x40 + iSlot * 8))[0])((char*)this + 0x40 + iSlot * 8);
+    ((void(*)(void*, int))(*(int**)((char*)this + 0x00))[0x32])((char*)this, 0);
     ((TgtOps*)this)->ClearSourceFiles();
 }
 
@@ -118,10 +118,10 @@ struct FUN_00485680
 };
 struct FUN_00617fc0_shell
 {
-    void __thiscall FUN_00617fc0();
+    void FUN_00617fc0();
 };
 // @fnv 0x00617fc0
-void __thiscall FUN_00617fc0_shell::FUN_00617fc0()
+void FUN_00617fc0_shell::FUN_00617fc0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     ::FUN_00485910(0x58444e49, *(int*)((char*)this + 0x2c));
@@ -332,7 +332,7 @@ struct TESForm
 
 struct TESSkill : public TESForm
 {
-    bool __thiscall FUN_00618130(TESFile*);
+    bool FUN_00618130(TESFile*);
 };
 
 // Reads a skill record from apFile: checks the record type, loads the base form, then dispatches each chunk to its handler until the file ends.

@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -562,7 +563,6 @@ int _mm_movemask_ps(__m128);
 void _mm_store_ss(float*, __m128);
 unsigned __int64 __rdtsc(void);
 void _ReadWriteBarrier(void);
-__declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 }
 
 extern const char str_010cf050[];
@@ -959,7 +959,7 @@ return val();
 private:
 TYPE m_kStorage;};
 extern "C"{
-__declspec(dllimport)void*_stdcall TlsGetValue(unsigned long dwTlsIndex);}
+}
 template<typename T>
 class hkThreadLocalData
 {

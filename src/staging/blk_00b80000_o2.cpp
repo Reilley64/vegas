@@ -2,6 +2,7 @@
 // src/staging/blk_00b80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <windows.h>
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BSBatchRenderer__GeometryGroup.h"
@@ -95,16 +96,16 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00b81290_class
 {
-    void __thiscall FUN_00b81130();
-    void* __thiscall FUN_00b81290(int);
+    void FUN_00b81130();
+    void* FUN_00b81290(int);
 };
 struct FUN_00b8d4d0_Class
 {
-    void __thiscall FUN_00b8d4d0();
+    void FUN_00b8d4d0();
 };
 struct FUN_00b8d580_Class : public FUN_00b8d4d0_Class
 {
-    FUN_00b8d580_Class* __thiscall FUN_00b8d580(unsigned int a);
+    FUN_00b8d580_Class* FUN_00b8d580(unsigned int a);
 };
 void FUN_00c03a20();
 
@@ -131,12 +132,12 @@ void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00b924d0_class
 {
-    FUN_00b924d0_class* __thiscall FUN_00b924d0(bool b);
+    FUN_00b924d0_class* FUN_00b924d0(bool b);
 };
 
 // Calls FUN_00b92450, then frees this with operator delete when b has bit 0 set, and returns this.
 // @fnv 0x00b924d0
-FUN_00b924d0_class* __thiscall FUN_00b924d0_class::FUN_00b924d0(bool abFree)
+FUN_00b924d0_class* FUN_00b924d0_class::FUN_00b924d0(bool abFree)
 {
     FUN_00b92450();
     if (abFree & 1)
@@ -198,11 +199,11 @@ extern int DAT_010b06c0;
 
 struct FUN_00b8d6c0_class
 {
-    FUN_00b8d6c0_class* __thiscall FUN_00b8d6c0(int flag);
+    FUN_00b8d6c0_class* FUN_00b8d6c0(int flag);
 };
 
 // @fnv 0x00b8d6c0
-FUN_00b8d6c0_class* __thiscall FUN_00b8d6c0_class::FUN_00b8d6c0(int aiFlags)
+FUN_00b8d6c0_class* FUN_00b8d6c0_class::FUN_00b8d6c0(int aiFlags)
 {
     *(int*)this = (int)&DAT_010b06c0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b06a0;
@@ -216,7 +217,7 @@ namespace fnv_00b8d700 {
 struct ImageSpaceTexture;
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
+    void SetSize(unsigned int);
 };
 struct ImageSpaceEffectShader
 {
@@ -241,10 +242,10 @@ extern int DAT_010b0a00;
 extern int DAT_010b09dc;
 struct FUN_00b8d950_class
 {
-    FUN_00b8d950_class* __thiscall FUN_00b8d950(bool flag);
+    FUN_00b8d950_class* FUN_00b8d950(bool flag);
 };
 // @fnv 0x00b8d950
-FUN_00b8d950_class* __thiscall FUN_00b8d950_class::FUN_00b8d950(bool abFree)
+FUN_00b8d950_class* FUN_00b8d950_class::FUN_00b8d950(bool abFree)
 {
     *(int*)this = (int)&DAT_010b0a00;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b09dc;
@@ -284,11 +285,11 @@ struct FUN_00b8daa0_class
 {
     int* vtbl;
     int m_6c;
-    void* __thiscall FUN_00b8daa0(bool flag);
+    void* FUN_00b8daa0(bool flag);
 };
 
 // @fnv 0x00b8daa0
-void* __thiscall FUN_00b8daa0_class::FUN_00b8daa0(bool abFree)
+void* FUN_00b8daa0_class::FUN_00b8daa0(bool abFree)
 {
     vtbl = (int*)&DAT_010b0b98;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b0b78;
@@ -302,10 +303,10 @@ extern int DAT_010b0d40;
 extern int DAT_010b0d1c;
 struct FUN_00b8dbf0_Class
 {
-    FUN_00b8dbf0_Class* __thiscall FUN_00b8dbf0(bool);
+    FUN_00b8dbf0_Class* FUN_00b8dbf0(bool);
 };
 // @fnv 0x00b8dbf0
-FUN_00b8dbf0_Class* __thiscall FUN_00b8dbf0_Class::FUN_00b8dbf0(bool abFree)
+FUN_00b8dbf0_Class* FUN_00b8dbf0_Class::FUN_00b8dbf0(bool abFree)
 {
     *(void**)this = &DAT_010b0d40;
     *(void**)((char*)this + 0x6c) = &DAT_010b0d1c;
@@ -320,10 +321,10 @@ extern int DAT_010b0ec0;
 void FUN_00c03a20();
 struct FUN_00b8dd40_class
 {
-    FUN_00b8dd40_class* __thiscall FUN_00b8dd40(bool flag);
+    FUN_00b8dd40_class* FUN_00b8dd40(bool flag);
 };
 // @fnv 0x00b8dd40
-FUN_00b8dd40_class* __thiscall FUN_00b8dd40_class::FUN_00b8dd40(bool abFree)
+FUN_00b8dd40_class* FUN_00b8dd40_class::FUN_00b8dd40(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b0ec0;
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b0e9c;
@@ -338,11 +339,11 @@ extern int DAT_010b101c;
 
 struct FUN_00b8de90_Class
 {
-    FUN_00b8de90_Class* __thiscall FUN_00b8de90(bool);
+    FUN_00b8de90_Class* FUN_00b8de90(bool);
 };
 
 // @fnv 0x00b8de90
-FUN_00b8de90_Class* __thiscall FUN_00b8de90_Class::FUN_00b8de90(bool abFree)
+FUN_00b8de90_Class* FUN_00b8de90_Class::FUN_00b8de90(bool abFree)
 {
     *(int*)this = (int)&DAT_010b1040;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b101c;
@@ -358,11 +359,11 @@ extern "C" int DAT_010b11c0;
 
 struct FUN_00b8dfe0_class
 {
-    int* __thiscall FUN_00b8dfe0(bool b);
+    int* FUN_00b8dfe0(bool b);
 };
 
 // @fnv 0x00b8dfe0
-int* __thiscall FUN_00b8dfe0_class::FUN_00b8dfe0(bool abFree)
+int* FUN_00b8dfe0_class::FUN_00b8dfe0(bool abFree)
 {
     *(int**)(this) = &DAT_010b11c0;
     *(int**)((char*)this + 0x6c) = &DAT_010b119c;
@@ -402,10 +403,10 @@ extern int DAT_010b1320;
 void FUN_00c03a20();
 struct FUN_00b8e130_class
 {
-    FUN_00b8e130_class* __thiscall FUN_00b8e130(bool flag);
+    FUN_00b8e130_class* FUN_00b8e130(bool flag);
 };
 // @fnv 0x00b8e130
-FUN_00b8e130_class* __thiscall FUN_00b8e130_class::FUN_00b8e130(bool abFree)
+FUN_00b8e130_class* FUN_00b8e130_class::FUN_00b8e130(bool abFree)
 {
     *(int*)this = (int)&DAT_010b1340;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b1320;
@@ -421,11 +422,11 @@ void FUN_00c03a20();
 
 struct FUN_00b8e280_class
 {
-    FUN_00b8e280_class* __thiscall FUN_00b8e280(bool flag);
+    FUN_00b8e280_class* FUN_00b8e280(bool flag);
 };
 
 // @fnv 0x00b8e280
-FUN_00b8e280_class* __thiscall FUN_00b8e280_class::FUN_00b8e280(bool abFree)
+FUN_00b8e280_class* FUN_00b8e280_class::FUN_00b8e280(bool abFree)
 {
     *(void**)(this) = &DAT_010b14c0;
     *(void**)(this + 0x6c) = &DAT_010b14a0;
@@ -494,10 +495,10 @@ void FUN_00c03a20();
 struct FUN_00b8ef60_class
 {
     int m_vtbl;
-    FUN_00b8ef60_class* __thiscall FUN_00b8ef60(bool del);
+    FUN_00b8ef60_class* FUN_00b8ef60(bool del);
 };
 // @fnv 0x00b8ef60
-FUN_00b8ef60_class* __thiscall FUN_00b8ef60_class::FUN_00b8ef60(bool abFree)
+FUN_00b8ef60_class* FUN_00b8ef60_class::FUN_00b8ef60(bool abFree)
 {
     m_vtbl = (int)&DAT_010b2140;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b211c;
@@ -513,11 +514,11 @@ void FUN_00c03a20();
 
 struct FUN_00b8f120_class
 {
-    void* __thiscall FUN_00b8f120(unsigned char b);
+    void* FUN_00b8f120(unsigned char b);
 };
 
 // @fnv 0x00b8f120
-void* __thiscall FUN_00b8f120_class::FUN_00b8f120(unsigned char abFree)
+void* FUN_00b8f120_class::FUN_00b8f120(unsigned char abFree)
 {
     *(int**)this = &DAT_010b2308;
     *(int**)((char*)this + 0x6c) = &DAT_010b22e8;
@@ -532,10 +533,10 @@ extern "C" int DAT_010b2490;
 void FUN_00c03a20();
 struct FUN_00b8f2b0_class
 {
-    void* __thiscall FUN_00b8f2b0(bool flag);
+    void* FUN_00b8f2b0(bool flag);
 };
 // @fnv 0x00b8f2b0
-void* __thiscall FUN_00b8f2b0_class::FUN_00b8f2b0(bool abFree)
+void* FUN_00b8f2b0_class::FUN_00b8f2b0(bool abFree)
 {
     *(int*)this = (int)&DAT_010b2490;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b2470;
@@ -549,10 +550,10 @@ extern int DAT_010b25f0;
 extern int DAT_010b2610;
 struct FUN_00b8f470_class
 {
-    int* __thiscall FUN_00b8f470(bool);
+    int* FUN_00b8f470(bool);
 };
 // @fnv 0x00b8f470
-int* __thiscall FUN_00b8f470_class::FUN_00b8f470(bool abFree)
+int* FUN_00b8f470_class::FUN_00b8f470(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b2610;
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b25f0;
@@ -568,11 +569,11 @@ struct FUN_00b8f620_class
 {
     void* vtbl;
     void* m_06c;
-    void* __thiscall FUN_00b8f620(bool flag);
+    void* FUN_00b8f620(bool flag);
 };
 // Sets the vtbl and the pointer at offset 0x6c, calls FUN_00c03a20, and deletes this with size 208 when flag bit 0 is set.
 // @fnv 0x00b8f620
-void* __thiscall FUN_00b8f620_class::FUN_00b8f620(bool abDelete)
+void* FUN_00b8f620_class::FUN_00b8f620(bool abDelete)
 {
     vtbl = &DAT_010b27a8;
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b2784;
@@ -610,10 +611,10 @@ void FUN_00c03a20();
 
 struct FUN_00b8f6d0_class
 {
-    void* __thiscall FUN_00b8f6d0(bool flag);
+    void* FUN_00b8f6d0(bool flag);
 };
 // @fnv 0x00b8f6d0
-void* __thiscall FUN_00b8f6d0_class::FUN_00b8f6d0(bool abFree)
+void* FUN_00b8f6d0_class::FUN_00b8f6d0(bool abFree)
 {
     *(void**)this = &DAT_010b2920;
     *(void**)((char*)this + 0x6c) = &DAT_010b28fc;
@@ -628,11 +629,11 @@ extern int DAT_010b2a98;
 
 struct FUN_00b8f7a0_class
 {
-    int* __thiscall FUN_00b8f7a0(int arg);
+    int* FUN_00b8f7a0(int arg);
 };
 
 // @fnv 0x00b8f7a0
-int* __thiscall FUN_00b8f7a0_class::FUN_00b8f7a0(int aiFlags)
+int* FUN_00b8f7a0_class::FUN_00b8f7a0(int aiFlags)
 {
     *(int**)((char*)this + 0) = &DAT_010b2a98;
     *(int**)((char*)this + 0x6c) = &DAT_010b2a74;
@@ -647,10 +648,10 @@ extern "C" int DAT_010b2c10;
 void FUN_00c03a20();
 struct FUN_00b8f8f0_class
 {
-    FUN_00b8f8f0_class* __thiscall FUN_00b8f8f0(bool flag);
+    FUN_00b8f8f0_class* FUN_00b8f8f0(bool flag);
 };
 // @fnv 0x00b8f8f0
-FUN_00b8f8f0_class* __thiscall FUN_00b8f8f0_class::FUN_00b8f8f0(bool abFree)
+FUN_00b8f8f0_class* FUN_00b8f8f0_class::FUN_00b8f8f0(bool abFree)
 {
     *(int*)this = (int)&DAT_010b2c10;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b2bec;
@@ -691,7 +692,7 @@ struct FUN_00b8fa40_class
     int vtbl;
     int m_00b2d8c;
     int m_00b2db0;
-    void __thiscall FUN_00c03a20();
+    void FUN_00c03a20();
     FUN_00b8fa40_class(bool flag);
     ~FUN_00b8fa40_class();
 };
@@ -731,10 +732,10 @@ FUN_00b8fa80_class::FUN_00b8fa80_class()
 
 struct FUN_00b8fba0_class
 {
-    void* __thiscall FUN_00b8fba0(int flag);
+    void* FUN_00b8fba0(int flag);
 };
 // @fnv 0x00b8fba0
-void* __thiscall FUN_00b8fba0_class::FUN_00b8fba0(int aiFlags)
+void* FUN_00b8fba0_class::FUN_00b8fba0(int aiFlags)
 {
     *(int*)this = (int)&DAT_010b2f50;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b2f30;
@@ -767,10 +768,10 @@ FUN_00b8fbe0::FUN_00b8fbe0()
 void FUN_00c03a20();
 struct FUN_00b8fd00_Class
 {
-    FUN_00b8fd00_Class* __thiscall FUN_00b8fd00(bool flag);
+    FUN_00b8fd00_Class* FUN_00b8fd00(bool flag);
 };
 // @fnv 0x00b8fd00
-FUN_00b8fd00_Class* __thiscall FUN_00b8fd00_Class::FUN_00b8fd00(bool abFree)
+FUN_00b8fd00_Class* FUN_00b8fd00_Class::FUN_00b8fd00(bool abFree)
 {
     *(int*)this = (int)&DAT_010b30e0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b30c0;
@@ -805,10 +806,10 @@ FUN_00b8fd40::FUN_00b8fd40()
 
 struct FUN_00b8fe60_class
 {
-    FUN_00b8fe60_class* __thiscall FUN_00b8fe60(bool b);
+    FUN_00b8fe60_class* FUN_00b8fe60(bool b);
 };
 // @fnv 0x00b8fe60
-FUN_00b8fe60_class* __thiscall FUN_00b8fe60_class::FUN_00b8fe60(bool abFree)
+FUN_00b8fe60_class* FUN_00b8fe60_class::FUN_00b8fe60(bool abFree)
 {
     *(int*)this = (int)&DAT_010b3268;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b3244;
@@ -844,11 +845,11 @@ FUN_00b8fea0::FUN_00b8fea0()
 
 struct FUN_00b8ffb0_class
 {
-    FUN_00b8ffb0_class* __thiscall FUN_00b8ffb0(bool b);
+    FUN_00b8ffb0_class* FUN_00b8ffb0(bool b);
 };
 
 // @fnv 0x00b8ffb0
-FUN_00b8ffb0_class* __thiscall FUN_00b8ffb0_class::FUN_00b8ffb0(bool abFree)
+FUN_00b8ffb0_class* FUN_00b8ffb0_class::FUN_00b8ffb0(bool abFree)
 {
     *(int*)this = (int)&DAT_010b33f0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b33cc;
@@ -866,7 +867,7 @@ struct ImageSpaceEffectShader
 };
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
+    void SetSize(unsigned int);
 };
 struct FUN_00b8fff0 : public ImageSpaceEffectShader
 {
@@ -911,11 +912,11 @@ struct FUN_00b91780_shell
 {
     int* vtbl;
     void FUN_00c03a20();
-    FUN_00b91780_shell* __thiscall FUN_00b91780(bool flag);
+    FUN_00b91780_shell* FUN_00b91780(bool flag);
 };
 
 // @fnv 0x00b91780
-FUN_00b91780_shell* __thiscall FUN_00b91780_shell::FUN_00b91780(bool abFree)
+FUN_00b91780_shell* FUN_00b91780_shell::FUN_00b91780(bool abFree)
 {
     vtbl = &DAT_010b4c68;
     *(int**)((char*)this + 0x6c) = &DAT_010b4c48;
@@ -954,7 +955,7 @@ FUN_00b917c0::FUN_00b917c0()
 void FUN_00c03a20();
 struct FUN_00b918c0_Class
 {
-    int __thiscall FUN_00b918c0(bool flag);
+    int FUN_00b918c0(bool flag);
 };
 // @fnv 0x00b918c0
 int FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
@@ -992,10 +993,10 @@ FUN_00b91900::FUN_00b91900()
 
 struct FUN_00b91a00_Class
 {
-    void* __thiscall FUN_00b91a00(bool flag);
+    void* FUN_00b91a00(bool flag);
 };
 // @fnv 0x00b91a00
-void* __thiscall FUN_00b91a00_Class::FUN_00b91a00(bool abFree)
+void* FUN_00b91a00_Class::FUN_00b91a00(bool abFree)
 {
     *(void**)this = &DAT_010b4f80;
     *(void**)((char*)this + 0x6c) = &DAT_010b4f60;
@@ -1013,11 +1014,11 @@ struct FUN_00b91cb0_class
     void* vtbl;
     char pad[0x6c - sizeof(void*)];
     void* m_6c;
-    FUN_00b91cb0_class* __thiscall FUN_00b91cb0(unsigned char flag);
+    FUN_00b91cb0_class* FUN_00b91cb0(unsigned char flag);
 };
 // Resets the vtbl and m_6c pointers, calls FUN_00c03a20, and frees this with _delete when flag bit 0 is set, returning this.
 // @fnv 0x00b91cb0
-FUN_00b91cb0_class* __thiscall FUN_00b91cb0_class::FUN_00b91cb0(unsigned char flag)
+FUN_00b91cb0_class* FUN_00b91cb0_class::FUN_00b91cb0(unsigned char flag)
 {
     vtbl = &DAT_010b52c0;
     m_6c = &DAT_010b52a0;
@@ -1122,10 +1123,10 @@ void __cdecl FUN_00c03a20();
 struct FUN_00b91f50_class
 {
     void* vtbl;
-    FUN_00b91f50_class* __thiscall FUN_00b91f50(bool flag);
+    FUN_00b91f50_class* FUN_00b91f50(bool flag);
 };
 // @fnv 0x00b91f50
-FUN_00b91f50_class* __thiscall FUN_00b91f50_class::FUN_00b91f50(bool abFree)
+FUN_00b91f50_class* FUN_00b91f50_class::FUN_00b91f50(bool abFree)
 {
     vtbl = &DAT_010b5640;
     *(void**)((char*)this + 0x6c) = &DAT_010b5620;
@@ -1162,10 +1163,10 @@ void FUN_00c03a20();
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00b92290_shell
 {
-    FUN_00b92290_shell* __thiscall FUN_00b92290(bool flag);
+    FUN_00b92290_shell* FUN_00b92290(bool flag);
 };
 // @fnv 0x00b92290
-FUN_00b92290_shell* __thiscall FUN_00b92290_shell::FUN_00b92290(bool abFree)
+FUN_00b92290_shell* FUN_00b92290_shell::FUN_00b92290(bool abFree)
 {
     *(int*)this = (int)&DAT_010b57d0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b57b0;
@@ -1181,10 +1182,10 @@ void FUN_00c03a20();
 struct FUN_00b92570_class
 {
     int vtbl;
-    FUN_00b92570_class* __thiscall FUN_00b92570(bool del);
+    FUN_00b92570_class* FUN_00b92570(bool del);
 };
 // @fnv 0x00b92570
-FUN_00b92570_class* __thiscall FUN_00b92570_class::FUN_00b92570(bool abDelete)
+FUN_00b92570_class* FUN_00b92570_class::FUN_00b92570(bool abDelete)
 {
     vtbl = (int)&DAT_010b5b10;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b5af0;
@@ -1221,10 +1222,10 @@ FUN_00b92690::FUN_00b92690()
 void FUN_00c03a20();
 struct FUN_00b927a0_class
 {
-    void* __thiscall FUN_00b927a0(bool b);
+    void* FUN_00b927a0(bool b);
 };
 // @fnv 0x00b927a0
-void* __thiscall FUN_00b927a0_class::FUN_00b927a0(bool abFree)
+void* FUN_00b927a0_class::FUN_00b927a0(bool abFree)
 {
     *(void***)this = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5cb8));
     *(void**)((char*)this + 0x6c) = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5c94));
@@ -1308,12 +1309,12 @@ struct FUN_00b92a40_class
     int* vtbl;
     int pad[0x6c / 4 - 1];
     int* unk6c;
-    FUN_00b92a40_class* __thiscall FUN_00b92a40(bool b);
+    FUN_00b92a40_class* FUN_00b92a40(bool b);
 };
 
 // Sets the vtbl and unk6c pointers, calls FUN_00c03a20, and if b bit 0 is set deletes this with size 0xd0.
 // @fnv 0x00b92a40
-FUN_00b92a40_class* __thiscall FUN_00b92a40_class::FUN_00b92a40(bool abDelete)
+FUN_00b92a40_class* FUN_00b92a40_class::FUN_00b92a40(bool abDelete)
 {
     vtbl = &DAT_010b6048;
     unk6c = &DAT_010b6028;
@@ -1349,12 +1350,12 @@ struct FUN_00b92ce0_class
     int vtbl;
     int pad[26];
     int* field_6c;
-    FUN_00b92ce0_class* __thiscall FUN_00b92ce0(int flag);
+    FUN_00b92ce0_class* FUN_00b92ce0(int flag);
 };
 
 // Sets the vtable and field_6c pointers, calls FUN_00c03a20, and if flag bit 0 is set frees this with size 0xd0.
 // @fnv 0x00b92ce0
-FUN_00b92ce0_class* __thiscall FUN_00b92ce0_class::FUN_00b92ce0(int flag)
+FUN_00b92ce0_class* FUN_00b92ce0_class::FUN_00b92ce0(int flag)
 {
     *(int**)this = &DAT_010b6398;
     field_6c = &DAT_010b6374;
@@ -1369,12 +1370,12 @@ extern int DAT_010b6548;
 
 struct FUN_00b92ea0_shell
 {
-    void* __thiscall FUN_00b92ea0(bool flag);
+    void* FUN_00b92ea0(bool flag);
 };
 
 // Installs two static tables into the object, calls FUN_00c03a20, and if flag bit 0 is set frees the 0xd0-byte object, returning this.
 // @fnv 0x00b92ea0
-void* __thiscall FUN_00b92ea0_shell::FUN_00b92ea0(bool abFree)
+void* FUN_00b92ea0_shell::FUN_00b92ea0(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b6548;
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b6524;
@@ -1440,12 +1441,12 @@ struct FUN_00b92ff0_class
     void* m_0064;
     void* m_0068;
     void* m_006c;
-    FUN_00b92ff0_class* __thiscall FUN_00b92ff0(bool flag);
+    FUN_00b92ff0_class* FUN_00b92ff0(bool flag);
 };
 
 // Sets the vtable and m_006c, calls FUN_00c03a20, and if flag bit 0 is set frees this with size 0xd0.
 // @fnv 0x00b92ff0
-FUN_00b92ff0_class* __thiscall FUN_00b92ff0_class::FUN_00b92ff0(bool abFree)
+FUN_00b92ff0_class* FUN_00b92ff0_class::FUN_00b92ff0(bool abFree)
 {
     *reinterpret_cast<void***>(this) = &DAT_010b66f0;
     m_006c = &DAT_010b66cc;
@@ -1460,7 +1461,7 @@ extern int DAT_010b68a0;
 void FUN_00c03a20();
 struct FUN_00b93140_class
 {
-    void* __thiscall FUN_00b93140(bool);
+    void* FUN_00b93140(bool);
 };
 // @fnv 0x00b93140
 void* FUN_00b93140_class::FUN_00b93140(bool abFree)
@@ -1506,12 +1507,12 @@ struct FUN_00b93290_shell
     int* vft;
     int f1[26];
     int* f27;
-    void __thiscall FUN_00c03a20();
-    FUN_00b93290_shell* __thiscall FUN_00b93290(bool flag);
+    void FUN_00c03a20();
+    FUN_00b93290_shell* FUN_00b93290(bool flag);
 };
 // Sets the vtable and f27 pointers, calls FUN_00c03a20, and if flag bit 0 is set deletes this with size 0xd0, returning this.
 // @fnv 0x00b93290
-FUN_00b93290_shell* __thiscall FUN_00b93290_shell::FUN_00b93290(bool abFree)
+FUN_00b93290_shell* FUN_00b93290_shell::FUN_00b93290(bool abFree)
 {
     vft = &DAT_010b6a40;
     f27 = &DAT_010b6a20;
@@ -1527,10 +1528,10 @@ void FUN_00c03a20();
 struct FUN_00b933e0_class
 {
     int vtbl;
-    FUN_00b933e0_class* __thiscall FUN_00b933e0(bool flag);
+    FUN_00b933e0_class* FUN_00b933e0(bool flag);
 };
 // @fnv 0x00b933e0
-FUN_00b933e0_class* __thiscall FUN_00b933e0_class::FUN_00b933e0(bool abFree)
+FUN_00b933e0_class* FUN_00b933e0_class::FUN_00b933e0(bool abFree)
 {
     *(int**)this = &DAT_010b6bd8;
     *(int**)((char*)this + 0x6c) = &DAT_010b6bb8;
@@ -1545,10 +1546,10 @@ extern int DAT_010b6d70;
 void FUN_00c03a20();
 struct FUN_00b93710_class
 {
-    int __thiscall FUN_00b93710(bool flag);
+    int FUN_00b93710(bool flag);
 };
 // @fnv 0x00b93710
-int __thiscall FUN_00b93710_class::FUN_00b93710(bool abFree)
+int FUN_00b93710_class::FUN_00b93710(bool abFree)
 {
     *(int*)this = (int)&DAT_010b6d90;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b6d70;
@@ -1563,10 +1564,10 @@ extern int DAT_010b6f14;
 void FUN_00c03a20();
 struct FUN_00b93a60_shell
 {
-    FUN_00b93a60_shell* __thiscall FUN_00b93a60(bool flag);
+    FUN_00b93a60_shell* FUN_00b93a60(bool flag);
 };
 // @fnv 0x00b93a60
-FUN_00b93a60_shell* __thiscall FUN_00b93a60_shell::FUN_00b93a60(bool abFree)
+FUN_00b93a60_shell* FUN_00b93a60_shell::FUN_00b93a60(bool abFree)
 {
     *(int**)this = &DAT_010b6f38;
     *(int**)((char*)this + 0x6c) = &DAT_010b6f14;
@@ -1581,10 +1582,10 @@ extern int DAT_010b70d8;
 void FUN_00c03a20();
 struct FUN_00b93bb0_class
 {
-    void* __thiscall FUN_00b93bb0(bool flag);
+    void* FUN_00b93bb0(bool flag);
 };
 // @fnv 0x00b93bb0
-void* __thiscall FUN_00b93bb0_class::FUN_00b93bb0(bool abFree)
+void* FUN_00b93bb0_class::FUN_00b93bb0(bool abFree)
 {
     *(int*)this = (int)&DAT_010b70d8;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b70b8;
@@ -1603,7 +1604,7 @@ struct ImageSpaceEffectShader
 };
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
-    void __thiscall SetSize(unsigned int);
+    void SetSize(unsigned int);
 };
 struct FUN_00b93bf0 : public ImageSpaceEffectShader
 {
@@ -1625,10 +1626,10 @@ struct FUN_00b93d00_Class
     int* m_vtbl;
     int* m_6c;
     void FUN_00c03a20();
-    FUN_00b93d00_Class* __thiscall FUN_00b93d00(bool flag);
+    FUN_00b93d00_Class* FUN_00b93d00(bool flag);
 };
 // @fnv 0x00b93d00
-FUN_00b93d00_Class* __thiscall FUN_00b93d00_Class::FUN_00b93d00(bool abFree)
+FUN_00b93d00_Class* FUN_00b93d00_Class::FUN_00b93d00(bool abFree)
 {
     m_vtbl = &DAT_010b7278;
     *(int**)((char*)this + 0x6c) = &DAT_010b7258;
@@ -1663,10 +1664,10 @@ FUN_00b93d40_class::FUN_00b93d40_class()
 
 struct FUN_00b93e50_class
 {
-    FUN_00b93e50_class* __thiscall FUN_00b93e50(bool b);
+    FUN_00b93e50_class* FUN_00b93e50(bool b);
 };
 // @fnv 0x00b93e50
-FUN_00b93e50_class* __thiscall FUN_00b93e50_class::FUN_00b93e50(bool abFree)
+FUN_00b93e50_class* FUN_00b93e50_class::FUN_00b93e50(bool abFree)
 {
     *(int**)this = &DAT_010b7418;
     *(int**)((char*)this + 0x6c) = &DAT_010b73f4;
@@ -1710,11 +1711,11 @@ struct FUN_00b93fa0_shell
     void* m_068;
     void* m_06c;
     void FUN_00c03a20();
-    void* __thiscall FUN_00b93fa0(bool flag);
+    void* FUN_00b93fa0(bool flag);
 };
 // Sets the vtable and a member pointer, calls FUN_00c03a20, and if flag bit 0 is set frees this with _delete before returning this.
 // @fnv 0x00b93fa0
-void* __thiscall FUN_00b93fa0_shell::FUN_00b93fa0(bool abFree)
+void* FUN_00b93fa0_shell::FUN_00b93fa0(bool abFree)
 {
     *reinterpret_cast<void**>(this) = &DAT_010b7598;
     m_06c = &DAT_010b7578;
@@ -1730,11 +1731,11 @@ extern int DAT_010b7720;
 
 struct FUN_00b940f0_class
 {
-    FUN_00b940f0_class* __thiscall FUN_00b940f0(bool flag);
+    FUN_00b940f0_class* FUN_00b940f0(bool flag);
 };
 
 // @fnv 0x00b940f0
-FUN_00b940f0_class* __thiscall FUN_00b940f0_class::FUN_00b940f0(bool abFree)
+FUN_00b940f0_class* FUN_00b940f0_class::FUN_00b940f0(bool abFree)
 {
     *(int**)this = &DAT_010b7720;
     *(int**)((char*)this + 0x6c) = &DAT_010b7700;
@@ -1748,10 +1749,10 @@ extern int DAT_010b78b8;
 extern int DAT_010b7898;
 struct FUN_00b94240_Class
 {
-    int* __thiscall FUN_00b94240(bool b);
+    int* FUN_00b94240(bool b);
 };
 // @fnv 0x00b94240
-int* __thiscall FUN_00b94240_Class::FUN_00b94240(bool abFree)
+int* FUN_00b94240_Class::FUN_00b94240(bool abFree)
 {
     *(int**)this = &DAT_010b78b8;
     *(int**)((char*)this + 0x6c) = &DAT_010b7898;
@@ -1788,11 +1789,11 @@ void FUN_00c03a20();
 
 struct FUN_00b94390_class
 {
-    FUN_00b94390_class* __thiscall FUN_00b94390(bool b);
+    FUN_00b94390_class* FUN_00b94390(bool b);
 };
 
 // @fnv 0x00b94390
-FUN_00b94390_class* __thiscall FUN_00b94390_class::FUN_00b94390(bool abFree)
+FUN_00b94390_class* FUN_00b94390_class::FUN_00b94390(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b7a50;
     *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b7a2c;
@@ -1807,10 +1808,10 @@ extern int DAT_010b7bcc;
 void FUN_00c03a20();
 struct FUN_00b944e0_class
 {
-    FUN_00b944e0_class* __thiscall FUN_00b944e0(bool flag);
+    FUN_00b944e0_class* FUN_00b944e0(bool flag);
 };
 // @fnv 0x00b944e0
-FUN_00b944e0_class* __thiscall FUN_00b944e0_class::FUN_00b944e0(bool abFree)
+FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 {
     *(int*)this = (int)&DAT_010b7bf0;
     *(int*)((char*)this + 0x6c) = (int)&DAT_010b7bcc;
@@ -1822,11 +1823,11 @@ FUN_00b944e0_class* __thiscall FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 
 struct FUN_00b9cfd0_class
 {
-    void __thiscall AssignRefCounted(void* p);
+    void AssignRefCounted(void* p);
 };
 // Replaces the ref-counted pointer at offset 0x1a0, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b9cfd0
-void __thiscall FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
+void FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
 {
     void* old = *(void**)((char*)this + 0x1a0);
     if (old != apObject)
@@ -1834,7 +1835,7 @@ void __thiscall FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
         if (old)
         {
             if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
-                ((void(__thiscall**)(void*)) * (void**)((char*)old + 0))[1](old);
+                ((void(**)(void*)) * (void**)((char*)old + 0))[1](old);
         }
         *(void**)((char*)this + 0x1a0) = apObject;
         if (apObject)
@@ -1857,17 +1858,17 @@ void __cdecl FUN_00b983d0(int a, int b, int c, int d)
 {
     unsigned int e = DAT_011ffd28;
     if (DAT_011ff9d8[e] == 0)
-        ((void(__thiscall*)(void*, unsigned int, int, int, int))(*(void***)*(
+        ((void(*)(void*, unsigned int, int, int, int))(*(void***)*(
             void**)((char*)::DAT_011f9508 + 0x8b8))[0x68 / 4])(*(void**)((char*)::DAT_011f9508 + 0x8b8), 0xbe, a, 0, 0);
     DAT_011ff9d8[e] += d;
     e = DAT_011ffd2c;
     if (DAT_011ff9d8[e] == 0)
-        ((void(__thiscall*)(void*, unsigned int, int, int, int))(*(void***)*(
+        ((void(*)(void*, unsigned int, int, int, int))(*(void***)*(
             void**)((char*)::DAT_011f9508 + 0x8b8))[0x68 / 4])(*(void**)((char*)::DAT_011f9508 + 0x8b8), 0xbf, b, 0, 0);
     DAT_011ff9d8[e] += d;
     e = DAT_011ffd30;
     if (DAT_011ff9d8[e] == 0)
-        ((void(__thiscall*)(void*, unsigned int, int, int, int))(*(void***)*(
+        ((void(*)(void*, unsigned int, int, int, int))(*(void***)*(
             void**)((char*)::DAT_011f9508 + 0x8b8))[0x68 / 4])(*(void**)((char*)::DAT_011f9508 + 0x8b8), 0xc0, c, 0, 0);
     DAT_011ff9d8[e] += d;
 }
@@ -2310,11 +2311,11 @@ struct GlobalObjectO2_00b8a9e0
 __declspec(thread) int g_tls_2b4 = 59;
 struct FUN_00b8cad0_class
 {
-    void __thiscall SetValue(int value);
+    void SetValue(int value);
 };
 // Stores value at offset 0xac of this object, saving and restoring the thread-local g_tls_2b4 around the write.
 // @fnv 0x00b8cad0
-void __thiscall FUN_00b8cad0_class::SetValue(int value)
+void FUN_00b8cad0_class::SetValue(int value)
 {
     int old = (*reinterpret_cast<int *>(&::currentAllocationContext));
     *(int*)((char*)this + 0xac) = value;
@@ -2327,7 +2328,7 @@ struct FUN_00b8cb00_class
 {
     unsigned char pad_000[0xb0];
     int m_00b0;
-    void __thiscall FUN_00b8cb00(int value);
+    void FUN_00b8cb00(int value);
 };
 
 // Stores value into m_00b0 and re-reads/writes the thread-local tlsValue.
@@ -2567,8 +2568,8 @@ struct MemoryManager
 };
 struct FUN_00b9b930_class
 {
-    void __thiscall FUN_00b9b450();
-    FUN_00b9b930_class* __thiscall FUN_00b9b930(bool del);
+    void FUN_00b9b450();
+    FUN_00b9b930_class* FUN_00b9b930(bool del);
 };
 // Calls FUN_00b9b450, then frees this via _g_memoryManager if del is set, and returns this.
 // @fnv 0x00b9b930
@@ -2728,7 +2729,7 @@ struct FUN_00b812b0_class
     FNVRefCounted* m_refs[2];
     int m_68;
     int unk6c;
-    void __thiscall FUN_00b812b0(FUN_00b812b0_class* dst, int flag);
+    void FUN_00b812b0(FUN_00b812b0_class* dst, int flag);
 };
 
 // @fnv 0x00b812b0
@@ -2934,11 +2935,11 @@ struct S_00b8a6e0_Foo
     unsigned char unk55;
     unsigned char unk56;
 
-    void __thiscall FUN_00b8a6e0(int arg0, unsigned int arg1, unsigned int arg2);
+    void FUN_00b8a6e0(int arg0, unsigned int arg1, unsigned int arg2);
 };
 
 // @fnv 0x00b8a6e0
-void __thiscall S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, unsigned int arg2)
+void S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, unsigned int arg2)
 {
     float value0;
     float value1;
@@ -3137,11 +3138,11 @@ void B8C690Shader::ClearTextures()
 extern __declspec(thread) int g_tls_2b4;
 struct FUN_00b8cc20_class
 {
-    void __thiscall AccumulateComponentValues(int mode, int component, const float* values, float scale);
+    void AccumulateComponentValues(int mode, int component, const float* values, float scale);
 };
 // Saves the TLS context, sets it to 39, and for two entries adds values[index]*scale into a component offset of this, then restores the context.
 // @fnv 0x00b8cc20
-void __thiscall FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, const float* values, float scale)
+void FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, const float* values, float scale)
 {
     int previousContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
     (*reinterpret_cast<int *>(&::currentAllocationContext)) = 39;
@@ -3185,9 +3186,9 @@ struct ShaderController_00b8d3a0
     void ConfigureAndRunShader();
 };
 
-typedef void(__thiscall* ConfigureShader_00b8d3a0)(ShaderController_00b8d3a0*, ShaderArgument_00b8d3a0*,
+typedef void(* ConfigureShader_00b8d3a0)(ShaderController_00b8d3a0*, ShaderArgument_00b8d3a0*,
                                                    ShaderArgument_00b8d3a0*, const int*, const int*, const int*);
-typedef void(__thiscall* RunShader_00b8d3a0)(ShaderController_00b8d3a0*);
+typedef void(* RunShader_00b8d3a0)(ShaderController_00b8d3a0*);
 
 // Builds two zeroed shader arguments from global sources, calls the vtable configure function with three globals, then runs the shader.
 // @fnv 0x00b8d3a0
@@ -4766,8 +4767,8 @@ struct Shader
     int field_64;
     int field_68;
     int* vtable_6c;
-    void __thiscall FUN_00c03a20();
-    Shader* __thiscall DestroyShader(unsigned char flags);
+    void FUN_00c03a20();
+    Shader* DestroyShader(unsigned char flags);
 };
 // @fnv 0x00b8ede0
 Shader* Shader::DestroyShader(unsigned char flags)
@@ -6061,12 +6062,12 @@ struct FUN_00b916f0_Object
     virtual void vf148();
     virtual void vf14C();
 
-    void __thiscall InitializeShader();
+    void InitializeShader();
 };
 
 // Fills two shader descriptor structs with string pointers and zeroed data, passes them with macro and shader names to vf13C, then calls vf14C.
 // @fnv 0x00b916f0
-void __thiscall FUN_00b916f0_Object::InitializeShader()
+void FUN_00b916f0_Object::InitializeShader()
 {
     FUN_00b916f0_First first;
     FUN_00b916f0_Second second;
@@ -6602,11 +6603,11 @@ struct FUN_00b91bf0_Object
     virtual void vf148();
     virtual void vf14C();
 
-    void __thiscall InitMotionBlurShader();
+    void InitMotionBlurShader();
 };
 
 // @fnv 0x00b91bf0
-void __thiscall FUN_00b91bf0_Object::InitMotionBlurShader()
+void FUN_00b91bf0_Object::InitMotionBlurShader()
 {
     FUN_00b91bf0_First first;
     FUN_00b91bf0_Second second;
@@ -6984,8 +6985,6 @@ void FUN_00b921f0_Class::CreateRefractionShader()
 }
 }  // namespace fnv_00b921f0
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 struct RefObj_b922d0
 {
@@ -7090,15 +7089,15 @@ struct ShaderPassParameters
 struct ShaderEffect
 {
     void** vtable;
-    void __thiscall ConfigureShaderPasses();
+    void ConfigureShaderPasses();
 };
 
-typedef void(__thiscall* ConfigureEffect)(ShaderEffect*, ShaderPassParameters*, ShaderPassParameters*, const void*,
+typedef void(* ConfigureEffect)(ShaderEffect*, ShaderPassParameters*, ShaderPassParameters*, const void*,
                                           const void*, int);
-typedef void(__thiscall* FinalizeEffect)(ShaderEffect*);
+typedef void(* FinalizeEffect)(ShaderEffect*);
 
 // @fnv 0x00b92390
-void __thiscall ShaderEffect::ConfigureShaderPasses()
+void ShaderEffect::ConfigureShaderPasses()
 {
     ShaderPassParameters first;
     first.shader = &DAT_010b5ad4;
@@ -9443,18 +9442,18 @@ struct FUN_00b93db0_Object
     virtual void vf130();
     virtual void vf134();
     virtual void vf138();
-    virtual void __thiscall vf13C(const FUN_00b93db0_First* first, const FUN_00b93db0_Second* second,
+    virtual void vf13C(const FUN_00b93db0_First* first, const FUN_00b93db0_Second* second,
                                   const char* fftNormals, const char* vertexShader, const char* gpuProfile);
     virtual void vf140();
     virtual void vf144();
     virtual void vf148();
     virtual void vf14C();
 
-    void __thiscall FUN_00b93db0();
+    void FUN_00b93db0();
 };
 
 // @fnv 0x00b93db0
-void __thiscall FUN_00b93db0_Object::FUN_00b93db0()
+void FUN_00b93db0_Object::FUN_00b93db0()
 {
     FUN_00b93db0_First first;
     FUN_00b93db0_Second second;
@@ -10085,7 +10084,7 @@ struct B9697Obj
     virtual void v48();
     virtual void v49();
     virtual void v4A();
-    virtual int __stdcall v4B(void* p);
+    virtual int v4B(void* p);
 };
 
 struct B9697Args
@@ -10126,7 +10125,7 @@ void __cdecl FUN_00b97d90(unsigned int uiIndex, unsigned int b, unsigned int uiD
     {
         void* obj = *(void**)((char*)::DAT_011f9508 + 0x8b8);
         void** vt = *(void***)obj;
-        ((void(__thiscall*)(void*, unsigned int, unsigned int, int, int))vt[26])(obj, uiIndex, b, 0, 0);
+        ((void(*)(void*, unsigned int, unsigned int, int, int))vt[26])(obj, uiIndex, b, 0, 0);
     }
     DAT_011ff9d8[idx] += uiDelta;
 }
@@ -10181,7 +10180,7 @@ struct Dispatcher
     void** vtable;
     __forceinline void Notify(int eventType, int argument, int unused1, int unused2)
     {
-        typedef void(__thiscall * Notification)(Dispatcher*, int, int, int, int);
+        typedef void(* Notification)(Dispatcher*, int, int, int, int);
         Notification call = reinterpret_cast<Notification>(vtable[26]);
         call(this, eventType, argument, unused1, unused2);
     }
@@ -10223,9 +10222,9 @@ struct UIService
 };
 
 
-typedef void(__thiscall* NotifyEvent)(EventHandler*, unsigned int);
-typedef void(__thiscall* FinishEvent)(EventHandler*);
-typedef void(__stdcall* DispatchUI)(UIService*, unsigned int, unsigned int, unsigned int);
+typedef void(* NotifyEvent)(EventHandler*, unsigned int);
+typedef void(* FinishEvent)(EventHandler*);
+typedef void(* DispatchUI)(UIService*, unsigned int, unsigned int, unsigned int);
 
 // @fnv 0x00b988e0
 void __cdecl FUN_00b988e0()
@@ -10285,11 +10284,11 @@ struct FUN_00b9b3b0_class
     void* m_038;
     FUN_00b9abc0_class* m_003c;
 
-    void __thiscall DispatchToSlot(unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    void DispatchToSlot(unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 
 // @fnv 0x00b9b3b0
-void __thiscall FUN_00b9b3b0_class::DispatchToSlot(unsigned int arg1, unsigned int uiIndex, unsigned int arg3)
+void FUN_00b9b3b0_class::DispatchToSlot(unsigned int arg1, unsigned int uiIndex, unsigned int arg3)
 {
     ::DispatchPass((void *)(reinterpret_cast<FUN_00b9abc0_class**>(&m_003c)[uiIndex]), arg1, (void *)(arg3), {});
 }
@@ -12089,7 +12088,7 @@ struct FUN_00b8ff10_class : public S_00b8ff10_Base
     virtual void v82();
     virtual void v83();
 
-    void __thiscall FUN_00b8ff10();
+    void FUN_00b8ff10();
 };
 
 // @fnv 0x00b8ff10
@@ -12993,7 +12992,7 @@ struct FUN_00b8d4d0 : ImageSpaceShaderHDRBase, ImageSpaceShaderSecondary
     ~FUN_00b8d4d0();
 };
 // @fnv 0x00b8d580
-FUN_00b8d580_Class* __thiscall FUN_00b8d580_Class::FUN_00b8d580(unsigned int auiFlags)
+FUN_00b8d580_Class* FUN_00b8d580_Class::FUN_00b8d580(unsigned int auiFlags)
 {
     reinterpret_cast<::FUN_00b8d4d0 *>(this)->FUN_00b8d4d0::~FUN_00b8d4d0();
     if (auiFlags & 1)
@@ -13307,307 +13306,307 @@ struct CBB9180 : NiMemObj
 };
 struct CB8EFA0
 {
-    CB8EFA0* __thiscall FUN_00b8efa0();
+    CB8EFA0* FUN_00b8efa0();
 };
 struct CB8F010
 {
-    CB8F010* __thiscall FUN_00b8f010();
+    CB8F010* FUN_00b8f010();
 };
 struct CB8F660
 {
-    CB8F660* __thiscall FUN_00b8f660();
+    CB8F660* FUN_00b8f660();
 };
 struct CB8F520
 {
-    CB8F520* __thiscall FUN_00b8f520();
+    CB8F520* FUN_00b8f520();
 };
 struct CB8F1B0
 {
-    CB8F1B0* __thiscall FUN_00b8f1b0();
+    CB8F1B0* FUN_00b8f1b0();
 };
 struct CB8F360
 {
-    CB8F360* __thiscall FUN_00b8f360();
+    CB8F360* FUN_00b8f360();
 };
 struct CB92180
 {
-    CB92180* __thiscall FUN_00b92180();
+    CB92180* FUN_00b92180();
 };
 struct CB8D330
 {
-    CB8D330* __thiscall FUN_00b8d330();
+    CB8D330* FUN_00b8d330();
 };
 struct CB8D850
 {
-    CB8D850* __thiscall FUN_00b8d850();
+    CB8D850* FUN_00b8d850();
 };
 struct CB8FEA0
 {
-    CB8FEA0* __thiscall FUN_00b8fea0();
+    CB8FEA0* FUN_00b8fea0();
 };
 struct CB8D5B0
 {
-    CB8D5B0* __thiscall FUN_00b8d5b0();
+    CB8D5B0* FUN_00b8d5b0();
 };
 struct CB8D700
 {
-    CB8D700* __thiscall FUN_00b8d700();
+    CB8D700* FUN_00b8d700();
 };
 struct CB922D0
 {
-    CB922D0* __thiscall FUN_00b922d0();
+    CB922D0* FUN_00b922d0();
 };
 struct CB8EE20
 {
-    CB8EE20* __thiscall FUN_00b8ee20();
+    CB8EE20* FUN_00b8ee20();
 };
 struct CB8F7E0
 {
-    CB8F7E0* __thiscall FUN_00b8f7e0();
+    CB8F7E0* FUN_00b8f7e0();
 };
 struct CB8FD40
 {
-    CB8FD40* __thiscall FUN_00b8fd40();
+    CB8FD40* FUN_00b8fd40();
 };
 struct CB917C0
 {
-    CB917C0* __thiscall FUN_00b917c0();
+    CB917C0* FUN_00b917c0();
 };
 struct CB91900
 {
-    CB91900* __thiscall FUN_00b91900();
+    CB91900* FUN_00b91900();
 };
 struct CB91B80
 {
-    CB91B80* __thiscall FUN_00b91b80();
+    CB91B80* FUN_00b91b80();
 };
 struct CB8F930
 {
-    CB8F930* __thiscall FUN_00b8f930();
+    CB8F930* FUN_00b8f930();
 };
 struct CB8FA80
 {
-    CB8FA80* __thiscall FUN_00b8fa80();
+    CB8FA80* FUN_00b8fa80();
 };
 struct CB8FBE0
 {
-    CB8FBE0* __thiscall FUN_00b8fbe0();
+    CB8FBE0* FUN_00b8fbe0();
 };
 struct CB8BEA0
 {
-    CB8BEA0* __thiscall FUN_00b8bea0();
+    CB8BEA0* FUN_00b8bea0();
 };
 struct CB8FFF0
 {
-    CB8FFF0* __thiscall FUN_00b8fff0();
+    CB8FFF0* FUN_00b8fff0();
 };
 struct CB90190
 {
-    CB90190* __thiscall FUN_00b90190();
+    CB90190* FUN_00b90190();
 };
 struct CB90330
 {
-    CB90330* __thiscall FUN_00b90330();
+    CB90330* FUN_00b90330();
 };
 struct CB90520
 {
-    CB90520* __thiscall FUN_00b90520();
+    CB90520* FUN_00b90520();
 };
 struct CB906B0
 {
-    CB906B0* __thiscall FUN_00b906b0();
+    CB906B0* FUN_00b906b0();
 };
 struct CB90830
 {
-    CB90830* __thiscall FUN_00b90830();
+    CB90830* FUN_00b90830();
 };
 struct CB909C0
 {
-    CB909C0* __thiscall FUN_00b909c0();
+    CB909C0* FUN_00b909c0();
 };
 struct CB90B50
 {
-    CB90B50* __thiscall FUN_00b90b50();
+    CB90B50* FUN_00b90b50();
 };
 struct CB91000
 {
-    CB91000* __thiscall FUN_00b91000();
+    CB91000* FUN_00b91000();
 };
 struct CB911A0
 {
-    CB911A0* __thiscall FUN_00b911a0();
+    CB911A0* FUN_00b911a0();
 };
 struct CB91340
 {
-    CB91340* __thiscall FUN_00b91340();
+    CB91340* FUN_00b91340();
 };
 struct CB914E0
 {
-    CB914E0* __thiscall FUN_00b914e0();
+    CB914E0* FUN_00b914e0();
 };
 struct CB90CE0
 {
-    CB90CE0* __thiscall FUN_00b90ce0();
+    CB90CE0* FUN_00b90ce0();
 };
 struct CB90E70
 {
-    CB90E70* __thiscall FUN_00b90e70();
+    CB90E70* FUN_00b90e70();
 };
 struct CB91680
 {
-    CB91680* __thiscall FUN_00b91680();
+    CB91680* FUN_00b91680();
 };
 struct CB8BCE0
 {
-    CB8BCE0* __thiscall FUN_00b8bce0();
+    CB8BCE0* FUN_00b8bce0();
 };
 struct CB92500
 {
-    CB92500* __thiscall FUN_00b92500();
+    CB92500* FUN_00b92500();
 };
 struct CB91A40
 {
-    CB91A40* __thiscall FUN_00b91a40();
+    CB91A40* FUN_00b91a40();
 };
 struct CB8D990
 {
-    CB8D990* __thiscall FUN_00b8d990();
+    CB8D990* FUN_00b8d990();
 };
 struct CB8DAE0
 {
-    CB8DAE0* __thiscall FUN_00b8dae0();
+    CB8DAE0* FUN_00b8dae0();
 };
 struct CB8DC30
 {
-    CB8DC30* __thiscall FUN_00b8dc30();
+    CB8DC30* FUN_00b8dc30();
 };
 struct CB8DD80
 {
-    CB8DD80* __thiscall FUN_00b8dd80();
+    CB8DD80* FUN_00b8dd80();
 };
 struct CB8DED0
 {
-    CB8DED0* __thiscall FUN_00b8ded0();
+    CB8DED0* FUN_00b8ded0();
 };
 struct CB8E020
 {
-    CB8E020* __thiscall FUN_00b8e020();
+    CB8E020* FUN_00b8e020();
 };
 struct CB8E170
 {
-    CB8E170* __thiscall FUN_00b8e170();
+    CB8E170* FUN_00b8e170();
 };
 struct CB8E2C0
 {
-    CB8E2C0* __thiscall FUN_00b8e2c0();
+    CB8E2C0* FUN_00b8e2c0();
 };
 struct CB8E460
 {
-    CB8E460* __thiscall FUN_00b8e460();
+    CB8E460* FUN_00b8e460();
 };
 struct CB8E600
 {
-    CB8E600* __thiscall FUN_00b8e600();
+    CB8E600* FUN_00b8e600();
 };
 struct CB8E7A0
 {
-    CB8E7A0* __thiscall FUN_00b8e7a0();
+    CB8E7A0* FUN_00b8e7a0();
 };
 struct CB8E940
 {
-    CB8E940* __thiscall FUN_00b8e940();
+    CB8E940* FUN_00b8e940();
 };
 struct CB8EAE0
 {
-    CB8EAE0* __thiscall FUN_00b8eae0();
+    CB8EAE0* FUN_00b8eae0();
 };
 struct CB8EC80
 {
-    CB8EC80* __thiscall FUN_00b8ec80();
+    CB8EC80* FUN_00b8ec80();
 };
 struct CB932D0
 {
-    CB932D0* __thiscall FUN_00b932d0();
+    CB932D0* FUN_00b932d0();
 };
 struct CB93600
 {
-    CB93600* __thiscall FUN_00b93600();
+    CB93600* FUN_00b93600();
 };
 struct CB93950
 {
-    CB93950* __thiscall FUN_00b93950();
+    CB93950* FUN_00b93950();
 };
 struct CB93AA0
 {
-    CB93AA0* __thiscall FUN_00b93aa0();
+    CB93AA0* FUN_00b93aa0();
 };
 struct CB93BF0
 {
-    CB93BF0* __thiscall FUN_00b93bf0();
+    CB93BF0* FUN_00b93bf0();
 };
 struct CB93D40
 {
-    CB93D40* __thiscall FUN_00b93d40();
+    CB93D40* FUN_00b93d40();
 };
 struct CB93E90
 {
-    CB93E90* __thiscall FUN_00b93e90();
+    CB93E90* FUN_00b93e90();
 };
 struct CB93FE0
 {
-    CB93FE0* __thiscall FUN_00b93fe0();
+    CB93FE0* FUN_00b93fe0();
 };
 struct CB94130
 {
-    CB94130* __thiscall FUN_00b94130();
+    CB94130* FUN_00b94130();
 };
 struct CB94280
 {
-    CB94280* __thiscall FUN_00b94280();
+    CB94280* FUN_00b94280();
 };
 struct CB943D0
 {
-    CB943D0* __thiscall FUN_00b943d0();
+    CB943D0* FUN_00b943d0();
 };
 struct CB92690
 {
-    CB92690* __thiscall FUN_00b92690();
+    CB92690* FUN_00b92690();
 };
 struct CB927E0
 {
-    CB927E0* __thiscall FUN_00b927e0();
+    CB927E0* FUN_00b927e0();
 };
 struct CB92930
 {
-    CB92930* __thiscall FUN_00b92930();
+    CB92930* FUN_00b92930();
 };
 struct CB92A80
 {
-    CB92A80* __thiscall FUN_00b92a80();
+    CB92A80* FUN_00b92a80();
 };
 struct CB92BD0
 {
-    CB92BD0* __thiscall FUN_00b92bd0();
+    CB92BD0* FUN_00b92bd0();
 };
 struct CB92D90
 {
-    CB92D90* __thiscall FUN_00b92d90();
+    CB92D90* FUN_00b92d90();
 };
 struct CB92EE0
 {
-    CB92EE0* __thiscall FUN_00b92ee0();
+    CB92EE0* FUN_00b92ee0();
 };
 struct CB93030
 {
-    CB93030* __thiscall FUN_00b93030();
+    CB93030* FUN_00b93030();
 };
 struct CB93180
 {
-    CB93180* __thiscall FUN_00b93180();
+    CB93180* FUN_00b93180();
 };
 struct CB91CF0
 {
-    CB91CF0* __thiscall FUN_00b91cf0();
+    CB91CF0* FUN_00b91cf0();
 };
 struct CNB91E40 : Header6c, ISSBase
 {
@@ -14044,10 +14043,10 @@ struct B94520Cls
 {
     int m_00;
     Registry m_04;
-    void __thiscall FUN_00b94520();
+    void FUN_00b94520();
 };
 // @fnv 0x00b94520
-void __thiscall B94520Cls::FUN_00b94520()
+void B94520Cls::FUN_00b94520()
 {
     {
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_04))->FUN_00ba3aa0(13, (::KeyPair **)&(const void *const &)(new CC05680));
@@ -15143,7 +15142,6 @@ struct WaterIndexWrap
 
 void __cdecl UpdateInputFlags(WaterIndexWrap w, int flag);
 
-extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct RefObj
 {
     virtual ~RefObj();
@@ -15974,8 +15972,8 @@ struct FX
     int m_2b0;
     int m_2b4;
     bool m_2b8;
-    bool __thiscall EnsureInitialized(int unused);
-    void __thiscall FUN_00b9b400(unsigned int value);
+    bool EnsureInitialized(int unused);
+    void FUN_00b9b400(unsigned int value);
 };
 
 __declspec(noinline) void FX::FUN_00b9b400(unsigned int value)
@@ -16045,7 +16043,7 @@ struct FUN_00b81130 : public FUN_00baa0e0
 };
 // Calls FUN_00b81130, then deletes this with size 0x70 when flags has bit 0 set, and returns this.
 // @fnv 0x00b81290
-void* __thiscall FUN_00b81290_class::FUN_00b81290(int flags)
+void* FUN_00b81290_class::FUN_00b81290(int flags)
 {
     reinterpret_cast<::FUN_00b81130 *>(this)->FUN_00b81130::~FUN_00b81130();
     if (flags & 1)
@@ -16110,7 +16108,7 @@ struct W82197
 };
 void __cdecl UpdateInputFlags(W82197, int);
 
-extern "C" void __stdcall FUN_00ec5fce(void* apBase, unsigned int aiSize, unsigned int aiCount, void* apDtor);
+extern "C" void FUN_00ec5fce(void* apBase, unsigned int aiSize, unsigned int aiCount, void* apDtor);
 extern "C" void FUN_0045cec0();
 
 struct AllocFree_b9960 : AllocSvc
@@ -19468,7 +19466,7 @@ struct S_00b81760
     int unk18c;
     int unk190;
 
-    void __thiscall FUN_00b81760(int arg);
+    void FUN_00b81760(int arg);
 };
 
 // Stores the value of a member field selected by arg into the global DAT_0126f74c.
@@ -20572,7 +20570,7 @@ int __cdecl UpdateInputFlags(int id, int flags);
 
 // Maps code (575, 648 to 718) to a small id with a switch, defaulting to 0, and returns FUN_00b815e0(id, 0).
 // @fnv 0x00b81d60
-int __stdcall FUN_00b81d60(int code)
+int FUN_00b81d60(int code)
 {
     int id = 0;
     switch (code)

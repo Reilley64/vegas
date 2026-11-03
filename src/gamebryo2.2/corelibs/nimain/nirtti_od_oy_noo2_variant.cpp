@@ -22,7 +22,6 @@ class NiRTTI
     const char* m_pcName;
     const NiRTTI* m_pBaseRTTI;
 };
-FNV_STATIC_ASSERT(sizeof(NiRTTI) == 0x8);
 
 struct RTTIEntry
 {

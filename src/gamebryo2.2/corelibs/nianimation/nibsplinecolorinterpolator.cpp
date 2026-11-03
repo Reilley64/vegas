@@ -310,7 +310,7 @@ struct NiColorA_SaveHelper
 {
 };
 // @fnv 0x00a51ca0
-void __fastcall FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
+void FUN_00a51ca0(Obj34* self, void* unused, NiStream* stream)
 {
     reinterpret_cast<::S_00a58160_Foo *>((((FUN_00a58160_shell*)self)))->SaveToStream((::S_00a58160_Stream *)(stream));
     reinterpret_cast<::FUN_00a698a0_class *>((((NiColorA_SaveHelper*)&self->f1)))->FUN_00a698a0(stream);
@@ -448,7 +448,7 @@ bool S_00a50610_Obj::FUN_00a50610(unsigned short flag)
 extern "C++" 
 
 // @fnv 0x00a50b10
-unsigned char __stdcall FUN_00a50b10(int value)
+unsigned char FUN_00a50b10(int value)
 {
     return ((unsigned char)(reinterpret_cast<::FUN_00a57e50_shell *>((value))->LoadNiBSplineInterpolator(*(::NiStream *)nullptr))) != 0;
 }
@@ -583,7 +583,7 @@ bool FUN_00a51cf0_cls::FUN_00a51cf0(FUN_00a51cf0_cls* other)
 }
 
 // @fnv 0x00a51a00
-unsigned int __stdcall FUN_00a51a00(unsigned short usValue)
+unsigned int FUN_00a51a00(unsigned short usValue)
 {
     return (0 == usValue) ? 4 : 0;
 }
@@ -605,7 +605,7 @@ struct A51D30ColorLoader
 
 struct A51D30Loader : FnvBSplineColorInterpolator
 {
-    void __thiscall FUN_00a51d30(NiStream* stream);
+    void FUN_00a51d30(NiStream* stream);
 };
 
 // Loads spline data from a NiStream by calling base and color loader functions, then reading a key value into m_iKey.

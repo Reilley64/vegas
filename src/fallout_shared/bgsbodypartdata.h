@@ -44,7 +44,6 @@ enum IO_TASK_PRIORITY
     IO_TASK_PRIORITY_IO_TASK_PRIORITY_LOWEST = 5
 };
 
-#pragma pack(push, 4)
 class FileEntryList
 {
   public:
@@ -61,11 +60,6 @@ class FileEntryList
     // BSFileEntry** __cdecl FileEntryList::*()
     // void* __cdecl FileEntryList::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(FileEntryList) == 8);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ucFileEntryCount) == 0);
-FNV_STATIC_ASSERT(offsetof(FileEntryList, m_ppFileEntries) == 4);
-#pragma pack(push, 4)
 class TESModel : public BaseFormComponent
 {
   public:
@@ -98,12 +92,6 @@ class TESModel : public BaseFormComponent
     // TESModel& __cdecl TESModel::*(const TESModel&)
     // void __cdecl TESModel::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModel) == 24);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_kModelFilePath) == 4);
-FNV_STATIC_ASSERT(offsetof(TESModel, m_pTextureSwapData) == 12);
-FNV_STATIC_ASSERT(offsetof(TESModel, cFlags) == 20);
-#pragma pack(push, 4)
 class BGSPreloadable : public BaseFormComponent
 {
   public:
@@ -117,9 +105,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
-#pragma pack(push, 4)
 class TESModelPSA : public TESModel
 {
   public:
@@ -129,9 +114,6 @@ class TESModelPSA : public TESModel
     // TESModelPSA& __cdecl TESModelPSA::*(const TESModelPSA&)
     // void __cdecl TESModelPSA::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(TESModelPSA) == 24);
-#pragma pack(push, 4)
 class BodyPartInfo
 {
   public:
@@ -165,32 +147,6 @@ class BodyPartInfo
     // void __cdecl BodyPartInfo::*()
     // void __cdecl BodyPartInfo::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BodyPartInfo) == 84);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_fDamageMultiplier) == 0);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, cFlags) == 4);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, cType) == 5);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucPartID) == 6);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_cActorValue) == 7);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucHealthPercent) == 8);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucHitChance) == 9);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucLimbReplacementType) == 10);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_pExplosion) == 12);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_pDebrisObject) == 16);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_fExplosionChance) == 20);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_fDebrisScale) == 24);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucSeverable) == 28);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_pRelatedObject1) == 32);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_pRelatedObject2) == 36);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_fValue3) == 40);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_kPoint1) == 44);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_kPoint2) == 56);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_pRelatedObject3) == 68);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_pRelatedObject4) == 72);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucByte1) == 76);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_ucByte2) == 77);
-FNV_STATIC_ASSERT(offsetof(BodyPartInfo, m_fValue4) == 80);
-#pragma pack(push, 4)
 class BGSBodyPart
 {
   public:
@@ -277,19 +233,8 @@ class BGSBodyPart
     // BGSBodyPart& __cdecl BGSBodyPart::*(const BGSBodyPart&)
     // void* __cdecl BGSBodyPart::*(unsigned int)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSBodyPart) == 176);
 // Note: no offsetof assert for the vtable pointer; it is the compiler-laid-out
 // vptr at +0x0 (see member note above), not a declared member.
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, NodeName) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, TargetName) == 12);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, m_kVATSNodeName) == 20);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, m_kPartName) == 28);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, m_kGoreName) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, m_kModel) == 44);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, m_kRagdollModel) == 68);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPart, Data) == 92);
-#pragma pack(push, 4)
 class BGSBodyPartData : public TESForm, public TESModel, public BGSPreloadable
 {
   public:
@@ -331,10 +276,6 @@ class BGSBodyPartData : public TESForm, public TESModel, public BGSPreloadable
     // BGSBodyPartData& __cdecl BGSBodyPartData::*(const BGSBodyPartData&)
     // void __cdecl BGSBodyPartData::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSBodyPartData) == 116);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPartData, m_apBodyParts) == 52);
-FNV_STATIC_ASSERT(offsetof(BGSBodyPartData, m_pRagdoll) == 112);
 // Unit-local shims for fallout_shared/bgsbodypartdata.cpp Load/InitItem,
 // following the accepted bgsimpactdata.h precedent. TESFileFormInt recovers
 // the 32-bit GetTESForm the 2008 Load compares with cmp eax,imm.

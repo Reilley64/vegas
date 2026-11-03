@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpConstraintAtom.h"
-#pragma pack(push, 1)
 class hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom
 {
   public:
@@ -13,7 +12,4 @@ class hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom
     hkRotation m_kRotationA;  // +0x10
     hkRotation m_kRotationB;  // +0x40
 };
-#pragma pack(pop)
-typedef char
-    fnv_hk_size_hkpSetLocalRotationsConstraintAtom[(sizeof(hkpSetLocalRotationsConstraintAtom) == 0x70) ? 1 : -1];
 #endif

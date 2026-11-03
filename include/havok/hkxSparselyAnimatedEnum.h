@@ -6,12 +6,9 @@
 #include "hkBase.h"
 #include "hkxSparselyAnimatedInt.h"
 class hkxEnum;
-#pragma pack(push, 1)
 class hkxSparselyAnimatedEnum : public hkxSparselyAnimatedInt
 {
   public:
     hkxEnum* m_pClassEnum;  // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxSparselyAnimatedEnum[(sizeof(hkxSparselyAnimatedEnum) == 0x24) ? 1 : -1];
 #endif

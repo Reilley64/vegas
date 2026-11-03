@@ -192,7 +192,7 @@ bool NavMesh::FindHeightOnTriangle(unsigned short triangleIndex, const NiPoint3&
 
 
 // @fnv 0x004a3d20
-void* __fastcall FUN_004a3d20(void* pThis)
+void* FUN_004a3d20(void* pThis)
 {
     reinterpret_cast<::FUN_004a3d40_class *>((pThis))->FUN_004a3d40();
     reinterpret_cast<::FUN_004a3d80_Class *>((pThis))->FUN_004a3d80();
@@ -218,7 +218,7 @@ struct Dummy0042f800
 };
 
 // @fnv 0x006917d0
-void* __fastcall FUN_006917d0(int** pThis)
+void* FUN_006917d0(int** pThis)
 {
     *pThis = &::DAT_0106abe4;
     reinterpret_cast<::FUN_00692290_class *>((reinterpret_cast<Dummy0042f800*>(pThis)))->FUN_00692290(0, 0);
@@ -252,11 +252,11 @@ FUN_00698580_S* FUN_00698580_S::FUN_00698580(const V3* p, const V3* q)
     return this;
 }
 
-void __stdcall compiler_vector_constructor_iterator(void*, unsigned int, int, void*);
+void compiler_vector_constructor_iterator(void*, unsigned int, int, void*);
 void FUN_006d5320();
 
 // @fnv 0x006985c0
-void* __fastcall ConstructWithVector(void* apObject)
+void* ConstructWithVector(void* apObject)
 {
     compiler_vector_constructor_iterator((char*)apObject + 4, 0x10, 2, &FUN_006d5320);
     return apObject;
@@ -295,7 +295,7 @@ ASC* ASC::Multiply(ASC* out, const ASC* apOther)
 }
 
 // @fnv 0x00698680
-int __fastcall GetSignFlags(float* afValues)
+int GetSignFlags(float* afValues)
 {
     int res = 0;
     if (afValues[1] < 0.0)
@@ -396,7 +396,7 @@ struct Dummy_0069af30
 
 // Sets the vtable pointer and calls ResetAndWrite with 0, 0, then returns pThis.
 // @fnv 0x0069af30
-Dummy_0069af30* __fastcall FUN_0069af30(Dummy_0069af30* pThis)
+Dummy_0069af30* FUN_0069af30(Dummy_0069af30* pThis)
 {
     pThis->vtable = &DAT_0106b1b8;
     pThis->ResetAndWrite(0, 0);
@@ -411,7 +411,7 @@ class GlobalObject_00869f00
 };
 
 // @fnv 0x0069af60
-void __fastcall FUN_0069af60(GlobalObject_00869f00* apObject)
+void FUN_0069af60(GlobalObject_00869f00* apObject)
 {
     *(int**)apObject = &DAT_0106b1b8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((apObject))->Clear(true);
@@ -495,7 +495,7 @@ struct IW
 bool __cdecl FUN_006b9e90(NiP2*, NiP2*, int, int, int);
 // Builds the triangle's three 2D vertices and returns the first edge index (skipping edge) for which FUN_006b9e90 succeeds, else -1.
 // @fnv 0x00698060
-int __fastcall FindTriangleEdge(NavMesh* self, USW usTri, IW iSkipEdge, IW a3, IW a4, IW a5)
+int FindTriangleEdge(NavMesh* self, USW usTri, IW iSkipEdge, IW a3, IW a4, IW a5)
 {
     NiP2 verts[3];
     NiPoint3 pt;
@@ -588,7 +588,7 @@ struct VW
 };
 // Looks up key in the hash table; if found, overwrites its value, otherwise allocates a new item, inserts it at the bucket head and increments count.
 // @fnv 0x0069b3d0
-void __fastcall SetKeyValue(MP* self, TwoIntRecord key, VW val)
+void SetKeyValue(MP* self, TwoIntRecord key, VW val)
 {
     IT* pkItem;
     unsigned int uiIndex;
@@ -634,7 +634,7 @@ struct VW
 };
 // Looks up key in the hash table and, if an equal entry is found, stores its value through val.p and returns true; otherwise returns false.
 // @fnv 0x0069b4d0
-bool __fastcall FUN_0069b4d0(MP* self, TwoIntRecord key, VW aOutValue)
+bool FUN_0069b4d0(MP* self, TwoIntRecord key, VW aOutValue)
 {
     IT* pkItem;
     unsigned int uiIndex = self->KeyToHashIndex(key);
@@ -855,11 +855,11 @@ int FUN_00699790_shell::GetBits13To15()
 
 struct FUN_0069af80_shell
 {
-    void* __thiscall FUN_0069af80(int count);
+    void* FUN_0069af80(int count);
 };
 // Allocates a new byte array of count * 12 bytes and returns a pointer to it.
 // @fnv 0x0069af80
-void* __thiscall FUN_0069af80_shell::FUN_0069af80(int count)
+void* FUN_0069af80_shell::FUN_0069af80(int count)
 {
     return new unsigned char[count * 12];
 }
@@ -1533,7 +1533,6 @@ struct PathingLocation
     unsigned char uiFlags;
     char _pad_27[1];
 };
-typedef char _sizecheck_PathingLocation[sizeof(PathingLocation) == 40 ? 1 : -1];
 struct FUN_006dcee0_shell : public NavMesh
 {
     bool FUN_006dcee0(void*, FindTriangleForLocationFilter*);
@@ -1583,11 +1582,11 @@ struct Obj00696c00
 {
     char _pad[0xA8];
     Sub0069d4b0 sub;
-    void __thiscall ForwardToSub(int a, int b, int c);
+    void ForwardToSub(int a, int b, int c);
 };
 // Calls FUN_0069d4b0 on the sub object at offset 0xA8, passing the three arguments through.
 // @fnv 0x00696c00
-void __thiscall Obj00696c00::ForwardToSub(int aiArg1, int aiArg2, int aiArg3)
+void Obj00696c00::ForwardToSub(int aiArg1, int aiArg2, int aiArg3)
 {
     reinterpret_cast<::Sub0069d4b0 *>(&(sub))->FUN_0069d4b0((::Pt_0069d4b0 *)(aiArg1), (::Pt_0069d4b0 *)(aiArg2), (::Out_0069d4b0 *)(aiArg3));
 }
@@ -1628,11 +1627,11 @@ MidCopy& MidCopy::AssignFrom(const MidCopy& other)
 
 struct FUN_0069b360_shell
 {
-    void* __thiscall ConstructBuffer(unsigned int a);
+    void* ConstructBuffer(unsigned int a);
 };
 
 // @fnv 0x0069b360
-void* __thiscall FUN_0069b360_shell::ConstructBuffer(unsigned int a)
+void* FUN_0069b360_shell::ConstructBuffer(unsigned int a)
 {
     *(void**)this = &(*reinterpret_cast<void * *>(&::fnv_0069b730::DAT_0106b1f4));
     *(unsigned int*)((char*)this + 4) = a;

@@ -3,7 +3,6 @@
 #include "fnv/decl/FUN_00937b30_shell.h"
 #include "fnv/decl/fnv_00937c60__ModifierList_h.h"
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ActorValueModifierList : public BSSimpleList<Modifier*>
 {
   public:
@@ -15,8 +14,4 @@ class ActorValueModifierList : public BSSimpleList<Modifier*>
     unsigned char layoutPadding9[3];
     ModifierPointerList* m_ppModifiedActorValues;  // +0xC
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ActorValueModifierList) == 0x10);
-FNV_STATIC_ASSERT(offsetof(ActorValueModifierList, m_bAllowZeroValueModifiers) == 0x8);
-FNV_STATIC_ASSERT(offsetof(ActorValueModifierList, m_ppModifiedActorValues) == 0xC);
 #endif

@@ -30,11 +30,11 @@ void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00a8a7c0_shell : public FUN_00a68800_shell
 {
-    void* __thiscall FUN_00a8a7c0(unsigned int flags);
+    void* FUN_00a8a7c0(unsigned int flags);
 };
 
 // @fnv 0x00a8a7c0
-void* __thiscall FUN_00a8a7c0_shell::FUN_00a8a7c0(unsigned int flags)
+void* FUN_00a8a7c0_shell::FUN_00a8a7c0(unsigned int flags)
 {
     void* pkFlags = *(void**)((char*)this + 0x40);
     *(void**)this = (void*)&DAT_0109f23c;

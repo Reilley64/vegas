@@ -301,13 +301,13 @@ float FUN_008153a0_shell::FUN_008153a0(bool abJustArmor, float afUseThisFatigue)
 
 struct FUN_00818cb0_shell
 {
-    bool __thiscall FUN_00818cb0(MagicItem* apSpell, float* afEffectStrength, MagicItem::CannotCastReason* apReason,
+    bool FUN_00818cb0(MagicItem* apSpell, float* afEffectStrength, MagicItem::CannotCastReason* apReason,
                                  bool abUseBaseMagicka);
 };
 
 // Initializes the optional effect strength to 1.0 and the reason to 0, then returns true.
 // @fnv 0x00818cb0
-bool __thiscall FUN_00818cb0_shell::FUN_00818cb0(MagicItem* apSpell, float* afEffectStrength,
+bool FUN_00818cb0_shell::FUN_00818cb0(MagicItem* apSpell, float* afEffectStrength,
                                                  MagicItem::CannotCastReason* apReason, bool abUseBaseMagicka)
 {
     if (afEffectStrength)
@@ -360,8 +360,8 @@ extern "C" void __cdecl TryCast(void*);
 
 struct FUN_00815380_shell
 {
-    void __thiscall TryCast(int);
-    void __thiscall FUN_00815380();
+    void TryCast(int);
+    void FUN_00815380();
 };
 
 struct ActorVT
@@ -1128,7 +1128,7 @@ struct CastingCheck : MagicCaster
     void FUN_00815d00(float, TESBoundObject*, bool, float, bool);
 };
 // @fnv 0x00815380
-void __thiscall FUN_00815380_shell::FUN_00815380()
+void FUN_00815380_shell::FUN_00815380()
 {
     reinterpret_cast<::CastingCheck *>(this)->TryCast((::TESBoundObject *)(0));
 }

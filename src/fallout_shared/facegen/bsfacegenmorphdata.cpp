@@ -76,7 +76,7 @@ DifferentialEntry* DifferentialArray::FUN_00662860(unsigned int _Pos)
 
 struct FUN_00662390_shell
 {
-    int* __thiscall GetGlobalIntPtr();
+    int* GetGlobalIntPtr();
 };
 
 // @fnv 0x00662390
@@ -99,7 +99,7 @@ NiRTTI* FUN_006626e0_shell::GetRTTI()
 }
 
 // @fnv 0x00662840
-int __fastcall GetEntryCount(int* thisPtr)
+int GetEntryCount(int* thisPtr)
 {
     return (*(thisPtr + 4) - *(thisPtr + 3)) / 0x34;
 }
@@ -125,7 +125,7 @@ void FUN_00661d40_shell::SetVTableAndDestroy()
 
 struct FUN_00662820_shell
 {
-    int __thiscall FUN_00662820();
+    int FUN_00662820();
 };
 // Builds differential and statistical morph arrays for expressions, modifiers, phonemes and custom morphs from the given tri data.
 // @fnv 0x00660ba0
@@ -422,7 +422,7 @@ unsigned int* V_006578b0::FUN_006578b0(unsigned int _Pos)
 }
 
 // @fnv 0x00662820
-int __thiscall FUN_00662820_shell::FUN_00662820()
+int FUN_00662820_shell::FUN_00662820()
 {
     return (*reinterpret_cast<int*>(this + 0x10) - *reinterpret_cast<int*>(this + 0xc)) >> 2;
 }
@@ -561,11 +561,11 @@ struct FUN_006620d0_Class
 {
     char _pad[8];
     int* m_aiIndexedValues;
-    int __thiscall FUN_006620d0(int idx);
+    int FUN_006620d0(int idx);
 };
 // Returns the element at idx from the array, or 0 if the array is null or idx is out of range (0..14).
 // @fnv 0x006620d0
-int __thiscall FUN_006620d0_Class::FUN_006620d0(int aiIndex)
+int FUN_006620d0_Class::FUN_006620d0(int aiIndex)
 {
     return m_aiIndexedValues == 0 || aiIndex <= -1 || aiIndex >= 0xf ? 0 : m_aiIndexedValues[aiIndex];
 }

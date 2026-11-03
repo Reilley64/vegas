@@ -19,7 +19,6 @@ class bhkSerializable;
 class bhkWorldObject;
 class hkReferencedObject;
 class hkSerializableCinfo;
-#pragma pack(push, 4)
 class bhkRefObject : public NiObject
 {
   public:
@@ -35,10 +34,6 @@ class bhkRefObject : public NiObject
     // bhkRefObject& __cdecl bhkRefObject::*(const bhkRefObject&)
     // void __cdecl bhkRefObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(bhkRefObject) == 12);
-FNV_STATIC_ASSERT(offsetof(bhkRefObject, m_pHavokObject) == 8);
-#pragma pack(push, 4)
 class bhkSerializable : public bhkRefObject
 {
   public:
@@ -60,10 +55,6 @@ class bhkSerializable : public bhkRefObject
     // bhkSerializable& __cdecl bhkSerializable::*(const bhkSerializable&)
     // void __cdecl bhkSerializable::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(bhkSerializable) == 16);
-FNV_STATIC_ASSERT(offsetof(bhkSerializable, pInfo) == 12);
-#pragma pack(push, 4)
 class bhkWorldObject : public bhkSerializable
 {
   public:
@@ -117,10 +108,6 @@ class bhkWorldObject : public bhkSerializable
     // bhkWorldObject& __cdecl bhkWorldObject::*(const bhkWorldObject&)
     // void __cdecl bhkWorldObject::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(bhkWorldObject) == 20);
-FNV_STATIC_ASSERT(offsetof(bhkWorldObject, iFlags) == 16);
-#pragma pack(push, 4)
 class bhkEntity : public bhkWorldObject
 {
   public:
@@ -154,9 +141,6 @@ class bhkEntity : public bhkWorldObject
     // bhkEntity& __cdecl bhkEntity::*(const bhkEntity&)
     // void __cdecl bhkEntity::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(bhkEntity) == 20);
-#pragma pack(push, 4)
 class bhkRigidBody : public bhkEntity
 {
   public:
@@ -255,7 +239,4 @@ class bhkRigidBody : public bhkEntity
     // const bhkRigidBody& __cdecl bhkRigidBody::*(const bhkRigidBody&)
     // void __cdecl bhkRigidBody::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(bhkRigidBody) == 28);
-FNV_STATIC_ASSERT(offsetof(bhkRigidBody, m_kSerializableList) == 20);
 #endif

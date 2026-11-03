@@ -151,7 +151,7 @@ void __cdecl FUN_00e01410(int* pObject, int a)
 extern int DAT_010e99d8;
 struct FUN_00cb0a70
 {
-    void __thiscall m(int);
+    void m(int);
 };
 // @fnv 0x00e01c30
 void FUN_00e01c30(void* apObject, void* aValue)
@@ -342,7 +342,7 @@ void __cdecl FUN_00e00350(int* a)
 // @fnv 0x00e00720
 void __cdecl FUN_00e00720(void* p)
 {
-    ((void(__thiscall*)(void*, int))(*((int**)p))[0])(p, 0);
+    ((void(*)(void*, int))(*((int**)p))[0])(p, 0);
 }
 
 extern int DAT_010cc41c;
@@ -371,7 +371,7 @@ void __cdecl FUN_00e00810(int* p)
 
 struct FUN_00e00930_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 // @fnv 0x00e00930
 void __cdecl FUN_00e00930(FUN_00e00930_vt* p)
@@ -382,12 +382,12 @@ void __cdecl FUN_00e00930(FUN_00e00930_vt* p)
 // @fnv 0x00e00b40
 void __cdecl FUN_00e00b40(int* p)
 {
-    ((void(__thiscall*)(void*, int)) * (int*)*p)(p, 0);
+    ((void(*)(void*, int)) * (int*)*p)(p, 0);
 }
 
 struct FUN_00e00c70_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 // @fnv 0x00e00c70
 void __cdecl FUN_00e00c70(FUN_00e00c70_vt* p)
@@ -407,7 +407,7 @@ void __cdecl FUN_00e00d10(int* p)
 // @fnv 0x00e00d30
 int __cdecl FUN_00e00d30(int* p)
 {
-    return (*(int(__thiscall**)(int*, int))(*p))(p, 0);
+    return (*(int(**)(int*, int))(*p))(p, 0);
 }
 
 extern int DAT_010e8d8c;
@@ -475,7 +475,7 @@ void __cdecl FUN_00e010e0(int* pObject, int abFlag)
 // @fnv 0x00e011f0
 void __cdecl FUN_00e011f0(void* a)
 {
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(a))[0])(a, 0);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(a))[0])(a, 0);
 }
 
 extern int DAT_010c6ff8;
@@ -517,7 +517,7 @@ void FUN_00e015b0(int** p)
         *p = &DAT_010e93ac;
 }
 
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 // @fnv 0x00e01640
 void __cdecl FUN_00e01640(int* p)
 {
@@ -635,10 +635,10 @@ void __cdecl FUN_00e02140(int* pObject, int iValue)
 // @fnv 0x00e02260
 void __cdecl FUN_00e02260(int** p)
 {
-    ((void(__thiscall*)(void*, int))(*p)[0])(p, 0);
+    ((void(*)(void*, int))(*p)[0])(p, 0);
 }
 
-typedef int(__thiscall* FUN_00e02340_fn)(void*, int);
+typedef int(* FUN_00e02340_fn)(void*, int);
 // @fnv 0x00e02340
 int __cdecl FUN_00e02340(void* obj)
 {
@@ -678,7 +678,7 @@ void __cdecl FUN_00e024c0(int* p)
         *p = (int)&DAT_010ea0a4;
 }
 
-typedef int(__thiscall* VFunc0)(void*, int);
+typedef int(* VFunc0)(void*, int);
 // @fnv 0x00e024e0
 int __cdecl FUN_00e024e0(void* p)
 {
@@ -745,7 +745,7 @@ void FUN_00e02720(FUN_00e02720_vtbl* p)
     p->m0(0);
 }
 
-typedef void(__thiscall* vt)(void*, int);
+typedef void(* vt)(void*, int);
 // @fnv 0x00e02760
 void __cdecl FUN_00e02760(void* p)
 {
@@ -778,11 +778,11 @@ struct FUN_00e11dc0_class
     int m_24;
     int m_28;
     int m_2c;
-    void __thiscall FUN_00e11dc0();
+    void FUN_00e11dc0();
 };
 
 // @fnv 0x00e11dc0
-void __thiscall FUN_00e11dc0_class::FUN_00e11dc0()
+void FUN_00e11dc0_class::FUN_00e11dc0()
 {
     int node = m_2c;
     if (!node)
@@ -800,13 +800,13 @@ void __thiscall FUN_00e11dc0_class::FUN_00e11dc0()
 // @fnv 0x00e00100
 int __cdecl FUN_00e00100(void* p)
 {
-    return ((int(__thiscall*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
+    return ((int(*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
 }
 
 // @fnv 0x00e00160
 void FUN_00e00160(FUN_00e000a0_vt* p)
 {
-    ((void(__thiscall*)(void*, int))(*(void***)p)[0])(p, 0);
+    ((void(*)(void*, int))(*(void***)p)[0])(p, 0);
 }
 
 struct FUN_00e001a0_vt
@@ -859,7 +859,7 @@ void __cdecl FUN_00e00370(FUN_00e00370_vt* p)
 
 struct FUN_00e00430_vt
 {
-    virtual void __thiscall m0(int);
+    virtual void m0(int);
 };
 
 // @fnv 0x00e00430
@@ -883,7 +883,7 @@ void __cdecl FUN_00e00450(void* apObject, int flag)
     }
 }
 
-typedef void(__thiscall* VFn)(void*, int);
+typedef void(* VFn)(void*, int);
 // @fnv 0x00e00550
 void __cdecl FUN_00e00550(void* p)
 {
@@ -913,7 +913,7 @@ void __cdecl FUN_00e00670(FUN_00e00670_vt* p)
 
 struct FUN_00e00790_vt
 {
-    virtual void __thiscall m(int);
+    virtual void m(int);
 };
 
 // @fnv 0x00e00790
@@ -997,7 +997,7 @@ int __cdecl FUN_00e00e70(FUN_00e00e70_vt* p)
 // @fnv 0x00e010c0
 void __cdecl FUN_00e010c0(FUN_00e000a0_vt* p)
 {
-    ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
+    ((void(*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
 }
 
 struct FUN_00e01380_vt
@@ -1011,7 +1011,7 @@ void __cdecl FUN_00e01380(FUN_00e01380_vt* p)
     p->m(0);
 }
 
-typedef void(__thiscall* Fn0)(void*, int);
+typedef void(* Fn0)(void*, int);
 // @fnv 0x00e013f0
 void __cdecl FUN_00e013f0(void* p)
 {
@@ -1019,7 +1019,7 @@ void __cdecl FUN_00e013f0(void* p)
     fn(p, 0);
 }
 
-typedef int(__thiscall* Vfn)(void*, int);
+typedef int(* Vfn)(void*, int);
 // @fnv 0x00e01450
 int __cdecl FUN_00e01450(void* p)
 {
@@ -1078,10 +1078,10 @@ void __cdecl FUN_00e01550(FUN_00e01550_vt* p)
 // @fnv 0x00e018c0
 void __cdecl FUN_00e018c0(int* p)
 {
-    ((void(__thiscall*)(void*, int)) * (void**)*p)(p, 0);
+    ((void(*)(void*, int)) * (void**)*p)(p, 0);
 }
 
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 // @fnv 0x00e019d0
 void __cdecl FUN_00e019d0(void* p)
 {
@@ -1099,7 +1099,7 @@ void __cdecl FUN_00e01a10(FUN_00e01a10_vt* p)
     p->m0(0);
 }
 
-typedef void(__thiscall* Fn)(void*, int);
+typedef void(* Fn)(void*, int);
 // @fnv 0x00e01af0
 void __cdecl FUN_00e01af0(void* p)
 {
@@ -1152,7 +1152,7 @@ void __cdecl FUN_00e01e40(FUN_00e01e40_vt* p)
 // @fnv 0x00e01f30
 void __cdecl FUN_00e01f30(int* p)
 {
-    ((void(__thiscall*)(void*, int))(*(*reinterpret_cast<void***>(p))))(p, 0);
+    ((void(*)(void*, int))(*(*reinterpret_cast<void***>(p))))(p, 0);
 }
 
 extern int DAT_010e9dec;
@@ -1161,7 +1161,7 @@ struct FUN_00cb0a70_00e02280
     int* vt;
     int pad;
     int pad2;
-    void __thiscall m(int);
+    void m(int);
 };
 // @fnv 0x00e02280
 void __cdecl FUN_00e02280(int* pObject, int iValue)
@@ -1173,7 +1173,7 @@ void __cdecl FUN_00e02280(int* pObject, int iValue)
     }
 }
 
-typedef void(__thiscall* VFn)(void*, int);
+typedef void(* VFn)(void*, int);
 
 // @fnv 0x00e02380
 void __cdecl FUN_00e02380(void* p)
@@ -1181,7 +1181,7 @@ void __cdecl FUN_00e02380(void* p)
     ((VFn**)(void*)p)[0][0](p, 0);
 }
 
-typedef int(__thiscall* Vf0)(void*, int);
+typedef int(* Vf0)(void*, int);
 // @fnv 0x00e024a0
 int __cdecl FUN_00e024a0(void* p)
 {
@@ -1246,10 +1246,10 @@ struct FUN_00e0bf30_s
     int a;
     int b;
     FUN_00cb0a70 c;
-    FUN_00e0bf30_s* __thiscall FUN_00e0bf30(int v);
+    FUN_00e0bf30_s* FUN_00e0bf30(int v);
 };
 // @fnv 0x00e0bf30
-FUN_00e0bf30_s* __thiscall FUN_00e0bf30_s::FUN_00e0bf30(int aiValue)
+FUN_00e0bf30_s* FUN_00e0bf30_s::FUN_00e0bf30(int aiValue)
 {
     reinterpret_cast<::FUN_00cb0a70_Class *>(&(c))->FUN_00cb0a70(aiValue);
     return this;
@@ -1280,11 +1280,11 @@ struct FUN_00e11d60_class
     int m_28;
     int* m_2c;
     int m_30;
-    void __thiscall FUN_00e11d60(int val);
+    void FUN_00e11d60(int val);
 };
 
 // @fnv 0x00e11d60
-void __thiscall FUN_00e11d60_class::FUN_00e11d60(int val)
+void FUN_00e11d60_class::FUN_00e11d60(int val)
 {
     int* p = m_2c;
     if (p)
@@ -1378,7 +1378,7 @@ int __cdecl FUN_00e000b0()
 // Forward a value to the owner object when the owner pointer is present.
 struct FUN_00d50c00_cls
 {
-    void __thiscall FUN_00d50c00(int value);
+    void FUN_00d50c00(int value);
 };
 
 // @fnv 0x00e000c0
@@ -1642,7 +1642,7 @@ int* __cdecl FUN_00e004a0()
 
 struct FUN_00e004f0_class
 {
-    void __thiscall FUN_00e004f0(int value);
+    void FUN_00e004f0(int value);
 };
 
 // @fnv 0x00e004b0
@@ -1678,7 +1678,7 @@ void* __cdecl FUN_00e005c0()
 
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 
 // @fnv 0x00e005d0
@@ -2078,7 +2078,7 @@ void* FUN_00e00a30()
 
 struct FUN_00e00a40_cls
 {
-    void __thiscall FUN_00e00a80(int a);
+    void FUN_00e00a80(int a);
 };
 
 // @fnv 0x00e00a40
@@ -2355,7 +2355,7 @@ int* __cdecl FUN_00e00f60()
 // when that object is present.
 struct FUN_00e00f70_cls
 {
-    void __thiscall FUN_00e00fb0(int value);
+    void FUN_00e00fb0(int value);
 };
 
 // @fnv 0x00e00f70
@@ -2484,7 +2484,7 @@ void* __cdecl FUN_00e01200()
 namespace fnv_00e01210 {
 struct Handler_cls
 {
-    void __thiscall Handle(int value);
+    void Handle(int value);
 };
 
 // @fnv 0x00e01210
@@ -3228,7 +3228,7 @@ struct FUN_00e021d0_class
     int unk20;
     int unk24;
 
-    void __thiscall ClearAndReset();
+    void ClearAndReset();
 };
 
 extern int DAT_0102e388;
@@ -4114,11 +4114,11 @@ class FUN_00e114f0_cls
     int m_f8;
     int m_fc;
     unsigned char m_100;
-    void __thiscall FUN_00e114f0(int a1, int a2, int a3);
+    void FUN_00e114f0(int a1, int a2, int a3);
 };
 
 // @fnv 0x00e114f0
-void __thiscall FUN_00e114f0_cls::FUN_00e114f0(int a1, int a2, int a3)
+void FUN_00e114f0_cls::FUN_00e114f0(int a1, int a2, int a3)
 {
     m_100 = 1;
 }
@@ -4206,7 +4206,7 @@ void FUN_00e11500_cls::FUN_00e11500(int a1, int a2)
 
 struct FUN_00e11510_obj
 {
-    void __thiscall FUN_00e11510(int a, int b);
+    void FUN_00e11510(int a, int b);
 };
 
 // @fnv 0x00e11510
@@ -7013,12 +7013,12 @@ struct FUN_00e00dd0_cls
     int unk18;
     int unk1C;
 
-    void __thiscall FUN_00e00dd0();
+    void FUN_00e00dd0();
 };
 
 // Frees the two dynamic arrays held by the object via the audio allocator, resets their pointers and sizes, then sets the vtable pointer.
 // @fnv 0x00e00dd0
-void __thiscall FUN_00e00dd0_cls::FUN_00e00dd0()
+void FUN_00e00dd0_cls::FUN_00e00dd0()
 {
     AudioHolder* holder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
     AudioAllocator* allocator = holder->m_pAllocator;
@@ -7068,7 +7068,7 @@ void ReverseBytesInGroupsOfFour(unsigned char* pucData)
 
 struct S_e05_res
 {
-    char* __thiscall FUN_00d46d80(char* a, S_e05_res* b);
+    char* FUN_00d46d80(char* a, S_e05_res* b);
 };
 
 struct S_e05_obj
@@ -7593,7 +7593,7 @@ __m128* VecList113::FUN_00e11570(__m128* __restrict out, const __m128* direction
 
 // Returns 1 if FUN_00e13870(a, b) is less than c, otherwise 0.
 // @fnv 0x00e16e20
-int __stdcall FUN_00e16e20(int a, int b, float afThreshold)
+int FUN_00e16e20(int a, int b, float afThreshold)
 {
     if (::FUN_00e13870((char *)(a), b) < afThreshold)
         return 1;

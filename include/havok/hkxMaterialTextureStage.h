@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 class hkReferencedObject;
-#pragma pack(push, 1)
 class hkxMaterialTextureStage
 {
   public:
@@ -13,6 +12,4 @@ class hkxMaterialTextureStage
     hkInt32 m_iTcoordChannel;       // +0x4 (TextureType)
     hkInt32 m_iUsageHint;           // +0x8
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkxMaterialTextureStage[(sizeof(hkxMaterialTextureStage) == 0xC) ? 1 : -1];
 #endif

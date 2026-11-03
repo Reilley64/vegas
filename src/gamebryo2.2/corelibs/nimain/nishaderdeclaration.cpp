@@ -12,13 +12,13 @@ struct NiRefObject
 
 struct NiShaderDeclaration : NiRefObject
 {
-    NiShaderDeclaration* __thiscall FUN_00ee88e0(unsigned int flags);
+    NiShaderDeclaration* FUN_00ee88e0(unsigned int flags);
 };
 
 extern int DAT_011011ec;
 
 // @fnv 0x00ee88e0
-NiShaderDeclaration* __thiscall NiShaderDeclaration::FUN_00ee88e0(unsigned int flags)
+NiShaderDeclaration* NiShaderDeclaration::FUN_00ee88e0(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = &DAT_011011ec;
     reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();

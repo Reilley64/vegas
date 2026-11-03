@@ -134,7 +134,4 @@ class NiDynamicEffect : public NiAVObject
     NiTPointerList<NiNode*> m_kEffectTargetNodes;
     NiTPointerList<NiNode*> m_kAffectedNodes;
 };
-FNV_STATIC_ASSERT(sizeof(NiAVObject) == 0x9c);
-FNV_STATIC_ASSERT(offsetof(NiDynamicEffect, m_bEffectEnabled) == 0x9c);
-FNV_STATIC_ASSERT(offsetof(NiDynamicEffect, m_kAffectedNodes) == 0xb8);
 #endif

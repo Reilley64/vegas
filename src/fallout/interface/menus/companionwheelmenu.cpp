@@ -130,18 +130,18 @@ CompanionWheelMenu::CompanionWheelMenu()
 
 struct FUN_00754bf0_shell
 {
-    int __thiscall GetClass();
+    int GetClass();
 };
 
 // @fnv 0x00754bf0
-int __thiscall FUN_00754bf0_shell::GetClass()
+int FUN_00754bf0_shell::GetClass()
 {
     return 0x433;
 }
 
 struct FUN_00884480_shell
 {
-    bool __thiscall FUN_00884480(void);
+    bool FUN_00884480(void);
 };
 struct Actor
 {
@@ -179,7 +179,7 @@ float FUN_00755660(float value)
 
 
 // @fnv 0x00756960
-void __fastcall FUN_00756960(int thisPtr)
+void FUN_00756960(int thisPtr)
 {
     *(char*)(thisPtr + 0x74) = 1;
     ::CloseMenuAndRefresh(1);
@@ -188,12 +188,12 @@ void __fastcall FUN_00756960(int thisPtr)
 
 struct FUN_00755680_shell
 {
-    bool __thiscall FUN_00755680();
+    bool FUN_00755680();
 };
 
 // Returns true if _FUN_004b71d0 is false or the byte at offset 0x7d equals 1; otherwise returns false.
 // @fnv 0x00755680
-bool __thiscall FUN_00755680_shell::FUN_00755680()
+bool FUN_00755680_shell::FUN_00755680()
 {
     if (!::FUN_004b71d0() || ((unsigned char*)this)[0x7d] == 1)
         return true;
@@ -202,8 +202,8 @@ bool __thiscall FUN_00755680_shell::FUN_00755680()
 
 struct MyStandin754c30
 {
-    void __thiscall FUN_00754c60();
-    void* __thiscall FUN_00754c30(unsigned int);
+    void FUN_00754c60();
+    void* FUN_00754c30(unsigned int);
 };
 struct Tile
 {
@@ -216,11 +216,11 @@ struct Unk00755d90
 {
     char _pad[0x4C];
     Tile* _tile;
-    void __thiscall SetTileText(char const*);
+    void SetTileText(char const*);
 };
 // If _tile is set, calls _tile->Set with id 0xFC4, the given string and true.
 // @fnv 0x00755d90
-void __thiscall Unk00755d90::SetTileText(char const* acText)
+void Unk00755d90::SetTileText(char const* acText)
 {
     if (_tile != 0)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((_tile))->FUN_00a01350(0xFC4, (char *)(acText), true);
@@ -233,10 +233,10 @@ struct FUN_00756930_shell
 {
     char _pad[0x68];
     Actor* m_pDialogueActor;
-    void __thiscall FUN_00756930();
+    void FUN_00756930();
 };
 // @fnv 0x00756930
-void __thiscall FUN_00756930_shell::FUN_00756930()
+void FUN_00756930_shell::FUN_00756930()
 {
     if (m_pDialogueActor)
         reinterpret_cast<::Player *>((((FUN_008a7760_holder*)m_pDialogueActor)))->OpenDialogMenu();
@@ -259,9 +259,9 @@ struct Tile2
 };
 struct FUN_007560c0_shell
 {
-    void __thiscall PlayTopicResponse(TESTopic*);
-    void __thiscall RunTopicResultScripts(TESTopic*);
-    void __thiscall ToggleFollowersTacticsDistance();
+    void PlayTopicResponse(TESTopic*);
+    void RunTopicResultScripts(TESTopic*);
+    void ToggleFollowersTacticsDistance();
 };
 namespace fnv_007575b0 {
 struct Actor;
@@ -290,7 +290,7 @@ struct FUN_007575b0_shell
 {
     char _pad[0x68];
     Actor* m_pDialogueActor;
-    void __thiscall RunTopicResultScripts(TESTopic* aRelatedTopic);
+    void RunTopicResultScripts(TESTopic* aRelatedTopic);
 };
 // @fnv 0x007575b0
 void FUN_007575b0_shell::RunTopicResultScripts(TESTopic* aRelatedTopic)
@@ -346,7 +346,7 @@ struct FUN_00754c60 : Menu_007a8b10
 };
 // Calls FUN_00754c60, then frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00754c30
-void* __thiscall MyStandin754c30::FUN_00754c30(unsigned int flags)
+void* MyStandin754c30::FUN_00754c30(unsigned int flags)
 {
     reinterpret_cast<::FUN_00754c60 *>((this))->FUN_00754c60::~FUN_00754c60();
     if (flags & 1)
@@ -362,8 +362,8 @@ struct InterfaceH
 
 struct FUN_007552e0_shell
 {
-    void __thiscall FUN_007552e0(int, Tile*);
-    void __thiscall ToggleRelatedTopic();
+    void FUN_007552e0(int, Tile*);
+    void ToggleRelatedTopic();
 
     unsigned char _pad[0x28];
     Tile* m_pTiles[64];
@@ -379,14 +379,14 @@ struct FUN_007562b0_shell
     char _pad6C[2];
     bool m_bRelatedTopicVisible;
 
-    void __thiscall ToggleRelatedTopic();
+    void ToggleRelatedTopic();
 };
 
 extern char str_01071f24[];
 extern char str_01071f40[];
 
 // @fnv 0x007562b0
-void __thiscall FUN_007562b0_shell::ToggleRelatedTopic()
+void FUN_007562b0_shell::ToggleRelatedTopic()
 {
     bool bSuccess = false;
 
@@ -435,7 +435,7 @@ struct FUN_00755480_shell
     char _pad2[0x1C];
     unsigned int m_uiCurrentItemIndex;
 
-    void __thiscall UpdateTileTimerAndInputAngle();
+    void UpdateTileTimerAndInputAngle();
 };
 
 // @fnv 0x00755480
@@ -699,7 +699,7 @@ struct WheelHost
 {
     char unk00[0x28];
     int m_aiIndexedValues[16];
-    void __thiscall FUN_00755760(int a, int b);
+    void FUN_00755760(int a, int b);
 };
 
 bool __cdecl FUN_00702450(int);
@@ -1527,7 +1527,7 @@ struct CompanionWheelStandin
     void PlayTopicResponse(TopicInfoStandin* topic);
 };
 // @fnv 0x007560c0
-void __thiscall FUN_007560c0_shell::ToggleFollowersTacticsDistance()
+void FUN_007560c0_shell::ToggleFollowersTacticsDistance()
 {
     bool bSuccess;
     *((bool*)((char*)this + 0x6c)) = !*((bool*)((char*)this + 0x6c));
@@ -1575,7 +1575,7 @@ struct CRelatedActor_757690
 };
 struct CInterface_757690
 {
-    unsigned char* __thiscall FUN_00408d60();
+    unsigned char* FUN_00408d60();
 };
 struct CRandom_757690
 {
@@ -1583,7 +1583,7 @@ struct CRandom_757690
 unsigned __cdecl FUN_00ec6130(int);
 struct CWheelMenu_757690
 {
-    void __thiscall SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
+    void SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
 };
 // @fnv 0x007573d0
 void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
@@ -1617,7 +1617,7 @@ void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
     }
 }
 // @fnv 0x00757690
-void __thiscall CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value)
+void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value)
 {
     float shift = 0.0f;
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(text))->FUN_004048e0())) > 0)
@@ -3535,7 +3535,7 @@ struct WheelSelection
     void SelectTile(int next, bool force);
 };
 // @fnv 0x00755760
-void __thiscall WheelHost::FUN_00755760(int aiSlot, int aiValue)
+void WheelHost::FUN_00755760(int aiSlot, int aiValue)
 {
     if (aiValue == 0 && aiSlot >= 0 && aiSlot < 16)
     {
@@ -3656,7 +3656,7 @@ struct FUN_007563a0_shell
 {
     char _pad[0x6f];
     bool m_bTopicResponsePlayed;
-    void __thiscall ToggleFollowerWait();
+    void ToggleFollowerWait();
 };
 // @fnv 0x007552e0
 void FUN_007552e0_shell::FUN_007552e0(int aiID, Tile* apTarget)
@@ -3722,7 +3722,7 @@ void FUN_007552e0_shell::FUN_007552e0(int aiID, Tile* apTarget)
 }
 // Toggles m_bTopicResponsePlayed, plays the matching follower topic, and updates the tile set helper state.
 // @fnv 0x007563a0
-void __thiscall FUN_007563a0_shell::ToggleFollowerWait()
+void FUN_007563a0_shell::ToggleFollowerWait()
 {
     bool bSuccess = false;
     m_bTopicResponsePlayed = !m_bTopicResponsePlayed;

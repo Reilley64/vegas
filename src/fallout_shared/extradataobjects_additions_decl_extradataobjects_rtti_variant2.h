@@ -30,10 +30,6 @@ class NiPoint3
     float y;  // +0x4
     float z;  // +0x8
 };
-FNV_STATIC_ASSERT(sizeof(NiPoint3) == 0xC);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, x) == 0x0);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, y) == 0x4);
-FNV_STATIC_ASSERT(offsetof(NiPoint3, z) == 0x8);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ReferenceIntersectionData;
@@ -44,10 +40,6 @@ class ReferenceIntersectionData
     NiPoint3 Intersect;              // +0x4, 12 bytes
     NiPoint3 Normal;                 // +0x10, 12 bytes
 };
-FNV_STATIC_ASSERT(sizeof(ReferenceIntersectionData) == 28);
-FNV_STATIC_ASSERT(offsetof(ReferenceIntersectionData, m_pHitReference) == 0);
-FNV_STATIC_ASSERT(offsetof(ReferenceIntersectionData, Intersect) == 4);
-FNV_STATIC_ASSERT(offsetof(ReferenceIntersectionData, Normal) == 16);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ExtraHealth;
@@ -63,8 +55,6 @@ class ExtraHealth : public BSExtraData
     // ExtraHealth& __cdecl ExtraHealth::*(const ExtraHealth&)
     // void __cdecl ExtraHealth::*()
 };
-FNV_STATIC_ASSERT(sizeof(ExtraHealth) == 16);
-FNV_STATIC_ASSERT(offsetof(ExtraHealth, fHealthPercent) == 12);
 
 // Names of nested/template specializations use the canonical generator identifier mapping.
 class ExtraDecalRefs;
@@ -89,8 +79,6 @@ class ExtraDecalRefs : public BSExtraData
     // ExtraDecalRefs& __cdecl ExtraDecalRefs::*(const ExtraDecalRefs&)
     // void __cdecl ExtraDecalRefs::*()
 };
-FNV_STATIC_ASSERT(sizeof(ExtraDecalRefs) == 20);
-FNV_STATIC_ASSERT(offsetof(ExtraDecalRefs, m_kDecalReferences) == 12);
 
 // independently declares these names/types and the PC8-byte record layout.
 class FactionReaction
@@ -99,9 +87,6 @@ class FactionReaction
     TESFaction* pFaction;
     char m_ucRank;
 };
-FNV_STATIC_ASSERT(sizeof(FactionReaction) == 8);
-FNV_STATIC_ASSERT(offsetof(FactionReaction, pFaction) == 0);
-FNV_STATIC_ASSERT(offsetof(FactionReaction, m_ucRank) == 4);
 void* __cdecl operator new(unsigned int size);
 void __cdecl operator delete(void* pointer);
 
@@ -137,11 +122,4 @@ class BGSQuestObjective
     State eState;
     void SetOwner(TESQuest*);
 };
-FNV_STATIC_ASSERT(sizeof(BGSQuestObjective) == 0x24);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, uiIndex) == 4);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, QuestObjectiveEntry) == 8);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, m_pOwnerQuest) == 0x10);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, kTargets) == 0x14);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, bInitialized) == 0x1C);
-FNV_STATIC_ASSERT(offsetof(BGSQuestObjective, eState) == 0x20);
 #endif

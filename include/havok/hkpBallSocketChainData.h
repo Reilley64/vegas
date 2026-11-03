@@ -7,7 +7,6 @@
 #include "hkpBridgeAtoms.h"
 #include "hkpConstraintChainData.h"
 class hkpBallSocketChainDataConstraintInfo;
-#pragma pack(push, 1)
 class hkpBallSocketChainData : public hkpConstraintChainData
 {
   public:
@@ -18,6 +17,4 @@ class hkpBallSocketChainData : public hkpConstraintChainData
     hkReal m_fMaxErrorDistance;                                       // +0x2C
     hkReal m_fMaximumAngularImpulse;                                  // +0x30
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpBallSocketChainData[(sizeof(hkpBallSocketChainData) == 0x34) ? 1 : -1];
 #endif

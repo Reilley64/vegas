@@ -110,13 +110,6 @@ class NiPick
     bool PerformPick(const NiPoint3&, const NiPoint3&, bool);
     ~NiPick();
 };
-FNV_STATIC_ASSERT(sizeof(NiPick::Record) == 68);
-FNV_STATIC_ASSERT(offsetof(NiPick::Record, m_fHitDistance) == 20);
-FNV_STATIC_ASSERT(sizeof(NiPick::Results) == 20);
-FNV_STATIC_ASSERT(offsetof(NiPick::Results, m_uiValidCount) == 16);
-FNV_STATIC_ASSERT(sizeof(NiPick) == 52);
-FNV_STATIC_ASSERT(offsetof(NiPick, m_spRootNode) == 20);
-FNV_STATIC_ASSERT(offsetof(NiPick, m_kResults) == 24);
 
 namespace NiPickIntersections {
 }

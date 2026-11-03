@@ -3,12 +3,9 @@
 #ifndef FNV_HAVOK_HKSPHERE_H
 #define FNV_HAVOK_HKSPHERE_H
 #include "hkBase.h"
-#pragma pack(push, 1)
 class hkSphere
 {
   public:
     hkVector4 m_pos;  // +0x0
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkSphere[(sizeof(hkSphere) == 0x10) ? 1 : -1];
 #endif

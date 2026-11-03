@@ -6,7 +6,6 @@
 #include "hkBase.h"
 #include "hkpShapeCollection.h"
 class hkpConvexPieceStreamData;
-#pragma pack(push, 1)
 class hkpConvexPieceMeshShape : public hkpShapeCollection
 {
   public:
@@ -14,6 +13,4 @@ class hkpConvexPieceMeshShape : public hkpShapeCollection
     hkpShapeCollection* m_pDisplayMesh;                  // +0x1C
     hkReal m_fSphereRadius;                              // +0x20
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpConvexPieceMeshShape[(sizeof(hkpConvexPieceMeshShape) == 0x24) ? 1 : -1];
 #endif

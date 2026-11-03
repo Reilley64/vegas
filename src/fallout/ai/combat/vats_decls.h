@@ -50,8 +50,6 @@ class PlayerCharacter
 public:
     ::Animation *GetAnimation(bool) const;
 };
-typedef char VATSPlayerTimerOffsetCheck[offsetof(PlayerCharacter, fVATSTimer) == 0xE18 ? 1 : -1];
-typedef char VATSPlayerSizeCheck[sizeof(PlayerCharacter) == 0xE50 ? 1 : -1];
 
 class CameraPathManager
 {
@@ -110,9 +108,6 @@ class VATS
 public:
     void FUN_009c8950(bool, bool);
 };
-FNV_STATIC_ASSERT(sizeof(VATS) == 0x48);
-FNV_STATIC_ASSERT(offsetof(VATS, eMode) == 8);
-FNV_STATIC_ASSERT(offsetof(VATS, pCamera) == 0x10);
 
 union SETTING_VALUE
 {

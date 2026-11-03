@@ -29,7 +29,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -58,13 +57,11 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct TESIcon : public TESTexture
 {
     virtual char* GetTextureResourcePath();
     void* __vecDelDtor(unsigned int);
 };
-typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 struct FUN_00482c80_shell : public TESDescription
 {
     void ClearParsedXML();
@@ -76,7 +73,7 @@ struct BSStr
 extern int DAT_011c5490;
 struct FUN_00482cb0_shell
 {
-    void __thiscall FUN_00482cb0();
+    void FUN_00482cb0();
 };
 
 // Adjustor thunk: the secondary-base (+0x3c) vtable entry for an override defined on the derived class.

@@ -83,11 +83,11 @@ struct Host
 {
     char _pad[0x18];
     NiObject* m_at18;
-    void* __thiscall Destroy(unsigned int);
+    void* Destroy(unsigned int);
 };
 // Releases m_at18, calls FUN_00c31750, and deletes this with size 0x24 when f has bit 0 set; returns this.
 // @fnv 0x00c2d1f0
-void* __thiscall Host::Destroy(unsigned int auiFlags)
+void* Host::Destroy(unsigned int auiFlags)
 {
     if (m_at18)
         m_at18->DecRefCount();
@@ -141,7 +141,7 @@ void FUN_00c2d2a0_Class::FUN_00c2d2a0(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(idx, str);
     NiObject* obj = *(NiObject**)((char*)this + 0x18);
     void** vt = *(void***)obj;
-    void(__thiscall * fn)(NiObject*, StrArr*) = (void(__thiscall*)(NiObject*, StrArr*))vt[0x60 / 4];
+    void(* fn)(NiObject*, StrArr*) = (void(*)(NiObject*, StrArr*))vt[0x60 / 4];
     fn(obj, pkStrings);
 }
 

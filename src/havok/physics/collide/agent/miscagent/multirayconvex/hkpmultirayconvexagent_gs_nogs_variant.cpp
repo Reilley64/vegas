@@ -8,7 +8,7 @@
 void FUN_00d374f0(int a, int b, int c, int d);
 struct FUN_00d37690_Class
 {
-    void __thiscall ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(int a, int b, int c, int d);
 };
 void FUN_00d37740(int a, int b, int c, int d);
 void FUN_00d37780(int a, int b, int c, int d);
@@ -28,7 +28,7 @@ struct FUN_00cfbbe0_Arg
 };
 struct FUN_00cfbbe0_Class
 {
-    void __thiscall FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
+    void FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
 };
 void FUN_00d377d0(int pClass);
 struct Handler

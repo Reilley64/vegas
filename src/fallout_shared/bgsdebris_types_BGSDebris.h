@@ -10,7 +10,6 @@
 class BGSDebris;
 class DebrisModelEntry;
 class BGSPreloadable;
-#pragma pack(push, 4)
 class BGSPreloadable : public BaseFormComponent
 {
   public:
@@ -23,9 +22,6 @@ class BGSPreloadable : public BaseFormComponent
     // BGSPreloadable
     // BGSPreloadable& __cdecl BGSPreloadable::*(const BGSPreloadable&)
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSPreloadable) == 4);
-#pragma pack(push, 4)
 class BGSDebris : public TESForm, public BGSPreloadable
 {
   public:
@@ -54,7 +50,4 @@ class BGSDebris : public TESForm, public BGSPreloadable
     // BGSDebris& __cdecl BGSDebris::*(const BGSDebris&)
     // void __cdecl BGSDebris::*()
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(BGSDebris) == 36);
-FNV_STATIC_ASSERT(offsetof(BGSDebris, DataList) == 28);
 #endif

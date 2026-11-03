@@ -71,11 +71,11 @@ void* FUN_00a46480_shell::FUN_00a46480()
 struct FUN_00a46410_shell
 {
     void* m_0x2c;
-    unsigned int __thiscall FUN_00a46410();
+    unsigned int FUN_00a46410();
 };
 
 // @fnv 0x00a46410
-unsigned int __thiscall FUN_00a46410_shell::FUN_00a46410()
+unsigned int FUN_00a46410_shell::FUN_00a46410()
 {
     void* p = *(void**)((char*)this + 0x2c);
     if (!p)
@@ -85,11 +85,11 @@ unsigned int __thiscall FUN_00a46410_shell::FUN_00a46410()
 
 struct FUN_00a461a0_shell : public NiTimeController
 {
-    void __thiscall FUN_00a461a0(NiObjectNET* target);
+    void FUN_00a461a0(NiObjectNET* target);
 };
 
 // @fnv 0x00a461a0
-void __thiscall FUN_00a461a0_shell::FUN_00a461a0(NiObjectNET* target)
+void FUN_00a461a0_shell::FUN_00a461a0(NiObjectNET* target)
 {
     if (*(NiObjectNET**)((char*)this + 0x2c) != target)
         *(int*)((char*)this + 0x3c) = 0;
@@ -140,11 +140,11 @@ struct C462b0
     S462b0 m_0c;
     char _14[8];
     bool m_1c;
-    void __thiscall FUN_00a462b0(S462b0* p);
+    void FUN_00a462b0(S462b0* p);
 };
 // Sets m_1c if the stored m_0c differs from p, then copies p into m_0c.
 // @fnv 0x00a462b0
-void __thiscall C462b0::FUN_00a462b0(S462b0* p)
+void C462b0::FUN_00a462b0(S462b0* p)
 {
     m_1c = m_1c || m_0c.x != p->x || m_0c.y != p->y;
     m_0c = *p;
@@ -161,11 +161,11 @@ struct FUN_00a463e0_Holder
 {
     unsigned char _pad[0x2c];
     FUN_00a463e0_Inner* m_2c;
-    void* __thiscall GetElementAt(unsigned int);
+    void* GetElementAt(unsigned int);
 };
 // Returns the element at index from the array held by m_2c if it exists and index is below its count, otherwise returns 0.
 // @fnv 0x00a463e0
-void* __thiscall FUN_00a463e0_Holder::GetElementAt(unsigned int index)
+void* FUN_00a463e0_Holder::GetElementAt(unsigned int index)
 {
     FUN_00a463e0_Inner* p = m_2c;
     if (p && index < p->m_kPointA)
@@ -190,10 +190,10 @@ inline void __cdecl operator delete(void*, void*)
 {}
 struct FUN_00a468f0_shell
 {
-    NiTextureTransformController* __thiscall Clone(CloningProcess& kCloning);
+    NiTextureTransformController* Clone(CloningProcess& kCloning);
 };
 // @fnv 0x00a468f0
-NiTextureTransformController* __thiscall FUN_00a468f0_shell::Clone(CloningProcess& kCloning)
+NiTextureTransformController* FUN_00a468f0_shell::Clone(CloningProcess& kCloning)
 {
     NiTextureTransformController* pkObject;
     pkObject = (NiTextureTransformController*)BSFadeNode::operator new(0x50);
@@ -219,7 +219,7 @@ struct StrArr
 };
 // Ensures pkStrings has room, then stores the string returned by _FUN_00a7d330 at index m_0A.
 // @fnv 0x00a46ac0
-void __stdcall FUN_00a46ac0(StrArr* pkStrings)
+void FUN_00a46ac0(StrArr* pkStrings)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pkStrings));
     char* pszString = ::FUN_00a7d330(*(const char**)&::g_011f3f20);
@@ -338,11 +338,11 @@ struct FUN_00a46a30_Cls
     unsigned char m_40;
     unsigned int m_44;
     unsigned int m_48;
-    void __thiscall WriteToStream(NiStreamStandInW* pkStream);
+    void WriteToStream(NiStreamStandInW* pkStream);
 };
 
 // @fnv 0x00a46a30
-void __thiscall FUN_00a46a30_Cls::WriteToStream(NiStreamStandInW* pkStream)
+void FUN_00a46a30_Cls::WriteToStream(NiStreamStandInW* pkStream)
 {
     ::FUN_00a57c00();
     unsigned char ucFlag = m_40;

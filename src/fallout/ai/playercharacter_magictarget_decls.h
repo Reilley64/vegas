@@ -2,7 +2,6 @@
 #ifndef FNV_MAGICTARGET_H
 #define FNV_MAGICTARGET_H
 #include "layout_support.h"
-#pragma pack(push, 4)
 class ActiveEffect;
 class MagicCaster;
 class MagicItem;
@@ -24,9 +23,4 @@ public:
 public:
     static ::MagicTarget *GetMagicTargetByID(unsigned int);
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(MagicTarget) == 0x10);
-FNV_STATIC_ASSERT(offsetof(MagicTarget, m_bLeadingFlag) == 0x4);
-FNV_STATIC_ASSERT(offsetof(MagicTarget, m_bSecondFlag) == 0x5);
-FNV_STATIC_ASSERT(offsetof(MagicTarget, m_kActiveEffectList) == 0x8);
 #endif

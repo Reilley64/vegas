@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/ArrayRecord.h"
 #include "fnv/decl/CBF490Lists.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
@@ -949,7 +950,7 @@ struct TargetObj
     int unk58;
     int unk5c;
     int unk60;
-    void __thiscall QueueOperation(int a, int b, int c);
+    void QueueOperation(int a, int b, int c);
 };
 
 // The global handler array (17 entries) and the callbacks that go into it.
@@ -1174,7 +1175,6 @@ void D04A20World::QueueOperation(void* object, bool flag, int data)
     reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
 }
 
-extern "C" __declspec(dllimport) unsigned long __stdcall TlsSetValue(unsigned long index, void* value);
 
 struct D05490Base
 {
@@ -1445,7 +1445,6 @@ void hkQueue128::FUN_00d056d0(int aiMinCapacity)
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" const char str_010ccd90[];
 
 static __forceinline short& Ref212(Registry* r, unsigned char sub)
@@ -1507,7 +1506,6 @@ struct FUN_00d04bd0_cls : Owner
     void AddJobBatch(ArrayOfJobs* jobs, int priority);
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long index);
 
 
 struct S_00d05020_Job
@@ -1605,7 +1603,6 @@ struct S_00d05020_JobQueue
 
 namespace fnv_00df8570 {
 typedef unsigned long DWORD;
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
 extern const char str_010dba98[];
 struct S00df8570_Trace
 {
@@ -1864,7 +1861,7 @@ struct S_00d055c0_Arr12
         m_cap = 0x80000000;
     }
 };
-extern void(__stdcall* DAT_00fdf058)(void*);
+extern void(* DAT_00fdf058)(void*);
 
 struct S_00d055c0_Obj
 {
@@ -2372,7 +2369,6 @@ int Dispatcher::FUN_00d051b0()
     return result;
 }
 
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* section);
 
 struct QueueLockView : Owner
 {
@@ -2537,7 +2533,6 @@ Registry* QueueLockView::FUN_00d04400(RequestContext*)
     return reinterpret_cast<Registry*>(unk18);
 }
 
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void* section);
 
 struct CriticalSectionOwner
 {

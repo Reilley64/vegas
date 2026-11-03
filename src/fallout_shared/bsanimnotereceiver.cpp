@@ -24,12 +24,12 @@ void* IBSAnimNoteReceiver::FUN_004b0550(unsigned int flags)
 
 struct BSAnimNoteReceiver
 {
-    void* __thiscall FUN_004b0580(unsigned int);
+    void* FUN_004b0580(unsigned int);
 };
 
 // Calls FUN_004b0480, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004b0580
-void* __thiscall BSAnimNoteReceiver::FUN_004b0580(unsigned int flags)
+void* BSAnimNoteReceiver::FUN_004b0580(unsigned int flags)
 {
     reinterpret_cast<::FUN_004b0480_cls *>(this)->FUN_004b0480_cls::~FUN_004b0480_cls();
     if (flags & 1)
@@ -39,11 +39,11 @@ void* __thiscall BSAnimNoteReceiver::FUN_004b0580(unsigned int flags)
 
 struct FUN_00658930_class
 {
-    unsigned int __thiscall GetShortAtOffsetA() const;
+    unsigned int GetShortAtOffsetA() const;
 };
 struct NiFormArray
 {
-    void*& __thiscall FUN_00877a30(unsigned int index);
+    void*& FUN_00877a30(unsigned int index);
 };
 struct ReceiverEntry
 {
@@ -55,7 +55,7 @@ struct FUN_004b0730_class
     int unk00;
     void* unk04;
     int unk08;
-    void __thiscall DispatchNoteToReceivers(void* note);
+    void DispatchNoteToReceivers(void* note);
 };
 // @fnv 0x004b0730
 void FUN_004b0730_class::DispatchNoteToReceivers(void* note)

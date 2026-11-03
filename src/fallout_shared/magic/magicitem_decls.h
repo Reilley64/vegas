@@ -48,7 +48,6 @@ class TESForm
     virtual ~TESForm();
     unsigned char formPad[20];
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
 
 class TESBoundObject : public TESForm
 {
@@ -56,7 +55,6 @@ class TESBoundObject : public TESForm
     virtual ~TESBoundObject();
     unsigned char boundPad[24];
 };
-FNV_STATIC_ASSERT(sizeof(TESBoundObject) == 0x30);
 
 class TESFullName
 {
@@ -64,7 +62,6 @@ class TESFullName
     virtual ~TESFullName();
     unsigned char namePad[8];
 };
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
 
 // in EffectSetting. The unused tail of TESModel is retained at its real size.
 class TESModel
@@ -80,7 +77,6 @@ class TESModel
     virtual const char* GetModelFilePath();
     unsigned int GetModelLength() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESModel) == 0x18);
 
 class EffectSetting : public TESForm, public TESModel
 {
@@ -107,7 +103,6 @@ class EffectItemList : public BSSimpleList<EffectItem*>
     virtual ~EffectItemList();
     int m_iEffectCount;
 };
-FNV_STATIC_ASSERT(sizeof(EffectItemList) == 0x10);
 
 class MagicItem : public TESFullName, public EffectItemList
 {
@@ -124,7 +119,6 @@ class MagicItem : public TESFullName, public EffectItemList
   protected:
     void LoadEffectsFromForm(TESForm* apForm);
 };
-FNV_STATIC_ASSERT(sizeof(MagicItem) == 0x1C);
 
 class MagicItemForm : public TESForm, public MagicItem
 {

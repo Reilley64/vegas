@@ -5,6 +5,8 @@
 
 // src/staging/blk_00ae0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <windows.h>
+#include <mmsystem.h>
 #include "fnv/decl/AudioMgr_adac30.h"
 #include "fnv/decl/BSGameSound.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -98,11 +100,11 @@ long __cdecl FUN_00af1cf0(void* stream, long offset, int whence, int pad);
 extern int DAT_010a4288;
 struct FUN_00af2f20_Class
 {
-    void __thiscall FUN_00af2f20();
+    void FUN_00af2f20();
 };
 struct FUN_00af3120_Class
 {
-    void __thiscall FUN_00af3120();
+    void FUN_00af3120();
 };
 extern int DAT_010a42cc;
 struct FUN_00af33f0_Class
@@ -115,7 +117,7 @@ extern int DAT_010a42cc;
 struct FUN_00af3420_Class
 {
     void* vtbl;
-    void __thiscall FUN_00af3420();
+    void FUN_00af3420();
 };
 extern int DAT_010a42dc;
 struct FUN_00af35c0_Class
@@ -148,12 +150,12 @@ struct FUN_00af3b20_Class
 {
     void* vtbl;
     int i;
-    void* __thiscall FUN_00af3b20();
+    void* FUN_00af3b20();
 };
 extern int DAT_010a4328;
 struct FUN_00af3b50_Class
 {
-    void __thiscall SetVTable();
+    void SetVTable();
 };
 struct FUN_00afd960_Class
 {
@@ -188,16 +190,16 @@ struct FUN_00aea730_Class
 };
 struct MemoryManager
 {
-    void __thiscall Deallocate(void*);
+    void Deallocate(void*);
 };
 struct FUN_00aeaa80_Class
 {
-    void* __thiscall FUN_00aeaa80(unsigned int flags);
+    void* FUN_00aeaa80(unsigned int flags);
 };
 struct FUN_00aefcf0_Class
 {
     void* vtbl;
-    void __thiscall FUN_00aefcf0(float a, float b, float c);
+    void FUN_00aefcf0(float a, float b, float c);
 };
 struct FUN_00af1d20_Class
 {
@@ -205,7 +207,7 @@ struct FUN_00af1d20_Class
 };
 struct BSFile
 {
-    void __thiscall Close();
+    void Close();
     virtual ~BSFile();
 };
 int __cdecl CloseAndDeleteFile(BSFile* f);
@@ -222,13 +224,13 @@ struct FUN_00af3570_Class
 {
     void* vtbl;
     int a[8];
-    void* __thiscall FUN_00af3570();
+    void* FUN_00af3570();
 };
 struct FUN_00afd860_Class
 {
     unsigned char m_acCharacterBuffer[4];
     int iValue;
-    void __thiscall FUN_00afd860(char* dst);
+    void FUN_00afd860(char* dst);
 };
 struct FUN_00afdbc0_Class
 {
@@ -256,7 +258,7 @@ struct FUN_00ae7bc0_Class
 };
 struct FUN_00ae7c40_Class
 {
-    void* __thiscall InitBuffer(int size);
+    void* InitBuffer(int size);
 };
 size_t __cdecl _strlen(const char* s);
 int __cdecl _strnicmp(const char* s1, const char* s2, size_t n);
@@ -272,7 +274,7 @@ struct FUN_00afd8b0_Class
     unsigned int uiHash;
     unsigned int uiCRC;
     unsigned short m_usPassCountLocal;
-    void* __thiscall FUN_00afd8b0();
+    void* FUN_00afd8b0();
 };
 struct BSAudio
 {
@@ -291,12 +293,12 @@ struct S00a0d390
     int pad;
     void* p;
 
-    void __thiscall FUN_00ae8c30();
+    void FUN_00ae8c30();
 };
 long FUN_00aeabf0(void* stream, long offset, int whence, int pad);
 struct FUN_00aefd90_Class
 {
-    void __thiscall FUN_00aefd90(int a, int b, int c);
+    void FUN_00aefd90(int a, int b, int c);
 };
 int __cdecl FUN_00af2290(int param_1);
 struct FUN_00af2ed0_Class
@@ -314,7 +316,7 @@ struct FUN_00af2ed0_Class
 extern int DAT_010a42ec;
 struct FUN_00af3900_Class
 {
-    void __thiscall FUN_00af3900();
+    void FUN_00af3900();
 };
 struct FUN_00af3980_Class
 {
@@ -338,7 +340,7 @@ struct FUN_00af3a40_Class
     int m_iValueAt90;
     char c48;
     int i4c;
-    void* __thiscall ResetState();
+    void* ResetState();
 };
 struct BSFileDelete : public BSFile
 {
@@ -347,7 +349,6 @@ struct BSFileDelete : public BSFile
 };
 BSFileDelete::~BSFileDelete()
 {}
-extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 extern int DAT_010a33d0;
 struct FUN_00ae78a0_cls
 {
@@ -608,7 +609,7 @@ class AE91F0Map
 
     void ClearAll();
 };
-extern int(__stdcall* FUN_00fdf1c4)(char*);
+extern int(* FUN_00fdf1c4)(char*);
 struct S_00ae9290_Object
 {
 // @fnv 0x00ae9290
@@ -621,9 +622,9 @@ struct S_00ae9290_Class
 {
     void* p;
 
-    void __thiscall FUN_00ae9290();
+    void FUN_00ae9290();
 };
-void __thiscall S_00ae9290_Class::FUN_00ae9290()
+void S_00ae9290_Class::FUN_00ae9290()
 {
     if (this->p != 0)
     {
@@ -633,16 +634,15 @@ void __thiscall S_00ae9290_Class::FUN_00ae9290()
             ((S_00ae9290_Object*)p)->FUN_00ae9290_f1();
     }
 }
-extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct FUN_00aea0a0_Class
 {
     void* vtbl;
     unsigned long m_tick;
     int m_zero;
 
-    void* __thiscall InitTimer();
+    void* InitTimer();
 };
-extern "C" int(__stdcall* DAT_00fdf060)(void);
+extern "C" int(* DAT_00fdf060)(void);
 struct FUN_00aea0d0_Class
 {
     void* vtbl;
@@ -658,24 +658,24 @@ struct FUN_00aea800_cls
 extern "C" const double DAT_010a3be8;
 struct FNVRenderInterface_00aea8b0
 {
-    virtual void __stdcall Function00() = 0;
-    virtual void __stdcall Function04() = 0;
-    virtual void __stdcall Function08() = 0;
-    virtual void __stdcall Function0C() = 0;
-    virtual void __stdcall Function10() = 0;
-    virtual void __stdcall Function14() = 0;
-    virtual void __stdcall Function18() = 0;
-    virtual void __stdcall Function1C() = 0;
-    virtual void __stdcall Function20() = 0;
-    virtual void __stdcall Function24() = 0;
-    virtual void __stdcall Function28() = 0;
-    virtual void __stdcall Function2C() = 0;
-    virtual void __stdcall Function30() = 0;
-    virtual void __stdcall ApplyParameters(float a, float b, float c, float d, float e, float f, int enable) = 0;
-    virtual void __stdcall ApplyColor(float red, float green, float blue, int enable) = 0;
-    virtual void __stdcall Function3C() = 0;
-    virtual void __stdcall Function40() = 0;
-    virtual void __stdcall Commit() = 0;
+    virtual void Function00() = 0;
+    virtual void Function04() = 0;
+    virtual void Function08() = 0;
+    virtual void Function0C() = 0;
+    virtual void Function10() = 0;
+    virtual void Function14() = 0;
+    virtual void Function18() = 0;
+    virtual void Function1C() = 0;
+    virtual void Function20() = 0;
+    virtual void Function24() = 0;
+    virtual void Function28() = 0;
+    virtual void Function2C() = 0;
+    virtual void Function30() = 0;
+    virtual void ApplyParameters(float a, float b, float c, float d, float e, float f, int enable) = 0;
+    virtual void ApplyColor(float red, float green, float blue, int enable) = 0;
+    virtual void Function3C() = 0;
+    virtual void Function40() = 0;
+    virtual void Commit() = 0;
 };
 struct FNVColorRenderer_00aea8b0
 {
@@ -722,7 +722,7 @@ struct S_00aea990_Class
     S_00aea990_Triple unk4c;
     S_00aea990_Triple unk58;
 
-    void __thiscall CopyTriplePair(int* p, int* q);
+    void CopyTriplePair(int* p, int* q);
 };
 struct FUN_00aea9d0_Listener
 {
@@ -756,7 +756,7 @@ struct FUN_00aea9d0_Listener
     {}
     virtual void vf38()
     {}
-    virtual void __stdcall vf3C(float value, int flag)
+    virtual void vf3C(float value, int flag)
     {}
 };
 struct FUN_00aea9d0_Obj
@@ -781,7 +781,7 @@ struct FUN_00aea9d0_Obj
     int unk44;
     FUN_00aea9d0_Listener* unk48;
 
-    void __thiscall NotifyListenerValue(float value);
+    void NotifyListenerValue(float value);
 };
 struct S_00aeaa10_P3
 {
@@ -807,7 +807,7 @@ struct S_00aeaa10_Obj
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
-    virtual void __stdcall FUN_x40(float x, float y, float z, bool flag);
+    virtual void FUN_x40(float x, float y, float z, bool flag);
 };
 struct S_00aeaa10_Cls
 {
@@ -1035,60 +1035,60 @@ struct SndBufferDesc
 };
 struct SndUnknown
 {
-    virtual long __stdcall QueryInterface(const SndGuid* riid, void* ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
+    virtual long QueryInterface(const SndGuid* riid, void* ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
 };
 struct SndParamObject : public SndUnknown
 {
-    virtual long __stdcall SetAllParameters(const void* params);
+    virtual long SetAllParameters(const void* params);
 };
 struct SndBuffer : public SndUnknown
 {
-    virtual long __stdcall GetCaps(void* caps);
-    virtual long __stdcall GetCurrentPosition(unsigned long* a, unsigned long* b);
-    virtual long __stdcall GetFormat(void* a, unsigned long b, unsigned long* c);
-    virtual long __stdcall GetVolume(long* v);
-    virtual long __stdcall GetPan(long* v);
-    virtual long __stdcall GetFrequency(unsigned long* v);
-    virtual long __stdcall GetStatus(unsigned long* v);
-    virtual long __stdcall Initialize(void* a, void* b);
-    virtual long __stdcall Lock(unsigned long offset, unsigned long bytes, void** p1, unsigned long* b1, void** p2,
+    virtual long GetCaps(void* caps);
+    virtual long GetCurrentPosition(unsigned long* a, unsigned long* b);
+    virtual long GetFormat(void* a, unsigned long b, unsigned long* c);
+    virtual long GetVolume(long* v);
+    virtual long GetPan(long* v);
+    virtual long GetFrequency(unsigned long* v);
+    virtual long GetStatus(unsigned long* v);
+    virtual long Initialize(void* a, void* b);
+    virtual long Lock(unsigned long offset, unsigned long bytes, void** p1, unsigned long* b1, void** p2,
                                 unsigned long* b2, unsigned long flags);
-    virtual long __stdcall Play(unsigned long a, unsigned long b, unsigned long c);
-    virtual long __stdcall SetCurrentPosition(unsigned long a);
-    virtual long __stdcall SetFormat(void* a);
-    virtual long __stdcall SetVolume(long v);
-    virtual long __stdcall SetPan(long v);
-    virtual long __stdcall SetFrequency(unsigned long v);
-    virtual long __stdcall Stop();
-    virtual long __stdcall Unlock(void* p1, unsigned long b1, void* p2, unsigned long b2);
-    virtual long __stdcall Restore();
-    virtual long __stdcall SetFX(unsigned long count, SndEffectDesc* desc, unsigned long* results);
-    virtual long __stdcall AcquireResources(unsigned long a, unsigned long b, unsigned long* c);
-    virtual long __stdcall GetObjectInPath(const SndGuid* obj, unsigned long idx, const SndGuid* iid, void* out);
+    virtual long Play(unsigned long a, unsigned long b, unsigned long c);
+    virtual long SetCurrentPosition(unsigned long a);
+    virtual long SetFormat(void* a);
+    virtual long SetVolume(long v);
+    virtual long SetPan(long v);
+    virtual long SetFrequency(unsigned long v);
+    virtual long Stop();
+    virtual long Unlock(void* p1, unsigned long b1, void* p2, unsigned long b2);
+    virtual long Restore();
+    virtual long SetFX(unsigned long count, SndEffectDesc* desc, unsigned long* results);
+    virtual long AcquireResources(unsigned long a, unsigned long b, unsigned long* c);
+    virtual long GetObjectInPath(const SndGuid* obj, unsigned long idx, const SndGuid* iid, void* out);
 };
 struct Snd3DBuffer : public SndUnknown
 {
-    virtual long __stdcall GetAllParameters(void* a);
-    virtual long __stdcall GetConeAngles(unsigned long* a, unsigned long* b);
-    virtual long __stdcall GetConeOrientation(void* a);
-    virtual long __stdcall GetConeOutsideVolume(long* a);
-    virtual long __stdcall GetMaxDistance(float* a);
-    virtual long __stdcall GetMinDistance(float* a);
-    virtual long __stdcall GetMode(unsigned long* a);
-    virtual long __stdcall GetPosition(void* a);
-    virtual long __stdcall GetSourceVelocity(void* a);
-    virtual long __stdcall SetAllParameters(const void* a, unsigned long b);
-    virtual long __stdcall SetConeAngles(unsigned long a, unsigned long b, unsigned long c);
-    virtual long __stdcall SetConeOrientation(float a, float b, float c, unsigned long d);
-    virtual long __stdcall SetConeOutsideVolume(long a, unsigned long b);
-    virtual long __stdcall SetMaxDistance(float a, unsigned long b);
-    virtual long __stdcall SetMinDistance(float a, unsigned long b);
+    virtual long GetAllParameters(void* a);
+    virtual long GetConeAngles(unsigned long* a, unsigned long* b);
+    virtual long GetConeOrientation(void* a);
+    virtual long GetConeOutsideVolume(long* a);
+    virtual long GetMaxDistance(float* a);
+    virtual long GetMinDistance(float* a);
+    virtual long GetMode(unsigned long* a);
+    virtual long GetPosition(void* a);
+    virtual long GetSourceVelocity(void* a);
+    virtual long SetAllParameters(const void* a, unsigned long b);
+    virtual long SetConeAngles(unsigned long a, unsigned long b, unsigned long c);
+    virtual long SetConeOrientation(float a, float b, float c, unsigned long d);
+    virtual long SetConeOutsideVolume(long a, unsigned long b);
+    virtual long SetMaxDistance(float a, unsigned long b);
+    virtual long SetMinDistance(float a, unsigned long b);
 };
 struct SndDevice : public SndUnknown
 {
-    virtual long __stdcall CreateSoundBuffer(SndBufferDesc* desc, SndBuffer** out, void* outer);
+    virtual long CreateSoundBuffer(SndBufferDesc* desc, SndBuffer** out, void* outer);
 };
 struct SndStream
 {
@@ -1225,7 +1225,7 @@ class S_Subsys
     virtual void v0F();
     virtual void v10();
     virtual void v11();
-    virtual int __stdcall Query();
+    virtual int Query();
 };
 class FUN_00aed420_cls
 {
@@ -1339,26 +1339,26 @@ class FUN_00aed420_cls
 };
 struct IDSBufStub
 {
-    virtual long __stdcall QueryInterface(void*, void**);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetCaps(void*);
-    virtual long __stdcall GetCurrentPosition(unsigned long*, unsigned long*);
-    virtual long __stdcall GetFormat(void*, unsigned long, unsigned long*);
-    virtual long __stdcall GetVolume(long*);
-    virtual long __stdcall GetPan(long*);
-    virtual long __stdcall GetFrequency(unsigned long*);
-    virtual long __stdcall GetStatus(unsigned long*);
-    virtual long __stdcall Initialize(void*, void*);
-    virtual long __stdcall Lock(unsigned long, unsigned long, void**, unsigned long*, void**, unsigned long*,
+    virtual long QueryInterface(void*, void**);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetCaps(void*);
+    virtual long GetCurrentPosition(unsigned long*, unsigned long*);
+    virtual long GetFormat(void*, unsigned long, unsigned long*);
+    virtual long GetVolume(long*);
+    virtual long GetPan(long*);
+    virtual long GetFrequency(unsigned long*);
+    virtual long GetStatus(unsigned long*);
+    virtual long Initialize(void*, void*);
+    virtual long Lock(unsigned long, unsigned long, void**, unsigned long*, void**, unsigned long*,
                                 unsigned long);
-    virtual long __stdcall Play(unsigned long, unsigned long, unsigned long);
-    virtual long __stdcall SetCurrentPosition(unsigned long);
-    virtual long __stdcall SetFormat(const void*);
-    virtual long __stdcall SetVolume(long);
-    virtual long __stdcall SetPan(long);
-    virtual long __stdcall SetFrequency(unsigned long);
-    virtual long __stdcall Stop();
+    virtual long Play(unsigned long, unsigned long, unsigned long);
+    virtual long SetCurrentPosition(unsigned long);
+    virtual long SetFormat(const void*);
+    virtual long SetVolume(long);
+    virtual long SetPan(long);
+    virtual long SetFrequency(unsigned long);
+    virtual long Stop();
 };
 struct AudioSoundStub
 {
@@ -1506,24 +1506,24 @@ struct AudioSoundStub
 };
 struct S_00af01e0_Snd
 {
-    virtual int __stdcall v00();
-    virtual int __stdcall v04();
-    virtual int __stdcall v08();
-    virtual int __stdcall v0c();
-    virtual int __stdcall v10();
-    virtual int __stdcall v14();
-    virtual int __stdcall v18();
-    virtual int __stdcall v1c();
-    virtual int __stdcall v20();
-    virtual int __stdcall v24();
-    virtual int __stdcall v28();
-    virtual int __stdcall v2c();
-    virtual int __stdcall v30();
-    virtual int __stdcall v34();
-    virtual int __stdcall v38();
-    virtual int __stdcall v3c();
-    virtual int __stdcall v40();
-    virtual int __stdcall v44(unsigned int b);
+    virtual int v00();
+    virtual int v04();
+    virtual int v08();
+    virtual int v0c();
+    virtual int v10();
+    virtual int v14();
+    virtual int v18();
+    virtual int v1c();
+    virtual int v20();
+    virtual int v24();
+    virtual int v28();
+    virtual int v2c();
+    virtual int v30();
+    virtual int v34();
+    virtual int v38();
+    virtual int v3c();
+    virtual int v40();
+    virtual int v44(unsigned int b);
 };
 struct S_00af01e0_Cls
 {
@@ -1647,21 +1647,21 @@ struct AF0320WaveFormat
 };
 struct AF0320SoundBuffer
 {
-    virtual long __stdcall QueryInterface(const void* riid, void** ppv);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetCaps(void* pCaps);
-    virtual long __stdcall GetCurrentPosition(unsigned int* pPlay, unsigned int* pWrite);
-    virtual long __stdcall GetFormat(AF0320WaveFormat* pFormat, unsigned int uiSize, unsigned int* puiWritten);
-    virtual long __stdcall GetVolume(long* plVolume);
-    virtual long __stdcall GetPan(long* plPan);
-    virtual long __stdcall GetFrequency(unsigned int* puiFrequency);
-    virtual long __stdcall GetStatus(unsigned int* puiStatus);
-    virtual long __stdcall Initialize(void* pDS, void* pDesc);
-    virtual long __stdcall Lock(unsigned int a, unsigned int b, void** c, unsigned int* d, void** e, unsigned int* f,
+    virtual long QueryInterface(const void* riid, void** ppv);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetCaps(void* pCaps);
+    virtual long GetCurrentPosition(unsigned int* pPlay, unsigned int* pWrite);
+    virtual long GetFormat(AF0320WaveFormat* pFormat, unsigned int uiSize, unsigned int* puiWritten);
+    virtual long GetVolume(long* plVolume);
+    virtual long GetPan(long* plPan);
+    virtual long GetFrequency(unsigned int* puiFrequency);
+    virtual long GetStatus(unsigned int* puiStatus);
+    virtual long Initialize(void* pDS, void* pDesc);
+    virtual long Lock(unsigned int a, unsigned int b, void** c, unsigned int* d, void** e, unsigned int* f,
                                 unsigned int g);
-    virtual long __stdcall Play(unsigned int a, unsigned int b, unsigned int c);
-    virtual long __stdcall SetCurrentPosition(unsigned int uiPosition);
+    virtual long Play(unsigned int a, unsigned int b, unsigned int c);
+    virtual long SetCurrentPosition(unsigned int uiPosition);
 };
 class AF0320Sound
 {
@@ -1908,25 +1908,25 @@ struct FUN_00af1af0_cls
 };
 struct NiStdObject
 {
-    virtual void __stdcall v00() = 0;
-    virtual void __stdcall v01() = 0;
-    virtual int __stdcall v02() = 0;
-    virtual void __stdcall v03() = 0;
-    virtual void __stdcall v04() = 0;
-    virtual void __stdcall v05() = 0;
-    virtual void __stdcall v06() = 0;
-    virtual void __stdcall v07() = 0;
-    virtual void __stdcall v08() = 0;
-    virtual void __stdcall v09() = 0;
-    virtual void __stdcall v10() = 0;
-    virtual void __stdcall v11() = 0;
-    virtual void __stdcall v12() = 0;
-    virtual void __stdcall v13() = 0;
-    virtual void __stdcall v14() = 0;
-    virtual void __stdcall v15() = 0;
-    virtual void __stdcall v16() = 0;
-    virtual void __stdcall v17() = 0;
-    virtual void __stdcall v18() = 0;
+    virtual void v00() = 0;
+    virtual void v01() = 0;
+    virtual int v02() = 0;
+    virtual void v03() = 0;
+    virtual void v04() = 0;
+    virtual void v05() = 0;
+    virtual void v06() = 0;
+    virtual void v07() = 0;
+    virtual void v08() = 0;
+    virtual void v09() = 0;
+    virtual void v10() = 0;
+    virtual void v11() = 0;
+    virtual void v12() = 0;
+    virtual void v13() = 0;
+    virtual void v14() = 0;
+    virtual void v15() = 0;
+    virtual void v16() = 0;
+    virtual void v17() = 0;
+    virtual void v18() = 0;
 };
 struct S_00af1c00_Obj
 {
@@ -1941,7 +1941,7 @@ struct S_00af1c00_Obj
     virtual void v20();
     virtual void v24();
     virtual void v28();
-    virtual int __stdcall v2c(unsigned int, unsigned int, void**, void**, int, int, int);
+    virtual int v2c(unsigned int, unsigned int, void**, void**, int, int, int);
     virtual void v30();
     virtual void v34();
     virtual void v38();
@@ -1949,7 +1949,7 @@ struct S_00af1c00_Obj
     virtual void v40();
     virtual void v44();
     virtual void v48();
-    virtual int __stdcall v4c(void*, void*, int, int);
+    virtual int v4c(void*, void*, int, int);
 };
 void __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 void __cdecl FUN_00ec61c0(void*, int, unsigned int);
@@ -2293,9 +2293,9 @@ struct FUN_00af2c30_cls
 struct FUN_00af2c60_cls
 {
     void* vtbl;
-    void __thiscall FUN_00af2c60();
+    void FUN_00af2c60();
 };
-// FUN_00af2c70 - an empty __thiscall member function in an /Od module.
+// FUN_00af2c70 - an empty member function in an /Od module.
 //
 // The original is 11 bytes:
 //   55           push ebp
@@ -2317,7 +2317,7 @@ struct FnvEmptyThiscall70_Class
 {
     void FUN_00af2c70();
 };
-// FUN_00af2c80 - an empty __thiscall member function in an /Od module.
+// FUN_00af2c80 - an empty member function in an /Od module.
 //
 // The original is 11 bytes:
 //   55           push ebp
@@ -2360,7 +2360,7 @@ struct AllocatorToken
 struct FUN_00afd920_Class
 {
     int value;
-    void __thiscall UpdateValue();
+    void UpdateValue();
 };
 struct AFD980Value
 {
@@ -2410,11 +2410,9 @@ struct S_00aff060_Class
     void* unk0c;
     void* unk10;
 
-    int __thiscall FUN_00aff060();
+    int FUN_00aff060();
 };
-extern int(__stdcall* DAT_00fdf138)(void*);
-extern "C" __declspec(dllimport) int __stdcall CopyFileA(const char* lpExistingFileName, const char* lpNewFileName,
-                                                         unsigned char bFailIfExists);
+extern int(* DAT_00fdf138)(void*);
 int __cdecl CopyFileChecked(const char* lpExistingFileName, const char* lpNewFileName, unsigned char bFailIfExists);
 class FUN_00aff180_base
 {
@@ -2582,8 +2580,8 @@ struct AudioVoice
     virtual void v0D();
     virtual void v0E();
     virtual void v0F();
-    virtual void __stdcall SetMinDistance(float dist, int flags);
-    virtual void __stdcall SetMaxDistance(float dist, int flags);
+    virtual void SetMinDistance(float dist, int flags);
+    virtual void SetMaxDistance(float dist, int flags);
 };
 struct SoundObj
 {
@@ -2892,15 +2890,15 @@ struct AudioAttenuation
 class CAF0290SoundBuffer
 {
   public:
-    virtual long __stdcall QueryInterface(const void* riid, void** ppvObject);
-    virtual unsigned long __stdcall AddRef();
-    virtual unsigned long __stdcall Release();
-    virtual long __stdcall GetCaps(void* pCaps);
-    virtual long __stdcall GetCurrentPosition(unsigned long* pulPlay, unsigned long* pulWrite);
-    virtual long __stdcall GetFormat(void* pFormat, unsigned long ulSize, unsigned long* pulWritten);
-    virtual long __stdcall GetVolume(long* plVolume);
-    virtual long __stdcall GetPan(long* plPan);
-    virtual long __stdcall GetFrequency(unsigned long* pulFrequency);
+    virtual long QueryInterface(const void* riid, void** ppvObject);
+    virtual unsigned long AddRef();
+    virtual unsigned long Release();
+    virtual long GetCaps(void* pCaps);
+    virtual long GetCurrentPosition(unsigned long* pulPlay, unsigned long* pulWrite);
+    virtual long GetFormat(void* pFormat, unsigned long ulSize, unsigned long* pulWritten);
+    virtual long GetVolume(long* plVolume);
+    virtual long GetPan(long* plPan);
+    virtual long GetFrequency(unsigned long* pulFrequency);
 };
 class CAF0290Sound
 {
@@ -3129,11 +3127,6 @@ struct AudioState
     AudioFile* file;
 };
 AudioFile* __cdecl OpenAudioFile(const char*, int, unsigned int, unsigned int);
-extern "C" __declspec(dllimport) void* __stdcall CreateFileA(const char* lpFileName, unsigned long dwDesiredAccess,
-                                                             unsigned long dwShareMode, void* lpSecurityAttributes,
-                                                             unsigned long dwCreationDisposition,
-                                                             unsigned long dwFlagsAndAttributes, void* hTemplateFile);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
 struct S_008785e0
 {
     int m_unk00;
@@ -3147,9 +3140,6 @@ struct S_008785e0
 
     int OpenFile(const char* lpFileName);
 };
-extern "C" __declspec(dllimport) int __stdcall ReadFile(void* hFile, void* lpBuffer, unsigned long nNumberOfBytesToRead,
-                                                        unsigned long* lpNumberOfBytesRead, void* lpOverlapped);
-extern "C" __declspec(dllimport) unsigned long __stdcall GetLastError();
 typedef unsigned long DWORD;
 typedef void* HANDLE;
 enum
@@ -3319,7 +3309,6 @@ FUN_00ae9360::FUN_00ae9360()
 }
 
 extern "C" double __cdecl sqrt(double);
-extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 inline float SqrtA810(float f)
 {
     return (float)sqrt(f);
@@ -4088,22 +4077,22 @@ struct VolumeCurve
 double __cdecl FUN_00ecbc80(double);
 struct VolumeBuffer
 {
-    virtual int __stdcall slot0();
-    virtual int __stdcall slot1();
-    virtual int __stdcall slot2();
-    virtual int __stdcall slot3();
-    virtual int __stdcall slot4();
-    virtual int __stdcall slot5();
-    virtual int __stdcall slot6();
-    virtual int __stdcall slot7();
-    virtual int __stdcall slot8();
-    virtual int __stdcall slot9();
-    virtual int __stdcall slot10();
-    virtual int __stdcall slot11();
-    virtual int __stdcall slot12();
-    virtual int __stdcall slot13();
-    virtual int __stdcall slot14();
-    virtual long __stdcall SetVolume(long);
+    virtual int slot0();
+    virtual int slot1();
+    virtual int slot2();
+    virtual int slot3();
+    virtual int slot4();
+    virtual int slot5();
+    virtual int slot6();
+    virtual int slot7();
+    virtual int slot8();
+    virtual int slot9();
+    virtual int slot10();
+    virtual int slot11();
+    virtual int slot12();
+    virtual int slot13();
+    virtual int slot14();
+    virtual long SetVolume(long);
 };
 struct BSWin32GameSound
 {
@@ -4353,7 +4342,7 @@ struct P010Sound
     virtual void slot40();
     virtual void slot44();
     virtual void slot48();
-    virtual void __stdcall SetPosition(float, float, float, int);
+    virtual void SetPosition(float, float, float, int);
 };
 struct P010Object;
 struct P010ObjectVtable
@@ -4373,7 +4362,7 @@ struct P010ObjectVtable
     void* slot30;
     void* slot34;
     void* slot38;
-    void(__thiscall* update)(P010Object*, float);
+    void(* update)(P010Object*, float);
 };
 struct P010Object
 {
@@ -5312,18 +5301,18 @@ struct OutputAF
 };
 struct BufferAF
 {
-    virtual long __stdcall Query(void*, void**);
+    virtual long Query(void*, void**);
     virtual void x04();
     virtual void x08();
     virtual void x0c();
     virtual void x10();
-    virtual long __stdcall Format(void*, unsigned long, unsigned long*);
+    virtual long Format(void*, unsigned long, unsigned long*);
     virtual void x18();
     virtual void x1c();
     virtual void x20();
     virtual void x24();
     virtual void x28();
-    virtual long __stdcall Lock(unsigned long, unsigned long, void**, unsigned long*, void**, unsigned long*,
+    virtual long Lock(unsigned long, unsigned long, void**, unsigned long*, void**, unsigned long*,
                                 unsigned long);
     virtual void x30();
     virtual void x34();
@@ -5332,18 +5321,18 @@ struct BufferAF
     virtual void x40();
     virtual void x44();
     virtual void x48();
-    virtual long __stdcall Unlock(void*, unsigned long, void*, unsigned long);
+    virtual long Unlock(void*, unsigned long, void*, unsigned long);
     virtual void x50();
-    virtual long __stdcall Effect(unsigned long, void*, void*);
+    virtual long Effect(unsigned long, void*, void*);
     virtual void x58();
-    virtual long __stdcall Object(void*, unsigned long, void*, void**);
+    virtual long Object(void*, unsigned long, void*, void**);
 };
 struct DeviceAF
 {
     virtual void x00();
     virtual void x04();
     virtual void x08();
-    virtual long __stdcall Create(void*, void**, void*);
+    virtual long Create(void*, void**, void*);
 };
 struct EffectObjectAF
 {
@@ -5352,7 +5341,7 @@ struct EffectObjectAF
     virtual void x08();
     virtual void x0c();
     virtual void x10();
-    virtual long __stdcall Set(unsigned int);
+    virtual long Set(unsigned int);
 };
 struct EffectAF
 {
@@ -5693,7 +5682,7 @@ struct PositionOutput
     virtual void v40();
     virtual void v44();
     virtual void v48();
-    virtual void __stdcall SetPosition(float, float, float, unsigned int);
+    virtual void SetPosition(float, float, float, unsigned int);
 };
 struct AudioSound
 {

@@ -5,23 +5,23 @@
 #include "fnv/decl/FUN_00416870_t.h"
 struct TESObjectREFR
 {
-    bool __thiscall Activate(TESObjectREFR*, bool, TESObjectREFR*, int);
+    bool Activate(TESObjectREFR*, bool, TESObjectREFR*, int);
 };
 
 struct FUN_006e2330_shell
 {
-    bool __thiscall FUN_006e2330();
+    bool FUN_006e2330();
 };
 
 struct FUN_006e22f0_shell : public FUN_006e2330_shell
 {
     TESObjectREFR* m_pDoorRef;
-    bool __thiscall FUN_006e22f0(TESObjectREFR* apActor);
+    bool FUN_006e22f0(TESObjectREFR* apActor);
 };
 
 // If FUN_006e2330() succeeds, activates the reference stored at offset 0x38 with apActor, returning the result; otherwise returns false.
 // @fnv 0x006e22f0
-bool __thiscall FUN_006e22f0_shell::FUN_006e22f0(TESObjectREFR* apActor)
+bool FUN_006e22f0_shell::FUN_006e22f0(TESObjectREFR* apActor)
 {
     if (FUN_006e2330())
         return ((TESObjectREFR**)((char*)this + 0x38))[0]->Activate(apActor, false, 0, 1);

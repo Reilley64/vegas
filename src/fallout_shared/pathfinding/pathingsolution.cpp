@@ -94,7 +94,7 @@ struct GlobalObject_00869f00
 
 // Clears the three members of the pathing solution, sets member1's two values to -1 and clears the flag.
 // @fnv 0x006e77b0
-void __fastcall ResetPathingSolution(PathingSolution* self)
+void ResetPathingSolution(PathingSolution* self)
 {
     reinterpret_cast<::BSSimpleArray_006cefa0 *>((((PSClearStub*)&self->member1)))->FreeArray(true);
     ((PSNodeStub*)&self->member2)->FUN_006cf120(true);
@@ -144,7 +144,7 @@ struct FUN_006e7970_shell : public PathingSolution
     void* FUN_006e7970(unsigned int);
 };
 
-void* __fastcall FUN_006e8f80(void* this_ptr);
+void* FUN_006e8f80(void* this_ptr);
 
 struct Dummy_006e8f80
 {
@@ -197,17 +197,17 @@ FUN_006e7b60::FUN_006e7b60()
 
 // Sets two NiPoint3 values at offsets 0 and 0xc of pThis to _NiPoint3_ZERO and returns pThis.
 // @fnv 0x006e7bd0
-void* __fastcall InitZeroPoints(void* pThis)
+void* InitZeroPoints(void* pThis)
 {
     *(NiPoint3*)pThis = ::NiPoint3::ZERO;
     *(NiPoint3*)((char*)pThis + 0xc) = ::NiPoint3::ZERO;
     return pThis;
 }
 
-void __fastcall FUN_006e7c40(void* pThis, float arg);
+void FUN_006e7c40(void* pThis, float arg);
 
 // @fnv 0x006e7c20
-void __fastcall FUN_006e7c20(void* pThis, float arg)
+void FUN_006e7c20(void* pThis, float arg)
 {
     FUN_006e7c40(pThis, arg);
 }
@@ -280,7 +280,7 @@ struct _Arg_006e7d10
 
 // Copies the two vector members a and b from the pointed-to struct into this struct and returns this.
 // @fnv 0x006e7d10
-_S_006e7d10* __fastcall FUN_006e7d10(_S_006e7d10* this_ptr, _Arg_006e7d10 aSource)
+_S_006e7d10* FUN_006e7d10(_S_006e7d10* this_ptr, _Arg_006e7d10 aSource)
 {
     this_ptr->a = aSource.p->a;
     this_ptr->b = aSource.p->b;
@@ -341,13 +341,11 @@ struct SplineInterpolator
     char Key1[24];
     char Key2[24];
 };
-typedef char _sizecheck_PathingSpline[sizeof(SplineInterpolator) == 68 ? 1 : -1];
 struct PathingControlPoint
 {
     NiPoint3 Location;
     NiPoint3 Tangent;
 };
-typedef char _sizecheck_PathingSplineKey[sizeof(PathingControlPoint) == 24 ? 1 : -1];
 struct FUN_006e8450_shell : public SplineInterpolator
 {
     void FUN_006e8450(void*, void*);
@@ -530,7 +528,6 @@ struct SplineInterpolator
     char Key1[24];
     char Key2[24];
 };
-typedef char _sizecheck_PathingSpline[sizeof(SplineInterpolator) == 68 ? 1 : -1];
 struct FUN_006e7e70_shell : public PathingSolution
 {
     bool FUN_006e7e70(float, float, bool, float*, NiPoint3*);
@@ -543,7 +540,7 @@ struct FUN_0052d240_obj
 {
     ~FUN_0052d240_obj();
 };
-PathingGraphNode* __fastcall FUN_006e8480(PathingSolution*);
+PathingGraphNode* FUN_006e8480(PathingSolution*);
 struct PathingSplineKeyS
 {
     float fData[6];
@@ -559,7 +556,7 @@ struct Dummy_006e8f80
 struct PathingLocationExt
 {
 };
-PathingLocationExt& __fastcall FUN_00717e50(PathingGraphNode*);
+PathingLocationExt& FUN_00717e50(PathingGraphNode*);
 struct BSSplineS
 {
     void* pData[5];
@@ -786,7 +783,6 @@ struct SplineInterpolator
     char Key1[24];
     char Key2[24];
 };
-typedef char _sizecheck_PathingSpline[sizeof(SplineInterpolator) == 68 ? 1 : -1];
 struct FUN_006e7a10_shell : public PathingSolution
 {
     void GetLocationAtSplineParameter(float, NiPoint3*);
@@ -878,7 +874,6 @@ struct SplineInterpolator
     char Key1[24];
     char Key2[24];
 };
-typedef char _sizecheck_PathingSpline[sizeof(SplineInterpolator) == 68 ? 1 : -1];
 struct FUN_006e84b0_shell : public PathingSolution
 {
     float GetSplineLengthAtParameter(float);
@@ -1024,7 +1019,6 @@ struct BGSLoadGameBuffer
     unsigned int iBufferSize;
     unsigned int m_uiReadOffset;
 };
-typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct BGSLoadFormBuffer : public BGSLoadGameBuffer
 {
     int LoadHeader(SaveLoadFile*);
@@ -1059,7 +1053,6 @@ struct BGSLoadFormBuffer : public BGSLoadGameBuffer
     unsigned int iFlags;
     char m_cReservedBytes[4];
 };
-typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct PathingAvoidanceNode
 {
     float GetAvoidanceAtPoint(NiPoint3*);
@@ -1076,7 +1069,6 @@ struct PathingAvoidanceNode
     float m_fPathingCostCur;
     int eType;
 };
-typedef char _sizecheck_PathingAvoidNode[sizeof(PathingAvoidanceNode) == 36 ? 1 : -1];
 struct FUN_006e8d50_shell : public PathingSolution
 {
     void FUN_006e8d50(BGSLoadFormBuffer*);

@@ -46,7 +46,7 @@ TESRegionDataLandscape::TESRegionDataLandscape()
 
 // Writes 6, 3 and 2 into the first three int slots of pThis and returns pThis.
 // @fnv 0x004f31d0
-int* __fastcall InitIntArray(int* pIntArray)
+int* InitIntArray(int* pIntArray)
 {
     pIntArray[0] = 6;
     pIntArray[1] = 3;
@@ -65,7 +65,7 @@ struct FUN_004f32b0_Arg
 
 // Calls SetMaskedBits with the argument's val, 0x3000 and 0xc.
 // @fnv 0x004f32b0
-void __fastcall FUN_004f32b0(FUN_004f32b0_This* this_ptr, FUN_004f32b0_Arg aValue)
+void FUN_004f32b0(FUN_004f32b0_This* this_ptr, FUN_004f32b0_Arg aValue)
 {
     reinterpret_cast<::FUN_004f32e0_class *>((this_ptr))->SetMaskedBits(aValue.val, 0x3000, 0xc);
 }
@@ -73,17 +73,17 @@ void __fastcall FUN_004f32b0(FUN_004f32b0_This* this_ptr, FUN_004f32b0_Arg aValu
 
 struct FUN_004f2840_shell
 {
-    void* __thiscall FUN_004f2840(unsigned int flags);
+    void* FUN_004f2840(unsigned int flags);
 };
 
 struct FUN_004f29c0_This : TESTexture
 {
-    void* __thiscall FUN_004f29c0(unsigned int flags);
+    void* FUN_004f29c0(unsigned int flags);
 };
 
 // Destroys the TESTexture base and, when flags has bit 0 set, frees the object, returning this.
 // @fnv 0x004f29c0
-void* __thiscall FUN_004f29c0_This::FUN_004f29c0(unsigned int flags)
+void* FUN_004f29c0_This::FUN_004f29c0(unsigned int flags)
 {
     reinterpret_cast<::FUN_0048e2e0 *>(this)->FUN_0048e2e0::~FUN_0048e2e0();
     if (flags & 1)
@@ -93,7 +93,7 @@ void* __thiscall FUN_004f29c0_This::FUN_004f29c0(unsigned int flags)
 
 struct TESModel
 {
-    unsigned int __thiscall GetModelLength() const;
+    unsigned int GetModelLength() const;
 };
 
 struct FUN_004f2eb0_shell
@@ -101,12 +101,12 @@ struct FUN_004f2eb0_shell
     int _0;
     int _4;
     TESModel* m_pLandscapeTexture;
-    bool __thiscall HasModel();
+    bool HasModel();
 };
 
 // Returns true if the TESModel pointer is set and its model length is non-zero, otherwise false.
 // @fnv 0x004f2eb0
-bool __thiscall FUN_004f2eb0_shell::HasModel()
+bool FUN_004f2eb0_shell::HasModel()
 {
     if (!this->m_pLandscapeTexture || !this->m_pLandscapeTexture->GetModelLength())
         return false;
@@ -128,7 +128,7 @@ struct FUN_004f2a70_shell
     void* _0;
     void* _4;
     FNStub* _8;
-    void __thiscall SetFullName(BSStr& aDest);
+    void SetFullName(BSStr& aDest);
 };
 
 // @fnv 0x004f2a70
@@ -147,10 +147,10 @@ struct FUN_004f29f0_shell
 {
     char _0[8];
     FUN_0048e370_obj* _8;
-    void __thiscall FUN_004f29f0();
+    void FUN_004f29f0();
 };
 // @fnv 0x004f29f0
-void __thiscall FUN_004f29f0_shell::FUN_004f29f0()
+void FUN_004f29f0_shell::FUN_004f29f0()
 {
     reinterpret_cast<::RegionSource *>((this))->WriteSaveData();
     reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((_8))->FUN_0048e370(0x4E4F4349);
@@ -162,10 +162,10 @@ struct Flt
 };
 struct FUN_004f2ab0_shell : public FUN_004f2eb0_shell
 {
-    bool __thiscall FUN_004f2ab0(const Flt& aName);
+    bool FUN_004f2ab0(const Flt& aName);
 };
 // @fnv 0x004f2ab0
-bool __thiscall FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
+bool FUN_004f2ab0_shell::FUN_004f2ab0(const Flt& aName)
 {
     if (m_pLandscapeTexture)
     {
@@ -369,11 +369,11 @@ struct ThisT
     unsigned char m_04;
     unsigned char m_05;
     unsigned char m_06;
-    void __thiscall UpdateFromSource(ThisT* a1, int a2);
+    void UpdateFromSource(ThisT* a1, int a2);
 };
 
 // @fnv 0x004f2b90
-void __thiscall ThisT::UpdateFromSource(ThisT* a1, int a2)
+void ThisT::UpdateFromSource(ThisT* a1, int a2)
 {
     ThisT* a1p = a1;
     BSStringT<char> str3;

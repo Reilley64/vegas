@@ -5,7 +5,6 @@
 
 #include "hkBase.h"
 #include "hkpVehicleTransmission_decl_hkpvehicledefaulttransmission.h"
-#pragma pack(push, 1)
 class hkpVehicleDefaultTransmission : public hkpVehicleTransmission
 {
   public:
@@ -21,6 +20,4 @@ class hkpVehicleDefaultTransmission : public hkpVehicleTransmission
     hkArray<hkReal> m_kGearRatios;         // +0x1C
     hkArray<hkReal> m_kWheelTorqueRatios;  // +0x28
 };
-#pragma pack(pop)
-typedef char fnv_hk_size_hkpVehicleDefaultTransmission[(sizeof(hkpVehicleDefaultTransmission) == 0x34) ? 1 : -1];
 #endif

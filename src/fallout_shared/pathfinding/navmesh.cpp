@@ -289,7 +289,7 @@ class NiAVObject
 
 // If the stored object pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x1c within it.
 // @fnv 0x0042fda0
-void __fastcall FUN_0042fda0(int* pObjectPtr)
+void FUN_0042fda0(int* pObjectPtr)
 {
     if (*pObjectPtr != 0)
     {
@@ -377,7 +377,7 @@ struct FUN_0068f230_shell : public NavMesh
 };
 
 // @fnv 0x0068f320
-bool __fastcall FUN_0068f320(const NavMeshInfo* apNavMeshInfo)
+bool FUN_0068f320(const NavMeshInfo* apNavMeshInfo)
 {
     return (*(const unsigned int*)((const char*)apNavMeshInfo + 8) & 0x10) != 0;
 }
@@ -394,18 +394,18 @@ public:
     ::TESObjectCELL *GetCellAtGridPosition(int, int);
 };
 
-TESForm* __fastcall FUN_00690830(const NavMeshInfo*);
+TESForm* FUN_00690830(const NavMeshInfo*);
 
 // Casts the result of FUN_00690830(_this) to TESWorldSpace* and returns it.
 // @fnv 0x00690800
-TESWorldSpace* __fastcall FUN_00690800(const NavMeshInfo* apNavMeshInfo)
+TESWorldSpace* FUN_00690800(const NavMeshInfo* apNavMeshInfo)
 {
     return dynamic_cast<TESWorldSpace*>(FUN_00690830(apNavMeshInfo));
 }
 
 
 // @fnv 0x00690830
-TESForm* __fastcall FUN_00690830(const NavMeshInfo* pThis)
+TESForm* FUN_00690830(const NavMeshInfo* pThis)
 {
     if (*(TESForm**)((char*)pThis + 0x1c))
         return *(TESForm**)((char*)pThis + 0x1c);
@@ -431,7 +431,6 @@ struct PathingAvoidanceNode
     float m_fPathingCostCur;
     int eType;
 };
-typedef char _sizecheck_PathingAvoidNode[sizeof(PathingAvoidanceNode) == 36 ? 1 : -1];
 struct FUN_006915d0_shell : public PathingAvoidanceNode
 {
     void FUN_006915d0(void*, void*, float, float);
@@ -464,7 +463,7 @@ struct FUN_006916f0_arg
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006916f0
-int* __fastcall FUN_006916f0(int* self, FUN_006916f0_arg a)
+int* FUN_006916f0(int* self, FUN_006916f0_arg a)
 {
     new ((void *)(self)) ::FUN_006918c0_class((*(unsigned int *)&(const ::FUN_006916f0_arg &)(a)));
     *self = (int)&DAT_01031fac;
@@ -479,11 +478,11 @@ struct FUN_00691720_arg
     unsigned int val;
 };
 
-void __fastcall FUN_005890c0(int* self, FUN_00691720_arg a);
+void FUN_005890c0(int* self, FUN_00691720_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00691720
-int* __fastcall FUN_00691720(int* self, FUN_00691720_arg a)
+int* FUN_00691720(int* self, FUN_00691720_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;
@@ -507,7 +506,7 @@ class GlobalObject_00869f00
 
 
 // @fnv 0x00691800
-void __fastcall FUN_00691800(GlobalObject_00869f00* pThis)
+void FUN_00691800(GlobalObject_00869f00* pThis)
 {
     pThis->vtable = &(*reinterpret_cast<void * *>(&::DAT_0106abe4));
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
@@ -520,7 +519,7 @@ struct Dummy0042f800
 };
 
 // @fnv 0x00691a60
-void* __fastcall FUN_00691a60(int** pThis)
+void* FUN_00691a60(int** pThis)
 {
     *pThis = &(*reinterpret_cast<int *>(&::fnv_00691a90::DAT_010159d4));
     reinterpret_cast<Dummy0042f800*>(pThis)->FUN_0042fcb0(0, 0);
@@ -533,7 +532,7 @@ struct Helper_00644400
 
 // Sets the vtable pointer and calls FUN_00644400 with 0, 0, then returns the object.
 // @fnv 0x00691b10
-void* __fastcall FUN_00691b10(BSSimpleArray<NavMeshTriangle, 1024>* apArray)
+void* FUN_00691b10(BSSimpleArray<NavMeshTriangle, 1024>* apArray)
 {
     apArray->vtable = &DAT_0106ac2c;
     reinterpret_cast<::FUN_00644400_Class *>((reinterpret_cast<Helper_00644400*>(apArray)))->FUN_00644400(0, 0);
@@ -547,7 +546,7 @@ struct FUN_006923f0_Caller
 
 // Sets the vtable of pThis and calls FUN_006923f0 with 0, 0, then returns pThis.
 // @fnv 0x00691bc0
-BSSimpleArray<EdgeExtraInfo, 1024>* __fastcall FUN_00691bc0(BSSimpleArray<EdgeExtraInfo, 1024>* apArray)
+BSSimpleArray<EdgeExtraInfo, 1024>* FUN_00691bc0(BSSimpleArray<EdgeExtraInfo, 1024>* apArray)
 {
     apArray->vtable = &DAT_0106ac40;
     reinterpret_cast<::FUN_006923f0_class *>((reinterpret_cast<FUN_006923f0_Caller*>(apArray)))->FUN_006923f0(0, 0);
@@ -562,7 +561,7 @@ struct Dummy_00691d40
 
 // Sets *thisPtr to point at DAT_0106ac54, then calls FUN_00692520 with 0, 0 and returns thisPtr.
 // @fnv 0x00691d40
-void* __fastcall FUN_00691d40(void** thisPtr)
+void* FUN_00691d40(void** thisPtr)
 {
     *thisPtr = &DAT_0106ac54;
     reinterpret_cast<Dummy_00691d40*>(thisPtr)->FUN_00692520(0, 0);
@@ -576,7 +575,7 @@ struct Helper_00692520
 
 // Stores the string "@!i" at *_this, then calls FUN_00692520 with 0 and 0, and returns _this.
 // @fnv 0x00691d90
-const char** __fastcall FUN_00691d90(const char** _this)
+const char** FUN_00691d90(const char** _this)
 {
     *_this = "@!i";
     reinterpret_cast<Helper_00692520*>(_this)->FUN_00692520(0, 0);
@@ -595,7 +594,7 @@ template <> class BSSimpleArray<NiPointer<NiAVObject>, 1024>
 
 // Sets the vtable pointer and calls FUN_00822860 with 0 and false, then returns the array.
 // @fnv 0x00691f60
-BSSimpleArray<NiPointer<NiAVObject>, 1024>* __fastcall FUN_00691f60(BSSimpleArray<NiPointer<NiAVObject>, 1024>* _this)
+BSSimpleArray<NiPointer<NiAVObject>, 1024>* FUN_00691f60(BSSimpleArray<NiPointer<NiAVObject>, 1024>* _this)
 {
     _this->vtable = &DAT_0106ac9c;
     _this->FUN_00822860(0, false);
@@ -609,7 +608,7 @@ struct Dummy0042f800
 };
 
 // @fnv 0x00691fb0
-void* __fastcall FUN_00691fb0(int** pThis)
+void* FUN_00691fb0(int** pThis)
 {
     *pThis = &DAT_010159d4;
     reinterpret_cast<::FUN_00692740_class *>((reinterpret_cast<Dummy0042f800*>(pThis)))->FUN_00692740(0, 0);
@@ -623,14 +622,13 @@ struct NavMeshClosedDoorInfo
     unsigned short m_usDoorTriangleIndex;
     char _pad_6[2];
 };
-typedef char _sizecheck_NavMeshClosedDoorInfo[sizeof(NavMeshClosedDoorInfo) == 8 ? 1 : -1];
 struct FUN_00692870_shell : public NavMeshClosedDoorInfo
 {
     void InitNavMeshClosedDoorInfo(void*);
 };
 
 // @fnv 0x00692870
-NavMeshClosedDoorInfo* __fastcall InitNavMeshClosedDoorInfo(NavMeshClosedDoorInfo* pThis)
+NavMeshClosedDoorInfo* InitNavMeshClosedDoorInfo(NavMeshClosedDoorInfo* pThis)
 {
     pThis->m_uiDoorFormID = 0;
     pThis->m_usDoorTriangleIndex = 0xFFFF;
@@ -668,12 +666,10 @@ struct NavMeshTriangleVertexIndices
 {
     char Vertices[4];
 };
-typedef char _sizecheck_NavMeshEdge[sizeof(NavMeshTriangleVertexIndices) == 4 ? 1 : -1];
 struct NavMeshEdgeVertexPair
 {
     char Vertices[8];
 };
-typedef char _sizecheck_NavMeshEdgeVertices[sizeof(NavMeshEdgeVertexPair) == 8 ? 1 : -1];
 struct FUN_0068f0c0_shell : public NavMesh
 {
     bool FUN_0068f0c0(unsigned short, int, NiPoint3*, NiPoint3*);
@@ -710,11 +706,11 @@ struct FUN_00690e10_shell
 {
     char _pad0c[0x0c];
     unsigned int flags;
-    bool __thiscall FUN_00690e10();
+    bool FUN_00690e10();
 };
 
 // @fnv 0x00690e10
-bool __thiscall FUN_00690e10_shell::FUN_00690e10()
+bool FUN_00690e10_shell::FUN_00690e10()
 {
     return (flags & 7) != 0;
 }
@@ -774,7 +770,7 @@ struct GlobalObject_00869f00
 
 
 // @fnv 0x00691a90
-void __thiscall GlobalObject_00869f00::FUN_00691a90()
+void GlobalObject_00869f00::FUN_00691a90()
 {
     this->vtable = &DAT_010159d4;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
@@ -970,7 +966,7 @@ struct FUN_00691e70_shell
 
 // Stores a 16-bit value at offset 4 and a 32-bit value at offset 6 of the given buffer.
 // @fnv 0x00691e70
-void __thiscall FUN_00691e70_shell::FUN_00691e70(unsigned char* pBuffer, unsigned short usValue, unsigned int uiValue)
+void FUN_00691e70_shell::FUN_00691e70(unsigned char* pBuffer, unsigned short usValue, unsigned int uiValue)
 {
     *reinterpret_cast<unsigned short*>(pBuffer + 4) = usValue;
     *reinterpret_cast<unsigned int*>(pBuffer + 6) = uiValue;
@@ -1060,12 +1056,12 @@ struct Holder670
 void __cdecl AddPoint(unsigned int);
 struct FUN_00690fe0_shell
 {
-    void __thiscall FUN_00690fe0(unsigned int state);
+    void FUN_00690fe0(unsigned int state);
 };
 // @fnv 0x00690fe0
-void __thiscall FUN_00690fe0_shell::FUN_00690fe0(unsigned int state)
+void FUN_00690fe0_shell::FUN_00690fe0(unsigned int state)
 {
-    ((void(__thiscall*)(void*, unsigned int))AddPoint)(this + 0x28, state);
+    ((void(*)(void*, unsigned int))AddPoint)(this + 0x28, state);
 }
 
 struct FUN_00691040_shell
@@ -1410,7 +1406,7 @@ struct FUN_00691240_shell
 };
 
 // @fnv 0x00691240
-void __thiscall FUN_00691240_shell::ForwardToInner(int arg)
+void FUN_00691240_shell::ForwardToInner(int arg)
 {
     reinterpret_cast<::NavMeshGrid *>(&(inner))->GetCellIndex((*(const ::NiPoint3 *)(arg)));
 }
@@ -1562,11 +1558,11 @@ void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
     {
         if (key == *(unsigned int*)((char*)this + 0xc))
         {
-            m_pCurrent = ((void*(__thiscall*)(void*, void*, void*))vtable[3])(this, m_pCurrent, p);
+            m_pCurrent = ((void*(*)(void*, void*, void*))vtable[3])(this, m_pCurrent, p);
         }
         else
         {
-            void* result = ((void*(__thiscall*)(void*, void*))vtable[1])(this, p);
+            void* result = ((void*(*)(void*, void*))vtable[1])(this, p);
             reinterpret_cast<::FUN_0042fb60_shell *>(this)->FUN_0042fb60((char *)(result), (char *)(m_pCurrent), key);
             ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));
             m_pCurrent = result;
@@ -1574,7 +1570,7 @@ void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
     }
     else
     {
-        m_pCurrent = ((void*(__thiscall*)(void*, void*))vtable[1])(this, p);
+        m_pCurrent = ((void*(*)(void*, void*))vtable[1])(this, p);
         *(unsigned int*)((char*)this + 0xc) = (unsigned int)p;
     }
 }

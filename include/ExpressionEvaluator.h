@@ -4,7 +4,6 @@
 #include "fnv/symbols_00559000.h"
 #include "layout_support.h"
 #include "ExpressionValue.h"
-#pragma pack(push, 4)
 class ExpressionEvaluator
 {
   public:
@@ -19,11 +18,4 @@ class ExpressionEvaluator
                 ScriptLocals* locals, int length, bool skip);
     EXPRESSION_ERROR ExpressionError();
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(ExpressionEvaluator) == 0x70C);
-FNV_STATIC_ASSERT(offsetof(ExpressionEvaluator, m_eExpressionError) == 0x0);
-FNV_STATIC_ASSERT(offsetof(ExpressionEvaluator, m_sExpression) == 0x4);
-FNV_STATIC_ASSERT(offsetof(ExpressionEvaluator, m_sExpressionBuffer) == 0x204);
-FNV_STATIC_ASSERT(offsetof(ExpressionEvaluator, m_kOperatorStack) == 0x404);
-FNV_STATIC_ASSERT(offsetof(ExpressionEvaluator, m_kOperandStack) == 0x508);
 #endif

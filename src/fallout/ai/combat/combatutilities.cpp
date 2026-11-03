@@ -129,11 +129,11 @@ float ScaleCharToFloat(char acValue)
 
 struct FUN_009a9f00_shell
 {
-    void __thiscall SetFieldE0(float value);
+    void SetFieldE0(float value);
 };
 
 // @fnv 0x009a9f00
-void __thiscall FUN_009a9f00_shell::SetFieldE0(float value)
+void FUN_009a9f00_shell::SetFieldE0(float value)
 {
     *(float*)((char*)this + 0xe0) = value;
 }
@@ -436,10 +436,10 @@ struct FUN_00966980_shell
 {
     char _pad[0x64];
     float _f64;
-    float __thiscall FUN_00966980();
+    float FUN_00966980();
 };
 // @fnv 0x00966980
-float __thiscall FUN_00966980_shell::FUN_00966980()
+float FUN_00966980_shell::FUN_00966980()
 {
     return reinterpret_cast<::FUN_004fd420_shell *>((void *)(((BGSProjectile*)this)))->FUN_004fd420(0x20000) ? 1.0f : this->_f64;
 }
@@ -3692,7 +3692,7 @@ struct Effect
 
 struct CombatPlan
 {
-    bool __thiscall FUN_00981940(int a);
+    bool FUN_00981940(int a);
 };
 
 struct Ref;
@@ -3973,7 +3973,7 @@ struct Ref
 
 struct Mgr
 {
-    Holder* __thiscall FUN_009a4250(Ref* a);
+    Holder* FUN_009a4250(Ref* a);
 };
 
 struct Glob

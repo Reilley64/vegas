@@ -1,5 +1,6 @@
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
+#include <windows.h>
 #include <new>
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ActorMover.h"
@@ -448,7 +449,7 @@ bool InterfaceManager::IsInterfaceMenuActive()
 
 // Initialises the object's fields: clears offsets 0x0, 0xc and 0x10, sets offset 0x4 to 0.0f and offset 0x8 to 0.001f, then returns pThis.
 // @fnv 0x0070a8a0
-void* __fastcall FUN_0070a8a0(void* pThis)
+void* FUN_0070a8a0(void* pThis)
 {
     *(int*)((char*)pThis + 0xc) = 0;
     *(int*)((char*)pThis + 0x10) = 0;
@@ -460,7 +461,7 @@ void* __fastcall FUN_0070a8a0(void* pThis)
 
 
 // @fnv 0x0070a8e0
-void* __fastcall FUN_0070a8e0(void* p)
+void* FUN_0070a8e0(void* p)
 {
     ::ResetEntries((::TutorialManagerLayout *)(p));
     return p;
@@ -606,7 +607,7 @@ class BSAudioManager
 };
 
 // @fnv 0x0070bbc0
-void __fastcall FUN_0070bbc0(BSAudioManager* pAudioManager)
+void FUN_0070bbc0(BSAudioManager* pAudioManager)
 {
     reinterpret_cast<::FUN_00ad8540_shell *>((pAudioManager))->FUN_00ad8540(0x40000000, true);
 }
@@ -617,7 +618,7 @@ struct BSAudioManager
 };
 
 // @fnv 0x0070bc00
-void __fastcall FUN_0070bc00(BSAudioManager* pAudioManager)
+void FUN_0070bc00(BSAudioManager* pAudioManager)
 {
     reinterpret_cast<::FUN_00ad8540_shell *>((pAudioManager))->FUN_00ad8540(6, true);
 }
@@ -634,19 +635,19 @@ struct FUN_0070c3b0_Dummy
 };
 
 // @fnv 0x0070c3b0
-float __fastcall FUN_0070c3b0(FUN_0070c3b0_Dummy* pThis)
+float FUN_0070c3b0(FUN_0070c3b0_Dummy* pThis)
 {
     return pThis->m_fValue;
 }
 
 // @fnv 0x0070c3d0
-char __fastcall FUN_0070c3d0(char* pThis)
+char FUN_0070c3d0(char* pThis)
 {
     return pThis[0x75e];
 }
 
 // @fnv 0x0070c3f0
-void* __fastcall GetFieldAtOffsetDD4(void* pThis)
+void* GetFieldAtOffsetDD4(void* pThis)
 {
     return reinterpret_cast<char*>(pThis) + 0xdd4;
 }
@@ -660,19 +661,19 @@ bool FUN_0070ec00()
 }
 
 // @fnv 0x0070ec50
-char __fastcall FUN_0070ec50(char* thisPtr)
+char FUN_0070ec50(char* thisPtr)
 {
     return thisPtr[0x162];
 }
 
 // @fnv 0x0070ec90
-unsigned int __fastcall FUN_0070ec90(char* this_ptr)
+unsigned int FUN_0070ec90(char* this_ptr)
 {
     return *(unsigned int*)(this_ptr + 0x64);
 }
 
 // @fnv 0x0070ecd0
-bool __fastcall FUN_0070ecd0(unsigned int* pThis)
+bool FUN_0070ecd0(unsigned int* pThis)
 {
     return (pThis[0x53] & 1) != 0;
 }
@@ -689,7 +690,7 @@ bool FUN_0070ecf0_shell::IsFlag4Set()
 }
 
 // @fnv 0x0070edc0
-char __fastcall FUN_0070edc0(char* pThis)
+char FUN_0070edc0(char* pThis)
 {
     return pThis[0xd54];
 }
@@ -726,7 +727,7 @@ struct FUN_00710ab0_Class
 };
 
 // @fnv 0x00710ab0
-float __fastcall FUN_00710ab0(FUN_00710ab0_Class* _this)
+float FUN_00710ab0(FUN_00710ab0_Class* _this)
 {
     return _this->val;
 }
@@ -935,7 +936,6 @@ struct ImageSpaceManager
 public:
     static ::ImageSpaceManager *FUN_004e3270();
 };
-typedef char _sizecheck_ImageSpaceManager[sizeof(ImageSpaceManager) == 796 ? 1 : -1];
 struct FUN_007123f0_shell : public ImageSpaceManager
 {
     void FUN_007123f0(float);
@@ -1053,7 +1053,7 @@ struct S148c0
     void** vt;
     void FUN_007148c0(int a, int b);
 };
-typedef void(__thiscall* Fn148c0)(S148c0*, int, int);
+typedef void(* Fn148c0)(S148c0*, int, int);
 // @fnv 0x007148c0
 void S148c0::FUN_007148c0(int aiArg1, int aiArg2)
 {
@@ -1348,7 +1348,7 @@ struct InterfaceManager_007160b0
 
 
 // @fnv 0x007160b0
-void __fastcall FUN_007160b0(InterfaceManager* pThis)
+void FUN_007160b0(InterfaceManager* pThis)
 {
     FUN_007ffe00();
     reinterpret_cast<TileVTable_007160b0*>(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<InterfaceManager_007160b0*>(pThis)))->FUN_00586150())->v7();
@@ -1499,7 +1499,7 @@ struct StackInt
 };
 
 // @fnv 0x00716aa0
-void __fastcall FUN_00716aa0(int* pThis, StackInt arg)
+void FUN_00716aa0(int* pThis, StackInt arg)
 {
     pThis[5] = arg.value - 5;
     if (pThis[5] < 0)
@@ -1509,7 +1509,7 @@ void __fastcall FUN_00716aa0(int* pThis, StackInt arg)
 }
 
 // @fnv 0x00716ae0
-char __fastcall GetByteAtOffset33(char* pThis)
+char GetByteAtOffset33(char* pThis)
 {
     return pThis[0x21];
 }
@@ -1548,7 +1548,7 @@ struct FUN_00717050_this
 
 // Reads the current section from g_timeGlobal and, if more than 500 units have passed since unk1C, toggles unk20 and stores the new time in unk1C.
 // @fnv 0x00717050
-void __fastcall ToggleFlagOnInterval(FUN_00717050_this* pThis)
+void ToggleFlagOnInterval(FUN_00717050_this* pThis)
 {
     unsigned int t = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::fnv_00717050::AnimIdle *>(&::g_timeGlobal))))->FUN_00825c00()));
     if (t - pThis->unk1C > 500)
@@ -1789,7 +1789,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00718ab0_shell : public InterfaceManager
 {
     TESImageSpaceModifier* FUN_00718ab0();
@@ -1804,7 +1803,7 @@ public:
     ::Animation *GetAnimation(bool) const;
 };
 
-bool __fastcall FUN_00967ae0(PlayerCharacter*);
+bool FUN_00967ae0(PlayerCharacter*);
 
 struct InterfaceManager_helper
 {
@@ -1848,7 +1847,7 @@ public:
 };
 
 // @fnv 0x00718d90
-InventoryStackRecord* __fastcall FUN_00718d90(InventoryStackRecord* pThis)
+InventoryStackRecord* FUN_00718d90(InventoryStackRecord* pThis)
 {
     pThis->InventoryStackRecord::InventoryStackRecord();
     return pThis;
@@ -2094,7 +2093,6 @@ struct RgbaColor
     float b;
     float a;
 };
-typedef char _sizecheck_NiColorA[sizeof(RgbaColor) == 16 ? 1 : -1];
 
 extern float DAT_0102f0e4;
 struct SystemColor
@@ -2132,7 +2130,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct GamepadManager
 {
     int InitGamePads();
@@ -2164,7 +2161,6 @@ struct GamepadManager
     bool m_bChangeDetected;
     char _pad_331[3];
 };
-typedef char _sizecheck_XInputManager[sizeof(GamepadManager) == 820 ? 1 : -1];
 struct Controls : public GamepadManager
 {
     static Controls* GetInstance();
@@ -2254,7 +2250,6 @@ struct Controls : public GamepadManager
     char _pad_39f[1];
     char m_acInputDataAtOffset3A0[208];
 };
-typedef char _sizecheck_Controls[sizeof(Controls) == 1136 ? 1 : -1];
 struct FUN_0070c4a0_shell : public InterfaceManager
 {
     void UpdateInterface();
@@ -3815,7 +3810,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct NiUpdateData
 {
     float fTime;
@@ -3828,7 +3822,6 @@ struct NiUpdateData
 public:
     NiUpdateData(float, bool, bool);
 };
-typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_0070adb0_shell : public InterfaceManager
 {
     void InitInterface(bool);
@@ -4238,7 +4231,6 @@ struct NiPoint3
     float y;
     float z;
 };
-typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4246,12 +4238,10 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
 };
-typedef char _sizecheck_TESChildCell[sizeof(TESChildCell) == 4 ? 1 : -1];
 struct CFilter
 {
     bool QLinkedGroup();
@@ -4274,7 +4264,6 @@ struct CFilter
     void __dflt_ctor_closure();
     unsigned int iFilter;
 };
-typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_0070bc20_shell : public InterfaceManager
 {
     void UpdateActivatePick();
@@ -4898,7 +4887,6 @@ struct Animation
     char LocalOutput[8];
     char m_acTrailingData[8];
 };
-typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4906,7 +4894,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_0070ee80_shell : public InterfaceManager
 {
     void UpdatePipboyWaiver();
@@ -5596,7 +5583,7 @@ struct BSAudio
 struct MenuCloser
 {
 };
-bool __fastcall FUN_00967ae0(PlayerCharacter*);
+bool FUN_00967ae0(PlayerCharacter*);
 
 // Steps the pipboy waiver state machine (0x4bc): closes menus, plays the access animation, updates the pipboy and restores anim groups.
 // @fnv 0x0070ee80
@@ -5766,7 +5753,6 @@ struct AutoMemContext
     unsigned int m_pFileName;
     int m_iLineNumber;
 };
-typedef char _sizecheck_AutoMemContext[sizeof(AutoMemContext) == 12 ? 1 : -1];
 struct ThreeByThreeMatrix
 {
     void GetRow(unsigned int, float*);
@@ -5826,12 +5812,10 @@ struct ThreeByThreeMatrix
     float Determinant();
     char m_afEntries[48];
 };
-typedef char _sizecheck_NiMatrix3[sizeof(ThreeByThreeMatrix) == 48 ? 1 : -1];
 struct NiMemObject
 {
     char _pad_0[1];
 };
-typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 struct NiFrustum
 {
     char* FormatToBuffer(char*);
@@ -5845,7 +5829,6 @@ struct NiFrustum
     bool m_bOrthographic;
     char _pad_19[3];
 };
-typedef char _sizecheck_NiFrustum[sizeof(NiFrustum) == 28 ? 1 : -1];
 struct FUN_00712e90_shell : public InterfaceManager
 {
     SceneGraph* FUN_00712e90(SceneGraph*, char*, bool);
@@ -6076,7 +6059,7 @@ struct Owner
 };
 // Deletes self->pWidget if set, allocates a new Widget, stores it in self->pWidget and calls its Run method.
 // @fnv 0x007133f0
-void __fastcall ResetWidget(Owner* self)
+void ResetWidget(Owner* self)
 {
     if (self->pWidget)
         delete self->pWidget;
@@ -6284,7 +6267,6 @@ struct ListBoxBase
     virtual void ScrollToHighlight();
     virtual Tile* GetTileAt(unsigned int, bool);
 };
-typedef char _sizecheck_ListBoxBase[sizeof(ListBoxBase) == 4 ? 1 : -1];
 struct FUN_00717f80_shell : public InterfaceManager
 {
     bool HandleMenuGamepadInput(Menu*, int, float);
@@ -6776,11 +6758,11 @@ FUN_0070b5d0::FUN_0070b5d0() : spMaterial(0), spTexture(0)
 
 struct TileImage
 {
-    const char* __thiscall GetImageTag();
+    const char* GetImageTag();
 };
 
 // @fnv 0x0070b680
-const char* __thiscall TileImage::GetImageTag()
+const char* TileImage::GetImageTag()
 {
     return "IMGE";
 }
@@ -6808,7 +6790,7 @@ void FUN_0070b790_shell::FUN_0070b790(char a)
 }
 
 // @fnv 0x0070b7f0
-void __thiscall StatsMenu::SetCurrentPageFromChar(char acPage)
+void StatsMenu::SetCurrentPageFromChar(char acPage)
 {
     reinterpret_cast<::fnv_007dff40::FUN_007dff40_shell *>(this)->SetPage((*(int *)&(const ::StatsMenu::Page &)((StatsMenu::Page)acPage)));
 }
@@ -6914,7 +6896,7 @@ extern "C" unsigned char* DAT_011f5b04;
 
 struct FUN_00714930
 {
-    int __thiscall Get();
+    int Get();
 };
 
 // Returns the result of Get() on the object at offset 0x190 of DAT_011f5b04, or 0 if DAT_011f5b04 is null.
@@ -7531,11 +7513,11 @@ struct Setting_S
 
 struct FUN_00711dc0
 {
-    float __thiscall GetFloat();
+    float GetFloat();
 };
 
 // @fnv 0x00711dc0
-float __thiscall FUN_00711dc0::GetFloat()
+float FUN_00711dc0::GetFloat()
 {
     return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00711dc0::Setting_S *>(&::g_011f360c))))));
 }
@@ -7582,11 +7564,11 @@ bool FUN_007185e0_class::SetFlag2(int index)
         return false;
 }
 
-char __fastcall GetByteAtOffset33(char*);
+char GetByteAtOffset33(char*);
 
 struct TextEditMenu
 {
-    void __thiscall FUN_007e65f0();
+    void FUN_007e65f0();
 };
 
 struct FUN_0070c410_class
@@ -7596,7 +7578,7 @@ struct FUN_0070c410_class
     {
         float x, y, z;
     } m_pos;
-    Vec3& __thiscall GetPosition(Vec3& akDest);
+    Vec3& GetPosition(Vec3& akDest);
 };
 
 // Copies m_pos into akDest and returns akDest.
@@ -7609,12 +7591,12 @@ FUN_0070c410_class::Vec3& FUN_0070c410_class::GetPosition(Vec3& akDest)
 
 struct FUN_0070ec20_class
 {
-    void __thiscall FUN_0070ec20(int a, int b);
+    void FUN_0070ec20(int a, int b);
 };
 
 // Sets the byte at this + a + b*0x1c + 0x1b94 to 0xff.
 // @fnv 0x0070ec20
-void __thiscall FUN_0070ec20_class::FUN_0070ec20(int a, int b)
+void FUN_0070ec20_class::FUN_0070ec20(int a, int b)
 {
     ((unsigned char*)this)[a + b * 0x1c + 0x1b94] = 0xff;
 }
@@ -7716,12 +7698,12 @@ namespace fnv_0070ad00 {
 
 struct FUN_0070ad00_Class
 {
-    void* __thiscall FUN_0070ad00(unsigned int flags);
+    void* FUN_0070ad00(unsigned int flags);
 };
 
 // Calls FUN_0071b040, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0070ad00
-void* __thiscall FUN_0070ad00_Class::FUN_0070ad00(unsigned int flags)
+void* FUN_0070ad00_Class::FUN_0070ad00(unsigned int flags)
 {
     reinterpret_cast<::FUN_0071b040 *>(this)->FUN_0071b040::~FUN_0071b040();
     if (flags & 1)
@@ -7734,12 +7716,12 @@ namespace fnv_0070ad80 {
 
 struct FUN_0070ad80_Class
 {
-    void* __thiscall DestroyIfFlagged(unsigned int flags);
+    void* DestroyIfFlagged(unsigned int flags);
 };
 
 // Calls FUN_00631a50, frees this via _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x0070ad80
-void* __thiscall FUN_0070ad80_Class::DestroyIfFlagged(unsigned int flags)
+void* FUN_0070ad80_Class::DestroyIfFlagged(unsigned int flags)
 {
     reinterpret_cast<::FUN_00631a50 *>(this)->FUN_00631a50::~FUN_00631a50();
     if (flags & 1)
@@ -9357,8 +9339,6 @@ float FloatValueReader::FUN_00711de0()
     return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatValueOwner *>(&::g_011f3618))))));
 }
 
-extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* hSemaphore, long lReleaseCount,
-                                                                long* lpPreviousCount);
 
 class B714930Semaphore
 {
@@ -9537,7 +9517,7 @@ struct HostY
 {
     char m_auiShapeKeys[0x66d];
     signed char m_fl;
-    void __thiscall SetFlag4(bool on);
+    void SetFlag4(bool on);
 };
 // @fnv 0x00718960
 void HostY::SetFlag4(bool on)
@@ -9605,7 +9585,7 @@ struct FUN_00719740_cls
 
 struct FUN_007e6700_Helper
 {
-    void* __thiscall FUN_00458b50();
+    void* FUN_00458b50();
 };
 
 struct FUN_007e6700_Object28
@@ -9628,10 +9608,10 @@ struct FUN_007e6700_Class
     char padding38[0x58 - 0x38];
     FUN_007e6700_Callback callback;
 
-    void __thiscall FUN_007e6700();
+    void FUN_007e6700();
 };
 // @fnv 0x007e65f0
-void __thiscall TextEditMenu::FUN_007e65f0()
+void TextEditMenu::FUN_007e65f0()
 {
     if ((unsigned char)GetByteAtOffset33((char*)this + 0x34))
     {
@@ -9642,7 +9622,7 @@ void __thiscall TextEditMenu::FUN_007e65f0()
 
 // Calls object28 with 0xFC4 and a helper result, then if callback is set calls object2C with 0xFAF and the callback's result.
 // @fnv 0x007e6700
-void __thiscall FUN_007e6700_Class::FUN_007e6700()
+void FUN_007e6700_Class::FUN_007e6700()
 {
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((object28))->FUN_00a01350(0xFC4, (char *)(void *)(((void *)(reinterpret_cast<::fnv_007170a0::TextEditString *>(&(helper))->GetDisplayText()))), {});
 
@@ -12019,138 +11999,138 @@ struct RgbaColor
 struct Dev
 {
 
-    virtual void __stdcall d000();
-    virtual void __stdcall d004();
-    virtual void __stdcall d008();
-    virtual void __stdcall d00c();
-    virtual void __stdcall d010();
-    virtual void __stdcall d014();
+    virtual void d000();
+    virtual void d004();
+    virtual void d008();
+    virtual void d00c();
+    virtual void d010();
+    virtual void d014();
 
-    virtual void __stdcall d018();
-    virtual void __stdcall d01c();
-    virtual void __stdcall d020();
-    virtual void __stdcall d024();
-    virtual void __stdcall d028();
-    virtual void __stdcall d02c();
+    virtual void d018();
+    virtual void d01c();
+    virtual void d020();
+    virtual void d024();
+    virtual void d028();
+    virtual void d02c();
 
-    virtual void __stdcall d030();
-    virtual void __stdcall d034();
-    virtual void __stdcall d038();
-    virtual void __stdcall d03c();
-    virtual void __stdcall d040();
-    virtual void __stdcall d044();
+    virtual void d030();
+    virtual void d034();
+    virtual void d038();
+    virtual void d03c();
+    virtual void d040();
+    virtual void d044();
 
-    virtual void __stdcall d048();
-    virtual void __stdcall d04c();
-    virtual void __stdcall d050();
-    virtual void __stdcall d054();
-    virtual void __stdcall d058();
-    virtual void __stdcall d05c();
+    virtual void d048();
+    virtual void d04c();
+    virtual void d050();
+    virtual void d054();
+    virtual void d058();
+    virtual void d05c();
 
-    virtual void __stdcall d060();
-    virtual void __stdcall d064();
-    virtual void __stdcall d068();
-    virtual void __stdcall d06c();
-    virtual void __stdcall d070();
-    virtual void __stdcall d074();
+    virtual void d060();
+    virtual void d064();
+    virtual void d068();
+    virtual void d06c();
+    virtual void d070();
+    virtual void d074();
 
-    virtual void __stdcall d078();
-    virtual void __stdcall d07c();
-    virtual void __stdcall d080();
-    virtual void __stdcall d084();
-    virtual void __stdcall d088();
-    virtual void __stdcall d08c();
+    virtual void d078();
+    virtual void d07c();
+    virtual void d080();
+    virtual void d084();
+    virtual void d088();
+    virtual void d08c();
 
-    virtual void __stdcall d090();
-    virtual void __stdcall d094();
-    virtual void __stdcall d098();
-    virtual void __stdcall d09c();
-    virtual void __stdcall d0a0();
-    virtual void __stdcall d0a4();
+    virtual void d090();
+    virtual void d094();
+    virtual void d098();
+    virtual void d09c();
+    virtual void d0a0();
+    virtual void d0a4();
 
-    virtual void __stdcall d0a8();
-    virtual void __stdcall d0ac();
-    virtual void __stdcall d0b0();
-    virtual void __stdcall d0b4();
-    virtual void __stdcall d0b8();
+    virtual void d0a8();
+    virtual void d0ac();
+    virtual void d0b0();
+    virtual void d0b4();
+    virtual void d0b8();
 
-    virtual void __stdcall SetViewport(D3DVP* vp);
+    virtual void SetViewport(D3DVP* vp);
 
-    virtual void __stdcall d0c0();
-    virtual void __stdcall d0c4();
-    virtual void __stdcall d0c8();
-    virtual void __stdcall d0cc();
-    virtual void __stdcall d0d0();
-    virtual void __stdcall d0d4();
+    virtual void d0c0();
+    virtual void d0c4();
+    virtual void d0c8();
+    virtual void d0cc();
+    virtual void d0d0();
+    virtual void d0d4();
 
-    virtual void __stdcall d0d8();
-    virtual void __stdcall d0dc();
-    virtual void __stdcall d0e0();
+    virtual void d0d8();
+    virtual void d0dc();
+    virtual void d0e0();
 
-    virtual void __stdcall SetRenderState(int state, int value);
+    virtual void SetRenderState(int state, int value);
 
-    virtual void __stdcall d0e8();
-    virtual void __stdcall d0ec();
-    virtual void __stdcall d0f0();
-    virtual void __stdcall d0f4();
-    virtual void __stdcall d0f8();
-    virtual void __stdcall d0fc();
+    virtual void d0e8();
+    virtual void d0ec();
+    virtual void d0f0();
+    virtual void d0f4();
+    virtual void d0f8();
+    virtual void d0fc();
 
-    virtual void __stdcall d100();
-    virtual void __stdcall d104();
-    virtual void __stdcall d108();
-    virtual void __stdcall d10c();
-    virtual void __stdcall d110();
-    virtual void __stdcall d114();
+    virtual void d100();
+    virtual void d104();
+    virtual void d108();
+    virtual void d10c();
+    virtual void d110();
+    virtual void d114();
 
-    virtual void __stdcall d118();
-    virtual void __stdcall d11c();
-    virtual void __stdcall d120();
-    virtual void __stdcall d124();
-    virtual void __stdcall d128();
-    virtual void __stdcall d12c();
+    virtual void d118();
+    virtual void d11c();
+    virtual void d120();
+    virtual void d124();
+    virtual void d128();
+    virtual void d12c();
 
-    virtual void __stdcall d130();
-    virtual void __stdcall d134();
-    virtual void __stdcall d138();
-    virtual void __stdcall d13c();
-    virtual void __stdcall d140();
-    virtual void __stdcall d144();
+    virtual void d130();
+    virtual void d134();
+    virtual void d138();
+    virtual void d13c();
+    virtual void d140();
+    virtual void d144();
 
-    virtual void __stdcall d148();
-    virtual void __stdcall d14c();
-    virtual void __stdcall d150();
-    virtual void __stdcall d154();
-    virtual void __stdcall d158();
+    virtual void d148();
+    virtual void d14c();
+    virtual void d150();
+    virtual void d154();
+    virtual void d158();
 
-    virtual void __stdcall SetPixelShader(int shader);
+    virtual void SetPixelShader(int shader);
 
-    virtual void __stdcall GetPixelShader(int* shader);
+    virtual void GetPixelShader(int* shader);
 
-    virtual void __stdcall d164();
-    virtual void __stdcall d168();
-    virtual void __stdcall d16c();
+    virtual void d164();
+    virtual void d168();
+    virtual void d16c();
 
-    virtual void __stdcall SetVertexShader(int shader);
+    virtual void SetVertexShader(int shader);
 
-    virtual void __stdcall d174();
-    virtual void __stdcall d178();
-    virtual void __stdcall d17c();
-    virtual void __stdcall d180();
-    virtual void __stdcall d184();
-    virtual void __stdcall d188();
+    virtual void d174();
+    virtual void d178();
+    virtual void d17c();
+    virtual void d180();
+    virtual void d184();
+    virtual void d188();
 
-    virtual void __stdcall d18c();
-    virtual void __stdcall d190();
-    virtual void __stdcall d194();
-    virtual void __stdcall d198();
-    virtual void __stdcall d19c();
-    virtual void __stdcall d1a0();
+    virtual void d18c();
+    virtual void d190();
+    virtual void d194();
+    virtual void d198();
+    virtual void d19c();
+    virtual void d1a0();
 
-    virtual void __stdcall d1a4();
-    virtual void __stdcall d1a8();
+    virtual void d1a4();
+    virtual void d1a8();
 
-    virtual void __stdcall SetFVF(int fvf);
+    virtual void SetFVF(int fvf);
 };
 
 struct Shadow

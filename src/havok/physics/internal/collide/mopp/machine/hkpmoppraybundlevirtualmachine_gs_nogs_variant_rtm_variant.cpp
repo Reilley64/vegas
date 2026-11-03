@@ -217,7 +217,7 @@ struct BoolValue {
 
 struct ShapeFilter {
 
-    virtual __declspec(nothrow) BoolValue __thiscall Test(const void*, Shape*, Shape*, unsigned int) throw()=0;
+    virtual __declspec(nothrow) BoolValue Test(const void*, Shape*, Shape*, unsigned int) throw()=0;
 
 };
 
@@ -247,7 +247,7 @@ struct Shape {
 
     virtual __declspec(nothrow) void slot10() throw()=0;
 
-    virtual __declspec(nothrow) Shape* __thiscall GetChild(unsigned int, void*) throw()=0;
+    virtual __declspec(nothrow) Shape* GetChild(unsigned int, void*) throw()=0;
 
     virtual __declspec(nothrow) void slot18() throw()=0;
 
@@ -257,7 +257,7 @@ struct Shape {
 
     virtual __declspec(nothrow) void slot24() throw()=0;
 
-    virtual __declspec(nothrow) FourFloats __thiscall CastBundle(QueryContext*, OutputLane*, FourFloats*) throw()=0;
+    virtual __declspec(nothrow) FourFloats CastBundle(QueryContext*, OutputLane*, FourFloats*) throw()=0;
 
 };
 
@@ -272,7 +272,7 @@ struct ErrorHandler {
 
     virtual __declspec(nothrow) void slot08() throw()=0;
 
-    virtual __declspec(nothrow) int __thiscall Report(int, unsigned int, const char*, const char*, int) throw()=0;
+    virtual __declspec(nothrow) int Report(int, unsigned int, const char*, const char*, int) throw()=0;
 
 };
 
@@ -476,7 +476,7 @@ struct RayBundleTraversalMachine {
     unsigned int chunkMask;
 
 __forceinline void UpdateNext(const QueryState* state,RayQuerySet* next);
-    void __thiscall FUN_00dd3210(const QueryState* state, const unsigned char* code,
+    void FUN_00dd3210(const QueryState* state, const unsigned char* code,
 
                                 RayQuerySet* rays, unsigned int chunk);
 

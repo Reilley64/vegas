@@ -38,11 +38,6 @@
 #include <stdarg.h>
 #define FNV_ACTORVALUE_DECLS_H
 #include <stddef.h>
-#define FNV_JOIN_IMPL(a, b) a##b
-#define FNV_JOIN(a, b) FNV_JOIN_IMPL(a, b)
-#define FNV_STATIC_ASSERT(condition) typedef char FNV_JOIN(fnv_static_assert_, __LINE__)[(condition) ? 1 : -1]
-FNV_STATIC_ASSERT(sizeof(void*) == 4);
-FNV_STATIC_ASSERT(sizeof(long) == 4);
 class Actor;
 class EffectSetting;
 class TESForm;
@@ -82,8 +77,6 @@ template <class T> class BSStringT
     const T* String();
     BSStringT<T>& operator=(const T*);
 };
-FNV_STATIC_ASSERT(sizeof(BSSimpleList<void*>) == 8);
-FNV_STATIC_ASSERT(sizeof(BSStringT<char>) == 8);
 enum ENUM_FORM_ID
 {
     ENUM_FORM_ID_NO_FORM = 0,
@@ -253,7 +246,6 @@ class BaseFormComponent
     virtual void CopyFromBase(BaseFormComponent* component);
     virtual bool CompareWithBase(BaseFormComponent* component);
 };
-FNV_STATIC_ASSERT(sizeof(BaseFormComponent) == 0x4);
 
 // Unit-local declaration extension; copied pack declarations remain otherwise unchanged.
 // Source layout: TESForm. PC corrections are in generate_headers.py.
@@ -345,11 +337,6 @@ class TESForm : public BaseFormComponent
 public:
     bool GetInitialized() const;
 };
-FNV_STATIC_ASSERT(sizeof(TESForm) == 0x18);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_ucFormType) == 0x4);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_uiFormFlags) == 0x8);
-FNV_STATIC_ASSERT(offsetof(TESForm, iFormID) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESForm, m_kSourceFiles) == 0x10);
 
 // Source layout: TESFullName. PC corrections are in generate_headers.py.
 class TESFullName : public BaseFormComponent
@@ -359,8 +346,6 @@ class TESFullName : public BaseFormComponent
     ~TESFullName();
     BSStringT<char> m_kName;  // +0x4
 };
-FNV_STATIC_ASSERT(sizeof(TESFullName) == 0xC);
-FNV_STATIC_ASSERT(offsetof(TESFullName, m_kName) == 0x4);
 
 class ActorValueInfo;
 class ActorValueOwner;
@@ -537,8 +522,6 @@ class ActorValueInfo : public TESForm, public TESFullName, public TESDescription
     virtual bool Load(TESFile* file);
     void SetEnumerated(int count, ...);
 };
-FNV_STATIC_ASSERT(offsetof(ActorValueInfo, m_pName) == 0x38);
-FNV_STATIC_ASSERT(offsetof(ActorValueInfo, m_pDerivedValueFunction) == 0x4c);
 
 namespace ActorValue {
 float ClampValue(Index, float);

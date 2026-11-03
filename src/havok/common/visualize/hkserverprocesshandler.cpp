@@ -37,7 +37,7 @@ FUN_00d60bb0::FUN_00d60bb0(unsigned char p)
 extern "C" void* DAT_011b5d38;
 
 // @fnv 0x00d60bf0
-void __stdcall FUN_00d60bf0(void** ppOut, void** b)
+void FUN_00d60bf0(void** ppOut, void** b)
 {
     *ppOut = &DAT_011b5d38;
     *(int*)b = 2;
@@ -95,7 +95,7 @@ int FUN_00d60d10_Class::FUN_00d60d10(unsigned int a)
 
 struct FUN_00ddac60_Obj
 {
-    unsigned char* __thiscall GetStreamResult(void*);
+    unsigned char* GetStreamResult(void*);
 };
 
 struct FUN_00ddacd0_shell : FUN_00ddac60_Obj

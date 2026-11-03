@@ -96,7 +96,7 @@ void FUN_00ba8ab0_shell::FUN_00ba8ab0(float afAlpha)
 
 // Resets the count at offset 4, frees the light pointer at offset 0xC if set, and clears the byte at offset 0xB.
 // @fnv 0x00ba8cd0
-void __fastcall FUN_00ba8cd0(char* pThis)
+void FUN_00ba8cd0(char* pThis)
 {
     *(unsigned short*)(pThis + 4) = 0;
     void* pLights = *(void**)(pThis + 0xC);
@@ -200,7 +200,7 @@ struct BSSP_stub4 : NiObject_stub
     float m_fFogDepth;
 };
 // @fnv 0x00ba8b10
-void __fastcall FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
+void FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
 {
     reinterpret_cast<::NiCullingProperty *>((self))->FUN_00a81430(dst, (*(::CloningProcess *)(arg)));
     dst->m_f0 = self->m_f0;
@@ -237,7 +237,7 @@ struct BSSP_stub : NiObjectNET_stub
     float m_depth;
 };
 // @fnv 0x00ba8be0
-void __fastcall FUN_00ba8be0(BSSP_stub* self, int, int arg)
+void FUN_00ba8be0(BSSP_stub* self, int, int arg)
 {
     reinterpret_cast<::LinkObjectA5 *>((self))->FUN_00a5c6a0((*(::NiStream *)(arg)));
     if ((self->m_flags & 0x4000000) > 0)
@@ -259,7 +259,7 @@ struct BSSP_stub2
 };
 // Allocates an array of n AllocElem objects and stores its pointer in self->m_p.
 // @fnv 0x00ba8c00
-void __fastcall AllocateElemArray(BSSP_stub2* self, int, unsigned char n)
+void AllocateElemArray(BSSP_stub2* self, int, unsigned char n)
 {
     self->m_p = new AllocElem[n];
 }
@@ -271,7 +271,7 @@ struct FUN_00ba8c30_shell2
     void FUN_00ba8c30();
 };
 // @fnv 0x00ba8c30
-void __fastcall FUN_00ba8c30(FUN_00ba8c30_shell2* self, int)
+void FUN_00ba8c30(FUN_00ba8c30_shell2* self, int)
 {
     if (self->m_p)
     {

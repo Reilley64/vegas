@@ -70,7 +70,7 @@ struct FUN_00bcbc90_shell
 };
 
 // @fnv 0x00bcbc90
-NiGPUProgram* __thiscall FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra)
+NiGPUProgram* FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra)
 {
     return *(NiGPUProgram**)((char*)obj + 0xbc) ? DAT_012021e4 : DAT_012021e0;
 }
@@ -78,7 +78,7 @@ NiGPUProgram* __thiscall FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra
 
 struct FUN_00bcbc70_shell : public GeometryDecalShader
 {
-    void __thiscall FUN_00bcbc70();
+    void FUN_00bcbc70();
 };
 
 struct FUN_00bcb210_shell
@@ -103,10 +103,10 @@ struct FUN_00bcb4d0_shell : public GeometryDecalShader
     void CreateDecalShaders();
 };
 // @fnv 0x00bcbc70
-void __thiscall FUN_00bcbc70_shell::FUN_00bcbc70()
+void FUN_00bcbc70_shell::FUN_00bcbc70()
 {
     reinterpret_cast<::FUN_00bcb4d0_shell *>(this)->CreateDecalShaders();
-    void(__thiscall * fn)(FUN_00bcbc70_shell*) = *(void(__thiscall**)(FUN_00bcbc70_shell*))(*(char**)this + 0x13c);
+    void(* fn)(FUN_00bcbc70_shell*) = *(void(**)(FUN_00bcbc70_shell*))(*(char**)this + 0x13c);
     fn(this);
 }
 
@@ -428,8 +428,8 @@ void DecalCls::FUN_00bcb7f0()
 }
 
 // Sets a field on the pass object owned by the global renderer from the shader's data,
-// then tail-calls a __thiscall member on that pass object (callee pops 4 bytes, so the
-// caller must be __stdcall for the jmp tail call).
+// then tail-calls a member on that pass object (callee pops 4 bytes, so the
+// caller must be for the jmp tail call).
 struct NiD3DPass_Ex
 {
     int unk00;
@@ -462,7 +462,7 @@ struct ShaderInput
 
 // Copies the shader parameter at apInput->unk0c->unk7c into the pass's unk08 field, then calls ShutdownPools_Ex(false) on that pass.
 // @fnv 0x00bcbcb0
-void __stdcall ApplyShaderInputToPass(ShaderInput* apInput)
+void ApplyShaderInputToPass(ShaderInput* apInput)
 {
     NiD3DPass_Ex* pPass = (*reinterpret_cast<::GlobalRendererState * *>(&::DAT_0126f74c))->unk24->unk04;
     pPass->unk08 = apInput->unk0c->unk7c;

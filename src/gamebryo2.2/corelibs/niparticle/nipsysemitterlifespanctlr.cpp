@@ -22,11 +22,11 @@ struct NiPSysModifierFloatCtlr
 
 struct NiPSysEmitterLifeSpanCtlr : NiPSysModifierFloatCtlr
 {
-    void __thiscall FUN_00c2b660(float& fValue);
+    void FUN_00c2b660(float& fValue);
 };
 
 // @fnv 0x00c2b660
-void __thiscall NiPSysEmitterLifeSpanCtlr::FUN_00c2b660(float& fValue)
+void NiPSysEmitterLifeSpanCtlr::FUN_00c2b660(float& fValue)
 {
     void* p = *(void**)((char*)this + 0x3c);
     fValue = *(float*)((char*)p + 0x48);
@@ -58,7 +58,7 @@ struct StrArr
 };
 // Appends the string returned by _FUN_00a7d330(g_01202740) to pkStrings, growing the array by its growth step when it is full.
 // @fnv 0x00c2b6d0
-void __stdcall FUN_00c2b6d0(StrArr* pkStrings)
+void FUN_00c2b6d0(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
     char* pszStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_01202740))));

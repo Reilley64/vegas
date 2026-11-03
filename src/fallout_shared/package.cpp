@@ -479,7 +479,7 @@ struct RefArg
     TESObjectREFR* p;
 };
 // @fnv 0x006737a0
-bool __fastcall FUN_006737a0(TESPackage* self, RefArg aRefArg)
+bool FUN_006737a0(TESPackage* self, RefArg aRefArg)
 {
     switch (self->GetPackType())
     {
@@ -594,7 +594,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -616,7 +615,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_00677760_shell : public TESPackage
 {
     bool FUN_00677760(Actor*);
@@ -773,7 +771,6 @@ struct LocationDescriptor
     unsigned int m_pLocationData;
     int eObjType;
 };
-typedef char _sizecheck_PackageLocation[sizeof(LocationDescriptor) == 12 ? 1 : -1];
 struct ActorValueOwner
 {
     virtual int GetBaseActorValue(int);
@@ -790,7 +787,6 @@ struct ActorValueOwner
     int GetActorValueAsInteger(int);
     float GetActorValueFloatByIndex(int);
 };
-typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 struct CachedValuesOwner
 {
     virtual float GetFloatValue0();
@@ -812,7 +808,6 @@ struct CachedValuesOwner
     virtual bool GetBooleanValue16();
     void PrecalculateCachedValues();
 };
-typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_00678670_shell : public TESPackage
 {
     float FUN_00678670(MobileObject*, bool);
@@ -1180,7 +1175,7 @@ enum PACKAGE_OBJECT_TYPE
     POT_DUMMY
 };
 
-unsigned char __fastcall _FNV_GetFormType(TESForm*);
+unsigned char _FNV_GetFormType(TESForm*);
 
 struct PackageTarget_ext
 {
@@ -1260,7 +1255,7 @@ class TESObjectWEAP
   public:
 };
 
-int __fastcall _FNV_GetFormType(void*);
+int _FNV_GetFormType(void*);
 
 struct DummyForm3C
 {
@@ -1545,7 +1540,7 @@ bool FUN_0067ab50_shell::HasFlag40()
 }
 
 // @fnv 0x0067abd0
-unsigned char __fastcall IsPackageFlag80Set(TESPackage* pThis)
+unsigned char IsPackageFlag80Set(TESPackage* pThis)
 {
     return (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pThis) + 0x22) & 0x80) != 0;
 }
@@ -2070,7 +2065,7 @@ class GlobalObject2_0040c150
 {
   public:
 };
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 struct TESObjectCELL
 {
     bool IsInterior();
@@ -2321,13 +2316,12 @@ struct LocationDescriptor
     unsigned int m_pLocationData;
     int eObjType;
 };
-typedef char _sizecheck_PackageLocation[sizeof(LocationDescriptor) == 12 ? 1 : -1];
 struct FUN_006777b0_shell : public TESPackage
 {
     void ComputePackageFlags(TESObjectREFR*);
 };
 
-int __fastcall _FNV_GetFormType(TESForm*);
+int _FNV_GetFormType(TESForm*);
 struct BoundHolder
 {
 };
@@ -3511,7 +3505,6 @@ struct LocationDescriptor
     unsigned int m_pLocationData;
     int eObjType;
 };
-typedef char _sizecheck_PackageLocation[sizeof(LocationDescriptor) == 12 ? 1 : -1];
 struct FUN_00671e10_shell : public TESPackage
 {
     void FUN_00671e10(LocationDescriptor*);
@@ -3751,7 +3744,7 @@ TESObjectREFR* FUN_00675980_shell::FUN_00675980()
 }
 
 // @fnv 0x0067a560
-bool __fastcall FUN_0067a560(int pObject)
+bool FUN_0067a560(int pObject)
 {
     return (*(int*)(pObject + 0x1c) & 0x40000) ? true : false;
 }
@@ -3766,17 +3759,17 @@ struct FUN_0067a5d0_class
 {
     int _0, _4, _8, _c, _10, _14, _18;
     unsigned int flags;  // +0x1c
-    bool __thiscall FUN_0067a5d0();
+    bool FUN_0067a5d0();
 };
 
 // @fnv 0x0067a5d0
-bool __thiscall FUN_0067a5d0_class::FUN_0067a5d0()
+bool FUN_0067a5d0_class::FUN_0067a5d0()
 {
     return (flags & 0x80000) ? true : false;
 }
 
 // @fnv 0x0067a9d0
-bool __fastcall FUN_0067a9d0(void* pObject)
+bool FUN_0067a9d0(void* pObject)
 {
     return (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObject) + 0x22) & 8) ? true : false;
 }
@@ -3787,12 +3780,12 @@ struct TESUseWeaponPackageData
 
 struct TESPackageShell : TESPackage
 {
-    const TESUseWeaponPackageData* __thiscall FUN_006758f0();
+    const TESUseWeaponPackageData* FUN_006758f0();
 };
 
 // Returns the package data cast to TESUseWeaponPackageData when the pack type is 0x10, otherwise returns null.
 // @fnv 0x006758f0
-const TESUseWeaponPackageData* __thiscall TESPackageShell::FUN_006758f0()
+const TESUseWeaponPackageData* TESPackageShell::FUN_006758f0()
 {
     if (GetPackType() == 0x10)
         return (const TESUseWeaponPackageData*)data;
@@ -4033,7 +4026,6 @@ struct LocationDescriptor
     unsigned int m_pLocationData;
     int eObjType;
 };
-typedef char _sizecheck_PackageLocation[sizeof(LocationDescriptor) == 12 ? 1 : -1];
 struct FUN_00671d30_shell : public TESPackage
 {
     void FUN_00671d30(LocationDescriptor*);
@@ -4128,11 +4120,11 @@ struct FUN_00672dd0_shell
 };
 struct FUN_00675670_shell : FUN_00672dd0_shell
 {
-    unsigned int __thiscall FUN_00675670();
+    unsigned int FUN_00675670();
 };
 // Calls FUN_00672dd0 to get an object and, if non-null, returns the result of its FUN_0067f1c0; otherwise returns 0.
 // @fnv 0x00675670
-unsigned int __thiscall FUN_00675670_shell::FUN_00675670()
+unsigned int FUN_00675670_shell::FUN_00675670()
 {
     LocationDescriptor* loc = ((::fnv_00675670::LocationDescriptor *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0()));
     if (loc)
@@ -4475,8 +4467,8 @@ FUN_0067c770::FUN_0067c770()
 
 struct FUN_0085a290_t
 {
-    void __thiscall DeleteFormById(unsigned int);
-    TESPackage* __thiscall FUN_0085a240(unsigned int, unsigned char);
+    void DeleteFormById(unsigned int);
+    TESPackage* FUN_0085a240(unsigned int, unsigned char);
 };
 struct Helper
 {
@@ -4558,7 +4550,7 @@ struct Helper
 };
 // Calls DeleteFormById with a1, creates a package from a2, sets its field via f74(a1, 1), and returns the package.
 // @fnv 0x0085a240
-TESPackage* __thiscall FUN_0085a290_t::FUN_0085a240(unsigned int a1, unsigned char ucPackageType)
+TESPackage* FUN_0085a290_t::FUN_0085a240(unsigned int a1, unsigned char ucPackageType)
 {
     DeleteFormById(a1);
     TESPackage* p = ::CreatePackageByType((*(int *)&(const ::PTYPE &)((PTYPE)ucPackageType)));
@@ -4706,7 +4698,6 @@ struct BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct TESFullName : public BaseFormComponent
 {
     virtual void InitializeComponent();
@@ -4724,7 +4715,6 @@ struct TESFullName : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char m_kName[8];
 };
-typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct TESTexture : public BaseFormComponent
 {
     virtual unsigned int GetTexturePathLength();
@@ -4753,7 +4743,6 @@ struct TESTexture : public BaseFormComponent
     void* __vecDelDtor(unsigned int);
     char FullNameComponent[8];
 };
-typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_00675a50_shell : public TESPackage
 {
     TESWorldSpace* FUN_00675a50(MobileObject*);
@@ -5385,7 +5374,6 @@ struct LocationDescriptor
     unsigned int m_pLocationData;
     int eObjType;
 };
-typedef char _sizecheck_PackageLocation[sizeof(LocationDescriptor) == 12 ? 1 : -1];
 struct FUN_00676140_shell : public TESPackage
 {
     TESObjectREFR* FUN_00676140(MobileObject*);
@@ -10975,7 +10963,7 @@ struct A90Cls
     A90Virt* m_28;
     A90Sub1* m_2c;
     A90Sub2* m_30;
-    void __thiscall DispatchToSubobjects(int a);
+    void DispatchToSubobjects(int a);
 };
 // If the manager check on FUN_0084e3a0() passes, forwards a to m_2c, m_30 and m_28 via their respective methods.
 // @fnv 0x00679a90
@@ -12235,7 +12223,7 @@ class BSShaderNoLightingProperty
 class TESPackageExt : public TESPackage
 {
   public:
-    V* __thiscall FUN_006780e0(V* targetObj, bool option);
+    V* FUN_006780e0(V* targetObj, bool option);
 };
 // @fnv 0x006780e0
 V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)

@@ -177,7 +177,7 @@ void FUN_00d06640_class::Destroy()
 }
 
 // @fnv 0x00cb0020
-void __stdcall FUN_00cb0020(unsigned char* output)
+void FUN_00cb0020(unsigned char* output)
 {
     *output = 0;
 }
@@ -259,7 +259,7 @@ struct Container64
     void* vtable;
     void* pad04;
     Array64 array;
-    void __thiscall AddShape(Shape64* object);
+    void AddShape(Shape64* object);
 };
 // Calls FUN_00c90510 on object, then appends object to array, growing it via ResizeAudioStream when full.
 // @fnv 0x00d064a0

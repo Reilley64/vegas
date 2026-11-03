@@ -360,7 +360,7 @@ static __forceinline __m128 Cross(__m128 a, __m128 b)
 }
 
 // @fnv 0x00ce0d30
-void __fastcall FUN_00ce0d30(ThisX* th, void* edx_unused, const Elem* points, VecF* out)
+void FUN_00ce0d30(ThisX* th, void* edx_unused, const Elem* points, VecF* out)
 {
     VecF p0 = points[th->m_i0].v;
     VecF p1 = points[th->m_i1].v;

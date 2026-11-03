@@ -451,7 +451,7 @@ void FUN_005e5cc0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apa
 
 struct FUN_005e6470_shell
 {
-    void __thiscall FUN_005e6470();
+    void FUN_005e6470();
 };
 // Calls FUN_005e6470, then calls _Deallocate on this when the low bit of flags is set, and returns this.
 // @fnv 0x005e6440
@@ -469,7 +469,7 @@ void FUN_005e6490_shell::FUN_005e6490()
 }
 
 // @fnv 0x005e6470
-void __thiscall FUN_005e6470_shell::FUN_005e6470()
+void FUN_005e6470_shell::FUN_005e6470()
 {
     *(const char**)this = "@d^";
 }
@@ -617,20 +617,20 @@ namespace fnv_005e64e0 {
 
 struct EntryPointDataBase_5e6490
 {
-    void __thiscall Destroy_5e6490();
+    void Destroy_5e6490();
 };
 
-void __thiscall EntryPointDataBase_5e6490::Destroy_5e6490()
+void EntryPointDataBase_5e6490::Destroy_5e6490()
 {}
 
 struct EntryPointData_5e64e0
 {
-    void* __thiscall FUN_005e64e0(unsigned int flags);
+    void* FUN_005e64e0(unsigned int flags);
 };
 
 // Calls the base class destructor, deallocates this object if the low bit of flags is set, and returns this.
 // @fnv 0x005e64e0
-void* __thiscall EntryPointData_5e64e0::FUN_005e64e0(unsigned int flags)
+void* EntryPointData_5e64e0::FUN_005e64e0(unsigned int flags)
 {
     reinterpret_cast<::FUN_005e6490_shell *>((((EntryPointDataBase_5e6490*)this)))->FUN_005e6490();
     if (flags & 1)

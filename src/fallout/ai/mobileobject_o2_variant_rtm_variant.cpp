@@ -4,6 +4,7 @@
 
 // src/fallout/ai/mobileobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/mobileobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <windows.h>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/AimController_c70060.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -153,7 +154,6 @@ extern const char str_010c4ad8[], str_010c4ac0[];
 extern "C" void _ReadWriteBarrier();
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern float DAT_01267bc4;
 extern float DAT_01267bb0;
 struct Point { float x,y,z;
@@ -286,7 +286,7 @@ struct MovementInput {
 };
 struct Rotation {
     S00c73170_Vec q;
-    void __thiscall FUN_00cb2450(const S00c73170_Vec* axis, float angle);
+    void FUN_00cb2450(const S00c73170_Vec* axis, float angle);
 };
 struct State {
     unsigned int unk00;
@@ -905,7 +905,7 @@ struct MovementController {
     Inspect* FUN_00621ad0();
 };
 // @fnv 0x00c73170
-extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, MovementInput* in) {
+extern "C" int FUN_00c73170(MovementController* self, void*, MovementInput* in) {
     int result=0;
     struct SpeedTrace { float value; } speedTrace;
     Rotation rot;

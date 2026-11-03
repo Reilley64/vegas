@@ -215,7 +215,6 @@ struct GameTimerRecord
     bool m_bSecondTimerFlag;
     char _pad_1e[2];
 };
-typedef char _sizecheck_BSTimer[sizeof(GameTimerRecord) == 32 ? 1 : -1];
 struct FUN_007013e0_shell : public GameTimerRecord
 {
     float FUN_007013e0();

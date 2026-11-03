@@ -73,11 +73,11 @@
 
 struct FUN_007e6760_cls
 {
-    bool __thiscall FUN_007e6760();
+    bool FUN_007e6760();
 };
 
 // @fnv 0x007e6760
-bool __thiscall FUN_007e6760_cls::FUN_007e6760()
+bool FUN_007e6760_cls::FUN_007e6760()
 {
     return ::fnv_007ab810::FUN_007ab810() != 0;
 }
@@ -97,12 +97,12 @@ extern "C" void __cdecl FUN_007004e0();
 
 struct FUN_007f7770_Class
 {
-    void __thiscall FUN_007004e0();
-    void __thiscall FUN_007f7770();
+    void FUN_007004e0();
+    void FUN_007f7770();
 };
 
 // @fnv 0x007f7770
-void __thiscall FUN_007f7770_Class::FUN_007f7770()
+void FUN_007f7770_Class::FUN_007f7770()
 {
     reinterpret_cast<::FUN_007004e0_class *>(this)->FUN_007004e0();
 }
@@ -202,11 +202,11 @@ void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
     char _0[0x28];
-    void __thiscall FUN_007e66a0(int a, int b);
+    void FUN_007e66a0(int a, int b);
 };
 // If b is zero and a is in [0,3), reads b from this[a+10]; for a==1, sets g_011daed8 from the navmesh pointer at this+0x34 and calls FUN_007e65b0.
 // @fnv 0x007e66a0
-void __thiscall FUN_007e66a0_cls::FUN_007e66a0(int aiIndex, int aiValue)
+void FUN_007e66a0_cls::FUN_007e66a0(int aiIndex, int aiValue)
 {
     if (aiValue == 0 && aiIndex >= 0 && aiIndex < 3)
         aiValue = ((int*)this)[aiIndex + 10];
@@ -222,8 +222,8 @@ void __thiscall FUN_007e66a0_cls::FUN_007e66a0(int aiIndex, int aiValue)
 void __cdecl DestroyList(void*);
 struct FUN_007f69d0_Class
 {
-    void __thiscall DestroyList();
-    void* __thiscall FUN_007f69d0(unsigned int flags);
+    void DestroyList();
+    void* FUN_007f69d0(unsigned int flags);
 };
 struct GameTimerRecord
 {
@@ -241,10 +241,10 @@ struct FUN_007f7880_Class
     float f8;
     float f9;
     float f10;
-    void __thiscall FUN_007f7880(float a, float b, float c);
+    void FUN_007f7880(float a, float b, float c);
 };
 // @fnv 0x007f7880
-void __thiscall FUN_007f7880_Class::FUN_007f7880(float a, float b, float c)
+void FUN_007f7880_Class::FUN_007f7880(float a, float b, float c)
 {
     bActive = 1;
     f2 = a;
@@ -292,7 +292,7 @@ struct FUN_007f7830_Class
 {
     char _0[0x28];
     unsigned char bActive;
-    void __thiscall UpdateIfActive();
+    void UpdateIfActive();
 };
 // Reads the global time and, when bActive is set, calls UpdateFalloff with that time as a float.
 // @fnv 0x007f7830
@@ -310,12 +310,12 @@ struct FUN_007fecc0_Class
     unsigned char _1[3];
     float fTime;
     float fValue;
-    void __thiscall FUN_007fecc0();
+    void FUN_007fecc0();
 };
 
 // Sets bActive to 1, stores the current global time in fTime and resets fValue to 0.0f.
 // @fnv 0x007fecc0
-void __thiscall FUN_007fecc0_Class::FUN_007fecc0()
+void FUN_007fecc0_Class::FUN_007fecc0()
 {
     bActive = 1;
     fTime = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)&(g_timeGlobal))->FUN_00825c00();
@@ -325,12 +325,12 @@ void __thiscall FUN_007fecc0_Class::FUN_007fecc0()
 struct FUN_007eb8d0_Class
 {
     char _0[0x28];
-    bool __thiscall HasAllSlotsSet(int* p);
+    bool HasAllSlotsSet(int* p);
 };
 
 // Sets *p to 1 and checks that each of the 31 int slots at this+0x28 is non-zero, returning false on the first zero.
 // @fnv 0x007eb8d0
-bool __thiscall FUN_007eb8d0_Class::HasAllSlotsSet(int* piIndex)
+bool FUN_007eb8d0_Class::HasAllSlotsSet(int* piIndex)
 {
     *piIndex = 1;
     for (; *piIndex <= 0x1f; ++*piIndex)
@@ -343,7 +343,7 @@ bool __thiscall FUN_007eb8d0_Class::HasAllSlotsSet(int* piIndex)
 
 struct Tile
 {
-    void __thiscall Set(int, int);
+    void Set(int, int);
 };
 struct Menu
 {
@@ -370,10 +370,10 @@ struct FUN_007f6a00_Class
 {
     char _0[8];
     ListX l;
-    void __thiscall DestroyList();
+    void DestroyList();
 };
 // @fnv 0x007f69d0
-void* __thiscall FUN_007f69d0_Class::FUN_007f69d0(unsigned int flags)
+void* FUN_007f69d0_Class::FUN_007f69d0(unsigned int flags)
 {
     reinterpret_cast<::FUN_007f6a00_Class *>(this)->DestroyList();
     if (flags & 1)
@@ -381,7 +381,7 @@ void* __thiscall FUN_007f69d0_Class::FUN_007f69d0(unsigned int flags)
     return this;
 }
 // @fnv 0x007f6a00
-void __thiscall FUN_007f6a00_Class::DestroyList()
+void FUN_007f6a00_Class::DestroyList()
 {
     reinterpret_cast<::EffectSettingList *>(&(l))->EffectSettingList::~EffectSettingList();
 }
@@ -404,12 +404,12 @@ struct FUN_007f78f0_Class
     NiPoint2 f6;
     NiPoint2 f8;
 
-    void __thiscall InitFromPoints(const NiPoint2* a, const NiPoint2* b, const NiPoint2* c);
+    void InitFromPoints(const NiPoint2* a, const NiPoint2* b, const NiPoint2* c);
 };
 
 // Marks the object active, copies three NiPoint2 inputs into f2/f4/f6, stores the global time in fTime and DAT_011f4980 in f8.
 // @fnv 0x007f78f0
-void __thiscall FUN_007f78f0_Class::InitFromPoints(const NiPoint2* apPoint1, const NiPoint2* apPoint2,
+void FUN_007f78f0_Class::InitFromPoints(const NiPoint2* apPoint1, const NiPoint2* apPoint2,
                                                    const NiPoint2* apPoint3)
 {
     bActive = 1;
@@ -708,12 +708,12 @@ struct FUN_007f7fb0_Class
     unsigned char unk00[0xC0];
     FUN_007f7fb0_Value unkC0;
 
-    void __thiscall FUN_007f7fb0(const FUN_007f7fb0_Value* value);
+    void FUN_007f7fb0(const FUN_007f7fb0_Value* value);
 };
 
 // Copies the four-field value into the object's unkC0 member.
 // @fnv 0x007f7fb0
-void __thiscall FUN_007f7fb0_Class::FUN_007f7fb0(const FUN_007f7fb0_Value* value)
+void FUN_007f7fb0_Class::FUN_007f7fb0(const FUN_007f7fb0_Value* value)
 {
     unkC0 = *value;
 }
@@ -730,7 +730,7 @@ struct FUN_007f7fe0_cls
 {
     unsigned char _0[0xa8];
     Quad4 m_q;
-    void __thiscall SetQuad(const Quad4* src);
+    void SetQuad(const Quad4* src);
 };
 // @fnv 0x007f7f40
 void PipboyStub::FUN_007f7f40()
@@ -746,7 +746,7 @@ void PipboyStub::FUN_007f7f40()
 
 // Copies the four unsigned ints from src into the m_q member of this object.
 // @fnv 0x007f7fe0
-void __thiscall FUN_007f7fe0_cls::SetQuad(const Quad4* apQuad)
+void FUN_007f7fe0_cls::SetQuad(const Quad4* apQuad)
 {
     m_q = *apQuad;
 }
@@ -935,7 +935,7 @@ struct FUN_007fa0f0_Class
 
     float values[1];
 
-    void __thiscall SetValue(int index, bool play);
+    void SetValue(int index, bool play);
 };
 
 // @fnv 0x007fa0f0
@@ -960,12 +960,12 @@ struct FUN_007fb730_Class
     float y;
     float z;
 
-    FUN_007fb730_Class* __thiscall Add(FUN_007fb730_Class* output, const FUN_007fb730_Class* input);
+    FUN_007fb730_Class* Add(FUN_007fb730_Class* output, const FUN_007fb730_Class* input);
 };
 
 // Adds the input vector's x, y and z to this vector's components and writes the sum to output, returning output.
 // @fnv 0x007fb730
-FUN_007fb730_Class* __thiscall FUN_007fb730_Class::Add(FUN_007fb730_Class* output, const FUN_007fb730_Class* input)
+FUN_007fb730_Class* FUN_007fb730_Class::Add(FUN_007fb730_Class* output, const FUN_007fb730_Class* input)
 {
     FUN_007fb730_Class result = *this;
 

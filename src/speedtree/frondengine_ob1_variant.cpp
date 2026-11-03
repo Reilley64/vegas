@@ -75,12 +75,12 @@ struct FUN_00b1add0
 };
 struct FUN_00b39460_class
 {
-    void __thiscall FUN_00b39460();
+    void FUN_00b39460();
 };
 struct FUN_0064df10_helper
 {
     void* p;
-    void __thiscall deallocate(void* a, unsigned int b);
+    void deallocate(void* a, unsigned int b);
 };
 struct Date
 {
@@ -99,7 +99,7 @@ struct FUN_00b1db00_class
     int i8;
     int ic;
     int i10;
-    unsigned int __thiscall FUN_00b1db00(unsigned int a);
+    unsigned int FUN_00b1db00(unsigned int a);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00b30fd0_class
@@ -113,7 +113,7 @@ struct FUN_00b319a0_class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    int __thiscall FUN_00b319a0(int n);
+    int FUN_00b319a0(int n);
 };
 unsigned int __cdecl FUN_00ec7c56();
 void __cdecl operator delete(void*);
@@ -125,8 +125,8 @@ struct FUN_00b1ec70_class
     int* p;
     int* q;
     int* r;
-    void __thiscall FUN_00b1ebc0(int* a, int* b);
-    void __thiscall FUN_00b1ec70();
+    void FUN_00b1ebc0(int* a, int* b);
+    void FUN_00b1ec70();
 };
 struct FUN_00b1ff50
 {
@@ -165,13 +165,13 @@ struct FUN_00b1fe80_helper
     int* mC;
     int* m10;
     int* m14;
-    void __thiscall FUN_00b22650(int* a, int* b);
-    void __thiscall FUN_00b1fe80();
+    void FUN_00b22650(int* a, int* b);
+    void FUN_00b1fe80();
 };
 void __cdecl operator delete(void*);
 struct FUN_00b20c30_class
 {
-    void __thiscall FUN_00b20c30(void* a, void* b);
+    void FUN_00b20c30(void* a, void* b);
 };
 struct FUN_00b1f650_class
 {
@@ -181,7 +181,7 @@ struct FUN_00b1f650_class
     void* pc;
     void* pe;
     void* pp;
-    void __thiscall FUN_00b1f650();
+    void FUN_00b1f650();
 };
 struct FUN_00b249d0_local
 {
@@ -241,8 +241,8 @@ struct CopyableStateBlock
     int i30;
     int i34;
 
-    void __thiscall FUN_00b24ae0(const CopyableStateBlock* that);
-    CopyableStateBlock* __thiscall CopyFrom(const CopyableStateBlock& that);
+    void FUN_00b24ae0(const CopyableStateBlock* that);
+    CopyableStateBlock* CopyFrom(const CopyableStateBlock& that);
 };
 void __cdecl FUN_00b269d0(char* a, char* b, char* c, bool d);
 void __cdecl FUN_00b26160(char* a, char* b, char* c, bool d);
@@ -302,16 +302,16 @@ struct SpawnEntry : StringLike
     float f20;
     float f24;
     float f28;
-    int __thiscall Init(SpawnEntry*, int, int);
-    SpawnEntry* __thiscall FUN_00b22f80(SpawnEntry* that);
+    int Init(SpawnEntry*, int, int);
+    SpawnEntry* FUN_00b22f80(SpawnEntry* that);
 };
 struct FUN_00ec78f1_t
 {
     int m0;
     int m4;
-    void* __thiscall FUN_00ec78f1(int* out);
+    void* FUN_00ec78f1(int* out);
 };
-void __stdcall FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
+void FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
 void* __cdecl operator new(unsigned int);
 void* __cdecl FUN_00b23980(unsigned int n);
 void __cdecl CopyObjects(CopyableStateBlock* dst, unsigned int n, const CopyableStateBlock* src);
@@ -636,11 +636,11 @@ struct Iter : public _Iterator_base_aux
 {
     Element* _Myptr;
 
-    Iter* __thiscall FUN_00b235e0(int _Off);
+    Iter* FUN_00b235e0(int _Off);
 };
 
 // @fnv 0x00b235e0
-Iter* __thiscall Iter::FUN_00b235e0(int _Off)
+Iter* Iter::FUN_00b235e0(int _Off)
 {
     if (!_Has_container())
         FUN_00ec7c56();
@@ -3941,11 +3941,11 @@ struct S00b1df10_Guard
 
 struct FUN_00b1df10_obj : FUN_00b1f650_class
 {
-    void __thiscall FUN_00b1df10();
+    void FUN_00b1df10();
 };
 
 // @fnv 0x00b1df10
-void __thiscall FUN_00b1df10_obj::FUN_00b1df10()
+void FUN_00b1df10_obj::FUN_00b1df10()
 {
     int u1;
     int u2;
@@ -6297,11 +6297,11 @@ struct EmptyGuard
 
 struct S00b1e5d0_Obj : FUN_00b1fe80_helper
 {
-    void __thiscall FUN_00b1e5d0();
+    void FUN_00b1e5d0();
 };
 
 // @fnv 0x00b1e5d0
-void __thiscall S00b1e5d0_Obj::FUN_00b1e5d0()
+void S00b1e5d0_Obj::FUN_00b1e5d0()
 {
     int u1;
     int u2;
@@ -6638,7 +6638,7 @@ struct FUN_00b1eb00_class
     int m_iThirdValue;
     int m_10;
     int m_14;
-    bool __thiscall FUN_00b1eb00(unsigned int n);
+    bool FUN_00b1eb00(unsigned int n);
 };
 
 // @fnv 0x00b1eb00
@@ -23999,7 +23999,7 @@ inline void Unused()
 }
 struct FUN_00b1ae00_class : RotMat
 {
-    void __thiscall FUN_00b1ae00(float angle);
+    void FUN_00b1ae00(float angle);
 };
 // @fnv 0x00b1ae00
 void FUN_00b1ae00_class::FUN_00b1ae00(float fAngleDifference)
@@ -29261,7 +29261,7 @@ static __forceinline void DeadQ()
 struct Vector_b1ea20 : vectorS<SFrondGuideEntry>
 {
     iterator FUN_00b1ea20(const_iterator _First_arg, const_iterator _Last_arg);
-    void __thiscall FUN_00b1ebc0(SFrondGuideEntry* a, SFrondGuideEntry* b);
+    void FUN_00b1ebc0(SFrondGuideEntry* a, SFrondGuideEntry* b);
 };
 // @fnv 0x00b1de20
 void VecB1de20::FUN_00b1de20()
@@ -29414,7 +29414,7 @@ InsertIterator24 InsertVector24::FUN_00b1fd50(InsertConstIterator24 where, const
 
 namespace rework_b200f0 {
 void FUN_00ec7c56();
-void __stdcall FUN_00ec7894(void*, void*);
+void FUN_00ec7894(void*, void*);
 struct ElQ_b200
 {
     char b[0x38];

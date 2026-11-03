@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <windows.h>
 #include "fnv/decl/MotionMassView.h"
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -594,7 +595,7 @@ extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" unsigned __int64 __rdtsc(void);
 
-extern "C" void*(__stdcall* DAT_00fdf044)(unsigned long);
+extern "C" void*(* DAT_00fdf044)(unsigned long);
 
 extern float DAT_011b6194;
 extern char DAT_010d2224[];
@@ -623,7 +624,6 @@ struct MonStream
     MonRec* end;
 };
 
-extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 static __forceinline void monBegin(const char* tag, volatile unsigned int* stamped)
 {
     MonStream* s = (MonStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));

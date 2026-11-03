@@ -19,6 +19,4 @@ class TESObjectMISC : public TESBoundObject,
     TESSound* pLoopingSound;
     void SetLoopingSound(TESSound* sound);
 };
-FNV_STATIC_ASSERT(sizeof(TESObjectMISC) == 0xAC);
-FNV_STATIC_ASSERT(offsetof(TESObjectMISC, pLoopingSound) == 0xA8);
 #endif

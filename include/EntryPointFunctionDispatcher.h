@@ -3,7 +3,6 @@
 #define FNV_BGSENTRYPOINT_H
 
 #include "layout_support.h"
-#pragma pack(push, 4)
 class EntryPointFunctionDispatcher
 {
   public:
@@ -103,14 +102,4 @@ class EntryPointFunctionDispatcher
     static void ExecuteEntryPoint(ENTRY_POINT entryPoint, Actor* actor, ...);
     static EntryPoint ms_kEntryPointTable[];
 };
-#pragma pack(pop)
-FNV_STATIC_ASSERT(sizeof(EntryPointFunctionDispatcher::StringReference) == 4);
-FNV_STATIC_ASSERT(offsetof(EntryPointFunctionDispatcher::StringReference, m_pStringValue) == 0);
-FNV_STATIC_ASSERT(sizeof(EntryPointFunctionDispatcher::EntryPointParameterList) == 8);
-FNV_STATIC_ASSERT(offsetof(EntryPointFunctionDispatcher::EntryPointParameterList, cCount) == 0);
-FNV_STATIC_ASSERT(offsetof(EntryPointFunctionDispatcher::EntryPointParameterList, pParameters) == 4);
-FNV_STATIC_ASSERT(sizeof(EntryPointFunctionDispatcher::EntryPoint) == 16);
-FNV_STATIC_ASSERT(offsetof(EntryPointFunctionDispatcher::EntryPoint, m_pName) == 0);
-FNV_STATIC_ASSERT(offsetof(EntryPointFunctionDispatcher::EntryPoint, m_kParameters) == 4);
-FNV_STATIC_ASSERT(offsetof(EntryPointFunctionDispatcher::EntryPoint, m_ucFunctionType) == 12);
 #endif

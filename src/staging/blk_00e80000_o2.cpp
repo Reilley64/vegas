@@ -15495,6 +15495,13 @@ ArrayElementE80390* __cdecl FUN_00e80390(unsigned int count)
     return new(count) ArrayElementE80390[count];
 }
 
+// Clears a NiTPointerList through the shared 0x004ed900 for units whose layout_support.h
+// declares NiTPointerListBase as a template.
+void ClearPointerList(void* list)
+{
+    reinterpret_cast<::NiTPointerListBase*>(list)->FUN_004ed900();
+}
+
 #include "generated/data/staging/blk_00e80000_o2.inc"
 #include "generated/data/staging/blk_00e80000_o2_rtm_variant.inc"
 #include "generated/data/staging/blk_00e80000_o2_ehsc_noehsc_variant.inc"

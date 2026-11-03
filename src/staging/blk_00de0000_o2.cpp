@@ -13821,7 +13821,7 @@ void hcaller(__m128* d, int idx, const __m128* s);
 
 void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p);
 
-extern const float DAT_0104da4c = 1.1920928955078125e-07f;
+extern const float DAT_0104da4c;
 
 // @fnv 0x00de9410
 bool __cdecl FUN_00de9410(const __m128* start,const __m128* end,const __m128* plane,float* out) {

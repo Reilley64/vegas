@@ -3,6 +3,22 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "../../include/layout_support.h"
+#include <d3d9.h>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00e7d000.h"
+#include "fnv/symbols_00ee6000.h"
+#include "fnv/symbols_01267000.h"
+#include "fnv/symbols_01268000.h"
+#include <math.h>
+#include "fnv/decl/DFB0B0_Owner.h"
+#include "fnv/decl/fnv_00e63ba0__TetraHull.h"
+#include "fnv/decl/fnv_00e67740__Hull.h"
+#include "fnv/symbols_01032000.h"
+#include "fnv/symbols_010db000.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/SinkOwner.h"
 #include "fnv/symbols_00c90000.h"
 #include <xmmintrin.h>
 #include <cstdint>
@@ -36,7 +52,6 @@
 #include "fnv/decl/NiDepthStencilBufferA9F.h"
 #include "fnv/decl/NiImageConverter.h"
 #include "fnv/decl/NiRenderer.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/ResetRenderer.h"
 #include "fnv/decl/S_00b601a0_Map.h"
 #include "fnv/decl/S_00e8a2b0.h"
@@ -74,7 +89,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126e000.h"
 #include "fnv/symbols_0126f000.h"
-#include "../../include/layout_support.h"
 
 struct FUN_00a77980_shell
 {
@@ -176,8 +190,8 @@ void FUN_00e67fd0_cls::ClearEntries()
     }
 }
 
-typedef void*(* DepthDevice)(unsigned int);
-typedef int(* CreateExFn)(unsigned int, DepthDevice**);
+typedef void*(* Direct3DCreate9Fn)(unsigned int);
+typedef int(* CreateExFn)(unsigned int, Direct3DCreate9Fn**);
 extern void*(* DAT_00fdf0ac)(void*, const char*);
 extern void*(* DAT_00fdf0b0)(const char*);
 
@@ -192,7 +206,7 @@ unsigned char __cdecl InitD3D9CreateFunctions()
     {
         void*(* pfnGetProcAddress)(void*, const char*) = DAT_00fdf0ac;
         DAT_0126f0e0 = (CreateExFn)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9Ex");
-        ::g_0126f0dc = (DepthDevice)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9");
+        ::g_0126f0dc = (Direct3DCreate9Fn)pfnGetProcAddress(DAT_0126f0d4, "Direct3DCreate9");
         if (::g_0126f0dc)
             return 1;
     }
@@ -739,10 +753,7 @@ void* FUN_00e7b230_Class::FUN_00e7b230(unsigned char flags)
 namespace fnv_00e7bb50 {
 void __cdecl _NiFree(void* p);
 void __cdecl _delete(void* p, unsigned int size);
-
-struct M788
-{
-};
+void ClearPointerList(void* list);
 
 struct FUN_00e7b550_Class
 {
@@ -765,7 +776,7 @@ void FUN_00e7bb50_Class::FUN_00e7bb50()
 
         if (item)
         {
-            reinterpret_cast<::NiTPointerListBase *>((reinterpret_cast<M788*>(reinterpret_cast<unsigned char*>(item) + 0x10)))->FUN_004ed900();
+            ClearPointerList(reinterpret_cast<unsigned char*>(item) + 0x10);
             _delete(item, 0x1c);
         }
     }
@@ -922,10 +933,10 @@ struct FUN_00e7dbc0_Class
 void FUN_00e7dbc0_Class::FUN_00e7dbc0()
 {
     *(int*)this = (int)&::DAT_010ef184;
-    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
     void* p = this;
     reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&DAT_0126f5cc)))->FUN_00e7db70((void *const *)(void **)(&p));
-    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
     void* q = *(void**)((char*)this + 0x14);
     *(int*)this = (int)&::DAT_010eeed4;
     if (q)
@@ -6512,7 +6523,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     }
 }
 
-struct HeapAlloc
+struct HeapAllocE60
 {
     virtual void* v00();
     virtual void v04();
@@ -6527,7 +6538,7 @@ struct MemRouter
     int unk04;
     int unk08;
     int unk0c;
-    HeapAlloc* heap;
+    HeapAllocE60* heap;
 };
 
 inline MemRouter* getRouter() throw()
@@ -6564,7 +6575,7 @@ struct U16Array
     int m_iCapacityState;
     char* m_pStackAllocation;
 
-    __forceinline void ClearAndRelease(HeapAlloc* alloc)
+    __forceinline void ClearAndRelease(HeapAllocE60* alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -7675,8 +7686,6 @@ void FUN_00e69620_cls::FUN_00e69620()
     unk884->vfB0(0);
 }
 
-typedef int D3DFORMAT;
-typedef int D3DDEVTYPE;
 struct S00e7b590_Mode
 {
     unsigned int Width;
@@ -8001,7 +8010,7 @@ FUN_00e7b590::FUN_00e7b590(S00e7b590_D3D* dev, int aiAdapter, D3DDEVTYPE aiDevic
     else
     {
 
-        caps.DeviceType = 0;
+        caps.DeviceType = (D3DDEVTYPE)0;
     }
 
     ListNode* pos = items.head;
@@ -8110,9 +8119,8 @@ template <class T> class NiTListE7CF
     }
 };
 
-struct CriticalSectionE7CF
+struct CriticalSectionE7CF : CRITICAL_SECTION
 {
-    int unk00[6];
 };
 
 extern NiTListE7CF<ItemE7CF*> DAT_0126f5c8;
@@ -8289,8 +8297,8 @@ struct RouterX
     int unk04;
     int unk08;
     int unk0c;
-    HeapAlloc* m_pStreamAllocator;
-    __forceinline HeapAlloc& heap()
+    HeapAllocE60* m_pStreamAllocator;
+    __forceinline HeapAllocE60& heap()
     {
         return *m_pStreamAllocator;
     }
@@ -8306,7 +8314,7 @@ struct IntArrayX
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void GrowArrayCapacity(HeapAlloc& alloc, int n)
+    __forceinline void GrowArrayCapacity(HeapAllocE60& alloc, int n)
     {
         const int cap = getCapacity();
         if (cap < n)
@@ -8318,7 +8326,7 @@ struct IntArrayX
     }
     __forceinline int* expandBy(int n)
     {
-        HeapAlloc& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
+        HeapAllocE60& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
         int oldSize = m_iElementCount;
         GrowArrayCapacity(alloc, oldSize + n);
         m_iElementCount += n;
@@ -10374,9 +10382,9 @@ FUN_00e7b7d0::FUN_00e7b7d0(AdapterApi* apAdapter, int handle, FormatList& names)
     CurrentMode tech;
     apAdapter->GetTech(m_handle, &tech);
     m_stage1 = new (FUN_00aa13e0(sizeof(FUN_00e7b590)))
-        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, 1, tech.unk0C, (OuterNode**)&names);
+        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, (D3DDEVTYPE)1, (D3DFORMAT)tech.unk0C, (OuterNode**)&names);
     m_stage2 = new (FUN_00aa13e0(sizeof(FUN_00e7b590)))
-        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, 2, tech.unk0C, (OuterNode**)&names);
+        FUN_00e7b590((S00e7b590_D3D*)apAdapter, handle, (D3DDEVTYPE)2, (D3DFORMAT)tech.unk0C, (OuterNode**)&names);
 }
 
 struct S00e60650
@@ -10419,27 +10427,6 @@ int* FUN_00e60660_Cls::FUN_00e60660()
 }
 
 namespace fnv_00e68010 {
-#include <d3d9.h>
-#include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/symbols_00e7d000.h"
-#include "fnv/symbols_00ee6000.h"
-#include "fnv/symbols_01267000.h"
-#include "fnv/symbols_01268000.h"
-#include <math.h>
-#include <math.h>
-#include "fnv/decl/DFB0B0_Owner.h"
-#include "fnv/decl/fnv_00e63ba0__TetraHull.h"
-#include "fnv/decl/fnv_00e67740__Hull.h"
-#include "fnv/symbols_00e7d000.h"
-#include "fnv/symbols_00ee6000.h"
-#include "fnv/symbols_01032000.h"
-#include "fnv/symbols_010db000.h"
-#include "fnv/symbols_01267000.h"
-#include "fnv/decl/FUN_00cb1600.h"
-#include "fnv/decl/FUN_00cc00e0.h"
-#include "fnv/decl/SinkOwner.h"
-#include "fnv/symbols_00e7d000.h"
-#include "fnv/symbols_01268000.h"
 
 struct NiPixelFormatStub;
 D3DFORMAT GetD3DFormat(const NiPixelFormatStub* kFormat);
@@ -11657,71 +11644,8 @@ float E65000Swap(E65000Entry* pkEntries, int iIndex, float fValue);
 
 void* __cdecl _memmove(void*, const void*, unsigned);
 
-// VEGAS17-CONFLICT: BE7B040MapBase (variant definition below differs from the one above)
-template <class TKEY, class TVAL> class BE7B040MapBase
-{
-  public:
-    typedef BE7B040MapItem<TKEY, TVAL> Item;
 
-    __forceinline virtual ~BE7B040MapBase()
-    {
-        RemoveAll();
-        NiFree(m_ppkHashTable);
-    }
-    virtual unsigned int KeyToHashIndex(TKEY key) const;
 
-    void RemoveAll();
-
-    Item* GetFirstPos() const
-    {
-        for (unsigned int i = 0; i < m_uiHashSize; i++)
-        {
-            if (m_ppkHashTable[i])
-                return m_ppkHashTable[i];
-        }
-        return 0;
-    }
-    void GetNext(Item*& pkPos, TKEY& key, TVAL& val) const
-    {
-        Item* pkItem = pkPos;
-        key = pkItem->m_key;
-        val = pkItem->m_val;
-        if (pkItem->m_pkNext)
-        {
-            pkPos = pkItem->m_pkNext;
-            return;
-        }
-        unsigned int i = KeyToHashIndex(pkItem->m_key);
-        for (++i; i < m_uiHashSize; i++)
-        {
-            pkPos = m_ppkHashTable[i];
-            if (pkPos)
-                return;
-        }
-        pkPos = 0;
-    }
-
-    unsigned int m_uiHashSize;
-    Item** m_ppkHashTable;
-    unsigned int m_uiCount;
-};
-
-// VEGAS17-CONFLICT: BE7B040Map (variant definition below differs from the one above)
-template <class TKEY, class TVAL> class BE7B040Map : public BE7B040MapBase<TKEY, TVAL>
-{
-  public:
-    __forceinline virtual ~BE7B040Map()
-    {
-        this->RemoveAll();
-    }
-};
-
-// VEGAS17-CONFLICT: FUN_00e7bc90 (variant definition below differs from the one above)
-struct FUN_00e7bc90 : Base_e7bc90
-{
-    NiArr_e7bc90 m_aiIndexedValues;
-    FUN_00e7bc90(int a, int b) throw();
-};
 
 CpuOpaque* __cdecl FUN_00e7d220();
 
@@ -11732,58 +11656,14 @@ void* __cdecl FUN_00e7d680(void);
 
 
 
-// VEGAS17-CONFLICT: IntArray (variant definition below differs from the one above)
-struct IntArray
-{
-    int* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    void AddBack(const int& e)
-    {
-        MemRouter* rr = getRouter();
-        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(rr->heap), (::AudioStream *)(void *)(this), 4);
-        construct(m_data + m_iElementCount, 1, e);
-        m_iElementCount++;
-    }
-};
 
 void __cdecl BuildIndexArray(IndexSource* src, IntArray* out);
 
 
 
-// VEGAS17-CONFLICT: hkArrayE60F (variant definition below differs from the one above)
-template <class T> class hkArrayE60F
-{
-  public:
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-
-    __forceinline T* expandBy(int n)
-    {
-        AllocatorE60F& kAlloc = (*static_cast<RouterE60F*>(::FUN_00c85750())).heap();
-        int iOldSize = m_iElementCount;
-        int iNewSize = iOldSize + n;
-        if (getCapacity() < iNewSize)
-        {
-            int iCap2 = 2 * getCapacity();
-            int iNewCap = (iNewSize < iCap2) ? iCap2 : iNewSize;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)(kAlloc), (::SpawnedArray *)(void *)(this), iNewCap, sizeof(T));
-        }
-        m_iElementCount += n;
-        return m_data + iOldSize;
-    }
-};
 
 static float FUN_00e62ac0(unsigned seed);
 
-volatile unsigned g_e62ac0_seed = 12345u;
 
 void e62ac0_probe_caller(void);
 
@@ -11803,51 +11683,12 @@ void __cdecl FUN_00e67560();
 
 int ApplyOperator(int op, int val);
 
-// VEGAS17-CONFLICT: IntArrayX (variant definition below differs from the one above)
-struct IntArrayX
-{
-    int* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    __forceinline int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    __forceinline void GrowArrayCapacity(HeapAlloc& alloc, int n)
-    {
-        const int cap = getCapacity();
-        if (cap < n)
-        {
-            int cap2 = 2 * cap;
-            int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)((IndexAllocator*)&alloc), (::SpawnedArray *)(void *)((IndexArray*)this), newSize, sizeof(int));
-        }
-    }
-    __forceinline int* expandBy(int n)
-    {
-        HeapAlloc& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
-        int oldSize = m_iElementCount;
-        GrowArrayCapacity(alloc, oldSize + n);
-        m_iElementCount += n;
-        return m_data + oldSize;
-    }
-};
 
 void __cdecl FUN_00e61a10(const __m128* point, const __m128* a, const __m128* b, const __m128* c,
                           BarycentricResult* result);
 
 void __cdecl FUN_00e67550();
 
-// VEGAS17-CONFLICT: DepthStencilSearch (variant definition below differs from the one above)
-class DepthStencilSearch
-{
-  public:
-    int unk00;
-    int unk04;
-    SearchIndex m_08;
-    int FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
-};
 
 GlobalObjectO2_00a7b610* FUN_00e7cd30();
 
@@ -11855,76 +11696,9 @@ int __cdecl FUN_00ec65a6(char* pcDest, unsigned int uiDestSize, const char* pcSr
 
 void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
 
-// VEGAS17-CONFLICT: ModeArrayBase (variant definition below differs from the one above)
-template <class T, class TAlloc> class ModeArrayBase
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    T* m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-    ModeArrayBase(unsigned int uiMaxSize = 0, unsigned int uiGrowBy = 1) throw()
-    {
-        m_ppVirtualMethodTable = &DAT_010eec74;
-        m_usMaxSize = (unsigned short)uiMaxSize;
-        m_usGrowBy = (unsigned short)uiGrowBy;
-        m_usSize = 0;
-        m_usESize = 0;
-        if (m_usMaxSize > 0)
-            m_pBase = TAlloc::Allocate(m_usMaxSize);
-        else
-            m_pBase = 0;
-    }
-    unsigned int GetSize() const
-    {
-        return m_usSize;
-    }
-    T& GetAt(unsigned int i) const
-    {
-        return m_pBase[i];
-    }
-    void FUN_00a90180(unsigned int size) throw();
-    void SetAt(unsigned int uiIndex, const T& element) throw()
-    {
-        if (uiIndex >= m_usSize)
-        {
-            m_usSize = (unsigned short)(uiIndex + 1);
-            if (element != T(0))
-                m_usESize++;
-        }
-        else
-        {
-            if (element != T(0))
-            {
-                if (m_pBase[uiIndex] == T(0))
-                    m_usESize++;
-            }
-            else
-            {
-                if (m_pBase[uiIndex] != T(0))
-                    m_usESize--;
-            }
-        }
-        m_pBase[uiIndex] = element;
-    }
-    unsigned int SetAtGrow(unsigned int uiIndex, const T& element) throw()
-    {
-        if (uiIndex >= m_usMaxSize)
-            FUN_00a90180(uiIndex + m_usGrowBy);
-        SetAt(uiIndex, element);
-        return uiIndex;
-    }
-    unsigned int Add(const T& element) throw()
-    {
-        return SetAtGrow(m_usSize, element);
-    }
-};
 
 void* __cdecl FUN_00ec61c0(void* p, int c, unsigned int n);
 
-extern const float DAT_01016248;
 
 void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
 
@@ -12643,7 +12417,10 @@ struct Polytope
 
 extern const float DAT_0104da4c = 1.1920928955078125e-7f;
 
-extern const float DAT_01016248 = 0.5f;
+namespace fnv_00c88020 {
+extern "C" const float DAT_01016248 = 0.5f;
+}
+using ::fnv_00c88020::DAT_01016248;
 
 static __forceinline __m128 splat(const float* p)
 {
@@ -12773,7 +12550,7 @@ void __cdecl FUN_00e67c50(Polytope* a, Polytope* b, __m128* result, Face** outA,
     __m128 first = _mm_mul_ps(splat(&bestA), (*outA)->normal);
     *dst = first;
     *dst = normalize3(_mm_add_ps(_mm_mul_ps(splat(&bestB), (*outB)->normal), first));
-    dst->lanes.w = (float)sqrt(maximum(0.0f, best));
+    (*dst)[3] = (float)sqrt(maximum(0.0f, best));
 }
 
 extern "C" void _ReadBarrier();
@@ -13008,7 +12785,7 @@ int Solver::FUN_00e63770(E63Out* out)
                     m_68[2] = face->m_v2->m_00;
                     FUN_00e61a10(&(*reinterpret_cast<__m128 *>(&::DAT_01267e30)), &m_68[0], &m_68[1], &m_68[2],
                                  reinterpret_cast<BarycentricResult*>(&bary));
-                    if (!(bary.lanes.x < 0.0f) && !(bary.lanes.y < 0.0f) && !(bary.lanes.z < 0.0f))
+                    if (!(bary[0] < 0.0f) && !(bary[1] < 0.0f) && !(bary[2] < 0.0f))
                         goto found_face;
                     face = ((::E63Face *)(reinterpret_cast<::S00e67ae0_HullWalker *>(&(hull))->FUN_00e67ae0((::S00e67ae0_HullFace *)(face))));
                 }
@@ -13026,11 +12803,11 @@ int Solver::FUN_00e63770(E63Out* out)
                 _ReadBarrier();
 
                 m_6c = 3;
-                *(float*)&outEdge = (float)(double)bary.lanes.x;
+                *(float*)&outEdge = (float)(double)bary[0];
                 __m128 bx = _mm_load_ss((float*)&outEdge);
-                *(float*)&outEdge = (float)(double)bary.lanes.y;
+                *(float*)&outEdge = (float)(double)bary[1];
                 __m128 by = _mm_load_ss((float*)&outEdge);
-                *(float*)&outEdge = (float)(double)bary.lanes.z;
+                *(float*)&outEdge = (float)(double)bary[2];
                 __m128 bz = _mm_load_ss((float*)&outEdge);
                 __m128* p60 = m_60;
                 out->m_10 = _mm_add_ps(
@@ -13055,9 +12832,9 @@ int Solver::FUN_00e63770(E63Out* out)
         {
             m_6c = 0;
             *(float*)&outEdge = (float)((FUN_00e62ac0(m_5c) - DAT_01032980) * ::DAT_010dbb40);
-            bary.lanes.x = *(float*)&outEdge;
-            bary.lanes.y = *(float*)&outEdge;
-            bary.lanes.z = *(float*)&outEdge;
+            bary[0] = *(float*)&outEdge;
+            bary[1] = *(float*)&outEdge;
+            bary[2] = *(float*)&outEdge;
             bary = _mm_add_ps(bary, m_30);
             m_30 = bary;
             continue;
@@ -13072,20 +12849,6 @@ int Solver::FUN_00e63770(E63Out* out)
 
 
 
-// VEGAS17-CONFLICT: FUN_00e7a5e0_Object (variant definition below differs from the one above)
-class FUN_00e7a5e0_Object
-{
-  public:
-    virtual ~FUN_00e7a5e0_Object()
-    {
-        ::FUN_00aa10f0(m_pResource);
-    }
-
-    void* m_pResource;
-
-
-    FUN_00e7a5e0_Object* FUN_00e7a5e0(unsigned int uiFlags);
-};
 
 extern "C" void _ReadWriteBarrier();
 

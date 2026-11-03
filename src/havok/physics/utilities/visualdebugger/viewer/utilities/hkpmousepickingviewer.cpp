@@ -28,47 +28,72 @@ void FUN_00d66bd0(void** pOut, void** pCount)
     *pCount = (void*)3;
 }
 
+class hkpWorldD66C;
+class hkpEntityD66C;
+struct FUN_00d66b90;
+
 struct FUN_00d66c10_class
 {
 };
 
+// The mouse picking viewer (FUN_00d66b90): hkReferencedObject, its hkProcess part (Base2) at +0x08 and its
+// world deletion listener part (FUN_00d66cb0_class) at +0x20.
+struct MousePickingRefObject
+{
+    const void* m_vtbl;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+};
+
+struct Stream
+{
+    char* GetStreamResult(char* buf);
+};
+
+struct Base2
+{
+    const void* m_processVtbl;
+    int unk04;
+    Stream* stream;
+    char m14[0xc];
+    FUN_00d66b90* getDerived();
+    void FUN_00d66e10(unsigned char type);
+};
+
 struct FUN_00d66cb0_class
 {
-    int m0;
-    int m4;
-    int m8;
-    void FUN_00d66cb0(int a);
+    const void* m0;
+    int m24;
+    hkpWorldD66C* m8;
+    void FUN_00d66cb0(hkpWorldD66C* world);
 };
 
 extern int DAT_010d1cb4;
 extern int DAT_010d1cc4;
 extern int DAT_010d1ce4;
-struct D698B0Base
+struct D698B0Base : MousePickingRefObject, Base2
 {
-    const void* m_vtbl;
-    int m4;
-    const void* m_processVtbl;
-    char m0C[0x14];
     D698B0Base(void*);
 };
-struct FUN_00d66b90 : D698B0Base
+struct FUN_00d66b90 : D698B0Base, FUN_00d66cb0_class
 {
-    const void* m20;
-    int m24;
-    int m28;
-    int m2c;
+    hkpEntityD66C* m2c;
     float m30;
     FUN_00d66b90(void*);
 };
+inline FUN_00d66b90* Base2::getDerived()
+{
+    return static_cast<FUN_00d66b90*>(this);
+}
 // @fnv 0x00d66b90
 FUN_00d66b90::FUN_00d66b90(void* a) : D698B0Base(a)
 {
     m30 = 1000.0f;
-    m28 = 0;
+    m8 = 0;
     m2c = 0;
     m_vtbl = &DAT_010d1ce4;
     m_processVtbl = &DAT_010d1cc4;
-    m20 = &DAT_010d1cb4;
+    m0 = &DAT_010d1cb4;
 }
 
 struct Registry_00dd9380
@@ -90,23 +115,14 @@ int __cdecl FUN_00d66ed0()
     return DAT_01268ff8;
 }
 
-struct FnvCpu_FUN_00d66c50_CpuBlock;
-struct FnvCpu_FUN_00d66c50_CpuBlock
-{
-    unsigned int unk00;
-    unsigned short size;
-    FnvCpu_FUN_00d66c50_CpuBlock* FUN_00d66b90(void* value);
-};
 // @fnv 0x00d66c50
 void* __cdecl FUN_00d66c50(void* value)
 {
     hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
-    FnvCpu_FUN_00d66c50_CpuBlock* block = static_cast<FnvCpu_FUN_00d66c50_CpuBlock*>(holder->m_heap->blockAlloc(52));
-    block->size = 52;
-    block = ((::FnvCpu_FUN_00d66c50_CpuBlock *)(new ((void *)(block)) ::FUN_00d66b90(value)));
-    if (block)
-        return reinterpret_cast<char*>(block) + 8;
-    return 0;
+    void* block = holder->m_heap->blockAlloc(sizeof(FUN_00d66b90));
+    static_cast<MousePickingRefObject*>(block)->m_memSizeAndFlags = sizeof(FUN_00d66b90);
+    FUN_00d66b90* viewer = new (block) ::FUN_00d66b90(value);
+    return static_cast<Base2*>(viewer);
 }
 
 namespace fnv_00d66d00 {
@@ -130,13 +146,20 @@ __declspec(align(16)) struct hkVector4D66D
 
 struct hkpEntityD66D;
 
-struct FUN_00cbb560
+struct FUN_00cbb560_RefObject
 {
-    char m_acUnk00[0x60];
+    void* m_vtbl;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+};
+
+struct FUN_00cbb560 : FUN_00cbb560_RefObject
+{
+    char m_acUnk08[0x58];
     static __forceinline void* operator new(size_t uiSize)
     {
         void* p = hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
-        ((unsigned short*)p)[2] = (unsigned short)uiSize;
+        static_cast<FUN_00cbb560_RefObject*>(p)->m_memSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
     FUN_00cbb560(const hkVector4D66D& kPositionInRbLocal, const hkVector4D66D& kMousePositionInWorld,
@@ -209,29 +232,6 @@ hkBoolD66D MousePickD66D::PickEntity(hkUint64D66D uiCollidableUserData, const hk
 
 typedef __m128 FourFloatVector;
 
-struct Derived;
-
-struct Stream
-{
-    char* GetStreamResult(char* buf);
-};
-
-struct Base2
-{
-    void* vptr;
-    int unk04;
-    Stream* stream;
-    Derived* getDerived()
-    {
-        return (Derived*)((char*)this - 8);
-    }
-    void FUN_00d66e10(unsigned char type);
-};
-
-struct Derived
-{
-};
-
 struct Buf4
 {
     char b0, b1, b2, b3;
@@ -294,10 +294,10 @@ class FUN_00d66c10_cls
     void FUN_00d66c10();
 };
 // @fnv 0x00d66cb0
-void FUN_00d66cb0_class::FUN_00d66cb0(int aiValue)
+void FUN_00d66cb0_class::FUN_00d66cb0(hkpWorldD66C* world)
 {
-    if (aiValue == this->m8)
-        reinterpret_cast<::FUN_00d66c10_cls *>((((FUN_00d66c10_class*)((char*)this - 0x20))))->FUN_00d66c10();
+    if (world == this->m8)
+        reinterpret_cast<::FUN_00d66c10_cls *>(static_cast<FUN_00d66b90*>(this))->FUN_00d66c10();
 }
 // @fnv 0x00d66e10
 void Base2::FUN_00d66e10(unsigned char type)

@@ -1368,20 +1368,29 @@ bool MagicShaderHitEffect::Init()
     return false;
 }
 
+// The weighted result list: its items, their weights and the total weight.
+struct WeightedResultListView
+{
+    BSSimpleArray<void*> kItems;
+    BSSimpleArray<unsigned int> kWeights;
+    unsigned int uiTotalWeight;
+};
+
 // @fnv 0x00822650
 uintptr_t FUN_00822650_shell::FindFirstItemExceedingRemaining()
 {
-    unsigned int result = 0;
+    WeightedResultListView* pList = reinterpret_cast<WeightedResultListView*>(this);
+    uintptr_t result = 0;
     bool found = false;
-    unsigned int remaining = ::FUN_005a00a0((unsigned int)(*(void**)((char*)this + 0x20)));
-    for (unsigned int i = 0; i < reinterpret_cast<BSSimpleArray<unsigned int>*>(this)->iSize && !found; ++i)
+    unsigned int remaining = ::FUN_005a00a0(pList->uiTotalWeight);
+    for (unsigned int i = 0; i < pList->kItems.iSize && !found; ++i)
     {
-        if (remaining < ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int>*)((char*)this + 0x10))))->FUN_006a7ad0(i))))
+        if (remaining < pList->kWeights.pBuffer[i])
         {
-            result = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int>*)this)))->FUN_006a7ad0(i)));
+            result = reinterpret_cast<uintptr_t>(pList->kItems.pBuffer[i]);
             found = true;
         }
-        remaining -= ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int>*)((char*)this + 0x10))))->FUN_006a7ad0(i)));
+        remaining -= pList->kWeights.pBuffer[i];
     }
     return result;
 }

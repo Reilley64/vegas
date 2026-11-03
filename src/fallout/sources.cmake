@@ -20,7 +20,14 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/playercharacter_h_unit.cpp
   src/fallout/ai/procedure.cpp
   src/fallout/ai/searchpackage.cpp
+  src/fallout/audio/falloutaudio.cpp
+  src/fallout/audio/falloutaudiomedia.cpp
+  src/fallout/audio/falloutradio.cpp
+  src/fallout/audio/impactmixer.cpp
+  src/fallout/dialogue/conversation.cpp
   src/fallout/dialogue/dialogueitem.cpp
+  src/fallout/dialogue/dialogueresponse.cpp
+  src/fallout/dialogue/menutopic.cpp
   src/fallout/interface/bgsmenupacker.cpp
   src/fallout/interface/fadermanager.cpp
   src/fallout/interface/fopipboymanager.cpp
@@ -35,36 +42,89 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/interface/menus/recipemenu_h_unit.cpp
   src/fallout/interface/menus/repairmenu_h_unit.cpp
   src/fallout/interface/menus/statsmenu_h_unit.cpp
+  src/fallout/magic/absorbeffect.cpp
+  src/fallout/magic/activeeffect.cpp
   src/fallout/magic/associateditemeffect.cpp
+  src/fallout/magic/bhkcharacterlistenerspell.cpp
+  src/fallout/magic/bhktelekinesislistener.cpp
+  src/fallout/magic/bounditemeffect.cpp
   src/fallout/magic/calmeffect.cpp
+  src/fallout/magic/chameleoneffect.cpp
   src/fallout/magic/commandcreatureeffect.cpp
+  src/fallout/magic/commandeffect.cpp
   src/fallout/magic/commandhumanoideffect.cpp
   src/fallout/magic/concussioneffect.cpp
   src/fallout/magic/cureeffect.cpp
+  src/fallout/magic/darknesseffect.cpp
   src/fallout/magic/demoralizeeffect.cpp
   src/fallout/magic/detectlifeeffect.cpp
+  src/fallout/magic/disintegratearmoreffect.cpp
   src/fallout/magic/disintegrateweaponeffect.cpp
   src/fallout/magic/dispeleffect.cpp
   src/fallout/magic/frenzyeffect.cpp
+  src/fallout/magic/invisibilityeffect.cpp
+  src/fallout/magic/lighteffect.cpp
   src/fallout/magic/limbconditioneffect.cpp
   src/fallout/magic/lockeffect.cpp
+  src/fallout/magic/magicballprojectile.cpp
+  src/fallout/magic/magicboltprojectile.cpp
+  src/fallout/magic/magiccaster.cpp
+  src/fallout/magic/magicfogprojectile.cpp
+  src/fallout/magic/magichiteffect.cpp
+  src/fallout/magic/magiclight.cpp
+  src/fallout/magic/magicmodelhiteffect.cpp
+  src/fallout/magic/magicprojectile.cpp
+  src/fallout/magic/magicshaderhiteffect.cpp
+  src/fallout/magic/magictarget.cpp
+  src/fallout/magic/nighteyeeffect.cpp
   src/fallout/magic/nonactormagiccaster.cpp
   src/fallout/magic/nonactormagictarget.cpp
   src/fallout/magic/openeffect.cpp
+  src/fallout/magic/paralysiseffect.cpp
+  src/fallout/magic/reanimateeffect.cpp
+  src/fallout/magic/scripteffect.cpp
   src/fallout/magic/shieldeffect.cpp
+  src/fallout/magic/summoncreatureeffect.cpp
+  src/fallout/magic/sundamageeffect.cpp
+  src/fallout/magic/telekinesiseffect.cpp
+  src/fallout/magic/turnundeadeffect.cpp
   src/fallout/magic/valueandconditionseffect.cpp
+  src/fallout/magic/valuemodifiereffect.cpp
   src/fallout/magic/valuemodifiereffect_h_unit.cpp
   src/fallout/magic/vampirismeffect.cpp
+  src/fallout/misc/appmemory.cpp
   src/fallout/misc/appmemory_console.cpp
+  src/fallout/misc/bgsmovieplayer.cpp
   src/fallout/misc/calendar.cpp
+  src/fallout/misc/garbagecollector.cpp
+  src/fallout/misc/main.cpp
+  src/fallout/misc/memorylevelmanager.cpp
+  src/fallout/misc/memorymanagerfile.cpp
   src/fallout/misc/saveload/bgschangeflags.cpp
   src/fallout/misc/saveload/bgsloadformbuffer.cpp
   src/fallout/misc/saveload/bgsloadgamebuffer.cpp
   src/fallout/misc/saveload/bgsloadgamebuffer_h_unit.cpp
+  src/fallout/misc/saveload/bgsloadgamesubbuffer.cpp
+  src/fallout/misc/saveload/bgsreconstructformsinallfilesmap.cpp
   src/fallout/misc/saveload/bgssaveformbuffer.cpp
+  src/fallout/misc/saveload/bgssavegamebuffer.cpp
+  src/fallout/misc/saveload/bgssaveloadchangesmap.cpp
+  src/fallout/misc/saveload/bgssaveloaddefines.cpp
+  src/fallout/misc/saveload/bgssaveloadfile.cpp
+  src/fallout/misc/saveload/bgssaveloadformidmap.cpp
+  src/fallout/misc/saveload/bgssaveloadgame.cpp
+  src/fallout/misc/saveload/bgssaveloadglobaldata.cpp
+  src/fallout/misc/saveload/bgssaveloadheader.cpp
+  src/fallout/misc/saveload/bgssaveloadhistory.cpp
+  src/fallout/misc/saveload/bgssaveloadinitialdata.cpp
+  src/fallout/misc/saveload/bgssaveloadmanager.cpp
+  src/fallout/misc/saveload/bgssaveloadreferencesmap.cpp
+  src/fallout/misc/saveload/bgssaveloadstructs.cpp
   src/fallout/misc/saveload/bgsunloadedformbuffer.cpp
   src/fallout/misc/scenegraph.cpp
+  src/fallout/misc/screenshot.cpp
   src/fallout/misc/seendata.cpp
+  src/fallout/misc/taskqueueinterface.cpp
 )
 target_sources(game PRIVATE ${VEGAS19_FALLOUT_SOURCES})
 set_source_files_properties(${VEGAS19_FALLOUT_SOURCES} PROPERTIES
@@ -152,13 +212,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/sandboxpackage.cpp
   src/fallout/ai/spectatorpackage.cpp
   src/fallout/ai/trespasspackage.cpp
-  src/fallout/audio/falloutaudio.cpp
-  src/fallout/audio/falloutaudiomedia.cpp
-  src/fallout/audio/falloutradio.cpp
-  src/fallout/audio/impactmixer.cpp
-  src/fallout/dialogue/conversation.cpp
-  src/fallout/dialogue/dialogueresponse.cpp
-  src/fallout/dialogue/menutopic.cpp
   src/fallout/interface/animatingtext.cpp
   src/fallout/interface/forenderedmenu.cpp
   src/fallout/interface/forenderedmenuracesex.cpp
@@ -206,59 +259,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/interface/menus/traitselectmenu.cpp
   src/fallout/interface/menus/tutorialmenu.cpp
   src/fallout/interface/menus/vatsmenu.cpp
-  src/fallout/magic/absorbeffect.cpp
-  src/fallout/magic/activeeffect.cpp
-  src/fallout/magic/bhkcharacterlistenerspell.cpp
-  src/fallout/magic/bhktelekinesislistener.cpp
-  src/fallout/magic/bounditemeffect.cpp
-  src/fallout/magic/chameleoneffect.cpp
-  src/fallout/magic/commandeffect.cpp
-  src/fallout/magic/darknesseffect.cpp
-  src/fallout/magic/disintegratearmoreffect.cpp
-  src/fallout/magic/invisibilityeffect.cpp
-  src/fallout/magic/lighteffect.cpp
-  src/fallout/magic/magicballprojectile.cpp
-  src/fallout/magic/magicboltprojectile.cpp
-  src/fallout/magic/magiccaster.cpp
-  src/fallout/magic/magicfogprojectile.cpp
-  src/fallout/magic/magichiteffect.cpp
-  src/fallout/magic/magiclight.cpp
-  src/fallout/magic/magicmodelhiteffect.cpp
-  src/fallout/magic/magicprojectile.cpp
-  src/fallout/magic/magicshaderhiteffect.cpp
-  src/fallout/magic/magictarget.cpp
-  src/fallout/magic/nighteyeeffect.cpp
-  src/fallout/magic/paralysiseffect.cpp
-  src/fallout/magic/reanimateeffect.cpp
-  src/fallout/magic/scripteffect.cpp
-  src/fallout/magic/summoncreatureeffect.cpp
-  src/fallout/magic/sundamageeffect.cpp
-  src/fallout/magic/telekinesiseffect.cpp
-  src/fallout/magic/turnundeadeffect.cpp
-  src/fallout/magic/valuemodifiereffect.cpp
-  src/fallout/misc/appmemory.cpp
-  src/fallout/misc/bgsmovieplayer.cpp
-  src/fallout/misc/garbagecollector.cpp
-  src/fallout/misc/main.cpp
-  src/fallout/misc/memorylevelmanager.cpp
-  src/fallout/misc/memorymanagerfile.cpp
-  src/fallout/misc/saveload/bgsloadgamesubbuffer.cpp
-  src/fallout/misc/saveload/bgsreconstructformsinallfilesmap.cpp
-  src/fallout/misc/saveload/bgssavegamebuffer.cpp
-  src/fallout/misc/saveload/bgssaveloadchangesmap.cpp
-  src/fallout/misc/saveload/bgssaveloaddefines.cpp
-  src/fallout/misc/saveload/bgssaveloadfile.cpp
-  src/fallout/misc/saveload/bgssaveloadformidmap.cpp
-  src/fallout/misc/saveload/bgssaveloadgame.cpp
-  src/fallout/misc/saveload/bgssaveloadglobaldata.cpp
-  src/fallout/misc/saveload/bgssaveloadheader.cpp
-  src/fallout/misc/saveload/bgssaveloadhistory.cpp
-  src/fallout/misc/saveload/bgssaveloadinitialdata.cpp
-  src/fallout/misc/saveload/bgssaveloadmanager.cpp
-  src/fallout/misc/saveload/bgssaveloadreferencesmap.cpp
-  src/fallout/misc/saveload/bgssaveloadstructs.cpp
-  src/fallout/misc/screenshot.cpp
-  src/fallout/misc/taskqueueinterface.cpp
 )
 target_sources(game PRIVATE ${VEGAS19_FALLOUT_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS19_FALLOUT_NARROWING_SOURCES} PROPERTIES

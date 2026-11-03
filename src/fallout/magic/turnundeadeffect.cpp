@@ -348,12 +348,12 @@ struct V
 void C::FUN_0082b530()
 {
     intptr_t b;
-    int a;
+    intptr_t a;
     b = ((intptr_t)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((intptr_t)(reinterpret_cast<::MagicTarget *>((((O*)((reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
     a = (reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()) ? ((intptr_t)(reinterpret_cast<::MagicCaster *>((((O*)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
-    if (b != 0 && a != 0 && (*(int(**)(int))(*(int**)b + 266))(b) != 0)
+    if (b != 0 && a != 0 && (*(void*(**)(intptr_t))(*(void***)b + 266))(b) != 0)
     {
-        reinterpret_cast<::FUN_008d0600_s *>((((O*)(*(int(**)(int, int, int))(*(int**)b + 266))(b, a, 0))))->FUN_008d0600({}, {});
+        reinterpret_cast<::FUN_008d0600_s *>((*(void*(**)(intptr_t))(*(void***)b + 266))(b))->FUN_008d0600(a, 0);
         *(char*)((char*)this + 72) = 1;
     }
 }

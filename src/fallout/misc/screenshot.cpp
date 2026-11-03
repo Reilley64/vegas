@@ -382,7 +382,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
     prefs2.m_eMipFlag = 0;
     prefs2.m_eAlphaFormat = 0;
     S_00878f60_TexPtr eTex(
-        ((::S_00878f60_Texture *)(::CreateWrapperFromGeometry((void *)&(const ::S_00878f60_FixedString &)(S_00878f60_FixedString("Screenshot RT")), (void *)(*pWidth), (void *)(*pHeight), &prefs2, (void *)(0), (void *)(1), (void *)(0), (void *)(0), (void *)(0)))));
+        ((::S_00878f60_Texture *)(::CreateWrapperFromGeometry((void *)&(const ::S_00878f60_FixedString &)(S_00878f60_FixedString("Screenshot RT")), (void *)(std::intptr_t)(*pWidth), (void *)(std::intptr_t)(*pHeight), &prefs2, (void *)(0), (void *)(1), (void *)(0), (void *)(0), (void *)(0)))));
     if (!eTex)
     {
         ::FUN_005b5e40();

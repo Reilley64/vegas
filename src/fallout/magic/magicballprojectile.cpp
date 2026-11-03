@@ -3194,7 +3194,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
                 if (::_DAT_01012060 < ratio)
                 {
 
-                    reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(::NiPoint3 *)(v125()), (::P142Ref *)(void *)(this), 0, 0, ratio, 1.0f);
+                    reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (std::intptr_t)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(::NiPoint3 *)(v125()), (::P142Ref *)(void *)(this), 0, 0, ratio, 1.0f);
                 }
             }
         }
@@ -4921,7 +4921,7 @@ void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3
     float b = (duration - elapsed) / duration;
     if (!abSuppress && b > 0.0)
     {
-        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(::NiPoint3 *)&(const ::ImpactPoint &)(position())), (::P142Ref *)(void *)(this), (::P142Ref *)(aiEventArg), 0, b, 1.0f);
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (std::intptr_t)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(::NiPoint3 *)&(const ::ImpactPoint &)(position())), (::P142Ref *)(void *)(this), (::P142Ref *)(aiEventArg), 0, b, 1.0f);
     }
     if (((::AreaSound *)(reinterpret_cast<::FUN_008ce390_shell *>((((::ProjectileEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))->FUN_008ce390())) && !abSuppress)
     {
@@ -5501,7 +5501,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     this->unkac = 2;
     if (!silent)
     {
-        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (std::intptr_t)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
                                                 (*(::NiPoint3 *)&(const ::ImpactPoint &)(*(ImpactPoint*)this->Position())), (::P142Ref *)(void *)(this), (::P142Ref *)(target), 0, 1.0f, 1.0f);
     }
 

@@ -3050,7 +3050,7 @@ void FUN_008727d0_shell::FUN_008727d0()
             ((::fnv_008727d0::WaterZoneManager *)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_008727d0::TES * *>(&::g_TES))))))->m_uiPathPointIndex = 0;
             reinterpret_cast<::FUN_004e2120_s *>((((::fnv_008727d0::FUN_004e2120_s *)(reinterpret_cast<::FUN_004e2190_shell *>(((*reinterpret_cast<::fnv_008727d0::FUN_004e2190_shell * *>(&::g_osGlobals))))->FUN_004e2190()))))->f(false);
             DAT_011ff8c4 = false;
-            ::FUN_00872930((unsigned char)(((::fnv_008727d0::WaterZoneManager *)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_008727d0::TES * *>(&::g_TES))))))));
+            ::FUN_00872930(0);
         }
         ::DAT_011a9608 = isavemaxaniso;
     }
@@ -9476,7 +9476,7 @@ void ShadowHost::FUN_00871290()
             {
                 ShadowScene* scene9 = (ShadowScene*)((::BSFaceGenNiNode *)(::FUN_0045c670()));
                 ShadowView* view8 = ((::ShadowView *)(reinterpret_cast<::SceneGraph *>(scene9)->cullingProcess));
-                reinterpret_cast<::FUN_0041fd00_shell *>((view8))->FUN_0041fd00((int)(scene9->FUN_006629f0()));
+                reinterpret_cast<::FUN_0041fd00_shell *>((view8))->FUN_0041fd00(reinterpret_cast<std::intptr_t>(scene9->FUN_006629f0()));
                 reinterpret_cast<::S694a0 *>((view8))->FUN_00a694a0(((void *)&(reinterpret_cast<::NiCamera *>((scene9->FUN_006629f0()))->GetViewFrustum())));
                 bool playerHidden14 = reinterpret_cast<::FUN_00456630_helper *>((playerNode50))->FUN_00456610();
                 reinterpret_cast<::TaskQueueInterface *>((playerNode50))->QueueActorDisarm(true);
@@ -9902,7 +9902,7 @@ void FUN_00871dc0_class::FUN_00871dc0()
     {
         BSCullingProcess cull(0);
         void* camera = ((void *)(reinterpret_cast<::RenderedMenuCameraView *>(::FUN_00707ad0())->camera));
-        reinterpret_cast<::FUN_0041fd00_shell *>(&(cull))->FUN_0041fd00((int)(camera));
+        reinterpret_cast<::FUN_0041fd00_shell *>(&(cull))->FUN_0041fd00(reinterpret_cast<std::intptr_t>(camera));
         reinterpret_cast<::FUN_004a0fd0_shell *>(&(cull))->FUN_004a0fd0((::NiNode *)(::fnv_00871dc0::MenuTarget *)(unk98.Get()));
         reinterpret_cast<::BSA_ *>((((SceneObject*)unk98.Get())))->FUN_004a1020(((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))));
         ::FUN_00b6bee0(camera, ((void *)(reinterpret_cast<::TESRegionDataMap *>((((::fnv_00871dc0::RenderMenu *)(::FUN_00707ad0()))))->GetRegionMapName())), (::BSShaderAccumulator *)(::fnv_00871dc0::BSCullingProcess *)(&cull));
@@ -11169,7 +11169,7 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
         if (a && ((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent)))
         {
             b = *((::fnv_008761e0::T876 *)(::FUN_006a9540((char *)(((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))));
-            reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)((V876*)((::fnv_008761e0::Camera876 *)(::FUN_0045bb80((int)((*reinterpret_cast<::fnv_008761e0::Camera876 * *>(&::DAT_011e07d0))))))));
+            reinterpret_cast<::FUN_00440460_S *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00440460((const ::V3 *)(::fnv_008761e0::V876 *)((V876*)((::fnv_008761e0::Camera876 *)(::FUN_0045bb80(reinterpret_cast<std::intptr_t>((*reinterpret_cast<::fnv_008761e0::Camera876 * *>(&::DAT_011e07d0))))))));
             reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_008761e0::Camera876 *)(reinterpret_cast<::NiAVObjectFields *>(a)->m_pkParent))))->FUN_00a59c60((std::intptr_t)(&cf));
         }
 

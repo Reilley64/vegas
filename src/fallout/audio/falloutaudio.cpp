@@ -306,7 +306,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     *loopSoundHandle = ::FUN_00453a70()->GetSoundHandleByFilePath(
                         ::FUN_00511840((char *)(pActiveSound)), 0x11011, pActiveSound);
                     reinterpret_cast<::FUN_004f15a0_shell *>((loopSoundHandle))->FUN_004f15a0(1);
-                    reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID, (unsigned int)(loopSoundHandle));
+                    reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID, reinterpret_cast<std::uintptr_t>(loopSoundHandle));
                     reinterpret_cast<::FUN_00ad8d60_shell *>((loopSoundHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
                 }
                 else if (looping && soundFound)

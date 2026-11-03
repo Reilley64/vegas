@@ -63,16 +63,16 @@ QueuedMessage& QueuedMessage::operator=(const QueuedMessage& source)
 // @fnv 0x006ea490
 bool PathingTaskData::HasPendingMessages()
 {
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0040fbf0((char *)(0));
-    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)this + 0x50))))->GetName())); ++i)
+    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)&this->kTaskLock))))->FUN_0040fbf0((char *)(0));
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)((char*)&this->kPendingRefs))))->GetName())); ++i)
     {
-        if (((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)this + 0x50))->GetAt(i)->state == 0)
+        if (((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)&this->kPendingRefs))->GetAt(i)->state == 0)
         {
-            ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
+            ((RecursiveSpinLock*)((char*)&this->kTaskLock))->FUN_0040fba0();
             return false;
         }
     }
-    ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
+    ((RecursiveSpinLock*)((char*)&this->kTaskLock))->FUN_0040fba0();
     return true;
 }
 
@@ -326,8 +326,8 @@ bool FUN_006eabe0_shell::FUN_006eabe0()
         return false;
     if (!FUN_006c08e0(this))
         return false;
-    *(int*)((char*)this + 0xc24) = 0;
-    *(int*)((char*)this + 0xc28) = 0;
+    iState = 0;
+    iUnkC28 = 0;
     this->unkc34 = false;
     return true;
 }
@@ -341,7 +341,7 @@ struct FUN_006eb790_shell : public PathManagerImpl
 // @fnv 0x006eb790
 bool FUN_006eb790_shell::FUN_006eb790()
 {
-    return reinterpret_cast<::fnv_00aa6120::Lock00aa6120 *>(((char*)this + 0xc2c))->FUN_00aa6120();
+    return reinterpret_cast<::fnv_00aa6120::Lock00aa6120 *>(((char*)&this->kLock))->FUN_00aa6120();
 }
 
 struct FUN_006eb7b0_shell : public PathManagerImpl
@@ -353,7 +353,7 @@ struct FUN_006eb7b0_shell : public PathManagerImpl
 // @fnv 0x006eb7b0
 void FUN_006eb7b0_shell::FUN_006eb7b0()
 {
-    reinterpret_cast<::Lock00aa62c0 *>(((char*)this + 0xc2c))->FUN_00aa62c0();
+    reinterpret_cast<::Lock00aa62c0 *>(((char*)&this->kLock))->FUN_00aa62c0();
 }
 
 struct PathingTaskMessage
@@ -377,7 +377,7 @@ struct _Vtbl_006eb7f0
 // @fnv 0x006eb7f0
 void FUN_006eb7f0_shell::DispatchPathingMessage(void* aMsg)
 {
-    reinterpret_cast<_Vtbl_006eb7f0*>(reinterpret_cast<char*>(this) + 0xc10)->v1(aMsg);
+    reinterpret_cast<_Vtbl_006eb7f0*>((char*)&this->kMessageHandler)->v1(aMsg);
 }
 
 struct FUN_006ebc70_shell : public PathManager
@@ -479,7 +479,7 @@ void* FUN_006e9f60_shell::FUN_006e9f60(unsigned int flags)
     return this;
 }
 
-struct FUN_006ea330_shell
+struct FUN_006ea330_shell : public PathingTaskData
 {
     void FUN_006ea330();
 };
@@ -487,10 +487,10 @@ struct FUN_006ea330_shell
 // @fnv 0x006ea330
 void FUN_006ea330_shell::FUN_006ea330()
 {
-    *(unsigned char*)(((unsigned char*)this) + 4) = 1;
+    bFlag04 = true;
 }
 
-struct FUN_006eb390_shell
+struct FUN_006eb390_shell : public PathManagerImpl
 {
     bool FUN_006eb390();
 };
@@ -503,10 +503,10 @@ bool FUN_006ebc90_shell::FUN_006ebc90()
 // @fnv 0x006eb390
 bool FUN_006eb390_shell::FUN_006eb390()
 {
-    return ((int*)this)[0xc24 / 4] == 2;
+    return iState == 2;
 }
 
-struct FUN_006eb420_shell
+struct FUN_006eb420_shell : public PathManagerImpl
 {
     bool IsFieldZero();
 };
@@ -514,10 +514,10 @@ struct FUN_006eb420_shell
 // @fnv 0x006eb420
 bool FUN_006eb420_shell::IsFieldZero()
 {
-    return *(int*)((char*)this + 0xc24) == 0;
+    return iState == 0;
 }
 
-struct FUN_006eb7d0_shell
+struct FUN_006eb7d0_shell : public PathManagerImpl
 {
     char GetByteAtOffsetC34();
 };
@@ -583,7 +583,7 @@ void PathingTaskData::Process()
 // @fnv 0x006eb7d0
 char FUN_006eb7d0_shell::GetByteAtOffsetC34()
 {
-    return reinterpret_cast<char*>(this)[0xc34];
+    return unkc34;
 }
 
 struct FUN_006eb420_t
@@ -616,6 +616,7 @@ void FUN_006ebdc0_shell::SetVtable()
 
 struct FUN_006ebde0_shell
 {
+    unsigned char layoutPadding0[0xc];
     unsigned char c0c;
     bool FUN_006ebde0();
 };
@@ -623,7 +624,7 @@ struct FUN_006ebde0_shell
 // @fnv 0x006ebde0
 bool FUN_006ebde0_shell::FUN_006ebde0()
 {
-    return ((unsigned char*)this)[0xc] & 2;
+    return c0c & 2;
 }
 
 struct GlobalObject_00869f00
@@ -2534,7 +2535,7 @@ struct FUN_006ea780_Obj
     unsigned int RequestLocationStatus(std::intptr_t a1, std::intptr_t a2, std::intptr_t a3, int a4);
 };
 
-struct FUN_006eb250_Class
+struct FUN_006eb250_Class : public PathManagerImpl
 {
     unsigned int CallVirtualObjectMethod(int arg1, std::intptr_t arg2, std::intptr_t arg3, std::intptr_t arg4, bool arg5);
 };
@@ -2546,7 +2547,7 @@ unsigned int FUN_006eb250_Class::CallVirtualObjectMethod(int aiValue, std::intpt
 {
     void* resultObject = 0;
 
-    if (reinterpret_cast<FUN_006eb250_VirtualObject*>(reinterpret_cast<char*>(this) + 0x1480)
+    if (reinterpret_cast<FUN_006eb250_VirtualObject*>((char*)&this->kPathQueue)
             ->vf2(aiValue, &resultObject))
     {
         return reinterpret_cast<FUN_006ea780_Obj*>(resultObject)->RequestLocationStatus(arg2, arg3, arg4, arg5);
@@ -7361,13 +7362,13 @@ struct FUN_006eb6b0_cls_ctxr2 : public PathManagerImpl
 // @fnv 0x006eb6b0
 void FUN_006eb6b0_cls_ctxr2::FUN_006eb6b0(int id)
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>((reinterpret_cast<BSSpinLock_r006eb6b0*>(reinterpret_cast<char*>(this) + 0xc38)))->FUN_004538a0((std::intptr_t)("PathManagerImpl::CancelCurrentPathsAndPause"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>((reinterpret_cast<BSSpinLock_r006eb6b0*>((char*)&this->kSpinLock)))->FUN_004538a0((std::intptr_t)("PathManagerImpl::CancelCurrentPathsAndPause"));
     PathingRequest* ref;
     int outA2;
     PathWorkList list3;
     while (!reinterpret_cast<::FUN_006ebde0_shell *>(&(list3))->FUN_006ebde0())
     {
-        if (reinterpret_cast<::Queue44c640 *>((reinterpret_cast<PathIndex*>(reinterpret_cast<char*>(this) + 0x1480)))->TryGetNextEntry((::QueueIter44c640 *)(::PathWorkList *)(&list3), (void **)(::PathingRequest **)(&ref), (std::intptr_t)(&outA2), true))
+        if (reinterpret_cast<::Queue44c640 *>((reinterpret_cast<PathIndex*>((char*)&this->kPathQueue)))->TryGetNextEntry((::QueueIter44c640 *)(::PathWorkList *)(&list3), (void **)(::PathingRequest **)(&ref), (std::intptr_t)(&outA2), true))
         {
             if (reinterpret_cast<PathSlot*>(reinterpret_cast<::FUN_006c9900_shell *>((ref))->FUN_006c9900())->unk04 == id)
             {
@@ -7376,7 +7377,7 @@ void FUN_006eb6b0_cls_ctxr2::FUN_006eb6b0(int id)
             }
         }
     }
-    reinterpret_cast<::ActorTaskManager *>((reinterpret_cast<BSSpinLock_r006eb6b0*>(reinterpret_cast<char*>(this) + 0xc38)))->WaitForTasksDuringRendering();
+    reinterpret_cast<::ActorTaskManager *>((reinterpret_cast<BSSpinLock_r006eb6b0*>((char*)&this->kSpinLock)))->WaitForTasksDuringRendering();
 }
 
 class BSSpinLock_r006eae40

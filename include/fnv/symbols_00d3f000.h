@@ -15,7 +15,7 @@ struct S_00d3fb20_Collector;
 struct S_00d3fb20_Input;
 
 // 0x00d3f040
-void FUN_00d3f040(unsigned int, unsigned int, unsigned int, unsigned int);
+void FUN_00d3f040(const void *, const void *, const void *, void *);
 // 0x00d3f4c0
 void *FUN_00d3f4c0(void *, void *, void *, int);
 // 0x00d3f620

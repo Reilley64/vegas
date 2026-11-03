@@ -2,7 +2,7 @@
 // src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-#include "havok/hkpVehicleDefaultTransmission.h"
+#include "havok/hkpVehicleDefaultTransmission_decl_hkpvehicledefaulttransmission.h"
 
 struct FUN_00e43d00_arg1
 {
@@ -219,4 +219,126 @@ hkBoolE43C FUN_00e43c00(ObjAE43C* pkA, ObjBE43C* pkB)
     if (pkB->m_cLevel > 0)
         return false;
     return true;
+}
+
+// Moved from hkpvehicledefaulttransmission_decl_variant.cpp (VEGAS-15).
+
+// src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission_decl_variant.cpp - declaration variant unit created 2026-10-26 by decl_variants.py for paused function 0x00e43d40: the skeleton of src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp
+// with declarations corrected to what the original code does (hkpVehicleDefaultTransmission.h: hkpVehicleDefaultTransmission += float FUN_00e43d40(const struct Vehicle* vehicle, const void* input);; hkpVehicleTransmission.h: hkpVehicleTransmission += virtual void T01(); virtual void T02(); virtual void T03(); virtual void T04(); virtual void T05(); virtual voi). Move the function to its real unit once
+// that unit declares it this way.
+
+// src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01012000.h"
+#include "havok/hkpVehicleDefaultTransmission_decl_hkpvehicledefaulttransmission.h"
+
+struct VehicleWheelInfo
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    float spinVelocity;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+};
+struct VehicleData
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    signed char numWheels;
+};
+struct Vehicle
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    VehicleData* data;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    VehicleWheelInfo* wheels;
+};
+// @fnv 0x00e43d40
+float hkpVehicleDefaultTransmission::FUN_00e43d40(const Vehicle* vehicle, const void* input)
+{
+    float rpm = 0.0f;
+    for (int i = 0; i < vehicle->data->numWheels; ++i)
+    {
+        float wheelRpm = vehicle->wheels[i].spinVelocity * 60.0 * double(0.15915494f);
+        rpm += wheelRpm * m_kWheelTorqueRatios.m_data[i];
+    }
+    float engineRpm = rpm * getTransmissionRatio(vehicle, input);
+    float result;
+    if (engineRpm < ::_DAT_01012060)
+        result = 0.0f;
+    else
+        result = engineRpm;
+    return result;
 }

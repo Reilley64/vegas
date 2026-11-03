@@ -26,7 +26,7 @@ void FUN_00d0c6d0(::S_00d0c6d0_EntryArray *, int *, ::S_00d0c6d0_ByteArray *);
 // 0x00d0c790
 void UpdateIslandMotionStates(::Island *, ::ByteArray *, ::SolverInfo *);
 // 0x00d0c9c0
-void FUN_00d0c9c0(::ThingX **, int, ::ThingP *, int, bool);
+void FUN_00d0c9c0(::ThingX **, int, ::ThingP *, const void *, bool);
 // 0x00d0cde0
 void FUN_00d0cde0(float, char *, ::Flags_cls *, ::ArrayRef_cls *);
 // 0x00d0ceb0

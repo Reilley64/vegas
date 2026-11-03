@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpworldcinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworldcinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_01013000.h"
 #include "fnv/symbols_01014000.h"
@@ -15,13 +16,6 @@
 #include "havok/hkpWorldCinfo.h"
 
 extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" void _mm_store_ps(float*, __m128);
 extern const float DAT_0104da48 = 3.402820018375656e38f;
 extern const float DAT_010141cc = 0.0001f;
 extern const float DAT_010209a0, DAT_010c636c,

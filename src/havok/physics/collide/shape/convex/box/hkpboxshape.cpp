@@ -2,12 +2,16 @@
 // src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/box/hkpboxshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpBoxShape.h"
+#include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
+#include "fnv/symbols_simd.h"
 
 // @fnv 0x00c9db70
 int __cdecl FUN_00c9db70()
@@ -136,16 +140,6 @@ CenteredPointBounds* CenteredPointBounds::SetExtentsAndRadius(const float* exten
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" int _mm_movemask_ps(__m128);
-
-extern float DAT_010c44d0[4];
 
 struct S00c9dc40_Box : public hkpBoxShape
 {
@@ -156,7 +150,7 @@ struct S00c9dc40_Box : public hkpBoxShape
 void S00c9dc40_Box::FUN_00c9dc40(const float* src, float* dst)
 {
     hkVector4 e = m_vHalfExtents;
-    __m128 v = _mm_and_ps(_mm_load_ps(src), _mm_load_ps(DAT_010c44d0));
+    __m128 v = _mm_and_ps(_mm_load_ps(src), DAT_010c44d0);
     v = _mm_xor_ps(v, _mm_load_ps(&e.x));
     _mm_store_ps(&e.x, v);
     int m = _mm_movemask_ps(_mm_cmplt_ps(v, _mm_setzero_ps()));
@@ -171,17 +165,7 @@ extern "C" void ZeroResult(__m128* result)
 }
 
 namespace fnv_00c9e120 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_set_ps1(float f);
 
 extern const __m128 DAT_01017d10;
 extern const __m128 DAT_010c44d0;
@@ -211,10 +195,6 @@ struct hkTransformC9E1 {
 struct hkAabbC9E1 {
     hkVector4C9E1 m_kMinimumCorner;
     hkVector4C9E1 m_kMaximumCorner;
-};
-
-struct hkAabbUtilC9E1 {
-    static void ComputeAabbFromTransform(const hkTransformC9E1& kLocalToWorld, const hkVector4C9E1& m_kPoint2, float fExtraRadius, hkAabbC9E1& kAabbOut);
 };
 
 // Computes an AABB in world space from a transform, a point, and an extra radius, storing the result in kAabbOut.
@@ -276,7 +256,6 @@ void FUN_00c9dbf0_class::GetHalfExtents(hkVector4& result) const
                  _mm_load_ps(reinterpret_cast<const float*>(&m_vHalfExtents)));
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
 extern "C" const __m128 DAT_010c7030[8];
 
@@ -311,12 +290,6 @@ extern "C"
 {
     unsigned __int64 __rdtsc(void);
     void _ReadWriteBarrier(void);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
 }
 
 
@@ -332,10 +305,7 @@ struct BRMonitorStream
         {
             _ReadWriteBarrier();
             hkUint32 ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             m_uiStartTicks = ticks;
         }
     };
@@ -356,10 +326,7 @@ struct BRMonitorStream
             h->m_pCommandName=name;
             _ReadWriteBarrier();
             hkUint32 ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             _ReadWriteBarrier();
             h->m_uiStartTicks=ticks;
             m_kRayEnd=(char*)(h+1);
@@ -385,8 +352,8 @@ struct BRVector4
     __m128 m_vComponents;
 
     void operator=(const BRVector4& v) { m_vComponents = v.m_vComponents; }
-    hkReal& operator()(int i) { return m_vComponents.m128_f32[i]; }
-    const hkReal& operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    hkReal& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
+    const hkReal& operator()(int i) const { return reinterpret_cast<const float*>(&m_vComponents)[i]; }
     void SetAllComponents(hkReal r) { m_vComponents = _mm_set_ps1(r); }
     void setAdd4(const BRVector4& a, const BRVector4& b) { m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents); }
     void setNeg4(const BRVector4& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, g_brSignMask); }
@@ -504,4 +471,52 @@ BRBool RayBoxShape::FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& r
     return true;
 }
 
+// Moved from hkpboxshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+int __cdecl FUN_00c9db70();
+float __cdecl FUN_00c9e0f0(float a, float b);
+int FUN_00c9e1a0(int a1, int a2);
+void __cdecl FUN_00c9db60(int a, int* b);
+
+
+extern "C" const __m128 DAT_010c7030[];
+
+struct FUN_00c9dcd0_vertex
+{
+    union
+    {
+        __m128 quad;
+        struct
+        {
+            float x;
+            float y;
+            float z;
+            unsigned int id;
+        };
+    };
+};
+
+struct FUN_00c9dcd0_object
+{
+    unsigned char unknown00[0x20];
+    __m128 halfExtents;
+
+    void FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output);
+};
+
+// @fnv 0x00c9dcd0
+void FUN_00c9dcd0_object::FUN_00c9dcd0(const unsigned short* ids, int count, FUN_00c9dcd0_vertex* output)
+{
+    for (int i = count - 1; i >= 0; --i)
+    {
+        unsigned int id = *ids;
+        __m128 value = _mm_mul_ps(DAT_010c7030[id], halfExtents);
+
+        output->quad = value;
+        output->id = id | 0x3f000000u;
+
+        ++output;
+        ++ids;
+    }
+}
 #include "generated/data/havok/physics/collide/shape/convex/box/hkpboxshape.inc"

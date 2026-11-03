@@ -2,7 +2,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-// @fnv 0x00d68260
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
@@ -19,27 +22,9 @@
 #include "fnv/symbols_010c6000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
+// @fnv 0x00d68260
 int __cdecl FUN_00d68260() {
     return ::DAT_01269004;
-}
-
-struct Allocator {
-    virtual void* release();
-    virtual void* allocate(int size);
-};
-struct Global { int unk00; int unk04; int unk08; int unk0c; Allocator* allocator; };
-struct Built { int field00; short field04; int field08; int FUN_00d682d0(int); };
-extern "C" Global* __cdecl FUN_00c85750();
-// Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
-// @fnv 0x00d686b0
-int __cdecl FUN_00d686b0(int arg)
-{
-    Global* global = FUN_00c85750();
-    Built* pBuilt = (Built*)global->allocator->allocate(0x2c);
-    pBuilt->field04 = 0x2c;
-    int result = pBuilt->FUN_00d682d0(arg);
-    if (result) return result + 8;
-    return 0;
 }
 
 struct SpawnedChild {
@@ -62,11 +47,11 @@ struct FUN_00d66bf0_cls {
     int unk28;
     SpawnedChild* m_pChildObject;
 
-    void DispatchToChild(int arg);
+    void DispatchToChild(const void* arg);
 };
 
 // @fnv 0x00d66bf0
-void FUN_00d66bf0_cls::DispatchToChild(int arg)
+void FUN_00d66bf0_cls::DispatchToChild(const void* arg)
 {
     SpawnedChild* child = m_pChildObject;
     if (child != 0 && child->m_i08 != 0) {
@@ -77,59 +62,67 @@ void FUN_00d66bf0_cls::DispatchToChild(int arg)
 struct Target {
 };
 
+// The TOI contact point viewer: hkReferencedObject, hkProcess at +0x08, its world listener part
+// (FUN_00d682a0_cls) at +0x20 and its contact listener part at +0x28.
+struct ToiViewerRefObject {
+    void* volatile m_vtbl;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+};
+struct ToiViewerProcess {
+    void* volatile m_processVtbl;
+    int unk04[5];
+};
 struct FUN_00d682a0_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
+    void* volatile m_worldListenerVtbl;
+    void* m_context;
 
     void InvokeTargetWithSelfOffset(Target* apTarget);
 };
-
-// Calls apTarget->FUN_00c91a20 with a pointer to this+8, or null if this-0x20 is null.
-// @fnv 0x00d682a0
-void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
-{
-    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0);
-}
+struct ToiViewerContactListener {
+    void* m_vtbl28;
+};
 
 extern char DAT_010d1f0c[];
 extern char DAT_010d1eec[];
 extern char DAT_010d1edc[];
 extern char DAT_010d1ebc[];
 
-
-struct FUN_00d682d0_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    void* m_vtbl28;
-
-    void* FUN_00d682d0(int a1);
+struct FUN_00d682d0_cls : ToiViewerRefObject, ToiViewerProcess, FUN_00d682a0_cls, ToiViewerContactListener {
+    void* FUN_00d682d0(void* a1);
 };
 
-// Calls FUN_00ddccb0 with a1, then stores five DAT_ pointers into this at offsets 0x28, 0x00, 0x08, 0x20 and 0x28, and returns this.
-// @fnv 0x00d682d0
-void* FUN_00d682d0_cls::FUN_00d682d0(int aiArg)
+// Calls apTarget->FUN_00c91a20 with the viewer's contact listener part.
+// @fnv 0x00d682a0
+void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 {
-    new ((void *)(aiArg)) ::FUN_00ddccb0_cls(*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)nullptr);
+    ToiViewerContactListener* listener = static_cast<FUN_00d682d0_cls*>(this);
+    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(listener);
+}
+
+// Calls FUN_00ddccb0 with a1, then stores the vtables of the contact listener part, the object, the process part,
+// the world listener part and the contact listener part again, and returns this.
+// @fnv 0x00d682d0
+void* FUN_00d682d0_cls::FUN_00d682d0(void* aiArg)
+{
+    new ((void *)this) ::FUN_00ddccb0_cls(*static_cast<const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *>(aiArg));
     this->m_vtbl28 = (void*)&DAT_0104dd7c;
-    *(void* volatile*)((char*)this + 0x00) = (void*)&DAT_010d1f0c;
-    *(void* volatile*)((char*)this + 0x08) = (void*)&DAT_010d1eec;
-    *(void* volatile*)((char*)this + 0x20) = (void*)&DAT_010d1edc;
+    this->m_vtbl = (void*)&DAT_010d1f0c;
+    this->m_processVtbl = (void*)&DAT_010d1eec;
+    this->m_worldListenerVtbl = (void*)&DAT_010d1edc;
     this->m_vtbl28 = (void*)&DAT_010d1ebc;
     return this;
+}
+
+// Allocates the viewer, sets its memory size, constructs it with arg and returns its hkProcess part.
+// @fnv 0x00d686b0
+void* __cdecl FUN_00d686b0(void* arg)
+{
+    hkMemoryRouter* global = &hkMemoryRouter::getInstance();
+    FUN_00d682d0_cls* pBuilt = static_cast<FUN_00d682d0_cls*>(global->m_heap->blockAlloc(sizeof(FUN_00d682d0_cls)));
+    pBuilt->m_memSizeAndFlags = sizeof(FUN_00d682d0_cls);
+    FUN_00d682d0_cls* result = static_cast<FUN_00d682d0_cls*>(pBuilt->FUN_00d682d0(arg));
+    return static_cast<ToiViewerProcess*>(result);
 }
 
 struct ItemList {
@@ -224,7 +217,7 @@ struct ListBlob_t
     int unk60;
     int unk64;
     int unk68;
-    int* m_items;
+    void** m_items;
     int m_uiItemCount;
 };
 
@@ -277,7 +270,7 @@ extern const char str_010d1ea0[];
 // @fnv 0x00d686f0
 void DispatchStateHandler()
 {
-    ::DAT_01269004 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::StateTarget * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d1ea0, (int)(FUN_00d686b0));
+    ::DAT_01269004 = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::StateTarget * *>(&::DAT_01269cd0))))->FUN_00dd9380(str_010d1ea0, reinterpret_cast<intptr_t>(FUN_00d686b0));
 }
 
 struct FUN_00d68270_Base0 {
@@ -302,11 +295,11 @@ struct FUN_00d68270_Derived : public FUN_00d68270_Base0, public FUN_00d68270_Bas
 };
 struct FUN_00d68270_Arg {
 };
-// Calls arg->FUN_00c93a20 with the address 8 bytes past this, treated as the Base2 part of the enclosing Derived object.
+// Calls arg->FUN_00c93a20 with the Base2 part of the enclosing Derived object.
 // @fnv 0x00d68270
 void FUN_00d68270_Base1::FUN_00d68270(FUN_00d68270_Arg* arg)
 {
-    reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((arg))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(::FUN_00d68270_Base2 *)(reinterpret_cast<FUN_00d68270_Derived*>(reinterpret_cast<char*>(this) - sizeof(FUN_00d68270_Base0))));
+    reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((arg))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(static_cast<FUN_00d68270_Base2*>(static_cast<FUN_00d68270_Derived*>(this))));
 }
 
 // sub ecx,0x20; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
@@ -394,21 +387,8 @@ Derived::Derived()
 }  // namespace fnv_00d68730
 
 namespace fnv_00d68740 {
-struct AudioAllocator {
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00d68740 {
     unsigned short m_u04;
@@ -417,10 +397,10 @@ struct FUN_00d68740 {
     virtual ~FUN_00d68740();
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
         unsigned int uiSize = ((FUN_00d68740*)apMemory)->m_u04;
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, uiSize);
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(apMemory, uiSize);
     }
 };
 
@@ -435,28 +415,8 @@ FUN_00d68740::FUN_00d68740()
 
 #include <math.h>
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    struct { float lane0, lane1, lane2, lane3; };
-} __m128;
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_set_ss(float);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_rsqrt_ss(__m128 a);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_setzero_ps(void);
 
 
 
@@ -479,7 +439,7 @@ struct Handler {
     virtual void v06();
     virtual void v07();
     virtual void v08();
-    virtual void DisplayLine(const Vec& a, const Vec& b, int color, int id, int tag);
+    virtual void DisplayLine(const Vec& a, const Vec& b, int color, uintptr_t id, int tag);
 };
 
 struct TimerCmd {
@@ -520,7 +480,7 @@ __forceinline __m128 splat(float s) {
 }
 
 // @fnv 0x00d683b0
-static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir, int color, int id, int tag) {
+static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir, int color, uintptr_t id, int tag) {
     float lenSq;
 
     _mm_store_ss(&lenSq, lengthSquared3(dir->m));
@@ -530,10 +490,7 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir
             TimerCmd* h = s->m_kRayEnd;
             h->m_pCommandName = "TtToiDisplayArrow";
             unsigned t1;
-            __asm {
-                rdtsc
-                mov dword ptr[t1], eax
-            }
+            t1 = static_cast<unsigned int>(__rdtsc());
             h->m_uiStartTicks = t1;
             s->m_kRayEnd = h + 1;
         } }
@@ -576,17 +533,14 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir
             TimerCmd* h = s->m_kRayEnd;
             h->m_pCommandName = "Et";
             unsigned t2;
-            __asm {
-                rdtsc
-                mov dword ptr[t2], eax
-            }
+            t2 = static_cast<unsigned int>(__rdtsc());
             h->m_uiStartTicks = t2;
             s->m_kRayEnd = h + 1;
         } }
     }
 }
 
-void RenderLine(Handler* handler, Vec* direction, Vec* origin, int color, int id, int tag) {
+void RenderLine(Handler* handler, Vec* direction, Vec* origin, int color, uintptr_t id, int tag) {
     FUN_00d683b0(handler, origin, direction, color, id, tag);
 }
 
@@ -651,7 +605,7 @@ void S00d68670_ToiContactPointViewer::FUN_00d68670(const S00d68670_ContactPointE
     if (event.isToi())
     {
         const S00d68670_Collidable* collidable = event.m_apEntities[0]->getCollidable();
-        FUN_00d683b0(m_pDisplayHandler, (Vec*)&event.m_vContactPoint->getPosition(), (Vec*)&event.m_vContactPoint->getNormal(), 0xffff0000, (int)collidable, DAT_01269004);
+        FUN_00d683b0(m_pDisplayHandler, (Vec*)&event.m_vContactPoint->getPosition(), (Vec*)&event.m_vContactPoint->getNormal(), 0xffff0000, reinterpret_cast<uintptr_t>(collidable), DAT_01269004);
     }
 }
 

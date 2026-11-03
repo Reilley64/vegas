@@ -21,14 +21,14 @@ void FUN_00e3b520(char flag, int* out)
     }
 }
 
-struct FUN_00e3b500_cls
+struct FUN_00e3b500_cls : public hkpRotationalConstraintData
 {
-    void FUN_00e3b500(int arg);
+    void FUN_00e3b500(::GenericConstraintAtomScheme* arg) const;
 };
 // @fnv 0x00e3b500
-void FUN_00e3b500_cls::FUN_00e3b500(int arg)
+void FUN_00e3b500_cls::FUN_00e3b500(::GenericConstraintAtomScheme* arg) const
 {
-    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x74, (::GenericConstraintAtomScheme *)(arg));
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x74, arg);
 }
 
 // Returns the constant value 16.

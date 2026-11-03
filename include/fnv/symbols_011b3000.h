@@ -9,7 +9,7 @@ extern float DAT_011b3790[4];
 // 0x011b37a4
 extern int DAT_011b37a4[];
 // 0x011b37ac
-extern char * g_D1A0E0Tables[2];
+extern int g_D1A0E0Tables[2];
 // 0x011b3830
 extern int DAT_011b3830[5];
 // 0x011b3b4c

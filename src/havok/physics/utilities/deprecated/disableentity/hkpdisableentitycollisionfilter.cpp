@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/deprecated/disableentity/hkpdisableentitycollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00e46900.h"
 #include "fnv/decl/HostC9C6.h"
 #include "havok/hkpDisableEntityCollisionFilter.h"
@@ -30,27 +32,12 @@ void FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, int a6, in
     *flag = 1;
 }
 
-void* __cdecl FUN_00c85750(void);
 
 struct FUN_00e46900_Obj
 {
 };
 
-struct FUN_00dff930_Alloc
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08(void* p, int n);
-};
 
-struct FUN_00dff930_Mgr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FUN_00dff930_Alloc* m_10;
-};
 
 struct FUN_00dff930_class : hkpDisableEntityCollisionFilter
 {
@@ -63,8 +50,8 @@ void* FUN_00dff930_class::FUN_00dff930(unsigned char uiFlags)
     reinterpret_cast<::FUN_00e46900 *>((reinterpret_cast<FUN_00e46900_Obj*>(this)))->FUN_00e46900::~FUN_00e46900();
     if (uiFlags & 1)
     {
-        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(FUN_00c85750());
-        mgr->m_10->slot08(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
+        mgr->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
 }
@@ -234,7 +221,8 @@ void hkpDisableEntityCollisionFilterE46::FUN_00e46880(hkpEntityE46* entity)
 {
     if (entity)
     {
-        reinterpret_cast<::FnvDisabledCollisionFilter *>(this)->FUN_00e46820((char *)(entity), {});
+        char wasRemoved;
+        reinterpret_cast<::FnvDisabledCollisionFilter *>(this)->FUN_00e46820(&wasRemoved, reinterpret_cast<hkpEntity*>(entity));
         reinterpret_cast<::HostC9C6 *>((entity))->FUN_00c9c670(this);
     }
 }

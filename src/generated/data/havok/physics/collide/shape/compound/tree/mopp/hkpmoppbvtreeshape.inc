@@ -2,5 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+const double DAT_01091c00 = 16777216.0;
 namespace fnv_00d54520 { const char str_010d0de4[9] = "TtrcMopp"; }
 const char str_010d0df0[15] = "TtrcBundleMopp";

@@ -2,7 +2,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-#include <cstddef>
+#include "havok/hkUlong.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/decl/FUN_00d64650_cls.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00d641f0_cls.h"
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/RotationRows.h"
@@ -10,17 +13,45 @@
 #include "fnv/decl/hkWorldC917.h"
 #include "fnv/symbols_010cc000.h"
 #include "fnv/symbols_01268000.h"
+struct FUN_00d647b0_Pool;
+struct SweptVObj;
+struct SpawnOwner;
+
+// The swept transform display viewer (SweptViewer): hkReferencedObject (SweptViewerBase), its hkProcess part
+// (FUN_00d647b0_cls) at +0x08, its world listener part (hkpSweptTransformDisplayViewer) at +0x20, its entity listener
+// part at +0x28 and its post-simulation listener part at +0x2c.
+struct SweptViewerBase
+{
+    virtual ~SweptViewerBase();
+    int m_04;
+};
+struct FUN_00d647b0_cls
+{
+    virtual void p00();
+    int unk04;
+    int unk08;
+    int unk0C;
+    SweptVObj* m_displayHandler;
+    int unk14;
+
+    void NotifyItems();
+};
 struct hkpSweptTransformDisplayViewer
 {
-    void FUN_00d64950(int a);
-};
+    virtual void w00();
+    FUN_00d647b0_Pool* m_kNodePool;
 
-extern "C" void FUN_00d64650();
-// @fnv 0x00d647f0
-void FUN_00d647f0(void* self)
+    void FUN_00d647f0(SpawnOwner* world);
+    void FUN_00d64950(void* a);
+};
+struct SweptEntityListener
 {
-    ((void(*)(void*))FUN_00d64650)((char*)self - 0x20);
-}
+    virtual void EntityAddedCallback(void* entity);
+};
+struct SweptPostSimListener
+{
+    virtual void postSimulationCallback(void* world);
+};
 
 
 // @fnv 0x00d64970
@@ -77,7 +108,7 @@ struct SweptArg
 {
     int unk00;
     int unk04;
-    int m_08;
+    void* m_08;
     int unk0C;
     unsigned char m_10;
     unsigned char m_11;
@@ -95,90 +126,14 @@ struct SweptVObj
     virtual int v5(void* p, int g, int z);
 };
 
-class SweptTransformItem
+// The viewer's entity listener part.
+class SweptTransformItem : public SweptEntityListener
 {
   public:
-    int unk00;
-    int unk04;
-    SweptList** m_08;
-
     void FUN_00d64120(SweptArg* a1);
 };
 
 
-// @fnv 0x00d64120
-void SweptTransformItem::FUN_00d64120(SweptArg* a1)
-{
-    if (*(int*)&a1->m_10 == 0)
-    {
-        return;
-    }
-    hkpSweptTransformDisplayViewer* viewer = (hkpSweptTransformDisplayViewer*)((char*)this - 0x28);
-    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex((void *)(a1->m_08));
-    if (iIndex < 0)
-    {
-        return;
-    }
-    SweptList* list = this->m_08[iIndex];
-    void* key = (void*)&a1->m_11;
-    SweptVObj* pVObj = *(SweptVObj**)((char*)this - 0x10);
-    pVObj->v5(key, g_ptr_0x1268fd0, 0);
-
-    int i = 0;
-    int iCount = list->m_08;
-    if (iCount > 0)
-    {
-        void** p = list->m_04;
-        do
-        {
-            if (*p == key)
-            {
-                if (i >= 0)
-                {
-                    (*(volatile int*)&list->m_08)--;
-                    int last = list->m_08;
-                    if (last != i)
-                    {
-                        list->m_04[i] = list->m_04[last];
-                    }
-                }
-                break;
-            }
-            ++i;
-            ++p;
-        } while (i < iCount);
-    }
-
-    key = (void*)&a1->m_12;
-    int g2 = g_ptr_0x1268fd0;
-    pVObj = *(SweptVObj**)((char*)this - 0x10);
-    pVObj->v5(key, g2, 0);
-
-    i = 0;
-    iCount = list->m_08;
-    if (iCount > 0)
-    {
-        void** p = list->m_04;
-        do
-        {
-            if (*p == key)
-            {
-                if (i >= 0)
-                {
-                    (*(volatile int*)&list->m_08)--;
-                    int last = list->m_08;
-                    if (last != i)
-                    {
-                        list->m_04[i] = list->m_04[last];
-                    }
-                }
-                break;
-            }
-            ++i;
-            ++p;
-        } while (i < iCount);
-    }
-}
 
 struct FUN_00d647b0_Pool
 {
@@ -209,72 +164,15 @@ struct FUN_00d647b0_Pool
     int unk60;
     int unk64;
     int unk68;
-    int* m_items;
+    SpawnOwner** m_items;
     int m_uiItemCount;
 };
 
-struct FUN_00d647b0_Listener
-{
-    int unk00;
-};
 
-typedef void(* FUN_00d647b0_Handler)(FUN_00d647b0_Listener* self, int item);
 
-struct FUN_00d647b0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    FUN_00d647b0_Pool* m_kNodePool;
 
-    void NotifyItems();
-};
 
-// @fnv 0x00d647b0
-void FUN_00d647b0_cls::NotifyItems()
-{
-    if (m_kNodePool != 0)
-    {
-        int i = 0;
-        if (m_kNodePool->m_uiItemCount > i)
-        {
-            FUN_00d647b0_Listener* listener = (FUN_00d647b0_Listener*)((char*)this - 8);
-            do
-            {
-                ((FUN_00d647b0_Handler)FUN_00d64650)(listener, m_kNodePool->m_items[i]);
-                i++;
-            } while (i < m_kNodePool->m_uiItemCount);
-        }
-    }
-}
 
-struct SweptHeap
-{
-    virtual ~SweptHeap();
-    virtual void* AllocateMemoryBlock(int n);
-    virtual void ReleaseBlock(void* p, int n);
-    virtual void* AllocateBufferWithSize(int& n);
-    virtual void ReturnMemory(void* p, int n);
-};
-
-struct SweptRouter
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    SweptHeap* m_pStreamAllocator;
-    SweptHeap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-__declspec(nothrow) SweptRouter& __cdecl FUN_00c85750();
 
 template <int SIZE> __forceinline void SweptMemCpyOne(void* dst, const void* src)
 {
@@ -290,18 +188,18 @@ template <typename T> struct SweptArray
 
     __forceinline ~SweptArray() throw()
     {
-        _clearAndDeallocate(FUN_00c85750().heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 
     __forceinline void clear() throw()
     {
         m_iElementCount = 0;
     }
-    __forceinline void _clearAndDeallocate(SweptHeap& alloc) throw()
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -317,15 +215,6 @@ template <typename T> struct SweptArray
     }
 };
 
-struct SweptEntityListener
-{
-    virtual void EntityAddedCallback(void* entity);
-};
-struct SweptPostSimListener
-{
-    virtual void postSimulationCallback(void* world);
-};
-
 struct SweptWorld
 {
 };
@@ -333,34 +222,130 @@ struct SweptWorld
 struct SweptWorldData
 {
     SweptWorld* m_pOwningWorld;
-    SweptArray<unsigned long> m_kEntityIDs;
+    SweptArray<void*> m_kEntityIDs;
 
-    static void operator delete(void* p, std::size_t nbytes)
+    static void operator delete(void* p, size_t nbytes)
     {
-        FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter::getInstance().heap().blockFree(p, nbytes);
     }
 };
 
-struct SweptViewerBase
-{
-    virtual ~SweptViewerBase();
-    int m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24;
-};
-
-struct SweptViewer : SweptViewerBase, SweptEntityListener, SweptPostSimListener
+struct SweptViewer : SweptViewerBase, FUN_00d647b0_cls, hkpSweptTransformDisplayViewer, SweptEntityListener,
+                     SweptPostSimListener
 {
     SweptArray<SweptWorldData*> m_kWorldDataList;
 
     void RemoveWorldData(int index);
 };
-// Calls FindEntryIndex on the viewer at this-0x20 with a; if the returned index is non-negative, calls RemoveWorldData with it.
-// @fnv 0x00d64950
-void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
+// @fnv 0x00d64120
+void SweptTransformItem::FUN_00d64120(SweptArg* a1)
 {
-    hkpSweptTransformDisplayViewer* p = (hkpSweptTransformDisplayViewer*)((char*)this - 0x20);
-    int r = reinterpret_cast<::D63FF0Container *>((p))->FindEntryIndex((void *)(a));
+    if (*(int*)&a1->m_10 == 0)
+    {
+        return;
+    }
+    SweptViewer* viewer = static_cast<SweptViewer*>(static_cast<SweptEntityListener*>(this));
+    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex(a1->m_08);
+    if (iIndex < 0)
+    {
+        return;
+    }
+    SweptList* list = reinterpret_cast<SweptList*>(viewer->m_kWorldDataList[iIndex]);
+    void* key = (void*)&a1->m_11;
+    SweptVObj* pVObj = viewer->m_displayHandler;
+    pVObj->v5(key, g_ptr_0x1268fd0, 0);
+
+    int i = 0;
+    int iCount = list->m_08;
+    if (iCount > 0)
+    {
+        void** p = list->m_04;
+        do
+        {
+            if (*p == key)
+            {
+                if (i >= 0)
+                {
+                    (*(volatile int*)&list->m_08)--;
+                    int last = list->m_08;
+                    if (last != i)
+                    {
+                        list->m_04[i] = list->m_04[last];
+                    }
+                }
+                break;
+            }
+            ++i;
+            ++p;
+        } while (i < iCount);
+    }
+
+    key = (void*)&a1->m_12;
+    int g2 = g_ptr_0x1268fd0;
+    pVObj = viewer->m_displayHandler;
+    pVObj->v5(key, g2, 0);
+
+    i = 0;
+    iCount = list->m_08;
+    if (iCount > 0)
+    {
+        void** p = list->m_04;
+        do
+        {
+            if (*p == key)
+            {
+                if (i >= 0)
+                {
+                    (*(volatile int*)&list->m_08)--;
+                    int last = list->m_08;
+                    if (last != i)
+                    {
+                        list->m_04[i] = list->m_04[last];
+                    }
+                }
+                break;
+            }
+            ++i;
+            ++p;
+        } while (i < iCount);
+    }
+}
+
+// Calls the viewer's FUN_00d64650 for each world of the context.
+// @fnv 0x00d647b0
+void FUN_00d647b0_cls::NotifyItems()
+{
+    SweptViewer* viewer = static_cast<SweptViewer*>(this);
+    FUN_00d647b0_Pool* pool = viewer->m_kNodePool;
+    if (pool != 0)
+    {
+        int i = 0;
+        if (pool->m_uiItemCount > i)
+        {
+            do
+            {
+                reinterpret_cast<::FUN_00d64650_cls *>(viewer)->FUN_00d64650(pool->m_items[i]);
+                i++;
+            } while (i < pool->m_uiItemCount);
+        }
+    }
+}
+
+// The world listener's thunk to the viewer's FUN_00d64650.
+// @fnv 0x00d647f0
+void hkpSweptTransformDisplayViewer::FUN_00d647f0(SpawnOwner* world)
+{
+    reinterpret_cast<::FUN_00d64650_cls *>(static_cast<SweptViewer*>(this))->FUN_00d64650(world);
+}
+
+// Calls FindEntryIndex on the viewer with a; if the returned index is non-negative, calls RemoveWorldData with it.
+// @fnv 0x00d64950
+void hkpSweptTransformDisplayViewer::FUN_00d64950(void* a)
+{
+    SweptViewer* p = static_cast<SweptViewer*>(this);
+    int r = reinterpret_cast<::D63FF0Container *>((p))->FindEntryIndex(a);
     if (r >= 0)
-        reinterpret_cast<::SweptViewer *>((p))->RemoveWorldData(r);
+        p->RemoveWorldData(r);
 }
 
 // Unregisters this viewer from the world at index, calls ClearSweptEntry, deletes the world data and removes it from the array.
@@ -368,28 +353,13 @@ void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
 void SweptViewer::RemoveWorldData(int index)
 {
     reinterpret_cast<::hkWorldC917 *>((m_kWorldDataList[index]->m_pOwningWorld))->FUN_00c917a0(this);
-    reinterpret_cast<::SearchArray *>((m_kWorldDataList[index]->m_pOwningWorld))->ClearValue((int)(this));
+    reinterpret_cast<::SearchArray *>((m_kWorldDataList[index]->m_pOwningWorld))->ClearValue((this));
     reinterpret_cast<::FUN_00d641f0_cls *>(this)->ClearSweptEntry(index);
     delete m_kWorldDataList[index];
     m_kWorldDataList.removeAt(index);
 }
 
 namespace fnv_00d648c0 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void*, unsigned int) throw();
-};
-struct AudioHolder
-{
-    int unk00, unk04, unk08, unk0c;
-    AudioAllocator* m_pAllocator;
-};
-struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 extern int DAT_010d1918, DAT_010d18f8, DAT_010d18e8, DAT_010d18cc, DAT_010d18bc;
 struct AudioArray
 {
@@ -404,18 +374,25 @@ struct AudioArray
 };
 struct SweptViewer
 {
-    int m_vptr00, unk04, m_vptr08, unk0c, unk10, unk14, unk18, unk1c, m_vptr20, m_vptr24, m_vptr28, m_vptr2c;
+    const void* m_vptr00;
+    int unk04;
+    const void* m_vptr08;
+    int unk0c, unk10, unk14, unk18, unk1c;
+    const void* m_vptr20;
+    const void* m_vptr24;
+    const void* m_vptr28;
+    const void* m_vptr2c;
     AudioArray m_ppData;
     void Destroy();
 };
 // @fnv 0x00d648c0
 void SweptViewer::Destroy()
 {
-    m_vptr00 = (int)&DAT_010d1918;
-    m_vptr08 = (int)&DAT_010d18f8;
-    m_vptr20 = (int)&DAT_010d18e8;
-    m_vptr28 = (int)&DAT_010d18cc;
-    m_vptr2c = (int)&DAT_010d18bc;
+    m_vptr00 = &DAT_010d1918;
+    m_vptr08 = &DAT_010d18f8;
+    m_vptr20 = &DAT_010d18e8;
+    m_vptr28 = &DAT_010d18cc;
+    m_vptr2c = &DAT_010d18bc;
     int i = m_ppData.m_iArrayLength - 1;
     if (i >= 0)
     {
@@ -425,15 +402,15 @@ void SweptViewer::Destroy()
             --i;
         } while (i >= 0);
     }
-    AudioHolder* h = (AudioHolder*)FUN_00c85750();
-    AudioAllocator* a = h->m_pAllocator;
+    hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* a = h->m_heap;
     m_ppData.m_iArrayLength = 0;
     unsigned int uiCapBits = m_ppData.m_uCapBits;
     if ((uiCapBits & 0x80000000u) == 0)
-        a->FreeArray(m_ppData.m_pData, (uiCapBits & 0x3fffffffu) * 4);
+        a->bufFree(m_ppData.m_pData, (uiCapBits & 0x3fffffffu) * sizeof(void*));
     m_ppData.Reset();
-    m_vptr2c = (int)&(*reinterpret_cast<int *>(&::DAT_010ccf7c));
-    m_vptr28 = (int)"pFU";
+    m_vptr2c = &::DAT_010ccf7c;
+    m_vptr28 = "pFU";
     return reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
 }  // namespace fnv_00d648c0
@@ -477,7 +454,7 @@ struct D64020DisplayHandler
     virtual void unk04();
     virtual void unk08();
     virtual void unk0C();
-    virtual void displayFrame(const D64020Transform& transform, unsigned long id, int tag);
+    virtual void displayFrame(const D64020Transform& transform, hkUlong id, int tag);
 };
 
 struct D64020Constraint
@@ -598,12 +575,12 @@ void D64020Viewer::DisplayConstraintPivots(D64020Constraint* constraint)
     reinterpret_cast<::RotationRows *>(&(frame.m_rotation))->FUN_00cb2d90((void *)&(constraint->m_kRotationA));
     *(__m128*)frame.m_vTranslation.m_f = _mm_sub_ps(*(const __m128*)constraint->m_kPivotA.m_f,
                                                     D64020RotateDir(frame.m_rotation, constraint->m_localPivot));
-    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x11, ::g_ptr_0x1268fd0);
+    m_pDisplayHandler->displayFrame(frame, reinterpret_cast<hkUlong>(constraint) + 0x11, ::g_ptr_0x1268fd0);
 
     reinterpret_cast<::RotationRows *>(&(frame.m_rotation))->FUN_00cb2d90((void *)&(constraint->m_kRotationB));
     *(__m128*)frame.m_vTranslation.m_f = _mm_sub_ps(*(const __m128*)constraint->m_kPivotB.m_f,
                                                     D64020RotateDir(frame.m_rotation, constraint->m_localPivot));
-    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x12, ::g_ptr_0x1268fd0);
+    m_pDisplayHandler->displayFrame(frame, reinterpret_cast<hkUlong>(constraint) + 0x12, ::g_ptr_0x1268fd0);
 }
 
 // sub ecx,8; jmp FUN_00d649c0 == MSVC adjustor thunk for the secondary base's override.
@@ -768,13 +745,434 @@ struct FUN_00d649c0
     short m_sReferenceCount;
 
     FUN_00d649c0();
-    static void operator delete(void* p, std::size_t)
+    static void operator delete(void* p, size_t)
     {
         FUN_00d649c0* b = static_cast<FUN_00d649c0*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
 // @fnv 0x00d649c0
 FUN_00d649c0::FUN_00d649c0()
 {}
+
+// Moved from hkpswepttransformdisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+
+// src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
+#include <new>
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00d64650_cls.h"
+#include "fnv/decl/FUN_00ddfb70_cls.h"
+#include "fnv/decl/Node.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00ddf000.h"
+int __cdecl FUN_00d64970();
+
+
+struct FUN_008cd6a0_Class {  };
+struct ErrBuf {    int unk00; int unk04; int unk08; };
+struct TmpA {  int unk00; int unk04; };
+struct TmpB {   int unk00; int unk04; int unk08; int unk0c; int unk10; };
+struct Reporter { virtual void v0(); virtual void v1(); virtual void v2(); virtual void report(int a, int b, const char* msg, const char* file, int line); };
+ extern int DAT_01268fd4;
+ extern int DAT_01268fd8;
+struct Shape { virtual void release(int f); int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; };
+struct Disp { virtual void v0(); virtual void add(void* a, void* b, hkUlong id, int d, int e); virtual void v2(); virtual void tag(int a, hkUlong id, int c); };
+__declspec(align(16)) struct Mat { float a0,a1,a2,a3,b0,b1,b2,b3,c0,c1,c2,c3,d0,d1,d2,d3; };
+__declspec(align(16)) struct V4 { float x; float y; float z; float w; };
+struct Arr { hkUlong* data; int size; int cap; };
+struct Entry { int unk00; Arr unk04; };
+struct Arg {
+    int unk00; int unk04; void* unk08; int unk0c;
+    void* unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    unsigned char motionType, unkE9, unkEA, unkEB;
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
+    int unkfc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    __m128 position0, position1, rotation0, rotation1, center;
+};
+
+struct OwnerBase {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    Disp* display;
+    int unk1c;
+    int unk20;
+    int unk24;
+};
+struct Self {
+    int unk00; int unk04; Entry** unk08;
+    void FUN_00d642c0(Arg* a);
+};
+
+struct Owner : OwnerBase, Self {};
+// @fnv 0x00d642c0
+void Self::FUN_00d642c0(Arg* a)
+{
+     
+    if (a->unk10 == 0) return;
+     int idx = reinterpret_cast<::D63FF0Container *>(static_cast<OwnerBase*>(static_cast<Owner*>(this)))->FindEntryIndex(a->unk08);
+    if (idx < 0) return;
+    SweptArray<Shape*> list;
+    Entry* e; e = unk08[idx];
+    list.m_data = 0; list.m_iElementCount = 0; list.m_iCapacityState = 0x80000000; TmpA ta; reinterpret_cast<::FUN_00ddfb70_cls *>(&(ta))->FUN_00ddfb70();
+    TmpB tb; ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(tb), reinterpret_cast<intptr_t>(&ta), {});
+    reinterpret_cast<::Node *>(&(tb))->FUN_00de0f90(a->unk10, (::XfResult *)(void *)(&list));
+    for (int j = list.m_iElementCount - 1; j >= 0; j--) { Shape* s = (Shape*)list.m_data[j];
+        if (s->unk50 == 6 && 0 == s->unk08) {
+            char buf[512];
+            ErrBuf eb;
+            
+            new ((void *)&(eb)) ::FUN_00cb1600(buf, 0x200);
+            reinterpret_cast<::SinkOwner *>(&(eb))->FUN_00cc01c0("Unable to build display geometry from hkpShape geometry data");
+            (*reinterpret_cast<::Reporter * *>(&::DAT_01268360))->report(0, -1, (const char*)&buf, ".\\VisualDebugger\\Viewer\\Dynamics\\hkpSweptTransformDisplayViewer.cpp", 0xa8);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(eb))->FUN_00cc00e0::~FUN_00cc00e0();
+            list.removeAt(j);
+        } }
+    if (0 < list.m_iElementCount && 5 != a->motionType) {
+        hkUlong id1 = reinterpret_cast<hkUlong>(&a->unk10) + 1;
+        Arr* ids = &e->unk04;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), sizeof(hkUlong));
+        hkUlong* slot1 = ids->data + ids->size;
+        for (int k = 0; k < 1; ++k) slot1[k] = id1; ++ids->size;
+        Mat m1; Mat m2;
+        reinterpret_cast<::RotationRows *>((((FUN_008cd6a0_Class*)&m1)))->FUN_00cb2d90(&a->rotation0);
+        __m128 v = a->center;
+        
+        __m128 p1 = _mm_sub_ps(a->position0,
+            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_load_ps(&m1.b0), _mm_shuffle_ps(v, v, 0x55)), _mm_mul_ps(_mm_load_ps(&m1.a0), _mm_shuffle_ps(v, v, 0))), _mm_mul_ps(_mm_load_ps(&m1.c0), _mm_shuffle_ps(v, v, 0xaa))));
+        _mm_store_ps(&m1.d0, p1);
+        reinterpret_cast<::RotationRows *>((((FUN_008cd6a0_Class*)&m2)))->FUN_00cb2d90(&a->rotation1);
+        __m128 w = a->center;
+        __m128 p2r = _mm_sub_ps(a->position1,
+            _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(w, w, 0xaa), _mm_load_ps(&m2.c0)), _mm_add_ps(_mm_mul_ps(_mm_load_ps(&m2.b0), _mm_shuffle_ps(w, w, 0x55)), _mm_mul_ps(_mm_load_ps(&m2.a0), _mm_shuffle_ps(w, w, 0)))));
+                _mm_store_ps(&m2.d0, p2r);
+        Disp* d = static_cast<Owner*>(this)->display; d->add(&list, &m1, id1, ::g_ptr_0x1268fd0, 0);
+        d = static_cast<Owner*>(this)->display;
+        d->tag(DAT_01268fd8, id1, ::g_ptr_0x1268fd0);
+        hkUlong id2 = reinterpret_cast<hkUlong>(&a->unk10) + 2;
+        b = &hkMemoryRouter::getInstance();
+        if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), sizeof(hkUlong));
+        hkUlong* slot2 = ids->data + ids->size;
+        for (int k = 0; k < 1; ++k) slot2[k] = id2; ++ids->size;
+        d = static_cast<Owner*>(this)->display;
+        d->add(&list, &m2, id2, ::g_ptr_0x1268fd0, 0);
+        d = static_cast<Owner*>(this)->display;
+        d->tag(DAT_01268fd4, id2, ::g_ptr_0x1268fd0);
+    }
+    for (int i = 0; i < list.m_iElementCount; i++) { Shape* s = (Shape*)list.m_data[i];
+        if (0 != s) s->release(1); }
+}
+
+#include <windows.h>
+
+struct S_00d63e40_TimerCommand {
+    const char* m_pCommandName;
+    unsigned int m_uiStartTicks;
+    unsigned int m_uiEndTicks;
+};
+
+struct S_00d63e40_MonitorStream {
+    char* m_kRayStart;
+    char* m_kRayEnd;
+    char* m_pRayCursor;
+    char* m_pCurrentCommand;
+};
+
+static inline void S_00d63e40_Timer(const char* name)
+{
+    S_00d63e40_MonitorStream* s = (S_00d63e40_MonitorStream*)TlsGetValue(DAT_0126835c);
+    if (s->m_kRayEnd < s->m_pCurrentCommand)
+    {
+        S_00d63e40_TimerCommand* h = (S_00d63e40_TimerCommand*)s->m_kRayEnd;
+        h->m_pCommandName = name;
+        unsigned int t;
+        t = static_cast<unsigned int>(__rdtsc());
+        h->m_uiStartTicks = t;
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
+    }
+}
+
+struct __declspec(align(16)) S_00d63e40_V4 {
+    float x, y, z, w;
+    __m128& q() { return *(__m128*)this; }
+    const __m128& q() const { return *(const __m128*)this; }
+};
+
+struct S_00d63e40_Mat3 {
+    S_00d63e40_V4 c0;
+    S_00d63e40_V4 c1;
+    S_00d63e40_V4 c2;
+    S_00d63e40_V4 t;
+};
+
+struct S_00d63e40_Handler {
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void display(const S_00d63e40_Mat3* xf, hkUlong id, int tag);
+};
+
+struct __declspec(align(16)) S_00d63e40_Entity {
+    int unk00;
+    int unk04;
+    void* unk08;
+    int unk0C;
+    void* unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+    int unkDC;
+    int unkE0;
+    int unkE4;
+    int unkE8;
+    int unkEC;
+    int unkF0;
+    int unkF4;
+    int unkF8;
+    int unkFC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    S_00d63e40_V4 pos0;
+    S_00d63e40_V4 pos1;
+    S_00d63e40_V4 rot0;
+    S_00d63e40_V4 rot1;
+    S_00d63e40_V4 com;
+
+};
+
+struct S_00d63e40_Array {
+    S_00d63e40_Entity** m_data;
+    int m_iElementCount;
+};
+
+struct S_00d63e40_Island {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    S_00d63e40_Array entities;
+
+};
+struct S_00d63e40_World {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    S_00d63e40_Island** islands;
+    int numIslands;
+
+};
+
+struct S_00d63e40_WorldPad {
+    S_00d63e40_World* w;
+    S_00d63e40_World* val() const { return w; }
+};
+
+struct S_00d63e40_Base0 {
+    virtual void b0();
+    virtual void b1();
+    int unk04;
+    int unk08;
+    S_00d63e40_Handler* handler;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+};
+
+struct S_00d63e40_Listener {
+    virtual void l0();
+    virtual void FUN_00d63e40(S_00d63e40_WorldPad world);
+};
+
+struct S_00d63e40_S : S_00d63e40_Base0, S_00d63e40_Listener {
+    virtual void l0();
+    virtual void FUN_00d63e40(S_00d63e40_WorldPad world);
+};
+
+// @fnv 0x00d63e40
+void S_00d63e40_S::FUN_00d63e40(S_00d63e40_WorldPad world)
+{
+    S_00d63e40_Timer("TthkpSweptTransformDisplayViewer");
+    for (int i = 0; i < world.val()->numIslands; i++)
+    {
+        S_00d63e40_Array& arr = world.val()->islands[i]->entities;
+        for (int j = 0; j < arr.m_iElementCount; j++)
+        {
+            S_00d63e40_Entity* e = arr.m_data[j];
+            S_00d63e40_Mat3 m;
+            reinterpret_cast<::RotationRows *>(&(m))->FUN_00cb2d90((void *)(&e->rot0));
+            __m128 c = e->com.q();
+            __m128 r = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(c, c, 0x55), m.c1.q()), _mm_mul_ps(_mm_shuffle_ps(c, c, 0), m.c0.q())), _mm_mul_ps(_mm_shuffle_ps(c, c, 0xaa), m.c2.q()));
+            m.t.q() = _mm_sub_ps(e->pos0.q(), r);
+            handler->display(&m, reinterpret_cast<hkUlong>(&e->unk10) + 1, ::g_ptr_0x1268fd0);
+            reinterpret_cast<::RotationRows *>(&(m))->FUN_00cb2d90((void *)(&e->rot1));
+            c = e->com.q();
+            r = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(c, c, 0x55), m.c1.q()), _mm_mul_ps(_mm_shuffle_ps(c, c, 0), m.c0.q())), _mm_mul_ps(_mm_shuffle_ps(c, c, 0xaa), m.c2.q()));
+            m.t.q() = _mm_sub_ps(e->pos1.q(), r);
+            handler->display(&m, reinterpret_cast<hkUlong>(&e->unk10) + 2, ::g_ptr_0x1268fd0);
+        }
+    }
+    S_00d63e40_Timer("Et");
+}
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.inc"

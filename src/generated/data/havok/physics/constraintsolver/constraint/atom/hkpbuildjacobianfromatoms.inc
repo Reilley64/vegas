@@ -4,7 +4,6 @@
 
 // import slot of KERNEL32.dll InterlockedExchangeAdd, which no x64 library exports
 long (*DAT_00fdf1ec)(volatile long *, long) = nullptr;
-double DAT_010c9300 = 1.1920928955078125e-07;
 unsigned char DAT_010d33c0[1];
 unsigned char DAT_010d33c1[1] = {16};
 unsigned char DAT_010d33c2[2] = " ";

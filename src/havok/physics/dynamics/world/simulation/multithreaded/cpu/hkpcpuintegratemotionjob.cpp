@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratemotionjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratemotionjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpApplyForcesStep.h"
+#include "fnv/symbols_00d28000.h"
 #include "fnv/decl/LunaOwner.h"
 #include "fnv/symbols_00d1a000.h"
 #include "fnv/symbols_00d29000.h"
@@ -55,7 +57,7 @@ static inline void S_00d943d0_TimerBeginList(const char* name, const char* split
         h->m_pFirst = split;
         _ReadWriteBarrier();
         h->setTime();
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -68,7 +70,7 @@ static inline void S_00d943d0_Timer(const char* name)
         h->m_pCommandName = name;
         _ReadWriteBarrier();
         h->setTime();
-        mStream.m_kRayEnd = (char*)(h + 1);
+        mStream.m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -130,7 +132,7 @@ struct S_00d943d0_Block
     int unk44;
     int unk48;
     int unk4C;
-    int* m_auiHeaderValues;
+    void** m_ppEntities;
 };
 
 struct S_00d943d0_Item
@@ -186,7 +188,7 @@ struct S_00d943d0_Inner
     int unk06C;
     int unk070;
     int unk074;
-    int unk078;
+    const ::CollisionContext* unk078;
     int unk07C;
     int unk080;
     int unk084;
@@ -296,7 +298,6 @@ struct S_00d943d0_Obj
 {
 };
 
-int __cdecl FUN_00d28a30(int* p1e0, int* p1d0, int* p200, int* ints, int n, int sz);
 
 // Picks FUN_00d28a30 or FUN_00d29bf0 by item->m_flag to set item->m_result, calls FUN_00d1a330, then obj->ProcessCallback.
 // @fnv 0x00d943d0
@@ -308,19 +309,19 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
     S_00d943d0_Block* pBlock = item->m_block;
     unsigned int n = item->m_uiValueCount;
     S_00d943d0_Elem* e = pBlock->m_pElements + (idx + 1);
-    int* ints = pBlock->m_auiHeaderValues + idx;
+    void** ints = pBlock->m_ppEntities + idx;
     if (item->m_flag)
     {
         item->m_result =
-            FUN_00d28a30(&ctx->m_inner->unk1E0, &ctx->m_inner->unk1D0, &ctx->m_inner->unk200, ints, n, 0xe0);
+            ::ApplyForcesStepPrivate::FUN_00d28a30({(const ::ApplyForcesStepPrivate::SolverInfo *)(&ctx->m_inner->unk1E0)}, (const ::ApplyForcesStepPrivate::TimeInterval *)(&ctx->m_inner->unk1D0), {(const ::ApplyForcesStepPrivate::Vec *)(&ctx->m_inner->unk200)}, {(::ApplyForcesStepPrivate::Motion **)(ints)}, n, 0xe0);
     }
     else
     {
         item->m_result = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(&ctx->m_inner->unk1E0)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(&ctx->m_inner->unk1D0)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(e), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(ints), n, 0xe0);
     }
-    ::FUN_00d1a330((const ::CollisionContext *)(ctx->m_inner->unk078), (::EntityNode *const *)(ints), n);
+    ::FUN_00d1a330(ctx->m_inner->unk078, (::EntityNode *const *)(ints), n);
 
     S_00d943d0_Timer("lt");
 
-    reinterpret_cast<::LunaOwner *>((obj))->ProcessCallback((int)(item), (int)(item), 0);
+    reinterpret_cast<::LunaOwner *>((obj))->ProcessCallback((intptr_t)(item), (intptr_t)(item), 0);
 }

@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00d21410.h"
 #include "fnv/decl/FUN_00dfd380_cls.h"
@@ -16,24 +18,30 @@
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpCompressedMeshShape.h"
 
+// hkpCompressedMeshShape seen from its shape container interface (+0x10 in the 32-bit build); the offsets below are
+// the shape's.
 struct FUN_00e3cad0_Class
 {
-    unsigned int m_uiShapeIndex;
-    unsigned int m_pCollisionShape;
-    unsigned int m_pCollisionShape2;
-    unsigned int m_pCollisionShape3;
+    const void* m_vtable;                                        // +0x10
+    unsigned char m_collectionFlags[4];                          // +0x14
+    hkInt32 m_iBitsPerIndex;                                     // +0x18
+    hkInt32 m_iBitsPerWIndex;                                    // +0x1C
+    unsigned char m_pad20[0x4c];
+    hkArray<hkpCompressedMeshShapeBigTriangle> m_kBigTriangles;  // +0x6C
+    hkArray<hkpCompressedMeshShapeChunk> m_kChunks;              // +0x78
+    hkArray<hkpCompressedMeshShapeConvexPiece> m_kConvexPieces;  // +0x84
     unsigned int GetShapeIndexMask();
 };
 
 // @fnv 0x00e3cad0
 unsigned int FUN_00e3cad0_Class::GetShapeIndexMask()
 {
-    if (*(unsigned int*)((char*)this + 0x60))
+    if (m_kBigTriangles.m_iElementCount)
         return 0;
-    if (*(unsigned int*)((char*)this + 0x6c))
-        return 1 << this->m_pCollisionShape3;
-    if (*(unsigned int*)((char*)this + 0x78))
-        return ((1 << (32 - this->m_pCollisionShape3)) - 1) << this->m_pCollisionShape3;
+    if (m_kChunks.m_iElementCount)
+        return 1 << m_iBitsPerWIndex;
+    if (m_kConvexPieces.m_iElementCount)
+        return ((1 << (32 - m_iBitsPerWIndex)) - 1) << m_iBitsPerWIndex;
     return -1;
 }
 
@@ -87,15 +95,14 @@ __declspec(noinline) unsigned int FUN_00e3c9d0(unsigned int a1, unsigned int a2)
     return 0xF0;
 }
 
-struct FUN_00e3d0d0_Class
+struct FUN_00e3d0d0_Class : public ::hkpCompressedMeshShape
 {
     void SetWeldingType(unsigned char weldingType);
 };
-// Stores the given welding type byte at offset 0x2c of this object.
 // @fnv 0x00e3d0d0
 void FUN_00e3d0d0_Class::SetWeldingType(unsigned char weldingType)
 {
-    *((unsigned char*)this + 0x2c) = weldingType;
+    m_eWeldingType = weldingType;
 }
 
 int __cdecl FUN_00d213e0(int first, int* second);
@@ -130,7 +137,7 @@ void FUN_00e3cd20_Class::FUN_00e3cd20(float afScale, hkVector4* a2, hkVector4* a
 
 extern "C" void _ReadWriteBarrier(void);
 
-const void* DAT_010d0fc4[];
+extern const void* DAT_010d0fc4[];
 
 struct FUN_00d59710
 {
@@ -295,6 +302,22 @@ int StripsShapeE3CEB0::GetNumTriangles()
     return iRemainingIndices / 3 + iStripTriangles;
 }
 
+struct E3D060BigTriangle
+{
+    unsigned short unk00[6];
+    unsigned short m_material;
+    unsigned short unk0E;
+};
+
+struct E3D060Chunk
+{
+    unsigned char unk00[0x34];
+    unsigned short* m_materials;
+    unsigned char unk38[0x0C];
+    unsigned short m_reference;
+    unsigned char unk46[0x0A];
+};
+
 struct FUN_00e3d060_Owner
 {
     unsigned int unk00;
@@ -324,10 +347,10 @@ struct FUN_00e3d060_Owner
     unsigned int unk60;
     unsigned int unk64;
     unsigned int unk68;
-    unsigned int m_pAttributeTable;
+    E3D060BigTriangle* m_pAttributeTable;
     unsigned int unk70;
     unsigned int unk74;
-    unsigned int m_pSubAttributeData;
+    E3D060Chunk* m_pSubAttributeData;
     void SetAttribute(unsigned long instanceMask, unsigned short attributeValue);
 };
 
@@ -340,17 +363,17 @@ void FUN_00e3d060_Owner::SetAttribute(unsigned long instanceMask, unsigned short
     if (!shiftResult)
     {
         unsigned int shapeOffset = m_pShapeData & instanceMask;
-        *(unsigned short*)((char*)m_pAttributeTable + shapeOffset * 16 + 12) = attributeValue;
+        m_pAttributeTable[shapeOffset].m_material = attributeValue;
     }
     else
     {
         unsigned int indexOffset = m_pIndexData & instanceMask;
         unsigned int index = shiftResult - 1;
-        unsigned short entry = *(unsigned short*)((char*)m_pSubAttributeData + index * 80 + 0x44);
+        unsigned short entry = m_pSubAttributeData[index].m_reference;
         if (entry != 0xFFFF)
             index = entry;
-        unsigned int attributeEntryOffset = *(unsigned int*)((char*)m_pSubAttributeData + index * 80 + 0x34);
-        *(unsigned short*)((char*)attributeEntryOffset + indexOffset * 2) = attributeValue;
+        unsigned short* attributeEntry = m_pSubAttributeData[index].m_materials;
+        attributeEntry[indexOffset] = attributeValue;
     }
 }
 
@@ -632,21 +655,7 @@ class __declspec(novtable) FUN_00e3dc50 : public hkpShapeE3D, public hkpShapeCon
 FUN_00e3dc50::~FUN_00e3dc50() throw()
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_setr_ps(float x, float y, float z, float w);
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_min_ps(__m128 a, __m128 b);
-    __m128 _mm_max_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-}
 
 struct hkVector4q
 {
@@ -741,17 +750,6 @@ void FUN_00e3c9e0_Class::CopyFrom(__m128* src)
 }
 
 namespace fnv_00e3cc20 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float e0, float e1, float e2, float e3);
-extern "C" __m128 _mm_set_ps1(float a);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4q
 {
@@ -850,17 +848,6 @@ unsigned ValidatedMesh::FUN_00e3cfe0(unsigned key)
 }
 
 namespace fnv_00e3d250 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-}
 
 struct TransformQ;
 
@@ -961,19 +948,6 @@ void MeshQ::FUN_00e3d250(const ChunkQ* chunk, AabbQ* aabb)
 }  // namespace fnv_00e3d250
 
 namespace fnv_00e3d380 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-}
 
 extern __m128 DAT_010c71d0;
 
@@ -1160,9 +1134,6 @@ unsigned int hkpCompressedMeshShapeE3CB::FUN_00e3cb10(unsigned int uiOldKey) thr
     return 0xffffffff;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int mask);
 
 class CompressedChunk
 {
@@ -1195,14 +1166,6 @@ void CompressedChunk::FUN_00e3cd50(unsigned int i0, unsigned int i1, unsigned in
     getVertex(i2, error, v2);
 }
 
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const float* p);
-    void _mm_store_ps(float* p, __m128 a);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-}
 
 struct __declspec(align(16)) Vector
 {
@@ -1369,7 +1332,7 @@ Triangle* Mesh::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
         _mm_store_ps(&transform.y.x, _mm_load_ps(&DAT_01268380.x));
         _mm_store_ps(&transform.z.x, _mm_load_ps(&DAT_01268390.x));
         _mm_store_ps(&transform.translation.x, _mm_load_ps(&DAT_012683a0.x));
-        ConvexShape* shape = bufv ? ((::ConvexShape *)(new ((void *)(bufv->)) ::FUN_00d59710(radius))) : 0;
+        ConvexShape* shape = bufv ? ((::ConvexShape *)(new ((void *)(bufv.p)) ::FUN_00d59710(radius))) : 0;
         ConvexPiece* pieces = convexPieces.m_data;
         if (pieces[index].transform != 0xffff)
         {

@@ -2,7 +2,10 @@
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cd8160.h"
 #include "fnv/decl/FUN_00d2b260.h"
@@ -20,21 +23,21 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpMouseSpringAction.h"
 
-struct FUN_00d2b1f0
+struct FUN_00d2b1f0 : hkpUnaryAction
 {
-    void EntityRemovedCallback(int);
+    void EntityRemovedCallback(hkpEntity*);
 };
 
 struct FUN_00cbb1c0 : FUN_00d2b1f0
 {
-    void Method(int);
+    void Method(hkpEntity*);
 };
 
 // @fnv 0x00cbb1c0
-void FUN_00cbb1c0::Method(int aiValue)
+void FUN_00cbb1c0::Method(hkpEntity* entity)
 {
-    EntityRemovedCallback(aiValue);
-    *(int*)((char*)this + 0x18) = 0;
+    EntityRemovedCallback(entity);
+    m_pEntity = nullptr;
 }
 
 struct FUN_00cbb1b0_Class
@@ -52,38 +55,16 @@ void FUN_00cbb1b0_Class::FUN_00cbb1b0(hkReal a)
 
 
 // @fnv 0x00cbb8a0
-int __cdecl FUN_00cbb8a0()
+const void* __cdecl FUN_00cbb8a0()
 {
-    return (int)&(*reinterpret_cast<int *>(&::g_01268a14));
+    return &::g_01268a14;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
 extern int DAT_010c8e94;
 extern const char str_011b1f3c[];
 
-struct Ms_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void* AllocateBufferWithSize(int* n);
-    virtual void ReturnMemory(void* p, int n);
-};
-struct Ms_Tls
-{
-    int u0;
-    int u1;
-    int u2;
-    int u3;
-    Ms_Heap* heap;
-};
-Ms_Tls* __cdecl FUN_00c85750();
 
 struct Ms_ArrInit
 {
@@ -259,11 +240,6 @@ struct Ms_B
 struct Ms_N
 {
 };
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-}
 struct Fv
 {
     float x;
@@ -293,27 +269,10 @@ struct Ms_cls
 };
 
 namespace fnv_00cbb790 {
-struct hkAllocatorCBB7
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void V2() throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterCBB7
+inline hkMemoryAllocator& heapCBB7()
 {
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    hkAllocatorCBB7* m_pStreamAllocator;
-};
-void* __cdecl FUN_00c85750();
-inline hkAllocatorCBB7& heapCBB7()
-{
-    return *((hkMemoryRouterCBB7*)FUN_00c85750())->m_pStreamAllocator;
+    return *hkMemoryRouter::getInstance().m_heap;
 }
 
 template <typename T> inline void copyCBB7(T* pDst, const T* pSrc, int n)
@@ -342,13 +301,13 @@ template <typename T> struct hkArrayCBB7
     }
     __forceinline hkArrayCBB7& operator=(const hkArrayCBB7& kOther)
     {
-        hkAllocatorCBB7& kAlloc = heapCBB7();
+        hkMemoryAllocator& kAlloc = heapCBB7();
         if (getCapacity() < kOther.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
-                kAlloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+                kAlloc.bufFree(m_data, getCapacity() * sizeof(T));
             int iNumBytes = kOther.m_iElementCount * sizeof(T);
-            m_data = (T*)kAlloc.AllocateBufferWithSize(iNumBytes);
+            m_data = (T*)kAlloc.bufAlloc(iNumBytes);
             m_iCapacityState = iNumBytes / (int)sizeof(T);
         }
         m_iElementCount = kOther.m_iElementCount;
@@ -383,10 +342,10 @@ class FUN_00cbb4e0 : public hkpUnaryAction
 
     FUN_00cbb4e0(hkpEntity* pkEntity) throw();
 
-    void* operator new(std::size_t uiSize)
+    void* operator new(size_t uiSize)
     {
-        hkMemoryRouterCBB7* pkRouter = (hkMemoryRouterCBB7*)FUN_00c85750();
-        hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_pStreamAllocator->AllocateMemoryBlock(uiSize);
+        hkMemoryRouter* pkRouter = &hkMemoryRouter::getInstance();
+        hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_heap->blockAlloc(uiSize);
         pkObj->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return pkObj;
     }
@@ -502,14 +461,14 @@ Ms_cls* Ms_cls::FUN_00cbb560(__m128* apPos, __m128* apMouse, float afDamping, fl
     maxRel = 250.0f;
     if (apArr)
     {
-        Ms_Heap& h = *FUN_00c85750()->heap;
+        hkMemoryAllocator& h = *hkMemoryRouter::getInstance().m_heap;
         int cap = cb.m_cap & 0x3fffffff;
         if (cap < apArr->m_iElementCount)
         {
             if ((cb.m_cap & 0x80000000) == 0)
-                h.ReturnMemory(cb.m_data, cap * 4);
+                h.bufFree(cb.m_data, cap * (int)sizeof(cb.m_data[0]));
             int n = apArr->m_iElementCount * 4;
-            cb.m_data = (int*)h.AllocateBufferWithSize(&n);
+            cb.m_data = static_cast<int*>(h.bufAlloc(n));
             cb.m_cap = n / 4;
         }
         int cnt = apArr->m_iElementCount;
@@ -571,8 +530,7 @@ FUN_00cd2d80::FUN_00cd2d80(const void* apCollisionShape, const void* motionState
     m_uiShapeSizeOnSpu = 0;
 }
 
-struct Ms_Tls;
-Ms_Tls* FUN_00c85750();
+struct hkMemoryRouter;
 
 struct Ms_HeapX
 {
@@ -598,8 +556,8 @@ struct Cls
 // @fnv 0x00cbb8b0
 Cls* Cls::FUN_00cbb8b0(int flags)
 {
-    Ms_Tls* tls = FUN_00c85750();
-    Ms_HeapX* heap = *(Ms_HeapX**)&tls->heap;
+    hkMemoryRouter* tls = &hkMemoryRouter::getInstance();
+    Ms_HeapX* heap = *(Ms_HeapX**)&tls->m_heap;
     int n = m_5c;
     m_58 = 0;
     if (!((unsigned int)n & 0x80000000u))
@@ -609,25 +567,14 @@ Cls* Cls::FUN_00cbb8b0(int flags)
     reinterpret_cast<::FUN_00d2b2b0_class *>(this)->FUN_00d2b2b0();
     if (flags & 1)
     {
-        Ms_Tls* tls2 = FUN_00c85750();
-        Ms_HeapX* heap2 = *(Ms_HeapX**)&tls2->heap;
+        hkMemoryRouter* tls2 = &hkMemoryRouter::getInstance();
+        Ms_HeapX* heap2 = *(Ms_HeapX**)&tls2->m_heap;
         heap2->v08(this, (unsigned short)m_04);
     }
     return this;
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_load_ps1(const float*);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
 
-extern "C"
-{
-}
 
 
 struct __declspec(align(16)) hkVector4CBB1
@@ -683,7 +630,6 @@ void hkpPositionTrackerCBB1::FUN_00cbb150(const hkVector4CBB1& kPosition)
     m_vContactPosition = kPosition;
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
 struct FUN_00cbb4e0
 {
     void* unk00;
@@ -703,13 +649,13 @@ struct FUN_00cbb4e0
     hkReal m_fTau;
     unsigned int m_uiCollisionShapeKey;
     hkArray<char> m_kAppliedCallbacks;
-    FUN_00cbb4e0(int arg);
+    FUN_00cbb4e0(void* arg);
 };
 // Initializes the hkpMouseSpringAction fields with default spring constants, zeroed vectors, and the action name.
 // @fnv 0x00cbb4e0
-FUN_00cbb4e0::FUN_00cbb4e0(int arg)
+FUN_00cbb4e0::FUN_00cbb4e0(void* arg)
 {
-    new ((void *)(((Ms_B*)this))) ::FUN_00d2b260((::FUN_00c90510_Entity *)(void *)((void*)arg), 0);
+    new ((void *)(((Ms_B*)this))) ::FUN_00d2b260(static_cast<::FUN_00c90510_Entity *>(arg), 0);
     m_fSpringDamping = ::fnv_00c88020::DAT_01016248;
     unk00 = (void*)&DAT_010c8e94;
     m_fSpringElasticity = DAT_01017870;
@@ -725,4 +671,231 @@ FUN_00cbb4e0::FUN_00cbb4e0(int arg)
     reinterpret_cast<::SStringPtr *>((((Ms_N*)&m_name)))->FUN_00cb0c10("hkpMouseSpringAction");
 }
 
+// Moved from hkpmousespringaction_rtm_variant.cpp (VEGAS-15).
+#include <cmath>
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00c7f750_shell.h"
+#include "fnv/decl/MProduct.h"
+#include "fnv/decl/MotionMassView.h"
+#include "fnv/decl/S00cd4cc0_M.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_0106c000.h"
+const void* __cdecl FUN_00cbb8a0();
+
+
+
+struct hkStepInfo
+{
+    hkReal m_uiStartTime;
+    hkReal m_fEndTime;
+    hkReal m_fTimeStep;
+    hkReal m_fInverseDeltaTime;
+};
+
+struct FUN_00ca86c0_class
+{
+    void* FUN_00ca86c0();
+};
+
+struct FUN_00cdf250_class
+{
+};
+
+struct Vector4Ext : hkVector4
+{
+    void FUN_00c7f640(const hkTransform* t, const hkVector4* v);
+};
+
+struct Matrix3Ext : FUN_00cdf250_class, hkMatrix3
+{
+    void Subtract(const hkMatrix3* a);
+};
+
+struct MotionExt
+{
+    virtual void unk0();
+    virtual void unk1();
+    virtual void unk2();
+    virtual void unk3();
+    virtual void unk4();
+    virtual void unk5();
+    virtual void unk6();
+    virtual void unk7();
+    virtual void unk8();
+    virtual void unk9();
+    virtual void GetLocalInverseInertia(hkMatrix3* out);
+    virtual void unk11();
+    virtual void unk12();
+    virtual void unk13();
+    virtual void unk14();
+    virtual void unk15();
+    virtual void unk16();
+    virtual void unk17();
+    virtual void unk18();
+    virtual void unk19();
+    virtual void ApplyImpulseAtPoint(const hkVector4* impulse, const hkVector4* point);
+
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkTransform m_kMotionTransform;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    hkVector4 m_centerOfMassInWorld;
+    hkVector4 unk70;
+    hkVector4 unk80;
+    hkVector4 unk90;
+    hkVector4 unka0;
+    hkVector4 unkb0;
+    hkVector4 m_kInertiaAndMassInv;
+    hkVector4 m_kTranslationalVelocity;
+    hkVector4 m_kAngularVelocity;
+
+};
+
+struct RigidBodyExt : FUN_00ca86c0_class
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkVector4 unk10;
+    hkVector4 unk20;
+    hkVector4 unk30;
+    hkVector4 unk40;
+    hkVector4 unk50;
+    hkVector4 unk60;
+    hkVector4 unk70;
+    hkVector4 unk80;
+    hkVector4 unk90;
+    hkVector4 unka0;
+    hkVector4 unkb0;
+    hkVector4 unkc0;
+    hkVector4 unkd0;
+    MotionExt m_pMotionState;
+
+    void FUN_00ca0c40(const hkVector4* point, hkVector4* outVel);
+};
+
+typedef void(__cdecl* MouseSpringCallback)(hkpMouseSpringAction*, const hkStepInfo&, const hkVector4&);
+
+struct MouseSpringActionExt : hkpMouseSpringAction
+{
+    void FUN_00cbb1e0(const hkStepInfo& stepInfo);
+};
+
+// @fnv 0x00cbb1e0
+void MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
+{
+    Vector4Ext impulse;
+    Vector4Ext worldPos;
+    Vector4Ext r;
+    Vector4Ext angVel;
+    struct MassAndVelocity
+    {
+        Matrix3Ext K;
+        Vector4Ext lin;
+        Vector4Ext ang;
+    } work;
+    Vector4Ext deltaPos;
+    Matrix3Ext crossR;
+    struct InertiaProducts
+    {
+        Matrix3Ext tempMat1;
+        Matrix3Ext inertiaInvWorld;
+        Matrix3Ext tempMat2;
+    } matrices;
+    float maxImpulse;
+    float lenSq;
+
+    RigidBodyExt* rb = (RigidBodyExt*)m_pEntity;
+
+    worldPos.FUN_00c7f640(&rb->m_pMotionState.m_kMotionTransform, &m_kMousePositionInWorld);
+
+    *(__m128*)&deltaPos = _mm_sub_ps(*(__m128*)&worldPos, *(__m128*)&m_kGrabPointInBodySpace);
+
+    MotionExt* motion = rb->FUN_00ca86c0() ? static_cast<MotionExt*>(rb->FUN_00ca86c0()) : &rb->m_pMotionState;
+
+    __m128 invMassVec =
+        _mm_shuffle_ps(*(__m128*)&motion->m_kInertiaAndMassInv, *(__m128*)&motion->m_kInertiaAndMassInv, 0xff);
+    _mm_store_ss(&maxImpulse, invMassVec);
+
+    *(__m128*)&r = _mm_sub_ps(*(__m128*)&worldPos, *(__m128*)&rb->m_pMotionState.m_centerOfMassInWorld);
+
+    reinterpret_cast<::S00cd4cc0_M *>(&(crossR))->FUN_00cd4cc0((const float *)(const ::hkVector4 *)(&r));
+
+    motion->GetLocalInverseInertia(&matrices.inertiaInvWorld);
+
+    *(__m128*)&work.K.m_kColumn0 = _mm_setzero_ps();
+    work.K.m_kColumn0.x = maxImpulse;
+    *(__m128*)&work.K.m_kColumn1 = _mm_setzero_ps();
+    work.K.m_kColumn1.y = maxImpulse;
+    *(__m128*)&work.K.m_kColumn2 = _mm_setzero_ps();
+    work.K.m_kColumn2.z = maxImpulse;
+
+    reinterpret_cast<::MProduct *>(&(matrices.tempMat1))->FUN_00cd55b0((*(const ::MProduct *)((int*)&crossR)), (*(const ::MProduct *)(&matrices.inertiaInvWorld)));
+    reinterpret_cast<::MProduct *>(&(matrices.tempMat2))->FUN_00cd55b0((*(const ::MProduct *)((int*)&matrices.tempMat1)), (*(const ::MProduct *)(&crossR)));
+
+    work.K.Subtract(&matrices.tempMat2);
+
+    if (reinterpret_cast<::hkMatrix3 *>(&(work.K))->FUN_00cd4f10(DAT_0106c288) == 0)
+    {
+        *(__m128*)&work.lin = *(__m128*)&rb->m_pMotionState.m_kTranslationalVelocity;
+        __m128 dampLoad1 = _mm_load_ss(&m_fTau);
+        __m128 dampSplat1 = _mm_shuffle_ps(dampLoad1, dampLoad1, 0);
+        *(__m128*)&work.lin = _mm_mul_ps(*(__m128*)&work.lin, dampSplat1);
+        reinterpret_cast<::FUN_005616d0_Owner *>((rb))->OnTrigger((::TriggerContext *)(&work.lin));
+
+        *(__m128*)&work.ang = *(__m128*)&rb->m_pMotionState.m_kAngularVelocity;
+        __m128 dampLoad2 = _mm_load_ss(&m_fTau);
+        __m128 dampSplat2 = _mm_shuffle_ps(dampLoad2, dampLoad2, 0);
+        *(__m128*)&work.ang = _mm_mul_ps(*(__m128*)&work.ang, dampSplat2);
+        reinterpret_cast<::FUN_00561800_Class *>((rb))->FUN_00561800((::FUN_00561730_Obj *)(&work.ang));
+
+        rb->FUN_00ca0c40(&worldPos, &r);
+
+        float springFactor = m_fSpringElasticity * stepInfo.m_fInverseDeltaTime;
+        __m128 term1 =
+            _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&springFactor), _mm_load_ss(&springFactor), 0), *(__m128*)&deltaPos);
+        *(__m128*)&angVel = term1;
+        __m128 sdLoad = _mm_load_ss(&m_fSpringDamping);
+        __m128 sdSplat = _mm_shuffle_ps(sdLoad, sdLoad, 0);
+        __m128 term2 = _mm_mul_ps(sdSplat, *(__m128*)&r);
+        *(__m128*)&angVel = _mm_add_ps(term2, term1);
+
+        reinterpret_cast<::FUN_00c7f750_shell *>(&(impulse))->FUN_00c7f750((float *)(&work.K), (float *)(&angVel));
+
+        *(__m128*)&impulse = _mm_xor_ps(*(__m128*)&impulse, *(__m128*)&(*reinterpret_cast<::hkVector4 *>((void *)&::DAT_010c44d0)));
+
+        __m128 sq = _mm_mul_ps(*(__m128*)&impulse, *(__m128*)&impulse);
+        __m128 y = _mm_shuffle_ps(sq, sq, 0x55);
+        __m128 xy = _mm_add_ss(y, sq);
+        __m128 z = _mm_shuffle_ps(sq, sq, 0xaa);
+        __m128 xyz = _mm_add_ss(z, xy);
+        _mm_store_ss(&lenSq, xyz);
+
+        maxImpulse = reinterpret_cast<::MotionMassView *>((motion))->FUN_00c86430();
+        maxImpulse = stepInfo.m_fTimeStep * maxImpulse * m_fMaxRelativeForce;
+
+        if (lenSq > maxImpulse * maxImpulse)
+        {
+            float sqrtLen = (float)sqrt(lenSq);
+            float invLen = 1.0f / sqrtLen;
+            float scale = invLen * maxImpulse;
+            *(__m128*)&impulse =
+                _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale), _mm_load_ss(&scale), 0), *(__m128*)&impulse);
+        }
+
+        reinterpret_cast<::hkpEntityC9C *>((rb))->FUN_00c9c1d0();
+        rb->m_pMotionState.ApplyImpulseAtPoint(&impulse, &worldPos);
+
+        for (int i = 0; i < m_kAppliedCallbacks.m_iElementCount; ++i)
+        {
+            ((MouseSpringCallback*)m_kAppliedCallbacks.m_data)[i](this, stepInfo, impulse);
+        }
+    }
+}
 #include "generated/data/havok/physics/utilities/actions/mousespring/hkpmousespringaction.inc"

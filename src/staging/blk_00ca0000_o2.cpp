@@ -4193,11 +4193,11 @@ struct C
     char pad[0x8c];
     Obj** m8c;
     int m90;
-    void NotifyAll(int a1, char a2);
+    void NotifyAll(intptr_t a1, char a2);
 };
 // Iterates m8c backwards from m90-1 and calls v1 on each non-null entry with a context holding a1, this and a2.
 // @fnv 0x00ca9520
-void C::NotifyAll(int aiValue, char a2)
+void C::NotifyAll(intptr_t aiValue, char a2)
 {
     Ctx ctx;
     ctx.a1 = aiValue;

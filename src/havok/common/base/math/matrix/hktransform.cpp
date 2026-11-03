@@ -242,12 +242,12 @@ struct Matrix
 struct Obj : Matrix
 {
     void FUN_00cb2240(Matrix* m, int a);
-    void FUN_00cb23e0(int a);
+    void FUN_00cb23e0(intptr_t a);
 };
 
 // Copies the matrix into a local, applies FUN_00cb2240 to that copy with a, leaving the original matrix unchanged.
 // @fnv 0x00cb23e0
-void Obj::FUN_00cb23e0(int a)
+void Obj::FUN_00cb23e0(intptr_t a)
 {
     Matrix localMatrix;
     localMatrix.r0.v = r0.v;

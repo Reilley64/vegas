@@ -24,11 +24,11 @@ struct FUN_00dafc90_cls
 // @fnv 0x00dafc90
 void FUN_00dafc90_cls::Update(Source* src)
 {
-    if (!flag || src->v1.m128_f32[3] < v1.m128_f32[3])
+    if (!flag || src->v1[3] < v1[3])
     {
         flag = true;
         v0 = src->v0;
         v1 = src->v1;
-        unk04 = src->v1.m128_f32[3];
+        unk04 = src->v1[3];
     }
 }

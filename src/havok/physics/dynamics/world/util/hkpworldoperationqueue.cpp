@@ -1,8 +1,13 @@
+#include "havok/hkMemoryRouter.h"
+#include "fnv/tls.h"
+#include <cstdint>
 
 // src/havok/physics/dynamics/world/util/hkpworldoperationqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
 #include "fnv/decl/BatchAdd__WorldHelper.h"
 #include "fnv/decl/CallRet.h"
 #include "fnv/decl/Cb5750_Owner.h"
@@ -44,20 +49,6 @@
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01272000.h"
-struct S_00cf7540_Alloc
-{
-};
-
-struct S_00cf7540_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00cf7540_Alloc* m_pStreamAllocator;
-};
-
-S_00cf7540_Router* FUN_00c85750();
 
 struct S_00cf7540_Ref
 {
@@ -81,9 +72,9 @@ template <class T> struct S_00cf7540_Array
 
     T& AllocatePair()
     {
-        S_00cf7540_Router* router = FUN_00c85750();
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
     }
 };
@@ -264,7 +255,7 @@ struct FUN_00c93580_Class
 void FUN_00c93580_Class::FUN_00c93580()
 {
     while (this->m_114 > 0)
-        reinterpret_cast<::WorldC92C *>((this))->FUN_00c92c70((::ActionC92C *)(*(int*)this->m_110));
+        reinterpret_cast<::WorldC92C *>((this))->FUN_00c92c70((*(::ActionC92C **)this->m_110));
 
     while (this->m_2c > 0)
     {
@@ -272,27 +263,27 @@ void FUN_00c93580_Class::FUN_00c93580()
         if (node->m_4c == 0)
             break;
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)node->m_48));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (*(::FUN_00c91620_Target **)node->m_48));
     }
 
     while (this->m_38 > 0)
     {
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)this->m_34[0]->m_48));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (*(::FUN_00c91620_Target **)this->m_34[0]->m_48));
     }
 
     reinterpret_cast<::FUN_00c90510_class *>((this->m_24))->FUN_00c90510();
 
     {
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)((int)this->m_24));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(this->m_24));
     }
 
     Node* node = this->m_20;
     while (node->m_4c > 0)
     {
         char buf;
-        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (::FUN_00c91620_Target *)(*(int*)node->m_48));
+        reinterpret_cast<::FUN_00c91620_Class *>((this))->ProcessTarget((unsigned char *)(char *)(&buf), (*(::FUN_00c91620_Target **)node->m_48));
         node = this->m_20;
     }
 
@@ -324,15 +315,15 @@ struct S_00cf75c0_Array
 struct FUN_00cf75c0
 {
     S_00cf75c0_Array m_kPointA;
-    int unk0c;
+    void* unk0c;
     S_00cf75c0_Array m_kPointB;
     S_00cf75c0_Array m_iThirdValue;
-    FUN_00cf75c0(int v);
+    FUN_00cf75c0(void* v);
 };
 
-// Constructor that stores the given int into unk0c and default-initialises the three array members.
+// Constructor that stores the given world pointer into unk0c and default-initialises the three array members.
 // @fnv 0x00cf75c0
-FUN_00cf75c0::FUN_00cf75c0(int aiValue)
+FUN_00cf75c0::FUN_00cf75c0(void* aiValue)
 {
     unk0c = aiValue;
 }
@@ -341,17 +332,6 @@ extern "C" void _ReadWriteBarrier();
 typedef unsigned char Byte;
 typedef unsigned short UShort;
 typedef unsigned int UInt;
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x;
-        float y;
-        float z;
-        float w;
-    } scalar;
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct Vec
 {
     union
@@ -360,14 +340,6 @@ struct Vec
     };
 };
 
-struct Heap
-{
-    virtual void v0();
-    virtual void v4();
-    virtual void ReleaseBlock(void*, int);
-    virtual void vC();
-    virtual void ReturnMemory(void*, int);
-};
 struct World;
 struct Body;
 struct EntityArray
@@ -600,25 +572,24 @@ static __forceinline void release(Body* p)
 {
     reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
 }
-static __forceinline Heap* heap()
+static __forceinline hkMemoryAllocator* heap()
 {
-    S_00cf7540_Router* router = FUN_00c85750();
-    return reinterpret_cast<Heap*>(router->m_pStreamAllocator);
+    return hkMemoryRouter::getInstance().m_heap;
 }
 static __forceinline void freeBlock(void* p, int n)
 {
-    heap()->ReleaseBlock(p, n);
+    heap()->blockFree(p, n);
 }
 static __forceinline void freeBatch(Body** a, int n)
 {
-    heap()->ReleaseBlock(a, n * 4);
+    heap()->blockFree(a, n * 4);
 }
 static __forceinline void freeEntities(EntityArray& a)
 {
-    Heap* h = heap();
+    hkMemoryAllocator* h = heap();
     a.size = 0;
     if ((a.capacity & 0x80000000) == 0)
-        h->ReturnMemory(a.data, (a.capacity & 0x3fffffff) * 4);
+        h->bufFree(a.data, (a.capacity & 0x3fffffff) * 4);
     a.data = 0;
     a.capacity = 0x80000000;
 }
@@ -831,7 +802,7 @@ void Pending::FUN_00cf7c10()
             break;
         }
         case 32:
-            reinterpret_cast<::fnv_00c93c30::FnvWorld *>((world))->FUN_00c93c30((int)(p->vector));
+            reinterpret_cast<::fnv_00c93c30::FnvWorld *>((world))->FUN_00c93c30(p->vector);
             freeBlock(p->vector, 32);
             break;
         case 33:
@@ -844,7 +815,7 @@ void Pending::FUN_00cf7c10()
             release(p->object);
             break;
         case 35:
-            reinterpret_cast<::Owner *>((p->object))->FUN_00d87c20((int)(p->other), p->enabled);
+            reinterpret_cast<::Owner *>((p->object))->FUN_00d87c20(p->other, p->enabled);
             release(p->object);
             release(p->other);
             break;
@@ -885,31 +856,15 @@ void Pending::FUN_00cf7c10()
     operations.size = 0;
     --world->criticalOperations;
     ::FUN_00c904e0();
-    Heap* h = heap();
+    hkMemoryAllocator* h = heap();
     if ((todo.capacity & 0x80000000) == 0)
-        h->ReturnMemory(todo.data, (todo.capacity & 0x3fffffff) * sizeof(Op));
+        h->bufFree(todo.data, (todo.capacity & 0x3fffffff) * sizeof(Op));
 }
 
 namespace fnv_00cf75f0 {
-struct Allocator
-{
-    virtual void vtable_00() = 0;
-    virtual void vtable_04() = 0;
-    virtual void vtable_08() = 0;
-    virtual void vtable_0c() = 0;
-    virtual void Release(void* data, unsigned int size) = 0;
-};
 
-struct BSAudio
-{
-    unsigned long field_00;
-    unsigned long field_04;
-    unsigned long field_08;
-    unsigned long field_0c;
-    Allocator* allocator;
-};
 
-BSAudio* __cdecl FUN_00c85750();
+
 
 struct Elem20
 {
@@ -941,15 +896,14 @@ template <typename T> void Buffer<T>::clear()
 {
     const unsigned int stride = sizeof(T);
 
-    BSAudio* audio = FUN_00c85750();
-    Allocator* alloc = audio->allocator;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
 
     const unsigned int f = flags;
     size = 0;
 
     if (!(f & 0x80000000u))
     {
-        alloc->Release(data, (f & 0x3fffffffu) * stride);
+        alloc->bufFree(data, (f & 0x3fffffffu) * stride);
     }
 
     data = 0;
@@ -977,23 +931,13 @@ void Owner::FUN_00cf75f0()
 }  // namespace fnv_00cf75f0
 
 namespace fnv_00cf7690 {
-struct BSAudio
-{
-    unsigned char unk00[0x10];
-    struct Alloc* alloc;
-};
-struct Alloc
-{
-    virtual void V00();
-    virtual void* V04(int sz);
-};
 struct Obj
 {
 };
 struct FUN_00d1df70
 {
 };
-BSAudio* FUN_00c85750();
+
 
 struct Elem
 {
@@ -1003,8 +947,8 @@ struct Elem
         int tagd;
         unsigned char b[4];
     };
-    int* f04;
-    int f08;
+    Obj** f04;
+    intptr_t f08; // a count for the batch operations, an object pointer for the others
     int f0c;
     int f10;
 };
@@ -1040,10 +984,10 @@ struct Vec
 void Vec::FUN_00cf7690(Elem* arg)
 {
     ::EnterTlsGuard();
-    BSAudio* bsa = FUN_00c85750();
+    hkMemoryRouter* bsa = &hkMemoryRouter::getInstance();
     if (cnt == (cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(bsa->alloc), (::AudioStream *)(void *)(this), 0x14);
+        ::ResizeAudioStream((::AudioAllocator *)(bsa->m_heap), (::AudioStream *)(void *)(this), sizeof(Elem));
     }
     Elem* pNew = data + cnt;
     if (pNew)
@@ -1078,33 +1022,33 @@ void Vec::FUN_00cf7690(Elem* arg)
         ::FUN_00c904e0();
         return;
     case 6: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
         return;
     case 7: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
@@ -1126,10 +1070,10 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f08)))->FUN_00c90510();
         {
             VecBase* s = &sub;
-            BSAudio* b = FUN_00c85750();
+            hkMemoryRouter* b = &hkMemoryRouter::getInstance();
             if (s->cnt == (s->cap & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(b->alloc), (::AudioStream *)(s), 0x14);
+                ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(s), sizeof(Elem));
             }
             Elem* d2 = s->data + s->cnt;
             if (d2)
@@ -1148,42 +1092,42 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 15: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
         return;
     case 16: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
         return;
     case 17: {
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
-        BSAudio* b = FUN_00c85750();
-        void* mem = b->alloc->V04(0x20);
-        int nf08;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(0x20);
+        intptr_t nf08;
         if (mem)
         {
             Obj32* pObjCopy = (Obj32*)mem;
@@ -1196,7 +1140,7 @@ void Vec::FUN_00cf7690(Elem* arg)
             pObjCopy->d5 = pObjSrc->d5;
             pObjCopy->d6 = pObjSrc->d6;
             pObjCopy->d7 = pObjSrc->d7;
-            nf08 = (int)mem;
+            nf08 = (intptr_t)mem;
         }
         else
         {
@@ -1221,17 +1165,17 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 23: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        hkMemoryRouter* b = &hkMemoryRouter::getInstance();
+        void* mem = b->m_heap->blockAlloc(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
@@ -1286,29 +1230,7 @@ void Vec::FUN_00cf7690(Elem* arg)
 }  // namespace fnv_00cf7690
 
 namespace fnv_00cf7ae0 {
-struct S_00cf7ae0_Heap
-{
-    virtual void v0();
-    virtual void v4();
-    virtual void v8();
-    virtual void vc();
-    virtual void ReleaseBlock(void* p, int n);
-};
-struct S_00cf7ae0_Router;
-S_00cf7ae0_Router* __cdecl FUN_00c85750();
-struct S_00cf7ae0_Router
-{
-    int unk0, unk4, unk8, unkc;
-    S_00cf7ae0_Heap* m_pStreamAllocator;
-    static S_00cf7ae0_Router& GetMonitorStream()
-    {
-        return *FUN_00c85750();
-    }
-    S_00cf7ae0_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
+
 
 struct S_00cf7ae0_Obj
 {
@@ -1331,20 +1253,20 @@ struct S_00cf7ae0_Array
     S_00cf7ae0_Entry* m_data;
     int m_iElementCount;
     int m_cap;
-    __forceinline void reserve(S_00cf7ae0_Heap& a, int n)
+    __forceinline void reserve(hkMemoryAllocator& a, int n)
     {
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
         {
             int c2 = cap * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(::fnv_00cf7ae0::S_00cf7ae0_Heap *)(&a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
+            ::FUN_00c908c0((::SpawnedObject *)(&a), (::SpawnedArray *)(void *)(this), (n < c2) ? c2 : n, 16);
         }
     }
-    __forceinline void ClearAndRelease(S_00cf7ae0_Heap& a)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& a)
     {
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0)
-            a.ReleaseBlock(m_data, (m_cap & 0x3fffffff) * 16);
+            a.bufFree(m_data, (m_cap & 0x3fffffff) * 16);
         m_data = 0;
         m_cap = 0x80000000;
     }
@@ -1410,7 +1332,7 @@ void S_00cf7ae0::FUN_00cf7ae0()
         localArray.m_cap = 0x80000000;
         reinterpret_cast<::FUN_00d9ec10_cls *>(&(localArray))->SwapThreeInts((int *)(::fnv_00cf7ae0::S_00cf7ae0_Array *)(&pending));
         owner->unk90 = 0;
-        pending.reserve(S_00cf7ae0_Router::GetMonitorStream().heap(), 16);
+        pending.reserve(hkMemoryRouter::getInstance().heap(), 16);
         int n = localArray.m_iElementCount;
         if (n > 1)
         {
@@ -1445,18 +1367,13 @@ void S_00cf7ae0::FUN_00cf7ae0()
             } while (--n != 0);
         }
         ::FUN_00c904e0();
-        localArray.ClearAndRelease(S_00cf7ae0_Router::GetMonitorStream().heap());
+        localArray.ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
 }
 }  // namespace fnv_00cf7ae0
 
 #include <string.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
 extern unsigned char DAT_01267b44;
 
@@ -1685,12 +1602,12 @@ struct S_ModeGuard
     int m_saved;
     S_ModeGuard()
     {
-        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        m_saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~S_ModeGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
+        g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -1709,14 +1626,14 @@ static inline const __m128& GetLinVel(S_Body* b)
 {
     if (b && b->m_8)
         return b->m_8->m_1b0;
-    return (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    return (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
 }
 
 static inline const __m128& GetAngVel(S_Body* b)
 {
     if (b && b->m_8)
         return b->m_8->m_1c0;
-    return (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    return (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
 }
 
 static inline bool AllNear3(const __m128& a, const __m128& b, const __m128& eps)
@@ -1792,7 +1709,7 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
             else
             {
                 char tmp;
-                reinterpret_cast<::FUN_00c91620_Class *>((mgr))->ProcessTarget((unsigned char *)(char *)(&tmp), (::FUN_00c91620_Target *)((int)it));
+                reinterpret_cast<::FUN_00c91620_Class *>((mgr))->ProcessTarget((unsigned char *)(char *)(&tmp), (::FUN_00c91620_Target *)(it));
             }
             if (!bShapeUpdated)
             {
@@ -1805,7 +1722,7 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
                     bShapeUpdated = true;
                 }
             }
-            if (!AllNear3(GetLinVel(body), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), eps.v) || !AllNear3(GetAngVel(body), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), eps.v))
+            if (!AllNear3(GetLinVel(body), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)), eps.v) || !AllNear3(GetAngVel(body), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)), eps.v))
             {
                 if (body && body->m_8)
                     reinterpret_cast<::hkpEntityC9C *>((body->m_8))->FUN_00c9c1d0();

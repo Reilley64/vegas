@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00d92820_cls.h"
 #include "fnv/decl/FUN_00d9e860.h"
@@ -29,33 +31,24 @@ struct FUN_00d0b1e0
     struct Base
     {
     };
+    Base m_base14;  // +0x14
     FUN_00d0b1e0(int flags);
 };
 extern int DAT_010cb1e4;
-extern "C" void* __cdecl FUN_00c85750();
-struct CallbackInterface
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void callback(void*, unsigned short);
-};
-struct Manager
-{
-    int unk00[4];
-    CallbackInterface* interface10;
-};
+
+
 // Initializes the object's base subobject and pointers, then if flags bit 0 is set calls callback on the manager's interface with this and unk04.
 // @fnv 0x00d0b1e0
 FUN_00d0b1e0::FUN_00d0b1e0(int flags)
 {
-    reinterpret_cast<::fnv_00d0b0d0::FUN_00d0b0d0 *>((((Base*)((char*)this + 0x14))))->fnv_00d0b0d0::FUN_00d0b0d0::~FUN_00d0b0d0();
+    reinterpret_cast<::fnv_00d0b0d0::FUN_00d0b0d0 *>((&m_base14))->fnv_00d0b0d0::FUN_00d0b0d0::~FUN_00d0b0d0();
     unk0c = &DAT_010cb1c4;
     unk08 = &DAT_010cb1e4;
     unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        Manager* manager = (Manager*)FUN_00c85750();
-        manager->interface10->callback(this, unk04);
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+        manager->m_heap->blockFree(this, unk04);
     }
 }
 
@@ -77,6 +70,9 @@ struct SubEntry
 
 };
 
+// hkpCollisionCallbackUtil's listener bases: post-simulation at +0x8, world deletion at +0xc (x86 layout).
+static const int kPostSimulationListenerOffset = 0x8;
+static const int kDeletionListenerOffset = 0xc;
 struct FUN_00d0ae30_cls
 {
     int unk00;
@@ -90,9 +86,11 @@ struct FUN_00d0ae30_cls
 void FUN_00d0ae30_cls::FUN_00d0ae30(CallbackTarget* apTarget)
 {
     reinterpret_cast<::S_00d9e280_D *>(&(m_08))->FUN_00d9e280((::S_00d9e280_World *)(apTarget));
-    reinterpret_cast<::hkWorldC9175 *>((apTarget))->FUN_00c91750(((char*)this - 0xc) != 0 ? (char*)this - 4 : 0);
-    reinterpret_cast<::hkWorldXc91a70 *>((apTarget))->FUN_00c91a70(((char*)this - 0xc) != 0 ? (char*)this : 0);
-    reinterpret_cast<::hkReferencedObjectC905 *>((((OuterRefHolder*)((char*)this - 0xc))))->FUN_00c905b0();
+    OuterRefHolder* owner = reinterpret_cast<OuterRefHolder*>((char*)this - kDeletionListenerOffset);
+    char* postSimulationListener = (char*)owner + kPostSimulationListenerOffset;
+    reinterpret_cast<::hkWorldC9175 *>((apTarget))->FUN_00c91750(owner != 0 ? postSimulationListener : 0);
+    reinterpret_cast<::hkWorldXc91a70 *>((apTarget))->FUN_00c91a70(owner != 0 ? (char*)this : 0);
+    reinterpret_cast<::hkReferencedObjectC905 *>(owner)->FUN_00c905b0();
 }
 
 extern int DAT_010cb1e4;
@@ -274,7 +272,7 @@ static inline void S_00d0af60_Timer(const char* name)
         _ReadWriteBarrier();
         volatile unsigned int t = (unsigned int)__rdtsc();
         h->m_uiStartTicks = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 
@@ -391,19 +389,6 @@ Derived::Derived()
 {}
 
 namespace fnv_00d0b040 {
-struct hkMemory
-{
-    virtual void unk00();
-    virtual void* allocateChunk(int size);
-};
-
-struct hkThreadMemory
-{
-    char pad00[0x10];
-    hkMemory* m_pMemoryAllocator;
-};
-
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
 
 struct SubObj
 {
@@ -439,8 +424,8 @@ void __cdecl FUN_00d0b040(TargetClass* obj)
         return;
     }
 
-    hkThreadMemory* threadMem = FUN_00c85750();
-    hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_pMemoryAllocator->allocateChunk(0x4c);
+    hkMemoryRouter* threadMem = &hkMemoryRouter::getInstance();
+    hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_heap->blockAlloc(0x4c);
     mem->m_usMemSizeAndFlags = 0x4c;
     util = ((::fnv_00d0b040::hkpCollisionCallbackUtil *)(reinterpret_cast<::FUN_00d0b180_cls *>((mem))->Initialize()));
     obj->m_pCallbackData = util;

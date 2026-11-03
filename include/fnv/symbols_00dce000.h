@@ -20,7 +20,7 @@ struct Visitor;
 // 0x00dce180
 int FUN_00dce180(::Arg0 *, ::NodeDce *, ::NodeDce *, ::NodeDce *, void *, ::P5 *);
 // 0x00dce7b0
-void RunWithLocalContext(int, int, int);
+void RunWithLocalContext(::Resolver *, ::ListOwner *, ::Ctx *);
 // 0x00dce930
 extern "C" ::DCEEntryInit *FUN_00dce930(void *, void *);
 // 0x00dcea10

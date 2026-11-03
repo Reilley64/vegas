@@ -1,7 +1,9 @@
 #pragma once
 
+struct SourceData;
+
 struct Destination {
 public:
     // 0x00dd4c70
-    void CopyFromSourceData(unsigned int);
+    void CopyFromSourceData(const ::SourceData *);
 };

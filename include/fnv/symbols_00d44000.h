@@ -21,9 +21,9 @@ void ProcessMultiSphereCollision(const ::hkpCdBody &, const ::hkpCdBody &, const
 // 0x00d449f0
 void FUN_00d449f0(const ::hkpCdBody &, const ::hkpCdBody &, const ::CollisionAgentContext &, ::hkpCdBodyPairCollector &);
 // 0x00d44cc0
-void FUN_00d44cc0(int, int, int, int);
+void FUN_00d44cc0(void *, void *, void *, void *);
 // 0x00d44d00
-void *FUN_00d44d00(int, int, int, int);
+void *FUN_00d44d00(void *, void *, void *, void *);
 // 0x00d44d50
 void RegisterTwoTables(::RegistryOwner *);
 // 0x00d44de0

@@ -2,6 +2,11 @@
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/tls.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -18,7 +23,6 @@
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/S_00cd4c70.h"
 #include "fnv/decl/S_00d752e0_Class.h"
-#include "fnv/decl/Solver.h"
 #include "fnv/decl/fnv_00d75560__FUN_00d75560_cls.h"
 #include "fnv/decl/fnv_00d75600__S_00d75600_Obj.h"
 #include "fnv/decl/fnv_00d76940__FUN_00d76940_cls.h"
@@ -42,9 +46,7 @@
 #include "fnv/symbols_010cb000.h"
 #include "fnv/symbols_011b1000.h"
 #include "fnv/symbols_01272000.h"
-struct Object
-{
-};
+struct Object;
 void __cdecl FUN_00cebdf0(float* source, float value, Object* destination);
 // Multiplies the float at source by scale and passes the result to FUN_00cebdf0 along with source and destination.
 // @fnv 0x00cebe50
@@ -56,17 +58,21 @@ void __cdecl FUN_00cebe50(float* source, float scale, Object* destination)
 
 struct Receiver
 {
+    float m_volume;
+    float m_mass;
+    __m128 m_centerOfMass;
+    __m128 m_inertiaTensor[3];
     void FUN_00cecc90(float value);
 };
 struct State
 {
-    int first;
+    const __m128* first;
     int count;
     int context;
 };
 void FUN_00cebbb0(void* state, float zero, void* receiver);
 // @fnv 0x00ced020
-int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value)
+int __cdecl ApplyLimitToReceiver(const __m128* owner, int context, int count, float limit, Receiver* receiver, float value)
 {
     State state;
     if (limit <= 0.0f)
@@ -286,46 +292,30 @@ void __cdecl FUN_00ced230(float afDivisor, S_00ced230_T* pData)
     pData->unk78 = S_MaxLT(a, pData->unk78);
 }
 
-struct S_00cee1c0_Heap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void Free(void* p, unsigned int size);
-};
 
-struct S_00cee1c0_Router
-{
-    unsigned int cursor;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S_00cee1c0_Heap* heap;
-};
 
+struct Edge;
+struct Node;
 struct S_00cee1c0_Arr
 {
-    unsigned int* m_data;
+    Edge** m_data;
     int m_iElementCount;
     unsigned int m_cap;
-    unsigned int* m_pTrailingData;
+    Edge** m_pTrailingData;
 };
 
-S_00cee1c0_Router* FUN_00c85750();
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
+float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, Node* node, float value);
 
 // @fnv 0x00cee1c0
-void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value)
+void __cdecl ProcessArrayWithValue(Edge** source, int count, Node* unk, float value)
 {
     S_00cee1c0_Arr arr;
     arr.m_data = 0;
     arr.m_iElementCount = 0;
     arr.m_cap = 0x80000000;
 
-    S_00cee1c0_Router* r = FUN_00c85750();
-    unsigned int* mem = (unsigned int*)r->cursor;
-    r->cursor = (unsigned int)mem + ((count * 4 + 0x7f) & 0xffffff80);
+    hkMemoryRouter* r = &hkMemoryRouter::getInstance();
+    Edge** mem = static_cast<Edge**>(r->allocateStack((count * sizeof(Edge*) + 0x7f) & ~size_t(0x7f)));
     arr.m_cap = count | 0x80000000;
     arr.m_data = mem;
     arr.m_pTrailingData = mem;
@@ -341,24 +331,21 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     }
 
     FUN_00cedec0(&arr, unk, value);
-    unsigned int* local = arr.m_pTrailingData;
+    Edge** local = arr.m_pTrailingData;
     if (local == arr.m_data)
     {
         arr.m_iElementCount = 0;
     }
-    FUN_00c85750()->cursor = (unsigned int)local;
-    S_00cee1c0_Heap* h = FUN_00c85750()->heap;
+    hkMemoryRouter::getInstance().deallocateStack(local);
+    hkMemoryAllocator* h = hkMemoryRouter::getInstance().m_heap;
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
     {
-        h->Free(arr.m_data, (arr.m_cap & 0x3fffffff) * 4);
+        h->bufFree(arr.m_data, (arr.m_cap & 0x3fffffff) * sizeof(Edge*));
     }
 }
 
-namespace fnv_anon_00cec3d0 {}
-using namespace fnv_anon_00cec3d0;
-namespace fnv_anon_00cec3d0 {
-struct S00cec3d0_Base
+struct VertexComponentData
 {
     int A;
     int B;
@@ -374,11 +361,15 @@ struct S00cec3d0_Base
     float m_fComponent5;
     float m_fComponent6;
 
-    __declspec(noinline) void FUN_00cec000(const float* v);
+    void FUN_00cec000(const float* verts);
 };
+
+namespace fnv_anon_00cec3d0 {}
+using namespace fnv_anon_00cec3d0;
+namespace fnv_anon_00cec3d0 {
 }
 
-struct S00cec3d0_Face : S00cec3d0_Base
+struct S00cec3d0_Face : ::VertexComponentData
 {
     float Fa;
     float Fb;
@@ -405,11 +396,6 @@ static inline float S00cec3d0_Cube(float x)
     return x * x * x;
 }
 
-void S00cec3d0_Base::FUN_00cec000(const float* v)
-{
-    P1 = v[A] * v[B];
-    Pa = v[A];
-}
 
 // Calls FUN_00cec000, then fills Fa, Fb, Fc and the m_fVertex fields from verts, normal n and the base fields using polynomials in 1/n[C].
 // @fnv 0x00cec3d0
@@ -450,18 +436,7 @@ void S00cec3d0_Face::FUN_00cec3d0(const float* verts, const float* apNormal)
                         w * (2.0 * (apNormal[A] * m_fComponent0 + apNormal[B] * m_fComponent1) + w * Pa));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 struct Vector
 {
     union
@@ -486,7 +461,7 @@ struct Vector
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     int maxAxisSecond() const
     {
@@ -519,7 +494,6 @@ struct Bounds
 {
     Vector lo, hi;
 };
-extern const Vector DAT_01017d10;
 void FUN_00d5ac50(char*, Matrix*, Vector*, Vector*, Vector*);
 struct Shape
 {
@@ -549,10 +523,10 @@ void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB)
     shape->getAabb(&transform, 0.0f, &bounds);
     Vector extent, absolute;
     extent.q = _mm_sub_ps(bounds.hi.q, bounds.lo.q);
-    absolute.q = _mm_and_ps(extent.q, DAT_01017d10.q);
+    absolute.q = _mm_and_ps(extent.q, DAT_01017d10);
     int first = absolute.maxAxis();
     extent(first) = 0.0f;
-    absolute.q = _mm_and_ps(extent.q, DAT_01017d10.q);
+    absolute.q = _mm_and_ps(extent.q, DAT_01017d10);
     int second = absolute.maxAxisSecond();
     *outA = transform.columns[first];
     *outB = transform.columns[second];
@@ -585,7 +559,6 @@ void FUN_00cebdb0(const MotionLike* source, MotionLike* destination)
     destination->field70 = source->field40;
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
     void Multiply(const Vector* p);
@@ -729,13 +702,13 @@ int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out)
 
 struct Edge
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int n14;
-    int n18;
+    void* m_vtable;
+    int m_memSizeAndRefCount;
+    void* m_owner;
+    void* m_data;
+    void* m_constraintModifiers;
+    Node* n14;
+    Node* n18;
 };
 
 struct __declspec(align(16)) Mat3
@@ -788,12 +761,12 @@ struct LocalArr
 
 __forceinline void releaseArr(LocalArr* a)
 {
-    S_00cee1c0_Router* router = FUN_00c85750();
-    S_00cee1c0_Heap* heap = router->heap;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = router->m_heap;
     int cap = a->m_cap;
     a->m_iElementCount = 0;
     if ((cap & 0x80000000) == 0)
-        heap->Free(a->m_data, (cap & 0x3fffffff) * 4);
+        heap->bufFree(a->m_data, (cap & 0x3fffffff) * sizeof(Edge*));
 }
 
 __forceinline float fMinimumInputValue(float a, float b)
@@ -807,7 +780,7 @@ __forceinline float fTargetUpperBound(float a, float b)
 
 // Recurses over arr's edges linked to the node, then for a non-static node limits its inertia diagonal entries and returns a clamped value; static nodes return 0.
 // @fnv 0x00cedec0
-float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
+float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, Node* aiNode, float value)
 {
     LocalArr local;
     local.m_data = &local.storage[0];
@@ -816,25 +789,25 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
 
     for (int i = arr->m_iElementCount - 1; i >= 0; --i)
     {
-        unsigned int* data = arr->m_data;
-        Edge* e = (Edge*)data[i];
-        int other;
+        Edge** data = arr->m_data;
+        Edge* e = data[i];
+        Node* other;
         if (e->n14 == aiNode)
             other = e->n18;
         else if (e->n18 != aiNode)
             continue;
         else
             other = e->n14;
-        if (other == 0)
+        if (other == nullptr)
             continue;
 
         int n = --arr->m_iElementCount;
         if (n != i)
             data[i] = data[n];
 
-        S_00cee1c0_Router* router = FUN_00c85750();
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (local.m_iElementCount == (local.m_cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&local), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&local), sizeof(Edge*));
         local.m_data[local.m_iElementCount++] = e;
     }
 
@@ -843,14 +816,14 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
     for (int i = local.m_iElementCount - 1; i >= 0; --i)
     {
         Edge* e = local.m_data[i];
-        int other = (e->n14 == aiNode) ? e->n18 : e->n14;
+        Node* other = (e->n14 == aiNode) ? e->n18 : e->n14;
         float r = FUN_00cedec0(arr, other, value);
         sum += r;
         if (best < r)
             best = r;
     }
 
-    Node* body = (Node*)aiNode;
+    Node* body = aiNode;
     if (body->isStatic())
     {
         releaseArr(&local);
@@ -889,13 +862,6 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
     return result;
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    int m128i_i32[4];
-} __m128i;
-extern "C" __m128i _mm_cvtsi32_si128(int);
-__m128 _mm_castsi128_ps(__m128i);
-extern "C" void _mm_store_ps(float*, __m128);
 
 struct __declspec(align(16)) Vec4
 {
@@ -943,7 +909,6 @@ inline __m128 scalarVector(float x)
     __m128 result = {x};
     return result;
 }
-extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _ReadWriteBarrier();
 // Steps a Track until it reaches stage 3 past a threshold, stores its translation, matrix and time in receiver, and returns 0, or 1 if the stage is -1.
 // @fnv 0x00cebbb0
@@ -954,7 +919,7 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
     new ((void *)&(track)) ::fnv_00d76ca0::FUN_00d76ca0();
     reinterpret_cast<::FUN_00d74d40_cls *>((((Status*)&probe)))->FUN_00d74d40();
     probe.flag = 1;
-    reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), (int)(&probe));
+    reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), reinterpret_cast<intptr_t>(&probe));
     if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() != -1)
     {
         float step = (float)(DAT_011b153c / ::DAT_01020998);
@@ -972,14 +937,14 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
         }
         while (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() != 3 || ((double)(reinterpret_cast<::S_00d752e0_Class *>(&(track))->FUN_00d752e0())) < DAT_010cbf48)
         {
-            reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), (int)(&probe));
+            reinterpret_cast<::H77ConvexHull *>(&(track))->FUN_00d77200((*(const ::H77StridedVertices *)(state)), reinterpret_cast<intptr_t>(&probe));
             reinterpret_cast<::ExpandShape *>(&(track))->FUN_00d77be0(step);
             if (reinterpret_cast<::FUN_00d74e10_cls *>(&(track))->FUN_00d74e10() == 3)
                 reinterpret_cast<::D762F0Owner *>(&(track))->FUN_00d762f0();
             step += step;
         }
-        receiver->translation = *((::__m128 *)(reinterpret_cast<::fnv_00d75600::S_00d75600_Obj *>(&(track))->FUN_00d75600()));
-        __m128* rows = ((::__m128 *)(reinterpret_cast<::fnv_00d75560::FUN_00d75560_cls *>(&(track))->FUN_00d75560()));
+        receiver->translation = *((__m128 *)(reinterpret_cast<::fnv_00d75600::S_00d75600_Obj *>(&(track))->FUN_00d75600()));
+        __m128* rows = ((__m128 *)(reinterpret_cast<::fnv_00d75560::FUN_00d75560_cls *>(&(track))->FUN_00d75560()));
         RowMatrix* m = &receiver->matrix;
         m->row0 = rows[0];
         m->row1 = rows[1];
@@ -1036,17 +1001,11 @@ void __cdecl SetDiagonal(S_00ced310_M* m)
     m->c2.z = d;
 }
 
+struct Geometry;
+struct MassPropertiesSV;
+void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* result);
+
 namespace fnv_00cefb90 {
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-}
 
 // Same-file stand-ins as FUN_00cece50 (hkpMassProperties / hkVector4 / hkMatrix3).
 struct __declspec(align(16)) CE50Vector
@@ -1072,6 +1031,7 @@ struct CE50Body
     CE50Vector center;
     CE50Matrix inertia;
 };
+static_assert(sizeof(CE50Body) == 0x50, "CE50Body views hkMassProperties");
 
 struct CEFBTri
 {
@@ -1094,8 +1054,6 @@ struct CEFBAreas
     unsigned m_iCapacity;
 };
 
-int __cdecl FUN_00cee290(const CE50Vector* v0, const CE50Vector* v1, const CE50Vector* v2, float triMass,
-                         float thickness, CE50Body* out);
 extern "C" void _ReadWriteBarrier(void);
 
 __declspec(noinline) void __cdecl AddInertiaTensor(float* c, float m, float* I)
@@ -1109,78 +1067,6 @@ __declspec(noinline) void __cdecl AddInertiaTensor(float* c, float m, float* I)
     I[6] = I[9] = yz;
     float zx = I[8] - m * c[2] * c[0];
     I[8] = I[2] = zx;
-}
-extern "C" __m128 _mm_div_ss(__m128, __m128);
-void __cdecl FUN_00ced6b0(const CEFBGeom* geometry, float mass, CE50Body* out);
-__declspec(noinline) int __cdecl FUN_00cee290(const CE50Vector* a, const CE50Vector* b, const CE50Vector* c, float mass,
-                                              float thickness, CE50Body* out)
-{
-    if (mass <= 0.0f || thickness < 0.0f)
-        return 1;
-    __m128 ab = _mm_sub_ps(a->quad, b->quad);
-    __m128 cb = _mm_sub_ps(c->quad, b->quad);
-    __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(ab, ab, 0xd2), _mm_shuffle_ps(cb, cb, 0xc9)),
-                              _mm_mul_ps(_mm_shuffle_ps(ab, ab, 0xc9), _mm_shuffle_ps(cb, cb, 0xd2)));
-    __m128 sq = _mm_mul_ps(cross, cross);
-    __m128 len = _mm_sqrt_ss(_mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq)));
-    float length;
-    _mm_store_ss(&length, len);
-    CE50Vector center;
-    float thirdF = 1.0f / 3.0f;
-    __m128 thirdV = _mm_load_ss(&thirdF);
-    __m128 third = _mm_shuffle_ps(thirdV, thirdV, 0);
-    center.quad = _mm_mul_ps(_mm_add_ps(_mm_add_ps(a->quad, b->quad), c->quad), third);
-    CE50Matrix inertia;
-    if (thickness < 1e-5f)
-    {
-        float xx = (float)((a->x * a->x + b->x * b->x + c->x * c->x + 9.0 * center.x * center.x) * mass / 12.0);
-        float yy = (float)((a->y * a->y + b->y * b->y + c->y * c->y + 9.0 * center.y * center.y) * mass / 12.0);
-        float zz = (float)((a->z * a->z + b->z * b->z + c->z * c->z + 9.0 * center.z * center.z) * mass / 12.0);
-        inertia.row0.x = yy + zz;
-        inertia.row1.y = xx + zz;
-        inertia.row2.z = xx + yy;
-        inertia.row0.y = inertia.row1.x =
-            -(float)((a->x * a->y + b->x * b->y + c->x * c->y + 9.0 * center.x * center.y) * mass / 12.0);
-        inertia.row0.z = inertia.row2.x =
-            -(float)((a->x * a->z + b->x * b->z + c->x * c->z + 9.0 * center.x * center.z) * mass / 12.0);
-        inertia.row1.z = inertia.row2.y =
-            -(float)((a->y * a->z + b->y * b->z + c->y * c->z + 9.0 * center.y * center.z) * mass / 12.0);
-        FUN_00cebe80((FUN_00cebe80_Struct*)&center, mass, &inertia.row0.x);
-    }
-    else if (length <= 0.0f)
-    {
-        inertia.row0.x = mass * (center.y * center.y + center.z * center.z);
-        inertia.row1.y = mass * (center.x * center.x + center.z * center.z);
-        inertia.row2.z = mass * (center.x * center.x + center.y * center.y);
-        inertia.row0.y = inertia.row1.x = -mass * center.x * center.y;
-        inertia.row0.z = inertia.row2.x = -mass * center.x * center.z;
-        inertia.row1.z = inertia.row2.y = -mass * center.y * center.z;
-    }
-    else
-    {
-        float halfThickness = thickness * 0.5f;
-        __m128 inv = _mm_load_ss(&length);
-        inv = _mm_div_ss(_mm_load_ss(&halfThickness), inv);
-        __m128 delta = _mm_mul_ps(cross, _mm_shuffle_ps(inv, inv, 0));
-        CE50Vector points[6];
-        points[0].quad = _mm_add_ps(a->quad, delta);
-        points[1].quad = _mm_sub_ps(a->quad, delta);
-        points[2].quad = _mm_add_ps(b->quad, delta);
-        points[3].quad = _mm_sub_ps(b->quad, delta);
-        points[4].quad = _mm_add_ps(c->quad, delta);
-        points[5].quad = _mm_sub_ps(c->quad, delta);
-        CEFBTri faces[8] = {{0, 2, 4, -1}, {1, 5, 3, -1}, {0, 3, 2, -1}, {0, 1, 3, -1},
-                            {1, 0, 4, -1}, {1, 4, 5, -1}, {2, 5, 4, -1}, {2, 3, 5, -1}};
-        CEFBGeom prism = {points, 6, 0x80000006u, faces, 8, 0x80000008u};
-        FUN_00ced6b0(&prism, mass, out);
-        center = out->center;
-        inertia = out->inertia;
-    }
-    out->mass = mass;
-    out->volume = length * 0.5f * thickness;
-    out->center = center;
-    out->inertia = inertia;
-    return 0;
 }
 
 struct BoolFlag
@@ -1213,8 +1099,8 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
     triAreas.size = 0;
     triAreas.m_iCapacity = 0x80000000u;
 
-    S_00cee1c0_Router* router = FUN_00c85750();
-    S_00cee1c0_Heap* heap = router->heap;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = router->m_heap;
     int cap = (int)(triAreas.m_iCapacity & 0x3fffffffu);
     if (cap < count)
     {
@@ -1305,8 +1191,8 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
     center->quad = _mm_mul_ps(inv, center->quad);
     FUN_00cebe80((FUN_00cebe80_Struct*)center, mass, &inertia->row0.x);
 
-    S_00cee1c0_Router* freeRouter = FUN_00c85750();
-    S_00cee1c0_Heap* freeHeap = freeRouter->heap;
+    hkMemoryRouter* freeRouter = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* freeHeap = freeRouter->m_heap;
     int flags = (int)triAreas.m_iCapacity;
     triAreas.size = 0;
     if ((flags & 0x80000000) == 0)
@@ -1314,19 +1200,12 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
         unsigned bytes = ((unsigned)flags & 0x3fffffffu);
         bytes += bytes;
         bytes += bytes;
-        freeHeap->Free(triAreas.data, bytes);
+        freeHeap->bufFree(triAreas.data, bytes);
     }
     return 0;
 }
 }  // namespace fnv_00cefb90
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-}
 
 struct S_00ced090_Elem
 {
@@ -1449,7 +1328,7 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
         *(__m128*)&m.r0 = *(__m128*)&apState->first[i].unk20;
         *(__m128*)&m.r1 = *(__m128*)&apState->first[i].unk30;
         *(__m128*)&m.r2 = *(__m128*)&apState->first[i].unk40;
-        reinterpret_cast<::FUN_00cd5880_cls *>(&(m))->FUN_00cd5880((unsigned int)(&apState->first[i].unk50));
+        reinterpret_cast<::FUN_00cd5880_cls *>(&(m))->FUN_00cd5880(reinterpret_cast<uintptr_t>(&apState->first[i].unk50));
         S_00ced090_Vec v;
         v.FUN_00c7f640(&apState->first[i].unk50, &apState->first[i].unk10);
         *(__m128*)&v.v = _mm_sub_ps(*(__m128*)&v.v, vAccum);
@@ -1466,12 +1345,12 @@ struct S00cf0f40_Guard
     int m_saved;
     S00cf0f40_Guard()
     {
-        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        m_saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~S00cf0f40_Guard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
+        g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -1656,9 +1535,9 @@ struct S00cf0f40_Vec
 };
 
 struct S00cf0f40_Arr;
-inline S_00cee1c0_Heap& S00cf0f40_heap(S_00cee1c0_Router* r)
+inline hkMemoryAllocator& S00cf0f40_heap(hkMemoryRouter* r)
 {
-    return *r->heap;
+    return *r->m_heap;
 }
 
 struct S00cf0f40_Arr
@@ -1673,21 +1552,21 @@ struct S00cf0f40_Arr
     }
     void ClearAndRelease()
     {
-        S_00cee1c0_Heap& heap = S00cf0f40_heap(FUN_00c85750());
+        hkMemoryAllocator& heap = S00cf0f40_heap(&hkMemoryRouter::getInstance());
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0)
-            heap.Free(m_data, getCapacity() * sizeof(S00cf0f40_Vec));
+            heap.bufFree(m_data, getCapacity() * sizeof(S00cf0f40_Vec));
         m_data = 0;
         m_capFlags = 0x80000000;
     }
     void reserve(int n)
     {
-        S_00cee1c0_Heap& heap = S00cf0f40_heap(FUN_00c85750());
+        hkMemoryAllocator& heap = S00cf0f40_heap(&hkMemoryRouter::getInstance());
         int cap = getCapacity();
         if (cap < n)
         {
             int nc = cap * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(::S_00cee1c0_Heap *)(&heap), (::SpawnedArray *)(void *)(this), n < nc ? nc : n, sizeof(S00cf0f40_Vec));
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&heap), (::SpawnedArray *)(void *)(this), n < nc ? nc : n, sizeof(S00cf0f40_Vec));
         }
     }
     void SetSizeAndGrow(int n)
@@ -1802,24 +1681,6 @@ int __cdecl FUN_00ceba60(float a, float b, Target* t)
 }
 
 
-struct VertexComponentData
-{
-    int A;
-    int B;
-    int C;
-    float P1;
-    float Pa;
-    float Pb;
-    float m_fComponent0;
-    float m_fComponent1;
-    float m_fComponent2;
-    float m_fComponent3;
-    float m_fComponent4;
-    float m_fComponent5;
-    float m_fComponent6;
-
-    void FUN_00cec000(const float* verts);
-};
 
 // Accumulates polynomial integrals over three segments of verts and stores the scaled results in P1, Pa, Pb and m_fComponent0 through m_fComponent6.
 // @fnv 0x00cec000
@@ -1893,22 +1754,6 @@ void VertexComponentData::FUN_00cec000(const float* verts)
     m_fComponent5 /= -60.0f;
 }
 
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
 struct Mat4CE;
 struct __declspec(align(16)) Vec4CE
 {
@@ -1942,8 +1787,7 @@ struct MassBody
         _mm_store_ps(&inertia.row2.x, _mm_setzero_ps());
     }
 };
-typedef S_00cee1c0_Heap Heap;
-typedef S_00cee1c0_Router Router;
+typedef hkMemoryAllocator Heap;
 struct Handle
 {
     Vec4CE* data;
@@ -1952,7 +1796,7 @@ struct Handle
     {
         count = 0;
         if ((capacity & 0x80000000) == 0)
-            heap->Free(data, (capacity & 0x3fffffff) * 16);
+            heap->bufFree(data, (capacity & 0x3fffffff) * 16);
     }
 };
 struct View
@@ -2013,7 +1857,8 @@ struct ScaledShape
     int m00, m04, m08, m0c, m10, m14, m18, m1c;
     Vec4CE m20, m30;
 };
-void __cdecl FUN_00cebaf0(Vec4CE*, float, MassBody*);
+struct MassProperties;
+int __cdecl FUN_00cebaf0(const float* halfExtents, float mass, MassProperties* result);
 struct RawBody
 {
     float volume, mass;
@@ -2066,7 +1911,7 @@ struct Array
     {
         count = 0;
         if ((capacity & 0x80000000) == 0)
-            heap->Free(data, (capacity & 0x3fffffff) * 0x90);
+            heap->bufFree(data, (capacity & 0x3fffffff) * 0x90);
     }
 };
 
@@ -2102,7 +1947,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         __m128 halfExtents = (const __m128&)apShape->v20;
         radius = _mm_add_ps(radius, halfExtents);
         _mm_store_ps(&radii.x, radius);
-        FUN_00cebaf0(&radii, 1.0f, &body);
+        FUN_00cebaf0(&radii.x, 1.0f, reinterpret_cast<MassProperties*>(&body));
         break;
     }
     case 6: {
@@ -2116,8 +1961,8 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         view.count = h.count;
         view.stride = 16;
         FUN_00cebbb0(&view, apShape->radius, &body);
-        Router* vertexRouter = (Router*)FUN_00c85750();
-        h.release(vertexRouter->heap);
+        hkMemoryRouter* vertexRouter = &hkMemoryRouter::getInstance();
+        h.release(vertexRouter->m_heap);
         break;
     }
     case 3: {
@@ -2243,9 +2088,9 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         arr.data = arr.local;
         arr.count = 0;
         arr.capacity = 0x80000002;
-        Router* router = (Router*)FUN_00c85750();
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (arr.count == (arr.capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&arr), 0x90);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&arr), 0x90);
         Element* slot = arr.data + arr.count;
         if (slot)
             slot->Initialize();
@@ -2258,9 +2103,9 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         e0->transform.row1.y = 1.0f;
         e0->transform.row2.z = 1.0f;
         _mm_store_ps(&e0->transform.translation.x, zero);
-        router = (Router*)FUN_00c85750();
+        router = &hkMemoryRouter::getInstance();
         if (arr.count == (arr.capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(&arr), 0x90);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&arr), 0x90);
         slot = arr.data + arr.count;
         if (slot)
             slot->Initialize();
@@ -2271,37 +2116,25 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Mat4CE& transform, float limit
         e1->transform.row2.Assign(transform.row2);
         e1->transform.translation.Assign(transform.translation);
         ::FUN_00ced090((::S_00ced090_State *)(void *)(&arr), (::S_00ced090_Out *)(::MassBody *)(&output));
-        Router* cleanupRouter = (Router*)FUN_00c85750();
-        arr.release(cleanupRouter->heap);
+        hkMemoryRouter* cleanupRouter = &hkMemoryRouter::getInstance();
+        arr.release(cleanupRouter->m_heap);
     }
 function_end:
     return;
 }
 
-struct S_00cecc90_Sub
-{
-    void Multiply(Vector* v);
-};
-
 // Stores value at offset 4, computes value divided by the previous value, and passes the quotient to Multiply.
 // @fnv 0x00cecc90
 __declspec(noinline) void Receiver::FUN_00cecc90(float value)
 {
-    float* p = (float*)((char*)this + 4);
+    float* p = &m_mass;
     float quotient = value / *p;
     *p = value;
     Vector v;
     v.q = _mm_load_ss(&quotient);
-    reinterpret_cast<::S_00cd4c70 *>((((S_00cecc90_Sub*)((char*)this + 0x20))))->Multiply((*(const ::S_V4 *)(&v)));
+    reinterpret_cast<::S_00cd4c70 *>(m_inertiaTensor)->Multiply((*(const ::S_V4 *)(&v)));
 }
 
-extern "C"
-{
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-}
 
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
@@ -2345,11 +2178,11 @@ struct V4
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return q[i];
     }
 };
 struct BoxInertia : Mat3
@@ -2374,37 +2207,39 @@ struct BoxInertia : Mat3
         (*this)(2, 2) = 1.0f;
     }
 };
+// hkMassProperties.
 struct MassProperties
 {
-    float m_iBufferSize;
-    float m_fViscosityFriction;
+    float m_volume;
+    float m_mass;
     float unk08;
     float unk0C;
     V4 m_kCenterOfMass1;
     BoxInertia m_kInertiaTensor;
 };
+static_assert(sizeof(MassBody) == sizeof(MassProperties), "MassBody views hkMassProperties");
 
 // Fills result with the inertia tensor, zero center of mass, volume and mass for a box of given halfExtents and mass, returning 1 if mass is not positive.
 // @fnv 0x00cebaf0
-int __cdecl FUN_00cebaf0(const V4& halfExtents, float mass, MassProperties& result)
+int __cdecl FUN_00cebaf0(const float* halfExtents, float mass, MassProperties* result)
 {
     if (mass <= 0.0f)
         return 1;
 
-    float x = halfExtents(0);
-    float y = halfExtents(1);
-    float z = halfExtents(2);
+    float x = halfExtents[0];
+    float y = halfExtents[1];
+    float z = halfExtents[2];
     float k = mass * (1.0f / 3.0f);
 
-    result.m_kInertiaTensor.setIdentity();
-    result.m_kCenterOfMass1.setZero4();
+    result->m_kInertiaTensor.setIdentity();
+    result->m_kCenterOfMass1.setZero4();
 
-    result.m_kInertiaTensor(0, 0) = (y * y + z * z) * k;
-    result.m_kInertiaTensor(1, 1) = (x * x + z * z) * k;
-    result.m_kInertiaTensor(2, 2) = (x * x + y * y) * k;
+    result->m_kInertiaTensor(0, 0) = (y * y + z * z) * k;
+    result->m_kInertiaTensor(1, 1) = (x * x + z * z) * k;
+    result->m_kInertiaTensor(2, 2) = (x * x + y * y) * k;
 
-    result.m_iBufferSize = (float)(x * y * z * ::DAT_010240b0);
-    result.m_fViscosityFriction = mass;
+    result->m_volume = (float)(x * y * z * ::DAT_010240b0);
+    result->m_mass = mass;
     return 0;
 }
 
@@ -2438,12 +2273,18 @@ struct DestBlock
     void Multiply(Vec4Q* v);
 };
 
+struct Object
+{
+    __m128 m_unk00[5];
+    DestBlock m_massBlock;
+};
+
 // Copies four __m128 blocks from source into destination at offset 0x50, stores value in f40, and calls Multiply with value divided by src->f04.
 // @fnv 0x00cebdf0
 void __cdecl FUN_00cebdf0(float* source, float value, Object* destination)
 {
     SourceBlock* src = (SourceBlock*)source;
-    DestBlock* dst = (DestBlock*)((char*)destination + 0x50);
+    DestBlock* dst = &destination->m_massBlock;
     float q = value / src->f04;
     float* qp = &q;
     dst->f40 = value;
@@ -2456,18 +2297,6 @@ void __cdecl FUN_00cebdf0(float* source, float value, Object* destination)
     reinterpret_cast<::S_00cd4c70 *>((dst))->Multiply((*(const ::S_V4 *)(&tmp)));
 }
 
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 static __forceinline float Square(float x)
 {
@@ -2683,16 +2512,16 @@ static __forceinline void computePoints(Vec* data, int count, float mass, OutObj
     for (int i = 0; i < count; i++)
     {
         const Vec* q = &data[i];
-        float dx = q->x - out->com.m128_f32[0], dy = q->y - out->com.m128_f32[1], dz = q->z - out->com.m128_f32[2];
-        out->r0.m128_f32[0] += (dy * dy + dz * dz) * inv;
-        out->r1.m128_f32[1] += (dx * dx + dz * dz) * inv;
-        out->r2.m128_f32[2] += (dx * dx + dy * dy) * inv;
-        out->r1.m128_f32[0] -= dx * dy * inv;
-        out->r0.m128_f32[1] -= dx * dy * inv;
-        out->r2.m128_f32[0] -= dx * dz * inv;
-        out->r0.m128_f32[2] -= dx * dz * inv;
-        out->r1.m128_f32[2] -= dy * dz * inv;
-        out->r2.m128_f32[1] -= dy * dz * inv;
+        float dx = q->x - out->com[0], dy = q->y - out->com[1], dz = q->z - out->com[2];
+        out->r0[0] += (dy * dy + dz * dz) * inv;
+        out->r1[1] += (dx * dx + dz * dz) * inv;
+        out->r2[2] += (dx * dx + dy * dy) * inv;
+        out->r1[0] -= dx * dy * inv;
+        out->r0[1] -= dx * dy * inv;
+        out->r2[0] -= dx * dz * inv;
+        out->r0[2] -= dx * dz * inv;
+        out->r1[2] -= dy * dz * inv;
+        out->r2[1] -= dy * dz * inv;
     }
 }
 // Copies vertex positions into a temporary array, computes the center of mass and inertia tensor via computePoints, then frees the array.
@@ -2705,8 +2534,8 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
     a.data = 0;
     a.size = 0;
     a.cap = 0x80000000u;
-    S_00cee1c0_Router* router = FUN_00c85750();
-    S_00cee1c0_Heap* heap = router->heap;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = router->m_heap;
     if ((int)(a.cap & 0x3fffffff) < count)
     {
         int n = (a.cap & 0x3fffffff) * 2;
@@ -2719,19 +2548,20 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
     float zero = 0.0f;
     for (int i = 0; i < count; i++)
     {
-        a.data[i].x = ((float*)p)[0];
-        a.data[i].y = ((float*)p)[1];
-        a.data[i].z = ((float*)p)[2];
+        const float* vertex = reinterpret_cast<const float*>(p);
+        a.data[i].x = vertex[0];
+        a.data[i].y = vertex[1];
+        a.data[i].z = vertex[2];
         a.data[i].w = zero;
         p += stride;
     }
     computePoints(a.data, count, mass, out);
-    router = FUN_00c85750();
-    heap = router->heap;
+    router = &hkMemoryRouter::getInstance();
+    heap = router->m_heap;
     a.size = 0;
     unsigned capacity = a.cap;
     if ((capacity & 0x80000000u) == 0)
-        heap->Free(a.data, (capacity & 0x3fffffff) * 16);
+        heap->bufFree(a.data, (capacity & 0x3fffffff) * 16);
     return 0;
 }
 
@@ -2750,85 +2580,1421 @@ struct MassPropertiesSV
     Vector center;
     Matrix inertia;
 };
-__declspec(noinline) void __cdecl FUN_00cec7f0(Vec4* v, int n, Vec4* center, Vec4* dims)
-{
-    __m128 lo = _mm_load_ps(&v->x);
-    __m128 hi = lo;
-    __m128 s0 = lo;
-    Vec4* p = v + 1;
-    Vec4* e = v + n;
-    while (p < e)
-    {
-        __m128 q = _mm_load_ps(&p->x);
-        lo = _mm_min_ps(lo, q);
-        hi = _mm_max_ps(hi, q);
-        s0 = _mm_add_ps(s0, q);
-        _mm_store_ps(&dims[(int)(p - v) & 1].x, hi);
-        _mm_store_ps(&center[(int)(e - p) & 1].x, s0);
-        ++p;
-    }
-    __m128 a = _mm_add_ps(lo, hi);
-    __m128 b = _mm_xor_ps(lo, s0);
-    _mm_store_ps(&center->x, _mm_mul_ps(a, b));
-    _mm_store_ps(&dims->x, _mm_add_ps(b, hi));
-}
-__declspec(noinline) int __cdecl FUN_00cebaf0(Vec4* d, float m, MassPropertiesSV* p)
-{
-    if (m <= 0.0f)
-        return 1;
-    float x = d->x, y = d->y, z = d->z;
-    _mm_store_ps(&p->inertia.c0.x, _mm_setzero_ps());
-    _mm_store_ps(&p->inertia.c1.x, _mm_setzero_ps());
-    _mm_store_ps(&p->inertia.c2.x, _mm_setzero_ps());
-    _mm_store_ps(&p->center.x, _mm_setzero_ps());
-    float k = m * 0.33333334f;
-    p->inertia.c0.x = k * (y * y + z * z);
-    p->inertia.c1.y = k * (x * x + z * z);
-    p->inertia.c2.z = k * (x * x + y * y);
-    p->volume = x * y * z * 8.0f;
-    p->mass = m;
-    return 0;
-}
-struct Integrator
-{
-    Vec4 basisX, basisY, basisZ, translation, boundsMin, boundsMax;
-    float m_60, m_64, m_68, m_6C, m_70, m_74, m_78, m_7C, m_80, m_84, m_88;
-    void FUN_00ced390(Geometry*, Vec4*);
-    void FUN_00cec6b0(float, float, float*, float*);
-};
-__declspec(noinline) void Integrator::FUN_00ced390(Geometry* g, Vec4* off)
-{
-    __m128 o = _mm_load_ps(&off->x);
-    __m128 acc = _mm_load_ps(&basisY.x);
-    for (int i = 0; i < g->triangleCount; ++i)
-    {
-        int* t = g->triangles + i * 3;
-        __m128 a = _mm_add_ps(_mm_load_ps(&g->vertices[t[0]].x), o);
-        __m128 b = _mm_add_ps(_mm_load_ps(&g->vertices[t[1]].x), o);
-        __m128 c = _mm_load_ps(&g->vertices[t[2]].x);
-        acc = _mm_add_ps(acc, _mm_mul_ps(a, b));
-        _mm_store_ps(&basisX.x, _mm_add_ps(_mm_load_ps(&basisX.x), _mm_mul_ps(a, c)));
-        m_64 += g->vertices[t[2]].x * m_60 + m_68;
-    }
-    _mm_store_ps(&basisY.x, acc);
-}
-__declspec(noinline) void Integrator::FUN_00cec6b0(float a, float b, float* p, float* M)
-{
-    float s = b / m_64;
-    p[0] = m_68 * s;
-    p[1] = m_6C * s;
-    p[2] = m_70 * s;
-    for (int i = 0; i < 3; ++i)
-    {
-        M[i * 5] = (&m_74)[i] * a - p[i] * b;
-        M[i + 4] = M[i] + (&m_80)[i];
-    }
-}
+static_assert(sizeof(MassPropertiesSV) == 0x50, "MassPropertiesSV views hkMassProperties");
 static inline float maximum(float a, float b)
 {
     return a < b ? b : a;
 }
 // Computes volume, mass, center of mass, and inertia tensor for a Geometry, falling back to an axis-aligned box when the integrated volume is non-positive.
+
+// Moved from hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00c6cd00_cls.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00d5a000.h"
+#include "fnv/symbols_01013000.h"
+void __cdecl FUN_00cebe50(float* source, float scale, Object* destination);
+int __cdecl ApplyLimitToReceiver(const __m128* owner, int context, int count, float limit, Receiver* receiver, float value);
+void __cdecl FUN_00cebe80(FUN_00cebe80_Struct* pThis, float fParam2, float* pOut);
+void __cdecl AddInertiaTensor(float* param_1, float param_2, float* param_3);
+void __cdecl FUN_00ced230(float d, S_00ced230_T* p);
+void __cdecl ProcessArrayWithValue(Edge** source, int count, Node* unk, float value);
+void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB);
+
+
+struct __declspec(align(16)) CE50Vector
+{
+    float x, y, z, w;
+};
+struct CE50Matrix
+{
+    CE50Vector row0, row1, row2;
+    void Subtract(const CE50Matrix* source);
+};
+struct CE50Body
+{
+    float volume, mass;
+    CE50Vector center;
+    CE50Matrix inertia;
+    CE50Body() : volume(0.0f), mass(0.0f)
+    {
+        _mm_store_ps(&center.x, _mm_setzero_ps());
+        _mm_store_ps(&inertia.row0.x, _mm_setzero_ps());
+        _mm_store_ps(&inertia.row1.x, _mm_setzero_ps());
+        _mm_store_ps(&inertia.row2.x, _mm_setzero_ps());
+    }
+};
+static __declspec(noinline) void FUN_00cebfd0(CE50Body* body, float scale)
+{
+    body->mass *= scale;
+    body->inertia.row0.x *= scale;
+    body->inertia.row0.y *= scale;
+    body->inertia.row0.z *= scale;
+    body->inertia.row1.x *= scale;
+    body->inertia.row1.y *= scale;
+    body->inertia.row1.z *= scale;
+    body->inertia.row2.x *= scale;
+    body->inertia.row2.y *= scale;
+    body->inertia.row2.z *= scale;
+}
+// @fnv 0x00cece50
+int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out, ...)
+{
+    if (!(mass <= 0.0f) && src[0] > thickness && src[1] > thickness && src[2] > thickness && !(thickness <= 0.0f))
+    {
+        float x = src[0] - thickness;
+        float y = src[1] - thickness;
+        float z = src[2] - thickness;
+        CE50Vector inner;
+        _mm_store_ps(&inner.x, _mm_setr_ps(x, y, z, DAT_01011d78));
+        float outerVolume = (float)(src[0] * DAT_010240b0 * src[1] * src[2]);
+        float innerVolume = (float)(inner.x * DAT_010240b0 * inner.y * inner.z);
+        CE50Body outer;
+        CE50Body inside;
+        FUN_00cebaf0(src, outerVolume, reinterpret_cast<MassProperties*>(&outer));
+        FUN_00cebaf0(&inner.x, innerVolume, reinterpret_cast<MassProperties*>(&inside));
+        _mm_store_ps(&out->center.x, _mm_setzero_ps());
+        reinterpret_cast<::FUN_00c6cd00_cls *>(&(out->inertia))->FUN_00c6cd00((const ::FUN_00c6cd00_cls *)(const ::CE50Matrix *)(&outer.inertia));
+        out->inertia.Subtract(&inside.inertia);
+        out->mass = outer.mass - inside.mass;
+        out->volume = outer.volume - inside.volume;
+        FUN_00cebfd0(out, mass / (outerVolume - innerVolume));
+        return 0;
+    }
+    return 1;
+}
+
+__declspec(align(16)) struct Vec4F
+{
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
+__declspec(align(16)) struct Pair
+{
+    float x;
+    float y;
+};
+
+// Plain float fields (no __m128 members, no arrays): keeps /GS from adding a cookie.
+__declspec(align(16)) struct Mat4
+{
+    float unk00_0;
+    float unk00_1;
+    float unk00_2;
+    float unk00_3;
+    float row0_0;
+    float row0_1;
+    float row0_2;
+    float row0_3;
+    float row1_0;
+    float row1_1;
+    float row1_2;
+    float row1_3;
+    float row2_0;
+    float row2_1;
+    float row2_2;
+    float row2_3;
+};
+
+
+__declspec(align(16)) struct Work
+{
+    Pair pair;
+    Mat4 mat;
+};
+
+struct OutBlock
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0c;
+    __m128 vec10;
+    float m00, m01, m02, m03;
+    float m10, m11, m12, m13;
+    float m20, m21, m22, m23;
+};
+
+
+
+
+// Accumulate signed tetrahedron moments from the translated boundary mesh.
+
+inline float MaxVal(float a, float b)
+{
+    return a > b ? a : b;
+}
+
+
+struct __declspec(align(16)) S00cf0690_Vec
+{
+    float x, y, z, w;
+};
+struct S00cf0690_Mass
+{
+    float volume;
+    float mass;
+    S00cf0690_Vec center;
+    S00cf0690_Vec row0, row1, row2;
+};
+struct S00cf0690_Xf
+{
+    S00cf0690_Vec row0, row1, row2, translation;
+};
+static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
+{
+    float newMass = density * p->volume;
+    float k = newMass / p->mass;
+    p->mass = newMass;
+    __m128 f = _mm_set_ps1(k);
+    *(__m128*)&p->row0 = _mm_mul_ps(*(__m128*)&p->row0, f);
+    *(__m128*)&p->row1 = _mm_mul_ps(*(__m128*)&p->row1, f);
+    *(__m128*)&p->row2 = _mm_mul_ps(*(__m128*)&p->row2, f);
+}
+// @fnv 0x00cf0690
+void __cdecl FUN_00cf0690(void* shape, float mass, S00cf0690_Mass* result)
+{
+    S00cf0690_Mass props;
+    props.volume = props.mass = 0.0f;
+    *(__m128*)&props.center = _mm_setzero_ps();
+    *(__m128*)&props.row0 = _mm_setzero_ps();
+    *(__m128*)&props.row1 = _mm_setzero_ps();
+    *(__m128*)&props.row2 = _mm_setzero_ps();
+    S00cf0690_Xf t;
+    *(__m128*)&t.row0 = _mm_setzero_ps();
+    t.row0.x = 1.0f;
+    *(__m128*)&t.row1 = _mm_setzero_ps();
+    t.row1.y = 1.0f;
+    *(__m128*)&t.row2 = _mm_setzero_ps();
+    t.row2.z = 1.0f;
+    *(__m128*)&t.translation = _mm_setzero_ps();
+    ::FUN_00ceff00((::HkShape *)(shape), (*(const ::Mat4CE *)(&t)), 0.0f, (*(::MassBody *)(&props)));
+    if (props.volume == 0.0f)
+        ::FUN_00ceff00((::HkShape *)(shape), (*(const ::Mat4CE *)(&t)), ::DAT_01013ea4, (*(::MassBody *)(&props)));
+    if (props.volume != 0.0f)
+    {
+        FUN_00cebfd0(&props, mass / props.volume);
+        result->volume = props.volume;
+        result->mass = props.mass;
+        *(__m128*)&result->center = *(__m128*)&props.center;
+        *(__m128*)&result->row0 = *(__m128*)&props.row0;
+        *(__m128*)&result->row1 = *(__m128*)&props.row1;
+        *(__m128*)&result->row2 = *(__m128*)&props.row2;
+    }
+}
+
+// Moved from hkpinertiatensorcomputer_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00cf0000.h"
+// FUN_00cf07a0 - 120 bytes
+//
+// The function builds a 0x50-byte aggregate in its frame (two floats followed
+// by four 16-byte vectors), hands the aggregate to a helper which writes a
+// float into its first member, and then copies the four vectors plus one
+// float into the destination object.
+//
+// The sibling copy routine at 0x00cf0820 shows the aggregate layout:
+//   +0x00 float, +0x04 float, +0x10/+0x20/+0x30/+0x40  __m128
+// and the destination object carries the same four vectors at
+// +0x50/+0x60/+0x70/+0x80 plus a float at +0x90.
+//
+// NOTE: the module this function lives in was built WITHOUT /GS - the
+// original re-reads the destination pointer straight out of its stack slot
+// after the call (no $GSCopy) and has no security-cookie prologue even
+// though the aggregate's address is taken.  The packet's /GS flag is wrong
+// for this module; the byte-exact build needs /GS-.
+
+struct Src
+{
+    float f0;  // +0x00 - out parameter of the helper
+    float f1;  // +0x04 - copied into Dest::f90
+    int unk08;
+    int unk0c;
+    __m128 m10;  // +0x10
+    __m128 m20;  // +0x20
+    __m128 m30;  // +0x30
+    __m128 m40;  // +0x40
+};
+
+struct Dest
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
+        unk40, unk44, unk48, unk4c;
+    __m128 m50;  // +0x50
+    __m128 m60;  // +0x60
+    __m128 m70;  // +0x70
+    __m128 m80;  // +0x80
+    float f90;   // +0x90
+};
+
+// helper at 0x00cf0690 - writes a float through its third argument
+
+// @fnv 0x00cf07a0
+void FUN_00cf07a0(void* a, float b, Dest* c)
+{
+    Src s;
+    s.f0 = 0.0f;
+    s.f1 = 0.0f;
+    s.m10 = _mm_setzero_ps();
+    s.m20 = _mm_setzero_ps();
+    s.m30 = _mm_setzero_ps();
+    s.m40 = _mm_setzero_ps();
+    ::FUN_00cf0690(a, b, (::S00cf0690_Mass *)(float *)(&s.f0));
+    c->f90 = s.f1;
+    c->m80 = s.m10;
+    c->m50 = s.m20;
+    c->m60 = s.m30;
+    c->m70 = s.m40;
+}
+
+// Moved from hkpinertiatensorcomputer_ehsc_noehsc_variant_gs_nogs_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/RotationRows.h"
+#include "fnv/symbols_00c74000.h"
+void __cdecl FUN_00ced230(float afDivisor, S_00ced230_T* pData);
+void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
+static void FUN_00cebfd0(Owner* self, float value);
+void caller();
+int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out);
+void __cdecl SetDiagonal(S_00ced310_M* m);
+
+#include <math.h>
+typedef __m128 hkQuadReal;
+typedef float hkReal;
+
+class VectorComponentValue
+{
+  public:
+    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
+    {}
+    __forceinline VectorComponentValue(hkReal x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline operator hkReal() const
+    {
+        hkReal s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+    __forceinline hkQuadReal broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const hkQuadReal& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    hkQuadReal m_vValue;
+};
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+class hkVector4
+{
+  public:
+    __forceinline hkVector4()
+    {}
+    __forceinline hkVector4(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void operator=(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void set(hkReal a, hkReal b, hkReal c, hkReal d)
+    {
+        m_vComponents = _mm_setr_ps(a, b, c, d);
+    }
+    __forceinline void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
+    __forceinline void setAdd4(const hkVector4& v0, const hkVector4& v1)
+    {
+        m_vComponents = _mm_add_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1)
+    {
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    __forceinline void mul4(hkSimdRealParameter s)
+    {
+        m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents);
+    }
+    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
+    {
+        hkQuadReal cross0;
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        hkQuadReal cross1;
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+    }
+    __forceinline VectorComponentValue length3() const
+    {
+        return _mm_sqrt_ss(this->dot3(*this).getQuad());
+    }
+    __forceinline VectorComponentValue lengthInverse3() const
+    {
+        const hkQuadReal half = _mm_set_ss(0.5f);
+        const hkQuadReal three = _mm_set_ss(3.0f);
+        const hkQuadReal zero = _mm_set_ss(0.0f);
+        const hkQuadReal len2 = this->dot3(*this).getQuad();
+        const hkQuadReal len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const hkQuadReal approx = _mm_rsqrt_ss(len2);
+        const hkQuadReal refined =
+            _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
+    }
+    __forceinline void normalize3()
+    {
+        hkQuadReal lenInv = lengthInverse3().broadcast();
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
+    }
+    __forceinline hkReal& operator()(int a)
+    {
+        return reinterpret_cast<hkReal*>(&m_vComponents)[a];
+    }
+    hkQuadReal m_vComponents;
+public:
+    __forceinline void add4(const hkVector4& v)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void setMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents);
+    }
+    __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
+    }
+    __forceinline const hkReal& operator()(int a) const
+    {
+        return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
+    }
+};
+
+class hkQuaternion
+{
+  public:
+    __forceinline hkQuaternion()
+    {}
+    void FUN_00cb2450(const hkVector4& axis, hkReal angle);
+    hkVector4 m_vec;
+};
+
+class hkMatrix3
+{
+  public:
+    __forceinline hkMatrix3()
+    {}
+    __forceinline hkVector4& getColumn(int x)
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline const hkVector4& getColumn(int x) const
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline hkReal& operator()(int r, int c)
+    {
+        return getColumn(c)(r);
+    }
+    __forceinline void operator=(const hkMatrix3& a)
+    {
+        m_kColumn0 = a.getColumn(0);
+        m_kColumn1 = a.getColumn(1);
+        m_kColumn2 = a.getColumn(2);
+    }
+    __forceinline void setZero()
+    {
+        hkVector4 zero;
+        zero.setZero4();
+        getColumn(0) = zero;
+        getColumn(1) = zero;
+        getColumn(2) = zero;
+    }
+    __forceinline void setIdentity()
+    {
+        setZero();
+        hkReal one = 1.0f;
+        (*this)(0, 0) = one;
+        (*this)(1, 1) = one;
+        (*this)(2, 2) = one;
+    }
+    hkVector4 m_kColumn0, m_kColumn1, m_kColumn2;
+};
+class hkRotation : public hkMatrix3
+{
+  public:
+};
+class hkTransform
+{
+  public:
+    __forceinline hkTransform()
+    {}
+    __forceinline void setTranslation(const hkVector4& t)
+    {
+        m_vTranslation = t;
+    }
+    __forceinline void SetBodyOrientation(const hkQuaternion& q)
+    {
+        reinterpret_cast<::RotationRows *>(&(m_rotation))->FUN_00cb2d90((void *)&(q));
+    }
+    __forceinline void setIdentity()
+    {
+        m_rotation.setIdentity();
+        m_vTranslation.setZero4();
+    }
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+};
+
+struct hkpMassProperties
+{
+    __forceinline hkpMassProperties() : m_iBufferSize(0.0f), m_fViscosityFriction(0.0f)
+    {
+        m_kCenterOfMass1.setZero4();
+        m_kInertiaTensor.setZero();
+    }
+    hkReal m_iBufferSize;
+    hkReal m_fViscosityFriction;
+    hkVector4 m_kCenterOfMass1;
+    hkMatrix3 m_kInertiaTensor;
+};
+struct MassPropertiesTransform
+{
+    __forceinline MassPropertiesTransform()
+    {
+        m_kMotionTransform.setIdentity();
+    }
+    hkpMassProperties m_kProperties;
+    hkTransform m_kMotionTransform;
+};
+
+struct RouterHeapAllocatorProvider
+{
+    __forceinline hkMemoryAllocator& get(const void*)
+    {
+        return S00cf0f40_heap(&hkMemoryRouter::getInstance());
+    }
+};
+
+template <typename T> class HavokElementArray
+{
+  public:
+    __forceinline HavokElementArray(T* ptr, int size, int capacity)
+        : m_data(ptr), m_iElementCount(size), m_iCapacityState(capacity | 0x80000000)
+    {}
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void clear()
+    {
+        m_iElementCount = 0;
+    }
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline T& _expandOne(hkMemoryAllocator& alloc)
+    {
+        if (m_iElementCount == getCapacity())
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
+        T* t = m_data + m_iElementCount;
+        for (int i = 0; i < 1; ++i)
+            ::new (t + i) T;
+        return m_data[m_iElementCount++];
+    }
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+template <typename T> class hkArray : public HavokElementArray<T>
+{
+  public:
+    __forceinline hkArray(T* ptr, int size, int capacity) : HavokElementArray<T>(ptr, size, capacity)
+    {}
+    __forceinline ~hkArray()
+    {
+        ClearAndRelease();
+    }
+    __forceinline void ClearAndRelease()
+    {
+        this->_clearAndDeallocate(RouterHeapAllocatorProvider().get(this));
+    }
+    __forceinline T& AllocatePair()
+    {
+        return this->_expandOne(RouterHeapAllocatorProvider().get(this));
+    }
+};
+template <typename T, unsigned N> class hkInplaceArray : public hkArray<T>
+{
+  public:
+    __forceinline explicit hkInplaceArray(int size = 0) : hkArray<T>(m_kStorage, size, N)
+    {}
+    __forceinline ~hkInplaceArray()
+    {}
+    T m_kStorage[N];
+};
+
+namespace MathUtilities {
+__forceinline hkReal fabs(hkReal r)
+{
+    return ::fabsf(r);
+}
+}
+
+// @fnv 0x00cef6d0
+__declspec(noinline) int __cdecl FUN_00cef6d0(const hkVector4& startAxis, const hkVector4& endAxis, hkReal radius,
+                                              hkReal mass, hkpMassProperties& result)
+{
+    if (!(mass <= 0.0f))
+    {
+        if (radius <= 0.0f)
+            return 1;
+        hkVector4 axis;
+        axis.setSub4(endAxis, startAxis);
+        const hkReal height = axis.length3();
+        hkTransform cylinderBaseTransform;
+        if (height > 0.0f)
+        {
+            axis.normalize3();
+            hkVector4 canonicalZ((*reinterpret_cast<const ::hkVector4 *>(&::DAT_01268390)));
+            if (MathUtilities::fabs(axis.dot3(canonicalZ)) < 0.99999f)
+            {
+                hkVector4 rotAxis;
+                rotAxis.setCross(canonicalZ, axis);
+                rotAxis.normalize3();
+                hkQuaternion q;
+                q.FUN_00cb2450(rotAxis, ClampedAcos(axis.dot3(canonicalZ)));
+                cylinderBaseTransform.SetBodyOrientation(q);
+            }
+            else
+            {
+                cylinderBaseTransform.setIdentity();
+            }
+            hkVector4 centre;
+            centre.setAdd4(startAxis, endAxis);
+            centre.mul4(0.5f);
+            cylinderBaseTransform.setTranslation(centre);
+            const hkReal volume = (hkReal)(3.1415927410125732421875 * radius * radius * height);
+            const hkReal massCopy = mass;
+            hkInplaceArray<MassPropertiesTransform, 1> elements(0);
+            MassPropertiesTransform& el = elements.AllocatePair();
+            el.m_kMotionTransform = cylinderBaseTransform;
+            el.m_kProperties.m_kCenterOfMass1.set(0.0f, 0.0f, 0.0f, 0.0f);
+            el.m_kProperties.m_kInertiaTensor.setIdentity();
+            el.m_kProperties.m_kInertiaTensor(0, 0) =
+                (hkReal)(radius * radius * 0.25 + height / 2.0 * height / 2.0 / 3.0);
+            el.m_kProperties.m_kInertiaTensor(1, 1) = el.m_kProperties.m_kInertiaTensor(0, 0);
+            el.m_kProperties.m_kInertiaTensor(2, 2) = (hkReal)(radius * radius * 0.5);
+            reinterpret_cast<::S_00cd4c70 *>(&(el.m_kProperties.m_kInertiaTensor))->Multiply((const ::S_V4 &)((const ::VectorComponentValue &)(massCopy)));
+            el.m_kProperties.m_kCenterOfMass1.setZero4();
+            el.m_kProperties.m_iBufferSize = volume;
+            el.m_kProperties.m_fViscosityFriction = massCopy;
+            ::FUN_00ced090((::S_00ced090_State *)&(elements), (::S_00ced090_Out *)&(result));
+            return 0;
+        }
+    }
+    return 1;
+}
+
+// Moved from hkpinertiatensorcomputer_ehsc_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+#include "fnv/decl/FUN_00cce530.h"
+void __cdecl FUN_00cebe80(FUN_00cebe80_Struct* pThis, float fScale, float* pMatrix);
+void __cdecl AddInertiaTensor(float* param_1, float fScale, float* pMatrix);
+int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver);
+int __cdecl FUN_00ced090(S_00ced090_State* s, S_00ced090_Out* out);
+
+
+template <typename T> class HavokElementArrayEhsc
+{
+  public:
+    __forceinline HavokElementArrayEhsc() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline HavokElementArrayEhsc(T* ptr, int size, int capacity)
+        : m_data(ptr), m_iElementCount(size), m_iCapacityState(capacity | 0x80000000)
+    {}
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline void clear()
+    {
+        m_iElementCount = 0;
+    }
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
+    {
+        const int capacity = getCapacity();
+        if (capacity < n)
+        {
+            int cap2 = 2 * capacity;
+            int newSize = (n < cap2) ? cap2 : n;
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(reinterpret_cast<hkMemoryAllocator*>(&alloc)), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
+        }
+    }
+    __forceinline void _setSize(hkMemoryAllocator& alloc, int n)
+    {
+        GrowArrayCapacity(alloc, n);
+        m_iElementCount = n;
+    }
+    __forceinline T* _expandBy(hkMemoryAllocator& alloc, int n)
+    {
+        int oldsize = m_iElementCount;
+        GrowArrayCapacity(alloc, m_iElementCount + n);
+        m_iElementCount += n;
+        return m_data + oldsize;
+    }
+    __forceinline void copyFromArray(hkMemoryAllocator& alloc, const HavokElementArrayEhsc<T>& a)
+    {
+        if (getCapacity() < a.GetLogicalSize())
+        {
+            if ((m_iCapacityState & 0x80000000) == 0)
+            {
+                alloc._bufFree<T>(m_data, getCapacity());
+            }
+            int n = a.GetLogicalSize();
+            m_data = alloc._bufAlloc<T>(n);
+            m_iCapacityState = n;
+        }
+        m_iElementCount = a.GetLogicalSize();
+        copy(m_data, a.m_data, m_iElementCount);
+    }
+    static __forceinline void copy(T* dst, const T* src, int n)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            dst[i] = src[i];
+        }
+    }
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000) == 0)
+            alloc._bufFree<T>(m_data, getCapacity());
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+template <typename T> class hkArrayEhsc : public HavokElementArrayEhsc<T>
+{
+  public:
+    __forceinline hkArrayEhsc()
+    {}
+    __forceinline hkArrayEhsc(T* ptr, int size, int capacity) : HavokElementArrayEhsc<T>(ptr, size, capacity)
+    {}
+    __forceinline void ClearAndRelease()
+    {
+        this->_clearAndDeallocate(RouterHeapAllocatorProvider().get(this));
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        this->_setSize(RouterHeapAllocatorProvider().get(this), n);
+    }
+    __forceinline T* expandBy(int n)
+    {
+        return this->_expandBy(RouterHeapAllocatorProvider().get(this), n);
+    }
+    __forceinline hkArrayEhsc<T>& operator=(const hkArrayEhsc<T>& a)
+    {
+        this->copyFromArray(RouterHeapAllocatorProvider().get(this), a);
+        return *this;
+    }
+};
+template <typename T, unsigned N> class hkInplaceArrayEhsc : public hkArrayEhsc<T>
+{
+  public:
+    __forceinline explicit hkInplaceArrayEhsc(int size = 0) : hkArrayEhsc<T>(m_kStorage, size, N)
+    {}
+    __forceinline ~hkInplaceArrayEhsc()
+    {
+        this->ClearAndRelease();
+    }
+    T m_kStorage[N];
+};
+
+struct hkGeometry
+{
+    struct Triangle
+    {
+        int m_kPointA, m_kPointB, m_iThirdValue, m_iMaterialIndex;
+        __forceinline void set(int a, int b, int c, int material = -1)
+        {
+            m_kPointA = a;
+            m_kPointB = b;
+            m_iThirdValue = c;
+            m_iMaterialIndex = material;
+        }
+    };
+    hkArrayEhsc<hkVector4> m_kVertices;
+    hkArrayEhsc<Triangle> m_uiTriangleCount;
+    __forceinline hkGeometry()
+    {}
+    __forceinline ~hkGeometry()
+    {
+        reinterpret_cast<::FUN_00cce530 *>(this)->FUN_00cce530::~FUN_00cce530();
+    }
+};
+
+
+// @fnv 0x00cee290
+int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2, hkReal mass,
+                         hkReal surfaceThickness, hkpMassProperties& result)
+{
+    if (mass <= 0.0f)
+        return 1;
+    if (surfaceThickness < 0.0f)
+        return 1;
+
+    const hkReal tolerance = 1e-5f;
+    hkVector4 com;
+    hkMatrix3 inertia;
+    hkVector4 normal;
+    {
+        hkVector4 cb;
+        cb.setSub4(v2, v1);
+        hkVector4 ab;
+        ab.setSub4(v0, v1);
+        normal.setCross(cb, ab);
+    }
+    const hkReal area = normal.length3();
+
+    if (surfaceThickness < tolerance)
+    {
+        com = v0;
+        com.add4(v1);
+        com.add4(v2);
+        com.setMul4(0.33333334f, com);
+        const hkReal xx =
+            (hkReal)(mass / 12.0 * (com(0) * 9.0 * com(0) + v0(0) * v0(0) + v1(0) * v1(0) + (v2(0) * v2(0))));
+        const hkReal yy =
+            (hkReal)(mass / 12.0 * (((com(1) * 9.0) * com(1)) + (v0(1) * v0(1)) + v1(1) * v1(1) + (v2(1) * v2(1))));
+        const hkReal zz =
+            (hkReal)(mass / 12.0 * (((com(2) * 9.0) * com(2)) + (v0(2) * v0(2)) + v1(2) * v1(2) + v2(2) * v2(2)));
+        const hkReal xy =
+            (hkReal)(mass / 12.0 * (com(0) * 9.0 * com(1) + v0(0) * v0(1) + v1(0) * v1(1) + v2(0) * v2(1)));
+        const hkReal xz =
+            (hkReal)(mass / 12.0 * (com(0) * 9.0 * com(2) + v0(0) * v0(2) + v1(0) * v1(2) + v2(0) * v2(2)));
+        const hkReal yz =
+            (hkReal)(mass / 12.0 * (com(1) * 9.0 * com(2) + v0(1) * v0(2) + v1(1) * v1(2) + v2(1) * v2(2)));
+        inertia(0, 0) = yy + zz;
+        inertia(1, 1) = xx + zz;
+        inertia(2, 2) = xx + yy;
+        inertia(0, 1) = inertia(1, 0) = -xy;
+        inertia(0, 2) = inertia(2, 0) = -xz;
+        inertia(2, 1) = inertia(1, 2) = -yz;
+        ::FUN_00cebe80(reinterpret_cast<FUN_00cebe80_Struct*>(&com), mass, &inertia(0, 0));
+    }
+    else if (area < tolerance)
+    {
+        com = v0;
+        com.add4(v1);
+        com.add4(v2);
+        com.setMul4(0.33333334f, com);
+        const hkReal x = com(0);
+        const hkReal y = com(1);
+        const hkReal z = com(2);
+        inertia(0, 0) = (y * y + z * z) * mass;
+        inertia(1, 1) = (x * x + z * z) * mass;
+        inertia(2, 2) = (y * y + x * x) * mass;
+        inertia(0, 1) = -mass * (y * x);
+        inertia(1, 0) = -mass * (y * x);
+        inertia(0, 2) = -mass * (z * x);
+        inertia(2, 0) = -mass * (z * x);
+        inertia(2, 1) = -mass * (y * z);
+        inertia(1, 2) = -mass * (y * z);
+    }
+    else
+    {
+        normal.normalize3();
+        hkInplaceArrayEhsc<hkVector4, 6> vertices(0);
+        vertices.SetSizeAndGrow(6);
+        vertices[0] = v0;
+        vertices[1] = v0;
+        vertices[0].addMul4((hkReal)(surfaceThickness * 0.5), normal);
+        vertices[1].addMul4((hkReal)(-surfaceThickness * 0.5), normal);
+        vertices[2] = v1;
+        vertices[3] = v1;
+        vertices[2].addMul4((hkReal)(surfaceThickness * 0.5), normal);
+        vertices[3].addMul4((hkReal)(-surfaceThickness * 0.5), normal);
+        vertices[4] = v2;
+        vertices[5] = v2;
+        vertices[4].addMul4((hkReal)(surfaceThickness * 0.5), normal);
+        vertices[5].addMul4((hkReal)(-surfaceThickness * 0.5), normal);
+        hkpMassProperties massProperties;
+        {
+            hkGeometry geom;
+            geom.m_kVertices = vertices;
+            geom.m_uiTriangleCount.expandBy(1)->set(0, 2, 4);
+            geom.m_uiTriangleCount.expandBy(1)->set(1, 5, 3);
+            geom.m_uiTriangleCount.expandBy(1)->set(0, 3, 2);
+            geom.m_uiTriangleCount.expandBy(1)->set(0, 1, 3);
+            geom.m_uiTriangleCount.expandBy(1)->set(1, 0, 4);
+            geom.m_uiTriangleCount.expandBy(1)->set(1, 4, 5);
+            geom.m_uiTriangleCount.expandBy(1)->set(2, 5, 4);
+            geom.m_uiTriangleCount.expandBy(1)->set(2, 3, 5);
+            ::FUN_00ced6b0(reinterpret_cast<Geometry*>(&geom), mass, reinterpret_cast<MassPropertiesSV*>(&massProperties));
+        }
+        com = massProperties.m_kCenterOfMass1;
+        inertia = massProperties.m_kInertiaTensor;
+    }
+    result.m_fViscosityFriction = mass;
+    result.m_kInertiaTensor = inertia;
+    result.m_kCenterOfMass1 = com;
+    result.m_iBufferSize = (hkReal)(area * 0.5 * surfaceThickness);
+    return 0;
+}
+
+namespace CapsuleMassSimd {
+typedef __m128 CapsuleMassQuad;
+extern "C" double __cdecl fabs(double);
+static __forceinline float capsuleMassAbs(float x)
+{
+    return (float)fabs((double)x);
+}
+
+extern const double DAT_010cbf70 = 0.999989986419677734375;
+extern const double DAT_010cbf40 = 4.18879032135009765625;
+extern const double DAT_010cbf68 = 0.375;
+extern const double DAT_010cbf60 = -0.375;
+extern const float DAT_01011d78, DAT_01017718, DAT_01012068;
+
+class CapsuleMassScalar
+{
+    CapsuleMassQuad value;
+
+  public:
+    CapsuleMassScalar()
+    {}
+    CapsuleMassScalar(const CapsuleMassQuad& quad) : value(quad)
+    {}
+    CapsuleMassScalar(float scalar)
+    {
+        value = _mm_load_ss(&scalar);
+    }
+    __forceinline const CapsuleMassQuad& quad() const
+    {
+        return value;
+    }
+    __forceinline CapsuleMassQuad splat() const
+    {
+        return _mm_shuffle_ps(value, value, 0);
+    }
+    operator float() const
+    {
+        float result;
+        _mm_store_ss(&result, value);
+        return result;
+    }
+};
+struct __declspec(align(16)) CapsuleMassVector
+{
+    union
+    {
+        CapsuleMassQuad m;
+        struct
+        {
+            float x, y, z, w;
+        };
+    };
+    __forceinline CapsuleMassVector()
+    {}
+    __forceinline CapsuleMassVector(int)
+    {
+        m = _mm_setzero_ps();
+    }
+    __forceinline CapsuleMassScalar length3() const;
+    __forceinline CapsuleMassScalar dot3(const CapsuleMassVector& b) const;
+    __forceinline void normalize3();
+    __forceinline CapsuleMassScalar inverseLength3() const;
+    void FUN_00c7f700(const struct CapsuleMassMatrix*, const CapsuleMassVector*);
+    __forceinline void set(float a, float b, float c, float d = 0.0f)
+    {
+        m = _mm_setr_ps(a, b, c, d);
+    }
+};
+struct CapsuleMassMatrix
+{
+    CapsuleMassVector row0, row1, row2;
+    __forceinline CapsuleMassMatrix()
+    {}
+    __forceinline CapsuleMassMatrix(int) : row0(0), row1(0), row2(0)
+    {}
+    __forceinline CapsuleMassMatrix(bool) : row0(0), row1(0), row2(0)
+    {
+        row0.x = 1.0f;
+        row1.y = 1.0f;
+        row2.z = 1.0f;
+    }
+    __forceinline CapsuleMassMatrix& operator=(const CapsuleMassMatrix& b)
+    {
+        row0.m = b.row0.m;
+        row1.m = b.row1.m;
+        row2.m = b.row2.m;
+        return *this;
+    }
+    __forceinline void zero()
+    {
+        row0.m = _mm_setzero_ps();
+        row1.m = _mm_setzero_ps();
+        row2.m = _mm_setzero_ps();
+    }
+    __forceinline float& at(int r, int c)
+    {
+        return reinterpret_cast<float*>(&(&row0)[c].m)[r];
+    }
+    __forceinline void identity()
+    {
+        zero();
+        float unit = 1.0f;
+        at(0, 0) = unit;
+        at(1, 1) = unit;
+        at(2, 2) = unit;
+    }
+};
+struct CapsuleMassQuaternion : CapsuleMassVector
+{
+    void FUN_00cb2450(const CapsuleMassVector*, float);
+};
+struct CapsuleMassTransform
+{
+    CapsuleMassMatrix rotation;
+    CapsuleMassVector translation;
+    __forceinline CapsuleMassTransform()
+    {}
+    __forceinline CapsuleMassTransform(bool) : rotation(true), translation(0)
+    {}
+    __forceinline CapsuleMassTransform& operator=(const CapsuleMassTransform& b)
+    {
+        CapsuleMassQuad a = b.rotation.row0.m, c = b.rotation.row1.m, d = b.rotation.row2.m, t = b.translation.m;
+        rotation.row0.m = a;
+        rotation.row1.m = c;
+        rotation.row2.m = d;
+        translation.m = t;
+        return *this;
+    }
+    __forceinline void identity()
+    {
+        rotation.identity();
+        translation.m = _mm_setzero_ps();
+    }
+};
+struct CapsuleMassBody
+{
+    float volume, mass;
+    CapsuleMassVector center;
+    CapsuleMassMatrix inertia;
+    __forceinline CapsuleMassBody() : center(0)
+    {
+        volume = 0.0f;
+        mass = 0.0f;
+        inertia = CapsuleMassMatrix(0);
+    }
+    __forceinline CapsuleMassBody(int) : volume(0.0f), mass(0.0f), center(0)
+    {}
+    __forceinline CapsuleMassBody(bool)
+    {
+        inertia.row0.m = _mm_setzero_ps();
+        inertia.row1.m = _mm_setzero_ps();
+        inertia.row2.m = _mm_setzero_ps();
+    }
+    __forceinline CapsuleMassBody(const CapsuleMassBody& b)
+    {
+        volume = b.volume;
+        mass = b.mass;
+        center.m = b.center.m;
+        inertia = b.inertia;
+    }
+};
+struct CapsuleMassElement
+{
+    CapsuleMassBody properties;
+    CapsuleMassTransform transform;
+    __forceinline CapsuleMassElement() : transform(true)
+    {}
+    __forceinline CapsuleMassElement(int) : properties(0), transform(true)
+    {}
+    __forceinline CapsuleMassElement(const CapsuleMassElement& b) : properties(b.properties)
+    {
+        transform = b.transform;
+    }
+};
+struct CapsuleMassArray
+{
+    CapsuleMassElement* data;
+    int size;
+    unsigned capacity;
+    CapsuleMassElement local[3];
+    __forceinline CapsuleMassArray() : data(local), size(0), capacity(0x80000003u)
+    {}
+    __forceinline void append(const CapsuleMassElement& e)
+    {
+        hkMemoryRouter* r = &hkMemoryRouter::getInstance();
+        if (size == (capacity & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(r->m_heap), (::AudioStream *)(void *)(this), sizeof(CapsuleMassElement));
+        new (data + size) CapsuleMassElement(e);
+        ++size;
+    }
+    __forceinline ~CapsuleMassArray()
+    {
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* h = router->m_heap;
+        unsigned cap = capacity;
+        size = 0;
+        if ((cap & 0x80000000u) == 0)
+            h->bufFree(data, (cap & 0x3fffffff) * sizeof(CapsuleMassElement));
+    }
+};
+extern int __cdecl FUN_00ced090(CapsuleMassArray*, Receiver*);
+extern int __cdecl FUN_00ceba60(float, float, CapsuleMassBody*);
+
+static __forceinline CapsuleMassQuad capsuleMassSum3(CapsuleMassQuad v)
+{
+    return _mm_add_ss(_mm_shuffle_ps(v, v, 0xaa),
+                                       _mm_add_ss(_mm_shuffle_ps(v, v, 0x55), v));
+}
+static __forceinline float capsuleMassReal(CapsuleMassQuad v)
+{
+    float f;
+    _mm_store_ss(&f, v);
+    return f;
+}
+__forceinline CapsuleMassScalar CapsuleMassVector::length3() const
+{
+    return _mm_sqrt_ss(dot3(*this).quad());
+}
+__forceinline CapsuleMassScalar CapsuleMassVector::dot3(const CapsuleMassVector& b) const
+{
+    return CapsuleMassScalar(capsuleMassSum3(_mm_mul_ps(m, b.m)));
+}
+__forceinline CapsuleMassScalar CapsuleMassVector::inverseLength3() const
+{
+    const CapsuleMassQuad half = _mm_set_ss(0.5f);
+    const CapsuleMassQuad three = _mm_set_ss(3.0f);
+    const CapsuleMassQuad zero = _mm_set_ss(0.0f);
+    const CapsuleMassQuad squared = dot3(*this).quad();
+    const CapsuleMassQuad isZero = _mm_cmpeq_ss(squared, zero);
+    const CapsuleMassQuad approx = _mm_rsqrt_ss(squared);
+    const CapsuleMassQuad refined = _mm_mul_ss(
+        _mm_mul_ss(half, approx),
+        _mm_sub_ss(three,
+                                    _mm_mul_ss(_mm_mul_ss(squared, approx), approx)));
+    return _mm_andnot_ps(isZero, refined);
+}
+__forceinline void CapsuleMassVector::normalize3()
+{
+    CapsuleMassQuad inverse = inverseLength3().splat();
+    m = _mm_mul_ps(inverse, m);
+}
+static __forceinline CapsuleMassQuad capsuleMassCross(CapsuleMassQuad a, CapsuleMassQuad b)
+{
+    return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9),
+                                                                   _mm_shuffle_ps(b, b, 0xd2)),
+                                       _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2),
+                                                                   _mm_shuffle_ps(b, b, 0xc9)));
+}
+
+// @fnv 0x00ceeca0
+__declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, const CapsuleMassVector* destination,
+                                              float radius, float mass, Receiver* receiver)
+{
+    if (mass <= 0.0f)
+        return 1;
+    if (radius <= 0.0f)
+        return 1;
+    CapsuleMassVector between;
+    between.m = _mm_sub_ps(destination->m, source->m);
+    float length = float(between.length3());
+    CapsuleMassTransform transform;
+    if (length > 0.0f)
+    {
+        between.normalize3();
+        CapsuleMassVector up;
+        up.set(0.0f, 0.0f, 1.0f);
+
+        if (capsuleMassAbs(float(up.dot3(between))) < DAT_010cbf70)
+        {
+            CapsuleMassVector axis;
+            axis.m = capsuleMassCross(up.m, between.m);
+            axis.normalize3();
+            CapsuleMassQuaternion q;
+            q.FUN_00cb2450(&axis, ::ClampedAcos(float(up.dot3(between))));
+            reinterpret_cast<::RotationRows *>(&(transform.rotation))->FUN_00cb2d90((void *)(&q));
+        }
+        else
+            transform.rotation.identity();
+    }
+    else
+        transform.rotation.identity();
+    CapsuleMassQuad h = _mm_set_ss(0.5f);
+    transform.translation.m = _mm_mul_ps(_mm_shuffle_ps(h, h, 0),
+                                                          _mm_add_ps(source->m, destination->m));
+    float sphereVolume = (float)(radius * DAT_010cbf40 * radius * radius);
+    float cylinderVolume = (float)(radius * 3.1415927410125732421875 * radius * length);
+    float volume = sphereVolume + cylinderVolume;
+    float sphereMass = sphereVolume * mass / volume;
+    float cylinderMass = cylinderVolume * mass / volume;
+    CapsuleMassArray elements;
+    double halfLength;
+    {
+        CapsuleMassElement element(0);
+        element.transform = transform;
+        halfLength = length * 0.5;
+        element.properties.center.set(0.0f, 0.0f, 0.0f);
+        element.properties.inertia = CapsuleMassMatrix(0);
+        CapsuleMassVector scale;
+        scale.m = _mm_load_ss(&cylinderMass);
+        element.properties.inertia.row0.x = (float)(halfLength * length * 0.5 / 3.0 + radius * radius * 0.25);
+        element.properties.inertia.row1.y = element.properties.inertia.row0.x;
+        element.properties.inertia.row2.z = (float)(radius * radius * 0.5);
+        reinterpret_cast<::S_00cd4c70 *>(&(element.properties.inertia))->Multiply((*(const ::S_V4 *)(&scale)));
+        element.properties.volume = cylinderVolume;
+        element.properties.mass = cylinderMass;
+        element.properties.center.m = _mm_setzero_ps();
+        elements.append(element);
+    }
+    {
+        CapsuleMassElement cap;
+        cap.transform = transform;
+        CapsuleMassVector offset;
+        offset.set(0.0f, 0.0f, (float)halfLength);
+        offset.FUN_00c7f700(&transform.rotation, &offset);
+        offset.m = _mm_add_ps(cap.transform.translation.m, offset.m);
+        cap.transform.translation.m = offset.m;
+        cap.properties.center.set(0.0f, 0.0f, (float)(radius * DAT_010cbf68));
+        CapsuleMassBody ball(false);
+        FUN_00ceba60(radius, sphereMass, &ball);
+        cap.properties.inertia = ball.inertia;
+        CapsuleMassVector half;
+        half.m = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
+        reinterpret_cast<::S_00cd4c70 *>(&(cap.properties.inertia))->Multiply((*(const ::S_V4 *)(&half)));
+        FUN_00cebe80((FUN_00cebe80_Struct*)&cap.properties.center, (float)(sphereMass * 0.5),
+                     &cap.properties.inertia.row0.x);
+        cap.properties.volume = (float)(sphereVolume * 0.5);
+        cap.properties.mass = (float)(sphereMass * 0.5);
+        elements.append(cap);
+    }
+    {
+        CapsuleMassElement cap;
+        cap.transform = transform;
+        CapsuleMassVector offset;
+        offset.set(0.0f, 0.0f, (float)-halfLength);
+        offset.FUN_00c7f700(&transform.rotation, &offset);
+        offset.m = _mm_add_ps(cap.transform.translation.m, offset.m);
+        cap.transform.translation.m = offset.m;
+        cap.properties.center.set(0.0f, 0.0f, (float)(radius * DAT_010cbf60));
+        CapsuleMassBody ball(false);
+        FUN_00ceba60(radius, sphereMass, &ball);
+        cap.properties.inertia = ball.inertia;
+        CapsuleMassVector half;
+        half.m = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
+        reinterpret_cast<::S_00cd4c70 *>(&(cap.properties.inertia))->Multiply((*(const ::S_V4 *)(&half)));
+        FUN_00cebe80((FUN_00cebe80_Struct*)&cap.properties.center, (float)(sphereMass * 0.5),
+                     &cap.properties.inertia.row0.x);
+        cap.properties.volume = (float)(sphereVolume * 0.5);
+        cap.properties.mass = (float)(sphereMass * 0.5);
+        elements.append(cap);
+    }
+    FUN_00ced090(&elements, receiver);
+    return 0;
+}
+
+}
+
+// Moved from hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out, ...);
+int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out);
+struct __declspec(align(16)) IntegralVector159
+{
+    float x, y, z, w;
+    IntegralVector159()
+    {}
+    __forceinline void SetProduct(const float& scalar, __m128 v)
+    {
+        quad() = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scalar), _mm_load_ss(&scalar), 0), v);
+    }
+    __forceinline __m128& quad()
+    {
+        return reinterpret_cast<__m128&>(*this);
+    }
+    __forceinline const __m128& quad() const
+    {
+        return reinterpret_cast<const __m128&>(*this);
+    }
+    float operator[](int i) const
+    {
+        return (&x)[i];
+    }
+};
+struct Triangle159
+{
+    int a, b, c, material;
+};
+struct Mesh159
+{
+    IntegralVector159* vertices;
+    int unk04, unk08;
+    Triangle159* triangles;
+    int count;
+};
+struct Integrals159
+{
+    int axisA, axisB, axisC;
+    float P1, Pa, Pb, m_fComponent0, m_fComponent1, m_fComponent2, m_fComponent3, m_fComponent4, m_fComponent5,
+        m_fComponent6;
+    float face[12];
+    float volume;
+    float first[3];
+    float second[3];
+    float products[3];
+    void FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset);
+};
+// @fnv 0x00ced390
+void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
+{
+    int triangleCount = mesh->count;
+    volume = first[0] = first[1] = first[2] = second[0] = second[1] = second[2] = products[0] = products[1] =
+        products[2] = 0.0f;
+    if (triangleCount > 0)
+    {
+        int remaining = triangleCount;
+        do
+        {
+            Triangle159 tri = mesh->triangles[triangleCount - remaining];
+            IntegralVector159 points[3];
+            points[1].quad() = _mm_add_ps(mesh->vertices[tri.b].quad(), offset->quad());
+            points[2].quad() = _mm_add_ps(mesh->vertices[tri.c].quad(), offset->quad());
+            points[0].quad() = _mm_add_ps(mesh->vertices[tri.a].quad(), offset->quad());
+            __m128 e0 = _mm_sub_ps(points[1].quad(), points[0].quad());
+            __m128 e1 = _mm_sub_ps(points[2].quad(), points[0].quad());
+            __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(e1, e1, 0xd2), _mm_shuffle_ps(e0, e0, 0xc9)),
+                                      _mm_mul_ps(_mm_shuffle_ps(e1, e1, 0xc9), _mm_shuffle_ps(e0, e0, 0xd2)));
+            __m128 square = _mm_mul_ps(cross, cross);
+            __m128 sy = _mm_shuffle_ps(square, square, 0x55);
+            __m128 sz = _mm_shuffle_ps(square, square, 0xaa);
+            __m128 lengthVector = _mm_sqrt_ss(_mm_add_ss(sz, _mm_add_ss(sy, square)));
+            float length;
+            _mm_store_ss(&length, lengthVector);
+            if (length > 0.0f)
+            {
+                float inverse = 1.0f / length;
+                IntegralVector159 normal;
+                normal.SetProduct(inverse, cross);
+                float nx = fabsf(normal.x), ny = fabsf(normal.y), nz = fabsf(normal.z);
+                if (nx > ny && nx > nz)
+                    axisC = 0;
+                else
+                    axisC = (ny > nz) ? 1 : 2;
+                axisA = (axisC + 1) % 3;
+                axisB = (axisA + 1) % 3;
+                reinterpret_cast<::S00cec3d0_Face *>(this)->FUN_00cec3d0((const float *)(points), (const float *)(const ::IntegralVector159 *)(&normal));
+                int a = axisA;
+                float projected = (a == 0) ? face[0] : ((axisB == 0) ? face[1] : face[2]);
+                volume += static_cast<volatile float&>(normal.x) * projected;
+                first[a] += normal[a] * face[3];
+                first[axisB] += normal[axisB] * face[4];
+                first[axisC] += normal[axisC] * face[5];
+                second[axisA] += normal[axisA] * face[6];
+                second[axisB] += normal[axisB] * face[7];
+                second[axisC] += normal[axisC] * face[8];
+                products[axisA] += normal[axisA] * face[9];
+                products[axisB] += normal[axisB] * face[10];
+                products[axisC] += normal[axisC] * face[11];
+            }
+        } while (--remaining);
+    }
+    for (int i = 0; i < 3; ++i)
+        first[i] = (float)(first[i] * 0.5);
+    for (int i = 0; i < 3; ++i)
+        second[i] = (float)(second[i] / 3.0);
+    for (int i = 0; i < 3; ++i)
+        products[i] = (float)(products[i] * 0.5);
+}
+
+// @fnv 0x00ced8e0
+int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out)
+{
+    if (value <= 0.0f)
+        return 1;
+    Vec4F b;
+    Vec4F a;
+    FUN_00cec7f0(self->first, self->count, reinterpret_cast<__m128*>(&b), reinterpret_cast<__m128*>(&a));
+    Work w;
+    w.pair.x = 0.0f;
+    w.pair.y = 0.0f;
+    _mm_store_ps(&w.mat.unk00_0, _mm_setzero_ps());
+    _mm_store_ps(&w.mat.row0_0, _mm_setzero_ps());
+    _mm_store_ps(&w.mat.row1_0, _mm_setzero_ps());
+    _mm_store_ps(&w.mat.row2_0, _mm_setzero_ps());
+    FUN_00cebaf0((float*)&a, value, reinterpret_cast<MassProperties*>(&w.pair));
+    __m128 bv = _mm_load_ps((float*)&b);
+    _mm_store_ps(&w.mat.unk00_0, bv);
+    _mm_store_ps((float*)&a, _mm_xor_ps(DAT_010c44d0, bv));
+    Integrals159 integrals;
+    integrals.FUN_00ced390(reinterpret_cast<Mesh159*>(self), reinterpret_cast<const IntegralVector159*>(&a));
+    float r = integrals.volume;
+    if (r <= 0.0f)
+    {
+        return 1;
+    }
+    out->unk00 = r;
+    out->unk04 = value;
+    reinterpret_cast<::FUN_00cec6b0_cls *>(&(integrals))->FUN_00cec6b0(value, value / r, (float*)&out->vec10, &out->m00);
+    out->vec10 = _mm_add_ps(out->vec10, bv);
+    float* bf = (float*)&b;
+    float* u = &w.mat.row0_0;
+    float* M = &out->m00;
+    double scale = 0.10000000149011612;
+    for (int i = 0; i < 3; ++i)
+    {
+        double t = u[i * 5] * scale;
+        if (t > M[i * 5])
+        {
+            M[i * 5] = t;
+            ((float*)&out->vec10)[i] = bf[i];
+            for (int j = 0; j < 3; ++j)
+            {
+                if (j != i)
+                {
+                    float temp = MaxVal(0.0f, M[i * 4 + j]);
+                    float v = temp;
+                    M[j * 4 + i] = v;
+                    M[i * 4 + j] = v;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 // @fnv 0x00ced6b0
 void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* result)
 {
@@ -2839,31 +4005,31 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
     MassPropertiesSV boxProperties;
     {
         Vec4 dimensions;
-        FUN_00cec7f0(geometry->vertices, geometry->vertexCount, &center, &dimensions);
+        FUN_00cec7f0(reinterpret_cast<const __m128*>(geometry->vertices), geometry->vertexCount, reinterpret_cast<__m128*>(&center), reinterpret_cast<__m128*>(&dimensions));
         boxProperties.volume = zero;
         boxProperties.mass = zero;
         _mm_store_ps(&boxProperties.center.x, _mm_setzero_ps());
         _mm_store_ps(&boxProperties.inertia.c0.x, _mm_setzero_ps());
         _mm_store_ps(&boxProperties.inertia.c1.x, _mm_setzero_ps());
         _mm_store_ps(&boxProperties.inertia.c2.x, _mm_setzero_ps());
-        FUN_00cebaf0(&dimensions, mass, &boxProperties);
+        FUN_00cebaf0(&dimensions.x, mass, reinterpret_cast<MassProperties*>(&boxProperties));
     }
     __m128 centerValue = *(__m128*)&center;
     *(__m128*)&boxProperties.center = centerValue;
-    Integrator integrator;
+    Integrals159 integrator;
     {
         Vec4 shift;
         *(__m128*)&shift = _mm_xor_ps(DAT_010c44d0, centerValue);
-        reinterpret_cast<::Solver *>(&(integrator))->FUN_00ced390((::State *)(geometry), (float *)(::Vec4 *)(&shift));
+        integrator.FUN_00ced390(reinterpret_cast<Mesh159*>(geometry), reinterpret_cast<const IntegralVector159*>(&shift));
     }
-    if (integrator.m_64 <= 0.0f)
+    if (integrator.volume <= 0.0f)
     {
         *result = boxProperties;
         return;
     }
-    result->volume = integrator.m_64;
+    result->volume = integrator.volume;
     result->mass = mass;
-    float density = mass / integrator.m_64;
+    float density = mass / integrator.volume;
     reinterpret_cast<::FUN_00cec6b0_cls *>(&(integrator))->FUN_00cec6b0(mass, density, (float*)&result->center, (float*)&result->inertia.c0);
     *(__m128*)&result->center = _mm_add_ps(*(__m128*)&result->center, *(__m128*)&boxProperties.center);
     float* inertia = (float*)&result->inertia.c0;
@@ -2885,5 +4051,4 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
         }
     }
 }
-
 #include "generated/data/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.inc"

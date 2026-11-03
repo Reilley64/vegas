@@ -3,3 +3,4 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 const hkVector4q hkVector4Util_uint16Magic = {{65536.0f, 65536.0f, 65536.0f, 65536.0f}};
+const __m128 hkVector4Comparison_maskXYZW{};

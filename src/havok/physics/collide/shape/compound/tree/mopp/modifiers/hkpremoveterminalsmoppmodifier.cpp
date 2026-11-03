@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/S00e67230_Machine.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e5d000.h"
@@ -109,15 +111,6 @@ hkBoolE485 hkObjE485::IsBitClear(int index, int iUnused) const
 }
 }  // namespace fnv_00e48550
 
-struct FUN_00e48580_Heap
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* unk10;
-};
-void* __cdecl FUN_00c85750();
 struct Packed
 {
     unsigned int lo : 8;
@@ -140,10 +133,10 @@ struct FUN_00e48580_Obj
 void FUN_00e48580_Obj::AppendPackedValue(int value)
 {
     FUN_00e48580_Array* arr = &this->arr;
-    FUN_00e48580_Heap* heap = reinterpret_cast<FUN_00e48580_Heap*>(FUN_00c85750());
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     if (arr->unk04 == (int)(arr->unk08 & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(heap->unk10), (::AudioStream *)(arr), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(arr), 4);
     }
     Packed* pEntry = &arr->unk00[arr->unk04++];
     pEntry->lo = 0;
@@ -193,39 +186,12 @@ class FUN_00e486e0 : public hkRefObjE486, public hkVisitorE486
 FUN_00e486e0::FUN_00e486e0(void* apFirst, void* apSecond, void* context) throw()
 {
     m_iValueAtOffset0C = context;
-    ::ConstructTemporaryObject((int)(apFirst), (int)(apSecond), (int)(this));
+    ::ConstructTemporaryObject(apFirst, apSecond, this);
     m_iValueAtOffset0C = 0;
 }
 
 namespace fnv_00e48740 {
-class hkMemoryAllocatorE487
-{
-  public:
-    virtual ~hkMemoryAllocatorE487() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterE487
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE487* m_pStreamAllocator;
-    hkMemoryAllocatorE487& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterE487& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructE487(T* t, int n)
 {
@@ -247,14 +213,14 @@ template <class T> class hkArrayE487
 
     ~hkArrayE487() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructE487(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorE487& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -319,7 +285,7 @@ struct __declspec(align(16)) FUN_00e67230_Obj
 
 // Constructs a temporary object and forwards the three arguments to its constructor.
 // @fnv 0x00e5d040
-void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
+void __cdecl ConstructTemporaryObject(const void* a1, const void* a2, void* a3)
 {
     FUN_00e67230_Obj tmp;
     reinterpret_cast<::S00e67230_Machine *>(&(tmp))->FUN_00e67230((const ::S00e67230_Code *)(a1), (*(const ::S00e67230_Aabb *)(a2)), (::Visitor *)(a3));
@@ -327,16 +293,6 @@ void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
 
 #include <xmmintrin.h>
 namespace fnv_00e485d0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-}
 
 struct hkVector4E485
 {
@@ -481,7 +437,7 @@ FUN_00e485d0::FUN_00e485d0(const hkpMoppCodeE485* pkMoppCode, const hkpShapeCont
             kOut.m_kMaximumCorner.setMax4(kOut.m_kMaximumCorner, kAabb2.m_kMaximumCorner);
         }
         m_pTerminalIdsToRemove = &kShapesToRemove;
-        ::ConstructTemporaryObject((int)(pkMoppCode), (int)&(kAabb), (int)(this));
+        ::ConstructTemporaryObject(pkMoppCode, &kAabb, this);
         m_pTerminalIdsToRemove = 0;
     }
 }

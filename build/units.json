@@ -405647,7 +405647,7 @@
     },
     {
      "address": "0x00d1d500",
-     "symbol": "?FUN_00d1d500@@YAHPAXHH@Z",
+     "symbol": "?FUN_00d1d500@@YAHPAXPBX0@Z",
      "size": 35
     },
     {
@@ -416816,12 +416816,12 @@
     },
     {
      "address": "0x00d2f980",
-     "symbol": "??0FUN_00d2f980@@QAE@H@Z",
+     "symbol": "??0FUN_00d2f980@@QAE@PAX@Z",
      "size": 70
     },
     {
      "address": "0x00d2f9d0",
-     "symbol": "?FUN_00d2f9d0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d2f9d0@@YAXPAX000@Z",
      "size": 39
     },
     {
@@ -416831,7 +416831,7 @@
     },
     {
      "address": "0x00d2fa40",
-     "symbol": "?FUN_00d2fa40@fnv_00d2fa40@@YAPAUSpawnedObject@1@PAUFloatOwner@1@0HH@Z",
+     "symbol": "?FUN_00d2fa40@fnv_00d2fa40@@YAPAUSpawnedObject@1@PAUFloatOwner@1@0HPAX@Z",
      "size": 125
     },
     {
@@ -416907,7 +416907,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -416935,7 +416935,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -416971,7 +416971,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -417060,17 +417060,17 @@
     },
     {
      "address": "0x00d2dda0",
-     "symbol": "?FUN_00d2dda0@FUN_00d2dda0_class@@QAEXH@Z",
+     "symbol": "?FUN_00d2dda0@FUN_00d2dda0_class@@QAEXPAX@Z",
      "size": 42
     },
     {
      "address": "0x00d2ddd0",
-     "symbol": "?FUN_00d2ddd0@FUN_00d2ddd0_class@@QAEXH@Z",
+     "symbol": "?FUN_00d2ddd0@FUN_00d2dda0_class@@QAEXPAX@Z",
      "size": 20
     },
     {
      "address": "0x00d2ddf0",
-     "symbol": "?FUN_00d2ddf0@FUN_00d2ddf0_Class@@QAEXMMPAX@Z",
+     "symbol": "?FUN_00d2ddf0@FUN_00d2dda0_class@@QAEXMMPAX@Z",
      "size": 38
     },
     {
@@ -417085,7 +417085,7 @@
     },
     {
      "address": "0x00d2def0",
-     "symbol": "?FUN_00d2def0@FUN_00d2def0_cls@@QAEPAU1@PAX0PAHH@Z",
+     "symbol": "?FUN_00d2def0@FUN_00d2def0_cls@@QAEPAU1@PAX0PAH0@Z",
      "size": 93
     },
     {
@@ -417115,7 +417115,7 @@
     },
     {
      "address": "0x00d2e7f0",
-     "symbol": "?FUN_00d2e7f0@@YAPAUHeader@@PAX0PAUStreamDispatchInput@@I@Z",
+     "symbol": "?FUN_00d2e7f0@@YAPAUHeader@@PAX0PAUStreamDispatchInput@@0@Z",
      "size": 236
     },
     {
@@ -417130,12 +417130,12 @@
     },
     {
      "address": "0x00d2e9b0",
-     "symbol": "?FUN_00d2e9b0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d2e9b0@@YAXPAX000@Z",
      "size": 57
     },
     {
      "address": "0x00d2e9f0",
-     "symbol": "?FUN_00d2e9f0@@YAXHHPBUInput_d2e9@@HH@Z",
+     "symbol": "?FUN_00d2e9f0@@YAXPAX0PBUInput_d2e9@@00@Z",
      "size": 226
     },
     {
@@ -417155,7 +417155,7 @@
     },
     {
      "address": "0x00d2ebf0",
-     "symbol": "?DispatchWithBoundData@CpuObject@@QAEXPAX0II@Z",
+     "symbol": "?DispatchWithBoundData@CpuObject@@QAEXPAX000@Z",
      "size": 59
     },
     {
@@ -417190,7 +417190,7 @@
     },
     {
      "address": "0x00d2f000",
-     "symbol": "?LinearCastFlip@FUN_00d2f000_class@fnv_00d2f000@@QAEXIIPAUS_00d2f000_Input@2@II@Z",
+     "symbol": "?LinearCastFlip@FUN_00d2f000_class@fnv_00d2f000@@QAEXPAX0PAUS_00d2f000_Input@2@00@Z",
      "size": 199
     }
    ],
@@ -417258,7 +417258,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -417281,7 +417281,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -417352,7 +417352,7 @@
    "functions": [
     {
      "address": "0x00d36820",
-     "symbol": "?FUN_00d36820@FUN_00d36820_cls@@QAEXH@Z",
+     "symbol": "?FUN_00d36820@FUN_00d36820_cls@@QAEXPAX@Z",
      "size": 42
     },
     {
@@ -417362,7 +417362,7 @@
     },
     {
      "address": "0x00d36870",
-     "symbol": "?FUN_00d36870@Owner@@QAEXMMH@Z",
+     "symbol": "?FUN_00d36870@Owner@@QAEXMMPAPAX@Z",
      "size": 38
     },
     {
@@ -417403,7 +417403,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/compoundagent/list/hkplistagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/compoundagent/list/hkplistagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -417415,7 +417415,7 @@
    "functions": [
     {
      "address": "0x00d369a0",
-     "symbol": "?FUN_00d369a0@S00d369a0_ListAgent@@QAEXPAUS00d369a0_Body@@0PAUS00d369a0_Config@@H@Z",
+     "symbol": "?FUN_00d369a0@S00d369a0_ListAgent@@QAEXPAUS00d369a0_Body@@0PAUS00d369a0_Config@@PAX@Z",
      "size": 352
     }
    ],
@@ -417463,12 +417463,12 @@
     },
     {
      "address": "0x00d437a0",
-     "symbol": "?FUN_00d437a0@CollectionProcessAgent@@QAEXPAUShapeArg@@III@Z",
+     "symbol": "?FUN_00d437a0@CollectionProcessAgent@@QAEXPAUShapeArg@@PAX11@Z",
      "size": 223
     },
     {
      "address": "0x00d43880",
-     "symbol": "?FUN_00d43880@FUN_00d43880_cls@@QAEXPAUShapeHolder@@KKK@Z",
+     "symbol": "?FUN_00d43880@FUN_00d43880_cls@@QAEXPAUShapeHolder@@PAX11@Z",
      "size": 223
     },
     {
@@ -417478,7 +417478,7 @@
     },
     {
      "address": "0x00d43aa0",
-     "symbol": "?FUN_00d43aa0@Agent@@QAEXPAUHolder@@HHHH@Z",
+     "symbol": "?FUN_00d43aa0@Agent@@QAEXPAUHolder@@PAX111@Z",
      "size": 227
     },
     {
@@ -417594,7 +417594,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -417633,7 +417633,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -417722,7 +417722,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -417791,12 +417791,12 @@
     },
     {
      "address": "0x00d39980",
-     "symbol": "?CreateAllocatedObject@@YAPAUFUN_00d39980_cls@@HHHH@Z",
+     "symbol": "?CreateAllocatedObject@@YAPAUFUN_00d39980_cls@@PBX00PAX@Z",
      "size": 104
     },
     {
      "address": "0x00d399f0",
-     "symbol": "?TransformAndDispatch@@YAXPAD00PAXHH@Z",
+     "symbol": "?TransformAndDispatch@@YAXPBUhkpCdBody@@0PBUCollisionInput@@PAXHPAUContactRecord@@@Z",
      "size": 506
     },
     {
@@ -417831,7 +417831,7 @@
     },
     {
      "address": "0x00d3ac80",
-     "symbol": "?FUN_00d3ac80@@YAXIIPBUMotionPacket@@II@Z",
+     "symbol": "?FUN_00d3ac80@@YAXPBX0PBUMotionPacket@@PAX2@Z",
      "size": 226
     },
     {
@@ -417856,7 +417856,7 @@
     },
     {
      "address": "0x00d3b260",
-     "symbol": "?FUN_00d3b260@Agent_d3b260@@QAEXHHHPAUBuffer_d3b260@@@Z",
+     "symbol": "?FUN_00d3b260@Agent_d3b260@@QAEXPBX00PAUBuffer_d3b260@@@Z",
      "size": 285
     }
    ],
@@ -417907,7 +417907,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -417942,7 +417942,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -417998,12 +417998,12 @@
     },
     {
      "address": "0x00dabed0",
-     "symbol": "?SetValueIfExpected@FUN_00dabed0_cls@@QAEXMMH@Z",
+     "symbol": "?SetValueIfExpected@FUN_00dabed0_cls@@QAEXMMPBX@Z",
      "size": 55
     },
     {
      "address": "0x00dabf10",
-     "symbol": "?FUN_00dabf10@FUN_00dabf10_cls@@QAEPAU1@PAUGskNode@@0H@Z",
+     "symbol": "?FUN_00dabf10@FUN_00dabf10_cls@@QAEPAU1@PAUGskNode@@0PAX@Z",
      "size": 257
     },
     {
@@ -418062,7 +418062,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418115,7 +418115,7 @@
     },
     {
      "address": "0x00dacb60",
-     "symbol": "?AddPotential@FUN_00dacb60_class@@QAEXG@Z",
+     "symbol": "?AddPotential@hkpGskfAgent@@QAEXG@Z",
      "size": 54
     },
     {
@@ -418130,7 +418130,7 @@
     },
     {
      "address": "0x00dacc00",
-     "symbol": "?FUN_00dacc00@@YAPAUFUN_00dabf10@@HHHH@Z",
+     "symbol": "?FUN_00dacc00@@YAPAUhkpGskBaseAgent@@PAUGskNode@@0PBXPAX@Z",
      "size": 97
     },
     {
@@ -418145,7 +418145,7 @@
     },
     {
      "address": "0x00daccd0",
-     "symbol": "?FUN_00daccd0@Drecv@@QAEXPAUDsrc@@00H@Z",
+     "symbol": "?FUN_00daccd0@Drecv@@QAEXPAUDsrc@@00PAX@Z",
      "size": 114
     }
    ],
@@ -418170,7 +418170,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkpgskfagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418219,7 +418219,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418269,12 +418269,12 @@
     },
     {
      "address": "0x00d3c400",
-     "symbol": "?FUN_00d3c400@@YAXHHHH@Z",
+     "symbol": "?FUN_00d3c400@@YAXPBX00PAX@Z",
      "size": 58
     },
     {
      "address": "0x00d3c590",
-     "symbol": "?ForwardToD3C440@@YGXHHHH@Z",
+     "symbol": "?ForwardToD3C440@@YAXPBX00PAX@Z",
      "size": 31
     },
     {
@@ -418289,22 +418289,22 @@
     },
     {
      "address": "0x00d3cfc0",
-     "symbol": "?FUN_00d3cfc0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d3cfc0@@YAXPBX00PAX@Z",
      "size": 52
     },
     {
      "address": "0x00d3d000",
-     "symbol": "?FUN_00d3d000@CpuObject@@QAEXPAX0II@Z",
+     "symbol": "?FUN_00d3d000@CpuObject@@QAEXPAX0PBX0@Z",
      "size": 59
     },
     {
      "address": "0x00d3d040",
-     "symbol": "?FlipAndDispatchCollector@@YAXPAX0HH@Z",
+     "symbol": "?FlipAndDispatchCollector@@YAXPAX0PBX0@Z",
      "size": 57
     },
     {
      "address": "0x00d3d080",
-     "symbol": "?FUN_00d3d080@Agent@@QAEXHHHPAUSimplex@@@Z",
+     "symbol": "?FUN_00d3d080@Agent@@QAEXPBX00PAUSimplex@@@Z",
      "size": 285
     }
    ],
@@ -418333,7 +418333,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -418345,7 +418345,7 @@
    "functions": [
     {
      "address": "0x00d3c440",
-     "symbol": "?FUN_00d3c440@@YAXPBUS_00d3c440_Body@@0HPAUS_00d3c440_Collector@@@Z",
+     "symbol": "?FUN_00d3c440@@YAXPBUS_00d3c440_Body@@0PBXPAUS_00d3c440_Collector@@@Z",
      "size": 326
     }
    ],
@@ -418360,7 +418360,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418372,7 +418372,7 @@
    "functions": [
     {
      "address": "0x00d3c5b0",
-     "symbol": "?FUN_00d3c5b0@AgentBase@@QAEXHHHPAUSimplex@@@Z",
+     "symbol": "?FUN_00d3c5b0@AgentBase@@QAEXPBX00PAUSimplex@@@Z",
      "size": 853
     },
     {
@@ -418427,7 +418427,7 @@
     },
     {
      "address": "0x00d3e2f0",
-     "symbol": "?FUN_00d3e2f0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d3e2f0@@YAXPBX00PAX@Z",
      "size": 58
     },
     {
@@ -418437,7 +418437,7 @@
     },
     {
      "address": "0x00d3e510",
-     "symbol": "?FUN_00d3e510@@YGXHHHH@Z",
+     "symbol": "?FUN_00d3e510@@YAXPBX00PAX@Z",
      "size": 31
     },
     {
@@ -418447,12 +418447,12 @@
     },
     {
      "address": "0x00d3f000",
-     "symbol": "?FUN_00d3f000@CollisionDispatcher@@QAEXPAX0RAXI@Z",
+     "symbol": "?FUN_00d3f000@CollisionDispatcher@@QAEXPAX0RAX0@Z",
      "size": 54
     },
     {
      "address": "0x00d3f040",
-     "symbol": "?FUN_00d3f040@@YAXIIII@Z",
+     "symbol": "?FUN_00d3f040@@YAXPBX00PAX@Z",
      "size": 52
     }
    ],
@@ -418478,7 +418478,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418516,7 +418516,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418528,7 +418528,7 @@
    "functions": [
     {
      "address": "0x00d3e850",
-     "symbol": "?FUN_00d3e850@@YGXABUhkpCdBody@@0ABUCollisionAgentContext@@AAUhkpCdPointCollector@@@Z",
+     "symbol": "?FUN_00d3e850@fnv_00d3e850@@YAXABUhkpCdBody@1@0ABUCollisionAgentContext@1@AAUhkpCdPointCollector@1@@Z",
      "size": 906
     }
    ],
@@ -418546,7 +418546,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418603,7 +418603,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -418627,7 +418627,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418653,7 +418653,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418708,37 +418708,37 @@
     },
     {
      "address": "0x00d3d2a0",
-     "symbol": "?FUN_00d3d2a0@SphereTriAgent@@QAEXPAUBodyHolderB@@0HPAUSink@@@Z",
+     "symbol": "?FUN_00d3d2a0@SphereTriAgent@@QAEXPAUBodyHolderB@@0PBXPAUSink@@@Z",
      "size": 307
     },
     {
      "address": "0x00d3d3e0",
-     "symbol": "?FUN_00d3d3e0@@YAXUS_00d3d3e0_P1P@@US_00d3d3e0_P2P@@HUS_00d3d3e0_P3P@@@Z",
+     "symbol": "?FUN_00d3d3e0@@YAXUS_00d3d3e0_P1P@@US_00d3d3e0_P2P@@PBXUS_00d3d3e0_P3P@@@Z",
      "size": 315
     },
     {
      "address": "0x00d3dd10",
-     "symbol": "?FUN_00d3dd10@D3DD10Object@@QAEXIIII@Z",
+     "symbol": "?FUN_00d3dd10@D3DD10Object@@QAEXPAX0PBX0@Z",
      "size": 54
     },
     {
      "address": "0x00d3dd50",
-     "symbol": "?QueryD3DCollector@@YAXHHHH@Z",
+     "symbol": "?QueryD3DCollector@@YAXPAX0PBX0@Z",
      "size": 52
     },
     {
      "address": "0x00d3e0d0",
-     "symbol": "?FUN_00d3e0d0@CpuObject@fnv_00d3e0d0@@QAEXPAX0II@Z",
+     "symbol": "?FUN_00d3e0d0@CpuObject@fnv_00d3e0d0@@QAEXPAX000@Z",
      "size": 59
     },
     {
      "address": "0x00d3e110",
-     "symbol": "?FUN_00d3e110@@YAXHHHH@Z",
+     "symbol": "?FUN_00d3e110@@YAXPBX00PAX@Z",
      "size": 57
     },
     {
      "address": "0x00d3e150",
-     "symbol": "?FUN_00d3e150@ParticleSystemOps@@QAEXHHHPAUParticleSystemState@@@Z",
+     "symbol": "?FUN_00d3e150@ParticleSystemOps@@QAEXPBX00PAUParticleSystemState@@@Z",
      "size": 285
     }
    ],
@@ -418771,7 +418771,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -418783,7 +418783,7 @@
    "functions": [
     {
      "address": "0x00d3d520",
-     "symbol": "?FUN_00d3d520@@YAHPAUS_00d3d520_A@@PAUS_00d3d520_Body@@PAUS_00d3d520_Info@@HPAUS_00d3d520_Out@@@Z",
+     "symbol": "?FUN_00d3d520@@YAHPAUS_00d3d520_A@@PAUS_00d3d520_Body@@PAUS_00d3d520_Info@@PBXPAUS_00d3d520_Out@@@Z",
      "size": 389
     },
     {
@@ -418820,37 +418820,37 @@
    "functions": [
     {
      "address": "0x00d33740",
-     "symbol": "?FUN_00d33740@FUN_00d33740_cls@@QAEXHH@Z",
+     "symbol": "?FUN_00d33740@hkpConvexListAgent@@QAEXPAUConvexListAgentInput@@H@Z",
      "size": 33
     },
     {
      "address": "0x00d33770",
-     "symbol": "?FUN_00d33770@hkpConvexListAgent@@QAEXH@Z",
+     "symbol": "?FUN_00d33770@hkpConvexListAgent@@QAEXPBX@Z",
      "size": 34
     },
     {
      "address": "0x00d337a0",
-     "symbol": "?SetValue@hkObjD337@@QAEXMMH@Z",
+     "symbol": "?SetValue@hkObjD337@@QAEXMMPBX@Z",
      "size": 74
     },
     {
      "address": "0x00d337f0",
-     "symbol": "?FUN_00d337f0@FUN_00d337f0_self@@QAEXH@Z",
+     "symbol": "?FUN_00d337f0@hkpConvexListAgent@@QAEXH@Z",
      "size": 17
     },
     {
      "address": "0x00d33810",
-     "symbol": "?FUN_00d33810@FUN_00d33810_cls@@QAEXH@Z",
+     "symbol": "?FUN_00d33810@hkpConvexListAgent@@QAEXH@Z",
      "size": 17
     },
     {
      "address": "0x00d33830",
-     "symbol": "?FUN_00d33830@FUN_00d33830_cls@fnv_00d33830@@QAEXH@Z",
+     "symbol": "?FUN_00d33830@hkpConvexListAgent@@QAEXH@Z",
      "size": 17
     },
     {
      "address": "0x00d33850",
-     "symbol": "?FUN_00d33850@FUN_00d33850_cls@@QAEXH@Z",
+     "symbol": "?FUN_00d33850@hkpConvexListAgent@@QAEXPAUS_00da40e0_ConstraintOwner@@@Z",
      "size": 50
     },
     {
@@ -418865,7 +418865,7 @@
     },
     {
      "address": "0x00d33940",
-     "symbol": "?FUN_00d33940@S00d33940_Obj@@QAEPAU1@PAH00PAX@Z",
+     "symbol": "?FUN_00d33940@hkpConvexListAgent@@QAEPAU1@PBUhkpCdBodyD33D@@0PBUhkpCollisionInputD33D@@PAX@Z",
      "size": 137
     },
     {
@@ -418875,7 +418875,7 @@
     },
     {
      "address": "0x00d33b70",
-     "symbol": "?FUN_00d33b70@FUN_00d33b70_cls@@QAEXHHHH@Z",
+     "symbol": "?FUN_00d33b70@FUN_00d33b70_cls@@QAEXPBX00PAX@Z",
      "size": 31
     },
     {
@@ -418900,17 +418900,17 @@
     },
     {
      "address": "0x00d33dd0",
-     "symbol": "?CreateConvexListAgent@@YAPAVhkpCollisionAgentD33D@@ABUhkpCdBodyD33D@@0ABUhkpCollisionInputD33D@@PAUhkpContactMgrD33D@@@Z",
+     "symbol": "?CreateConvexListAgent@@YAPAXABUhkpCdBodyD33D@@0ABUhkpCollisionInputD33D@@PAUhkpContactMgrD33D@@@Z",
      "size": 274
     },
     {
      "address": "0x00d33ef0",
-     "symbol": "?FUN_00d33ef0@hkObjD33E@@QAEXPAX@Z",
+     "symbol": "?FUN_00d33ef0@hkpConvexListAgent@@QAEXPAX@Z",
      "size": 80
     },
     {
      "address": "0x00d343f0",
-     "symbol": "?FUN_00d343f0@fnv_00d343f0@@YAPAVhkpCollisionAgentD343@1@ABUhkpCdBodyD343@1@0ABUhkpCollisionInputD343@1@PAUhkpContactMgrD343@1@@Z",
+     "symbol": "?FUN_00d343f0@fnv_00d343f0@@YAPAXABUhkpCdBodyD343@1@0ABUhkpCollisionInputD343@1@PAUhkpContactMgrD343@1@@Z",
      "size": 288
     },
     {
@@ -418930,7 +418930,7 @@
     },
     {
      "address": "0x00d34790",
-     "symbol": "?FUN_00d34790@@YAXPAX00H@Z",
+     "symbol": "?FUN_00d34790@@YAXPAX000@Z",
      "size": 52
     },
     {
@@ -419011,7 +419011,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -419067,7 +419067,7 @@
     },
     {
      "address": "0x00d443e0",
-     "symbol": "?FUN_00d443e0@S00d443e0_S_Owner@@QAEXPAUS00d443e0_S_Wrap@@HHH@Z",
+     "symbol": "?FUN_00d443e0@S00d443e0_S_Owner@@QAEXPAUS00d443e0_S_Wrap@@PAX11@Z",
      "size": 259
     },
     {
@@ -419107,12 +419107,12 @@
     },
     {
      "address": "0x00d44cc0",
-     "symbol": "?FUN_00d44cc0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d44cc0@@YAXPAX000@Z",
      "size": 54
     },
     {
      "address": "0x00d44d00",
-     "symbol": "?FUN_00d44d00@@YAPAXHHHH@Z",
+     "symbol": "?FUN_00d44d00@@YAPAXPAX000@Z",
      "size": 66
     },
     {
@@ -419132,7 +419132,7 @@
     },
     {
      "address": "0x00d44e60",
-     "symbol": "?FUN_00d44e60@@YAXHHPBUInput_d2e9@@HH@Z",
+     "symbol": "?FUN_00d44e60@@YAXPBVhkpCdBody@@0PBUInput_d2e9@@PAX2@Z",
      "size": 226
     },
     {
@@ -419147,7 +419147,7 @@
     },
     {
      "address": "0x00d44fd0",
-     "symbol": "?FUN_00d44fd0@S00d44fd0_Agent@@QAEXHHHPAE@Z",
+     "symbol": "?FUN_00d44fd0@S00d44fd0_Agent@@QAEXPAX00PAE@Z",
      "size": 285
     },
     {
@@ -419157,7 +419157,7 @@
     },
     {
      "address": "0x00d45160",
-     "symbol": "?SpawnWithCollectors@S_00d45160_Owner@@QAEXIIPBUS_00d45160_Input@@II@Z",
+     "symbol": "?SpawnWithCollectors@S_00d45160_Owner@@QAEXPBVhkpCdBody@@0PBUS_00d45160_Input@@PAX2@Z",
      "size": 199
     }
    ],
@@ -419236,27 +419236,27 @@
     },
     {
      "address": "0x00d38a80",
-     "symbol": "?FUN_00d38a80@Operation@@QAEXIIII@Z",
+     "symbol": "?FUN_00d38a80@Operation@@QAEXPBX00PAX@Z",
      "size": 54
     },
     {
      "address": "0x00d38ac0",
-     "symbol": "?FUN_00d38ac0@@YAXPAX00H@Z",
+     "symbol": "?FUN_00d38ac0@@YAXPAX000@Z",
      "size": 52
     },
     {
      "address": "0x00d38e90",
-     "symbol": "?FUN_00d38e90@CpuObject@@QAEXPAX0II@Z",
+     "symbol": "?FUN_00d38e90@CpuObject@@QAEXPAX0PBX0@Z",
      "size": 59
     },
     {
      "address": "0x00d38ed0",
-     "symbol": "?FUN_00d38ed0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d38ed0@@YAXPBX00PAX@Z",
      "size": 57
     },
     {
      "address": "0x00d38f10",
-     "symbol": "?FUN_00d38f10@Agent@@QAEXHHHPAUSimplex@@@Z",
+     "symbol": "?FUN_00d38f10@Agent@@QAEXPBX00PAUSimplex@@@Z",
      "size": 285
     }
    ],
@@ -419279,7 +419279,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -419328,7 +419328,7 @@
     },
     {
      "address": "0x00d317d0",
-     "symbol": "?FUN_00d317d0@@YAXHHHPAX@Z",
+     "symbol": "?FUN_00d317d0@@YAXPBX00PAX@Z",
      "size": 524
     },
     {
@@ -419338,7 +419338,7 @@
     },
     {
      "address": "0x00d32060",
-     "symbol": "?Init@FUN_00d32060_Class@@QAEPAU1@ABUSourceRef@@HHH@Z",
+     "symbol": "?Init@FUN_00d32060_Class@@QAEPAU1@ABUSourceRef@@PBX1PAX@Z",
      "size": 164
     },
     {
@@ -419358,7 +419358,7 @@
     },
     {
      "address": "0x00d32190",
-     "symbol": "?FUN_00d32190@fnv_00d32190@@YAPAUFUN_00d32190_cls@1@HHHH@Z",
+     "symbol": "?FUN_00d32190@fnv_00d32190@@YAPAUFUN_00d32190_cls@1@PBX00PAX@Z",
      "size": 66
     },
     {
@@ -419368,17 +419368,17 @@
     },
     {
      "address": "0x00d32370",
-     "symbol": "?FUN_00d32370@@YAXHHHH@Z",
+     "symbol": "?FUN_00d32370@@YAXPBX00PAX@Z",
      "size": 52
     },
     {
      "address": "0x00d323b0",
-     "symbol": "?FUN_00d323b0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d323b0@@YAXPBX00PAX@Z",
      "size": 57
     },
     {
      "address": "0x00d323f0",
-     "symbol": "?FUN_00d323f0@fnv_00d323f0@@YAXHHPBUCopyPacket@1@HH@Z",
+     "symbol": "?FUN_00d323f0@fnv_00d323f0@@YAXPAX0PBUCopyPacket@1@00@Z",
      "size": 226
     }
    ],
@@ -419421,7 +419421,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -419459,7 +419459,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -419471,7 +419471,7 @@
    "functions": [
     {
      "address": "0x00d319e0",
-     "symbol": "?FUN_00d319e0@@YAXHHHPAUD323B0CollectorBase@@@Z",
+     "symbol": "?FUN_00d319e0@@YAXPBX00PAUD323B0CollectorBase@@@Z",
      "size": 848
     },
     {
@@ -419542,7 +419542,7 @@
     },
     {
      "address": "0x00d453d0",
-     "symbol": "?Construct@FUN_00d453d0_cls@@QAEPAV1@PAUFUN_00d452a0@@PAX1H@Z",
+     "symbol": "?Construct@FUN_00d453d0_cls@@QAEPAV1@PAUFUN_00d452a0@@PAX11@Z",
      "size": 161
     },
     {
@@ -419557,7 +419557,7 @@
     },
     {
      "address": "0x00d45660",
-     "symbol": "?CheckBvShape@Agent228@@QAEXPAUBvA@@PAUBvB@@PAUBvC@@KK@Z",
+     "symbol": "?CheckBvShape@Agent228@@QAEXPAUBvA@@PAUBvB@@PAUBvC@@PAX3@Z",
      "size": 404
     },
     {
@@ -419587,7 +419587,7 @@
     },
     {
      "address": "0x00d45f30",
-     "symbol": "?FUN_00d45f30@fnv_00d45f30@@YAPAXHHHH@Z",
+     "symbol": "?FUN_00d45f30@fnv_00d45f30@@YAPAXPAX000@Z",
      "size": 66
     },
     {
@@ -419597,7 +419597,7 @@
     },
     {
      "address": "0x00d46010",
-     "symbol": "?FUN_00d46010@@YAXHHHH@Z",
+     "symbol": "?FUN_00d46010@@YAXPBX00PAX@Z",
      "size": 52
     },
     {
@@ -419607,7 +419607,7 @@
     },
     {
      "address": "0x00d46090",
-     "symbol": "?FUN_00d46090@@YAXHHPBUInput_d2e9@@HH@Z",
+     "symbol": "?FUN_00d46090@@YAXPAX0PBUInput_d2e9@@00@Z",
      "size": 226
     },
     {
@@ -419617,7 +419617,7 @@
     },
     {
      "address": "0x00d461a0",
-     "symbol": "?DispatchWithArgs@FUN_00d461a0_Owner@@UAEXHHHH@Z",
+     "symbol": "?DispatchWithArgs@FUN_00d461a0_Owner@@UAEXPBX00PAX@Z",
      "size": 54
     },
     {
@@ -419627,12 +419627,12 @@
     },
     {
      "address": "0x00d46220",
-     "symbol": "?FUN_00d46220@Agent@@QAEXHHHPAUSimplex@@@Z",
+     "symbol": "?FUN_00d46220@Agent@@QAEXPAX00PAUSimplex@@@Z",
      "size": 285
     },
     {
      "address": "0x00d46340",
-     "symbol": "?FUN_00d46340@Owner@@QAEXHHPBUBlock@@HH@Z",
+     "symbol": "?FUN_00d46340@Owner@@QAEXPAX0PBUBlock@@00@Z",
      "size": 199
     }
    ],
@@ -419706,7 +419706,7 @@
     },
     {
      "address": "0x00d37690",
-     "symbol": "?ForwardToFunction@FUN_00d37690_Class@@QAEXHHHH@Z",
+     "symbol": "?ForwardToFunction@FUN_00d37690_Class@@QAEXPAX0PBX0@Z",
      "size": 31
     },
     {
@@ -419716,17 +419716,17 @@
     },
     {
      "address": "0x00d37740",
-     "symbol": "?FUN_00d37740@fnv_00d37740@@YAXHHHH@Z",
+     "symbol": "?FUN_00d37740@fnv_00d37740@@YAXPAX000@Z",
      "size": 54
     },
     {
      "address": "0x00d37780",
-     "symbol": "?FUN_00d37780_impl@fnv_00d37780@@YAPAXHHHH@Z",
+     "symbol": "?FUN_00d37780_impl@fnv_00d37780@@YAPAXPAX000@Z",
      "size": 66
     },
     {
      "address": "0x00d377d0",
-     "symbol": "?FUN_00d377d0@@YAXH@Z",
+     "symbol": "?FUN_00d377d0@@YAXPAX@Z",
      "size": 129
     },
     {
@@ -419736,7 +419736,7 @@
     },
     {
      "address": "0x00d378a0",
-     "symbol": "?FUN_00d378a0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d378a0@@YAXPAX000@Z",
      "size": 57
     }
    ],
@@ -419765,7 +419765,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -419777,7 +419777,7 @@
    "functions": [
     {
      "address": "0x00d374f0",
-     "symbol": "?FUN_00d374f0@@YAXABUS_00d374f0_CdBody@@0HPAUS_00d374f0_Collector@@@Z",
+     "symbol": "?FUN_00d374f0@@YAXABUS_00d374f0_CdBody@@0PBXPAUS_00d374f0_Collector@@@Z",
      "size": 408
     },
     {
@@ -419801,7 +419801,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -419829,7 +419829,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -419956,7 +419956,7 @@
     },
     {
      "address": "0x00d42a70",
-     "symbol": "?BuildHeaderAndDispatchHandler@@YAPAUHeader@@PAUInputA@@PAUInputB@@PAUInputC@@H@Z",
+     "symbol": "?BuildHeaderAndDispatchHandler@@YAPAUHeader@@PAUInputA@@PAUInputB@@PAUInputC@@PAX@Z",
      "size": 223
     },
     {
@@ -419966,7 +419966,7 @@
     },
     {
      "address": "0x00d42cf0",
-     "symbol": "?ProcessSource@Caster@@QAEHPAUSource@@HHHH@Z",
+     "symbol": "?ProcessSource@Caster@@QAEHPAVhkpCdBody@@PBX1PAX2@Z",
      "size": 103
     },
     {
@@ -419986,7 +419986,7 @@
     },
     {
      "address": "0x00d42ed0",
-     "symbol": "?FUN_00d42ed0@Owner@fnv_00d42ed0@@QAEXPAUInput@2@HHH@Z",
+     "symbol": "?FUN_00d42ed0@Owner@fnv_00d42ed0@@QAEXPAUInput@2@PBX1PAX@Z",
      "size": 99
     },
     {
@@ -419996,7 +419996,7 @@
     },
     {
      "address": "0x00d42fc0",
-     "symbol": "?FUN_00d42fc0@Owner@fnv_00d42fc0@@QAEHPAUInput@2@HHH@Z",
+     "symbol": "?FUN_00d42fc0@Owner@fnv_00d42fc0@@QAEHPAUInput@2@PBX1PAX@Z",
      "size": 99
     },
     {
@@ -420016,27 +420016,27 @@
     },
     {
      "address": "0x00d432f0",
-     "symbol": "?RunCollector@@YAXHHHH@Z",
+     "symbol": "?RunCollector@@YAXPBX00PAX@Z",
      "size": 52
     },
     {
      "address": "0x00d43330",
-     "symbol": "?RunSymmetricAgentFlipCollector@@YAXPAX0HH@Z",
+     "symbol": "?RunSymmetricAgentFlipCollector@@YAXPAX0PBX0@Z",
      "size": 57
     },
     {
      "address": "0x00d43370",
-     "symbol": "?FUN_00d43370@@YAXHHPBUInput_d2e9@@HH@Z",
+     "symbol": "?FUN_00d43370@@YAXPBX0PBUInput_d2e9@@PAX2@Z",
      "size": 226
     },
     {
      "address": "0x00d43460",
-     "symbol": "?FUN_00d43460@TtShapeCollection@@QAEXHHHH@Z",
+     "symbol": "?FUN_00d43460@TtShapeCollection@@QAEXPBXPAUInput@fnv_00d42ed0@@0PAX@Z",
      "size": 54
     },
     {
      "address": "0x00d434a0",
-     "symbol": "?FUN_00d434a0@Wrapper@@QAEXPAX0II@Z",
+     "symbol": "?FUN_00d434a0@Wrapper@@QAEXPAX0PBX0@Z",
      "size": 59
     },
     {
@@ -420046,12 +420046,12 @@
     },
     {
      "address": "0x00d43600",
-     "symbol": "?FUN_00d43600@SearchObject@@QAEHIIII@Z",
+     "symbol": "?FUN_00d43600@SearchObject@@QAEHPBXPAUInput@fnv_00d42fc0@@0PAX@Z",
      "size": 28
     },
     {
      "address": "0x00d43620",
-     "symbol": "?FUN_00d43620@Caster_d43620@@QAEHHHPBUInput_d43620@@HH@Z",
+     "symbol": "?FUN_00d43620@Caster_d43620@@QAEHPBXPAVhkpCdBody@@PBUInput_d43620@@PAX3@Z",
      "size": 199
     }
    ],
@@ -420107,7 +420107,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -420131,7 +420131,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -420235,12 +420235,12 @@
     },
     {
      "address": "0x00d2d430",
-     "symbol": "?FUN_00d2d430@@YAXHHHPAUAgent@@@Z",
+     "symbol": "?FUN_00d2d430@@YAXPAXPAUHdr@@PAPADPAUAgent@@@Z",
      "size": 48
     },
     {
      "address": "0x00d2d480",
-     "symbol": "?FUN_00d2d480@@YAXPAX0MMH@Z",
+     "symbol": "?FUN_00d2d480@@YAXPAX0MMPAPAX@Z",
      "size": 37
     },
     {
@@ -420255,12 +420255,12 @@
     },
     {
      "address": "0x00d2d890",
-     "symbol": "?FUN_00d2d890@@YAPADPADH0HH@Z",
+     "symbol": "?FUN_00d2d890@@YAPADPADH0HPAX@Z",
      "size": 306
     },
     {
      "address": "0x00d2d9d0",
-     "symbol": "?FUN_00d2d9d0@@YAXPAX@Z",
+     "symbol": "?FUN_00d2d9d0@@YAXPAUAgent3FuncsD2D9@@@Z",
      "size": 74
     },
     {
@@ -420303,7 +420303,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -420410,7 +420410,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -420474,22 +420474,22 @@
    "functions": [
     {
      "address": "0x00d32ae0",
-     "symbol": "?FUN_00d32ae0@@YAXHHH@Z",
+     "symbol": "?FUN_00d32ae0@@YAXPAXPAUhkpShapeD32@@PAPADPAUFUN_00d32ae0_agent@@@Z",
      "size": 61
     },
     {
      "address": "0x00d32b20",
-     "symbol": "?CallIfNotFlagged@@YAXHHH@Z",
+     "symbol": "?CallIfNotFlagged@@YAXPAXPAUhkpShapeD32@@0@Z",
      "size": 28
     },
     {
      "address": "0x00d32b40",
-     "symbol": "?FUN_00d32b40@@YAXHHH@Z",
+     "symbol": "?FUN_00d32b40@@YAXPAXPAUhkpShapeD32@@MMPAPAX@Z",
      "size": 46
     },
     {
      "address": "0x00d32b70",
-     "symbol": "?SetFlagAndCall@@YAXHHH@Z",
+     "symbol": "?SetFlagAndCall@@YAXPAUInputData@@PAEPAUhkpShapeD32@@@Z",
      "size": 38
     },
     {
@@ -420499,22 +420499,22 @@
     },
     {
      "address": "0x00d32bd0",
-     "symbol": "?FUN_00d32bd0@@YAXHHH@Z",
+     "symbol": "?FUN_00d32bd0@@YAXPAX00@Z",
      "size": 5
     },
     {
      "address": "0x00d32be0",
-     "symbol": "?FUN_00d32be0@@YAXHHH@Z",
+     "symbol": "?FUN_00d32be0@@YAXPAXPAUhkpShapeD32@@0@Z",
      "size": 20
     },
     {
      "address": "0x00d32c00",
-     "symbol": "?FUN_00d32c00@@YAXHHH@Z",
+     "symbol": "?FUN_00d32c00@@YAXPAXPAUhkpShapeD32@@0@Z",
      "size": 20
     },
     {
      "address": "0x00d32c20",
-     "symbol": "?FUN_00d32c20@@YAXHHH@Z",
+     "symbol": "?FUN_00d32c20@@YAXHPAUhkpShapeD32@@H@Z",
      "size": 20
     },
     {
@@ -420524,17 +420524,17 @@
     },
     {
      "address": "0x00d32ca0",
-     "symbol": "?FUN_00d32ca0@@YAXHHHH@Z",
+     "symbol": "?FUN_00d32ca0@@YAXPAXPBX00@Z",
      "size": 43
     },
     {
      "address": "0x00d32cd0",
-     "symbol": "?FUN_00d32cd0@fnv_00d32cd0@@YAPAXPAUContext@1@HPAUAgent@1@PAUCollisionResult@1@PAUOutput@1@@Z",
+     "symbol": "?FUN_00d32cd0@fnv_00d32cd0@@YAPAXPAUContext@1@PAEPAUAgent@1@PAUCollisionResult@1@PAUOutput@1@@Z",
      "size": 1135
     },
     {
      "address": "0x00d33140",
-     "symbol": "?FUN_00d33140@@YAXH@Z",
+     "symbol": "?FUN_00d33140@@YAXPAUhkpAgent3FuncsD331@@@Z",
      "size": 92
     },
     {
@@ -420667,17 +420667,17 @@
    "functions": [
     {
      "address": "0x00da6de0",
-     "symbol": "?FUN_00da6de0@@YAIHHHPAUhkListAgent3@@@Z",
+     "symbol": "?FUN_00da6de0@@YAIPAXPAUHdr@@PAPADPAUhkListAgent3@@@Z",
      "size": 48
     },
     {
      "address": "0x00da6e30",
-     "symbol": "?FUN_00da6e30@@YAXHHMMH@Z",
+     "symbol": "?FUN_00da6e30@@YAXPAXPAPAPAUDa35Stream@@MMPAPAX@Z",
      "size": 37
     },
     {
      "address": "0x00da6e60",
-     "symbol": "?FUN_00da6e60@@YAXHHHPAUDA6E60Collidable@@HHH@Z",
+     "symbol": "?FUN_00da6e60@@YAXPAX00PAUDA6E60Collidable@@000@Z",
      "size": 80
     }
    ],
@@ -420736,12 +420736,12 @@
     },
     {
      "address": "0x00da44d0",
-     "symbol": "?FUN_00da44d0@@YAXHHPAX@Z",
+     "symbol": "?FUN_00da44d0@@YAXPAUBlockPoolArray@@PBXPAX@Z",
      "size": 1032
     },
     {
      "address": "0x00da48e0",
-     "symbol": "?FUN_00da48e0@@YAXHH@Z",
+     "symbol": "?FUN_00da48e0@@YAXPAXPBX@Z",
      "size": 24
     }
    ],
@@ -420766,7 +420766,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -420836,7 +420836,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -420858,7 +420858,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -421019,7 +421019,7 @@
     },
     {
      "address": "0x00cfed90",
-     "symbol": "?FUN_00cfed90@@YAXPAUItemStack@@HH@Z",
+     "symbol": "?FUN_00cfed90@@YAXPAUItemStack@@PAUhkpCollisionDispatcherCFEA@@PAX@Z",
      "size": 59
     },
     {
@@ -421051,7 +421051,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -421073,7 +421073,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -421181,7 +421181,7 @@
     },
     {
      "address": "0x00d418b0",
-     "symbol": "?ForwardToTarget@@YAXHHHHH@Z",
+     "symbol": "?ForwardToTarget@@YAXPAX0000@Z",
      "size": 29
     },
     {
@@ -421221,7 +421221,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -421233,7 +421233,7 @@
    "functions": [
     {
      "address": "0x00d41930",
-     "symbol": "?FUN_00d41930@@YAXPAUInput_s@@HPAUhkpGskCache_s@@PAUOutput_s@@@Z",
+     "symbol": "?FUN_00d41930@@YAXPAUInput_s@@PBXPAUhkpGskCache_s@@PAUOutput_s@@@Z",
      "size": 256
     }
    ],
@@ -421270,7 +421270,7 @@
     },
     {
      "address": "0x00d40b90",
-     "symbol": "?ConvertPairFlags@@YAHPAUFNVPair@@HPAUFNVFlags@@@Z",
+     "symbol": "?ConvertPairFlags@@YAPAXPAUFNVPair@@PAEPAUFNVFlags@@@Z",
      "size": 71
     },
     {
@@ -421294,7 +421294,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -421373,7 +421373,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -421394,7 +421394,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -421488,7 +421488,7 @@
     },
     {
      "address": "0x00db0960",
-     "symbol": "?FUN_00db0960@BoxPointInsertion@@QAEHIIPBE@Z",
+     "symbol": "?FUN_00db0960@BoxPointInsertion@@QAEHPBX0PBE@Z",
      "size": 72
     },
     {
@@ -421594,7 +421594,7 @@
     },
     {
      "address": "0x00d119e0",
-     "symbol": "?ReportStatistics@S_00d119e0@@QAEXPAUhkStatisticsCollector@@PBX@Z",
+     "symbol": "?ReportStatistics@hkp3AxisSweep@@QAEXPAUhkStatisticsCollector@@PBX@Z",
      "size": 465
     },
     {
@@ -421619,7 +421619,7 @@
     },
     {
      "address": "0x00d11da0",
-     "symbol": "?InsertPair@FUN_00d11da0_cls@@QAEXIIGGPAG0@Z",
+     "symbol": "?InsertPair@FUN_00d11da0_cls@@QAEXPBXIGGPAG1@Z",
      "size": 223
     },
     {
@@ -421629,7 +421629,7 @@
     },
     {
      "address": "0x00d11fa0",
-     "symbol": "?FUN_00d11fa0@d11Sweep@@QAEXAAUd11Out@@@Z",
+     "symbol": "?FUN_00d11fa0@d11Sweep@@QAEXAIAUd11Out@@@Z",
      "size": 154
     },
     {
@@ -421639,7 +421639,7 @@
     },
     {
      "address": "0x00d138a0",
-     "symbol": "?CollectNodePairs@@YAXHPAUS_00d138a0_Node@@HPAUS_00d138a0_Array@@@Z",
+     "symbol": "?CollectNodePairs@@YAXPBXPAUS_00d138a0_Node@@HPAUS_00d138a0_Array@@@Z",
      "size": 175
     },
     {
@@ -421674,7 +421674,7 @@
     },
     {
      "address": "0x00d15f10",
-     "symbol": "?FUN_00d15f10@CacheOwner@@QAEXPAUItemList@@I@Z",
+     "symbol": "?FUN_00d15f10@CacheOwner@@QAEXPAUItemList@@PAX@Z",
      "size": 173
     },
     {
@@ -421689,7 +421689,7 @@
     },
     {
      "address": "0x00d182a0",
-     "symbol": "?FUN_00d182a0@@YAPAUSpawnedObject@@HHH@Z",
+     "symbol": "?FUN_00d182a0@@YAPAUSpawnedObject@@PBX0H@Z",
      "size": 52
     },
     {
@@ -421699,7 +421699,7 @@
     },
     {
      "address": "0x00d193e0",
-     "symbol": "?FUN_00d193e0@AssignedSweep@@QAEXPAURemovedHandleList@@H@Z",
+     "symbol": "?FUN_00d193e0@AssignedSweep@@QAEXPAURemovedHandleList@@PAX@Z",
      "size": 2349
     },
     {
@@ -421734,12 +421734,12 @@
     },
     {
      "address": "0x00d1a040",
-     "symbol": "?FUN_00d1a040@Container@fnv_00d1a040@@QAEXHPAPAH@Z",
+     "symbol": "?FUN_00d1a040@Container@fnv_00d1a040@@QAEXPADPAPAH@Z",
      "size": 145
     },
     {
      "address": "0x00d1a0e0",
-     "symbol": "?FUN_00d1a0e0@D1A0E0EntryArray@@QAEXHABUD1A0E0IntArray@@@Z",
+     "symbol": "?FUN_00d1a0e0@D1A0E0EntryArray@@QAEXPADABUD1A0E0IntArray@@@Z",
      "size": 145
     },
     {
@@ -421832,7 +421832,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -421879,7 +421879,7 @@
     },
     {
      "address": "0x00d12040",
-     "symbol": "?FUN_00d12040@Sweep8@@QAEXPAPAHIHII@Z",
+     "symbol": "?FUN_00d12040@Sweep8@@QAEXPAPAHPBDHRAX2@Z",
      "size": 2874
     },
     {
@@ -421904,7 +421904,7 @@
     },
     {
      "address": "0x00d18400",
-     "symbol": "?FUN_00d18400@Sweep15@@QAEXPAUIn1@@PAUIn2@@H@Z",
+     "symbol": "?FUN_00d18400@Sweep15@@QAEXPAUIn1@@PAUIn2@@PAX@Z",
      "size": 4050
     }
    ],
@@ -421942,7 +421942,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -421965,7 +421965,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -421991,7 +421991,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -422042,7 +422042,7 @@
     },
     {
      "address": "0x00d97070",
-     "symbol": "?FUN_00d97070@Owner@@QAEXPAX@Z",
+     "symbol": "?FUN_00d97070@Owner@@QAEXH@Z",
      "size": 74
     },
     {
@@ -422274,7 +422274,7 @@
     },
     {
      "address": "0x00cfc030",
-     "symbol": "?FUN_00cfc030@FUN_00cfc030_cls@@QAEPAU1@II@Z",
+     "symbol": "?FUN_00cfc030@FUN_00cfc030_cls@@QAEPAU1@PAX0@Z",
      "size": 260
     },
     {
@@ -422349,7 +422349,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/dispatch/hkpcollisiondispatcher_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/dispatch/hkpcollisiondispatcher.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -422439,7 +422439,7 @@
     },
     {
      "address": "0x00e488a0",
-     "symbol": "?CallGetValueAndDispatch@FUN_00e488a0_class@@QAEPAHPAHPAUFUN_00e488a0_data@@HPAUFUN_00e488a0_object@@H@Z",
+     "symbol": "?CallGetValueAndDispatch@FUN_00e488a0_class@@QAEPAUhkBoolRet@@PAU2@PAUFUN_00e488a0_data@@HPAUFUN_00e488a0_object@@H@Z",
      "size": 49
     },
     {
@@ -422469,7 +422469,7 @@
     },
     {
      "address": "0x00e48ab0",
-     "symbol": "?FUN_00e48ab0@FUN_00e48ab0_class@@QAEPAHPAHPAUFUN_00e48ab0_value@@1@Z",
+     "symbol": "?FUN_00e48ab0@FUN_00e48ab0_class@@QAEPAUhkBoolRet@@PAU2@PAUFUN_00e48ab0_value@@1@Z",
      "size": 36
     },
     {
@@ -422479,7 +422479,7 @@
     },
     {
      "address": "0x00e48b60",
-     "symbol": "?FUN_00e48b60@FUN_00e48b60_class@@QAEPAHPAHPAUFUN_00e48b60_arg1@@PAUFUN_00e48b60_arg2@@@Z",
+     "symbol": "?FUN_00e48b60@FUN_00e48b60_class@@QAEPAUhkBoolRet@@PAU2@PAUFUN_00e48b60_arg1@@PAUFUN_00e48b60_arg2@@@Z",
      "size": 36
     },
     {
@@ -422736,7 +422736,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/castutil/hkpworldlinearcaster_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/query/castutil/hkpworldlinearcaster.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -422748,7 +422748,7 @@
    "functions": [
     {
      "address": "0x00cfaed0",
-     "symbol": "?FUN_00cfaed0@S_00cfaed0_This@@QAEXPAUS_00cfaed0_Iface@@PAUS_00cfaed0_P2@@PAUS_00cfaed0_P3@@HPAUS_00cfaed0_P5@@HHHH@Z",
+     "symbol": "?FUN_00cfaed0@S_00cfaed0_This@@QAEXPAUS_00cfaed0_Iface@@PAUS_00cfaed0_P2@@PAUS_00cfaed0_P3@@PBXPAUS_00cfaed0_P5@@HHPAX5@Z",
      "size": 370
     }
    ],
@@ -422791,12 +422791,12 @@
    "functions": [
     {
      "address": "0x00d9a070",
-     "symbol": "?CollectRayHit@hkpAabbTreeCollidableRaycaster@@QAEXH@Z",
+     "symbol": "?CollectRayHit@hkpAabbTreeCollidableRaycaster@@QAEXPBUFnvCollidable@@@Z",
      "size": 426
     },
     {
      "address": "0x00d9a220",
-     "symbol": "?FUN_00d9a220@hkpAabbTreeCollidableRaycaster@@QAEMH@Z",
+     "symbol": "?FUN_00d9a220@hkpAabbTreeCollidableRaycaster@@QAEMPBUD9a220Item@@@Z",
      "size": 25
     },
     {
@@ -422911,7 +422911,7 @@
     },
     {
      "address": "0x00d97bf0",
-     "symbol": "?FUN_00d97bf0@S00d97bf0_Obj@@QAEHHHHH@Z",
+     "symbol": "?FUN_00d97bf0@S00d97bf0_Obj@@QAEPAXPAXPBXPBUS00d97bf0_RayInput@@0@Z",
      "size": 160
     },
     {
@@ -422942,7 +422942,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -422965,7 +422965,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -423136,7 +423136,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/raycollector/hkpallrayhitcollector.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -423179,7 +423179,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/collector/raycollector/hkpclosestrayhitcollector_o2_nood_variant.cpp",
+   "source": "src/havok/physics/collide/query/collector/raycollector/hkpclosestrayhitcollector.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -423256,7 +423256,7 @@
     },
     {
      "address": "0x00df6af0",
-     "symbol": "?GetHelperResultForOffset@FUN_00df6af0_cls@@QAEMHH@Z",
+     "symbol": "?GetHelperResultForOffset@FUN_00df6af0_cls@@QAEMPBUDF6AF0Handle@@H@Z",
      "size": 19
     },
     {
@@ -423266,7 +423266,7 @@
     },
     {
      "address": "0x00df6b30",
-     "symbol": "?FUN_00df6b30@FUN_00df6b30_cls@@QAEPAEPAEH@Z",
+     "symbol": "?FUN_00df6b30@FUN_00df6b30_cls@@QAEPAEPAEPBX@Z",
      "size": 25
     },
     {
@@ -423306,7 +423306,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -423418,7 +423418,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldlinearcastjob.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -423552,7 +423552,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -423575,7 +423575,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -423692,7 +423692,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -424023,7 +424023,7 @@
     },
     {
      "address": "0x00d55530",
-     "symbol": "?FUN_00d55530@SpawnedOwnerQ@@QAEHH@Z",
+     "symbol": "?FUN_00d55530@SpawnedOwnerQ@@QAEPAEH@Z",
      "size": 154
     },
     {
@@ -424068,7 +424068,7 @@
     },
     {
      "address": "0x00d56040",
-     "symbol": "?FUN_00d56040@FUN_00d56040_shell@@QAEXPAXMH@Z",
+     "symbol": "?FUN_00d56040@FUN_00d56040_shell@@QAEXPAXM0@Z",
      "size": 43
     },
     {
@@ -424201,7 +424201,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -424248,7 +424248,7 @@
     },
     {
      "address": "0x00d213d0",
-     "symbol": "?FUN_00d213d0@hkpShapeCollection_L@@UAEHXZ",
+     "symbol": "?FUN_00d213d0@hkpShapeCollection_L@@UAEPAVhkpShapeContainer@@XZ",
      "size": 11
     },
     {
@@ -424309,7 +424309,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/collection/hkpshapecollection_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/collection/hkpshapecollection.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -424357,7 +424357,7 @@
     },
     {
      "address": "0x00cf50a0",
-     "symbol": "?SetChildShape@hkPListShape@@QAEXHPAX@Z",
+     "symbol": "?SetChildShape@hkPListShape@@QAEXHI@Z",
      "size": 21
     },
     {
@@ -424387,7 +424387,7 @@
     },
     {
      "address": "0x00cf54d0",
-     "symbol": "?FUN_00cf54d0@ListShapeCF54@@QAEXPAHH0H@Z",
+     "symbol": "?FUN_00cf54d0@ListShapeCF54@@QAEXPBQAVhkpShape@@HPBIH@Z",
      "size": 189
     },
     {
@@ -424397,7 +424397,7 @@
     },
     {
      "address": "0x00cf5640",
-     "symbol": "??0FUN_00cf5640@@QAE@HHH@Z",
+     "symbol": "??0FUN_00cf5640@@QAE@PBXHH@Z",
      "size": 165
     },
     {
@@ -424688,7 +424688,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -424741,7 +424741,7 @@
     },
     {
      "address": "0x00d54350",
-     "symbol": "?ForwardToTarget@FUN_00d54350_Obj@@QAEXHHMH@Z",
+     "symbol": "?ForwardToTarget@FUN_00d54350_Obj@@QAEXPBUObbTransform@ObbQueryDetail@@PBUObbVector@3@MPAX@Z",
      "size": 47
     },
     {
@@ -424766,7 +424766,7 @@
     },
     {
      "address": "0x00d54490",
-     "symbol": "?FUN_00d54490@S00d54490_Obj@@QAEPAU1@HABVhkpMoppBvTreeShape@@@Z",
+     "symbol": "?FUN_00d54490@S00d54490_Obj@@QAEPAU1@HABVhkpMoppCode@@@Z",
      "size": 85
     },
     {
@@ -424840,7 +424840,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -424926,7 +424926,7 @@
     },
     {
      "address": "0x00e5d040",
-     "symbol": "?ConstructTemporaryObject@@YAXHHH@Z",
+     "symbol": "?ConstructTemporaryObject@@YAXPBX0PAX@Z",
      "size": 34
     }
    ],
@@ -425088,7 +425088,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/box/hkpboxshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -425191,7 +425191,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -425244,7 +425244,7 @@
     },
     {
      "address": "0x00d5d730",
-     "symbol": "?FUN_00d5d730@FUN_00d5d730_class@@QAEXPAU1@PBD@Z",
+     "symbol": "?FUN_00d5d730@FUN_00d5d730_class@@QAEXPAUFUN_00d5d730_Collector@@PBD@Z",
      "size": 46
     },
     {
@@ -425284,7 +425284,7 @@
     },
     {
      "address": "0x00d5dd40",
-     "symbol": "?FUN_00d5dd40@TransformHost@@QAEXHHPAM@Z",
+     "symbol": "?FUN_00d5dd40@TransformHost@@QAEXPBGHPAM@Z",
      "size": 253
     },
     {
@@ -425304,7 +425304,7 @@
     },
     {
      "address": "0x00d5e020",
-     "symbol": "?FUN_00d5e020@FUN_00d5e020_standin@@QAEHHH@Z",
+     "symbol": "?FUN_00d5e020@FUN_00d5e020_standin@@QAEHPBXH@Z",
      "size": 79
     }
    ],
@@ -425329,7 +425329,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -425407,7 +425407,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -425443,7 +425443,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -425568,7 +425568,7 @@
     },
     {
      "address": "0x00d591d0",
-     "symbol": "?FUN_00d591d0@FUN_00d591d0_class@@QAEXPAXMH@Z",
+     "symbol": "?FUN_00d591d0@FUN_00d591d0_class@@QAEXPBUhkTransformD262@@MPAUhkAabbD262@@@Z",
      "size": 48
     },
     {
@@ -425603,7 +425603,7 @@
     },
     {
      "address": "0x00d5a320",
-     "symbol": "?AssignReference@FUN_00d5a320@@QAEXPAURefObj@@_N@Z",
+     "symbol": "?AssignReference@FUN_00d5a320@@QAEXPAVhkpConvexVerticesConnectivity@@_N@Z",
      "size": 57
     },
     {
@@ -425677,7 +425677,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -425776,7 +425776,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -425802,7 +425802,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -425890,7 +425890,7 @@
     },
     {
      "address": "0x00c9e2a0",
-     "symbol": "?FUN_00c9e2a0@FN@@QAEXHHPAUCb@@@Z",
+     "symbol": "?FUN_00c9e2a0@FN@@QAEXPAXPAUP2@@PAUCb@@@Z",
      "size": 151
     },
     {
@@ -425907,7 +425907,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/hkpconvexshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/hkpconvexshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -425956,7 +425956,7 @@
     },
     {
      "address": "0x00cd8080",
-     "symbol": "?FUN_00cd8080@@YGXH_J@Z",
+     "symbol": "?FUN_00cd8080@@YAXPBGHPAM@Z",
      "size": 51
     },
     {
@@ -426023,7 +426023,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/sphere/hkpsphereshape_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -426164,7 +426164,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/convex/triangle/hkptriangleshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -426223,7 +426223,7 @@
     },
     {
      "address": "0x00d5e190",
-     "symbol": "?SumVirtualResults@@YIHPAX@Z",
+     "symbol": "?SumVirtualResults@@YAHPAUConvexListShapeMI@@@Z",
      "size": 43
     },
     {
@@ -426248,7 +426248,7 @@
     },
     {
      "address": "0x00d5e2f0",
-     "symbol": "?FUN_00d5e2f0@@YIHPADHHH@Z",
+     "symbol": "?FUN_00d5e2f0@@YAPAVhkpConvexShape@@PAVhkpShapeContainer@@HHH@Z",
      "size": 13
     },
     {
@@ -426283,7 +426283,7 @@
     },
     {
      "address": "0x00d5e750",
-     "symbol": "??0FUN_00d5e750@@QAE@PAX0@Z",
+     "symbol": "??0FUN_00d5e750@@QAE@PAXH@Z",
      "size": 99
     },
     {
@@ -426412,7 +426412,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -426534,7 +426534,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -426978,7 +426978,7 @@
     },
     {
      "address": "0x00d552c0",
-     "symbol": "?FUN_00d552c0@FUN_00d552c0_StandIn@@QAEXPAXMH@Z",
+     "symbol": "?FUN_00d552c0@FUN_00d552c0_StandIn@@QAEXPBUhkTransformD262@@MPAUhkAabbD262@@@Z",
      "size": 37
     },
     {
@@ -427004,7 +427004,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/plane/hkpplaneshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -427048,7 +427048,7 @@
     },
     {
      "address": "0x00d249f0",
-     "symbol": "?FUN_00d249f0@SampledHeightField@@QAEXKMK@Z",
+     "symbol": "?FUN_00d249f0@SampledHeightField@@QAEXIMI@Z",
      "size": 338
     },
     {
@@ -427068,7 +427068,7 @@
     },
     {
      "address": "0x00d261b0",
-     "symbol": "?UpdateMinValue@S00d261b0_cls@@QAEXHH@Z",
+     "symbol": "?UpdateMinValue@S00d261b0_cls@@QAEXHPAUS00d261b0_Elem@@@Z",
      "size": 81
     }
    ],
@@ -427087,7 +427087,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape_gs_nogs_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -427124,7 +427124,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -427143,7 +427143,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -427190,7 +427190,7 @@
     },
     {
      "address": "0x00d49700",
-     "symbol": "??0FUN_00d49700@@QAE@HPAHM@Z",
+     "symbol": "??0FUN_00d49700@@QAE@HPBQAHM@Z",
      "size": 68
     },
     {
@@ -427267,7 +427267,7 @@
     },
     {
      "address": "0x00d268f0",
-     "symbol": "?ProcessBuffer@FUN_00d268f0_Shape@@UAEXHHMH@Z",
+     "symbol": "?ProcessBuffer@FUN_00d268f0_Shape@@UAEXPBUhkTransformC9E1@fnv_00c9e120@@PBUhkVector4C9E1@3@MH@Z",
      "size": 65
     },
     {
@@ -427427,7 +427427,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -427475,7 +427475,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/hkpshape_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/collide/shape/hkpshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -427785,7 +427785,7 @@
     },
     {
      "address": "0x00cf5900",
-     "symbol": "?calc@FUN_00cf5900@@QAEHHH@Z",
+     "symbol": "?calc@FUN_00cf5900@@QAEHPBXH@Z",
      "size": 79
     },
     {
@@ -427828,7 +427828,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/shape/misc/transform/hkptransformshape_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -427941,7 +427941,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/hkpcollidetriangleutil_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/util/hkpcollidetriangleutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -428029,7 +428029,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -428137,22 +428137,22 @@
     },
     {
      "address": "0x00dddc40",
-     "symbol": "?GetIndexForValue@@YAHH@Z",
+     "symbol": "?GetIndexForValue@@YAHPBUhkVector4q@@@Z",
      "size": 139
     },
     {
      "address": "0x00dde760",
-     "symbol": "?FUN_00dde760@@YAXHHHH@Z",
+     "symbol": "?FUN_00dde760@@YAXPAUhkpShapeCollectionW@@PBXH_N@Z",
      "size": 286
     },
     {
      "address": "0x00dde880",
-     "symbol": "?CheckTransformAndProcess@@YAHPAXPAUObjOuter@@0PAF@Z",
+     "symbol": "?CheckTransformAndProcess@@YAHIPAUObjOuter@@HPAF@Z",
      "size": 175
     },
     {
      "address": "0x00dde930",
-     "symbol": "?CheckSubQueries@@YAPA_NPA_NPAXPAUIface@@@Z",
+     "symbol": "?CheckSubQueries@@YAPA_NPA_NIPAUIface@@@Z",
      "size": 200
     },
     {
@@ -428172,12 +428172,12 @@
     },
     {
      "address": "0x00ddecb0",
-     "symbol": "?FUN_00ddecb0@DynamicArray@@QAEXHHHH@Z",
+     "symbol": "?FUN_00ddecb0@DynamicArray@@QAEXPAXHPBXH@Z",
      "size": 30
     },
     {
      "address": "0x00ddecd0",
-     "symbol": "?FUN_00ddecd0@S_00ddecd0@@QAEXHHH@Z",
+     "symbol": "?FUN_00ddecd0@S_00ddecd0@@QAEXPAXHPBUS_00ddecf0_Key@@@Z",
      "size": 25
     },
     {
@@ -428233,7 +428233,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -428279,7 +428279,7 @@
    }
   },
   {
-   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility_rtm_variant.cpp",
+   "source": "src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -428407,7 +428407,7 @@
     },
     {
      "address": "0x00d6edf0",
-     "symbol": "?FUN_00d6edf0@@YAXPAUS6edf0_Ctx@@PAUS6edf0_Blob@@I@Z",
+     "symbol": "?FUN_00d6edf0@@YAXPAUS6edf0_Ctx@@PAUS6edf0_Blob@@PAX@Z",
      "size": 715
     },
     {
@@ -428422,7 +428422,7 @@
     },
     {
      "address": "0x00d6f2b0",
-     "symbol": "?AppendEventRecord@fnv_00d6f2b0@@YAXPBURecordSource@1@PAPAUEventRecord@1@IE@Z",
+     "symbol": "?AppendEventRecord@fnv_00d6f2b0@@YAXPBURecordSource@1@PAPAUEventRecord@1@RAXE@Z",
      "size": 67
     },
     {
@@ -428442,7 +428442,7 @@
     },
     {
      "address": "0x00dcedd0",
-     "symbol": "?FUN_00dcedd0@@YAXPBT__m128@@PAXPAPAUFUN_00dcedd0_Record@@@Z",
+     "symbol": "?FUN_00dcedd0@@YAXPBT__m128@@IPAPAUFUN_00dcedd0_Record@@@Z",
      "size": 50
     },
     {
@@ -428520,7 +428520,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -428576,7 +428576,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -428667,7 +428667,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -428733,7 +428733,7 @@
     },
     {
      "address": "0x00df0870",
-     "symbol": "?FUN_00df0870@@YAXHPIAUObjF@@HPAT__m128@@PAH@Z",
+     "symbol": "?FUN_00df0870@@YAXHPIAUObjF@@PAEPAT__m128@@PAPAX@Z",
      "size": 1205
     },
     {
@@ -428755,7 +428755,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -428777,7 +428777,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -428809,7 +428809,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/chain/hkppoweredchainsolverutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -428863,7 +428863,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -428938,7 +428938,7 @@
    "functions": [
     {
      "address": "0x00dd13b0",
-     "symbol": "?FUN_00dd13b0@@YAHI@Z",
+     "symbol": "?FUN_00dd13b0@@YAPAXPAX@Z",
      "size": 8
     },
     {
@@ -428960,7 +428960,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/constraintsolver/simpleconstraints/hkpsimpleconstraintutil_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/simpleconstraints/hkpsimpleconstraintutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -428987,7 +428987,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/simplex/hkpsimplexsolver_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/simplex/hkpsimplexsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -429054,7 +429054,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_ctx_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -429093,7 +429093,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -429105,7 +429105,7 @@
    "functions": [
     {
      "address": "0x00d893a0",
-     "symbol": "?FUN_00d893a0@@YAXIPAXIPAUProbeHeader@@PAM@Z",
+     "symbol": "?FUN_00d893a0@@YAXPBXPAX1PAUProbeHeader@@PAM@Z",
      "size": 750
     },
     {
@@ -429161,7 +429161,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_od_noo2_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -429186,7 +429186,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolver_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -429236,7 +429236,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/solve/hkpsolvergettoivelocities.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -429259,7 +429259,7 @@
    }
   },
   {
-   "source": "src/havok/physics/constraintsolver/vehiclefriction/hkpvehiclefrictionsolver_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/constraintsolver/vehiclefriction/hkpvehiclefrictionsolver.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -429309,7 +429309,7 @@
     },
     {
      "address": "0x00cf4d80",
-     "symbol": "??0FUN_00cf4d80@@QAE@PAX0K@Z",
+     "symbol": "??0FUN_00cf4d80@@QAE@PAX0I@Z",
      "size": 88
     },
     {
@@ -429364,7 +429364,7 @@
    "functions": [
     {
      "address": "0x00d2b1f0",
-     "symbol": "?EntityRemovedCallback@FUN_00d2b1f0@@QAEXH@Z",
+     "symbol": "?EntityRemovedCallback@FUN_00d2b1f0@@QAEXPAVhkpEntity@@@Z",
      "size": 21
     },
     {
@@ -429708,7 +429708,7 @@
    "functions": [
     {
      "address": "0x00d87c20",
-     "symbol": "?FUN_00d87c20@Owner@@QAEXH_N@Z",
+     "symbol": "?FUN_00d87c20@Owner@@QAEXPBX_N@Z",
      "size": 40
     },
     {
@@ -429837,12 +429837,12 @@
     },
     {
      "address": "0x00def1e0",
-     "symbol": "?DecrementPairCount@DEF1E0PairCounter@@QAEHHH@Z",
+     "symbol": "?DecrementPairCount@DEF1E0PairCounter@@QAEHPBX0@Z",
      "size": 198
     },
     {
      "address": "0x00def2b0",
-     "symbol": "?InsertPair@HashCls@@QAEHHH@Z",
+     "symbol": "?InsertPair@HashCls@@QAEHPBX0@Z",
      "size": 155
     },
     {
@@ -429852,7 +429852,7 @@
     },
     {
      "address": "0x00def3d0",
-     "symbol": "?CheckPairAgainstThreshold@Owner@@QAEPCEPCEHH@Z",
+     "symbol": "?CheckPairAgainstThreshold@Owner@@QAEPCEPCEPBX1@Z",
      "size": 125
     },
     {
@@ -429989,7 +429989,7 @@
     },
     {
      "address": "0x00cfce80",
-     "symbol": "?FUN_00cfce80@Cls@@QAEHHHHPAHMHHPAMH@Z",
+     "symbol": "?FUN_00cfce80@Cls@@QAEHPBX00PAPAXMPAX0PAM2@Z",
      "size": 253
     },
     {
@@ -430089,7 +430089,7 @@
     },
     {
      "address": "0x00cfdb10",
-     "symbol": "?FUN_00cfdb10@ContactManager_00cfdb10@fnv_00cfdb10@@UAEHE@Z",
+     "symbol": "?FUN_00cfdb10@ContactManager_00cfdb10@fnv_00cfdb10@@UAEPAXE@Z",
      "size": 42
     }
    ],
@@ -430170,7 +430170,7 @@
     },
     {
      "address": "0x00d21d00",
-     "symbol": "?FUN_00d21d00@@YGXHHHHHH@Z",
+     "symbol": "?FUN_00d21d00@@YAXPBX0MPAX11@Z",
      "size": 3
     },
     {
@@ -430185,7 +430185,7 @@
     },
     {
      "address": "0x00d21f10",
-     "symbol": "?SetGlobalVectors@@YGXHHPBT__m128@@H0@Z",
+     "symbol": "?SetGlobalVectors@@YAXPBX0PBT__m128@@PAX1@Z",
      "size": 53
     },
     {
@@ -430195,7 +430195,7 @@
     },
     {
      "address": "0x00d21fc0",
-     "symbol": "?FUN_00d21fc0@Cls_00d21fc0@@QAEXPAT__m128@@HHHHH@Z",
+     "symbol": "?FUN_00d21fc0@Cls_00d21fc0@@QAEXPAT__m128@@MPAX110@Z",
      "size": 100
     },
     {
@@ -430236,7 +430236,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/atom/hkpconstraintatom_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/atom/hkpconstraintatom.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -430248,7 +430248,7 @@
    "functions": [
     {
      "address": "0x00d21d10",
-     "symbol": "?FUN_00d21d10@SoftContactVelocityBlend@@QAEXHHHPAT__m128@@H0@Z",
+     "symbol": "?FUN_00d21d10@SoftContactVelocityBlend@@QAEXPBXMPAXPAT__m128@@12@Z",
      "size": 197
     }
    ],
@@ -430329,7 +430329,7 @@
     },
     {
      "address": "0x00d54210",
-     "symbol": "?FUN_00d54210@hkpBallAndSocketConstraintData@@QAEPAXH@Z",
+     "symbol": "?FUN_00d54210@hkpBallAndSocketConstraintData@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 22
     },
     {
@@ -430391,7 +430391,7 @@
     },
     {
      "address": "0x00cbe210",
-     "symbol": "?FUN_00cbe210@hkpHingeConstraintData_@@QAEPAXH@Z",
+     "symbol": "?FUN_00cbe210@hkpHingeConstraintData_@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -430466,7 +430466,7 @@
     },
     {
      "address": "0x00cb8af0",
-     "symbol": "?FUN_00cb8af0@FUN_00cb8af0_cls@@QAEPAXH@Z",
+     "symbol": "?FUN_00cb8af0@FUN_00cb8af0_cls@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -430496,7 +430496,7 @@
     },
     {
      "address": "0x00cb8fe0",
-     "symbol": "?FUN_00cb8fe0@@YIXPADHH_N@Z",
+     "symbol": "?FUN_00cb8fe0@@YAXPADPAX_N@Z",
      "size": 59
     },
     {
@@ -430656,7 +430656,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -430732,12 +430732,12 @@
     },
     {
      "address": "0x00dee7f0",
-     "symbol": "?FUN_00dee7f0@FUN_00dee7f0_class@@QAEXPAX@Z",
+     "symbol": "?FUN_00dee7f0@FUN_00dee7f0_class@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 47
     },
     {
      "address": "0x00dee820",
-     "symbol": "?FUN_00dee820@FUN_00dee820_Class@@QAEXIPAUFUN_00c7f640_Class@@@Z",
+     "symbol": "?FUN_00dee820@FUN_00dee820_Class@@QAEXPBXPAUFUN_00c7f640_Class@@@Z",
      "size": 21
     },
     {
@@ -430806,7 +430806,7 @@
    "functions": [
     {
      "address": "0x00d84760",
-     "symbol": "?PopulateInfo@FUN_00d84760@@QAEPAXH@Z",
+     "symbol": "?PopulateInfo@FUN_00d84760@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -430862,7 +430862,7 @@
    "functions": [
     {
      "address": "0x00d4f880",
-     "symbol": "?FUN_00d4f880@FUN_00d4f880_class@@QAEPAXH@Z",
+     "symbol": "?FUN_00d4f880@FUN_00d4f880_class@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -430967,7 +430967,7 @@
     },
     {
      "address": "0x00cde9b0",
-     "symbol": "?FUN_00cde9b0@FUN_00cde9b0_cls@@QAEPADH@Z",
+     "symbol": "?FUN_00cde9b0@FUN_00cde9b0_cls@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -431041,7 +431041,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata_decl_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -431077,7 +431077,7 @@
    "functions": [
     {
      "address": "0x00e3b500",
-     "symbol": "?FUN_00e3b500@FUN_00e3b500_cls@@QAEXH@Z",
+     "symbol": "?FUN_00e3b500@FUN_00e3b500_cls@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 22
     },
     {
@@ -431115,7 +431115,7 @@
    "functions": [
     {
      "address": "0x00d4f070",
-     "symbol": "?FUN_00d4f070@FUN_00d4f070_t@@QAEPAXH@Z",
+     "symbol": "?FUN_00d4f070@FUN_00d4f070_t@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 22
     },
     {
@@ -431152,7 +431152,7 @@
    "functions": [
     {
      "address": "0x00d4e560",
-     "symbol": "?PopulateInfo@FUN_00d4e560@@QAEPAXH@Z",
+     "symbol": "?PopulateInfo@FUN_00d4e560@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -431203,7 +431203,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -431292,7 +431292,7 @@
     },
     {
      "address": "0x00d4e0f0",
-     "symbol": "?FUN_00d4e0f0@S00d4e0f0_Object@@QAEXABUhkpConstraintQueryInD4E0@@H@Z",
+     "symbol": "?FUN_00d4e0f0@S00d4e0f0_Object@@QAEXABUhkpConstraintQueryInD4E0@@PAX@Z",
      "size": 231
     },
     {
@@ -431352,7 +431352,7 @@
     },
     {
      "address": "0x00d53ca0",
-     "symbol": "?InitChainData@hkpBallSocketChainData_00d53ca0@@QAEXPAD@Z",
+     "symbol": "?InitChainData@hkpBallSocketChainData_00d53ca0@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 67
     },
     {
@@ -431437,7 +431437,7 @@
    "functions": [
     {
      "address": "0x00d52f10",
-     "symbol": "?FUN_00d52f10@hkPhingeLimitsData@@QAEXH@Z",
+     "symbol": "?FUN_00d52f10@hkPhingeLimitsData@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -431578,7 +431578,7 @@
     },
     {
      "address": "0x00e3b720",
-     "symbol": "?FUN_00e3b720@FUN_00e3b720_s@@QBEXPAH@Z",
+     "symbol": "?FUN_00e3b720@FUN_00e3b720_s@@QBEXPAUPoweredChainConstraintInfoOut@@@Z",
      "size": 69
     },
     {
@@ -431642,7 +431642,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -431697,7 +431697,7 @@
    "functions": [
     {
      "address": "0x00d4f130",
-     "symbol": "?FUN_00d4f130@FUN_00d4f130_StandIn@@QAEXI@Z",
+     "symbol": "?FUN_00d4f130@FUN_00d4f130_StandIn@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -431854,7 +431854,7 @@
     },
     {
      "address": "0x00d503c0",
-     "symbol": "?FUN_00d503c0@@YGXHHHPAUFUN_00d503c0_src@@PAX1@Z",
+     "symbol": "?FUN_00d503c0@@YAXPAPAHPAXPBXPAUFUN_00d503c0_src@@11@Z",
      "size": 131
     },
     {
@@ -431894,7 +431894,7 @@
     },
     {
      "address": "0x00d505c0",
-     "symbol": "?FUN_00d505c0@@YGXPAPAHPAHPAX11H@Z",
+     "symbol": "?FUN_00d505c0@@YAXPAPAHPAHPAX112@Z",
      "size": 123
     },
     {
@@ -431904,7 +431904,7 @@
     },
     {
      "address": "0x00d50bd0",
-     "symbol": "?FUN_00d50bd0@FUN_00d50bd0_owner@@QAEXPAUSolverItem@@H@Z",
+     "symbol": "?FUN_00d50bd0@FUN_00d50bd0_owner@@QAEXPAUSolverItem@@PAX@Z",
      "size": 48
     },
     {
@@ -431914,22 +431914,22 @@
     },
     {
      "address": "0x00d50d00",
-     "symbol": "?FUN_00d50d00@@YGXPAPAHHHPAURuntime@@PAX2@Z",
+     "symbol": "?FUN_00d50d00@@YAXPAPAHPBX1PAURuntime@@PAX3@Z",
      "size": 89
     },
     {
      "address": "0x00d50d60",
-     "symbol": "?FUN_00d50d60@fnv_00d50d60@@YGXPAPAIHHPAUD50D60_Stream@1@HH@Z",
+     "symbol": "?FUN_00d50d60@fnv_00d50d60@@YAXPAPAIPBX1PAUD50D60_Stream@1@1PAX@Z",
      "size": 163
     },
     {
      "address": "0x00d50e10",
-     "symbol": "?FUN_00d50e10@@YGXHHHPAXHH@Z",
+     "symbol": "?FUN_00d50e10@@YAXPAPAHPAXPBX121@Z",
      "size": 169
     },
     {
      "address": "0x00d50ec0",
-     "symbol": "?FUN_00d50ec0@@YGXPAPAHPAPAUhkVector4@@HPAUhkSchemeVecs@@HH@Z",
+     "symbol": "?FUN_00d50ec0@@YAXPAPAHPAPAUhkVector4@@PBXPAUhkSchemeVecs@@2PAX@Z",
      "size": 416
     },
     {
@@ -431939,12 +431939,12 @@
     },
     {
      "address": "0x00d51100",
-     "symbol": "?FUN_00d51100@@YGXPAPAHPAHPAX11H@Z",
+     "symbol": "?FUN_00d51100@@YAXPAPAHPAHPAX112@Z",
      "size": 112
     },
     {
      "address": "0x00d51170",
-     "symbol": "?FUN_00d51170@fnv_00d51170@@YGXPIAPAHPAPAUAngleRecord@1@HPAUAnglePool@1@PAX3@Z",
+     "symbol": "?FUN_00d51170@fnv_00d51170@@YAXPIAPAHPAPAUAngleRecord@1@PBXPAUAnglePool@1@PAX4@Z",
      "size": 247
     },
     {
@@ -431954,7 +431954,7 @@
     },
     {
      "address": "0x00d51390",
-     "symbol": "?FUN_00d51390@@YGXPAPAHPAPAMHPAUd51390_pool@@PAUd51390_ctx@@PAX@Z",
+     "symbol": "?FUN_00d51390@@YAXPAPAHPAPAMPBXPAUd51390_pool@@PAUd51390_ctx@@PAX@Z",
      "size": 113
     },
     {
@@ -432044,7 +432044,7 @@
     },
     {
      "address": "0x00d927b0",
-     "symbol": "?FUN_00d927b0@FUN_00d927b0_class@@QAEXI@Z",
+     "symbol": "?FUN_00d927b0@FUN_00d927b0_class@@QAEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 25
     },
     {
@@ -432074,7 +432074,7 @@
     },
     {
      "address": "0x00d92830",
-     "symbol": "?DispatchNodeCallbacks@hkClsX@@QAEXHHHHH@Z",
+     "symbol": "?DispatchNodeCallbacks@hkClsX@@QAEXPBXPAX111@Z",
      "size": 196
     },
     {
@@ -432094,7 +432094,7 @@
     },
     {
      "address": "0x00d92fd0",
-     "symbol": "?DispatchAtomHandlers@S_00d92fd0_This@@QAEXHMHHHH@Z",
+     "symbol": "?DispatchAtomHandlers@S_00d92fd0_This@@QAEXPBXMPAX111@Z",
      "size": 364
     },
     {
@@ -432155,7 +432155,7 @@
    "functions": [
     {
      "address": "0x00d21a30",
-     "symbol": "?FUN_00d21a30@FUN_00d21a30_class@@QAEXHHH@Z",
+     "symbol": "?FUN_00d21a30@FUN_00d21a30_class@@QAEXHPAXH@Z",
      "size": 27
     },
     {
@@ -432262,7 +432262,7 @@
     },
     {
      "address": "0x00cf3dd0",
-     "symbol": "?FUN_00cf3dd0@hkpPairCF3D@@QBEHXZ",
+     "symbol": "?FUN_00cf3dd0@hkpPairCF3D@@QBEPAXXZ",
      "size": 22
     },
     {
@@ -432396,12 +432396,12 @@
     },
     {
      "address": "0x00cdf6d0",
-     "symbol": "?FUN_00cdf6d0@FUN_00cdf6d0_t@@QAEHXZ",
+     "symbol": "?FUN_00cdf6d0@FUN_00cdf6d0_t@@QAEPAXXZ",
      "size": 4
     },
     {
      "address": "0x00cdf7c0",
-     "symbol": "?FUN_00cdf7c0@Cdf7c0Self@@QAEXABUCdf7c0Buf@@H@Z",
+     "symbol": "?FUN_00cdf7c0@Cdf7c0Self@@QAEXABUCdf7c0Buf@@PAX@Z",
      "size": 135
     }
    ],
@@ -432523,7 +432523,7 @@
    "functions": [
     {
      "address": "0x00deef40",
-     "symbol": "?FUN_00deef40@hkpPulleyConstraintData@@QAEXH@Z",
+     "symbol": "?FUN_00deef40@hkpPulleyConstraintData@@QBEXPAUGenericConstraintAtomScheme@@@Z",
      "size": 22
     },
     {
@@ -432547,7 +432547,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -432574,7 +432574,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -432685,7 +432685,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -432707,7 +432707,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -432800,7 +432800,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/constraint/util/hkpconstraintpivotsutil_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/constraint/util/hkpconstraintpivotsutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -432865,7 +432865,7 @@
     },
     {
      "address": "0x00c9c020",
-     "symbol": "?FUN_00c9c020@@YIHH@Z",
+     "symbol": "?FUN_00c9c020@@YAPAXPAVhkpEntity@@@Z",
      "size": 7
     },
     {
@@ -432920,12 +432920,12 @@
     },
     {
      "address": "0x00c9c390",
-     "symbol": "?GetEntry@FUN_00c9c390_Class@@QAEHH@Z",
+     "symbol": "?GetEntry@FUN_00c9c390_Class@@QAEPAVhkpConstraintInstance@@H@Z",
      "size": 47
     },
     {
      "address": "0x00c9c3c0",
-     "symbol": "?GetEntryAt@FUN_00c9c3c0_Class@@QAEHH@Z",
+     "symbol": "?GetEntryAt@FUN_00c9c3c0_Class@@QAEPAVhkpConstraintInstance@@H@Z",
      "size": 47
     },
     {
@@ -433179,7 +433179,7 @@
     },
     {
      "address": "0x00ca86c0",
-     "symbol": "?FUN_00ca86c0@FUN_00ca86c0_class@@QAEIXZ",
+     "symbol": "?FUN_00ca86c0@FUN_00ca86c0_class@@QAEPAXXZ",
      "size": 24
     },
     {
@@ -433194,12 +433194,12 @@
     },
     {
      "address": "0x00ca8800",
-     "symbol": "?FUN_00ca8800@FUN_00ca8800_Class@@QAEXH@Z",
+     "symbol": "?FUN_00ca8800@FUN_00ca8800_Class@@QAEXPBX@Z",
      "size": 38
     },
     {
      "address": "0x00ca8830",
-     "symbol": "?FUN_00ca8830@CA8830Object@@QAEXH@Z",
+     "symbol": "?FUN_00ca8830@CA8830Object@@QAEXPBX@Z",
      "size": 38
     },
     {
@@ -433333,7 +433333,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/entity/hkprigidbody_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/entity/hkprigidbody.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -433437,7 +433437,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/entity/util/hkpentityaabbutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/entity/util/hkpentityaabbutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -433738,7 +433738,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -433759,7 +433759,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -433852,7 +433852,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -433871,7 +433871,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -433922,7 +433922,7 @@
     },
     {
      "address": "0x00d1e160",
-     "symbol": "?InitFixedRigidMotion@FUN_00d1e160_t@@QAEPAXHH@Z",
+     "symbol": "?InitFixedRigidMotion@FUN_00d1e160_t@@QAEPAXABUhkVector4D1DF@@ABUhkQuaternionD1DF@@@Z",
      "size": 36
     },
     {
@@ -434071,7 +434071,7 @@
    "functions": [
     {
      "address": "0x00d1e1d0",
-     "symbol": "?FUN_00d1e1d0@FUN_00d1e1d0_cls@@QAEXH@Z",
+     "symbol": "?FUN_00d1e1d0@FUN_00d1e1d0_cls@@QAEXPAUhkMatrix3@@@Z",
      "size": 95
     },
     {
@@ -434120,7 +434120,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -434144,7 +434144,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -434166,7 +434166,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -434185,7 +434185,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -434221,7 +434221,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -434395,7 +434395,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/phantom/hkpaabbphantom_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -434470,7 +434470,7 @@
     },
     {
      "address": "0x00d4cc50",
-     "symbol": "?CopyFrom@FUN_00d4cc50_cls@@QAEXPBUAligned_00d4cc50@@HHH@Z",
+     "symbol": "?CopyFrom@FUN_00d4cc50_cls@@QAEXPBUAligned_00d4cc50@@PBXPAX2@Z",
      "size": 68
     },
     {
@@ -434597,7 +434597,7 @@
     },
     {
      "address": "0x00d07cf0",
-     "symbol": "?WritePhantomLists@FUN_00d07cf0_cls@@QAEXPAVPhArchive@@H@Z",
+     "symbol": "?WritePhantomLists@FUN_00d07cf0_cls@@QAEXPAVPhArchive@@PBX@Z",
      "size": 176
     },
     {
@@ -434777,7 +434777,7 @@
     },
     {
      "address": "0x00d1f450",
-     "symbol": "?FUN_00d1f450@FUN_00d1f450_Obj@@QAEXPAHHHH@Z",
+     "symbol": "?FUN_00d1f450@FUN_00d1f450_Obj@@QAEXPAHPBXPAX2@Z",
      "size": 68
     },
     {
@@ -434853,7 +434853,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/phantom/hkpsimpleshapephantom_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/phantom/hkpsimpleshapephantom.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -434986,7 +434986,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -435033,7 +435033,7 @@
    "functions": [
     {
      "address": "0x00df25f0",
-     "symbol": "?FUN_00df25f0@@YAXHPAUCommandRecord@@H@Z",
+     "symbol": "?FUN_00df25f0@@YAXPAXPAUCommandRecord@@H@Z",
      "size": 80
     }
    ],
@@ -435415,7 +435415,7 @@
     },
     {
      "address": "0x00c910a0",
-     "symbol": "?FUN_00c910a0@@YGXH@Z",
+     "symbol": "?FUN_00c910a0@@YAXPBX@Z",
      "size": 3
     },
     {
@@ -435430,7 +435430,7 @@
     },
     {
      "address": "0x00c91110",
-     "symbol": "?FUN_00c91110@CpuObject@fnv_00c91110@@QAEHXZ",
+     "symbol": "?FUN_00c91110@CpuObject@fnv_00c91110@@QAEPAXXZ",
      "size": 7
     },
     {
@@ -435500,7 +435500,7 @@
     },
     {
      "address": "0x00c91270",
-     "symbol": "?FUN_00c91270@FUN_00c91270_cls@@QAEXH@Z",
+     "symbol": "?FUN_00c91270@FUN_00c91270_cls@@QAEXPAX@Z",
      "size": 10
     },
     {
@@ -435570,7 +435570,7 @@
     },
     {
      "address": "0x00c918e0",
-     "symbol": "?ClearValue@SearchArray@@QAEXH@Z",
+     "symbol": "?ClearValue@SearchArray@@QAEXPAX@Z",
      "size": 75
     },
     {
@@ -435635,7 +435635,7 @@
     },
     {
      "address": "0x00c92040",
-     "symbol": "?FUN_00c92040@S00c92040_Obj@fnv_00c92040@@QAEXHH@Z",
+     "symbol": "?FUN_00c92040@S00c92040_Obj@fnv_00c92040@@QAEXPBXPAX@Z",
      "size": 203
     },
     {
@@ -435800,7 +435800,7 @@
     },
     {
      "address": "0x00c93c30",
-     "symbol": "?FUN_00c93c30@FnvWorld@fnv_00c93c30@@QAEXH@Z",
+     "symbol": "?FUN_00c93c30@FnvWorld@fnv_00c93c30@@QAEXPBX@Z",
      "size": 223
     },
     {
@@ -435995,17 +435995,17 @@
     },
     {
      "address": "0x00c983e0",
-     "symbol": "?ForEachCall@FUN_00c983e0_Class@@QAEXHHHHH@Z",
+     "symbol": "?ForEachCall@FUN_00c983e0_Class@@QAEXPBX0IHI@Z",
      "size": 85
     },
     {
      "address": "0x00c98440",
-     "symbol": "?DispatchEvent@hkDispatcherC984@@QAEXHHHHH@Z",
+     "symbol": "?DispatchEvent@hkDispatcherC984@@QAEXIPBXIHI@Z",
      "size": 85
     },
     {
      "address": "0x00c984a0",
-     "symbol": "?FUN_00c984a0@FUN_00c984a0_Class@@QAEXHHH@Z",
+     "symbol": "?FUN_00c984a0@FUN_00c984a0_Class@@QAEXHIH@Z",
      "size": 75
     },
     {
@@ -436015,7 +436015,7 @@
     },
     {
      "address": "0x00c98540",
-     "symbol": "?CallAllWithArgs@FUN_00c98540_Class@@QAEXHHH@Z",
+     "symbol": "?CallAllWithArgs@FUN_00c98540_Class@@QAEXIHI@Z",
      "size": 75
     },
     {
@@ -436025,57 +436025,57 @@
     },
     {
      "address": "0x00c98600",
-     "symbol": "?CallVirtualOnAll@FUN_00c98600_Class@@QAEXHHHHHHHH@Z",
+     "symbol": "?CallVirtualOnAll@FUN_00c98600_Class@@QAEXPBX0000000@Z",
      "size": 100
     },
     {
      "address": "0x00c98670",
-     "symbol": "?FUN_00c98670@hkpListenerListC986@@QAEXHHHH@Z",
+     "symbol": "?FUN_00c98670@hkpListenerListC986@@QAEXPBXHIH@Z",
      "size": 80
     },
     {
      "address": "0x00c986c0",
-     "symbol": "?FUN_00c986c0@hkpListenerListC98B@@QAEXHHHHH@Z",
+     "symbol": "?FUN_00c986c0@hkpListenerListC98B@@QAEXPBX0HIH@Z",
      "size": 85
     },
     {
      "address": "0x00c98720",
-     "symbol": "?FUN_00c98720@C00c98720@@QAEXHHHHHH@Z",
+     "symbol": "?FUN_00c98720@C00c98720@@QAEXPBX00HIH@Z",
      "size": 90
     },
     {
      "address": "0x00c98780",
-     "symbol": "?FUN_00c98780@Cls_00c98780@@QAEXABUhkTransform@@ABUhkVector4@@1HHH@Z",
+     "symbol": "?FUN_00c98780@Cls_00c98780@@QAEXABUhkTransform@@ABUhkVector4@@1HIH@Z",
      "size": 81
     },
     {
      "address": "0x00c987e0",
-     "symbol": "?FUN_00c987e0@FUN_00c987e0_Cls@@QAEXHHHHHH@Z",
+     "symbol": "?FUN_00c987e0@FUN_00c987e0_Cls@@QAEXPBX00HIH@Z",
      "size": 64
     },
     {
      "address": "0x00c98b60",
-     "symbol": "?FUN_00c98b60@FUN_00c98b60_Class@@QAEXPAT__m128@@MHHH@Z",
+     "symbol": "?FUN_00c98b60@FUN_00c98b60_Class@@QAEXPAT__m128@@MHIH@Z",
      "size": 119
     },
     {
      "address": "0x00c98be0",
-     "symbol": "?FUN_00c98be0@EC98BE0Owner@@QAEXHHMHHH@Z",
+     "symbol": "?FUN_00c98be0@EC98BE0Owner@@QAEXPBX0MHIH@Z",
      "size": 67
     },
     {
      "address": "0x00c98c30",
-     "symbol": "?FUN_00c98c30@FUN_00c98c30_Class@@QAEXPBX0MHHH@Z",
+     "symbol": "?FUN_00c98c30@FUN_00c98c30_Class@@QAEXPBX0MHIH@Z",
      "size": 67
     },
     {
      "address": "0x00c98c80",
-     "symbol": "?FUN_00c98c80@Disp_00c98c80@@QAEXPBUAabb_00c98c80@@HHH@Z",
+     "symbol": "?FUN_00c98c80@Disp_00c98c80@@QAEXPBUAabb_00c98c80@@HIH@Z",
      "size": 474
     },
     {
      "address": "0x00c990b0",
-     "symbol": "?FUN_00c990b0@FUN_00c990b0_Class@@QAEXHHHH@Z",
+     "symbol": "?FUN_00c990b0@FUN_00c990b0_Class@@QAEXPBDHIH@Z",
      "size": 80
     },
     {
@@ -436085,12 +436085,12 @@
     },
     {
      "address": "0x00c99160",
-     "symbol": "?DispatchToListeners@FUN_00c99160_Owner@@QAEXHHHHH@Z",
+     "symbol": "?DispatchToListeners@FUN_00c99160_Owner@@QAEXPBX0HIH@Z",
      "size": 85
     },
     {
      "address": "0x00c991c0",
-     "symbol": "?DispatchToSlots@FUN_00c991c0_Class@@QAEXHHHH@Z",
+     "symbol": "?DispatchToSlots@FUN_00c991c0_Class@@QAEXPBXHIH@Z",
      "size": 80
     },
     {
@@ -436105,7 +436105,7 @@
     },
     {
      "address": "0x00c99610",
-     "symbol": "?ApplyRotation@RotationOwner@@QAEXPBURotationInput@@PBT__m128@@1HHH@Z",
+     "symbol": "?ApplyRotation@RotationOwner@@QAEXPBURotationInput@@PBT__m128@@1HIH@Z",
      "size": 195
     },
     {
@@ -436115,17 +436115,17 @@
     },
     {
      "address": "0x00c99720",
-     "symbol": "?DrawAxes@hkDebugDisplayHandlerC997@@QAEXABUhkTransformC997@@MHH@Z",
+     "symbol": "?DrawAxes@hkDebugDisplayHandlerC997@@QAEXABUhkTransformC997@@MIH@Z",
      "size": 330
     },
     {
      "address": "0x00c99870",
-     "symbol": "?FUN_00c99870@HavokHelper@@QAEXABUhkQuaternion@@MHH@Z",
+     "symbol": "?FUN_00c99870@HavokHelper@@QAEXABUhkQuaternion@@MIH@Z",
      "size": 59
     },
     {
      "address": "0x00c998b0",
-     "symbol": "?FUN_00c998b0@hkDebugDisplay@@QAEXHPBFPBVhkQsTransform_S@@ABV2@HHHMVhkBool_S@@@Z",
+     "symbol": "?FUN_00c998b0@hkDebugDisplay@@QAEXHPBFPBVhkQsTransform_S@@ABV2@IHHMVhkBool_S@@@Z",
      "size": 1063
     },
     {
@@ -436135,7 +436135,7 @@
     },
     {
      "address": "0x00c99d40",
-     "symbol": "?FUN_00c99d40@PoseUserDAD@@QAEXHPBFPBVhkQsTransformDAD@@HHHHMH@Z",
+     "symbol": "?FUN_00c99d40@PoseUserDAD@@QAEXHPBFPBVhkQsTransformDAD@@PBXIHHMH@Z",
      "size": 368
     },
     {
@@ -436155,7 +436155,7 @@
     },
     {
      "address": "0x00ca94c0",
-     "symbol": "?FUN_00ca94c0@FUN_00ca94c0_Class@@QAEHI@Z",
+     "symbol": "?FUN_00ca94c0@FUN_00ca94c0_Class@@QAEHPBX@Z",
      "size": 95
     },
     {
@@ -436170,7 +436170,7 @@
     },
     {
      "address": "0x00caa4a0",
-     "symbol": "?FUN_00caa4a0@caa4a0_Target@@QAEPAVbhkRefObject@@I@Z",
+     "symbol": "?FUN_00caa4a0@caa4a0_Target@@QAEPAVbhkRefObject@@PAX@Z",
      "size": 296
     },
     {
@@ -436200,7 +436200,7 @@
     },
     {
      "address": "0x00ce52e0",
-     "symbol": "?FUN_00ce52e0@Ce52e0Helper@@QAEXH@Z",
+     "symbol": "?FUN_00ce52e0@Ce52e0Helper@@QAEXPBX@Z",
      "size": 18
     },
     {
@@ -436651,7 +436651,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/hkpworld_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/hkpworld.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -436663,14 +436663,14 @@
    "functions": [
     {
      "address": "0x00c98820",
-     "symbol": "?FUN_00c98820@FUN_00c98820_Class@@QAEXPAX0000@Z",
+     "symbol": "?FUN_00c98820@FUN_00c98820_Class@@QAEXPAX0HIH@Z",
      "size": 94
     }
    ],
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/dynamics/world/hkpworld_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/hkpworld.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -436697,12 +436697,12 @@
     },
     {
      "address": "0x00c98880",
-     "symbol": "?FUN_00c98880@DebugArrowEntry@@QAEXABVhkVector4_S@@0HHH@Z",
+     "symbol": "?FUN_00c98880@DebugArrowEntry@@QAEXABVhkVector4_S@@0HIH@Z",
      "size": 721
     },
     {
      "address": "0x00c98e60",
-     "symbol": "?FUN_00c98e60@PlaneDraw@@QAEXABUV4@@0MHHH@Z",
+     "symbol": "?FUN_00c98e60@PlaneDraw@@QAEXABUV4@@0MHIH@Z",
      "size": 589
     },
     {
@@ -436878,7 +436878,7 @@
     },
     {
      "address": "0x00cd2b00",
-     "symbol": "?WriteToStream@FNVWorldObject@@QAEXPAUhkStreamWriter@@H@Z",
+     "symbol": "?WriteToStream@FNVWorldObject@@QAEXPAUhkStreamWriter@@PBX@Z",
      "size": 223
     },
     {
@@ -436994,7 +436994,7 @@
     },
     {
      "address": "0x00e48290",
-     "symbol": "?FUN_00e48290@@YAXPAUhkSchedulerE482@@HPAXPAH@Z",
+     "symbol": "?FUN_00e48290@@YAXPAUhkSchedulerE482@@HHPAH@Z",
      "size": 107
     },
     {
@@ -437074,7 +437074,7 @@
     },
     {
      "address": "0x00d0c290",
-     "symbol": "?FUN_00d0c290@FUN_00d0c290_cls@@QAEXPAHH@Z",
+     "symbol": "?FUN_00d0c290@FUN_00d0c290_cls@@QAEXPAPAXH@Z",
      "size": 324
     },
     {
@@ -437104,12 +437104,12 @@
     },
     {
      "address": "0x00d0c970",
-     "symbol": "?ProcessEntries@Object@@QAEXPAHHHI@Z",
+     "symbol": "?ProcessEntries@Object@@QAEXPAPAXHPAUS00cfa430_Data@@I@Z",
      "size": 75
     },
     {
      "address": "0x00d0c9c0",
-     "symbol": "?FUN_00d0c9c0@@YGXPAPAUThingX@@HPAUThingP@@H_N@Z",
+     "symbol": "?FUN_00d0c9c0@@YAXPAPAUThingX@@HPAUThingP@@PBX_N@Z",
      "size": 310
     },
     {
@@ -437174,7 +437174,7 @@
     },
     {
      "address": "0x00d0ed10",
-     "symbol": "?FUN_00d0ed10@AdvanceSimulation@@QAEPAURes@@XZ",
+     "symbol": "?FUN_00d0ed10@AdvanceSimulation@@QAEHXZ",
      "size": 545
     },
     {
@@ -437184,7 +437184,7 @@
     },
     {
      "address": "0x00d0f2e0",
-     "symbol": "?FUN_00d0f2e0@S_00d0f2e0@@QAEPAXPAX00@Z",
+     "symbol": "?FUN_00d0f2e0@S_00d0f2e0@@QAEPAXPAXH0@Z",
      "size": 30
     },
     {
@@ -437368,7 +437368,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -437423,7 +437423,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -437464,7 +437464,7 @@
     },
     {
      "address": "0x00cf87a0",
-     "symbol": "?ForwardToGlobal@FUN_00cf87a0_Class@@QAEXHHH@Z",
+     "symbol": "?ForwardToGlobal@FUN_00cf87a0_Class@@QAEXPAX00@Z",
      "size": 21
     },
     {
@@ -437529,12 +437529,12 @@
     },
     {
      "address": "0x00cfa400",
-     "symbol": "?FUN_00cfa400@FUN_00cfa400_Obj@@QAEXHHHH@Z",
+     "symbol": "?FUN_00cfa400@FUN_00cfa400_Obj@@QAEXPAXH0H@Z",
      "size": 33
     },
     {
      "address": "0x00cfa430",
-     "symbol": "?FUN_00cfa430@MyObj@@QAEXPAX0PAUS00cfa430_Data@@E@Z",
+     "symbol": "?FUN_00cfa430@MyObj@@QAEXPAXHPAUS00cfa430_Data@@E@Z",
      "size": 63
     },
     {
@@ -437544,12 +437544,12 @@
     },
     {
      "address": "0x00cfa5f0",
-     "symbol": "?FUN_00cfa5f0@FNVOwner_CFA5F0@fnv_00cfa5f0@@QAEXHHPAUFNVSIM_CFA5F0@2@PBHH@Z",
+     "symbol": "?FUN_00cfa5f0@FNVOwner_CFA5F0@fnv_00cfa5f0@@QAEXPAXHPAUFNVSIM_CFA5F0@2@PBHH@Z",
      "size": 229
     },
     {
      "address": "0x00cfa6e0",
-     "symbol": "?FUN_00cfa6e0@S00cfa6e0_Dst@@QAEXPAUS00cfa6e0_Src@@PAUS00cfa6e0_Pair@@H@Z",
+     "symbol": "?FUN_00cfa6e0@S00cfa6e0_Dst@@QAEXPAUS00cfa6e0_Src@@PAUS00cfa6e0_Pair@@PAX@Z",
      "size": 180
     },
     {
@@ -437739,7 +437739,7 @@
    "functions": [
     {
      "address": "0x00d93ba0",
-     "symbol": "?FUN_00d93ba0@@YAPAXPAUS93ba0_Owner@@PAUS93ba0_Output@@PAUS93ba0_Job@@@Z",
+     "symbol": "?FUN_00d93ba0@@YAHPAUS93ba0_Owner@@PAUS93ba0_Output@@PAUS93ba0_Job@@@Z",
      "size": 1858
     }
    ],
@@ -438013,12 +438013,12 @@
     },
     {
      "address": "0x00d02160",
-     "symbol": "?FUN_00d02160@@YA_NPAH0@Z",
+     "symbol": "?FUN_00d02160@@YA_NPAPAD0@Z",
      "size": 117
     },
     {
      "address": "0x00d021e0",
-     "symbol": "?FUN_00d021e0@@YIHHHPAH@Z",
+     "symbol": "?FUN_00d021e0@@YAHPADHPAH@Z",
      "size": 15
     },
     {
@@ -438048,7 +438048,7 @@
     },
     {
      "address": "0x00d026e0",
-     "symbol": "?ProcessPair@FUN_00d026e0_cls@@QAEXPAH@Z",
+     "symbol": "?ProcessPair@FUN_00d026e0_cls@@QAEXPAPAD@Z",
      "size": 215
     },
     {
@@ -438219,7 +438219,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -438352,7 +438352,7 @@
     },
     {
      "address": "0x00d08980",
-     "symbol": "?FUN_00d08980@OwnerD089@@QAEXI@Z",
+     "symbol": "?FUN_00d08980@OwnerD089@@QAEXPBX@Z",
      "size": 50
     },
     {
@@ -438387,7 +438387,7 @@
     },
     {
      "address": "0x00d08ac0",
-     "symbol": "?FUN_00d08ac0@@YAXPAU?$hkArray@PAUTarget@@@@H@Z",
+     "symbol": "?FUN_00d08ac0@@YAXPAU?$hkArray@PAUTarget@@@@PAX@Z",
      "size": 207
     },
     {
@@ -438422,12 +438422,12 @@
     },
     {
      "address": "0x00d08fd0",
-     "symbol": "?FUN_00d08fd0@FUN_00d08fd0_class@@QAEXH@Z",
+     "symbol": "?FUN_00d08fd0@FUN_00d08fd0_class@@QAEXPAX@Z",
      "size": 27
     },
     {
      "address": "0x00d08ff0",
-     "symbol": "?FUN_00d08ff0@@YAXPAUFUN_00d08ff0_t@@H@Z",
+     "symbol": "?FUN_00d08ff0@@YAXPAUFUN_00d08ff0_t@@PAX@Z",
      "size": 37
     },
     {
@@ -438467,7 +438467,7 @@
     },
     {
      "address": "0x00d0a1a0",
-     "symbol": "?Init@FUN_00d0a1a0@@QAEHH@Z",
+     "symbol": "?Init@FUN_00d0a1a0@@QAEPAU1@H@Z",
      "size": 38
     },
     {
@@ -438512,7 +438512,7 @@
     },
     {
      "address": "0x00d0a490",
-     "symbol": "?CallSubroutine@S00d0a490_cls@@QAEHHHHHHHH@Z",
+     "symbol": "?CallSubroutine@S00d0a490_cls@@QAEXPAX000000@Z",
      "size": 88
     },
     {
@@ -438667,7 +438667,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -438679,7 +438679,7 @@
    "functions": [
     {
      "address": "0x00d099d0",
-     "symbol": "?FUN_00d099d0@UpdateState@@QAEXHH@Z",
+     "symbol": "?FUN_00d099d0@UpdateState@@QAEXPAX0@Z",
      "size": 1053
     }
    ],
@@ -438713,7 +438713,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -438725,7 +438725,7 @@
    "functions": [
     {
      "address": "0x00d09020",
-     "symbol": "?FUN_00d09020@S00d09020_This@@QAEXPAUS00d09020_Arg@@HH@Z",
+     "symbol": "?FUN_00d09020@S00d09020_This@@QAEXPAUS00d09020_Arg@@PAX1@Z",
      "size": 1138
     }
    ],
@@ -438745,7 +438745,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -438757,7 +438757,7 @@
    "functions": [
     {
      "address": "0x00d984b0",
-     "symbol": "?FUN_00d984b0@CollectorState@@QAEXHPAUObj@@PAUVertex@@PAXPAUMatrixData@@UFloatPtr@@RAX5@Z",
+     "symbol": "?FUN_00d984b0@CollectorState@@QAEXPAXPAUObj@@PAUVertex@@0PAUMatrixData@@UFloatPtr@@RAX5@Z",
      "size": 365
     }
    ],
@@ -438836,7 +438836,7 @@
    "functions": [
     {
      "address": "0x00cc0e20",
-     "symbol": "?PickIslandByValue@@YAPAUIsland@@IPAU1@0@Z",
+     "symbol": "?PickIslandByValue@@YAPAUIsland@@PBXPAU1@1@Z",
      "size": 105
     },
     {
@@ -438851,7 +438851,7 @@
     },
     {
      "address": "0x00cc0ed0",
-     "symbol": "?ProcessBlocks@@YAXPAUS_00cc0ed0_Blocks@@MMH@Z",
+     "symbol": "?ProcessBlocks@@YAXPAUS_00cc0ed0_Blocks@@MMPAX@Z",
      "size": 100
     },
     {
@@ -438969,17 +438969,17 @@
     },
     {
      "address": "0x00d00a00",
-     "symbol": "?NotifyTargets@@YAXPAUProfOwner@@K@Z",
+     "symbol": "?NotifyTargets@@YAXPAUProfOwner@@PAX@Z",
      "size": 160
     },
     {
      "address": "0x00d00aa0",
-     "symbol": "?FUN_00d00aa0@@YAXPAUOwnerD@@H@Z",
+     "symbol": "?FUN_00d00aa0@@YAXPAUOwnerD@@PBX@Z",
      "size": 160
     },
     {
      "address": "0x00d00b40",
-     "symbol": "?FUN_00d00b40@@YAXPAUListenerOwnerQ@@K@Z",
+     "symbol": "?FUN_00d00b40@@YAXPAUListenerOwnerQ@@PAX@Z",
      "size": 172
     },
     {
@@ -439049,7 +439049,7 @@
     },
     {
      "address": "0x00d01700",
-     "symbol": "?FUN_00d01700@@YAXPAUhkpWorld@@PAX1@Z",
+     "symbol": "?FUN_00d01700@@YAXPAUhkpWorld@@PAXH@Z",
      "size": 169
     },
     {
@@ -439281,7 +439281,7 @@
     },
     {
      "address": "0x00cf75c0",
-     "symbol": "??0FUN_00cf75c0@@QAE@H@Z",
+     "symbol": "??0FUN_00cf75c0@@QAE@PAX@Z",
      "size": 45
     },
     {
@@ -439393,7 +439393,7 @@
     },
     {
      "address": "0x00cb3c80",
-     "symbol": "?FUN_00cb3c80@@YAXHH@Z",
+     "symbol": "?FUN_00cb3c80@@YAXPAX0@Z",
      "size": 30
     },
     {
@@ -439473,7 +439473,7 @@
     },
     {
      "address": "0x00cb4790",
-     "symbol": "?CollectActorEntries@fnv_00cb4790@@YAXPAH0PAUArray@1@@Z",
+     "symbol": "?CollectActorEntries@fnv_00cb4790@@YAXPAUActorOwner@1@PAUEntryOwner@1@PAUArray@1@@Z",
      "size": 253
     },
     {
@@ -439483,7 +439483,7 @@
     },
     {
      "address": "0x00cb49e0",
-     "symbol": "?FUN_00cb49e0@@YAXPAUMergeWorld@@HTMergeListArg@@PAUCb4890_IntArray@@PAUCb4890_CharArray@@@Z",
+     "symbol": "?FUN_00cb49e0@@YAXPAUMergeWorld@@PAUCb4890_RemapTable@@TMergeListArg@@PAUCb4890_IntArray@@PAUCb4890_CharArray@@@Z",
      "size": 637
     },
     {
@@ -439578,7 +439578,7 @@
     },
     {
      "address": "0x00cb6f70",
-     "symbol": "?FUN_00cb6f70@@YAXPAUMotionObj@@HH0HHHHH@Z",
+     "symbol": "?FUN_00cb6f70@@YAXPAUMotionObj@@HHHHHHHH@Z",
      "size": 1251
     },
     {
@@ -439738,7 +439738,7 @@
    }
   },
   {
-   "source": "src/havok/physics/dynamics/world/util/hkpworldoperationutil_rtm_variant.cpp",
+   "source": "src/havok/physics/dynamics/world/util/hkpworldoperationutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -439803,12 +439803,12 @@
     },
     {
      "address": "0x00d0a340",
-     "symbol": "?SetFlagOrForward@FUN_00d0a340_StandIn@@QAEXH@Z",
+     "symbol": "?SetFlagOrForward@FUN_00d0a340_StandIn@@QAEXPAX@Z",
      "size": 21
     },
     {
      "address": "0x00d0a360",
-     "symbol": "?HandleArg@FUN_00d0a360_Owner@@QAEXH@Z",
+     "symbol": "?HandleArg@FUN_00d0a360_Owner@@QAEXPAX@Z",
      "size": 35
     },
     {
@@ -439828,7 +439828,7 @@
     },
     {
      "address": "0x00d0a560",
-     "symbol": "?FUN_00d0a560@S00d0a560_Owner@fnv_00d0a560@@QAEXPAHH@Z",
+     "symbol": "?FUN_00d0a560@S00d0a560_Owner@fnv_00d0a560@@QAEXPAPAXPAX@Z",
      "size": 318
     },
     {
@@ -439843,12 +439843,12 @@
     },
     {
      "address": "0x00d0ac40",
-     "symbol": "?FUN_00d0ac40@FUN_00d0ac40_Owner@@QAEXHHHH@Z",
+     "symbol": "?FUN_00d0ac40@FUN_00d0ac40_Owner@@QAEXPAX000@Z",
      "size": 47
     },
     {
      "address": "0x00d0ac70",
-     "symbol": "?CollectAndProcessCollidables@D0AObj@@QAEXHH@Z",
+     "symbol": "?CollectAndProcessCollidables@D0AObj@@QAEXPAX0@Z",
      "size": 264
     },
     {
@@ -439878,7 +439878,7 @@
     },
     {
      "address": "0x00d9d800",
-     "symbol": "?GetAudioPair@fnv_00d9d800@@YAXPAHH@Z",
+     "symbol": "?GetAudioPair@fnv_00d9d800@@YAXPAPAXH@Z",
      "size": 53
     }
    ],
@@ -440049,7 +440049,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440082,7 +440082,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -440128,7 +440128,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440140,7 +440140,7 @@
    "functions": [
     {
      "address": "0x00db4ca0",
-     "symbol": "?FUN_00db4ca0@@YAMPAXPBMPBT__m128@@MMMMHPAUOut@@@Z",
+     "symbol": "?FUN_00db4ca0@@YAMPAXPBMPBT__m128@@MMMMHPAUSweepOut@@@Z",
      "size": 413
     }
    ],
@@ -440154,7 +440154,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -440245,7 +440245,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440296,7 +440296,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -440322,7 +440322,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440408,7 +440408,7 @@
     },
     {
      "address": "0x00daac40",
-     "symbol": "?FUN_00daac40@S00daac40_FUN_00daac40_cls@@QAEPA_NU?$S00daac40_RayArgument@PA_N@@HHU?$S00daac40_RayArgument@PAUS00daac40_RayParams@@@@@Z",
+     "symbol": "?FUN_00daac40@S00daac40_FUN_00daac40_cls@@QAEPA_NU?$S00daac40_RayArgument@PA_N@@PAUCollision_vcls@@PAUCollision_hit@@U?$S00daac40_RayArgument@PAUS00daac40_RayParams@@@@@Z",
      "size": 253
     },
     {
@@ -440464,7 +440464,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/hkpgsk_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/hkpgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440488,7 +440488,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/hkpgsk_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/hkpgsk.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440563,7 +440563,7 @@
    "functions": [
     {
      "address": "0x00cd7530",
-     "symbol": "?FUN_00cd7530@@YAXUP@@0UMid@@_J@Z",
+     "symbol": "?FUN_00cd7530@@YAXPBUS00cd7530_Vec@@000PAM@Z",
      "size": 799
     },
     {
@@ -440573,12 +440573,12 @@
     },
     {
      "address": "0x00dfa940",
-     "symbol": "?FUN_00dfa940@S00dfa940_Solver@@QAEHH@Z",
+     "symbol": "?FUN_00dfa940@S00dfa940_Solver@@QAEHPAUOutput@@@Z",
      "size": 373
     },
     {
      "address": "0x00dfaac0",
-     "symbol": "?TestPenetration@@YAHHHABUS_00dfaac0_Transform@@MHHHHH@Z",
+     "symbol": "?TestPenetration@@YAHPBUS2db70_Shape@@0ABUS_00dfaac0_Transform@@MPAVS2db70_Vector4@@22HPAUS2db70_Out@@@Z",
      "size": 211
     },
     {
@@ -440624,7 +440624,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -440646,7 +440646,7 @@
     },
     {
      "address": "0x00df9ef0",
-     "symbol": "?FUN_00df9ef0@S00df9ef0_Obj@@QAEXPAUS00df9ef0_Vec4@@U?$S00df9ef0_Pad@US00df9ef0_Vec4@@@@PAUS00df9ef0_Hit@@U?$S00df9ef0_Pad@M@@@Z",
+     "symbol": "?FUN_00df9ef0@S00df9ef0_Obj@@QAEXPAUS00df9ef0_Vec4@@PBU2@PAUS00df9ef0_Hit@@PAM@Z",
      "size": 232
     }
    ],
@@ -440659,7 +440659,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -440692,7 +440692,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -440860,7 +440860,7 @@
     },
     {
      "address": "0x00e06c20",
-     "symbol": "?FUN_00e06c20@E06C20Object@@QAEHPAX@Z",
+     "symbol": "?FUN_00e06c20@E06C20Object@@QAEHI@Z",
      "size": 23
     },
     {
@@ -440935,7 +440935,7 @@
     },
     {
      "address": "0x00e07c50",
-     "symbol": "?FUN_00e07c50@S_e07c50@@QAEHPAUS_e07c50_Item@@HH@Z",
+     "symbol": "?FUN_00e07c50@S_e07c50@@QAEHPAUS_e07c50_Item@@PAX1@Z",
      "size": 80
     },
     {
@@ -441010,7 +441010,7 @@
     },
     {
      "address": "0x00e095d0",
-     "symbol": "?FUN_00e095d0@FUN_00e095d0_cls@@QAEPAV1@PAV1@II@Z",
+     "symbol": "?FUN_00e095d0@FUN_00e095d0_cls@@QAEPAV1@PAV1@PAXPAM@Z",
      "size": 72
     },
     {
@@ -441096,7 +441096,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -441131,7 +441131,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -441176,7 +441176,7 @@
     },
     {
      "address": "0x00dd4c70",
-     "symbol": "?CopyFromSourceData@Destination@@QAEXI@Z",
+     "symbol": "?CopyFromSourceData@Destination@@QAEXPBUSourceData@@@Z",
      "size": 52
     }
    ],
@@ -441191,7 +441191,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -441275,7 +441275,7 @@
     },
     {
      "address": "0x00dd5cd0",
-     "symbol": "?ProcessItems@FUN_00dd5cd0_cls@@QAEXHH@Z",
+     "symbol": "?ProcessItems@FUN_00dd5cd0_cls@@QAEXPAUItem_00dd5b00@@H@Z",
      "size": 126
     },
     {
@@ -441313,7 +441313,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/cachedshape/hkpmoppcachedshapemediator_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/cachedshape/hkpmoppcachedshapemediator.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -441354,7 +441354,7 @@
     },
     {
      "address": "0x00dd51f0",
-     "symbol": "?ReadIntField@@YGHPBXPAH@Z",
+     "symbol": "?ReadIntField@@YAHPBUMoppCompilerPrimitive@@PAH@Z",
      "size": 21
     },
     {
@@ -441400,7 +441400,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -441479,7 +441479,7 @@
     },
     {
      "address": "0x00e09f80",
-     "symbol": "?AllocateNode@FUN_00e09f80_class@@QAEPAUhkNodeE09F@@HPAUhkRangeE09F@@@Z",
+     "symbol": "?AllocateNode@FUN_00e09f80_class@@QAEPAUhkNodeE09F@@PAU2@PAUhkRangeE09F@@@Z",
      "size": 148
     },
     {
@@ -441509,12 +441509,12 @@
     },
     {
      "address": "0x00e0a550",
-     "symbol": "?FUN_00e0a550@hkProcessorE0A5@@QAEHPAVhkInputE0A5@@HPAVhkOutputE0A5@@PAUhkSettingsE0A5@@PAUhkBuffersE0A5@@@Z",
+     "symbol": "?FUN_00e0a550@hkProcessorE0A5@@QAEPAUSplitNode@@PAVhkInputE0A5@@PAXPAVhkOutputE0A5@@PAUhkSettingsE0A5@@PAUhkBuffersE0A5@@@Z",
      "size": 358
     },
     {
      "address": "0x00e0a6c0",
-     "symbol": "?FUN_00e0a6c0@FUN_00e0a6c0_Class@@QAEMPBUFUN_00e0a6c0_Parameters@@@Z",
+     "symbol": "?FUN_00e0a6c0@ScorerObj@@QAEMPBUSearchCtx@@@Z",
      "size": 138
     },
     {
@@ -441605,7 +441605,7 @@
    "functions": [
     {
      "address": "0x00e647e0",
-     "symbol": "?SetupAndProcessShape@S_00e647e0@@QAE?AVhkBool@@PAUS_00e647e0_Input@@PBX11@Z",
+     "symbol": "?SetupAndProcessShape@hkpMoppEarlyExitObbVirtualMachine@S00e63f10@@QAE?AVhkBool@@PAUS_00e647e0_Input@@PBX11@Z",
      "size": 132
     }
    ],
@@ -441618,7 +441618,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -441630,7 +441630,7 @@
    "functions": [
     {
      "address": "0x00e645b0",
-     "symbol": "?FUN_00e645b0@BoundsWorker@@QAEXPBXUPointerArg@@0PAUS_00e647e0_Local@@@Z",
+     "symbol": "?FUN_00e645b0@hkpMoppEarlyExitObbVirtualMachine@S00e63f10@@QAEXPBXUPointerArg@@0PAUCollisionShapeRecord@2@@Z",
      "size": 548
     }
    ],
@@ -441640,7 +441640,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -441689,7 +441689,7 @@
     },
     {
      "address": "0x00e65080",
-     "symbol": "?FUN_00e65080@FUN_00e65080_cls@@QAEXPAXI@Z",
+     "symbol": "?FUN_00e65080@FUN_00e65080_cls@@QAEXIPBI@Z",
      "size": 184
     },
     {
@@ -441741,7 +441741,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -441753,7 +441753,7 @@
    "functions": [
     {
      "address": "0x00dd1f30",
-     "symbol": "?FUN_00dd1f30@LongRayVm@@QAEXPBULongRayQueryInt@@PBEPAULongRayQueryFloat@@H@Z",
+     "symbol": "?FUN_00dd1f30@MoppMachine@LongRayTreeDetail@@QAEXPBURayState@2@PBEPAURayPair@2@H@Z",
      "size": 3761
     },
     {
@@ -441832,7 +441832,7 @@
     },
     {
      "address": "0x00dd1da0",
-     "symbol": "?FUN_00dd1da0@GridCell@@QAEXPAUGridSource@@PAUGridBounds@@H@Z",
+     "symbol": "?FUN_00dd1da0@GridCell@@QAEXPAUGridSource@@PAUGridBounds@@PAX@Z",
      "size": 347
     }
    ],
@@ -441851,7 +441851,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -441863,7 +441863,7 @@
    "functions": [
     {
      "address": "0x00dd1bf0",
-     "symbol": "?FUN_00dd1bf0@ObbMachine@ObbQueryDetail@@QAEXPBUObbCodeView@2@PBUObbTransform@2@PBUObbVector@2@MI@Z",
+     "symbol": "?FUN_00dd1bf0@ObbMachine@ObbQueryDetail@@QAEXPBUObbCodeView@2@PBUObbTransform@2@PBUObbVector@2@MPAX@Z",
      "size": 425
     }
    ],
@@ -441898,7 +441898,7 @@
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -441922,7 +441922,7 @@
    }
   },
   {
-   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442079,7 +442079,7 @@
    "functions": [
     {
      "address": "0x00d4dbe0",
-     "symbol": "??0FUN_00d4dbe0@@QAE@PAX0K@Z",
+     "symbol": "??0FUN_00d4dbe0@@QAE@PAX0I@Z",
      "size": 66
     },
     {
@@ -442099,7 +442099,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442139,7 +442139,7 @@
    "functions": [
     {
      "address": "0x00d4d980",
-     "symbol": "?FUN_00d4d980@FUN_00d4d980_Class@@QAEPAU1@HHH@Z",
+     "symbol": "?FUN_00d4d980@FUN_00d4d980_Class@@QAEPAU1@PAVhkpEntity@@0I@Z",
      "size": 75
     },
     {
@@ -442158,7 +442158,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/dashpot/hkpdashpotaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442198,7 +442198,7 @@
    "functions": [
     {
      "address": "0x00d4d720",
-     "symbol": "??0FUN_00d4d720@@QAE@HPBMMM@Z",
+     "symbol": "??0FUN_00d4d720@@QAE@PAUFUN_00c90510_Entity@@PBMMM@Z",
      "size": 197
     }
    ],
@@ -442211,7 +442211,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -442233,7 +442233,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442280,12 +442280,12 @@
     },
     {
      "address": "0x00cbb1c0",
-     "symbol": "?Method@FUN_00cbb1c0@@QAEXH@Z",
+     "symbol": "?Method@FUN_00cbb1c0@@QAEXPAVhkpEntity@@@Z",
      "size": 24
     },
     {
      "address": "0x00cbb4e0",
-     "symbol": "??0FUN_00cbb4e0@@QAE@H@Z",
+     "symbol": "??0FUN_00cbb4e0@@QAE@PAX@Z",
      "size": 126
     },
     {
@@ -442300,7 +442300,7 @@
     },
     {
      "address": "0x00cbb8a0",
-     "symbol": "?FUN_00cbb8a0@@YAHXZ",
+     "symbol": "?FUN_00cbb8a0@@YAPBXXZ",
      "size": 6
     },
     {
@@ -442345,7 +442345,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/mousespring/hkpmousespringaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442410,7 +442410,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/reorient/hkpreorientaction_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442456,7 +442456,7 @@
     },
     {
      "address": "0x00d4d340",
-     "symbol": "??0FUN_00d4d340@@QAE@PAX0K@Z",
+     "symbol": "??0FUN_00d4d340@@QAE@PAX0I@Z",
      "size": 68
     },
     {
@@ -442496,7 +442496,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/actions/spring/hkpspringaction_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/actions/spring/hkpspringaction.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -442532,12 +442532,12 @@
    "functions": [
     {
      "address": "0x00c9c5b0",
-     "symbol": "?FUN_00c9c5b0@FNVOwner@@QAEXH@Z",
+     "symbol": "?FUN_00c9c5b0@FNVOwner@@QAEXPAX@Z",
      "size": 188
     },
     {
      "address": "0x00ca0c40",
-     "symbol": "?FUN_00ca0c40@CharProxy_ca0c40@@QAEPAT__m128@sse_ca0c40@@PBT23@PAT23@@Z",
+     "symbol": "?FUN_00ca0c40@CharProxy_ca0c40@@QAEPAT__m128@@PBT2@PAT2@@Z",
      "size": 88
     },
     {
@@ -442667,17 +442667,17 @@
     },
     {
      "address": "0x00cafbd0",
-     "symbol": "?FUN_00cafbd0@FUN_00cafbd0_Class@@QAEXHHHH@Z",
+     "symbol": "?FUN_00cafbd0@FUN_00cafbd0_Class@@QAEXPBX0PAX1@Z",
      "size": 32
     },
     {
      "address": "0x00cafbf0",
-     "symbol": "?FUN_00cafbf0@S00cafbf0_Obj@@QAEXHHHH@Z",
+     "symbol": "?FUN_00cafbf0@S00cafbf0_Obj@@QAEXPBX0PAXH@Z",
      "size": 262
     },
     {
      "address": "0x00cafd00",
-     "symbol": "?FUN_00cafd00@ContactQuery@@QAEXPAXI@Z",
+     "symbol": "?FUN_00cafd00@ContactQuery@@QAEXPAX0@Z",
      "size": 129
     },
     {
@@ -442790,7 +442790,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -442847,7 +442847,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -442943,7 +442943,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext_od_oy_noo2_variant.cpp",
+   "source": "src/havok/physics/utilities/charactercontrol/statemachine/hkpcharactercontext.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -443129,7 +443129,7 @@
     },
     {
      "address": "0x00d74420",
-     "symbol": "?RunContextOperation@@YAHHHHPAH@Z",
+     "symbol": "?RunContextOperation@@YAHPBUhkpShape@@PBUOptions@@PAUResults@@PAPBU1@@Z",
      "size": 91
     },
     {
@@ -443144,17 +443144,17 @@
     },
     {
      "address": "0x00d748d0",
-     "symbol": "?FUN_00d748d0@@YAHPAVhkpEntityD748@@HH@Z",
+     "symbol": "?FUN_00d748d0@@YAHPAVhkpEntityD748@@PAXPAUhkShapeOutputD748@@@Z",
      "size": 163
     },
     {
      "address": "0x00d74980",
-     "symbol": "?FindMappedValue@FUN_00d74980_Class@@QAEHH@Z",
+     "symbol": "?FindMappedValue@FUN_00d74980_Class@@QAEHPBX@Z",
      "size": 55
     },
     {
      "address": "0x00d749c0",
-     "symbol": "?SetEntryValue@D749Table@@QAEHHH@Z",
+     "symbol": "?SetEntryValue@D749Table@@QAEHPBX0@Z",
      "size": 94
     },
     {
@@ -443210,7 +443210,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -443222,7 +443222,7 @@
    "functions": [
     {
      "address": "0x00d738f0",
-     "symbol": "?FUN_00d738f0@ShapeData@@QAEXH@Z",
+     "symbol": "?FUN_00d738f0@ShapeData@@QAEXPBUShapeD738@@@Z",
      "size": 253
     },
     {
@@ -443318,7 +443318,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -443351,7 +443351,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -443391,7 +443391,7 @@
     },
     {
      "address": "0x00e5b440",
-     "symbol": "?ApplyRelativeOrientation@fnv_00e5b440@@YAXPAUOwner@1@PADPBT__m128@@HHH@Z",
+     "symbol": "?ApplyRelativeOrientation@fnv_00e5b440@@YAXPAUOwner@1@PAVhkpEntity@@PBT__m128@@HHH@Z",
      "size": 202
     },
     {
@@ -443401,7 +443401,7 @@
     },
     {
      "address": "0x00e5c370",
-     "symbol": "?InsertAndDelete@?$S_00e5c370_ArrayBase@US_00e5c370_Elem@@@@QAEXAAUS_00e5c370_Alloc@@HHPBUS_00e5c370_Elem@@H@Z",
+     "symbol": "?InsertAndDelete@?$S_00e5c370_ArrayBase@US_00e5c370_Elem@@@@QAEXAAVhkMemoryAllocator@@HHPBUS_00e5c370_Elem@@H@Z",
      "size": 174
     },
     {
@@ -443442,7 +443442,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -443521,7 +443521,7 @@
     },
     {
      "address": "0x00e3a5b0",
-     "symbol": "?BuildPoweredChainMapper@@YAPAUFnMapper@@UFnFlags@@PAU?$hkArray@H@@PAU?$hkArray@UFnNodePair@@@@1@Z",
+     "symbol": "?BuildPoweredChainMapper@@YAPAUFnMapper@@UFnFlags@@PAU?$hkArray@PAUS5ba30_ConstraintInstance@@@@PAU?$hkArray@UFnNodePair@@@@1@Z",
      "size": 1985
     },
     {
@@ -443565,7 +443565,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper_decl_variant.cpp",
+   "source": "src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -443721,7 +443721,7 @@
     },
     {
      "address": "0x00e45890",
-     "symbol": "?FUN_00e45890@FUN_00e45890_Class@@UAEPAXPAX00@Z",
+     "symbol": "?FUN_00e45890@FUN_00e45890_Class@@QAEPAXPAX00@Z",
      "size": 36
     },
     {
@@ -443770,7 +443770,7 @@
     },
     {
      "address": "0x00cebaf0",
-     "symbol": "?FUN_00cebaf0@@YAHABUV4@@MAAUMassProperties@@@Z",
+     "symbol": "?FUN_00cebaf0@@YAHPBMMPAUMassProperties@@@Z",
      "size": 187
     },
     {
@@ -443810,7 +443810,7 @@
     },
     {
      "address": "0x00cec000",
-     "symbol": "?FUN_00cec000@S00cec3d0_Base@fnv_anon_00cec3d0@@QAEXPBM@Z",
+     "symbol": "?FUN_00cec000@VertexComponentData@@QAEXPBM@Z",
      "size": 963
     },
     {
@@ -443850,7 +443850,7 @@
     },
     {
      "address": "0x00ced020",
-     "symbol": "?ApplyLimitToReceiver@@YAHHHHMPAUReceiver@@M@Z",
+     "symbol": "?ApplyLimitToReceiver@@YAHPBT__m128@@HHMPAUReceiver@@M@Z",
      "size": 100
     },
     {
@@ -443885,12 +443885,12 @@
     },
     {
      "address": "0x00cedec0",
-     "symbol": "?FUN_00cedec0@@YAMPAUS_00cee1c0_Arr@@HM@Z",
+     "symbol": "?FUN_00cedec0@@YAMPAUS_00cee1c0_Arr@@PAUNode@@M@Z",
      "size": 759
     },
     {
      "address": "0x00cee1c0",
-     "symbol": "?ProcessArrayWithValue@@YAXPAIHHM@Z",
+     "symbol": "?ProcessArrayWithValue@@YAXPAPAUEdge@@HPAUNode@@M@Z",
      "size": 205
     },
     {
@@ -444011,7 +444011,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_ehsc_noehsc_variant_gs_nogs_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -444047,7 +444047,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -444103,7 +444103,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -444148,7 +444148,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -444160,7 +444160,7 @@
    "functions": [
     {
      "address": "0x00ced390",
-     "symbol": "?FUN_00ced390@Solver@@QAEXPAUState@@PAM@Z",
+     "symbol": "?FUN_00ced390@Integrals159@@QAEXPAUMesh159@@PBUIntegralVector159@@@Z",
      "size": 796
     }
    ],
@@ -444171,7 +444171,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -444284,7 +444284,7 @@
     },
     {
      "address": "0x00dcd6a0",
-     "symbol": "?DispatchItemToAgent@@YAHHPAPAUDCD6A0Context@@HHPAUDCD6A0Item@@@Z",
+     "symbol": "?DispatchItemToAgent@@YAHHPAPAUDCD6A0Context@@PAX1PAUDCD6A0Item@@@Z",
      "size": 124
     },
     {
@@ -444324,12 +444324,12 @@
     },
     {
      "address": "0x00dce7b0",
-     "symbol": "?RunWithLocalContext@@YAXHHH@Z",
+     "symbol": "?RunWithLocalContext@@YAXPAUResolver@@PAUListOwner@@PAUCtx@@@Z",
      "size": 37
     },
     {
      "address": "0x00dce7e0",
-     "symbol": "?FUN_00dce7e0@@YAXHHPAHH@Z",
+     "symbol": "?FUN_00dce7e0@@YAXPAUResolver@@PAUListOwner@@PAPAUFUN_00dce7e0_Source@@H@Z",
      "size": 84
     },
     {
@@ -444339,7 +444339,7 @@
     },
     {
      "address": "0x00dce8d0",
-     "symbol": "?GetValueOrDefault@FUN_00dce8d0_class@@QAEKK@Z",
+     "symbol": "?GetValueOrDefault@FUN_00dce8d0_class@@QAEII@Z",
      "size": 18
     },
     {
@@ -444445,7 +444445,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -444675,7 +444675,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -444707,7 +444707,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -444828,7 +444828,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/serialize/hkpphysicsdata_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/serialize/hkpphysicsdata.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -444910,7 +444910,7 @@
     },
     {
      "address": "0x00cd1eb0",
-     "symbol": "?FUN_00cd1eb0@FUN_00cd1eb0_StandIn@@QAEHH@Z",
+     "symbol": "?FUN_00cd1eb0@FUN_00cd1eb0_StandIn@@QAEPAXH@Z",
      "size": 31
     },
     {
@@ -444925,7 +444925,7 @@
     },
     {
      "address": "0x00cd1f60",
-     "symbol": "?FUN_00cd1f60@FUN_00cd1f60_cls@@QAEXH@Z",
+     "symbol": "?FUN_00cd1f60@FUN_00cd1f60_cls@@QAEXPAX@Z",
      "size": 15
     },
     {
@@ -444935,7 +444935,7 @@
     },
     {
      "address": "0x00cd1fa0",
-     "symbol": "?FUN_00cd1fa0@CD1FA0Object@@UAEXH@Z",
+     "symbol": "?FUN_00cd1fa0@CD1FA0Object@@UAEXPAX@Z",
      "size": 15
     },
     {
@@ -444950,12 +444950,12 @@
     },
     {
      "address": "0x00cd2020",
-     "symbol": "?FUN_00cd2020@Context@fnv_00cd2020@@QAEXH@Z",
+     "symbol": "?FUN_00cd2020@Context@fnv_00cd2020@@QAEXPAX@Z",
      "size": 32
     },
     {
      "address": "0x00cd2040",
-     "symbol": "?ForwardToTarget@FUN_00cd2040_Class@@QAEXH@Z",
+     "symbol": "?ForwardToTarget@FUN_00cd2040_Class@@QAEXPAX@Z",
      "size": 15
     },
     {
@@ -444985,22 +444985,22 @@
     },
     {
      "address": "0x00cd2460",
-     "symbol": "?FUN_00cd2460@Secondary@@UAEHH@Z",
+     "symbol": "?FUN_00cd2460@Secondary@@QAEXPAUCD2260Object@@@Z",
      "size": 8
     },
     {
      "address": "0x00cd2470",
-     "symbol": "?FindOrAddPointer@Candidate@@QAEPAXPAX@Z",
+     "symbol": "?FindOrAddPointer@Candidate@@QAEXPAX@Z",
      "size": 93
     },
     {
      "address": "0x00cd24d0",
-     "symbol": "?FUN_00cd24d0@FUN_00cd24d0_cls@@QAEXH@Z",
+     "symbol": "?FUN_00cd24d0@FUN_00cd24d0_cls@@QAEXPAUOwner@@@Z",
      "size": 90
     },
     {
      "address": "0x00cd2530",
-     "symbol": "?AddItem@FUN_00cd2530_cls@@QAEXH@Z",
+     "symbol": "?AddItem@FUN_00cd2530_cls@@QAEXPAX@Z",
      "size": 157
     },
     {
@@ -445188,7 +445188,7 @@
     },
     {
      "address": "0x00d6a910",
-     "symbol": "?FUN_00d6a910@Owner@@QAEHPAUContainer@@@Z",
+     "symbol": "?FUN_00d6a910@FUN_00d6a8e0_cls@@QAEHPAUContainer@@@Z",
      "size": 38
     },
     {
@@ -445203,7 +445203,7 @@
     },
     {
      "address": "0x00d6ad00",
-     "symbol": "?FUN_00d6ad00@fnv_00d6ad00@@YAHH@Z",
+     "symbol": "?FUN_00d6ad00@fnv_00d6ad00@@YAPAUProcBase@@PAX@Z",
      "size": 49
     },
     {
@@ -445269,7 +445269,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -445382,7 +445382,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer_rtmfull_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -445414,7 +445414,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -445440,7 +445440,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -445464,7 +445464,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -445476,7 +445476,7 @@
    "functions": [
     {
      "address": "0x00de3520",
-     "symbol": "?FUN_00de3520@Processor@@QAEXPAUShape@@PBUTransform@@PAUOutputArray@@@Z",
+     "symbol": "?FUN_00de3520@Processor@fnv_00de3520@@QAEXPAUShape@2@PBUTransform@2@PAUOutputArray@2@@Z",
      "size": 3608
     }
    ],
@@ -445506,7 +445506,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -445528,7 +445528,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -445567,7 +445567,7 @@
    "functions": [
     {
      "address": "0x00d68940",
-     "symbol": "?DispatchToTarget@FUN_00d68940_cls@@QAEXPAD@Z",
+     "symbol": "?DispatchToTarget@FUN_00d68940_cls@@QAEXPAVhkpEntity@@@Z",
      "size": 35
     },
     {
@@ -445577,7 +445577,7 @@
     },
     {
      "address": "0x00d68a70",
-     "symbol": "?FindKeyIndex@FUN_00d68a70_class@@QAEHH@Z",
+     "symbol": "?FindKeyIndex@FUN_00d68a70_class@@QAEHPBX@Z",
      "size": 40
     },
     {
@@ -445592,7 +445592,7 @@
     },
     {
      "address": "0x00d68b90",
-     "symbol": "??0FUN_00d68b90@@QAE@H@Z",
+     "symbol": "??0FUN_00d68b90@@QAE@PAX@Z",
      "size": 100
     },
     {
@@ -445637,7 +445637,7 @@
     },
     {
      "address": "0x00d69160",
-     "symbol": "?FUN_00d69160@Sub@@QAEXH@Z",
+     "symbol": "?FUN_00d69160@Sub@@QAEXPAX@Z",
      "size": 32
     },
     {
@@ -445745,7 +445745,7 @@
    "functions": [
     {
      "address": "0x00d6a220",
-     "symbol": "?HandleWithSelfOffset@FUN_00d6a220_cls@@QAEHPAUTarget@@@Z",
+     "symbol": "?HandleWithSelfOffset@FirstBase@@QAEHPAUTarget@@@Z",
      "size": 38
     },
     {
@@ -445830,7 +445830,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -446070,7 +446070,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -446124,7 +446124,7 @@
    "functions": [
     {
      "address": "0x00d66bf0",
-     "symbol": "?DispatchToChild@FUN_00d66bf0_cls@@QAEXH@Z",
+     "symbol": "?DispatchToChild@FUN_00d66bf0_cls@@QAEXPBX@Z",
      "size": 21
     },
     {
@@ -446144,7 +446144,7 @@
     },
     {
      "address": "0x00d682d0",
-     "symbol": "?FUN_00d682d0@FUN_00d682d0_cls@@QAEPAXH@Z",
+     "symbol": "?FUN_00d682d0@FUN_00d682d0_cls@@QAEPAXPAX@Z",
      "size": 53
     },
     {
@@ -446169,7 +446169,7 @@
     },
     {
      "address": "0x00d686b0",
-     "symbol": "?FUN_00d686b0@@YAHH@Z",
+     "symbol": "?FUN_00d686b0@@YAPAXPAX@Z",
      "size": 49
     },
     {
@@ -446431,7 +446431,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446443,7 +446443,7 @@
    "functions": [
     {
      "address": "0x00d67a50",
-     "symbol": "?FUN_00d67a50@@YAXPAVS00d67a50_Owner377@@HPAUS00d67a50_Context377@@HHHME@Z",
+     "symbol": "?FUN_00d67a50@@YAXPAVS00d67a50_Owner377@@HPAUS00d67a50_Context377@@HPBDHME@Z",
      "size": 311
     }
    ],
@@ -446470,12 +446470,12 @@
     },
     {
      "address": "0x00d62680",
-     "symbol": "?FUN_00d62680@HKConstraint@@QAEXPAUHKWorldList@@@Z",
+     "symbol": "?FUN_00d62680@S_00d62650_B2@@QAEXPAUHKWorldList@@@Z",
      "size": 38
     },
     {
      "address": "0x00d626b0",
-     "symbol": "??0FUN_00d626b0@@QAE@H@Z",
+     "symbol": "??0FUN_00d626b0@@QAE@PAX@Z",
      "size": 104
     },
     {
@@ -446552,7 +446552,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446605,7 +446605,7 @@
    "functions": [
     {
      "address": "0x00de8090",
-     "symbol": "?FireMotionEvent@Obj@@QAEXPAUBody@@PAUListener@@HH@Z",
+     "symbol": "?FireMotionEvent@Obj@@QAEXPAUBody@@PAUListener@@IH@Z",
      "size": 169
     }
    ],
@@ -446631,7 +446631,7 @@
    "functions": [
     {
      "address": "0x00de6390",
-     "symbol": "?FireChainConstraints@Obj@@QAEXPAUChainInstance@@PAUListener@@HH@Z",
+     "symbol": "?FireChainConstraints@Obj@@QAEXPAUChainInstance@@PAUListener@@IH@Z",
      "size": 445
     }
    ],
@@ -446661,12 +446661,12 @@
     },
     {
      "address": "0x00de44c0",
-     "symbol": "?FUN_00de44c0@DE44C0Object@@QAEXHH@Z",
+     "symbol": "?FUN_00de44c0@DE44C0Object@@QAEXIH@Z",
      "size": 107
     },
     {
      "address": "0x00de4530",
-     "symbol": "?FUN_00de4530@FUN_00de4530Owner@@QAEXHH@Z",
+     "symbol": "?FUN_00de4530@FUN_00de4530Owner@@QAEXIH@Z",
      "size": 584
     },
     {
@@ -446701,7 +446701,7 @@
     },
     {
      "address": "0x00de47e0",
-     "symbol": "?FUN_00de47e0@FUN_00de47e0_cls@@QAEXPADPAT__m128@@1@Z",
+     "symbol": "?FUN_00de47e0@hkpConstraintDrawer@@QAEXPBXPAX1@Z",
      "size": 189
     }
    ],
@@ -446719,7 +446719,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingedrawer_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446731,7 +446731,7 @@
    "functions": [
     {
      "address": "0x00de7f20",
-     "symbol": "?FUN_00de7f20@Drawer@@QAEXPBUhkpConstraintInstanceD@@PAUhkDebugDisplayHandlerD@@HH@Z",
+     "symbol": "?FUN_00de7f20@Drawer@@QAEXPBUhkpConstraintInstanceD@@PAUhkDebugDisplayHandlerD@@IH@Z",
      "size": 355
     }
    ],
@@ -446749,7 +446749,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446786,7 +446786,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446798,7 +446798,7 @@
    "functions": [
     {
      "address": "0x00de6d80",
-     "symbol": "?FUN_00de6d80@T@@QAEXPAUSrc@@PAUVisitor@@HH@Z",
+     "symbol": "?FUN_00de6d80@T@@QAEXPAUSrc@@PAUVisitor@@IH@Z",
      "size": 666
     }
    ],
@@ -446829,7 +446829,7 @@
    "functions": [
     {
      "address": "0x00de7a70",
-     "symbol": "?FUN_00de7a70@Viewer@@QAEXPAUInput@@PAUDisplay@@HH@Z",
+     "symbol": "?FUN_00de7a70@Viewer@@QAEXPAUInput@@PAUDisplay@@IH@Z",
      "size": 1191
     }
    ],
@@ -446866,7 +446866,7 @@
    "functions": [
     {
      "address": "0x00de7020",
-     "symbol": "?FUN_00de7020@Viewer@@QAEXPAUInput@@PAULineDrawer@@HH@Z",
+     "symbol": "?FUN_00de7020@Viewer@@QAEXPAUInput@@PAULineDrawer@@IH@Z",
      "size": 427
     }
    ],
@@ -446884,7 +446884,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtoplanedrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtoplanedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446925,14 +446925,14 @@
    "functions": [
     {
      "address": "0x00e10a10",
-     "symbol": "?FUN_00e10a10@CpuObject@@QAEXH@Z",
+     "symbol": "?FUN_00e10a10@CpuObject@@QAEXPAX@Z",
      "size": 9
     }
    ],
    "symbols": {}
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446944,17 +446944,17 @@
    "functions": [
     {
      "address": "0x00e10bf0",
-     "symbol": "?FUN_00e10bf0@AxisDisplayOwner@@QAEXABVhkVector4@@ABVhkMatrix3@@MHHH@Z",
+     "symbol": "?FUN_00e10bf0@AxisDisplayOwner@@QAEXABVhkVector4@@ABVhkMatrix3@@MHIH@Z",
      "size": 342
     },
     {
      "address": "0x00e10f60",
-     "symbol": "?FUN_00e10f60@CircleDrawer@@QAEXMPAT__m128@@0UVectorArg@@HHMHH@Z",
+     "symbol": "?FUN_00e10f60@CircleDrawer@@QAEXMPAT__m128@@0UVectorArg@@HHMIH@Z",
      "size": 537
     },
     {
      "address": "0x00e11180",
-     "symbol": "?FUN_00e11180@PlaneDrawObject@fnv_00e11180@@QAEXPBUPlaneDrawVector@2@H0HMHH@Z",
+     "symbol": "?FUN_00e11180@PlaneDrawObject@fnv_00e11180@@QAEXPBUPlaneDrawVector@2@00HMIH@Z",
      "size": 755
     }
    ],
@@ -446976,7 +446976,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_gs_nogs_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -446988,7 +446988,7 @@
    "functions": [
     {
      "address": "0x00e10a20",
-     "symbol": "?FUN_00e10a20@CpuObjectDerived@@QAEXPBUhkVector4@@PAU2@1MMMHHHH@Z",
+     "symbol": "?FUN_00e10a20@CpuObjectDerived@@QAEXPBVhkVector4@@PAV2@1MMMHHIH@Z",
      "size": 453
     }
    ],
@@ -447001,7 +447001,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -447013,7 +447013,7 @@
    "functions": [
     {
      "address": "0x00e10d50",
-     "symbol": "?FUN_00e10d50@ArrowDrawObject@ArrowDraw@@QAEXPBUArrowDrawVector@2@H0HMHH@Z",
+     "symbol": "?FUN_00e10d50@ArrowDrawObject@ArrowDraw@@QAEXPBUArrowDrawVector@2@00HMIH@Z",
      "size": 527
     }
    ],
@@ -447026,7 +447026,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprismaticdrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -447038,7 +447038,7 @@
    "functions": [
     {
      "address": "0x00de7730",
-     "symbol": "?FUN_00de7730@Simulation@@QAEXPAUInput@@PAUDraw@@HH@Z",
+     "symbol": "?FUN_00de7730@Simulation@@QAEXPAUInput@@PAUDraw@@IH@Z",
      "size": 832
     }
    ],
@@ -447057,7 +447057,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -447069,7 +447069,7 @@
    "functions": [
     {
      "address": "0x00de6550",
-     "symbol": "?FUN_00de6550@ConstraintVisualizer@@QAEXPAUhkpConstraintInstance@@PAUhkDebugDisplayHandler@@HH@Z",
+     "symbol": "?FUN_00de6550@ConstraintVisualizer@@QAEXPAUhkpConstraintInstance@@PAUhkDebugDisplayHandler@@IH@Z",
      "size": 474
     }
    ],
@@ -447088,7 +447088,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -447100,7 +447100,7 @@
    "functions": [
     {
      "address": "0x00de59f0",
-     "symbol": "?FUN_00de59f0@This@@QAEXPAUP1@@PAUP2Vtbl@@HH@Z",
+     "symbol": "?FUN_00de59f0@This@@QAEXPAUP1@@PAUP2Vtbl@@IH@Z",
      "size": 1508
     }
    ],
@@ -447126,7 +447126,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -447138,7 +447138,7 @@
    "functions": [
     {
      "address": "0x00de6730",
-     "symbol": "?FUN_00de6730@Cls@@QAEXPAUInput@@PAURenderer@@HH@Z",
+     "symbol": "?FUN_00de6730@Cls@@QAEXPAUInput@@PAURenderer@@IH@Z",
      "size": 1602
     }
    ],
@@ -447162,7 +447162,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -447174,7 +447174,7 @@
    "functions": [
     {
      "address": "0x00de71d0",
-     "symbol": "?FUN_00de71d0@DrawObject@@QAEXPAUInput@@PAUDbg@@HH@Z",
+     "symbol": "?FUN_00de71d0@DrawObject@@QAEXPAUInput@@PAUDbg@@IH@Z",
      "size": 938
     }
    ],
@@ -447214,7 +447214,7 @@
     },
     {
      "address": "0x00d69260",
-     "symbol": "?FUN_00d69260@Viewer@ConstraintDrawDetail@@QAEXHPAUEntity@@H@Z",
+     "symbol": "?FUN_00d69260@Viewer@ConstraintDrawDetail@@QAEXPAXPAUEntity@@H@Z",
      "size": 1219
     },
     {
@@ -447428,7 +447428,7 @@
     },
     {
      "address": "0x00d66af0",
-     "symbol": "?RegisterPhantomsProcess@@YAPAXXZ",
+     "symbol": "?RegisterPhantomsProcess@@YAHXZ",
      "size": 27
     },
     {
@@ -447954,7 +447954,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -448019,7 +448019,7 @@
     },
     {
      "address": "0x00d647f0",
-     "symbol": "?FUN_00d647f0@@YIXPAX@Z",
+     "symbol": "?FUN_00d647f0@hkpSweptTransformDisplayViewer@@QAEXPAUSpawnOwner@@@Z",
      "size": 8
     },
     {
@@ -448034,7 +448034,7 @@
     },
     {
      "address": "0x00d64950",
-     "symbol": "?FUN_00d64950@hkpSweptTransformDisplayViewer@@QAEXH@Z",
+     "symbol": "?FUN_00d64950@hkpSweptTransformDisplayViewer@@QAEXPAX@Z",
      "size": 32
     },
     {
@@ -448097,7 +448097,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -448195,7 +448195,7 @@
     },
     {
      "address": "0x00d63280",
-     "symbol": "?FUN_00d63280@FUN_00d63280_cls@@QAEPAU1@HH@Z",
+     "symbol": "?FUN_00d63280@FUN_00d63280_cls@@QAEPAU1@HPBX@Z",
      "size": 57
     }
    ],
@@ -448231,7 +448231,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer_ehsc_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -448369,7 +448369,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldviewerbase_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldviewerbase.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -448419,7 +448419,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -448465,7 +448465,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder_gs_nogs_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -448499,7 +448499,7 @@
    "functions": [
     {
      "address": "0x00d66b90",
-     "symbol": "??0FUN_00d66b90@@QAE@H@Z",
+     "symbol": "??0FUN_00d66b90@@QAE@PAX@Z",
      "size": 56
     },
     {
@@ -448514,17 +448514,17 @@
     },
     {
      "address": "0x00d66c50",
-     "symbol": "?FUN_00d66c50@@YAPAXI@Z",
+     "symbol": "?FUN_00d66c50@@YAPAXPAX@Z",
      "size": 49
     },
     {
      "address": "0x00d66c90",
-     "symbol": "?RegisterMousePicking@@YAPAXXZ",
+     "symbol": "?RegisterMousePicking@@YAHXZ",
      "size": 27
     },
     {
      "address": "0x00d66cb0",
-     "symbol": "?FUN_00d66cb0@FUN_00d66cb0_class@@QAEXH@Z",
+     "symbol": "?FUN_00d66cb0@FUN_00d66cb0_class@@QAEXPAVhkpWorldD66C@@@Z",
      "size": 20
     },
     {
@@ -448643,7 +448643,7 @@
     },
     {
      "address": "0x00d63590",
-     "symbol": "?FUN_00d63590@D63590List@@QAEXI@Z",
+     "symbol": "?FUN_00d63590@D63590List@@QAEXPAUItemList@@@Z",
      "size": 71
     },
     {
@@ -448663,7 +448663,7 @@
     },
     {
      "address": "0x00d63d60",
-     "symbol": "?AllocAndInitObject@fnv_00d63d60@@YAPAXH@Z",
+     "symbol": "?AllocAndInitObject@fnv_00d63d60@@YAPAXPAUViewerArg@@@Z",
      "size": 49
     },
     {
@@ -448756,7 +448756,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer_ehsc_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -448834,7 +448834,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpballgun_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpballgun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -448911,7 +448911,7 @@
     },
     {
      "address": "0x00e46750",
-     "symbol": "?FUN_00e46750@FUN_00e46750_Obj@@QAEHE@Z",
+     "symbol": "?FUN_00e46750@FUN_00e46750_Obj@@QAEPAV1@E@Z",
      "size": 42
     }
    ],
@@ -448940,7 +448940,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpfirstpersongun_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -448979,7 +448979,7 @@
     },
     {
      "address": "0x00e45fb0",
-     "symbol": "?FUN_00e45fb0@FUN_00e45fb0_class@@QAEXHHH@Z",
+     "symbol": "?FUN_00e45fb0@FUN_00e45fb0_class@@QAEXPBX00@Z",
      "size": 16
     },
     {
@@ -449051,7 +449051,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpgravitygun_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpgravitygun.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -449074,7 +449074,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpgravitygun_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpgravitygun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449091,7 +449091,7 @@
     },
     {
      "address": "0x00e45ee0",
-     "symbol": "?FUN_00e45ee0@hkpGravityGunE45@@QAEXHHH@Z",
+     "symbol": "?FUN_00e45ee0@hkpGravityGunE45@@QAEXPBX00@Z",
      "size": 208
     }
    ],
@@ -449110,7 +449110,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpgravitygun_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpgravitygun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449168,7 +449168,7 @@
    }
   },
   {
-   "source": "src/havok/physics/utilities/weapons/hkpmountedballgun_rtm_variant.cpp",
+   "source": "src/havok/physics/utilities/weapons/hkpmountedballgun.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449456,7 +449456,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/aerodynamics/default/hkpvehicledefaultaerodynamics.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449606,7 +449606,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicledata_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicledata.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449880,7 +449880,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -449901,7 +449901,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449925,7 +449925,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_gs_nogs_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -449961,7 +449961,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -450018,7 +450018,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/hkpvehicleinstance_rtmfull_variant.cpp",
+   "source": "src/havok/physics/vehicle/hkpvehicleinstance.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -450157,7 +450157,7 @@
     },
     {
      "address": "0x00e43060",
-     "symbol": "?DoWork@FUN_00e43060@@QAEXHHPAH@Z",
+     "symbol": "?DoWork@FUN_00e43060@@QAEXPADHPAPAD@Z",
      "size": 73
     },
     {
@@ -450180,7 +450180,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager_ctx_variant.cpp",
+   "source": "src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -450401,7 +450401,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission_decl_variant.cpp",
+   "source": "src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -450474,7 +450474,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -450495,7 +450495,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -450553,7 +450553,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -450642,12 +450642,12 @@
     },
     {
      "address": "0x00e36950",
-     "symbol": "?UpdateWheelAabb@FUN_00e36950_host_36950@@QAEXE@Z",
+     "symbol": "?UpdateWheelAabb@FUN_00e36950_host_36950@@QAEXPBX@Z",
      "size": 116
     },
     {
      "address": "0x00e369d0",
-     "symbol": "?CastWheel@FUN_00e369d0_Class@@QAEXHIEH@Z",
+     "symbol": "?CastWheel@FUN_00e369d0_Class@@QAEXPAEPBXEPAX@Z",
      "size": 203
     },
     {
@@ -450740,7 +450740,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide_gs_ehsc_nogs_noehsc_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -450762,7 +450762,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -450785,7 +450785,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -450942,7 +450942,7 @@
    }
   },
   {
-   "source": "src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide_rtm_variant.cpp",
+   "source": "src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp",
    "compiler": "rtm",
    "flags": [
     "/MT",
@@ -451017,7 +451017,7 @@
     },
     {
      "address": "0x00e36100",
-     "symbol": "?FUN_00e36100@FUN_00e36100_StandIn@@QAEXPAH@Z",
+     "symbol": "?FUN_00e36100@FUN_00e36100_StandIn@@QAEXPAUFUN_00e36100_Event@@@Z",
      "size": 28
     }
    ],
@@ -545002,7 +545002,7 @@
     },
     {
      "address": "0x00d2d460",
-     "symbol": "?FUN_00d2d460@@YAXHPAX0@Z",
+     "symbol": "?FUN_00d2d460@@YAXPAX00@Z",
      "size": 19
     },
     {

@@ -240,7 +240,7 @@ struct FUN_00d85360_cls {
 };
 
 // @fnv 0x00d85360
-FUN_00d85360_cls* __cdecl FUN_00d85360(int pSource)
+FUN_00d85360_cls* __cdecl FUN_00d85360(intptr_t pSource)
 {
     AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d85360_cls* obj = (FUN_00d85360_cls*)holder->m_pAllocator->Alloc(0x50);
@@ -316,7 +316,7 @@ struct FUN_00d853a0_cls {
 
 // Allocates a 0xb0-byte object via the global allocator, initializes it, copies 0x9c bytes from a1+0x10 into obj+0x10, and returns obj.
 // @fnv 0x00d853a0
-FUN_00d853a0_cls* __cdecl FUN_00d853a0(int a1)
+FUN_00d853a0_cls* __cdecl FUN_00d853a0(intptr_t a1)
 {
     AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)holder->m_pAllocator->Alloc(0xb0);
@@ -699,7 +699,7 @@ struct FUN_00d85570_cls {
 };
 
 // @fnv 0x00d85570
-FUN_00d85570_cls* __cdecl CloneWithInit(int apSource)
+FUN_00d85570_cls* __cdecl CloneWithInit(intptr_t apSource)
 {
     AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d85570_cls* obj = (FUN_00d85570_cls*)holder->m_pAllocator->Alloc(0x160);
@@ -804,7 +804,7 @@ struct FUN_00d85610_cls {
 
 // Allocates an 0x80-byte object via the holder's allocator, sets its size field, calls Init, then copies 0x70 bytes from a1+0x10 into obj+0x10 and returns obj.
 // @fnv 0x00d85610
-FUN_00d85610_cls* __cdecl CloneWithCopiedPayload(int apSource)
+FUN_00d85610_cls* __cdecl CloneWithCopiedPayload(intptr_t apSource)
 {
     AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d85610_cls* obj = (FUN_00d85610_cls*)holder->m_pAllocator->Alloc(0x80);
@@ -884,7 +884,7 @@ struct FUN_00d856b0_cls {
 };
 
 // @fnv 0x00d856b0
-FUN_00d856b0_cls* __cdecl CloneWithAllocatedCopy(int apSource)
+FUN_00d856b0_cls* __cdecl CloneWithAllocatedCopy(intptr_t apSource)
 {
     AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FUN_00d856b0_cls* obj = (FUN_00d856b0_cls*)holder->m_pAllocator->Alloc(0xc0);

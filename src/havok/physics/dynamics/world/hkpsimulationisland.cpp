@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/hkpsimulationisland.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpsimulationisland.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/D28030UnionFind.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb3000.h"
@@ -31,7 +33,7 @@ struct S_00d070c0
 // @fnv 0x00d070c0
 void FUN_00d070c0(S_00d070c0* obj)
 {
-    ::FUN_00cb3c80((int)(obj->unk14->unk08), (int)(obj));
+    ::FUN_00cb3c80((void*)(obj->unk14->unk08), obj);
 }
 
 struct Holder
@@ -251,23 +253,8 @@ void S_00d071b0::RemoveItem(S_00d071b0_Item* pItem)
     m_ucFlags = (m_ucFlags & ~2) | 1;
 }
 
-struct D077D0MemoryRouter
-{
-    char* m_stackCurrent;
 
-    void* stackAllocInts(int numInts)
-    {
-        char* p = m_stackCurrent;
-        m_stackCurrent = p + ((numInts * 4 + 127) & ~127);
-        return p;
-    }
-    void stackFree(void* p)
-    {
-        m_stackCurrent = (char*)p;
-    }
-};
 
-extern "C" D077D0MemoryRouter& __cdecl FUN_00c85750();
 
 struct D077D0LocalBuffer
 {
@@ -318,34 +305,26 @@ GlobalObjectO2_00d472a0* FUN_00d078d0()
     return &::g_012687cc;
 }
 
-// FUN_00d07100: OR a flag byte into a sub-object's flags field.
-// Sub-object pointer lives at +0x30 of the owner; flags byte at +0x12 of it.
+// hkpConstraintInstance::m_internal (+0x30) and hkConstraintInternal::m_callbackRequest (+0x12).
+struct D07100_Instance
+{
+    char pad00[0x30];
+    struct D07100_Internal* m_internal;
+};
+struct D07100_Internal
+{
+    char pad00[0x12];
+    unsigned char m_callbackRequest;
+};
 
+// ORs bits into the constraint's internal callback-request flags.
 // @fnv 0x00d07100
 void FUN_00d07100(char* owner, unsigned char bits)
 {
-    char* sub = *(char**)(owner + 0x30);
-    *(unsigned char*)(sub + 0x12) |= bits;
+    D07100_Internal* sub = reinterpret_cast<D07100_Instance*>(owner)->m_internal;
+    sub->m_callbackRequest |= bits;
 }
 
-struct S_00d074c0_Heap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-struct S_00d074c0_Router
-{
-    int unk00, unk04, unk08, unk0C;
-    S_00d074c0_Heap* unk10;
-    static S_00d074c0_Router& GetMonitorStream();
-    S_00d074c0_Heap& heap()
-    {
-        return *unk10;
-    }
-};
 
 template <class T> struct S_00d074c0_Array
 {
@@ -372,19 +351,19 @@ template <class T> struct S_00d074c0_Array
     {
         m_iElementCount = 0;
     }
-    void _clearAndDeallocate(S_00d074c0_Heap& alloc) throw()
+    void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         }
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~S_00d074c0_Array() throw()
     {
-        _clearAndDeallocate(S_00d074c0_Router::GetMonitorStream().heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -537,10 +516,10 @@ struct S_00d074c0_Island
 bool D077D0Object::FUN_00d077d0()
 {
     D077D0LocalBuffer buffer;
-    buffer.m_data = FUN_00c85750().stackAllocInts(m_iCapacity);
+    buffer.m_data = hkMemoryRouter::getInstance().allocateStack((m_iCapacity * 4 + 127) & ~127);
     D077D0BitField bits(buffer.m_data, m_iCapacity);
     bool result = reinterpret_cast<::S_00d074c0_Island *>(this)->CheckConnectivity((::S_00d074c0_UnionFind &)(bits));
-    FUN_00c85750().stackFree(buffer.m_data);
+    hkMemoryRouter::getInstance().deallocateStack(buffer.m_data);
     return result;
 }
 
@@ -620,27 +599,8 @@ bool S_00d074c0_Island::CheckConnectivity(S_00d074c0_UnionFind& aUnionFind) thro
     return aUnionFind.isOneGroup();
 }
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-    virtual void v0c();
-    virtual void FreeArray(void* apMemory, int aiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750();
-}
 
 struct PointerList
 {
@@ -685,13 +645,13 @@ struct FUN_00d07470_cls
 void FUN_00d07470_cls::AddItem(ListItem* apItem)
 {
     PointerList* pItems = &m_kNode;
-    AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pRouter = &hkMemoryRouter::getInstance();
     if (pItems->m_uCount == (pItems->m_uCapFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pItems), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(pRouter->m_heap), (::AudioStream *)(pItems), 4);
     }
 
-    void** pSlot = (void**)((unsigned int)pItems->m_pData + *(volatile unsigned int*)&pItems->m_uCount * 4);
+    void** pSlot = pItems->m_pData + *(volatile unsigned int*)&pItems->m_uCount;
     *pSlot = apItem;
     pItems->m_uCount++;
 
@@ -699,31 +659,12 @@ void FUN_00d07470_cls::AddItem(ListItem* apItem)
 }
 
 namespace fnv_00d07720 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750() throw();
-}
 
 struct FUN_00d07720_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -756,65 +697,45 @@ struct FUN_00d07720_cls
 // @fnv 0x00d07720
 void FUN_00d07720_cls::ResetArrays()
 {
-    m_vptr00 = (int)&DAT_010ccf28;
+    m_vptr00 = &DAT_010ccf28;
 
-    AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryAllocator* pAllocator = hkMemoryRouter::getInstance().m_heap;
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
     if ((uCapBits1 & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pData1, (uCapBits1 & 0x3fffffffu) * 4);
+        pAllocator->bufFree(m_pData1, (uCapBits1 & 0x3fffffffu) * 4);
     }
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = fnvc_adapt::FUN_00c85750();
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryAllocator* pAllocator2 = hkMemoryRouter::getInstance().m_heap;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
     if ((uCapBits2 & 0x80000000u) == 0)
     {
-        pAllocator2->FreeArray(m_pData2, (uCapBits2 & 0x3fffffffu) * 4);
+        pAllocator2->bufFree(m_pData2, (uCapBits2 & 0x3fffffffu) * 4);
     }
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
 
-    AudioHolder* pHolder3 = fnvc_adapt::FUN_00c85750();
-    AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
+    hkMemoryAllocator* pAllocator3 = hkMemoryRouter::getInstance().m_heap;
     unsigned int uCapBits3 = m_uCapBits3;
     m_iCount3 = 0;
     if ((uCapBits3 & 0x80000000u) == 0)
     {
-        pAllocator3->FreeArray(m_pData3, (uCapBits3 & 0x3fffffffu) * 4);
+        pAllocator3->bufFree(m_pData3, (uCapBits3 & 0x3fffffffu) * 4);
     }
     m_pData3 = 0;
     m_uCapBits3 = 0x80000000u;
 
-    *(volatile int*)&m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(const void* volatile*)&m_vptr00 = &::DAT_0102e388;
 }
 }  // namespace fnv_00d07720
 
 namespace fnv_00d078e0 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750() throw();
-}
 
 struct FUN_00d078e0_cls
 {
@@ -832,9 +753,8 @@ FUN_00d078e0_cls* FUN_00d078e0_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::fnv_00d07720::FUN_00d07720_cls *>(this)->ResetArrays();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryAllocator* pAllocator = hkMemoryRouter::getInstance().m_heap;
+        pAllocator->blockFree(this, m_uSize);
     }
     return this;
 }
@@ -1117,16 +1037,6 @@ struct ItemList
     unsigned int m_capFlags;  // +0x08 (low 30 bits = capacity)
 };
 
-struct GlobalHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_alloc;  // +0x10
-};
-
-GlobalHolder* __cdecl FUN_00c85750();
 
 struct FUN_00d07420_cls
 {
@@ -1192,10 +1102,10 @@ void FUN_00d07420_cls::FUN_00d07420(FUN_00d07420_cls* item)
     item->m_cc = this;
     item->m_a8 = (unsigned short)m_kNode.m_uiItemCount;
     ItemList* list = &m_kNode;
-    GlobalHolder* holder = FUN_00c85750();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (list->m_uiItemCount == (int)(list->m_capFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_alloc), (::AudioStream *)(list), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), 4);
     }
     void** slot = list->m_data + list->m_uiItemCount;
     *slot = item;

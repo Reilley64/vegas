@@ -3,7 +3,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkUlong.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
+#include <intrin.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/FUN_00de1fc0.h"
@@ -29,7 +33,7 @@ struct FUN_00dd9380_StandIn {
 // @fnv 0x00d678c0
 void __cdecl RegisterInertiaTensors()
 {
-    DAT_01268ffc = reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_StandIn*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Inertia Tensors", (int)(&((void (&)())::FUN_00d67880)));
+    DAT_01268ffc = reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_StandIn*)(::DAT_01269cd0))))->FUN_00dd9380("Inertia Tensors", reinterpret_cast<intptr_t>(&((void (&)())::FUN_00d67880)));
 }
 
 struct InnerArray {
@@ -95,49 +99,58 @@ void FUN_00d67020_class::VisitSubObjects(Arg* arg) {
     }
 }
 
-struct Handler {  };
 struct Collection {
     int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C; int unk30; int unk34; int unk38; int unk3C;
     int unk40; int unk44; int unk48; int unk4C; int unk50; int unk54; int unk58; int unk5C;
     int unk60; int unk64; int unk68;
-    int* items;
+    void** items;
     int count;
 };
+// The rigid body inertia viewer: hkReferencedObject, then its hkProcess part (Owner) at +0x08 and its world
+// listener part (TargetClass) at +0x20.
+struct InertiaViewerRefObject {
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
+};
 struct Owner {
-    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
-    Collection* collection;
+    void* m_vtbl;
+    int unk04; int unk08; int unk0C; int unk10; int unk14;
     void ProcessCollectionItems();
 };
-// Iterates the collection's items and passes each to VisitSubObjects on the Handler at this-8, if the collection exists.
+struct TargetClass {
+    void* m_vtbl;
+    Collection* collection;
+    void FUN_00d67150(void* arg);
+};
+struct InertiaViewer : InertiaViewerRefObject, Owner, TargetClass {
+};
+// Iterates the collection's items and passes each to VisitSubObjects on the viewer, if the collection exists.
 // @fnv 0x00d67110
 void Owner::ProcessCollectionItems() {
+    InertiaViewer* viewer = static_cast<InertiaViewer*>(this);
+    Collection* collection = viewer->collection;
     if (collection != 0) {
         int n = collection->count;
         int i = 0;
         if (0 < n) {
             do {
-                reinterpret_cast<::FUN_00d67020_class *>((((Handler*)((char*)this - 8))))->VisitSubObjects((::Arg *)(collection->items[i]));
+                reinterpret_cast<::FUN_00d67020_class *>(viewer)->VisitSubObjects((::Arg *)(collection->items[i]));
                 i = i + 1;
             } while (i < n);
         }
     }
 }
 
-struct Prefix32 {
-    int unk00; int unk04; int unk08; int unk0C;
-    int unk10; int unk14; int unk18; int unk1C;
-};
-struct SecondaryBase {
+// The viewer's world listener part, as TargetClass.
+struct SecondaryBase : TargetClass {
     void FUN_00d67160();
 };
-struct CompleteObject : Prefix32, SecondaryBase {
-};
-// Adjusts this to the enclosing CompleteObject and calls its VisitSubObjects method.
+// Calls the viewer's VisitSubObjects method.
 // @fnv 0x00d67160
 void SecondaryBase::FUN_00d67160() {
-    CompleteObject* pCompleteObject = reinterpret_cast<CompleteObject*>(reinterpret_cast<char*>(this) - sizeof(Prefix32));
-    reinterpret_cast<::FUN_00d67020_class *>((pCompleteObject))->VisitSubObjects({});
+    InertiaViewer* viewer = static_cast<InertiaViewer*>(static_cast<TargetClass*>(this));
+    reinterpret_cast<::FUN_00d67020_class *>(viewer)->VisitSubObjects({});
 }
 
 struct S_00d67170_Array {
@@ -264,7 +277,7 @@ struct FUN_00d66f30_cls {
 void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
 {
     reinterpret_cast<::hkWorldC917 *>((apParams))->FUN_00c917a0(this != 0 ? &m_kInner : 0);
-    reinterpret_cast<::SearchArray *>((apParams))->ClearValue((int)(this != 0 ? &m_iN : 0));
+    reinterpret_cast<::SearchArray *>((apParams))->ClearValue((this != 0 ? &m_iN : 0));
 
     for (int i = 0; i < apParams->m_iItemCount; i++) {
         FUN_00d66f30_list* pList = &apParams->m_ppItems[i]->m_kList;
@@ -288,16 +301,9 @@ void FUN_00d66f30_cls::FUN_00d66f30(FUN_00d66f30_params* apParams)
     }
 }
 
-struct Outer {
-};
-
-struct TargetClass {
-    void FUN_00d67150(void* arg);
-};
-
 // @fnv 0x00d67150
 void TargetClass::FUN_00d67150(void* arg) {
-    reinterpret_cast<::FUN_00d66f30_cls *>((((Outer*)((char*)this - 0x20))))->FUN_00d66f30((::FUN_00d66f30_params *)(arg));
+    reinterpret_cast<::FUN_00d66f30_cls *>(static_cast<InertiaViewer*>(this))->FUN_00d66f30((::FUN_00d66f30_params *)(arg));
 }
 
 class D671F0ListenerA {
@@ -399,28 +405,14 @@ FUN_00d671f0::FUN_00d671f0(void* info) : D671F0Base(info)
 {
 }
 
-struct D67880Allocator {
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct D67880MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D67880Allocator* m_pStreamAllocator;
 
-    D67880Allocator& heap() { return *m_pStreamAllocator; }
-};
-
-extern "C" D67880MemoryRouter& __cdecl FUN_00c85750();
 
 class D67880ReferencedObject {
 public:
-    static void* operator new(std::size_t nbytes)
+    static void* operator new(size_t nbytes)
     {
-        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -475,9 +467,9 @@ struct D671B0Array {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& val)
     {
-        D67880MemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         D671B0ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
         m_iElementCount++;
     }
@@ -501,16 +493,6 @@ extern int DAT_010d1d50;
 extern int DAT_010d1d34;
 extern int DAT_010d1d24;
 
-struct Heap_d672 {
-    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0C();
-    virtual void ReturnMemory(void* p, int nbytes) throw();
-};
-struct Router_d672 {
-    int unk00, unk04, unk08, unk0C;
-    Heap_d672* m_pStreamAllocator;
-    Heap_d672& heap() { return *m_pStreamAllocator; }
-    static Router_d672& __cdecl FUN_00c85750() throw();
-};
 
 template <class T> __forceinline void destructArray_d672(T* p, int n)
 {
@@ -524,11 +506,11 @@ template <class T> struct hkArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::FUN_00c85750().heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         destructArray_d672(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -540,10 +522,10 @@ template <class T> struct hkPodArray_d672 {
     int m_iCapacityState;
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_d672& heap = Router_d672::FUN_00c85750().heap();
+        hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -746,22 +728,8 @@ void AdjOwner::key_fn() { }
 AdjOwner* make_adj_owner() { static AdjOwner o; return &o; }
 
 namespace fnv_00d67930 {
-struct S_00d67930_Heap {
-    virtual void vfn_00();
-    virtual void vfn_04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct S_00d67930_Router {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S_00d67930_Heap* m_pStreamAllocator;
-    __forceinline S_00d67930_Heap& heap() { return *m_pStreamAllocator; }
-};
 
-S_00d67930_Router& __cdecl FUN_00c85750();
 
 struct FUN_00d67930 {
     virtual ~FUN_00d67930() throw();
@@ -769,10 +737,10 @@ struct FUN_00d67930 {
     short m_sReferenceCount;
 
     FUN_00d67930();
-    static void operator delete(void* p, std::size_t)
+    static void operator delete(void* p, size_t)
     {
         FUN_00d67930* b = static_cast<FUN_00d67930*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -803,10 +771,7 @@ inline void recordEvent(const char* name) {
     if (event < stream->end) {
         event->name = name;
         unsigned int tick;
-        __asm {
-            rdtsc
-            mov dword ptr[tick], eax
-        }
+        tick = static_cast<unsigned int>(__rdtsc());
         event->timestamp = tick;
         stream->current = event + 1;
     }
@@ -951,7 +916,7 @@ struct FreeAllocator {
     virtual void v0c();
     virtual void ReleaseBlock(void* p, int bytes);
 };
-__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(FUN_00c85750().heap()); }
+__forceinline FreeAllocator& heapGet() { return reinterpret_cast<FreeAllocator&>(hkMemoryRouter::getInstance().heap()); }
 template<class T> struct LocalArray {
     T* data;
     int count;
@@ -999,7 +964,7 @@ struct Renderer {
     virtual void v2c();
     virtual void v30();
     virtual void v34();
-    virtual void display(LocalArray<Shape*>* shapes, unsigned int color, int id, int tag);
+    virtual void display(LocalArray<Shape*>* shapes, unsigned int color, hkUlong id, int tag);
 };
 struct ViewerPart {
     virtual void v00();

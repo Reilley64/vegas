@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "havok/hkReferencedObject.h"
+#include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04350_cls.h"
@@ -25,6 +28,18 @@
 #include "fnv/symbols_01076000.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
+// The world object passed to the kd-tree listeners.
+struct FUN_00d0a360_Arg
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    void* m_pCollisionShape;  // +0x10, hkpWorldObject::m_collidable.m_shape
+};
+// hkpKdTreeWorldManager's two listener bases (x86 layout).
+static const int kKdTreeListenerAt14Offset = 0x14;
+static const int kKdTreeListenerAt18Offset = 0x18;
 struct hkpKdTreeWorldManager
 {
     int m_kPointA;
@@ -41,7 +56,7 @@ struct hkpKdTreeWorldManager
 // @fnv 0x00d0a2b0
 void hkpKdTreeWorldManager::FUN_00d0a2b0(void* p)
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x10))
+    if (static_cast<FUN_00d0a360_Arg*>(p)->m_pCollisionShape)
         m_iThirdValue = 1;
 }
 
@@ -66,11 +81,11 @@ struct FUN_00d0a340_StandIn
     char m_g;
     char m_h;
 
-    void SetFlagOrForward(int);
+    void SetFlagOrForward(void*);
 };
 
 // @fnv 0x00d0a340
-void FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
+void FUN_00d0a340_StandIn::SetFlagOrForward(void* arg)
 {
     if (m_h == 0)
     {
@@ -78,7 +93,7 @@ void FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
         return;
     }
 
-    return reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_00d0a270(arg);
+    return reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - kKdTreeListenerAt14Offset)))->FUN_00d0a270(arg);
 }
 
 struct FUN_00c917a0_shell
@@ -93,7 +108,6 @@ struct FUN_00d97850_shell
 {
 };
 
-void* __cdecl _D1A0E0GetMemoryRouter();
 
 extern int DAT_010cd278;
 extern int DAT_010cd25c;
@@ -114,9 +128,9 @@ struct FUN_00d0a4f0
 // @fnv 0x00d0a4f0
 FUN_00d0a4f0::~FUN_00d0a4f0()
 {
-    *(int*)this = (int)&DAT_010cd278;
-    *(int*)((char*)this + 0x14) = (int)&DAT_010cd25c;
-    *(int*)((char*)this + 0x18) = (int)&DAT_010cd244;
+    m_ppVirtualMethodTable = &DAT_010cd278;
+    m_ptr14 = &DAT_010cd25c;
+    m_ptr18 = &DAT_010cd244;
 
     reinterpret_cast<::hkWorldC917 *>((((FUN_00c917a0_shell*)this->m_ptr1c)))->FUN_00c917a0((char*)&this->m_ptr14);
     reinterpret_cast<::hkWorldC91F *>((((FUN_00c917f0_shell*)this->m_ptr1c)))->FUN_00c917f0((char*)&this->m_ptr18);
@@ -125,16 +139,12 @@ FUN_00d0a4f0::~FUN_00d0a4f0()
     if (p)
     {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((((FUN_00d97850_shell*)p)))->ClearBuffers();
-        void* router = _D1A0E0GetMemoryRouter();
-        void* mgr = *(void**)((char*)router + 0x10);
-        void** vtbl = *(void***)mgr;
-        void(* fn)(void*, void*, int) = *(void(**)(void*, void*, int))(vtbl + 2);
-        fn(mgr, p, 0x50);
+        hkMemoryRouter::getInstance().m_heap->blockFree(p, 0x50);
     }
 
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-    *(int*)((char*)this + 0x18) = (int)&(*reinterpret_cast<int *>(&::DAT_0104e3d0));
-    *(int*)((char*)this + 0x14) = (int)&$SG5957;
+    m_ppVirtualMethodTable = &::DAT_0102e388;
+    m_ptr18 = &::DAT_0104e3d0;
+    m_ptr14 = &$SG5957;
 }
 
 struct FUN_00d0a290_cls
@@ -181,14 +191,6 @@ bool FUN_00d0ad80_Class::FUN_00d0ad80()
     return this->unk20 == '\0';
 }
 
-struct FUN_00d0a360_Arg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-};
 
 struct FUN_00d0a360_Owner
 {
@@ -197,15 +199,15 @@ struct FUN_00d0a360_Owner
     unsigned char unk08;
     unsigned char unk09;
 
-    void HandleArg(int arg);
+    void HandleArg(void* arg);
 };
 
-// If the argument's field at offset 0x10 is nonzero, sets unk08 when unk09 is zero, otherwise calls FUN_00d0a270 on the object 0x18 bytes before this.
+// If the argument has a collision shape, sets unk08 when unk09 is zero, otherwise calls FUN_00d0a270 on the object 0x18 bytes before this.
 // @fnv 0x00d0a360
-void FUN_00d0a360_Owner::HandleArg(int arg)
+void FUN_00d0a360_Owner::HandleArg(void* arg)
 {
-    FUN_00d0a360_Arg* p = reinterpret_cast<FUN_00d0a360_Arg*>(arg);
-    if (p->unk10 != 0)
+    FUN_00d0a360_Arg* p = static_cast<FUN_00d0a360_Arg*>(arg);
+    if (p->m_pCollisionShape != 0)
     {
         if (unk09 == 0)
         {
@@ -213,7 +215,7 @@ void FUN_00d0a360_Owner::HandleArg(int arg)
         }
         else
         {
-            reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x18)))->FUN_00d0a270(arg);
+            reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - kKdTreeListenerAt18Offset)))->FUN_00d0a270(arg);
         }
     }
 }
@@ -363,7 +365,6 @@ struct D0A6A0_World
     D0A6A0_EntityArray m_kPhantoms;
 };
 
-struct D0A6A0_Allocator;
 
 struct D0A6A0_CollidableArray
 {
@@ -375,7 +376,7 @@ struct D0A6A0_CollidableArray
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void reserve(D0A6A0_Allocator& alloc, int n)
+    void reserve(hkMemoryAllocator& alloc, int n)
     {
         const int capacity = getCapacity();
         if (capacity < n)
@@ -392,23 +393,7 @@ struct D0A6A0_CollidableArray
     }
 };
 
-struct D0A6A0_Allocator;
 
-struct D0A6A0_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D0A6A0_Allocator* m_pStreamAllocator;
-
-    D0A6A0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-D0A6A0_Router& FUN_00c85750();
 
 struct D0A6A0_Manager
 {
@@ -429,7 +414,7 @@ void D0A6A0_Manager::CollectCollidables(D0A6A0_CollidableArray& aCollidables)
 {
     aCollidables.m_iElementCount = 0;
     int n = m_pOwningWorld->m_pJobSemaphore->GetBroadphaseType();
-    aCollidables.reserve(FUN_00c85750().heap(), n);
+    aCollidables.reserve(hkMemoryRouter::getInstance().heap(), n);
 
     {
         D0A6A0_IslandArray& islands = m_pOwningWorld->m_activeIslands;
@@ -478,33 +463,9 @@ void D0A6A0_Manager::CollectCollidables(D0A6A0_CollidableArray& aCollidables)
 
 struct FUN_00d0ac40_Owner
 {
-    void FUN_00d0a560(int a, int b);
-    void FUN_00d0ac40(int a, int b, int c, int d);
+    void FUN_00d0ac40(void* a, void* b, void* c, void* d);
 };
 namespace fnv_00d0adc0 {
-class hkMemoryAllocatorD0A
-{
-  public:
-    virtual ~hkMemoryAllocatorD0A() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD0A
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD0A* m_pStreamAllocator;
-
-    hkMemoryAllocatorD0A& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-extern "C" hkMemoryRouterD0A& __cdecl FUN_00c85750() throw();
 
 class hkObjD0AD : public FUN_00d0a4f0
 {
@@ -513,11 +474,8 @@ class hkObjD0AD : public FUN_00d0a4f0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjD0AD*>(p)->GetAllocationSize());
-    }
-    int GetAllocationSize() const
-    {
-        return reinterpret_cast<const unsigned short*>(this)[2];
+        // The object is an hkReferencedObject; its memory size sits in the header.
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<::hkReferencedObject*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -539,25 +497,15 @@ struct BSAudioVtbl
     virtual int unk04(int size);
 };
 
-struct BSAudio
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    BSAudioVtbl* unk10;
-};
 
-BSAudio* __cdecl FUN_00c85750();
+
 
 // Calls FUN_00c85750 twice and stores the result of unk10->unk04(index * 16) into out[0] and out[1].
 // @fnv 0x00d9d800
-void __cdecl GetAudioPair(int* paiOut, int index)
+void __cdecl GetAudioPair(void** paiOut, int index)
 {
-    BSAudio* a = FUN_00c85750();
-    paiOut[0] = a->unk10->unk04(index * 16);
-    BSAudio* b = FUN_00c85750();
-    paiOut[1] = b->unk10->unk04(index * 16);
+    paiOut[0] = hkMemoryRouter::getInstance().m_heap->blockAlloc(index * 16);
+    paiOut[1] = hkMemoryRouter::getInstance().m_heap->blockAlloc(index * 16);
 }
 }  // namespace fnv_00d9d800
 
@@ -763,24 +711,9 @@ struct D0ARange
     int m_kPointB;
     int m_iThirdValue;
 };
-struct D0AHeap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void bufDealloc(void* p, int bytes);
-};
-struct D0ARouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    D0AHeap* m_pStreamAllocator;
-};
+
 namespace fnvc_adapt {
-D0ARouter* __cdecl FUN_00c85750();
+
 }
 struct D0ASub
 {
@@ -797,11 +730,11 @@ struct D0AObj
     int unk18;
     int unk1c;
     char m_flag;
-    void CollectAndProcessCollidables(int a, int b);
+    void CollectAndProcessCollidables(void* a, void* b);
 };
 // Records timing markers, collects collidables into a range, processes them via FUN_00d0ac40, and frees the result buffer if it was heap-allocated.
 // @fnv 0x00d0ac70
-void D0AObj::CollectAndProcessCollidables(int a, int b)
+void D0AObj::CollectAndProcessCollidables(void* a, void* b)
 {
     {
         D0AMon* mon = (D0AMon*)TlsGetValue(DAT_0126835c);
@@ -837,7 +770,7 @@ void D0AObj::CollectAndProcessCollidables(int a, int b)
             mon->m_kRayEnd = pos + sizeof(D0ATimer12);
         }
     }
-    reinterpret_cast<::FUN_00d0ac40_Owner *>(this)->FUN_00d0ac40((int)(&m_sub), (int)(&r), a, b);
+    reinterpret_cast<::FUN_00d0ac40_Owner *>(this)->FUN_00d0ac40(&m_sub, &r, a, b);
     m_flag = 0;
     {
         D0AMon* mon = (D0AMon*)TlsGetValue(DAT_0126835c);
@@ -853,12 +786,12 @@ void D0AObj::CollectAndProcessCollidables(int a, int b)
             mon->m_kRayEnd = pos + sizeof(D0ATimer12);
         }
     }
-    D0ARouter* router = fnvc_adapt::FUN_00c85750();
-    D0AHeap* heap = router->m_pStreamAllocator;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = router->m_heap;
     int cap = r.m_iThirdValue;
     r.m_kPointB = 0;
     if ((cap & 0x80000000) == 0)
-        heap->bufDealloc(r.m_kPointA, (cap & 0x3fffffff) * 4);
+        heap->bufFree(r.m_kPointA, (cap & 0x3fffffff) * 4);
 }
 
 class hkReferencedObjectD0A
@@ -969,21 +902,9 @@ struct S00d0a560_IfaceB
     virtual void slot16(void* a, void* b);
 };
 
-struct BSAudio
-{
-    Iface_d0a560A& heap()
-    {
-        return *unk10;
-    }
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Iface_d0a560A* unk10;
-};
 
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750(void);
+
 }
 
 struct FUN_00d9df50_Obj
@@ -1054,6 +975,12 @@ struct __declspec(align(16)) S00d0a560_S30
     int unk0C;
 };
 
+struct S00d0a560_BufferPair
+{
+    void* unk00;
+    void* unk04;
+};
+
 struct S00d0a560_Combo
 {
     FUN_00d9e000_Obj a;
@@ -1065,7 +992,7 @@ struct __declspec(align(16)) S00d0a560_Frame
     int unk10;
     int unk14;
     volatile unsigned int tk;
-    FUN_00d9e000_Obj l1c;
+    S00d0a560_BufferPair l1c;
     FUN_00d9e000_Obj s24;
     S00d0a560_S30 s30;
     S00d0a560_Scratch s44;
@@ -1074,7 +1001,7 @@ struct __declspec(align(16)) S00d0a560_Frame
 
 struct S00d0a560_Timer
 {
-    int name;
+    const void* name;
     unsigned int tick;
     int unk08;
 };
@@ -1102,12 +1029,12 @@ struct S00d0a560_Owner
     int unk18;
     S00d0a560_Holder* unk1C;
 
-    void FUN_00d0a560(int* out, int ch);
+    void FUN_00d0a560(void** out, void* ch);
 };
 
 // Frees the object at *out, builds a new one via Init, then calls GetAudioPair, FillAabbArray, DrawIfCountPositive and FreeBufferPair between two timer records.
 // @fnv 0x00d0a560
-void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
+void S00d0a560_Owner::FUN_00d0a560(void** out, void* ch)
 {
     S00d0a560_Frame f;
     reinterpret_cast<::ListWalker *>((((FUN_00d9df50_Obj*)&f.s24)))->InitWalker((::ItemListRec *)(ch), (::CtxRec *)(unk1C));
@@ -1115,26 +1042,26 @@ void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
     if (v != 0)
     {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((v))->ClearBuffers();
-        fnvc_adapt::FUN_00c85750()->heap().slot2(v, 0x50);
+        hkMemoryRouter::getInstance().m_heap->blockFree(v, 0x50);
     }
     int t2 = ((int)(reinterpret_cast<::Owner *>(&(f.s24))->FUN_00d9e000()));
     reinterpret_cast<::FUN_00d976d0_cls *>((((FUN_00d976d0_Obj*)&f.s30)))->FUN_00d976d0();
     unk1C->unk58->slot16(&f.s44, &f.s50);
     f.s30.unk00 = t2;
     f.s30.unk05 = 0;
-    FUN_00d97970_Obj* p = (FUN_00d97970_Obj*)fnvc_adapt::FUN_00c85750()->heap().slot1(0x50);
-    *out = p ? ((int)(reinterpret_cast<::FUN_00d97970_cls *>((p))->Init((unsigned int)(&f.s30)))) : 0;
+    FUN_00d97970_Obj* p = (FUN_00d97970_Obj*)hkMemoryRouter::getInstance().m_heap->blockAlloc(0x50);
+    *out = p ? (void*)(reinterpret_cast<::FUN_00d97970_cls *>((p))->Init((uintptr_t)(&f.s30))) : 0;
     S00d0a560_TimerBuf* pTimerBuf = (S00d0a560_TimerBuf*)TlsGetValue(::DAT_0126835c);
     S00d0a560_Timer* c = pTimerBuf->cur;
     if (c < pTimerBuf->end)
     {
-        c->name = (int)&str_010cd2a4;
+        c->name = &str_010cd2a4;
         _ReadWriteBarrier();
         f.tk = (unsigned int)__rdtsc();
         c->tick = f.tk;
         pTimerBuf->cur = c + 1;
     }
-    ::fnv_00d9d800::GetAudioPair((int *)(void *)(&f.l1c), t2);
+    ::fnv_00d9d800::GetAudioPair((void **)(&f.l1c), t2);
     ::FillAabbArray((::S_00d9dab0_Coll *)(void *)(&f.s24), 0, t2, (::S_00d9dab0_Aabb16 *)(f.l1c.unk00));
     ::DrawIfCountPositive(&f.l1c, (::DrawParams *)(*out));
     ::FreeBufferPair((::BufferPair *)(void *)(&f.l1c), t2);
@@ -1142,7 +1069,7 @@ void S00d0a560_Owner::FUN_00d0a560(int* out, int ch)
     c = pTimerBuf->cur;
     if (c < pTimerBuf->end)
     {
-        c->name = (int)&(*reinterpret_cast<int *>(&::DAT_010c41f8));
+        c->name = &::DAT_010c41f8;
         _ReadWriteBarrier();
         f.tk = (unsigned int)__rdtsc();
         c->tick = f.tk;
@@ -1205,36 +1132,14 @@ struct __declspec(align(16)) FourFloatVector
     float x, y, z, w;
 };
 
-struct Allocator
+__forceinline int* kdAllocArray(hkMemoryAllocator* allocator, int& bytes, int n)
 {
-    __forceinline Allocator* same()
-    {
-        return this;
-    }
-    virtual void ReportDiagnostic();
-    virtual void* allocate(int bytes);
-    virtual void freeBlock(void* block, int bytes);
-    virtual void* allocateBuffer(int& bytes);
-    virtual void freeBuffer(void* block, int bytes);
-    int* allocArray(int& bytes, int n)
-    {
-        return static_cast<int*>(allocateBuffer(bytes = n * 4));
-    }
-    void freeArray(int*& data, int& cap)
-    {
-        if ((cap & 0x80000000) == 0)
-            freeBuffer(data, (cap & 0x3fffffff) * 4);
-    }
-};
-struct Router
+    return static_cast<int*>(allocator->bufAlloc(bytes = n * 4));
+}
+__forceinline void kdFreeArray(hkMemoryAllocator* allocator, int*& data, int& cap)
 {
-    int field00, field04, field08;
-    Allocator* stack;
-    Allocator* heap;
-};
-__forceinline Router* getRouter()
-{
-    return reinterpret_cast<Router*>(&::FUN_00c85750());
+    if ((cap & 0x80000000) == 0)
+        allocator->bufFree(data, (cap & 0x3fffffff) * 4);
 }
 struct TreeInfo
 {
@@ -1375,21 +1280,21 @@ struct IntBuffer
     void allocate(int count)
     {
         int bytes = count * 4;
-        data = static_cast<int*>(getRouter()->stack->allocateBuffer(bytes));
+        data = static_cast<int*>(hkMemoryRouter::getInstance().m_temp->bufAlloc(bytes));
         capacity = bytes / 4;
         if (capacity == 0)
             capacity = 0x80000000;
     }
     void release()
     {
-        Allocator* allocator = getRouter()->stack;
+        hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_temp;
         if (capacity >= 0)
-            allocator->freeBuffer(data, (capacity & 0x3fffffff) * 4);
+            allocator->bufFree(data, (capacity & 0x3fffffff) * 4);
     }
 };
 __forceinline int* AllocateBufferWithSize(int& bytes, int n)
 {
-    return static_cast<int*>(getRouter()->stack->allocArray(bytes, n));
+    return static_cast<int*>(kdAllocArray(hkMemoryRouter::getInstance().m_temp, bytes, n));
 }
 __forceinline void bufCap(int& cap, int bytes)
 {
@@ -1399,7 +1304,7 @@ __forceinline void bufCap(int& cap, int bytes)
 }
 __forceinline void ReturnMemory(int*& data, int& cap)
 {
-    getRouter()->stack->freeArray(data, cap);
+    kdFreeArray(hkMemoryRouter::getInstance().m_temp, data, cap);
 }
 struct Manager
 {
@@ -1409,7 +1314,7 @@ struct Manager
 };
 // Calls FUN_00d0a810 with all four arguments when c and d are both nonzero, otherwise calls FUN_00d0a560 with a and b.
 // @fnv 0x00d0ac40
-void FUN_00d0ac40_Owner::FUN_00d0ac40(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d0ac40_Owner::FUN_00d0ac40(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
     if (aiArg3 && aiArg4)
     {
@@ -1417,7 +1322,7 @@ void FUN_00d0ac40_Owner::FUN_00d0ac40(int aiArg1, int aiArg2, int aiArg3, int ai
     }
     else
     {
-        FUN_00d0a560(aiArg1, aiArg2);
+        reinterpret_cast<::fnv_00d0a560::S00d0a560_Owner *>(this)->FUN_00d0a560((void **)(aiArg1), aiArg2);
     }
 }
 // @fnv 0x00d0a810
@@ -1427,7 +1332,7 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     if (oldTree)
     {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((oldTree))->ClearBuffers();
-        getRouter()->heap->freeBlock(oldTree, 0x50);
+        hkMemoryRouter::getInstance().m_heap->blockFree(oldTree, 0x50);
     }
     struct Frame
     {
@@ -1458,22 +1363,22 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     job.count = count;
     job.enabled = 1;
     world->bounds->getBounds(&job.minimum, &job.maximum);
-    void* storage = getRouter()->heap->allocate(0x50);
-    *tree = storage ? ((::Tree *)(reinterpret_cast<::FUN_00d97970_cls *>((static_cast<Tree*>(storage)))->Init((unsigned int)(&job)))) : 0;
+    void* storage = hkMemoryRouter::getInstance().m_heap->blockAlloc(0x50);
+    *tree = storage ? ((::Tree *)(reinterpret_cast<::FUN_00d97970_cls *>((static_cast<Tree*>(storage)))->Init((uintptr_t)(&job)))) : 0;
     Scratch& scratch = early.scratch;
-    ::fnv_00d9d800::GetAudioPair((int *)(::Scratch *)(&scratch), count);
-    Counter* counter = static_cast<Counter*>(getRouter()->heap->allocate(16));
+    ::fnv_00d9d800::GetAudioPair((void **)(&scratch), count);
+    Counter* counter = static_cast<Counter*>(hkMemoryRouter::getInstance().m_heap->blockAlloc(16));
     tail.counter = counter;
     counter->value = 4;
-    Allocator* __restrict firstAllocator = getRouter()->stack->same();
-    int* firstData = firstAllocator->allocArray(early.firstBytes, 4);
+    hkMemoryAllocator* __restrict firstAllocator = hkMemoryRouter::getInstance().m_temp;
+    int* firstData = kdAllocArray(firstAllocator, early.firstBytes, 4);
     tail.firstData = firstData;
     bufCap(early.firstCap, early.firstBytes);
-    Allocator* __restrict secondAllocator = getRouter()->stack->same();
-    early.secondData = secondAllocator->allocArray(early.secondBytes, 4);
+    hkMemoryAllocator* __restrict secondAllocator = hkMemoryRouter::getInstance().m_temp;
+    early.secondData = kdAllocArray(secondAllocator, early.secondBytes, 4);
     bufCap(early.secondCap, early.secondBytes);
     Semaphore* semaphore;
-    storage = getRouter()->heap->allocate(4);
+    storage = hkMemoryRouter::getInstance().m_heap->blockAlloc(4);
     if (storage)
         semaphore = ((::Semaphore *)(reinterpret_cast<::FUN_00d04350_cls *>((static_cast<Semaphore*>(storage)))->Create(0, 1000)));
     else
@@ -1509,7 +1414,7 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
             _ReadWriteBarrier();
             volatile unsigned int tick = (unsigned int)__rdtsc();
             record->clock = tick;
-            stream->current = reinterpret_cast<char*>(record) + 16;
+            stream->current = reinterpret_cast<char*>(record + 1);
         }
     }
     reinterpret_cast<::fnv_00d04b50::Owner *>((queue))->FUN_00d04b50(&info, 0);
@@ -1538,11 +1443,11 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     ::FUN_00d9d950((::S9d950_Owner *)(*tree), count2 = const_cast<const int&>(tail.count), (const ::S9d950_Box *)(info.first), info.second);
     timerEvent(str_01076f38);
     ::FreeBufferPair((::BufferPair *)(::Scratch *)(&scratch), count2);
-    getRouter()->heap->freeBlock(const_cast<Counter* const&>(tail.counter), 16);
+    hkMemoryRouter::getInstance().m_heap->blockFree(const_cast<Counter* const&>(tail.counter), 16);
     if (semaphore)
     {
         reinterpret_cast<::FUN_00d04370_cls *>((semaphore))->FUN_00d04370();
-        getRouter()->heap->freeBlock(semaphore, 4);
+        hkMemoryRouter::getInstance().m_heap->blockFree(semaphore, 4);
     }
     ReturnMemory(early.secondData, early.secondCap);
     ReturnMemory(const_cast<int*&>(tail.firstData), early.firstCap);

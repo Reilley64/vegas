@@ -20,7 +20,7 @@ public:
     // 0x00e00c40
     ::CpuObject *FUN_00e00c40(unsigned int);
     // 0x00e10a10
-    void FUN_00e10a10(int);
+    void FUN_00e10a10(void *);
     // 0x00eea560
     void FUN_00eea560(int);
 };

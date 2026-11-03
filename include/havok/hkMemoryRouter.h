@@ -10,6 +10,12 @@ class hkMemoryAllocator
   public:
     struct MemoryStatistics;
 
+    enum MemoryState
+    {
+        MEMORY_STATE_OK,
+        MEMORY_STATE_OUT_OF_MEMORY
+    };
+
     virtual ~hkMemoryAllocator();                                                     // +0x0
     virtual void* blockAlloc(int numBytes);                                           // +0x4
     virtual void blockFree(void* p, int numBytes);                                    // +0x8
@@ -18,9 +24,12 @@ class hkMemoryAllocator
     virtual void* bufRealloc(void* pOld, int oldNumBytes, int& reqNumBytesInOut);     // +0x14
     virtual void blockAllocBatch(void** ptrsOut, int numPtrs, int blockSize);         // +0x18
     virtual void blockFreeBatch(void** ptrsIn, int numPtrs, int blockSize);           // +0x1c
-    virtual void getMemoryStatistics(MemoryStatistics& u);                            // +0x20
-    virtual int getAllocatedSize(const void* obj, int numBytes);                      // +0x24
-    virtual void resetPeakMemoryStatistics();                                         // +0x28
+    // Unidentified: the base version (0x00cbf260) passes its argument on to canAllocTotal.
+    virtual bool forwardToCanAllocTotal(int numBytes);                                // +0x20
+    virtual bool canAllocTotal(int numBytes);                                         // +0x24
+    virtual void getMemoryStatistics(MemoryStatistics& u);                            // +0x28
+    virtual int getAllocatedSize(const void* obj, int numBytes);                      // +0x2c
+    virtual void resetPeakMemoryStatistics();                                         // +0x30
 
     template <typename T> T* _bufAlloc(int& reqNumInOut)
     {
@@ -58,6 +67,11 @@ struct hkMemoryRouter
     void deallocateStack(void* p)
     {
         m_stackCurrent = static_cast<char*>(p);
+    }
+
+    void shrinkAllocatedStack(void* p, int newSize)
+    {
+        m_stackCurrent = static_cast<char*>(p) + newSize;
     }
 
     hkMemoryAllocator& temp()

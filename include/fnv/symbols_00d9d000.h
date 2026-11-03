@@ -8,7 +8,7 @@ struct S_00d9dab0_Aabb16;
 struct S_00d9dab0_Coll;
 
 // 0x00d9d800
-namespace fnv_00d9d800 { void GetAudioPair(int *, int); }
+namespace fnv_00d9d800 { void GetAudioPair(void **, int); }
 // 0x00d9d840
 void FreeBufferPair(::BufferPair *, int);
 // 0x00d9d880

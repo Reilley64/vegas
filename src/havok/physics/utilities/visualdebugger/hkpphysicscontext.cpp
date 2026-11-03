@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/Debugger836.h"
@@ -72,16 +74,87 @@ void __cdecl FUN_00cd1ed0()
 struct Owner
 {
 };
-struct FUN_00cd1f60_cls
+// hkpPhysicsContext: hkReferencedObject, its hkProcessContext part at +0x08 (owner at +0x0c), six listener parts
+// at +0x54..+0x68, then its worlds at +0x6c.
+struct PhysicsContext;
+struct PhysicsContextRefObject
 {
-    void FUN_00cd1f60(int);
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
+};
+struct PhysicsContextProcessPart
+{
+    void* m_vtbl;
+    Owner* m_owner;
+    int unk08[0x11];
+    PhysicsContext* context();
+};
+struct PhysicsContextListener54
+{
+    void* m_vtbl;
+};
+struct PhysicsContextListener58
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContextListener5c
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContextListener60
+{
+    void* m_vtbl;
+};
+struct PhysicsContextListener64
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContextListener68
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContext : PhysicsContextRefObject, PhysicsContextProcessPart, PhysicsContextListener54,
+                        PhysicsContextListener58, PhysicsContextListener5c, PhysicsContextListener60,
+                        PhysicsContextListener64, PhysicsContextListener68
+{
+    void** m_worlds;
+    int m_worldCount;
+};
+inline PhysicsContext* PhysicsContextProcessPart::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener58::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener5c::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener64::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener68::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+
+struct FUN_00cd1f60_cls : PhysicsContextListener5c
+{
+    void FUN_00cd1f60(void*);
 };
 // @fnv 0x00cd1f60
-void FUN_00cd1f60_cls::FUN_00cd1f60(int value)
+void FUN_00cd1f60_cls::FUN_00cd1f60(void* value)
 {
-    Owner* owner = *(Owner**)((char*)this - 0x50);
+    Owner* owner = context()->m_owner;
     if (owner)
-        reinterpret_cast<::Debugger836 *>((owner))->UntrackObject((void *)(value));
+        reinterpret_cast<::Debugger836 *>((owner))->UntrackObject(value);
 }
 
 struct CD1FA0Target
@@ -117,19 +190,19 @@ struct CD1FA0Primary
 
 struct CD1FA0Listener
 {
-    virtual void FUN_00cd1fa0(int value);
+    virtual void FUN_00cd1fa0(void* value);
 };
 
 struct CD1FA0Object : CD1FA0Primary, CD1FA0Listener
 {
-    virtual void FUN_00cd1fa0(int value);
+    virtual void FUN_00cd1fa0(void* value);
 };
 
 // @fnv 0x00cd1fa0
-void CD1FA0Object::FUN_00cd1fa0(int value)
+void CD1FA0Object::FUN_00cd1fa0(void* value)
 {
     if (m_target)
-        reinterpret_cast<::Debugger836 *>((m_target))->UntrackObject((void *)(value));
+        reinterpret_cast<::Debugger836 *>((m_target))->UntrackObject(value);
 }
 
 namespace fnv_00cd1ff0 {
@@ -153,7 +226,7 @@ struct Event
 struct Owner
 {
 };
-struct Sub
+struct Sub : ::PhysicsContextListener64
 {
     void DispatchEventToOwner(Event* e);
 };
@@ -162,12 +235,12 @@ struct Sub
 // @fnv 0x00cd1ff0
 void Sub::DispatchEventToOwner(Event* pEvent)
 {
-    Owner* owner = *(Owner**)((char*)this - 0x58);
+    ::Owner* owner = context()->m_owner;
     if (owner)
     {
         Obj* o = pEvent->obj;
         if (o && o->GetType() != 11)
-            reinterpret_cast<::Debugger836 *>(((*(Owner**)((char*)this - 0x58))))->UntrackObject(pEvent);
+            reinterpret_cast<::Debugger836 *>(context()->m_owner)->UntrackObject(pEvent);
     }
 }
 }  // namespace fnv_00cd1ff0
@@ -180,116 +253,43 @@ struct GlobalObjectO2_00d472a0
 struct FUN_00cd12b0_cls
 {
 };
-struct Prefix
+struct Context : ::PhysicsContextListener68
 {
-    FUN_00cd12b0_cls* owner;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
+    void FUN_00cd2020(void* value);
 };
-struct Context
-{
-    int contextState;
-    void FUN_00cd2020(int value);
-};
-struct Owner : Prefix, Context
-{
-};
-// Forwards value to the owner object's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
+// Forwards value to the context owner's AddElementAndNotify with the Actions category and zero flags, if an owner exists.
 // @fnv 0x00cd2020
-void Context::FUN_00cd2020(int value)
+void Context::FUN_00cd2020(void* value)
 {
-    Owner* object = reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - sizeof(Prefix));
-    FUN_00cd12b0_cls* target = object->owner;
+    FUN_00cd12b0_cls* target = reinterpret_cast<FUN_00cd12b0_cls*>(context()->m_owner);
     if (target)
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((target))->AddElementAndNotify(value, (int)(&(*reinterpret_cast<::fnv_00cd2020::GlobalObjectO2_00d472a0 *>(&::g_012690d4))), (int)("Actions"), 0);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((target))->AddElementAndNotify(value, &::g_012690d4, "Actions", 0);
 }
 }  // namespace fnv_00cd2020
 
 struct FUN_00cd10a0_Class
 {
 };
-struct FUN_00cd2040_Class
+struct FUN_00cd2040_Class : ::PhysicsContextListener68
 {
-    void ForwardToTarget(int value);
+    void ForwardToTarget(void* value);
 };
-// Reads a pointer stored at this-0x5c and, if non-null, forwards value to its UntrackObject method.
+// Reads the context's owner and, if non-null, forwards value to its UntrackObject method.
 // @fnv 0x00cd2040
-void FUN_00cd2040_Class::ForwardToTarget(int value)
+void FUN_00cd2040_Class::ForwardToTarget(void* value)
 {
-    FUN_00cd10a0_Class* target = *(FUN_00cd10a0_Class**)((char*)this - 0x5c);
+    FUN_00cd10a0_Class* target = reinterpret_cast<FUN_00cd10a0_Class*>(context()->m_owner);
     if (target)
-        reinterpret_cast<::Debugger836 *>((target))->UntrackObject((void *)(value));
+        reinterpret_cast<::Debugger836 *>((target))->UntrackObject(value);
 }
 
-struct Prefix
+struct CD2260Object;
+// The context's world deletion listener part.
+struct Secondary : PhysicsContextListener58
 {
-    virtual void slot();
-    unsigned int f04;
-    unsigned int f08;
-    unsigned int f0c;
-    unsigned int f10;
-    unsigned int f14;
-    unsigned int f18;
-    unsigned int f1c;
-    unsigned int f20;
-    unsigned int f24;
-    unsigned int f28;
-    unsigned int f2c;
-    unsigned int f30;
-    unsigned int f34;
-    unsigned int f38;
-    unsigned int f3c;
-    unsigned int f40;
-    unsigned int f44;
-    unsigned int f48;
-    unsigned int f4c;
-    unsigned int f50;
-    unsigned int f54;
-    int FUN_00cd2260(int value);
+    void FUN_00cd2460(CD2260Object* world);
 };
-struct FUN_00cd2460_class;
-struct Secondary
-{
-    virtual int FUN_00cd2460(int value);
-};
-struct FUN_00cd2460_class : Prefix, Secondary
-{
-};
-// @fnv 0x00cd2460
-int Secondary::FUN_00cd2460(int value)
-{
-    return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->FUN_00cd2260(value);
-}
 
-struct AllocatorState
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* allocator;
-};
-extern AllocatorState* __cdecl FUN_00c85750();
 struct PointerArray
 {
     void** data;
@@ -332,14 +332,14 @@ struct Candidate
     int unk7C;
     int unk80;
     PointerArray items;
-    void* FindOrAddPointer(void* value);
+    void FindOrAddPointer(void* value);
 };
 // Searches items for value and returns its index; if absent, appends value to items and returns the new slot pointer.
 // @fnv 0x00cd2470
-void* Candidate::FindOrAddPointer(void* value)
+void Candidate::FindOrAddPointer(void* value)
 {
     PointerArray* array = &items;
-    register int index = 0;
+    int index = 0;
     int count = array->count;
     if (count > 0)
     {
@@ -355,40 +355,22 @@ void* Candidate::FindOrAddPointer(void* value)
     goto append;
 found:
     if (index >= 0)
-        return (void*)index;
+        return;
 append:
-    AllocatorState* state = FUN_00c85750();
+    hkMemoryRouter* state = &hkMemoryRouter::getInstance();
     if (array->count == (array->capacity & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(state->allocator), (::AudioStream *)(array), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(state->m_heap), (::AudioStream *)(array), sizeof(void*));
     void** slot = array->data + array->count;
     *slot = value;
     ++array->count;
-    return slot;
 }
 
 namespace fnv_00cd27f0 {
-struct Device
-{
-    virtual void slot00() = 0;
-    virtual void slot04() = 0;
-    virtual void slot08() = 0;
-    virtual void slot0c() = 0;
-    virtual void Release(void* handle, unsigned int bytes) = 0;
-};
-struct Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Device* device;
-};
-extern void* __cdecl FUN_00c85750();
 struct FUN_00cd27f0
 {
     virtual void v0() = 0;
     int unk04;
-    int buffer2;
+    void** buffer2;
     int unk0c;
     int count2;
     int unk14;
@@ -397,7 +379,7 @@ struct FUN_00cd27f0
     int unk20;
     int unk24;
     int unk28;
-    int buffer1;
+    void** buffer1;
     volatile int unk30;
     int count1;
     virtual ~FUN_00cd27f0();
@@ -405,28 +387,28 @@ struct FUN_00cd27f0
 // @fnv 0x00cd27f0
 FUN_00cd27f0::~FUN_00cd27f0()
 {
-    Holder* holder = (Holder*)FUN_00c85750();
-    Device* device = holder->device;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* device = holder->m_heap;
     int count = count1;
     unk30 = 0;
     if ((unsigned int)count & 0x80000000)
         goto skipFirstRelease;
     {
-        unsigned int bytes = (count & 0x3fffffff) * 4;
-        device->Release((void*)buffer1, bytes);
+        unsigned int bytes = (count & 0x3fffffff) * sizeof(void*);
+        device->bufFree(buffer1, bytes);
     }
 skipFirstRelease:
     buffer1 = 0;
     count1 = 0x80000000;
-    holder = (Holder*)FUN_00c85750();
-    device = holder->device;
+    holder = &hkMemoryRouter::getInstance();
+    device = holder->m_heap;
     int secondCount = count2;
     unk0c = 0;
     if ((unsigned int)secondCount & 0x80000000)
         goto skipSecondRelease;
     {
-        unsigned int bytes = (secondCount & 0x3fffffff) * 4;
-        device->Release((void*)buffer2, bytes);
+        unsigned int bytes = (secondCount & 0x3fffffff) * sizeof(void*);
+        device->bufFree(buffer2, bytes);
     }
 skipSecondRelease:
     buffer2 = 0;
@@ -435,21 +417,6 @@ skipSecondRelease:
 }  // namespace fnv_00cd27f0
 
 namespace fnv_00cd2900 {
-struct DeleteInterface
-{
-    virtual void first();
-    virtual void second();
-    virtual void deleteObject(void*, unsigned short);
-};
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    DeleteInterface* iface;
-};
-Manager* __cdecl FUN_00c85750();
 struct FUN_00cd2900_owner
 {
     int unk00;
@@ -464,8 +431,8 @@ void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
     FUN_00cd2690();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
-        manager->iface->deleteObject(this, unk04);
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+        manager->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -476,32 +443,17 @@ class Handler
 {
   public:
 };
-struct Receiver
+struct Receiver : PhysicsContextListener5c
 {
     void DispatchEntityPayload(void* input);
 };
-struct UnknownBlock
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-};
-struct Container
-{
-    struct Prefix
-    {
-        Handler* handler;
-        unsigned int unk04, unk08, unk0c;
-        UnknownBlock unk10, unk20, unk30, unk40;
-    } prefix;
-    Receiver receiver;
-};
-// Recovers the enclosing Container from this, and if its handler is set, forwards input, a global, "Entities" and input+0x10 to the handler.
+// If the context's owner is set, forwards input, a global, "Entities" and the id input+0x10 (the entity's collidable) to it.
 // @fnv 0x00cd1f30
 void Receiver::DispatchEntityPayload(void* input)
 {
-    Container* owner = reinterpret_cast<Container*>(reinterpret_cast<char*>(this) - sizeof(Container::Prefix));
-    Handler* handler = owner->prefix.handler;
+    Handler* handler = reinterpret_cast<Handler*>(context()->m_owner);
     if (handler)
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((handler))->AddElementAndNotify((int)(input), (int)(&g_012688c8), (int)("Entities"), (int)(reinterpret_cast<char*>(input) + 0x10));
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((handler))->AddElementAndNotify(input, &g_012688c8, "Entities", reinterpret_cast<hkUlong>(input) + 0x10);
 }
 
 struct CD1F70Stats
@@ -563,7 +515,7 @@ class CD1F70World : public CD1F70Primary, public CD1F70Secondary
 void CD1F70World::CollectPhantoms(CD1F70Stats* stats)
 {
     if (m_kPhantoms)
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_kPhantoms))->AddElementAndNotify((int)(stats), (int)((*reinterpret_cast<const char (*)[]>(&::g_0126902c))), (int)("Phantoms"), (int)(&stats->m_childStats));
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_kPhantoms))->AddElementAndNotify(stats, &::g_0126902c, "Phantoms", reinterpret_cast<hkUlong>(&stats->m_childStats));
 }
 
 struct CD1FB0Collector
@@ -640,7 +592,7 @@ void CD1FB0World::CollectConstraints(CD1FB0Stats* stats)
     {
         CD1FB0Collector* collector = stats->m_kCollector;
         if (collector && collector->getType() != 11)
-            reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_ppConstraints))->AddElementAndNotify((int)(stats), (int)((*reinterpret_cast<const char (*)[]>(&::g_0126908c))), (int)("Constraints"), (int)(0));
+            reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_ppConstraints))->AddElementAndNotify(stats, &::g_0126908c, "Constraints", 0);
     }
 }
 
@@ -712,16 +664,16 @@ struct S_00cd2080_Lists
 {
     int unk00;
     int unk04;
-    int* m_08;
+    void** m_08;
     int m_0c;
     int m_10;
-    int* m_14;
+    void** m_14;
     int m_18;
     int m_1c;
-    int* m_20;
+    void** m_20;
     int m_24;
     int m_28;
-    int* m_2c;
+    void** m_2c;
     int m_30;
     int m_34;
 
@@ -804,7 +756,7 @@ done_search:
 
     if (this->m_target && idx != -1)
     {
-        reinterpret_cast<::Debugger836 *>((this->m_target))->UntrackObject((void *)((int)&this->m_elements[idx]));
+        reinterpret_cast<::Debugger836 *>((this->m_target))->UntrackObject(&this->m_elements[idx]);
         this->m_elements[idx].~S_00cd2080_Element();
         this->m_elementCount--;
         if (this->m_elementCount != idx)
@@ -819,19 +771,19 @@ done_search:
     S_00cd2080_Lists* lists = ((::S_00cd2080_Lists *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((param))->FUN_00c929e0()));
     for (int iItem = 0; iItem < lists->m_0c; iItem++)
     {
-        pListener0->onEvent((void*)lists->m_08[iItem]);
+        pListener0->onEvent(lists->m_08[iItem]);
     }
     for (int iItem = 0; iItem < lists->m_30; iItem++)
     {
-        pListener1->onEvent((void*)lists->m_2c[iItem]);
+        pListener1->onEvent(lists->m_2c[iItem]);
     }
     for (int iItem = 0; iItem < lists->m_24; iItem++)
     {
-        pListener3->onEvent((void*)lists->m_20[iItem]);
+        pListener3->onEvent(lists->m_20[iItem]);
     }
     for (int iItem = 0; iItem < lists->m_18; iItem++)
     {
-        pListener2->onEvent((void*)lists->m_14[iItem]);
+        pListener2->onEvent(lists->m_14[iItem]);
     }
     reinterpret_cast<::hkReferencedObjectC905 *>((lists))->FUN_00c905b0();
 }
@@ -1012,6 +964,13 @@ void CD2260World::FUN_00cd2260(CD2260Object* object)
     }
 }
 
+// Removes the deleted world from the context.
+// @fnv 0x00cd2460
+void Secondary::FUN_00cd2460(CD2260Object* world)
+{
+    reinterpret_cast<CD2260World*>(context())->FUN_00cd2260(world);
+}
+
 struct CD22Listener
 {
     virtual void vfunc00();
@@ -1091,7 +1050,6 @@ struct CD22Object
     void RegisterWithRegistry(CD22Registry* reg);
 };
 
-extern AllocatorState* __cdecl FUN_00c85750();
 
 // @fnv 0x00cd22f0
 void CD22Object::RegisterWithRegistry(CD22Registry* reg)
@@ -1108,10 +1066,10 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
     reinterpret_cast<::fnv_00c937e0::hkpWorldXc937e0 *>((reg))->FUN_00c937e0((::fnv_00c937e0::hkpEntityListenerXc937e0 *)(void *)(&m_64));
 
     CD22Array* pArray = &m_78;
-    AllocatorState* holder = FUN_00c85750();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (pArray->count == (int)(pArray->cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(pArray), 0xf0);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(pArray), 0xf0);
     }
 
     CD22Elem* pNewElem = (CD22Elem*)((char*)pArray->data + pArray->count * 0xf0);
@@ -1126,7 +1084,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
 
     if (m_0c != 0)
     {
-        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_0c))->AddElementAndNotify((int)(e), (int)((*reinterpret_cast<char (*)[]>(&::g_01269104))), (int)(::g_01269104_arg0), 0);
+        reinterpret_cast<::fnv_00cd1330::FUN_00cd1330_cls *>((m_0c))->AddElementAndNotify(e, &::g_01269104, ::g_01269104_arg0, 0);
     }
 
     CD22Table* tbl = ((::CD22Table *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((reg))->FUN_00c929e0()));
@@ -1154,58 +1112,31 @@ struct SpawnedCallee
 {
 };
 
-struct FUN_00cd24d0_cls
+struct FUN_00cd24d0_cls : PhysicsContextProcessPart
 {
-    int unk00;
-    int m_04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    void** m_64;
-    int m_68;
-
-    void FUN_00cd24d0(int value);
+    void FUN_00cd24d0(Owner* value);
 };
 
-// If m_04 was set, calls FUN_00cd2080 on each of m_68 entries in m_64, stores value in m_04, then calls RegisterWithRegistry on each entry when value is nonzero.
+// hkProcessContext::setOwner: if an owner was set, calls FUN_00cd2080 on each world, stores the owner, then calls RegisterWithRegistry on each world when the owner is non-null.
 // @fnv 0x00cd24d0
-void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
+void FUN_00cd24d0_cls::FUN_00cd24d0(Owner* value)
 {
-    if (m_04 != 0)
+    PhysicsContext* ctx = context();
+    if (m_owner != 0)
     {
-        for (int i = 0; i < m_68; ++i)
+        for (int i = 0; i < ctx->m_worldCount; ++i)
         {
-            reinterpret_cast<::S_00cd2080_Class *>((((SpawnedCallee*)((char*)this - 8))))->FUN_00cd2080((::S_00cd2080_Param *)(m_64[i]));
+            reinterpret_cast<::S_00cd2080_Class *>(ctx)->FUN_00cd2080((::S_00cd2080_Param *)(ctx->m_worlds[i]));
         }
     }
 
-    m_04 = value;
+    m_owner = value;
 
     if (value != 0)
     {
-        for (int i = 0; i < m_68; ++i)
+        for (int i = 0; i < ctx->m_worldCount; ++i)
         {
-            reinterpret_cast<::CD22Object *>((((SpawnedCallee*)((char*)this - 8))))->RegisterWithRegistry((::CD22Registry *)(m_64[i]));
+            reinterpret_cast<::CD22Object *>(ctx)->RegisterWithRegistry((::CD22Registry *)(ctx->m_worlds[i]));
         }
     }
 }
@@ -1271,7 +1202,7 @@ void FUN_00cd2530_cls::AddItem(void* pItem)
         void** p = items->data;
         do
         {
-            if (*p == (void*)pItem)
+            if (*p == pItem)
             {
                 goto found;
             }
@@ -1293,15 +1224,15 @@ notFound:
     void* param = self != 0 ? (char*)&self->unk58 : 0;
     reinterpret_cast<::hkpWorld_Listener *>((obj))->FUN_00c93a60(param);
 
-    AllocatorState* holder = FUN_00c85750();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (items->count == (items->capacity & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->allocator), (::AudioStream *)(items), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(items), sizeof(void*));
     }
     int n = *(int volatile*)&items->count;
     void** volatile* ppData = &items->data;
     void** slot = (*ppData) + n;
-    *slot = (void*)pItem;
+    *slot = pItem;
     items->count++;
 
     for (int i = 0; i < m_sinkCount; ++i)
@@ -1491,9 +1422,9 @@ class hkMemoryAllocatorD269
     virtual void ReturnMemory(void* p, int iNumBytes) throw();
 };
 
-inline hkMemoryAllocatorD269& heapD269(AllocatorState* pkState)
+inline hkMemoryAllocatorD269& heapD269(hkMemoryRouter* pkState)
 {
-    return *(hkMemoryAllocatorD269*)pkState->allocator;
+    return *(hkMemoryAllocatorD269*)pkState->m_heap;
 }
 
 template <class T> class hkArrayD269
@@ -1534,7 +1465,7 @@ template <class T> class hkArrayD269
 
     __forceinline ~hkArrayD269() throw()
     {
-        _clearAndDeallocate(heapD269(FUN_00c85750()));
+        _clearAndDeallocate(heapD269(&hkMemoryRouter::getInstance()));
     }
 };
 
@@ -1976,17 +1907,17 @@ CD28F0Derived::CD28F0Derived()
 struct FUN_00cd1eb0_StandIn
 {
     void* unk00;
-    int FUN_00cd1eb0(int param);
+    void* FUN_00cd1eb0(int param);
 };
 
 
 // @fnv 0x00cd1eb0
-int FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
+void* FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
 {
     unk00 = fnv_vftable_DFFA90ListenerE;
     if (aiFlags & 1)
     {
         FUN_00401030(this);
     }
-    return (int)this;
+    return this;
 }

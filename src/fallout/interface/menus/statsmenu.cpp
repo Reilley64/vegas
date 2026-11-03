@@ -2,6 +2,9 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
+#include "fallout/interface/list_box_fields.h"
+#include "fnv/effect_item_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -195,7 +198,7 @@ float ActiveEffect::GetDuration() const
 // @fnv 0x007df1d0
 EffectSetting* ActiveEffect::GetEffectSetting() const
 {
-    return ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(pEffect))->FUN_00825c00()));
+    return ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((void *)(pEffect))->setting));
 }
 // @fnv 0x007dd8a0
 bool BGSPerk::IsPerkHidden() const
@@ -1990,9 +1993,9 @@ void FUN_007e0b20_shell::AddEffectItem(EffectItem* apEffect)
             pEntry = new FUN_00403ba0;
             pEntry->m_eAssociatedActorValue = reinterpret_cast<::EffectItem *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->GetAffectedActorValue();
             pEntry->m_iMagnitude = reinterpret_cast<::FUN_00404390_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_00404390();
-            if (reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(apEffect))->FUN_00825c00())))))->FUN_00403e60(4))
+            if (reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((void *)(apEffect))->setting)))))->FUN_00403e60(4))
                 pEntry->m_iMagnitude *= -1;
-            if (!reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(apEffect))->FUN_00825c00())))))->FUN_00403e60(2))
+            if (!reinterpret_cast<::S3e60 *>((reinterpret_cast<S3e60*>(((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((void *)(apEffect))->setting)))))->FUN_00403e60(2))
                 pEntry->m_iPayloadInteger = reinterpret_cast<::FUN_004044d0_shell *>((reinterpret_cast<FUN_00404210_t*>(apEffect)))->FUN_004044d0();
             kList.AddHead(reinterpret_cast<int*>(&pEntry));
         }
@@ -4239,7 +4242,7 @@ void ClickMenu::FUN_007db380(int id, Tile* tile)
         if (tile == m_kHealingOptions[i].pTile && m_kHealingOptions[i].m_pStatusEffect)
         {
             reinterpret_cast<::FUN_0088c650_shell *>((((ClickPlayer*)::_g_thePlayer)))->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_kHealingOptions[i].m_pStatusEffect))->GetName())),
-                               (int)(reinterpret_cast<::Callees *>((m_kHealingOptions[i].m_pStatusEffect))->FUN_00726070()),
+                               (int)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_iCountChange),
                                (::ExtraDataList *)(::AlchemyItem *)(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect))))
                                    ? ((::AlchemyItem *)(reinterpret_cast<::SimpleListNodeView*>(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect)))))->m_item))
                                    : 0),
@@ -4937,6 +4940,13 @@ bool Owner::SetIndexFromType(unsigned int uiType, int* piIndex)
 
 
 
+// The spell of a survival need stage.
+struct SurvivalStageFields
+{
+    char pad[0x1c];
+    SpellItem* spell;
+};
+
 // Rebuilds the stats menu status-effect tiles and list from the player's active effects and survival stage spells.
 // @fnv 0x007ddf00
 void StatsMenuActiveEffects::FUN_007ddf00()
@@ -4976,28 +4986,28 @@ void StatsMenuActiveEffects::FUN_007ddf00()
              reinterpret_cast<::S3e60 *>((((EffectSettingOps*)pactiveEffect->GetEffectSetting())))->FUN_00403e60(0x2000)))
         {
             SpellItem* pspell = dynamic_cast<SpellItem*>(((::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>((((ActiveEffectOps*)pactiveEffect)))->GetName())));
-            if (pspell && pradstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((pradstage))->GetMinLevel())))
+            if (pspell && pradstage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((pradstage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex0)
                     m_pStatusEffectAtIndex0 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex0->pForm == pspell)
                     reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex0->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && ph20stage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((ph20stage))->GetMinLevel())))
+            if (pspell && ph20stage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((ph20stage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex1)
                     m_pStatusEffectAtIndex1 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex1->pForm == pspell)
                     reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex1->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && phungerstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((phungerstage))->GetMinLevel())))
+            if (pspell && phungerstage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((phungerstage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex2)
                     m_pStatusEffectAtIndex2 = new StatsMenu__StatusEffect(pspell);
                 if (m_pStatusEffectAtIndex2->pForm == pspell)
                     reinterpret_cast<::S_007e0a20_Owner *>(&(m_pStatusEffectAtIndex2->xEffectData))->ApplyParamToEntry((::S_007e0a20_Param *)(pactiveEffect));
             }
-            if (pspell && psleepstage && pspell == ((::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((psleepstage))->GetMinLevel())))
+            if (pspell && psleepstage && pspell == ((::SpellItem *)(reinterpret_cast<::SurvivalStageFields *>((psleepstage))->spell)))
             {
                 if (!m_pStatusEffectAtIndex3)
                     m_pStatusEffectAtIndex3 = new StatsMenu__StatusEffect(pspell);
@@ -5395,7 +5405,7 @@ bool InputStats::FUN_007db680(int code, float amount)
             }
         }
         if (::FUN_00709d40() &&
-            (reinterpret_cast<::sa040a0::Owner *>((((::fnv_007db680::InputTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((InputList*)&m_kStatusEffectList)))->FUN_00825c00()))))->IsAllChildrenFlag0() ||
+            (reinterpret_cast<::sa040a0::Owner *>((((::fnv_007db680::InputTile *)(reinterpret_cast<::ListBoxFields *>(&m_kStatusEffectList)->scrollBar))))->IsAllChildrenFlag0() ||
              reinterpret_cast<::FUN_00a01230_shell *>((((InputTile*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((InputChildren*)&m_pTiles[26]->m_kChildTileList)))->GetPayloadAddress())))))->IsTraitNonZero(0xfa3)))
         {
             int axisB = 0;
@@ -5409,7 +5419,7 @@ bool InputStats::FUN_007db680(int code, float amount)
             {
                 InputTile* scrollTile =
                     GetCurrentPage() == SM_STATUS
-                        ? ((::fnv_007db680::InputTile *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((InputList*)&m_kStatusEffectList)))->FUN_00825c00()))
+                        ? ((::fnv_007db680::InputTile *)(reinterpret_cast<::ListBoxFields *>(&m_kStatusEffectList)->scrollBar))
                         : (InputTile*)((::Tile *)(reinterpret_cast<::InventoryStackRecord *>((((InputChildren*)&m_pTiles[26]->m_kChildTileList)))->GetPayloadAddress()));
                 int trait3 = ::FUN_00a01860("_current_value");
                 int oldValue4 = (int)reinterpret_cast<::TileListBoxCalls *>((scrollTile))->GetFloat(trait3);

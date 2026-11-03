@@ -2,6 +2,9 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
+#include "fallout/interface/dialogue_response_fields.h"
+#include "fallout/interface/form_fields.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>
@@ -1626,9 +1629,9 @@ void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
             }
             else
             {
-                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((int)(response2)))))))), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((response2))->GetName())),
-                                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((response2))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
-                                                reinterpret_cast<::FUN_009611e0_shell *>((response2))->FUN_009611e0(), ((int)(reinterpret_cast<::BGSTerrainManager *>((response2))->GetMinLevel())),
+                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((int)(response2)))))))), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->flags)),
+                                                ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->soundID)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
+                                                reinterpret_cast<::DialogueResponseFields *>((response2))->emotion, ((int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionValue)),
                                                 (CompActor*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 1, 1, 0, 0, 1);
             }
             reinterpret_cast<::CWheelMenu_757690 *>(this)->SetItemTextAndValue((*(::CStringArg_757690 *)&(const ::BSStringT &)((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item)))), (*(::CValueArg_757690 *)&(const ::SoundPlaybackHandle &)(sound)));
@@ -2441,9 +2444,9 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                     reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((actor))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
                     Sequence* chosen = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(actor), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
                     if (chosen)
-                        reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen))->FUN_0084e3a0()))));
+                        reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(chosen)->iFormID));
                     ResultList events = actor->PlayActor(idleVal, actor, immediateFlag4, priorityFlag, 0, 0);
-                    reinterpret_cast<::SoundPlaybackHandle *>(&(events))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(events))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(source)->iFormID));
                     return true;
                 }
                 if (reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ScriptAnimation::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting() || ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) != 0 ||
@@ -2478,9 +2481,9 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
             Sequence* chosen2 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(created), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
             if (chosen2)
-                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen2))->FUN_0084e3a0()))));
+                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(chosen2)->iFormID));
             ResultList events7 = created->Play(idleVal, created, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            reinterpret_cast<::SoundPlaybackHandle *>(&(events7))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+            reinterpret_cast<::SoundPlaybackHandle *>(&(events7))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(source)->iFormID));
             delete created;
         }
         else if (source->GetNode() || (source->IsSpecial() && ((::ScriptAnimation::Reference *)(reinterpret_cast<::DialogueItem *>((source))->FUN_005e3fa0()))->GetNode()))
@@ -2488,9 +2491,9 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
             Sequence* chosen3 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(source), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
             if (chosen3)
-                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen3))->FUN_0084e3a0()))));
+                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(chosen3)->iFormID));
             ResultList events3 = source->Play(idleVal, 0, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            reinterpret_cast<::SoundPlaybackHandle *>(&(events3))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+            reinterpret_cast<::SoundPlaybackHandle *>(&(events3))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(source)->iFormID));
         }
     }
     reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))->FUN_0045ce80(previous);
@@ -3302,7 +3305,7 @@ void Wheel755d::FUN_00755dc0(int mode)
                     _rlQ1 = (InvEntry755d*)((::HealingInventoryEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(((*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))))->FUN_00576260((::fnv_00576260::TESBoundObject *)(rlObj), 0)));
                     if (_rlQ1)
                     {
-                        rlV = ((int)(reinterpret_cast<::Callees *>((_rlQ1))->FUN_00726070()));
+                        rlV = ((int)(reinterpret_cast<::InventoryEntryFields *>((_rlQ1))->m_iCountChange));
                         rlP1 = _rlQ1;
                         rlQ2 = rlP1;
                         rlQ2 ? rlQ2->FUN_004459e0(1) : 0;

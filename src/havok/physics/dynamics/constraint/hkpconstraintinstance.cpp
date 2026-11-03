@@ -48,66 +48,35 @@ void FUN_00cf3d90_class::FUN_00cf3d90()
     ::EnableConstraintsAndZeroArrays((::CE0020Target *)(void *)(this), (::CE0020Subject *)(m2));
 }
 
-struct FUN_00cf3070_class
+// hkpWorldObject::m_world.
+struct WorldObjectFields
 {
-    void* m0;
-    void* m1;
-    void* m2;
-    void* m3;
-    void* m4;
-    void* m5;
-    void* m6;
-    void* m7;
-    void* m8;
-    void* m9;
-    void* mA;
-    void* mB;
-    void* mC;
-    void* mD;
-    void* mE;
-    void* mF;
-    void* m10;
-    void* m11;
-    void* m12;
-    void* m13;
-    void* m14;
-    void* m15;
-    void* m16;
-    void* m17;
-    void* m18;
-    void* m19;
-    void* m1A;
-    void* m1B;
-    void* m1C;
-    void* m1D;
-    void* m1E;
-    void* m1F;
-    void* m20;
-    void* m21;
-    void* m22;
-    void* m23;
-    void* m24;
-    void* m25;
-    void* m26;
-    void* m27;
-    void* m28;
-    void* m29;
-    void* m2A;
-    void* m2B;
-    void* m2C;
-    void* m2D;
-    void* m2E;
-    void* m2F;
-    void* m30;
+    char pad00[0x8];
+    void* m_world;  // +0x8
+};
+// hkpWorld::m_fixedRigidBody.
+struct WorldFixedBodyFields
+{
+    char pad00[0x24];
+    void* m_pFixedRigidBody;  // +0x24
+};
+// hkConstraintInternal::m_priority.
+struct ConstraintInternalFields
+{
+    char pad00[0x13];
+    unsigned char m_priority;  // +0x13
+};
+struct FUN_00cf3070_class : hkpConstraintInstance
+{
     void SetActive(bool);
 };
 // @fnv 0x00cf3070
 void FUN_00cf3070_class::SetActive(bool active)
 {
-    *(char*)((char*)this + 0x1c) = active;
-    void* p = this->mC;
+    m_priority = active;
+    ConstraintInternalFields* p = static_cast<ConstraintInternalFields*>(m_pConstraintInternal);
     if (p)
-        *(char*)((char*)p + 0x13) = active;
+        p->m_priority = active;
 }
 
 struct FUN_00cf3090_class
@@ -123,13 +92,13 @@ struct FUN_00cf3090_class
 void FUN_00cf3090_class::FUN_00cf3090(void* arg)
 {
     if (m2)
-        ::FUN_00cb3dd0((::CB3DD0World *)(*(void**)((char*)arg + 8)), (::CB3DD0Entity *)(void *)(this), 1);
+        ::FUN_00cb3dd0((::CB3DD0World *)(static_cast<WorldObjectFields*>(arg)->m_world), (::CB3DD0Entity *)(void *)(this), 1);
 }
 
 // @fnv 0x00cf3da0
 void FUN_00cf3da0(void* self, int)
 {
-    ::FUN_00cdff60(self, (::ConstraintInput *)(*(void**)((char*)self + 8)));
+    ::FUN_00cdff60(self, (::ConstraintInput *)(static_cast<hkpConstraintInstance*>(self)->m_pOwnerObject));
 }
 
 struct DDCC60World
@@ -181,10 +150,10 @@ void FUN_00cf3040_class::RemoveReferenceFromSlots(void* arg)
     for (int i = 0; i < 2; ++i)
     {
         DDCC60World* p = (DDCC60World*)*(&this->m5 + i);
-        if (p == *(DDCC60World**)((char*)arg + 0x24))
+        if (p == static_cast<DDCC60World*>(static_cast<WorldFixedBodyFields*>(arg)->m_pFixedRigidBody))
         {
             reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();
-            *(void**)((char*)&this->m5 + i * 4) = 0;
+            *(&this->m5 + i) = 0;
         }
     }
 }
@@ -217,11 +186,11 @@ void FUN_00cf3e60_class::FUN_00cf3e60()
 
             if (other != 0)
             {
-                void* constraint = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(other) + 0x08);
+                WorldFixedBodyFields* constraint = static_cast<WorldFixedBodyFields*>(static_cast<WorldObjectFields*>(other)->m_world);
 
                 if (constraint != 0)
                 {
-                    void* referenced = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(constraint) + 0x24);
+                    void* referenced = constraint->m_pFixedRigidBody;
 
                     m_kActorEntries[i] = referenced;
                     reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<RefObj*>(referenced)))->FUN_00c90510();
@@ -443,7 +412,7 @@ class FUN_00cf3ea0 : public hkpConstraintInstance
     static __forceinline void* operator new(size_t uiSize) throw()
     {
         void* p = static_cast<hkMemoryRouterCF3F*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
-        ((unsigned short*)p)[2] = (unsigned short)uiSize;
+        static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
     static void operator delete(void* p) throw();

@@ -972,6 +972,8 @@ class NiD3DPass
   public:
     char pad[0x5c];
     PassShaderPtr m_pGeometryShader;
+    void IncRefCount();
+    void DecRefCount();
 };
 struct FUN_00b78980_shell
 {
@@ -2226,7 +2228,7 @@ class D3DPassObj
     }
     void SetPS2(NiD3DPixelShader* pkShader)
     {
-        ::FUN_00b79950((char *)this, (int)(pkShader), {});
+        ::FUN_00b79950((char *)this, 0, (::NiRefObject *)(pkShader));
     }
     void SetVS2(NiD3DVertexShader* pkShader)
     {
@@ -2459,7 +2461,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde5c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde5c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb08));
     spRenderPass->SetRenderState(0x1b, 0, true);
     spRenderPass->SetRenderState(0xf, 0, true);
@@ -2500,7 +2502,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde5c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde5c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb0c));
     SetFlag(DAT_011fd070, 0x380);
     SetFlag(DAT_011fc490, 0x2c);
@@ -2536,7 +2538,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde60), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde60));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb10));
     SetFlag(DAT_011fd074, 0x380);
     SetFlag(DAT_011fc494, 0x2c);
@@ -2572,7 +2574,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde78), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde78));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb28));
     spRenderPass->SetRenderState(0x1b, 0, true);
     spRenderPass->SetRenderState(7, 1, true);
@@ -2614,7 +2616,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 1, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde64), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde64));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb14));
     spRenderPass->SetRenderState(0x1b, 0, true);
     spRenderPass->SetRenderState(0xf, 0, true);
@@ -2655,7 +2657,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde5c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde5c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb18));
     spRenderPass->SetRenderState(0x1b, 0, true);
     spRenderPass->SetRenderState(0xf, 0, true);
@@ -2696,7 +2698,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde5c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde5c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb2c));
     spRenderPass->SetRenderState(0x1b, 0, true);
     spRenderPass->SetRenderState(0xf, 0, true);
@@ -2737,7 +2739,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde68), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde68));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb08));
     spRenderPass->SetRenderState(0x1b, 0, true);
     spRenderPass->SetRenderState(0xf, 0, true);
@@ -2777,7 +2779,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde68), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde68));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb18));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -2818,7 +2820,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde68), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde68));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb2c));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -2859,7 +2861,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde6c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde6c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb1c));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -2900,7 +2902,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde70), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde70));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb20));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -2941,7 +2943,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde6c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde6c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb24));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -2982,7 +2984,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde6c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde6c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb30));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3023,7 +3025,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde74), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde74));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb1c));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3064,7 +3066,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde74), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde74));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb24));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3105,7 +3107,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde74), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde74));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb30));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3146,7 +3148,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde7c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde7c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb34));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3187,7 +3189,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde7c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde7c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb38));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3228,7 +3230,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde7c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde7c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb3c));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3269,7 +3271,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde80), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde80));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb34));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3310,7 +3312,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde80), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde80));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb38));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3351,7 +3353,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde80), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde80));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb3c));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3392,7 +3394,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde84), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde84));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb40));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3433,7 +3435,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde84), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde84));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb44));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3474,7 +3476,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde84), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde84));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb48));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3515,7 +3517,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde88), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde88));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb40));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3556,7 +3558,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde88), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde88));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb44));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3597,7 +3599,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fde88), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fde88));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdb44));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3615,7 +3617,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fdf58), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fdf58));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdc20));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3631,7 +3633,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fdf5c), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fdf5c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdc24));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 1, true);
@@ -3647,7 +3649,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fdf60), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fdf60));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdc28));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 0, true);
@@ -3663,7 +3665,7 @@ void FUN_00bebd20()
         SetupStage(spStage, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(::fnv_00bebd20::BeamStage *)(spStage));
     }
-    ::FUN_00b79950((char *)((spRenderPass).operator->()), (int)(DAT_011fdf64), {});
+    ::FUN_00b79950((char *)((spRenderPass).operator->()), 0, (::NiRefObject *)(DAT_011fdf64));
     reinterpret_cast<::BSShaderBloodSplatter *>(((spRenderPass).operator->()))->FUN_00b80600((::NiRefObject *)(::fnv_00bebd20::NiD3DVertexShader *)(DAT_011fdc2c));
     spRenderPass->SetRenderState2(0x1b, 0, true);
     spRenderPass->SetRenderState2(0xf, 1, true);
@@ -6098,7 +6100,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde8c), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde8c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb4c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6139,7 +6141,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde8c), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde8c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb50));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6180,7 +6182,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde8c), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde8c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb54));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6221,7 +6223,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde90), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde90));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb4c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6262,7 +6264,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde90), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde90));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb50));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6303,7 +6305,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde90), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde90));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb54));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6344,7 +6346,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde94), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde94));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb58));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6385,7 +6387,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde94), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde94));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb5c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6426,7 +6428,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde94), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde94));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb60));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6467,7 +6469,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde98), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde98));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb58));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6508,7 +6510,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde98), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde98));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb5c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6549,7 +6551,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde98), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde98));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb60));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6590,7 +6592,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde9c), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde9c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb64));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6631,7 +6633,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde9c), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde9c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb68));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6672,7 +6674,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fde9c), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fde9c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb6c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6713,7 +6715,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb64));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6754,7 +6756,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb68));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6795,7 +6797,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb6c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6836,7 +6838,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb70));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6877,7 +6879,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb74));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6918,7 +6920,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb78));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -6959,7 +6961,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea8));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb70));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7000,7 +7002,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea8));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb74));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7041,7 +7043,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdea8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdea8));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb78));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7082,7 +7084,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeac), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeac));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb7c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7123,7 +7125,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeac), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeac));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb80));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7164,7 +7166,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeb0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeb0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb7c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7205,7 +7207,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeb0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeb0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb80));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7246,7 +7248,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeb4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeb4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb84));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7287,7 +7289,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeb8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeb8));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb88));
     DAT_011fcfa8 = 0x80380;
     DAT_011fc3c8 = 0x13c;
@@ -7323,7 +7325,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdeb4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdeb4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb8c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7364,7 +7366,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdebc), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdebc));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb84));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7405,7 +7407,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdebc), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdebc));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb8c));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7446,7 +7448,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdec0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdec0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb90));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7487,7 +7489,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdec4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdec4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb94));
     DAT_011fcfc4 = 0x80780;
     DAT_011fc3e4 = 0x13c;
@@ -7523,7 +7525,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdec0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdec0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb98));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7564,7 +7566,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdec8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdec8));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb90));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7605,7 +7607,7 @@ void __cdecl SetupRenderPasses()
         ConfigureBeamStage(t.ptr, 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)((unsigned int)t.ptr));
     }
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdec8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdec8));
     reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(DAT_011fdb98));
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(27, 0, 1);
     reinterpret_cast<::StateGroup *>((((BfPass*)p.ptr)->Manager()))->SetNodeValue(15, 0, 1);
@@ -7650,7 +7652,7 @@ void __cdecl SetupRenderPasses()
         reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(0);
     else
         reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(1);
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdfc0), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdfc0));
     if (DAT_011f91b0 == 3)
         reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(::GraphicsResource *)(DAT_011fdd68[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c))].First()));
     else
@@ -7706,7 +7708,7 @@ void __cdecl SetupRenderPasses()
         reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(0);
     else
         reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(1);
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdfc4), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdfc4));
     if (DAT_011f91b0 == 3)
         reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(::GraphicsResource *)(DAT_011fdd68[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c))].First()));
     else
@@ -7763,7 +7765,7 @@ void __cdecl SetupRenderPasses()
         reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(0);
     else
         reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(1);
-    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), (int)(DAT_011fdfc8), {});
+    ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdfc8));
     if (DAT_011f91b0 == 3)
         reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(::GraphicsResource *)(DAT_011fdd68[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c))].First()));
     else
@@ -9586,7 +9588,7 @@ void FUN_00bf96b0()
         ConfigureBeamStage(stage.object, 5, 1, 2, true);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(5, (::Stage321 *)(stage.object));
     }
-    ::FUN_00b79950((char *)((pass).operator->()), (int)(DAT_011fdf20), {});
+    ::FUN_00b79950((char *)((pass).operator->()), 0, (::NiRefObject *)(DAT_011fdf20));
     reinterpret_cast<::BSShaderBloodSplatter *>(((pass).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdbe8));
     reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(19, 2, true);
     reinterpret_cast<::StateGroup *>((pass->GetState()))->SetNodeValue(20, 2, true);
@@ -9909,7 +9911,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ImpFn imp4 = InterlockedDecrement;
+    ImpFn imp4 = [](volatile long* p) { return InterlockedDecrement(p); };
     pPass->SetPixelShader(DAT_011fddb0, imp4);
     pPass->SetVertexShader(DAT_011fda6c, imp4);
     pPass->SetState(0x1b, 0x0, 0x1);
@@ -10572,7 +10574,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 3, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fddc4), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fddc4));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda90));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10598,7 +10600,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 3, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fddc0), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fddc0));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda94));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10623,7 +10625,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde2c), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde2c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda6c));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10642,7 +10644,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde30), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde30));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda7c));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10661,7 +10663,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde34), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde34));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda70));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10681,7 +10683,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde38), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde38));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda80));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10704,7 +10706,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde2c), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde2c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda9c));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10727,7 +10729,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde34), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde34));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fdaa0));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10751,7 +10753,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde38), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde38));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fdab0));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10778,7 +10780,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 3, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_011fde3c), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_011fde3c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_011fda8c));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10803,7 +10805,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 3, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(DAT_11FDE40), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(DAT_11FDE40));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fda90));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0xf, 0x0, 0x1);
@@ -10823,7 +10825,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde2c), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde2c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fda74));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10844,7 +10846,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde30), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde30));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fda84));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10865,7 +10867,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde34), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde34));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fda78));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10887,7 +10889,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 1, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde38), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde38));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fda88));
     pPass->SetState(0x1b, 0x0, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10912,7 +10914,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde2c), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde2c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fdaa4));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10937,7 +10939,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde30), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde30));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fdab4));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10965,7 +10967,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 3, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde3c), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde3c));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(::fnv_00be39e0::DAT_011fda94));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -10990,7 +10992,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde34), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde34));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_11FDAA8));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -11016,7 +11018,7 @@ void FUN_00b78980_shell::ConfigureRenderPasses()
         ConfigureBeamStage(aLocal.m_pObject, 2, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pPass.m_pObject)))->FUN_00e802b0((unsigned int)(pPass->f14), (::Stage321 *)(aLocal.m_pObject));
     }
-    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), (int)(::fnv_00be39e0::DAT_011fde38), {});
+    ::FUN_00b79950((char *)(((RendObj2*)pPass.m_pObject)), 0, (::NiRefObject *)(::fnv_00be39e0::DAT_011fde38));
     reinterpret_cast<::BSShaderBloodSplatter *>((((RendObj2*)pPass.m_pObject)))->FUN_00b80600((::NiRefObject *)(DAT_11FDAB8));
     pPass->SetState(0x1b, 0x1, 0x1);
     pPass->SetState(0x13, 0x5, 0x1);
@@ -12320,13 +12322,15 @@ class NiD3DPass
     }
 };
 
-template <> class NiPointer<NiD3DPass>
+}  // namespace fnv_00c01f60
+
+template <> class NiPointer<fnv_00c01f60::NiD3DPass>
 {
   public:
-    NiD3DPass* m_pObject;
+    fnv_00c01f60::NiD3DPass* m_pObject;
     NiPointer() : m_pObject(0)
     {}
-    NiPointer(NiD3DPass* object) : m_pObject(object)
+    NiPointer(fnv_00c01f60::NiD3DPass* object) : m_pObject(object)
     {
         if (m_pObject)
             m_pObject->IncRefCount();
@@ -12336,11 +12340,11 @@ template <> class NiPointer<NiD3DPass>
         if (m_pObject)
             m_pObject->DecRefCount();
     }
-    NiD3DPass* operator->() const
+    fnv_00c01f60::NiD3DPass* operator->() const
     {
         return m_pObject;
     }
-    operator NiD3DPass*() const
+    operator fnv_00c01f60::NiD3DPass*() const
     {
         return m_pObject;
     }
@@ -12357,6 +12361,8 @@ template <> class NiPointer<NiD3DPass>
         return *this;
     }
 };
+
+namespace fnv_00c01f60 {
 
 class StageReturn
 {
@@ -12784,7 +12790,10 @@ class D3DRenderStateGroup
 {
   public:
 };
-extern "C" D3DRenderStateGroup* __cdecl FUN_00e7f5d0();
+inline D3DRenderStateGroup* FUN_00e7f5d0()
+{
+    return reinterpret_cast<D3DRenderStateGroup*>(::FUN_00e7f5d0());
+}
 class BeamStage
 {
   public:
@@ -12854,9 +12863,14 @@ class NiD3DPass
         m_spVertexShaderObject = shader;
     }
 };
-extern "C" void __cdecl AssignStageFromPool(NiPointer<BeamStage>& stage);
-extern "C" void __cdecl ConfigureBeamStage(BeamStage* stage, unsigned int index, unsigned char a, unsigned int b,
-                                           unsigned char c);
+inline void AssignStageFromPool(NiPointer<BeamStage>& stage)
+{
+    ::AssignStageFromPool(reinterpret_cast<::ScopedTemporary*>(&stage));
+}
+inline void ConfigureBeamStage(BeamStage* stage, unsigned int index, unsigned char a, unsigned int b, unsigned char c)
+{
+    ::ConfigureBeamStage(reinterpret_cast<::TemporaryResource*>(stage), index, a, b, c);
+}
 extern unsigned int DAT_011f9534;
 extern unsigned int DAT_011fab30;
 extern unsigned int DAT_011fb09c;
@@ -13263,7 +13277,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 1, 1, 2, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf94), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf94));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc48));
     system->SetRenderState(27, 0, true);
     system->SetRenderState(15, 0, true);
@@ -13284,7 +13298,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 1, 1, 2, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf98), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf98));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc4c));
     system->SetRenderState(27, 1, true);
     system->SetRenderState(19, 5, true);
@@ -13318,7 +13332,7 @@ void InitializeBeamPasses()
         reinterpret_cast<::E7DE90Owner *>(((temporary).operator->()))->ApplyPairToState(3);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf9c), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf9c));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc50));
     system->SetRenderState(27, 1, true);
     system->SetRenderState(19, 5, true);
@@ -13343,7 +13357,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 1, 1, 2, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfa0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfa0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc54));
     system->SetRenderState(19, 5, true);
     system->SetRenderState(20, 2, true);
@@ -13365,7 +13379,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 1, 1, 2, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfa0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfa0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc58));
     system->SetRenderState(27, 1, true);
     system->SetRenderState(19, 5, true);
@@ -13388,7 +13402,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 1, 1, 2, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfa4), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfa4));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc5c));
     system->SetRenderState(19, 5, true);
     system->SetRenderState(20, 2, true);
@@ -13411,7 +13425,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 1, 1, 2, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfa8), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfa8));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc60));
     system->SetRenderState(27, 1, true);
     system->SetRenderState(19, 5, true);
@@ -13441,7 +13455,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 3, 3, 0, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf30), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf30));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdbf8));
     system->SetRenderState(27, 0, true);
     system->SetRenderState(15, 0, true);
@@ -13462,7 +13476,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc78));
     DAT_011fd45c = 768;
     DAT_011fc87c = 172;
@@ -13478,7 +13492,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc80));
     DAT_011fd464 = 768;
     DAT_011fc884 = 172;
@@ -13494,7 +13508,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc7c));
     DAT_011fd460 = 880;
     DAT_011fc880 = 172;
@@ -13510,7 +13524,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc84));
     DAT_011fd468 = 880;
     DAT_011fc888 = 172;
@@ -13526,7 +13540,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc88));
     DAT_011fd46c = 768;
     DAT_011fc88c = 4012;
@@ -13542,7 +13556,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc90));
     DAT_011fd474 = 768;
     DAT_011fc894 = 4012;
@@ -13558,7 +13572,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc8c));
     DAT_011fd470 = 880;
     DAT_011fc890 = 1964;
@@ -13574,7 +13588,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc94));
     DAT_011fd478 = 880;
     DAT_011fc898 = 1964;
@@ -13590,7 +13604,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc98));
     DAT_011fd47c = 768;
     DAT_011fc89c = 172;
@@ -13606,7 +13620,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdca0));
     DAT_011fd484 = 768;
     DAT_011fc8a4 = 172;
@@ -13622,7 +13636,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc9c));
     DAT_011fd480 = 880;
     DAT_011fc8a0 = 172;
@@ -13638,7 +13652,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdca4));
     DAT_011fd488 = 880;
     DAT_011fc8a8 = 172;
@@ -13654,7 +13668,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdca8));
     DAT_011fd48c = 768;
     DAT_011fc8ac = 4012;
@@ -13670,7 +13684,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcb0));
     DAT_011fd494 = 768;
     DAT_011fc8b4 = 4012;
@@ -13686,7 +13700,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcac));
     DAT_011fd490 = 880;
     DAT_011fc8b0 = 1964;
@@ -13702,7 +13716,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcb4));
     DAT_011fd498 = 880;
     DAT_011fc8b8 = 1964;
@@ -13718,7 +13732,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcb8));
     DAT_011fd49c = 768;
     DAT_011fc8bc = 172;
@@ -13734,7 +13748,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcc0));
     DAT_011fd4a4 = 768;
     DAT_011fc8c4 = 172;
@@ -13750,7 +13764,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcbc));
     DAT_011fd4a0 = 880;
     DAT_011fc8c0 = 172;
@@ -13766,7 +13780,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcc4));
     DAT_011fd4a8 = 880;
     DAT_011fc8c8 = 172;
@@ -13782,7 +13796,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcc8));
     DAT_011fd4ac = 768;
     DAT_011fc8cc = 4012;
@@ -13798,7 +13812,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcd0));
     DAT_011fd4b4 = 768;
     DAT_011fc8d4 = 4012;
@@ -13814,7 +13828,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdccc));
     DAT_011fd4b0 = 880;
     DAT_011fc8d0 = 1964;
@@ -13830,7 +13844,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcd4));
     DAT_011fd4b8 = 880;
     DAT_011fc8d8 = 1964;
@@ -13846,7 +13860,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcd8));
     DAT_011fd4bc = 768;
     DAT_011fc8dc = 172;
@@ -13862,7 +13876,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdce0));
     DAT_011fd4c4 = 768;
     DAT_011fc8e4 = 172;
@@ -13878,7 +13892,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcdc));
     DAT_011fd4c0 = 880;
     DAT_011fc8e0 = 172;
@@ -13894,7 +13908,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdce4));
     DAT_011fd4c8 = 880;
     DAT_011fc8e8 = 172;
@@ -13910,7 +13924,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdce8));
     DAT_011fd4cc = 768;
     DAT_011fc8ec = 4012;
@@ -13926,7 +13940,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcf0));
     DAT_011fd4d4 = 768;
     DAT_011fc8f4 = 4012;
@@ -13942,7 +13956,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcec));
     DAT_011fd4d0 = 880;
     DAT_011fc8f0 = 1964;
@@ -13958,7 +13972,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcf4));
     DAT_011fd4d8 = 880;
     DAT_011fc8f8 = 1964;
@@ -13974,7 +13988,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcf8));
     DAT_011fd4dc = 768;
     DAT_011fc8fc = 172;
@@ -13990,7 +14004,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd00));
     DAT_011fd4e4 = 768;
     DAT_011fc904 = 172;
@@ -14006,7 +14020,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdcfc));
     DAT_011fd4e0 = 880;
     DAT_011fc900 = 172;
@@ -14022,7 +14036,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd04));
     DAT_011fd4e8 = 880;
     DAT_011fc908 = 172;
@@ -14038,7 +14052,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd08));
     DAT_011fd4ec = 768;
     DAT_011fc90c = 4012;
@@ -14054,7 +14068,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd10));
     DAT_011fd4f4 = 768;
     DAT_011fc914 = 4012;
@@ -14070,7 +14084,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd0c));
     DAT_011fd4f0 = 880;
     DAT_011fc910 = 1964;
@@ -14086,7 +14100,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd14));
     DAT_011fd4f8 = 880;
     DAT_011fc918 = 1964;
@@ -14102,7 +14116,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd18));
     DAT_011fd4fc = 768;
     DAT_011fc91c = 172;
@@ -14118,7 +14132,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd20));
     DAT_011fd504 = 768;
     DAT_011fc924 = 172;
@@ -14134,7 +14148,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd1c));
     DAT_011fd500 = 880;
     DAT_011fc920 = 172;
@@ -14150,7 +14164,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd24));
     DAT_011fd508 = 880;
     DAT_011fc928 = 172;
@@ -14166,7 +14180,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd28));
     DAT_011fd50c = 768;
     DAT_011fc92c = 4012;
@@ -14182,7 +14196,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd30));
     DAT_011fd514 = 768;
     DAT_011fc934 = 4012;
@@ -14198,7 +14212,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd2c));
     DAT_011fd510 = 880;
     DAT_011fc930 = 1964;
@@ -14214,7 +14228,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd34));
     DAT_011fd518 = 880;
     DAT_011fc938 = 1964;
@@ -14230,7 +14244,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd38));
     DAT_011fd51c = 768;
     DAT_011fc93c = 172;
@@ -14246,7 +14260,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd40));
     DAT_011fd524 = 768;
     DAT_011fc944 = 172;
@@ -14262,7 +14276,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd3c));
     DAT_011fd520 = 880;
     DAT_011fc940 = 172;
@@ -14278,7 +14292,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd44));
     DAT_011fd528 = 880;
     DAT_011fc948 = 172;
@@ -14294,7 +14308,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd48));
     DAT_011fd52c = 768;
     DAT_011fc94c = 4012;
@@ -14310,7 +14324,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd50));
     DAT_011fd534 = 768;
     DAT_011fc954 = 4012;
@@ -14326,7 +14340,7 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd4c));
     DAT_011fd530 = 880;
     DAT_011fc950 = 1964;
@@ -14342,14 +14356,14 @@ void InitializeBeamPasses()
             system->AppendStage(temporary);
         }
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdff0), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdff0));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd54));
     DAT_011fd538 = 880;
     DAT_011fc958 = 1964;
     DAT_011fbd78 = 864;
     DAT_011fb198 = 132;
     system = DAT_011fe8b4;
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdfec), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdfec));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdd58));
     system->SetRenderState(27, 0, true);
     system->SetRenderState(15, 0, true);
@@ -14376,7 +14390,7 @@ void InitializeBeamPasses()
         ConfigureBeamStage(temporary, 3, 3, 0, 1);
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf34), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf34));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdbfc));
     system->SetRenderState(27, 1, true);
     system->SetRenderState(19, 5, true);
@@ -14406,7 +14420,7 @@ void InitializeBeamPasses()
         temporary->unk0c = 1;
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf38), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf38));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc00));
     system->SetRenderState(19, 5, true);
     system->SetRenderState(20, 2, true);
@@ -14432,7 +14446,7 @@ void InitializeBeamPasses()
         temporary->unk0c = 1;
         system->AppendStage(temporary);
     }
-    ::FUN_00b79950((char *)((system).operator->()), (int)(DAT_011fdf44), {});
+    ::FUN_00b79950((char *)((system).operator->()), 0, (::NiRefObject *)(DAT_011fdf44));
     reinterpret_cast<::BSShaderBloodSplatter *>(((system).operator->()))->FUN_00b80600((::NiRefObject *)(DAT_011fdc0c));
     system->SetRenderState(27, 1, true);
     system->SetRenderState(19, 5, true);
@@ -15764,11 +15778,11 @@ void RX::UpdateRenderPass(ArgX* apArg)
     }
     else
     {
-        ::UpdateLightPass((::Property119 *)this, (::Pass119 *)(p), (::M_bbb890)(s), (*(::Scale119 * *)&(const ::fnv_00b7dab0::MatX &)(m)), (unsigned int)(t), type);
+        ::UpdateLightPass((::Property119 *)this, (::Pass119 *)(p), *(const ::M_bbb890 *)(s), (*(::Scale119 * *)&(const ::fnv_00b7dab0::MatX &)(m)), (unsigned int)(t), type);
         reinterpret_cast<::S00b7ba70_Updater *>(this)->FUN_00b7ba70((::RenderProperty *)(p), (::ShaderType *)(s), (::ShaderGeometry *)(g), (void *)(c));
         reinterpret_cast<::Owner132 *>(this)->FUN_00b7b730((::Group132 *)(s), type, (int)(q), (const char *)(t));
         ::UpdateWorldMatrix((::FUN_00b7b930_Arg *)this, (int)(apArg), (const ::FUN_00b7b930_Transform *)(q));
-        ::fnv_00b78ef0::UpdateEyePosition((unsigned int)this, (char *)(type), (::fnv_00b78ef0::Matrix_b78ef0)(t));
+        ::fnv_00b78ef0::UpdateEyePosition((unsigned int)this, (char *)(type), *(const ::fnv_00b78ef0::Matrix_b78ef0 *)(t));
         ::ResetTransform((int)this);
         ::UpdateScaledValue((const char *)this);
         ::FUN_00b79180((void *)this);
@@ -15972,8 +15986,8 @@ void __cdecl FUN_00be9920()
         ConfigureBeamStage(stage.m_pObject, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pRendObj.m_pObject)))->FUN_00e802b0((unsigned int)(pRendObj->f14), (::Stage321 *)(stage.m_pObject));
     }
-    pRendObj->SetPixelShader((*reinterpret_cast<::fnv_00be9920::RendObj * *>(&::DAT_011fddcc)), InterlockedDecrement);
-    pRendObj->SetVertexShader(DAT_011fdac0, InterlockedDecrement);
+    pRendObj->SetPixelShader((*reinterpret_cast<::fnv_00be9920::RendObj * *>(&::DAT_011fddcc)), [](volatile long* p) { return InterlockedDecrement(p); });
+    pRendObj->SetVertexShader(DAT_011fdac0, [](volatile long* p) { return InterlockedDecrement(p); });
     pRendObj->SetState(27, 1, 1);
     pRendObj->SetState(19, 5, 1);
     pRendObj->SetState(20, 6, 1);
@@ -15992,8 +16006,8 @@ void __cdecl FUN_00be9920()
         ConfigureBeamStage(stage.m_pObject, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pRendObj.m_pObject)))->FUN_00e802b0((unsigned int)(pRendObj->f14), (::Stage321 *)(stage.m_pObject));
     }
-    pRendObj->SetPixelShader(DAT_011fddd0, InterlockedDecrement);
-    pRendObj->SetVertexShader(DAT_011fdac4, InterlockedDecrement);
+    pRendObj->SetPixelShader(DAT_011fddd0, [](volatile long* p) { return InterlockedDecrement(p); });
+    pRendObj->SetVertexShader(DAT_011fdac4, [](volatile long* p) { return InterlockedDecrement(p); });
     pRendObj->SetState(27, 1, 1);
     pRendObj->SetState(19, 5, 1);
     pRendObj->SetState(20, 6, 1);
@@ -16012,8 +16026,8 @@ void __cdecl FUN_00be9920()
         ConfigureBeamStage(stage.m_pObject, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pRendObj.m_pObject)))->FUN_00e802b0((unsigned int)(pRendObj->f14), (::Stage321 *)(stage.m_pObject));
     }
-    pRendObj->SetPixelShader(DAT_011fde08, InterlockedDecrement);
-    pRendObj->SetVertexShader(DAT_011fdac0, InterlockedDecrement);
+    pRendObj->SetPixelShader(DAT_011fde08, [](volatile long* p) { return InterlockedDecrement(p); });
+    pRendObj->SetVertexShader(DAT_011fdac0, [](volatile long* p) { return InterlockedDecrement(p); });
     pRendObj->SetState(27, 1, 1);
     pRendObj->SetState(19, 5, 1);
     pRendObj->SetState(20, 6, 1);
@@ -16032,8 +16046,8 @@ void __cdecl FUN_00be9920()
         ConfigureBeamStage(stage.m_pObject, 0, 1, 2, 1);
         reinterpret_cast<::StageSet *>((((RendObj2*)pRendObj.m_pObject)))->FUN_00e802b0((unsigned int)(pRendObj->f14), (::Stage321 *)(stage.m_pObject));
     }
-    pRendObj->SetPixelShader(DAT_011fde0c, InterlockedDecrement);
-    pRendObj->SetVertexShader(DAT_011fdac4, InterlockedDecrement);
+    pRendObj->SetPixelShader(DAT_011fde0c, [](volatile long* p) { return InterlockedDecrement(p); });
+    pRendObj->SetVertexShader(DAT_011fdac4, [](volatile long* p) { return InterlockedDecrement(p); });
     pRendObj->SetState(27, 1, 1);
     pRendObj->SetState(19, 5, 1);
     pRendObj->SetState(20, 6, 1);

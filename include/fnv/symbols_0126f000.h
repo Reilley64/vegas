@@ -165,7 +165,7 @@ extern ::GlobalObjectO2_00a7b610 g_0126fa48;
 // 0x0126fa58
 extern void* DAT_0126fa58;
 // 0x0126fa94
-extern bool (**DAT_0126fa94)(float, void *, unsigned int, void *, unsigned int);
+extern bool (**DAT_0126fa94)(float, void *, uintptr_t, void *, uintptr_t);
 // 0x0126fa98
 extern int (**DAT_0126fa98)(float, void *, int, void *, int, int, int, int, int, int);
 // 0x0126fa9c

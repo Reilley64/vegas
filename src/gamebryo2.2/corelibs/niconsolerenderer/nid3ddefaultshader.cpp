@@ -995,7 +995,7 @@ ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int
             --remainingTextures;
     }
     --remainingPasses;
-    reinterpret_cast<::StageSet *>(((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))))->FUN_00e802b0((uintptr_t)((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))->group), (::Stage321 *)(result));
+    reinterpret_cast<::StageSet *>(((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))))->FUN_00e802b0((unsigned int)(uintptr_t)((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))->group), (::Stage321 *)(result));
     if (pass)
         pass->Release();
     return result;

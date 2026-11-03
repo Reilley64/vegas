@@ -1864,7 +1864,7 @@ struct ConstantTarget {
     virtual void v26();
     virtual void v27();
     virtual void v28();
-    virtual bool SetConstant(int reg, const float* data, int count);
+    virtual bool SetConstant(intptr_t entry, const float* data, int count);
 };
 
 
@@ -6838,7 +6838,7 @@ struct FUN_00e89840_Class {
     void FUN_00e89840();
 };
 struct FUN_00e89ae0_obj;
-typedef int (*FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
+typedef int (*FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, intptr_t, int);
 struct FUN_00e89ae0_obj { void** vtbl; };
 struct FUN_00e89ae0_cls {
     int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C;
@@ -7039,7 +7039,7 @@ struct E89B40Device {
     virtual long vfunc5D();
     virtual long vfunc5E();
     virtual long vfunc5F();
-    virtual long SetState(unsigned int uiA, unsigned int uiB, unsigned int uiC);
+    virtual long SetState(unsigned int uiA, uintptr_t uiB, unsigned int uiC);
 };
 
 class E89B40Renderer {
@@ -8329,7 +8329,7 @@ void FUN_00e8aaf0_cls::FUN_00e8aaf0(intptr_t pData, intptr_t iFace) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
-        int orig = iFace;
+        int orig = (int)iFace;
         do {
             int r = src->GetSurfaceLevel(orig, i, &iFace);
             if (r < 0) {
@@ -8405,7 +8405,7 @@ void FUN_00e8ab70_cls::FUN_00e8ab70(intptr_t aiData, intptr_t a2) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
-        int orig = a2;
+        int orig = (int)a2;
         do {
             int r = src->GetSurfaceLevel(orig, i, &a2);
             if (r < 0) {
@@ -9329,7 +9329,7 @@ struct FUN_00e984d0_Struct {
     int unk00;
     int unk04;
     int unk08;
-    int (__cdecl *unk0c)(FUN_00e984d0_Struct*, int, int, int*, int);
+    int (__cdecl *unk0c)(FUN_00e984d0_Struct*, intptr_t, int, int*, int);
 };
 
 // @fnv 0x00e984d0
@@ -9343,7 +9343,7 @@ struct FnvCpu_FUN_00e98e10_CpuTarget {  };
 struct FnvCpu_FUN_00e98e10_CpuOwner {
     void FUN_00e98e10();
 };
-typedef bool (__cdecl *FNV_CondFn_e9c8c0)(float, void*, unsigned int, void*, unsigned int);
+typedef bool (__cdecl *FNV_CondFn_e9c8c0)(float, void*, uintptr_t, void*, uintptr_t);
 
 class FUN_00e9c8c0_obj {
 public:
@@ -10913,12 +10913,12 @@ struct StageSet {
     int m_1C;
     StageArray m_20;
 
-    int FUN_00e802b0(uintptr_t index, Stage321* obj);
+    int FUN_00e802b0(unsigned int index, Stage321* obj);
 };
 
 // Stores obj at index in m_20, updating m_14, m_18, m_1C, and obj->m_04, or shrinks m_14 when obj is null.
 // @fnv 0x00e802b0
-int StageSet::FUN_00e802b0(uintptr_t index, Stage321* obj)
+int StageSet::FUN_00e802b0(unsigned int index, Stage321* obj)
 {
     if (index >= DAT_011bf560)
         return 1;
@@ -15402,7 +15402,7 @@ typedef void(* FUN_00e88830_Slot)(void* self, int code, int value);
 typedef void(* FUN_00e88a20_Slot)(void* self, int code, int value);
 
 
-typedef int(* FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
+typedef int(* FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, intptr_t, int);
 
 void _delete(void*, unsigned int);
 
@@ -15412,7 +15412,7 @@ void _delete(void*, unsigned int);
 
 
 
-typedef bool(__cdecl* FNV_CondFn_e9c8c0)(float, void*, unsigned int, void*, unsigned int);
+typedef bool(__cdecl* FNV_CondFn_e9c8c0)(float, void*, uintptr_t, void*, uintptr_t);
 
 typedef int(__cdecl* FUN_00e9c950_handler)(float, void*, int, void*, int, int, int, int, int, int);
 

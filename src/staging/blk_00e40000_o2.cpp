@@ -1776,17 +1776,17 @@ void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object)
     object->FUN_00e532b0(buffer, value)->GetHelperValueAsFloat();
 }
 
-char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
+bool* __cdecl IsSampleBoundary(bool* result, int index, float** samples, int endIndex);
 
 // Scans indices starting at a upward, calling IsSampleBoundary, until the returned byte is non-zero, and returns that index.
 // @fnv 0x00e54bd0
 int __cdecl FindFirstNonZero(int aiStartIndex, intptr_t b, int c)
 {
     int i = aiStartIndex;
-    if (*IsSampleBoundary(&aiStartIndex, i, b, c) == 0) {
+    if (*IsSampleBoundary((bool*)&aiStartIndex, i, (float**)b, c) == 0) {
         do {
             i++;
-        } while (*IsSampleBoundary(&aiStartIndex, i, b, c) == 0);
+        } while (*IsSampleBoundary((bool*)&aiStartIndex, i, (float**)b, c) == 0);
     }
     return i;
 }
@@ -1820,7 +1820,7 @@ struct FourFloatVector {
     float z;
     float w;
 };
-void __cdecl FUN_00e54630(FourFloatVector* result, int a, int b, int c, int d, float value);
+void __cdecl FUN_00e54630(FourFloatVector* result, int a, int b, intptr_t knots, intptr_t points, float value);
 float __cdecl LookupAndConsume(const FourFloatVector* a, const FourFloatVector* b);
 
 // @fnv 0x00e55080
@@ -1859,7 +1859,7 @@ unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a
     if (last >= 0) {
         float* thresholds = *thresholdsPtr;
         Float4* vertices = *verticesPtr;
-        int delta = (char*)*valuesPtr - (char*)thresholds;
+        ptrdiff_t delta = (char*)*valuesPtr - (char*)thresholds;
         do {
             Float4 lhsVertex = *vertices;
             Float4 rhs;
@@ -1877,13 +1877,13 @@ unsigned char* __cdecl CheckVerticesAboveThresholds(unsigned char* result, int a
     return result;
 }
 
-extern void __cdecl FUN_00e58440(int, int, int, int, float, int, int, int, int);
+extern void __cdecl FUN_00e58440(int, const float*, const Float4*, int, float, int*, float*, int*, Float4*);
 
 // Passes all nine arguments through unchanged to FUN_00e58440.
 // @fnv 0x00e58740
 void __cdecl FUN_00e58740(int i1, intptr_t i2, intptr_t i3, int i4, float f5, intptr_t i6, intptr_t i7, intptr_t i8, intptr_t i9)
 {
-    FUN_00e58440(i1, i2, i3, i4, f5, i6, i7, i8, i9);
+    FUN_00e58440(i1, (const float*)i2, (const Float4*)i3, i4, f5, (int*)i6, (float*)i7, (int*)i8, (Float4*)i9);
 }
 
 struct FUN_00e58820_cls {
@@ -3042,7 +3042,7 @@ struct ExtendedListeners {
 
     static void* operator new(size_t sz) {
         HolderStub* mgr = static_cast<HolderStub*>(::FUN_00c85750());
-        return ((AllocationHeap*)mgr->m_pAllocator)->Allocate(sz);
+        return ((AllocationHeap*)mgr->m_pAllocator)->Allocate((unsigned int)sz);
     }
 };
 
@@ -3983,7 +3983,7 @@ void __cdecl FUN_00e546e0(int a, int b, int c, int d, int count,
 }
 
 struct E58E80Object {
-    void CopyFrom(int setting);
+    void CopyFrom(intptr_t setting);
 };
 // @fnv 0x00e58e80
 E87E0Matrix* FUN_00e58e80(intptr_t setting, intptr_t unused, E58E80Object* object, const E87E0Matrix& right) {
@@ -5583,7 +5583,7 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
   *result=0;temporary.free();reinterpret_cast<::FUN_00c7b0f0_shell *>(&(rhs.matrix))->FUN_00c7b0f0();reinterpret_cast<::fnv_00e58b90::FUN_00e58b90_cls *>(&(grid))->FUN_00e58b90();return result;
  }
  FitMatrix interior;
- reinterpret_cast<::Stand_e58d90 *>(&(interior))->InitArray(reinterpret_cast<::Dummy_00cc0760 *>(&(rhs.matrix))->FUN_00cc0760(),reinterpret_cast<::FUN_00e587a0_Class *>(&(rhs.matrix))->FUN_00e587a0());
+ reinterpret_cast<::Stand_e58d90 *>(&(interior))->InitArray((int)reinterpret_cast<::Dummy_00cc0760 *>(&(rhs.matrix))->FUN_00cc0760(),reinterpret_cast<::FUN_00e587a0_Class *>(&(rhs.matrix))->FUN_00e587a0());
  int rowIndex=0;
  if(reinterpret_cast<::Dummy_00cc0760 *>(&(interior))->FUN_00cc0760()>0) {
   int width=reinterpret_cast<::FUN_00e587a0_Class *>(&(interior))->FUN_00e587a0();

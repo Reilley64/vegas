@@ -1281,7 +1281,7 @@ class FnvNode67
     int unk3c;
     float m_40;
     int m_44;
-    int Callee00e63af0(int a2, FUN_00e67660_cls* t, int* out);
+    int Callee00e63af0(intptr_t a2, FUN_00e67660_cls* t, int* out);
 };
 
 class FUN_00e67660_cls
@@ -3291,7 +3291,7 @@ struct BE7B040Value
 {
     static void operator delete(void* pvMem, std::size_t uiSize)
     {
-        BE7B040SizedFree(pvMem, uiSize);
+        BE7B040SizedFree(pvMem, (unsigned int)uiSize);
     }
 
     int m_aiData00;
@@ -4245,7 +4245,7 @@ class FUN_00e7ce30_cls
 
 struct FNV_Frame
 {
-    void* out;
+    int out;
     int unk04;
     int unk08;
     int unk0c;
@@ -4270,7 +4270,7 @@ unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
         *slot = 0;
         return 0;
     }
-    m_0c = (void*)(::CreatePixelFormat((intptr_t)(frame.out)));
+    m_0c = (void*)(::CreatePixelFormat(frame.out));
     reinterpret_cast<::FUN_00a8f080_Class *>((((FUN_00a8f080_shell*)m_08)))->SetValues(frame.unk18, frame.unk1c);
     return 1;
 }
@@ -4963,14 +4963,14 @@ struct FUN_00e8a260
 {
     virtual void V0();
     void* unk04[0x1a];
-    FUN_00e8a260(int, int);
+    FUN_00e8a260(uintptr_t, uintptr_t);
 };
 struct Mid_00e687a0 : FUN_00e8a260
 {
     unsigned char unk6c;
     unsigned char unk6d;
     unsigned int unk70;
-    Mid_00e687a0(int p1, int p2) : FUN_00e8a260(p1, p2)
+    Mid_00e687a0(intptr_t p1, intptr_t p2) : FUN_00e8a260(p1, p2)
     {
         unk6c = 0;
         unk6d = 0;
@@ -6362,7 +6362,7 @@ class CE7C500PixelFormat
 
 // Allocates a CE7C500PixelFormat, converts the given format into it, and returns the new object.
 // @fnv 0x00e7c500
-CE7C500PixelFormat* __cdecl CreatePixelFormat(intptr_t eFormat)
+CE7C500PixelFormat* __cdecl CreatePixelFormat(int eFormat)
 {
     CE7C500PixelFormat* pkFormat = new CE7C500PixelFormat;
     ::GetPixelTemplateForFormat(eFormat, (*(::PixelTemplate *)(pkFormat)));
@@ -9035,12 +9035,12 @@ struct Owner
     int unk6fc;
     Block m_kBlock;
 
-    int FUN_00e695c0(intptr_t iArg);
+    intptr_t FUN_00e695c0(intptr_t iArg);
 };
 
 // Returns the result of SelectFormatTileValue called with iArg and a pointer to m_kBlock.
 // @fnv 0x00e695c0
-int Owner::FUN_00e695c0(intptr_t iArg)
+intptr_t Owner::FUN_00e695c0(intptr_t iArg)
 {
     return ::SelectFormatTileValue((::Pair *)(iArg), (::Counts *)(::se695c0::Block *)(&m_kBlock));
 }

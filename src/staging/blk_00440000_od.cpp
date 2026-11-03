@@ -1201,18 +1201,18 @@ HUDMainMenu::HUD_MENU_MODE FUN_00458030()
 
 struct FUN_00449f80_Class
 {
-    void* FUN_00449f80(void* a, void* b);
+    void* FUN_00449f80();
 };
 struct FUN_0044bb90_Class
 {
     bool FUN_0044bb90(void* a, void* b);
 };
-// Calls FUN_00449f80 with a and b, then passes the result to LookupBucket and returns its bool.
+// Looks up key a in the map FUN_00449f80 returns (the value goes to b) and returns whether it was found.
 // @fnv 0x0044bb90
 bool FUN_0044bb90_Class::FUN_0044bb90(void* apArg1, void* apArg2)
 {
     bool result;
-    result = ((bool)(reinterpret_cast<::C44C8E0Map *>((((FUN_00449f80_Class*)this)->FUN_00449f80(apArg1, apArg2)))->LookupBucket({}, {})));
+    result = ((bool)(reinterpret_cast<::C44C8E0Map *>((((FUN_00449f80_Class*)this)->FUN_00449f80()))->LookupBucket(static_cast<int>(reinterpret_cast<std::intptr_t>(apArg1)), *static_cast<::C44D510Pointer *>(apArg2))));
     return result;
 }
 

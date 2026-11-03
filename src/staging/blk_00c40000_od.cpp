@@ -11283,7 +11283,6 @@ void* FUN_00c40a70_Class::FUN_00c40a70(unsigned int flags)
 
 typedef void* HANDLE;
 
-typedef unsigned long(* LPTHREAD_START_ROUTINE)(void*);
 
 struct Semaphore42A
 {
@@ -27790,7 +27789,6 @@ void FrustumArrayConstruction::FUN_00c4a360(void* elements, int count)
 
 
 
-typedef unsigned long (*LPTHREAD_START_ROUTINE)(void*);
 
 
 

@@ -44,7 +44,7 @@ BSFaceGenMorphDifferential::BSFaceGenMorphDifferential(unsigned int count)
 // @fnv 0x0065b390
 void GeometryVertexBuffer::SetVertex(unsigned int index, const NiPoint3& vertex)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)this)))->FUN_004534f0((std::uintptr_t)((MagicItem*)index));
+    reinterpret_cast<::FUN_004534f0_shell *>((((MagicCaster*)this)))->FUN_004534f0(index);
     char* pVertex = m_pkDeltas + index * stride;
     NiPoint3& result = *(NiPoint3*)pVertex;
     result = vertex;
@@ -175,15 +175,15 @@ struct FUN_006606b0_shell
 };
 struct FUN_00660a50_shell
 {
-    int field0;
+    const void* field0;
     void* field4;
     void FUN_00660a50();
 };
-// Sets field0 to the address of _DAT_01065cd0, frees field4 if non-null, then calls SetVTable on this.
+// Sets field0 to the DAT_01065cd0 vtable, frees field4 if non-null, then calls SetVTable on this.
 // @fnv 0x00660a50
 void FUN_00660a50_shell::FUN_00660a50()
 {
-    field0 = (int)&(*reinterpret_cast<int *>(&::DAT_01065cd0));
+    field0 = &::DAT_01065cd0;
     if (field4 != 0)
     {
         void* tmp = field4;

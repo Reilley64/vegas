@@ -168,14 +168,14 @@ struct Obj
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
+    void* unk1c;
     int FUN_00401170();
 };
 
 
 struct FUN_0062a510_cls
 {
-    void FUN_0062a510(int a1);
+    void FUN_0062a510(void* a1);
 };
 
 struct UnknownBlock
@@ -201,9 +201,9 @@ struct Owner_0062a670
     void* GetNodeItem();
 };
 // @fnv 0x0062a510
-void FUN_0062a510_cls::FUN_0062a510(int a1)
+void FUN_0062a510_cls::FUN_0062a510(void* a1)
 {
-    Obj* o_tmp = ((::Obj *)(::FUN_004b5a80((const void *)(a1))));
+    Obj* o_tmp = ((::Obj *)(::FUN_004b5a80(a1)));
     Obj* p = ((::Obj *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012681c0))), (::NiObject *)(o_tmp))));
     if (p != 0 && reinterpret_cast<::FUN_00563200_Struct *>((p))->MaskWithField(0x100) != 0)
     {
@@ -225,7 +225,7 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
                         {
                             if (u->FUN_00401170() == 0x3d)
                             {
-                                if (((int)((::Obj *)(reinterpret_cast<::Twin_0044ddc0 *>((u))->GetName())) & 0x20) == 0)
+                                if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((u))->GetName()) & 0x20) == 0)
                                 {
                                     Obj* v = ((::Obj *)(reinterpret_cast<::Owner_0062a670 *>((u))->GetNodeItem()));
                                     if (v->unk1c == a1)
@@ -260,7 +260,7 @@ struct S_0062a690_Extra
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
+    void* unk1c;
 };
 
 struct S_0062a690_Actor
@@ -427,13 +427,13 @@ struct S_0062a690_B
 
 struct S_0062a690_Class
 {
-    void FUN_0062a690(int arg0);
+    void FUN_0062a690(void* arg0);
 };
 
 // @fnv 0x0062a690
-void S_0062a690_Class::FUN_0062a690(int arg0)
+void S_0062a690_Class::FUN_0062a690(void* arg0)
 {
-    void* v_08 = ::FUN_004b5a80((const void *)(arg0));
+    void* v_08 = ::FUN_004b5a80(arg0);
     S_0062a690_A* v_04 = ((::fnv_0062a690::S_0062a690_A *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012681c0))), (::NiObject *)(v_08))));
     if (v_04 && reinterpret_cast<::FUN_00563200_Struct *>((v_04))->MaskWithField(0x100))
     {

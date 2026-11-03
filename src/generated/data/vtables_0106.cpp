@@ -74,8 +74,8 @@ extern "C" void fnv_fn_0067b6f0() __asm__("?SavePackageData@FUN_0067b6f0_cls@@QE
 extern "C" void fnv_fn_0067b7d0() __asm__("?FUN_0067b7d0@FUN_0067b7d0_shell@@QEAAXPEAVBGSLoadFormBuffer@@@Z");
 extern "C" void fnv_fn_0067b920() __asm__("?FUN_0067b920@FUN_0067b920_host@@QEAAXPEAVBGSLoadFormBuffer@@@Z");
 extern "C" void fnv_fn_0067b980() __asm__("?DestroyIfFlagged@FakeCls@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_0067ba40() __asm__("?FUN_0067ba40@TESEatPackageData_Copy@@QEAAXH@Z");
-extern "C" void fnv_fn_0067bb40() __asm__("?FUN_0067bb40@TESEatPackageData_StandIn@@QEAAEH@Z");
+extern "C" void fnv_fn_0067ba40() __asm__("?FUN_0067ba40@TESEatPackageData_Copy@@QEAAXPEAX@Z");
+extern "C" void fnv_fn_0067bb40() __asm__("?FUN_0067bb40@TESEatPackageData_StandIn@@QEAAEPEAX@Z");
 extern "C" void fnv_fn_0067bbb0() __asm__("?FUN_0067bbb0@TESEatPackageData@@QEAAXXZ");
 extern "C" void fnv_fn_0067bc30() __asm__("?DestroyIfFlagged@TESEscortPackageData@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0067bd30() __asm__("?LoadPackageData@FUN_0067bd30_shell@@QEAAXPEAUBGSLoadFormBuffer@@@Z");

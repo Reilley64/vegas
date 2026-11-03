@@ -215,9 +215,9 @@ ScriptVariableData* ScriptVariableData::Reset()
 
 
 // @fnv 0x005afe10
-void __cdecl FUN_005afe10(int aiArg1, int aiArg2, int aiArg3)
+unsigned int __cdecl FUN_005afe10(const char* apString, char** apEnd, int aiBase)
 {
-    std::strtoul((const char *)(aiArg1), (char **)(aiArg2), aiArg3);
+    return std::strtoul(apString, apEnd, aiBase);
 }
 
 // Advances *apOffset past tab, space and comma characters in apExpLine, stopping at the first other character.
@@ -431,7 +431,7 @@ bool ScriptCompiler::FUN_005aedb0(Script* apScript, TESObjectREFR* apOwnerObject
         compileData.m_pName = DAT_0118ca7c[compileData.m_eCompilerIndex];
     else
         reinterpret_cast<::TextString *>((((BSStr*)&compileData.m_pName)))->FUN_004037f0(((BGSCameraPath*)compileData.pScript)->GetEditorID(), 0);
-    compileData.pText = ((char *)(reinterpret_cast<::BGSMessageInitAccess *>((apScript))->GetIconFormID()));
+    compileData.pText = ((char *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((apScript))->GetIconFormID()));
     bResult = FUN_005aeb90(apScript, &compileData);
     return bResult;
 }

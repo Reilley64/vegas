@@ -1970,6 +1970,8 @@ struct MmTransform
 
 struct MmNode
 {
+    char pad[0xc0];
+    void* pValueC0;  // written by the folded field setter at 0x00874460
 };
 
 template <class T> struct MmPtr
@@ -2089,7 +2091,7 @@ void MenuModelImpl::UpdateMenuNodes()
         reinterpret_cast<::FUN_0094db80_shell *>((pkAlphaPtr))->FUN_0094db80(0x80);
         reinterpret_cast<::NiObjectNET *>((pkAlphaPtr))->SetFlags(4);
         reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkAlphaPtr));
-        MmTexturing* pkTexX = ((::MmTexturing *)(reinterpret_cast<::FUN_00a59d30_C *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59d30((int)(((void *)(::FUN_00438220()))))));
+        MmTexturing* pkTexX = ((::MmTexturing *)(reinterpret_cast<::FUN_00a59d30_C *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59d30(::FUN_00438220())));
         pkTexX->FUN_00441130(0x22, 1);
         pkTexX->FUN_00441130(0x21, 0);
         pkTexX->FUN_00441130(0, 0);
@@ -2100,7 +2102,7 @@ void MenuModelImpl::UpdateMenuNodes()
             pkTexX = pkCloneTmp2;
             reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkTexX));
         }
-        reinterpret_cast<::FUN_00874460_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->set((int)(((void *)(::FUN_00b55560((unsigned int)reinterpret_cast<::LowProcess *>(pkTexX)->GetPackageObjectType())))));
+        ((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))->pValueC0 = ::FUN_00b55560((unsigned int)reinterpret_cast<::LowProcess *>(pkTexX)->GetPackageObjectType());
         MmTransform kTransformTmp(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a59c60_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59c60((std::intptr_t)(&kTransformTmp));

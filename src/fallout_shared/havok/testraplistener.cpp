@@ -845,15 +845,15 @@ void FUN_0062de90_shell::FUN_0062de90(CombatWorldStateListNode* target)
 struct FUN_0062d840_shell
 {
     char _pad[24];
-    FUN_0062d840_shell(unsigned int, unsigned int);
+    FUN_0062d840_shell(std::uintptr_t, std::uintptr_t);
 };
 struct FUN_0062d7c0_shell
 {
-    FUN_0062d840_shell* FUN_0062d7c0(unsigned int a, unsigned int b);
+    FUN_0062d840_shell* FUN_0062d7c0(std::uintptr_t a, std::uintptr_t b);
 };
-// Allocates and constructs a FUN_0062d840_shell with the two given unsigned int arguments and returns the new object.
+// Allocates and constructs a FUN_0062d840_shell with the two given arguments and returns the new object.
 // @fnv 0x0062d7c0
-FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(unsigned int a, unsigned int b)
+FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(std::uintptr_t a, std::uintptr_t b)
 {
     return new FUN_0062d840_shell(a, b);
 }

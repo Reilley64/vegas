@@ -91,9 +91,9 @@ struct TESObjectREFR;
 struct RootContactPoint
 {
     unsigned int pad0[8];
-    unsigned int m_20;
+    void* m_20;
     unsigned int pad1[9];
-    unsigned int m_48;
+    void* m_48;
 };
 struct BGSAcousticSpaceListenerX
 {
@@ -107,15 +107,14 @@ bool BGSAcousticSpaceListenerX::CheckAcousticSpaceListener(RootContactPoint* pPo
     TESObjectREFR* apTestRef = 0;
     if (reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60())
     {
-        if (pPoint->m_48 ==
-            ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((reinterpret_cast<PlayerCharacter*>(::_g_thePlayer)))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
-            apTestRef = FUN_0062b4e0((void*)pPoint->m_20);
+        if (pPoint->m_48 == reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((reinterpret_cast<PlayerCharacter*>(::_g_thePlayer)))->FUN_0061f6c0())))->GetSourceFilesFromObject())
+            apTestRef = FUN_0062b4e0(pPoint->m_20);
     }
     else
     {
-        TESObjectREFR* pAcousticSpaceLeft = FUN_0062b4e0((void*)pPoint->m_48);
+        TESObjectREFR* pAcousticSpaceLeft = FUN_0062b4e0(pPoint->m_48);
         if (pAcousticSpaceLeft == reinterpret_cast<TESObjectREFR*>(::_g_thePlayer))
-            apTestRef = FUN_0062b4e0((void*)pPoint->m_20);
+            apTestRef = FUN_0062b4e0(pPoint->m_20);
     }
     if (apTestRef)
     {
@@ -222,17 +221,17 @@ bool FUN_0061f6e0_shell::CheckAcousticSpaceEntered(RootContactPoint* pPoint)
 
     if (reinterpret_cast<::FUN_004eaf60_shell *>((::_g_thePlayer))->FUN_004eaf60())
     {
-        if (pPoint->m_48 == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0())))->GetSourceFilesFromObject())))
+        if (pPoint->m_48 == reinterpret_cast<::FUN_0043b560_shell *>((reinterpret_cast<W_0043b4f0*>(reinterpret_cast<::FUN_0061f6c0_shell *>((::_g_thePlayer))->FUN_0061f6c0())))->GetSourceFilesFromObject())
         {
-            pAcousticSpaceRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_20));
+            pAcousticSpaceRef = FUN_0062b4e0(pPoint->m_20);
         }
     }
     else
     {
-        TESObjectREFR* apTestRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_48));
+        TESObjectREFR* apTestRef = FUN_0062b4e0(pPoint->m_48);
         if (apTestRef == reinterpret_cast<TESObjectREFR*>(::_g_thePlayer))
         {
-            pAcousticSpaceRef = FUN_0062b4e0(reinterpret_cast<void*>(pPoint->m_20));
+            pAcousticSpaceRef = FUN_0062b4e0(pPoint->m_20);
         }
     }
 
@@ -297,14 +296,14 @@ struct S_00620260_T : S_00620260_A, S_00620260_B
 struct S_00620260_C
 {
     virtual void vfn_00();
-    virtual S_00620260_T* vfn_04(int a, int b);
+    virtual S_00620260_T* vfn_04(int a, void* b);
     S_00620260_T* cur;
-    S_00620260_T* FUN_00620260(int a, int b);
+    S_00620260_T* FUN_00620260(int a, void* b);
 };
 // @fnv 0x00620260
-S_00620260_T* S_00620260_C::FUN_00620260(int a, int b)
+S_00620260_T* S_00620260_C::FUN_00620260(int a, void* b)
 {
-    S_00620260_T* r = cur ? ((::S_00620260_T *)(reinterpret_cast<::FUN_00620300_cls *>((cur))->FindDerivedByKey((void *)(b)))) : 0;
+    S_00620260_T* r = cur ? ((::S_00620260_T *)(reinterpret_cast<::FUN_00620300_cls *>((cur))->FindDerivedByKey(b))) : 0;
     if (!r)
     {
         r = vfn_04(a, b);

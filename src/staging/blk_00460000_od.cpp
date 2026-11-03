@@ -644,13 +644,13 @@ unsigned int FUN_00476be0_Class::FUN_00476be0()
 
 struct FUN_00476c70_Class
 {
-    void FUN_00476c70(int value);
+    void FUN_00476c70(intptr_t value);
 };
 
 // @fnv 0x00476c70
-void FUN_00476c70_Class::FUN_00476c70(int value)
+void FUN_00476c70_Class::FUN_00476c70(intptr_t value)
 {
-    *(int*)((char*)this + 0xe0) = value;
+    *(intptr_t*)((char*)this + 0xe0) = value;
 }
 
 struct FUN_00476c90_Class

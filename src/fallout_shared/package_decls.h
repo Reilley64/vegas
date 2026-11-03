@@ -36,6 +36,7 @@ public:
     void SetTargetKind(::PACK_TARG_TYPE);
 public:
     void InitItem(::TESForm *);
+    void SetTargetObjectReference(::TESObjectREFR *);
 };
 class DurationData
 {
@@ -47,6 +48,8 @@ class DurationData
 public:
     int FUN_00678ca0();
 };
+class TESCombatStyle;
+enum PACKAGE_PROCEDURE_TYPE;
 enum PTYPE
 {
     PT_DUMMY
@@ -54,7 +57,9 @@ enum PTYPE
 class TESPackage
 {
   public:
-    char base[24];
+    virtual ~TESPackage();
+
+    char base[20];
     unsigned int flags18, flags;
     unsigned char type;
     char pad21;
@@ -64,7 +69,7 @@ class TESPackage
     unsigned int f2c, f30, f34;
     DurationData schedule;
     char pad40[8];
-    unsigned int f48;
+    TESCombatStyle* pCombatStyle;
     static float GetPackageDefaultFloat();
     bool IsMustReachLocation();
     bool UsesPackageAnimation();
@@ -87,6 +92,9 @@ class TESPackage
     bool IsMustComplete();
 public:
     bool GetForceUnequipWeapon() const;
+    void SetMustReachLocation(bool);
+    void SetMustComplete(bool);
+    void SetProcedureType(::PACKAGE_PROCEDURE_TYPE);
 };
 class ImageSpaceModifierInstanceDOF
 {

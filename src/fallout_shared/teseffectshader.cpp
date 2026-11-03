@@ -169,7 +169,7 @@ void TESEffectShader::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    unsigned int formID = reinterpret_cast<unsigned int>(GetAddonModels());
+    unsigned int formID = (unsigned int)(std::uintptr_t)(GetAddonModels());
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -234,11 +234,11 @@ void* FUN_005063b0Class::GetFieldAt164()
 
 struct FUN_00507810Class
 {
-    void FUN_00507810(int a, int b);
+    void FUN_00507810(std::intptr_t a, std::intptr_t b);
 };
 
 // @fnv 0x00507810
-void FUN_00507810Class::FUN_00507810(int aiArg1, int aiArg2)
+void FUN_00507810Class::FUN_00507810(std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
     ::FUN_00ba6290((::Fn6290Object *)(aiArg1), (::Fn6290Result *)(aiArg2));
 }
@@ -409,8 +409,8 @@ struct FUN_005064d0
 // @fnv 0x005064d0
 FUN_005064d0* FUN_005064d0::Init()
 {
-    new ((void *)(((BSSimpleListT*)((char*)this + 0x94)))) ::Vec3();
-    new ((void *)(((BSSimpleListT*)((char*)this + 0xa0)))) ::Vec3();
+    (void *)(((BSSimpleListT*)((char*)this + 0x94)));
+    (void *)(((BSSimpleListT*)((char*)this + 0xa0)));
     ((EffectShaderData*)this)->Initialize();
     return this;
 }
@@ -673,7 +673,7 @@ struct EffectData
     int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     ColorValue fill, edge;
     float unk4c, unk50, scale, diameter;
-    unsigned int unk5c, unk60, unk64, unk68;
+    std::uintptr_t unk5c, unk60, unk64, unk68;
     RefValue target;
     unsigned int unk70;
     EffectData();
@@ -692,8 +692,8 @@ struct ShaderSource
 EffectData* ShaderSource::CreateEffectData(SceneValue* scene, void* root, void* target)
 {
     EffectData* data2 = new EffectData;
-    unsigned int fill = ((unsigned int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()));
-    unsigned int edge = ((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>(this)->GetGrass()));
+    std::uintptr_t fill = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()));
+    std::uintptr_t edge = ((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>(this)->GetGrass()));
     data2->root = 0;
     data2->fill =
         ColorValue((float)(unsigned char)(fill & 255), (float)(unsigned char)((unsigned short)fill >> 8 & 255),
@@ -708,8 +708,8 @@ EffectData* ShaderSource::CreateEffectData(SceneValue* scene, void* root, void* 
     data2->scale = reinterpret_cast<::FUN_00507b00Class *>(this)->GetField4C();
     data2->diameter = reinterpret_cast<::Twin_0084d030 *>((((::BoundValue *)(reinterpret_cast<::FUN_0043d450_Owner *>((scene))->FUN_0043d450()))))->GetStoredFloatValue() * 2.0f;
     data2->unk5c = reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel();
-    data2->unk60 = ((unsigned int)(reinterpret_cast<::FUN_004fd3a0_shell *>(this)->FUN_004fd3a0()));
-    data2->unk64 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
+    data2->unk60 = ((std::uintptr_t)(reinterpret_cast<::FUN_004fd3a0_shell *>(this)->FUN_004fd3a0()));
+    data2->unk64 = ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
     data2->unk68 = reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType();
     data2->root = root;
     data2->target = target;

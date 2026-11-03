@@ -48,6 +48,16 @@
 #include "fnv/symbols_011c8000.h"
 #include "fnv/symbols_01204000.h"
 #include "tesleveledlist_decls.h"
+#include <cstring>
+#include "fnv/decl/C42CE30.h"
+#include "fnv/decl/FUN_004214f0_shell.h"
+#include "fnv/decl/FUN_00c4fab0_shell.h"
+#include "fnv/decl/Owner487a60.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00a30000.h"
+#include "fnv/symbols_00a7d000.h"
+#include "fnv/symbols_01015000.h"
 
 extern "C" int __cdecl _ftol2_sse();
 
@@ -822,21 +832,21 @@ void FUN_00c60e70_shell::FUN_00c60e70(NiStream& stream)
 
 struct FUN_00c60ec0_shell
 {
-    void FUN_00c60ec0(int a);
+    void FUN_00c60ec0(std::intptr_t a);
 };
 
 // @fnv 0x00c60ec0
-void FUN_00c60ec0_shell::FUN_00c60ec0(int aiValue)
+void FUN_00c60ec0_shell::FUN_00c60ec0(std::intptr_t aiValue)
 {
     reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(aiValue)));
 }
 
 struct FUN_00c38020_shell
 {
-    bool FUN_00c60ee0(int);
+    bool FUN_00c60ee0(std::intptr_t);
 };
 // @fnv 0x00c60ee0
-bool FUN_00c38020_shell::FUN_00c60ee0(int a)
+bool FUN_00c38020_shell::FUN_00c60ee0(std::intptr_t a)
 {
     if (!((unsigned char)(reinterpret_cast<::fnv_00c4fa30::FUN_00c4fa30_shell *>(this)->FUN_00c4fa30((*(::fnv_00c4fa30::NiStream *)(a))))))
         return false;
@@ -867,7 +877,7 @@ void Host::FUN_00c60f10(class NiStream& s)
     reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>(this)->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(s));
     reinterpret_cast<::NiColor *>(&(c1))->SaveBinary(s);
     reinterpret_cast<::NiColor *>(&(c2))->SaveBinary(s);
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (int)(&f24));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (std::intptr_t)(&f24));
 }
 }  // namespace fnv_00c60f10
 
@@ -893,7 +903,7 @@ struct FUN_00488c50_shell : TESLeveledList
 // @fnv 0x00488c50
 void FUN_00488c50_shell::SaveLeveledListEntries(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         unsigned int isaveGameCount = 0;
         unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
@@ -946,7 +956,7 @@ void TESLeveledList::PopulateContainerWithLeveledItems(unsigned short level, uns
                 ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
             while (scan.node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(scan.node)->IsEmpty())
             {
-                unsigned short entryLevel = ((::BGSPerkEntry *)(new ((void *)(scan.node)) ::Vec3()))->level;
+                unsigned short entryLevel = (scan.node->m_item)->level;
                 if (entryLevel > scan.maxLevel)
                     scan.maxLevel = entryLevel;
                 scan.node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((scan.node))->FUN_00726070()));
@@ -1011,7 +1021,7 @@ void TESLeveledList::PopulateContainerWithLeveledItems(unsigned short level, uns
                                 ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
                             while (node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(node)->IsEmpty())
                             {
-                                BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+                                BGSPerkEntry* entry = (node->m_item);
                                 node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                                 result.form = entry->form;
                                 result.quantity = entry->count;
@@ -1097,7 +1107,7 @@ void TESLeveledList::SelectLeveledObject(unsigned short level, TESForm*& form, u
         foundRange = false;
         while (node)
         {
-            BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+            BGSPerkEntry* entry = (node->m_item);
             if (entry)
             {
                 int entryLevel = entry->level;
@@ -1135,7 +1145,7 @@ void TESLeveledList::SelectLeveledObject(unsigned short level, TESForm*& form, u
                     if (!node)
                         return;
                 }
-                result.entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+                result.entry = (node->m_item);
                 result.form = result.entry->form;
                 result.count = result.entry->count;
                 result.extra = result.entry->extra;
@@ -1185,9 +1195,9 @@ void TESLeveledList::InitItem(TESForm* owner)
         resolveState.entry = 0;
         resolveState.file = owner ? owner->GetFile(-1) : 0;
         unsigned int formID, globalID;
-        while (resolveState.node && (resolveState.entry = ((::BGSPerkEntry *)(new ((void *)(resolveState.node)) ::Vec3()))) != 0)
+        while (resolveState.node && (resolveState.entry = (resolveState.node->m_item)) != 0)
         {
-            formID = reinterpret_cast<unsigned int>(resolveState.entry->form);
+            formID = (unsigned int)(std::uintptr_t)(resolveState.entry->form);
             ::ResolveFormID((unsigned int *)&(formID), resolveState.file);
             resolveState.entry->form = ::FUN_004839c0(formID);
             if (!resolveState.entry->form)
@@ -1222,7 +1232,7 @@ void TESLeveledList::InitItem(TESForm* owner)
         }
         if (m_pLevelGlobal)
         {
-            globalID = reinterpret_cast<unsigned int>(m_pLevelGlobal);
+            globalID = (unsigned int)(std::uintptr_t)(m_pLevelGlobal);
             ::ResolveFormID((unsigned int *)&(globalID), resolveState.file);
             m_pLevelGlobal = dynamic_cast<TESGlobal*>(::FUN_004839c0(globalID));
             if (!m_pLevelGlobal)
@@ -1247,7 +1257,7 @@ void TESLeveledList::InitializeLeveledList()
         reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
     while (node)
     {
-        BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        BGSPerkEntry* entry = (node->m_item);
         if (entry)
         {
             struct DeletedEntry
@@ -1271,11 +1281,11 @@ struct Shell
     Vec3 m0c;
     Vec3 m18;
     float m24;
-    void FUN_00c60e00(Shell* dest, int a);
+    void FUN_00c60e00(Shell* dest, std::intptr_t a);
 };
 // Calls CopyMembersStreamWithField on dest, then copies m0c, m18 and m24 from this into dest.
 // @fnv 0x00c60e00
-void Shell::FUN_00c60e00(Shell* dest, int aiArg)
+void Shell::FUN_00c60e00(Shell* dest, std::intptr_t aiArg)
 {
     reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(dest), (void *)(aiArg));
     dest->m0c = m0c;
@@ -1332,13 +1342,13 @@ struct FUN_00487980_shell : TESLeveledList
 // @fnv 0x00488f10
 void TESLeveledList::Revert(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         reinterpret_cast<::FUN_00487980_shell *>(this)->FUN_00487980();
 }
 // @fnv 0x00488d70
 void TESLeveledList::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         if (!reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(m_kLeveledObjects)->IsEmpty())
             reinterpret_cast<::FUN_00487980_shell *>(this)->FUN_00487980();
@@ -1381,7 +1391,7 @@ void FUN_00487980_shell::FUN_00487980()
 {
     while (!reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_008256d0())
     {
-        BGSPerkEntry* entryToDestroy = ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects))) ::Vec3()));
+        BGSPerkEntry* entryToDestroy = ((::BGSPerkEntry *)((void *)(reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects))));
         reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_0063f7b0();
         reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<CurrentLeveledEntries*>(leveledList)))->FUN_00905330((::InventoryStackRecord *const &)(entryToDestroy));
 
@@ -1417,7 +1427,7 @@ void FUN_00488400_shell::SaveLeveledList()
     }
     LevelNode_00488400* pEntryNode = ((::LevelNode_00488400 *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     LeveledObject* entry;
-    while (pEntryNode && (entry = *((::LeveledObject **)(new ((void *)(pEntryNode)) ::Vec3()))) != 0)
+    while (pEntryNode && (entry = *((::LeveledObject **)((void *)(pEntryNode)))) != 0)
     {
         TmpEndian levelEntryData;
         levelEntryData.f1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry->pForm))->FUN_0084e3a0()));
@@ -1594,8 +1604,8 @@ bool LeveledComparison::FUN_004889d0(BaseFormComponent* component)
     {
         while (first && pSecondNode)
         {
-            LeveledEntry* a = ((::LeveledEntry *)(new ((void *)(first)) ::Vec3()));
-            LeveledEntry* b = ((::LeveledEntry *)(new ((void *)(pSecondNode)) ::Vec3()));
+            LeveledEntry* a = ((::LeveledEntry *)((void *)(first)));
+            LeveledEntry* b = ((::LeveledEntry *)((void *)(pSecondNode)));
             if (a && b)
             {
                 if (a->form != b->form)
@@ -1701,7 +1711,7 @@ void FUN_004887a0_cls::FUN_004887a0(void* apSource)
     LLNode_cls* it = ((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>((static_cast<FUN_004887a0_cls*>(src3)))->GetCurrentProcessData()));
     LevObjX* cell5;
     LLNode_cls* dst = ((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-    while (it != 0 && (cell5 = *((::LevObjX **)(new ((void *)(it)) ::Vec3()))) != 0)
+    while (it != 0 && (cell5 = *((::LevObjX **)((void *)(it)))) != 0)
     {
         LevObjX* newObj = new LevObjX();
         newObj->form = cell5->form;
@@ -1729,3 +1739,88 @@ void FUN_004887a0_cls::FUN_004887a0(void* apSource)
     reinterpret_cast<::FUN_00487860_shell *>(this)->SetFlag2(src3->vfn_14());
     reinterpret_cast<::FUN_004878c0_shell *>(this)->SetFlag4(src3->GetUseAll());
 }
+
+extern const char str_010c3570[];
+
+extern const char str_010c3568[];
+
+class NiRTTI
+{
+  public:
+    const char* GetName() const
+    {
+        return m_pcName;
+    }
+    const char* m_pcName;
+    const NiRTTI* m_pBaseRTTI;
+};
+
+class NiViewerStringsArray
+{
+  public:
+};
+
+class NiPoint3
+{
+  public:
+    float x, y, z;
+    char* FormatToBuffer(const char* pcPrefix) const
+    {
+        unsigned int uiLen = strlen(pcPrefix) + 64;
+        char* pcString = (char*)::FUN_00aa1070(uiLen);
+        NiSprintf(pcString, uiLen, "%s = (%g, %g, %g)", pcPrefix, x, y, z);
+        return pcString;
+    }
+public:
+    char *FUN_00a59af0(const char *);
+};
+
+inline char* CreateDebugString(const char* pcText)
+{
+    unsigned int uiLen = strlen(pcText) + 9;
+    char* pcString = (char*)::FUN_00aa1070(uiLen);
+    NiSprintf(pcString, uiLen, "%s", pcText);
+    return pcString;
+}
+
+inline char* CreateDebugString(const char* pcPrefix, float fValue)
+{
+    unsigned int uiLen = strlen(pcPrefix) + 20;
+    char* pcString = (char*)::FUN_00aa1070(uiLen);
+    double dValue = fValue;
+    NiSprintf(pcString, uiLen, "%s = %g", pcPrefix, dValue);
+    return pcString;
+}
+
+class NiBaseModifier
+{
+  public:
+    void* m_ppVirtualMethodTable;
+    int m_iRefCount;
+    int m_unk08;
+};
+
+class NiPointModifier : public NiBaseModifier
+{
+  public:
+    float GetAttributeStrength() const
+    {
+        return m_fValue;
+    }
+    void FUN_00c61120(NiViewerStringsArray* pkStrings);
+
+    NiPoint3 m_kPathOffset;
+    NiPoint3 m_kLightVector;
+    float m_fValue;
+};
+
+// @fnv 0x00c61120
+void NiPointModifier::FUN_00c61120(NiViewerStringsArray* pkStrings)
+{
+    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0((std::intptr_t)(pkStrings));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_01204398)).GetName())));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kPathOffset))->FUN_00a59af0(str_010c3570)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_00a59af0(str_010c3568)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550((*reinterpret_cast<const char (*)[]>(&::UNK_01015a9c)), GetAttributeStrength())));
+}
+#include "generated/data/fallout_shared/tesleveledlist_ob1_variant.inc"

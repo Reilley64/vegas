@@ -155,7 +155,6 @@ struct FUN_0066e010_cls
 // @fnv 0x0066e010
 FUN_0066e010_cls* FUN_0066e010_cls::FUN_0066e010(CauseRef* apCauseRef)
 {
-    new ((void *)&(m_08)) ::Vec3();
     m_00 = apCauseRef;
     Pair12* src2 = (m_00 != 0) ? ((::Pair12 *)(reinterpret_cast<::TESTopicInfo *>((m_00))->GetAddTopicList())) : &(*reinterpret_cast<::Pair12 *>((void *)&::NiPoint3::ZERO));
     m_08 = *src2;
@@ -197,13 +196,13 @@ class B66E810Node
 
 // Walks g_kB66E810List, updating items with a positive count and deleting/removing items whose count is zero or that are null.
 // @fnv 0x0066e810
-void __cdecl UpdateOrRemoveItems(int iArg)
+void __cdecl UpdateOrRemoveItems(std::intptr_t iArg)
 {
     B66E810Node* pkNode = &(*reinterpret_cast<::B66E810Node *>(&::g_011d6124));
     B66E810Node* pkPrev = 0;
     while (pkNode && !pkNode->IsEmpty())
     {
-        B66E810Item* pkItem = *((::B66E810Item **)(new ((void *)(pkNode)) ::Vec3()));
+        B66E810Item* pkItem = *((::B66E810Item **)((void *)(pkNode)));
         bool bRemove = false;
         if (pkItem)
         {
@@ -226,7 +225,7 @@ void __cdecl UpdateOrRemoveItems(int iArg)
         {
             if (pkPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pkPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::B66E810Item **)(new ((void *)(pkNode)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((pkPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::B66E810Item **)((void *)(pkNode))))));
                 pkNode = ((::B66E810Node *)(reinterpret_cast<::Callees *>((pkPrev))->FUN_00726070()));
             }
             else

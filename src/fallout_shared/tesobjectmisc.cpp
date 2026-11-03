@@ -38,6 +38,7 @@
 #include "fnv/symbols_005b5000.h"
 #include "tesobjectmisc_decls.h"
 #include <malloc.h>
+#include "fnv/symbols_00472000.h"
 extern const char DAT_0102b038[];
 
 // @fnv 0x0051a980
@@ -58,7 +59,7 @@ void TESObjectMISC::InitItem()
     static_cast<TESModelTextureSwap *>(this)->InitItem(this);
     static_cast<BGSPickupPutdownSounds *>(this)->InitItem(this);
 
-    unsigned int formID = (unsigned int)pLoopingSound;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pLoopingSound;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -123,7 +124,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)scriptID);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)scriptID);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -134,13 +135,13 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickupID = 0;
             file->GetChunkData(&pickupID);
-            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickupID);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)(std::uintptr_t)pickupID);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdownID = 0;
             file->GetChunkData(&putdownID);
-            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdownID);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)(std::uintptr_t)putdownID);
             break;
         }
         case 0x41544144:
@@ -149,7 +150,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e52: {
             unsigned int loopingID = 0;
             file->GetChunkData(&loopingID);
-            reinterpret_cast<::TESObjectMISC *>(this)->SetLoopingSound((::TESSound *)(loopingID));
+            reinterpret_cast<::TESObjectMISC *>(this)->SetLoopingSound((::TESSound *)(std::uintptr_t)(loopingID));
             break;
         }
         }
@@ -213,8 +214,8 @@ struct FUN_0051b0a0_shell
 void FUN_0051b0a0_shell::LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(aiFlags,
-                                                                    reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea10(aiFlags, reinterpret_cast<unsigned int>(apLoadGameBuffer));
+                                                                    reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea10(aiFlags, reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
 }
 
 struct CallHelper
@@ -306,7 +307,7 @@ void FUN_0051af50_shell::FUN_0051af50(TESForm* apCopy)
     TESObjectMISC* pmisc = dynamic_cast<TESObjectMISC*>(apCopy);
     if (!pmisc)
         return;
-    ((TESObjectMISC*)this)->SetLoopingSound((::TESSound *)(((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pmisc)))->FUN_008cdd90()))));
+    ((TESObjectMISC*)this)->SetLoopingSound((::TESSound *)(((std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pmisc)))->FUN_008cdd90()))));
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
@@ -360,9 +361,45 @@ bool FUN_0051afb0_shell::FUN_0051afb0(TESForm* apCompare)
     TESObjectMISC* pcomp = dynamic_cast<TESObjectMISC*>(apCompare);
     if (!pcomp)
         return true;
-    if (((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) != ((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pcomp)))->FUN_008cdd90())))
+    if (((std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pcomp)))->FUN_008cdd90())))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270((TESForm*)pcomp))
         return true;
     return false;
 }
+
+// MSVC adjustor thunk: the primary base occupies 0x3c bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0051b130();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0051b130();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0051b130
+    virtual void FUN_0051b130();
+};
+
+Derived::Derived()
+{}

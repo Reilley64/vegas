@@ -41,7 +41,7 @@ union RadiationLevelValue
     __int64 value;
     struct
     {
-        unsigned int low;
+        std::uintptr_t low;
         unsigned int high;
     } words;
 };
@@ -52,7 +52,7 @@ BGSRadiationStage* BGSRadiationStage::GetStageForLevel(float level)
     struct SearchState
     {
         unsigned int index;
-        unsigned int result;
+        std::uintptr_t result;
     };
     SearchState searchState;
     searchState.result = 0;
@@ -63,10 +63,10 @@ BGSRadiationStage* BGSRadiationStage::GetStageForLevel(float level)
         if (stage != 0)
         {
             RadiationLevelValue value;
-            value.words.low = (unsigned int)(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(stage)))->FUN_009611e0())));
+            value.words.low = (std::uintptr_t)(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(stage)))->FUN_009611e0())));
             value.words.high = 0;
             if (level >= value.value)
-                searchState.result = (unsigned int)stage;
+                searchState.result = (std::uintptr_t)stage;
         }
     }
     return reinterpret_cast<BGSRadiationStage*>(searchState.result);

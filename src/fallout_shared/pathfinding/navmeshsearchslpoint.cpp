@@ -33,7 +33,7 @@ struct PathingLocation
 struct NavMeshTriangleReference;
 struct NavMeshTriangleEdgeReference;
 struct NavMeshInfo;
-template <typename T, int N> struct BSSimpleArray;
+template <typename T, unsigned int N> struct BSSimpleArray;
 struct ThreeByThreeMatrix;
 struct PathingRequest
 {
@@ -68,7 +68,7 @@ bool FUN_006ac340_shell::BuildPathingLocationAndSearch(PathingRequest* request, 
     return ComputePath(request, start, end, nodes, links, 0);
 }
 
-template <typename T, int N> struct BSSimpleArray
+template <typename T, unsigned int N> struct BSSimpleArray
 {
     int unk00;
     int unk04;
@@ -2527,7 +2527,7 @@ bool Search::TestNode(Node* node)
         if (triangleRadius > step)
         {
             const Vec* vertices5[3];
-            reinterpret_cast<::fnv_0068f160::NH *>((mesh7))->GetTriangleVertexPositions(triangle, (unsigned int *)&(vertices5[0]), (unsigned int *)&(vertices5[1]), (unsigned int *)&(vertices5[2]));
+            reinterpret_cast<::fnv_0068f160::NH *>((mesh7))->GetTriangleVertexPositions(triangle, (const void **)&(vertices5[0]), (const void **)&(vertices5[1]), (const void **)&(vertices5[2]));
             Vec difference6 = *vertices5[0];
             reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(difference6))->Subtract((const ::NiPoint3 &)(position3));
             float minProjection3 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(difference6))->DotProduct((void *)&(direction));
@@ -4676,7 +4676,7 @@ struct FUN_006ac1b0_cls : FUN_006ac1b0_base
 // @fnv 0x006ac180
 void* FUN_006ac1b0_shell::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006ac1b0_cls *>(this)->FUN_006ac1b0_cls::~FUN_006ac1b0_cls();
+    reinterpret_cast<::FUN_006ac1b0_cls *>(this)->::FUN_006ac1b0_cls::~FUN_006ac1b0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

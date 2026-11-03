@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00651630 { template <class> class FaceGenMatrix; }
 struct Sol;
 struct _stack_bool;
@@ -21,4 +23,4 @@ void FUN_00651ab0();
 // 0x00651e30
 void FUN_00651e30();
 // 0x00651f70
-namespace fnv_00651f70 { bool FUN_00651f70(int); }
+namespace fnv_00651f70 { bool FUN_00651f70(std::intptr_t); }

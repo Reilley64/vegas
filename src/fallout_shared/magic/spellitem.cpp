@@ -33,11 +33,11 @@ int FUN_0040e280(int thisPtr)
 
 struct FUN_0040e500_shell
 {
-    void SetValue(int value);
+    void SetValue(std::intptr_t value);
 };
 
 // @fnv 0x0040e500
-void FUN_0040e500_shell::SetValue(int value)
+void FUN_0040e500_shell::SetValue(std::intptr_t value)
 {
     *reinterpret_cast<int*>(this + 0x38) = value;
 }
@@ -307,7 +307,7 @@ bool MagicItem::FUN_0040e3c0(MagicItem* apItem)
     {
         return true;
     }
-    if (a->s6() != s6() || ::GetField38((char *)(a)) != ::GetField38((char *)this) || ((int)(reinterpret_cast<::Twin_00639b40 *>((a))->GetEntryPoint())) != ((int)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) || a->m_40 != m_40)
+    if (a->s6() != s6() || ::GetField38((char *)(a)) != ::GetField38((char *)this) || ((std::intptr_t)(reinterpret_cast<::Twin_00639b40 *>((a))->GetEntryPoint())) != ((int)(std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) || a->m_40 != m_40)
     {
         return true;
     }

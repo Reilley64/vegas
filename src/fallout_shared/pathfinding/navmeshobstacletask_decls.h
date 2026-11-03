@@ -70,7 +70,7 @@ class GlobalObject_00869f00
 {
   public:
 };
-template <class T, int N> class BSSimpleArray : public GlobalObject_00869f00
+template <class T, unsigned int N> class BSSimpleArray : public GlobalObject_00869f00
 {
   public:
     void* vtable;

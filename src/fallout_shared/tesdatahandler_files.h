@@ -52,18 +52,6 @@ class NiFile
         WRITE_ONLY = 1
     };
 };
-struct FILETIME
-{
-    unsigned int low, high;
-};
-struct WIN32_FIND_DATAA
-{
-    unsigned int attributes;
-    FILETIME created, accessed, written;
-    unsigned int sizeHigh, sizeLow, reserved0, reserved1;
-    char name[260];
-    char alternate[14];
-};
 struct TESRecordHeader
 {
     unsigned int type, size, flags, formID;
@@ -259,7 +247,6 @@ struct FormTypeDescription
 #pragma intrinsic(_alloca)
 
 
-int strcat_s(char*, unsigned int, const char*);
 int FUN_00ec4835(const void*, const void*, unsigned int);
 extern "C" int* _errno();
 

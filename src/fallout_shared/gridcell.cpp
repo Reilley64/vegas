@@ -995,9 +995,9 @@ int FUN_004bcc30_List::FUN_004bcc30()
 {
     LinkedEntry* pEntry = first;
     int total = 0;
-    while (pEntry && *((::InventoryItem **)(new ((void *)(pEntry)) ::Vec3())))
+    while (pEntry && *((::InventoryItem **)((void *)(pEntry))))
     {
-        InventoryItem* item = *((::InventoryItem **)(new ((void *)(pEntry)) ::Vec3()));
+        InventoryItem* item = *((::InventoryItem **)((void *)(pEntry)));
         if (item && reinterpret_cast<::ExtraDataList *>((item))->HasExtraDataType0x2F())
         {
             total += reinterpret_cast<::FUN_00418770_shell *>((item))->FUN_00418770();
@@ -1046,9 +1046,9 @@ float FUN_004bcdb0_shell::FUN_004bcdb0(bool bPercent)
         if (pkWeapon5)
             m_uiHealthValue = reinterpret_cast<::FUN_004bcf00_stand *>((pkWeapon5))->GetModdedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>(this)->HasEffect(10));
         HealthList4bcdb0* pkList2 = m_pkExtendData;
-        if (pkList2 && ((::HealthExtra4bcdb0 *)(new ((void *)(pkList2)) ::Vec3())))
+        if (pkList2 && ((::HealthExtra4bcdb0 *)((void *)(pkList2))))
         {
-            HealthExtra4bcdb0* pkExtra = ((::HealthExtra4bcdb0 *)(new ((void *)(pkList2)) ::Vec3()));
+            HealthExtra4bcdb0* pkExtra = ((::HealthExtra4bcdb0 *)((void *)(pkList2)));
             if (pkExtra && reinterpret_cast<::FUN_004186f0_shell *>((pkExtra))->FUN_004186f0() != -1.0)
             {
                 if (!bPercent)
@@ -1392,7 +1392,7 @@ void Grid::FUN_004baf10()
             pCam9 = ((::GCell *)(reinterpret_cast<::GridCellArray *>(this)->Get(i, julietz59_2)))->pCell;
             if (pCam9)
             {
-                iResult = reinterpret_cast<::FUN_005477f0_Class *>((pCam9))->FUN_005477f0((int)(&pTexVal), (int)(&pInfo9));
+                iResult = reinterpret_cast<::FUN_005477f0_Class *>((pCam9))->FUN_005477f0((std::intptr_t)(&pTexVal), (std::intptr_t)(&pInfo9));
                 if (pTexVal && pInfo9 && pInfo9->iFlag)
                 {
                     pTailB = ((::Obj *)(reinterpret_cast<::ActorMover *>((pTexVal))->GetCurrentMoveModeType()));
@@ -1431,7 +1431,7 @@ void Grid::FUN_004baf10()
 
     if (bAllEmpty7)
     {
-        ::FUN_00451570((void *)(((unsigned int)(reinterpret_cast<::CLS_004bc240 *>((((::Holder *)(::GetDefaultFullMaskTextureProperty()))))->FUN_004bc240()))));
+        ::FUN_00451570((void *)(((std::uintptr_t)(reinterpret_cast<::CLS_004bc240 *>((((::Holder *)(::GetDefaultFullMaskTextureProperty()))))->FUN_004bc240()))));
         return;
     }
     else if (bAllLoaded7)
@@ -1466,8 +1466,8 @@ void Grid::FUN_004baf10()
     ::FUN_00a89af0((std::intptr_t)((spCameraVal).operator->()));
 
     pMat8 = new MatProp();
-    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
-    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((std::uintptr_t)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((std::uintptr_t)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((pMat8))->FUN_004bc450((const ::fnv_004bc450::C3 *)(void *)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::FUN_00439410_cls *>(((m_pMenuLightParameters).operator->()))->FUN_00439410((::ArgObject *)(pMat8));
 
@@ -1492,7 +1492,7 @@ void Grid::FUN_004baf10()
     ObjPtr spMeshB(new RTex(0x63, 1, 0x2f7));
     reinterpret_cast<::FUN_004a0fd0_shell *>(&(kVis))->FUN_004a0fd0((::NiNode *)(::Obj *)(spMeshB.operator->()));
     reinterpret_cast<::_Dummy_004bc4a0 *>(((spMeshB).operator->()))->SetAccumulate(false);
-    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((unsigned int)(reinterpret_cast<::BSRenderedTexture *>(((spRT).operator->()))->GetGroup()))));
+    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((std::uintptr_t)(reinterpret_cast<::BSRenderedTexture *>(((spRT).operator->()))->GetGroup()))));
     ::FUN_00b6bee0(spData_.operator->(), m_pMenuLightParameters.operator->(), (::BSShaderAccumulator *)(::VisArray *)(&kVis));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::Obj *)(spData_.operator->()), (::BSShaderAccumulator *)(::Obj *)(spMeshB.operator->()), 0);
     ::BSRenderedTexture::EndAllAndResetRendererState();

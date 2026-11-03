@@ -40,7 +40,7 @@ void S_004b0aa0_Self::ProcessKeyedEntry(int key, unsigned count)
         S_004b0aa0_Cur* cur = this;
         while (cur && !found && !cur->FUN_008256d0())
         {
-            S_004b0aa0_Found* pEntry = *((::S_004b0aa0_Found **)(new ((void *)(cur)) ::Vec3()));
+            S_004b0aa0_Found* pEntry = *((::S_004b0aa0_Found **)((void *)(cur)));
             if (pEntry && pEntry->key == key)
                 found = pEntry;
             cur = ((::S_004b0aa0_Cur *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
@@ -69,33 +69,33 @@ struct SpawnedObject
 class FUN_004b0ba0_cls
 {
   public:
-    unsigned int FUN_004b0ba0(unsigned int arg);
+    unsigned int FUN_004b0ba0(std::uintptr_t arg);
 };
 
 // @fnv 0x004b0ba0
-unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
+unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(std::uintptr_t arg)
 {
     unsigned int result2;
     unsigned int found8 = 0;
-    unsigned int cur = (unsigned int)this;
+    std::uintptr_t cur = (std::uintptr_t)this;
     while (cur != 0 && found8 == 0 && !((SpawnedObject*)cur)->FUN_008256d0())
     {
-        unsigned int tmp = *((unsigned int *)(new ((void *)(((SpawnedObject*)cur))) ::Vec3()));
+        std::uintptr_t tmp = *((unsigned int *)((void *)(((SpawnedObject*)cur))));
         if (tmp != 0 && *(unsigned int*)tmp == arg)
             found8 = tmp;
-        cur = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)cur)))->FUN_00726070()));
+        cur = ((std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)cur)))->FUN_00726070()));
     }
 
     result2 = 0;
     if (found8 != 0)
     {
-        unsigned int p3 = found8 + 4;
+        std::uintptr_t p3 = found8 + 4;
         while (result2 == 0 && p3 != 0 && !reinterpret_cast<::ObsList *>((((SpawnedObject*)p3)))->FUN_004a4460())
         {
-            unsigned int r = ((unsigned int)(::FUN_00559450((int *)(((SpawnedObject*)((unsigned int *)(new ((void *)(((SpawnedObject*)p3))) ::Vec3())))))));
-            if (r != 0 && ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)r)))->FUN_00726070())) == 1)
+            std::uintptr_t r = ((unsigned int)(::FUN_00559450((int *)(((SpawnedObject*)((unsigned int *)((void *)(((SpawnedObject*)p3)))))))));
+            if (r != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)r)))->FUN_00726070())) == 1)
                 result2 = r;
-            p3 = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)p3)))->FUN_00726070()));
+            p3 = ((std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)p3)))->FUN_00726070()));
         }
     }
     return result2;
@@ -202,7 +202,7 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
     List4b0910* pkIter = this;
     while (pkIter && !pkFound4 && !pkIter->FUN_008256d0())
     {
-        Entry4b0910* pkEntry = *((::Entry4b0910 **)(new ((void *)(pkIter)) ::Vec3()));
+        Entry4b0910* pkEntry = *((::Entry4b0910 **)((void *)(pkIter)));
         if (pkEntry && pkEntry->m_pkKey == pkKey)
             pkFound4 = pkEntry;
         pkIter = ((::List4b0910 *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
@@ -218,7 +218,7 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {
         FUN_004ad050 kArgTmp(1.0f);
-        int iObject2 = ((int)(reinterpret_cast<::A5D2C0Object *>((pkKey))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kArgTmp)))));
+        std::intptr_t iObject2 = ((std::intptr_t)(reinterpret_cast<::A5D2C0Object *>((pkKey))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kArgTmp)))));
         reinterpret_cast<::fnv_00631540::TargetClass *>(&(pkFound4->m_kList))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::GlobalObject_00633c90 &)(iObject2)));
     }
 }

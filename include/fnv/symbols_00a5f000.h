@@ -20,6 +20,6 @@ void FUN_00a5f7b0(intptr_t);
 // 0x00a5f800
 void FUN_00a5f800(::TextureListView *);
 // 0x00a5fe30
-::FnvSourceTexture *FUN_00a5fe30(int, const char *, const int *, unsigned char);
+::FnvSourceTexture *FUN_00a5fe30(std::intptr_t, const char *, const int *, unsigned char);
 // 0x00a5ff10
 namespace fnv_00a5ff10 { ::fnv_00a5ff10::Texture *FUN_00a5ff10(::fnv_00a5ff10::RefCounted *, void *, const ::fnv_00a5ff10::OwnerTriple *); }

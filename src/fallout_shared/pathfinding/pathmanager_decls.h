@@ -103,7 +103,7 @@ public:
 };
 
 class ParentSpaceNode;
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     unsigned int GetSize();

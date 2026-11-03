@@ -49,7 +49,7 @@ void BGSQuestObjective::InitItem(TESQuest* quest)
     BSSimpleList<RegionObjectEntry*>* targets = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>(this)->GetActiveEffectList()));
     while (targets && !reinterpret_cast<BSSimpleList<const char*>*>(targets)->IsEmpty())
     {
-        reinterpret_cast<RegionObjectEntry*>(((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets))) ::Vec3())))
+        reinterpret_cast<RegionObjectEntry*>(((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets))->m_item))
             ->InitItem(reinterpret_cast<TESForm*>(quest));
         targets = reinterpret_cast<BSSimpleList<RegionObjectEntry*>*>(
             ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets)))->FUN_00726070())));
@@ -353,17 +353,17 @@ struct OutList
 // @fnv 0x005ec500
 void FUN_005ec500_shell::AddMatchingTargetsToList(void* apListToFill)
 {
-    if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((QObjOps*)this)))->FUN_007af430())) != 1)
+    if (((int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((QObjOps*)this)))->FUN_007af430())) != 1)
         return;
     ListOps* pMasterList = (ListOps*)((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     RegionObjectEntry* pTarget = 0;
-    while (pMasterList && *((::RegionObjectEntry **)(new ((void *)(pMasterList)) ::Vec3())))
+    while (pMasterList && *((::RegionObjectEntry **)((void *)(pMasterList))))
     {
-        pTarget = *((::RegionObjectEntry **)(new ((void *)(pMasterList)) ::Vec3()));
+        pTarget = *((::RegionObjectEntry **)((void *)(pMasterList)));
         pMasterList = ((::ListOps *)(reinterpret_cast<::Callees *>((pMasterList))->FUN_00726070()));
         if (reinterpret_cast<::PerkEntryConditionSet *>((((CondOps*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)pTarget)))->GetCurrentProcessData())))))->ContainsTrait((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(0)))), (::TESObjectREFR *)(0)))
         {
-            reinterpret_cast<::FUN_00952d60_stand *>(((*reinterpret_cast<::PlayerOps * *>(&::_g_thePlayer))))->FUN_00952d60((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(1)))), (::PathingPath *)(void *)(((void *)(::FUN_00460140((int)(((TgtOps*)pTarget)))))),
+            reinterpret_cast<::FUN_00952d60_stand *>(((*reinterpret_cast<::PlayerOps * *>(&::_g_thePlayer))))->FUN_00952d60((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(1)))), (::PathingPath *)(void *)(((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)pTarget)))))),
                                       reinterpret_cast<::FUN_00610190_cls *>((((TgtOps*)pTarget)))->IsFlagSet());
             reinterpret_cast<::Callees *>((((OutList*)apListToFill)))->FUN_00905820(&pTarget);
         }
@@ -479,13 +479,13 @@ struct FUN_005ec280_shell
 // @fnv 0x005ec280
 void FUN_005ec280_shell::FUN_005ec280()
 {
-    ::FUN_00485910(0x4a424f51, (int)(((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<RegionObjectEntry*>*)this)))->FUN_00726070()))));
+    ::FUN_00485910(0x4a424f51, (int)(std::uintptr_t)(((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<RegionObjectEntry*>*)this)))->FUN_00726070()))));
     ::FUN_004856f0((void *)(0x4d414e4e), (void *)(reinterpret_cast<::FUN_005ec330_shell *>((((FUN_005ec330_shell*)this)))->GetPromptText()),
                                      (void *)(reinterpret_cast<::FUN_005ec310_shell *>((((FUN_005ec310_shell*)this)))->GetLength() + 1));
     BSSimpleList<RegionObjectEntry*>* list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     while (list && !list->IsEmpty())
     {
-        reinterpret_cast<::TESForm *>((((Date*)((::RegionObjectEntry *)(new ((void *)(list)) ::Vec3())))))->ClearData();
+        reinterpret_cast<::TESForm *>((((Date*)(list->m_item))))->ClearData();
         list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
@@ -579,7 +579,7 @@ struct FUN_005ec5d0_shell : BGSQuestObjective
 // @fnv 0x005ec5d0
 void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
 {
-    TESQuest* powner = reinterpret_cast<TESQuest*>(((int)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<BSAudio*>(this)))->FUN_0044edb0())));
+    TESQuest* powner = reinterpret_cast<TESQuest*>(((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((reinterpret_cast<BSAudio*>(this)))->FUN_0044edb0())));
 
     powner->FUN_005ec000(0x20000000);
 
@@ -592,7 +592,7 @@ void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
                 reinterpret_cast<::TESQuest *>((powner))->SetEnabled(true);
                 if (!::FUN_005cbb50(reinterpret_cast<char*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))
                 {
-                    reinterpret_cast<::Obj_009529d0 *>((reinterpret_cast<Obj_009529d0*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_009529d0(reinterpret_cast<int>(powner));
+                    reinterpret_cast<::Obj_009529d0 *>((reinterpret_cast<Obj_009529d0*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_009529d0(reinterpret_cast<std::intptr_t>(powner));
                 }
             }
 
@@ -660,7 +660,7 @@ void FUN_005ec460_Owner::FUN_005ec460()
     FUN_005ec460_List* list = ((::FUN_005ec460_List *)(reinterpret_cast<::NonActorMagicTarget *>(this)->GetActiveEffectList()));
     while (list && !list->FUN_008256d0())
     {
-        StandIn* target = *((::StandIn **)(new ((void *)(list)) ::Vec3()));
+        StandIn* target = *((::StandIn **)((void *)(list)));
         StandIn* deletionTarget = target;
         deletionTarget ? deletionTarget->FUN_005ec4d0(1) : 0;
         list->FUN_0063f7b0();

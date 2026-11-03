@@ -12,7 +12,7 @@ struct XRef;
 // 0x00c7f900
 void FUN_00c7f900(char *, char *, unsigned int);
 // 0x00c7fa90
-intptr_t FUN_00c7fa90(::S_Obj *);
+std::intptr_t FUN_00c7fa90(::S_Obj *);
 // 0x00c7fb50
 ::S_00c7fb50_portal *FUN_00c7fb50(::S_00c7fb50_portal *);
 // 0x00c7fcc0
@@ -20,4 +20,4 @@ bool FUN_00c7fcc0(::S00c7fcc0_Obj *, intptr_t, ::S00c7fcc0_Out *, bool);
 // 0x00c7ff40
 ::PhysicsBody *FindPhysicsBodyByLayer(::SearchObject *, unsigned int);
 // 0x00c7ffd0
-intptr_t FUN_00c7ffd0(::XRef *);
+std::intptr_t FUN_00c7ffd0(::XRef *);

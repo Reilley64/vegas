@@ -35,6 +35,7 @@
 #include "bgsimpactdata.h"
 #include <string.h>
 #include <malloc.h>
+#include "string.h"
 
 static const char s_textureSetWarning[] = "MASTERFILE: Unable to find texture set (%08X) on impact data %s (%08X).";
 static const char s_soundWarning[] = "MASTERFILE: Unable to find sound (%08X) on impact data %s (%08X).";
@@ -295,16 +296,16 @@ bool BGSImpactData::Load(TESFile* file)
                 Data.m_fAngleThreshold = oldData.m_fAngleThreshold;
                 Data.m_fPlacementRadius = oldData.m_fPlacementRadius;
                 Data.m_eSoundLevel = oldData.m_eSoundLevel;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fProjectionDepth = oldData.m_fProjectionDepth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fShininess = oldData.m_fShininess;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fParallaxScale = oldData.m_fParallaxScale;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->cFlags = oldData.cFlags;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->iColor = oldData.iColor;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fProjectionDepth = oldData.m_fProjectionDepth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fShininess = oldData.m_fShininess;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fParallaxScale = oldData.m_fParallaxScale;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->cFlags = oldData.cFlags;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->iColor = oldData.iColor;
             }
             else
             {
@@ -321,7 +322,7 @@ bool BGSImpactData::Load(TESFile* file)
         {
             unsigned int textureSetID = 0;
             file->GetChunkData(&textureSetID);
-            reinterpret_cast<::ValueModifierEffect *>(this)->SetActorValue((::ActorValue::Index)(reinterpret_cast<BGSTextureSet*>(textureSetID)));
+            m_pDecalTextureSet = reinterpret_cast<BGSTextureSet*>(static_cast<std::uintptr_t>(textureSetID));
             break;
         }
         case 0x4D414E53:  // SNAM
@@ -401,7 +402,7 @@ void FUN_0058e450_shell::FUN_0058e450()
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(reinterpret_cast<unsigned char*>(this) + 0x30)), 0x18);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<unsigned char*>(this) + 0x30)), 0x18);
 
     if (((bool)(::FUN_00401500())))
     {
@@ -468,7 +469,7 @@ void BGSImpactData::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pDecalTextureSet);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pDecalTextureSet);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -480,7 +481,7 @@ void BGSImpactData::InitItem()
         else
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pPrimaryImpactSound);
+    formID = (unsigned int)(std::uintptr_t)(m_pPrimaryImpactSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -492,7 +493,7 @@ void BGSImpactData::InitItem()
         else
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pSecondaryImpactSound);
+    formID = (unsigned int)(std::uintptr_t)(m_pSecondaryImpactSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -554,3 +555,5 @@ int FUN_0058e790_S::GetGlobalValue()
     }
     return result;
 }
+
+

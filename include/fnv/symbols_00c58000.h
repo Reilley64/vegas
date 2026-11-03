@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class BoundingVolumeNode;
 namespace fnv_00c584a0 { struct CylinderMesh; }
 namespace fnv_00c584a0 { struct MeshColor; }

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESModel;
 struct Actor445;
@@ -9,5 +10,5 @@ public:
     // 0x00445a10
     void QueueModelAnimations(::TESModel *, int, int, ::Actor445 *, bool, bool);
     // 0x00447300
-    ::AnimList *MakeList(char *, char *, int);
+    ::AnimList *MakeList(char *, char *, std::intptr_t);
 };

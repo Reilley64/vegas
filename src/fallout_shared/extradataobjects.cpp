@@ -101,6 +101,17 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "extradataobjects_private_packet.h"
+#include "fnv/decl/FUN_0041f840.h"
+#include "fnv/decl/FUN_005d43c0_.h"
+#include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
+#include "fnv/symbols_00485000.h"
+#include "fnv/symbols_005b5000.h"
+#include "extradataobjects_private_packet_rtti_variant.h"
+#include "fnv/decl/WorkerExtraList.h"
+#include "fnv/decl/fnv_0041f4c0__EDL_0041f4c0.h"
+#include "extradataobjects_private_packet_rtti_variant_decl_extradataobjects_rtti_variant.h"
+#include "extradataobjects_private_packet_rtti_variant_decl_extradataobjects_rtti_variant2.h"
+#include "extradataobjects_additions_decl_extradataobjects_rtti_variant2.h"
 
 // Packet additions verified with /Od /Oy- /GS /EHsc /Gy.
 // Shared code addresses use the canonical decorated names, even when the
@@ -270,7 +281,7 @@ bool ExtraFactionChanges::HasFactionEntry(TESFaction* faction)
         reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)(reinterpret_cast<TESTopic*>(this)))->GetDiffuseColor())));
     while (node)
     {
-        BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        BGSPerkEntry* entry = (node->m_item);
         if (entry && entry->faction == faction)
             return true;
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -326,7 +337,7 @@ ReferenceIntersectionData* ExtraDecalRefs::FindDecalReference(TESObjectREFR* ref
     BSSimpleList<ReferenceIntersectionData*>* node = &m_kDecalReferences;
     while (node && !node->IsEmpty())
     {
-        ReferenceIntersectionData* record = ((::ReferenceIntersectionData *)(new ((void *)(node)) ::Vec3()));
+        ReferenceIntersectionData* record = (node->m_item);
         node = ((::BSSimpleList< ::ReferenceIntersectionData *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (record->m_pHitReference == reference)
         {
@@ -388,9 +399,9 @@ int LockExtraData::EnumToNumericValue(LOCK_LEVEL level)
 void ExtraFactionChanges::RemoveFaction(TESFaction* faction)
 {
     BSSimpleList<FactionReaction*>* node = m_pFactionChanges;
-    while (node && ((::FactionReaction *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        FactionReaction* rank = ((::FactionReaction *)(new ((void *)(node)) ::Vec3()));
+        FactionReaction* rank = (node->m_item);
         if (faction == rank->pFaction)
         {
             rank->m_ucRank = -1;
@@ -411,9 +422,9 @@ void ExtraFactionChanges::RemoveFaction(TESFaction* faction)
 void ExtraFactionChanges::SetFactionRank(TESFaction* faction, int value)
 {
     BSSimpleList<FactionReaction*>* node = m_pFactionChanges;
-    while (node && ((::FactionReaction *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        FactionReaction* rank = ((::FactionReaction *)(new ((void *)(node)) ::Vec3()));
+        FactionReaction* rank = (node->m_item);
         if (faction == rank->pFaction)
         {
             rank->m_ucRank = value;
@@ -864,7 +875,7 @@ struct PtrWrap
 ExtraAudioMarker* FUN_004314c0(ExtraAudioMarker* pThis, PtrWrap aData)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x90);
-    *(int*)pThis = (int)&DAT_01015b94;
+    *(void**)pThis = &DAT_01015b94;
     pThis->pAudioData = aData.p;
     return pThis;
 }
@@ -1311,9 +1322,9 @@ struct FUN_00437010_stub
 bool FUN_00437010_stub::ContainsKey(int* key)
 {
     FUN_00437010_node* n = list;
-    while (n != 0 && *((::FUN_00437010_item **)(new ((void *)(n)) ::Vec3())) != 0)
+    while (n != 0 && *((::FUN_00437010_item **)((void *)(n))) != 0)
     {
-        FUN_00437010_item* pItem = *((::FUN_00437010_item **)(new ((void *)(n)) ::Vec3()));
+        FUN_00437010_item* pItem = *((::FUN_00437010_item **)((void *)(n)));
         if (key == reinterpret_cast<int*>(pItem->p) && pItem->c > -1)
             return true;
         n = ((::FUN_00437010_node *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
@@ -1507,8 +1518,8 @@ void _ref_006815c0(void*);
 // @fnv 0x00692710
 void* FUN_00692710(PositionRotation* pThis)
 {
-    new ((void *)(&pThis->pos)) ::Vec3();
-    new ((void *)(&pThis->rot)) ::Vec3();
+    (void *)(&pThis->pos);
+    (void *)(&pThis->rot);
     return pThis;
 }
 
@@ -1689,7 +1700,7 @@ struct DelStandIn
 // @fnv 0x00432c60
 void* DelStandIn::FUN_00432c60(unsigned int flags)
 {
-    reinterpret_cast<::ExtraPersistentCell *>((((DtorStandIn*)this)))->ExtraPersistentCell::~ExtraPersistentCell();
+    reinterpret_cast<::ExtraPersistentCell *>((((DtorStandIn*)this)))->::ExtraPersistentCell::~ExtraPersistentCell();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1709,7 +1720,7 @@ struct DelStandIn
 // @fnv 0x00433940
 void* DelStandIn::FUN_00433940(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00433970_holder *>((((DtorStandIn*)this)))->FUN_00433970_holder::~FUN_00433970_holder();
+    reinterpret_cast<::FUN_00433970_holder *>((((DtorStandIn*)this)))->::FUN_00433970_holder::~FUN_00433970_holder();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1729,7 +1740,7 @@ struct DelStandIn
 // @fnv 0x00435270
 void* DelStandIn::FUN_00435270(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004352a0_cls *>((((DtorStandIn*)this)))->FUN_004352a0_cls::~FUN_004352a0_cls();
+    reinterpret_cast<::FUN_004352a0_cls *>((((DtorStandIn*)this)))->::FUN_004352a0_cls::~FUN_004352a0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -1750,7 +1761,7 @@ struct DelStandIn
 // @fnv 0x00437a60
 void* DelStandIn::FUN_00437a60(unsigned int flags)
 {
-    reinterpret_cast<::ExtraPatrolRefInUseData *>((((DtorStandIn*)this)))->ExtraPatrolRefInUseData::~ExtraPatrolRefInUseData();
+    reinterpret_cast<::ExtraPatrolRefInUseData *>((((DtorStandIn*)this)))->::ExtraPatrolRefInUseData::~ExtraPatrolRefInUseData();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2310,7 +2321,7 @@ struct FUN_00430950 : public BSExtraData
 // @fnv 0x00430920
 void* ExtraLight::FUN_00430920(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00430950 *>(this)->FUN_00430950::~FUN_00430950();
+    reinterpret_cast<::FUN_00430950 *>(this)->::FUN_00430950::~FUN_00430950();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2348,7 +2359,7 @@ struct ExtraAudioMarker
     void FUN_00431520();
     void* FUN_004314f0(unsigned int flags);
 };
-extern "C" void* __cdecl _Deallocate(void*);
+extern "C" void __cdecl _Deallocate(void*);
 
 // Calls FUN_00431520 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004314f0
@@ -2700,7 +2711,7 @@ struct ExtraLinkedRefChildren
     void* FUN_004335a0(unsigned int flags);
 };
 
-extern "C" void* __cdecl _Deallocate(void* p);
+extern "C" void __cdecl _Deallocate(void* p);
 
 // Calls FUN_004335d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004335a0
@@ -2741,7 +2752,7 @@ struct ExtraActivateRefChildren
 // @fnv 0x00433800
 void* ExtraActivateRefChildren::FUN_00433800(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00433830 *>(this)->FUN_00433830::~FUN_00433830();
+    reinterpret_cast<::FUN_00433830 *>(this)->::FUN_00433830::~FUN_00433830();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2760,7 +2771,7 @@ struct FUN_00433a00_t : public BSExtraData
 // @fnv 0x00433a00
 void FUN_00433a00_t::FUN_00433a00(void* apArg)
 {
-    ::FindContRecordByFormId((int)(apArg), (::ContNode *)(::FUN_00433a00_list *)(&kList));
+    ::FindContRecordByFormId((std::intptr_t)(apArg), (::ContNode *)(::FUN_00433a00_list *)(&kList));
 }
 
 extern char DAT_0118461c;
@@ -2834,7 +2845,7 @@ struct ExtraFriendHits : public BSExtraData
 int ExtraFriendHits::FUN_00435e20()
 {
     reinterpret_cast<::FUN_00435e40_cls *>(this)->FUN_00435e40();
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kHits))->GetName()));
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kHits))->GetName()));
 }
 
 struct ExtraSayTopicInfoOnceADay
@@ -2886,7 +2897,7 @@ void ExtraFollowerSwimBreadcrumbs::FUN_00437d10()
 // @fnv 0x00437ce0
 void* ExtraFollowerSwimBreadcrumbs::FUN_00437ce0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00437d10 *>(this)->FUN_00437d10::~FUN_00437d10();
+    reinterpret_cast<::FUN_00437d10 *>(this)->::FUN_00437d10::~FUN_00437d10();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2992,7 +3003,7 @@ struct ExtraAnim : FUN_00430120
 // @fnv 0x004300f0
 void* ExtraAnim::FUN_004300f0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00430120 *>(this)->FUN_00430120::~FUN_00430120();
+    reinterpret_cast<::FUN_00430120 *>(this)->::FUN_00430120::~FUN_00430120();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -3006,7 +3017,7 @@ struct ExtraDismemberedLimbs
     void* FUN_004302a0(unsigned int flags);
 };
 
-extern "C" void* __cdecl _Deallocate(void*);
+extern "C" void __cdecl _Deallocate(void*);
 
 // @fnv 0x004302a0
 void* ExtraDismemberedLimbs::FUN_004302a0(unsigned int flags)
@@ -3062,7 +3073,7 @@ bool ExtraAudioBuoyMarker::FUN_00431710(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>((this))->IsDifferentFrom(apCompare))
         return true;
-    if (((bool)(reinterpret_cast<::FUN_00401290_Class *>((this->m_pActorValueInfo))->FUN_00401290((int)(pComp->m_pActorValueInfo)))))
+    if (((bool)(reinterpret_cast<::FUN_00401290_Class *>((this->m_pActorValueInfo))->FUN_00401290((std::intptr_t)(pComp->m_pActorValueInfo)))))
         return true;
     return false;
 }
@@ -3280,7 +3291,7 @@ struct BE
 };
 struct FUN_00435920 : BE
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -3290,7 +3301,7 @@ struct FUN_00435920 : BE
 // @fnv 0x00435920
 FUN_00435920::FUN_00435920() : BE(0x39)
 {
-    m_00 = (int)&DAT_01015e88;
+    m_00 = &DAT_01015e88;
     m_0c = 0;
 }
 }  // namespace fnv_00435920
@@ -3432,7 +3443,7 @@ struct FUN_00433640 : BE
 // @fnv 0x00433640
 FUN_00433640::FUN_00433640() : BE(0x51)
 {
-    *(int*)this = (int)&DAT_01015cc0;
+    *(void**)this = (void*)&DAT_01015cc0;
     unk0C = 0;
 }
 }  // namespace fnv_00433640
@@ -3440,11 +3451,11 @@ FUN_00433640::FUN_00433640() : BE(0x51)
 namespace fnv_00435c10 {
 struct FUN_00435b20_shell
 {
-    int _u;
+    void* _u;
 };
 struct CF845 : public FUN_00435b20_shell
 {
-    CF845(int);
+    CF845(char*);
 };
 struct ExtraSavedAnimation
 {
@@ -3456,7 +3467,7 @@ struct ExtraSavedAnimation
 // @fnv 0x00435c10
 void ExtraSavedAnimation::FUN_00435c10()
 {
-    reinterpret_cast<::FUN_00435b20_shell *>((void *)&(const ::fnv_00435c10::FUN_00435b20_shell &)(CF845((int)m_pString)))->FUN_00435b20();
+    reinterpret_cast<::FUN_00435b20_shell *>((void *)&(const ::fnv_00435c10::FUN_00435b20_shell &)(CF845(m_pString)))->FUN_00435b20();
 }
 }  // namespace fnv_00435c10
 
@@ -3538,7 +3549,7 @@ FUN_00434560::~FUN_00434560()
     ListX* p = &m_kNode;
     while (p && !p->_ref_008256d0())
     {
-        void* tmp = *((void **)(new ((void *)(p)) ::Vec3()));
+        void* tmp = *((void **)((void *)(p)));
         void* arg4 = tmp;
         ::FUN_00401030(arg4);
         p = ((::fnv_00434560::ListX *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
@@ -3570,7 +3581,7 @@ void FUN_00434800_shell::FUN_00434800(void* target)
     ContNode* prev = 0;
     while (node && !node->FUN_008256d0())
     {
-        void* item = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* item = *(void**)((void *)((void *)(node)));
         if (*(void**)item == target)
         {
             if (prev)
@@ -3597,7 +3608,6 @@ struct BE
 struct AX
 {
 };
-extern "C" void* _data_011c16bc;
 extern void* DAT_01015b34;
 struct FUN_00430200 : BE
 {
@@ -3648,6 +3658,10 @@ struct LS3de0
 };
 struct FUN_00431030_BSSimpleArray
 {
+    void** m_ppVirtualMethodTable;
+    unsigned int* pBuffer;
+    unsigned int iSize;
+    unsigned int iCapacity;
 };
 struct FUN_00431030_shell : BSExtraData
 {
@@ -3659,12 +3673,12 @@ bool FUN_00431030_shell::FUN_00431030(BSExtraData* apCompare)
     if (!reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
     FUN_00431030_shell* pOtherData = static_cast<FUN_00431030_shell*>(apCompare);
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pOtherData + 1)))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pOtherData + 1)))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())))
         return true;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 1)))->GetName())); ++i)
     {
         if (reinterpret_cast<LS3de0*>(pOtherData + 1)
-                ->Find(((unsigned int)(reinterpret_cast<::S3e60 *>((reinterpret_cast<FUN_00431030_BSSimpleArray*>(this + 1)))->FUN_006a7ad0(i))), 0,
+                ->Find(reinterpret_cast<FUN_00431030_BSSimpleArray*>(this + 1)->pBuffer[i], 0,
                        (bool(__cdecl*)(int const*, int const*))((bool (&)(NavMeshInfo *&, NavMeshInfo *&))::FUN_009a3830)) == (unsigned int)-1)
             return true;
     }
@@ -3956,7 +3970,7 @@ void FUN_004343c0_standin::DeleteAllEntries()
     BGSPerkEntry* pItem;
     while (!kList.IsEmpty())
     {
-        pItem = ((::BGSPerkEntry *)(new ((void *)&(kList)) ::Vec3()));
+        pItem = (kList.m_item);
         kList.RemoveHead();
         pDelete = pItem;
         ::FUN_00401030(pDelete);
@@ -4183,7 +4197,6 @@ void* FUN_00411e70::DeleteThis(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_0042cca0();
 void __cdecl _Deallocate(void* p);
 
 struct FUN_0042cc70_Class
@@ -4196,7 +4209,7 @@ struct FUN_0042cc70_Class
 // @fnv 0x0042cc70
 void* FUN_0042cc70_Class::FUN_0042cc70(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0042cca0 *>(this)->FUN_0042cca0::~FUN_0042cca0();
+    reinterpret_cast<::FUN_0042cca0 *>(this)->::FUN_0042cca0::~FUN_0042cca0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4221,9 +4234,9 @@ struct FUN_004305f0
 void FUN_004305f0::Run(int arg1, char arg2)
 {
     unsigned int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
+    for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
     {
-        unsigned int v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
+        std::uintptr_t v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
         if (v != 0)
         {
             if (*(unsigned char*)v == arg1)
@@ -4277,7 +4290,7 @@ struct FUN_00431e20 : BE
 // @fnv 0x00431e20
 FUN_00431e20::FUN_00431e20(unsigned char c) : BE(0x26)
 {
-    *reinterpret_cast<int*>(this) = (int)&::fnv_0042c6d0::DAT_010158f0;
+    *reinterpret_cast<void**>(this) = &::fnv_0042c6d0::DAT_010158f0;
     field_0xc = c;
 }
 }  // namespace fnv_00431e20
@@ -4299,7 +4312,7 @@ struct FUN_00431ec0 : BE
 // @fnv 0x00431ec0
 FUN_00431ec0::FUN_00431ec0(float value) : BE(0x27)
 {
-    *(int*)this = (int)&::fnv_0042c700::DAT_010158fc;
+    *(void**)this = (void*)&::fnv_0042c700::DAT_010158fc;
     f = value;
 }
 }  // namespace fnv_00431ec0
@@ -4321,7 +4334,7 @@ struct FUN_00431f60 : BE
 // @fnv 0x00431f60
 FUN_00431f60::FUN_00431f60(float value) : BE(0x28)
 {
-    *(int*)this = (int)&DAT_01015908;
+    *(void**)this = (void*)&DAT_01015908;
     f = value;
 }
 }  // namespace fnv_00431f60
@@ -4389,7 +4402,7 @@ void* __cdecl _Deallocate(void* p);
 // @fnv 0x00432440
 void* ExtraInfoGeneralTopic::FUN_00432440(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004323b0 *>(this)->FUN_004323b0::~FUN_004323b0();
+    reinterpret_cast<::FUN_004323b0 *>(this)->::FUN_004323b0::~FUN_004323b0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4411,7 +4424,7 @@ struct FUN_00432810 : BE
 // @fnv 0x00432810
 FUN_00432810::FUN_00432810() : BE(0x19)
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
+    *(void**)this = (void*)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
     *(int*)((char*)this + 0xc) = 0;
     *(int*)((char*)this + 0x10) = -1;
     *(int*)((char*)this + 0x14) = 0;
@@ -4489,7 +4502,7 @@ struct FUN_00433300 : public BE
 // @fnv 0x00433300
 FUN_00433300::FUN_00433300() : BE(0x37)
 {
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_01015c90);
+    *reinterpret_cast<void**>(this) = (void*)&DAT_01015c90;
     field = 0;
     flag = 0;
 }
@@ -4603,7 +4616,7 @@ void _Deallocate(void* ptr);
 // @fnv 0x004353a0
 void* FUN_004353d0::DestroyAndDeallocate(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004353d0 *>(this)->FUN_004353d0::~FUN_004353d0();
+    reinterpret_cast<::FUN_004353d0 *>(this)->::FUN_004353d0::~FUN_004353d0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4623,7 +4636,7 @@ void _Deallocate(void*);
 // @fnv 0x00435a90
 void* FUN_00435ac0::ScalarDeletingDestructor(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435ac0 *>((this))->FUN_00435ac0::~FUN_00435ac0();
+    reinterpret_cast<::FUN_00435ac0 *>((this))->::FUN_00435ac0::~FUN_00435ac0();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -4651,7 +4664,7 @@ class ExtraSavedHavokData : public FUN_00435bb0
 // @fnv 0x00435b80
 void* ExtraSavedHavokData::FUN_00435b80(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435bb0 *>(this)->FUN_00435bb0::~FUN_00435bb0();
+    reinterpret_cast<::FUN_00435bb0 *>(this)->::FUN_00435bb0::~FUN_00435bb0();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -4671,7 +4684,7 @@ void __cdecl _Deallocate(void*);
 // @fnv 0x00435cb0
 void* ExtraFriendHits::FUN_00435cb0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435ce0_cls *>(this)->FUN_00435ce0_cls::~FUN_00435ce0_cls();
+    reinterpret_cast<::FUN_00435ce0_cls *>(this)->::FUN_00435ce0_cls::~FUN_00435ce0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4710,7 +4723,7 @@ struct FUN_004376e0 : BE
 // @fnv 0x004376e0
 FUN_004376e0::FUN_004376e0(int arg) : BE(0x75)
 {
-    *(int*)this = (int)&::DAT_01015f48;
+    *(void**)this = (void*)&::DAT_01015f48;
     *(int*)((char*)this + 0xc) = arg;
     *(int*)((char*)this + 0x10) = 0;
     *(int*)((char*)this + 0x14) = 0;
@@ -4802,7 +4815,7 @@ struct FUN_004302d0 : FUN_0040ecb0
 // @fnv 0x004302d0
 FUN_004302d0::~FUN_004302d0()
 {
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(members))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(members))->GetName())); ++index)
     {
         delete ((::FUN_00430390 *)(reinterpret_cast<::S3e60 *>(&(members))->FUN_006a7ad0(index)));
     }
@@ -4835,7 +4848,7 @@ struct FUN_00431450_cls
     int unk08;
     FUN_00431450_callee* m_0c;
 
-    bool FUN_00431450(int a1);
+    bool FUN_00431450(std::intptr_t a1);
 };
 
 struct FUN_00431450_callee
@@ -4845,7 +4858,7 @@ struct FUN_00431450_callee
 void* __cdecl FUN_00ec43fb(int a1, int a2, void* a3, void* a4, int a5);
 
 // @fnv 0x00431450
-bool FUN_00431450_cls::FUN_00431450(int a1)
+bool FUN_00431450_cls::FUN_00431450(std::intptr_t a1)
 {
     FUN_00431450_cls* p = (FUN_00431450_cls*)dynamic_cast<::ExtraMapMarker *>(reinterpret_cast<::BSExtraData *>(a1));
     if (p == 0)
@@ -5069,7 +5082,7 @@ class FUN_004330e0_cls : public B4330E0Base
 // @fnv 0x004330b0
 void* ExtraRunOncePacks::FUN_004330b0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004330e0_cls *>(this)->FUN_004330e0_cls::~FUN_004330e0_cls();
+    reinterpret_cast<::FUN_004330e0_cls *>(this)->::FUN_004330e0_cls::~FUN_004330e0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -5079,9 +5092,9 @@ void* ExtraRunOncePacks::FUN_004330b0(unsigned int flags)
 FUN_004330e0_cls::~FUN_004330e0_cls()
 {
     B4330E0List<B4330E0Effect*>* pkNode = m_pkEffects;
-    while (pkNode && *((::B4330E0Effect **)(new ((void *)(pkNode)) ::Vec3())))
+    while (pkNode && *((::B4330E0Effect **)((void *)(pkNode))))
     {
-        B4330E0Effect* pkEffect = *((::B4330E0Effect **)(new ((void *)(pkNode)) ::Vec3()));
+        B4330E0Effect* pkEffect = *((::B4330E0Effect **)((void *)(pkNode)));
         delete pkEffect;
         pkNode = ((::B4330E0List< ::B4330E0Effect *> *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
@@ -5162,7 +5175,7 @@ bool FUN_004341e0_cls::FUN_004341e0(void* a1)
     node7 = &other->m_0c;
     while (node7 != 0 && !node7->FUN_008256d0())
     {
-        item8 = *((void **)(new ((void *)(node7)) ::Vec3()));
+        item8 = *((void **)((void *)(node7)));
         res5 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(*(void**)item8))));
         if (res5 == 0)
         {
@@ -5212,7 +5225,6 @@ struct FUN_004342b0_shell
     ItemList_004342b0 entries;
     void LoadItemsFromArchive(void* archive);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 // @fnv 0x004342b0
 void FUN_004342b0_shell::LoadItemsFromArchive(void* archive)
@@ -5226,7 +5238,7 @@ void FUN_004342b0_shell::LoadItemsFromArchive(void* archive)
     Node_004342b0* node = &result->firstNode;
     while (node != 0 && !node->FUN_008256d0())
     {
-        void* pSource = *((void **)(new ((void *)(node)) ::Vec3()));
+        void* pSource = *((void **)((void *)(node)));
         Item_004342b0* item = new Item_004342b0();
         memcpy(item, pSource, sizeof(Item_004342b0));
         entries.FUN_005ae3d0(&item);
@@ -5283,8 +5295,8 @@ bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
     FUN_00434620_node* cur = (FUN_00434620_node*)&rec->key;
     while (cur != 0 && !cur->FUN_008256d0())
     {
-        void* x7 = *(void**)((void *)(new ((void *)(cur)) ::Vec3()));
-        void* y4 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(*(unsigned int*)x7))));
+        void* x7 = *(void**)((void *)((void *)(cur)));
+        void* y4 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference(*(::TESObjectREFR **)x7)));
         if (y4 == 0)
         {
             return true;
@@ -5302,7 +5314,7 @@ bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
 int __cdecl FUN_00ec4835(const void* a, const void* b, unsigned int n);
 struct S_00434bb0_Item
 {
-    unsigned int key;
+    ::TESObjectREFR* key;
     unsigned int val;
 };
 struct S_00434bb0_Node
@@ -5330,7 +5342,7 @@ bool ExtraReflectorRefs::FUN_00434bb0(BSExtraData* apCompare)
     S_00434bb0_Node* n = &other->list;
     while (n && !n->FUN_008256d0())
     {
-        S_00434bb0_Item* item = *((::S_00434bb0_Item **)(new ((void *)(n)) ::Vec3()));
+        S_00434bb0_Item* item = *((::S_00434bb0_Item **)((void *)(n)));
         S_00434bb0_Item* found5 = ((::S_00434bb0_Item *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(item->key))));
         if (!found5)
             return true;
@@ -5369,11 +5381,11 @@ extern "C" bool FUN_008256d0(LinkedNode*);
 
 struct FUN_00434ee0_Class
 {
-    void FUN_00434ee0(int);
+    void FUN_00434ee0(std::intptr_t);
 };
 
 // @fnv 0x00434ee0
-void FUN_00434ee0_Class::FUN_00434ee0(int id)
+void FUN_00434ee0_Class::FUN_00434ee0(std::intptr_t id)
 {
     ResultContainer* container = func_0x00ec43fb(id, 0, &DAT_01183b2c, &DAT_01184058, 0);
     if (container == 0)
@@ -5383,7 +5395,7 @@ void FUN_00434ee0_Class::FUN_00434ee0(int id)
     LinkedNode* node = &container->entries;
     while (node != 0 && !FUN_008256d0(node))
     {
-        reinterpret_cast<::fnv_00434f60::TargetClass *>((this))->AddIfNotInList((*(int *)&(const ::ValueArg &)(*((::ValueArg *)(new ((void *)(node)) ::Vec3())))));
+        reinterpret_cast<::fnv_00434f60::TargetClass *>((this))->AddIfNotInList((*(int *)&(const ::ValueArg &)(*((::ValueArg *)((void *)(node))))));
         node = ((::LinkedNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
@@ -5525,7 +5537,7 @@ class FUN_00435740 : public Base435
 // @fnv 0x00435710
 void* FUN_00435710_Class::FUN_00435710(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00435740 *>(this)->FUN_00435740::~FUN_00435740();
+    reinterpret_cast<::FUN_00435740 *>(this)->::FUN_00435740::~FUN_00435740();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -5609,9 +5621,9 @@ struct PredicateOwner
 bool PredicateOwner::HasMatchingValue(unsigned int key)
 {
     PredicateNode* node = unk0c;
-    while (node && *((::PredicateValue **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::PredicateValue **)((void *)(node))))
     {
-        PredicateValue* value = *((::PredicateValue **)(new ((void *)(node)) ::Vec3()));
+        PredicateValue* value = *((::PredicateValue **)((void *)(node)));
         if (key == value->key && value->flag == -1)
             return true;
         node = ((::PredicateNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -5654,19 +5666,19 @@ void MergeState::FUN_004370f0(MergeSource* source)
 {
     MergeMap keyMap(37);
     MergeNode* node = list;
-    while (node && *((::MergeItem **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::MergeItem **)((void *)(node))))
     {
-        MergeItem* oldItem = *((::MergeItem **)(new ((void *)(node)) ::Vec3()));
+        MergeItem* oldItem = *((::MergeItem **)((void *)(node)));
         node = ((::MergeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         oldItem->state = 255;
-        reinterpret_cast<::FUN_005594e0_cls *>(&(keyMap))->FUN_005594e0((unsigned int)(oldItem->key), true);
+        reinterpret_cast<::FUN_005594e0_cls *>(&(keyMap))->FUN_005594e0((std::uintptr_t)(oldItem->key), true);
     }
     if (source)
     {
         node = ((::MergeNode *)(reinterpret_cast<::TESRegion *>(&(source->list))->GetDiffuseColor()));
-        while (node && *((::MergeItem **)(new ((void *)(node)) ::Vec3())))
+        while (node && *((::MergeItem **)((void *)(node))))
         {
-            MergeItem* p = *((::MergeItem **)(new ((void *)(node)) ::Vec3()));
+            MergeItem* p = *((::MergeItem **)((void *)(node)));
             node = ((::MergeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             bool j = false;
             if (!reinterpret_cast<::FUN_0057c850_cls *>(&(keyMap))->FUN_0057c850(p->key, &j) || !j)
@@ -5731,7 +5743,7 @@ void FUN_00438330_cls::FUN_00438330(BSExtraData* pExtraData)
     }
     else
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_0041fd00_Class*)this)))->FUN_0041fd00((int)(((FUN_0084e3a0_Class*)pSource)->FUN_0084e3a0()));
+        reinterpret_cast<::FUN_0041fd00_shell *>((((FUN_0041fd00_Class*)this)))->FUN_0041fd00((std::intptr_t)(((FUN_0084e3a0_Class*)pSource)->FUN_0084e3a0()));
         this->m_f10 = pSource->m_f10;
     }
 }
@@ -5936,7 +5948,7 @@ void LimbsStandIn::FUN_00430410(LimbRefStub* apRef, unsigned int auiLimb, bool a
         {
             LimbRefStub* pActor4 = pActor;
             LimbBaseStub* pBase9 = ((::LimbBaseStub *)(reinterpret_cast<::Actor *>((pActor4))->GetActorBase()));
-            reinterpret_cast<::FUN_00605fc0_cls *>((pBase9))->ProcessSlots((int)(pActor4), (::FUN_00605fc0_owner *)(void *)(pActor4->GetLimbDataV()), (::FUN_00605fc0_disp *)(::LimbArrayStub *)(&pEntry->kData));
+            reinterpret_cast<::FUN_00605fc0_cls *>((pBase9))->ProcessSlots(0, (::FUN_00605fc0_owner *)(void *)(pActor4->GetLimbDataV()), (::FUN_00605fc0_disp *)(::LimbArrayStub *)(&pEntry->kData));
             if (uiEntryIndex > 0)
             {
                 for (int iIndex = uiEntryIndex - 1; iIndex >= 0; --iIndex)
@@ -5992,9 +6004,9 @@ bool EntryCollection::FUN_00430660(EntryCollection* other)
 {
     if (other->unk0C != unk0C)
         return false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(other->entries))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())))
         return false;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); i++)
     {
         ComparisonEntry* mine = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(entries))->FUN_006a7ad0(i)));
         ComparisonEntry* theirs = ((::ComparisonEntry *)(reinterpret_cast<::S3e60 *>(&(other->entries))->FUN_006a7ad0(i)));
@@ -6137,7 +6149,7 @@ void FUN_004331c0_cls::FUN_004331c0(unsigned int uiKey, unsigned char ucFlag)
         ContNode* cur = m_0c;
         while (cur != 0)
         {
-            found = (FUN_004331c0_rec*)*(void**)((void *)(new ((void *)(cur)) ::Vec3()));
+            found = (FUN_004331c0_rec*)*(void**)((void *)((void *)(cur)));
             if (found != 0)
             {
                 if (found->key == uiKey)
@@ -6202,13 +6214,13 @@ FUN_00433260_cls::FUN_00433260_cls() : B433260Form(0x13)
 }
 
 // @fnv 0x004336f0
-void* __cdecl FindContRecordByFormId(int wantedFormId, ContNode* first)
+void* __cdecl FindContRecordByFormId(std::intptr_t wantedFormId, ContNode* first)
 {
     void* result = 0;
     ContNode* node = first;
     while (node != 0 && !node->FUN_008256d0())
     {
-        void* record = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* record = *(void**)((void *)((void *)(node)));
         if (*(int*)record == wantedFormId)
         {
             result = record;
@@ -6262,7 +6274,7 @@ bool ExtraActivateRef::FUN_00433a20(BSExtraData* pOther)
     ActivateList334* other = &references;
     while (other && !other->IsEmpty())
     {
-        ActivateEntry334* entry = ((::ActivateEntry334 *)(new ((void *)(other)) ::Vec3()));
+        ActivateEntry334* entry = ((::ActivateEntry334 *)((void *)(other)));
         ActivateEntry334* match = node->Find(entry->reference);
         if (!match || memcmp(match, entry, 8) != 0)
             return true;
@@ -6310,7 +6322,7 @@ void FUN_004346f0_shell::CopyReflectedRefs(BSExtraData* apSource)
     RefReflectedList* pIter = (RefReflectedList*)pSource->RefList;
     while (pIter && !pIter->IsEmpty())
     {
-        ReflectedReferenceRecord* pData = ((::fnv_004346f0::ReflectedReferenceRecord *)(new ((void *)(pIter)) ::Vec3()));
+        ReflectedReferenceRecord* pData = (pIter->m_item);
         ReflectedReferenceRecord* pCopy = new ReflectedReferenceRecord;
         memcpy(pCopy, pData, sizeof(ReflectedReferenceRecord));
         ((RefReflectedList*)RefList)->AddHead(pCopy);
@@ -6324,11 +6336,11 @@ extern char DAT_01184034;
 
 struct FUN_00434a70_cls
 {
-    void FUN_00434a70(int arg);
+    void FUN_00434a70(std::intptr_t arg);
 };
 
 // @fnv 0x00434a70
-void FUN_00434a70_cls::FUN_00434a70(int arg)
+void FUN_00434a70_cls::FUN_00434a70(std::intptr_t arg)
 {
     void* ret = FUN_00ec43fb(arg, 0, &DAT_01183b2c, &DAT_01184034, 0);
     if (ret == 0)
@@ -6340,7 +6352,7 @@ void FUN_00434a70_cls::FUN_00434a70(int arg)
         ContNode* p = (ContNode*)((char*)ret + 0xc);
         while (p != 0 && p->FUN_008256d0() == 0)
         {
-            reinterpret_cast<::fnv_00434f60::TargetClass *>(this)->AddIfNotInList(*(unsigned int*)((void *)(new ((void *)(p)) ::Vec3())));
+            reinterpret_cast<::fnv_00434f60::TargetClass *>(this)->AddIfNotInList(*(unsigned int*)((void *)((void *)(p))));
             p = ((::ContNode *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
         }
     }
@@ -6389,7 +6401,7 @@ FUN_00434af0::~FUN_00434af0()
     List434* pkNode = &m_kEntries;
     while (pkNode && !pkNode->IsEmpty())
     {
-        Entry434* pkEntry = *((::Entry434 **)(new ((void *)(pkNode)) ::Vec3()));
+        Entry434* pkEntry = *((::Entry434 **)((void *)(pkNode)));
         delete pkEntry;
         pkNode = ((::List434 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
@@ -6430,7 +6442,7 @@ void FNVLoadHost::LoadEntriesFromBlock(void* input)
     node = &block->firstNode;
     while (node && !node->FUN_008256d0())
     {
-        void* contents = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* contents = *(void**)((void *)((void *)(node)));
         {
             FNVLoadEntry* entry = new FNVLoadEntry;
             memcpy(entry, contents, 8);
@@ -6459,9 +6471,9 @@ struct FUN_00436f20_cls
 void FUN_00436f20_cls::SetValueByKey(unsigned int aKey, unsigned char aVal)
 {
     ContNode* cur = m_0c;
-    while (cur != 0 && *(void**)((void *)(new ((void *)(cur)) ::Vec3())) != 0)
+    while (cur != 0 && *(void**)((void *)((void *)(cur))) != 0)
     {
-        unsigned int* item = *(unsigned int**)((void *)(new ((void *)(cur)) ::Vec3()));
+        unsigned int* item = *(unsigned int**)((void *)((void *)(cur)));
         if (aKey == *item)
         {
             ((unsigned char*)item)[4] = aVal;
@@ -6480,7 +6492,7 @@ struct FUN_004377f0
 // @fnv 0x004377c0
 void* ExtraWaterZoneMap::FUN_004377c0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_004377f0 *>(this)->FUN_004377f0::~FUN_004377f0();
+    reinterpret_cast<::FUN_004377f0 *>(this)->::FUN_004377f0::~FUN_004377f0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -6521,9 +6533,9 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     float fTop = DAT_01015f5c;
     if (bAdd)
     {
-        unsigned int ItemUpdateArray = 0;
-        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((unsigned int)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
-        reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((unsigned int)pEntry, 1);
+        std::uintptr_t ItemUpdateArray = 0;
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
+        reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((std::uintptr_t)pEntry, 1);
         if (pEntry->fPriority > fTop)
         {
             fTop = pEntry->fPriority;
@@ -6532,18 +6544,18 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     }
     else
     {
-        unsigned int ItemUpdateArray = 0;
-        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((unsigned int)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
+        std::uintptr_t ItemUpdateArray = 0;
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
         if ((int)ItemUpdateArray <= 1)
         {
-            reinterpret_cast<::NiTMap_S *>(&(kRefCounts))->RemoveKey((unsigned int)pEntry);
+            reinterpret_cast<::NiTMap_S *>(&(kRefCounts))->RemoveKey((std::uintptr_t)pEntry);
             void* pPos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(kRefCounts))->GetFirstPos();
             fTop = DAT_01015f5c;
             while (pPos)
             {
-                unsigned int uiKey;
-                unsigned int uiVal;
-                reinterpret_cast<::C6b7f20_Map *>(&(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(pPos), (unsigned int *)&(uiKey), (void **)&(uiVal));
+                std::uintptr_t uiKey = 0;
+                void* pVal;
+                reinterpret_cast<::C6b7f20_Map *>(&(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(pPos), (unsigned int *)&(uiKey), &pVal);
                 if (((FUN_00437850_Entry*)uiKey)->fPriority > fTop)
                 {
                     fTop = ((FUN_00437850_Entry*)uiKey)->fPriority;
@@ -6553,7 +6565,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
         }
         else
         {
-            reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((unsigned int)pEntry, ItemUpdateArray - 1);
+            reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((std::uintptr_t)pEntry, ItemUpdateArray - 1);
         }
     }
 }
@@ -6707,7 +6719,7 @@ void ExtraSecuritronFaceStandIn::FUN_00437f90(NiNode* pNode)
                 ::FUN_00406d00(buffer7, 260, "Textures\\creatures\\Securitron\\%s_%s.dds", ((const char *)(::FUN_00559450((int *)&(str6)))),
                            ((const char *)(::FUN_00559450((int *)&(str2)))));
                 ::ConvertLocalizedString(buffer7, destBufferA, 260);
-                reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_004568c0(destBufferA, (::TexPtr< ::NiSourceTexture> &)(spTexture), false, false);
+                reinterpret_cast<::TESTexLoader *>((((::TES *)::g_TES)))->FUN_004568c0(destBufferA, (::TexPtr< ::NiSourceTexture> &)(spTexture), false, false);
             }
 
             pProperty4 = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((aPScreen))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
@@ -7131,7 +7143,7 @@ void __cdecl FUN_00433750(ListNode* pNode)
     {
         while (!FUN_008256d0((ContNode*)pNode))
         {
-            void* p = *(void**)((void *)(new ((void *)(pNode)) ::Vec3()));
+            void* p = *(void**)((void *)((void *)(pNode)));
             ::FUN_00401030(p);
             pNode->FUN_0063f7b0();
         }
@@ -7701,7 +7713,7 @@ class xQuestQ
 // @fnv 0x00431120
 void xQuestQ::NotifyQuestActors(int a, int b)
 {
-    for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kArr))->GetName())); uiIndex++)
+    for (unsigned int uiIndex = 0; uiIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kArr))->GetName())); uiIndex++)
     {
         unsigned int uiFormId = ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_kArr))->FUN_006a7ad0(uiIndex)));
         xFormQ* pForm = ((::xFormQ *)(::FUN_004839c0(uiFormId)));
@@ -7810,7 +7822,7 @@ FUN_00431980_Deleter::~FUN_00431980_Deleter()
 void FUN_00431980(void* apDeleter, unsigned int flags)
 {
     FUN_00431980_Deleter* d = static_cast<FUN_00431980_Deleter*>(apDeleter);
-    reinterpret_cast<::FUN_004319b0 *>((d))->FUN_004319b0::~FUN_004319b0();
+    reinterpret_cast<::FUN_004319b0 *>((d))->::FUN_004319b0::~FUN_004319b0();
     if (flags & 1)
         ::FUN_00401030(apDeleter);
 }
@@ -7860,7 +7872,7 @@ void FUN_00433b70_shell::FUN_00433b70(BSExtraData* apSource)
     BSSimpleList<ReferenceFloatEntry*>* pIter = (BSSimpleList<ReferenceFloatEntry*>*)&pSource->references;
     while (pIter && !pIter->IsEmpty())
     {
-        ReferenceFloatEntry* pReferenceEntry = ((::ReferenceFloatEntry *)(new ((void *)(pIter)) ::Vec3()));
+        ReferenceFloatEntry* pReferenceEntry = (pIter->m_item);
         pIter = ((::BSSimpleList< ::ReferenceFloatEntry *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         ReferenceFloatEntry* pNew = new ReferenceFloatEntry;
         memcpy(pNew, pReferenceEntry, sizeof(ReferenceFloatEntry));
@@ -7931,7 +7943,7 @@ bool ExtraLitWaterRefs::FUN_00434e30(BSExtraData* apCompare)
     BSSimpleList<TESObjectREFR*>* pIter = &pcomp->kRefs;
     while (pIter && !pIter->IsEmpty())
     {
-        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&(((::TESObjectREFR *)(new ((void *)(pIter)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&((pIter->m_item))))
             return true;
         pIter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
@@ -7974,7 +7986,7 @@ bool ExtraWaterLightRefs::FUN_004349c0(BSExtraData* apCompare)
     BSSimpleList<TESObjectREFR*>* pNode = &pOther->kRefs;
     while (pNode != 0 && !pNode->IsEmpty())
     {
-        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&(((::TESObjectREFR *)(new ((void *)(pNode)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&((pNode->m_item))))
             return true;
         pNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -8120,6 +8132,196 @@ bool EmittanceSourceComparison::FUN_004354c0(BSExtraData* apCompare)
     if (this->pSource != pcomp->pSource)
         return true;
     return false;
+}
+
+class FUN_00ee8ac0_cls
+{
+  public:
+    virtual void vSlot0();
+    unsigned int m_uiCount;
+    int** m_ppItems;
+    int* FUN_00ee8ac0();
+};
+
+// @fnv 0x00ee8ac0
+int* FUN_00ee8ac0_cls::FUN_00ee8ac0()
+{
+    unsigned int count = m_uiCount;
+    int i = 0;
+    if (i < count)
+    {
+        int** items = m_ppItems;
+        int** p = items;
+        do
+        {
+            if (*p != 0)
+            {
+                return items[i];
+            }
+            ++i;
+            ++p;
+        } while (i < count);
+    }
+    return 0;
+}
+
+class ExtraDataList
+{
+  public:
+};
+
+struct LitWaterRef
+{
+};
+
+struct LitWaterOwner
+{
+};
+
+struct ExtraLitWaterRefsStandIn
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    BSSimpleList<LitWaterRef*> kRefs;
+    void FUN_00434050(LitWaterOwner* apOwner);
+};
+
+// @fnv 0x00434050
+void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
+{
+    BSSimpleList<LitWaterRef*>* pNodeB8 = &kRefs;
+    BSSimpleList<LitWaterRef*> kResolved4;
+    while (pNodeB8 && !pNodeB8->IsEmpty())
+    {
+        LitWaterRef* pItem3 = (pNodeB8->m_item);
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)pItem3;
+        ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>((apOwner))->GetFile(-1));
+        LitWaterRef* pRef = (LitWaterRef*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(auiFormId));
+        if (!pRef || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0())
+        {
+            if (!pRef)
+                ::FUN_005b5e40();
+            else
+                ::FUN_005b5e40(
+                    );
+        }
+        else
+        {
+            reinterpret_cast<::FUN_0041f840 *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pRef))->FUN_005d43c0()))))->SetEnableParentReference((::TESObjectREFR *)(apOwner), true);
+            kResolved4.AddHead(pRef);
+        }
+        pNodeB8 = ((::BSSimpleList< ::LitWaterRef *> *)(reinterpret_cast<::Callees *>((pNodeB8))->FUN_00726070()));
+    }
+    reinterpret_cast<::FileMatchList *>(&(kRefs))->RemoveAll();
+    BSSimpleList<LitWaterRef*>* pIter = &kResolved4;
+    while (pIter && (pIter->m_item))
+    {
+        kRefs.AddHead((pIter->m_item));
+        pIter = ((::BSSimpleList< ::LitWaterRef *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+    }
+    reinterpret_cast<::FileMatchList *>(&(kResolved4))->RemoveAll();
+}
+
+struct ReflectReference554
+{
+    TESObjectREFR* m_pWorldReferenceInfo;
+    unsigned int flags;
+};
+
+struct ReflectReferences554 : BSExtraData
+{
+    BSSimpleList<ReflectReference554*> references;
+    void FUN_00433ed0(TESForm* form);
+};
+
+// @fnv 0x00433ed0
+void ReflectReferences554::FUN_00433ed0(TESForm* form)
+{
+    BSSimpleList<ReflectReference554*>* position = &references;
+    BSSimpleList<ReflectReference554*>* previous = 0;
+    while (position && !position->IsEmpty())
+    {
+        bool removed = false;
+        ReflectReference554* item3 = (position->m_item);
+        unsigned int formID5 = (unsigned int)reinterpret_cast<std::uintptr_t>(item3->m_pWorldReferenceInfo);
+        ResolveFormID(&formID5, form->GetFile(-1));
+        TESObjectREFR* reference_2 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID5));
+        if (!reference_2 || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((reference_2))->FUN_005653d0())
+        {
+            if (!reference_2)
+                ::FUN_005b5e40();
+            else
+                ::FUN_005b5e40(
+                    );
+            if (previous)
+            {
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(item3));
+                position = ((::BSSimpleList< ::ReflectReference554 *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+            }
+            else
+            {
+                position->RemoveHead();
+            }
+            delete item3;
+            item3 = 0;
+            removed = true;
+        }
+        else
+        {
+            if (item3->flags & 1)
+                reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference_2))->FUN_005d43c0()))))->FUN_0041f4c0((::TESObjectREFR *)(form), true);
+            if (item3->flags & 2)
+                reinterpret_cast<::WorkerExtraList *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reference_2))->FUN_005d43c0()))))->FUN_0041f650((::TESObjectREFR *)(form), true);
+            item3->m_pWorldReferenceInfo = reference_2;
+        }
+        if (!removed)
+        {
+            previous = position;
+            position = ((::BSSimpleList< ::ReflectReference554 *> *)(reinterpret_cast<::Callees *>((position))->FUN_00726070()));
+        }
+    }
+}
+
+// Walks m_kDecalReferences, resolving each decal's m_pHitReference form ID against the given TESForm and removing entries that cannot be resolved.
+// @fnv 0x00433db0
+void ExtraDecalRefs::FUN_00433db0(TESForm* form)
+{
+    BSSimpleList<ReferenceIntersectionData*>* position = &m_kDecalReferences;
+    BSSimpleList<ReferenceIntersectionData*>* previous = 0;
+    while (position && !position->IsEmpty())
+    {
+        bool removed = false;
+        ReferenceIntersectionData* decal = (position->m_item);
+        unsigned int formID = (unsigned int)reinterpret_cast<std::uintptr_t>(decal->m_pHitReference);
+        ResolveFormID(&formID, form->GetFile(-1));
+        TESObjectREFR* resolvedB = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
+        if (!resolvedB)
+        {
+            ::FUN_005b5e40();
+            if (previous)
+            {
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(decal));
+                position = ((::BSSimpleList< ::ReferenceIntersectionData *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+            }
+            else
+            {
+                position->RemoveHead();
+            }
+            delete decal;
+            decal = 0;
+            removed = true;
+        }
+        else
+        {
+            decal->m_pHitReference = resolvedB;
+        }
+        if (!removed)
+        {
+            previous = position;
+            position = ((::BSSimpleList< ::ReferenceIntersectionData *> *)(reinterpret_cast<::Callees *>((position))->FUN_00726070()));
+        }
+    }
 }
 
 #include "generated/data/fallout_shared/extradataobjects.inc"

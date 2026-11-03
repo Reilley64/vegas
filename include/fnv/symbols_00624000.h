@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_004769c0_shell;
 struct FUN_004b4cf0_shell;
@@ -14,4 +15,4 @@ void FUN_00624560();
 // 0x00624b10
 ::FUN_004769c0_shell *FUN_00624b10(::FUN_004769c0_shell *, ::FUN_004b4cf0_shell *);
 // 0x00624b70
-unsigned int GetBSXFlags(unsigned int, unsigned int);
+unsigned int GetBSXFlags(std::uintptr_t, unsigned int);

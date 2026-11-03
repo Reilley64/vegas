@@ -303,7 +303,7 @@ bool BGSCameraShot::Load(TESFile* file)
         case 0x4d414e4d: {
             unsigned int modifier = 0;
             file->GetChunkData(&modifier);
-            ((CombatProcedure*)static_cast<TESImageSpaceModifiableForm *>(this))->Initialize((CombatController*)modifier);
+            ((CombatProcedure*)static_cast<TESImageSpaceModifiableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)modifier);
             break;
         }
         case 0x41544144:
@@ -344,7 +344,7 @@ void FUN_0058c4d0_shell::FUN_0058c4d0()
     reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_obj*)((char*)this + 0x18))))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_0058c3c0_shell *>((((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))))->FUN_0058c3c0();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x38)), 0x28);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x38)), 0x28);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_0058c3c0_shell *>((((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))))->FUN_0058c3c0();
     ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
@@ -726,7 +726,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
     void* myFoundPtr;
     if (model.FUN_0048cee0())
     {
-        m_spPositionNode.FUN_0066b0d0((void*)((int)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((::g_modelLoader))->FUN_00447080((char *)(model.vfn_14()), 0, 1, 1, 0, 0))));
+        m_spPositionNode.FUN_0066b0d0((void*)((std::intptr_t)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((::g_modelLoader))->FUN_00447080((char *)(model.vfn_14()), 0, 1, 1, 0, 0))));
     }
     myFoundPtr = ((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))
                      ? ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f4a18))), (::NiObject *)(void *)((void*)((int)(reinterpret_cast<::S_FUN_0045bc00 *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_0045bc00(0)))))))
@@ -753,7 +753,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
             if (queriedVal)
             {
                 void* clonePtr = queriedVal;
-                int held2 = ((LookupObj*)clonePtr)->vfn_c4(0);
+                std::intptr_t held2 = ((LookupObj*)clonePtr)->vfn_c4(0);
                 void* altObj2Val = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3e50))), (::NiObject *)(void *)((void*)held2))));
                 void* myAltPtr = 0;
                 if (altObj2Val)
@@ -1142,7 +1142,7 @@ void Shot::UpdateCamera(float afTime)
                 bReset = true;
             }
             NiPoint3 kPos = ((::Node60 *)(::FUN_00559450((int *)&(m60))))->FUN_0045bb80();
-            reinterpret_cast<::FUN_0063c8a0_shell *>((((PtSub*)&pt)))->FUN_0063c8a0-=((void *)&(kPos));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((((PtSub*)&pt)))->FUN_0063c8a0((void *)&(kPos));
             reinterpret_cast<::ThisShell *>((reinterpret_cast<GObj*>((*reinterpret_cast<::PlayerObj * *>(&::_g_thePlayer)))))->FUN_0094a0c0(&pt, &kPos, 0);
             DAT_011e0808 = pt;
             if ((*reinterpret_cast<unsigned char *>(&::xbSlowMo)))
@@ -1195,5 +1195,16 @@ void Shot::UpdateCamera(float afTime)
     if (reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((GetCameraPosition() - pt)))->ComputeMagnitude() <= *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting39)))))))
         c75 = 1;
 }
+
+void __cdecl BSEndian(int*, EndianSizeTag<3>);
+
+void _Deallocate(void*);
+
+void* __memcpy(void*, const void*, unsigned int);
+
+struct FUN_005e78f0_t_o2
+{
+    void FUN_004851b0(TESForm*);
+};
 
 #include "generated/data/fallout_shared/bgscamerashot.inc"

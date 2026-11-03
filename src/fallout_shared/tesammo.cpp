@@ -58,6 +58,7 @@
 #include "tesammo_load.h"
 #include <malloc.h>
 #include <string.h>
+#include "fnv/symbols_00472000.h"
 
 // @fnv 0x005026b0
 TESAmmo::TESAmmo()
@@ -103,7 +104,7 @@ void TESAmmo::InitItem()
     {
         ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
         ((MiddleLowProcess*)this)
-            ->SetProcessInteger((int)dynamic_cast<BGSProjectile*>(::FUN_004839c0(locals.formID)));
+            ->SetProcessInteger((std::intptr_t)dynamic_cast<BGSProjectile*>(::FUN_004839c0(locals.formID)));
         if (!((MiddleLowProcess*)this)->GetProcessInteger())
         {
             ::FUN_005b5e40();
@@ -123,9 +124,9 @@ void TESAmmo::InitItem()
 
     locals.node = (BSSimpleList<TESAmmoEffect*>*)((TESAmmoInitCalls*)this)->FUN_00923000();
     locals.resolved = 0;
-    while (locals.node && ((::TESAmmoEffect *)(new ((void *)(locals.node)) ::Vec3())))
+    while (locals.node && (locals.node->m_item))
     {
-        locals.formID = (unsigned int)((::TESAmmoEffect *)(new ((void *)(locals.node)) ::Vec3()));
+        locals.formID = (unsigned int)(std::uintptr_t)(locals.node->m_item);
         if (locals.formID)
         {
             ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
@@ -134,7 +135,7 @@ void TESAmmo::InitItem()
             {
                 ::FUN_005b5e40();
             }
-            ((::TESAmmoEffect *)(new ((void *)(locals.node)) ::Vec3())) = (TESAmmoEffect*)locals.resolved;
+            (locals.node->m_item) = (TESAmmoEffect*)locals.resolved;
         }
         locals.node = ((::BSSimpleList< ::TESAmmoEffect *> *)(reinterpret_cast<::Callees *>((locals.node))->FUN_00726070()));
     }
@@ -210,7 +211,7 @@ bool TESAmmo::Load(TESFile* file)
         case 0x49524353: {
             unsigned int script = 0;
             file->GetChunkData(&script);
-            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)script);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)script);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -221,13 +222,13 @@ bool TESAmmo::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickup = 0;
             file->GetChunkData(&pickup);
-            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickup);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)(std::uintptr_t)pickup);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdown = 0;
             file->GetChunkData(&putdown);
-            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdown);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)(std::uintptr_t)putdown);
             break;
         }
         case 0x41544144:
@@ -253,7 +254,7 @@ bool TESAmmo::Load(TESFile* file)
         case 0x4c494352: {
             unsigned int effect = 0;
             file->GetChunkData(&effect);
-            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)((TESAmmoInitCalls*)this)->FUN_00923000())))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)effect));
+            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)((TESAmmoInitCalls*)this)->FUN_00923000())))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)(std::uintptr_t)effect));
             break;
         }
         }
@@ -288,7 +289,7 @@ void FUN_00504420_shell::FUN_00504420(unsigned int aiFlags, unsigned int aiCurre
 
 struct FUN_00504450_shell
 {
-    void FUN_00504450(unsigned int);
+    void FUN_00504450(std::uintptr_t);
 };
 
 struct FUN_00484d60_holder
@@ -301,7 +302,7 @@ struct FUN_0048ea40_holder
 
 // Forwards aiFlags to the method at offset 0 and to the method at offset 0x78 of this object.
 // @fnv 0x00504450
-void FUN_00504450_shell::FUN_00504450(unsigned int aiFlags)
+void FUN_00504450_shell::FUN_00504450(std::uintptr_t aiFlags)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(aiFlags));
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x78)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(aiFlags));
@@ -557,8 +558,8 @@ bool AmmoMethods::FUN_00503670(TESForm* form)
     {
         if (!a || a->IsEmpty())
             return true;
-        f = ((::TESAmmoEffect *)(new ((void *)(a)) ::Vec3()));
-        s = ((::TESAmmoEffect *)(new ((void *)(p)) ::Vec3()));
+        f = (a->m_item);
+        s = (p->m_item);
         if (f->Compare(s))
             return true;
         p = ((::BSSimpleList< ::TESAmmoEffect *> *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
@@ -630,9 +631,9 @@ void AmmoSave::Save()
     BSSimpleList<TESAmmoEffect*>* effect =
         reinterpret_cast<BSSimpleList<TESAmmoEffect*>*>(reinterpret_cast<TESAmmoInitCalls*>(this)->FUN_00923000());
     TESAmmoEffect* consumed = 0;
-    while (effect && ((::TESAmmoEffect *)(new ((void *)(effect)) ::Vec3())))
+    while (effect && (effect->m_item))
     {
-        consumed = ((::TESAmmoEffect *)(new ((void *)(effect)) ::Vec3()));
+        consumed = (effect->m_item);
         effect = ((::BSSimpleList< ::TESAmmoEffect *> *)(reinterpret_cast<::Callees *>((effect))->FUN_00726070()));
         unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((consumed))->FUN_0084e3a0()));
         ::FUN_00485910(0x4c494352, formID);
@@ -678,7 +679,7 @@ void FUN_00503510_shell::CopyFromAmmo(TESForm* pkForm)
     AmmoEffectNode503* pkNodeCur = ((::AmmoEffectNode503 *)(reinterpret_cast<::TESAmmoInitCalls *>((pSourceAmmo))->FUN_00923000()));
     while (pkNodeCur && !FUN_008256d0(pkNodeCur))
     {
-        TESAmmoEffect* pkEffect = ((::TESAmmoEffect *)(new ((void *)(pkNodeCur)) ::Vec3()));
+        TESAmmoEffect* pkEffect = ((::TESAmmoEffect *)((void *)(pkNodeCur)));
         reinterpret_cast<::Callees *>((((::AmmoEffectNode503 *)(reinterpret_cast<::TESAmmoInitCalls *>(this)->FUN_00923000()))))->FUN_00905820((void *)&(pkEffect));
         pkNodeCur = ((::AmmoEffectNode503 *)(reinterpret_cast<::Callees *>((pkNodeCur))->FUN_00726070()));
     }
@@ -710,10 +711,10 @@ void AmmoEffectList503::FUN_00503a70(char* pcOutBuffer, unsigned int uiBufferSiz
     acName[0] = 0;
 
     AmmoEffectNode503* pkNode = (AmmoEffectNode503*)FUN_00923000();
-    while (pkNode && *((::fnv_00503a70::AmmoEffect503 **)(new ((void *)(pkNode)) ::Vec3())))
+    while (pkNode && *((::fnv_00503a70::AmmoEffect503 **)((void *)(pkNode))))
     {
-        reinterpret_cast<::AmmoEffectDesc *>(((*((::fnv_00503a70::AmmoEffect503 **)(new ((void *)(pkNode)) ::Vec3())))))->FormatDescription(acName, 0x100);
-        AmmoEffect503* pkEffect = *((::fnv_00503a70::AmmoEffect503 **)(new ((void *)(pkNode)) ::Vec3()));
+        reinterpret_cast<::AmmoEffectDesc *>(((*((::fnv_00503a70::AmmoEffect503 **)((void *)(pkNode))))))->FormatDescription(acName, 0x100);
+        AmmoEffect503* pkEffect = *((::fnv_00503a70::AmmoEffect503 **)((void *)(pkNode)));
         pkNode = ((::fnv_00503a70::AmmoEffectNode503 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         reinterpret_cast<::AmmoEffectDesc *>((pkEffect))->FormatDescription(acName, 0x100);
         if (::FUN_0044a670(acName) > 0)
@@ -740,3 +741,39 @@ struct FUN_00502850
 // @fnv 0x00502850
 FUN_00502850::~FUN_00502850()
 {}
+
+// The claimed function is a compiler-generated this-adjusting thunk:
+//     sub ecx, 0x3c
+//     jmp  <the most derived class' implementation of the virtual>
+// MSVC emits it for the second copy of a duplicated common base: the most
+// derived class inherits the same common base twice, so the vtable slot of
+// the second copy has to move `this` back onto the first copy.
+class ThunkCommonBase
+{
+  public:
+    virtual void FUN_00503bb0();
+};
+
+class ThunkPrimaryBase : public ThunkCommonBase
+{
+  public:
+    int m_pad01[14];
+};
+
+class ThunkSecondaryBase : public ThunkCommonBase
+{
+  public:
+};
+
+class ThunkDerived : public ThunkPrimaryBase, public ThunkSecondaryBase
+{
+  public:
+// @fnv 0x00503bb0
+    virtual void FUN_00503bb0();
+    ThunkDerived();
+};
+
+ThunkDerived::ThunkDerived()
+{}
+
+ThunkDerived g_thunkDerived;

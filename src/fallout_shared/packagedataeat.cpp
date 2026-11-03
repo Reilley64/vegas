@@ -2,6 +2,7 @@
 // src/fallout_shared/packagedataeat.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedataeat.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_0067fbe0_cls.h"
 #include "fnv/decl/FUN_0067fc50_shell.h"
 #include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
@@ -49,7 +50,7 @@ void TESEatPackageData::FUN_0067bfa0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (m_pPackageTarget != 0)
     {
-        reinterpret_cast<::FUN_0067fc50_shell *>((m_pPackageTarget))->ResolveObject((int)(apLoadGameBuffer));
+        reinterpret_cast<::FUN_0067fc50_shell *>((m_pPackageTarget))->ResolveObject((std::intptr_t)(apLoadGameBuffer));
     }
 }
 }  // namespace fnv_0067bfa0
@@ -115,7 +116,7 @@ FUN_0067b9b0_cls::~FUN_0067b9b0_cls()
     (p != 0) ? reinterpret_cast<::p07::DelStandIn *>((p))->FUN_00670b30(1) : 0;
 }
 
-extern "C" int __cdecl FUN_00ec43fb(int a1, int a2, int* a3, int* a4, int a5);
+extern "C" void* __cdecl FUN_00ec43fb(void* a1, int a2, int* a3, int* a4, int a5);
 
 extern int DAT_0119be3c;
 
@@ -126,7 +127,7 @@ struct FUN_0067f600_Obj
 struct FUN_0067bb40_Result
 {
     int unk00;
-    int unk04;
+    void* unk04;
 };
 
 struct TESEatPackageData_StandIn
@@ -134,13 +135,13 @@ struct TESEatPackageData_StandIn
     unsigned char base[4];
     FUN_0067f600_Obj* m_pPackageTarget;
 
-    unsigned char FUN_0067bb40(int arg);
+    unsigned char FUN_0067bb40(void* apOther);
 };
 
 // @fnv 0x0067bb40
-unsigned char TESEatPackageData_StandIn::FUN_0067bb40(int arg)
+unsigned char TESEatPackageData_StandIn::FUN_0067bb40(void* apOther)
 {
-    FUN_0067bb40_Result* result = (FUN_0067bb40_Result*)FUN_00ec43fb(arg, 0, &DAT_0119bdec, &DAT_0119be3c, 0);
+    FUN_0067bb40_Result* result = (FUN_0067bb40_Result*)FUN_00ec43fb(apOther, 0, &DAT_0119bdec, &DAT_0119be3c, 0);
 
     if (result == 0)
     {
@@ -160,6 +161,62 @@ unsigned char TESEatPackageData_StandIn::FUN_0067bb40(int arg)
     }
 
     return 0;
+}
+
+struct TESEatPackageData_rtti
+{
+    virtual ~TESEatPackageData_rtti();  // the original class is polymorphic (rtti_variants.py)
+    void* m_pPackageTarget;
+    void FUN_0067bbb0();
+};
+
+struct LocationDescriptor_rtti
+{
+public:
+    void Copy(::LocationDescriptor_rtti *, bool);
+};
+
+extern "C" void* __cdecl FUN_00ec43fb(void*, int, int*, int*, int);
+
+struct FUN_0067f030
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    FUN_0067f030();
+    ~FUN_0067f030();
+};
+
+struct FUN_0067ba40_Result
+{
+    int unk00;
+    void* location;
+};
+
+struct TESEatPackageData_Copy
+{
+    int unk00;
+    FUN_0067f030* m_pPackageTarget;
+    void FUN_0067ba40(void* apOther);
+};
+
+// @fnv 0x0067ba40
+void TESEatPackageData_Copy::FUN_0067ba40(void* apOther)
+{
+    FUN_0067ba40_Result* result = (FUN_0067ba40_Result*)FUN_00ec43fb(apOther, 0, &DAT_0119bdec, &DAT_0119be3c, 0);
+    if (result)
+    {
+        if (m_pPackageTarget)
+        {
+            delete m_pPackageTarget;
+            m_pPackageTarget = 0;
+        }
+        if (result->location)
+        {
+            m_pPackageTarget = new FUN_0067f030;
+            reinterpret_cast<::LocationDescriptor_rtti *>((m_pPackageTarget))->Copy((::LocationDescriptor_rtti *)(result->location), 0);
+        }
+    }
 }
 
 #include "generated/data/fallout_shared/packagedataeat.inc"

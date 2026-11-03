@@ -917,6 +917,7 @@ class BipedAnimObject
 class BipedAnim
 {
   public:
+    void FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>& queuedHelmet, QueuedFile* file);
     NiNode* root;
     BipedAnimBone bone[5];
     BipedAnimObject object[20];
@@ -1161,6 +1162,7 @@ class TESBipedModelForm
 {
   public:
     virtual void vfn_0();
+    BSFaceGenModel* FUN_00480ce0();
     unsigned int m_uiBipedModelFlags;
     unsigned char m_ucBipedModelData;
     TESModelTextureSwap bipedModel[2];
@@ -1187,7 +1189,6 @@ public:
 public:
     void ProcessPackedTask(const ::BSPackedTask &);
 };
-int strcat_s(char*, unsigned int, const char*);
 class FileFinder
 {
   public:
@@ -1224,6 +1225,8 @@ class TESTopic;
 template <class T> class BSSimpleList
 {
   public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     BSSimpleList<T>* GetNext();
 };
 class TESTopicInfoData

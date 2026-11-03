@@ -41,6 +41,7 @@
 #include "fnv/symbols_00559000.h"
 #include "tescasinochips_packet.h"
 #include <malloc.h>
+#include "fnv/symbols_00472000.h"
 
 // Constructor: sets the form type to ENUM_FORM_ID_CHIP_ID and clears the object's data.
 // @fnv 0x00503bd0
@@ -123,13 +124,13 @@ bool TESCasinoChips::Load(TESFile* apFile)
         case 0x4d414e59: {
             unsigned int id = 0;
             apFile->GetChunkData(&id);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x4d414e5a: {
             unsigned int id = 0;
             apFile->GetChunkData(&id);
-            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x4d414e4f: {
@@ -549,7 +550,7 @@ void FUN_00504710_shell::FUN_00504710()
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(&this->data)),
+        (const void *)(reinterpret_cast<std::intptr_t>(&this->data)),
         0x38);
 
     if (((bool)(::FUN_00401500())))
@@ -867,3 +868,37 @@ bool CasinoChipCompareView::FUN_005043b0(::TESForm* form)
         return true;
     return false;
 }
+
+struct S_00504ff0_Base1
+{
+    virtual void FUN_00504ff0();
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct S_00504ff0_Base2
+{
+    virtual void FUN_00504ff0();
+};
+
+struct S_00504ff0_Derived : S_00504ff0_Base1, S_00504ff0_Base2
+{
+    S_00504ff0_Derived();
+// @fnv 0x00504ff0
+    virtual void FUN_00504ff0();
+};
+
+S_00504ff0_Derived::S_00504ff0_Derived()
+{}

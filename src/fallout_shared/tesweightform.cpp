@@ -121,17 +121,17 @@ struct FUN_0048eaf0 : Date
 // @fnv 0x0048eaf0
 FUN_0048eaf0::~FUN_0048eaf0()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0101a4c4);
+    *reinterpret_cast<std::intptr_t*>(this) = reinterpret_cast<std::intptr_t>(&DAT_0101a4c4);
 }
 
 class PC7d;
 struct S00517380
 {
-    void FUN_00517380(int, PC7d*);
+    void FUN_00517380(std::intptr_t, PC7d*);
 };
 // If a1 is non-zero and a2 is the player, calls FUN_00709470 with (1, a1, 0, 0, 1, 0) then FUN_0047a560(a1, a2, 0).
 // @fnv 0x00517380
-void S00517380::FUN_00517380(int a1, PC7d* a2)
+void S00517380::FUN_00517380(std::intptr_t a1, PC7d* a2)
 {
     if (a1 != 0 && a2 == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
     {

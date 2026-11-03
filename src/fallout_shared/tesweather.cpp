@@ -143,9 +143,9 @@ void TESWeather::MakeDefault()
 void TESWeather__WeatherSoundList::ClearWeatherSounds()
 {
     BSSimpleList<TESWeather__WeatherSound*>* iter = this;
-    while (iter && ((::TESWeather__WeatherSound *)(new ((void *)(iter)) ::Vec3())))
+    while (iter && (iter->m_item))
     {
-        TESWeather__WeatherSound* sound = ((::TESWeather__WeatherSound *)(new ((void *)(iter)) ::Vec3()));
+        TESWeather__WeatherSound* sound = (iter->m_item);
         ::FUN_00401030(sound);
         iter = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
@@ -442,13 +442,13 @@ void WeatherSave::FUN_005813d0()
             reinterpret_cast<::B8AD00Header *>(&(m_akImageSpaceModifierParameters[k]))->SwapEndian();
     }
     ::FUN_004856f0((void *)(0x41544144), m_aucWeatherFlags, (void *)(15));
-    for (BSSimpleList<TESWeather__WeatherSound*>* node = &soundList; node && ((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3())); node = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+    for (BSSimpleList<TESWeather__WeatherSound*>* node = &soundList; node && (node->m_item); node = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         if (((bool)(::FUN_00401500())))
-            reinterpret_cast<::S_00462230 *>((((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3()))))->FUN_00462230();
-        ::AppendChunk(0x4d414e53, ((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3())), 8);
+            reinterpret_cast<::S_00462230 *>(((node->m_item)))->FUN_00462230();
+        ::AppendChunk(0x4d414e53, (node->m_item), 8);
         if (((bool)(::FUN_00401500())))
-            reinterpret_cast<::S_00462230 *>((((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3()))))->FUN_00462230();
+            reinterpret_cast<::S_00462230 *>(((node->m_item)))->FUN_00462230();
     }
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680_shell*>(this)))->FUN_00485680();
 }
@@ -484,9 +484,9 @@ bool WeatherEq::IsDifferentFrom(TESForm* pOther)
     BSSimpleList<TESRegionData*>* thisList2 = (BSSimpleList<TESRegionData*>*)&this->soundList;
     if (otherList3->ItemsInList() == thisList2->ItemsInList())
     {
-        while (otherList3 != 0 && thisList2 != 0 && ((::TESRegionData *)(new ((void *)(otherList3)) ::Vec3())) != 0 && ((::TESRegionData *)(new ((void *)(thisList2)) ::Vec3())) != 0)
+        while (otherList3 != 0 && thisList2 != 0 && (otherList3->m_item) != 0 && (thisList2->m_item) != 0)
         {
-            if (memcmp(((::TESRegionData *)(new ((void *)(otherList3)) ::Vec3())), ((::TESRegionData *)(new ((void *)(thisList2)) ::Vec3())), 8) != 0)
+            if (memcmp((otherList3->m_item), (thisList2->m_item), 8) != 0)
                 return 1;
             otherList3 = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((otherList3))->FUN_00726070()));
             thisList2 = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((thisList2))->FUN_00726070()));
@@ -550,11 +550,11 @@ void WeatherCopy::FUN_00581630(TESForm* source)
     memcpy(m_afFogDistances, weather->m_afFogDistances, 24);
     memcpy(m_akImageSpaceModifierParameters, weather->m_akImageSpaceModifierParameters, 304);
     reinterpret_cast<::FileMatchList *>(&(soundList))->RemoveAll();
-    for (BSSimpleList<TESWeather__WeatherSound*>* node = &weather->soundList; node && ((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3()));
+    for (BSSimpleList<TESWeather__WeatherSound*>* node = &weather->soundList; node && (node->m_item);
          node = ((::BSSimpleList< ::TESWeather__WeatherSound *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         TESWeather__WeatherSound* sound = reinterpret_cast<TESWeather__WeatherSound*>(
-            new FUN_004b0680(((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3()))->formID, ((::TESWeather__WeatherSound *)(new ((void *)(node)) ::Vec3()))->type));
+            new FUN_004b0680((node->m_item)->formID, (node->m_item)->type));
         reinterpret_cast<::Callees *>(&(soundList))->FUN_00905820((void *)&(sound));
     }
 }

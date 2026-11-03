@@ -197,7 +197,7 @@ void FUN_00682920_shell::FUN_00682920()
     {
         apSaveGameBuffer = (SoundH*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(void**)((char*)this + 0xc))))->FUN_0084e3a0()));
     }
-    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((int)&apSaveGameBuffer), 4);
+    reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)((std::intptr_t)&apSaveGameBuffer), 4);
 }
 
 class NiNode;

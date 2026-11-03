@@ -348,7 +348,7 @@ class FUN_006e4bf0 : public E4BF0Base
 // @fnv 0x006e4bb0
 void* FUN_006e4bb0_shell::FUN_006e4bb0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e4bf0 *>((reinterpret_cast<FUN_006e4bf0_shell*>(this)))->FUN_006e4bf0::~FUN_006e4bf0();
+    reinterpret_cast<::FUN_006e4bf0 *>((reinterpret_cast<FUN_006e4bf0_shell*>(this)))->::FUN_006e4bf0::~FUN_006e4bf0();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x10c);
     return this;
@@ -706,7 +706,7 @@ void Saver6e4::SaveToBuffer(SaveBuffer6e4* pkBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&m_kD4, 0xc, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&m_bE0, 1, 0);
     {
-        unsigned int ItemUpdateArray = &m_kList4 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kList4))->GetName())) : 0;
+        unsigned int ItemUpdateArray = &m_kList4 ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kList4))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pkBuffer))->FUN_00865f60(ItemUpdateArray);
         for (unsigned int i = 0; i < ItemUpdateArray; i++)
         {
@@ -715,7 +715,7 @@ void Saver6e4::SaveToBuffer(SaveBuffer6e4* pkBuffer)
         }
     }
     {
-        unsigned int ItemUpdateArray = &m_kList12 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kList12))->GetName())) : 0;
+        unsigned int ItemUpdateArray = &m_kList12 ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kList12))->GetName())) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pkBuffer))->FUN_00865f60(ItemUpdateArray);
         for (unsigned int i = 0; i < ItemUpdateArray; i++)
         {

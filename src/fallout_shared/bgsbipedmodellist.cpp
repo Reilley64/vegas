@@ -40,7 +40,7 @@ BGSBipedModelList* BGSBipedModelList::GetBipedModelList(TESForm* form)
 // @fnv 0x00474da0
 void BGSBipedModelList::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)list;
+    unsigned int formID = (unsigned int)(std::uintptr_t)list;
     if (formID)
     {
         TESFile* file = owner ? owner->GetFile(-1) : 0;
@@ -67,7 +67,7 @@ void BGSBipedModelList::InitItem(TESForm* owner)
             while (iter && !((BSSimpleList<BGSCameraShot*>*)iter)->IsEmpty())
             {
                 TESBipedModelForm* model;
-                entry = (TESForm*)((::BGSPerkEntry *)(new ((void *)(iter)) ::Vec3()));
+                entry = (TESForm*)(iter->m_item);
                 model = ::TESBipedModelForm::GetFormAsBipedModel(entry);
                 if (!model)
                 {
@@ -180,5 +180,5 @@ void FUN_00474f70_shell::FUN_00474f70(BaseFormComponent* apCopyFC)
     BGSBipedModelList* pCopyFC = dynamic_cast<BGSBipedModelList*>(apCopyFC);
     if (!pCopyFC)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)((unsigned int)((::BSSimpleList< ::BGSBipedModelList> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSBipedModelList>*)pCopyFC)))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)((std::uintptr_t)((::BSSimpleList< ::BGSBipedModelList> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSBipedModelList>*)pCopyFC)))->FUN_00726070()))));
 }

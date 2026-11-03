@@ -15,6 +15,7 @@
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_01068000.h"
 #include "fnv/symbols_0119b000.h"
+#include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
 struct TESEscortPackageData
 {
     void FUN_0067bca0();
@@ -210,4 +211,54 @@ void FUN_0067bd30_shell::LoadPackageData(BGSLoadFormBuffer* pBuffer)
         }
         m_form = pData->m_form;
     }
+}
+
+struct TESEscortPackageData_rtti2
+{
+    virtual ~TESEscortPackageData_rtti2();  // the original class is polymorphic (rtti_variants.py)
+    void FUN_0067bca0();
+    void* DestroyIfFlagged(unsigned int);
+};
+
+struct TESPackageData_rtti2;
+
+struct TESPackageData_rtti2
+{
+    virtual ~TESPackageData_rtti2();  // the original class is polymorphic (rtti_variants.py)
+    void* unk00;
+    FUN_0067f030* m_pLoc;
+    TESForm* m_form;
+};
+
+struct EscortLocationComparison
+{
+};
+
+struct EscortComparison
+{
+    void* m_vtbl;
+    LocationDescriptor* m_pPackageTarget;
+    int m_iValue;
+
+    bool FUN_0067be40(TESPackageData_rtti2* compare);
+};
+
+// @fnv 0x0067be40
+bool EscortComparison::FUN_0067be40(TESPackageData_rtti2* compare)
+{
+    EscortComparison* other = reinterpret_cast<EscortComparison*>(dynamic_cast<TESEscortPackageData_rtti2*>(compare));
+    if (!other)
+        return true;
+    if (m_pPackageTarget)
+    {
+        if (reinterpret_cast<::fnv_0067f600::FUN_0067f600_shell *>((reinterpret_cast<EscortLocationComparison*>(m_pPackageTarget)))->IsDifferentFrom(other->m_pPackageTarget))
+            return true;
+    }
+    else if (other->m_pPackageTarget)
+    {
+        return true;
+    }
+    if (m_iValue != other->m_iValue)
+        return true;
+    return false;
 }

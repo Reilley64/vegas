@@ -7,7 +7,7 @@ struct CombatCoverPointData;
 struct EI;
 struct PNode;
 struct WeaponObject;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 struct HX {
 public:

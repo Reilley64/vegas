@@ -255,7 +255,7 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
         target->UpdateWorldBound();
         reinterpret_cast<::FUN_00b8b760_cls *>((pManager))->FUN_00b8b760(interpolatedRadialBlurStrength * strength, fRadialBlurRampupResult,
                                radialBlurStartOutput, fRadialBlurRampDownSample, radialBlurDownStartParameter,
-                               (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(target))->FUN_0043d450()))));
+                               (std::intptr_t)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(target))->FUN_0043d450()))));
     }
     else if (Data.m_bUseRadialBlur)
         pManager->SetRadialBlurParameters(interpolatedRadialBlurStrength * strength, fRadialBlurRampupResult,
@@ -377,7 +377,7 @@ void TESImageSpaceModifier::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
-    unsigned int formID = (unsigned int)pIntroSound;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pIntroSound;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -385,7 +385,7 @@ void TESImageSpaceModifier::InitItem()
         if (!pIntroSound)
             ::FUN_005b5e40();
     }
-    formID = (unsigned int)pOutroSound;
+    formID = (unsigned int)(std::uintptr_t)pOutroSound;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -984,13 +984,13 @@ bool TESImageSpaceModifier::Load(TESFile* file)
         case CHUNK_ID_RDSD_ID: {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            pIntroSound = (TESSound*)sound;
+            pIntroSound = (TESSound*)(std::uintptr_t)sound;
             break;
         }
         case CHUNK_ID_RDSI_ID: {
             unsigned int sound = 0;
             file->GetChunkData(&sound);
-            pOutroSound = (TESSound*)sound;
+            pOutroSound = (TESSound*)(std::uintptr_t)sound;
             break;
         }
         default:
@@ -1814,12 +1814,12 @@ void BlendImageSpaceModifiers(float blend, TESImageSpaceModifier* pPreviousModif
     if (pPreviousModifier->Data.m_bUseRadialBlur && previousTarget)
     {
         previousTarget->UpdateWorldBound();
-        ::FUN_00b8b1c0((int)(manager4), (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(previousTarget))->FUN_0043d450()))));
+        ::FUN_00b8b1c0((std::intptr_t)(manager4), (std::intptr_t)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(previousTarget))->FUN_0043d450()))));
     }
     if (pNextModifier->Data.m_bUseRadialBlur && nextTarget)
     {
         previousTarget->UpdateWorldBound();
-        ::FUN_00b8b1c0((int)(manager4), (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(nextTarget))->FUN_0043d450()))));
+        ::FUN_00b8b1c0((std::intptr_t)(manager4), (std::intptr_t)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(nextTarget))->FUN_0043d450()))));
     }
     if (!pPreviousModifier->Data.m_bUseRadialBlur)
         aFirstCenter = (const BlendPoint&)pPreviousModifier->Data.m_kRadialBlurCenter;

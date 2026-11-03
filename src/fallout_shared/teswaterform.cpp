@@ -111,7 +111,7 @@ void TESWaterForm::InitItem()
 {
     if (GetInitialized())
         return;
-    unsigned int id = (unsigned int)m_pWaterSound;
+    unsigned int id = (unsigned int)(std::uintptr_t)m_pWaterSound;
     if (id)
     {
         ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -119,7 +119,7 @@ void TESWaterForm::InitItem()
         if (!m_pWaterSound)
             ::FUN_005b5e40();
     }
-    id = (unsigned int)m_pWaterSpell;
+    id = (unsigned int)(std::uintptr_t)m_pWaterSpell;
     if (id)
     {
         ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -133,7 +133,7 @@ void TESWaterForm::InitItem()
             EffectItem* health = 0;
             while (node && (!radiation || !health))
             {
-                EffectItem* effect = ((::EffectItem *)(new ((void *)(node)) ::Vec3()));
+                EffectItem* effect = ((::EffectItem *)((void *)(node)));
                 if (effect->GetAffectedActorValue() == 54 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
                 {
                     radiation = effect;
@@ -150,7 +150,7 @@ void TESWaterForm::InitItem()
     }
     for (int i = 0; i < 3; ++i)
     {
-        id = (unsigned int)m_apWaterForms[i];
+        id = (unsigned int)(std::uintptr_t)m_apWaterForms[i];
         if (id)
         {
             ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -423,7 +423,7 @@ struct FUN_005806e0_s
 void FUN_005806e0_s::FUN_005806e0(FUN_00865df0_buf* apSaveGameBuffer)
 {
     reinterpret_cast<::FakeForm *>(this)->SaveIfChanged((::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pWaterForm), 0);
 }
 
@@ -450,8 +450,8 @@ struct FUN_005807a0_shell : TESForm
 // @fnv 0x005807a0
 void FUN_005807a0_shell::FUN_005807a0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005807a0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005807a0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         *(void**)((char*)this + 0x80) = 0;
 }
 }  // namespace fnv_005807a0
@@ -483,7 +483,7 @@ struct FUN_00580730_shell : public TESWaterForm
 void FUN_00580730_shell::FUN_00580730(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         m_pWaterForm = dynamic_cast<TESWaterForm*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0()));
 }
 
@@ -1071,13 +1071,13 @@ bool TESWaterForm::Load(TESFile* file)
         case 0x4d414e53: {
             unsigned int shader = 0;
             file->GetChunkData(&shader);
-            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader((TESEffectShader*)shader);
+            reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader((TESEffectShader*)(std::uintptr_t)shader);
             break;
         }
         case 0x4d414e58: {
             unsigned int spell = 0;
             file->GetChunkData(&spell);
-            reinterpret_cast<::FUN_0057f890_shell *>(this)->FUN_0057f890((SpellItem*)spell);
+            reinterpret_cast<::FUN_0057f890_shell *>(this)->FUN_0057f890((SpellItem*)(std::uintptr_t)spell);
             break;
         }
         case 0x4d414e4d: {

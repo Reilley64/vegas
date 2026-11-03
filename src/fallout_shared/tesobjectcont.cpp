@@ -38,6 +38,7 @@
 #include "tesobjectcont_match_decls.h"
 #include <new>
 #include <string.h>
+#include "fnv/symbols_00472000.h"
 
 // @fnv 0x00516330
 void TESObjectCONT::ResetFormData()
@@ -76,7 +77,7 @@ void TESObjectCONT::InitItem()
     static_cast<BGSDestructibleObjectForm *>(this)->InitItem(this);
     static_cast<TESModelTextureSwap *>(this)->InitItem(this);
 
-    soundFormID = (unsigned int)m_pOpenSound;
+    soundFormID = (unsigned int)(std::uintptr_t)m_pOpenSound;
     if (soundFormID != 0)
     {
         ::ResolveFormID((unsigned int *)&(soundFormID), GetFile(-1));
@@ -85,7 +86,7 @@ void TESObjectCONT::InitItem()
             ::FUN_005b5e40();
     }
 
-    soundFormID = (unsigned int)m_pSecondarySound;
+    soundFormID = (unsigned int)(std::uintptr_t)m_pSecondarySound;
     if (soundFormID != 0)
     {
         ::ResolveFormID((unsigned int *)&(soundFormID), GetFile(-1));
@@ -94,7 +95,7 @@ void TESObjectCONT::InitItem()
             ::FUN_005b5e40();
     }
 
-    soundFormID = (unsigned int)pLoopingSound;
+    soundFormID = (unsigned int)(std::uintptr_t)pLoopingSound;
     if (soundFormID != 0)
     {
         ::ResolveFormID((unsigned int *)&(soundFormID), GetFile(-1));
@@ -206,14 +207,14 @@ bool TESObjectCONT::Load(TESFile* file)
         case 0x4D414E53: {
             unsigned int snamFormID = 0;
             file->GetChunkData(&snamFormID);
-            reinterpret_cast<::FUN_008cc6d0_class *>((reinterpret_cast<EffectSetting*>(this)))->FUN_008cc6d0((int)(reinterpret_cast<TESSound*>(snamFormID)));
+            reinterpret_cast<::FUN_008cc6d0_class *>((reinterpret_cast<EffectSetting*>(this)))->FUN_008cc6d0((std::intptr_t)(reinterpret_cast<TESSound*>(snamFormID)));
             break;
         }
 
         case 0x4D414E51: {
             unsigned int qnamFormID = 0;
             file->GetChunkData(&qnamFormID);
-            reinterpret_cast<::BGSExplosion *>(this)->FUN_004fb0b0((::BGSImpactDataSet *)(qnamFormID));
+            reinterpret_cast<::BGSExplosion *>(this)->FUN_004fb0b0((::BGSImpactDataSet *)(std::uintptr_t)(qnamFormID));
             break;
         }
 
@@ -275,7 +276,7 @@ void FUN_00516b60_shell::CopyFromContainer(TESForm* apCopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_00516b60_shell*)this)))->FUN_004851b0(apCopy);
     *(unsigned char*)((char*)this + 0x98) = *((unsigned char *)(reinterpret_cast<::FUN_00461150_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00461150()));
-    reinterpret_cast<::FUN_008cc6d0_class *>((((FUN_00516b60_shell*)this)))->FUN_008cc6d0((int)(reinterpret_cast<::FUN_008ce390_shell *>((((FUN_00516b60_shell*)cont)))->FUN_008ce390()));
+    reinterpret_cast<::FUN_008cc6d0_class *>((((FUN_00516b60_shell*)this)))->FUN_008cc6d0((std::intptr_t)(reinterpret_cast<::FUN_008ce390_shell *>((((FUN_00516b60_shell*)cont)))->FUN_008ce390()));
     reinterpret_cast<::BGSExplosion *>((((FUN_00516b60_shell*)this)))->FUN_004fb0b0((::BGSImpactDataSet *)(::TESObjectREFR *)(((::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00516bf0()))));
     reinterpret_cast<::BGSTalkingActivator *>((((FUN_00516b60_shell*)this)))->SetVoiceType(((::BGSVoiceType *)(reinterpret_cast<::PlayerMover *>((((FUN_00516b60_shell*)cont)))->GetActorStateFlags())));
 }
@@ -495,6 +496,56 @@ void* S2::DestroyIfFlagged(unsigned int flags)
 // Empty destructor for a class inheriting from multiple base classes.
 // @fnv 0x00516240
 FUN_00516240::~FUN_00516240()
+{}
+
+// FUN_005173d0 : 8-byte MSVC this-adjusting (adjustor) thunk.
+//     sub ecx, 0x48 ; jmp <final overrider>
+//
+// MSVC emits such a stub in the vtable of a class that inherits the same
+// virtual slot from two bases: the slot of the secondary base holds a tiny
+// stub that moves `this` back onto the complete object (sub ecx, sizeof of
+// the primary base) and tail-jumps to the final overrider.
+//
+// The subtracted offset is the size of the primary base, so the primary base
+// is laid out as a vtable pointer plus 17 int members (4 + 68 = 0x48 bytes).
+// Both bases declare the same virtual function; the derived class redeclares
+// it and defines only its constructor, which is what makes the compiler emit
+// the vtables and the adjusting thunk.
+struct ContainerPrimaryBase
+{
+    virtual void FUN_005173d0();
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    int m_40;
+    int m_44;
+};
+
+struct ContainerSecondaryBase
+{
+    virtual void FUN_005173d0();
+};
+
+struct ContainerDerived : ContainerPrimaryBase, ContainerSecondaryBase
+{
+    ContainerDerived();
+// @fnv 0x005173d0
+    virtual void FUN_005173d0();
+};
+
+ContainerDerived::ContainerDerived()
 {}
 
 #include "generated/data/fallout_shared/tesobjectcont.inc"

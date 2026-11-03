@@ -2,7 +2,6 @@
 #ifndef FNV_TESCLASS_H
 #define FNV_TESCLASS_H
 
-typedef int ENUM_FORM_ID;
 typedef int ActorValue__Index;
 #include "layout_support.h"
 #include "BaseFormComponent.h"

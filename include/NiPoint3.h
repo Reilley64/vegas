@@ -10,6 +10,8 @@ class NiPoint3
     float x;  // +0x0
     float y;  // +0x4
     float z;  // +0x8
+    float& operator[](int i) { return (&x)[i]; }
+    const float& operator[](int i) const { return (&x)[i]; }
     NiPoint3 operator+(const NiPoint3& point) const;
     NiPoint3 operator-(const NiPoint3& point) const;
     NiPoint3 operator*(float scalar) const;

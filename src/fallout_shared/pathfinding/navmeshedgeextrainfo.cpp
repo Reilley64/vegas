@@ -27,5 +27,5 @@ struct EdgeHolder
 void EdgeHolder::FUN_0069d240(void* apArg1, void* apArg2)
 {
     *(int*)this = 0;
-    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00())), {}, {});
+    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00())), {}, {});
 }

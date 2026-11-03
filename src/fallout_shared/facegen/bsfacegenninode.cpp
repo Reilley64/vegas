@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenninode.cpp: FaceNode, FaceGenNode, DumpNode (33 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSQuestObjective.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1430,7 +1431,7 @@ void FUN_00662bc0_cls::ApplyParamValues(FUN_00662bc0_Param* p)
                 ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(p->m_00), (::fnv_00653340::NiPoint3 *)(void *)(&p->m_04));
                 p->m_1c = 1;
             }
-            reinterpret_cast<::FUN_00662030_cls *>((p->m_10))->FUN_00662030(1, i, (int)(p->m_00), p->m_14, val);
+            reinterpret_cast<::FUN_00662030_cls *>((p->m_10))->FUN_00662030(1, i, (std::intptr_t)(p->m_00), p->m_14, val);
         }
     }
 }
@@ -1585,7 +1586,7 @@ void FUN_00662f70_cls::FUN_00662f70(FUN_00662f70_arg* a1)
         {
             if (a1->m_1c == 0)
             {
-                ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(a1->m_00), (::fnv_00653340::NiPoint3 *)((int)&a1->m_04));
+                ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(a1->m_00), (::fnv_00653340::NiPoint3 *)(&a1->m_04));
                 a1->m_1c = 1;
             }
             reinterpret_cast<::FUN_00662030_cls *>((a1->m_10))->FUN_00662030(3, i, a1->m_00, a1->m_14, f);
@@ -1738,7 +1739,7 @@ void FUN_00662ca0_cls::ApplyParameterValues(FUN_00662bc0_Param* pParam)
                 ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(pParam->m_00), (::fnv_00653340::NiPoint3 *)(void *)(&pParam->m_04));
                 pParam->m_1c = 1;
             }
-            reinterpret_cast<::FUN_00662030_cls *>((pParam->m_10))->FUN_00662030(2, iIndex, (int)(pParam->m_00), pParam->m_14, aFValue);
+            reinterpret_cast<::FUN_00662030_cls *>((pParam->m_10))->FUN_00662030(2, iIndex, (std::intptr_t)(pParam->m_00), pParam->m_14, aFValue);
         }
     }
 }
@@ -1810,7 +1811,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
 {
     unsigned int numBones, count, i;
     SceneNode* j;
-    unsigned int bones;
+    std::uintptr_t bones;
     Geometry* skin;
     SkinInstance* bone;
     SceneNode** geometry;
@@ -1829,7 +1830,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
         bone = ((::SkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(skin))));
         if (!bone || !((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName())))
             continue;
-        bones = ((unsigned int)(reinterpret_cast<::LowProcess *>((((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName()))))->GetActiveCombatTarget()));
+        bones = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName()))))->GetActiveCombatTarget()));
         geometry = ((::SceneNode **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((bone))->FUN_00825c00()));
         if (!geometry || !bones)
             continue;
@@ -3057,7 +3058,7 @@ void S_00662e90_Class::FUN_00662e90(S_00662e90_Argument* pArg)
                 ::fnv_00653340::FUN_00653340((::fnv_00653340::NiAVObject *)(pArg->unk00), (::fnv_00653340::NiPoint3 *)(void *)(&pArg->unk04));
                 pArg->unk1c = 1;
             }
-            reinterpret_cast<::FUN_00662030_cls *>((pArg->unk10))->FUN_00662030(0, i8, (int)(pArg->unk00), pArg->unk14, value);
+            reinterpret_cast<::FUN_00662030_cls *>((pArg->unk10))->FUN_00662030(0, i8, (std::intptr_t)(pArg->unk00), pArg->unk14, value);
         }
     }
 }

@@ -48,7 +48,7 @@ void BGSPlaceableWater::InitItem()
     if (GetInitialized())
         return;
 
-    unsigned int formID = reinterpret_cast<unsigned int>(Data.m_pOwningWater);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(Data.m_pOwningWater);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -381,4 +381,37 @@ struct FUN_004fc240 : public BGSPlaceableWater
     virtual ~FUN_004fc240();
 };
 FUN_004fc240::~FUN_004fc240()
+{}
+
+// sub ecx,0x30; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x30).
+struct PrimaryBase
+{
+    virtual void FUN_004fcbf0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004fcbf0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x004fcbf0
+    virtual void FUN_004fcbf0();
+};
+
+Derived::Derived()
 {}

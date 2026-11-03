@@ -15,7 +15,7 @@
 #include "fnv/symbols_011d5000.h"
 #include "BSFaceGenMorphData.h"
 
-const NiRTTI BSFaceGenMorphDataHead::ms_kRTTI;
+const NiRTTI BSFaceGenMorphDataHead::ms_kRTTI{};
 
 // @fnv 0x00661d90
 const NiRTTI* BSFaceGenMorphDataHead::GetRTTI() const

@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenanimationdata.cpp: BSFaceGenAnimationData, BSFaceGenKeyframeMultiple, AnimHost, BSFaceGenEyeData (43 functions)
 
+#include <cstdint>
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_004a49e0_shell.h"
 #include "fnv/decl/FUN_0073ac90_shell.h"
@@ -1030,10 +1031,10 @@ void FUN_00649ec0()
 {
     BSFadeNode* b = (*reinterpret_cast<::fnv_00649ec0::BSFadeNode * *>(&::DAT_011d5744));
     BSFadeNode* a;
-    int c;
+    std::intptr_t c;
     a = b;
     if (a)
-        c = ((int)(reinterpret_cast<::NiFixedString *>((a))->FUN_004b9900(1)));
+        c = ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((a))->FUN_004b9900(1)));
     else
         c = 0;
     (*reinterpret_cast<::fnv_00649ec0::BSFadeNode * *>(&::DAT_011d5744)) = 0;
@@ -1112,7 +1113,7 @@ void FUN_0064bcc0_shell::FUN_0064bcc0(float afX, float afY, float afZ, int)
 {
     if (reinterpret_cast<::NiPoint3 *>((((NiPlane*)((char*)this + 0x124))))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<::fnv_0064bcc0::NiPoint3 *>((void *)&::NiPoint3::ZERO)))))
     {
-        if (reinterpret_cast<::NiPlane *>((((NiPlane*)&afX)))->operator====((const ::NiPlane &)((*reinterpret_cast<::fnv_0064bcc0::NiPoint3 *>((void *)&::NiPoint3::ZERO)))))
+        if (reinterpret_cast<::NiPlane *>(&afX)->operator==(*reinterpret_cast<const ::NiPlane *>(&::NiPoint3::ZERO)))
         {
             *(int*)((char*)this + 0x174) = 1;
             *(float*)((char*)this + 0x178) = 0.0f;
@@ -1513,34 +1514,34 @@ void AnimHost::ClearLists(bool abCallVirtual, bool abClearListBc, bool abClearLi
         this->vfn_120();
     }
     KItem* pItem;
-    if (abClearList88 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0)
+    if (abClearList88 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0)
     {
         pItem = *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blk88.list))->FUN_0073ac90()));
         while (pItem != 0)
         {
             delete pItem;
             blk88.list.RemoveHead();
-            pItem = (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blk88.list))->FUN_0073ac90())) : 0;
+            pItem = (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blk88.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blk88.list))->FUN_0073ac90())) : 0;
         }
     }
-    if (abClearListBc && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0)
+    if (abClearListBc && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0)
     {
         pItem = *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkbc.list))->FUN_0073ac90()));
         while (pItem != 0)
         {
             delete pItem;
             blkbc.list.RemoveHead();
-            pItem = (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkbc.list))->FUN_0073ac90())) : 0;
+            pItem = (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkbc.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkbc.list))->FUN_0073ac90())) : 0;
         }
     }
-    if (abClearListF0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0)
+    if (abClearListF0 && ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0)
     {
         pItem = *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkf0.list))->FUN_0073ac90()));
         while (pItem != 0)
         {
             delete pItem;
             blkf0.list.RemoveHead();
-            pItem = (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkf0.list))->FUN_0073ac90())) : 0;
+            pItem = (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(blkf0.list))->GetName())) != 0) ? *((::KItem **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(blkf0.list))->FUN_0073ac90())) : 0;
         }
     }
 }
@@ -1566,13 +1567,13 @@ unsigned char FUN_0064b0f0::Check(int aiMode)
     switch (aiMode)
     {
     case 0:
-        return ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0bc))->GetName())) == 0;
+        return ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0bc))->GetName())) == 0;
         break;
     case 2:
-        return ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_088))->GetName())) == 0;
+        return ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_088))->GetName())) == 0;
         break;
     case 3:
-        return ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0f0))->GetName())) == 0;
+        return ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0f0))->GetName())) == 0;
         break;
     }
     return 1;
@@ -1752,12 +1753,12 @@ bool FUN_0064ca60_shell::AdvanceKeyframe(float afTime, ListBase* list, Keyframe*
     bool result2 = false;
     if (key == 0 || list == 0)
         return false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) && *((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) && *((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))
     {
         if ((*((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))->vfn_4() != key->vfn_4())
             return false;
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) <= 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) <= 0)
     {
         key->vfn_10(0.0f);
         return false;
@@ -1773,7 +1774,7 @@ bool FUN_0064ca60_shell::AdvanceKeyframe(float afTime, ListBase* list, Keyframe*
         Keyframe* x3 = kf;
         Keyframe* y3 = x3;
         y3 ? y3->vfn_0(1) : 0;
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) > 0)
+        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list))->GetName())) > 0)
             kf = *((::Keyframe **)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90()));
         else
             kf = 0;

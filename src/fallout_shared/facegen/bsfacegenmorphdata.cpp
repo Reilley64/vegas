@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmorphdata.cpp: BSFaceGenMorphDataHead, DifferentialArray, HolderDb0, BSFaceGenMorphDataHair (26 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <cstdlib>
 #include "runtime/crt.h"
@@ -61,7 +62,7 @@ void __cdecl FUN_00662760()
 }
 
 
-// Bounds-checks _Pos against the array size, then returns the DifferentialEntry at data[3] + _Pos * 0x34.
+// Bounds-checks _Pos against the array size, then returns the 0x34-byte DifferentialEntry at first + _Pos * 0x34.
 // @fnv 0x00662860
 DifferentialEntry* DifferentialArray::FUN_00662860(unsigned int _Pos)
 {
@@ -70,7 +71,7 @@ DifferentialEntry* DifferentialArray::FUN_00662860(unsigned int _Pos)
     do
     {
     } while (0);
-    return (DifferentialEntry*)(data[3] + _Pos * 0x34);
+    return (DifferentialEntry*)(first + _Pos * 0x34);
 }
 
 
@@ -531,9 +532,9 @@ void FUN_006627e0()
         S_004b9900* p1 = (*reinterpret_cast<::fnv_006627e0::S_004b9900 * *>(&::fnv_00653460::DAT_011d5b8c));
         p2 = p1;
         {
-            int v;
+            std::intptr_t v;
             if (p2)
-                v = ((int)(reinterpret_cast<::NiFixedString *>((p2))->FUN_004b9900(1)));
+                v = ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((p2))->FUN_004b9900(1)));
             else
                 v = 0;
         }
@@ -549,12 +550,13 @@ struct PathingInfo
 };
 struct FUN_00661d10_shell : PathingInfo
 {
+    const void* m_pVtable;
     FUN_00661d10_shell();
 };
 // @fnv 0x00661d10
 FUN_00661d10_shell::FUN_00661d10_shell()
 {
-    *(int*)this = (int)&DAT_01065f04;
+    m_pVtable = &DAT_01065f04;
 }
 
 struct FUN_006620d0_Class
@@ -580,11 +582,11 @@ struct FUN_00662460_shell
     int f0;
     int f1;
     FUN_00662460_iface* p;
-    void FUN_00662460(int a, int b, float c);
+    void FUN_00662460(std::intptr_t a, int b, float c);
 };
 // Forwards a, b and c to the interface's FUN_00662460 when p and a are set and c is not below _gModifierZero.
 // @fnv 0x00662460
-void FUN_00662460_shell::FUN_00662460(int aiArg1, int aiArg2, float c)
+void FUN_00662460_shell::FUN_00662460(std::intptr_t aiArg1, int aiArg2, float c)
 {
     if (!p || !aiArg1 || c < ::_DAT_01012060)
         return;
@@ -690,13 +692,13 @@ struct MorphVt
 };
 struct FUN_00662030_cls
 {
-    void FUN_00662030(int sel, int p2, int p3, int p4, float p5);
+    void FUN_00662030(int sel, int p2, std::intptr_t p3, int p4, float p5);
 };
 // Dispatches on sel to one of four lookup functions with p2, then if the result is non-null calls v1(p3, p4, p5) on it.
 // @fnv 0x00662030
-void FUN_00662030_cls::FUN_00662030(int aiSelector, int aiIndex, int aiArg1, int aiArg2, float p5)
+void FUN_00662030_cls::FUN_00662030(int aiSelector, int aiIndex, std::intptr_t aiArg1, int aiArg2, float p5)
 {
-    int pMorph = 0;
+    std::intptr_t pMorph = 0;
     switch (aiSelector)
     {
     case 1:

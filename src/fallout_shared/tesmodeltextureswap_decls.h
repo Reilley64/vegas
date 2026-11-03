@@ -34,8 +34,8 @@ class TESGrass;
 template <class T> class BSSimpleList
 {
   public:
-    void* pFirst;
-    void* pLast;
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     bool IsEmpty();
     T& GetItem();
     void AddHead(T& item);

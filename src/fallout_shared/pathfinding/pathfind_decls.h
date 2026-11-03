@@ -101,7 +101,7 @@ enum PATHING_REQUEST_TYPE
     RequestUnknown = 8
 };
 class PathingLocation;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 class PathingRequest
 {
   public:

@@ -38,17 +38,17 @@ namespace fnv_00653470 { void FUN_00653470(::fnv_00653470::NiGeometry *, float);
 // 0x00653520
 namespace fnv_00653520 { const char *BuildEgmFilename(::fnv_00653520::StrMem *, const char *, int); }
 // 0x00653620
-namespace fnv_00653620 { unsigned int GetModelNifFilename(::fnv_00653620::BSStringT<char> &, const char *); }
+namespace fnv_00653620 { const char *GetModelNifFilename(::fnv_00653620::BSStringT<char> &, const char *); }
 // 0x006536d0
-namespace fnv_006536d0 { unsigned int BuildTriPathAndSet(::fnv_006536d0::StrMem *, const char *, int); }
+namespace fnv_006536d0 { const char *BuildTriPathAndSet(::fnv_006536d0::StrMem *, const char *, int); }
 // 0x006537d0
 const char *GetModelEgtFilename(::BSStr *, const char *);
 // 0x00653880
-namespace fnv_00653880 { unsigned int FUN_00653880(::fnv_00653880::BSStringT<char> &, int, unsigned char, const char *); }
+namespace fnv_00653880 { const char *FUN_00653880(::fnv_00653880::BSStringT<char> &, int, unsigned char, const char *); }
 // 0x00653a10
 const char *FUN_00653a10(::BSStr *, const char *);
 // 0x00653c40
-namespace fnv_00653c40 { unsigned int BuildModelFilename(::fnv_00653c40::BSStringT<char> &, const char *); }
+namespace fnv_00653c40 { const char *BuildModelFilename(::fnv_00653c40::BSStringT<char> &, const char *); }
 // 0x00653cf0
 int FUN_00653cf0(int);
 // 0x00653e50

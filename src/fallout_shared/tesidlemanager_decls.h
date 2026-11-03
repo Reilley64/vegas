@@ -4,6 +4,7 @@
 
 
 #include <cstring>
+#include <string.h>
 #include "runtime/crt.h"
 #include "fnv/decl/FUN_00447850_shell.h"
 #include "fnv/decl/FUN_004d6170_shell.h"
@@ -37,8 +38,9 @@ enum ANIM_GROUP_WEAPON_ENUM
 
 template <class T> class BSSimpleList
 {
-    void* first;
-    void* last;
+  public:
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
 
   public:
     BSSimpleList();
@@ -327,9 +329,7 @@ class TaskQueueInterface
 };
 void FUN_00406d50(char*, unsigned int, const char*);
 namespace CRT {
-extern "C" char* strrchr(const char* string, int character);
 }
-int strcat_s(char* destination, unsigned int size, const char* source);
 extern "C" const char fnv_idle_1hm_fast_left[];
 extern "C" const char fnv_idle_1hm_left[];
 extern "C" const char fnv_idle_1hp_fast_left[];

@@ -1,6 +1,7 @@
 #pragma once
 
 class GlobalObject2_0045cfe0;
+struct TES;
 class GlobalObject_0044f440;
 class GlobalObject_0044fae0;
 class GlobalObject_0045cf30;
@@ -57,7 +58,7 @@ namespace SetRenderCamera { extern bool DAT_011de9d1; }
 // 0x011dea0c
 extern ::OSGlobals *g_osGlobals;
 // 0x011dea10
-extern int g_TES;
+extern ::TES *g_TES;
 // 0x011dea14
 extern int DAT_011dea14;
 // 0x011dea18

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class NiPoint3;
 
 struct Thing {
@@ -9,7 +11,7 @@ public:
     // 0x00480180
     void SetByte(int, char, unsigned char);
     // 0x00525a90
-    int GetOrFallback(int);
+    std::intptr_t GetOrFallback(std::intptr_t);
     // 0x00564bc0
     bool FUN_00564bc0();
     // 0x0056afc0

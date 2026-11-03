@@ -123,14 +123,14 @@ namespace fnv_004e8ec0 { bool DAT_011ad832 = true; }
 int DAT_011c6fb0;
 namespace fnv_004da670 { bool DAT_011c6fb9; }
 namespace fnv_004da670 { unsigned char DAT_011c6fba; }
-int DAT_011c6fbc;
-namespace fnv_004da670 { int DAT_011c6fc0; }
-namespace fnv_004da670 { int DAT_011c6fc4; }
+void *DAT_011c6fbc;
+namespace fnv_004da670 { void *DAT_011c6fc0; }
+namespace fnv_004da670 { void *DAT_011c6fc4; }
 void *DAT_011c70dc;
 bool DAT_011c70e9;
 namespace fnv_004da670 { unsigned char DAT_011c70ea; }
 namespace fnv_004da670 { unsigned char DAT_011c70ec; }
-void *DAT_011c74b8;
+NiColor DAT_011c74b8;
 bool DAT_011f9181;
 bool DAT_011f9183;
 bool DAT_011f9194;

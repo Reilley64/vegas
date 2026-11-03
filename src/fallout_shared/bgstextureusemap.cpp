@@ -33,16 +33,16 @@
 #include "fnv/symbols_011f4000.h"
 struct FUN_004aa3d0_shell
 {
-    void FUN_004aa3d0(int a, char b);
-    void SetValueAndCall(int a, int b, char c);
+    void FUN_004aa3d0(std::intptr_t a, char b);
+    void SetValueAndCall(std::intptr_t a, std::intptr_t b, char c);
 };
 
-void FUN_004aa3d0_shell::FUN_004aa3d0(int a, char b)
+void FUN_004aa3d0_shell::FUN_004aa3d0(std::intptr_t a, char b)
 {}
 
 // Stores b into the object's first field and forwards a and c to FUN_004aa3d0.
 // @fnv 0x004aa3a0
-void FUN_004aa3d0_shell::SetValueAndCall(int aiArg, int aiValue, char c)
+void FUN_004aa3d0_shell::SetValueAndCall(std::intptr_t aiArg, std::intptr_t aiValue, char c)
 {
     *(int*)this = aiValue;
     FUN_004aa3d0(aiArg, c);
@@ -124,10 +124,10 @@ struct FUN_004aa720_shell
 // @fnv 0x004aa6f0
 void InvokeIfPresent(int aiArg1, int aiArg2, int apHolder)
 {
-    int pparam = apHolder;
+    std::intptr_t pparam = apHolder;
     if (*(int*)pparam)
     {
-        ((FUN_004aa720_shell*)*(int*)pparam)->AddEntry(aiArg1, aiArg2, *(int*)(pparam + 4));
+        ((FUN_004aa720_shell*)*(std::intptr_t*)pparam)->AddEntry(aiArg1, aiArg2, *(int*)(pparam + 4));
     }
 }
 
@@ -248,7 +248,7 @@ void FUN_004aa720_shell::AddEntry(int aiKey, int aiValue, int aiItem)
         {
             p = new FUN_004aa830;
 
-            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<char*>(this) + 4)))->FUN_00844700(static_cast<unsigned int>(aiKey), reinterpret_cast<unsigned int>(p));
+            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<char*>(this) + 4)))->FUN_00844700(static_cast<unsigned int>(aiKey), reinterpret_cast<std::uintptr_t>(p));
 
             reinterpret_cast<GO_operator*>(p)->operator=(reinterpret_cast<void*>(aiKey));
 
@@ -313,7 +313,7 @@ void FUN_004aabb0_shell::FUN_004aabb0(char a1)
     if (((::LLD_Cell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())))
     {
         inner5 = ((::LLD_Cell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath()));
-        this->SetValueAndCall(reinterpret_cast<int>(reinterpret_cast<::FUN_00545cb0_shell *>((inner5))->FUN_00545cb0()), reinterpret_cast<int>(inner5), a1);
+        this->SetValueAndCall(reinterpret_cast<std::intptr_t>(reinterpret_cast<::FUN_00545cb0_shell *>((inner5))->FUN_00545cb0()), reinterpret_cast<std::intptr_t>(inner5), a1);
     }
     else
     {
@@ -329,7 +329,7 @@ void FUN_004aabb0_shell::FUN_004aabb0(char a1)
                 if (outer->m0)
                 {
                     cell = outer->m0;
-                    this->SetValueAndCall(reinterpret_cast<int>(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), reinterpret_cast<int>(cell), a1);
+                    this->SetValueAndCall(reinterpret_cast<std::intptr_t>(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), reinterpret_cast<std::intptr_t>(cell), a1);
                 }
             }
         }
@@ -482,8 +482,8 @@ struct RefObj
 struct TESRegionData;
 template <class T> struct BSSimpleList
 {
-    T* data;
-    BSSimpleList* next;
+    T m_item;
+    BSSimpleList* m_pkNext;
     bool FUN_008256d0();
     T& GetItem();
     BSSimpleList* GetNext();
@@ -543,7 +543,7 @@ bool TexUseMap::FUN_004aa900(const char* apFileName)
         void* posVal = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(m_kEntryMap))->GetFirstPos();
         while (posVal)
         {
-            unsigned int key5 = 0;
+            std::uintptr_t key5 = 0;
             void* value9 = 0;
             reinterpret_cast<::C6b7f20_Map *>(&(m_kEntryMap))->FUN_006b7f20((::C6b7f20_Node **)&(posVal), (unsigned int *)&(key5), (void **)&(value9));
             CastedObj* casted9 = (CastedObj*)((::NiAVObject *)(::FUN_00653270((const NiRTTI*)&(*reinterpret_cast<int *>(&::g_011f444c)), (::NiObject *)(::NiAVObject *)((NiAVObject*)key5))));
@@ -557,7 +557,7 @@ bool TexUseMap::FUN_004aa900(const char* apFileName)
                 BSSimpleList<TESRegionData*>* listA = (BSSimpleList<TESRegionData*>*)((char*)value9 + 8);
                 while (listA && !listA->FUN_008256d0())
                 {
-                    TESRegionData* elem9 = ((::TESRegionData *)(new ((void *)(listA)) ::Vec3()));
+                    TESRegionData* elem9 = (listA->m_item);
                     listA = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((listA))->FUN_00726070()));
                     ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&str5), str_0101f524, ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((TESForm_Proxy40e30*)elem9)))->FUN_00440e30())),
                                  ((ElemObj*)elem9)->vt_130(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((RefObj*)elem9)))->FUN_0084e3a0())));
@@ -731,7 +731,7 @@ void TextureWalker::FUN_004aa3d0(NiAVObject* obj, bool b)
                 for (unsigned int i = 0; i < count; i++)
                 {
                     NiAVObject* child = ((::fnv_004aa3d0::NiAVObject *)(reinterpret_cast<::NiNode *>((node))->GetAt(i)));
-                    reinterpret_cast<::FUN_004aa3d0_shell *>(this)->FUN_004aa3d0((int)(child), b);
+                    reinterpret_cast<::FUN_004aa3d0_shell *>(this)->FUN_004aa3d0((std::intptr_t)(child), b);
                 }
             }
             if (bSet)
@@ -748,7 +748,7 @@ void TextureWalker::FUN_004aa3d0(NiAVObject* obj, bool b)
                 {
                     WalkCtx ctx;
                     ctx.owner = this;
-                    ctx.value = g_walkCurrentRef ? (int)g_walkCurrentRef : m0;
+                    ctx.value = g_walkCurrentRef ? (std::intptr_t)g_walkCurrentRef : m0;
                     tex->ForEachTexture(::InvokeIfPresent, &ctx);
                 }
             }

@@ -274,7 +274,7 @@ void BGSDistantObjectBlockLoadTask::RunOnce(void* apTaskState, void* apTaskOwner
     else
     {
         *(unsigned char*)((char*)this + 0x50) = 1;
-        reinterpret_cast<::fnv_00c3cb70::IOTask *>((this))->FUN_00c3cb70((int)(apTaskState), (::fnv_00c3cb70::RefObj *)(apTaskOwner));
+        reinterpret_cast<::fnv_00c3cb70::IOTask *>((this))->FUN_00c3cb70((std::intptr_t)(apTaskState), (::fnv_00c3cb70::RefObj *)(apTaskOwner));
     }
 }
 }  // namespace fnv_006f71a0
@@ -331,12 +331,12 @@ struct Flt
 
 struct FUN_006f5800_shell
 {
-    unsigned int GetSelectedValue(bool abFlag);
+    std::uintptr_t GetSelectedValue(bool abFlag);
 };
 
 // Returns the value at offset 0x10 when abFlag is set, otherwise the value at offset 8.
 // @fnv 0x006f5800
-unsigned int FUN_006f5800_shell::GetSelectedValue(bool abFlag)
+std::uintptr_t FUN_006f5800_shell::GetSelectedValue(bool abFlag)
 {
     Flt* pFlt = abFlag ? (Flt*)((char*)this + 0x10) : (Flt*)((char*)this + 8);
     return *pFlt;
@@ -371,7 +371,7 @@ void __cdecl FUN_006f5840(void)
     GlobalObject2_0096a2d0* pEntry = &::g_011d8524;
     while (pEntry)
     {
-        TESObjectCELL* cell = *((::TESObjectCELL **)(new ((void *)(pEntry)) ::Vec3()));
+        TESObjectCELL* cell = *((::TESObjectCELL **)((void *)(pEntry)));
         if (cell && !cell->GetField24())
         {
             NiNode* obj = ((::NiNode *)(reinterpret_cast<::FUN_006f5800_shell *>((cell))->GetSelectedValue(0)));
@@ -459,7 +459,7 @@ bool FUN_006f6100_shell::IsInCellList()
     GlobalObject2_0096a2d0* iter = &::g_011d8524;
     while (iter)
     {
-        TESObjectCELL* cell = *((::TESObjectCELL **)(new ((void *)(iter)) ::Vec3()));
+        TESObjectCELL* cell = *((::TESObjectCELL **)((void *)(iter)));
         if (cell && (FUN_006f6100_shell*)cell == this)
             return true;
         iter = ((::GlobalObject2_0096a2d0 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
@@ -1168,12 +1168,12 @@ void DistantBlock::LoadDistantObjectBlock()
         MEM_DISTANT_OBJECT, true,
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSDistantObjectBlock.cpp",
         922);
-    int memory = ((int)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
+    std::intptr_t memory = ((std::intptr_t)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
     int canLoad = 1;
     if (memory == 0 && !FUN_00456a20(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), 0, 6, 1))
         canLoad = 0;
     BSStream stream;
-    if (canLoad && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))), {}))
+    if (canLoad && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))), {}))
     {
         Node* node = ((::fnv_006f71e0::Node *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0)));
         if (node->AsNode())
@@ -1970,6 +1970,8 @@ struct MmTransform
 
 struct MmNode
 {
+    char pad[0xc0];
+    void* pValueC0;  // written by the folded field setter at 0x00874460
 };
 
 template <class T> struct MmPtr
@@ -2089,7 +2091,7 @@ void MenuModelImpl::UpdateMenuNodes()
         reinterpret_cast<::FUN_0094db80_shell *>((pkAlphaPtr))->FUN_0094db80(0x80);
         reinterpret_cast<::NiObjectNET *>((pkAlphaPtr))->SetFlags(4);
         reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkAlphaPtr));
-        MmTexturing* pkTexX = ((::MmTexturing *)(reinterpret_cast<::FUN_00a59d30_C *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59d30((int)(((void *)(::FUN_00438220()))))));
+        MmTexturing* pkTexX = ((::MmTexturing *)(reinterpret_cast<::FUN_00a59d30_C *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59d30(::FUN_00438220())));
         pkTexX->FUN_00441130(0x22, 1);
         pkTexX->FUN_00441130(0x21, 0);
         pkTexX->FUN_00441130(0, 0);
@@ -2100,7 +2102,7 @@ void MenuModelImpl::UpdateMenuNodes()
             pkTexX = pkCloneTmp2;
             reinterpret_cast<::FUN_00439410_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00439410((::ArgObject *)(pkTexX));
         }
-        reinterpret_cast<::FUN_00874460_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->set((int)(((void *)(::FUN_00b55560(((void *)(reinterpret_cast<::LowProcess *>((pkTexX))->GetPackageObjectType())))))));
+        ((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))->pValueC0 = ::FUN_00b55560((unsigned int)reinterpret_cast<::LowProcess *>(pkTexX)->GetPackageObjectType());
         MmTransform kTransformTmp(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a59c60_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59c60((std::intptr_t)(&kTransformTmp));
@@ -2383,7 +2385,7 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
             pkShaderZ = pkNewVal2;
             reinterpret_cast<::FUN_00439410_cls *>((pkGeomA))->FUN_00439410((::ArgObject *)(pkShaderZ));
         }
-        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((int)(::FUN_00b55560(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType()))));
+        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((std::intptr_t)(::FUN_00b55560(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType()))));
         GtPoint3 kZeroWork(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((pkGeomA))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a59c60_cls *>((pkGeomA))->FUN_00a59c60((std::intptr_t)(&kZeroWork));
@@ -2425,7 +2427,7 @@ struct FUN_006f6d10 : ArchiveFileManager
     int m_iY;
     int m_iZ;
     int m_iParent;
-    int m_iWorld;
+    std::intptr_t m_iWorld;
     TaskPtr<TaskNode> m_spNode;
     TaskPtr<TaskNode> m_spLand;
     unsigned char m_bLoadComplete;

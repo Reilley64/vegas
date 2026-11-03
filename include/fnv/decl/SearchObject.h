@@ -4,7 +4,7 @@
 struct SearchObject {
 public:
     // 0x00a755d0
-    int FUN_00a755d0(unsigned int);
+    int FUN_00a755d0(std::uintptr_t);
     // 0x00cd1e20
     int Search(uintptr_t, unsigned int, uintptr_t, unsigned int);
     // 0x00cde920

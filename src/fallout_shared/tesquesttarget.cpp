@@ -27,7 +27,7 @@ void RegionObjectEntry::InitItem(TESForm* form)
 {
     if (m_pReference)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pReference);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pReference);
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         m_pReference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(formID));
         if (!m_pReference)

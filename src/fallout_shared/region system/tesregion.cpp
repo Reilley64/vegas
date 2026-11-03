@@ -54,12 +54,12 @@ void TESRegion::ClearData()
         m_pRegionDataList->Clear();
     if (pRegionPointList)
     {
-        RegionPointList* pointList = ((::RegionPointList *)(new ((void *)(pRegionPointList)) ::Vec3()));
+        RegionPointList* pointList = (pRegionPointList->m_item);
         while (pointList)
         {
             pRegionPointList->RemoveHead();
             delete pointList;
-            pointList = ((::RegionPointList *)(new ((void *)(pRegionPointList)) ::Vec3()));
+            pointList = (pRegionPointList->m_item);
         }
     }
 }
@@ -72,7 +72,7 @@ void TESRegion::InitItem()
     if (GetInitialized())
         return;
     {
-        unsigned int worldID = (unsigned int)((::TESWorldSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((void *)this)->FUN_007af430()));
+        unsigned int worldID = (unsigned int)(std::uintptr_t)((::TESWorldSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((void *)this)->FUN_007af430()));
         ::ResolveFormID((unsigned int *)&(worldID), GetFile(-1));
         world = dynamic_cast<TESWorldSpace*>(::FUN_004839c0(worldID));
     }
@@ -80,9 +80,9 @@ void TESRegion::InitItem()
         AssignWorldSpace(world);
     SetInitializationState(true);
     data = ((::RegionDataList *)(reinterpret_cast<::FUN_009611e0_shell *>((void *)this)->FUN_009611e0()));
-    while (data && ((::TESRegionData *)(new ((void *)(data)) ::Vec3())))
+    while (data && (data->m_item))
     {
-        ((::TESRegionData *)(new ((void *)(data)) ::Vec3()))->Initialize(this);
+        (data->m_item)->Initialize(this);
         data = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((data))->FUN_00726070()));
     }
 }
@@ -129,14 +129,14 @@ bool TESRegion::Load(TESFile* file)
         case 0x4d414e57: {
             loadState.worldID = 0;
             file->GetChunkData(&loadState.worldID);
-            AssignWorldSpace((TESWorldSpace*)loadState.worldID);
+            AssignWorldSpace((TESWorldSpace*)(std::uintptr_t)loadState.worldID);
             break;
         }
         case 0x494c5052: {
             loadState.distance = 0;
             file->GetChunkData(&loadState.distance);
             loadState.pointList = new RegionPointList(true);
-            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((loadState.pointList))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(loadState.distance));
+            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((loadState.pointList))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(std::uintptr_t)(loadState.distance));
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::RegionPointList *> *)(reinterpret_cast<::BGSTerrainManager *>((void *)this)->GetMinLevel()))))->FUN_00905820((void *)&(loadState.pointList));
             break;
         }
@@ -165,11 +165,11 @@ bool TESRegion::Load(TESFile* file)
             break;
     }
     loadState.lists = ((::BSSimpleList< ::RegionPointList *> *)(reinterpret_cast<::BGSTerrainManager *>((void *)this)->GetMinLevel()));
-    while (loadState.lists && ((::RegionPointList *)(new ((void *)(loadState.lists)) ::Vec3())))
+    while (loadState.lists && (loadState.lists->m_item))
     {
-        if (!reinterpret_cast<::fnv_004f81e0::FUN_004f81e0_shell *>((((::RegionPointList *)(new ((void *)(loadState.lists)) ::Vec3()))))->FUN_004f81e0(true))
+        if (!reinterpret_cast<::fnv_004f81e0::FUN_004f81e0_shell *>(((loadState.lists->m_item)))->FUN_004f81e0(true))
         {
-            loadState.invalid = ((::RegionPointList *)(new ((void *)(loadState.lists)) ::Vec3()));
+            loadState.invalid = (loadState.lists->m_item);
             reinterpret_cast<::ItemChangeListNode *>((((TESRegionLoadList*)((::BSSimpleList< ::RegionPointList *> *)(reinterpret_cast<::BGSTerrainManager *>((void *)this)->GetMinLevel())))))->FUN_00905330((::InventoryStackRecord *const &)(loadState.invalid));
             delete loadState.invalid;
             loadState.lists = ((::BSSimpleList< ::RegionPointList *> *)(reinterpret_cast<::BGSTerrainManager *>((void *)this)->GetMinLevel()));
@@ -286,12 +286,12 @@ FUN_004f08c0::~FUN_004f08c0()
     }
     if (pRegionPointList != 0)
     {
-        RegionPointList* pointList = ((::RegionPointList *)(new ((void *)(pRegionPointList)) ::Vec3()));
+        RegionPointList* pointList = (pRegionPointList->m_item);
         while (pointList != 0)
         {
             pRegionPointList->RemoveHead();
             delete pointList;
-            pointList = ((::RegionPointList *)(new ((void *)(pRegionPointList)) ::Vec3()));
+            pointList = (pRegionPointList->m_item);
         }
         delete pRegionPointList;
     }
@@ -319,9 +319,9 @@ RegionProxy* RegionProxy::FUN_004f10d0(RegionProxy* destination)
     ListProxy* pNode = ((::ListProxy *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel()));
     reinterpret_cast<::FUN_00485130_shell *>(this)->WarnCopyUnsupported((::TESForm *)(result));
     reinterpret_cast<::RDL_004f3330 *>((((::DataProxy *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_004f3470((::RDL_004f3330 *)(::DataProxy *)(((::DataProxy *)(reinterpret_cast<::FUN_009611e0_shell *>((result))->FUN_009611e0()))));
-    while (pNode && ((::PointProxy *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && ((::PointProxy *)((void *)(pNode))))
     {
-        ((::ListProxy *)(reinterpret_cast<::BGSTerrainManager *>((result))->GetMinLevel()))->FUN_005ae3d0(((::PointProxy *)(reinterpret_cast<::FUN_004f80c0_shell *>((((::PointProxy *)(new ((void *)(pNode)) ::Vec3()))))->CloneRegionPointList((::RegionPointList *)(0)))));
+        ((::ListProxy *)(reinterpret_cast<::BGSTerrainManager *>((result))->GetMinLevel()))->FUN_005ae3d0(((::PointProxy *)(reinterpret_cast<::FUN_004f80c0_shell *>((((::PointProxy *)((void *)(pNode)))))->CloneRegionPointList((::RegionPointList *)(0)))));
         pNode = ((::ListProxy *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     return result;
@@ -359,7 +359,7 @@ void __cdecl FUN_004f1300()
     BSSimpleList<S_004f1300_Item*>* pNodeX = ((::S_004f1300_Holder *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::S_004f1300_Mgr * *>(&::g_dataHandler))))->FUN_004169d0()));
     while (pNodeX && !pNodeX->IsEmpty())
     {
-        S_004f1300_Item* pItem = ((::S_004f1300_Item *)(new ((void *)(pNodeX)) ::Vec3()));
+        S_004f1300_Item* pItem = (pNodeX->m_item);
         int iID2 = 0;
         float fSecondFunctionValue = 0.0f;
         if (pItem)
@@ -455,13 +455,13 @@ void OwnQ::FUN_004f0a40()
     LstAQ* pIterA_kkeo = ((::LstAQ *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel()));
     while (pIterA_kkeo && !pIterA_kkeo->FUN_008256d0())
     {
-        reinterpret_cast<::FUN_004f77c0_shell *>(((*((::ElemQ **)(new ((void *)(pIterA_kkeo)) ::Vec3())))))->FUN_004f77c0();
+        reinterpret_cast<::FUN_004f77c0_shell *>(((*((::ElemQ **)((void *)(pIterA_kkeo))))))->FUN_004f77c0();
         pIterA_kkeo = ((::LstAQ *)(reinterpret_cast<::Callees *>((pIterA_kkeo))->FUN_00726070()));
     }
     LstBQ* pIterB_jeqla = ((::LstBQ *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()));
     while (pIterB_jeqla && !pIterB_jeqla->FUN_008256d0())
     {
-        (*((::VElemQ **)(new ((void *)(pIterB_jeqla)) ::Vec3())))->Save();
+        (*((::VElemQ **)((void *)(pIterB_jeqla))))->Save();
         pIterB_jeqla = ((::LstBQ *)(reinterpret_cast<::Callees *>((pIterB_jeqla))->FUN_00726070()));
     }
     reinterpret_cast<::Holder *>(this)->FUN_00485680();

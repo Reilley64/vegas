@@ -2,6 +2,7 @@
 // src/fallout_shared/packagedataambush.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/packagedataambush.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
 #include "fnv/decl/fnv_0067f6c0__FUN_0067f6c0_shell.h"
 #include "fnv/decl/p07__DelStandIn.h"
@@ -67,7 +68,7 @@ FUN_0067adc0_cls::~FUN_0067adc0_cls()
     Sub_0067adc0* tmp;
     copy = m_04;
     tmp = copy;
-    tmp != 0 ? ((int)(reinterpret_cast<::p07::DelStandIn *>((tmp))->FUN_00670b30(1))) : 0;
+    tmp != 0 ? ((std::intptr_t)(reinterpret_cast<::p07::DelStandIn *>((tmp))->FUN_00670b30(1))) : 0;
 }
 
 extern int DAT_0119bdc8;

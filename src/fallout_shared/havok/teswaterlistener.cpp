@@ -89,6 +89,51 @@
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/decl/OwnerC9Body.h"
+#include "fnv/symbols_00631000.h"
+#include <new>
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/FUN_004a3c90.h"
+#include "fnv/decl/FUN_005532a0_cls.h"
+#include "fnv/decl/FUN_005616d0_Owner.h"
+#include "fnv/decl/FUN_00561800_Class.h"
+#include "fnv/decl/FUN_00630bb0_shell.h"
+#include "fnv/decl/FUN_0084d310_class.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S00458a10_Vector.h"
+#include "fnv/decl/S00630ae0_Result.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/WorldObject_c8d3.h"
+#include "fnv/decl/bhkCharacterController.h"
+#include "fnv/decl/fnv_00437c10__FUN_00437c10.h"
+#include "fnv/decl/fnv_004b4ea0__TESDataHandler.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00517000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c9c000.h"
+#include "fnv/decl/B200Owner.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_00438af0_Class.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_0057c850_cls.h"
+#include "fnv/decl/FUN_00620b80_shell.h"
+#include "fnv/decl/FUN_0062f2f0_shell.h"
+#include "fnv/decl/FUN_00c9bff0_Class.h"
+#include "fnv/decl/FUN_00c9c240_holder.h"
+#include "fnv/decl/ObsList.h"
+#include "fnv/decl/PhysicsController.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0045b000.h"
+#include "fnv/symbols_00524000.h"
+#include "fnv/symbols_simd.h"
 struct FUN_0062e750_shell
 {
     void* FUN_0062e750(unsigned int flags);
@@ -108,7 +153,7 @@ void* FUN_0062e750_shell::FUN_0062e750(unsigned int flags)
 extern int DAT_011c7a3c;
 
 // @fnv 0x0062f310
-void FUN_0062f310(int value)
+void FUN_0062f310(std::intptr_t value)
 {
     DAT_011c7a3c = value;
 }
@@ -147,10 +192,10 @@ unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane)
     unsigned int result = 0;
     if (pPlane)
     {
-        unsigned int cullResult = ((unsigned int)(reinterpret_cast<::LowProcess *>((void *)(pPlane))->GetTarget()));
+        std::uintptr_t cullResult = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(pPlane))->GetTarget()));
         if (cullResult)
         {
-            unsigned int room = ((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)cullResult)))->FUN_004543c0()));
+            std::uintptr_t room = ((std::uintptr_t)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)cullResult)))->FUN_004543c0()));
             if (room)
             {
                 result = reinterpret_cast<::ActorMover *>((((BSThread*)room)))->GetCurrentMoveModeType();
@@ -322,15 +367,15 @@ struct VList
     virtual void f20();
     virtual void f21();
     virtual void f22();
-    virtual void Target(float a, intptr_t b);
+    virtual void Target(float a, std::intptr_t b);
 };
 struct FUN_00631100_shell
 {
-    void FUN_00631100(float a, intptr_t b);
+    void FUN_00631100(float a, std::intptr_t b);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a and b to Target on the BGSRagdollList from TESDataHandler.
 // @fnv 0x00631100
-void FUN_00631100_shell::FUN_00631100(float afValue, intptr_t aiValue)
+void FUN_00631100_shell::FUN_00631100(float afValue, std::intptr_t aiValue)
 {
     reinterpret_cast<::hkpEntityC9C *>((((UnkCall*)this)))->FUN_00c9c1d0();
     ((VList*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiValue);
@@ -367,11 +412,11 @@ struct ListCall00631140
 };
 struct FUN_00631140_shell
 {
-    void FUN_00631140(float, int, int);
+    void FUN_00631140(float, std::intptr_t, std::intptr_t);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a, b and c to Target on the BGSRagdollList from the data handler.
 // @fnv 0x00631140
-void FUN_00631140_shell::FUN_00631140(float afValue, int aiArg1, int aiArg2)
+void FUN_00631140_shell::FUN_00631140(float afValue, std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
     reinterpret_cast<::hkpEntityC9C *>((((FUN_00c9c1d0_shell*)this)))->FUN_00c9c1d0();
     ((ListCall00631140*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiArg1, aiArg2);
@@ -429,20 +474,20 @@ struct FUN_0057b700_class
 };
 struct FUN_0062e500_shell : FUN_0057b700_class
 {
-    void FUN_0062e500(int a, int b);
+    void FUN_0062e500(std::intptr_t a, int b);
 };
 
 // @fnv 0x0062e500
-void FUN_0062e500_shell::FUN_0062e500(int aiKey, int auiValue)
+void FUN_0062e500_shell::FUN_0062e500(std::intptr_t aiKey, int auiValue)
 {
-    int ptarget2 = *(int*)((char*)this + 0x14) ? FUN_0057b730(aiKey) : 0;
+    std::intptr_t ptarget2 = *(int*)((char*)this + 0x14) ? FUN_0057b730(aiKey) : 0;
     unsigned int uindex;
     if (ptarget2)
     {
         uindex = ((LS3de0*)((char*)ptarget2 + 0x50))->Find(*(unsigned int*)&auiValue, 0, FUN_009a3830);
         if (uindex != (unsigned int)-1)
             reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)ptarget2 + 0x50))))->FUN_009a4320(uindex, 1);
-        if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((ArrSI*)((char*)ptarget2 + 0x50))))->GetName())))
+        if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((ArrSI*)((char*)ptarget2 + 0x50))))->GetName())))
             reinterpret_cast<::Holder *>(this)->FUN_0061ff30((::Node *)(ptarget2));
     }
 }
@@ -1044,7 +1089,7 @@ void __cdecl FUN_0062eb50(float a1, NiPoint3 aPosition)
             !reinterpret_cast<::FUN_00580060_shell *>((reinterpret_cast<::FUN_00547770_shell *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget()))))->FUN_00547770()))->FUN_00580060())
         {
             ThreeByThreeMatrix kMat;
-            reinterpret_cast<::FUN_004a0c90_shell *>(&(kMat))->FUN_004a0c90(((float)(::FUN_004a4240())));
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(kMat))->FUN_004a0c90(::FUN_004a4240());
             FUN_00689210(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget())), 1.0f, ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d12c0))->GetMenuTitle())), kMat, aPosition, fMult, 1, 0);
         }
     }
@@ -1731,10 +1776,10 @@ bool WaterOwner::FUN_0062f6b0(WaterRequest* request)
     if (d == (TESObjectREFR*)_g_thePlayer)
         FUN_0062f310(((TESObjectREFR*)c)->WaterType());
     void* a = ((void *)(reinterpret_cast<::ImpactManager620 *>(&(updates))->FUN_00620340((::CollisionInfo620 *)(request), b, d, (void *)(0), 0)));
-    reinterpret_cast<::FUN_0057b0d0_cls *>((((WaterContactReference*)d)))->FUN_0057b0d0((int)(a), 1);
+    reinterpret_cast<::FUN_0057b0d0_cls *>((((WaterContactReference*)d)))->FUN_0057b0d0((std::intptr_t)(a), 1);
     if (FUN_008c7aa0() && ((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton())))
     {
-        reinterpret_cast<::FakeTaskQueue *>((((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0((int)(b), (int)(d), 0.0f);
+        reinterpret_cast<::FakeTaskQueue *>((((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0((void *)(b), (void *)(d), 0.0f);
     }
     else
     {
@@ -1913,7 +1958,7 @@ struct EDL_Helper
 
 struct Holder0087b4f0
 {
-    void FUN_0087b4f0(int a, int b, float c);
+    void FUN_0087b4f0(void* a, void* b, float c);
 };
 
 
@@ -1965,7 +2010,7 @@ bool WaterManager::FUN_0062f900(EventWater* event)
             }
             else
             {
-                FUN_0062f310(((int)(reinterpret_cast<::FUN_00547770_shell *>((((::Cell *)(reinterpret_cast<::LowProcess *>((((Player*)_g_thePlayer)))->GetTarget()))))->FUN_00547770())));
+                FUN_0062f310(((std::intptr_t)(reinterpret_cast<::FUN_00547770_shell *>((((::Cell *)(reinterpret_cast<::LowProcess *>((((Player*)_g_thePlayer)))->GetTarget()))))->FUN_00547770())));
             }
             return true;
         }
@@ -2007,7 +2052,7 @@ bool WaterManager::FUN_0062f900(EventWater* event)
             found8 = false;
             while (p)
             {
-                item5 = ((::WaterRecord *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((int)(p))));
+                item5 = ((::WaterRecord *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((std::intptr_t)(p))));
                 p = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(records))->DereferenceIfNotNull((int **)(p))));
                 if (item5->body == a)
                 {
@@ -2061,7 +2106,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
     b9 = false;
     if (apParams->unk0c)
     {
-        reinterpret_cast<::FUN_0062e500_shell *>((apParams->unk0c))->FUN_0062e500((int)(apParams->unk00), apParams->unk10);
+        reinterpret_cast<::FUN_0062e500_shell *>((apParams->unk0c))->FUN_0062e500((std::intptr_t)(apParams->unk00), apParams->unk10);
         if (!((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apParams->unk0c))->FUN_00825c00())))
         {
             b9 = true;
@@ -2076,12 +2121,12 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
 
     if (apParams->unk0c)
     {
-        reinterpret_cast<::FUN_0057b0d0_cls *>((apParams->unk00))->FUN_0057b0d0((int)(apParams->unk0c), 0);
+        reinterpret_cast<::FUN_0057b0d0_cls *>((apParams->unk00))->FUN_0057b0d0((std::intptr_t)(apParams->unk0c), 0);
     }
     reinterpret_cast<::Ref57b240 *>((apParams->unk00))->FUN_0057b240(0);
 
     b5 = true;
-    if (!((int)(reinterpret_cast<::FUN_0042f180_cls *>((((EDL_Helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apParams->unk00))->FUN_005d43c0())))))->FUN_0042f180())))
+    if (!((std::intptr_t)(reinterpret_cast<::FUN_0042f180_cls *>((((EDL_Helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apParams->unk00))->FUN_005d43c0())))))->FUN_0042f180())))
     {
         NiTMap* map4 = ((::NiTMap *)(reinterpret_cast<::FUN_0042f1d0_shell *>((((EDL_Helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apParams->unk00))->FUN_005d43c0())))))->FUN_0042f1d0()));
         if (map4)
@@ -2090,7 +2135,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
             while (pos4)
             {
                 void* val = 0;
-                unsigned int keyTmp = 0;
+                std::uintptr_t keyTmp = 0;
                 reinterpret_cast<::C6b7f20_Map *>((map4))->FUN_006b7f20((::C6b7f20_Node **)&(pos4), (unsigned int *)&(keyTmp), (void **)&(val));
                 if (var_8 != 0 && ((EffectItem*)keyTmp)->unk1c == var_8)
                 {
@@ -2106,7 +2151,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
         if (FUN_008c7aa0() && TaskQueueInterface::GetSingleton())
         {
             ((Holder0087b4f0*)TaskQueueInterface::GetSingleton())
-                ->FUN_0087b4f0((int)apParams->unk08, (int)apParams->unk00, 0.0f);
+                ->FUN_0087b4f0((void *)apParams->unk08, (void *)apParams->unk00, 0.0f);
         }
         else
         {
@@ -2116,4 +2161,969 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
     }
 }
 
+void FUN_0062f8e0(unsigned char value);
+
+unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
+
+float FUN_00630aa0(float value);
+
+extern "C" double __cdecl _exp(double);
+
+float ExpFloat(float value);
+
+struct FUN_00c9a460_shell
+{
+    void FUN_00c9a600(int a);
+};
+
+// @fnv 0x00c9a600
+void FUN_00c9a460_shell::FUN_00c9a600(int a)
+{
+    int r = ((int(*)(void*, int))(*reinterpret_cast<void***>(this))[9])(this, a);
+    reinterpret_cast<::OwnerC9Body *>(this)->AddObject((::RefObjectC9 *)(r));
+}
+
+struct PhysicsVector
+{
+    __m128 m_vComponents;
+    void FUN_005dbf20(float);
+    PhysicsVector* FUN_00630b40(PhysicsVector*);
+};
+
+struct PhysicsBounds
+{
+    PhysicsVector minimum, maximum;
+};
+
+struct FUN_005dbf20 : PhysicsVector
+{
+    FUN_005dbf20(float);
+};
+
+struct PhysicsBody
+{
+    virtual void slot00();
+    virtual void slot01();
+    virtual void slot02();
+    virtual void slot03();
+    virtual void slot04();
+    virtual void slot05();
+    virtual void slot06();
+    virtual void slot07();
+    virtual void slot08();
+    virtual void slot09();
+    virtual void slot10();
+    virtual void slot11();
+    virtual void slot12();
+    virtual void slot13();
+    virtual void slot14();
+    virtual void slot15();
+    virtual void slot16();
+    virtual void slot17();
+    virtual void slot18();
+    virtual void slot19();
+    virtual void slot20();
+    virtual void slot21();
+    virtual void slot22();
+    virtual void slot23();
+    virtual void slot24();
+    virtual void slot25();
+    virtual void slot26();
+    virtual void slot27();
+    virtual void slot28();
+    virtual void slot29();
+    virtual void slot30();
+    virtual void slot31();
+    virtual void slot32();
+    virtual void slot33();
+    virtual void slot34();
+    virtual void slot35();
+    virtual void slot36();
+    virtual void slot37();
+    virtual void slot38();
+    virtual void slot39();
+    virtual void slot40();
+    virtual void slot41();
+    virtual void slot42();
+    virtual void slot43();
+    virtual void slot44();
+    virtual void slot45();
+    virtual void slot46();
+    virtual void slot47();
+    virtual void slot48();
+    virtual void slot49();
+    virtual void slot50();
+    virtual void slot51();
+    virtual void slot52();
+    virtual void slot53();
+    virtual void GetRotation(PhysicsVector*);
+    virtual void slot55();
+    virtual void slot56();
+    virtual void slot57();
+    virtual void slot58();
+    virtual void slot59();
+    virtual void slot60();
+    virtual void slot61();
+    virtual void GetBounds(PhysicsBounds*);
+};
+
+struct PhysicsReference
+{
+    const PhysicsVector* FUN_004b4ec0();
+    const PhysicsVector* FUN_006310c0();
+    const PhysicsVector* FUN_00560e50();
+};
+
+float FUN_00408840(float);
+
+extern float DAT_0119af4c, DAT_0119af48, DAT_0119af44;
+
+extern float DAT_0119af40, DAT_011cc5e4, DAT_011cc5e0, DAT_0119af3c, DAT_0119af38;
+
+struct RuntimeFloatSetting
+{
+};
+
+struct ReferenceMap
+{
+};
+
+struct PhysicsController_o2_od_noo2
+{
+    int FUN_00630170(PhysicsReference*, float, float, bool);
+};
+
+// @fnv 0x00630170
+int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, float height, float deltaTime, bool alternate)
+{
+    int result = 0;
+    PhysicsVector position;
+    new ((void *)&(position)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(reference->FUN_004b4ec0())));
+    PhysicsBody* body = ((::PhysicsBody *)(::FUN_004b5a80(reference)));
+    PhysicsBounds bounds;
+    new ((void *)&(bounds)) ::fnv_00437c10::FUN_00437c10();
+    body->GetBounds(&bounds);
+    if (reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2) <= height)
+    {
+        int handle = ::FUN_00517670((::TESDataHandler *)(reference));
+        if (((bool)(::FUN_00c8cce0(&handle))))
+        {
+            PhysicsReference* state = ((::PhysicsReference *)(reinterpret_cast<::Twin_0044ddc0 *>((reference))->GetName()));
+            if (state)
+            {
+                reinterpret_cast<::TESForm *>((state))->ClearData();
+                PhysicsVector direction;
+                new ((void *)&(direction)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00460140((std::intptr_t)(state)))))));
+                PhysicsVector velocity;
+                new ((void *)&(velocity)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
+                float mass = reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((reference))->FUN_004b4ea0();
+                float extent = reinterpret_cast<::bhkCharacterController *>(&(bounds.maximum))->GetVectorElement(2) - reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
+                float lower = extent * 0.25 + reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
+                float upper = extent * 0.8500000238418579 + reinterpret_cast<::bhkCharacterController *>(&(bounds.minimum))->GetVectorElement(2);
+                float amount = (height - lower) / (upper - lower);
+                if (amount <= 0.0)
+                {
+                    reinterpret_cast<::TESForm *>((state))->ClearData();
+                    return result;
+                }
+                float strength = ::GetObjectMass((::WorldObject62b3 *)(body));
+                bool dampVertical = true;
+                if (amount < DAT_0119af4c && strength > 0.0)
+                {
+                    if (amount > DAT_0119af48)
+                        strength = DAT_0119af44;
+                    else if (amount > DAT_0119af40)
+                        strength = DAT_011cc5e4;
+                    else if (amount > DAT_011cc5e0)
+                        strength = DAT_0119af3c;
+                    PhysicsVector component;
+                    if (DAT_0119af38 > FUN_00408840(reinterpret_cast<::S004586d0_Obj *>((((::PhysicsVector *)(reinterpret_cast<::Holder *>(&(velocity))->FUN_00458700((::Holder *)(::PhysicsVector *)(&component), 2)))))->FUN_004586d0()))
+                        dampVertical = false;
+                }
+                strength = -strength;
+                PhysicsVector force;
+                FUN_005dbf20 multiplier(strength * mass);
+                reinterpret_cast<::S00630ae0_Result *>(&(force))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&multiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
+                PhysicsVector torque;
+                if (!::FUN_00c9c380((void *)(reference), {}))
+                {
+                    PhysicsBounds inertiaBounds;
+                    new ((void *)&(inertiaBounds)) ::fnv_00437c10::FUN_00437c10();
+                    reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&inertiaBounds)));
+                    PhysicsVector localTorque;
+                    reinterpret_cast<::FUN_005532a0_cls *>(&(localTorque))->FUN_005532a0(0, 0, 0, 0);
+                    PhysicsVector sizes;
+                    reinterpret_cast<::S00458a10_Vector *>(&(sizes))->FUN_00458a10((const ::S00458a10_Vector *)(const ::PhysicsVector *)(&inertiaBounds.maximum), (const ::S00458a10_Vector *)(const ::PhysicsVector *)(&inertiaBounds.minimum));
+                    int smallest = reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1)
+                                       ? (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 1)
+                                       : (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) < reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 0);
+                    int largest = reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1)
+                                      ? (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(1) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 1)
+                                      : (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(0) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(2) ? 2 : 0);
+                    if (reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(smallest) > reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(largest) * 1.5f)
+                    {
+                        reinterpret_cast<::bhkCharacterController *>(&(localTorque))->GetVectorElement(largest) =
+                            reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(smallest) / reinterpret_cast<::bhkCharacterController *>(&(sizes))->GetVectorElement(largest) * 0.1f * SignOfFloat(strength);
+                        PhysicsVector rotation;
+                        ::FUN_006240d0((void *)&(rotation));
+                        body->GetRotation(&rotation);
+                        reinterpret_cast<::FUN_00630bb0_shell *>(&(torque))->FUN_00630bb0((::Source630 *)(&rotation), (void *)(&localTorque));
+                        reinterpret_cast<::V *>(&(torque))->FUN_00553f70((*(const ::V *)(reference->FUN_006310c0())));
+                    }
+                    else
+                        reinterpret_cast<::AlignedVector *>(&(torque))->FUN_004a3f10((*(const ::AlignedVector *)(reference->FUN_006310c0())));
+                }
+                else
+                    reinterpret_cast<::AlignedVector *>(&(torque))->FUN_004a3f10((*(const ::AlignedVector *)(reference->FUN_006310c0())));
+                reinterpret_cast<::TESForm *>((state))->ClearData();
+                reinterpret_cast<::FUN_00631140_shell *>((reference))->FUN_00631140(deltaTime, (std::intptr_t)(&force), (std::intptr_t)(&torque));
+                PhysicsVector secondForce;
+                FUN_005dbf20 secondMultiplier(mass * -1.0);
+                reinterpret_cast<::S00630ae0_Result *>(&(secondForce))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&secondMultiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
+                reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (std::intptr_t)(&secondForce));
+                reinterpret_cast<::TESForm *>((state))->ClearData();
+                PhysicsVector linear;
+                new ((void *)&(linear)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));
+                float vertical = reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2);
+                reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = 0;
+                if (dampVertical)
+                {
+                    vertical *= FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting979)))))) * -1.0 * deltaTime);
+                }
+                PhysicsVector magnitude;
+                if (reinterpret_cast<::S004586d0_Obj *>((linear.FUN_00630b40(&magnitude)))->FUN_004586d0() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting975)))))))
+                {
+                    FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting978)))))) * -1.0 * deltaTime));
+                    reinterpret_cast<::S_00627920 *>(&(linear))->FUN_00627920((::S_00561240 *)(&factor));
+                }
+                reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = vertical;
+                reinterpret_cast<::FUN_005616d0_Owner *>((reference))->OnTrigger((::TriggerContext *)(&linear));
+                PhysicsVector angular;
+                new ((void *)&(angular)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(reference->FUN_00560e50())));
+                FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting980)))))) * -1.0 * deltaTime));
+                reinterpret_cast<::S_00627920 *>(&(angular))->FUN_00627920((::S_00561240 *)(&factor));
+                reinterpret_cast<::FUN_00561800_Class *>((reference))->FUN_00561800((::FUN_00561730_Obj *)(&angular));
+                reinterpret_cast<::TESForm *>((state))->ClearData();
+            }
+        }
+        int flag = alternate ? 128 : 8;
+        if (!reinterpret_cast<::FUN_005631e0_shell *>((body))->IsNonZero(flag))
+        {
+            reinterpret_cast<::FUN_00628f30_shell *>((body))->SetFlag(flag, true);
+            reinterpret_cast<::WaterSplash_62e970 *>(this)->SpawnWaterSplash((::Body_62e970 *)(body), FUN_004587d0(height));
+            result = 1;
+        }
+        reinterpret_cast<::FUN_0084d310_class *>(&((*reinterpret_cast<::ReferenceMap *>(&::g_011cc584))))->FUN_0084d310((std::intptr_t)(reference), true);
+    }
+    else
+    {
+        int flag = alternate ? 128 : 8;
+        if (reinterpret_cast<::FUN_005631e0_shell *>((body))->IsNonZero(flag))
+        {
+            reinterpret_cast<::WaterSplash_62e970 *>(this)->SpawnWaterSplash((::Body_62e970 *)(body), FUN_004587d0(height));
+            result = 2;
+        }
+        reinterpret_cast<::FUN_00628f30_shell *>((body))->SetFlag(flag, false);
+    }
+    return result;
+}
+
+class S0062b0a0_SimdReal
+{
+  public:
+    S0062b0a0_SimdReal(const __m128& q);  // FUN_004a3c90
+    __m128 m_vValue;
+};
+
+class S0062b0a0_Vector
+{
+  public:
+    S0062b0a0_SimdReal FUN_0062b0a0(const S0062b0a0_Vector& v) const;  // dot3
+    __m128 m_vComponents;
+};
+
+// @fnv 0x0062b0a0
+S0062b0a0_SimdReal S0062b0a0_Vector::FUN_0062b0a0(const S0062b0a0_Vector& v) const
+{
+    __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+    __m128 xy = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+    return S0062b0a0_SimdReal(_mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xy));
+}
+
+class hkVector4E
+{
+  public:
+    hkVector4E();
+    __m128 m_vComponents;
+};
+
+class NiPoint3E
+{
+  public:
+    float x, y, z;
+};
+
+class SettingE
+{
+  public:
+};
+
+class FlagE
+{
+  public:
+    bool* Get();
+};
+
+class SoundE;
+
+class ImpactObjE
+{
+  public:
+};
+
+class AudioE
+{
+  public:
+};
+
+class AudioMgrE
+{
+  public:
+};
+
+class InterfaceE
+{
+  public:
+};
+
+class BodyE;
+
+class RefE
+{
+  public:
+};
+
+class RefPtrE
+{
+  public:
+    RefE* operator->();
+};
+
+class ListNodeE
+{
+  public:
+};
+
+class LockE
+{
+  public:
+};
+
+class FormArrayE
+{
+  public:
+};
+
+class LinkE
+{
+  public:
+};
+
+class SpawnListBaseE
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+};
+
+class SpawnListE : public SpawnListBaseE, public LinkE
+{
+  public:
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    FormArrayE m_kForms;
+};
+
+class CellLinkE
+{
+  public:
+};
+
+class CellBaseE
+{
+  public:
+    int unk00;
+};
+
+class SpawnCellE : public CellBaseE, public CellLinkE
+{
+  public:
+};
+
+class ProcessE
+{
+  public:
+};
+
+class PlayerE
+{
+  public:
+    virtual void vp000();
+    virtual void vp004();
+    virtual void vp008();
+    virtual void vp00c();
+    virtual void vp010();
+    virtual void vp014();
+    virtual void vp018();
+    virtual void vp01c();
+    virtual void vp020();
+    virtual void vp024();
+    virtual void vp028();
+    virtual void vp02c();
+    virtual void vp030();
+    virtual void vp034();
+    virtual void vp038();
+    virtual void vp03c();
+    virtual void vp040();
+    virtual void vp044();
+    virtual void vp048();
+    virtual void vp04c();
+    virtual void vp050();
+    virtual void vp054();
+    virtual void vp058();
+    virtual void vp05c();
+    virtual void vp060();
+    virtual void vp064();
+    virtual void vp068();
+    virtual void vp06c();
+    virtual void vp070();
+    virtual void vp074();
+    virtual void vp078();
+    virtual void vp07c();
+    virtual void vp080();
+    virtual void vp084();
+    virtual void vp088();
+    virtual void vp08c();
+    virtual void vp090();
+    virtual void vp094();
+    virtual void vp098();
+    virtual void vp09c();
+    virtual void vp0a0();
+    virtual void vp0a4();
+    virtual void vp0a8();
+    virtual void vp0ac();
+    virtual void vp0b0();
+    virtual void vp0b4();
+    virtual void vp0b8();
+    virtual void vp0bc();
+    virtual void vp0c0();
+    virtual void vp0c4();
+    virtual void vp0c8();
+    virtual void vp0cc();
+    virtual void vp0d0();
+    virtual void vp0d4();
+    virtual void vp0d8();
+    virtual void vp0dc();
+    virtual void vp0e0();
+    virtual void vp0e4();
+    virtual void vp0e8();
+    virtual void vp0ec();
+    virtual void vp0f0();
+    virtual void vp0f4();
+    virtual void vp0f8();
+    virtual void vp0fc();
+    virtual void vp100();
+    virtual void vp104();
+    virtual void vp108();
+    virtual void vp10c();
+    virtual void vp110();
+    virtual void vp114();
+    virtual void vp118();
+    virtual void vp11c();
+    virtual void vp120();
+    virtual void vp124();
+    virtual void vp128();
+    virtual void vp12c();
+    virtual void vp130();
+    virtual void vp134();
+    virtual void vp138();
+    virtual void vp13c();
+    virtual void vp140();
+    virtual void vp144();
+    virtual void vp148();
+    virtual void vp14c();
+    virtual void vp150();
+    virtual void vp154();
+    virtual void vp158();
+    virtual void vp15c();
+    virtual void vp160();
+    virtual void vp164();
+    virtual void vp168();
+    virtual void vp16c();
+    virtual void vp170();
+    virtual void vp174();
+    virtual void vp178();
+    virtual void vp17c();
+    virtual void vp180();
+    virtual void vp184();
+    virtual void vp188();
+    virtual void vp18c();
+    virtual void vp190();
+    virtual void vp194();
+    virtual void vp198();
+    virtual void vp19c();
+    virtual void vp1a0();
+    virtual void vp1a4();
+    virtual void vp1a8();
+    virtual void vp1ac();
+    virtual void vp1b0();
+    virtual void vp1b4();
+    virtual void vp1b8();
+    virtual void vp1bc();
+    virtual void vp1c0();
+    virtual void vp1c4();
+    virtual void vp1c8();
+    virtual void vp1cc();
+    virtual void vp1d0();
+    virtual void vp1d4();
+    virtual void vp1d8();
+    virtual void vp1dc();
+    virtual void vp1e0();
+    virtual void vp1e4();
+    virtual void vp1e8();
+    virtual void vp1ec();
+    virtual void vp1f0();
+    virtual const NiPoint3E* GetPosition();
+};
+
+class CameraE
+{
+  public:
+    const NiPoint3E* GetPosition();
+};
+
+class SpawnManagerE
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    ListNodeE m_kActive;
+    int unk10;
+    int unk14;
+    SpawnCellE* m_pkCells;
+    float m_fTimer;
+
+    void FUN_0062ee60(float fTimeDelta);
+};
+
+class hkSimdRealW
+{
+  public:
+    __m128 m_vValue;
+};
+
+class hkVector4W
+{
+  public:
+    __m128 m_vComponents;
+    hkVector4W();
+    hkVector4W(const hkVector4W& v);
+};
+
+class hkBoolW
+{
+  public:
+    hkBoolW();
+    operator bool() const;
+    char m_cBooleanValue;
+};
+
+class NiPoint3W
+{
+  public:
+    NiPoint3W();
+    float x, y, z;
+};
+
+class TESObjectREFRW
+{
+  public:
+    const hkVector4W& GetHavokPosition() const;
+};
+
+class CharacterW
+{
+  public:
+};
+
+class HeightSourceW
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    float m_fOriginZ;
+};
+
+class GameSettingW
+{
+  public:
+};
+
+class HeightGridW
+{
+  public:
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    unsigned int m_uiCells;
+    int m_iOriginX;
+    int m_iOriginY;
+
+    bool FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget, float fRadius, HeightSourceW* pkSource,
+                      float* pfHeight);
+};
+
+// @fnv 0x0062ee60
+void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
+{
+    if (((bool)(reinterpret_cast<::FUN_0062f2f0_shell *>(this)->FUN_0062f2f0())))
+    {
+        m_fTimer -= fTimeDelta;
+        float fRadius = ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting976))));
+        fRadius = fRadius * fRadius;
+        fRadius = FUN_004a3e90(fRadius);
+        float m_fGlyphExtent = FUN_004a3e90(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting977)))));
+        hkVector4E kPlayerPos;
+        ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kPlayerPos)), (*(const ::fnv_004a3e00::NiPoint3 *)((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))->GetPosition())));
+        hkVector4E kUnused;
+        ListNodeE* pkNode = &m_kActive;
+        float fFoundHeight = 0.0f;
+        reinterpret_cast<::FUN_00438af0_Class *>(&((*reinterpret_cast<::LockE *>(&::g_011cc584))))->FUN_00438af0();
+        while (!*(*reinterpret_cast<::FlagE *>(&::g_011cc5a8)).Get() && pkNode && !reinterpret_cast<::ObsList *>((pkNode))->FUN_004a4460())
+        {
+            RefE* pkRef = ((::RefPtrE *)((void *)(pkNode)))->operator->();
+            RefE* pkRef2 = pkRef;
+            BodyE* pkBody = ((::BodyE *)(reinterpret_cast<::FUN_00620b80_shell *>((pkRef2))->GetReferenceFlags()));
+            int iResult = 0;
+            if (reinterpret_cast<::HeightGridW *>(this)->FUN_0062ff10((::TESObjectREFRW *)(pkBody), (const ::hkVector4W &)(kPlayerPos), fRadius, (::HeightSourceW *)(::SpawnCellE *)(0), &fFoundHeight))
+                iResult = reinterpret_cast<::PhysicsController *>(this)->FUN_00630170((::PhysicsReference *)(pkBody), fFoundHeight, fTimeDelta, 0);
+            if (iResult)
+            {
+                ImpactObjE* pkObj = ((::ImpactObjE *)(::FUN_0062b4e0(reinterpret_cast<::FUN_0043b560_shell *>((pkRef))->GetSourceFilesFromObject())));
+                if (pkObj)
+                {
+                    fFoundHeight = FUN_004587d0(fFoundHeight);
+                    if (iResult == 1)
+                    {
+                        if (!reinterpret_cast<::B200Owner *>((pkObj))->FUN_0057b200())
+                        {
+                            if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
+                                reinterpret_cast<::FakeTaskQueue *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0(0, (void *)(pkObj), fFoundHeight);
+                            else
+                                reinterpret_cast<::Target5c80 *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->AddObjectToEntry((void *)(0), (::Object5c80 *)(pkObj), fFoundHeight);
+                        }
+                        reinterpret_cast<::Ref57b240 *>((pkObj))->FUN_0057b240(true);
+                    }
+                    else if (iResult == 2)
+                    {
+                        reinterpret_cast<::Ref57b240 *>((pkObj))->FUN_0057b240(false);
+                        if (!reinterpret_cast<::B200Owner *>((pkObj))->FUN_0057b200())
+                        {
+                            if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
+                                reinterpret_cast<::Holder0087b4f0 *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4f0(0, (void *)(pkObj), fFoundHeight);
+                            else
+                                reinterpret_cast<::WaterZoneManager *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->UpdateWaterZone((::TESObjectREFR *)(0), (::TESObjectREFR *)(pkObj), fFoundHeight);
+                        }
+                    }
+                }
+            }
+            pkNode = ((::ListNodeE *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+        }
+
+        SpawnCellE* pkCell = m_pkCells;
+        while (pkCell)
+        {
+            SpawnListE* pkList = ((::SpawnListE *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkCell))->FUN_00825c00()));
+            while (pkList)
+            {
+                bool bSkip = false;
+                for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkList->m_kForms))->GetName())); i++)
+                {
+                    void* pvForm = *((void **)(reinterpret_cast<::S3e60 *>(&(pkList->m_kForms))->FUN_006a7ad0(i)));
+                    BodyE* pkBody = ((::BodyE *)(::FUN_004b59f0(pvForm)));
+                    int iResult = 0;
+                    if (!reinterpret_cast<::FUN_0057c850_cls *>(&((*reinterpret_cast<::LockE *>(&::g_011cc584))))->FUN_0057c850(pkBody, &bSkip) &&
+                        reinterpret_cast<::HeightGridW *>(this)->FUN_0062ff10((::TESObjectREFRW *)(pkBody), (const ::hkVector4W &)(kPlayerPos), fRadius, (::HeightSourceW *)(pkCell), &fFoundHeight))
+                        iResult = reinterpret_cast<::PhysicsController *>(this)->FUN_00630170((::PhysicsReference *)(pkBody), fFoundHeight, fTimeDelta, 1);
+                    if (iResult == 1)
+                    {
+                        reinterpret_cast<::Ref57b240 *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b240(true);
+                        reinterpret_cast<::FUN_0057b0d0_cls *>((((::ImpactObjE *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkList))->FUN_0084e3a0()))))->FUN_0057b0d0((std::intptr_t)(pkCell), true);
+                    }
+                }
+                pkList = static_cast<SpawnListE*>(((::LinkE *)(reinterpret_cast<::Callees *>((pkList))->FUN_00726070())));
+            }
+            pkCell = static_cast<SpawnCellE*>(((::CellLinkE *)(reinterpret_cast<::Callees *>((pkCell))->FUN_00726070())));
+        }
+        reinterpret_cast<::fnv_00631370::WorkOwner *>(this)->FUN_00631370((::fnv_00631370::WorkActor *)(0), 1, 0);
+    }
+    if (((::CameraE *)(::FUN_00524c90())) && ((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget())))
+    {
+        if (((const ::NiPoint3E *)(::FUN_0045bb80((std::intptr_t)(((::CameraE *)(::FUN_00524c90()))))))->z < reinterpret_cast<::FUN_005471e0_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_005471e0())
+            ::FUN_0062f310((std::intptr_t)(((void *)(reinterpret_cast<::FUN_00547770_shell *>((((::ProcessE *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00547770()))));
+    }
+}
+
+// @fnv 0x0062ff10
+bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget, float fRadius, HeightSourceW* pkSource,
+                               float* pfHeight)
+{
+    if (pkRef)
+    {
+        FUN_005631e0_shell* pkCharacter = (FUN_005631e0_shell*)FUN_004b5a80(pkRef);
+        if (!pkCharacter)
+            return false;
+
+        hkVector4W kPos(pkRef->GetHavokPosition());
+        hkVector4W kDiff;
+        reinterpret_cast<::S00458a10_Vector *>(&(kDiff))->FUN_00458a10((const ::S00458a10_Vector *)&(kPos), (const ::S00458a10_Vector *)&(kTarget));
+        ::hkSimdRealW kLength;
+        if (reinterpret_cast<::S004586d0_Obj *>(reinterpret_cast<::FUN_00630100_shell *>(&kDiff)->FUN_00630100(&kLength))->FUN_004586d0() > fRadius)
+        {
+            if (pkCharacter->IsNonZero(0x88))
+            {
+                unsigned char bInactive;
+                if (reinterpret_cast<::FUN_005609f0_shell *>(reinterpret_cast<::FUN_00c9bff0_Class *>(pkRef)->FUN_00c9bff0(&bInactive))->FUN_005609f0())
+                    reinterpret_cast<::FUN_00c9c240_holder *>((((CharacterW*)pkCharacter)))->FUN_00c9d600();
+            }
+            return false;
+        }
+
+        if (pkSource)
+        {
+            *pfHeight = FUN_004a3e90(pkSource->m_fOriginZ);
+        }
+        else if (m_uiCells > 1)
+        {
+            NiPoint3W kPoint;
+            ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kPoint)), (*(const ::hkVector4 *)(&kPos)));
+            int iX = FUN_00406d90(kPoint.x) >> 12;
+            int iY = FUN_00406d90(kPoint.y) >> 12;
+            iX -= m_iOriginX;
+            iY -= m_iOriginY;
+            *pfHeight = reinterpret_cast<::B630120Grid *>(this)->GetValue(iX, iY);
+        }
+        else
+        {
+            *pfHeight = reinterpret_cast<::B630120Grid *>(this)->GetValue(0, 0);
+        }
+
+        float fProjectionAlongAim = FUN_004a3e90(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingW *>(&::originalRuntimeFloatSetting977)))));
+        if (*pfHeight + fProjectionAlongAim < reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdRealW &)((*(::hkSimdRealW *)(reinterpret_cast<::Holder *>((void *)&(kPos))->FUN_00458700((::Holder *)(2), {})))))->FUN_004586d0())
+            return pkCharacter->IsNonZero(0x88);
+        return true;
+    }
+    return false;
+}
+
+struct S00630ae0_Vector
+{
+    __m128 m_vComponents;
+};
+
+class S00630ae0_Source
+{
+  public:
+};
+
+struct S00630ae0_Result_o2_od_oy_noo2
+{
+    __m128 m_vComponents;
+    void FUN_00630ae0(const S00630ae0_Source* a, const S00630ae0_Vector* b);
+};
+
+// @fnv 0x00630ae0
+void S00630ae0_Result_o2_od_oy_noo2::FUN_00630ae0(const S00630ae0_Source* a, const S00630ae0_Vector* b)
+{
+    ::S00630ae0_Vector kA;
+    reinterpret_cast<const ::S00561240_Vector *>(a)->FUN_00561240((::S00561240_Vector *)&kA);
+    m_vComponents = _mm_mul_ps(kA.m_vComponents, b->m_vComponents);
+}
+
+class S00630b40_SimdReal
+{
+  public:
+    S00630b40_SimdReal(const __m128& q);  // FUN_004a3c90
+            // FUN_006815c0
+    __m128 m_vValue;
+};
+
+class S00630b40_Vector
+{
+  public:
+    S00630b40_SimdReal dot3(const S00630b40_Vector& v) const;  // FUN_0062b0a0
+    S00630b40_SimdReal FUN_00630b40() const;                   // length3
+    __m128 m_vComponents;
+};
+
+// @fnv 0x00630b40
+S00630b40_SimdReal S00630b40_Vector::FUN_00630b40() const
+{
+    return S00630b40_SimdReal(_mm_sqrt_ss(dot3(*this).m_vValue));
+}
+
+class FUN_006815c0
+{
+  public:
+    __m128 m_vComponents;
+
+    FUN_006815c0();
+
+    void FUN_00630d30(FUN_006815c0* pkA, FUN_006815c0* pkB);
+};
+
+struct Transform630
+{
+    FUN_006815c0 FUN_0062b0a0(void* pvParam);
+};
+
+struct Source630
+{
+};
+
+struct FUN_00630bb0_shell_o2_od_oy_noo2
+{
+    void FUN_00458880(FUN_006815c0* pkA, FUN_006815c0* pkB);
+    void FUN_00630bb0(Source630* pkSource, void* pvParam);
+};
+
+struct S00630ce0_Vector
+{
+    __m128 m_vComponents;
+    void FUN_00630ce0(const S00630ce0_Vector* a, const S00630ce0_Vector* b);
+};
+
+// @fnv 0x00630ce0
+void S00630ce0_Vector::FUN_00630ce0(const S00630ce0_Vector* a, const S00630ce0_Vector* b)
+{
+    m_vComponents = _mm_mul_ps(a->m_vComponents, b->m_vComponents);
+}
+
+struct S00630d90_Vector
+{
+    __m128 m_vComponents;
+    void FUN_00630d90(const S00630d90_Vector* a, const S00630d90_Vector* b, const S00630d90_Vector* c);  // setAddMul4
+};
+
+// @fnv 0x00630d90
+void S00630d90_Vector::FUN_00630d90(const S00630d90_Vector* a, const S00630d90_Vector* b, const S00630d90_Vector* c)
+{
+    m_vComponents = _mm_add_ps(a->m_vComponents, _mm_mul_ps(b->m_vComponents, c->m_vComponents));
+}
+
+struct hkVector4
+{
+    __m128 m_vComponents;
+
+    void FUN_00630df0(const hkVector4& a, const hkVector4& b);
+};
+
+// @fnv 0x00630df0
+void hkVector4::FUN_00630df0(const hkVector4& a, const hkVector4& b)
+{
+    const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                                     _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)));
+    const __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                                     _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)));
+    m_vComponents = _mm_sub_ps(cross0, cross1);
+}
+
+struct S00630ed0_Vector
+{
+    __m128 m_vComponents;
+    void FUN_00630ed0(int i);  // broadcast(i)
+};
+
+// @fnv 0x00630ed0
+void S00630ed0_Vector::FUN_00630ed0(int i)
+{
+    if (i == 0)
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0x00);
+    else if (i == 1)
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+    else if (i == 2)
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+    else if (i == 3)
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
+}
+
+struct VectorStandIn
+{
+    __m128 m_vComponents;
+    void FUN_00630fa0(const VectorStandIn& v, int i);
+};
+
+// @fnv 0x00630bb0
+void FUN_00630bb0_shell_o2_od_oy_noo2::FUN_00630bb0(Source630* pkSource, void* pvParam)
+{
+    FUN_006815c0 kA;
+    kA.m_vComponents = DAT_010c71e0;
+    FUN_006815c0 kB;
+    reinterpret_cast<::VectorStandIn *>(&(kB))->FUN_00630fa0((*(const ::VectorStandIn *)(pkSource)), 3);
+    FUN_006815c0 kC;
+    reinterpret_cast<::S00630d90_Vector *>(&(kC))->FUN_00630d90((const ::S00630d90_Vector *)(class ::FUN_006815c0 *)(&kA), (const ::S00630d90_Vector *)(class ::FUN_006815c0 *)(&kB), (const ::S00630d90_Vector *)(class ::FUN_006815c0 *)(&kB));
+    FUN_006815c0 kD;
+    reinterpret_cast<::S00630ce0_Vector *>(&(kD))->FUN_00630ce0((const ::S00630ce0_Vector *)(pvParam), (const ::S00630ce0_Vector *)(class ::FUN_006815c0 *)(&kC));
+    FUN_006815c0 kE;
+    kE.m_vComponents = ((::Transform630 *)pkSource)->FUN_0062b0a0(pvParam).m_vComponents;
+    reinterpret_cast<::S00630ed0_Vector *>(&(kE))->FUN_00630ed0(0);
+    kD.FUN_00630d30(&kE, (FUN_006815c0*)((::Transform630 *)pkSource));
+    FUN_006815c0 kF;
+    reinterpret_cast<::hkVector4 *>(&(kF))->FUN_00630df0((*(const ::hkVector4 *)((FUN_006815c0*)((::Transform630 *)pkSource))), (*(const ::hkVector4 *)(pvParam)));
+    kD.FUN_00630d30(&kB, &kF);
+    FUN_00458880(&kD, &kD);
+}
+
+// @fnv 0x00630fa0
+void VectorStandIn::FUN_00630fa0(const VectorStandIn& v, int i)
+{
+    if (i == 0)
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x00);
+    else if (i == 1)
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55);
+    else if (i == 2)
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa);
+    else if (i == 3)
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+}
+
 #include "generated/data/fallout_shared/havok/teswaterlistener.inc"
+#include "generated/data/fallout_shared/havok/teswaterlistener_o2_variant_od_noo2_variant.inc"

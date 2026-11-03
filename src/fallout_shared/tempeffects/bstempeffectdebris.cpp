@@ -205,7 +205,7 @@ class MemberPtr
   public:
     MemberPtr(int p);
     ~MemberPtr();
-    void FUN_0066b0d0(int p);
+    void FUN_0066b0d0(std::intptr_t p);
     int m_p;
 };
 
@@ -216,7 +216,7 @@ class FUN_00682c40 : public EffectBase
     virtual void v0();
 
     MemberPtr m_18;
-    int m_1c;
+    std::intptr_t m_1c;
     char m_20;
     char m_21;
 };
@@ -242,7 +242,7 @@ void __cdecl RemoveMenuEntry(B83330Item* pkItem)
         pkPos2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->GetName()));
         while (pkPos2 && !bRemoved)
         {
-            if (((::B83330Item *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->AddEight((int)(pkPos2)))) == pkItem)
+            if (((::B83330Item *)(reinterpret_cast<::FUN_006317a0_struct *>(&((*reinterpret_cast<::B83330List *>(&::g_011d6a74))))->AddEight((std::intptr_t)(pkPos2)))) == pkItem)
             {
                 (*reinterpret_cast<::B83330List *>(&::g_011d6a74)).RemovePos(pkPos2);
                 bRemoved = true;
@@ -448,7 +448,7 @@ struct EffectRegistry
 void FUN_006833b0();
 struct DebrisEffect : FUN_00682c40
 {
-    void SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool b10);
+    void SpawnDebris(std::intptr_t a4, std::intptr_t a5, std::intptr_t a6, std::intptr_t a7, std::intptr_t a8, float f9, bool b10);
 };
 class DebrisNode;
 
@@ -576,7 +576,7 @@ FUN_00682f40::~FUN_00682f40()
     }
     if (reinterpret_cast<::FUN_00683480_shell *>(&((*reinterpret_cast<::DebrisCounter *>(&::g_011c3ea4))))->FUN_00683480(1))
     {
-        ::FUN_00c6a270((intptr_t)(DebrisNode*)(m_pSceneObject), true, true, 0);
+        ::FUN_00c6a270((std::intptr_t)(m_pSceneObject.m_pObject), true, true, 0);
         ::FUN_00c69ee0(m_pSceneObject, true, 0);
     }
     else
@@ -900,10 +900,10 @@ FUN_00682b00::FUN_00682b00(TESObjectCELL* cell, float duration, const char* name
     scene.z = 0.0f;
     float active = reinterpret_cast<::NiPoint3 *>(&(scene))->ComputeMagnitude();
     reinterpret_cast<::ThreeByThreeMatrix *>(&(existing))->FUN_00a59780(FUN_004b5550(scene.x, scene.y), 0.0f, -FUN_004b5550(owner, active));
-    reinterpret_cast<::DebrisEffect *>(this)->SpawnDebris((int)(p4), (int)(p5), (int)(&existing), (int)(p7), (int)(p8), f, flag);
+    reinterpret_cast<::DebrisEffect *>(this)->SpawnDebris((std::intptr_t)(p4), (std::intptr_t)(p5), (std::intptr_t)(&existing), (std::intptr_t)(p7), (std::intptr_t)(p8), f, flag);
 }
 // @fnv 0x00682d10
-void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool abUseQueue)
+void DebrisEffect::SpawnDebris(std::intptr_t a4, std::intptr_t a5, std::intptr_t a6, std::intptr_t a7, std::intptr_t a8, float f9, bool abUseQueue)
 {
     reinterpret_cast<::Twin_007e6580 *>(this)->SetIsForegroundEffect(false);
     SceneObject* update = ((::SceneObject *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::ModelService * *>(&::g_modelLoader))))->FUN_00447080((char *)(m_1c), 0, true, false, false, false)));
@@ -917,7 +917,7 @@ void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9,
     else
     {
         CloneContext clone(1.0f);
-        m_18.FUN_0066b0d0((int)((::SceneObject *)(reinterpret_cast<::A5D2C0Object *>((update))->FUN_00a5d2c0((::A5D2C0CloningProcess &)(clone)))));
+        m_18.FUN_0066b0d0((std::intptr_t)((::SceneObject *)(reinterpret_cast<::A5D2C0Object *>((update))->FUN_00a5d2c0((::A5D2C0CloningProcess &)(clone)))));
     }
     if (!((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))) || !((::CellContext *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
         return;
@@ -1016,7 +1016,7 @@ void FUN_006833b0()
             for (p2 = ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetName())); p2 != 0 && n > 0;
                  p2 = ((void *)(reinterpret_cast<::FUN_007b5300_shell *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->GetSecondField((::FUN_007b5300_param *)(p2)))))
             {
-                r = *((void **)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->AddEight((int)(p2))));
+                r = *((void **)(reinterpret_cast<::FUN_006317a0_struct *>((reinterpret_cast<FUN_006833b0_glob*>(&::g_011d6a74)))->AddEight((std::intptr_t)(p2))));
                 if (r != 0)
                 {
                     reinterpret_cast<::FUN_00683460_shell *>((reinterpret_cast<FUN_006833b0_item*>(r)))->SetFlag(1);

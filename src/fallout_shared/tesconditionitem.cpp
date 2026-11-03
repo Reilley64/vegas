@@ -181,7 +181,7 @@ bool TESConditionItem::ContainsTrait(TESObjectREFR* pSubjectRef, TESObjectREFR* 
 void TESConditionItem::InitItem(TESForm* owner)
 {
     ::ScriptFunctionData::InitItem(owner, (::FunctionData *)(::FUNCTION_DATA *)((FUNCTION_DATA*)((TESTopicInfoData*)this)->GetLinkToList()));
-    unsigned int referenceID = (unsigned int)m_objectRef;
+    unsigned int referenceID = (unsigned int)(std::uintptr_t)m_objectRef;
     if (referenceID)
     {
         ::ResolveFormID((unsigned int *)&(referenceID), owner->GetFile(-1));
@@ -218,7 +218,7 @@ void TESConditionItem::InitItem(TESForm* owner)
     }
     if (reinterpret_cast<::TESConditionItem *>(this)->GetValueIsGlobal() && m_comparisonGlobal)
     {
-        unsigned int globalID = (unsigned int)m_comparisonGlobal;
+        unsigned int globalID = (unsigned int)(std::uintptr_t)m_comparisonGlobal;
         ::ResolveFormID((unsigned int *)&(globalID), owner->GetFile(-1));
         m_comparisonGlobal = dynamic_cast<TESGlobal*>(::FUN_004839c0(globalID));
         if (!m_comparisonGlobal)
@@ -321,7 +321,7 @@ struct S_006815d0
 // @fnv 0x006815d0
 bool S_006815d0::IsDifferentFrom(TESConditionItem* apCompare)
 {
-    if (std::memcmp(((void *)(new ((void *)(((S_006815c0*)apCompare))) ::Vec3())), this, 0x1C))
+    if (std::memcmp(((void *)((void *)(((S_006815c0*)apCompare)))), this, 0x1C))
         return true;
     return false;
 }
@@ -353,7 +353,7 @@ void ConditionSerializer::SerializeCondition()
 {
     SavedCondition savedCondition;
     ::__memcpy(&savedCondition, this, 0x1c);
-    int functionCode = ((int)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()));
+    std::intptr_t functionCode = ((std::intptr_t)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()));
     int count = ((int)(::ScriptFunctionData::GetParamCount((const ::FunctionData *)(functionCode))));
     for (int index = 0; index < count; index++)
     {

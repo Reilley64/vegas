@@ -1,5 +1,6 @@
 // fallout_shared/gridarray.cpp: GridArray (7 functions)
 
+#include <cstdint>
 #include <cstdlib>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Twin_0044ddc0.h"
@@ -92,8 +93,8 @@ struct FUN_004b9f10_shell : GridArray
 // @fnv 0x004b9f10
 bool FUN_004b9f10_shell::ShiftToCell(int aiX, int aiY)
 {
-    int ioffX = aiX - ((int)(reinterpret_cast<::Callees *>((void *)this)->FUN_00726070()));
-    int ioffY = aiY - ((int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)this)->GetName()));
+    int ioffX = aiX - ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((void *)this)->FUN_00726070()));
+    int ioffY = aiY - ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)this)->GetName()));
     Shift(ioffX, ioffY);
     if (ioffX || ioffY)
         return true;

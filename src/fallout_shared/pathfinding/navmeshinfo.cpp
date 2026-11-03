@@ -158,13 +158,13 @@ template <> BSSimpleArray<NavMeshInfo*, 1024>::~BSSimpleArray()
 // @fnv 0x006b5490
 void NavMeshInfo::ReleaseNavMesh()
 {
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)))->GetName()));
+    unsigned int ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)))->GetName()));
     for (unsigned int i = 0; i < ItemUpdateArray; ++i)
     {
         TESObjectREFR* door =
             ((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i);
         ((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i) =
-            (TESObjectREFR*)::FUN_004839c0((unsigned int)door);
+            (TESObjectREFR*)::FUN_004839c0((unsigned int)(std::uintptr_t)door);
         if (!((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)&m_kDoorReferences)->GetAt(i))
         {
             ::FUN_005b5e40();
@@ -193,7 +193,7 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
         if (adjacentID)
         {
             ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kConnectedNavMeshInfos)->operator[](adjacentIndex) =
-                ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
+                ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->FindReferenceByFormId({})));
         }
         else
         {
@@ -219,7 +219,7 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
             if (preferredID)
             {
                 ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kPreferredConnections)->operator[](preferredIndex) =
-                    ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_0045af00()))->FindReferenceByFormId({})));
+                    ((::NavMeshInfo *)(((::Pathing *)(reinterpret_cast<::Owner45A *>((((::TES *)::g_TES)))->FUN_0045af00()))->FindReferenceByFormId({})));
             }
             else
             {
@@ -240,7 +240,7 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
         if (file->IsEndianConversionRequired())
             ::FUN_00401080((int *)(unsigned int *)(&doorID));
         ::ResolveFormID((unsigned int *)&(doorID), file);
-        ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)->operator[](doorIndex) = (NavMeshInfo*)doorID;
+        ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)->operator[](doorIndex) = (NavMeshInfo*)(std::uintptr_t)doorID;
         data += 4;
     }
 }
@@ -313,8 +313,8 @@ int FUN_0069c460_shell::FUN_0069c460()
     result += 0x18;
     result += 2;
     result += 2;
-    result += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x28))))->GetName())) * 0xc;
-    result += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x18))))->GetName())) * 6;
+    result += ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x28))))->GetName())) * 0xc;
+    result += ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x18))))->GetName())) * 6;
     return result;
 }
 
@@ -334,11 +334,11 @@ unsigned int FUN_006b4e10_shell::FUN_006b4e10()
 {
     unsigned int v = 0;
     v += 4;
-    v += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x24))))->GetName())) * 4;
+    v += ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x24))))->GetName())) * 4;
     v += 4;
-    v += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x34))))->GetName())) * 4;
+    v += ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x34))))->GetName())) * 4;
     v += 4;
-    v += ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x44))))->GetName())) * 4;
+    v += ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x44))))->GetName())) * 4;
     return v;
 }
 }  // namespace fnv_006b4e10
@@ -356,7 +356,7 @@ struct FUN_006b5a90_shell
 // @fnv 0x006b5a90
 unsigned int FUN_006b5a90_shell::FUN_006b5a90()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x58))))->GetName()));
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x58))))->GetName()));
 }
 }  // namespace fnv_006b5a90
 
@@ -368,7 +368,7 @@ struct FUN_006b4850_t : public NavMeshBounds
 // @fnv 0x006b4850
 void* FUN_006b4850_t::FUN_006b4850(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0069bda0_cls *>(this)->FUN_0069bda0_cls::~FUN_0069bda0_cls();
+    reinterpret_cast<::FUN_0069bda0_cls *>(this)->::FUN_0069bda0_cls::~FUN_0069bda0_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -392,7 +392,7 @@ struct NavMeshInfoHelper
 };
 struct Arr
 {
-    unsigned int* GetAt(int index);
+    void** GetAt(int index);
 };
 
 struct NavMeshInfoSaveShell : NavMeshInfo
@@ -411,12 +411,12 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
             {
                 unsigned int uiTemp;
 
-                uiTemp = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kConnectedNavMeshInfos)))->GetName()));
+                uiTemp = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kConnectedNavMeshInfos)))->GetName()));
                 if (((bool)(::FUN_00401500())))
                     ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
-                ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kConnectedNavMeshInfos)))->GetName()));
+                ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kConnectedNavMeshInfos)))->GetName()));
                 pInfo = 0;
                 for (unsigned int i = 0; i < ItemUpdateArray; i++)
                 {
@@ -424,7 +424,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     NavMeshPtr navMeshPtr;
                     if (reinterpret_cast<::NavMeshInfo *>((((NavMeshInfoHelper*)pInfo)))->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)))->FUN_0084e3a0()));
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)*(void**)&navMeshPtr)))->FUN_0084e3a0()));
                         if (((bool)(::FUN_00401500())))
                             ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;
@@ -432,12 +432,12 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     apData += 4;
                 }
 
-                uiTemp = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kPreferredConnections)))->GetName()));
+                uiTemp = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kPreferredConnections)))->GetName()));
                 if (((bool)(::FUN_00401500())))
                     ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
-                ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kPreferredConnections)))->GetName()));
+                ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kPreferredConnections)))->GetName()));
                 pInfo = 0;
                 for (unsigned int j = 0; j < ItemUpdateArray; j++)
                 {
@@ -445,7 +445,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     NavMeshPtr navMeshPtr;
                     if (reinterpret_cast<::NavMeshInfo *>((((NavMeshInfoHelper*)pInfo)))->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)))->FUN_0084e3a0()));
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)*(void**)&navMeshPtr)))->FUN_0084e3a0()));
                         if (((bool)(::FUN_00401500())))
                             ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;
@@ -453,12 +453,12 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     apData += 4;
                 }
 
-                uiTemp = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kDoorReferences)))->GetName()));
+                uiTemp = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kDoorReferences)))->GetName()));
                 if (((bool)(::FUN_00401500())))
                     ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
-                ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kDoorReferences)))->GetName()));
+                ItemUpdateArray = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&m_kDoorReferences)))->GetName()));
                 pRefr = 0;
                 for (unsigned int k = 0; k < ItemUpdateArray; k++)
                 {
@@ -783,14 +783,14 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                             add3 = false;
                         else if (isPreferred)
                         {
-                            unsigned int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(adjacent))->GetName()));
+                            unsigned int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(adjacent))->GetName()));
                             for (unsigned int j = 0; j < size; ++j)
                                 if (adjacent.FUN_00877a30(j) == link->info.pointer)
                                 {
                                     reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(adjacent))->FUN_009a4320(j, true);
                                     break;
                                 }
-                            size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(preferredAdjacent))->GetName()));
+                            size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(preferredAdjacent))->GetName()));
                             for (unsigned int k = 0; k < size; ++k)
                                 if (preferredAdjacent.FUN_00877a30(k) == link->info.pointer)
                                 {
@@ -800,7 +800,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                         }
                         else
                         {
-                            unsigned int sizeOther = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(adjacent))->GetName()));
+                            unsigned int sizeOther = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(adjacent))->GetName()));
                             for (unsigned int m = 0; m < sizeOther; ++m)
                                 if (adjacent.FUN_00877a30(m) == link->info.pointer)
                                 {
@@ -829,8 +829,8 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
         for (unsigned int d = 0; d < count; ++d)
             reinterpret_cast<::FUN_00438690 *>(&(doors))->FUN_007cb2e0((unsigned int *)&((*(::NavInfo *const *)(reinterpret_cast<::FUN_0068f6b0_shell *>((source))->FUN_0068f6b0((unsigned short)d)))));
     }
-    if (((int)(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetParentWorldSpace())))
-        cellKey = ::PackShortPair(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridY());
+    if (((std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetParentWorldSpace())))
+        cellKey = ::PackShortPair(reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((((::MeshCell *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source))->GetCurrentMoveModeType()))))->GetCellGridY());
     else
         cellKey = 0;
     point = (*reinterpret_cast<::MeshPoint *>((void *)&::NiPoint3::ZERO));

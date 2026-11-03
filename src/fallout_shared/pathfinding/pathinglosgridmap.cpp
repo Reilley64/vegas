@@ -82,9 +82,7 @@ void FUN_006e0ed0_shell::FUN_006e0ed0(void* arg)
     reinterpret_cast<FUN_006a62f0_shell*>(this)->AddOffset(arg);
 }
 
-typedef void* NavMeshPtr;
 
-class NavMeshPtr;
 struct NavMeshInfo
 {
 public:
@@ -167,7 +165,7 @@ bool FUN_006e0bc0_shell::FUN_006e0bc0(BSAudio* aArg, bool aFlag)
     void* pTopic = ((void *)(reinterpret_cast<::MagicCaster_shell *>((aArg))->FUN_0044edb0()));
     if (!pTopic || ((FUN_006df760_shell*)aArg)->GetShortValueAtOffset24() == 0xFFFF)
         return false;
-    unsigned int key = 0;
+    std::uintptr_t key = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(*(Flt*)pTopic, (::fnv_00853130::CombatThreatRecord *&)(key)))
         return reinterpret_cast<::FUN_006dfe90_S *>((((FUN_006dfe90_shell*)key)))->FUN_006dfe90((::PathingLocation *)(aArg), aFlag);
     return false;
@@ -204,17 +202,17 @@ struct FUN_006e0190
     unsigned char b0;
     char pad[3];
     H_006e1070 m;
-    int i14;
+    NavMeshInfo* pNavMeshInfo;
     int i18;
     FUN_006e0190();
 };
-// Initializes the embedded object, sets b0 and i14 to 0 and i18 to -1.
+// Initializes the embedded object, sets b0 and pNavMeshInfo to 0 and i18 to -1.
 // @fnv 0x006e0190
 FUN_006e0190::FUN_006e0190()
 {
     reinterpret_cast<::FUN_006e1070_Class *>(&(m))->FUN_006e1070();
     b0 = 0;
-    i14 = 0;
+    pNavMeshInfo = 0;
     i18 = -1;
 }
 
@@ -279,7 +277,7 @@ void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
         if (inavmeshID == 0)
             bremove = true;
         if (!bremove)
-            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 8))))->FUN_00844700(inavmeshID, (unsigned int)ppathingLOSGrid);
+            reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 8))))->FUN_00844700(inavmeshID, (std::uintptr_t)ppathingLOSGrid);
         else
             delete ppathingLOSGrid;
     }
@@ -362,7 +360,7 @@ void FUN_006df9c0_shell::FUN_006df9c0(BGSSaveGameBuffer* buffer)
     {
         unsigned int count;
 
-        count = ((char*)this + 4) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_aiIndexedValues))->GetName())) : 0;
+        count = ((char*)this + 4) ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_aiIndexedValues))->GetName())) : 0;
         buffer->FUN_00865f60(count);
 
         for (unsigned int i = 0; i < count; ++i)
@@ -534,7 +532,7 @@ bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(reinterpret_cast<Lock*>(reinterpret_cast<unsigned char*>(this) + 0x4c)));
 
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((aArg))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((aArg))->GetName())); ++index)
     {
         NiPointer<NavMesh> ptrNavMesh2(reinterpret_cast<NavMesh*>(reinterpret_cast<Arr*>(aArg)->GetAt(index)));
         unsigned int navMeshID = 0;
@@ -542,7 +540,7 @@ bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(reinterpret_cast<unsigned char*>(this) + 8)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())),
                          (::fnv_00853130::CombatThreatRecord *&)(navMeshID)))
         {
-            navMeshID = reinterpret_cast<unsigned int>(new FUN_006e0730(&ptrNavMesh2));
+            navMeshID = (unsigned int)reinterpret_cast<std::uintptr_t>(new FUN_006e0730(&ptrNavMesh2));
 
             reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<unsigned char*>(this) + 8)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())), navMeshID);
         }
@@ -600,7 +598,7 @@ struct FUN_006df440_owner
 // @fnv 0x006df440
 bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
 {
-    unsigned char* const bytes = ((unsigned char *)(reinterpret_cast<::fnv_006e1610::PathingLOSMap *>((((::NavMeshLookup *)(::FUN_00559450((int *)(apLookup))))))->GetTriangleScore((unsigned int)(((::NavMeshLookup *)(::FUN_00559450((int *)(lookup))))))));
+    unsigned char* const bytes = ((unsigned char *)(reinterpret_cast<::fnv_006e1610::PathingLOSMap *>((((::NavMeshLookup *)(::FUN_00559450((int *)(apLookup))))))->GetTriangleScore((std::uintptr_t)(((::NavMeshLookup *)(::FUN_00559450((int *)(lookup))))))));
     if (!bytes)
         return false;
 
@@ -613,10 +611,10 @@ bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
         return false;
 
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(results))->Clear(0);
-    reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())), 1);
+    reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())), 1);
     valid = true;
 
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((indices))->GetName())); ++index)
     {
         *results.AddOffset(index) = bytes[*((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((indices))->FUN_0069dec0(index)))];
         if (*results.AddOffset(index) <= 0 || *results.AddOffset(index) == 0x7f)
@@ -742,11 +740,11 @@ struct FUN_006e0320_cls
     float m_44;
     int unk48;
     Sub4c m_4c;
-    void FUN_006e0320(unsigned int aArg, float aF);
+    void FUN_006e0320(std::uintptr_t aArg, float aF);
 };
 
 // @fnv 0x006e0320
-void FUN_006e0320_cls::FUN_006e0320(unsigned int aArg, float aF)
+void FUN_006e0320_cls::FUN_006e0320(std::uintptr_t aArg, float aF)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(m_4c));
     reinterpret_cast<::PathingLocation *>(&(m_1c))->operator=((*(const ::PathingLocation *)(aArg)));
@@ -843,7 +841,7 @@ bool LOSGridOwner::UpdateNavMeshes(LOSTargetPtr& arTarget)
         unsigned int uiKey;
         reinterpret_cast<::C6b7f20_Map *>(&(kMap))->FUN_006b7f20((::C6b7f20_Node **)&(pPos3), (unsigned int *)&(uiKey), (void **)&(pInfo));
         NavMeshRef kRef9;
-        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo))->FUN_006e08f0((void *&)(kRef9)))
+        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo))->FUN_006e08f0((::NavMeshPtr &)(kRef9)))
             reinterpret_cast<::S2f850 *>(&(kArray2))->AppendValue((const ::NavMeshPtr &)(kRef9));
     }
     reinterpret_cast<::FUN_006e1500_class *>((((LOSTarget*)arTarget)))->BuildNavMeshMap((::NavMeshCollection *)&(kArray2));
@@ -853,8 +851,8 @@ bool LOSGridOwner::UpdateNavMeshes(LOSTargetPtr& arTarget)
         unsigned int uiKey2;
         reinterpret_cast<::C6b7f20_Map *>(&(kMap))->FUN_006b7f20((::C6b7f20_Node **)&(pPos3), (unsigned int *)&(uiKey2), (void **)&(pInfo2));
         NavMeshRef kRefX;
-        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo2))->FUN_006e08f0((void *&)(kRefX)))
-            reinterpret_cast<::List6DFD *>((pInfo2))->ApplyAllTriFlags((int)&(arTarget));
+        if (reinterpret_cast<::FUN_006e08f0_shell *>((pInfo2))->FUN_006e08f0((::NavMeshPtr &)(kRefX)))
+            reinterpret_cast<::List6DFD *>((pInfo2))->ApplyAllTriFlags((std::intptr_t)&(arTarget));
     }
     reinterpret_cast<::Lock00aa62c0 *>(&(kLock))->FUN_00aa62c0();
     return true;
@@ -983,9 +981,9 @@ bool PathingLOSGridMapX::UpdateFromNavMeshArray(const NiPtr<NavMeshArrayX>& arNa
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kMap))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(pEntry)))
         {
             pEntry = new GridEntryX(((::NavMeshInfoX *)(reinterpret_cast<::FUN_0068efb0_shell *>(((spNavMesh2).operator->()))->FUN_0068efb0())));
-            reinterpret_cast<::FUN_00844700_Class *>(&(kMap))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (unsigned int)(pEntry));
+            reinterpret_cast<::FUN_00844700_Class *>(&(kMap))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((spNavMesh2).operator->()))->FUN_0084e3a0())), (std::uintptr_t)(pEntry));
         }
-        reinterpret_cast<::FUN_006dfd70_Class *>((pEntry))->FUN_006dfd70((unsigned int)&(arNavMeshArray));
+        reinterpret_cast<::FUN_006dfd70_Class *>((pEntry))->FUN_006dfd70((std::uintptr_t)&(arNavMeshArray));
     }
     fValue = reinterpret_cast<::FUN_006e0b00_cls *>(((arNavMeshArray).operator->()))->GetRatio();
     reinterpret_cast<::FUN_00aa62e0_shell *>(&(kLock))->FUN_00aa62e0();
@@ -1031,14 +1029,14 @@ struct FUN_006e0b50_cls
 // @fnv 0x006e0b50
 bool FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
 {
-    unsigned int value;
+    ::fnv_00853130::CombatThreatRecord* value;
     void* pHolder = ((void *)(reinterpret_cast<::MagicCaster_shell *>((((FUN_0044edb0_shell*)aArg)))->FUN_0044edb0()));
     if (pHolder == 0 || ((FUN_006df760_shell*)aArg)->GetShortValueAtOffset24() == 0xffff)
     {
         return false;
     }
     value = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((unsigned int)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), *(::fnv_00853130::CombatThreatRecord * *)nullptr))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((std::uintptr_t)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), value))
     {
         return reinterpret_cast<::FUN_006dfdc0_Class *>((((FUN_006dfdc0_shell*)value)))->FUN_006dfdc0((::PathingLocation *)(aArg));
     }
@@ -1123,8 +1121,8 @@ bool Owner6df780::UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2)
         else
         {
             valid = false;
-            reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())), 1);
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
+            reinterpret_cast<::fnv_006e10c0::FUN_006e10c0_shell *>(&(results))->FUN_006e10c0(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())), 1);
+            for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
             {
                 unsigned short w = *((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((list3))->FUN_0069dec0(i)));
                 if (w == a1->GetShortValueAtOffset24())
@@ -1137,9 +1135,9 @@ bool Owner6df780::UpdateNavMeshResults(FUN_006df760_shell* a1, unsigned char a2)
     }
     else
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((IndexList*)&results)))->GetName())))
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((IndexList*)&results)))->GetName())))
             return false;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((list3))->GetName())); ++i)
         {
             unsigned short w = *((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((list3))->FUN_0069dec0(i)));
             if (w == a1->GetShortValueAtOffset24())
@@ -1183,7 +1181,7 @@ class FUN_006e04b0 : public E04B0Array
 // @fnv 0x006e04b0
 FUN_006e04b0::~FUN_006e04b0()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
         delete GetAt(i);
 }
 
@@ -1219,13 +1217,15 @@ FUN_006e0730::FUN_006e0730(const FUN_006e0730& kOther)
 
 struct FUN_006a62f0_Class
 {
-    int AddOffset(void*);
+    int m_00;
+    int m_iOffset;
+    std::intptr_t AddOffset(void*);
 };
 
 // @fnv 0x006a62f0
-int FUN_006a62f0_Class::AddOffset(void* arg)
+std::intptr_t FUN_006a62f0_Class::AddOffset(void* arg)
 {
-    return reinterpret_cast<int*>(this)[1] + reinterpret_cast<int>(arg);
+    return m_iOffset + reinterpret_cast<std::intptr_t>(arg);
 }
 
 struct Pathing;
@@ -1253,6 +1253,10 @@ struct _Mem_20a4
 
 struct BSSimpleArray : public _Mem_20a4
 {
+    void** m_ppVirtualMethodTable;
+    FormLoadEntry** pBuffer;
+    unsigned int iSize;
+    unsigned int iCapacity;
 };
 
 struct TESConditionItem
@@ -1260,7 +1264,6 @@ struct TESConditionItem
 };
 
 unsigned int _data_011c16bc;
-int g_TES;
 
 // @fnv 0x006e0070
 void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
@@ -1271,7 +1274,7 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&inavmeshID));
 
     ((NavMeshInfo**)((char*)this + 0x10))[0] =
-        ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId({})));
+        ((::NavMeshInfo *)(((Pathing*)((::Pathing *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())))->FindReferenceByFormId(inavmeshID)));
 
     {
         unsigned int isaveGameCount;
@@ -1286,11 +1289,11 @@ void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
             {
                 FormLoadEntry** ppFormLoadEntry;
 
-                ppFormLoadEntry = &((::FormLoadEntry *)(reinterpret_cast<::S3e60 *>((((BSSimpleArray*)this)))->FUN_006a7ad0(i)));
+                ppFormLoadEntry = &((BSSimpleArray*)this)->pBuffer[i];
                 *ppFormLoadEntry = (FormLoadEntry*)new FUN_006e0190();
 
                 (*ppFormLoadEntry)->LoadForm(apLoadGameBuffer);
-                reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)*ppFormLoadEntry)))->FUN_00600ab0((int)((NavMeshInfo**)((char*)this + 0x10))[0]);
+                reinterpret_cast<FUN_006e0190*>(*ppFormLoadEntry)->pNavMeshInfo = ((NavMeshInfo**)((char*)this + 0x10))[0];
             }
         }
     }
@@ -1325,7 +1328,7 @@ struct LOSGridMapReal : LOSGridBase
 // @fnv 0x006e0270
 void* PathingLOSGridMap::FUN_006e0270(unsigned int flags)
 {
-    reinterpret_cast<::LOSGridMapReal *>((this))->LOSGridMapReal::~LOSGridMapReal();
+    reinterpret_cast<::LOSGridMapReal *>((this))->::LOSGridMapReal::~LOSGridMapReal();
     if (flags & 1)
         ::FUN_00aa1460(this, 0x54);
     return this;
